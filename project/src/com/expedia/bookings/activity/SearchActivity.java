@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.mobiata.hotellib.app.SearchListener;
@@ -57,9 +56,11 @@ public class SearchActivity extends ActivityGroup {
 			else if (mTag == SearchMapActivity.class.getCanonicalName()) {
 				showActivity(SearchListActivity.class);
 			}
+			
+			return true;
 		}
 
-		return true;
+		return super.onKeyDown(keyCode, event);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
