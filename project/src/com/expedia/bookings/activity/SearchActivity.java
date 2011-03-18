@@ -7,13 +7,17 @@ import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.widget.Panel;
 import com.mobiata.hotellib.app.SearchListener;
 
 public class SearchActivity extends ActivityGroup {
@@ -24,6 +28,10 @@ public class SearchActivity extends ActivityGroup {
 	// Private members
 
 	private FrameLayout mContent;
+
+	private EditText mSearchEditText;
+	private Panel mPanel;
+	private Button mViewButton;
 
 	private LocalActivityManager mLocalActivityManager;
 	private String mTag;
@@ -44,23 +52,11 @@ public class SearchActivity extends ActivityGroup {
 
 		initializeViews();
 
+		// Load both activites
+		showActivity(SearchMapActivity.class);
 		showActivity(SearchListActivity.class);
-	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_0) {
-			if (mTag == SearchListActivity.class.getCanonicalName()) {
-				showActivity(SearchMapActivity.class);
-			}
-			else if (mTag == SearchMapActivity.class.getCanonicalName()) {
-				showActivity(SearchListActivity.class);
-			}
-			
-			return true;
-		}
-
-		return super.onKeyDown(keyCode, event);
+		setViewButtonText();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -79,6 +75,21 @@ public class SearchActivity extends ActivityGroup {
 
 	private void initializeViews() {
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
+		mSearchEditText = (EditText) findViewById(R.id.search_text);
+		mPanel = (Panel) findViewById(R.id.drawer);
+		mViewButton = (Button) findViewById(R.id.view_button);
+
+		mPanel.setInterpolator(new AccelerateInterpolator());
+		mViewButton.setOnClickListener(mViewButtonClickListener);
+	}
+
+	private void setViewButtonText() {
+		if (mTag.equals(SearchListActivity.class.getCanonicalName())) {
+			mViewButton.setText("Map");
+		}
+		else if (mTag.equals(SearchMapActivity.class.getCanonicalName())) {
+			mViewButton.setText("List");
+		}
 	}
 
 	private void showActivity(Class<?> activity) {
@@ -102,4 +113,25 @@ public class SearchActivity extends ActivityGroup {
 			mContent.addView(mLaunchedView);
 		}
 	}
+
+	private void switchResultsView() {
+		if (mTag.equals(SearchListActivity.class.getCanonicalName())) {
+			showActivity(SearchMapActivity.class);
+		}
+		else if (mTag.equals(SearchMapActivity.class.getCanonicalName())) {
+			showActivity(SearchListActivity.class);
+		}
+
+		setViewButtonText();
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////
+	// Listeners
+
+	View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			switchResultsView();
+		}
+	};
 }

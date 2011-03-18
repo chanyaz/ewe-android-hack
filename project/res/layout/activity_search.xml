@@ -1,13 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
+<RelativeLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:panel="http://schemas.android.com/apk/res/com.expedia.bookings"
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	>
+	android:layout_height="fill_parent">
     
     <FrameLayout
     	android:id="@+id/content_layout"
     	android:layout_width="fill_parent"
     	android:layout_height="fill_parent" />
     	
-</LinearLayout>
+    <Button
+    	android:id="@+id/view_button"
+    	android:layout_width="54dp"
+    	android:layout_height="wrap_content"
+    	android:layout_alignParentBottom="true"
+    	android:layout_alignParentRight="true"
+    	android:layout_margin="6dp" />
+	
+	<com.mobiata.android.widget.Panel
+		android:id="@+id/drawer"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/action_bar_layout"
+		panel:handle="@+id/drawer_handle"
+		panel:content="@+id/drawer_content"
+		panel:position="top"
+		panel:openedHandle="#c2e2f9"
+		panel:closedHandle="#c2e2f9">
+
+		<View
+			android:id="@id/drawer_handle"
+			android:layout_width="90dp"
+			android:layout_height="24dp"
+			android:layout_gravity="center" />
+		
+		<RelativeLayout
+			android:id="@id/drawer_content"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:background="#c2e2f9">
+		
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="120dp"
+				android:gravity="center"
+				android:text="It's drawer time!"
+				android:textColor="#FF000000" />
+			
+		</RelativeLayout>
+
+	</com.mobiata.android.widget.Panel>
+	
+	<LinearLayout 
+		android:id="@id/action_bar_layout"
+	    android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:background="#9ccfef">
+			
+	    <!-- Search box -->
+	    <EditText
+            android:id="@+id/search_text"
+            android:layout_height="fill_parent"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_margin="6dip"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:focusable="false" />
+	        
+	</LinearLayout>
+    	
+</RelativeLayout>
