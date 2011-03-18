@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import com.expedia.bookings.R;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.SearchResponse;
 
@@ -23,9 +24,9 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_search_list);
 
 		mParent = (SearchActivity) getParent();
-		
 		mParent.addSearchListner(this);		
 	}
 	

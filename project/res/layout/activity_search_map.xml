@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
-</LinearLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+    
+    <!--
+		In order to run this in debug mode, you need to replace the apiKey.
+		Debug apiKey: 0OeGguXEO_X_TAyapIYkZeu9deDDnDfM_e4Affg
+		Release apiKey: 0OeGguXEO_X_x5LTyo4gRT_kO5mQ4ADzQYkZX1A
+	-->
+
+    <com.google.android.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:clickable="true"
+        android:apiKey="0OeGguXEO_X_TAyapIYkZeu9deDDnDfM_e4Affg" />
+		
+</RelativeLayout>

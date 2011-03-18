@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 
+import com.expedia.bookings.R;
 import com.google.android.maps.MapActivity;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.SearchResponse;
@@ -23,9 +24,9 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_search_map);
 
 		mParent = (SearchActivity) getParent();
-		
 		mParent.addSearchListner(this);
 	}
 

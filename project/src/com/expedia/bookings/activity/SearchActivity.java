@@ -7,10 +7,12 @@ import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.mobiata.hotellib.app.SearchListener;
@@ -37,16 +39,27 @@ public class SearchActivity extends ActivityGroup {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_search);
 
 		mLocalActivityManager = getLocalActivityManager();
 
 		initializeViews();
+
+		showActivity(SearchListActivity.class);
 	}
 
 	@Override
-	public void onContentChanged() {
-		super.onContentChanged();
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_0) {
+			if (mTag == SearchListActivity.class.getCanonicalName()) {
+				showActivity(SearchMapActivity.class);
+			}
+			else if (mTag == SearchMapActivity.class.getCanonicalName()) {
+				showActivity(SearchListActivity.class);
+			}
+		}
 
+		return true;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +80,7 @@ public class SearchActivity extends ActivityGroup {
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 	}
 
-	private void showActivity(Class activity) {
+	private void showActivity(Class<?> activity) {
 		mIntent = new Intent(this, activity);
 		mTag = activity.getCanonicalName();
 
@@ -84,8 +97,8 @@ public class SearchActivity extends ActivityGroup {
 			mLaunchedView.setVisibility(View.VISIBLE);
 			mLaunchedView.setFocusableInTouchMode(true);
 			((ViewGroup) mLaunchedView).setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+
+			mContent.addView(mLaunchedView);
 		}
-		
-		mContent.addView(mLaunchedView);
 	}
 }
