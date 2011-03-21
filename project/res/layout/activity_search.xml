@@ -40,26 +40,127 @@
 			android:id="@id/drawer_content"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
+			android:padding="6dp"
+			android:orientation="vertical"
 			android:background="#c2e2f9">
+			
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="6dp"
+				android:text="Sort"
+				android:textStyle="bold"
+				android:textColor="#FF000000"
+				android:shadowColor="#88FFFFFF"
+				android:shadowDx="0"
+				android:shadowDy="1"
+				android:shadowRadius="0.1" />
 			
 			<com.mobiata.android.widget.SegmentedControlGroup 
 				android:id="@+id/sort_options_group"
-				android:layout_width="wrap_content"
+				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="6dp"
+				android:layout_marginBottom="6dp"
 				android:orientation="horizontal">
-			
-				<RadioButton
-					android:id="@+id/sort_price_radio"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="price" />
 					
 				<RadioButton
 					android:id="@+id/sort_popular_radio"
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:text="popular" />
+					android:layout_weight="1"
+					android:text="Popular" />
+			
+				<RadioButton
+					android:id="@+id/sort_price_radio"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="Price" />
+				
+			</com.mobiata.android.widget.SegmentedControlGroup>
+			
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="6dp"
+				android:text="Filter"
+				android:textStyle="bold"
+				android:textColor="#FF000000"
+				android:shadowColor="#88FFFFFF"
+				android:shadowDx="0"
+				android:shadowDy="1"
+				android:shadowRadius="0.1" />
+			
+			<com.mobiata.android.widget.SegmentedControlGroup 
+				android:id="@+id/distance_options_group"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="6dp"
+				android:orientation="horizontal">
+			
+				<RadioButton
+					android:id="@+id/distance_near_radio"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="2 mi" />
+					
+				<RadioButton
+					android:id="@+id/distance_normal_radio"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="5 mi" />
+					
+				<RadioButton
+					android:id="@+id/distance_far_radio"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="10 mi" />
+					
+				<RadioButton
+					android:id="@+id/distance_all_radio"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="All" />
+				
+			</com.mobiata.android.widget.SegmentedControlGroup>
+			
+			<com.mobiata.android.widget.SegmentedControlGroup 
+				android:id="@+id/price_options_group"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+			
+				<RadioButton
+					android:id="@+id/price_cheap_radio"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="$" />
+					
+				<RadioButton
+					android:id="@+id/price_normal_radio"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="$$" />
+					
+				<RadioButton
+					android:id="@+id/price_expensive_radio"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="$$$" />
+					
+				<RadioButton
+					android:id="@+id/price_all_radio"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="All" />
 				
 			</com.mobiata.android.widget.SegmentedControlGroup>
 			
