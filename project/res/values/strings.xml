@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World!</string>
-    <string name="app_name">Expedia</string>
+	<string name="app_name">Expedia</string>
+
+	<!-- Search list adapter -->
+	<!-- The label for how much hotels cost - "from $120/night", for example -->
+	<string name="From">From</string>
+	<!-- The label for price per night - "from $120/night", for example -->
+	<string name="PerNight">/night</string>
 </resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- These colors are ripped from the iOS version, and are not finalized -->
+	<color name="light_gray">#777777</color>
+</resources>

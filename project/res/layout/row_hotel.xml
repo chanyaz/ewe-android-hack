@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="horizontal">
+	<ImageView android:id="@+id/Thumbnail" android:layout_width="100dp"
+		android:layout_height="100dp" android:scaleType="centerCrop"
+		android:background="@android:color/black" />
+	<RelativeLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_gravity="center_vertical"
+		android:layout_marginLeft="6dp" android:layout_marginRight="6dp">
+		<TextView android:id="@+id/Name" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:ellipsize="end"
+			android:singleLine="true" android:textColor="#3D4552"
+			android:textStyle="bold" android:textSize="18sp" />
+		<TextView android:id="@+id/From" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_below="@id/Name"
+			android:text="@string/From" android:textColor="@color/light_gray"
+			android:textSize="11sp" />
+		<TextView android:id="@+id/Price" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_below="@id/From"
+			android:textColor="#064192" android:textStyle="bold"
+			android:textSize="20sp" />
+		<TextView android:id="@+id/PerNight" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_toRightOf="@id/Price"
+			android:layout_alignBaseline="@id/Price" android:text="@string/PerNight"
+			android:textColor="@color/light_gray" android:textSize="11sp" />
+		<RatingBar android:id="@+id/HotelRating"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_below="@id/Price" android:numStars="5"
+			android:stepSize=".5" android:isIndicator="true"
+			style="?android:attr/ratingBarStyleSmall" />
+		<TextView android:id="@+id/Distance" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_alignParentRight="true"
+			android:layout_alignBottom="@id/HotelRating" android:textColor="@color/light_gray"
+			android:textSize="11sp" />
+
+		<!-- TODO: Add "TripAdvisor" bookmark -->
+	</RelativeLayout>
+</LinearLayout>
