@@ -11,10 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.widget.Panel;
@@ -31,7 +30,7 @@ public class SearchActivity extends ActivityGroup {
 
 	private EditText mSearchEditText;
 	private Panel mPanel;
-	private Button mViewButton;
+	private ImageButton mViewButton;
 
 	private LocalActivityManager mLocalActivityManager;
 	private String mTag;
@@ -56,7 +55,7 @@ public class SearchActivity extends ActivityGroup {
 		showActivity(SearchMapActivity.class);
 		showActivity(SearchListActivity.class);
 
-		setViewButtonText();
+		setViewButtonImage();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -77,18 +76,18 @@ public class SearchActivity extends ActivityGroup {
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 		mSearchEditText = (EditText) findViewById(R.id.search_text);
 		mPanel = (Panel) findViewById(R.id.drawer);
-		mViewButton = (Button) findViewById(R.id.view_button);
+		mViewButton = (ImageButton) findViewById(R.id.view_button);
 
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mViewButton.setOnClickListener(mViewButtonClickListener);
 	}
 
-	private void setViewButtonText() {
+	private void setViewButtonImage() {
 		if (mTag.equals(SearchListActivity.class.getCanonicalName())) {
-			mViewButton.setText("Map");
+			//mViewButton.setImageResource(R.drawable.btn_map);
 		}
 		else if (mTag.equals(SearchMapActivity.class.getCanonicalName())) {
-			mViewButton.setText("List");
+			//mViewButton.setImageResource(R.drawable.btn_list);
 		}
 	}
 
@@ -122,7 +121,7 @@ public class SearchActivity extends ActivityGroup {
 			showActivity(SearchListActivity.class);
 		}
 
-		setViewButtonText();
+		setViewButtonImage();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
