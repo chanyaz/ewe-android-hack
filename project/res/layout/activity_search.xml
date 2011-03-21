@@ -27,7 +27,8 @@
 		panel:content="@+id/drawer_content"
 		panel:position="top"
 		panel:openedHandle="#c2e2f9"
-		panel:closedHandle="#c2e2f9">
+		panel:closedHandle="#c2e2f9"
+		panel:animationDuration="300">
 
 		<View
 			android:id="@id/drawer_handle"
@@ -57,7 +58,7 @@
 	    android:orientation="horizontal"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:background="#9ccfef">
+	    android:background="#3e9ad2">
 			
 	    <!-- Search box -->
 	    <EditText
@@ -72,5 +73,12 @@
             android:focusable="false" />
 	        
 	</LinearLayout>
+	
+	<ImageView
+		android:layout_below="@id/action_bar_layout"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:src="@drawable/action_bar_shadow"
+		android:scaleType="fitXY" />
     	
 </RelativeLayout>
