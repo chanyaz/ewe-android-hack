@@ -23,13 +23,19 @@ public class SearchActivity extends ActivityGroup {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
+	private static final String ACTIVITY_SEARCH_LIST = SearchListActivity.class.getCanonicalName();
+	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
 	private FrameLayout mContent;
 
 	private EditText mSearchEditText;
+	
 	private Panel mPanel;
+	private View mSortLayout;
+
 	private ImageButton mViewButton;
 
 	private LocalActivityManager mLocalActivityManager;
@@ -76,17 +82,28 @@ public class SearchActivity extends ActivityGroup {
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 		mSearchEditText = (EditText) findViewById(R.id.search_text);
 		mPanel = (Panel) findViewById(R.id.drawer);
+		mSortLayout = (View) findViewById(R.id.sort_layout);
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
 
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mViewButton.setOnClickListener(mViewButtonClickListener);
 	}
 
+	private void setDrawerViews() {
+		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+			mSortLayout.setVisibility(View.VISIBLE);
+		}
+		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
+			mSortLayout.setVisibility(View.GONE);
+		}
+
+	}
+
 	private void setViewButtonImage() {
-		if (mTag.equals(SearchListActivity.class.getCanonicalName())) {
+		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
 			//mViewButton.setImageResource(R.drawable.btn_map);
 		}
-		else if (mTag.equals(SearchMapActivity.class.getCanonicalName())) {
+		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
 			//mViewButton.setImageResource(R.drawable.btn_list);
 		}
 	}
@@ -114,14 +131,15 @@ public class SearchActivity extends ActivityGroup {
 	}
 
 	private void switchResultsView() {
-		if (mTag.equals(SearchListActivity.class.getCanonicalName())) {
+		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
 			showActivity(SearchMapActivity.class);
 		}
-		else if (mTag.equals(SearchMapActivity.class.getCanonicalName())) {
+		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
 			showActivity(SearchListActivity.class);
 		}
 
 		setViewButtonImage();
+		setDrawerViews();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
