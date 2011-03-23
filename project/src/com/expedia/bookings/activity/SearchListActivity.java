@@ -82,6 +82,11 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 
 	@Override
 	public void onSearchCompleted(SearchResponse response) {
+		if (response == null) {
+			// TODO: Handle error
+			return;
+		}
+
 		mAdapter = new HotelAdapter(this, response);
 		setListAdapter(mAdapter);
 	}
