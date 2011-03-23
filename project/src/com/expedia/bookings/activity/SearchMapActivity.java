@@ -133,8 +133,8 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 
 		// Add hotels overlay
 		// TODO: Replace SearchParams with params from parent when available
-		HotelItemizedOverlay overlay = new HotelItemizedOverlay(this, mSearchResponse, new SearchParams(), false,
-				mMapView, null);
+		HotelItemizedOverlay overlay = new HotelItemizedOverlay(this, mSearchResponse, new SearchParams(), true,
+				mMapView, HotelActivity.class);
 		overlays.add(overlay);
 
 		// Add an overlay for my location

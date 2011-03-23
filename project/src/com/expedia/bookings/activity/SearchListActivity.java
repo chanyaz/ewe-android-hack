@@ -2,7 +2,10 @@ package com.expedia.bookings.activity;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.HotelAdapter;
@@ -10,6 +13,8 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.hotellib.app.SearchListener;
+import com.mobiata.hotellib.data.Codes;
+import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.server.ExpediaServices;
@@ -59,6 +64,18 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 		else {
 			mParent.addSearchListener(this);
 		}
+	}
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+
+		Property property = (Property) mAdapter.getItem(position);
+
+		Intent intent = new Intent(this, HotelActivity.class);
+		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
+		intent.putExtra(Codes.SEARCH_PARAMS, (new SearchParams()).toString());
+		startActivity(intent);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////

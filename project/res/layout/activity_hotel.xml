@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
+
+	<!-- Info bar at the top of the screen -->
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<RelativeLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1">
+			<TextView
+				android:id="@+id/name_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentTop="true"
+				android:singleLine="true"
+				android:ellipsize="end" />
+			<LinearLayout
+				android:id="@+id/hotel_rating_layout"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/name_text_view"
+				android:layout_alignLeft="@+id/name_text_view"
+				android:orientation="vertical">
+				<TextView
+					android:id="@+id/hotel_rating_text_view"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:text="@string/star_rating" />
+				<RatingBar
+					android:id="@+id/hotel_rating_bar"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:numStars="5"
+					android:stepSize=".5"
+					android:isIndicator="true"
+					style="?android:attr/ratingBarStyleSmall" />
+			</LinearLayout>
+			<LinearLayout
+				android:id="@+id/trip_advisor_layout"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@+id/hotel_rating_layout"
+				android:layout_alignTop="@+id/hotel_rating_layout"
+				android:layout_alignBottom="@+id/hotel_rating_layout"
+				android:layout_marginLeft="6dp"
+				android:orientation="vertical">
+				<TextView
+					android:id="@+id/trip_advisor_text_view"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:text="@string/trip_advisor" />
+				<RatingBar
+					android:id="@+id/trip_advisor_rating_bar"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:numStars="5"
+					android:stepSize=".5"
+					android:isIndicator="true"
+					style="?android:attr/ratingBarStyleSmall" />
+			</LinearLayout>
+		</RelativeLayout>
+		<Button
+			android:id="@+id/book_now_button"
+			android:layout_width="100dp"
+			android:layout_height="fill_parent"
+			android:layout_toRightOf="@+id/hotel_name_text_view"
+			android:layout_alignParentRight="true"
+			android:text="@string/book_now" />
+	</LinearLayout>
+
+
+	<!-- Rotating image gallery -->
+	<Gallery
+		android:id="@+id/images_gallery"
+		android:layout_width="fill_parent"
+		android:layout_height="200dp"
+		android:spacing="2dp" />
+
+	<!-- Details about the hotel. This is filled in dynamically based on available 
+		hotel data -->
+	<ScrollView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:background="#E3E3E6"
+			android:orientation="vertical">
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Here is where amenities icons would go"
+				android:textColor="@android:color/black" />
+			<View
+				android:layout_width="fill_parent"
+				android:layout_height="@dimen/two_pixels"
+				android:background="@drawable/divider" />
+			<TextView
+				android:id="@+id/description_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Description here!"
+				android:textColor="@android:color/black" />
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>
