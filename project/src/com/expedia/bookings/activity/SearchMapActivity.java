@@ -27,7 +27,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 		setContentView(R.layout.activity_search_map);
 
 		mParent = (SearchActivity) getParent();
-		mParent.addSearchListner(this);
+		mParent.addSearchListener(this);
 	}
 
 	@Override

@@ -57,7 +57,7 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 			downloader.startDownload("mykey", download, callback);
 		}
 		else {
-			mParent.addSearchListner(this);
+			mParent.addSearchListener(this);
 		}
 	}
 

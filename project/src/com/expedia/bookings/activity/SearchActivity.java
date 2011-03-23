@@ -67,7 +67,7 @@ public class SearchActivity extends ActivityGroup {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Public methods
 
-	public void addSearchListner(SearchListener searchListener) {
+	public void addSearchListener(SearchListener searchListener) {
 		if (mSearchListeners == null) {
 			mSearchListeners = new ArrayList<SearchListener>();
 		}
