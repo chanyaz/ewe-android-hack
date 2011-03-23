@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.expedia.bookings.R;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -22,6 +23,8 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 
 	private SearchActivity mParent;
 
+	private MapView mMapView;
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
 
@@ -29,6 +32,11 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_map);
+
+		// Configure the map
+		mMapView = (MapView) findViewById(R.id.map);
+		mMapView.setBuiltInZoomControls(true);
+		mMapView.setSatellite(false);
 
 		mParent = (SearchActivity) getParent();
 		if (mParent == null) {
