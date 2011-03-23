@@ -89,7 +89,7 @@ public class HotelAdapter extends BaseAdapter {
 		holder.thumbnail.setImageResource(R.drawable.ic_image_placeholder);
 		holder.name.setText(property.getName());
 		holder.price.setText(property.getLowRate().getFormattedMoney());
-		holder.hotelRating.setRating(property.getHotelRating() / 2f);
+		holder.hotelRating.setRating((float) property.getHotelRating());
 		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext));
 
 		// See if there's a first image; if there is, use that as the thumbnail
