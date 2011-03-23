@@ -9,7 +9,7 @@ import com.google.android.maps.MapActivity;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.SearchResponse;
 
-public class SearchMapActivity extends MapActivity implements SearchListener, OnScrollListener {
+public class SearchMapActivity extends MapActivity implements SearchListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
@@ -34,27 +34,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////
-	// OnScrollListener implementation
-
-	@Override
-	public void onContentChanged() {
-		super.onContentChanged();
-
-	}
-
-	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		// TODO Auto-generated method stub
-
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
