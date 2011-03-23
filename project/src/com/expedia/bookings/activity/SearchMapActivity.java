@@ -1,8 +1,6 @@
 package com.expedia.bookings.activity;
 
 import android.os.Bundle;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 
 import com.expedia.bookings.R;
 import com.google.android.maps.MapActivity;
@@ -41,20 +39,17 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 
 	@Override
 	public void onSearchStarted() {
-		// TODO Auto-generated method stub
-
+		clearResults();
 	}
 
 	@Override
 	public void onSearchProgress(int strId) {
-		// TODO Auto-generated method stub
-
+		// Do nothing.  SearchActivity should handle the display of search progress.
 	}
 
 	@Override
 	public void onSearchFailed(String message) {
-		// TODO Auto-generated method stub
-
+		// Do nothing.  SearchActivity should handle the display of search progress.
 	}
 
 	@Override

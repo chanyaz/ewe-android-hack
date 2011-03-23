@@ -66,18 +66,17 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 
 	@Override
 	public void onSearchStarted() {
-		// TODO: Implement hanging doorknob
-
+		clearResults();
 	}
 
 	@Override
 	public void onSearchProgress(int strId) {
-		// TODO: Implement hanging doorknob (will it have status updates?)
+		// Do nothing.  SearchActivity should handle the display of search progress.
 	}
 
 	@Override
 	public void onSearchFailed(String message) {
-		// TODO: Implement an error screen
+		// Do nothing.  SearchActivity should handle the display of search progress.
 	}
 
 	@Override
