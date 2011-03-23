@@ -1,11 +1,16 @@
 package com.expedia.bookings.activity;
 
+import java.util.List;
+
 import android.content.Context;
 import android.os.Bundle;
 
 import com.expedia.bookings.R;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.Overlay;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -13,6 +18,8 @@ import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.server.ExpediaServices;
+import com.mobiata.hotellib.widget.FixedMyLocationOverlay;
+import com.mobiata.hotellib.widget.HotelItemizedOverlay;
 
 public class SearchMapActivity extends MapActivity implements SearchListener {
 	//////////////////////////////////////////////////////////////////////////////////
@@ -24,6 +31,10 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 	private SearchActivity mParent;
 
 	private MapView mMapView;
+
+	private SearchResponse mSearchResponse;
+
+	private MyLocationOverlay mMyLocationOverlay;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
@@ -68,6 +79,24 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (mMyLocationOverlay != null) {
+			mMyLocationOverlay.enableMyLocation();
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		if (mMyLocationOverlay != null) {
+			mMyLocationOverlay.disableMyLocation();
+		}
+	}
+
+	@Override
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
 		return false;
@@ -93,20 +122,48 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 
 	@Override
 	public void onSearchCompleted(SearchResponse response) {
-		// TODO Auto-generated method stub
+		if (response == null) {
+			// TODO: Error handling?  Or should we assume that the parent never calls this with null?
+			return;
+		}
 
+		mSearchResponse = response;
+
+		List<Overlay> overlays = mMapView.getOverlays();
+
+		// Add hotels overlay
+		// TODO: Replace SearchParams with params from parent when available
+		HotelItemizedOverlay overlay = new HotelItemizedOverlay(this, mSearchResponse, new SearchParams(), false,
+				mMapView, null);
+		overlays.add(overlay);
+
+		// Add an overlay for my location
+		if (mMyLocationOverlay == null) {
+			mMyLocationOverlay = new FixedMyLocationOverlay(this, mMapView);
+		}
+		mMyLocationOverlay.enableMyLocation();
+		overlays.add(mMyLocationOverlay);
+
+		// Set the center point
+		MapController mc = mMapView.getController();
+		mc.animateTo(overlay.getCenter());
+		mc.zoomToSpan(overlay.getLatSpanE6(), overlay.getLonSpanE6());
 	}
 
 	@Override
 	public boolean hasSearchResults() {
-		// TODO Auto-generated method stub
-		return false;
+		return mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0;
 	}
 
 	@Override
 	public void clearResults() {
-		// TODO Auto-generated method stub
+		mSearchResponse = null;
 
+		mMapView.getOverlays().clear();
+
+		if (mMyLocationOverlay != null) {
+			mMyLocationOverlay.disableMyLocation();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
