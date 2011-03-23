@@ -93,8 +93,8 @@ public class HotelAdapter extends BaseAdapter {
 		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext));
 
 		// See if there's a first image; if there is, use that as the thumbnail
-		if (property.getMediaCount() > 0) {
-			ImageCache.getInstance().loadImage(property.getMedia(0).getUrl(), holder.thumbnail);
+		if (property.getThumbnail() != null) {
+			ImageCache.getInstance().loadImage(property.getThumbnail().getUrl(), holder.thumbnail);
 		}
 
 		return convertView;
