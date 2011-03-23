@@ -4,7 +4,10 @@
 
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
-	<string name="From">From</string>
+	<string name="from">From</string>
 	<!-- The label for price per night - "from $120/night", for example -->
-	<string name="PerNight">/night</string>
+	<string name="per_night">/night</string>
+
+	<!-- Hotel Activity -->
+	<string name="book_now">Book Now</string>
 </resources>

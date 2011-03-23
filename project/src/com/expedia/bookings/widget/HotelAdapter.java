@@ -74,11 +74,11 @@ public class HotelAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.row_hotel, parent, false);
 
 			holder = new HotelViewHolder();
-			holder.thumbnail = (ImageView) convertView.findViewById(R.id.Thumbnail);
-			holder.name = (TextView) convertView.findViewById(R.id.Name);
-			holder.price = (TextView) convertView.findViewById(R.id.Price);
-			holder.hotelRating = (RatingBar) convertView.findViewById(R.id.HotelRating);
-			holder.distance = (TextView) convertView.findViewById(R.id.Distance);
+			holder.thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail_image_view);
+			holder.name = (TextView) convertView.findViewById(R.id.name_text_view);
+			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
+			holder.hotelRating = (RatingBar) convertView.findViewById(R.id.hotel_rating_bar);
+			holder.distance = (TextView) convertView.findViewById(R.id.distance_text_view);
 			convertView.setTag(holder);
 		}
 		else {
