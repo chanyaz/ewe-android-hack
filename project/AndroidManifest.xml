@@ -27,13 +27,23 @@
 		</activity>
 
 		<activity android:name=".activity.SearchListActivity">
+			<!-- TODO: Delete this intent filter once SearchActivity is functional.
+				It is only here for testing this method standalone -->
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".activity.SearchMapActivity" />
+		<activity android:name=".activity.SearchMapActivity">
+			<!-- TODO: Delete this intent filter once SearchActivity is functional.
+				It is only here for testing this method standalone -->
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
 
     </application>
     
