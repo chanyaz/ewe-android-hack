@@ -10,7 +10,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.hotellib.app.SearchListener;
-import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.server.ExpediaServices;
@@ -42,9 +41,9 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 				@Override
 				public Object doDownload() {
 					SearchParams params = new SearchParams();
-					params.setFreeformLocation("Minneapolis");
+					params.setFreeformLocation("San Francisco");
 
-					return ExpediaServices.search(context, params, Codes.F_SORT_BY_DISTANCE);
+					return ExpediaServices.searchExpedia(context, params);
 				}
 			};
 
