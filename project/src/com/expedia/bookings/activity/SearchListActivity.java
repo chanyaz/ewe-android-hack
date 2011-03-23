@@ -93,14 +93,13 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 
 	@Override
 	public boolean hasSearchResults() {
-		// TODO Auto-generated method stub
-		return false;
+		return mAdapter != null && !mAdapter.isEmpty();
 	}
 
 	@Override
 	public void clearResults() {
-		// TODO Auto-generated method stub
-
+		setListAdapter(null);
+		mAdapter = null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
