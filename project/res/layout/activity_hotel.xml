@@ -88,7 +88,9 @@
 		hotel data -->
 	<ScrollView
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:background="@drawable/shadow"
+		android:fadingEdge="none">
 		<LinearLayout
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -98,7 +100,7 @@
 			<TableLayout
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:stretchColumns="*">
+				android:layout_marginRight="12dp">
 				<TableRow
 					android:id="@+id/amenities_table_row"
 					android:layout_width="fill_parent"
@@ -107,13 +109,18 @@
 			<View
 				android:layout_width="fill_parent"
 				android:layout_height="@dimen/two_pixels"
+				android:layout_marginTop="6dp"
+				android:layout_marginBottom="6dp"
 				android:background="@drawable/divider" />
 			<TextView
 				android:id="@+id/description_text_view"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:layout_marginLeft="12dp"
+				android:layout_marginRight="12dp"
+				android:layout_marginBottom="10dp"
 				android:text="Description here!"
-				android:textColor="@android:color/black" />
+				android:textColor="#333333" />
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>
