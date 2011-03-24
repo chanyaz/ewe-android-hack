@@ -11,7 +11,6 @@ import com.expedia.bookings.widget.HotelAdapter;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchResponse;
 
 public class SearchListActivity extends ListActivity implements SearchListener {
@@ -44,7 +43,7 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 
 		Intent intent = new Intent(this, HotelActivity.class);
 		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
-		intent.putExtra(Codes.SEARCH_PARAMS, (new SearchParams()).toString());
+		intent.putExtra(Codes.SEARCH_PARAMS, mParent.getSearchParams().toString());
 		startActivity(intent);
 	}
 
@@ -69,7 +68,7 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 	@Override
 	public void onSearchCompleted(SearchResponse response) {
 		if (response == null) {
-			// TODO: Handle error
+			// TODO: Error handling?  Or should we assume that the parent never calls this with null?
 			return;
 		}
 

@@ -43,12 +43,12 @@ public class SearchActivity extends ActivityGroup {
 
 	private FrameLayout mContent;
 	private EditText mSearchEditText;
-	
+
 	private Panel mPanel;
 	private View mSortLayout;
 	private RadioButton mSortPopularRadioButton;
 	private RadioButton mSortPriceRadioButton;
-	
+
 	private ImageButton mViewButton;
 	private Button mSearchButton;
 
@@ -81,7 +81,7 @@ public class SearchActivity extends ActivityGroup {
 		public void onDownload(Object results) {
 			SearchResponse response = (SearchResponse) results;
 			response.setFilter(mFilter);
-			
+
 			broadcastSearchCompleted(response);
 		}
 	};
@@ -116,6 +116,10 @@ public class SearchActivity extends ActivityGroup {
 		mSearchListeners.add(searchListener);
 	}
 
+	public SearchParams getSearchParams() {
+		return mSearchParams;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private methods
 
@@ -134,7 +138,7 @@ public class SearchActivity extends ActivityGroup {
 	private void initializeViews() {
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
-		
+
 		mPanel = (Panel) findViewById(R.id.drawer_panel);
 		mSortLayout = (View) findViewById(R.id.sort_layout);
 		mSortPopularRadioButton = (RadioButton) findViewById(R.id.sort_popular_button);

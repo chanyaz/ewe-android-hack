@@ -11,7 +11,6 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.mobiata.hotellib.app.SearchListener;
-import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.widget.FixedMyLocationOverlay;
 import com.mobiata.hotellib.widget.HotelItemizedOverlay;
@@ -68,7 +67,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -102,8 +100,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 		List<Overlay> overlays = mMapView.getOverlays();
 
 		// Add hotels overlay
-		// TODO: Replace SearchParams with params from parent when available
-		HotelItemizedOverlay overlay = new HotelItemizedOverlay(this, mSearchResponse, new SearchParams(), true,
+		HotelItemizedOverlay overlay = new HotelItemizedOverlay(this, mSearchResponse, mParent.getSearchParams(), true,
 				mMapView, HotelActivity.class);
 		overlays.add(overlay);
 
