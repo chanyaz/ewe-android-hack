@@ -14,12 +14,12 @@
     	android:id="@+id/view_button"
 		android:layout_width="@dimen/action_bar_button_height"
 		android:layout_height="@dimen/action_bar_button_height"
-    	android:layout_alignParentBottom="true"
+    	android:layout_above="@+id/button_bar_layout"
     	android:layout_alignParentRight="true"
     	android:layout_margin="6dp" />
 	
 	<com.mobiata.android.widget.Panel
-		android:id="@+id/drawer"
+		android:id="@+id/drawer_panel"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@+id/search_bar_layout"
@@ -63,21 +63,22 @@
 					android:shadowRadius="0.1" />
 				
 				<com.mobiata.android.widget.SegmentedControlGroup 
-					android:id="@+id/sort_options_group"
+					android:id="@+id/sort_options_button_group"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="6dp"
 					android:orientation="horizontal">
 						
 					<RadioButton
-						android:id="@+id/sort_popular_radio"
+						android:id="@+id/sort_popular_button"
 						android:layout_width="0dp"
 						android:layout_height="wrap_content"
 						android:layout_weight="1"
-						android:text="Popular" />
+						android:text="Popular"
+						android:checked="true" />
 				
 					<RadioButton
-						android:id="@+id/sort_price_radio"
+						android:id="@+id/sort_price_button"
 						android:layout_width="0dp"
 						android:layout_height="wrap_content"
 						android:layout_weight="1"
@@ -100,35 +101,36 @@
 				android:shadowRadius="0.1" />
 			
 			<com.mobiata.android.widget.SegmentedControlGroup 
-				android:id="@+id/distance_options_group"
+				android:id="@+id/distance_options_button_group"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="6dp"
 				android:orientation="horizontal">
 			
 				<RadioButton
-					android:id="@+id/distance_near_radio"
+					android:id="@+id/distance_near_button"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:text="2 mi" />
 					
 				<RadioButton
-					android:id="@+id/distance_normal_radio"
+					android:id="@+id/distance_normal_button"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="5 mi" />
+					android:text="5 mi"
+					android:checked="true" />
 					
 				<RadioButton
-					android:id="@+id/distance_far_radio"
+					android:id="@+id/distance_far_button"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:text="10 mi" />
 					
 				<RadioButton
-					android:id="@+id/distance_all_radio"
+					android:id="@+id/distance_all_button"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
@@ -149,38 +151,39 @@
 				android:shadowRadius="0.1" />
 			
 			<com.mobiata.android.widget.SegmentedControlGroup 
-				android:id="@+id/price_options_group"
+				android:id="@+id/price_options_button_group"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:orientation="horizontal">
 			
 				<RadioButton
-					android:id="@+id/price_cheap_radio"
+					android:id="@+id/price_cheap_button"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:text="$" />
 					
 				<RadioButton
-					android:id="@+id/price_normal_radio"
+					android:id="@+id/price_normal_button"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:text="$$" />
 					
 				<RadioButton
-					android:id="@+id/price_expensive_radio"
+					android:id="@+id/price_expensive_button"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:text="$$$" />
 					
 				<RadioButton
-					android:id="@+id/price_all_radio"
+					android:id="@+id/price_all_button"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="All" />
+					android:text="All"
+					android:checked="true" />
 				
 			</com.mobiata.android.widget.SegmentedControlGroup>
 			
@@ -198,7 +201,7 @@
 			
 	    <!-- Search box -->
 	    <EditText
-            android:id="@+id/search_text"
+            android:id="@+id/search_edit_text"
             android:layout_height="fill_parent"
             android:layout_width="0dip"
             android:layout_weight="1"
@@ -221,13 +224,20 @@
 	</LinearLayout>
 	
 	<LinearLayout
-		android:id="@+id/button_bar_layout"
+		android:id="@id/button_bar_layout"
 	    android:orientation="horizontal"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentBottom="true"
 	    android:padding="6dp"
 	    android:background="#3e9ad2">
+	    
+	    <Button
+	    	android:id="@+id/search_button"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:text="search" />
+	    	
 	    
     </LinearLayout>
     	

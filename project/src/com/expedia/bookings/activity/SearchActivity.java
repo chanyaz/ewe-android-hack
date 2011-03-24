@@ -5,19 +5,29 @@ import java.util.List;
 
 import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.widget.Panel;
 import com.mobiata.hotellib.app.SearchListener;
+import com.mobiata.hotellib.data.Filter;
+import com.mobiata.hotellib.data.SearchParams;
+import com.mobiata.hotellib.data.SearchResponse;
+import com.mobiata.hotellib.server.ExpediaServices;
 
 public class SearchActivity extends ActivityGroup {
 	//////////////////////////////////////////////////////////////////////////////////
@@ -29,21 +39,52 @@ public class SearchActivity extends ActivityGroup {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
-	private FrameLayout mContent;
+	// Views
 
+	private FrameLayout mContent;
 	private EditText mSearchEditText;
 	
 	private Panel mPanel;
 	private View mSortLayout;
-
+	private RadioButton mSortPopularRadioButton;
+	private RadioButton mSortPriceRadioButton;
+	
 	private ImageButton mViewButton;
+	private Button mSearchButton;
 
+	// Others
+
+	private Context mContext = this;
 	private LocalActivityManager mLocalActivityManager;
 	private String mTag;
 	private Intent mIntent;
 	private View mLaunchedView;
 
 	private List<SearchListener> mSearchListeners;
+
+	private SearchParams mSearchParams;
+	private Filter mFilter;
+
+	// Threads / callbacks
+
+	private BackgroundDownloader mSearchDownloader = BackgroundDownloader.getInstance();
+
+	private Download mSearchDownload = new Download() {
+		@Override
+		public Object doDownload() {
+			return ExpediaServices.searchExpedia(mContext, mSearchParams);
+		}
+	};
+
+	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
+		@Override
+		public void onDownload(Object results) {
+			SearchResponse response = (SearchResponse) results;
+			response.setFilter(mFilter);
+			
+			broadcastSearchCompleted(response);
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
@@ -78,15 +119,34 @@ public class SearchActivity extends ActivityGroup {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private methods
 
+	// Broadcast methods
+
+	private void broadcastSearchCompleted(SearchResponse response) {
+		if (mSearchListeners != null) {
+			for (SearchListener searchListener : mSearchListeners) {
+				searchListener.onSearchCompleted(response);
+			}
+		}
+	}
+
+	// Other methods
+
 	private void initializeViews() {
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
-		mSearchEditText = (EditText) findViewById(R.id.search_text);
-		mPanel = (Panel) findViewById(R.id.drawer);
+		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
+		
+		mPanel = (Panel) findViewById(R.id.drawer_panel);
 		mSortLayout = (View) findViewById(R.id.sort_layout);
-		mViewButton = (ImageButton) findViewById(R.id.view_button);
+		mSortPopularRadioButton = (RadioButton) findViewById(R.id.sort_popular_button);
+		mSortPriceRadioButton = (RadioButton) findViewById(R.id.sort_price_button);
 
+		mViewButton = (ImageButton) findViewById(R.id.view_button);
+		mSearchButton = (Button) findViewById(R.id.search_button);
+
+		// Listeners
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mViewButton.setOnClickListener(mViewButtonClickListener);
+		mSearchButton.setOnClickListener(mSearchButtonClickListener);
 	}
 
 	private void setDrawerViews() {
@@ -142,6 +202,15 @@ public class SearchActivity extends ActivityGroup {
 		setDrawerViews();
 	}
 
+	// Searching methods
+
+	private void startSearch() {
+		mSearchParams = new SearchParams();
+		mSearchParams.setFreeformLocation(mSearchEditText.getText().toString());
+
+		mSearchDownloader.startDownload("mykey", mSearchDownload, mSearchCallback);
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Listeners
 
@@ -149,6 +218,13 @@ public class SearchActivity extends ActivityGroup {
 		@Override
 		public void onClick(View v) {
 			switchResultsView();
+		}
+	};
+
+	View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			startSearch();
 		}
 	};
 }
