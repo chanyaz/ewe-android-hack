@@ -16,15 +16,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.widget.Panel;
+import com.mobiata.android.widget.SegmentedControlGroup;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.Filter;
+import com.mobiata.hotellib.data.Filter.PriceRange;
+import com.mobiata.hotellib.data.Filter.SearchRadius;
+import com.mobiata.hotellib.data.Filter.Sort;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.server.ExpediaServices;
@@ -46,8 +51,9 @@ public class SearchActivity extends ActivityGroup {
 
 	private Panel mPanel;
 	private View mSortLayout;
-	private RadioButton mSortPopularRadioButton;
-	private RadioButton mSortPriceRadioButton;
+	private SegmentedControlGroup mSortButtonGroup;
+	private SegmentedControlGroup mRadiusButtonGroup;
+	private SegmentedControlGroup mPriceButtonGroup;
 
 	private ImageButton mViewButton;
 	private Button mSearchButton;
@@ -63,6 +69,7 @@ public class SearchActivity extends ActivityGroup {
 	private List<SearchListener> mSearchListeners;
 
 	private SearchParams mSearchParams;
+	private SearchResponse mSearchResponse;
 	private Filter mFilter;
 
 	// Threads / callbacks
@@ -79,6 +86,10 @@ public class SearchActivity extends ActivityGroup {
 	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
 		@Override
 		public void onDownload(Object results) {
+			mSearchResponse = (SearchResponse) results;
+			mSearchResponse.setFilter(mFilter);
+
+			broadcastSearchCompleted(mSearchResponse);
 			SearchResponse response = (SearchResponse) results;
 			response.setFilter(mFilter);
 
@@ -141,14 +152,20 @@ public class SearchActivity extends ActivityGroup {
 
 		mPanel = (Panel) findViewById(R.id.drawer_panel);
 		mSortLayout = (View) findViewById(R.id.sort_layout);
-		mSortPopularRadioButton = (RadioButton) findViewById(R.id.sort_popular_button);
-		mSortPriceRadioButton = (RadioButton) findViewById(R.id.sort_price_button);
+		mSortButtonGroup = (SegmentedControlGroup) findViewById(R.id.sort_filter_button_group);
+		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
+		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
 
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
 		mSearchButton = (Button) findViewById(R.id.search_button);
 
 		// Listeners
 		mPanel.setInterpolator(new AccelerateInterpolator());
+
+		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
+		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
+		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
+
 		mViewButton.setOnClickListener(mViewButtonClickListener);
 		mSearchButton.setOnClickListener(mSearchButtonClickListener);
 	}
@@ -208,7 +225,68 @@ public class SearchActivity extends ActivityGroup {
 
 	// Searching methods
 
+	private void setFilter() {
+		if (mFilter == null) {
+			mFilter = new Filter();
+		}
+
+		// Sort
+		switch (mSortButtonGroup.getCheckedRadioButtonId()) {
+		case R.id.sort_popular_button: {
+			mFilter.setSort(Sort.POPULAR);
+			break;
+		}
+		case R.id.sort_price_button: {
+			mFilter.setSort(Sort.PRICE);
+		}
+		}
+
+		// Price
+		switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
+		case R.id.price_cheap_button: {
+			mFilter.setPriceRange(PriceRange.CHEAP);
+			break;
+		}
+		case R.id.price_moderate_button: {
+			mFilter.setPriceRange(PriceRange.MODERATE);
+			break;
+		}
+		case R.id.price_expensive_button: {
+			mFilter.setPriceRange(PriceRange.EXPENSIVE);
+			break;
+		}
+		default:
+		case R.id.price_all_button: {
+			mFilter.setPriceRange(PriceRange.ALL);
+			break;
+		}
+		}
+
+		// Distance
+		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
+		case R.id.radius_small_button: {
+			mFilter.setSearchRadius(SearchRadius.SMALL);
+			break;
+		}
+		case R.id.radius_medium_button: {
+			mFilter.setSearchRadius(SearchRadius.MEDIUM);
+			break;
+		}
+		case R.id.radius_large_button: {
+			mFilter.setSearchRadius(SearchRadius.LARGE);
+			break;
+		}
+		default:
+		case R.id.radius_all_button: {
+			mFilter.setSearchRadius(SearchRadius.ALL);
+			break;
+		}
+		}
+	}
+
 	private void startSearch() {
+		setFilter();
+
 		mSearchParams = new SearchParams();
 		mSearchParams.setFreeformLocation(mSearchEditText.getText().toString());
 
@@ -217,6 +295,14 @@ public class SearchActivity extends ActivityGroup {
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Listeners
+
+	RadioGroup.OnCheckedChangeListener mFilterButtonGroupCheckedChangeListener = new OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			setFilter();
+			mPanel.setOpen(false, true);
+		}
+	};
 
 	View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
 		@Override
