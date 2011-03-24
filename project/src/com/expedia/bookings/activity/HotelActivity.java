@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Gallery;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import com.mobiata.hotellib.Params;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Media;
 import com.mobiata.hotellib.data.Property;
+import com.mobiata.hotellib.data.Property.Amenity;
 import com.mobiata.hotellib.utils.JSONUtils;
 
 public class HotelActivity extends Activity {
@@ -51,13 +54,34 @@ public class HotelActivity extends Activity {
 		else {
 			gallery.setVisibility(View.GONE);
 		}
-		
-		// Configure the data below the gallery
+
+		// Amenities
+		ViewGroup amenitiesContainer = (ViewGroup) findViewById(R.id.amenities_table_row);
+		// We have to do these manually as multiple amenities can lead to the same icon.
+		if (property.hasAmenity(Amenity.POOL) || property.hasAmenity(Amenity.POOL_INDOOR)
+				|| property.hasAmenity(Amenity.POOL_OUTDOOR)) {
+			addAmenity(amenitiesContainer, R.drawable.ic_amenity_pool, R.string.AmenityPool);
+		}
+		if (property.hasAmenity(Amenity.INTERNET)) {
+			addAmenity(amenitiesContainer, R.drawable.ic_amenity_internet, R.string.amenity_internet);
+		}
+		if (property.hasAmenity(Amenity.BREAKFAST)) {
+			addAmenity(amenitiesContainer, R.drawable.ic_amenity_breakfast, R.string.AmenityBreakfast);
+		}
+		if (property.hasAmenity(Amenity.PARKING) || property.hasAmenity(Amenity.EXTENDED_PARKING)
+				|| property.hasAmenity(Amenity.FREE_PARKING)) {
+			addAmenity(amenitiesContainer, R.drawable.ic_amenity_parking, R.string.AmenityParking);
+		}
+		if (property.hasAmenity(Amenity.PETS_ALLOWED)) {
+			addAmenity(amenitiesContainer, R.drawable.ic_amenity_pets, R.string.amenity_pets);
+		}
+
+		// Description
 		String description = property.getDescriptionText();
 		if (description != null && description.length() > 0) {
 			TextView descriptionView = (TextView) findViewById(R.id.description_text_view);
 			descriptionView.setText(Html.fromHtml(description.replace("&gt;", ">").replace("&lt;", "<")));
-		}	
+		}
 	}
 
 	@Override
@@ -76,5 +100,17 @@ public class HotelActivity extends Activity {
 				cache.removeImage(imageUrl, true);
 			}
 		}
+	}
+
+	public void addAmenity(ViewGroup amenitiesTable, int iconResourceId, int strResourceId) {
+		View amenityLayout = getLayoutInflater().inflate(R.layout.snippet_amenity, amenitiesTable, false);
+
+		ImageView amenityIcon = (ImageView) amenityLayout.findViewById(R.id.icon_text_view);
+		amenityIcon.setImageResource(iconResourceId);
+
+		TextView amenityName = (TextView) amenityLayout.findViewById(R.id.name_text_view);
+		amenityName.setText(strResourceId);
+
+		amenitiesTable.addView(amenityLayout);
 	}
 }

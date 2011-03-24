@@ -95,11 +95,15 @@
 			android:layout_weight="1"
 			android:background="#E3E3E6"
 			android:orientation="vertical">
-			<TextView
-				android:layout_width="wrap_content"
+			<TableLayout
+				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:text="Here is where amenities icons would go"
-				android:textColor="@android:color/black" />
+				android:stretchColumns="*">
+				<TableRow
+					android:id="@+id/amenities_table_row"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content" />
+			</TableLayout>
 			<View
 				android:layout_width="fill_parent"
 				android:layout_height="@dimen/two_pixels"

@@ -15,4 +15,10 @@
 	<string name="star_rating">Star Rating</string>
 	<!-- Label for the hotel's trip advisor rating  -->
 	<string name="trip_advisor">Trip Advisor</string>
+	
+	<!-- Shortened Amenity strings -->
+	<!-- Internet amenity -->
+	<string name="amenity_internet">Internet</string>
+	<!-- Pets allowed amenity -->
+	<string name="amenity_pets">Pets</string>
 </resources>
