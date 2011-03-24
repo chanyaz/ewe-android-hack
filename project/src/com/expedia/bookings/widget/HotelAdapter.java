@@ -16,6 +16,9 @@ import com.mobiata.hotellib.data.SearchResponse;
 
 public class HotelAdapter extends BaseAdapter {
 
+	private static final int TYPE_FIRST = 0;
+	private static final int TYPE_NOTFIRST = 1;
+
 	private Context mContext;
 	private LayoutInflater mInflater;
 
@@ -68,10 +71,28 @@ public class HotelAdapter extends BaseAdapter {
 	}
 
 	@Override
+	public int getItemViewType(int position) {
+		if (position == 0) {
+			return TYPE_FIRST;
+		}
+		return TYPE_NOTFIRST;
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return 2;
+	}
+
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		HotelViewHolder holder;
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.row_hotel, parent, false);
+
+			// If this is the first row, then add extra margin to the top to account for the pulldown
+			if (getItemViewType(position) == TYPE_FIRST) {
+				convertView.setPadding(0, (int) mContext.getResources().getDimension(R.dimen.hotel_row_first_padding), 0, 0);
+			}
 
 			holder = new HotelViewHolder();
 			holder.thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail_image_view);
