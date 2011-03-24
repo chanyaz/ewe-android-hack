@@ -12,8 +12,9 @@
 
     <application 
     	android:icon="@drawable/icon" 
-    	android:label="@string/app_name">
-    
+    	android:label="@string/app_name"
+    	android:theme="@android:style/Theme.NoTitleBar">
+
     	<uses-library android:name="com.google.android.maps" />
 		
 		<activity android:name=".activity.SearchActivity">
