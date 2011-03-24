@@ -90,10 +90,6 @@ public class SearchActivity extends ActivityGroup {
 			mSearchResponse.setFilter(mFilter);
 
 			broadcastSearchCompleted(mSearchResponse);
-			SearchResponse response = (SearchResponse) results;
-			response.setFilter(mFilter);
-
-			broadcastSearchCompleted(response);
 		}
 	};
 
