@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.util.List;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import com.expedia.bookings.R;
@@ -11,13 +10,9 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchResponse;
-import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.widget.FixedMyLocationOverlay;
 import com.mobiata.hotellib.widget.HotelItemizedOverlay;
 
@@ -50,32 +45,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 		mMapView.setSatellite(false);
 
 		mParent = (SearchActivity) getParent();
-		if (mParent == null) {
-			// Testing code - this allows the SearchMapActivity to run standalone as a test.
-			final Context context = this;
-			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
-			Download download = new Download() {
-				@Override
-				public Object doDownload() {
-					SearchParams params = new SearchParams();
-					params.setFreeformLocation("Minneapolis");
-
-					return ExpediaServices.searchExpedia(context, params);
-				}
-			};
-
-			OnDownloadComplete callback = new OnDownloadComplete() {
-				@Override
-				public void onDownload(Object results) {
-					onSearchCompleted((SearchResponse) results);
-				}
-			};
-
-			downloader.startDownload("mykey", download, callback);
-		}
-		else {
-			mParent.addSearchListener(this);
-		}
+		mParent.addSearchListener(this);
 	}
 
 	@Override
