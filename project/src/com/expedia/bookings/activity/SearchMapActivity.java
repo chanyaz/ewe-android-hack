@@ -30,6 +30,10 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 
 	private MyLocationOverlay mMyLocationOverlay;
 
+	// Keeps track of whether this Activity is being actively displayed.  If not, do not
+	// enable the MyLocationOverlay.
+	private boolean mIsActive;
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
 
@@ -45,11 +49,15 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 
 		mParent = (SearchActivity) getParent();
 		mParent.addSearchListener(this);
+
+		mIsActive = false;
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		mIsActive = true;
 
 		if (mMyLocationOverlay != null) {
 			mMyLocationOverlay.enableMyLocation();
@@ -59,6 +67,8 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
+
+		mIsActive = false;
 
 		if (mMyLocationOverlay != null) {
 			mMyLocationOverlay.disableMyLocation();
@@ -108,7 +118,9 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 		if (mMyLocationOverlay == null) {
 			mMyLocationOverlay = new FixedMyLocationOverlay(this, mMapView);
 		}
-		mMyLocationOverlay.enableMyLocation();
+		if (mIsActive) {
+			mMyLocationOverlay.enableMyLocation();
+		}
 		overlays.add(mMyLocationOverlay);
 
 		// Set the center point
