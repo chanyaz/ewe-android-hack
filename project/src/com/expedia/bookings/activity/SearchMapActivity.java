@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.util.Arrays;
 import java.util.List;
 
 import android.os.Bundle;
@@ -11,11 +12,13 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.mobiata.hotellib.app.SearchListener;
+import com.mobiata.hotellib.data.Filter.OnFilterChangedListener;
+import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.widget.FixedMyLocationOverlay;
 import com.mobiata.hotellib.widget.HotelItemizedOverlay;
 
-public class SearchMapActivity extends MapActivity implements SearchListener {
+public class SearchMapActivity extends MapActivity implements SearchListener, OnFilterChangedListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
@@ -27,6 +30,8 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 	private MapView mMapView;
 
 	private SearchResponse mSearchResponse;
+
+	private HotelItemizedOverlay mHotelItemizedOverlay;
 
 	private MyLocationOverlay mMyLocationOverlay;
 
@@ -62,6 +67,10 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 		if (mMyLocationOverlay != null) {
 			mMyLocationOverlay.enableMyLocation();
 		}
+
+		if (mSearchResponse != null) {
+			mSearchResponse.getFilter().addOnFilterChangedListener(this);
+		}
 	}
 
 	@Override
@@ -72,6 +81,10 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 
 		if (mMyLocationOverlay != null) {
 			mMyLocationOverlay.disableMyLocation();
+		}
+
+		if (mSearchResponse != null) {
+			mSearchResponse.getFilter().removeOnFilterChangedListener(this);
 		}
 	}
 
@@ -107,26 +120,34 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 
 		mSearchResponse = response;
 
+		response.getFilter().addOnFilterChangedListener(this);
+
 		List<Overlay> overlays = mMapView.getOverlays();
 
 		// Add hotels overlay
-		HotelItemizedOverlay overlay = new HotelItemizedOverlay(this, mSearchResponse, mParent.getSearchParams(), true,
-				mMapView, HotelActivity.class);
-		overlays.add(overlay);
+		List<Property> properties = Arrays.asList(mSearchResponse
+				.getFilteredAndSortedProperties());
+		if (mHotelItemizedOverlay == null) {
+			mHotelItemizedOverlay = new HotelItemizedOverlay(this, properties,
+					mParent.getSearchParams(), true,
+					mMapView, HotelActivity.class);
+			overlays.add(mHotelItemizedOverlay);
+		}
+		else {
+			mHotelItemizedOverlay.setProperties(properties);
+		}
 
 		// Add an overlay for my location
 		if (mMyLocationOverlay == null) {
 			mMyLocationOverlay = new FixedMyLocationOverlay(this, mMapView);
+			overlays.add(mMyLocationOverlay);
 		}
 		if (mIsActive) {
 			mMyLocationOverlay.enableMyLocation();
 		}
-		overlays.add(mMyLocationOverlay);
 
 		// Set the center point
-		MapController mc = mMapView.getController();
-		mc.animateTo(overlay.getCenter());
-		mc.zoomToSpan(overlay.getLatSpanE6(), overlay.getLonSpanE6());
+		focusOnProperties();
 	}
 
 	@Override
@@ -143,6 +164,21 @@ public class SearchMapActivity extends MapActivity implements SearchListener {
 		if (mMyLocationOverlay != null) {
 			mMyLocationOverlay.disableMyLocation();
 		}
+	}
+
+	@Override
+	public void onFilterChanged() {
+		mHotelItemizedOverlay.setProperties(Arrays.asList(mSearchResponse
+				.getFilteredAndSortedProperties()));
+
+		// Animate to a new center point
+		focusOnProperties();
+	}
+
+	public void focusOnProperties() {
+		MapController mc = mMapView.getController();
+		mc.animateTo(mHotelItemizedOverlay.getCenter());
+		mc.zoomToSpan(mHotelItemizedOverlay.getLatSpanE6(), mHotelItemizedOverlay.getLonSpanE6());
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
