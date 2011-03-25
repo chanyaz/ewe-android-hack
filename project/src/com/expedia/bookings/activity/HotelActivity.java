@@ -1,7 +1,10 @@
 package com.expedia.bookings.activity;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.ImageAdapter;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.hotellib.Params;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Media;
@@ -25,6 +29,8 @@ import com.mobiata.hotellib.utils.JSONUtils;
 public class HotelActivity extends Activity {
 
 	private Property mProperty;
+
+	private int mImageToLoad;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +54,23 @@ public class HotelActivity extends Activity {
 		// Configure the gallery
 		Gallery gallery = (Gallery) findViewById(R.id.images_gallery);
 		if (property.getMediaCount() > 0) {
-			ImageAdapter adapter = new ImageAdapter(this, property.getMediaList());
+			final List<Media> mediaList = property.getMediaList();
+			ImageAdapter adapter = new ImageAdapter(this, mediaList);
 			gallery.setAdapter(adapter);
+
+			// Start loading images in the background.  Load them one-by-one.
+			final ImageCache imageCache = ImageCache.getInstance();
+			mImageToLoad = 0;
+			OnImageLoaded loader = new OnImageLoaded() {
+				@Override
+				public void onImageLoaded(String url, Bitmap bitmap) {
+					if (mImageToLoad < mediaList.size()) {
+						Media media = mediaList.get(mImageToLoad++);
+						imageCache.loadImage(media.getUrl(), this);
+					}
+				}
+			};
+			loader.onImageLoaded(null, null);
 		}
 		else {
 			gallery.setVisibility(View.GONE);
