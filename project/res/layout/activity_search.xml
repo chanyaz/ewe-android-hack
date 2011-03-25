@@ -18,6 +18,13 @@
     	android:layout_above="@+id/button_bar_layout"
     	android:layout_alignParentRight="true"
     	android:layout_margin="6dp" />
+    	
+    <com.expedia.bookings.widget.TagProgressBar
+	    android:id="@+id/search_progress_bar"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+		android:layout_below="@id/search_bar_layout"
+		android:visibility="gone" />
 	
 	<com.mobiata.android.widget.Panel
 		android:id="@+id/drawer_panel"
@@ -235,15 +242,15 @@
 	    	android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
 	    	android:text="search" />
-	    	
 	    
     </LinearLayout>
     	
 	<ImageView
-		android:layout_below="@id/search_bar_layout"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
+		android:layout_below="@id/search_bar_layout"
 		android:src="@drawable/action_bar_shadow"
 		android:scaleType="fitXY" />
-    	
+    		
+    
 </RelativeLayout>

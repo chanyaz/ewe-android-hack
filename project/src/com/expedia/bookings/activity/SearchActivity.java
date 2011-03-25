@@ -20,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.TagProgressBar;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -58,6 +59,8 @@ public class SearchActivity extends ActivityGroup {
 	private ImageButton mViewButton;
 	private Button mSearchButton;
 
+	private TagProgressBar mSearchProgressBar;
+
 	// Others
 
 	private Context mContext = this;
@@ -90,6 +93,8 @@ public class SearchActivity extends ActivityGroup {
 			mSearchResponse.setFilter(mFilter);
 
 			broadcastSearchCompleted(mSearchResponse);
+
+			hideLoading();
 		}
 	};
 
@@ -142,6 +147,10 @@ public class SearchActivity extends ActivityGroup {
 
 	// Other methods
 
+	private void hideLoading() {
+		mSearchProgressBar.setVisibility(View.GONE);
+	}
+
 	private void initializeViews() {
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
@@ -154,6 +163,8 @@ public class SearchActivity extends ActivityGroup {
 
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
 		mSearchButton = (Button) findViewById(R.id.search_button);
+
+		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
 
 		// Listeners
 		mPanel.setInterpolator(new AccelerateInterpolator());
@@ -205,6 +216,10 @@ public class SearchActivity extends ActivityGroup {
 
 			mContent.addView(mLaunchedView);
 		}
+	}
+
+	private void showLoading() {
+		mSearchProgressBar.setVisibility(View.VISIBLE);
 	}
 
 	private void switchResultsView() {
@@ -281,6 +296,7 @@ public class SearchActivity extends ActivityGroup {
 	}
 
 	private void startSearch() {
+		showLoading();
 		setFilter();
 
 		mSearchParams = new SearchParams();
