@@ -89,6 +89,11 @@ public class SearchActivity extends ActivityGroup {
 	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
 		@Override
 		public void onDownload(Object results) {
+			// Clear the old listener so we don't end up with a memory leak
+			if (mSearchResponse != null) {
+				mFilter.removeOnFilterChangedListener(mSearchResponse);
+			}
+
 			mSearchResponse = (SearchResponse) results;
 			mSearchResponse.setFilter(mFilter);
 
