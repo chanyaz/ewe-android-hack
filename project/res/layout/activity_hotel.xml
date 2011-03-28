@@ -115,7 +115,8 @@
 				<TableRow
 					android:id="@+id/amenities_table_row"
 					android:layout_width="fill_parent"
-					android:layout_height="wrap_content" />
+					android:layout_height="wrap_content"
+					android:layoutAnimation="@anim/layout_wave_scale" />
 			</TableLayout>
 			<View
 				android:layout_width="fill_parent"
