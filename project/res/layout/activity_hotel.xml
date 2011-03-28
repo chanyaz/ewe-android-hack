@@ -9,7 +9,9 @@
 	<LinearLayout
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal">
+		android:padding="6dp"
+		android:orientation="horizontal"
+		android:background="@drawable/bg_header">
 		<RelativeLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -21,7 +23,10 @@
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentTop="true"
 				android:singleLine="true"
-				android:ellipsize="end" />
+				android:ellipsize="end"
+				android:textColor="#E1E1E1"
+				android:textSize="18sp"
+				android:textStyle="bold" />
 			<LinearLayout
 				android:id="@+id/hotel_rating_layout"
 				android:layout_width="wrap_content"
@@ -33,7 +38,9 @@
 					android:id="@+id/hotel_rating_text_view"
 					android:layout_height="wrap_content"
 					android:layout_width="wrap_content"
-					android:text="@string/star_rating" />
+					android:text="@string/star_rating"
+					android:textColor="#E1E1E1"
+					android:textSize="12sp" />
 				<RatingBar
 					android:id="@+id/hotel_rating_bar"
 					android:layout_height="wrap_content"
@@ -50,13 +57,15 @@
 				android:layout_toRightOf="@+id/hotel_rating_layout"
 				android:layout_alignTop="@+id/hotel_rating_layout"
 				android:layout_alignBottom="@+id/hotel_rating_layout"
-				android:layout_marginLeft="6dp"
+				android:layout_marginLeft="14dp"
 				android:orientation="vertical">
 				<TextView
 					android:id="@+id/trip_advisor_text_view"
 					android:layout_height="wrap_content"
 					android:layout_width="wrap_content"
-					android:text="@string/trip_advisor" />
+					android:text="@string/trip_advisor"
+					android:textColor="#E1E1E1"
+					android:textSize="12sp" />
 				<RatingBar
 					android:id="@+id/trip_advisor_rating_bar"
 					android:layout_height="wrap_content"
@@ -73,6 +82,8 @@
 			android:layout_height="fill_parent"
 			android:layout_toRightOf="@+id/hotel_name_text_view"
 			android:layout_alignParentRight="true"
+			android:layout_marginTop="4dp"
+			android:layout_marginLeft="6dp"
 			android:text="@string/book_now" />
 	</LinearLayout>
 
