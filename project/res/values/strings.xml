@@ -21,4 +21,10 @@
 	<string name="amenity_internet">Internet</string>
 	<!-- Pets allowed amenity -->
 	<string name="amenity_pets">Pets</string>
+
+	<!-- Room and rates list -->
+	<!-- Rate price displayed "per night" -->
+	<string name="rate_per_night">per night</string>
+	<!-- Rate price displayed "average per night" -->
+	<string name="rate_avg_per_night">avg/night</string>
 </resources>

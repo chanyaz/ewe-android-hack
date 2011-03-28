@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:background="@android:color/white">
+
+	<!-- Header -->
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:padding="8dp"
+		android:gravity="center_vertical"
+		android:orientation="horizontal"
+		android:background="@drawable/bg_header">
+		<ImageView
+			android:id="@+id/thumbnail_image_view"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:scaleType="centerCrop" />
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:layout_marginLeft="6dp"
+			android:layout_marginRight="6dp"
+			android:orientation="vertical">
+			<TextView
+				android:id="@+id/name_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:singleLine="true"
+				android:ellipsize="end"
+				android:textColor="@android:color/white"
+				android:textStyle="bold"
+				android:textSize="18sp" />
+			<TextView
+				android:id="@+id/location_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:singleLine="true"
+				android:ellipsize="end"
+				android:textColor="@android:color/white" />
+		</LinearLayout>
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+			<TextView
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:text="@string/star_rating"
+				android:textColor="#E1E1E1"
+				android:textSize="12sp" />
+			<RatingBar
+				android:id="@+id/hotel_rating_bar"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:numStars="5"
+				android:stepSize=".5"
+				android:isIndicator="true"
+				style="?android:attr/ratingBarStyleSmall" />
+		</LinearLayout>
+	</LinearLayout>
+
+	<!-- List of rooms/rates -->
+	<ListView
+		android:id="@android:id/list"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:cacheColorHint="@android:color/white" />
+
+	<ProgressBar
+		android:id="@android:id/empty"
+		android:layout_width="100dp"
+		android:layout_height="100dp"
+		android:layout_gravity="center"
+		android:indeterminate="true"
+		style="@android:style/Widget.ProgressBar.Large.Inverse" />
+
+</LinearLayout>

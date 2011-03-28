@@ -32,6 +32,8 @@
 
 		<activity android:name=".activity.HotelActivity" />
 
+		<activity android:name=".activity.RoomsAndRatesListActivity" />
+
     </application>
     
 </manifest>

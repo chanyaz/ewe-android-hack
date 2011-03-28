@@ -3,13 +3,16 @@ package com.expedia.bookings.activity;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -36,10 +39,12 @@ public class HotelActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		final Context context = this;
+
 		setContentView(R.layout.activity_hotel);
 
 		// Retrieve data to build this with
-		Intent intent = getIntent();
+		final Intent intent = getIntent();
 		Property property = mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
 				Property.class);
 
@@ -50,6 +55,15 @@ public class HotelActivity extends Activity {
 		hotelRating.setRating((float) property.getHotelRating());
 		RatingBar tripAdvisorRating = (RatingBar) findViewById(R.id.trip_advisor_rating_bar);
 		tripAdvisorRating.setRating((float) property.getTripAdvisorRating());
+
+		Button bookButton = (Button) findViewById(R.id.book_now_button);
+		bookButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent roomsRatesIntent = new Intent(context, RoomsAndRatesListActivity.class);
+				roomsRatesIntent.fillIn(intent, 0);
+				startActivity(roomsRatesIntent);
+			}
+		});
 
 		// Configure the gallery
 		Gallery gallery = (Gallery) findViewById(R.id.images_gallery);
