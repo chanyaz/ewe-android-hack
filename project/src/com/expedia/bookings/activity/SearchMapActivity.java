@@ -26,13 +26,9 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	// Private members
 
 	private SearchActivity mParent;
-
 	private MapView mMapView;
-
 	private SearchResponse mSearchResponse;
-
 	private HotelItemizedOverlay mHotelItemizedOverlay;
-
 	private MyLocationOverlay mMyLocationOverlay;
 
 	// Keeps track of whether this Activity is being actively displayed.  If not, do not
@@ -54,8 +50,37 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 		mParent = (SearchActivity) getParent();
 		mParent.addSearchListener(this);
+		
+		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
+		if (state != null) {
+			mSearchResponse = state.searchResponse;
+			//mHotelItemizedOverlay = state.hotelItemizedOverlay;
+			//mMyLocationOverlay = state.myLocationOverlay;
+			
+			if(mSearchResponse != null) {
+				onSearchCompleted(mSearchResponse);
+			}
+		}
+		else {
+
+		}
 
 		mIsActive = false;
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		mIsActive = false;
+
+		if (mMyLocationOverlay != null) {
+			mMyLocationOverlay.disableMyLocation();
+		}
+
+		if (mSearchResponse != null) {
+			mSearchResponse.getFilter().removeOnFilterChangedListener(this);
+		}
 	}
 
 	@Override
@@ -72,20 +97,15 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			mSearchResponse.getFilter().addOnFilterChangedListener(this);
 		}
 	}
-
+	
 	@Override
-	protected void onPause() {
-		super.onPause();
+	public Object onRetainNonConfigurationInstance() {
+		ActivityState state = new ActivityState();
+		state.searchResponse = mSearchResponse;
+		state.hotelItemizedOverlay = mHotelItemizedOverlay;
+		state.myLocationOverlay = mMyLocationOverlay;
 
-		mIsActive = false;
-
-		if (mMyLocationOverlay != null) {
-			mMyLocationOverlay.disableMyLocation();
-		}
-
-		if (mSearchResponse != null) {
-			mSearchResponse.getFilter().removeOnFilterChangedListener(this);
-		}
+		return state;
 	}
 
 	@Override
@@ -183,5 +203,13 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private methods
+	
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Private classes
 
+	private class ActivityState {
+		public SearchResponse searchResponse;
+		public HotelItemizedOverlay hotelItemizedOverlay;
+		public MyLocationOverlay myLocationOverlay;
+	}
 }

@@ -113,5 +113,4 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 	private class ActivityState {
 		public HotelAdapter adapter;
 	}
-
 }
