@@ -30,6 +30,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.TagProgressBar;
@@ -463,6 +464,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void startSearch() {
 		Log.i("Searching...");
+		Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();
 
 		showLoading();
 		setFilter();
@@ -480,6 +482,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void startLocationListener() {
 		Log.i("Searching for location...");
+		Toast.makeText(this, "Finding your location...", Toast.LENGTH_SHORT).show();
+		
 		showLoading();
 
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
