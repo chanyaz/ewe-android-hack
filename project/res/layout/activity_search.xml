@@ -4,6 +4,13 @@
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
+	
+	<LinearLayout
+		android:id="@+id/focus_layout"
+    	android:layout_width="0dp"
+    	android:layout_height="0dp"
+    	android:focusable="true" 
+   		android:focusableInTouchMode="true"/>
     
     <FrameLayout
     	android:id="@+id/content_layout"
@@ -15,7 +22,7 @@
     	android:id="@+id/view_button"
 		android:layout_width="@dimen/action_bar_button_height"
 		android:layout_height="@dimen/action_bar_button_height"
-    	android:layout_above="@+id/button_bar_layout"
+    	android:layout_alignParentBottom="true"
     	android:layout_alignParentRight="true"
     	android:layout_margin="6dp" />
     	
@@ -212,7 +219,8 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:imeOptions="actionSearch" />
             
 		<ImageButton
 			android:id="@+id/dates_button"
@@ -229,13 +237,14 @@
 	</LinearLayout>
 	
 	<LinearLayout
-		android:id="@id/button_bar_layout"
+		android:id="@+id/button_bar_layout"
 	    android:orientation="horizontal"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentBottom="true"
 	    android:padding="6dp"
-	    android:background="#3e9ad2">
+	    android:background="#3e9ad2"
+	    android:visibility="gone">
 	    
 	    <Button
 	    	android:id="@+id/search_button"

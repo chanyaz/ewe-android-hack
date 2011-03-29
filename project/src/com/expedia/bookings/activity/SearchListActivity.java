@@ -33,6 +33,23 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 
 		mParent = (SearchActivity) getParent();
 		mParent.addSearchListener(this);
+		
+		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
+		if (state != null) {
+			mAdapter = state.adapter;
+			
+			if(mAdapter != null) {
+				setListAdapter(mAdapter);
+			}
+		}
+	}
+
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		ActivityState state = new ActivityState();
+		state.adapter = mAdapter;
+
+		return state;
 	}
 
 	@Override
@@ -89,5 +106,12 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private methods
+	
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Private classes
+
+	private class ActivityState {
+		public HotelAdapter adapter;
+	}
 
 }

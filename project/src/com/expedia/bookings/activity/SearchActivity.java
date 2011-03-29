@@ -7,23 +7,36 @@ import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.ResultReceiver;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.TagProgressBar;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.android.widget.Panel;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.mobiata.hotellib.app.SearchListener;
@@ -35,12 +48,19 @@ import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.server.ExpediaServices;
 
-public class SearchActivity extends ActivityGroup {
+public class SearchActivity extends ActivityGroup implements LocationListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
+	private static final int MSG_SWITCH_TO_NETWORK_LOCATION = 0;
+	private static final int MSG_BROADCAST_SEARCH_COMPLETED = 1;
+	private static final int MSG_BROADCAST_SEARCH_FAILED = 2;
+	private static final int MSG_BROADCAST_SEARCH_STARTED = 3;
+
 	private static final String ACTIVITY_SEARCH_LIST = SearchListActivity.class.getCanonicalName();
 	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
+
+	private static final long TIME_SWITCH_TO_NETWORK_DELAY = 1000 * 3;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
@@ -64,16 +84,17 @@ public class SearchActivity extends ActivityGroup {
 	// Others
 
 	private Context mContext = this;
+
 	private LocalActivityManager mLocalActivityManager;
 	private String mTag;
 	private Intent mIntent;
 	private View mLaunchedView;
 
 	private List<SearchListener> mSearchListeners;
-
 	private SearchParams mSearchParams;
 	private SearchResponse mSearchResponse;
 	private Filter mFilter;
+	private Boolean mIsSearching = false;
 
 	// Threads / callbacks
 
@@ -111,15 +132,107 @@ public class SearchActivity extends ActivityGroup {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
 
-		mLocalActivityManager = getLocalActivityManager();
-
 		initializeViews();
 
 		// Load both activites
-		showActivity(SearchMapActivity.class);
-		showActivity(SearchListActivity.class);
+		mLocalActivityManager = getLocalActivityManager();
+		setActivity(SearchMapActivity.class);
+		setActivity(SearchListActivity.class);
+
+		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
+		if (state != null) {
+			mHandler = state.handler;
+			mTag = state.tag;
+			mIntent = state.intent;
+			mLaunchedView = state.launchedView;
+			mSearchListeners = state.searchListeners;
+			mSearchParams = state.searchParams;
+			mSearchResponse = state.searchResponse;
+			mFilter = state.filter;
+			mIsSearching = state.isSearching;
+			mSearchDownloader = state.searchDownloader;
+
+			if (mTag != null) {
+				setActivityByTag(mTag);
+			}
+		}
+		else {
+
+		}
 
 		setViewButtonImage();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		stopLocationListener();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (!mIsSearching && mSearchResponse == null) {
+			startLocationListener();
+		}
+	}
+
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		ActivityState state = new ActivityState();
+		state.handler = mHandler;
+		state.tag = mTag;
+		state.intent = mIntent;
+		state.launchedView = mLaunchedView;
+		state.searchListeners = mSearchListeners;
+		state.searchParams = mSearchParams;
+		state.searchResponse = mSearchResponse;
+		state.filter = mFilter;
+		state.isSearching = mIsSearching;
+		state.searchDownloader = mSearchDownloader;
+
+		return state;
+	}
+
+	// Location listener implementation
+
+	@Override
+	public void onLocationChanged(Location location) {
+		Log.i("Location listener detected change");
+		
+		setSearchParams(location);
+		startSearch();
+
+		stopLocationListener();
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		stopLocationListener();
+		Log.w("Location listener failed");
+		//broadcastSearchFailed(getString(R.string.provider_disabled));
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
+			scheduleSwitchToNetworkLocation();
+		}
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		if (status == LocationProvider.OUT_OF_SERVICE) {
+			stopLocationListener();
+			Log.w("Location listener failed: out of service");
+			//broadcastSearchFailed(getString(R.string.provider_out_of_service));
+		}
+		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
+			stopLocationListener();
+			Log.w("Location listener failed: temporarily unavailable");
+			//broadcastSearchFailed(getString(R.string.provider_temporarily_unavailable));\
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -142,10 +255,34 @@ public class SearchActivity extends ActivityGroup {
 
 	// Broadcast methods
 
-	private void broadcastSearchCompleted(SearchResponse response) {
+	private void broadcastSearchStarted() {
+		mIsSearching = true;
+
 		if (mSearchListeners != null) {
 			for (SearchListener searchListener : mSearchListeners) {
-				searchListener.onSearchCompleted(response);
+				searchListener.onSearchStarted();
+			}
+		}
+	}
+
+	private void broadcastSearchFailed(String message) {
+		mIsSearching = false;
+		//mIsShowingMessage = true;
+
+		if (mSearchListeners != null) {
+			for (SearchListener searchListener : mSearchListeners) {
+				searchListener.onSearchFailed(message);
+			}
+		}
+	}
+
+	private void broadcastSearchCompleted(SearchResponse searchResponse) {
+		mIsSearching = false;
+		mSearchResponse = searchResponse;
+
+		if (mSearchListeners != null) {
+			for (SearchListener searchListener : mSearchListeners) {
+				searchListener.onSearchCompleted(searchResponse);
 			}
 		}
 	}
@@ -159,27 +296,59 @@ public class SearchActivity extends ActivityGroup {
 	private void initializeViews() {
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
-
 		mPanel = (Panel) findViewById(R.id.drawer_panel);
 		mSortLayout = (View) findViewById(R.id.sort_layout);
 		mSortButtonGroup = (SegmentedControlGroup) findViewById(R.id.sort_filter_button_group);
 		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
-
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
 		mSearchButton = (Button) findViewById(R.id.search_button);
-
 		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
 
-		// Listeners
 		mPanel.setInterpolator(new AccelerateInterpolator());
 
+		// Listeners
 		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
-
+		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
 		mViewButton.setOnClickListener(mViewButtonClickListener);
 		mSearchButton.setOnClickListener(mSearchButtonClickListener);
+	}
+
+	private void setActivityByTag(String tag) {
+		if (tag.equals(ACTIVITY_SEARCH_LIST)) {
+			setActivity(SearchListActivity.class);
+		}
+		else if (tag.equals(ACTIVITY_SEARCH_MAP)) {
+			setActivity(SearchMapActivity.class);
+		}
+	}
+
+	private void setActivity(Class<?> activity) {
+		mIntent = new Intent(this, activity);
+		mTag = activity.getCanonicalName();
+
+		final Window w = mLocalActivityManager.startActivity(mTag, mIntent);
+		final View wd = w != null ? w.getDecorView() : null;
+		if (mLaunchedView != wd && mLaunchedView != null) {
+			if (mLaunchedView.getParent() != null) {
+				((FrameLayout) mLaunchedView.getParent()).removeView(mLaunchedView);
+			}
+		}
+		mLaunchedView = wd;
+
+		if (mLaunchedView != null) {
+			mLaunchedView.setVisibility(View.VISIBLE);
+			mLaunchedView.setFocusableInTouchMode(true);
+			((ViewGroup) mLaunchedView).setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+
+			if (mLaunchedView.getParent() != null) {
+				((FrameLayout) mLaunchedView.getParent()).removeView(mLaunchedView);
+			}
+
+			mContent.addView(mLaunchedView);
+		}
 	}
 
 	private void setDrawerViews() {
@@ -189,7 +358,6 @@ public class SearchActivity extends ActivityGroup {
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
 			mSortLayout.setVisibility(View.GONE);
 		}
-
 	}
 
 	private void setViewButtonImage() {
@@ -201,38 +369,16 @@ public class SearchActivity extends ActivityGroup {
 		}
 	}
 
-	private void showActivity(Class<?> activity) {
-		mIntent = new Intent(this, activity);
-		mTag = activity.getCanonicalName();
-
-		final Window w = mLocalActivityManager.startActivity(mTag, mIntent);
-		final View wd = w != null ? w.getDecorView() : null;
-		if (mLaunchedView != wd && mLaunchedView != null) {
-			if (mLaunchedView.getParent() != null) {
-				mContent.removeView(mLaunchedView);
-			}
-		}
-		mLaunchedView = wd;
-
-		if (mLaunchedView != null) {
-			mLaunchedView.setVisibility(View.VISIBLE);
-			mLaunchedView.setFocusableInTouchMode(true);
-			((ViewGroup) mLaunchedView).setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
-
-			mContent.addView(mLaunchedView);
-		}
-	}
-
 	private void showLoading() {
 		mSearchProgressBar.setVisibility(View.VISIBLE);
 	}
 
 	private void switchResultsView() {
 		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-			showActivity(SearchMapActivity.class);
+			setActivity(SearchMapActivity.class);
 		}
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-			showActivity(SearchListActivity.class);
+			setActivity(SearchListActivity.class);
 		}
 
 		setViewButtonImage();
@@ -300,20 +446,92 @@ public class SearchActivity extends ActivityGroup {
 		}
 	}
 
+	private void setSearchParams() {
+		setSearchParams(null);
+	}
+
+	private void setSearchParams(Location location) {
+		mSearchParams = new SearchParams();
+
+		if (location != null) {
+			mSearchParams.setSearchLatLon(location.getLatitude(), location.getLongitude());
+		}
+		else {
+			mSearchParams.setFreeformLocation(mSearchEditText.getText().toString());
+		}
+	}
+
 	private void startSearch() {
+		Log.i("Searching...");
+
 		showLoading();
 		setFilter();
 
-		mSearchParams = new SearchParams();
-		mSearchParams.setFreeformLocation(mSearchEditText.getText().toString());
-
 		mSearchDownloader.startDownload("mykey", mSearchDownload, mSearchCallback);
+	}
+
+	// Location methods
+
+	private void scheduleSwitchToNetworkLocation() {
+		Message msg = new Message();
+		msg.what = MSG_SWITCH_TO_NETWORK_LOCATION;
+		mHandler.sendMessageDelayed(msg, TIME_SWITCH_TO_NETWORK_DELAY);
+	}
+
+	private void startLocationListener() {
+		Log.i("Searching for location...");
+		showLoading();
+
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		String provider;
+		if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			provider = LocationManager.GPS_PROVIDER;
+			if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+				scheduleSwitchToNetworkLocation();
+			}
+		}
+		else {
+			provider = LocationManager.NETWORK_PROVIDER;
+		}
+
+		lm.requestLocationUpdates(provider, 0, 0, this);
+	}
+
+	private void stopLocationListener() {
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		lm.removeUpdates(this);
+		mHandler.removeMessages(MSG_SWITCH_TO_NETWORK_LOCATION);
+	}
+
+	private void switchToNetworkLocation() {
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			stopLocationListener();
+			lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Listeners
 
-	RadioGroup.OnCheckedChangeListener mFilterButtonGroupCheckedChangeListener = new OnCheckedChangeListener() {
+	private OnEditorActionListener mSearchEditorActionListener = new OnEditorActionListener() {
+		@Override
+		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+				setSearchParams();
+				startSearch();
+
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+				return true;
+			}
+
+			return false;
+		}
+	};
+
+	private RadioGroup.OnCheckedChangeListener mFilterButtonGroupCheckedChangeListener = new OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			setFilter();
@@ -321,17 +539,74 @@ public class SearchActivity extends ActivityGroup {
 		}
 	};
 
-	View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
+	private View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			switchResultsView();
 		}
 	};
 
-	View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
+	private View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			startSearch();
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Handlers, Messages
+
+	public Handler mHandler = new Handler() {
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case MSG_SWITCH_TO_NETWORK_LOCATION: {
+				switchToNetworkLocation();
+				break;
+			}
+			case MSG_BROADCAST_SEARCH_COMPLETED: {
+				broadcastSearchCompleted((SearchResponse) msg.obj);
+				break;
+			}
+			case MSG_BROADCAST_SEARCH_FAILED: {
+				broadcastSearchFailed((String) msg.obj);
+				break;
+			}
+			case MSG_BROADCAST_SEARCH_STARTED: {
+				broadcastSearchStarted();
+				break;
+			}
+			}
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Private classes
+
+	private class ActivityState {
+		public Handler handler;
+		public String tag;
+		public Intent intent;
+		public View launchedView;
+		public List<SearchListener> searchListeners;
+		public SearchParams searchParams;
+		public SearchResponse searchResponse;
+		public Filter filter;
+		public Boolean isSearching;
+		private BackgroundDownloader searchDownloader;
+	}
+
+	private class SoftKeyResultReceiver extends ResultReceiver {
+		public SoftKeyResultReceiver(Handler handler) {
+			super(handler);
+		}
+
+		@Override
+		protected void onReceiveResult(int resultCode, Bundle resultData) {
+			if (resultCode == InputMethodManager.RESULT_HIDDEN
+					|| resultCode == InputMethodManager.RESULT_UNCHANGED_HIDDEN) {
+
+				// TODO: hide button bar
+			}
+		}
+	}
 }
