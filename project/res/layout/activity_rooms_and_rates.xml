@@ -18,7 +18,8 @@
 			android:id="@+id/thumbnail_image_view"
 			android:layout_width="50dp"
 			android:layout_height="50dp"
-			android:scaleType="centerCrop" />
+			android:scaleType="centerCrop"
+			android:src="@drawable/ic_image_placeholder" />
 		<LinearLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"

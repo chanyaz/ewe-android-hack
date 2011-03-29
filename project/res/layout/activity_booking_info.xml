@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:fillViewport="true">
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:padding="8dp"
+		android:orientation="vertical"
+		android:background="#E3E3E6">
+
+		<!-- Ticket stub summary at top of page -->
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:background="@drawable/bg_ticket">
+			<ImageView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:src="@drawable/expedia_candy_cane"
+				android:scaleType="fitXY" />
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:paddingTop="6dp"
+				android:paddingLeft="6dp"
+				android:paddingRight="6dp"
+				android:orientation="horizontal"
+				android:gravity="center_vertical">
+				<ImageView
+					android:id="@+id/thumbnail_image_view"
+					android:layout_width="100dp"
+					android:layout_height="80dp"
+					android:layout_marginRight="8dp"
+					android:scaleType="centerCrop"
+					android:src="@drawable/ic_image_placeholder" />
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:orientation="vertical"
+					android:gravity="right">
+					<ImageView
+						android:id="@+id/expedia_logo_image_view"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="right"
+						android:src="@drawable/expedia_logo" />
+					<TextView
+						android:id="@+id/name_text_view"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="@color/dark_blue"
+						android:textSize="12sp"
+						android:singleLine="true"
+						android:ellipsize="end" />
+					<TextView
+						android:id="@+id/address1_text_view"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="@color/dark_blue"
+						android:textSize="12sp" />
+					<TextView
+						android:id="@+id/address2_text_view"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="@color/dark_blue"
+						android:textSize="12sp" />
+				</LinearLayout>
+			</LinearLayout>
+			<View
+				android:layout_width="fill_parent"
+				android:layout_height="@dimen/two_pixels"
+				android:layout_margin="6dp"
+				android:background="@drawable/divider" />
+			<LinearLayout
+				android:id="@+id/details_layout"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="6dp"
+				android:paddingRight="6dp"
+				android:orientation="vertical" />
+			<View
+				android:layout_width="fill_parent"
+				android:layout_height="@dimen/two_pixels"
+				android:layout_margin="6dp"
+				android:background="@drawable/divider" />
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="6dp"
+				android:paddingRight="6dp"
+				android:paddingBottom="6dp"
+				android:orientation="horizontal">
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textColor="@color/dark_blue"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:text="@string/total_cost" />
+				<TextView
+					android:id="@+id/total_cost_text_view"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="right"
+					android:textSize="18sp"
+					android:textColor="@android:color/black"
+					android:textStyle="bold"
+					android:text="SOME TEST" />
+			</LinearLayout>
+		</LinearLayout>
+
+		<!-- TODO: Add billing info form -->
+	</LinearLayout>
+</ScrollView>

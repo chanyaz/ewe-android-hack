@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.mobiata.android.app.AsyncLoadListActivity;
 import com.mobiata.hotellib.data.AvailabilityResponse;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
+import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.JSONUtils;
@@ -56,6 +58,17 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 		RatingBar hotelRating = (RatingBar) findViewById(R.id.hotel_rating_bar);
 		hotelRating.setRating((float) property.getHotelRating());
+	}
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+
+		Rate rate = (Rate) mAdapter.getItem(position);
+		Intent intent = new Intent(this, BookingInfoActivity.class);
+		intent.fillIn(getIntent(), 0);
+		intent.putExtra(Codes.RATE, rate.toJson().toString());
+		startActivity(intent);
 	}
 
 	@Override

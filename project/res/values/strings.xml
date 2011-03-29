@@ -27,4 +27,16 @@
 	<string name="rate_per_night">per night</string>
 	<!-- Rate price displayed "average per night" -->
 	<string name="rate_avg_per_night">avg/night</string>
+
+	<!-- Booking info -->
+	<!-- Label for room type -->
+	<string name="room_type">Room Type</string>
+	<!-- Label for a 1 night stay -->
+	<string name="stay_duration_one_night">(1 night)</string>
+	<!-- Template for the number of nights user is staying (greater than 1) -->
+	<string name="stay_duration_template">(%d nights)</string>
+	<!-- Label for room rate on a particular date -->
+	<string name="room_rate_template">Room Rate %s</string>
+	<!-- Label for total cost of hotel stay -->
+	<string name="total_cost">Total Cost</string>
 </resources>
