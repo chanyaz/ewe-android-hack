@@ -1,7 +1,11 @@
 package com.expedia.bookings.widget;
 
+import com.expedia.bookings.R;
+
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -28,6 +32,22 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 	private DrawingThread mDrawingThread;
 
+	private Bitmap mTagBitmap;
+	private Bitmap mKnobBitmap;
+	private Bitmap mKnobBgBitmap;
+
+	private Rect mTagBitmapRect;
+	private Rect mKnobBitmapRect;
+	private Rect mKnobBgBitmapRect;
+
+	private int mTagWidth;
+	private int mTagHeight;
+	private int mKnobBgWidth;
+	private int mKnobBgHeight;
+	private int mKnobWidth;
+	private int mKnobHeight;
+	private int mCenterX;
+
 	private int mWidth;
 	private int mHeight;
 
@@ -51,6 +71,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 		mWidth = width;
 		mHeight = height;
+		mCenterX = width / 2;
 	}
 
 	@Override
@@ -108,6 +129,21 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		mParent = (Activity) context;
 		mSensorManager = (SensorManager) mParent.getSystemService(Activity.SENSOR_SERVICE);
 		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+		mTagBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_tag);
+		mTagWidth = mTagBitmap.getWidth();
+		mTagHeight = mTagBitmap.getHeight();
+		mTagBitmapRect = new Rect(0, 0, mTagWidth, mTagHeight);
+
+		mKnobBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_knob);
+		mKnobWidth = mKnobBitmap.getWidth();
+		mKnobHeight = mKnobBitmap.getHeight();
+		mKnobBitmapRect = new Rect(0, 0, mKnobWidth, mKnobHeight);
+
+		mKnobBgBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_knob_bg);
+		mKnobBgWidth = mKnobBgBitmap.getWidth();
+		mKnobBgHeight = mKnobBgBitmap.getHeight();
+		mKnobBgBitmapRect = new Rect(0, 0, mKnobBgWidth, mKnobBgHeight);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -144,6 +180,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		public DrawingThread(SurfaceHolder surfaceHolder) {
 			mSurfaceHolder = surfaceHolder;
 			mPaint = new Paint();
+			mPaint.setAntiAlias(true);
 		}
 
 		//////////////////////////////////////////////////////////////////////////////
@@ -260,25 +297,42 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		}
 
 		private void draw(Canvas canvas) {
-			final int tagWidth = 100;
-			final int tagHeight = 300;
-			final int centerX = mWidth / 2;
-			final int tagTop = 100;
-
 			canvas.drawColor(0xFFFFFFFF);
 
-			Rect r = new Rect();
-			r.top = tagTop;
-			r.bottom = r.top + tagHeight;
-			r.left = (int) (centerX - (tagWidth / 2));
-			r.right = r.left + tagWidth;
-
-			// Rotate canvas to angle of tag
+			final int offsetY = 100;
+			final int centerY = offsetY + (mTagWidth / 2);
 			final float degrees = (float) (mAngle * 180.0d / Math.PI);
-			canvas.rotate(degrees, centerX, tagTop + (tagWidth / 2));
 
-			mPaint.setColor(0xFF000000);
-			canvas.drawRect(r, mPaint);
+			Rect tagRect = new Rect();
+			tagRect.top = offsetY;
+			tagRect.bottom = tagRect.top + mTagHeight;
+			tagRect.left = (int) (mCenterX - (mTagWidth / 2));
+			tagRect.right = tagRect.left + mTagWidth;
+
+			Rect knobBgRect = new Rect();
+			knobBgRect.top = centerY - (mKnobBgHeight / 2);
+			knobBgRect.bottom = knobBgRect.top + mKnobBgHeight;
+			knobBgRect.left = (int) (mCenterX - (mKnobBgWidth / 2));
+			knobBgRect.right = knobBgRect.left + mKnobBgWidth;
+
+			Rect knobRect = new Rect();
+			knobRect.top = centerY - (mKnobHeight / 2);
+			knobRect.bottom = knobRect.top + mKnobHeight;
+			knobRect.left = (int) (mCenterX - (mKnobWidth / 2));
+			knobRect.right = knobRect.left + mKnobWidth;
+
+			// DOOR KNOB BACKGROUND
+			canvas.drawBitmap(mKnobBgBitmap, mKnobBgBitmapRect, knobBgRect, mPaint);
+
+			// DRAW TAG =D
+			canvas.save();
+			canvas.rotate(degrees, mCenterX, centerY);
+			canvas.drawBitmap(mTagBitmap, mTagBitmapRect, tagRect, mPaint);
+			canvas.restore();
+
+			// DRAW DOOR KNOB
+			canvas.drawBitmap(mKnobBitmap, mKnobBitmapRect, knobRect, mPaint);
+
 		}
 
 		private double normalizeAngle(double angle) {
