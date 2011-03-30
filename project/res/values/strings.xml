@@ -39,4 +39,28 @@
 	<string name="room_rate_template">Room Rate %s</string>
 	<!-- Label for total cost of hotel stay -->
 	<string name="total_cost">Total Cost</string>
+	<!-- Label for "guest info" form field section -->
+	<string name="guest_info">Guest Info</string>
+	<!-- Label for "billing info" form field section -->
+	<string name="billing_info">Billing Info</string>
+	<!-- Address line 1 form field hint -->
+	<string name="hint_address1">Address 1</string>
+	<!-- Address line 2 form field hint -->
+	<string name="hint_address2">Address 2 (optional)</string>
+	<!-- Label for "credit card info" form field section -->
+	<string name="credit_card_info">Credit Card Info</string>
+	<!-- Card number form field hint -->
+	<string name="hint_card_number">Card Number</string>
+	<!-- Card expiration month form field hint -->
+	<string name="hint_expiration_month">m</string>
+	<!-- Card expiration year form field hint -->
+	<string name="hint_expiration_year">yy</string>
+	<!-- Security code label -->
+	<string name="security_code">Security Code</string>
+	<!-- Security code tip (if code is on front of card) -->
+	<string name="security_code_tip_front">See front of credit card</string>
+	<!-- Security code tip (if code is on front of card) -->
+	<string name="security_code_tip_back">See back of credit card</string>
+	<!-- Disclaimer about charges and currency -->
+	<string name="disclaimer_currency">All charges will incur in the hotel\'s local currency.</string>
 </resources>

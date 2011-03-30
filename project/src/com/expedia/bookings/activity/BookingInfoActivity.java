@@ -17,6 +17,7 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Location;
 import com.mobiata.hotellib.data.Money;
+import com.mobiata.hotellib.data.Policy;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.RateBreakdown;
@@ -112,6 +113,19 @@ public class BookingInfoActivity extends Activity {
 		}
 		else {
 			totalView.setText("Dan didn't account for no total info, tell him");
+		}
+
+		// Configure the cancellation policy
+		TextView cancellationPolicyView = (TextView) findViewById(R.id.cancellation_policy_text_view);
+		boolean foundCancellationPolicy = false;
+		for (Policy policy : rate.getRateRules().getPolicies()) {
+			if (policy.getType() == Policy.TYPE_CANCEL) {
+				foundCancellationPolicy = true;
+				cancellationPolicyView.setText(policy.getDescription());
+			}
+		}
+		if (!foundCancellationPolicy) {
+			cancellationPolicyView.setVisibility(View.GONE);
 		}
 	}
 
