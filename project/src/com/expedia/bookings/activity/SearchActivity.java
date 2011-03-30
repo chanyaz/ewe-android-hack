@@ -27,9 +27,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
@@ -68,18 +66,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	// Views
 
+	private View mFocusLayout;
 	private FrameLayout mContent;
 	private EditText mSearchEditText;
-
 	private Panel mPanel;
 	private View mSortLayout;
 	private SegmentedControlGroup mSortButtonGroup;
 	private SegmentedControlGroup mRadiusButtonGroup;
 	private SegmentedControlGroup mPriceButtonGroup;
-
 	private ImageButton mViewButton;
+	private View mButtonBarLayout;
 	private Button mSearchButton;
-
 	private TagProgressBar mSearchProgressBar;
 
 	// Others
@@ -201,7 +198,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	public void onLocationChanged(Location location) {
 		Log.i("Location listener detected change");
-		
+
 		setSearchParams(location);
 		startSearch();
 
@@ -288,33 +285,63 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	// Other methods
+	// Show/hide soft keyboard
+
+	private void hideSoftKeyboard(TextView v) {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+	}
+
+	// Show/hide view methods
+
+	private void hideButtonBar() {
+		mButtonBarLayout.setVisibility(View.GONE);
+	}
 
 	private void hideLoading() {
 		mSearchProgressBar.setVisibility(View.GONE);
 	}
 
+	private void showButtonBar() {
+		mButtonBarLayout.setVisibility(View.VISIBLE);
+	}
+
+	private void showLoading() {
+		mSearchProgressBar.setVisibility(View.VISIBLE);
+	}
+
+	// Other methods
+
 	private void initializeViews() {
+		// Get views
+		mFocusLayout = findViewById(R.id.focus_layout);
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
 		mPanel = (Panel) findViewById(R.id.drawer_panel);
-		mSortLayout = (View) findViewById(R.id.sort_layout);
+		mSortLayout = findViewById(R.id.sort_layout);
 		mSortButtonGroup = (SegmentedControlGroup) findViewById(R.id.sort_filter_button_group);
 		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
+		mButtonBarLayout = findViewById(R.id.button_bar_layout);
 		mSearchButton = (Button) findViewById(R.id.search_button);
 		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
 
+		// Properties
 		mPanel.setInterpolator(new AccelerateInterpolator());
 
 		// Listeners
+		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
 		mViewButton.setOnClickListener(mViewButtonClickListener);
 		mSearchButton.setOnClickListener(mSearchButtonClickListener);
+	}
+	
+	private void resetFocus() {
+		mFocusLayout.requestFocus();
 	}
 
 	private void setActivityByTag(String tag) {
@@ -368,10 +395,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
 			//mViewButton.setImageResource(R.drawable.btn_list);
 		}
-	}
-
-	private void showLoading() {
-		mSearchProgressBar.setVisibility(View.VISIBLE);
 	}
 
 	private void switchResultsView() {
@@ -483,7 +506,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private void startLocationListener() {
 		Log.i("Searching for location...");
 		Toast.makeText(this, "Finding your location...", Toast.LENGTH_SHORT).show();
-		
+
 		showLoading();
 
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -518,7 +541,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Listeners
 
-	private OnEditorActionListener mSearchEditorActionListener = new OnEditorActionListener() {
+	private View.OnFocusChangeListener mSearchEditTextFocusChangeListener = new View.OnFocusChangeListener() {
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			if (hasFocus) {
+				showButtonBar();
+			}
+			else {
+				hideButtonBar();
+				hideSoftKeyboard(mSearchEditText);
+			}
+		}
+	};
+
+	private TextView.OnEditorActionListener mSearchEditorActionListener = new TextView.OnEditorActionListener() {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -535,7 +571,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
-	private RadioGroup.OnCheckedChangeListener mFilterButtonGroupCheckedChangeListener = new OnCheckedChangeListener() {
+	private RadioGroup.OnCheckedChangeListener mFilterButtonGroupCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			setFilter();
@@ -553,6 +589,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			resetFocus();
+
+			stopLocationListener();
+			setSearchParams();
 			startSearch();
 		}
 	};
