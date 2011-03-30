@@ -266,8 +266,10 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 		public DrawingThread(SurfaceHolder surfaceHolder) {
 			mSurfaceHolder = surfaceHolder;
+
 			mPaint = new Paint();
 			mPaint.setAntiAlias(true);
+			mPaint.setFilterBitmap(true);
 		}
 
 		//////////////////////////////////////////////////////////////////////////////
@@ -409,20 +411,13 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 				canvas.drawBitmap(mRingFillBitmap, mRingFillSrcRect, mRingFillDestRect, mPaint);
 				canvas.rotate(-ringDegrees, ringFillCenterX, ringFillCenterY);
 			}
+
 			// DRAW DOOR KNOB
 			canvas.rotate(-tagDegrees, mTagCenterX, mTagCenterY);
 			canvas.drawBitmap(mKnobBitmap, mKnobSrcRect, mKnobDestRect, mPaint);
 		}
 
 		private double normalizeAngle(double angle) {
-			//			while (angle > 2 * Math.PI) {
-			//				angle -= 2 * Math.PI;
-			//			}
-			//
-			//			while (angle < 2 * Math.PI) {
-			//				angle += 2 * Math.PI;
-			//			}
-
 			return angle % (2 * Math.PI);
 		}
 	}
