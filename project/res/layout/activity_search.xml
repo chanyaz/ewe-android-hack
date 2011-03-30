@@ -209,7 +209,7 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:padding="6dp"
-	    android:background="#3e9ad2">
+	    android:background="@drawable/bg_header">
 			
 	    <!-- Search box -->
 	    <EditText
@@ -243,8 +243,13 @@
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentBottom="true"
 	    android:padding="6dp"
-	    android:background="#3e9ad2"
+	    android:background="@drawable/bg_header"
 	    android:visibility="gone">
+	    
+	    <View
+	    	android:layout_width="0dp"
+	    	android:layout_height="fill_parent"
+	    	android:layout_weight="1" />	    	
 	    
 	    <Button
 	    	android:id="@+id/search_button"
