@@ -26,6 +26,8 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 	private Activity mParent;
 
+	private boolean mShowProgress = true;;
+
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
 	private float[] mAcceleration;
@@ -35,10 +37,20 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 	private Bitmap mTagBitmap;
 	private Bitmap mKnobBitmap;
 	private Bitmap mKnobBgBitmap;
+	private Bitmap mRingBitmap;
+	private Bitmap mRingFillBitmap;
 
-	private Rect mTagBitmapRect;
-	private Rect mKnobBitmapRect;
-	private Rect mKnobBgBitmapRect;
+	private Rect mTagSrcRect;
+	private Rect mKnobSrcRect;
+	private Rect mKnobBgSrcRect;
+	private Rect mRingSrcRect;
+	private Rect mRingFillSrcRect;
+
+	private Rect mTagDestRect;
+	private Rect mKnobDestRect;
+	private Rect mKnobBgDestRect;
+	private Rect mRingDestRect;
+	private Rect mRingFillDestRect;
 
 	private int mTagWidth;
 	private int mTagHeight;
@@ -46,7 +58,16 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 	private int mKnobBgHeight;
 	private int mKnobWidth;
 	private int mKnobHeight;
-	private int mCenterX;
+	private int mRingWidth;
+	private int mRingHeight;
+	private int mRingFillWidth;
+	private int mRingFillHeight;
+
+	private int mOffsetY;
+	private int mRingMargin;
+
+	private int mTagCenterX;
+	private int mTagCenterY;
 
 	private int mWidth;
 	private int mHeight;
@@ -71,7 +92,8 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 		mWidth = width;
 		mHeight = height;
-		mCenterX = width / 2;
+
+		calculateMeasurements();
 	}
 
 	@Override
@@ -121,6 +143,17 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
+	// Public methods
+
+	public boolean getShowProgress() {
+		return mShowProgress;
+	}
+
+	public void setShowProgress(boolean showProgress) {
+		mShowProgress = showProgress;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////
 	// Private methods
 
 	private void init(Context context) {
@@ -133,17 +166,68 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		mTagBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_tag);
 		mTagWidth = mTagBitmap.getWidth();
 		mTagHeight = mTagBitmap.getHeight();
-		mTagBitmapRect = new Rect(0, 0, mTagWidth, mTagHeight);
+		mTagSrcRect = new Rect(0, 0, mTagWidth, mTagHeight);
 
 		mKnobBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_knob);
 		mKnobWidth = mKnobBitmap.getWidth();
 		mKnobHeight = mKnobBitmap.getHeight();
-		mKnobBitmapRect = new Rect(0, 0, mKnobWidth, mKnobHeight);
+		mKnobSrcRect = new Rect(0, 0, mKnobWidth, mKnobHeight);
 
 		mKnobBgBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_knob_bg);
 		mKnobBgWidth = mKnobBgBitmap.getWidth();
 		mKnobBgHeight = mKnobBgBitmap.getHeight();
-		mKnobBgBitmapRect = new Rect(0, 0, mKnobBgWidth, mKnobBgHeight);
+		mKnobBgSrcRect = new Rect(0, 0, mKnobBgWidth, mKnobBgHeight);
+
+		mRingBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_ring);
+		mRingWidth = mRingBitmap.getWidth();
+		mRingHeight = mRingBitmap.getHeight();
+		mRingSrcRect = new Rect(0, 0, mRingWidth, mRingHeight);
+
+		mRingFillBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_ring_fill);
+		mRingFillWidth = mRingFillBitmap.getWidth();
+		mRingFillHeight = mRingFillBitmap.getHeight();
+		mRingFillSrcRect = new Rect(0, 0, mRingFillWidth, mRingFillHeight);
+	}
+
+	private void calculateMeasurements() {
+		mOffsetY = (int) ((float) mTagHeight * 0.25f);
+		mRingMargin = (int) ((float) mTagHeight * 0.05f);
+
+		mTagCenterX = mWidth / 2;
+		mTagCenterY = mOffsetY + (mTagWidth / 2);
+
+		// DEST RECTS
+
+		mTagDestRect = new Rect();
+		mTagDestRect.top = mOffsetY;
+		mTagDestRect.bottom = mTagDestRect.top + mTagHeight;
+		mTagDestRect.left = (int) (mTagCenterX - (mTagWidth / 2));
+		mTagDestRect.right = mTagDestRect.left + mTagWidth;
+
+		mKnobBgDestRect = new Rect();
+		mKnobBgDestRect.top = mTagCenterY - (mKnobBgHeight / 2);
+		mKnobBgDestRect.bottom = mKnobBgDestRect.top + mKnobBgHeight;
+		mKnobBgDestRect.left = (int) (mTagCenterX - (mKnobBgWidth / 2));
+		mKnobBgDestRect.right = mKnobBgDestRect.left + mKnobBgWidth;
+
+		mKnobDestRect = new Rect();
+		mKnobDestRect.top = mTagCenterY - (mKnobHeight / 2);
+		mKnobDestRect.bottom = mKnobDestRect.top + mKnobHeight;
+		mKnobDestRect.left = (int) (mTagCenterX - (mKnobWidth / 2));
+		mKnobDestRect.right = mKnobDestRect.left + mKnobWidth;
+
+		mRingDestRect = new Rect();
+		mRingDestRect.top = mTagDestRect.bottom - mRingHeight - mRingMargin;
+		mRingDestRect.bottom = mRingDestRect.top + mRingHeight;
+		mRingDestRect.left = (int) (mTagCenterX - (mRingWidth / 2));
+		mRingDestRect.right = mRingDestRect.left + mRingWidth;
+
+		mRingFillDestRect = new Rect();
+		mRingFillDestRect.top = mRingDestRect.top + ((mRingHeight - mRingFillHeight) / 2);
+		mRingFillDestRect.bottom = mRingFillDestRect.top + mRingFillHeight;
+		mRingFillDestRect.left = (int) (mTagCenterX - (mRingFillWidth / 2));
+		mRingFillDestRect.right = mRingFillDestRect.left + mRingFillWidth;
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -162,6 +246,8 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 		private final static double THRESH_DOOR_FRICTION_ANGLE = -8.5d;
 
+		private final static double DEGREES_PER_SECOND = 2 * Math.PI;
+
 		//////////////////////////////////////////////////////////////////////////////
 		// Private members
 
@@ -170,6 +256,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 		private boolean mRunning = false;
 		private long mLastDrawTime = -1;
+		private long mNow;
 
 		private double mAngle;
 		private double mAngularVelocity = 0;
@@ -217,16 +304,16 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 		private void doDraw(Canvas canvas) {
 			if (canvas != null) {
-				final long now = System.currentTimeMillis();
+				mNow = System.currentTimeMillis();
 				if (mLastDrawTime < 0) {
-					mLastDrawTime = now;
+					mLastDrawTime = mNow;
 				}
-				final float delta = (float) (now - mLastDrawTime) / 1000f;
+				final float delta = (float) (mNow - mLastDrawTime) / 1000f;
 
 				updatePhysics(delta);
 				draw(canvas);
 
-				mLastDrawTime = now;
+				mLastDrawTime = mNow;
 			}
 		}
 
@@ -299,52 +386,44 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		private void draw(Canvas canvas) {
 			canvas.drawColor(0xFFFFFFFF);
 
-			final int offsetY = 100;
-			final int centerY = offsetY + (mTagWidth / 2);
-			final float degrees = (float) (mAngle * 180.0d / Math.PI);
+			final float ringAngle = (float) normalizeAngle(((double) mNow / 1000) * DEGREES_PER_SECOND);
 
-			Rect tagRect = new Rect();
-			tagRect.top = offsetY;
-			tagRect.bottom = tagRect.top + mTagHeight;
-			tagRect.left = (int) (mCenterX - (mTagWidth / 2));
-			tagRect.right = tagRect.left + mTagWidth;
-
-			Rect knobBgRect = new Rect();
-			knobBgRect.top = centerY - (mKnobBgHeight / 2);
-			knobBgRect.bottom = knobBgRect.top + mKnobBgHeight;
-			knobBgRect.left = (int) (mCenterX - (mKnobBgWidth / 2));
-			knobBgRect.right = knobBgRect.left + mKnobBgWidth;
-
-			Rect knobRect = new Rect();
-			knobRect.top = centerY - (mKnobHeight / 2);
-			knobRect.bottom = knobRect.top + mKnobHeight;
-			knobRect.left = (int) (mCenterX - (mKnobWidth / 2));
-			knobRect.right = knobRect.left + mKnobWidth;
+			final float tagDegrees = (float) (mAngle * 180.0d / Math.PI);
+			final float ringDegrees = (float) (ringAngle * 180.0d / Math.PI);
 
 			// DOOR KNOB BACKGROUND
-			canvas.drawBitmap(mKnobBgBitmap, mKnobBgBitmapRect, knobBgRect, mPaint);
+			canvas.drawBitmap(mKnobBgBitmap, mKnobBgSrcRect, mKnobBgDestRect, mPaint);
 
 			// DRAW TAG =D
-			canvas.save();
-			canvas.rotate(degrees, mCenterX, centerY);
-			canvas.drawBitmap(mTagBitmap, mTagBitmapRect, tagRect, mPaint);
-			canvas.restore();
+			canvas.rotate(tagDegrees, mTagCenterX, mTagCenterY);
+			canvas.drawBitmap(mTagBitmap, mTagSrcRect, mTagDestRect, mPaint);
 
+			// DRAW PROGRESS RING
+			if (mShowProgress) {
+				canvas.drawBitmap(mRingBitmap, mRingSrcRect, mRingDestRect, mPaint);
+
+				final int ringFillCenterX = mRingFillDestRect.left + (mRingFillWidth / 2);
+				final int ringFillCenterY = mRingFillDestRect.top + (mRingFillHeight / 2);
+
+				canvas.rotate(ringDegrees, ringFillCenterX, ringFillCenterY);
+				canvas.drawBitmap(mRingFillBitmap, mRingFillSrcRect, mRingFillDestRect, mPaint);
+				canvas.rotate(-ringDegrees, ringFillCenterX, ringFillCenterY);
+			}
 			// DRAW DOOR KNOB
-			canvas.drawBitmap(mKnobBitmap, mKnobBitmapRect, knobRect, mPaint);
-
+			canvas.rotate(-tagDegrees, mTagCenterX, mTagCenterY);
+			canvas.drawBitmap(mKnobBitmap, mKnobSrcRect, mKnobDestRect, mPaint);
 		}
 
 		private double normalizeAngle(double angle) {
-			while (angle > 2 * Math.PI) {
-				angle -= 2 * Math.PI;
-			}
+			//			while (angle > 2 * Math.PI) {
+			//				angle -= 2 * Math.PI;
+			//			}
+			//
+			//			while (angle < 2 * Math.PI) {
+			//				angle += 2 * Math.PI;
+			//			}
 
-			while (angle < 2 * Math.PI) {
-				angle += 2 * Math.PI;
-			}
-
-			return angle;
+			return angle % (2 * Math.PI);
 		}
 	}
 }
