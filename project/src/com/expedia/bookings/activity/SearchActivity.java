@@ -29,7 +29,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.TagProgressBar;
@@ -48,6 +47,7 @@ import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.server.ExpediaServices;
 
+@SuppressWarnings("unused")
 public class SearchActivity extends ActivityGroup implements LocationListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -319,8 +319,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mButtonBarLayout.setVisibility(View.VISIBLE);
 	}
 
-	private void showLoading() {
+	private void showLoading(String text) {
 		mSearchProgressBar.setVisibility(View.VISIBLE);
+		mSearchProgressBar.setText(text);
 	}
 
 	// Other methods
@@ -499,10 +500,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void startSearch() {
-		Log.i("Searching...");
-		Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();
-
-		showLoading();
+		showLoading("Searching for Hotels...");
 		setFilter();
 
 		mSearchDownloader.startDownload("mykey", mSearchDownload, mSearchCallback);
@@ -517,10 +515,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void startLocationListener() {
-		Log.i("Searching for location...");
-		Toast.makeText(this, "Finding your location...", Toast.LENGTH_SHORT).show();
-
-		showLoading();
+		showLoading("Finding Current Location...");
 
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		String provider;
