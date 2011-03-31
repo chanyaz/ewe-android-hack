@@ -199,12 +199,22 @@
 					android:minWidth="150dp"
 					android:inputType="textPostalAddress|textCapWords"
 					android:hint="@string/City" />
+
+				<!-- Either the Spinner or the EditText are displayed, depending on the 
+					country selected -->
 				<Spinner
 					android:id="@+id/state_spinner"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:entries="@array/state_names"
 					android:layout_weight="1" />
+				<EditText
+					android:id="@+id/state_edit_text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:visibility="gone"
+					android:hint="@string/StateCode" />
 			</LinearLayout>
 			<LinearLayout
 				android:layout_width="fill_parent"

@@ -57,6 +57,8 @@
 	<string name="hint_expiration_year">yy</string>
 	<!-- Security code label -->
 	<string name="security_code">Security Code</string>
+	<!-- Security code tip (if code is on unknown side of card) -->
+	<string name="security_code_tip_front">See front or back of credit card</string>
 	<!-- Security code tip (if code is on front of card) -->
 	<string name="security_code_tip_front">See front of credit card</string>
 	<!-- Security code tip (if code is on front of card) -->
