@@ -7,6 +7,7 @@ import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -155,7 +156,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 		}
 		else {
-
+			mFilter = new Filter();
 		}
 
 		setViewButtonImage();
@@ -292,6 +293,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 	}
 
+	private void showSoftKeyboard(View view) {
+		showSoftKeyboard(view, null);
+	}
+
+	private void showSoftKeyboard(View view, ResultReceiver resultReceiver) {
+		Configuration config = getResources().getConfiguration();
+		if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
+			InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+			imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT, resultReceiver);
+		}
+	}
+
 	// Show/hide view methods
 
 	private void hideButtonBar() {
@@ -339,7 +352,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mViewButton.setOnClickListener(mViewButtonClickListener);
 		mSearchButton.setOnClickListener(mSearchButtonClickListener);
 	}
-	
+
 	private void resetFocus() {
 		mFocusLayout.requestFocus();
 	}
@@ -546,6 +559,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
 				showButtonBar();
+				showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 			}
 			else {
 				hideButtonBar();
@@ -646,10 +660,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
+			Log.i("Result code: " + resultCode);
+
 			if (resultCode == InputMethodManager.RESULT_HIDDEN
 					|| resultCode == InputMethodManager.RESULT_UNCHANGED_HIDDEN) {
 
-				// TODO: hide button bar
+				resetFocus();
 			}
 		}
 	}

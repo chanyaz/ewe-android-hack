@@ -4,11 +4,13 @@ import com.expedia.bookings.R;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.GradientDrawable.Orientation;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -27,10 +29,12 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 	private Activity mParent;
 
 	private boolean mShowProgress = true;;
+	private String mText;
 
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
 	private float[] mAcceleration;
+	private int mOrientation;
 
 	private DrawingThread mDrawingThread;
 
@@ -65,9 +69,12 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 	private int mOffsetY;
 	private int mRingMargin;
+	private int mRingLeftOffset;
 
 	private int mTagCenterX;
 	private int mTagCenterY;
+	private int mRingFillCenterX;
+	private int mRingFillCenterY;
 
 	private int mWidth;
 	private int mHeight;
@@ -149,8 +156,16 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		return mShowProgress;
 	}
 
+	public String getText() {
+		return mText;
+	}
+
 	public void setShowProgress(boolean showProgress) {
 		mShowProgress = showProgress;
+	}
+
+	public void setText(String text) {
+		mText = text;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -158,6 +173,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 	private void init(Context context) {
 		getHolder().addCallback(this);
+		mOrientation = getResources().getConfiguration().orientation;
 
 		mParent = (Activity) context;
 		mSensorManager = (SensorManager) mParent.getSystemService(Activity.SENSOR_SERVICE);
@@ -190,16 +206,21 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 	}
 
 	private void calculateMeasurements() {
+		// NOTE: A few of these measurements are pretty arbitrary, definitely
+		// making this view a one time use kind of view.
+
 		mOffsetY = (int) ((float) mTagHeight * 0.25f);
-		mRingMargin = (int) ((float) mTagHeight * 0.05f);
+		mRingMargin = (mTagWidth - mRingWidth) / 2;
+		mRingLeftOffset = (int) (mTagWidth * 0.028f);
 
 		mTagCenterX = mWidth / 2;
-		mTagCenterY = mOffsetY + (mTagWidth / 2);
+		mTagCenterY = mOffsetY + (int) (mTagWidth / 2);
+
+		final int knobTopOffset = (int) (mKnobHeight * 0.09f);
 
 		// DEST RECTS
-
 		mTagDestRect = new Rect();
-		mTagDestRect.top = mOffsetY;
+		mTagDestRect.top = mTagCenterY - (mTagWidth / 2);
 		mTagDestRect.bottom = mTagDestRect.top + mTagHeight;
 		mTagDestRect.left = (int) (mTagCenterX - (mTagWidth / 2));
 		mTagDestRect.right = mTagDestRect.left + mTagWidth;
@@ -211,7 +232,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		mKnobBgDestRect.right = mKnobBgDestRect.left + mKnobBgWidth;
 
 		mKnobDestRect = new Rect();
-		mKnobDestRect.top = mTagCenterY - (mKnobHeight / 2);
+		mKnobDestRect.top = mTagCenterY - (mKnobHeight / 2) + knobTopOffset;
 		mKnobDestRect.bottom = mKnobDestRect.top + mKnobHeight;
 		mKnobDestRect.left = (int) (mTagCenterX - (mKnobWidth / 2));
 		mKnobDestRect.right = mKnobDestRect.left + mKnobWidth;
@@ -219,14 +240,17 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		mRingDestRect = new Rect();
 		mRingDestRect.top = mTagDestRect.bottom - mRingHeight - mRingMargin;
 		mRingDestRect.bottom = mRingDestRect.top + mRingHeight;
-		mRingDestRect.left = (int) (mTagCenterX - (mRingWidth / 2));
+		mRingDestRect.left = (int) (mTagCenterX - (mRingWidth / 2)) + mRingLeftOffset;
 		mRingDestRect.right = mRingDestRect.left + mRingWidth;
 
 		mRingFillDestRect = new Rect();
 		mRingFillDestRect.top = mRingDestRect.top + ((mRingHeight - mRingFillHeight) / 2);
 		mRingFillDestRect.bottom = mRingFillDestRect.top + mRingFillHeight;
-		mRingFillDestRect.left = (int) (mTagCenterX - (mRingFillWidth / 2));
+		mRingFillDestRect.left = (int) (mTagCenterX - (mRingFillWidth / 2)) + mRingLeftOffset;
 		mRingFillDestRect.right = mRingFillDestRect.left + mRingFillWidth;
+
+		mRingFillCenterX = mRingFillDestRect.left + (mRingFillWidth / 2);
+		mRingFillCenterY = mRingFillDestRect.top + (mRingFillHeight / 2);
 
 	}
 
@@ -386,6 +410,10 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		}
 
 		private void draw(Canvas canvas) {
+			if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+				canvas.rotate(90, mTagCenterX, mTagCenterY);
+			}
+
 			canvas.drawColor(0xFFFFFFFF);
 
 			final float ringAngle = (float) normalizeAngle(((double) mNow / 1000) * DEGREES_PER_SECOND);
@@ -404,12 +432,9 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 			if (mShowProgress) {
 				canvas.drawBitmap(mRingBitmap, mRingSrcRect, mRingDestRect, mPaint);
 
-				final int ringFillCenterX = mRingFillDestRect.left + (mRingFillWidth / 2);
-				final int ringFillCenterY = mRingFillDestRect.top + (mRingFillHeight / 2);
-
-				canvas.rotate(ringDegrees, ringFillCenterX, ringFillCenterY);
+				canvas.rotate(ringDegrees, mRingFillCenterX, mRingFillCenterY);
 				canvas.drawBitmap(mRingFillBitmap, mRingFillSrcRect, mRingFillDestRect, mPaint);
-				canvas.rotate(-ringDegrees, ringFillCenterX, ringFillCenterY);
+				canvas.rotate(-ringDegrees, mRingFillCenterX, mRingFillCenterY);
 			}
 
 			// DRAW DOOR KNOB
