@@ -237,16 +237,49 @@
 	</LinearLayout>
 	
 	<LinearLayout
-		android:id="@+id/button_bar_layout"
+		android:id="@+id/refinements_layout"
 	    android:orientation="horizontal"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentBottom="true"
+	    android:background="#FF999999"
+	    android:gravity="center">
+	    
+	    <LinearLayout
+	    	android:id="@+id/guests_layout"
+	    	android:orientation="horizontal"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:visibility="gone">
+		    
+		    <com.mobiata.android.widget.NumberPicker
+				android:id="@+id/adults_number_picker"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:layout_weight="1" />
+		    	
+		    <com.mobiata.android.widget.NumberPicker
+				android:id="@+id/children_number_picker"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:layout_weight="1" />
+	    
+	    </LinearLayout>
+	    
+	</LinearLayout>
+	
+	<LinearLayout
+		android:id="@+id/button_bar_layout"
+	    android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+		android:layout_above="@id/refinements_layout"
 	    android:padding="6dp"
 	    android:background="@drawable/bg_header"
 	    android:visibility="gone">
 	    
-	    <View
+	    <TextView
+	    	android:id="@+id/search_title_text_view"
 	    	android:layout_width="0dp"
 	    	android:layout_height="fill_parent"
 	    	android:layout_weight="1" />	    	

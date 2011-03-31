@@ -36,6 +36,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.widget.NumberPicker;
 import com.mobiata.android.widget.Panel;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.mobiata.hotellib.app.SearchListener;
@@ -70,12 +71,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private View mFocusLayout;
 	private FrameLayout mContent;
 	private EditText mSearchEditText;
+	private ImageButton mDatesButton;
+	private ImageButton mGuestsButton;
 	private Panel mPanel;
 	private View mSortLayout;
 	private SegmentedControlGroup mSortButtonGroup;
 	private SegmentedControlGroup mRadiusButtonGroup;
 	private SegmentedControlGroup mPriceButtonGroup;
 	private ImageButton mViewButton;
+	private View mGuestsLayout;
+	private NumberPicker mAdultsNumberPicker;
+	private NumberPicker mChildrenNumberPicker;
 	private View mButtonBarLayout;
 	private Button mSearchButton;
 	private TagProgressBar mSearchProgressBar;
@@ -93,7 +99,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private SearchParams mSearchParams;
 	private SearchResponse mSearchResponse;
 	private Filter mFilter;
-	private Boolean mIsSearching = false;
+	private boolean mIsSearching;
+
+	private boolean mDatesLayoutIsOpen;
+	private boolean mGuestsLayoutIsVisible;
 
 	// Threads / callbacks
 
@@ -125,6 +134,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
+
+	// Lifecycle events
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -192,6 +203,24 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.searchDownloader = mSearchDownloader;
 
 		return state;
+	}
+
+	// Key events
+
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+			if(!mSearchEditText.hasFocus()) {
+				resetFocus();
+			}
+			
+			if (mGuestsLayoutIsVisible) {
+				hideGuestsLayout();
+				return true;
+			}			
+		}
+
+		return super.dispatchKeyEvent(event);
 	}
 
 	// Location listener implementation
@@ -311,12 +340,26 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mButtonBarLayout.setVisibility(View.GONE);
 	}
 
+	private void hideGuestsLayout() {
+		mGuestsLayoutIsVisible = false;
+		mGuestsLayout.setVisibility(View.GONE);
+		hideButtonBar();
+	}
+
 	private void hideLoading() {
 		mSearchProgressBar.setVisibility(View.GONE);
 	}
 
 	private void showButtonBar() {
 		mButtonBarLayout.setVisibility(View.VISIBLE);
+	}
+
+	private void showGuestsLayout() {
+		mGuestsLayoutIsVisible = true;
+		hideSoftKeyboard(mSearchEditText);
+		mGuestsLayout.setVisibility(View.VISIBLE);
+		mAdultsNumberPicker.requestFocus();
+		showButtonBar();
 	}
 
 	private void showLoading(String text) {
@@ -331,12 +374,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mFocusLayout = findViewById(R.id.focus_layout);
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
+		mDatesButton = (ImageButton) findViewById(R.id.dates_button);
+		mGuestsButton = (ImageButton) findViewById(R.id.guests_button);
 		mPanel = (Panel) findViewById(R.id.drawer_panel);
 		mSortLayout = findViewById(R.id.sort_layout);
 		mSortButtonGroup = (SegmentedControlGroup) findViewById(R.id.sort_filter_button_group);
 		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
+		mGuestsLayout = findViewById(R.id.guests_layout);
+		mAdultsNumberPicker = (NumberPicker) findViewById(R.id.adults_number_picker);
+		mChildrenNumberPicker = (NumberPicker) findViewById(R.id.children_number_picker);
 		mButtonBarLayout = findViewById(R.id.button_bar_layout);
 		mSearchButton = (Button) findViewById(R.id.search_button);
 		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
@@ -346,6 +394,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		// Listeners
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
+		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
+		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
 		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
@@ -553,6 +603,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
+				hideGuestsLayout();
 				showButtonBar();
 				showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 			}
@@ -585,6 +636,22 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			setFilter();
 			mPanel.setOpen(false, true);
+		}
+	};
+
+	private View.OnClickListener mSearchEditTextClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			hideGuestsLayout();
+			showButtonBar();
+			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
+		}
+	};
+
+	private View.OnClickListener mGuestsButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			showGuestsLayout();
 		}
 	};
 
