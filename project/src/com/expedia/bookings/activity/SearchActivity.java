@@ -103,6 +103,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private boolean mDatesLayoutIsOpen;
 	private boolean mGuestsLayoutIsVisible;
+	private boolean mButtonBarIsVisible;
 
 	// Threads / callbacks
 
@@ -210,14 +211,21 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-			if(!mSearchEditText.hasFocus()) {
-				resetFocus();
-			}
-			
 			if (mGuestsLayoutIsVisible) {
 				hideGuestsLayout();
+				hideButtonBar();
 				return true;
-			}			
+			}
+
+			if (!mSearchEditText.hasFocus()) {
+				resetFocus();
+				return true;
+			}
+
+			if (mButtonBarIsVisible) {
+				//hideButtonBar();
+				//return true;
+			}
 		}
 
 		return super.dispatchKeyEvent(event);
@@ -337,13 +345,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// Show/hide view methods
 
 	private void hideButtonBar() {
+		mButtonBarIsVisible = false;
 		mButtonBarLayout.setVisibility(View.GONE);
 	}
 
 	private void hideGuestsLayout() {
 		mGuestsLayoutIsVisible = false;
 		mGuestsLayout.setVisibility(View.GONE);
-		hideButtonBar();
 	}
 
 	private void hideLoading() {
@@ -351,6 +359,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void showButtonBar() {
+		mButtonBarIsVisible = true;
 		mButtonBarLayout.setVisibility(View.VISIBLE);
 	}
 
@@ -454,10 +463,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void setViewButtonImage() {
 		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-			//mViewButton.setImageResource(R.drawable.btn_map);
+			mViewButton.setImageResource(R.drawable.btn_map);
 		}
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-			//mViewButton.setImageResource(R.drawable.btn_list);
+			mViewButton.setImageResource(R.drawable.btn_list);
 		}
 	}
 
@@ -727,7 +736,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (resultCode == InputMethodManager.RESULT_HIDDEN
 					|| resultCode == InputMethodManager.RESULT_UNCHANGED_HIDDEN) {
 
-				resetFocus();
+				//resetFocus();
 			}
 		}
 	}

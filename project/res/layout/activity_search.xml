@@ -226,13 +226,15 @@
 			android:id="@+id/dates_button"
 			android:layout_width="@dimen/action_bar_button_height"
 			android:layout_height="@dimen/action_bar_button_height"
-            android:layout_marginLeft="6dip" />
+            android:layout_marginLeft="6dip"
+            android:src="@drawable/btn_dates" />
 			
 		<ImageButton
 			android:id="@+id/guests_button"
 			android:layout_width="@dimen/action_bar_button_height"
 			android:layout_height="@dimen/action_bar_button_height"
-            android:layout_marginLeft="6dip" />
+            android:layout_marginLeft="6dip"
+            android:src="@drawable/btn_guests" />
 	        
 	</LinearLayout>
 	
