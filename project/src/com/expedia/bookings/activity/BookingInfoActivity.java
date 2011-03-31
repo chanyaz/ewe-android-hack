@@ -14,6 +14,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,14 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.FormatUtils;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.validation.PatternValidator.EmailValidator;
+import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
+import com.mobiata.android.validation.TextViewValidator;
+import com.mobiata.android.validation.ValidationError;
+import com.mobiata.android.validation.ValidationProcessor;
+import com.mobiata.android.validation.Validator;
 import com.mobiata.hotellib.data.BillingInfo;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Location;
@@ -72,11 +80,19 @@ public class BookingInfoActivity extends Activity {
 
 	private TextView mSecurityCodeTipTextView;
 
+	// Validation
+	private static final int ERROR_INVALID_CARD_NUMBER = 101;
+	private static final int ERROR_INVALID_MONTH = 102;
+	private static final int ERROR_EXPIRED_YEAR = 103;
+	private static final int ERROR_SHORT_SECURITY_CODE = 104;
+	private ValidationProcessor mValidationProcessor;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		mInflater = getLayoutInflater();
+		mValidationProcessor = new ValidationProcessor();
 
 		setContentView(R.layout.activity_booking_info);
 
@@ -216,7 +232,7 @@ public class BookingInfoActivity extends Activity {
 		Calendar cal = mBillingInfo.getExpirationDate();
 		if (cal != null) {
 			mExpirationMonthEditText.setText((mBillingInfo.getExpirationDate().get(Calendar.MONTH) + 1) + "");
-			mExpirationYearEditText.setText((mBillingInfo.getExpirationDate().get(Calendar.YEAR) - 2000) + "");
+			mExpirationYearEditText.setText((mBillingInfo.getExpirationDate().get(Calendar.YEAR) % 100) + "");
 		}
 		mSecurityCodeEditText.setText(mBillingInfo.getSecurityCode());
 	}
@@ -352,6 +368,38 @@ public class BookingInfoActivity extends Activity {
 				// Should not happen, do nothing
 			}
 		});
+
+		// Configure form validation
+		TextViewValidator requiredFieldValidator = new TextViewValidator();
+		mValidationProcessor.add(mFirstNameEditText, requiredFieldValidator);
+		mValidationProcessor.add(mLastNameEditText, requiredFieldValidator);
+		mValidationProcessor.add(mTelephoneEditText, new TextViewValidator(new TelephoneValidator()));
+		mValidationProcessor.add(mEmailEditText, new TextViewValidator(new EmailValidator()));
+		mValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
+		mValidationProcessor.add(mCityEditText, requiredFieldValidator);
+		mValidationProcessor.add(mCardNumberEditText, new TextViewValidator(new Validator<CharSequence>() {
+			public int validate(CharSequence number) {
+				return (!FormatUtils.isValidCreditCardNumber(number)) ? ERROR_INVALID_CARD_NUMBER : 0;
+			}
+		}));
+		mValidationProcessor.add(mExpirationMonthEditText, new TextViewValidator(new Validator<CharSequence>() {
+			public int validate(CharSequence obj) {
+				int month = Integer.parseInt(obj.toString());
+				return (month < 1 || month > 12) ? ERROR_INVALID_MONTH : 0;
+			}
+		}));
+		mValidationProcessor.add(mExpirationYearEditText, new TextViewValidator(new Validator<CharSequence>() {
+			public int validate(CharSequence obj) {
+				int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+				int year = Integer.parseInt(obj.toString());
+				return (thisYear % 100 > year) ? ERROR_EXPIRED_YEAR : 0;
+			}
+		}));
+		mValidationProcessor.add(mSecurityCodeEditText, new TextViewValidator(new Validator<CharSequence>() {
+			public int validate(CharSequence obj) {
+				return (obj.length() < 3) ? ERROR_SHORT_SECURITY_CODE : 0;
+			}
+		}));
 	}
 
 	private void configureFooter() {
