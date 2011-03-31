@@ -12,6 +12,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -306,6 +308,29 @@ public class BookingInfoActivity extends Activity {
 	}
 
 	private void configureForm() {
+		// Setup automatic filling of state/country information based on city entered.
+		// Works for some popular cities.
+		mCityEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// Do nothing
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				// Do nothing
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				String key = s.toString().toLowerCase();
+				if (COMMON_US_CITIES.containsKey(key)) {
+					setSpinnerSelection(mStateSpinner, getString(COMMON_US_CITIES.get(key)));
+					setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
+				}
+			}
+		});
+
 		// Set the default country as USA
 		setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
 
@@ -367,4 +392,287 @@ public class BookingInfoActivity extends Activity {
 			}
 		}
 	}
+
+	// Static data that auto-fills states/countries
+	@SuppressWarnings("serial")
+	public static final HashMap<CharSequence, Integer> COMMON_US_CITIES = new HashMap<CharSequence, Integer>() {
+		{
+			put("new york", R.string.state_new_york);
+			put("los angeles", R.string.state_california);
+			put("chicago", R.string.state_illinois);
+			put("houston", R.string.state_texas);
+			put("philadelphia", R.string.state_pennsylvania);
+			put("phoenix", R.string.state_arizona);
+			put("san antonio", R.string.state_texas);
+			put("san diego", R.string.state_california);
+			put("dallas", R.string.state_texas);
+			put("san jose", R.string.state_california);
+			put("jacksonville", R.string.state_florida);
+			put("indianapolis", R.string.state_indiana);
+			put("san francisco", R.string.state_california);
+			put("austin", R.string.state_texas);
+			put("columbus", R.string.state_ohio);
+			put("fort worth", R.string.state_texas);
+			put("charlotte", R.string.state_north_carolina);
+			put("detroit", R.string.state_michigan);
+			put("el paso", R.string.state_texas);
+			put("memphis", R.string.state_tennessee);
+			put("baltimore", R.string.state_maryland);
+			put("boston", R.string.state_massachusetts);
+			put("seattle", R.string.state_washington);
+			put("washington", R.string.state_district_of_columbia);
+			put("nashville", R.string.state_tennessee);
+			put("denver", R.string.state_colorado);
+			put("louisville", R.string.state_kentucky);
+			put("milwaukee", R.string.state_wisconsin);
+			put("portland", R.string.state_oregon);
+			put("las vegas", R.string.state_nevada);
+			put("oklahoma city", R.string.state_oklahoma);
+			put("albuquerque", R.string.state_new_mexico);
+			put("tucson", R.string.state_arizona);
+			put("fresno", R.string.state_california);
+			put("sacramento", R.string.state_california);
+			put("long beach", R.string.state_california);
+			put("kansas city", R.string.state_missouri);
+			put("mesa", R.string.state_arizona);
+			put("virginia beach", R.string.state_virginia);
+			put("atlanta", R.string.state_georgia);
+			put("colorado springs", R.string.state_colorado);
+			put("omaha", R.string.state_nebraska);
+			put("raleigh", R.string.state_north_carolina);
+			put("miami", R.string.state_florida);
+			put("cleveland", R.string.state_ohio);
+			put("tulsa", R.string.state_oklahoma);
+			put("oakland", R.string.state_california);
+			put("minneapolis", R.string.state_minnesota);
+			put("wichita", R.string.state_kansas);
+			put("arlington", R.string.state_texas);
+			put("bakersfield", R.string.state_california);
+			put("new orleans", R.string.state_louisiana);
+			put("honolulu", R.string.state_hawaii);
+			put("anaheim", R.string.state_california);
+			put("tampa", R.string.state_florida);
+			put("aurora", R.string.state_colorado);
+			put("santa ana", R.string.state_california);
+			put("st louis", R.string.state_missouri);
+			put("pittsburgh", R.string.state_pennsylvania);
+			put("corpus christi", R.string.state_texas);
+			put("riverside", R.string.state_california);
+			put("cincinnati", R.string.state_ohio);
+			put("lexington", R.string.state_kentucky);
+			put("anchorage", R.string.state_alaska);
+			put("stockton", R.string.state_california);
+			put("toledo", R.string.state_ohio);
+			put("st paul", R.string.state_minnesota);
+			put("newark", R.string.state_new_jersey);
+			put("greensboro", R.string.state_north_carolina);
+			put("buffalo", R.string.state_new_york);
+			put("plano", R.string.state_texas);
+			put("lincoln", R.string.state_nebraska);
+			put("henderson", R.string.state_nevada);
+			put("fort wayne", R.string.state_indiana);
+			put("jersey city", R.string.state_new_jersey);
+			put("st petersburg", R.string.state_florida);
+			put("chula vista", R.string.state_california);
+			put("norfolk", R.string.state_virginia);
+			put("orlando", R.string.state_florida);
+			put("chandler", R.string.state_arizona);
+			put("laredo", R.string.state_texas);
+			put("madison", R.string.state_wisconsin);
+			put("winston-salem", R.string.state_north_carolina);
+			put("lubbock", R.string.state_texas);
+			put("baton rouge", R.string.state_louisiana);
+			put("durham", R.string.state_north_carolina);
+			put("garland", R.string.state_texas);
+			put("glendale", R.string.state_arizona);
+			put("reno", R.string.state_nevada);
+			put("hialeah", R.string.state_florida);
+			put("paradise", R.string.state_nevada);
+			put("chesapeake", R.string.state_virginia);
+			put("scottsdale", R.string.state_arizona);
+			put("north las vegas", R.string.state_nevada);
+			put("irving", R.string.state_texas);
+			put("fremont", R.string.state_california);
+			put("irvine", R.string.state_california);
+			put("birmingham", R.string.state_alabama);
+			put("rochester", R.string.state_new_york);
+			put("san bernardino", R.string.state_california);
+			put("spokane", R.string.state_washington);
+			put("gilbert", R.string.state_arizona);
+			put("arlington", R.string.state_virginia);
+			put("montgomery", R.string.state_alabama);
+			put("boise", R.string.state_idaho);
+			put("richmond", R.string.state_virginia);
+			put("des moines", R.string.state_iowa);
+			put("modesto", R.string.state_california);
+			put("fayetteville", R.string.state_north_carolina);
+			put("shreveport", R.string.state_louisiana);
+			put("akron", R.string.state_ohio);
+			put("tacoma", R.string.state_washington);
+			put("aurora", R.string.state_illinois);
+			put("oxnard", R.string.state_california);
+			put("fontana", R.string.state_california);
+			put("yonkers", R.string.state_new_york);
+			put("augusta", R.string.state_georgia);
+			put("mobile", R.string.state_alabama);
+			put("little rock", R.string.state_arkansas);
+			put("moreno valley", R.string.state_california);
+			put("glendale", R.string.state_california);
+			put("amarillo", R.string.state_texas);
+			put("huntington beach", R.string.state_california);
+			put("columbus", R.string.state_georgia);
+			put("grand rapids", R.string.state_michigan);
+			put("salt lake city", R.string.state_utah);
+			put("tallahassee", R.string.state_florida);
+			put("worcester", R.string.state_massachusetts);
+			put("newport news", R.string.state_virginia);
+			put("huntsville", R.string.state_alabama);
+			put("knoxville", R.string.state_tennessee);
+			put("providence", R.string.state_rhode_island);
+			put("santa clarita", R.string.state_california);
+			put("grand prairie", R.string.state_texas);
+			put("brownsville", R.string.state_texas);
+			put("jackson", R.string.state_mississippi);
+			put("overland park", R.string.state_kansas);
+			put("garden grove", R.string.state_california);
+			put("santa rosa", R.string.state_california);
+			put("chattanooga", R.string.state_tennessee);
+			put("oceanside", R.string.state_california);
+			put("fort lauderdale", R.string.state_florida);
+			put("rancho cucamonga", R.string.state_california);
+			put("port st. lucie", R.string.state_florida);
+			put("ontario", R.string.state_california);
+			put("vancouver", R.string.state_washington);
+			put("tempe", R.string.state_arizona);
+			put("springfield", R.string.state_missouri);
+			put("lancaster", R.string.state_california);
+			put("eugene", R.string.state_oregon);
+			put("pembroke pines", R.string.state_florida);
+			put("salem", R.string.state_oregon);
+			put("cape coral", R.string.state_florida);
+			put("peoria", R.string.state_arizona);
+			put("sioux falls", R.string.state_south_dakota);
+			put("springfield", R.string.state_massachusetts);
+			put("elk grove", R.string.state_california);
+			put("rockford", R.string.state_illinois);
+			put("palmdale", R.string.state_california);
+			put("corona", R.string.state_california);
+			put("salinas", R.string.state_california);
+			put("pomona", R.string.state_california);
+			put("pasadena", R.string.state_texas);
+			put("joliet", R.string.state_illinois);
+			put("paterson", R.string.state_new_jersey);
+			put("kansas city", R.string.state_kansas);
+			put("torrance", R.string.state_california);
+			put("syracuse", R.string.state_new_york);
+			put("bridgeport", R.string.state_connecticut);
+			put("hayward", R.string.state_california);
+			put("fort collins", R.string.state_colorado);
+			put("escondido", R.string.state_california);
+			put("lakewood", R.string.state_colorado);
+			put("naperville", R.string.state_illinois);
+			put("dayton", R.string.state_ohio);
+			put("hollywood", R.string.state_florida);
+			put("sunnyvale", R.string.state_california);
+			put("alexandria", R.string.state_virginia);
+			put("mesquite", R.string.state_texas);
+			put("hampton", R.string.state_virginia);
+			put("pasadena", R.string.state_california);
+			put("orange", R.string.state_california);
+			put("savannah", R.string.state_georgia);
+			put("cary", R.string.state_north_carolina);
+			put("fullerton", R.string.state_california);
+			put("warren", R.string.state_michigan);
+			put("clarksville", R.string.state_tennessee);
+			put("mckinney", R.string.state_texas);
+			put("mcallen", R.string.state_texas);
+			put("new haven", R.string.state_connecticut);
+			put("sterling heights", R.string.state_michigan);
+			put("west valley city", R.string.state_utah);
+			put("columbia", R.string.state_south_carolina);
+			put("killeen", R.string.state_texas);
+			put("topeka", R.string.state_kansas);
+			put("thousand oaks", R.string.state_california);
+			put("cedar rapids", R.string.state_iowa);
+			put("olathe", R.string.state_kansas);
+			put("elizabeth", R.string.state_new_jersey);
+			put("waco", R.string.state_texas);
+			put("hartford", R.string.state_connecticut);
+			put("visalia", R.string.state_california);
+			put("gainesville", R.string.state_florida);
+			put("simi valley", R.string.state_california);
+			put("stamford", R.string.state_connecticut);
+			put("bellevue", R.string.state_washington);
+			put("concord", R.string.state_california);
+			put("miramar", R.string.state_florida);
+			put("coral springs", R.string.state_florida);
+			put("lafayette", R.string.state_louisiana);
+			put("charleston", R.string.state_south_carolina);
+			put("carrollton", R.string.state_texas);
+			put("roseville", R.string.state_california);
+			put("thornton", R.string.state_colorado);
+			put("beaumont", R.string.state_texas);
+			put("allentown", R.string.state_pennsylvania);
+			put("surprise", R.string.state_arizona);
+			put("evansville", R.string.state_indiana);
+			put("abilene", R.string.state_texas);
+			put("frisco", R.string.state_texas);
+			put("independence", R.string.state_missouri);
+			put("santa clara", R.string.state_california);
+			put("springfield", R.string.state_illinois);
+			put("vallejo", R.string.state_california);
+			put("victorville", R.string.state_california);
+			put("athens", R.string.state_georgia);
+			put("peoria", R.string.state_illinois);
+			put("lansing", R.string.state_michigan);
+			put("ann arbor", R.string.state_michigan);
+			put("el monte", R.string.state_california);
+			put("denton", R.string.state_texas);
+			put("berkeley", R.string.state_california);
+			put("provo", R.string.state_utah);
+			put("downey", R.string.state_california);
+			put("midland", R.string.state_texas);
+			put("norman", R.string.state_oklahoma);
+			put("waterbury", R.string.state_connecticut);
+			put("costa mesa", R.string.state_california);
+			put("inglewood", R.string.state_california);
+			put("manchester", R.string.state_new_hampshire);
+			put("murfreesboro", R.string.state_tennessee);
+			put("columbia", R.string.state_missouri);
+			put("elgin", R.string.state_illinois);
+			put("clearwater", R.string.state_florida);
+			put("miami gardens", R.string.state_florida);
+			put("rochester", R.string.state_minnesota);
+			put("pueblo", R.string.state_colorado);
+			put("lowell", R.string.state_massachusetts);
+			put("wilmington", R.string.state_north_carolina);
+			put("arvada", R.string.state_colorado);
+			put("ventura", R.string.state_california);
+			put("westminster", R.string.state_colorado);
+			put("west covina", R.string.state_california);
+			put("gresham", R.string.state_oregon);
+			put("fargo", R.string.state_north_dakota);
+			put("norwalk", R.string.state_california);
+			put("carlsbad", R.string.state_california);
+			put("fairfield", R.string.state_california);
+			put("cambridge", R.string.state_massachusetts);
+			put("wichita falls", R.string.state_texas);
+			put("high point", R.string.state_north_carolina);
+			put("billings", R.string.state_montana);
+			put("green bay", R.string.state_wisconsin);
+			put("west jordan", R.string.state_utah);
+			put("richmond", R.string.state_california);
+			put("murrieta", R.string.state_california);
+			put("burbank", R.string.state_california);
+			put("palm bay", R.string.state_florida);
+			put("everett", R.string.state_washington);
+			put("flint", R.string.state_michigan);
+			put("antioch", R.string.state_california);
+			put("erie", R.string.state_pennsylvania);
+			put("south bend", R.string.state_indiana);
+			put("daly city", R.string.state_california);
+			put("centennial", R.string.state_colorado);
+			put("temecula", R.string.state_california);
+		}
+	};
 }
