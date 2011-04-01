@@ -50,14 +50,14 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 		mParent = (SearchActivity) getParent();
 		mParent.addSearchListener(this);
-		
+
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
 			mSearchResponse = state.searchResponse;
 			//mHotelItemizedOverlay = state.hotelItemizedOverlay;
 			//mMyLocationOverlay = state.myLocationOverlay;
-			
-			if(mSearchResponse != null) {
+
+			if (mSearchResponse != null) {
 				onSearchCompleted(mSearchResponse);
 			}
 		}
@@ -97,7 +97,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			mSearchResponse.getFilter().addOnFilterChangedListener(this);
 		}
 	}
-	
+
 	@Override
 	public Object onRetainNonConfigurationInstance() {
 		ActivityState state = new ActivityState();
@@ -145,11 +145,9 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		List<Overlay> overlays = mMapView.getOverlays();
 
 		// Add hotels overlay
-		List<Property> properties = Arrays.asList(mSearchResponse
-				.getFilteredAndSortedProperties());
+		List<Property> properties = Arrays.asList(mSearchResponse.getFilteredAndSortedProperties());
 		if (mHotelItemizedOverlay == null) {
-			mHotelItemizedOverlay = new HotelItemizedOverlay(this, properties,
-					mParent.getSearchParams(), true,
+			mHotelItemizedOverlay = new HotelItemizedOverlay(this, properties, mParent.getSearchParams(), true,
 					mMapView, HotelActivity.class);
 			overlays.add(mHotelItemizedOverlay);
 		}
@@ -188,8 +186,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 	@Override
 	public void onFilterChanged() {
-		mHotelItemizedOverlay.setProperties(Arrays.asList(mSearchResponse
-				.getFilteredAndSortedProperties()));
+		mHotelItemizedOverlay.setProperties(Arrays.asList(mSearchResponse.getFilteredAndSortedProperties()));
 
 		// Animate to a new center point
 		focusOnProperties();
@@ -203,7 +200,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private methods
-	
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Private classes
 

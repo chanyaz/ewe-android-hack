@@ -248,6 +248,20 @@
 	    android:gravity="center">
 	    
 	    <LinearLayout
+	    	android:id="@+id/dates_layout"
+	    	android:orientation="horizontal"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:visibility="gone">
+	    	
+	    	<com.mobiata.android.widget.MonthView
+	    		android:id="@+id/dates_month_view"
+	    		android:layout_width="fill_parent"
+	    		android:layout_height="250dp" />
+	    	
+	    </LinearLayout>
+	    
+	    <LinearLayout
 	    	android:id="@+id/guests_layout"
 	    	android:orientation="horizontal"
 	    	android:layout_width="fill_parent"

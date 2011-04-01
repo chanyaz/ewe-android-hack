@@ -88,6 +88,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private ImageButton mViewButton;
 
+	private View mDatesLayout;
 	private View mGuestsLayout;
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
@@ -180,7 +181,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 		}
 		else {
-			mFilter = new Filter();
+			setFilter();
 		}
 
 		setViewButtonImage();
@@ -223,6 +224,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+			if (mDatesLayoutIsVisible) {
+				hideDatesLayout();
+				hideButtonBar();
+				return true;
+			}
+			
 			if (mGuestsLayoutIsVisible) {
 				hideGuestsLayout();
 				hideButtonBar();
@@ -356,9 +363,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mButtonBarLayout.setVisibility(View.GONE);
 	}
 
+	private void hideDatesLayout() {
+		mDatesLayoutIsVisible = false;
+		clearRefinementInfo();
+		mDatesLayout.setVisibility(View.GONE);
+	}
+
 	private void hideGuestsLayout() {
 		mGuestsLayoutIsVisible = false;
-		clearRefinementInfoText();
+		clearRefinementInfo();
 		mGuestsLayout.setVisibility(View.GONE);
 	}
 
@@ -371,10 +384,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mButtonBarLayout.setVisibility(View.VISIBLE);
 	}
 
+	private void showDatesLayout() {
+		mDatesLayoutIsVisible = true;
+		hideSoftKeyboard(mSearchEditText);
+		hideGuestsLayout();
+		setRefinementInfo();
+		mDatesLayout.setVisibility(View.VISIBLE);
+		showButtonBar();
+	}
+
 	private void showGuestsLayout() {
 		mGuestsLayoutIsVisible = true;
 		hideSoftKeyboard(mSearchEditText);
-		setRefinementInfoText();
+		hideDatesLayout();
+		setRefinementInfo();
 		mGuestsLayout.setVisibility(View.VISIBLE);
 		mAdultsNumberPicker.requestFocus();
 		showButtonBar();
@@ -391,7 +414,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	// Other methods
 
-	private void clearRefinementInfoText() {
+	private void clearRefinementInfo() {
 		mRefinementInfoTextView.setText("");
 	}
 
@@ -414,6 +437,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
 
+		mDatesLayout = findViewById(R.id.dates_layout);
 		mGuestsLayout = findViewById(R.id.guests_layout);
 		mAdultsNumberPicker = (NumberPicker) findViewById(R.id.adults_number_picker);
 		mChildrenNumberPicker = (NumberPicker) findViewById(R.id.children_number_picker);
@@ -433,6 +457,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
+		mDatesButton.setOnClickListener(mDatesButtonClickListener);
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
 
 		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
@@ -449,6 +474,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mFocusLayout.requestFocus();
 
 		hideSoftKeyboard(mSearchEditText);
+		hideDatesLayout();
 		hideGuestsLayout();
 		hideButtonBar();
 	}
@@ -497,7 +523,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	private void setRefinementInfoText() {
+	private void setRefinementInfo() {
 		if (mDatesLayoutIsVisible) {
 
 		}
@@ -664,6 +690,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
+				hideDatesLayout();
 				hideGuestsLayout();
 				showButtonBar();
 				showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
@@ -703,9 +730,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private View.OnClickListener mSearchEditTextClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			hideDatesLayout();
 			hideGuestsLayout();
 			showButtonBar();
 			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
+		}
+	};
+
+	private View.OnClickListener mDatesButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			showDatesLayout();
 		}
 	};
 
@@ -737,7 +772,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private NumberPicker.OnChangedListener mNumberPickerChangedListener = new NumberPicker.OnChangedListener() {
 		@Override
 		public void onChanged(NumberPicker picker, int oldVal, int newVal) {
-			setRefinementInfoText();
+			setRefinementInfo();
 		}
 	};
 
