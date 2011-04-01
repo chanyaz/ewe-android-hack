@@ -47,11 +47,14 @@ import com.mobiata.hotellib.data.Filter.Sort;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.server.ExpediaServices;
+import com.mobiata.hotellib.utils.StrUtils;
 
 @SuppressWarnings("unused")
 public class SearchActivity extends ActivityGroup implements LocationListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
+
+	private static final String KEY_SEARCH = "KEY_SEARCH";
 
 	private static final int MSG_SWITCH_TO_NETWORK_LOCATION = 0;
 	private static final int MSG_BROADCAST_SEARCH_COMPLETED = 1;
@@ -69,21 +72,30 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// Views
 
 	private View mFocusLayout;
+
 	private FrameLayout mContent;
+
 	private EditText mSearchEditText;
 	private ImageButton mDatesButton;
 	private ImageButton mGuestsButton;
+
 	private Panel mPanel;
+
 	private View mSortLayout;
 	private SegmentedControlGroup mSortButtonGroup;
 	private SegmentedControlGroup mRadiusButtonGroup;
 	private SegmentedControlGroup mPriceButtonGroup;
+
 	private ImageButton mViewButton;
+
 	private View mGuestsLayout;
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
+
 	private View mButtonBarLayout;
+	private TextView mRefinementInfoTextView;
 	private Button mSearchButton;
+
 	private TagProgressBar mSearchProgressBar;
 
 	// Others
@@ -101,7 +113,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Filter mFilter;
 	private boolean mIsSearching;
 
-	private boolean mDatesLayoutIsOpen;
+	private boolean mDatesLayoutIsVisible;
 	private boolean mGuestsLayoutIsVisible;
 	private boolean mButtonBarIsVisible;
 
@@ -217,14 +229,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				return true;
 			}
 
-			if (!mSearchEditText.hasFocus()) {
-				resetFocus();
+			if (mSearchEditText.hasFocus() && mButtonBarIsVisible) {
+				hideButtonBar();
 				return true;
-			}
-
-			if (mButtonBarIsVisible) {
-				//hideButtonBar();
-				//return true;
 			}
 		}
 
@@ -351,6 +358,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void hideGuestsLayout() {
 		mGuestsLayoutIsVisible = false;
+		clearRefinementInfoText();
 		mGuestsLayout.setVisibility(View.GONE);
 	}
 
@@ -366,9 +374,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private void showGuestsLayout() {
 		mGuestsLayoutIsVisible = true;
 		hideSoftKeyboard(mSearchEditText);
+		setRefinementInfoText();
 		mGuestsLayout.setVisibility(View.VISIBLE);
 		mAdultsNumberPicker.requestFocus();
 		showButtonBar();
+	}
+	
+	private void showLoading(int resId) {
+		showLoading(getString(resId));
 	}
 
 	private void showLoading(String text) {
@@ -378,43 +391,66 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	// Other methods
 
+	private void clearRefinementInfoText() {
+		mRefinementInfoTextView.setText("");
+	}
+
 	private void initializeViews() {
 		// Get views
 		mFocusLayout = findViewById(R.id.focus_layout);
+
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
+
 		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
 		mDatesButton = (ImageButton) findViewById(R.id.dates_button);
 		mGuestsButton = (ImageButton) findViewById(R.id.guests_button);
+
 		mPanel = (Panel) findViewById(R.id.drawer_panel);
+
 		mSortLayout = findViewById(R.id.sort_layout);
 		mSortButtonGroup = (SegmentedControlGroup) findViewById(R.id.sort_filter_button_group);
 		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
+
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
+
 		mGuestsLayout = findViewById(R.id.guests_layout);
 		mAdultsNumberPicker = (NumberPicker) findViewById(R.id.adults_number_picker);
 		mChildrenNumberPicker = (NumberPicker) findViewById(R.id.children_number_picker);
+
 		mButtonBarLayout = findViewById(R.id.button_bar_layout);
+		mRefinementInfoTextView = (TextView) findViewById(R.id.refinement_info_text_view);
 		mSearchButton = (Button) findViewById(R.id.search_button);
+
 		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
 
 		// Properties
 		mPanel.setInterpolator(new AccelerateInterpolator());
+		mAdultsNumberPicker.setRange(1, 4);
+		mChildrenNumberPicker.setRange(0, 4);
 
 		// Listeners
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
+		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
+
 		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
-		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
+
+		mAdultsNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
+		mChildrenNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
 		mViewButton.setOnClickListener(mViewButtonClickListener);
 		mSearchButton.setOnClickListener(mSearchButtonClickListener);
 	}
 
 	private void resetFocus() {
 		mFocusLayout.requestFocus();
+
+		hideSoftKeyboard(mSearchEditText);
+		hideGuestsLayout();
+		hideButtonBar();
 	}
 
 	private void setActivityByTag(String tag) {
@@ -458,6 +494,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
 			mSortLayout.setVisibility(View.GONE);
+		}
+	}
+
+	private void setRefinementInfoText() {
+		if (mDatesLayoutIsVisible) {
+
+		}
+		else if (mGuestsLayoutIsVisible) {
+			final int adults = mAdultsNumberPicker.getCurrent();
+			final int children = mChildrenNumberPicker.getCurrent();
+
+			mRefinementInfoTextView.setText(StrUtils.formatGuests(mContext, adults, children));
 		}
 	}
 
@@ -556,13 +604,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		else {
 			mSearchParams.setFreeformLocation(mSearchEditText.getText().toString());
 		}
+
+		mSearchParams.setNumAdults(mAdultsNumberPicker.getCurrent());
+		mSearchParams.setNumAdults(mChildrenNumberPicker.getCurrent());
 	}
 
 	private void startSearch() {
-		showLoading("Searching for Hotels...");
+		showLoading(R.string.progress_searching_hotels);
 		setFilter();
 
-		mSearchDownloader.startDownload("mykey", mSearchDownload, mSearchCallback);
+		mSearchDownloader.cancelDownload(KEY_SEARCH);
+		mSearchDownloader.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
 
 	// Location methods
@@ -574,7 +626,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void startLocationListener() {
-		showLoading("Finding Current Location...");
+		showLoading(R.string.progress_finding_location);
 
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		String provider;
@@ -679,6 +731,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			stopLocationListener();
 			setSearchParams();
 			startSearch();
+		}
+	};
+
+	private NumberPicker.OnChangedListener mNumberPickerChangedListener = new NumberPicker.OnChangedListener() {
+		@Override
+		public void onChanged(NumberPicker picker, int oldVal, int newVal) {
+			setRefinementInfoText();
 		}
 	};
 

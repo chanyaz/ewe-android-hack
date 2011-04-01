@@ -281,10 +281,14 @@
 	    android:visibility="gone">
 	    
 	    <TextView
-	    	android:id="@+id/search_title_text_view"
+	    	android:id="@+id/refinement_info_text_view"
 	    	android:layout_width="0dp"
 	    	android:layout_height="fill_parent"
-	    	android:layout_weight="1" />	    	
+	    	android:layout_weight="1"
+	    	android:gravity="center|left"
+	    	android:textSize="16sp"
+	    	android:textColor="@android:color/white"
+	    	android:textStyle="bold" />	    	
 	    
 	    <Button
 	    	android:id="@+id/search_button"
