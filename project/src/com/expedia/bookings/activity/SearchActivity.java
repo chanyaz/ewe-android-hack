@@ -452,7 +452,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mAdultsNumberPicker.setRange(1, 4);
 		mChildrenNumberPicker.setRange(0, 4);
-
+		
 		// Listeners
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);

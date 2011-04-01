@@ -41,8 +41,8 @@
 		mobiata:handle="@+id/drawer_handle"
 		mobiata:content="@+id/drawer_content"
 		mobiata:position="top"
-		mobiata:openedHandle="#c2e2f9"
-		mobiata:closedHandle="#c2e2f9"
+		mobiata:openedHandle="#FF999999"
+		mobiata:closedHandle="#FF999999"
 		mobiata:animationDuration="300">
 
 		<View
@@ -57,7 +57,7 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:padding="6dp"
-			android:background="#c2e2f9">
+			android:background="#FF999999">
 			
 			<LinearLayout
 				android:id="@+id/sort_layout"
@@ -257,7 +257,7 @@
 	    	<com.mobiata.android.widget.MonthView
 	    		android:id="@+id/dates_month_view"
 	    		android:layout_width="fill_parent"
-	    		android:layout_height="250dp" />
+	    		android:layout_height="300dp" />
 	    	
 	    </LinearLayout>
 	    
