@@ -70,4 +70,16 @@
 	<string name="security_code_tip_back">See back of credit card</string>
 	<!-- Disclaimer about charges and currency -->
 	<string name="disclaimer_currency">All charges will incur in the hotel\'s local currency.</string>
+	<!-- Error message if field was required but not entered -->
+	<string name="required_field">Please enter a value for this field.</string>
+	<!-- Error message if field had data entered but was invalid -->
+	<string name="invalid_field">Please enter a valid value for this field.</string>
+	<!-- Error if an invalid card number was entered -->
+	<string name="invalid_card_number">The credit card number you entered is invalid, please try again.</string>
+	<!-- Error if an invalid month (not 1-12) was entered -->
+	<string name="invalid_month">Please enter a value between 1 and 12</string>
+	<!-- Error if an invalid year was entered -->
+	<string name="invalid_expiration_year">Please enter a year that hasn\'t already passed</string>
+	<!-- Error if an invalid security code was entered -->
+	<string name="invalid_security_code">Please enter a three or four digit security code</string>
 </resources>

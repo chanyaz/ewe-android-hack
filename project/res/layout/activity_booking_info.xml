@@ -1,333 +1,372 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:fillViewport="true">
-	<LinearLayout
+	android:layout_height="fill_parent">
+	<ScrollView
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:padding="8dp"
-		android:orientation="vertical"
-		android:background="#E3E3E6"
-		android:focusableInTouchMode="true">
-
-		<!-- Ticket stub summary at top of page -->
+		android:fillViewport="true"
+		android:fadingEdge="none">
 		<LinearLayout
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
+			android:padding="8dp"
 			android:orientation="vertical"
-			android:background="@drawable/bg_ticket">
-			<ImageView
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:src="@drawable/expedia_candy_cane"
-				android:scaleType="fitXY" />
+			android:background="#E3E3E6"
+			android:focusableInTouchMode="true">
+
+			<!-- Ticket stub summary at top of page -->
 			<LinearLayout
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:paddingTop="6dp"
-				android:paddingLeft="6dp"
-				android:paddingRight="6dp"
-				android:orientation="horizontal"
-				android:gravity="center_vertical">
+				android:orientation="vertical"
+				android:background="@drawable/bg_ticket">
 				<ImageView
-					android:id="@+id/thumbnail_image_view"
-					android:layout_width="100dp"
-					android:layout_height="80dp"
-					android:layout_marginRight="8dp"
-					android:scaleType="centerCrop"
-					android:src="@drawable/ic_image_placeholder" />
-				<LinearLayout
-					android:layout_width="wrap_content"
+					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:orientation="vertical"
-					android:gravity="right">
+					android:src="@drawable/expedia_candy_cane"
+					android:scaleType="fitXY" />
+				<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:paddingTop="6dp"
+					android:paddingLeft="6dp"
+					android:paddingRight="6dp"
+					android:orientation="horizontal"
+					android:gravity="center_vertical">
 					<ImageView
-						android:id="@+id/expedia_logo_image_view"
+						android:id="@+id/thumbnail_image_view"
+						android:layout_width="100dp"
+						android:layout_height="80dp"
+						android:layout_marginRight="8dp"
+						android:scaleType="centerCrop"
+						android:src="@drawable/ic_image_placeholder" />
+					<LinearLayout
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_gravity="right"
-						android:src="@drawable/expedia_logo" />
-					<TextView
-						android:id="@+id/name_text_view"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textColor="@color/dark_blue"
-						android:textSize="12sp"
-						android:singleLine="true"
-						android:ellipsize="end" />
-					<TextView
-						android:id="@+id/address1_text_view"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textColor="@color/dark_blue"
-						android:textSize="12sp" />
-					<TextView
-						android:id="@+id/address2_text_view"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textColor="@color/dark_blue"
-						android:textSize="12sp" />
+						android:layout_weight="1"
+						android:orientation="vertical"
+						android:gravity="right">
+						<ImageView
+							android:id="@+id/expedia_logo_image_view"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="right"
+							android:src="@drawable/expedia_logo" />
+						<TextView
+							android:id="@+id/name_text_view"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textColor="@color/dark_blue"
+							android:textSize="12sp"
+							android:singleLine="true"
+							android:ellipsize="end" />
+						<TextView
+							android:id="@+id/address1_text_view"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textColor="@color/dark_blue"
+							android:textSize="12sp" />
+						<TextView
+							android:id="@+id/address2_text_view"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textColor="@color/dark_blue"
+							android:textSize="12sp" />
+					</LinearLayout>
 				</LinearLayout>
-			</LinearLayout>
-			<View
-				android:layout_width="fill_parent"
-				android:layout_height="@dimen/two_pixels"
-				android:layout_margin="6dp"
-				android:background="@drawable/divider" />
-			<LinearLayout
-				android:id="@+id/details_layout"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:paddingLeft="6dp"
-				android:paddingRight="6dp"
-				android:orientation="vertical" />
-			<View
-				android:layout_width="fill_parent"
-				android:layout_height="@dimen/two_pixels"
-				android:layout_margin="6dp"
-				android:background="@drawable/divider" />
-			<LinearLayout
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:paddingLeft="6dp"
-				android:paddingRight="6dp"
-				android:paddingBottom="6dp"
-				android:orientation="horizontal">
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textColor="@color/dark_blue"
-					android:textSize="18sp"
-					android:textStyle="bold"
-					android:text="@string/total_cost" />
-				<TextView
-					android:id="@+id/total_cost_text_view"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:gravity="right"
-					android:textSize="18sp"
-					android:textColor="@android:color/black"
-					android:textStyle="bold"
-					android:text="SOME TEST" />
-			</LinearLayout>
-		</LinearLayout>
-
-		<!-- Guest info form fields -->
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/guest_info"
-			style="@style/formSectionHeaderText" />
-		<LinearLayout
-			android:id="@+id/guest_info_layout"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
-			<LinearLayout
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal">
-				<EditText
-					android:id="@+id/first_name_edit_text"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:nextFocusUp="@+id/first_name_edit_text"
-					android:nextFocusLeft="@+id/first_name_edit_text"
-					android:inputType="textPersonName|textCapWords"
-					android:hint="@string/FirstName" />
-				<EditText
-					android:id="@+id/last_name_edit_text"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:inputType="textPersonName|textCapWords"
-					android:hint="@string/LastName" />
-			</LinearLayout>
-			<EditText
-				android:id="@+id/telephone_edit_text"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:inputType="phone"
-				android:hint="@string/Telephone" />
-			<EditText
-				android:id="@+id/email_edit_text"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:inputType="textEmailAddress"
-				android:hint="@string/EmailForConf" />
-		</LinearLayout>
-
-		<!-- Billing info form fields -->
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/billing_info"
-			style="@style/formSectionHeaderText" />
-		<LinearLayout
-			android:id="@+id/billing_info_layout"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
-			<EditText
-				android:id="@+id/address1_edit_text"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:inputType="textPostalAddress|textCapWords"
-				android:hint="@string/hint_address1" />
-			<EditText
-				android:id="@+id/address2_edit_text"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:inputType="textPostalAddress|textCapWords"
-				android:hint="@string/hint_address2" />
-			<LinearLayout
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:gravity="center_vertical">
-				<EditText
-					android:id="@+id/city_edit_text"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="1dp"
-					android:layout_weight="1"
-					android:minWidth="150dp"
-					android:inputType="textPostalAddress|textCapWords"
-					android:hint="@string/City" />
-
-				<!-- Either the Spinner or the EditText are displayed, depending on the 
-					country selected -->
-				<Spinner
-					android:id="@+id/state_spinner"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:entries="@array/state_names"
-					android:layout_weight="1" />
-				<EditText
-					android:id="@+id/state_edit_text"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:visibility="gone"
-					android:hint="@string/StateCode" />
-			</LinearLayout>
-			<LinearLayout
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:gravity="center_vertical">
-				<Spinner
-					android:id="@+id/country_spinner"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:entries="@array/country_names" />
-				<EditText
-					android:id="@+id/postal_code_edit_text"
-					android:layout_width="120dp"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="1dp"
-					android:inputType="textPostalAddress|textCapCharacters"
-					android:hint="@string/PostalCode" />
-			</LinearLayout>
-		</LinearLayout>
-
-		<!-- Credit card info form fields -->
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/credit_card_info"
-			style="@style/formSectionHeaderText" />
-		<LinearLayout
-			android:id="@+id/credit_card_info_layout"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
-			<LinearLayout
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal">
-				<EditText
-					android:id="@+id/card_number_edit_text"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:inputType="number"
-					android:maxLength="20"
-					android:hint="@string/hint_card_number" />
-				<EditText
-					android:id="@+id/expiration_month_edit_text"
-					android:layout_width="45dp"
-					android:layout_height="wrap_content"
-					android:inputType="number"
-					android:maxLength="2"
-					android:hint="@string/hint_expiration_month" />
-				<EditText
-					android:id="@+id/expiration_year_edit_text"
-					android:layout_width="45dp"
-					android:layout_height="wrap_content"
-					android:inputType="number"
-					android:maxLength="2"
-					android:hint="@string/hint_expiration_year" />
-			</LinearLayout>
-			<LinearLayout
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:gravity="center_vertical"
-				android:orientation="horizontal">
-				<ImageView
-					android:id="@+id/credit_card_image_view"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:src="@drawable/ic_card_unknown" />
+				<View
+					android:layout_width="fill_parent"
+					android:layout_height="@dimen/two_pixels"
+					android:layout_margin="6dp"
+					android:background="@drawable/divider" />
 				<LinearLayout
-					android:layout_width="wrap_content"
+					android:id="@+id/details_layout"
+					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginLeft="6dp"
-					android:layout_weight="1"
-					android:layout_gravity="center_vertical"
-					android:orientation="vertical">
+					android:paddingLeft="6dp"
+					android:paddingRight="6dp"
+					android:orientation="vertical" />
+				<View
+					android:layout_width="fill_parent"
+					android:layout_height="@dimen/two_pixels"
+					android:layout_margin="6dp"
+					android:background="@drawable/divider" />
+				<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:paddingLeft="6dp"
+					android:paddingRight="6dp"
+					android:paddingBottom="6dp"
+					android:orientation="horizontal">
 					<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:textColor="#545454"
+						android:textColor="@color/dark_blue"
+						android:textSize="18sp"
 						android:textStyle="bold"
-						android:text="@string/security_code" />
+						android:text="@string/total_cost" />
 					<TextView
-						android:id="@+id/security_code_tip_text_view"
+						android:id="@+id/total_cost_text_view"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:textColor="#545454"
-						android:textSize="12sp"
-						android:text="@string/security_code_tip_back" />
+						android:layout_weight="1"
+						android:gravity="right"
+						android:textSize="18sp"
+						android:textColor="@android:color/black"
+						android:textStyle="bold"
+						android:text="SOME TEST" />
+				</LinearLayout>
+			</LinearLayout>
+
+			<!-- Guest info form fields -->
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/guest_info"
+				style="@style/formSectionHeaderText" />
+			<LinearLayout
+				android:id="@+id/guest_info_layout"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
+				<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+					<EditText
+						android:id="@+id/first_name_edit_text"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:nextFocusUp="@+id/first_name_edit_text"
+						android:nextFocusLeft="@+id/first_name_edit_text"
+						android:inputType="textPersonName|textCapWords"
+						android:hint="@string/FirstName" />
+					<EditText
+						android:id="@+id/last_name_edit_text"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:inputType="textPersonName|textCapWords"
+						android:hint="@string/LastName" />
 				</LinearLayout>
 				<EditText
-					android:id="@+id/security_code_edit_text"
-					android:layout_width="65dp"
+					android:id="@+id/telephone_edit_text"
+					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:inputType="number"
-					android:maxLength="4" />
+					android:inputType="phone"
+					android:hint="@string/Telephone" />
+				<EditText
+					android:id="@+id/email_edit_text"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:inputType="textEmailAddress"
+					android:hint="@string/EmailForConf" />
 			</LinearLayout>
+
+			<!-- Billing info form fields -->
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/billing_info"
+				style="@style/formSectionHeaderText" />
+			<LinearLayout
+				android:id="@+id/billing_info_layout"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
+				<EditText
+					android:id="@+id/address1_edit_text"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:inputType="textPostalAddress|textCapWords"
+					android:hint="@string/hint_address1" />
+				<EditText
+					android:id="@+id/address2_edit_text"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:inputType="textPostalAddress|textCapWords"
+					android:hint="@string/hint_address2" />
+				<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:gravity="center_vertical">
+					<EditText
+						android:id="@+id/city_edit_text"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="1dp"
+						android:layout_weight="1"
+						android:minWidth="150dp"
+						android:inputType="textPostalAddress|textCapWords"
+						android:hint="@string/City" />
+
+					<!-- Either the Spinner or the EditText are displayed, depending on 
+						the country selected -->
+					<Spinner
+						android:id="@+id/state_spinner"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:entries="@array/state_names"
+						android:layout_weight="1" />
+					<EditText
+						android:id="@+id/state_edit_text"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:visibility="gone"
+						android:hint="@string/StateCode" />
+				</LinearLayout>
+				<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:gravity="center_vertical">
+					<Spinner
+						android:id="@+id/country_spinner"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:entries="@array/country_names" />
+					<EditText
+						android:id="@+id/postal_code_edit_text"
+						android:layout_width="120dp"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="1dp"
+						android:inputType="textPostalAddress|textCapCharacters"
+						android:hint="@string/PostalCode" />
+				</LinearLayout>
+			</LinearLayout>
+
+			<!-- Credit card info form fields -->
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/credit_card_info"
+				style="@style/formSectionHeaderText" />
+			<LinearLayout
+				android:id="@+id/credit_card_info_layout"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
+				<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+					<EditText
+						android:id="@+id/card_number_edit_text"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:inputType="number"
+						android:maxLength="20"
+						android:hint="@string/hint_card_number" />
+					<EditText
+						android:id="@+id/expiration_month_edit_text"
+						android:layout_width="60dp"
+						android:layout_height="wrap_content"
+						android:inputType="number"
+						android:maxLength="2"
+						android:hint="@string/hint_expiration_month" />
+					<EditText
+						android:id="@+id/expiration_year_edit_text"
+						android:layout_width="60dp"
+						android:layout_height="wrap_content"
+						android:inputType="number"
+						android:maxLength="2"
+						android:hint="@string/hint_expiration_year" />
+				</LinearLayout>
+				<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:gravity="center_vertical"
+					android:orientation="horizontal">
+					<ImageView
+						android:id="@+id/credit_card_image_view"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:src="@drawable/ic_card_unknown" />
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="6dp"
+						android:layout_weight="1"
+						android:layout_gravity="center_vertical"
+						android:orientation="vertical">
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textColor="#545454"
+							android:textStyle="bold"
+							android:text="@string/security_code" />
+						<TextView
+							android:id="@+id/security_code_tip_text_view"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textColor="#545454"
+							android:textSize="12sp"
+							android:text="@string/security_code_tip_back" />
+					</LinearLayout>
+					<EditText
+						android:id="@+id/security_code_edit_text"
+						android:layout_width="65dp"
+						android:layout_height="wrap_content"
+						android:inputType="number"
+						android:maxLength="4" />
+				</LinearLayout>
+			</LinearLayout>
+
+			<!-- Disclaimer notices at the bottom of the screen -->
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:textColor="#6A6D71"
+				android:text="@string/disclaimer_currency" />
+
+			<TextView
+				android:id="@+id/cancellation_policy_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:textColor="#6A6D71" />
+
+			<!-- This view serves a purpose, which is to allow the ScrollView to scroll 
+				down via physical keyboard to the very bottom despite the RelativeLayout 
+				trickery. -->
+			<View
+				android:id="@+id/bottom_padding_view"
+				android:layout_width="fill_parent"
+				android:layout_height="50dp"
+				android:focusable="true"
+				android:nextFocusDown="@+id/confirm_book_button" />
 		</LinearLayout>
+	</ScrollView>
 
-		<!-- Disclaimer notices at the bottom of the screen -->
+	<!-- Bottom button bar -->
+	<LinearLayout
+		android:id="@+id/button_bar_layout"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:orientation="horizontal"
+		android:background="#C000"
+		style="@android:style/ButtonBar">
 		<TextView
+			android:id="@+id/charge_details_text_view"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="8dp"
-			android:textColor="#6A6D71"
-			android:text="@string/disclaimer_currency" />
-
-		<TextView
-			android:id="@+id/cancellation_policy_text_view"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="8dp"
-			android:textColor="#6A6D71" />
+			android:layout_weight="1"
+			android:textColor="@android:color/white"
+			android:textSize="12sp" />
+		<Button
+			android:id="@+id/confirm_book_button"
+			android:layout_width="150dp"
+			android:layout_height="48dp"
+			android:nextFocusUp="@+id/security_code_edit_text"
+			android:text="@string/EnterBookingInfo" />
 	</LinearLayout>
-</ScrollView>
+</RelativeLayout>

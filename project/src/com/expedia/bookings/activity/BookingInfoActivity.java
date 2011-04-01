@@ -14,12 +14,13 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -31,6 +32,7 @@ import com.mobiata.android.FormatUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
+import com.mobiata.android.validation.TextViewErrorHandler;
 import com.mobiata.android.validation.TextViewValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.ValidationProcessor;
@@ -77,8 +79,10 @@ public class BookingInfoActivity extends Activity {
 	private EditText mExpirationMonthEditText;
 	private EditText mExpirationYearEditText;
 	private EditText mSecurityCodeEditText;
+	private Button mConfirmationButton;
 
 	private TextView mSecurityCodeTipTextView;
+	private TextView mChargeDetailsTextView;
 
 	// Validation
 	private static final int ERROR_INVALID_CARD_NUMBER = 101;
@@ -126,9 +130,11 @@ public class BookingInfoActivity extends Activity {
 		mExpirationMonthEditText = (EditText) findViewById(R.id.expiration_month_edit_text);
 		mExpirationYearEditText = (EditText) findViewById(R.id.expiration_year_edit_text);
 		mSecurityCodeEditText = (EditText) findViewById(R.id.security_code_edit_text);
+		mConfirmationButton = (Button) findViewById(R.id.confirm_book_button);
 
 		// Other cached views
 		mSecurityCodeTipTextView = (TextView) findViewById(R.id.security_code_tip_text_view);
+		mChargeDetailsTextView = (TextView) findViewById(R.id.charge_details_text_view);
 
 		// Configure the layout
 		configureTicket();
@@ -370,7 +376,16 @@ public class BookingInfoActivity extends Activity {
 		});
 
 		// Configure form validation
+		// Setup validators and error handlers
 		TextViewValidator requiredFieldValidator = new TextViewValidator();
+		final TextViewErrorHandler errorHandler = new TextViewErrorHandler(getString(R.string.required_field));
+		errorHandler.addResponse(ValidationError.ERROR_DATA_INVALID, getString(R.string.invalid_field));
+		errorHandler.addResponse(ERROR_INVALID_CARD_NUMBER, getString(R.string.invalid_card_number));
+		errorHandler.addResponse(ERROR_INVALID_MONTH, getString(R.string.invalid_month));
+		errorHandler.addResponse(ERROR_EXPIRED_YEAR, getString(R.string.invalid_expiration_year));
+		errorHandler.addResponse(ERROR_SHORT_SECURITY_CODE, getString(R.string.invalid_security_code));
+
+		// Add all the validators
 		mValidationProcessor.add(mFirstNameEditText, requiredFieldValidator);
 		mValidationProcessor.add(mLastNameEditText, requiredFieldValidator);
 		mValidationProcessor.add(mTelephoneEditText, new TextViewValidator(new TelephoneValidator()));
@@ -400,6 +415,16 @@ public class BookingInfoActivity extends Activity {
 				return (obj.length() < 3) ? ERROR_SHORT_SECURITY_CODE : 0;
 			}
 		}));
+
+		// Configure the bottom of the page form stuff
+		mConfirmationButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				boolean valid = mValidationProcessor.validate(errorHandler);
+
+				// TODO: Handle invalid and valid responses
+			}
+		});
 	}
 
 	private void configureFooter() {
