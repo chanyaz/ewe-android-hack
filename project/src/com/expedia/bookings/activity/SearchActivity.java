@@ -379,7 +379,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mAdultsNumberPicker.requestFocus();
 		showButtonBar();
 	}
-	
+
 	private void showLoading(int resId) {
 		showLoading(getString(resId));
 	}
@@ -606,7 +606,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		mSearchParams.setNumAdults(mAdultsNumberPicker.getCurrent());
-		mSearchParams.setNumAdults(mChildrenNumberPicker.getCurrent());
+		mSearchParams.setNumChildren(mChildrenNumberPicker.getCurrent());
 	}
 
 	private void startSearch() {
