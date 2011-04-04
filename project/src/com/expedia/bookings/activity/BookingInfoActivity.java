@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,12 +9,16 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +34,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.FileCipher;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
@@ -38,6 +44,7 @@ import com.mobiata.android.validation.TextViewValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.ValidationProcessor;
 import com.mobiata.android.validation.Validator;
+import com.mobiata.hotellib.Params;
 import com.mobiata.hotellib.data.BillingInfo;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Location;
@@ -51,6 +58,12 @@ import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
 
 public class BookingInfoActivity extends Activity {
+
+	private static final String SAVED_INFO_FILENAME = "booking.dat";
+
+	// Kind of pointless when this is just stored as a static field, but at least protects
+	// against someone getting the plaintext file but not the app itself.
+	private static final String PASSWORD = "7eGeDr4jaD6jut9aha3hAyupAC6ZE9a";
 
 	private SearchParams mSearchParams;
 	private Property mProperty;
@@ -158,7 +171,14 @@ public class BookingInfoActivity extends Activity {
 			syncFormFields();
 		}
 		else {
-			mBillingInfo = new BillingInfo();
+			// Try loading saved billing info
+			if (loadSavedBillingInfo()) {
+				syncFormFields();
+			}
+			else {
+				mBillingInfo = new BillingInfo();
+			}
+
 			mFormHasBeenFocused = false;
 		}
 	}
@@ -445,6 +465,9 @@ public class BookingInfoActivity extends Activity {
 				if (hasFocus) {
 					onFormFieldFocus();
 				}
+				else {
+					saveBillingInfo();
+				}
 			}
 		};
 
@@ -514,6 +537,68 @@ public class BookingInfoActivity extends Activity {
 		// Add the charge details text
 		mChargeDetailsTextView.setText(getString(R.string.charge_details_template, mRate.getTotalAmountAfterTax()
 				.getFormattedMoney()));
+	}
+
+	private boolean saveBillingInfo() {
+		if (Params.isLoggingEnabled()) {
+			Log.d(Params.getLoggingTag(), "Saving user's billing info.");
+		}
+
+		// Initialize a cipher
+		FileCipher fileCipher = new FileCipher(PASSWORD);
+
+		if (!fileCipher.isInitialized()) {
+			return false;
+		}
+
+		// Gather all the data to be saved
+		syncBillingInfo();
+
+		JSONObject data = mBillingInfo.toJson();
+
+		// Remove sensitive data
+		data.remove("brandName");
+		data.remove("brandCode");
+		data.remove("number");
+		data.remove("securityCode");
+
+		return fileCipher.saveSecureData(getFileStreamPath(SAVED_INFO_FILENAME), data.toString());
+	}
+
+	private boolean loadSavedBillingInfo() {
+		if (Params.isLoggingEnabled()) {
+			Log.d(Params.getLoggingTag(), "Loading saved billing info.");
+		}
+
+		// Check that the saved billing info file exists
+		File f = getFileStreamPath(SAVED_INFO_FILENAME);
+		if (!f.exists()) {
+			return false;
+		}
+
+		// Initialize a cipher
+		FileCipher fileCipher = new FileCipher(PASSWORD);
+		if (!fileCipher.isInitialized()) {
+			return false;
+		}
+
+		String results = fileCipher.loadSecureData(f);
+		if (results == null || results.length() == 0) {
+			return false;
+		}
+
+		try {
+			JSONObject obj = new JSONObject(results);
+			mBillingInfo = new BillingInfo();
+			mBillingInfo.fromJson(obj);
+			return true;
+		}
+		catch (JSONException e) {
+			if (Params.isLoggingEnabled()) {
+				Log.e(Params.getLoggingTag(), "Could not restore saved billing info.", e);
+			}
+			return false;
+		}
 	}
 
 	private void bookProperty() {
