@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -59,6 +60,8 @@ public class BookingInfoActivity extends Activity {
 
 	private LayoutInflater mInflater;
 
+	private boolean mFormHasBeenFocused;
+
 	// Cached data from arrays
 	private String[] mStateCodes;
 	private String[] mCountryCodes;
@@ -90,6 +93,7 @@ public class BookingInfoActivity extends Activity {
 	private static final int ERROR_EXPIRED_YEAR = 103;
 	private static final int ERROR_SHORT_SECURITY_CODE = 104;
 	private ValidationProcessor mValidationProcessor;
+	private TextViewErrorHandler mErrorHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -145,15 +149,23 @@ public class BookingInfoActivity extends Activity {
 		Instance lastInstance = (Instance) getLastNonConfigurationInstance();
 		if (lastInstance != null) {
 			this.mBillingInfo = lastInstance.mBillingInfo;
+			this.mFormHasBeenFocused = lastInstance.mFormHasBeenFocused;
+
+			if (this.mFormHasBeenFocused) {
+				onFormFieldFocus();
+			}
+
 			syncFormFields();
 		}
 		else {
 			mBillingInfo = new BillingInfo();
+			mFormHasBeenFocused = false;
 		}
 	}
 
 	private class Instance {
 		public BillingInfo mBillingInfo;
+		public boolean mFormHasBeenFocused;
 	}
 
 	@Override
@@ -162,6 +174,7 @@ public class BookingInfoActivity extends Activity {
 
 		Instance instance = new Instance();
 		instance.mBillingInfo = this.mBillingInfo;
+		instance.mFormHasBeenFocused = this.mFormHasBeenFocused;
 		return instance;
 	}
 
@@ -378,7 +391,7 @@ public class BookingInfoActivity extends Activity {
 		// Configure form validation
 		// Setup validators and error handlers
 		TextViewValidator requiredFieldValidator = new TextViewValidator();
-		final TextViewErrorHandler errorHandler = new TextViewErrorHandler(getString(R.string.required_field));
+		TextViewErrorHandler errorHandler = mErrorHandler = new TextViewErrorHandler(getString(R.string.required_field));
 		errorHandler.addResponse(ValidationError.ERROR_DATA_INVALID, getString(R.string.invalid_field));
 		errorHandler.addResponse(ERROR_INVALID_CARD_NUMBER, getString(R.string.invalid_card_number));
 		errorHandler.addResponse(ERROR_INVALID_MONTH, getString(R.string.invalid_month));
@@ -420,11 +433,37 @@ public class BookingInfoActivity extends Activity {
 		mConfirmationButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				boolean valid = mValidationProcessor.validate(errorHandler);
-
-				// TODO: Handle invalid and valid responses
+				bookProperty();
 			}
 		});
+
+		// Setup a focus change listener that changes the bottom from "enter booking info"
+		// to "confirm & book", plus the text
+		OnFocusChangeListener l = new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					onFormFieldFocus();
+				}
+			}
+		};
+
+		mFirstNameEditText.setOnFocusChangeListener(l);
+		mLastNameEditText.setOnFocusChangeListener(l);
+		mTelephoneEditText.setOnFocusChangeListener(l);
+		mEmailEditText.setOnFocusChangeListener(l);
+		mAddress1EditText.setOnFocusChangeListener(l);
+		mAddress2EditText.setOnFocusChangeListener(l);
+		mCityEditText.setOnFocusChangeListener(l);
+		mPostalCodeEditText.setOnFocusChangeListener(l);
+		mStateSpinner.setOnFocusChangeListener(l);
+		mStateEditText.setOnFocusChangeListener(l);
+		mCountrySpinner.setOnFocusChangeListener(l);
+		mCardNumberEditText.setOnFocusChangeListener(l);
+		mExpirationMonthEditText.setOnFocusChangeListener(l);
+		mExpirationYearEditText.setOnFocusChangeListener(l);
+		mSecurityCodeEditText.setOnFocusChangeListener(l);
+		mConfirmationButton.setOnFocusChangeListener(l);
 	}
 
 	private void configureFooter() {
@@ -464,6 +503,23 @@ public class BookingInfoActivity extends Activity {
 				return;
 			}
 		}
+	}
+
+	private void onFormFieldFocus() {
+		mFormHasBeenFocused = true;
+
+		// Change the button text
+		mConfirmationButton.setText(R.string.confirm_book);
+
+		// Add the charge details text
+		mChargeDetailsTextView.setText(getString(R.string.charge_details_template, mRate.getTotalAmountAfterTax()
+				.getFormattedMoney()));
+	}
+
+	private void bookProperty() {
+		boolean valid = mValidationProcessor.validate(mErrorHandler);
+
+		// TODO: Handle invalid and valid responses
 	}
 
 	// Static data that auto-fills states/countries

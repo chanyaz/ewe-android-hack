@@ -70,6 +70,10 @@
 	<string name="security_code_tip_back">See back of credit card</string>
 	<!-- Disclaimer about charges and currency -->
 	<string name="disclaimer_currency">All charges will incur in the hotel\'s local currency.</string>
+	<!-- Message at the bottom of the booking screen with how much you will be charged -->
+	<string name="charge_details_template">Your credit card will be charged %s</string>
+	<!-- Button label for confirming your booking -->
+	<string name="confirm_book">Confirm &amp; Book</string>
 	<!-- Error message if field was required but not entered -->
 	<string name="required_field">Please enter a value for this field.</string>
 	<!-- Error message if field had data entered but was invalid -->
