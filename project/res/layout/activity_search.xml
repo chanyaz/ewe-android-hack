@@ -255,7 +255,7 @@
 	    	android:visibility="gone">
 	    	
 	    	<com.mobiata.android.widget.CalendarDatePicker
-	    		android:id="@+id/dates_month_view"
+	    		android:id="@+id/dates_date_picker"
 	    		android:layout_width="fill_parent"
 	    		android:layout_height="300dp"
 	    		mobiata:cellBackground="@drawable/bg_calendar_cell" />

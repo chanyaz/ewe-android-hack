@@ -5,6 +5,6 @@
 	<color name="dark_blue">#1C3061</color>
 	
 	<!-- CalendarDatePicker colors -->
-	<color name="cell_enabled">#FF00FF00</color>
-	<color name="cell_disabled">#FF0000FF</color>
+	<color name="cell_enabled">#FFFFFFFF</color>
+	<color name="cell_disabled">#FFDDDDDD</color>
 </resources>

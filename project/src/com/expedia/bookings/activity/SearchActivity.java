@@ -36,6 +36,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.NumberPicker;
 import com.mobiata.android.widget.Panel;
 import com.mobiata.android.widget.SegmentedControlGroup;
@@ -89,6 +90,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private ImageButton mViewButton;
 
 	private View mDatesLayout;
+	private CalendarDatePicker mDatesCalendarDatePicker;
 	private View mGuestsLayout;
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
@@ -229,7 +231,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				hideButtonBar();
 				return true;
 			}
-			
+
 			if (mGuestsLayoutIsVisible) {
 				hideGuestsLayout();
 				hideButtonBar();
@@ -438,6 +440,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
 
 		mDatesLayout = findViewById(R.id.dates_layout);
+		mDatesCalendarDatePicker = (CalendarDatePicker) findViewById(R.id.dates_date_picker);
 		mGuestsLayout = findViewById(R.id.guests_layout);
 		mAdultsNumberPicker = (NumberPicker) findViewById(R.id.adults_number_picker);
 		mChildrenNumberPicker = (NumberPicker) findViewById(R.id.children_number_picker);
@@ -452,7 +455,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mAdultsNumberPicker.setRange(1, 4);
 		mChildrenNumberPicker.setRange(0, 4);
-		
+
 		// Listeners
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
@@ -464,6 +467,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 
+		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 		mAdultsNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
 		mChildrenNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
 		mViewButton.setOnClickListener(mViewButtonClickListener);
@@ -525,7 +529,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void setRefinementInfo() {
 		if (mDatesLayoutIsVisible) {
+			final int year = mDatesCalendarDatePicker.getYear();
+			final int month = mDatesCalendarDatePicker.getMonth();
+			final int day = mDatesCalendarDatePicker.getDayOfMonth();
 
+			mRefinementInfoTextView.setText(String.format("%d/%d/%d", month, day, year));
 		}
 		else if (mGuestsLayoutIsVisible) {
 			final int adults = mAdultsNumberPicker.getCurrent();
@@ -766,6 +774,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			stopLocationListener();
 			setSearchParams();
 			startSearch();
+		}
+	};
+
+	private CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
+		@Override
+		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
+			setRefinementInfo();
 		}
 	};
 
