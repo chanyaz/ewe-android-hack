@@ -258,7 +258,6 @@
 	    		android:id="@+id/dates_month_view"
 	    		android:layout_width="fill_parent"
 	    		android:layout_height="300dp"
-	    		mobiata:background="#FFFF0000"
 	    		mobiata:cellBackground="@drawable/bg_calendar_cell" />
 	    	
 	    </LinearLayout>
