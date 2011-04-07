@@ -50,7 +50,7 @@ public class ConfirmationActivity extends MapActivity {
 		// TODO: Delete this once done testing
 		// This code allows us to test the ConfirmationActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
-		if (intent == null) {
+		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
 			try {
 				mSearchParams = new SearchParams();
 				mSearchParams.fillWithTestData();
