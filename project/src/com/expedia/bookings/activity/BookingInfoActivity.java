@@ -18,7 +18,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -40,6 +39,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.Log;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
 import com.mobiata.android.validation.TextViewErrorHandler;
@@ -47,7 +47,6 @@ import com.mobiata.android.validation.TextViewValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.ValidationProcessor;
 import com.mobiata.android.validation.Validator;
-import com.mobiata.hotellib.Params;
 import com.mobiata.hotellib.data.BillingInfo;
 import com.mobiata.hotellib.data.BookingResponse;
 import com.mobiata.hotellib.data.Codes;
@@ -538,9 +537,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	}
 
 	private boolean saveBillingInfo() {
-		if (Params.isLoggingEnabled()) {
-			Log.d(Params.getLoggingTag(), "Saving user's billing info.");
-		}
+		Log.d("Saving user's billing info.");
 
 		// Initialize a cipher
 		FileCipher fileCipher = new FileCipher(PASSWORD);
@@ -564,9 +561,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	}
 
 	private boolean loadSavedBillingInfo() {
-		if (Params.isLoggingEnabled()) {
-			Log.d(Params.getLoggingTag(), "Loading saved billing info.");
-		}
+		Log.d("Loading saved billing info.");
 
 		// Check that the saved billing info file exists
 		File f = getFileStreamPath(SAVED_INFO_FILENAME);
@@ -592,9 +587,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			return true;
 		}
 		catch (JSONException e) {
-			if (Params.isLoggingEnabled()) {
-				Log.e(Params.getLoggingTag(), "Could not restore saved billing info.", e);
-			}
+			Log.e("Could not restore saved billing info.", e);
 			return false;
 		}
 	}
@@ -614,7 +607,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			// TODO: Add error handling
 			Toast.makeText(this, "ERROR: results of booking had errors!", Toast.LENGTH_LONG).show();
 			for (ServerError error : response.getErrors()) {
-				Log.e(Params.getLoggingTag(), error.getCode() + ": " + error.getMessage());
+				Log.e(error.getCode() + ": " + error.getMessage());
 			}
 			return;
 		}

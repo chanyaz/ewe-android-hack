@@ -2,15 +2,12 @@ package com.expedia.bookings.activity;
 
 import java.util.List;
 
-import org.json.JSONException;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -24,7 +21,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.widget.ImageAdapter;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
-import com.mobiata.hotellib.Params;
+import com.mobiata.android.Log;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Media;
 import com.mobiata.hotellib.data.Property;
@@ -127,9 +124,7 @@ public class HotelActivity extends Activity {
 
 		if (isFinishing()) {
 			// In order to avoid memory issues, clear the cache of images we might've loaded in this activity
-			if (Params.isLoggingEnabled()) {
-				Log.d(Params.getLoggingTag(), "Clearing out images from property.");
-			}
+			Log.d("Clearing out images from property.");
 
 			ImageCache cache = ImageCache.getInstance();
 			for (Media image : mProperty.getMediaList()) {

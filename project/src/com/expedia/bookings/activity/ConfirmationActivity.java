@@ -4,7 +4,6 @@ import org.json.JSONException;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,7 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.google.android.maps.MapActivity;
 import com.mobiata.android.ImageCache;
-import com.mobiata.hotellib.Params;
+import com.mobiata.android.Log;
 import com.mobiata.hotellib.data.BookingResponse;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Location;
@@ -63,7 +62,7 @@ public class ConfirmationActivity extends MapActivity {
 				mBookingResponse.fillWithTestData();
 			}
 			catch (JSONException e) {
-				Log.e(Params.getLoggingTag(), "Couldn't create dummy data!", e);
+				Log.e("Couldn't create dummy data!", e);
 			}
 		}
 
