@@ -127,7 +127,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Download mSearchDownload = new Download() {
 		@Override
 		public Object doDownload() {
-			return ExpediaServices.searchExpedia(mContext, mSearchParams);
+			return ExpediaServices.search(mContext, mSearchParams, 0);
 		}
 	};
 
