@@ -18,13 +18,11 @@
     	<uses-library android:name="com.google.android.maps" />
 		
 		<activity android:name=".activity.SearchActivity" android:screenOrientation="portrait">
-			
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter> 
-			
+			</intent-filter>  
 		</activity>
 
 		<activity android:name=".activity.SearchListActivity" />
@@ -35,6 +33,8 @@
 		<activity android:name=".activity.RoomsAndRatesListActivity" />
 
 		<activity android:name=".activity.BookingInfoActivity" />
+
+		<activity android:name=".activity.ConfirmationActivity" />
 
     </application>
     

@@ -2,6 +2,8 @@ package com.expedia.bookings.activity;
 
 import java.util.List;
 
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

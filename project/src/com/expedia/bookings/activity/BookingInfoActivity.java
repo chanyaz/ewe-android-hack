@@ -1,10 +1,8 @@
 package com.expedia.bookings.activity;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -13,13 +11,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -32,8 +31,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.ImageCache;
@@ -46,18 +49,20 @@ import com.mobiata.android.validation.ValidationProcessor;
 import com.mobiata.android.validation.Validator;
 import com.mobiata.hotellib.Params;
 import com.mobiata.hotellib.data.BillingInfo;
+import com.mobiata.hotellib.data.BookingResponse;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Location;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Policy;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
-import com.mobiata.hotellib.data.RateBreakdown;
 import com.mobiata.hotellib.data.SearchParams;
+import com.mobiata.hotellib.data.ServerError;
+import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
 
-public class BookingInfoActivity extends Activity {
+public class BookingInfoActivity extends Activity implements Download, OnDownloadComplete {
 
 	private static final String SAVED_INFO_FILENAME = "booking.dat";
 
@@ -65,13 +70,15 @@ public class BookingInfoActivity extends Activity {
 	// against someone getting the plaintext file but not the app itself.
 	private static final String PASSWORD = "7eGeDr4jaD6jut9aha3hAyupAC6ZE9a";
 
+	private static final String DOWNLOAD_KEY = "com.expedia.bookings.booking";
+
+	private static final int DIALOG_BOOKING_PROGRESS = 1;
+
 	private SearchParams mSearchParams;
 	private Property mProperty;
 	private Rate mRate;
 
 	private BillingInfo mBillingInfo;
-
-	private LayoutInflater mInflater;
 
 	private boolean mFormHasBeenFocused;
 
@@ -112,17 +119,14 @@ public class BookingInfoActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mInflater = getLayoutInflater();
 		mValidationProcessor = new ValidationProcessor();
 
 		setContentView(R.layout.activity_booking_info);
 
 		// Retrieve data to build this with
 		final Intent intent = getIntent();
-		mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
-				Property.class);
-		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent,
-				Codes.SEARCH_PARAMS,
+		mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
+		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
 				SearchParams.class);
 		mRate = (Rate) JSONUtils.parseJSONableFromIntent(intent, Codes.RATE, Rate.class);
 
@@ -198,6 +202,36 @@ public class BookingInfoActivity extends Activity {
 		return instance;
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		// If we were booking, re-hook the download 
+		BackgroundDownloader downloader = BackgroundDownloader.getInstance();
+		if (downloader.isDownloading(DOWNLOAD_KEY)) {
+			downloader.registerDownloadCallback(DOWNLOAD_KEY, this);
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		// If we're downloading, unregister the callback so we can resume it once the user is watching again 
+		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case DIALOG_BOOKING_PROGRESS: {
+			return new ProgressDialog(this);
+		}
+		}
+
+		return super.onCreateDialog(id);
+	}
+
 	/**
 	 * Syncs the local BillingInfo with data from the form fields.  Should be used before you want to access
 	 * the local BillingInfo's data.
@@ -235,11 +269,15 @@ public class BookingInfoActivity extends Activity {
 		String expirationYear = mExpirationYearEditText.getText().toString();
 		if (expirationMonth != null && expirationMonth.length() > 0 && expirationYear != null
 				&& expirationYear.length() > 0) {
-			Calendar cal = new GregorianCalendar(Integer.parseInt(expirationYear),
+			Calendar cal = new GregorianCalendar(Integer.parseInt(expirationYear) + 2000,
 					Integer.parseInt(expirationMonth) - 1, 15);
 			mBillingInfo.setExpirationDate(cal);
 		}
 		mBillingInfo.setSecurityCode(mSecurityCodeEditText.getText().toString());
+
+		// TODO: This is temporary while we don't parse the credit card brand/name
+		mBillingInfo.setBrandName("Visa");
+		mBillingInfo.setBrandCode("VI");
 	}
 
 	/**
@@ -303,39 +341,7 @@ public class BookingInfoActivity extends Activity {
 
 		// Configure the details
 		ViewGroup detailsLayout = (ViewGroup) findViewById(R.id.details_layout);
-		addDetail(detailsLayout, R.string.room_type, mRate.getRoomDescription());
-
-		addDetail(detailsLayout, R.string.GuestsLabel, StrUtils.formatGuests(this, mSearchParams));
-
-		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(this);
-		String start = medDf.format(mSearchParams.getCheckInDate().getTime());
-		String end = medDf.format(mSearchParams.getCheckOutDate().getTime());
-		int numDays = (int) Math.round((mSearchParams.getCheckOutDate().getTimeInMillis() - mSearchParams
-				.getCheckInDate().getTimeInMillis()) / (1000 * 60 * 60 * 24));
-		String numNights = (numDays == 1) ? getString(R.string.stay_duration_one_night) : getString(
-				R.string.stay_duration_template, numDays);
-		addDetail(detailsLayout, R.string.CheckIn, start);
-		addDetail(detailsLayout, R.string.CheckOut, end + "\n" + numNights);
-
-		// If there's a breakdown list, show that; otherwise, show the nightly mRate
-		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(this);
-		if (mRate.getRateBreakdownList() != null) {
-			for (RateBreakdown breakdown : mRate.getRateBreakdownList()) {
-				Date date = breakdown.getDate().getCalendar().getTime();
-				String dateStr = dateFormat.format(date);
-				addDetail(detailsLayout, getString(R.string.room_rate_template, dateStr), breakdown.getAmount()
-						.getFormattedMoney());
-			}
-		}
-		else if (mRate.getDailyAmountBeforeTax() != null) {
-			addDetail(detailsLayout, R.string.RatePerRoomPerNight, mRate.getDailyAmountBeforeTax().getFormattedMoney());
-		}
-
-		Money taxesAndFeesPerRoom = mRate.getTaxesAndFeesPerRoom();
-		if (taxesAndFeesPerRoom != null && taxesAndFeesPerRoom.getFormattedMoney() != null
-				&& taxesAndFeesPerRoom.getFormattedMoney().length() > 0) {
-			addDetail(detailsLayout, R.string.TaxesAndFees, taxesAndFeesPerRoom.getFormattedMoney());
-		}
+		com.expedia.bookings.utils.LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate);
 
 		// Configure the total cost
 		Money totalAmountAfterTax = mRate.getTotalAmountAfterTax();
@@ -347,19 +353,6 @@ public class BookingInfoActivity extends Activity {
 		else {
 			totalView.setText("Dan didn't account for no total info, tell him");
 		}
-	}
-
-	private void addDetail(ViewGroup parent, int labelStrId, String value) {
-		addDetail(parent, getString(labelStrId), value);
-	}
-
-	private void addDetail(ViewGroup parent, String label, String value) {
-		View detailRow = mInflater.inflate(R.layout.snippet_booking_detail, parent, false);
-		TextView labelView = (TextView) detailRow.findViewById(R.id.label_text_view);
-		labelView.setText(label);
-		TextView valueView = (TextView) detailRow.findViewById(R.id.value_text_view);
-		valueView.setText(value);
-		parent.addView(detailRow);
 	}
 
 	private void configureForm() {
@@ -450,10 +443,15 @@ public class BookingInfoActivity extends Activity {
 		}));
 
 		// Configure the bottom of the page form stuff
+		final BookingInfoActivity activity = this;
 		mConfirmationButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				bookProperty();
+				boolean valid = mValidationProcessor.validate(mErrorHandler);
+				if (valid) {
+					showDialog(DIALOG_BOOKING_PROGRESS);
+					BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, activity, activity);
+				}
 			}
 		});
 
@@ -601,10 +599,35 @@ public class BookingInfoActivity extends Activity {
 		}
 	}
 
-	private void bookProperty() {
-		boolean valid = mValidationProcessor.validate(mErrorHandler);
+	@Override
+	public void onDownload(Object results) {
+		removeDialog(DIALOG_BOOKING_PROGRESS);
 
-		// TODO: Handle invalid and valid responses
+		if (results == null) {
+			// TODO: Add error handling
+			Toast.makeText(this, "ERROR: results of booking null!", Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		BookingResponse response = (BookingResponse) results;
+		if (response.hasErrors()) {
+			// TODO: Add error handling
+			Toast.makeText(this, "ERROR: results of booking had errors!", Toast.LENGTH_LONG).show();
+			for (ServerError error : response.getErrors()) {
+				Log.e(Params.getLoggingTag(), error.getCode() + ": " + error.getMessage());
+			}
+			return;
+		}
+
+		Intent intent = new Intent(this, ConfirmationActivity.class);
+		intent.fillIn(getIntent(), 0);
+		intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
+		startActivity(intent);
+	}
+
+	@Override
+	public Object doDownload() {
+		return ExpediaServices.reservation(this, mSearchParams, mProperty, mRate, mBillingInfo);
 	}
 
 	// Static data that auto-fills states/countries

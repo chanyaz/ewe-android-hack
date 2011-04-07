@@ -86,4 +86,12 @@
 	<string name="invalid_expiration_year">Please enter a year that hasn\'t already passed</string>
 	<!-- Error if an invalid security code was entered -->
 	<string name="invalid_security_code">Please enter a three or four digit security code</string>
+	
+	<!-- Confirmation activity -->
+	<!-- Reservation summary label -->
+	<string name="reservation_summary">Reservation Summary</string>
+	<!-- Confirmation number label -->
+	<string name="confirmation_number">Confirmation #</string>
+	<!-- Itinerary number label -->
+	<string name="itinerary_number">Itinerary #</string>
 </resources>
