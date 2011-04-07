@@ -3,8 +3,15 @@
 	<!-- These colors are ripped from the iOS version, and are not finalized -->
 	<color name="light_gray">#777777</color>
 	<color name="dark_blue">#1C3061</color>
-	
+
 	<!-- CalendarDatePicker colors -->
+	<color name="cell_selected">#FF1A5178</color>
+	<color name="cell_pressed">#FF2A82BD</color>
 	<color name="cell_enabled">#FFFFFFFF</color>
-	<color name="cell_disabled">#FFDDDDDD</color>
+	<color name="cell_disabled">#FFBBBBBB</color>
+
+	<color name="cell_other_month_selected">#FF999999</color>
+	<color name="cell_other_month_pressed">#FF2A82BD</color>
+	<color name="cell_other_month_enabled">#FFEEEEEE</color>
+	<color name="cell_other_month_disabled">#FFDDDDDD</color>
 </resources>

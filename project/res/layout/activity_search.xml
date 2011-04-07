@@ -258,7 +258,8 @@
 	    		android:id="@+id/dates_date_picker"
 	    		android:layout_width="fill_parent"
 	    		android:layout_height="300dp"
-	    		mobiata:cellBackground="@drawable/bg_calendar_cell" />
+	    		mobiata:cellBackground="@drawable/bg_calendar_cell"
+	    		mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell_other_month" />
 	    	
 	    </LinearLayout>
 	    
