@@ -533,7 +533,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			final int month = mDatesCalendarDatePicker.getMonth();
 			final int day = mDatesCalendarDatePicker.getDayOfMonth();
 
-			mRefinementInfoTextView.setText(String.format("%d/%d/%d", month, day, year));
+			mRefinementInfoTextView.setText(String.format("%d/%d/%d", month + 1, day, year));
 		}
 		else if (mGuestsLayoutIsVisible) {
 			final int adults = mAdultsNumberPicker.getCurrent();
