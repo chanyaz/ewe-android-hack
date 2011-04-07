@@ -446,6 +446,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mConfirmationButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				syncBillingInfo();
 				boolean valid = mValidationProcessor.validate(mErrorHandler);
 				if (valid) {
 					showDialog(DIALOG_BOOKING_PROGRESS);
