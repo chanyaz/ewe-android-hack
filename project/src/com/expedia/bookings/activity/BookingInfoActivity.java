@@ -129,6 +129,23 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				SearchParams.class);
 		mRate = (Rate) JSONUtils.parseJSONableFromIntent(intent, Codes.RATE, Rate.class);
 
+		// TODO: Delete this once done testing
+		// This code allows us to test the ConfirmationActivity standalone, for layout purposes.
+		// Just point the default launcher activity towards this instead of SearchActivity
+		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
+			try {
+				mSearchParams = new SearchParams();
+				mSearchParams.fillWithTestData();
+				mProperty = new Property();
+				mProperty.fillWithTestData();
+				mRate = new Rate();
+				mRate.fillWithTestData();
+			}
+			catch (JSONException e) {
+				Log.e("Couldn't create dummy data!", e);
+			}
+		}
+
 		// Retrieve some data we keep using
 		Resources r = getResources();
 		mStateCodes = r.getStringArray(R.array.state_codes);
