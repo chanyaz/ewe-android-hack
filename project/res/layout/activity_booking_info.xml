@@ -141,6 +141,8 @@
 						android:layout_weight="1"
 						android:nextFocusUp="@+id/first_name_edit_text"
 						android:nextFocusLeft="@+id/first_name_edit_text"
+						android:nextFocusDown="@+id/last_name_edit_text"
+						android:nextFocusRight="@+id/last_name_edit_text"
 						android:inputType="textPersonName|textCapWords"
 						android:hint="@string/FirstName" />
 					<EditText
@@ -148,6 +150,10 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_weight="1"
+						android:nextFocusUp="@+id/first_name_edit_text"
+						android:nextFocusLeft="@+id/first_name_edit_text"
+						android:nextFocusDown="@+id/telephone_edit_text"
+						android:nextFocusRight="@+id/telephone_edit_text"
 						android:inputType="textPersonName|textCapWords"
 						android:hint="@string/LastName" />
 				</LinearLayout>
@@ -155,12 +161,20 @@
 					android:id="@+id/telephone_edit_text"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
+					android:nextFocusUp="@+id/first_name_edit_text"
+					android:nextFocusLeft="@+id/last_name_edit_text"
+					android:nextFocusDown="@+id/email_edit_text"
+					android:nextFocusRight="@+id/email_edit_text"
 					android:inputType="phone"
 					android:hint="@string/Telephone" />
 				<EditText
 					android:id="@+id/email_edit_text"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
+					android:nextFocusUp="@+id/telephone_edit_text"
+					android:nextFocusLeft="@+id/telephone_edit_text"
+					android:nextFocusDown="@+id/address1_edit_text"
+					android:nextFocusRight="@+id/address1_edit_text"
 					android:inputType="textEmailAddress"
 					android:hint="@string/EmailForConf" />
 			</LinearLayout>
@@ -180,12 +194,20 @@
 					android:id="@+id/address1_edit_text"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
+					android:nextFocusUp="@+id/email_edit_text"
+					android:nextFocusLeft="@+id/email_edit_text"
+					android:nextFocusDown="@+id/address2_edit_text"
+					android:nextFocusRight="@+id/address2_edit_text"
 					android:inputType="textPostalAddress|textCapWords"
 					android:hint="@string/hint_address1" />
 				<EditText
 					android:id="@+id/address2_edit_text"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
+					android:nextFocusUp="@+id/address1_edit_text"
+					android:nextFocusLeft="@+id/address1_edit_text"
+					android:nextFocusDown="@+id/city_edit_text"
+					android:nextFocusRight="@+id/city_edit_text"
 					android:inputType="textPostalAddress|textCapWords"
 					android:hint="@string/hint_address2" />
 				<LinearLayout
@@ -199,6 +221,8 @@
 						android:layout_height="wrap_content"
 						android:layout_marginTop="1dp"
 						android:layout_weight="1"
+						android:nextFocusUp="@+id/address2_edit_text"
+						android:nextFocusLeft="@+id/address2_edit_text"
 						android:minWidth="150dp"
 						android:inputType="textPostalAddress|textCapWords"
 						android:hint="@string/City" />
@@ -209,13 +233,22 @@
 						android:id="@+id/state_spinner"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:entries="@array/state_names"
-						android:layout_weight="1" />
+						android:layout_weight="1"
+						android:nextFocusUp="@+id/address2_edit_text"
+						android:nextFocusLeft="@+id/city_edit_text"
+						android:nextFocusDown="@+id/country_spinner"
+						android:nextFocusRight="@+id/country_spinner"
+						android:focusable="true"
+						android:entries="@array/state_names" />
 					<EditText
 						android:id="@+id/state_edit_text"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_weight="1"
+						android:nextFocusUp="@+id/address2_edit_text"
+						android:nextFocusLeft="@+id/city_edit_text"
+						android:nextFocusDown="@+id/country_spinner"
+						android:nextFocusRight="@+id/country_spinner"
 						android:visibility="gone"
 						android:hint="@string/StateCode" />
 				</LinearLayout>
@@ -229,12 +262,18 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_weight="1"
+						android:nextFocusUp="@+id/city_edit_text"
+						android:nextFocusDown="@+id/postal_code_edit_text"
+						android:nextFocusRight="@+id/postal_code_edit_text"
 						android:entries="@array/country_names" />
 					<EditText
 						android:id="@+id/postal_code_edit_text"
 						android:layout_width="120dp"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="1dp"
+						android:nextFocusLeft="@+id/country_spinner"
+						android:nextFocusDown="@+id/card_number_edit_text"
+						android:nextFocusRight="@+id/card_number_edit_text"
 						android:inputType="textPostalAddress|textCapCharacters"
 						android:hint="@string/PostalCode" />
 				</LinearLayout>
@@ -260,6 +299,10 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_weight="1"
+						android:nextFocusUp="@+id/postal_code_edit_text"
+						android:nextFocusLeft="@+id/postal_code_edit_text"
+						android:nextFocusDown="@+id/expiration_month_edit_text"
+						android:nextFocusRight="@+id/expiration_month_edit_text"
 						android:inputType="number"
 						android:maxLength="20"
 						android:hint="@string/hint_card_number" />
@@ -267,6 +310,10 @@
 						android:id="@+id/expiration_month_edit_text"
 						android:layout_width="60dp"
 						android:layout_height="wrap_content"
+						android:nextFocusUp="@+id/postal_code_edit_text"
+						android:nextFocusLeft="@+id/card_number_edit_text"
+						android:nextFocusDown="@+id/expiration_year_edit_text"
+						android:nextFocusRight="@+id/expiration_year_edit_text"
 						android:inputType="number"
 						android:maxLength="2"
 						android:hint="@string/hint_expiration_month" />
@@ -274,6 +321,10 @@
 						android:id="@+id/expiration_year_edit_text"
 						android:layout_width="60dp"
 						android:layout_height="wrap_content"
+						android:nextFocusUp="@+id/postal_code_edit_text"
+						android:nextFocusLeft="@+id/expiration_month_edit_text"
+						android:nextFocusDown="@+id/security_code_edit_text"
+						android:nextFocusRight="@+id/security_code_edit_text"
 						android:inputType="number"
 						android:maxLength="2"
 						android:hint="@string/hint_expiration_year" />

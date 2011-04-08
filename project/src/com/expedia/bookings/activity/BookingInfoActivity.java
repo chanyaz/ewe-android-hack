@@ -401,14 +401,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mCountrySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (useStateSpinner()) {
-					mStateSpinner.setVisibility(View.VISIBLE);
-					mStateEditText.setVisibility(View.GONE);
-				}
-				else {
-					mStateSpinner.setVisibility(View.GONE);
-					mStateEditText.setVisibility(View.VISIBLE);
-				}
+				configureStateCode();
+
+				mPostalCodeEditText.requestFocus();
 			}
 
 			@Override
@@ -416,6 +411,22 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				// Should not happen, do nothing
 			}
 		});
+
+		// Setup listener for spinners so that they select they properly focus the next field
+		// upon picking an option
+		mStateSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				mCountrySpinner.requestFocus();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// Do nothing
+			}
+		});
+
+		configureStateCode();
 
 		// Configure form validation
 		// Setup validators and error handlers
@@ -502,6 +513,26 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mExpirationYearEditText.setOnFocusChangeListener(l);
 		mSecurityCodeEditText.setOnFocusChangeListener(l);
 		mConfirmationButton.setOnFocusChangeListener(l);
+	}
+
+	// State can either be a spinner or an edit text; configuer that here
+	public void configureStateCode() {
+		int focusTarget;
+		if (useStateSpinner()) {
+			mStateSpinner.setVisibility(View.VISIBLE);
+			mStateEditText.setVisibility(View.GONE);
+			focusTarget = R.id.state_spinner;
+		}
+		else {
+			mStateSpinner.setVisibility(View.GONE);
+			mStateEditText.setVisibility(View.VISIBLE);
+			focusTarget = R.id.state_edit_text;
+		}
+
+		mCityEditText.setNextFocusDownId(focusTarget);
+		mCityEditText.setNextFocusRightId(focusTarget);
+		mCountrySpinner.setNextFocusLeftId(focusTarget);
+		mPostalCodeEditText.setNextFocusUpId(focusTarget);
 	}
 
 	private void configureFooter() {
