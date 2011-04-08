@@ -6,6 +6,7 @@
 	<ScrollView
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
+		android:layout_marginBottom="@dimen/bottom_bar_height"
 		android:fillViewport="true"
 		android:fadingEdge="none">
 		<LinearLayout
@@ -383,16 +384,6 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
 				android:textColor="#6A6D71" />
-
-			<!-- This view serves a purpose, which is to allow the ScrollView to scroll 
-				down via physical keyboard to the very bottom despite the RelativeLayout 
-				trickery. -->
-			<View
-				android:id="@+id/bottom_padding_view"
-				android:layout_width="fill_parent"
-				android:layout_height="50dp"
-				android:focusable="true"
-				android:nextFocusDown="@+id/confirm_book_button" />
 		</LinearLayout>
 	</ScrollView>
 
@@ -400,7 +391,7 @@
 	<LinearLayout
 		android:id="@+id/button_bar_layout"
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="@dimen/bottom_bar_height"
 		android:layout_alignParentBottom="true"
 		android:orientation="horizontal"
 		android:background="#C000"
