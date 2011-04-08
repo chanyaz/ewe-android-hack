@@ -403,7 +403,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				configureStateCode();
 
-				mPostalCodeEditText.requestFocus();
+				if (mFormHasBeenFocused) {
+					mPostalCodeEditText.requestFocus();
+				}
 			}
 
 			@Override
@@ -417,7 +419,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mStateSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				mCountrySpinner.requestFocus();
+				if (mFormHasBeenFocused) {
+					mCountrySpinner.requestFocus();
+				}
 			}
 
 			@Override
