@@ -32,6 +32,10 @@
 	<string name="rate_per_night">per night</string>
 	<!-- Rate price displayed "average per night" -->
 	<string name="rate_avg_per_night">avg/night</string>
+	<!-- Warning if there is only one room left -->
+	<string name="rooms_left_one">Only 1 room left!</string>
+	<!-- Warning if there are only a few rooms left -->
+	<string name="rooms_left_template">Only %d rooms left!</string>
 
 	<!-- Booking info -->
 	<!-- Label for room type -->
