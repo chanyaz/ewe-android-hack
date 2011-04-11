@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -145,7 +146,10 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		List<Overlay> overlays = mMapView.getOverlays();
 
 		// Add hotels overlay
-		List<Property> properties = Arrays.asList(mSearchResponse.getFilteredAndSortedProperties());
+		Property[] propertyArray = mSearchResponse.getFilteredAndSortedProperties();
+		List<Property> properties = new ArrayList<Property>();
+
+		properties = propertyArray != null ? Arrays.asList(propertyArray) : null;
 		if (mHotelItemizedOverlay == null) {
 			mHotelItemizedOverlay = new HotelItemizedOverlay(this, properties, mParent.getSearchParams(), true,
 					mMapView, HotelActivity.class);

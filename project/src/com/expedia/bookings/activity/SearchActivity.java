@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.ActivityGroup;
@@ -142,9 +143,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 
 			mSearchResponse = (SearchResponse) results;
-			mSearchResponse.setFilter(mFilter);
 
-			broadcastSearchCompleted(mSearchResponse);
+			if (mSearchResponse != null) {
+				mSearchResponse.setFilter(mFilter);
+				broadcastSearchCompleted(mSearchResponse);
+			}
+			else {
+				broadcastSearchFailed("Search failed!");
+			}
 
 			hideLoading();
 		}
@@ -650,6 +656,22 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchParams.setFreeformLocation(mSearchEditText.getText().toString());
 		}
 
+		Calendar startCalendar = Calendar.getInstance();
+		Calendar endCalendar = Calendar.getInstance();
+
+		final int startYear = mDatesCalendarDatePicker.getStartYear();
+		final int startMonth = mDatesCalendarDatePicker.getStartMonth();
+		final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
+
+		final int endYear = mDatesCalendarDatePicker.getEndYear();
+		final int endMonth = mDatesCalendarDatePicker.getEndMonth();
+		final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
+
+		startCalendar.set(startYear, startMonth, startDay);
+		endCalendar.set(endYear, endMonth, endDay);
+
+		mSearchParams.setCheckInDate(startCalendar);
+		mSearchParams.setCheckOutDate(endCalendar);
 		mSearchParams.setNumAdults(mAdultsNumberPicker.getCurrent());
 		mSearchParams.setNumChildren(mChildrenNumberPicker.getCurrent());
 	}
