@@ -260,6 +260,8 @@
 	    		android:layout_height="300dp"
 	    		mobiata:cellBackground="@drawable/bg_calendar_cell"
 	    		mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell_other_month"
+	    		mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell"
+	    		mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell"
 	    		mobiata:cellTextColor="@color/cell_text"
 	    		mobiata:otherMonthCellTextColor="@color/cell_text_other_month" />
 	    	

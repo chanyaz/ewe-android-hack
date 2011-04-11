@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,7 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.widget.CalendarDatePicker;
+import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
 import com.mobiata.android.widget.NumberPicker;
 import com.mobiata.android.widget.Panel;
 import com.mobiata.android.widget.SegmentedControlGroup;
@@ -453,6 +455,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		// Properties
 		mPanel.setInterpolator(new AccelerateInterpolator());
+		mDatesCalendarDatePicker.setSelectionMode(SelectionMode.RANGE);
 		mAdultsNumberPicker.setRange(1, 4);
 		mChildrenNumberPicker.setRange(0, 4);
 
@@ -529,11 +532,19 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void setRefinementInfo() {
 		if (mDatesLayoutIsVisible) {
-			final int year = mDatesCalendarDatePicker.getYear();
-			final int month = mDatesCalendarDatePicker.getMonth();
-			final int day = mDatesCalendarDatePicker.getDayOfMonth();
+			final int startYear = mDatesCalendarDatePicker.getStartYear();
+			final int startMonth = mDatesCalendarDatePicker.getStartMonth();
+			final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
 
-			mRefinementInfoTextView.setText(String.format("%d/%d/%d", month + 1, day, year));
+			final int endYear = mDatesCalendarDatePicker.getEndYear();
+			final int endMonth = mDatesCalendarDatePicker.getEndMonth();
+			final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
+
+			Date startDate = new Date(startYear, startMonth, startDay);
+			Date endDate = new Date(endYear, endMonth, endDay);
+			final int nights = (int) ((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+
+			mRefinementInfoTextView.setText(String.format("%d nights", nights));
 		}
 		else if (mGuestsLayoutIsVisible) {
 			final int adults = mAdultsNumberPicker.getCurrent();
