@@ -3,10 +3,10 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	<ScrollView
+	<com.mobiata.android.widget.PaddedScrollView
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:layout_marginBottom="@dimen/bottom_bar_height"
+		android:paddingBottom="@dimen/bottom_bar_height"
 		android:fillViewport="true"
 		android:fadingEdge="none">
 		<LinearLayout
@@ -365,6 +365,8 @@
 						android:id="@+id/security_code_edit_text"
 						android:layout_width="65dp"
 						android:layout_height="wrap_content"
+						android:nextFocusUp="@+id/expiration_year_edit_text"
+						android:nextFocusLeft="@+id/expiration_year_edit_text"
 						android:inputType="number"
 						android:maxLength="4" />
 				</LinearLayout>
@@ -384,8 +386,18 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
 				android:textColor="#6A6D71" />
+
+			<!-- This view serves a purpose, which is to allow the ScrollView to scroll 
+				down via physical keyboard to the very bottom despite the RelativeLayout 
+				trickery. -->
+			<View
+				android:id="@+id/focus_view"
+				android:layout_width="fill_parent"
+				android:layout_height="0dp"
+				android:focusable="true"
+				android:nextFocusDown="@+id/confirm_book_button" />
 		</LinearLayout>
-	</ScrollView>
+	</com.mobiata.android.widget.PaddedScrollView>
 
 	<!-- Bottom button bar -->
 	<LinearLayout
