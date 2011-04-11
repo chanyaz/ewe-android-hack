@@ -48,6 +48,7 @@ import com.mobiata.hotellib.data.Filter;
 import com.mobiata.hotellib.data.Filter.PriceRange;
 import com.mobiata.hotellib.data.Filter.SearchRadius;
 import com.mobiata.hotellib.data.Filter.Sort;
+import com.mobiata.hotellib.data.SearchParams.SearchType;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.server.ExpediaServices;
@@ -117,6 +118,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private SearchParams mSearchParams;
 	private SearchResponse mSearchResponse;
 	private Filter mFilter;
+	private boolean mLocationListenerStarted;
 	private boolean mIsSearching;
 
 	private boolean mDatesLayoutIsVisible;
@@ -144,15 +146,16 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			mSearchResponse = (SearchResponse) results;
 
-			if (mSearchResponse != null) {
+			if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
 				mSearchResponse.setFilter(mFilter);
 				broadcastSearchCompleted(mSearchResponse);
+
+				hideLoading();
 			}
 			else {
-				broadcastSearchFailed("Search failed!");
+				mSearchProgressBar.setShowProgress(false);
+				mSearchProgressBar.setText(R.string.progress_search_failed);
 			}
-
-			hideLoading();
 		}
 	};
 
@@ -191,7 +194,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 		}
 		else {
-			setFilter();
+			mSearchParams = new SearchParams();
+			mSearchParams.setSearchType(SearchType.MY_LOCATION);
+
+			startSearch();
 		}
 
 		setViewButtonImage();
@@ -259,10 +265,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
-		Log.i("Location listener detected change");
-
 		setSearchParams(location);
-		startSearch();
+		startSearchDownload();
 
 		stopLocationListener();
 	}
@@ -270,8 +274,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	public void onProviderDisabled(String provider) {
 		stopLocationListener();
-		Log.w("Location listener failed");
-		//broadcastSearchFailed(getString(R.string.provider_disabled));
+		mSearchProgressBar.setShowProgress(false);
+		//mSearchProgressBar.setText(R.string.provider_disabled);
 	}
 
 	@Override
@@ -286,12 +290,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		if (status == LocationProvider.OUT_OF_SERVICE) {
 			stopLocationListener();
 			Log.w("Location listener failed: out of service");
-			//broadcastSearchFailed(getString(R.string.provider_out_of_service));
+			mSearchProgressBar.setShowProgress(false);
+			//mSearchProgressBar.setText(R.string.provider_out_of_service);
 		}
 		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
 			stopLocationListener();
 			Log.w("Location listener failed: temporarily unavailable");
-			//broadcastSearchFailed(getString(R.string.provider_temporarily_unavailable));\
+			mSearchProgressBar.setShowProgress(false);
+			//mSearchProgressBar.setText(R.string.provider_temporarily_unavailable);
 		}
 	}
 
@@ -419,6 +425,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void showLoading(String text) {
 		mSearchProgressBar.setVisibility(View.VISIBLE);
+		mSearchProgressBar.setShowProgress(true);
 		mSearchProgressBar.setText(text);
 	}
 
@@ -642,12 +649,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	private void setSearchParams() {
-		setSearchParams(null);
-	}
-
 	private void setSearchParams(Location location) {
-		mSearchParams = new SearchParams();
+		if (mSearchParams == null) {
+			mSearchParams = new SearchParams();
+		}
 
 		if (location != null) {
 			mSearchParams.setSearchLatLon(location.getLatitude(), location.getLongitude());
@@ -677,9 +682,28 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void startSearch() {
-		showLoading(R.string.progress_searching_hotels);
-		setFilter();
+		switch (mSearchParams.getSearchType()) {
+		case FREEFORM: {
+			showLoading(R.string.progress_searching_hotels);
+			setSearchParams(null);
+			startSearchDownload();
+			break;
+		}
+		case MY_LOCATION: {
+			showLoading(R.string.progress_finding_location);
+			startLocationListener();
+			break;
+		}
+		case PROXIMITY: {
+			showLoading(R.string.progress_searching_hotels);
+			break;
+		}
+		}
 
+		setFilter();
+	}
+
+	private void startSearchDownload() {
 		mSearchDownloader.cancelDownload(KEY_SEARCH);
 		mSearchDownloader.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
@@ -693,8 +717,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void startLocationListener() {
-		showLoading(R.string.progress_finding_location);
-
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		String provider;
 		if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -747,7 +769,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-				setSearchParams();
 				startSearch();
 
 				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -803,9 +824,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onClick(View v) {
 			resetFocus();
-
-			stopLocationListener();
-			setSearchParams();
 			startSearch();
 		}
 	};
