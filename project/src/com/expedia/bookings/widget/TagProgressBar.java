@@ -194,6 +194,10 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		mShowProgress = showProgress;
 	}
 
+	public void setText(int resId) {
+		setText(mParent.getString(resId));
+	}
+
 	public void setText(String text) {
 		mText = text;
 	}
