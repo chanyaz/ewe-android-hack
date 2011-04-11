@@ -50,7 +50,12 @@ public class HotelAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		checkCachedProperties();
-		return mCachedProperties.length;
+
+		if (mCachedProperties != null) {
+			return mCachedProperties.length;
+		}
+
+		return 0;
 	}
 
 	@Override
@@ -91,7 +96,8 @@ public class HotelAdapter extends BaseAdapter {
 
 			// If this is the first row, then add extra margin to the top to account for the pulldown
 			if (getItemViewType(position) == TYPE_FIRST) {
-				convertView.setPadding(0, (int) mContext.getResources().getDimension(R.dimen.hotel_row_first_padding), 0, 0);
+				convertView.setPadding(0, (int) mContext.getResources().getDimension(R.dimen.hotel_row_first_padding),
+						0, 0);
 			}
 
 			holder = new HotelViewHolder();
