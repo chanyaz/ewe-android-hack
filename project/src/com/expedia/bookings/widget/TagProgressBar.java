@@ -479,9 +479,10 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 			canvas.drawColor(0xFFe4e4e4);
 
 			// DRAW BACKGROUND
-			if (mBackgroundBitmap != null && !mBackgroundBitmap.isRecycled()) {
-				canvas.drawBitmap(mBackgroundBitmap, mBackgroundSrcRect, mSurfaceRect, mPaint);
-			}
+			// TOO EXPENSIVE! :(
+			//			if (mBackgroundBitmap != null && !mBackgroundBitmap.isRecycled()) {
+			//				canvas.drawBitmap(mBackgroundBitmap, mBackgroundSrcRect, mSurfaceRect, mPaint);
+			//			}
 
 			// DOOR KNOB BACKGROUND
 			canvas.drawBitmap(mKnobBgBitmap, mKnobBgSrcRect, mKnobBgDestRect, mPaint);
