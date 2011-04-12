@@ -472,7 +472,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 			final float ringDegrees = (float) (ringAngle * 180.0d / Math.PI);
 
 			if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-				canvas.rotate(90, mTagCenterX, mTagCenterY);
+				//canvas.rotate(90, mTagCenterX, mTagCenterY);
 			}
 
 			// CLEAR CANVAS WITH WHITE

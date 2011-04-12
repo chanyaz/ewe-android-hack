@@ -9,6 +9,7 @@ import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationListener;
@@ -18,6 +19,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.ResultReceiver;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,8 +52,8 @@ import com.mobiata.hotellib.data.Filter;
 import com.mobiata.hotellib.data.Filter.PriceRange;
 import com.mobiata.hotellib.data.Filter.SearchRadius;
 import com.mobiata.hotellib.data.Filter.Sort;
-import com.mobiata.hotellib.data.SearchParams.SearchType;
 import com.mobiata.hotellib.data.SearchParams;
+import com.mobiata.hotellib.data.SearchParams.SearchType;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.StrUtils;
@@ -392,6 +396,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void hideLoading() {
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 		mSearchProgressBar.setVisibility(View.GONE);
 	}
 
@@ -424,6 +429,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void showLoading(String text) {
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		mSearchProgressBar.setVisibility(View.VISIBLE);
 		mSearchProgressBar.setShowProgress(true);
 		mSearchProgressBar.setText(text);
@@ -468,13 +474,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		// Properties
 		mPanel.setInterpolator(new AccelerateInterpolator());
-		mDatesCalendarDatePicker.setSelectionMode(SelectionMode.RANGE);
 		mAdultsNumberPicker.setRange(1, 4);
 		mChildrenNumberPicker.setRange(0, 4);
+
+		Time now = new Time();
+		now.setToNow();
+		mDatesCalendarDatePicker.setMinDate(now.year, now.month, now.monthDay);
+		mDatesCalendarDatePicker.setSelectionMode(SelectionMode.RANGE);
 
 		// Listeners
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
+		mSearchEditText.addTextChangedListener(mSearchEditTextWatcher);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
 		mDatesButton.setOnClickListener(mDatesButtonClickListener);
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
@@ -762,6 +773,21 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				hideButtonBar();
 				hideSoftKeyboard(mSearchEditText);
 			}
+		}
+	};
+
+	private TextWatcher mSearchEditTextWatcher = new TextWatcher() {
+		@Override
+		public void afterTextChanged(Editable s) {
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			mSearchParams.setSearchType(SearchType.FREEFORM);
 		}
 	};
 
