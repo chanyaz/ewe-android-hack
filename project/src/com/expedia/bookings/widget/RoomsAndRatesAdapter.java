@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.List;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.RateBreakdown;
 
@@ -69,7 +71,14 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		Rate rate = (Rate) getItem(position);
 
 		holder.description.setText(rate.getRoomDescription());
-		holder.price.setText(rate.getDailyAmountBeforeTax().getFormattedMoney());
+		holder.price.setText(rate.getAverageRate().getFormattedMoney());
+
+		String explanation = "";
+
+		// Check if there should be a strike-through rate, if this is on sale
+		if (rate.getSavingsPercent() > 0) {
+			explanation += "<strike>" + rate.getAverageBaseRate().getFormattedMoney() + "</strike> ";
+		}
 
 		// Determine whether to show rate, rate per night, or avg rate per night for explanation
 		int explanationId = 0;
@@ -93,8 +102,12 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		}
 
 		if (explanationId != 0) {
+			explanation += mContext.getString(explanationId);
+		}
+
+		if (explanation.length() > 0) {
 			holder.priceExplanation.setVisibility(View.VISIBLE);
-			holder.priceExplanation.setText(explanationId);
+			holder.priceExplanation.setText(Html.fromHtml(explanation, null, new StrikethroughTagHandler()));
 		}
 		else {
 			holder.priceExplanation.setVisibility(View.GONE);
