@@ -349,8 +349,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		if (latitde != null && longitude != null) {
 			mSearchParams.setSearchLatLon(latitde, longitude);
 		}
-
-		mSearchParams.setFreeformLocation(mSearchEditText.getText().toString().trim());
+		else {
+			mSearchParams.setFreeformLocation(mSearchEditText.getText().toString().trim());
+		}
 
 		Calendar startCalendar = Calendar.getInstance();
 		Calendar endCalendar = Calendar.getInstance();
@@ -412,8 +413,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchEditText.setText("Searching the map");
 			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
 			mSearchParams.setSearchType(SearchType.PROXIMITY);
-			
+
 			showLoading(R.string.progress_searching_hotels);
+			startSearchDownload();
 
 			break;
 		}

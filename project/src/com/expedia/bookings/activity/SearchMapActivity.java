@@ -222,12 +222,12 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	private final View.OnClickListener mMapSearchButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			GeoPoint center = mMapView.getMapCenter();
 			SearchParams searchParams = mParent.getSearchParams();
-			searchParams.setSearchType(SearchType.PROXIMITY);
+			
+			searchParams.setSearchType(SearchType.PROXIMITY);			
 			
 			mParent.setSearchParams(searchParams);
-			
-			GeoPoint center = mMapView.getMapCenter();			
 			mParent.setSearchParams(MapUtils.getLatitiude(center), MapUtils.getLongitiude(center));
 			mParent.startSearch();
 		}
