@@ -7,6 +7,9 @@
 	<string name="progress_finding_location">Finding Current Location...</string>
 	<string name="progress_searching_hotels">Searching for Hotels...</string>
 	<string name="progress_search_failed">No Hotels Found</string>
+	
+	<!-- Suggestion adapter -->
+	<string name="current_location">Current Location</string>
 
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
