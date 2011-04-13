@@ -8,25 +8,26 @@ import android.content.Context;
 
 import com.activeandroid.ActiveRecordBase;
 import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.mobiata.android.Log;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
 
+@Table(name = "Searches")
 public class Search extends ActiveRecordBase<Search> {
+	public Search(Context context) {
+		super(context);
+	}
+
 	public Search(Context context, SearchParams searchParams) {
 		super(context);
 
-		mSearchType = searchParams.getSearchType().toString();
 		mFreeformLocation = searchParams.getFreeformLocation();
 		mCheckInDate = searchParams.getCheckInDate();
 		mCheckOutDate = searchParams.getCheckOutDate();
 		mNumAdults = searchParams.getNumAdults();
 		mNumChildren = searchParams.getNumChildren();
-		mSearchLatitude = searchParams.getSearchLatitude();
-		mSearchLongitude = searchParams.getSearchLongitude();
 	}
-
-	@Column(name = "SearchType")
-	private String mSearchType;
 
 	@Column(name = "FreeFormLocation")
 	private String mFreeformLocation;
@@ -43,32 +44,44 @@ public class Search extends ActiveRecordBase<Search> {
 	@Column(name = "NumChildren")
 	private int mNumChildren;
 
-	@Column(name = "SearchLatitude")
-	private double mSearchLatitude;
-
-	@Column(name = "SearchLongitude")
-	private double mSearchLongitude;
-
 	public SearchParams getSearchParams() {
 		SearchParams searchParams = new SearchParams();
-		searchParams.setSearchType(SearchType.valueOf(mSearchType));
 		searchParams.setFreeformLocation(mFreeformLocation);
 		searchParams.setCheckInDate(mCheckInDate);
 		searchParams.setCheckOutDate(mCheckOutDate);
 		searchParams.setNumAdults(mNumAdults);
 		searchParams.setNumChildren(mNumChildren);
-		searchParams.setSearchLatLon(mSearchLatitude, mSearchLongitude);
 
 		return searchParams;
 	}
-	
+
 	public static List<SearchParams> getAllSearchParams(Context context) {
 		List<SearchParams> searchParams = new ArrayList<SearchParams>();
-		List<Search> searches = query(context, Search.class);
-		for(Search search : searches) {
+		List<Search> searches = query(context, Search.class, null, null, "Id DESC");
+		for (Search search : searches) {
 			searchParams.add(search.getSearchParams());
 		}
-		
+
 		return searchParams;
+	}
+
+	public static void add(Context context, SearchParams searchParams) {
+		if (searchParams.getSearchType() == SearchType.MY_LOCATION || searchParams.getFreeformLocation() == null
+				&& searchParams.getFreeformLocation().length() > 0) {
+			
+			return;
+		}
+
+		StringBuilder where = new StringBuilder();
+		where.append("FreeFormLocation = '" + searchParams.getFreeformLocation().trim() + "'");
+		where.append(" AND CheckInDate = " + searchParams.getCheckInDate().getTimeInMillis());
+		where.append(" AND CheckOutDate = " + searchParams.getCheckOutDate().getTimeInMillis());
+		where.append(" AND NumAdults = " + searchParams.getNumAdults());
+		where.append(" AND NumChildren = " + searchParams.getNumChildren());
+
+		Log.t(where.toString());
+
+		Search.delete(context, Search.class, where.toString());
+		new Search(context, searchParams).save();
 	}
 }

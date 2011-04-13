@@ -29,6 +29,7 @@ import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -38,6 +39,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.model.Search;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.TagProgressBar;
 import com.mobiata.android.BackgroundDownloader;
@@ -129,7 +131,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Filter mFilter;
 	private boolean mLocationListenerStarted;
 	private boolean mIsSearching;
-	
+
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
 
 	private boolean mDatesLayoutIsVisible;
@@ -197,6 +199,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchParams = state.searchParams;
 			mSearchResponse = state.searchResponse;
 			mFilter = state.filter;
+			mSearchSuggestionAdapter = state.searchSuggestionAdapter;
 			mIsSearching = state.isSearching;
 			mSearchDownloader = state.searchDownloader;
 
@@ -207,12 +210,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		else {
 			mSearchParams = new SearchParams();
 			mSearchParams.setSearchType(SearchType.MY_LOCATION);
-			
 			mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
-			mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
 
 			startSearch();
 		}
+
+		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
 
 		setViewButtonImage();
 	}
@@ -243,6 +246,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.searchParams = mSearchParams;
 		state.searchResponse = mSearchResponse;
 		state.filter = mFilter;
+		state.searchSuggestionAdapter = mSearchSuggestionAdapter;
 		state.isSearching = mIsSearching;
 		state.searchDownloader = mSearchDownloader;
 
@@ -269,6 +273,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (mSearchEditText.hasFocus() && mButtonBarIsVisible) {
 				hideButtonBar();
 				hideDismissView();
+				hideSearchSuggestions();
 				return true;
 			}
 		}
@@ -417,7 +422,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 		mSearchProgressBar.setVisibility(View.GONE);
 	}
-	
+
 	private void hideSearchSuggestions() {
 		mSearchSuggestionsListView.setVisibility(View.GONE);
 	}
@@ -431,8 +436,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mDatesLayoutIsVisible = true;
 		hideSoftKeyboard(mSearchEditText);
 		hideGuestsLayout();
+		hideSearchSuggestions();
 		setRefinementInfo();
 		mDatesLayout.setVisibility(View.VISIBLE);
+		showDismissView();
 		showButtonBar();
 	}
 
@@ -444,9 +451,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mGuestsLayoutIsVisible = true;
 		hideSoftKeyboard(mSearchEditText);
 		hideDatesLayout();
+		hideSearchSuggestions();
 		setRefinementInfo();
 		mGuestsLayout.setVisibility(View.VISIBLE);
 		mAdultsNumberPicker.requestFocus();
+		showDismissView();
 		showButtonBar();
 	}
 
@@ -460,7 +469,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchProgressBar.setShowProgress(true);
 		mSearchProgressBar.setText(text);
 	}
-	
+
 	private void showSearchSuggestions() {
 		mSearchSuggestionsListView.setVisibility(View.VISIBLE);
 	}
@@ -470,6 +479,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private void clearRefinementInfo() {
 		mRefinementInfoTextView.setText("");
 	}
+
+	/////////////////////////
+	// VIEW INITIALIZATION
 
 	private void initializeViews() {
 		// Get views
@@ -530,13 +542,16 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 
 		mDismissView.setOnClickListener(mDismissViewClickListener);
-		
+		mSearchSuggestionsListView.setOnItemClickListener(mSearchSuggestionsItemClickListner);
+
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 		mAdultsNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
 		mChildrenNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
 		mViewButton.setOnClickListener(mViewButtonClickListener);
 		mSearchButton.setOnClickListener(mSearchButtonClickListener);
 	}
+
+	/////////////////////////
 
 	private void resetFocus() {
 		mFocusLayout.requestFocus();
@@ -613,6 +628,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			mRefinementInfoTextView.setText(StrUtils.formatGuests(mContext, adults, children));
 		}
+	}
+
+	private void setSearchViews(SearchParams searchParams) {
+		mSearchEditText.setText(searchParams.getFreeformLocation());
+		mAdultsNumberPicker.setCurrent(searchParams.getNumAdults());
+		mChildrenNumberPicker.setCurrent(searchParams.getNumChildren());
 	}
 
 	private void setViewButtonImage() {
@@ -706,7 +727,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchParams.setSearchLatLon(location.getLatitude(), location.getLongitude());
 		}
 		else {
-			mSearchParams.setFreeformLocation(mSearchEditText.getText().toString());
+			mSearchParams.setFreeformLocation(mSearchEditText.getText().toString().trim());
 		}
 
 		Calendar startCalendar = Calendar.getInstance();
@@ -720,8 +741,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		final int endMonth = mDatesCalendarDatePicker.getEndMonth();
 		final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
 
-		startCalendar.set(startYear, startMonth, startDay);
-		endCalendar.set(endYear, endMonth, endDay);
+		startCalendar.set(startYear, startMonth, startDay, 0, 0, 0);
+		endCalendar.set(endYear, endMonth, endDay, 0, 0, 0);
+
+		startCalendar.set(Calendar.MILLISECOND, 0);
+		endCalendar.set(Calendar.MILLISECOND, 0);
 
 		mSearchParams.setCheckInDate(startCalendar);
 		mSearchParams.setCheckOutDate(endCalendar);
@@ -730,20 +754,33 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void startSearch() {
+		hideDatesLayout();
+		hideGuestsLayout();
+		hideSearchSuggestions();
+		hideButtonBar();
+		hideDismissView();
+		hideSoftKeyboard(mSearchEditText);
+
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
 			showLoading(R.string.progress_searching_hotels);
 			setSearchParams(null);
 			startSearchDownload();
+
+			Search.add(this, mSearchParams);
+			mSearchSuggestionAdapter.refreshData();
+
 			break;
 		}
 		case MY_LOCATION: {
 			showLoading(R.string.progress_finding_location);
 			startLocationListener();
+
 			break;
 		}
 		case PROXIMITY: {
 			showLoading(R.string.progress_searching_hotels);
+
 			break;
 		}
 		}
@@ -797,19 +834,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Listeners
 
-	private View.OnFocusChangeListener mSearchEditTextFocusChangeListener = new View.OnFocusChangeListener() {
+	private final View.OnFocusChangeListener mSearchEditTextFocusChangeListener = new View.OnFocusChangeListener() {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
 				hideDatesLayout();
 				hideGuestsLayout();
-				showDismissView();
 				showSearchSuggestions();
 				showButtonBar();
 				showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 			}
 			else {
-				hideDismissView();
 				hideSearchSuggestions();
 				hideButtonBar();
 				hideSoftKeyboard(mSearchEditText);
@@ -817,7 +852,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
-	private TextWatcher mSearchEditTextWatcher = new TextWatcher() {
+	private final TextWatcher mSearchEditTextWatcher = new TextWatcher() {
 		@Override
 		public void afterTextChanged(Editable s) {
 		}
@@ -832,7 +867,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
-	private TextView.OnEditorActionListener mSearchEditorActionListener = new TextView.OnEditorActionListener() {
+	private final TextView.OnEditorActionListener mSearchEditorActionListener = new TextView.OnEditorActionListener() {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -847,7 +882,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
-	private RadioGroup.OnCheckedChangeListener mFilterButtonGroupCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+	private final RadioGroup.OnCheckedChangeListener mFilterButtonGroupCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			setFilter();
@@ -855,34 +890,33 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
-	private View.OnClickListener mSearchEditTextClickListener = new View.OnClickListener() {
+	private final View.OnClickListener mSearchEditTextClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			hideDatesLayout();
 			hideGuestsLayout();
 			showDismissView();
+			showSearchSuggestions();
 			showButtonBar();
 			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 		}
 	};
 
-	private View.OnClickListener mDatesButtonClickListener = new View.OnClickListener() {
+	private final View.OnClickListener mDatesButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			showDismissView();
 			showDatesLayout();
 		}
 	};
 
-	private View.OnClickListener mGuestsButtonClickListener = new View.OnClickListener() {
+	private final View.OnClickListener mGuestsButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			showDismissView();
 			showGuestsLayout();
 		}
 	};
 
-	private View.OnClickListener mDismissViewClickListener = new View.OnClickListener() {
+	private final View.OnClickListener mDismissViewClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			hideButtonBar();
@@ -893,14 +927,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
-	private View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
+	private final View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			switchResultsView();
 		}
 	};
 
-	private View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
+	private final View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			resetFocus();
@@ -908,24 +942,38 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
-	private CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
+	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
 		@Override
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
 			setRefinementInfo();
 		}
 	};
 
-	private NumberPicker.OnChangedListener mNumberPickerChangedListener = new NumberPicker.OnChangedListener() {
+	private final NumberPicker.OnChangedListener mNumberPickerChangedListener = new NumberPicker.OnChangedListener() {
 		@Override
 		public void onChanged(NumberPicker picker, int oldVal, int newVal) {
 			setRefinementInfo();
 		}
 	};
 
+	private final AdapterView.OnItemClickListener mSearchSuggestionsItemClickListner = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+			if (position == 0) {
+				mSearchParams.setSearchType(SearchType.MY_LOCATION);
+				startSearch();
+			}
+			else {
+				mSearchParams = (SearchParams) mSearchSuggestionAdapter.getItem(position);
+				setSearchViews(mSearchParams);
+			}
+		}
+	};
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Handlers, Messages
 
-	public Handler mHandler = new Handler() {
+	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case MSG_SWITCH_TO_NETWORK_LOCATION: {
@@ -960,6 +1008,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public SearchParams searchParams;
 		public SearchResponse searchResponse;
 		public Filter filter;
+		public SearchSuggestionAdapter searchSuggestionAdapter;
 		public Boolean isSearching;
 		private BackgroundDownloader searchDownloader;
 	}

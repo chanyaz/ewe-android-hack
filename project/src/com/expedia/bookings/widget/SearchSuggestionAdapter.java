@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.List;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -17,15 +18,19 @@ public class SearchSuggestionAdapter extends BaseAdapter {
 	private static final int TYPE_SEARCH_PARAM = 1;
 
 	public Context mContext;
+	protected LayoutInflater mInflater;
 	public List<SearchParams> mSearchParams;
 
 	public SearchSuggestionAdapter(Context context) {
 		mContext = context;
+		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
 		refreshData();
 	}
 
 	public void refreshData() {
 		mSearchParams = Search.getAllSearchParams(mContext);
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -66,31 +71,32 @@ public class SearchSuggestionAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final int viewType = getItemViewType(position);
 		
+		SuggestionViewHolder holder;
 		if (convertView == null) {
-			convertView = new TextView(mContext);
+			convertView = mInflater.inflate(R.layout.row_suggestion, parent, false);
+
+			holder = new SuggestionViewHolder();
+			holder.suggestionTextView = (TextView) convertView.findViewById(R.id.suggestion_text_view);
+
+			convertView.setTag(holder);
+		}
+		else {
+			holder = (SuggestionViewHolder) convertView.getTag();
 		}
 		
 		if(viewType == TYPE_CURRENT_LOCATION) {
-			((TextView) convertView).setText(R.string.current_location);
+			holder.suggestionTextView.setText(R.string.current_location);
 			
 		}
 		else if (viewType == TYPE_SEARCH_PARAM) {
 			SearchParams searchParams = (SearchParams) getItem(position);
-			((TextView) convertView).setText(searchParams.getFreeformLocation());
+			holder.suggestionTextView.setText(searchParams.getFreeformLocation());
 		}
 
 		return convertView;
 	}
 
-	protected class TextRow {
-		private String mText;
-
-		public String getText() {
-			return mText;
-		}
-
-		public TextRow(String text) {
-			mText = text;
-		}
+	static class SuggestionViewHolder {
+		TextView suggestionTextView;
 	}
 }
