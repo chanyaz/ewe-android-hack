@@ -217,6 +217,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
 
+		setDrawerViews();
 		setViewButtonImage();
 	}
 
@@ -285,7 +286,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
-		setSearchParams(location);
+		setSearchParams(location.getLatitude(), location.getLongitude());
 		startSearchDownload();
 
 		stopLocationListener();
@@ -334,6 +335,91 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	public SearchParams getSearchParams() {
 		return mSearchParams;
+	}
+
+	public void setSearchParams() {
+		setSearchParams(null, null);
+	}
+
+	public void setSearchParams(Double latitde, Double longitude) {
+		if (mSearchParams == null) {
+			mSearchParams = new SearchParams();
+		}
+
+		if (latitde != null && longitude != null) {
+			mSearchParams.setSearchLatLon(latitde, longitude);
+		}
+
+		mSearchParams.setFreeformLocation(mSearchEditText.getText().toString().trim());
+
+		Calendar startCalendar = Calendar.getInstance();
+		Calendar endCalendar = Calendar.getInstance();
+
+		final int startYear = mDatesCalendarDatePicker.getStartYear();
+		final int startMonth = mDatesCalendarDatePicker.getStartMonth();
+		final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
+
+		final int endYear = mDatesCalendarDatePicker.getEndYear();
+		final int endMonth = mDatesCalendarDatePicker.getEndMonth();
+		final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
+
+		startCalendar.set(startYear, startMonth, startDay, 0, 0, 0);
+		endCalendar.set(endYear, endMonth, endDay, 0, 0, 0);
+
+		startCalendar.set(Calendar.MILLISECOND, 0);
+		endCalendar.set(Calendar.MILLISECOND, 0);
+
+		mSearchParams.setCheckInDate(startCalendar);
+		mSearchParams.setCheckOutDate(endCalendar);
+		mSearchParams.setNumAdults(mAdultsNumberPicker.getCurrent());
+		mSearchParams.setNumChildren(mChildrenNumberPicker.getCurrent());
+	}
+
+	public void setSearchParams(SearchParams searchParams) {
+		mSearchParams = searchParams;
+	}
+
+	public void startSearch() {
+		hideDatesLayout();
+		hideGuestsLayout();
+		hideSearchSuggestions();
+		hideButtonBar();
+		hideDismissView();
+		hideSoftKeyboard(mSearchEditText);
+
+		switch (mSearchParams.getSearchType()) {
+		case FREEFORM: {
+			showLoading(R.string.progress_searching_hotels);
+			setSearchParams();
+			startSearchDownload();
+
+			Search.add(this, mSearchParams);
+			mSearchSuggestionAdapter.refreshData();
+
+			break;
+		}
+		case MY_LOCATION: {
+			mSearchEditText.setText(R.string.MyLocation);
+			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
+			mSearchParams.setSearchType(SearchType.MY_LOCATION);
+
+			showLoading(R.string.progress_finding_location);
+			startLocationListener();
+
+			break;
+		}
+		case PROXIMITY: {
+			mSearchEditText.setText("Searching the map");
+			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
+			mSearchParams.setSearchType(SearchType.PROXIMITY);
+			
+			showLoading(R.string.progress_searching_hotels);
+
+			break;
+		}
+		}
+
+		setFilter();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -480,7 +566,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mRefinementInfoTextView.setText("");
 	}
 
-	/////////////////////////
+	///////////////////////////////////////////////////////////////////////
 	// VIEW INITIALIZATION
 
 	private void initializeViews() {
@@ -551,7 +637,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchButton.setOnClickListener(mSearchButtonClickListener);
 	}
 
-	/////////////////////////
+	///////////////////////////////////////////////////////////////////////
 
 	private void resetFocus() {
 		mFocusLayout.requestFocus();
@@ -653,8 +739,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			setActivity(SearchListActivity.class);
 		}
 
-		setViewButtonImage();
 		setDrawerViews();
+		setViewButtonImage();
 	}
 
 	// Searching methods
@@ -718,76 +804,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	private void setSearchParams(Location location) {
-		if (mSearchParams == null) {
-			mSearchParams = new SearchParams();
-		}
-
-		if (location != null) {
-			mSearchParams.setSearchLatLon(location.getLatitude(), location.getLongitude());
-		}
-		else {
-			mSearchParams.setFreeformLocation(mSearchEditText.getText().toString().trim());
-		}
-
-		Calendar startCalendar = Calendar.getInstance();
-		Calendar endCalendar = Calendar.getInstance();
-
-		final int startYear = mDatesCalendarDatePicker.getStartYear();
-		final int startMonth = mDatesCalendarDatePicker.getStartMonth();
-		final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
-
-		final int endYear = mDatesCalendarDatePicker.getEndYear();
-		final int endMonth = mDatesCalendarDatePicker.getEndMonth();
-		final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
-
-		startCalendar.set(startYear, startMonth, startDay, 0, 0, 0);
-		endCalendar.set(endYear, endMonth, endDay, 0, 0, 0);
-
-		startCalendar.set(Calendar.MILLISECOND, 0);
-		endCalendar.set(Calendar.MILLISECOND, 0);
-
-		mSearchParams.setCheckInDate(startCalendar);
-		mSearchParams.setCheckOutDate(endCalendar);
-		mSearchParams.setNumAdults(mAdultsNumberPicker.getCurrent());
-		mSearchParams.setNumChildren(mChildrenNumberPicker.getCurrent());
-	}
-
-	private void startSearch() {
-		hideDatesLayout();
-		hideGuestsLayout();
-		hideSearchSuggestions();
-		hideButtonBar();
-		hideDismissView();
-		hideSoftKeyboard(mSearchEditText);
-
-		switch (mSearchParams.getSearchType()) {
-		case FREEFORM: {
-			showLoading(R.string.progress_searching_hotels);
-			setSearchParams(null);
-			startSearchDownload();
-
-			Search.add(this, mSearchParams);
-			mSearchSuggestionAdapter.refreshData();
-
-			break;
-		}
-		case MY_LOCATION: {
-			showLoading(R.string.progress_finding_location);
-			startLocationListener();
-
-			break;
-		}
-		case PROXIMITY: {
-			showLoading(R.string.progress_searching_hotels);
-
-			break;
-		}
-		}
-
-		setFilter();
-	}
-
 	private void startSearchDownload() {
 		mSearchDownloader.cancelDownload(KEY_SEARCH);
 		mSearchDownloader.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
@@ -843,6 +859,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				showSearchSuggestions();
 				showButtonBar();
 				showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
+
+				mSearchEditText.selectAll();
 			}
 			else {
 				hideSearchSuggestions();
@@ -863,6 +881,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
 			mSearchParams.setSearchType(SearchType.FREEFORM);
 		}
 	};
@@ -960,8 +979,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 			if (position == 0) {
+				mSearchEditText.setText(R.string.MyLocation);
+				mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
+				mSearchEditText.selectAll();
+				mSearchEditText.requestFocus();
+
 				mSearchParams.setSearchType(SearchType.MY_LOCATION);
-				startSearch();
 			}
 			else {
 				mSearchParams = (SearchParams) mSearchSuggestionAdapter.getItem(position);
