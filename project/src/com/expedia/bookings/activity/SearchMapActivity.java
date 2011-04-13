@@ -164,6 +164,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		if (mHotelItemizedOverlay == null) {
 			mHotelItemizedOverlay = new HotelItemizedOverlay(this, properties, mParent.getSearchParams(), true,
 					mMapView, HotelActivity.class);
+			mHotelItemizedOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
 			overlays.add(mHotelItemizedOverlay);
 		}
 		else {
