@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
-	android:padding="8dp">
+	android:paddingLeft="8dp"
+	android:paddingBottom="8dp">
 	<TextView
 		android:id="@+id/room_description_text_view"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:paddingTop="8dp"
 		android:textColor="@android:color/black"
 		android:textSize="15sp"
 		android:textStyle="bold" />
@@ -33,6 +36,28 @@
 		android:layout_alignParentRight="true"
 		android:layout_alignParentBottom="true"
 		android:gravity="right"
+		android:paddingRight="8dp"
 		android:textSize="12sp"
 		android:textColor="#696969" />
+
+	<!-- Sale tag at the top right -->
+	<ImageView
+		android:id="@+id/sale_image_view"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentRight="true"
+		android:src="@drawable/sale_corner_right" />
+	<com.mobiata.android.widget.TiltedTextView
+		android:id="@+id/sale_text_view"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentRight="true"
+		android:layout_marginTop="5dp"
+		android:layout_marginRight="4dp"
+		android:textColor="@android:color/white"
+		android:textStyle="bold"
+		android:textSize="12dp"
+		mobiata:rotation="45" />
 </RelativeLayout>

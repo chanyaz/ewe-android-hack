@@ -47,6 +47,8 @@
 	<string name="rooms_left_one">Only 1 room left!</string>
 	<!-- Warning if there are only a few rooms left -->
 	<string name="rooms_left_template">Only %d rooms left!</string>
+	<!-- Savings percentage label -->
+	<string name="savings_template">Save\n %2.0f%%</string>
 
 	<!-- Booking info -->
 	<!-- Label for room type -->

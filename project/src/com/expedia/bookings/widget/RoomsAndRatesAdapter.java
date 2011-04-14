@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -61,6 +62,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
 			holder.priceExplanation = (TextView) convertView.findViewById(R.id.price_explanation_text_view);
 			holder.beds = (TextView) convertView.findViewById(R.id.beds_text_view);
+			holder.saleImage = (ImageView) convertView.findViewById(R.id.sale_image_view);
+			holder.saleLabel = (TextView) convertView.findViewById(R.id.sale_text_view);
 
 			convertView.setTag(holder);
 		}
@@ -76,8 +79,17 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		String explanation = "";
 
 		// Check if there should be a strike-through rate, if this is on sale
-		if (rate.getSavingsPercent() > 0) {
+		double savings = rate.getSavingsPercent();
+		if (savings > 0) {
 			explanation += "<strike>" + rate.getAverageBaseRate().getFormattedMoney() + "</strike> ";
+
+			holder.saleLabel.setText(mContext.getString(R.string.savings_template, savings * 100));
+			holder.saleImage.setVisibility(View.VISIBLE);
+			holder.saleLabel.setVisibility(View.VISIBLE);
+		}
+		else {
+			holder.saleImage.setVisibility(View.GONE);
+			holder.saleLabel.setVisibility(View.GONE);
 		}
 
 		// Determine whether to show rate, rate per night, or avg rate per night for explanation
@@ -137,5 +149,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		public TextView price;
 		public TextView priceExplanation;
 		public TextView beds;
+		public ImageView saleImage;
+		public TextView saleLabel;
 	}
 }
