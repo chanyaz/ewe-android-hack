@@ -12,8 +12,8 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.AnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.ImageView;
@@ -25,10 +25,12 @@ import com.expedia.bookings.widget.ImageAdapter;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
+import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Media;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Property.Amenity;
+import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.utils.JSONUtils;
 
 public class HotelActivity extends Activity {
@@ -106,13 +108,29 @@ public class HotelActivity extends Activity {
 		}
 
 		// Configure views on top of the gallery
-		String promoDescription = property.getLowestRate().getPromoDescription();
+		Rate lowestRate = property.getLowestRate();
+		String promoDescription = lowestRate.getPromoDescription();
 		if (promoDescription != null && promoDescription.length() > 0) {
 			TextView promoView = (TextView) findViewById(R.id.promo_description_text_view);
 			promoView.setVisibility(View.VISIBLE);
 			promoView.setText(Html.fromHtml(promoDescription));
 			promoView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.expand_bottom));
 		}
+
+		ViewGroup priceContainer = (ViewGroup) findViewById(R.id.price_layout);
+		priceContainer.startAnimation(AnimationUtils.loadAnimation(this, R.anim.expand_right));
+		TextView fromView = (TextView) findViewById(R.id.from_text_view);
+		if (lowestRate.getSavingsPercent() > 0) {
+			fromView.setText(Html.fromHtml(
+					getString(R.string.from_template, lowestRate.getAverageBaseRate().getFormattedMoney()), null,
+					new StrikethroughTagHandler()));
+		}
+		else {
+			fromView.setText(R.string.from);
+		}
+
+		TextView priceView = (TextView) findViewById(R.id.price_text_view);
+		priceView.setText(lowestRate.getAverageRate().getFormattedMoney());
 
 		// Amenities
 		ViewGroup amenitiesContainer = (ViewGroup) findViewById(R.id.amenities_table_row);

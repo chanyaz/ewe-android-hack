@@ -97,6 +97,37 @@
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:spacing="2dp" />
+		<LinearLayout
+			android:id="@+id/price_layout"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentRight="true"
+			android:layout_marginTop="6dp"
+			android:paddingTop="6dp"
+			android:paddingBottom="4dp"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			android:gravity="left"
+			android:orientation="vertical"
+			android:background="#F9C500">
+			<TextView
+				android:id="@+id/from_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="#333333"
+				android:textStyle="bold"
+				android:textSize="14dp"
+				android:includeFontPadding="false" />
+			<TextView
+				android:id="@+id/price_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="#00355F"
+				android:textStyle="bold"
+				android:textSize="18dp"
+				android:includeFontPadding="false" />
+		</LinearLayout>
 		<TextView
 			android:id="@+id/promo_description_text_view"
 			android:layout_width="wrap_content"
