@@ -105,6 +105,8 @@ public class HotelAdapter extends BaseAdapter {
 
 			holder = new HotelViewHolder();
 			holder.thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail_image_view);
+			holder.saleImage = (ImageView) convertView.findViewById(R.id.sale_image_view);
+			holder.saleLabel = (TextView) convertView.findViewById(R.id.sale_text_view);
 			holder.name = (TextView) convertView.findViewById(R.id.name_text_view);
 			holder.from = (TextView) convertView.findViewById(R.id.from_text_view);
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
@@ -126,9 +128,13 @@ public class HotelAdapter extends BaseAdapter {
 		if (lowestRate.getSavingsPercent() > 0) {
 			holder.from.setText(Html.fromHtml(mContext.getString(R.string.from_template, lowestRate
 					.getAverageBaseRate().getFormattedMoney()), null, new StrikethroughTagHandler()));
+			holder.saleImage.setVisibility(View.VISIBLE);
+			holder.saleLabel.setVisibility(View.VISIBLE);
 		}
 		else {
 			holder.from.setText(R.string.from);
+			holder.saleImage.setVisibility(View.GONE);
+			holder.saleLabel.setVisibility(View.GONE);
 		}
 
 		holder.price.setText(lowestRate.getAverageRate().getFormattedMoney());
@@ -146,6 +152,8 @@ public class HotelAdapter extends BaseAdapter {
 
 	private static class HotelViewHolder {
 		public ImageView thumbnail;
+		public ImageView saleImage;
+		public TextView saleLabel;
 		public TextView name;
 		public TextView from;
 		public TextView price;
