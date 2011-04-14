@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
@@ -85,7 +86,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final long TIME_SWITCH_TO_NETWORK_DELAY = 1000 * 3;
 
 	private static final boolean ANIMATION_VIEW_FLIP_ENABLED = true;
-	private static final int ANIMATION_VIEW_FLIP_SPEED = 400;
+	private static final int ANIMATION_VIEW_FLIP_SPEED = 500;
 	private static final float ANIMATION_VIEW_FLIP_DEPTH = 250f;
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -97,6 +98,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private FrameLayout mContent;
 
+	private TextView mBookingInfoTextView;
 	private EditText mSearchEditText;
 	private ImageButton mDatesButton;
 	private ImageButton mGuestsButton;
@@ -437,6 +439,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		}
 
+		setBookingInfoText();
 		setFilter();
 	}
 
@@ -501,9 +504,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		showDismissView();
+		closeDrawer();
 	}
 
 	// Show/hide view methods
+
+	private void closeDrawer() {
+		mPanel.setOpen(false, true);
+	}
 
 	private void hideButtonBar() {
 		mButtonBarIsVisible = false;
@@ -548,6 +556,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setRefinementInfo();
 		mDatesLayout.setVisibility(View.VISIBLE);
 		showDismissView();
+		closeDrawer();
 		showButtonBar();
 	}
 
@@ -564,6 +573,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mGuestsLayout.setVisibility(View.VISIBLE);
 		mAdultsNumberPicker.requestFocus();
 		showDismissView();
+		closeDrawer();
 		showButtonBar();
 	}
 
@@ -597,6 +607,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 
+		mBookingInfoTextView = (TextView) findViewById(R.id.booking_info_text_view);
 		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
 		mDatesButton = (ImageButton) findViewById(R.id.dates_button);
 		mGuestsButton = (ImageButton) findViewById(R.id.guests_button);
@@ -703,6 +714,21 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			mContent.addView(mLaunchedView);
 		}
+	}
+
+	private void setBookingInfoText() {
+		final String location = mSearchEditText.getText().toString();
+		final int startYear = mDatesCalendarDatePicker.getStartYear();
+		final int startMonth = mDatesCalendarDatePicker.getStartMonth();
+		final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
+		final int endYear = mDatesCalendarDatePicker.getEndYear();
+		final int endMonth = mDatesCalendarDatePicker.getEndMonth();
+		final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
+
+		String[] shortMonthNames = getResources().getStringArray(R.array.short_month_names);
+
+		mBookingInfoTextView.setText(getString(R.string.booking_info_template, location, shortMonthNames[startMonth],
+				startDay, shortMonthNames[endMonth], endDay, endYear));
 	}
 
 	private void setDrawerViews() {

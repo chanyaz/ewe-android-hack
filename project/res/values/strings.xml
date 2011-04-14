@@ -3,7 +3,9 @@
 	<string name="app_name">Expedia</string>
 	
 	<!-- Search Activity -->
-	<!-- Progress messages -->
+	<string name="booking_info_template">%1$s — %2$s %3$d to %4$s %5$s, %6$d</string>
+	
+	<!-- Progress messages -->	
 	<string name="progress_finding_location">Finding Current Location...</string>
 	<string name="progress_searching_hotels">Searching for Hotels...</string>
 	<string name="progress_search_failed">No Hotels Found</string>
