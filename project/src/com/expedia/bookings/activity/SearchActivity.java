@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
@@ -12,6 +11,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -38,6 +39,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -86,7 +88,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final long TIME_SWITCH_TO_NETWORK_DELAY = 1000 * 3;
 
 	private static final boolean ANIMATION_VIEW_FLIP_ENABLED = true;
-	private static final int ANIMATION_VIEW_FLIP_SPEED = 500;
+	private static final int ANIMATION_VIEW_FLIP_SPEED = 250;
 	private static final float ANIMATION_VIEW_FLIP_DEPTH = 250f;
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -97,6 +99,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private View mFocusLayout;
 
 	private FrameLayout mContent;
+	private ImageView mViewFlipImage;
 
 	private TextView mBookingInfoTextView;
 	private EditText mSearchEditText;
@@ -147,6 +150,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private boolean mDatesLayoutIsVisible;
 	private boolean mGuestsLayoutIsVisible;
 	private boolean mButtonBarIsVisible;
+	
+	private Bitmap mViewFlipBitmap;
+	private Canvas mViewFlipCanvas;
 
 	// Threads / callbacks
 
@@ -453,8 +459,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		Rotate3dAnimation rotationOut = null;
 		Rotate3dAnimation rotationIn = null;
 
-		final float centerX = mContent.getWidth() / 2.0f;
-		final float centerY = mContent.getHeight() / 2.0f;
+		final float centerX = mViewFlipImage.getWidth() / 2.0f;
+		final float centerY = mViewFlipImage.getHeight() / 2.0f;
 
 		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
 			if (ANIMATION_VIEW_FLIP_ENABLED) {
@@ -476,6 +482,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		if (rotationOut != null && rotationIn != null) {
+			if(mViewFlipCanvas == null) {
+				final int width = mContent.getWidth();
+				final int height = mContent.getHeight();
+				mViewFlipBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+				mViewFlipCanvas = new Canvas(mViewFlipBitmap);
+				mViewFlipImage.setImageBitmap(mViewFlipBitmap);
+			}
+			
+			mContent.draw(mViewFlipCanvas);
+			mContent.setVisibility(View.GONE);
+
 			final Rotate3dAnimation nextAnimation = rotationIn;
 			nextAnimation.setDuration(ANIMATION_VIEW_FLIP_SPEED);
 			nextAnimation.setFillAfter(true);
@@ -492,6 +509,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				@Override
 				public void onAnimationEnd(Animation animation) {
 					setDrawerViews();
+					mContent.setVisibility(View.VISIBLE);
 				}
 			});
 
@@ -519,12 +537,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 								setActivity(SearchListActivity.class);
 							}
 
-							mContent.startAnimation(nextAnimation);
+							mContent.draw(mViewFlipCanvas);
+							mViewFlipImage.startAnimation(nextAnimation);
 						}
 					});
 				}
 			});
-			mContent.startAnimation(rotationOut);
+			mViewFlipImage.startAnimation(rotationOut);
 		}
 		else {
 			setDrawerViews();
@@ -690,6 +709,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mFocusLayout = findViewById(R.id.focus_layout);
 
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
+		mViewFlipImage = (ImageView) findViewById(R.id.view_flip_image);
 
 		mBookingInfoTextView = (TextView) findViewById(R.id.booking_info_text_view);
 		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
@@ -718,7 +738,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
 
-		// Properties
+		// Properties		
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mAdultsNumberPicker.setRange(1, 4);
 		mChildrenNumberPicker.setRange(0, 4);
@@ -1135,7 +1155,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public Filter filter;
 		public SearchSuggestionAdapter searchSuggestionAdapter;
 		public Boolean isSearching;
-		private BackgroundDownloader searchDownloader;
+		public BackgroundDownloader searchDownloader;
 	}
 
 	private class SoftKeyResultReceiver extends ResultReceiver {
