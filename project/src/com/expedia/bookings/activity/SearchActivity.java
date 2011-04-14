@@ -295,6 +295,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				hideSearchSuggestions();
 				return true;
 			}
+			
+			if(mPanel.isOpen()) {
+				closeDrawer();
+				return true;
+			}
 		}
 
 		return super.dispatchKeyEvent(event);
