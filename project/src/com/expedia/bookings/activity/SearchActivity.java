@@ -295,8 +295,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				hideSearchSuggestions();
 				return true;
 			}
-			
-			if(mPanel.isOpen()) {
+
+			if (mPanel.isOpen()) {
 				closeDrawer();
 				return true;
 			}
@@ -815,7 +815,25 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			nextAnimation.setDuration(ANIMATION_VIEW_FLIP_SPEED);
 			nextAnimation.setFillAfter(true);
 			nextAnimation.setInterpolator(new DecelerateInterpolator());
+			nextAnimation.setAnimationListener(new AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
+				}
 
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					mViewButton.setEnabled(true);
+
+					setDrawerViews();
+					setViewButtonImage();
+				}
+			});
+
+			mViewButton.setEnabled(false);
 			rotationOut.setDuration(ANIMATION_VIEW_FLIP_SPEED);
 			rotationOut.setFillAfter(true);
 			rotationOut.setInterpolator(new AccelerateInterpolator());
@@ -841,9 +859,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 							}
 
 							mContent.startAnimation(nextAnimation);
-
-							setDrawerViews();
-							setViewButtonImage();
 						}
 					});
 				}
