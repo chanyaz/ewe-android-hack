@@ -27,6 +27,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -39,6 +42,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.animation.Rotate3dAnimation;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.TagProgressBar;
@@ -78,6 +82,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
 
 	private static final long TIME_SWITCH_TO_NETWORK_DELAY = 1000 * 3;
+
+	private static final boolean ANIMATION_VIEW_FLIP_ENABLED = true;
+	private static final int ANIMATION_VIEW_FLIP_SPEED = 400;
+	private static final float ANIMATION_VIEW_FLIP_DEPTH = 250f;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
@@ -261,12 +269,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
 			if (mDatesLayoutIsVisible) {
 				hideDatesLayout();
+				hideDismissView();
 				hideButtonBar();
 				return true;
 			}
 
 			if (mGuestsLayoutIsVisible) {
 				hideGuestsLayout();
+				hideDismissView();
 				hideButtonBar();
 				return true;
 			}
@@ -734,11 +744,66 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void switchResultsView() {
+		Rotate3dAnimation rotationOut = null;
+		Rotate3dAnimation rotationIn = null;
+
+		final float centerX = mContent.getWidth() / 2.0f;
+		final float centerY = mContent.getHeight() / 2.0f;
+
 		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-			setActivity(SearchMapActivity.class);
+			if (ANIMATION_VIEW_FLIP_ENABLED) {
+				rotationOut = new Rotate3dAnimation(0, -90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
+				rotationIn = new Rotate3dAnimation(90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
+			}
+			else {
+				setActivity(SearchMapActivity.class);
+			}
 		}
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-			setActivity(SearchListActivity.class);
+			if (ANIMATION_VIEW_FLIP_ENABLED) {
+				rotationOut = new Rotate3dAnimation(0, 90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
+				rotationIn = new Rotate3dAnimation(-90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
+			}
+			else {
+				setActivity(SearchListActivity.class);
+			}
+		}
+
+		if (rotationOut != null && rotationIn != null) {
+			final Rotate3dAnimation nextAnimation = rotationIn;
+			nextAnimation.setDuration(ANIMATION_VIEW_FLIP_SPEED);
+			nextAnimation.setInterpolator(new DecelerateInterpolator());
+
+			rotationOut.setDuration(ANIMATION_VIEW_FLIP_SPEED);
+			rotationOut.setFillAfter(true);
+			rotationOut.setInterpolator(new AccelerateInterpolator());
+			rotationOut.setAnimationListener(new AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					mContent.post(new Runnable() {
+						@Override
+						public void run() {
+							if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+								setActivity(SearchMapActivity.class);
+							}
+							else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
+								setActivity(SearchListActivity.class);
+							}
+
+							mContent.startAnimation(nextAnimation);
+						}
+					});
+				}
+			});
+			mContent.startAnimation(rotationOut);
 		}
 
 		setDrawerViews();
@@ -1045,12 +1110,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
-			Log.i("Result code: " + resultCode);
+			Log.t("Result code: %d", resultCode);
 
-			if (resultCode == InputMethodManager.RESULT_HIDDEN
-					|| resultCode == InputMethodManager.RESULT_UNCHANGED_HIDDEN) {
-
-				//resetFocus();
+			if (resultCode == InputMethodManager.RESULT_HIDDEN) {
+				hideDismissView();
+				hideSearchSuggestions();
 			}
 		}
 	}
