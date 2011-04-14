@@ -782,6 +782,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		if (rotationOut != null && rotationIn != null) {
 			final Rotate3dAnimation nextAnimation = rotationIn;
 			nextAnimation.setDuration(ANIMATION_VIEW_FLIP_SPEED);
+			nextAnimation.setFillAfter(true);
 			nextAnimation.setInterpolator(new DecelerateInterpolator());
 
 			rotationOut.setDuration(ANIMATION_VIEW_FLIP_SPEED);
@@ -809,15 +810,19 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 							}
 
 							mContent.startAnimation(nextAnimation);
+
+							setDrawerViews();
+							setViewButtonImage();
 						}
 					});
 				}
 			});
 			mContent.startAnimation(rotationOut);
 		}
-
-		setDrawerViews();
-		setViewButtonImage();
+		else {
+			setDrawerViews();
+			setViewButtonImage();
+		}
 	}
 
 	// Searching methods
