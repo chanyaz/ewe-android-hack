@@ -44,6 +44,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	private MyLocationOverlay mMyLocationOverlay;
 
 	private ImageButton mMapSearchButton;
+	private ImageButton mViewButton;
 
 	// Keeps track of whether this Activity is being actively displayed.  If not, do not
 	// enable the MyLocationOverlay.
@@ -66,6 +67,9 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 		mMapSearchButton = (ImageButton) findViewById(R.id.map_search_button);
 		mMapSearchButton.setOnClickListener(mMapSearchButtonClickListener);
+
+		mViewButton = (ImageButton) findViewById(R.id.view_button);
+		mViewButton.setOnClickListener(mViewButtonClickListener);
 
 		mParent = (SearchActivity) getParent();
 		mParent.addSearchListener(this);
@@ -250,6 +254,13 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		}
 	};
 
+	private final View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			mParent.switchResultsView();
+		}
+	};
+	
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Private classes
 

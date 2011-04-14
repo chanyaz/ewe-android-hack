@@ -73,15 +73,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
+	public static final String ACTIVITY_SEARCH_LIST = SearchListActivity.class.getCanonicalName();
+	public static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
+
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 
 	private static final int MSG_SWITCH_TO_NETWORK_LOCATION = 0;
 	private static final int MSG_BROADCAST_SEARCH_COMPLETED = 1;
 	private static final int MSG_BROADCAST_SEARCH_FAILED = 2;
 	private static final int MSG_BROADCAST_SEARCH_STARTED = 3;
-
-	private static final String ACTIVITY_SEARCH_LIST = SearchListActivity.class.getCanonicalName();
-	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
 
 	private static final long TIME_SWITCH_TO_NETWORK_DELAY = 1000 * 3;
 
@@ -109,8 +109,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private SegmentedControlGroup mSortButtonGroup;
 	private SegmentedControlGroup mRadiusButtonGroup;
 	private SegmentedControlGroup mPriceButtonGroup;
-
-	private ImageButton mViewButton;
 
 	private View mDismissView;
 	private ListView mSearchSuggestionsListView;
@@ -233,7 +231,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
 
 		setDrawerViews();
-		setViewButtonImage();
 	}
 
 	@Override
@@ -360,6 +357,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		return mSearchParams;
 	}
 
+	public Session getSession() {
+		return mSession;
+	}
+
 	public void setSearchParams() {
 		setSearchParams(null, null);
 	}
@@ -448,8 +449,86 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setFilter();
 	}
 
-	public Session getSession() {
-		return mSession;
+	public void switchResultsView() {
+		Rotate3dAnimation rotationOut = null;
+		Rotate3dAnimation rotationIn = null;
+
+		final float centerX = mContent.getWidth() / 2.0f;
+		final float centerY = mContent.getHeight() / 2.0f;
+
+		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+			if (ANIMATION_VIEW_FLIP_ENABLED) {
+				rotationOut = new Rotate3dAnimation(0, -90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
+				rotationIn = new Rotate3dAnimation(90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
+			}
+			else {
+				setActivity(SearchMapActivity.class);
+			}
+		}
+		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
+			if (ANIMATION_VIEW_FLIP_ENABLED) {
+				rotationOut = new Rotate3dAnimation(0, 90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
+				rotationIn = new Rotate3dAnimation(-90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
+			}
+			else {
+				setActivity(SearchListActivity.class);
+			}
+		}
+
+		if (rotationOut != null && rotationIn != null) {
+			final Rotate3dAnimation nextAnimation = rotationIn;
+			nextAnimation.setDuration(ANIMATION_VIEW_FLIP_SPEED);
+			nextAnimation.setFillAfter(true);
+			nextAnimation.setInterpolator(new DecelerateInterpolator());
+			nextAnimation.setAnimationListener(new AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					setDrawerViews();
+				}
+			});
+
+			rotationOut.setDuration(ANIMATION_VIEW_FLIP_SPEED);
+			rotationOut.setFillAfter(true);
+			rotationOut.setInterpolator(new AccelerateInterpolator());
+			rotationOut.setAnimationListener(new AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					mContent.post(new Runnable() {
+						@Override
+						public void run() {
+							if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+								setActivity(SearchMapActivity.class);
+							}
+							else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
+								setActivity(SearchListActivity.class);
+							}
+
+							mContent.startAnimation(nextAnimation);
+						}
+					});
+				}
+			});
+			mContent.startAnimation(rotationOut);
+		}
+		else {
+			setDrawerViews();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -624,8 +703,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
 
-		mViewButton = (ImageButton) findViewById(R.id.view_button);
-
 		mDismissView = findViewById(R.id.dismiss_view);
 		mSearchSuggestionsListView = (ListView) findViewById(R.id.search_suggestions_list_view);
 
@@ -671,7 +748,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 		mAdultsNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
 		mChildrenNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
-		mViewButton.setOnClickListener(mViewButtonClickListener);
 		mSearchButton.setOnClickListener(mSearchButtonClickListener);
 	}
 
@@ -773,102 +849,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchEditText.setText(searchParams.getFreeformLocation());
 		mAdultsNumberPicker.setCurrent(searchParams.getNumAdults());
 		mChildrenNumberPicker.setCurrent(searchParams.getNumChildren());
-	}
-
-	private void setViewButtonImage() {
-		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-			mViewButton.setImageResource(R.drawable.btn_map);
-		}
-		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-			mViewButton.setImageResource(R.drawable.btn_list);
-		}
-	}
-
-	private void switchResultsView() {
-		Rotate3dAnimation rotationOut = null;
-		Rotate3dAnimation rotationIn = null;
-
-		final float centerX = mContent.getWidth() / 2.0f;
-		final float centerY = mContent.getHeight() / 2.0f;
-
-		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-			if (ANIMATION_VIEW_FLIP_ENABLED) {
-				rotationOut = new Rotate3dAnimation(0, -90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
-				rotationIn = new Rotate3dAnimation(90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
-			}
-			else {
-				setActivity(SearchMapActivity.class);
-			}
-		}
-		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-			if (ANIMATION_VIEW_FLIP_ENABLED) {
-				rotationOut = new Rotate3dAnimation(0, 90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
-				rotationIn = new Rotate3dAnimation(-90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
-			}
-			else {
-				setActivity(SearchListActivity.class);
-			}
-		}
-
-		if (rotationOut != null && rotationIn != null) {
-			final Rotate3dAnimation nextAnimation = rotationIn;
-			nextAnimation.setDuration(ANIMATION_VIEW_FLIP_SPEED);
-			nextAnimation.setFillAfter(true);
-			nextAnimation.setInterpolator(new DecelerateInterpolator());
-			nextAnimation.setAnimationListener(new AnimationListener() {
-				@Override
-				public void onAnimationStart(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationRepeat(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationEnd(Animation animation) {
-					mViewButton.setEnabled(true);
-
-					setDrawerViews();
-					setViewButtonImage();
-				}
-			});
-
-			mViewButton.setEnabled(false);
-			rotationOut.setDuration(ANIMATION_VIEW_FLIP_SPEED);
-			rotationOut.setFillAfter(true);
-			rotationOut.setInterpolator(new AccelerateInterpolator());
-			rotationOut.setAnimationListener(new AnimationListener() {
-				@Override
-				public void onAnimationStart(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationRepeat(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationEnd(Animation animation) {
-					mContent.post(new Runnable() {
-						@Override
-						public void run() {
-							if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-								setActivity(SearchMapActivity.class);
-							}
-							else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-								setActivity(SearchListActivity.class);
-							}
-
-							mContent.startAnimation(nextAnimation);
-						}
-					});
-				}
-			});
-			mContent.startAnimation(rotationOut);
-		}
-		else {
-			setDrawerViews();
-			setViewButtonImage();
-		}
 	}
 
 	// Searching methods
@@ -1071,13 +1051,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			hideDatesLayout();
 			hideGuestsLayout();
 			hideDismissView();
-		}
-	};
-
-	private final View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			switchResultsView();
 		}
 	};
 

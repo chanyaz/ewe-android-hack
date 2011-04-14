@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
@@ -23,6 +24,8 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 	private SearchActivity mParent;
 	private HotelAdapter mAdapter;
 
+	private ImageButton mViewButton;
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
 
@@ -33,6 +36,9 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 
 		mParent = (SearchActivity) getParent();
 		mParent.addSearchListener(this);
+
+		mViewButton = (ImageButton) findViewById(R.id.view_button);
+		mViewButton.setOnClickListener(mViewButtonClickListener);
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
@@ -106,7 +112,14 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
-	// Private methods
+	// Listeners
+
+	private final View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			mParent.switchResultsView();
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Private classes
