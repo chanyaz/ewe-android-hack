@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AnimationUtils;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Gallery;
@@ -102,6 +103,15 @@ public class HotelActivity extends Activity {
 		}
 		else {
 			gallery.setVisibility(View.GONE);
+		}
+
+		// Configure views on top of the gallery
+		String promoDescription = property.getLowestRate().getPromoDescription();
+		if (promoDescription != null && promoDescription.length() > 0) {
+			TextView promoView = (TextView) findViewById(R.id.promo_description_text_view);
+			promoView.setVisibility(View.VISIBLE);
+			promoView.setText(Html.fromHtml(promoDescription));
+			promoView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.expand_bottom));
 		}
 
 		// Amenities

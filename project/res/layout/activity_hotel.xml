@@ -89,11 +89,29 @@
 
 
 	<!-- Rotating image gallery -->
-	<Gallery
-		android:id="@+id/images_gallery"
+	<RelativeLayout
 		android:layout_width="fill_parent"
-		android:layout_height="200dp"
-		android:spacing="2dp" />
+		android:layout_height="200dp">
+		<Gallery
+			android:id="@+id/images_gallery"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:spacing="2dp" />
+		<TextView
+			android:id="@+id/promo_description_text_view"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true"
+			android:layout_marginRight="16dp"
+			android:layout_marginLeft="16dp"
+			android:maxWidth="220dp"
+			android:gravity="center"
+			android:padding="4dp"
+			android:background="#A40000"
+			android:textColor="@android:color/white"
+			android:visibility="gone" />
+	</RelativeLayout>
 
 	<!-- Details about the hotel. This is filled in dynamically based on available 
 		hotel data -->
