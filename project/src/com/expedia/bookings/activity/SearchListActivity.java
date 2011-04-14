@@ -33,12 +33,12 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 
 		mParent = (SearchActivity) getParent();
 		mParent.addSearchListener(this);
-		
+
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
 			mAdapter = state.adapter;
-			
-			if(mAdapter != null) {
+
+			if (mAdapter != null) {
 				setListAdapter(mAdapter);
 			}
 		}
@@ -61,6 +61,7 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 		Intent intent = new Intent(this, HotelActivity.class);
 		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
 		intent.putExtra(Codes.SEARCH_PARAMS, mParent.getSearchParams().toString());
+		intent.putExtra(Codes.SESSION, mParent.getSession().toJson().toString());
 		startActivity(intent);
 	}
 
@@ -106,7 +107,7 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private methods
-	
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Private classes
 

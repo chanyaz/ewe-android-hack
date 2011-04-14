@@ -17,12 +17,14 @@ import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.SearchParams;
+import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
 
 public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
+	private Session mSession;
 	private Property mProperty;
 	private SearchParams mSearchParams;
 
@@ -36,6 +38,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 		// Retrieve data to build this with
 		final Intent intent = getIntent();
+		mSession = (Session) JSONUtils.parseJSONableFromIntent(intent, Codes.SESSION, Session.class);
 		Property property = mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
 				Property.class);
 		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
@@ -67,6 +70,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		Rate rate = (Rate) mAdapter.getItem(position);
 		Intent intent = new Intent(this, BookingInfoActivity.class);
 		intent.fillIn(getIntent(), 0);
+		intent.putExtra(Codes.SESSION, mSession.toJson().toString());
 		intent.putExtra(Codes.RATE, rate.toJson().toString());
 		startActivity(intent);
 	}
@@ -83,7 +87,8 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 	@Override
 	public Object downloadImpl() {
-		return ExpediaServices.availability(this, mSearchParams, mProperty);
+		ExpediaServices services = new ExpediaServices(this, mSession);
+		return services.availability(mSearchParams, mProperty);
 	}
 
 	@Override
@@ -94,6 +99,8 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		}
 
 		AvailabilityResponse response = (AvailabilityResponse) results;
+
+		mSession = response.getSession();
 
 		mAdapter = new RoomsAndRatesAdapter(this, response.getRates());
 

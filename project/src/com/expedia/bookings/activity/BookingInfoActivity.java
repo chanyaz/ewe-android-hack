@@ -57,6 +57,7 @@ import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.ServerError;
+import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
@@ -73,6 +74,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	private static final int DIALOG_BOOKING_PROGRESS = 1;
 
+	private Session mSession;
 	private SearchParams mSearchParams;
 	private Property mProperty;
 	private Rate mRate;
@@ -124,6 +126,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// Retrieve data to build this with
 		final Intent intent = getIntent();
+		mSession = (Session) JSONUtils.parseJSONableFromIntent(intent, Codes.SESSION, Session.class);
 		mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
 		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
 				SearchParams.class);
@@ -665,15 +668,19 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			return;
 		}
 
+		mSession = response.getSession();
+
 		Intent intent = new Intent(this, ConfirmationActivity.class);
 		intent.fillIn(getIntent(), 0);
 		intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
+		intent.putExtra(Codes.SESSION, mSession.toJson().toString());
 		startActivity(intent);
 	}
 
 	@Override
 	public Object doDownload() {
-		return ExpediaServices.reservation(this, mSearchParams, mProperty, mRate, mBillingInfo);
+		ExpediaServices services = new ExpediaServices(this, mSession);
+		return services.reservation(mSearchParams, mProperty, mRate, mBillingInfo);
 	}
 
 	// Static data that auto-fills states/countries

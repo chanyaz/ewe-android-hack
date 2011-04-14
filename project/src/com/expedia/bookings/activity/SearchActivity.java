@@ -63,6 +63,7 @@ import com.mobiata.hotellib.data.Filter.Sort;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
 import com.mobiata.hotellib.data.SearchResponse;
+import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.StrUtils;
 
@@ -135,6 +136,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private List<SearchListener> mSearchListeners;
 	private SearchParams mSearchParams;
+	private Session mSession;
 	private SearchResponse mSearchResponse;
 	private Filter mFilter;
 	private boolean mLocationListenerStarted;
@@ -153,7 +155,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Download mSearchDownload = new Download() {
 		@Override
 		public Object doDownload() {
-			return ExpediaServices.search(mContext, mSearchParams, 0);
+			ExpediaServices services = new ExpediaServices(mContext, mSession);
+			return services.search(mSearchParams, 0);
 		}
 	};
 
@@ -169,6 +172,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
 				mSearchResponse.setFilter(mFilter);
+				mSession = mSearchResponse.getSession();
 				broadcastSearchCompleted(mSearchResponse);
 
 				hideLoading();
@@ -206,6 +210,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchListeners = state.searchListeners;
 			mSearchParams = state.searchParams;
 			mSearchResponse = state.searchResponse;
+			mSession = state.session;
 			mFilter = state.filter;
 			mSearchSuggestionAdapter = state.searchSuggestionAdapter;
 			mIsSearching = state.isSearching;
@@ -254,6 +259,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.searchListeners = mSearchListeners;
 		state.searchParams = mSearchParams;
 		state.searchResponse = mSearchResponse;
+		state.session = mSession;
 		state.filter = mFilter;
 		state.searchSuggestionAdapter = mSearchSuggestionAdapter;
 		state.isSearching = mIsSearching;
@@ -432,6 +438,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		setFilter();
+	}
+
+	public Session getSession() {
+		return mSession;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -1097,6 +1107,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public List<SearchListener> searchListeners;
 		public SearchParams searchParams;
 		public SearchResponse searchResponse;
+		public Session session;
 		public Filter filter;
 		public SearchSuggestionAdapter searchSuggestionAdapter;
 		public Boolean isSearching;

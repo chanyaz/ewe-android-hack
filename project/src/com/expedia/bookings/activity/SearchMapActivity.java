@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -17,6 +19,7 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.mobiata.android.MapUtils;
 import com.mobiata.hotellib.app.SearchListener;
+import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Filter.OnFilterChangedListener;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchParams;
@@ -24,6 +27,7 @@ import com.mobiata.hotellib.data.SearchParams.SearchType;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.widget.FixedMyLocationOverlay;
 import com.mobiata.hotellib.widget.HotelItemizedOverlay;
+import com.mobiata.hotellib.widget.HotelItemizedOverlay.OnBalloonTap;
 
 public class SearchMapActivity extends MapActivity implements SearchListener, OnFilterChangedListener {
 	//////////////////////////////////////////////////////////////////////////////////
@@ -32,6 +36,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
+	private Context mContext;
 	private SearchActivity mParent;
 	private MapView mMapView;
 	private SearchResponse mSearchResponse;
@@ -51,6 +56,8 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_map);
+
+		mContext = this;
 
 		// Configure the map
 		mMapView = (MapView) findViewById(R.id.map);
@@ -162,8 +169,17 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 		properties = propertyArray != null ? Arrays.asList(propertyArray) : null;
 		if (mHotelItemizedOverlay == null) {
-			mHotelItemizedOverlay = new HotelItemizedOverlay(this, properties, mParent.getSearchParams(), true,
-					mMapView, HotelActivity.class);
+			OnBalloonTap onTap = new OnBalloonTap() {
+				@Override
+				public void onBalloonTap(Property property) {
+					Intent intent = new Intent(mContext, HotelActivity.class);
+					intent.putExtra(Codes.PROPERTY, property.toJson().toString());
+					intent.putExtra(Codes.SEARCH_PARAMS, mParent.getSearchParams().toString());
+					intent.putExtra(Codes.SESSION, mParent.getSession().toJson().toString());
+					mContext.startActivity(intent);
+				}
+			};
+			mHotelItemizedOverlay = new HotelItemizedOverlay(this, properties, true, mMapView, onTap);
 			mHotelItemizedOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
 			overlays.add(mHotelItemizedOverlay);
 		}
@@ -225,9 +241,9 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		public void onClick(View v) {
 			GeoPoint center = mMapView.getMapCenter();
 			SearchParams searchParams = mParent.getSearchParams();
-			
-			searchParams.setSearchType(SearchType.PROXIMITY);			
-			
+
+			searchParams.setSearchType(SearchType.PROXIMITY);
+
 			mParent.setSearchParams(searchParams);
 			mParent.setSearchParams(MapUtils.getLatitiude(center), MapUtils.getLongitiude(center));
 			mParent.startSearch();
