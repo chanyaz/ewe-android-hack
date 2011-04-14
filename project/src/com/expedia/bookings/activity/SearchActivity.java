@@ -418,7 +418,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		}
 		case MY_LOCATION: {
-			mSearchEditText.setText(R.string.MyLocation);
+			mSearchEditText.setText(R.string.current_location);
 			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
 			mSearchParams.setSearchType(SearchType.MY_LOCATION);
 
@@ -428,7 +428,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		}
 		case PROXIMITY: {
-			mSearchEditText.setText("Searching the map");
+			mSearchEditText.setText(R.string.visible_map_area);
 			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
 			mSearchParams.setSearchType(SearchType.PROXIMITY);
 

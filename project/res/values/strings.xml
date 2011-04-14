@@ -12,6 +12,7 @@
 	
 	<!-- Suggestion adapter -->
 	<string name="current_location">Current Location</string>
+	<string name="visible_map_area">Visible Map Area</string>
 
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
