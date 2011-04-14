@@ -2,6 +2,8 @@ package com.expedia.bookings.activity;
 
 import java.util.List;
 
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -46,6 +48,19 @@ public class HotelActivity extends Activity {
 		final Intent intent = getIntent();
 		Property property = mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
 				Property.class);
+
+		// TODO: Delete this once done testing
+		// This code allows us to test the HotelActivity standalone, for layout purposes.
+		// Just point the default launcher activity towards this instead of SearchActivity
+		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
+			try {
+				property = mProperty = new Property();
+				mProperty.fillWithTestData();
+			}
+			catch (JSONException e) {
+				Log.e("Couldn't create dummy data!", e);
+			}
+		}
 
 		// Fill in header views
 		TextView name = (TextView) findViewById(R.id.name_text_view);
