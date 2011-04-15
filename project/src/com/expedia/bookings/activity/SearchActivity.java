@@ -88,7 +88,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final long TIME_SWITCH_TO_NETWORK_DELAY = 1000 * 3;
 
 	private static final boolean ANIMATION_VIEW_FLIP_ENABLED = true;
-	private static final int ANIMATION_VIEW_FLIP_SPEED = 250;
+	private static final int ANIMATION_VIEW_FLIP_SPEED = 200;
 	private static final float ANIMATION_VIEW_FLIP_DEPTH = 250f;
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -150,7 +150,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private boolean mDatesLayoutIsVisible;
 	private boolean mGuestsLayoutIsVisible;
 	private boolean mButtonBarIsVisible;
-	
+
 	private Bitmap mViewFlipBitmap;
 	private Canvas mViewFlipCanvas;
 
@@ -456,44 +456,46 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	public void switchResultsView() {
-		Rotate3dAnimation rotationOut = null;
-		Rotate3dAnimation rotationIn = null;
+		Class<?> newActivityClass = null;
+		Rotate3dAnimation animationOut = null;
+		Rotate3dAnimation animationIn = null;
 
 		final float centerX = mViewFlipImage.getWidth() / 2.0f;
 		final float centerY = mViewFlipImage.getHeight() / 2.0f;
 
 		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+			newActivityClass = SearchMapActivity.class;
+
 			if (ANIMATION_VIEW_FLIP_ENABLED) {
-				rotationOut = new Rotate3dAnimation(0, -90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
-				rotationIn = new Rotate3dAnimation(90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
-			}
-			else {
-				setActivity(SearchMapActivity.class);
+				animationOut = new Rotate3dAnimation(0, -90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
+				animationIn = new Rotate3dAnimation(90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
 			}
 		}
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
+			newActivityClass = SearchListActivity.class;
+
 			if (ANIMATION_VIEW_FLIP_ENABLED) {
-				rotationOut = new Rotate3dAnimation(0, 90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
-				rotationIn = new Rotate3dAnimation(-90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
-			}
-			else {
-				setActivity(SearchListActivity.class);
+				animationOut = new Rotate3dAnimation(0, 90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
+				animationIn = new Rotate3dAnimation(-90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
 			}
 		}
 
-		if (rotationOut != null && rotationIn != null) {
-			if(mViewFlipCanvas == null) {
+		if (animationOut != null && animationIn != null) {
+			final Rotate3dAnimation nextAnimation = animationIn;
+			final Class<?> nextActivityClass = newActivityClass;
+
+			if (mViewFlipCanvas == null) {
 				final int width = mContent.getWidth();
 				final int height = mContent.getHeight();
 				mViewFlipBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
 				mViewFlipCanvas = new Canvas(mViewFlipBitmap);
 				mViewFlipImage.setImageBitmap(mViewFlipBitmap);
 			}
-			
-			mContent.draw(mViewFlipCanvas);
-			mContent.setVisibility(View.GONE);
 
-			final Rotate3dAnimation nextAnimation = rotationIn;
+			mContent.draw(mViewFlipCanvas);
+			mContent.setVisibility(View.INVISIBLE);
+			setActivity(nextActivityClass);
+
 			nextAnimation.setDuration(ANIMATION_VIEW_FLIP_SPEED);
 			nextAnimation.setFillAfter(true);
 			nextAnimation.setInterpolator(new DecelerateInterpolator());
@@ -513,10 +515,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				}
 			});
 
-			rotationOut.setDuration(ANIMATION_VIEW_FLIP_SPEED);
-			rotationOut.setFillAfter(true);
-			rotationOut.setInterpolator(new AccelerateInterpolator());
-			rotationOut.setAnimationListener(new AnimationListener() {
+			animationOut.setDuration(ANIMATION_VIEW_FLIP_SPEED);
+			animationOut.setFillAfter(true);
+			animationOut.setInterpolator(new AccelerateInterpolator());
+			animationOut.setAnimationListener(new AnimationListener() {
 				@Override
 				public void onAnimationStart(Animation animation) {
 				}
@@ -530,22 +532,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					mContent.post(new Runnable() {
 						@Override
 						public void run() {
-							if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-								setActivity(SearchMapActivity.class);
-							}
-							else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-								setActivity(SearchListActivity.class);
-							}
-
 							mContent.draw(mViewFlipCanvas);
 							mViewFlipImage.startAnimation(nextAnimation);
 						}
 					});
 				}
 			});
-			mViewFlipImage.startAnimation(rotationOut);
+			mViewFlipImage.startAnimation(animationOut);
 		}
 		else {
+			if (newActivityClass != null) {
+				setActivity(newActivityClass);
+			}
 			setDrawerViews();
 		}
 	}
