@@ -48,213 +48,17 @@
 			android:layout_width="90dp"
 			android:layout_height="24dp"
 			android:layout_gravity="center" />
-		
-		<LinearLayout
+	
+		<include 
 			android:id="@id/drawer_content"
-			android:orientation="vertical"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:padding="6dp"
-			android:background="#FF999999">
-			
-			<LinearLayout
-				android:id="@+id/sort_layout"
-				android:orientation="vertical"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content">
-			
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="6dp"
-					android:text="Sort"
-					android:textStyle="bold"
-					android:textColor="#FF000000"
-					android:shadowColor="#88FFFFFF"
-					android:shadowDx="0"
-					android:shadowDy="1"
-					android:shadowRadius="0.1" />
-				
-				<com.mobiata.android.widget.SegmentedControlGroup 
-					android:id="@+id/sort_filter_button_group"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="6dp"
-					android:orientation="horizontal">
-						
-					<RadioButton
-						android:id="@+id/sort_popular_button"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"
-						android:text="Popular" />
-				
-					<RadioButton
-						android:id="@+id/sort_price_button"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"
-						android:text="Price" />
-				
-				</com.mobiata.android.widget.SegmentedControlGroup>			
-			
-			</LinearLayout>
-			
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="6dp"
-				android:text="Distance"
-				android:textStyle="bold"
-				android:textColor="#FF000000"
-				android:shadowColor="#88FFFFFF"
-				android:shadowDx="0"
-				android:shadowDy="1"
-				android:shadowRadius="0.1" />
-			
-			<com.mobiata.android.widget.SegmentedControlGroup 
-				android:id="@+id/radius_filter_button_group"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="6dp"
-				android:orientation="horizontal">
-			
-				<RadioButton
-					android:id="@+id/radius_small_button"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="2 mi" />
-					
-				<RadioButton
-					android:id="@+id/radius_medium_button"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="5 mi" />
-					
-				<RadioButton
-					android:id="@+id/radius_large_button"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="10 mi" />
-					
-				<RadioButton
-					android:id="@+id/radius_all_button"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="All" />
-				
-			</com.mobiata.android.widget.SegmentedControlGroup>
-			
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="6dp"
-				android:text="Price"
-				android:textStyle="bold"
-				android:textColor="#FF000000"
-				android:shadowColor="#88FFFFFF"
-				android:shadowDx="0"
-				android:shadowDy="1"
-				android:shadowRadius="0.1" />
-			
-			<com.mobiata.android.widget.SegmentedControlGroup 
-				android:id="@+id/price_filter_button_group"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal">
-			
-				<RadioButton
-					android:id="@+id/price_cheap_button"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="$" />
-					
-				<RadioButton
-					android:id="@+id/price_moderate_button"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="$$" />
-					
-				<RadioButton
-					android:id="@+id/price_expensive_button"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="$$$" />
-					
-				<RadioButton
-					android:id="@+id/price_all_button"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="All" />
-				
-			</com.mobiata.android.widget.SegmentedControlGroup>
-			
-		</LinearLayout>
+			layout="@layout/include_drawer_content" />		
+		
 
 	</com.mobiata.android.widget.Panel>
 	
-	<LinearLayout
+	<include 
 		android:id="@id/search_bar_layout"
-	    android:orientation="vertical"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:padding="6dp"
-	    android:background="@drawable/bg_header">
-	    
-	    <TextView
-	    	android:id="@+id/booking_info_text_view"
-	    	android:layout_width="fill_parent"
-	    	android:layout_height="wrap_content"
-	    	android:layout_marginBottom="6dp"
-	    	android:gravity="center"
-			android:textStyle="bold"
-			android:textColor="#FFFFFFFF"
-			android:shadowColor="#88000000"
-			android:shadowDx="0"
-			android:shadowDy="-1"
-			android:shadowRadius="0.1" />
-	    
-	    <LinearLayout
-		    android:orientation="horizontal"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content">
-				
-		    <!-- Search box -->
-		    <EditText
-	            android:id="@+id/search_edit_text"
-	            android:layout_height="fill_parent"
-	            android:layout_width="0dip"
-	            android:layout_weight="1"
-	            android:gravity="center_vertical"
-	            android:singleLine="true"
-	            android:textSize="16sp"
-	            android:imeOptions="actionSearch" />
-	            
-			<ImageButton
-				android:id="@+id/dates_button"
-				android:layout_width="@dimen/action_bar_button_height"
-				android:layout_height="@dimen/action_bar_button_height"
-	            android:layout_marginLeft="6dip"
-	            android:src="@drawable/btn_dates" />
-				
-			<ImageButton
-				android:id="@+id/guests_button"
-				android:layout_width="@dimen/action_bar_button_height"
-				android:layout_height="@dimen/action_bar_button_height"
-	            android:layout_marginLeft="6dip"
-	            android:src="@drawable/btn_guests" />
-        
-        </LinearLayout>
-	        
-	</LinearLayout>
+		layout="@layout/include_search_bar" /> 
 	
 	<LinearLayout
 		android:id="@+id/refinements_layout"
@@ -308,33 +112,9 @@
 	    
 	</LinearLayout>
 	
-	<LinearLayout
-		android:id="@+id/button_bar_layout"
-	    android:orientation="horizontal"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-		android:layout_above="@id/refinements_layout"
-	    android:padding="6dp"
-	    android:background="@drawable/bg_header"
-	    android:visibility="gone">
-	    
-	    <TextView
-	    	android:id="@+id/refinement_info_text_view"
-	    	android:layout_width="0dp"
-	    	android:layout_height="fill_parent"
-	    	android:layout_weight="1"
-	    	android:gravity="center|left"
-	    	android:textSize="16sp"
-	    	android:textColor="@android:color/white"
-	    	android:textStyle="bold" />	    	
-	    
-	    <Button
-	    	android:id="@+id/search_button"
-	    	android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"
-	    	android:text="search" />
-	    
-    </LinearLayout>
+	<include 
+		android:id="@id/button_bar_layout"
+		layout="@layout/include_button_bar" /> 
 
     <View 
     	android:id="@+id/dismiss_view"

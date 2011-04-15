@@ -236,6 +236,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
 
+		setBookingInfoText();
 		setDrawerViews();
 	}
 
@@ -417,6 +418,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		hideButtonBar();
 		hideDismissView();
 		hideSoftKeyboard(mSearchEditText);
+		resetFocus();
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
@@ -1098,16 +1100,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 			if (position == 0) {
-				mSearchEditText.setText(R.string.MyLocation);
+				mSearchEditText.setText(R.string.current_location);
 				mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
 				mSearchEditText.selectAll();
 				mSearchEditText.requestFocus();
 
 				mSearchParams.setSearchType(SearchType.MY_LOCATION);
+				startSearch();
 			}
 			else {
 				mSearchParams = (SearchParams) mSearchSuggestionAdapter.getItem(position);
 				setSearchViews(mSearchParams);
+				startSearch();
 			}
 		}
 	};
