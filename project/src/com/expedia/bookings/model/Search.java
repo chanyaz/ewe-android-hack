@@ -9,7 +9,6 @@ import android.content.Context;
 import com.activeandroid.ActiveRecordBase;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.mobiata.android.Log;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
 
@@ -22,7 +21,7 @@ public class Search extends ActiveRecordBase<Search> {
 	public Search(Context context, SearchParams searchParams) {
 		super(context);
 
-		mFreeformLocation = searchParams.getFreeformLocation();
+		mFreeformLocation = searchParams.getFreeformLocation().trim();
 		mCheckInDate = searchParams.getCheckInDate();
 		mCheckOutDate = searchParams.getCheckOutDate();
 		mNumAdults = searchParams.getNumAdults();
@@ -68,20 +67,12 @@ public class Search extends ActiveRecordBase<Search> {
 	public static void add(Context context, SearchParams searchParams) {
 		if (searchParams.getSearchType() == SearchType.MY_LOCATION || searchParams.getFreeformLocation() == null
 				&& searchParams.getFreeformLocation().length() > 0) {
-			
+
 			return;
 		}
 
-		StringBuilder where = new StringBuilder();
-		where.append("FreeFormLocation = '" + searchParams.getFreeformLocation().trim() + "'");
-		where.append(" AND CheckInDate = " + searchParams.getCheckInDate().getTimeInMillis());
-		where.append(" AND CheckOutDate = " + searchParams.getCheckOutDate().getTimeInMillis());
-		where.append(" AND NumAdults = " + searchParams.getNumAdults());
-		where.append(" AND NumChildren = " + searchParams.getNumChildren());
-
-		Log.t(where.toString());
-
-		Search.delete(context, Search.class, where.toString());
+		Search.delete(context, Search.class, "lower(FreeFormLocation) = '"
+				+ searchParams.getFreeformLocation().toLowerCase().trim() + "'");
 		new Search(context, searchParams).save();
 	}
 }
