@@ -118,7 +118,7 @@ public class HotelActivity extends Activity {
 		}
 
 		ViewGroup priceContainer = (ViewGroup) findViewById(R.id.price_layout);
-		priceContainer.startAnimation(AnimationUtils.loadAnimation(this, R.anim.expand_right));
+		priceContainer.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_left));
 		TextView fromView = (TextView) findViewById(R.id.from_text_view);
 		if (lowestRate.getSavingsPercent() > 0) {
 			fromView.setText(Html.fromHtml(
