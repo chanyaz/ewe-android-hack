@@ -5,7 +5,7 @@
 	<color name="light_gray">#777777</color>
 	<color name="dark_blue">#1C3061</color>
 	
-	<color name="dismiss">#88000000</color>
+	<color name="dismiss">#72000000</color>
 
 	<!-- CalendarDatePicker colors -->
 	<color name="cell_selected">#FF1A5178</color>

@@ -117,6 +117,9 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 	private final View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			// Stop scrolling
+			getListView().setSelection(getListView().getFirstVisiblePosition());
+			
 			mParent.switchResultsView();
 		}
 	};

@@ -6,7 +6,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:padding="6dp"
-    android:background="@drawable/bg_header">
+    android:background="@drawable/search_bar_bg">
     
     <LinearLayout
 	    android:orientation="horizontal"
@@ -36,14 +36,16 @@
 			android:layout_width="@dimen/action_bar_button_height"
 			android:layout_height="@dimen/action_bar_button_height"
             android:layout_marginLeft="6dip"
-            android:src="@drawable/btn_dates" />
+            android:src="@drawable/btn_dates"
+            style="@style/Widget.Button.SearchBar" />
 			
 		<ImageButton
 			android:id="@+id/guests_button"
 			android:layout_width="@dimen/action_bar_button_height"
 			android:layout_height="@dimen/action_bar_button_height"
             android:layout_marginLeft="6dip"
-            android:src="@drawable/btn_guests" />
+            android:src="@drawable/btn_guests"
+            style="@style/Widget.Button.SearchBar" />
        
        </LinearLayout>
        

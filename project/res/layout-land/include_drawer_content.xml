@@ -6,7 +6,7 @@
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:paddingBottom="6dp"
-	android:background="#FF999999">
+	android:background="@drawable/search_results_drawer_content_bg">
 	
 	<LinearLayout
 		android:orientation="vertical"
@@ -21,7 +21,7 @@
 			android:layout_marginBottom="6dp"
 			android:text="Distance"
 			android:textStyle="bold"
-			android:textColor="#FF000000"
+			android:textColor="@color/btn_text"
 			android:shadowColor="#88FFFFFF"
 			android:shadowDx="0"
 			android:shadowDy="1"
@@ -39,28 +39,36 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="2 mi" />
+				android:text="2 mi"
+				android:textStyle="bold"
+				android:textColor="@color/btn_text" />
 				
 			<RadioButton
 				android:id="@+id/radius_medium_button"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="5 mi" />
+				android:text="5 mi"
+				android:textStyle="bold"
+				android:textColor="@color/btn_text" />
 				
 			<RadioButton
 				android:id="@+id/radius_large_button"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="10 mi" />
+				android:text="10 mi"
+				android:textStyle="bold"
+				android:textColor="@color/btn_text" />
 				
 			<RadioButton
 				android:id="@+id/radius_all_button"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="All" />
+				android:text="All"
+				android:textStyle="bold"
+				android:textColor="@color/btn_text" />
 			
 		</com.mobiata.android.widget.SegmentedControlGroup>
 		
@@ -70,7 +78,7 @@
 			android:layout_marginBottom="6dp"
 			android:text="Price"
 			android:textStyle="bold"
-			android:textColor="#FF000000"
+			android:textColor="@color/btn_text"
 			android:shadowColor="#88FFFFFF"
 			android:shadowDx="0"
 			android:shadowDy="1"
@@ -87,28 +95,36 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="$" />
+				android:text="$"
+				android:textStyle="bold"
+				android:textColor="@color/btn_text" />
 				
 			<RadioButton
 				android:id="@+id/price_moderate_button"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="$$" />
+				android:text="$$"
+				android:textStyle="bold"
+				android:textColor="@color/btn_text" />
 				
 			<RadioButton
 				android:id="@+id/price_expensive_button"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="$$$" />
+				android:text="$$$"
+				android:textStyle="bold"
+				android:textColor="@color/btn_text" />
 				
 			<RadioButton
 				android:id="@+id/price_all_button"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="All" />
+				android:text="All"
+				android:textStyle="bold"
+				android:textColor="@color/btn_text" />
 			
 		</com.mobiata.android.widget.SegmentedControlGroup>
 	
@@ -133,7 +149,7 @@
 				android:layout_marginBottom="6dp"
 				android:text="Sort"
 				android:textStyle="bold"
-				android:textColor="#FF000000"
+				android:textColor="@color/btn_text"
 				android:shadowColor="#88FFFFFF"
 				android:shadowDx="0"
 				android:shadowDy="1"
@@ -151,14 +167,18 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Popular" />
+					android:text="Popular"
+					android:textStyle="bold"
+					android:textColor="@color/btn_text" />
 			
 				<RadioButton
 					android:id="@+id/sort_price_button"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Price" />
+					android:text="Price"
+					android:textStyle="bold"
+					android:textColor="@color/btn_text" />
 			
 			</com.mobiata.android.widget.SegmentedControlGroup>			
 		

@@ -6,7 +6,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:padding="6dp"
-    android:background="@drawable/bg_header">
+    android:background="@drawable/search_bar_bg">
     
     <TextView
     	android:id="@+id/booking_info_text_view"
@@ -15,8 +15,8 @@
     	android:layout_marginBottom="6dp"
     	android:gravity="center"
 		android:textStyle="bold"
-		android:textColor="#FFFFFFFF"
-		android:shadowColor="#88000000"
+		android:textColor="#FF666666"
+		android:shadowColor="#88FFFFFF"
 		android:shadowDx="0"
 		android:shadowDy="-1"
 		android:shadowRadius="0.1" />
@@ -42,14 +42,16 @@
 			android:layout_width="@dimen/action_bar_button_height"
 			android:layout_height="@dimen/action_bar_button_height"
             android:layout_marginLeft="6dip"
-            android:src="@drawable/btn_dates" />
+            android:src="@drawable/btn_dates"
+            style="@style/Widget.Button.SearchBar" />
 			
 		<ImageButton
 			android:id="@+id/guests_button"
 			android:layout_width="@dimen/action_bar_button_height"
 			android:layout_height="@dimen/action_bar_button_height"
             android:layout_marginLeft="6dip"
-            android:src="@drawable/btn_guests" />
+            android:src="@drawable/btn_guests"
+            style="@style/Widget.Button.SearchBar" />
        
        </LinearLayout>
         

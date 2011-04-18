@@ -8,4 +8,12 @@
 		<item name="android:textStyle">bold</item>
 		<item name="android:textSize">16sp</item>
 	</style>
+
+    <style name="Widget.EditText" parent="@android:style/Widget.EditText">
+        <item name="android:background">@drawable/edit_text</item>
+    </style>
+    
+    <style name="Widget.Button.SearchBar" parent="@android:style/Widget.Button">
+    	<item name="android:background">@drawable/btn_search_bar</item>
+    </style>
 </resources>
