@@ -17,6 +17,10 @@
     	<item name="android:background">@drawable/btn_search_bar</item>
     </style>
     
+    <style name="Widget.Button.SearchBar.Orange" parent="@style/Widget.Button.SearchBar.Orange">
+    	<item name="android:background">@drawable/btn_search_bar_orange</item>
+    </style>
+    
     <style name="Widget.Button.Floating" parent="@android:style/Widget.ImageButton">
     	<item name="android:background">@drawable/btn_floating</item>
     </style>

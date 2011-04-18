@@ -3,6 +3,7 @@
 	<string name="app_name">Expedia</string>
 	
 	<!-- Search Activity -->
+	<string name="search">Search</string>
 	<string name="booking_info_template">%1$s — %2$s %3$d to %4$s %5$s, %6$d</string>
 	
 	<!-- Progress messages -->	

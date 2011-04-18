@@ -4,6 +4,8 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -14,7 +16,7 @@ import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchResponse;
 
-public class SearchListActivity extends ListActivity implements SearchListener {
+public class SearchListActivity extends ListActivity implements SearchListener, OnScrollListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
@@ -25,6 +27,8 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 	private HotelAdapter mAdapter;
 
 	private ImageButton mViewButton;
+
+	private boolean mIsScrolling = false;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
@@ -39,6 +43,8 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
 		mViewButton.setOnClickListener(mViewButtonClickListener);
+		
+		getListView().setOnScrollListener(this);
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
@@ -118,8 +124,10 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 		@Override
 		public void onClick(View v) {
 			// Stop scrolling
-			getListView().setSelection(getListView().getFirstVisiblePosition());
-			
+			if (mIsScrolling) {
+				getListView().setSelection(getListView().getFirstVisiblePosition());
+			}
+
 			mParent.switchResultsView();
 		}
 	};
@@ -129,5 +137,14 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 
 	private class ActivityState {
 		public HotelAdapter adapter;
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		mIsScrolling = (scrollState != SCROLL_STATE_IDLE);
 	}
 }
