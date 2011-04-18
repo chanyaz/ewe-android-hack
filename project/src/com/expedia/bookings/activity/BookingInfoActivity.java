@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -697,7 +698,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		for (Policy policy : mRate.getRateRules().getPolicies()) {
 			if (policy.getType() == Policy.TYPE_CANCEL) {
 				foundCancellationPolicy = true;
-				cancellationPolicyView.setText(policy.getDescription());
+				cancellationPolicyView.setText(Html.fromHtml(policy.getDescription()));
 			}
 		}
 		if (!foundCancellationPolicy) {

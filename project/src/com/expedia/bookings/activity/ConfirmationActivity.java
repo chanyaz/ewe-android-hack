@@ -4,6 +4,7 @@ import org.json.JSONException;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -107,7 +108,7 @@ public class ConfirmationActivity extends MapActivity {
 		for (Policy policy : mRate.getRateRules().getPolicies()) {
 			if (policy.getType() == Policy.TYPE_CANCEL) {
 				foundCancellationPolicy = true;
-				cancellationPolicyView.setText(policy.getDescription());
+				cancellationPolicyView.setText(Html.fromHtml(policy.getDescription()));
 			}
 		}
 		if (!foundCancellationPolicy) {
