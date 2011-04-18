@@ -323,7 +323,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	public void onProviderDisabled(String provider) {
 		stopLocationListener();
 		mSearchProgressBar.setShowProgress(false);
-		//mSearchProgressBar.setText(R.string.provider_disabled);
+		mSearchProgressBar.setText(R.string.ProviderDisabled);
 	}
 
 	@Override
@@ -339,13 +339,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			stopLocationListener();
 			Log.w("Location listener failed: out of service");
 			mSearchProgressBar.setShowProgress(false);
-			//mSearchProgressBar.setText(R.string.provider_out_of_service);
+			mSearchProgressBar.setText(R.string.ProviderOutOfService);
 		}
 		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
 			stopLocationListener();
 			Log.w("Location listener failed: temporarily unavailable");
 			mSearchProgressBar.setShowProgress(false);
-			//mSearchProgressBar.setText(R.string.provider_temporarily_unavailable);
+			mSearchProgressBar.setText(R.string.ProviderTemporarilyUnavailable);
 		}
 	}
 
@@ -740,6 +740,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		// Properties		
 		mPanel.setInterpolator(new AccelerateInterpolator());
+		mPanel.setOnPanelListener(mPanelListener);
+		
 		mAdultsNumberPicker.setRange(1, 4);
 		mChildrenNumberPicker.setRange(0, 4);
 
@@ -1116,6 +1118,16 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
+	private final Panel.OnPanelListener mPanelListener = new Panel.OnPanelListener() {
+		@Override
+		public void onPanelOpened(Panel panel) {
+		}
+		
+		@Override
+		public void onPanelClosed(Panel panel) {
+		}
+	};
+	
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Handlers, Messages
 

@@ -22,7 +22,9 @@
 		android:layout_height="@dimen/action_bar_button_height"
     	android:layout_alignParentBottom="true"
     	android:layout_alignParentLeft="true"
-    	android:layout_margin="6dp" />
+    	android:layout_margin="6dp"
+    	android:src="@drawable/btn_search"
+    	style="@style/Widget.Button.Floating" />
     	
     <ImageButton
     	android:id="@+id/view_button"
@@ -31,6 +33,7 @@
     	android:layout_alignParentBottom="true"
     	android:layout_alignParentRight="true"
     	android:layout_margin="6dp"
-    	android:src="@drawable/btn_list" />
+    	android:src="@drawable/btn_list"
+    	style="@style/Widget.Button.Floating" />
 		
 </RelativeLayout>

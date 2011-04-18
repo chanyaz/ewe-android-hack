@@ -62,57 +62,9 @@
 		android:id="@id/search_bar_layout"
 		layout="@layout/include_search_bar" /> 
 	
-	<LinearLayout
+	<include 
 		android:id="@+id/refinements_layout"
-	    android:orientation="horizontal"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentBottom="true"
-	    android:background="#FF999999"
-	    android:gravity="center">
-	    
-	    <LinearLayout
-	    	android:id="@+id/dates_layout"
-	    	android:orientation="horizontal"
-	    	android:layout_width="fill_parent"
-	    	android:layout_height="wrap_content"
-	    	android:visibility="gone">
-	    	
-	    	<com.mobiata.android.widget.CalendarDatePicker
-	    		android:id="@+id/dates_date_picker"
-	    		android:layout_width="fill_parent"
-	    		android:layout_height="300dp"
-	    		mobiata:cellBackground="@drawable/bg_calendar_cell"
-	    		mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell_other_month"
-	    		mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell"
-	    		mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell"
-	    		mobiata:cellTextColor="@color/cell_text"
-	    		mobiata:otherMonthCellTextColor="@color/cell_text_other_month" />
-	    	
-	    </LinearLayout>
-	    
-	    <LinearLayout
-	    	android:id="@+id/guests_layout"
-	    	android:orientation="horizontal"
-	    	android:layout_width="fill_parent"
-	    	android:layout_height="wrap_content"
-	    	android:visibility="gone">
-		    
-		    <com.mobiata.android.widget.NumberPicker
-				android:id="@+id/adults_number_picker"
-		    	android:layout_width="wrap_content"
-		    	android:layout_height="wrap_content"
-		    	android:layout_weight="1" />
-		    	
-		    <com.mobiata.android.widget.NumberPicker
-				android:id="@+id/children_number_picker"
-		    	android:layout_width="wrap_content"
-		    	android:layout_height="wrap_content"
-		    	android:layout_weight="1" />
-	    
-	    </LinearLayout>
-	    
-	</LinearLayout>
+		layout="@layout/include_refinements_layout" /> 
 	
 	<include 
 		android:id="@id/button_bar_layout"

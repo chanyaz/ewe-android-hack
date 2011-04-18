@@ -13,7 +13,11 @@
         <item name="android:background">@drawable/edit_text</item>
     </style>
     
-    <style name="Widget.Button.SearchBar" parent="@android:style/Widget.Button">
+    <style name="Widget.Button.SearchBar" parent="@android:style/Widget.ImageButton">
     	<item name="android:background">@drawable/btn_search_bar</item>
+    </style>
+    
+    <style name="Widget.Button.Floating" parent="@android:style/Widget.ImageButton">
+    	<item name="android:background">@drawable/btn_floating</item>
     </style>
 </resources>
