@@ -28,7 +28,7 @@
     	<item name="android:background">@drawable/btn_search_bar</item>
     </style>
     
-    <style name="Widget.Button.SearchBar.Orange" parent="@style/Widget.Button.SearchBar.Orange">
+    <style name="Widget.Button.SearchBar.Orange" parent="@style/Widget.Button.SearchBar">
     	<item name="android:background">@drawable/btn_search_bar_orange</item>
     </style>
     

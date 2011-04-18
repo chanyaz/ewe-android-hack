@@ -23,7 +23,7 @@
     	android:layout_alignParentBottom="true"
     	android:layout_alignParentLeft="true"
     	android:layout_margin="6dp"
-    	android:src="@drawable/btn_search"
+    	android:src="@drawable/btn_search_visible_map_area"
     	style="@style/Widget.Button.Floating" />
     	
     <ImageButton
