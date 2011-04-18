@@ -3,6 +3,6 @@
 	<style name="Theme" parent="@android:style/Theme.NoTitleBar">
         <item name="android:windowBackground">@color/window_background</item>
         <item name="android:editTextStyle">@style/Widget.EditText</item>
-		<item name="android:ratingBarStyle">@style/Widget.RatingBar.Small</item>
+		<item name="android:ratingBarStyle">@style/Widget.RatingBar.Small.Shadowed</item>
 	</style>
 </resources>

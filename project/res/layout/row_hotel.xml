@@ -85,7 +85,8 @@
 			android:layout_below="@id/price_text_view"
 			android:numStars="5"
 			android:stepSize=".5"
-			android:isIndicator="true" />
+			android:isIndicator="true"
+			style="@style/Widget.RatingBar.Small.Inset" />
 		<TextView
 			android:id="@+id/distance_text_view"
 			android:layout_width="wrap_content"
