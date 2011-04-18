@@ -4,7 +4,7 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:orientation="vertical"
-	android:background="@android:color/white">
+	android:background="@color/bg_default">
 
 	<!-- Header -->
 	<LinearLayout
@@ -70,8 +70,13 @@
 		android:id="@android:id/list"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_weight="1"
-		android:cacheColorHint="@android:color/white" />
+		style="@style/ExpediaList" />
+
+	<ImageView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:src="@drawable/list_shadow"
+		android:scaleType="fitXY" />
 
 	<ProgressBar
 		android:id="@android:id/empty"

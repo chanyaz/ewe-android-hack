@@ -3,7 +3,8 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+	android:layout_height="fill_parent"
+	android:background="@color/bg_default">
 	
 	<LinearLayout
 		android:id="@+id/focus_layout"

@@ -4,7 +4,8 @@
 	xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:orientation="horizontal">
+	android:orientation="horizontal"
+	android:background="@drawable/bg_row">
 	<RelativeLayout
 		android:layout_width="100dp"
 		android:layout_height="100dp">
