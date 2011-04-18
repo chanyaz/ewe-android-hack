@@ -14,7 +14,7 @@
 			android:layout_height="fill_parent"
 			android:padding="8dp"
 			android:orientation="vertical"
-			android:background="#E3E3E6"
+			android:background="@color/bg_default"
 			android:focusableInTouchMode="true">
 
 			<!-- Ticket stub summary at top of page -->
@@ -120,17 +120,64 @@
 				</LinearLayout>
 			</LinearLayout>
 
-			<!-- Guest info form fields -->
+			<!-- Guest info section -->
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/guest_info"
 				style="@style/formSectionHeaderText" />
+
+			<!-- Guest form fields (from saved data) -->
+			<RelativeLayout
+				android:id="@+id/saved_guest_info_layout"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				style="@style/BookingSection">
+				<TextView
+					android:id="@+id/full_name_text_view"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textColor="#545454" />
+				<TextView
+					android:id="@+id/telephone_text_view"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textColor="#545454"
+					android:layout_below="@+id/full_name_text_view" />
+				<TextView
+					android:id="@+id/email_text_view"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textColor="#545454"
+					android:layout_below="@+id/telephone_text_view" />
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_alignParentTop="true"
+					android:orientation="horizontal"
+					android:gravity="center_vertical">
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginRight="3dp"
+						android:textColor="#545454"
+						android:text="@string/edit" />
+					<ImageView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="2dp"
+						android:src="@drawable/ic_edit_arrow" />
+				</LinearLayout>
+			</RelativeLayout>
+
+			<!-- Guest form fields (entering data) -->
 			<LinearLayout
 				android:id="@+id/guest_info_layout"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:orientation="vertical">
+				android:orientation="vertical"
+				android:visibility="gone">
 				<LinearLayout
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
@@ -186,11 +233,46 @@
 				android:layout_height="wrap_content"
 				android:text="@string/billing_info"
 				style="@style/formSectionHeaderText" />
+
+			<!-- Billing form fields (from saved data) -->
+			<RelativeLayout
+				android:id="@+id/saved_billing_info_layout"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				style="@style/BookingSection">
+				<TextView
+					android:id="@+id/address_text_view"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textColor="#545454" />
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_alignParentTop="true"
+					android:orientation="horizontal"
+					android:gravity="center_vertical">
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginRight="3dp"
+						android:textColor="#545454"
+						android:text="@string/edit" />
+					<ImageView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="2dp"
+						android:src="@drawable/ic_edit_arrow" />
+				</LinearLayout>
+			</RelativeLayout>
+
+			<!-- Billing form fields (entering data) -->
 			<LinearLayout
 				android:id="@+id/billing_info_layout"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:orientation="vertical">
+				android:orientation="vertical"
+				android:visibility="gone">
 				<EditText
 					android:id="@+id/address1_edit_text"
 					android:layout_width="fill_parent"
@@ -333,8 +415,12 @@
 				<LinearLayout
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
+					android:paddingTop="5dp"
+					android:paddingLeft="6dp"
+					android:paddingBottom="2dp"
 					android:gravity="center_vertical"
-					android:orientation="horizontal">
+					android:orientation="horizontal"
+					style="@style/BookingSection">
 					<ImageView
 						android:id="@+id/credit_card_image_view"
 						android:layout_width="wrap_content"

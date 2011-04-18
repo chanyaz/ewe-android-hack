@@ -52,6 +52,8 @@
 	<string name="savings_template">Save\n %2.0f%%</string>
 
 	<!-- Booking info -->
+	<!-- edit label -->
+	<string name="edit">Edit</string>
 	<!-- Label for room type -->
 	<string name="room_type">Room Type</string>
 	<!-- Label for a 1 night stay -->

@@ -47,4 +47,14 @@
 		<item name="android:footerDividersEnabled">false</item>
 		<item name="android:fadingEdge">none</item>
     </style>
+
+    <style name="BookingSection">
+    	<item name="android:layout_marginLeft">2dp</item>
+    	<item name="android:layout_marginRight">2dp</item>
+       	<item name="android:paddingTop">2dp</item>
+		<item name="android:paddingLeft">5dp</item>
+		<item name="android:paddingRight">5dp</item>
+		<item name="android:paddingBottom">5dp</item>
+		<item name="android:background">@drawable/bg_booking_section</item>
+    </style>
 </resources>

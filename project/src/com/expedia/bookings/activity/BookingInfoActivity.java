@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
@@ -82,16 +84,22 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private BillingInfo mBillingInfo;
 
 	private boolean mFormHasBeenFocused;
+	private boolean mGuestsExpanded;
+	private boolean mBillingExpanded;
 
 	// Cached data from arrays
 	private String[] mStateCodes;
 	private String[] mCountryCodes;
 
 	// Cached views
+	private ViewGroup mGuestSavedLayout;
+	private ViewGroup mGuestFormLayout;
 	private EditText mFirstNameEditText;
 	private EditText mLastNameEditText;
 	private EditText mTelephoneEditText;
 	private EditText mEmailEditText;
+	private ViewGroup mBillingSavedLayout;
+	private ViewGroup mBillingFormLayout;
 	private EditText mAddress1EditText;
 	private EditText mAddress2EditText;
 	private EditText mCityEditText;
@@ -155,10 +163,14 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mCountryCodes = r.getStringArray(R.array.country_codes);
 
 		// Retrieve views that we need for the form fields
+		mGuestSavedLayout = (ViewGroup) findViewById(R.id.saved_guest_info_layout);
+		mGuestFormLayout = (ViewGroup) findViewById(R.id.guest_info_layout);
 		mFirstNameEditText = (EditText) findViewById(R.id.first_name_edit_text);
 		mLastNameEditText = (EditText) findViewById(R.id.last_name_edit_text);
 		mTelephoneEditText = (EditText) findViewById(R.id.telephone_edit_text);
 		mEmailEditText = (EditText) findViewById(R.id.email_edit_text);
+		mBillingSavedLayout = (ViewGroup) findViewById(R.id.saved_billing_info_layout);
+		mBillingFormLayout = (ViewGroup) findViewById(R.id.billing_info_layout);
 		mAddress1EditText = (EditText) findViewById(R.id.address1_edit_text);
 		mAddress2EditText = (EditText) findViewById(R.id.address2_edit_text);
 		mCityEditText = (EditText) findViewById(R.id.city_edit_text);
@@ -186,29 +198,114 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		if (lastInstance != null) {
 			this.mBillingInfo = lastInstance.mBillingInfo;
 			this.mFormHasBeenFocused = lastInstance.mFormHasBeenFocused;
+			this.mGuestsExpanded = lastInstance.mGuestsExpanded;
+			this.mBillingExpanded = lastInstance.mBillingExpanded;
 
 			if (this.mFormHasBeenFocused) {
 				onFormFieldFocus();
 			}
 
 			syncFormFields();
+
+			if (mGuestsExpanded) {
+				expandGuestsForm(false);
+			}
+			if (mBillingExpanded) {
+				expandBillingForm(false);
+			}
 		}
 		else {
 			// Try loading saved billing info
 			if (loadSavedBillingInfo()) {
 				syncFormFields();
+
+				// Determine which form sections could be collapsed
+				mGuestsExpanded = false;
+				mBillingExpanded = false;
+				for (ValidationError error : mValidationProcessor.validate()) {
+					Object view = error.getObject();
+					if (view == mFirstNameEditText || view == mLastNameEditText || view == mTelephoneEditText
+							|| view == mEmailEditText) {
+						expandGuestsForm(false);
+					}
+					else if (view == mAddress1EditText || view == mCityEditText || view == mPostalCodeEditText) {
+						expandBillingForm(false);
+					}
+				}
 			}
 			else {
 				mBillingInfo = new BillingInfo();
+				expandGuestsForm(false);
+				expandBillingForm(false);
 			}
 
 			mFormHasBeenFocused = false;
 		}
 	}
 
+	public void expandGuestsForm(boolean animateAndFocus) {
+		if (!mGuestsExpanded) {
+			mGuestsExpanded = true;
+
+			mGuestSavedLayout.setVisibility(View.GONE);
+			mGuestFormLayout.setVisibility(View.VISIBLE);
+
+			// Fix focus movement
+			fixFocus();
+
+			if (animateAndFocus) {
+				mFirstNameEditText.requestFocus();
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.showSoftInput(mFirstNameEditText, InputMethodManager.SHOW_IMPLICIT);
+			}
+
+			// TODO: Animation if animated
+		}
+	}
+
+	public void expandBillingForm(boolean animateAndFocus) {
+		if (!mBillingExpanded) {
+			mBillingExpanded = true;
+
+			mBillingSavedLayout.setVisibility(View.GONE);
+			mBillingFormLayout.setVisibility(View.VISIBLE);
+
+			// Fix focus movement
+			fixFocus();
+
+			if (animateAndFocus) {
+				// TODO: Figure out why focus moves to postal code automatically
+				// mAddress1EditText.requestFocus();
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.showSoftInput(mAddress1EditText, InputMethodManager.SHOW_IMPLICIT);
+			}
+
+			// TODO: Animation if animated
+		}
+	}
+
+	// Fixes focus based on expanding form fields
+	public void fixFocus() {
+		// Handle where guest forms are pointing down (if expanded)
+		if (mGuestsExpanded) {
+			int nextId = (mBillingExpanded) ? R.id.address1_edit_text : R.id.card_number_edit_text;
+			mEmailEditText.setNextFocusDownId(nextId);
+			mEmailEditText.setNextFocusRightId(nextId);
+		}
+
+		// Handle where card info is pointing up
+		int nextId = (mBillingExpanded) ? R.id.postal_code_edit_text : R.id.email_edit_text;
+		mCardNumberEditText.setNextFocusUpId(nextId);
+		mCardNumberEditText.setNextFocusLeftId(nextId);
+		mExpirationMonthEditText.setNextFocusUpId(nextId);
+		mExpirationYearEditText.setNextFocusUpId(nextId);
+	}
+
 	private class Instance {
 		public BillingInfo mBillingInfo;
 		public boolean mFormHasBeenFocused;
+		private boolean mGuestsExpanded;
+		private boolean mBillingExpanded;
 	}
 
 	@Override
@@ -218,6 +315,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		Instance instance = new Instance();
 		instance.mBillingInfo = this.mBillingInfo;
 		instance.mFormHasBeenFocused = this.mFormHasBeenFocused;
+		instance.mGuestsExpanded = this.mGuestsExpanded;
+		instance.mBillingExpanded = this.mBillingExpanded;
 		return instance;
 	}
 
@@ -304,12 +403,46 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	 * restoring the Activity.
 	 */
 	private void syncFormFields() {
-		mFirstNameEditText.setText(mBillingInfo.getFirstName());
-		mLastNameEditText.setText(mBillingInfo.getLastName());
+		// Sync the saved guest fields
+		String firstName = mBillingInfo.getFirstName();
+		String lastName = mBillingInfo.getLastName();
+		if (firstName != null && lastName != null) {
+			TextView fullNameView = (TextView) findViewById(R.id.full_name_text_view);
+			fullNameView.setText(firstName + " " + lastName);
+		}
+
+		TextView telephoneView = (TextView) findViewById(R.id.telephone_text_view);
+		telephoneView.setText(mBillingInfo.getTelephone());
+
+		TextView emailView = (TextView) findViewById(R.id.email_text_view);
+		emailView.setText(mBillingInfo.getEmail());
+
+		// Sync the editable guest fields
+		mFirstNameEditText.setText(firstName);
+		mLastNameEditText.setText(lastName);
 		mTelephoneEditText.setText(mBillingInfo.getTelephone());
 		mEmailEditText.setText(mBillingInfo.getEmail());
 
+		// Sync the saved billing info fields
+		String address = "";
 		Location loc = mBillingInfo.getLocation();
+		if (loc != null) {
+			address = StrUtils.formatAddress(loc);
+			String countryCode = loc.getCountryCode();
+			if (countryCode != null) {
+				for (int n = 0; n < mCountryCodes.length; n++) {
+					if (mCountryCodes[n].equals(countryCode)) {
+						address += "\n" + getResources().getStringArray(R.array.country_names)[n];
+						break;
+					}
+				}
+			}
+
+			TextView addressView = (TextView) findViewById(R.id.address_text_view);
+			addressView.setText(address);
+		}
+
+		// Sync the editable billing info fields
 		mAddress1EditText.setText(loc.getStreetAddress().get(0));
 		if (loc.getStreetAddress().size() > 1) {
 			mAddress2EditText.setText(loc.getStreetAddress().get(1));
@@ -324,6 +457,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			mStateEditText.setText(loc.getStateCode());
 		}
 
+		// Sync the editable credit card info fields
 		mCardNumberEditText.setText(mBillingInfo.getNumber());
 		Calendar cal = mBillingInfo.getExpirationDate();
 		if (cal != null) {
@@ -375,6 +509,20 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	}
 
 	private void configureForm() {
+		mGuestSavedLayout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				expandGuestsForm(true);
+			}
+		});
+
+		mBillingSavedLayout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				expandBillingForm(true);
+			}
+		});
+
 		// Setup automatic filling of state/country information based on city entered.
 		// Works for some popular cities.
 		mCityEditText.addTextChangedListener(new TextWatcher() {
