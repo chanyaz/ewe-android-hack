@@ -28,7 +28,16 @@
         <item name="android:background">@drawable/edit_text</item>
     </style>
     
-    <style name="Widget.Button.SearchBar" parent="@android:style/Widget.ImageButton">
+    <style name="Widget.Button" parent="@android:style/Widget.Button">
+    	<item name="android:background">@drawable/btn_default</item>
+    	<item name="android:textColor">#FF000000</item>
+    </style>
+    
+    <style name="Widget.Button.Orange" parent="@android:style/Widget.Button">
+    	<item name="android:background">@drawable/btn_default_orange</item>
+    </style>
+    
+    <style name="Widget.Button.SearchBar" parent="@android:style/Widget.Button">
     	<item name="android:background">@drawable/btn_search_bar</item>
     </style>
     

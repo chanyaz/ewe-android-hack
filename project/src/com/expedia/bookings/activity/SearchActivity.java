@@ -6,8 +6,13 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.app.ActivityGroup;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.app.LocalActivityManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -46,6 +51,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.Rotate3dAnimation;
+import com.expedia.bookings.dialog.LocationSuggestionDialog;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.TagProgressBar;
@@ -79,6 +85,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	public static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
+
+	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
 
 	private static final int MSG_SWITCH_TO_NETWORK_LOCATION = 0;
 	private static final int MSG_BROADCAST_SEARCH_COMPLETED = 1;
@@ -154,6 +162,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Bitmap mViewFlipBitmap;
 	private Canvas mViewFlipCanvas;
 
+	private LocationSuggestionDialog mLocationSuggestionDialog;
+
 	// Threads / callbacks
 
 	private BackgroundDownloader mSearchDownloader = BackgroundDownloader.getInstance();
@@ -182,6 +192,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				broadcastSearchCompleted(mSearchResponse);
 
 				hideLoading();
+			}
+			else if (mSearchResponse != null && mSearchResponse.getLocations() != null
+					&& mSearchResponse.getLocations().size() > 0) {
+
+				mSearchProgressBar.setShowProgress(false);
+				mSearchProgressBar.setText(null);
+				showDialog(DIALOG_LOCATION_SUGGESTIONS);
 			}
 			else {
 				mSearchProgressBar.setShowProgress(false);
@@ -272,6 +289,47 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.searchDownloader = mSearchDownloader;
 
 		return state;
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case DIALOG_LOCATION_SUGGESTIONS: {
+			CharSequence[] charSequenceArray = null;
+			mSearchResponse.getLocations().toArray(charSequenceArray);
+
+			final CharSequence[] freeformLocations = charSequenceArray;
+
+			AlertDialog.Builder builder = new Builder(this);
+			builder.setTitle(R.string.ChooseLocation);
+			builder.setItems(freeformLocations, new Dialog.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					mSearchParams.setFreeformLocation(freeformLocations[which].toString());
+					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
+					startSearch();
+				}
+			});
+			builder.setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
+					mSearchProgressBar.setShowProgress(false);
+					mSearchProgressBar.setText(getString(R.string.NoGeocodingResults,
+							mSearchParams.getFreeformLocation()));
+				}
+			});
+			builder.setOnCancelListener(new OnCancelListener() {
+				public void onCancel(DialogInterface dialog) {
+					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
+					mSearchProgressBar.setShowProgress(false);
+					mSearchProgressBar.setText(getString(R.string.NoGeocodingResults,
+							mSearchParams.getFreeformLocation()));
+				}
+			});
+			return builder.create();
+		}
+		}
+
+		return super.onCreateDialog(id);
 	}
 
 	// Key events
@@ -741,7 +799,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		// Properties		
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mPanel.setOnPanelListener(mPanelListener);
-		
+
 		mAdultsNumberPicker.setRange(1, 4);
 		mChildrenNumberPicker.setRange(0, 4);
 
@@ -1121,12 +1179,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onPanelOpened(Panel panel) {
 		}
-		
+
 		@Override
 		public void onPanelClosed(Panel panel) {
 		}
 	};
-	
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Handlers, Messages
 

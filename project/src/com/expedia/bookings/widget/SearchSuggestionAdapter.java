@@ -20,11 +20,13 @@ public class SearchSuggestionAdapter extends BaseAdapter {
 	public Context mContext;
 	protected LayoutInflater mInflater;
 	public List<SearchParams> mSearchParams;
+	private int mCurrentLocationColor;
 
 	public SearchSuggestionAdapter(Context context) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
+		mCurrentLocationColor = context.getResources().getColor(R.color.MyLocationBlue);
+
 		refreshData();
 	}
 
@@ -70,7 +72,7 @@ public class SearchSuggestionAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final int viewType = getItemViewType(position);
-		
+
 		SuggestionViewHolder holder;
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.row_suggestion, parent, false);
@@ -83,10 +85,11 @@ public class SearchSuggestionAdapter extends BaseAdapter {
 		else {
 			holder = (SuggestionViewHolder) convertView.getTag();
 		}
-		
-		if(viewType == TYPE_CURRENT_LOCATION) {
+
+		if (viewType == TYPE_CURRENT_LOCATION) {
 			holder.suggestionTextView.setText(R.string.current_location);
-			
+			holder.suggestionTextView.setTextColor(mCurrentLocationColor);
+
 		}
 		else if (viewType == TYPE_SEARCH_PARAM) {
 			SearchParams searchParams = (SearchParams) getItem(position);
