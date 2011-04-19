@@ -199,6 +199,9 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 	}
 
 	public void setText(String text) {
+		if (text == null) {
+			text = "";
+		}
 		mText = text;
 	}
 
@@ -223,7 +226,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 	private void init(Context context) {
 		setFocusableInTouchMode(true);
-		
+
 		getHolder().addCallback(this);
 		mOrientation = getResources().getConfiguration().orientation;
 

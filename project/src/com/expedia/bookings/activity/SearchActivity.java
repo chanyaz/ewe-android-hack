@@ -295,7 +295,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case DIALOG_LOCATION_SUGGESTIONS: {
-			CharSequence[] charSequenceArray = null;
+			CharSequence[] charSequenceArray = new CharSequence[mSearchResponse.getLocations().size()];
 			mSearchResponse.getLocations().toArray(charSequenceArray);
 
 			final CharSequence[] freeformLocations = charSequenceArray;
@@ -304,7 +304,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			builder.setTitle(R.string.ChooseLocation);
 			builder.setItems(freeformLocations, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					mSearchParams.setFreeformLocation(freeformLocations[which].toString());
+					mSearchEditText.setText(freeformLocations[which].toString());
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearch();
 				}
