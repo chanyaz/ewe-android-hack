@@ -86,7 +86,8 @@
     	android:layout_below="@id/search_bar_layout"
     	android:layout_above="@id/button_bar_layout"
     	android:visibility="gone"
-    	android:background="@android:color/white" />
+    	android:background="@android:color/white"
+    	android:cacheColorHint="@android:color/white"
+    	android:listSelector="@null" />
     		
-    
 </RelativeLayout>
