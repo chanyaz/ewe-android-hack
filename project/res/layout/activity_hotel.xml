@@ -69,6 +69,7 @@
 					android:id="@+id/trip_advisor_rating_bar"
 					android:layout_height="wrap_content"
 					android:layout_width="wrap_content"
+					android:layout_marginTop="1dp"
 					android:numStars="5"
 					android:stepSize=".5"
 					android:isIndicator="true"
@@ -141,46 +142,66 @@
 			android:background="#A40000"
 			android:textColor="@android:color/white"
 			android:visibility="gone" />
+		<ImageView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentTop="true"
+			android:scaleType="fitXY"
+			android:src="@drawable/shadow" />
 	</RelativeLayout>
 
 	<!-- Details about the hotel. This is filled in dynamically based on available 
 		hotel data -->
-	<ScrollView
+	<RelativeLayout
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:background="@drawable/shadow"
-		android:fadingEdge="none">
-		<LinearLayout
+		android:layout_height="wrap_content">
+		<ScrollView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:background="#E3E3E6"
-			android:orientation="vertical">
-			<TableLayout
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentTop="true"
+			android:layout_marginTop="4dp"
+			android:fadingEdge="none">
+			<LinearLayout
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginRight="12dp">
-				<TableRow
-					android:id="@+id/amenities_table_row"
+				android:layout_weight="1"
+				android:background="#E3E3E6"
+				android:orientation="vertical">
+				<TableLayout
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layoutAnimation="@anim/layout_wave_scale" />
-			</TableLayout>
-			<View
-				android:layout_width="fill_parent"
-				android:layout_height="@dimen/two_pixels"
-				android:layout_marginTop="6dp"
-				android:layout_marginBottom="6dp"
-				android:background="@drawable/divider" />
-			<TextView
-				android:id="@+id/description_text_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="12dp"
-				android:layout_marginRight="12dp"
-				android:layout_marginBottom="10dp"
-				android:text="Description here!"
-				android:textColor="#333333" />
-		</LinearLayout>
-	</ScrollView>
+					android:layout_marginRight="12dp">
+					<TableRow
+						android:id="@+id/amenities_table_row"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layoutAnimation="@anim/layout_wave_scale" />
+				</TableLayout>
+				<View
+					android:layout_width="fill_parent"
+					android:layout_height="@dimen/two_pixels"
+					android:layout_marginTop="6dp"
+					android:layout_marginBottom="6dp"
+					android:background="@drawable/divider" />
+				<TextView
+					android:id="@+id/description_text_view"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="12dp"
+					android:layout_marginRight="12dp"
+					android:layout_marginBottom="10dp"
+					android:text="Description here!"
+					android:textColor="#333333" />
+			</LinearLayout>
+		</ScrollView>
+
+		<ImageView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/separator_view"
+			android:scaleType="fitXY"
+			android:src="@drawable/detail_divider" />
+	</RelativeLayout>
 </LinearLayout>
