@@ -124,7 +124,7 @@
 						android:numStars="5"
 						android:stepSize=".5"
 						android:isIndicator="true"
-						style="?android:attr/ratingBarStyleSmall" />
+						style="@style/Widget.RatingBar.Small.Shadowed" />
 					<TextView
 						android:id="@+id/trip_advisor_text_view"
 						android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
 						android:numStars="5"
 						android:stepSize=".5"
 						android:isIndicator="true"
-						style="?android:attr/ratingBarStyleSmall" />
+						style="@style/Widget.RatingBar.Small.TripAdvisor" />
 				</LinearLayout>
 			</LinearLayout>
 
