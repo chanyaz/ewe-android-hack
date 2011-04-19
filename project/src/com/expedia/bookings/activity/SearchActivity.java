@@ -749,7 +749,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		now.setToNow();
 		mDatesCalendarDatePicker.setSelectionMode(SelectionMode.RANGE);
 		mDatesCalendarDatePicker.setMinDate(now.year, now.month, now.monthDay);
-		mDatesCalendarDatePicker.setMaxDate(now.year, now.month, now.monthDay + 10);
 		mDatesCalendarDatePicker.setMaxRange(28);
 
 		// Listeners

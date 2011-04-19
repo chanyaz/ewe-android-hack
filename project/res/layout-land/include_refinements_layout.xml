@@ -8,7 +8,6 @@
     android:layout_height="wrap_content"
     android:layout_below="@id/search_bar_layout"
     android:layout_alignParentBottom="true"
-    android:background="@color/dismiss"
     android:gravity="center">
     
     <LinearLayout
