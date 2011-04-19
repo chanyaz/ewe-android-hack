@@ -1,5 +1,8 @@
 package com.expedia.bookings.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 
 import android.content.Intent;
@@ -13,7 +16,11 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.hotellib.data.BookingResponse;
@@ -25,6 +32,7 @@ import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
+import com.mobiata.hotellib.widget.HotelItemizedOverlay;
 
 public class ConfirmationActivity extends MapActivity {
 
@@ -79,7 +87,18 @@ public class ConfirmationActivity extends MapActivity {
 			thumbnail.setVisibility(View.GONE);
 		}
 
-		// TODO: Show on map where hotel is
+		// Show on the map where the hotel is
+		MapView mapView = (MapView) findViewById(R.id.map_view);
+		List<Property> properties = new ArrayList<Property>(1);
+		properties.add(mProperty);
+		List<Overlay> overlays = mapView.getOverlays();
+		HotelItemizedOverlay overlay = new HotelItemizedOverlay(this, properties, false, mapView, null);
+		overlays.add(overlay);
+		MapController mc = mapView.getController();
+		GeoPoint center = overlay.getCenter();
+		GeoPoint offsetCenter = new GeoPoint(center.getLatitudeE6() + 1000, center.getLongitudeE6() - 8000);
+		mc.setCenter(offsetCenter);
+		mc.setZoom(15);
 
 		// Overview of hotel
 		TextView nameView = (TextView) findViewById(R.id.name_text_view);
