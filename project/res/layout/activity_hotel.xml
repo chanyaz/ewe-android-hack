@@ -106,21 +106,19 @@
 			android:layout_height="wrap_content"
 			android:layout_alignParentTop="true"
 			android:layout_alignParentLeft="true"
-			android:layout_marginTop="6dp"
-			android:paddingTop="6dp"
-			android:paddingBottom="4dp"
-			android:paddingLeft="10dp"
-			android:paddingRight="10dp"
+			android:layout_marginTop="8dp"
+			android:paddingTop="3dp"
+			android:paddingRight="25dp"
 			android:gravity="left"
 			android:orientation="vertical"
-			android:background="#F9C500">
+			android:background="@drawable/bg_ribbon">
 			<TextView
 				android:id="@+id/from_text_view"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:textColor="#333333"
 				android:textStyle="bold"
-				android:textSize="14dp"
+				android:textSize="12dp"
 				android:includeFontPadding="false" />
 			<TextView
 				android:id="@+id/price_text_view"
