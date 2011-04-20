@@ -139,8 +139,11 @@
 			android:layout_marginLeft="16dp"
 			android:maxWidth="220dp"
 			android:gravity="center"
-			android:padding="4dp"
-			android:background="#A40000"
+			android:paddingTop="2dp"
+			android:paddingBottom="2dp"
+			android:paddingLeft="8dp"
+			android:paddingRight="8dp"
+			android:background="@drawable/bg_promo"
 			android:textColor="@android:color/white"
 			android:visibility="gone" />
 		<ImageView
