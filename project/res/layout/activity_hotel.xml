@@ -84,6 +84,7 @@
 			android:layout_alignParentRight="true"
 			android:layout_marginTop="4dp"
 			android:layout_marginLeft="6dp"
+			android:textStyle="bold"
 			android:text="@string/book_now"
 			style="@style/Widget.Button.Orange" />
 	</LinearLayout>
@@ -144,6 +145,7 @@
 			android:paddingLeft="8dp"
 			android:paddingRight="8dp"
 			android:background="@drawable/bg_promo"
+			android:textStyle="bold"
 			android:textColor="@android:color/white"
 			android:visibility="gone" />
 		<ImageView
