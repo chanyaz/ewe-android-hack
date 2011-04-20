@@ -2,6 +2,18 @@
 <resources>
 	<string name="app_name">Expedia</string>
 	
+	<!-- Strings used a lot of places -->
+	<!-- A number of adults -->
+	<plurals name="number_of_adults">
+		<item quantity="one">1 Adult</item>
+		<item quantity="other">%d Adults</item>
+	</plurals>
+	<!-- A number of children -->
+	<plurals name="number_of_children">
+		<item quantity="one">1 Child</item>
+		<item quantity="other">%d Children</item>
+	</plurals>
+
 	<!-- Search Activity -->
 	<string name="search">Search</string>
 	<string name="booking_info_template">%1$s — %2$s %3$d to %4$s %5$s, %6$d</string>
@@ -116,4 +128,16 @@
 	<string name="itinerary_number">Itinerary #</string>
 	<!-- Label for starting a new search -->
 	<string name="new_search">New Search</string>
+	
+	<!-- Sharing bookings via email -->
+	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the date ranges (e.g., 3/21 - 3/24) -->
+	<string name="share_subject_template">Expedia Itinerary - %1$s (%2$s - %3$s)</string>
+	<!-- Preset at the top of the share body message -->
+	<string name="share_body_start">Here is my hotel reservation info:</string>
+	<!-- Name of user -->
+	<string name="name">Name</string>
+	<!-- Subtotal label -->
+	<string name="subtotal">Subtotal</string>
+	<!-- Cancellation policy label -->
+	<string name="cancellation_policy">Cancellation Policy</string>
 </resources>

@@ -1,15 +1,21 @@
 package com.expedia.bookings.activity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -23,12 +29,14 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
 import com.mobiata.hotellib.data.BookingResponse;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Location;
 import com.mobiata.hotellib.data.Policy;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
+import com.mobiata.hotellib.data.RateBreakdown;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
@@ -130,6 +138,93 @@ public class ConfirmationActivity extends MapActivity {
 		else {
 			cancellationPolicyView.setVisibility(View.GONE);
 		}
+
+		//////////////////////////////////////////////////
+		// Button bar configuration
+		ImageButton shareButton = (ImageButton) findViewById(R.id.share_button);
+		shareButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				share();
+			}
+		});
+	}
+
+	public void share() {
+		Resources res = getResources();
+
+		DateFormat dateFormatter = new SimpleDateFormat("MM/dd");
+		DateFormat fullDateFormatter = android.text.format.DateFormat.getMediumDateFormat(this);
+		DateFormat dayFormatter = new SimpleDateFormat("EEE");
+
+		Date checkIn = mSearchParams.getCheckInDate().getTime();
+		Date checkOut = mSearchParams.getCheckOutDate().getTime();
+
+		// Create the subject
+		String dateStart = dateFormatter.format(checkIn);
+		String dateEnd = dateFormatter.format(checkOut);
+		String subject = getString(R.string.share_subject_template, mProperty.getName(), dateStart, dateEnd);
+
+		// Create the body 
+		StringBuilder body = new StringBuilder();
+		body.append(getString(R.string.share_body_start));
+		body.append("\n\n");
+		body.append(mProperty.getName());
+		body.append("\n");
+		body.append(StrUtils.formatAddress(mProperty.getLocation()));
+		body.append("\n\n");
+		appendLabelValue(body, R.string.confirmation_number, mBookingResponse.getConfNumber());
+		body.append("\n\n");
+		appendLabelValue(body, R.string.itinerary_number, mBookingResponse.getItineraryId());
+		body.append("\n\n");
+		appendLabelValue(body, R.string.CheckIn,
+				dayFormatter.format(checkIn) + ", " + fullDateFormatter.format(checkIn));
+		body.append("\n");
+		appendLabelValue(body, R.string.CheckOut,
+				dayFormatter.format(checkOut) + ", " + fullDateFormatter.format(checkOut));
+		body.append("\n");
+		body.append(res.getQuantityString(R.plurals.number_of_adults, mSearchParams.getNumAdults(),
+				mSearchParams.getNumAdults()));
+		body.append("\n");
+		body.append(res.getQuantityString(R.plurals.number_of_children, mSearchParams.getNumChildren(),
+				mSearchParams.getNumChildren()));
+		body.append("\n\n");
+
+		if (mRate.getRateBreakdownList() != null) {
+			for (RateBreakdown breakdown : mRate.getRateBreakdownList()) {
+				Date date = breakdown.getDate().getCalendar().getTime();
+				String dateStr = dayFormatter.format(date) + ", " + fullDateFormatter.format(date);
+				appendLabelValue(body, getString(R.string.room_rate_template, dateStr), breakdown.getAmount()
+						.getFormattedMoney());
+			}
+			body.append("\n\n");
+		}
+
+		appendLabelValue(body, R.string.subtotal, mRate.getTotalAmountBeforeTax().getFormattedMoney());
+		body.append("\n");
+		appendLabelValue(body, R.string.TaxesAndFees, mRate.getTaxesAndFeesPerRoom().getFormattedMoney());
+		body.append("\n\n");
+		appendLabelValue(body, R.string.Total, mRate.getTotalAmountAfterTax().getFormattedMoney());
+
+		Policy cancellationPolicy = mRate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
+		if (cancellationPolicy != null) {
+			body.append("\n\n");
+			body.append(getString(R.string.cancellation_policy));
+			body.append("\n");
+			body.append(Html.fromHtml(cancellationPolicy.getDescription()));
+		}
+
+		SocialUtils.email(this, subject, body.toString());
+	}
+
+	private void appendLabelValue(StringBuilder sb, int labelStrId, String value) {
+		appendLabelValue(sb, getString(labelStrId), value);
+	}
+
+	private void appendLabelValue(StringBuilder sb, String label, String value) {
+		sb.append(label);
+		sb.append(": ");
+		sb.append(value);
 	}
 
 	@Override
