@@ -84,7 +84,8 @@
 			android:layout_alignParentRight="true"
 			android:layout_marginTop="4dp"
 			android:layout_marginLeft="6dp"
-			android:text="@string/book_now" />
+			android:text="@string/book_now"
+			style="@style/Widget.Button.Orange" />
 	</LinearLayout>
 
 
