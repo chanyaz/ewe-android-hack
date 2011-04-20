@@ -41,7 +41,8 @@
 				android:layout_weight="1"
 				android:text="Popular"
 				android:textStyle="bold"
-				android:textColor="@color/btn_text" />
+				android:textColor="@color/btn_text"
+				android:checked="true" />
 		
 			<RadioButton
 				android:id="@+id/sort_price_button"
@@ -108,7 +109,8 @@
 			android:layout_weight="1"
 			android:text="All"
 			android:textStyle="bold"
-			android:textColor="@color/btn_text" />
+			android:textColor="@color/btn_text"
+			android:checked="true" />
 		
 	</com.mobiata.android.widget.SegmentedControlGroup>
 	
@@ -164,7 +166,8 @@
 			android:layout_weight="1"
 			android:text="All"
 			android:textStyle="bold"
-			android:textColor="@color/btn_text" />
+			android:textColor="@color/btn_text"
+			android:checked="true" />
 		
 	</com.mobiata.android.widget.SegmentedControlGroup>
 	
