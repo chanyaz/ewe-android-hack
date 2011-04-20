@@ -114,4 +114,6 @@
 	<string name="confirmation_number">Confirmation #</string>
 	<!-- Itinerary number label -->
 	<string name="itinerary_number">Itinerary #</string>
+	<!-- Label for starting a new search -->
+	<string name="new_search">New Search</string>
 </resources>
