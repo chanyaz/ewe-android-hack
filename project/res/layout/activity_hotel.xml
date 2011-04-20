@@ -91,11 +91,13 @@
 	<!-- Rotating image gallery -->
 	<RelativeLayout
 		android:layout_width="fill_parent"
-		android:layout_height="200dp">
+		android:layout_height="200dp"
+		android:background="@drawable/bg_gallery">
 		<Gallery
 			android:id="@+id/images_gallery"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
+			android:fadingEdge="none"
 			android:spacing="2dp" />
 		<LinearLayout
 			android:id="@+id/price_layout"
