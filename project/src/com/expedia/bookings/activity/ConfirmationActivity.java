@@ -10,6 +10,7 @@ import org.json.JSONException;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -146,6 +147,18 @@ public class ConfirmationActivity extends MapActivity {
 			@Override
 			public void onClick(View v) {
 				share();
+			}
+		});
+
+		ImageButton mapButton = (ImageButton) findViewById(R.id.map_button);
+		mapButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent newIntent = new Intent(Intent.ACTION_VIEW);
+				String queryAddress = com.mobiata.hotellib.utils.StrUtils.formatAddress(mProperty.getLocation())
+						.replace("\n", " ");
+				newIntent.setData(Uri.parse("geo:0,0?q=" + queryAddress));
+				startActivity(newIntent);
 			}
 		});
 	}
