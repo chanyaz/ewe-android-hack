@@ -38,6 +38,8 @@
 
 		<activity android:name=".activity.ConfirmationActivity" />
 
+		<activity android:name=".activity.AboutActivity" />
+
     </application>
     
 </manifest>

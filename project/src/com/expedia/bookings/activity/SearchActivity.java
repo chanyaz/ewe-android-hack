@@ -30,6 +30,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.Time;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -330,6 +332,33 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		return super.onCreateDialog(id);
+	}
+
+	// Menus
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_search, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.about: {
+			Intent intent = new Intent(this, AboutActivity.class);
+			intent.putExtra(AboutActivity.EXTRA_APP, AboutActivity.APP_EXPEDIA_BOOKINGS);
+			intent.putExtra(AboutActivity.EXTRA_TAF_SUBJECT, getString(R.string.tell_a_friend_subject));
+			intent.putExtra(AboutActivity.EXTRA_TAF_MESSAGE, getString(R.string.tell_a_friend_body));
+			intent.putExtra(AboutActivity.EXTRA_SUPPORT_URL,
+					"http://m.expedia.com/mt/support.expedia.com/app/home/p/532/?rfrr=app.android");
+			intent.putExtra(AboutActivity.EXTRA_ABOUT_TEXT, getString(R.string.copyright));
+			startActivity(intent);
+			break;
+		}
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	// Key events
