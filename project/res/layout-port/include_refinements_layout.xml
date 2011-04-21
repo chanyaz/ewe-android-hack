@@ -21,6 +21,7 @@
     		android:id="@+id/dates_date_picker"
     		android:layout_width="fill_parent"
     		android:layout_height="300dp"
+    		mobiata:headerBackground="@drawable/calendar_date_picker_cell_normal"
     		mobiata:cellBackground="@drawable/bg_calendar_cell"
     		mobiata:todayCellBackground="@drawable/bg_calendar_cell_today"
     		mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell_other_month"
