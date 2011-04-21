@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.json.JSONException;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -45,6 +47,8 @@ import com.mobiata.hotellib.widget.HotelItemizedOverlay;
 
 public class ConfirmationActivity extends MapActivity {
 
+	private Context mContext;
+
 	private SearchParams mSearchParams;
 	private Property mProperty;
 	private Rate mRate;
@@ -53,6 +57,8 @@ public class ConfirmationActivity extends MapActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mContext = this;
 
 		setContentView(R.layout.activity_confirmation);
 
@@ -159,6 +165,16 @@ public class ConfirmationActivity extends MapActivity {
 						.replace("\n", " ");
 				newIntent.setData(Uri.parse("geo:0,0?q=" + queryAddress));
 				startActivity(newIntent);
+			}
+		});
+
+		Button newSearchButton = (Button) findViewById(R.id.new_search_button);
+		newSearchButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, SearchActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 			}
 		});
 	}
