@@ -67,6 +67,9 @@ import com.mobiata.hotellib.utils.StrUtils;
 
 public class BookingInfoActivity extends Activity implements Download, OnDownloadComplete {
 
+	//////////////////////////////////////////////////////////////////////////////////
+	// Constants
+
 	private static final String SAVED_INFO_FILENAME = "booking.dat";
 
 	// Kind of pointless when this is just stored as a static field, but at least protects
@@ -77,13 +80,20 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	private static final int DIALOG_BOOKING_PROGRESS = 1;
 
+	//////////////////////////////////////////////////////////////////////////////////
+	// Private members
+
+	// Data pertaining to this booking
+
 	private Session mSession;
 	private SearchParams mSearchParams;
 	private Property mProperty;
 	private Rate mRate;
 
+	// The data that the user has entered for billing info
 	private BillingInfo mBillingInfo;
 
+	// The state of the form
 	private boolean mFormHasBeenFocused;
 	private boolean mGuestsExpanded;
 	private boolean mBillingExpanded;
@@ -114,6 +124,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private EditText mSecurityCodeEditText;
 	private Button mConfirmationButton;
 
+	// Cached views (non-interactive)
 	private TextView mSecurityCodeTipTextView;
 	private TextView mChargeDetailsTextView;
 
@@ -124,6 +135,11 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private static final int ERROR_SHORT_SECURITY_CODE = 104;
 	private ValidationProcessor mValidationProcessor;
 	private TextViewErrorHandler mErrorHandler;
+
+	//////////////////////////////////////////////////////////////////////////////////
+	// Overrides
+
+	// Lifecycle events
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -244,71 +260,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		}
 	}
 
-	public void expandGuestsForm(boolean animateAndFocus) {
-		if (!mGuestsExpanded) {
-			mGuestsExpanded = true;
-
-			mGuestSavedLayout.setVisibility(View.GONE);
-			mGuestFormLayout.setVisibility(View.VISIBLE);
-
-			// Fix focus movement
-			fixFocus();
-
-			if (animateAndFocus) {
-				mFirstNameEditText.requestFocus();
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.showSoftInput(mFirstNameEditText, InputMethodManager.SHOW_IMPLICIT);
-			}
-
-			// TODO: Animation if animated
-		}
-	}
-
-	public void expandBillingForm(boolean animateAndFocus) {
-		if (!mBillingExpanded) {
-			mBillingExpanded = true;
-
-			mBillingSavedLayout.setVisibility(View.GONE);
-			mBillingFormLayout.setVisibility(View.VISIBLE);
-
-			// Fix focus movement
-			fixFocus();
-
-			if (animateAndFocus) {
-				// TODO: Figure out why focus moves to postal code automatically
-				// mAddress1EditText.requestFocus();
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.showSoftInput(mAddress1EditText, InputMethodManager.SHOW_IMPLICIT);
-			}
-
-			// TODO: Animation if animated
-		}
-	}
-
-	// Fixes focus based on expanding form fields
-	public void fixFocus() {
-		// Handle where guest forms are pointing down (if expanded)
-		if (mGuestsExpanded) {
-			int nextId = (mBillingExpanded) ? R.id.address1_edit_text : R.id.card_number_edit_text;
-			mEmailEditText.setNextFocusDownId(nextId);
-			mEmailEditText.setNextFocusRightId(nextId);
-		}
-
-		// Handle where card info is pointing up
-		int nextId = (mBillingExpanded) ? R.id.postal_code_edit_text : R.id.email_edit_text;
-		mCardNumberEditText.setNextFocusUpId(nextId);
-		mCardNumberEditText.setNextFocusLeftId(nextId);
-		mExpirationMonthEditText.setNextFocusUpId(nextId);
-		mExpirationYearEditText.setNextFocusUpId(nextId);
-	}
-
-	private class Instance {
-		public BillingInfo mBillingInfo;
-		public boolean mFormHasBeenFocused;
-		private boolean mGuestsExpanded;
-		private boolean mBillingExpanded;
-	}
-
 	@Override
 	public Object onRetainNonConfigurationInstance() {
 		syncBillingInfo();
@@ -319,6 +270,13 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		instance.mGuestsExpanded = this.mGuestsExpanded;
 		instance.mBillingExpanded = this.mBillingExpanded;
 		return instance;
+	}
+
+	private class Instance {
+		public BillingInfo mBillingInfo;
+		public boolean mFormHasBeenFocused;
+		private boolean mGuestsExpanded;
+		private boolean mBillingExpanded;
 	}
 
 	@Override
@@ -340,6 +298,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
 	}
 
+	// Dialogs
+
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
@@ -350,6 +310,369 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		return super.onCreateDialog(id);
 	}
+
+	// BackgroundDownloader interface implementations
+
+	@Override
+	public void onDownload(Object results) {
+		removeDialog(DIALOG_BOOKING_PROGRESS);
+
+		if (results == null) {
+			// TODO: Add error handling
+			Toast.makeText(this, "ERROR: results of booking null!", Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		BookingResponse response = (BookingResponse) results;
+		if (response.hasErrors()) {
+			// TODO: Add error handling
+			Toast.makeText(this, "ERROR: results of booking had errors!", Toast.LENGTH_LONG).show();
+			for (ServerError error : response.getErrors()) {
+				Log.e(error.getCode() + ": " + error.getMessage());
+			}
+			return;
+		}
+
+		mSession = response.getSession();
+
+		Intent intent = new Intent(this, ConfirmationActivity.class);
+		intent.fillIn(getIntent(), 0);
+		intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
+		intent.putExtra(Codes.SESSION, mSession.toJson().toString());
+		startActivity(intent);
+	}
+
+	@Override
+	public Object doDownload() {
+		ExpediaServices services = new ExpediaServices(this, mSession);
+		return services.reservation(mSearchParams, mProperty, mRate, mBillingInfo);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////
+	// Private methods
+
+	// Activity configuration
+
+	private void configureTicket() {
+		// Configure the booking summary at the top of the page
+		ImageView thumbnailView = (ImageView) findViewById(R.id.thumbnail_image_view);
+		if (mProperty.getThumbnail() != null) {
+			ImageCache.getInstance().loadImage(mProperty.getThumbnail().getUrl(), thumbnailView);
+		}
+		else {
+			thumbnailView.setVisibility(View.GONE);
+		}
+
+		TextView nameView = (TextView) findViewById(R.id.name_text_view);
+		nameView.setText(mProperty.getName());
+
+		Location location = mProperty.getLocation();
+		TextView address1View = (TextView) findViewById(R.id.address1_text_view);
+		address1View.setText(StrUtils.formatAddressStreet(location));
+		TextView address2View = (TextView) findViewById(R.id.address2_text_view);
+		address2View.setText(StrUtils.formatAddressCity(location));
+
+		// Configure the details
+		ViewGroup detailsLayout = (ViewGroup) findViewById(R.id.details_layout);
+		com.expedia.bookings.utils.LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate);
+
+		// Configure the total cost
+		Money totalAmountAfterTax = mRate.getTotalAmountAfterTax();
+		TextView totalView = (TextView) findViewById(R.id.total_cost_text_view);
+		if (totalAmountAfterTax != null && totalAmountAfterTax.getFormattedMoney() != null
+				&& totalAmountAfterTax.getFormattedMoney().length() > 0) {
+			totalView.setText(totalAmountAfterTax.getFormattedMoney());
+		}
+		else {
+			totalView.setText("Dan didn't account for no total info, tell him");
+		}
+	}
+
+	private void configureForm() {
+		mGuestSavedLayout.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				expandGuestsForm(true);
+			}
+		});
+
+		mBillingSavedLayout.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				expandBillingForm(true);
+			}
+		});
+
+		// Setup automatic filling of state/country information based on city entered.
+		// Works for some popular cities.
+		mCityEditText.addTextChangedListener(new TextWatcher() {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// Do nothing
+			}
+
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				// Do nothing
+			}
+
+			public void afterTextChanged(Editable s) {
+				String key = s.toString().toLowerCase();
+				if (COMMON_US_CITIES.containsKey(key)) {
+					setSpinnerSelection(mStateSpinner, getString(COMMON_US_CITIES.get(key)));
+					setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
+				}
+			}
+		});
+
+		// Set the default country as USA
+		setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
+
+		mCountrySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				configureStateCode();
+
+				if (mFormHasBeenFocused) {
+					mPostalCodeEditText.requestFocus();
+				}
+			}
+
+			public void onNothingSelected(AdapterView<?> parent) {
+				// Should not happen, do nothing
+			}
+		});
+
+		// Setup listener for spinners so that they select they properly focus the next field
+		// upon picking an option
+		mStateSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (mFormHasBeenFocused) {
+					mCountrySpinner.requestFocus();
+				}
+			}
+
+			public void onNothingSelected(AdapterView<?> parent) {
+				// Do nothing
+			}
+		});
+
+		configureStateCode();
+
+		// Configure form validation
+		// Setup validators and error handlers
+		TextViewValidator requiredFieldValidator = new TextViewValidator();
+		TextViewErrorHandler errorHandler = mErrorHandler = new TextViewErrorHandler(getString(R.string.required_field));
+		errorHandler.addResponse(ValidationError.ERROR_DATA_INVALID, getString(R.string.invalid_field));
+		errorHandler.addResponse(ERROR_INVALID_CARD_NUMBER, getString(R.string.invalid_card_number));
+		errorHandler.addResponse(ERROR_INVALID_MONTH, getString(R.string.invalid_month));
+		errorHandler.addResponse(ERROR_EXPIRED_YEAR, getString(R.string.invalid_expiration_year));
+		errorHandler.addResponse(ERROR_SHORT_SECURITY_CODE, getString(R.string.invalid_security_code));
+
+		// Add all the validators
+		mValidationProcessor.add(mFirstNameEditText, requiredFieldValidator);
+		mValidationProcessor.add(mLastNameEditText, requiredFieldValidator);
+		mValidationProcessor.add(mTelephoneEditText, new TextViewValidator(new TelephoneValidator()));
+		mValidationProcessor.add(mEmailEditText, new TextViewValidator(new EmailValidator()));
+		mValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
+		mValidationProcessor.add(mCityEditText, requiredFieldValidator);
+		mValidationProcessor.add(mCardNumberEditText, new TextViewValidator(new Validator<CharSequence>() {
+			public int validate(CharSequence number) {
+				return (!FormatUtils.isValidCreditCardNumber(number)) ? ERROR_INVALID_CARD_NUMBER : 0;
+			}
+		}));
+		mValidationProcessor.add(mExpirationMonthEditText, new TextViewValidator(new Validator<CharSequence>() {
+			public int validate(CharSequence obj) {
+				int month = Integer.parseInt(obj.toString());
+				return (month < 1 || month > 12) ? ERROR_INVALID_MONTH : 0;
+			}
+		}));
+		mValidationProcessor.add(mExpirationYearEditText, new TextViewValidator(new Validator<CharSequence>() {
+			public int validate(CharSequence obj) {
+				int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+				int year = Integer.parseInt(obj.toString());
+				return (thisYear % 100 > year) ? ERROR_EXPIRED_YEAR : 0;
+			}
+		}));
+		mValidationProcessor.add(mSecurityCodeEditText, new TextViewValidator(new Validator<CharSequence>() {
+			public int validate(CharSequence obj) {
+				return (obj.length() < 3) ? ERROR_SHORT_SECURITY_CODE : 0;
+			}
+		}));
+
+		// Configure the bottom of the page form stuff
+		final BookingInfoActivity activity = this;
+		mConfirmationButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				syncBillingInfo();
+				boolean valid = mValidationProcessor.validate(mErrorHandler);
+				if (valid) {
+					showDialog(DIALOG_BOOKING_PROGRESS);
+					BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, activity, activity);
+				}
+			}
+		});
+
+		// Setup a focus change listener that changes the bottom from "enter booking info"
+		// to "confirm & book", plus the text
+		OnFocusChangeListener l = new OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					onFormFieldFocus();
+				}
+				else {
+					saveBillingInfo();
+				}
+			}
+		};
+
+		mFirstNameEditText.setOnFocusChangeListener(l);
+		mLastNameEditText.setOnFocusChangeListener(l);
+		mTelephoneEditText.setOnFocusChangeListener(l);
+		mEmailEditText.setOnFocusChangeListener(l);
+		mAddress1EditText.setOnFocusChangeListener(l);
+		mAddress2EditText.setOnFocusChangeListener(l);
+		mCityEditText.setOnFocusChangeListener(l);
+		mPostalCodeEditText.setOnFocusChangeListener(l);
+		mStateSpinner.setOnFocusChangeListener(l);
+		mStateEditText.setOnFocusChangeListener(l);
+		mCountrySpinner.setOnFocusChangeListener(l);
+		mCardNumberEditText.setOnFocusChangeListener(l);
+		mExpirationMonthEditText.setOnFocusChangeListener(l);
+		mExpirationYearEditText.setOnFocusChangeListener(l);
+		mSecurityCodeEditText.setOnFocusChangeListener(l);
+		mConfirmationButton.setOnFocusChangeListener(l);
+	}
+
+	private void configureFooter() {
+		// Configure the cancellation policy
+		TextView cancellationPolicyView = (TextView) findViewById(R.id.cancellation_policy_text_view);
+		Policy cancellationPolicy = mRate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
+		if (cancellationPolicy != null) {
+			cancellationPolicyView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
+		}
+		else {
+			cancellationPolicyView.setVisibility(View.GONE);
+		}
+	}
+
+	// State can either be a spinner or an edit text; configure that here
+	private void configureStateCode() {
+		int focusTarget;
+		if (useStateSpinner()) {
+			mStateSpinner.setVisibility(View.VISIBLE);
+			mStateEditText.setVisibility(View.GONE);
+			focusTarget = R.id.state_spinner;
+		}
+		else {
+			mStateSpinner.setVisibility(View.GONE);
+			mStateEditText.setVisibility(View.VISIBLE);
+			focusTarget = R.id.state_edit_text;
+		}
+
+		mCityEditText.setNextFocusDownId(focusTarget);
+		mCityEditText.setNextFocusRightId(focusTarget);
+		mCountrySpinner.setNextFocusLeftId(focusTarget);
+		mPostalCodeEditText.setNextFocusUpId(focusTarget);
+	}
+
+	private boolean useStateSpinner() {
+		String countryCode = mCountryCodes[mCountrySpinner.getSelectedItemPosition()];
+		return countryCode.equals(getString(R.string.country_code_us))
+				|| countryCode.equals(getString(R.string.country_code_ca));
+	}
+
+	private void setSpinnerSelection(Spinner spinner, String target) {
+		spinner.setSelection(findAdapterIndex(spinner.getAdapter(), target));
+	}
+
+	private int findAdapterIndex(SpinnerAdapter adapter, String target) {
+		int numItems = adapter.getCount();
+		for (int n = 0; n < numItems; n++) {
+			String name = (String) adapter.getItem(n);
+			if (name.equalsIgnoreCase(target)) {
+				return n;
+			}
+		}
+		return -1;
+	}
+
+	private void setSpinnerSelection(Spinner spinner, String[] codes, String targetCode) {
+		for (int n = 0; n < codes.length; n++) {
+			if (targetCode.equals(codes[n])) {
+				spinner.setSelection(n);
+				return;
+			}
+		}
+	}
+
+	private void onFormFieldFocus() {
+		mFormHasBeenFocused = true;
+
+		// Change the button text
+		mConfirmationButton.setText(R.string.confirm_book);
+
+		// Add the charge details text
+		mChargeDetailsTextView.setText(getString(R.string.charge_details_template, mRate.getTotalAmountAfterTax()
+				.getFormattedMoney()));
+	}
+
+	// Interactivity when expanding saved billing info
+
+	private void expandGuestsForm(boolean animateAndFocus) {
+		if (!mGuestsExpanded) {
+			mGuestsExpanded = true;
+
+			mGuestSavedLayout.setVisibility(View.GONE);
+			mGuestFormLayout.setVisibility(View.VISIBLE);
+
+			// Fix focus movement
+			fixFocus();
+
+			if (animateAndFocus) {
+				mFirstNameEditText.requestFocus();
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.showSoftInput(mFirstNameEditText, InputMethodManager.SHOW_IMPLICIT);
+			}
+
+			// TODO: Animation if animated
+		}
+	}
+
+	private void expandBillingForm(boolean animateAndFocus) {
+		if (!mBillingExpanded) {
+			mBillingExpanded = true;
+
+			mBillingSavedLayout.setVisibility(View.GONE);
+			mBillingFormLayout.setVisibility(View.VISIBLE);
+
+			// Fix focus movement
+			fixFocus();
+
+			if (animateAndFocus) {
+				// TODO: Figure out why focus moves to postal code automatically
+				// mAddress1EditText.requestFocus();
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.showSoftInput(mAddress1EditText, InputMethodManager.SHOW_IMPLICIT);
+			}
+
+			// TODO: Animation if animated
+		}
+	}
+
+	// Fixes focus based on expanding form fields
+	private void fixFocus() {
+		// Handle where guest forms are pointing down (if expanded)
+		if (mGuestsExpanded) {
+			int nextId = (mBillingExpanded) ? R.id.address1_edit_text : R.id.card_number_edit_text;
+			mEmailEditText.setNextFocusDownId(nextId);
+			mEmailEditText.setNextFocusRightId(nextId);
+		}
+
+		// Handle where card info is pointing up
+		int nextId = (mBillingExpanded) ? R.id.postal_code_edit_text : R.id.email_edit_text;
+		mCardNumberEditText.setNextFocusUpId(nextId);
+		mCardNumberEditText.setNextFocusLeftId(nextId);
+		mExpirationMonthEditText.setNextFocusUpId(nextId);
+		mExpirationYearEditText.setNextFocusUpId(nextId);
+	}
+	
+	// BillingInfo syncing and saving/loading
 
 	/**
 	 * Syncs the local BillingInfo with data from the form fields.  Should be used before you want to access
@@ -468,276 +791,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mSecurityCodeEditText.setText(mBillingInfo.getSecurityCode());
 	}
 
-	public boolean useStateSpinner() {
-		String countryCode = mCountryCodes[mCountrySpinner.getSelectedItemPosition()];
-		return countryCode.equals(getString(R.string.country_code_us))
-				|| countryCode.equals(getString(R.string.country_code_ca));
-	}
-
-	private void configureTicket() {
-		// Configure the booking summary at the top of the page
-		ImageView thumbnailView = (ImageView) findViewById(R.id.thumbnail_image_view);
-		if (mProperty.getThumbnail() != null) {
-			ImageCache.getInstance().loadImage(mProperty.getThumbnail().getUrl(), thumbnailView);
-		}
-		else {
-			thumbnailView.setVisibility(View.GONE);
-		}
-
-		TextView nameView = (TextView) findViewById(R.id.name_text_view);
-		nameView.setText(mProperty.getName());
-
-		Location location = mProperty.getLocation();
-		TextView address1View = (TextView) findViewById(R.id.address1_text_view);
-		address1View.setText(StrUtils.formatAddressStreet(location));
-		TextView address2View = (TextView) findViewById(R.id.address2_text_view);
-		address2View.setText(StrUtils.formatAddressCity(location));
-
-		// Configure the details
-		ViewGroup detailsLayout = (ViewGroup) findViewById(R.id.details_layout);
-		com.expedia.bookings.utils.LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate);
-
-		// Configure the total cost
-		Money totalAmountAfterTax = mRate.getTotalAmountAfterTax();
-		TextView totalView = (TextView) findViewById(R.id.total_cost_text_view);
-		if (totalAmountAfterTax != null && totalAmountAfterTax.getFormattedMoney() != null
-				&& totalAmountAfterTax.getFormattedMoney().length() > 0) {
-			totalView.setText(totalAmountAfterTax.getFormattedMoney());
-		}
-		else {
-			totalView.setText("Dan didn't account for no total info, tell him");
-		}
-	}
-
-	private void configureForm() {
-		mGuestSavedLayout.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				expandGuestsForm(true);
-			}
-		});
-
-		mBillingSavedLayout.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				expandBillingForm(true);
-			}
-		});
-
-		// Setup automatic filling of state/country information based on city entered.
-		// Works for some popular cities.
-		mCityEditText.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// Do nothing
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				// Do nothing
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				String key = s.toString().toLowerCase();
-				if (COMMON_US_CITIES.containsKey(key)) {
-					setSpinnerSelection(mStateSpinner, getString(COMMON_US_CITIES.get(key)));
-					setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
-				}
-			}
-		});
-
-		// Set the default country as USA
-		setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
-
-		mCountrySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				configureStateCode();
-
-				if (mFormHasBeenFocused) {
-					mPostalCodeEditText.requestFocus();
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				// Should not happen, do nothing
-			}
-		});
-
-		// Setup listener for spinners so that they select they properly focus the next field
-		// upon picking an option
-		mStateSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (mFormHasBeenFocused) {
-					mCountrySpinner.requestFocus();
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				// Do nothing
-			}
-		});
-
-		configureStateCode();
-
-		// Configure form validation
-		// Setup validators and error handlers
-		TextViewValidator requiredFieldValidator = new TextViewValidator();
-		TextViewErrorHandler errorHandler = mErrorHandler = new TextViewErrorHandler(getString(R.string.required_field));
-		errorHandler.addResponse(ValidationError.ERROR_DATA_INVALID, getString(R.string.invalid_field));
-		errorHandler.addResponse(ERROR_INVALID_CARD_NUMBER, getString(R.string.invalid_card_number));
-		errorHandler.addResponse(ERROR_INVALID_MONTH, getString(R.string.invalid_month));
-		errorHandler.addResponse(ERROR_EXPIRED_YEAR, getString(R.string.invalid_expiration_year));
-		errorHandler.addResponse(ERROR_SHORT_SECURITY_CODE, getString(R.string.invalid_security_code));
-
-		// Add all the validators
-		mValidationProcessor.add(mFirstNameEditText, requiredFieldValidator);
-		mValidationProcessor.add(mLastNameEditText, requiredFieldValidator);
-		mValidationProcessor.add(mTelephoneEditText, new TextViewValidator(new TelephoneValidator()));
-		mValidationProcessor.add(mEmailEditText, new TextViewValidator(new EmailValidator()));
-		mValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
-		mValidationProcessor.add(mCityEditText, requiredFieldValidator);
-		mValidationProcessor.add(mCardNumberEditText, new TextViewValidator(new Validator<CharSequence>() {
-			public int validate(CharSequence number) {
-				return (!FormatUtils.isValidCreditCardNumber(number)) ? ERROR_INVALID_CARD_NUMBER : 0;
-			}
-		}));
-		mValidationProcessor.add(mExpirationMonthEditText, new TextViewValidator(new Validator<CharSequence>() {
-			public int validate(CharSequence obj) {
-				int month = Integer.parseInt(obj.toString());
-				return (month < 1 || month > 12) ? ERROR_INVALID_MONTH : 0;
-			}
-		}));
-		mValidationProcessor.add(mExpirationYearEditText, new TextViewValidator(new Validator<CharSequence>() {
-			public int validate(CharSequence obj) {
-				int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-				int year = Integer.parseInt(obj.toString());
-				return (thisYear % 100 > year) ? ERROR_EXPIRED_YEAR : 0;
-			}
-		}));
-		mValidationProcessor.add(mSecurityCodeEditText, new TextViewValidator(new Validator<CharSequence>() {
-			public int validate(CharSequence obj) {
-				return (obj.length() < 3) ? ERROR_SHORT_SECURITY_CODE : 0;
-			}
-		}));
-
-		// Configure the bottom of the page form stuff
-		final BookingInfoActivity activity = this;
-		mConfirmationButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				syncBillingInfo();
-				boolean valid = mValidationProcessor.validate(mErrorHandler);
-				if (valid) {
-					showDialog(DIALOG_BOOKING_PROGRESS);
-					BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, activity, activity);
-				}
-			}
-		});
-
-		// Setup a focus change listener that changes the bottom from "enter booking info"
-		// to "confirm & book", plus the text
-		OnFocusChangeListener l = new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					onFormFieldFocus();
-				}
-				else {
-					saveBillingInfo();
-				}
-			}
-		};
-
-		mFirstNameEditText.setOnFocusChangeListener(l);
-		mLastNameEditText.setOnFocusChangeListener(l);
-		mTelephoneEditText.setOnFocusChangeListener(l);
-		mEmailEditText.setOnFocusChangeListener(l);
-		mAddress1EditText.setOnFocusChangeListener(l);
-		mAddress2EditText.setOnFocusChangeListener(l);
-		mCityEditText.setOnFocusChangeListener(l);
-		mPostalCodeEditText.setOnFocusChangeListener(l);
-		mStateSpinner.setOnFocusChangeListener(l);
-		mStateEditText.setOnFocusChangeListener(l);
-		mCountrySpinner.setOnFocusChangeListener(l);
-		mCardNumberEditText.setOnFocusChangeListener(l);
-		mExpirationMonthEditText.setOnFocusChangeListener(l);
-		mExpirationYearEditText.setOnFocusChangeListener(l);
-		mSecurityCodeEditText.setOnFocusChangeListener(l);
-		mConfirmationButton.setOnFocusChangeListener(l);
-	}
-
-	// State can either be a spinner or an edit text; configuer that here
-	public void configureStateCode() {
-		int focusTarget;
-		if (useStateSpinner()) {
-			mStateSpinner.setVisibility(View.VISIBLE);
-			mStateEditText.setVisibility(View.GONE);
-			focusTarget = R.id.state_spinner;
-		}
-		else {
-			mStateSpinner.setVisibility(View.GONE);
-			mStateEditText.setVisibility(View.VISIBLE);
-			focusTarget = R.id.state_edit_text;
-		}
-
-		mCityEditText.setNextFocusDownId(focusTarget);
-		mCityEditText.setNextFocusRightId(focusTarget);
-		mCountrySpinner.setNextFocusLeftId(focusTarget);
-		mPostalCodeEditText.setNextFocusUpId(focusTarget);
-	}
-
-	private void configureFooter() {
-		// Configure the cancellation policy
-		TextView cancellationPolicyView = (TextView) findViewById(R.id.cancellation_policy_text_view);
-		Policy cancellationPolicy = mRate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
-		if (cancellationPolicy != null) {
-			cancellationPolicyView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
-		}
-		else {
-			cancellationPolicyView.setVisibility(View.GONE);
-		}
-	}
-
-	private void setSpinnerSelection(Spinner spinner, String target) {
-		spinner.setSelection(findAdapterIndex(spinner.getAdapter(), target));
-	}
-
-	private int findAdapterIndex(SpinnerAdapter adapter, String target) {
-		int numItems = adapter.getCount();
-		for (int n = 0; n < numItems; n++) {
-			String name = (String) adapter.getItem(n);
-			if (name.equalsIgnoreCase(target)) {
-				return n;
-			}
-		}
-		return -1;
-	}
-
-	private void setSpinnerSelection(Spinner spinner, String[] codes, String targetCode) {
-		for (int n = 0; n < codes.length; n++) {
-			if (targetCode.equals(codes[n])) {
-				spinner.setSelection(n);
-				return;
-			}
-		}
-	}
-
-	private void onFormFieldFocus() {
-		mFormHasBeenFocused = true;
-
-		// Change the button text
-		mConfirmationButton.setText(R.string.confirm_book);
-
-		// Add the charge details text
-		mChargeDetailsTextView.setText(getString(R.string.charge_details_template, mRate.getTotalAmountAfterTax()
-				.getFormattedMoney()));
-	}
-
 	private boolean saveBillingInfo() {
 		Log.d("Saving user's billing info.");
 
@@ -794,40 +847,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		}
 	}
 
-	@Override
-	public void onDownload(Object results) {
-		removeDialog(DIALOG_BOOKING_PROGRESS);
-
-		if (results == null) {
-			// TODO: Add error handling
-			Toast.makeText(this, "ERROR: results of booking null!", Toast.LENGTH_LONG).show();
-			return;
-		}
-
-		BookingResponse response = (BookingResponse) results;
-		if (response.hasErrors()) {
-			// TODO: Add error handling
-			Toast.makeText(this, "ERROR: results of booking had errors!", Toast.LENGTH_LONG).show();
-			for (ServerError error : response.getErrors()) {
-				Log.e(error.getCode() + ": " + error.getMessage());
-			}
-			return;
-		}
-
-		mSession = response.getSession();
-
-		Intent intent = new Intent(this, ConfirmationActivity.class);
-		intent.fillIn(getIntent(), 0);
-		intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
-		intent.putExtra(Codes.SESSION, mSession.toJson().toString());
-		startActivity(intent);
-	}
-
-	@Override
-	public Object doDownload() {
-		ExpediaServices services = new ExpediaServices(this, mSession);
-		return services.reservation(mSearchParams, mProperty, mRate, mBillingInfo);
-	}
+	//////////////////////////////////////////////////////////////////////////////////
+	// More static data (that just takes up a lot of space, so at bottom)
 
 	// Static data that auto-fills states/countries
 	@SuppressWarnings("serial")
