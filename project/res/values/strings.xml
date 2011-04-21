@@ -95,7 +95,7 @@
 	<!-- Security code label -->
 	<string name="security_code">Security Code</string>
 	<!-- Security code tip (if code is on unknown side of card) -->
-	<string name="security_code_tip_front">See front or back of credit card</string>
+	<string name="security_code_tip_front_back">See front or back of credit card</string>
 	<!-- Security code tip (if code is on front of card) -->
 	<string name="security_code_tip_front">See front of credit card</string>
 	<!-- Security code tip (if code is on front of card) -->
@@ -112,6 +112,8 @@
 	<string name="invalid_field">Please enter a valid value for this field.</string>
 	<!-- Error if an invalid card number was entered -->
 	<string name="invalid_card_number">The credit card number you entered is invalid, please try again.</string>
+	<!-- Error if an invalid credit card type was entered -->
+	<string name="invalid_card_type">We could not detect your credit card type, please enter a valid credit card.</string>
 	<!-- Error if an invalid month (not 1-12) was entered -->
 	<string name="invalid_month">Please enter a value between 1 and 12</string>
 	<!-- Error if an invalid year was entered -->

@@ -53,6 +53,7 @@ import com.mobiata.android.validation.Validator;
 import com.mobiata.hotellib.data.BillingInfo;
 import com.mobiata.hotellib.data.BookingResponse;
 import com.mobiata.hotellib.data.Codes;
+import com.mobiata.hotellib.data.CreditCardType;
 import com.mobiata.hotellib.data.Location;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Policy;
@@ -62,6 +63,7 @@ import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.ServerError;
 import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
+import com.mobiata.hotellib.utils.CurrencyUtils;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
 
@@ -83,6 +85,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
+	private Context mContext;
+
 	// Data pertaining to this booking
 
 	private Session mSession;
@@ -92,6 +96,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	// The data that the user has entered for billing info
 	private BillingInfo mBillingInfo;
+	private CreditCardType mCreditCardType;
 
 	// The state of the form
 	private boolean mFormHasBeenFocused;
@@ -125,6 +130,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private Button mConfirmationButton;
 
 	// Cached views (non-interactive)
+	private ImageView mCreditCardImageView;
 	private TextView mSecurityCodeTipTextView;
 	private TextView mChargeDetailsTextView;
 
@@ -133,6 +139,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private static final int ERROR_INVALID_MONTH = 102;
 	private static final int ERROR_EXPIRED_YEAR = 103;
 	private static final int ERROR_SHORT_SECURITY_CODE = 104;
+	private static final int ERROR_INVALID_CARD_TYPE = 105;
 	private ValidationProcessor mValidationProcessor;
 	private TextViewErrorHandler mErrorHandler;
 
@@ -144,6 +151,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mContext = this;
 
 		mValidationProcessor = new ValidationProcessor();
 
@@ -202,6 +211,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mConfirmationButton = (Button) findViewById(R.id.confirm_book_button);
 
 		// Other cached views
+		mCreditCardImageView = (ImageView) findViewById(R.id.credit_card_image_view);
 		mSecurityCodeTipTextView = (TextView) findViewById(R.id.security_code_tip_text_view);
 		mChargeDetailsTextView = (TextView) findViewById(R.id.charge_details_text_view);
 
@@ -454,6 +464,30 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		configureStateCode();
 
+		// Configure card number - detection
+		mCardNumberEditText.addTextChangedListener(new TextWatcher() {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// Do nothing
+			}
+
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				// Do nothing
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				mCreditCardType = CurrencyUtils.detectCreditCardBrand(mContext, s.toString());
+				if (mCreditCardType != null) {
+					mCreditCardImageView.setImageResource(CREDIT_CARD_ICONS.get(mCreditCardType));
+					mSecurityCodeTipTextView.setText(CREDIT_CARD_SECURITY_LOCATION.get(mCreditCardType));
+				}
+				else {
+					mCreditCardImageView.setImageResource(R.drawable.ic_cc_unknown);
+					mSecurityCodeTipTextView.setText(R.string.security_code_tip_front_back);
+				}
+			}
+		});
+
 		// Configure form validation
 		// Setup validators and error handlers
 		TextViewValidator requiredFieldValidator = new TextViewValidator();
@@ -463,6 +497,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		errorHandler.addResponse(ERROR_INVALID_MONTH, getString(R.string.invalid_month));
 		errorHandler.addResponse(ERROR_EXPIRED_YEAR, getString(R.string.invalid_expiration_year));
 		errorHandler.addResponse(ERROR_SHORT_SECURITY_CODE, getString(R.string.invalid_security_code));
+		errorHandler.addResponse(ERROR_INVALID_CARD_TYPE, getString(R.string.invalid_card_type));
 
 		// Add all the validators
 		mValidationProcessor.add(mFirstNameEditText, requiredFieldValidator);
@@ -473,7 +508,13 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mValidationProcessor.add(mCityEditText, requiredFieldValidator);
 		mValidationProcessor.add(mCardNumberEditText, new TextViewValidator(new Validator<CharSequence>() {
 			public int validate(CharSequence number) {
-				return (!FormatUtils.isValidCreditCardNumber(number)) ? ERROR_INVALID_CARD_NUMBER : 0;
+				if (mCreditCardType == null) {
+					return ERROR_INVALID_CARD_TYPE;
+				}
+				if (!FormatUtils.isValidCreditCardNumber(number)) {
+					return ERROR_INVALID_CARD_NUMBER;
+				}
+				return 0;
 			}
 		}));
 		mValidationProcessor.add(mExpirationMonthEditText, new TextViewValidator(new Validator<CharSequence>() {
@@ -671,7 +712,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mExpirationMonthEditText.setNextFocusUpId(nextId);
 		mExpirationYearEditText.setNextFocusUpId(nextId);
 	}
-	
+
 	// BillingInfo syncing and saving/loading
 
 	/**
@@ -717,9 +758,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		}
 		mBillingInfo.setSecurityCode(mSecurityCodeEditText.getText().toString());
 
-		// TODO: This is temporary while we don't parse the credit card brand/name
-		mBillingInfo.setBrandName("Visa");
-		mBillingInfo.setBrandCode("VI");
+		if (mCreditCardType != null) {
+			mBillingInfo.setBrandCode(mCreditCardType.getCode());
+		}
 	}
 
 	/**
@@ -849,6 +890,38 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// More static data (that just takes up a lot of space, so at bottom)
+
+	// Which icon to use with which credit card
+	@SuppressWarnings("serial")
+	public static final HashMap<CreditCardType, Integer> CREDIT_CARD_ICONS = new HashMap<CreditCardType, Integer>() {
+		{
+			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_cc_amex);
+			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_cc_carte_blanche);
+			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_cc_china_union_pay);
+			put(CreditCardType.DINERS_CLUB, R.drawable.ic_cc_diners_club);
+			put(CreditCardType.DISCOVER, R.drawable.ic_cc_discover);
+			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.drawable.ic_cc_jcb);
+			put(CreditCardType.MAESTRO, R.drawable.ic_cc_maestro);
+			put(CreditCardType.MASTERCARD, R.drawable.ic_cc_mastercard);
+			put(CreditCardType.VISA, R.drawable.ic_cc_visa);
+		}
+	};
+
+	// Where to find security info on each card
+	@SuppressWarnings("serial")
+	public static final HashMap<CreditCardType, Integer> CREDIT_CARD_SECURITY_LOCATION = new HashMap<CreditCardType, Integer>() {
+		{
+			put(CreditCardType.AMERICAN_EXPRESS, R.string.security_code_tip_front);
+			put(CreditCardType.CARTE_BLANCHE, R.string.security_code_tip_back);
+			put(CreditCardType.CHINA_UNION_PAY, R.string.security_code_tip_back);
+			put(CreditCardType.DINERS_CLUB, R.string.security_code_tip_back);
+			put(CreditCardType.DISCOVER, R.string.security_code_tip_back);
+			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.string.security_code_tip_back);
+			put(CreditCardType.MAESTRO, R.string.security_code_tip_back);
+			put(CreditCardType.MASTERCARD, R.string.security_code_tip_back);
+			put(CreditCardType.VISA, R.string.security_code_tip_back);
+		}
+	};
 
 	// Static data that auto-fills states/countries
 	@SuppressWarnings("serial")
