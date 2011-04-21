@@ -694,14 +694,11 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private void configureFooter() {
 		// Configure the cancellation policy
 		TextView cancellationPolicyView = (TextView) findViewById(R.id.cancellation_policy_text_view);
-		boolean foundCancellationPolicy = false;
-		for (Policy policy : mRate.getRateRules().getPolicies()) {
-			if (policy.getType() == Policy.TYPE_CANCEL) {
-				foundCancellationPolicy = true;
-				cancellationPolicyView.setText(Html.fromHtml(policy.getDescription()));
-			}
+		Policy cancellationPolicy = mRate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
+		if (cancellationPolicy != null) {
+			cancellationPolicyView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
 		}
-		if (!foundCancellationPolicy) {
+		else {
 			cancellationPolicyView.setVisibility(View.GONE);
 		}
 	}
