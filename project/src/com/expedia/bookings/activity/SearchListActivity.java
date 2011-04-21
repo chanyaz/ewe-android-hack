@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.HotelAdapter;
+import com.expedia.bookings.widget.ListViewScrollBar;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
@@ -26,6 +27,7 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	private SearchActivity mParent;
 	private HotelAdapter mAdapter;
 
+	private ListViewScrollBar mScrollBar;
 	private ImageButton mViewButton;
 
 	private boolean mIsScrolling = false;
@@ -41,10 +43,12 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		mParent = (SearchActivity) getParent();
 		mParent.addSearchListener(this);
 
+		mScrollBar = (ListViewScrollBar) findViewById(R.id.scroll_bar);
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
+
+		mScrollBar.setListView(getListView());
+		mScrollBar.setOnScrollListener(this);
 		mViewButton.setOnClickListener(mViewButtonClickListener);
-		
-		getListView().setOnScrollListener(this);
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
