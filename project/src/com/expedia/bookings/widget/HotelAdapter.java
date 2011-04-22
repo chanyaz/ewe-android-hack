@@ -99,8 +99,9 @@ public class HotelAdapter extends BaseAdapter {
 
 			// If this is the first row, then add extra margin to the top to account for the pulldown
 			if (getItemViewType(position) == TYPE_FIRST) {
-				convertView.setPadding(0, (int) mContext.getResources().getDimension(R.dimen.hotel_row_first_padding),
-						0, 0);
+				convertView.setPadding(convertView.getPaddingLeft(),
+						(int) mContext.getResources().getDimension(R.dimen.hotel_row_first_padding),
+						convertView.getPaddingRight(), convertView.getPaddingBottom());
 			}
 
 			holder = new HotelViewHolder();
@@ -126,8 +127,9 @@ public class HotelAdapter extends BaseAdapter {
 		Rate lowestRate = property.getLowestRate();
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.getSavingsPercent() > 0) {
-			holder.from.setText(Html.fromHtml(mContext.getString(R.string.from_template, lowestRate
-					.getAverageBaseRate().getFormattedMoney()), null, new StrikethroughTagHandler()));
+			holder.from.setText(Html.fromHtml(
+					mContext.getString(R.string.from_template, lowestRate.getAverageBaseRate().getFormattedMoney()),
+					null, new StrikethroughTagHandler()));
 			holder.saleImage.setVisibility(View.VISIBLE);
 			holder.saleLabel.setVisibility(View.VISIBLE);
 		}
