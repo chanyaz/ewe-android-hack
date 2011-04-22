@@ -198,7 +198,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				broadcastSearchCompleted(mSearchResponse);
 				hideLoading();
 
-				mSearchResponse.clusterProperties();
 				setPriceRangeText();
 			}
 			else if (mSearchResponse != null && mSearchResponse.getLocations() != null
@@ -946,6 +945,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void setPriceRangeText() {
 		if (mSearchResponse != null) {
+			mSearchResponse.clusterProperties();
+
 			PriceRange priceRange = PriceRange.ALL;
 
 			switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
