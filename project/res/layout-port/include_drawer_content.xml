@@ -100,7 +100,8 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="10 mi"
-			android:textStyle="bold" />
+			android:textStyle="bold"
+			android:checked="true" />
 			
 		<RadioButton
 			android:id="@+id/radius_all_button"
@@ -109,8 +110,7 @@
 			android:layout_weight="1"
 			android:text="All"
 			android:textStyle="bold"
-			android:textColor="@color/btn_text"
-			android:checked="true" />
+			android:textColor="@color/btn_text" />
 		
 	</com.mobiata.android.widget.SegmentedControlGroup>
 	
