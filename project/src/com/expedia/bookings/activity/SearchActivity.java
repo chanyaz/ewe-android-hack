@@ -244,6 +244,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (mTag != null) {
 				setActivityByTag(mTag);
 			}
+
+			if (mSearchResponse != null) {
+				if (mFilter != null) {
+					mSearchResponse.setFilter(mFilter);
+				}
+
+				broadcastSearchCompleted(mSearchResponse);
+			}
 		}
 		else {
 			mSearchParams = new SearchParams();
@@ -505,7 +513,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		hideButtonBar();
 		hideDismissView();
 		hideSoftKeyboard(mSearchEditText);
+
 		resetFocus();
+		setFilter();
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
@@ -541,7 +551,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		setBookingInfoText();
-		setFilter();
 	}
 
 	public void switchResultsView() {
