@@ -519,7 +519,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
-			showLoading(R.string.progress_searching_hotels);
 			setSearchParams();
 			startSearchDownload();
 
@@ -542,8 +541,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchEditText.setText(R.string.visible_map_area);
 			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
 			mSearchParams.setSearchType(SearchType.PROXIMITY);
-
-			showLoading(R.string.progress_searching_hotels);
 			startSearchDownload();
 
 			break;
@@ -1030,6 +1027,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void startSearchDownload() {
+		showLoading(R.string.progress_searching_hotels);
 		mSearchDownloader.cancelDownload(KEY_SEARCH);
 		mSearchDownloader.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}

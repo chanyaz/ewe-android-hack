@@ -105,7 +105,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		setText(attrs.getAttributeValue("android", "text"));
 		setTextColor(attrs.getAttributeIntValue("android", "textColor", 0xFF555555));
 		setTextSize(attrs.getAttributeIntValue("android", "textSize", 16));
-		setTextStyle(attrs.getAttributeIntValue("android", "textStyle", Typeface.BOLD));
+		setTextStyle(attrs.getAttributeIntValue("android", "textStyle", Typeface.NORMAL));
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
