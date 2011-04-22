@@ -60,6 +60,7 @@ import com.expedia.bookings.widget.TagProgressBar;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
@@ -1026,10 +1027,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	private void startSearchDownload() {
+	private void startSearchDownload() {		
 		showLoading(R.string.progress_searching_hotels);
 		mSearchDownloader.cancelDownload(KEY_SEARCH);
 		mSearchDownloader.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
+		
+		ImageCache.getInstance().recycleCache(true);
 	}
 
 	// Location methods
