@@ -197,6 +197,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 				broadcastSearchCompleted(mSearchResponse);
 				hideLoading();
+
+				mSearchResponse.clusterProperties();
+				setPriceRangeText();
 			}
 			else if (mSearchResponse != null && mSearchResponse.getLocations() != null
 					&& mSearchResponse.getLocations().size() > 0) {
@@ -962,9 +965,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			PriceTier priceTier = mSearchResponse.getPriceTier(priceRange);
 			if (priceTier != null) {
-				String priceMin = priceTier.getMinRate().getFormattedMoney();
-				String priceMax = priceTier.getMaxRate().getFormattedMoney();
+				int priceMin = (int) priceTier.getMinRate().getAmount();
+				int priceMax = (int) priceTier.getMaxRate().getAmount();
 				mPriceRangeTextView.setText(getString(R.string.price_range_template, priceMin, priceMax));
+			}
+			else {
+				mPriceRangeTextView.setText(null);
 			}
 		}
 	}
@@ -1164,6 +1170,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			setFilter();
+			setPriceRangeText();
 			mPanel.setOpen(false, true);
 		}
 	};

@@ -19,7 +19,7 @@
 	<string name="booking_info_template">%1$s — %2$s %3$d to %4$s %5$s, %6$d</string>
 	
 	<!-- Price range template -->
-	<string name="price_range_template">($%1$d - $%2$d)</string>
+	<string name="price_range_template">($%1$d — $%2$d)</string>
 	
 	<!-- Progress messages -->	
 	<string name="progress_finding_location">Finding Current Location...</string>
