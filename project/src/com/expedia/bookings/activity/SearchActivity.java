@@ -838,8 +838,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mPanel.setOnPanelListener(mPanelListener);
 
-		mAdultsNumberPicker.setRange(1, 4);
-		mChildrenNumberPicker.setRange(0, 4);
+		mAdultsNumberPicker.setRange(1, 4, getResources().getStringArray(R.array.number_adults));
+		mChildrenNumberPicker.setRange(0, 4, getResources().getStringArray(R.array.number_children));
 
 		Time now = new Time();
 		now.setToNow();
