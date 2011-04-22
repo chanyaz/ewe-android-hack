@@ -40,6 +40,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -404,7 +405,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		return super.dispatchKeyEvent(event);
 	}
-
+	
 	// Location listener implementation
 
 	@Override
@@ -1027,11 +1028,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	private void startSearchDownload() {		
+	private void startSearchDownload() {
 		showLoading(R.string.progress_searching_hotels);
 		mSearchDownloader.cancelDownload(KEY_SEARCH);
 		mSearchDownloader.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
-		
+
 		ImageCache.getInstance().recycleCache(true);
 	}
 
