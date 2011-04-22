@@ -40,7 +40,6 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -73,6 +72,7 @@ import com.mobiata.hotellib.data.Filter;
 import com.mobiata.hotellib.data.Filter.PriceRange;
 import com.mobiata.hotellib.data.Filter.SearchRadius;
 import com.mobiata.hotellib.data.Filter.Sort;
+import com.mobiata.hotellib.data.PriceTier;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
 import com.mobiata.hotellib.data.SearchResponse;
@@ -123,6 +123,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private View mSortLayout;
 	private SegmentedControlGroup mSortButtonGroup;
 	private SegmentedControlGroup mRadiusButtonGroup;
+	private TextView mPriceRangeTextView;
 	private SegmentedControlGroup mPriceButtonGroup;
 
 	private View mDismissView;
@@ -193,8 +194,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
 				mSearchResponse.setFilter(mFilter);
 				mSession = mSearchResponse.getSession();
-				broadcastSearchCompleted(mSearchResponse);
 
+				broadcastSearchCompleted(mSearchResponse);
 				hideLoading();
 			}
 			else if (mSearchResponse != null && mSearchResponse.getLocations() != null
@@ -405,7 +406,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		return super.dispatchKeyEvent(event);
 	}
-	
+
 	// Location listener implementation
 
 	@Override
@@ -816,6 +817,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSortLayout = findViewById(R.id.sort_layout);
 		mSortButtonGroup = (SegmentedControlGroup) findViewById(R.id.sort_filter_button_group);
 		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
+		mPriceRangeTextView = (TextView) findViewById(R.id.price_range_text_view);
 		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
 
 		mDismissView = findViewById(R.id.dismiss_view);
@@ -934,6 +936,36 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
 			mSortLayout.setVisibility(View.GONE);
+		}
+
+		setPriceRangeText();
+	}
+
+	private void setPriceRangeText() {
+		if (mSearchResponse != null) {
+			PriceRange priceRange = PriceRange.ALL;
+
+			switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
+			case R.id.price_cheap_button: {
+				priceRange = PriceRange.CHEAP;
+				break;
+			}
+			case R.id.price_moderate_button: {
+				priceRange = PriceRange.MODERATE;
+				break;
+			}
+			case R.id.price_expensive_button: {
+				priceRange = PriceRange.EXPENSIVE;
+				break;
+			}
+			}
+
+			PriceTier priceTier = mSearchResponse.getPriceTier(priceRange);
+			if (priceTier != null) {
+				String priceMin = priceTier.getMinRate().getFormattedMoney();
+				String priceMax = priceTier.getMaxRate().getFormattedMoney();
+				mPriceRangeTextView.setText(getString(R.string.price_range_template, priceMin, priceMax));
+			}
 		}
 	}
 

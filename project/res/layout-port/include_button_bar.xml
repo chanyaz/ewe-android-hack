@@ -25,6 +25,6 @@
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:text="@string/search"
-    	style="@style/Widget.Button.Orange" />
+    	style="@style/Widget.Button.Small.Orange" />
     
 </LinearLayout>

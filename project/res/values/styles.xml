@@ -37,6 +37,15 @@
     	<item name="android:background">@drawable/btn_default_orange</item>
     </style>
     
+    <style name="Widget.Button.Small" parent="@android:style/Widget.Button">
+    	<item name="android:background">@drawable/btn_default_small</item>
+    	<item name="android:textColor">#FF000000</item>
+    </style>
+    
+    <style name="Widget.Button.Small.Orange" parent="@android:style/Widget.Button.Small">
+    	<item name="android:background">@drawable/btn_default_small_orange</item>
+    </style>
+    
     <style name="Widget.Button.SearchBar" parent="@android:style/Widget.Button">
     	<item name="android:background">@drawable/btn_search_bar</item>
     </style>
