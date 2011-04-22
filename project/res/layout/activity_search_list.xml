@@ -26,7 +26,8 @@
 		android:layout_height="fill_parent"
 		android:layout_above="@+id/view_button"
 		android:layout_alignParentRight="true"
-		android:layout_margin="6dp" />
+		android:layout_marginTop="6dp"
+		android:layout_marginRight="6dp" />
 
 	<ImageButton
 		android:id="@id/view_button"

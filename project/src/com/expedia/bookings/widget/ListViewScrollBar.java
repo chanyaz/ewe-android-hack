@@ -55,6 +55,14 @@ public class ListViewScrollBar extends View implements OnScrollListener {
 	}
 
 	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		mBarDrawable = getResources().getDrawable(R.drawable.scroll_bar);
+		mIndicatorDrawable = getResources().getDrawable(R.drawable.scroll_indicator);
+
+		super.onMeasure(mBarDrawable.getMinimumWidth() | MeasureSpec.EXACTLY, heightMeasureSpec);
+	}
+
+	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		mFirstVisibleItem = firstVisibleItem;
 		mVisibleItemCount = visibleItemCount;
@@ -71,7 +79,6 @@ public class ListViewScrollBar extends View implements OnScrollListener {
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
-
 		// Bubble this event
 		if (mOnScrollListener != null) {
 			mOnScrollListener.onScrollStateChanged(view, scrollState);
@@ -82,10 +89,6 @@ public class ListViewScrollBar extends View implements OnScrollListener {
 	protected void onSizeChanged(int width, int height, int oldw, int oldh) {
 		mWidth = width;
 		mHeight = height;
-
-		if (mBarDrawable != null) {
-			mWidth = mBarDrawable.getMinimumWidth();
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -107,6 +110,9 @@ public class ListViewScrollBar extends View implements OnScrollListener {
 		if (mTotalItemCount < 1) {
 			return;
 		}
+		if (mTotalItemCount < mVisibleItemCount) {
+			return;
+		}
 
 		drawBar(canvas);
 		drawIndicator(canvas);
@@ -118,13 +124,15 @@ public class ListViewScrollBar extends View implements OnScrollListener {
 	}
 
 	private void drawIndicator(Canvas canvas) {
-
 		final int width = mIndicatorDrawable.getMinimumWidth();
 		int height = mHeight * (mVisibleItemCount / mTotalItemCount);
 		height = height >= 32 ? height : 32;
 
+		final int offset = (int) ((float) mListView.getChildAt(0).getTop() / (float) mHeight);
+
 		final int left = (mWidth - width) / 2;
-		final int top = (int) ((float) mHeight * ((float) mFirstVisibleItem / (float) mTotalItemCount));
+		final int top = (int) ((((float) mHeight - (float) height) * ((float) mFirstVisibleItem / (float) mTotalItemCount)) + ((float) height / 2))
+				- offset;
 		final int right = left + width;
 		final int bottom = top + height;
 
@@ -136,6 +144,6 @@ public class ListViewScrollBar extends View implements OnScrollListener {
 		mBarDrawable = getResources().getDrawable(R.drawable.scroll_bar);
 		mIndicatorDrawable = getResources().getDrawable(R.drawable.scroll_indicator);
 
-		mWidth = mBarDrawable.getMinimumWidth();
+		setMeasuredDimension(mBarDrawable.getMinimumWidth(), getMeasuredHeight());
 	}
 }
