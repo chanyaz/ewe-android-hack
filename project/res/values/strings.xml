@@ -87,6 +87,8 @@
 	<string name="hint_address1">Address 1</string>
 	<!-- Address line 2 form field hint -->
 	<string name="hint_address2">Address 2 (optional)</string>
+	<!-- State code hint -->
+	<string name="hint_state_code">State</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Credit Card Info</string>
 	<!-- Card number form field hint -->

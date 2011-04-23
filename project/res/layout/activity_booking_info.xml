@@ -193,7 +193,7 @@
 						android:nextFocusDown="@+id/last_name_edit_text"
 						android:nextFocusRight="@+id/last_name_edit_text"
 						android:inputType="textPersonName|textCapWords"
-            			android:imeOptions="flagNoExtractUi"
+						android:imeOptions="flagNoExtractUi"
 						android:hint="@string/FirstName" />
 					<EditText
 						android:id="@+id/last_name_edit_text"
@@ -205,7 +205,7 @@
 						android:nextFocusDown="@+id/telephone_edit_text"
 						android:nextFocusRight="@+id/telephone_edit_text"
 						android:inputType="textPersonName|textCapWords"
-            			android:imeOptions="flagNoExtractUi"
+						android:imeOptions="flagNoExtractUi"
 						android:hint="@string/LastName" />
 				</LinearLayout>
 				<EditText
@@ -217,7 +217,7 @@
 					android:nextFocusDown="@+id/email_edit_text"
 					android:nextFocusRight="@+id/email_edit_text"
 					android:inputType="phone"
-            		android:imeOptions="flagNoExtractUi"
+					android:imeOptions="flagNoExtractUi"
 					android:hint="@string/Telephone" />
 				<EditText
 					android:id="@+id/email_edit_text"
@@ -228,7 +228,7 @@
 					android:nextFocusDown="@+id/address1_edit_text"
 					android:nextFocusRight="@+id/address1_edit_text"
 					android:inputType="textEmailAddress"
-            		android:imeOptions="flagNoExtractUi"
+					android:imeOptions="flagNoExtractUi"
 					android:hint="@string/EmailForConf" />
 			</LinearLayout>
 
@@ -287,7 +287,7 @@
 					android:nextFocusDown="@+id/address2_edit_text"
 					android:nextFocusRight="@+id/address2_edit_text"
 					android:inputType="textPostalAddress|textCapWords"
-            		android:imeOptions="flagNoExtractUi"
+					android:imeOptions="flagNoExtractUi"
 					android:hint="@string/hint_address1" />
 				<EditText
 					android:id="@+id/address2_edit_text"
@@ -298,7 +298,7 @@
 					android:nextFocusDown="@+id/city_edit_text"
 					android:nextFocusRight="@+id/city_edit_text"
 					android:inputType="textPostalAddress|textCapWords"
-            		android:imeOptions="flagNoExtractUi"
+					android:imeOptions="flagNoExtractUi"
 					android:hint="@string/hint_address2" />
 				<LinearLayout
 					android:layout_width="fill_parent"
@@ -313,36 +313,23 @@
 						android:layout_weight="1"
 						android:nextFocusUp="@+id/address2_edit_text"
 						android:nextFocusLeft="@+id/address2_edit_text"
+						android:nextFocusDown="@+id/state_edit_text"
+						android:nextFocusRight="@+id/state_edit_text"
 						android:minWidth="150dp"
 						android:inputType="textPostalAddress|textCapWords"
-            			android:imeOptions="flagNoExtractUi"
+						android:imeOptions="flagNoExtractUi"
 						android:hint="@string/City" />
-
-					<!-- Either the Spinner or the EditText are displayed, depending on 
-						the country selected -->
-					<Spinner
-						android:id="@+id/state_spinner"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"
-						android:nextFocusUp="@+id/address2_edit_text"
-						android:nextFocusLeft="@+id/city_edit_text"
-						android:nextFocusDown="@+id/country_spinner"
-						android:nextFocusRight="@+id/country_spinner"
-						android:focusable="true"
-						android:entries="@array/state_names" />
 					<EditText
 						android:id="@+id/state_edit_text"
-						android:layout_width="wrap_content"
+						android:layout_width="100dp"
 						android:layout_height="wrap_content"
-						android:layout_weight="1"
 						android:nextFocusUp="@+id/address2_edit_text"
 						android:nextFocusLeft="@+id/city_edit_text"
 						android:nextFocusDown="@+id/country_spinner"
 						android:nextFocusRight="@+id/country_spinner"
-						android:visibility="gone"
-            			android:imeOptions="flagNoExtractUi"
-						android:hint="@string/StateCode" />
+						android:imeOptions="flagNoExtractUi"
+						android:maxLength="3"
+						android:hint="@string/hint_state_code" />
 				</LinearLayout>
 				<LinearLayout
 					android:layout_width="fill_parent"
@@ -355,6 +342,7 @@
 						android:layout_height="wrap_content"
 						android:layout_weight="1"
 						android:nextFocusUp="@+id/city_edit_text"
+						android:nextFocusLeft="@+id/state_edit_text"
 						android:nextFocusDown="@+id/postal_code_edit_text"
 						android:nextFocusRight="@+id/postal_code_edit_text"
 						android:entries="@array/country_names" />
@@ -363,11 +351,12 @@
 						android:layout_width="120dp"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="1dp"
+						android:nextFocusUp="@+id/state_edit_text"
 						android:nextFocusLeft="@+id/country_spinner"
 						android:nextFocusDown="@+id/card_number_edit_text"
 						android:nextFocusRight="@+id/card_number_edit_text"
 						android:inputType="textPostalAddress|textCapCharacters"
-            			android:imeOptions="flagNoExtractUi"
+						android:imeOptions="flagNoExtractUi"
 						android:hint="@string/PostalCode" />
 				</LinearLayout>
 			</LinearLayout>
@@ -397,7 +386,7 @@
 						android:nextFocusDown="@+id/expiration_month_edit_text"
 						android:nextFocusRight="@+id/expiration_month_edit_text"
 						android:inputType="number"
-            			android:imeOptions="flagNoExtractUi"
+						android:imeOptions="flagNoExtractUi"
 						android:maxLength="20"
 						android:hint="@string/hint_card_number" />
 					<EditText
@@ -409,7 +398,7 @@
 						android:nextFocusDown="@+id/expiration_year_edit_text"
 						android:nextFocusRight="@+id/expiration_year_edit_text"
 						android:inputType="number"
-            			android:imeOptions="flagNoExtractUi"
+						android:imeOptions="flagNoExtractUi"
 						android:maxLength="2"
 						android:hint="@string/hint_expiration_month" />
 					<EditText
@@ -421,7 +410,7 @@
 						android:nextFocusDown="@+id/security_code_edit_text"
 						android:nextFocusRight="@+id/security_code_edit_text"
 						android:inputType="number"
-            			android:imeOptions="flagNoExtractUi"
+						android:imeOptions="flagNoExtractUi"
 						android:maxLength="2"
 						android:hint="@string/hint_expiration_year" />
 				</LinearLayout>
@@ -467,7 +456,7 @@
 						android:nextFocusUp="@+id/expiration_year_edit_text"
 						android:nextFocusLeft="@+id/expiration_year_edit_text"
 						android:inputType="number"
-            			android:imeOptions="flagNoExtractUi"
+						android:imeOptions="flagNoExtractUi"
 						android:maxLength="4" />
 				</LinearLayout>
 			</LinearLayout>
