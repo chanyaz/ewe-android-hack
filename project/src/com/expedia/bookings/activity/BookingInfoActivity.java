@@ -225,8 +225,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		if (lastInstance != null) {
 			this.mBillingInfo = lastInstance.mBillingInfo;
 			this.mFormHasBeenFocused = lastInstance.mFormHasBeenFocused;
-			this.mGuestsExpanded = lastInstance.mGuestsExpanded;
-			this.mBillingExpanded = lastInstance.mBillingExpanded;
 
 			if (this.mFormHasBeenFocused) {
 				onFormFieldFocus();
@@ -234,10 +232,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 			syncFormFields();
 
-			if (mGuestsExpanded) {
+			if (lastInstance.mGuestsExpanded) {
 				expandGuestsForm(false);
 			}
-			if (mBillingExpanded) {
+			if (lastInstance.mBillingExpanded) {
 				expandBillingForm(false);
 			}
 		}
