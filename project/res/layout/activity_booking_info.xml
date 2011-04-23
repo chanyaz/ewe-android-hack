@@ -327,6 +327,7 @@
 						android:nextFocusLeft="@+id/city_edit_text"
 						android:nextFocusDown="@+id/country_spinner"
 						android:nextFocusRight="@+id/country_spinner"
+						android:inputType="textPostalAddress|textCapCharacters"
 						android:imeOptions="flagNoExtractUi"
 						android:maxLength="3"
 						android:hint="@string/hint_state_code" />
