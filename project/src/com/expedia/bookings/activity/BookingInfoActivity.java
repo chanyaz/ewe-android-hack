@@ -516,6 +516,12 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		final BookingInfoActivity activity = this;
 		mConfirmationButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				if (!mFormHasBeenFocused) {
+					// Don't let user click on this until they've at least made some attempt
+					// at entering data into the form fields.
+					return;
+				}
+				
 				syncBillingInfo();
 				boolean valid = mValidationProcessor.validate(mErrorHandler);
 				if (valid) {
