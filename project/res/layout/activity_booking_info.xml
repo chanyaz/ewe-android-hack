@@ -512,6 +512,7 @@
 			android:layout_width="140dp"
 			android:layout_height="48dp"
 			android:nextFocusUp="@+id/security_code_edit_text"
-			android:text="@string/EnterBookingInfo" />
+			android:text="@string/EnterBookingInfo"
+			style="@style/Widget.Button.Orange" />
 	</LinearLayout>
 </RelativeLayout>
