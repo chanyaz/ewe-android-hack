@@ -8,12 +8,18 @@ import java.util.List;
 
 import org.json.JSONException;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -47,6 +53,8 @@ import com.mobiata.hotellib.utils.StrUtils;
 import com.mobiata.hotellib.widget.HotelItemizedOverlay;
 
 public class ConfirmationActivity extends MapActivity {
+
+	private static final int DIALOG_BACK_WARNING = 1;
 
 	private Context mContext;
 
@@ -184,6 +192,49 @@ public class ConfirmationActivity extends MapActivity {
 				startActivity(intent);
 			}
 		});
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// #6685: User pressing "back" from a confirmation screen should not be allowed to re-book.
+		// This sends them back to the search activity for a new search.
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+			showDialog(DIALOG_BACK_WARNING);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	protected Dialog onCreateDialog(final int id) {
+		switch (id) {
+		case DIALOG_BACK_WARNING: {
+			AlertDialog.Builder builder = new Builder(this);
+			builder.setTitle(R.string.Warning);
+			builder.setMessage(R.string.BackWarningCompletedMessage);
+			builder.setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					finish();
+					Intent i = new Intent(mContext, SearchActivity.class);
+					i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(i);
+				}
+			});
+			builder.setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					removeDialog(DIALOG_BACK_WARNING);
+				}
+			});
+			builder.setOnCancelListener(new OnCancelListener() {
+				public void onCancel(DialogInterface dialog) {
+					removeDialog(DIALOG_BACK_WARNING);
+				}
+			});
+			return builder.create();
+		}
+		}
+
+		return super.onCreateDialog(id);
 	}
 
 	public void share() {
