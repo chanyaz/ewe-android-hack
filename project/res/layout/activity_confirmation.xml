@@ -71,6 +71,7 @@
 						android:layout_marginTop="10dp"
 						android:scaleType="centerCrop"
 						android:src="@drawable/ic_image_placeholder"
+						android:background="@drawable/receipt_photo_frame"
 						mobiata:rotation="-5" />
 				</RelativeLayout>
 
