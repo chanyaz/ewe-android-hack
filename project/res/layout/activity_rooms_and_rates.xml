@@ -7,46 +7,38 @@
 	android:background="@color/bg_default">
 
 	<!-- Header -->
-	<LinearLayout
+	<RelativeLayout
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:padding="8dp"
-		android:gravity="center_vertical"
-		android:orientation="horizontal"
 		android:background="@drawable/bg_header">
 		<ImageView
 			android:id="@+id/thumbnail_image_view"
-			android:layout_width="50dp"
-			android:layout_height="50dp"
+			android:layout_width="60dp"
+			android:layout_height="60dp"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
 			android:scaleType="centerCrop"
 			android:src="@drawable/ic_image_placeholder" />
-		<LinearLayout
+		<TextView
+			android:id="@+id/name_text_view"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:layout_marginLeft="6dp"
-			android:layout_marginRight="6dp"
-			android:orientation="vertical">
-			<TextView
-				android:id="@+id/name_text_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:singleLine="true"
-				android:ellipsize="end"
-				android:textColor="@android:color/white"
-				android:textStyle="bold"
-				android:textSize="18sp" />
-			<TextView
-				android:id="@+id/location_text_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:singleLine="true"
-				android:ellipsize="end"
-				android:textColor="@android:color/white" />
-		</LinearLayout>
+			android:layout_alignParentTop="true"
+			android:layout_toRightOf="@+id/thumbnail_image_view"
+			android:layout_marginLeft="8dp"
+			android:singleLine="true"
+			android:ellipsize="end"
+			android:textColor="@android:color/white"
+			android:textStyle="bold"
+			android:textSize="18sp" />
 		<LinearLayout
+			android:id="@+id/rating_layout"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_below="@+id/name_text_view"
+			android:layout_alignParentRight="true"
+			android:layout_marginLeft="8dp"
 			android:orientation="vertical">
 			<TextView
 				android:layout_height="wrap_content"
@@ -62,7 +54,19 @@
 				android:stepSize=".5"
 				android:isIndicator="true" />
 		</LinearLayout>
-	</LinearLayout>
+		<TextView
+			android:id="@+id/location_text_view"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignTop="@+id/rating_layout"
+			android:layout_alignBottom="@+id/rating_layout"
+			android:layout_toLeftOf="@+id/rating_layout"
+			android:layout_alignLeft="@+id/name_text_view"
+			android:gravity="center_vertical"
+			android:singleLine="true"
+			android:ellipsize="end"
+			android:textColor="@android:color/white" />
+	</RelativeLayout>
 
 	<!-- List of rooms/rates -->
 	<ListView
