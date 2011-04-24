@@ -76,9 +76,7 @@ public class HotelActivity extends Activity {
 		Button bookButton = (Button) findViewById(R.id.book_now_button);
 		bookButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent roomsRatesIntent = new Intent(context, RoomsAndRatesListActivity.class);
-				roomsRatesIntent.fillIn(intent, 0);
-				startActivity(roomsRatesIntent);
+				startRoomRatesActivity();
 			}
 		});
 
@@ -118,6 +116,12 @@ public class HotelActivity extends Activity {
 		}
 
 		ViewGroup priceContainer = (ViewGroup) findViewById(R.id.price_layout);
+		priceContainer.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startRoomRatesActivity();
+			}
+		});
 		priceContainer.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_left));
 		TextView fromView = (TextView) findViewById(R.id.from_text_view);
 		if (lowestRate.getSavingsPercent() > 0) {
@@ -187,5 +191,11 @@ public class HotelActivity extends Activity {
 		amenityName.setText(strResourceId);
 
 		amenitiesTable.addView(amenityLayout);
+	}
+
+	public void startRoomRatesActivity() {
+		Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
+		roomsRatesIntent.fillIn(getIntent(), 0);
+		startActivity(roomsRatesIntent);
 	}
 }
