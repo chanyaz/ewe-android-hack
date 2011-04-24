@@ -87,6 +87,9 @@ public class ConfirmationActivity extends MapActivity {
 				mRate.fillWithTestData();
 				mBookingResponse = new BookingResponse();
 				mBookingResponse.fillWithTestData();
+
+				mBillingInfo = new BillingInfo();
+				mBillingInfo.setEmail("dan@mobiata.com");
 			}
 			catch (JSONException e) {
 				Log.e("Couldn't create dummy data!", e);
