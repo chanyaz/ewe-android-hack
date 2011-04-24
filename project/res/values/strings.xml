@@ -133,6 +133,8 @@
 	<string name="confirmation_number">Confirmation #</string>
 	<!-- Itinerary number label -->
 	<string name="itinerary_number">Itinerary #</string>
+	<!-- Confirmation email label -->
+	<string name="confirmation_email">Confirmation Email</string>
 	<!-- Label for starting a new search -->
 	<string name="new_search">New Search</string>
 	

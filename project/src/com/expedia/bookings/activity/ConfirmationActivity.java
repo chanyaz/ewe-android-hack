@@ -33,6 +33,7 @@ import com.google.android.maps.Overlay;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.hotellib.data.BillingInfo;
 import com.mobiata.hotellib.data.BookingResponse;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Location;
@@ -52,6 +53,7 @@ public class ConfirmationActivity extends MapActivity {
 	private SearchParams mSearchParams;
 	private Property mProperty;
 	private Rate mRate;
+	private BillingInfo mBillingInfo;
 	private BookingResponse mBookingResponse;
 
 	@Override
@@ -68,6 +70,7 @@ public class ConfirmationActivity extends MapActivity {
 		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
 				SearchParams.class);
 		mRate = (Rate) JSONUtils.parseJSONableFromIntent(intent, Codes.RATE, Rate.class);
+		mBillingInfo = (BillingInfo) JSONUtils.parseJSONableFromIntent(intent, Codes.BILLING_INFO, BillingInfo.class);
 		mBookingResponse = (BookingResponse) JSONUtils.parseJSONableFromIntent(intent, Codes.BOOKING_RESPONSE,
 				BookingResponse.class);
 
@@ -132,6 +135,7 @@ public class ConfirmationActivity extends MapActivity {
 		ViewGroup detailsLayout = (ViewGroup) findViewById(R.id.details_layout);
 		LayoutUtils.addDetail(this, detailsLayout, R.string.confirmation_number, mBookingResponse.getConfNumber());
 		LayoutUtils.addDetail(this, detailsLayout, R.string.itinerary_number, mBookingResponse.getItineraryId());
+		LayoutUtils.addDetail(this, detailsLayout, R.string.confirmation_email, mBillingInfo.getEmail());
 		LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate);
 
 		// Total cost / cancellation policy at the bottom

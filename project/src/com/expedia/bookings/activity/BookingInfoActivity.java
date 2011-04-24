@@ -343,6 +343,12 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		intent.fillIn(getIntent(), 0);
 		intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
 		intent.putExtra(Codes.SESSION, mSession.toJson().toString());
+
+		// Create a BillingInfo that lacks the user's security code (for safety)
+		JSONObject billingJson = mBillingInfo.toJson();
+		billingJson.remove("securityCode");
+		intent.putExtra(Codes.BILLING_INFO, billingJson.toString());
+
 		startActivity(intent);
 	}
 
@@ -521,7 +527,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 					// at entering data into the form fields.
 					return;
 				}
-				
+
 				syncBillingInfo();
 				boolean valid = mValidationProcessor.validate(mErrorHandler);
 				if (valid) {
