@@ -5,6 +5,7 @@ import java.util.List;
 import org.json.JSONException;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Gallery;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +35,8 @@ import com.mobiata.hotellib.utils.JSONUtils;
 
 public class HotelActivity extends Activity {
 
+	private Context mContext;
+
 	private Property mProperty;
 
 	private int mImageToLoad;
@@ -40,6 +44,8 @@ public class HotelActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mContext = this;
 
 		setContentView(R.layout.activity_hotel);
 
@@ -123,6 +129,15 @@ public class HotelActivity extends Activity {
 
 		TextView priceView = (TextView) findViewById(R.id.price_text_view);
 		priceView.setText(lowestRate.getAverageRate().getFormattedMoney());
+
+		ImageButton mapButton = (ImageButton) findViewById(R.id.map_button);
+		mapButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, HotelMapActivity.class);
+				intent.fillIn(getIntent(), 0);
+				startActivity(intent);
+			}
+		});
 
 		// Amenities
 		ViewGroup amenitiesContainer = (ViewGroup) findViewById(R.id.amenities_table_row);

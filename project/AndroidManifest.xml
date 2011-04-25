@@ -31,6 +31,7 @@
 		<activity android:name=".activity.SearchMapActivity" />
 
 		<activity android:name=".activity.HotelActivity" />
+		<activity android:name=".activity.HotelMapActivity" />
 
 		<activity android:name=".activity.RoomsAndRatesListActivity" />
 

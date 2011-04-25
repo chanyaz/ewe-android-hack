@@ -67,6 +67,15 @@
 			android:textStyle="bold"
 			android:textColor="@android:color/white"
 			android:visibility="gone" />
+		<ImageButton
+			android:id="@+id/map_button"
+			android:layout_width="@dimen/action_bar_button_height"
+			android:layout_height="@dimen/action_bar_button_height"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true"
+			android:layout_marginRight="4dp"
+			android:src="@drawable/btn_map"
+			style="@style/Widget.Button.Floating" />
 		<ImageView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
