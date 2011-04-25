@@ -3,10 +3,14 @@ package com.expedia.bookings.utils;
 import java.text.DateFormat;
 import java.util.Date;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -18,6 +22,18 @@ import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.utils.StrUtils;
 
 public class LayoutUtils {
+	
+	public static void configureHeader(Activity activity, Property property, OnClickListener onBookNowClick) {
+		TextView name = (TextView) activity.findViewById(R.id.name_text_view);
+		name.setText(property.getName());
+		RatingBar hotelRating = (RatingBar) activity.findViewById(R.id.hotel_rating_bar);
+		hotelRating.setRating((float) property.getHotelRating());
+		RatingBar tripAdvisorRating = (RatingBar) activity.findViewById(R.id.trip_advisor_rating_bar);
+		tripAdvisorRating.setRating((float) property.getTripAdvisorRating());
+
+		Button bookButton = (Button) activity.findViewById(R.id.book_now_button);
+		bookButton.setOnClickListener(onBookNowClick);
+	}
 
 	public static void addRateDetails(Context context, ViewGroup detailsLayout, SearchParams searchParams,
 			Property property,

@@ -5,7 +5,6 @@ import java.util.List;
 import org.json.JSONException;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,13 +13,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.ImageAdapter;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
@@ -43,8 +41,6 @@ public class HotelActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		final Context context = this;
-
 		setContentView(R.layout.activity_hotel);
 
 		// Retrieve data to build this with
@@ -66,15 +62,7 @@ public class HotelActivity extends Activity {
 		}
 
 		// Fill in header views
-		TextView name = (TextView) findViewById(R.id.name_text_view);
-		name.setText(property.getName());
-		RatingBar hotelRating = (RatingBar) findViewById(R.id.hotel_rating_bar);
-		hotelRating.setRating((float) property.getHotelRating());
-		RatingBar tripAdvisorRating = (RatingBar) findViewById(R.id.trip_advisor_rating_bar);
-		tripAdvisorRating.setRating((float) property.getTripAdvisorRating());
-
-		Button bookButton = (Button) findViewById(R.id.book_now_button);
-		bookButton.setOnClickListener(new OnClickListener() {
+		LayoutUtils.configureHeader(this, property, new OnClickListener() {
 			public void onClick(View v) {
 				startRoomRatesActivity();
 			}
