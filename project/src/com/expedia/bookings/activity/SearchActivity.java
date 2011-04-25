@@ -313,16 +313,19 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case DIALOG_LOCATION_SUGGESTIONS: {
-			CharSequence[] charSequenceArray = new CharSequence[mSearchResponse.getLocations().size()];
-			mSearchResponse.getLocations().toArray(charSequenceArray);
-
-			final CharSequence[] freeformLocations = charSequenceArray;
+			final List<com.mobiata.hotellib.data.Location> locations = mSearchResponse.getLocations();
+			int size = locations.size();
+			final CharSequence[] freeformLocations = new CharSequence[mSearchResponse.getLocations().size()];
+			for (int a = 0; a < size; a++) {
+				freeformLocations[a] = StrUtils.formatAddressCity(locations.get(a));
+			}
 
 			AlertDialog.Builder builder = new Builder(this);
 			builder.setTitle(R.string.ChooseLocation);
 			builder.setItems(freeformLocations, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					mSearchEditText.setText(freeformLocations[which].toString());
+					mSearchParams.setDestinationId(locations.get(which).getDestinationId());
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearch();
 				}
@@ -841,7 +844,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
 
 		// Properties
-		
+
 		//-------------------------------------------------------------------
 		// Note: Eff everything about this. First off, this footer has to be
 		// added to the listview because it's behind a transparent view so it
