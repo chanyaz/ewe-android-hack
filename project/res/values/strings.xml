@@ -151,6 +151,16 @@
 	<string name="cancellation_policy">Cancellation Policy</string>
 	
 	<!-- About activity -->
+	<!-- Label for "contact Expedia" button in info page -->
+	<string name="contact_expedia">Contact Expedia</string>
+	<!-- Label for "Expedia website" button in info page -->
+	<string name="expedia_website">Expedia Website</string>
+	<!-- Label for "app feedback" button in info page -->
+	<string name="app_feedback">App Feedback</string>
+	<!-- Label for "app support" button in info page -->
+	<string name="app_support">App Support</string>
+	<!-- Section header for other apps by Mobiata -->
+	<string name="travel_smart">Travel Smart.</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
