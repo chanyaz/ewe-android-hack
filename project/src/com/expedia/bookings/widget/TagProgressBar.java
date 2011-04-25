@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 
 public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callback, SensorEventListener, OnTouchListener {
 	//////////////////////////////////////////////////////////////////////////////////
@@ -30,7 +31,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 	private Activity mParent;
 
-	private boolean mShowProgress = true;;
+	private boolean mShowProgress = true;
 	private String mText;
 
 	private SensorManager mSensorManager;
@@ -38,6 +39,8 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 	private float[] mAcceleration;
 	private int mOrientation;
 	private float mScaledDensity;
+
+	private boolean mTagGrabbed = false;
 
 	private DrawingThread mDrawingThread;
 	private Paint mPaint;
@@ -151,6 +154,35 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
+		final int action = event.getAction();
+		final float x = event.getX();
+		final float y = event.getY();
+
+		switch (action) {
+		case MotionEvent.ACTION_DOWN: {
+			if (isInsideTag(x, y)) {
+				mTagGrabbed = true;
+
+				if (mDrawingThread != null) {
+					mDrawingThread.setAngleAndVelocityByTouchPoint(x, y);
+				}
+			}
+			break;
+		}
+		case MotionEvent.ACTION_MOVE: {
+			if (mTagGrabbed) {
+				if (mDrawingThread != null) {
+					mDrawingThread.setAngleAndVelocityByTouchPoint(x, y);
+				}
+			}
+			break;
+		}
+		case MotionEvent.ACTION_UP: {
+			mTagGrabbed = false;
+			break;
+		}
+		}
+
 		return true;
 	}
 
@@ -225,6 +257,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 	// Private methods
 
 	private void init(Context context) {
+		setOnTouchListener(this);
 		setFocusableInTouchMode(true);
 
 		getHolder().addCallback(this);
@@ -268,6 +301,19 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		mRingFillWidth = mRingFillBitmap.getWidth();
 		mRingFillHeight = mRingFillBitmap.getHeight();
 		mRingFillSrcRect = new Rect(0, 0, mRingFillWidth, mRingFillHeight);
+	}
+
+	private boolean isInsideTag(float x, float y) {
+		if (mDrawingThread != null) {
+			final double angle = mDrawingThread.getAngle();
+			final double dx = x - mTagCenterX;
+			final double dy = y - mTagCenterY;
+			final double newX = mTagCenterX - dx * Math.cos(angle) - dy * Math.sin(angle);
+			final double newY = mTagCenterX - dx * Math.sin(angle) + dy * Math.cos(angle);
+
+			return mTagDestRect.contains((int) newX, (int) newY);
+		}
+		return false;
 	}
 
 	private void calculateMeasurements() {
@@ -339,6 +385,8 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 		private final static double DEGREES_PER_SECOND = 2 * Math.PI;
 
+		private final static int MAX_ANGULAR_VELOCITY = 150;
+
 		//////////////////////////////////////////////////////////////////////////////
 		// Private members
 
@@ -350,6 +398,9 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 		private double mAngle;
 		private double mAngularVelocity = 0;
+
+		private double mLastAngle;
+		private long mLastTagAngleSetByTouchTime;
 
 		//////////////////////////////////////////////////////////////////////////////
 		// Constructor
@@ -383,6 +434,44 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		//////////////////////////////////////////////////////////////////////////////
 		// Public methods
 
+		public double getAngle() {
+			return mAngle;
+		}
+
+		public void setAngleAndVelocityByTouchPoint(float x, float y) {
+			long now = System.currentTimeMillis();
+			if (mLastTagAngleSetByTouchTime < 0) {
+				mLastTagAngleSetByTouchTime = now;
+			}
+			float delta = (float) (now - mLastTagAngleSetByTouchTime) / 1000f;
+			while (delta < 0.01f) {
+				try {
+					// we need to sleep here if we haven't spend enough time
+					// between calculations. If delta is 0 we'll get a divide
+					// by zero error.
+					sleep(10);
+
+					now = System.currentTimeMillis();
+					delta = (float) (now - mLastTagAngleSetByTouchTime) / 1000f;
+				}
+				catch (InterruptedException e) {
+				}
+			}
+
+			mLastAngle = mAngle;
+			mAngle = Math.atan2(y - mTagCenterY, x - mTagCenterX) - (Math.PI / 2);
+			mAngularVelocity = (mAngle - mLastAngle) / delta;
+
+			if (mAngularVelocity < -MAX_ANGULAR_VELOCITY) {
+				mAngularVelocity = -MAX_ANGULAR_VELOCITY;
+			}
+			else if (mAngularVelocity > MAX_ANGULAR_VELOCITY) {
+				mAngularVelocity = MAX_ANGULAR_VELOCITY;
+			}
+
+			mLastTagAngleSetByTouchTime = now;
+		}
+
 		public void setRunning(boolean run) {
 			mRunning = run;
 		}
@@ -398,7 +487,9 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 				}
 				final float delta = (float) (mNow - mLastDrawTime) / 1000f;
 
-				updatePhysics(delta);
+				if (!mTagGrabbed) {
+					updatePhysics(delta);
+				}
 				draw(canvas);
 
 				mLastDrawTime = mNow;
@@ -469,6 +560,8 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 			final double changeInAngle = mAngularVelocity * delta;
 			mAngle += changeInAngle;
 			mAngle = normalizeAngle(mAngle);
+
+			mLastTagAngleSetByTouchTime = 0;
 		}
 
 		private void draw(Canvas canvas) {
