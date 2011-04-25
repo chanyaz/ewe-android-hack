@@ -35,6 +35,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -48,6 +49,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -838,7 +840,25 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
 
-		// Properties		
+		// Properties
+		
+		//-------------------------------------------------------------------
+		// Note: Eff everything about this. First off, this footer has to be
+		// added to the listview because it's behind a transparent view so it
+		// needs to be padded up. Padding doesn't work like it should so we
+		// we have to do it with a view. You'll notice that instead of
+		// setting the footer's layout params we're adding a view with the
+		// layout params we require. For some reason setting the layout
+		// params of the footer view results in class cast exception. >:-|
+		LinearLayout footer = new LinearLayout(this);
+		footer.addView(
+				new View(this),
+				new LayoutParams(LayoutParams.FILL_PARENT, getResources().getDimensionPixelSize(
+						R.dimen.row_search_suggestion_footer_height)));
+
+		mSearchSuggestionsListView.addFooterView(footer, null, false);
+		//-------------------------------------------------------------------
+
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mPanel.setOnPanelListener(mPanelListener);
 

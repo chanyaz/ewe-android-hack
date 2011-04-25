@@ -12,7 +12,7 @@
 		<shape android:shape="line" android:gravity="top">
 			<stroke
 				android:width="1px"
-				android:color="#FF454544" />
+				android:color="#00454544" />
 		</shape>
 	</item>
 </layer-list>
