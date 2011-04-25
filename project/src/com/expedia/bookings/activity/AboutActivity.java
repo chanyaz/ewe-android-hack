@@ -26,6 +26,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		});
 		addSimpleRow(expediaSection, getString(R.string.expedia_website), new OnClickListener() {
 			public void onClick(View v) {
+
 				// TODO Auto-generated method stub
 			}
 		});
@@ -39,7 +40,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		});
 		addSimpleRow(appSection, getString(R.string.app_support), new OnClickListener() {
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				SocialUtils.openSite(context, getSupportUrl());
 			}
 		});
 		addSimpleRow(appSection, getString(R.string.TellAFriend), new OnClickListener() {
@@ -63,5 +64,9 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 	@Override
 	public boolean useDefaultBehavior() {
 		return false;
+	}
+
+	public String getSupportUrl() {
+		return "http://m.expedia.com/mt/support.expedia.com/app/home/p/532/?rfrr=app.android";
 	}
 }
