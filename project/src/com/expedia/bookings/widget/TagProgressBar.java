@@ -542,19 +542,19 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 			// Apply door friction
 
 			// Get amount of friction by the amount of acceleration on z.
-			double frictionZ = FRICTION_DOOR * z / GRAVITY;
+			double frictionZ = FRICTION_DOOR * z / -GRAVITY;
 			if (frictionZ > 1) {
 				frictionZ = 1;
 			}
 
 			// This applies the friction past a certain threshold of angle and only if the friction is positive (lying on its back).
 			if (frictionZ > 0 && z < THRESH_DOOR_FRICTION_ANGLE) {
-				//mAngularVelocity *= (1 - frictionZ);
+				mAngularVelocity *= (1 - frictionZ);
 			}
 
 			// This sets the velocity to zero if it's on its back far enough and there's not enough velocity to overcome friction.
 			if (z < THRESH_DOOR_FRICTION_ANGLE && mAngularVelocity < 0.05 && mAngularVelocity > -0.05) {
-				//mAngularVelocity = 0;
+				mAngularVelocity = 0;
 			}
 
 			final double changeInAngle = mAngularVelocity * delta;
