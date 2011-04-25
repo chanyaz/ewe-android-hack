@@ -110,7 +110,9 @@ public class HotelAdapter extends BaseAdapter {
 			holder.saleLabel = (TextView) convertView.findViewById(R.id.sale_text_view);
 			holder.name = (TextView) convertView.findViewById(R.id.name_text_view);
 			holder.from = (TextView) convertView.findViewById(R.id.from_text_view);
+			holder.highlyRated = (TextView) convertView.findViewById(R.id.highly_rated_text_view);
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
+			holder.highlyRatedImage = (ImageView) convertView.findViewById(R.id.highly_rated_image_view);
 			holder.hotelRating = (RatingBar) convertView.findViewById(R.id.hotel_rating_bar);
 			holder.distance = (TextView) convertView.findViewById(R.id.distance_text_view);
 			convertView.setTag(holder);
@@ -149,6 +151,16 @@ public class HotelAdapter extends BaseAdapter {
 			ImageCache.getInstance().loadImage(property.getThumbnail().getUrl(), holder.thumbnail);
 		}
 
+		// See if this property is highly rated via TripAdvisor
+		if (property.getTripAdvisorRating() >= 4.5) {
+			holder.highlyRated.setVisibility(View.VISIBLE);
+			holder.highlyRatedImage.setVisibility(View.VISIBLE);
+		}
+		else {
+			holder.highlyRated.setVisibility(View.GONE);
+			holder.highlyRatedImage.setVisibility(View.GONE);
+		}
+
 		return convertView;
 	}
 
@@ -158,7 +170,9 @@ public class HotelAdapter extends BaseAdapter {
 		public TextView saleLabel;
 		public TextView name;
 		public TextView from;
+		public TextView highlyRated;
 		public TextView price;
+		public ImageView highlyRatedImage;
 		public RatingBar hotelRating;
 		public TextView distance;
 	}

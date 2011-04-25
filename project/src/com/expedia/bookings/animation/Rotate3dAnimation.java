@@ -68,7 +68,8 @@ public class Rotate3dAnimation extends Animation {
 	@Override
 	protected void applyTransformation(float interpolatedTime, Transformation t) {
 		final float fromDegrees = mFromDegrees;
-		float degrees = fromDegrees + ((mToDegrees - fromDegrees) * interpolatedTime);
+		final float degrees = fromDegrees + ((mToDegrees - fromDegrees) * interpolatedTime);
+		//final float degrees = (float) ((fromDegrees + ((mToDegrees - fromDegrees) * interpolatedTime)) * 180 / Math.PI);
 
 		final float centerX = mCenterX;
 		final float centerY = mCenterY;
@@ -89,5 +90,10 @@ public class Rotate3dAnimation extends Animation {
 
 		matrix.preTranslate(-centerX, -centerY);
 		matrix.postTranslate(centerX, centerY);
+
+		//		final float s = (float) Math.sin(degrees);
+		//		final float c = (float) Math.cos(degrees);
+		//		final float[] values = new float[] { c, 0, -s, 0, degrees, 0, s, 0, c };
+		//		matrix.setValues(values);
 	}
 }

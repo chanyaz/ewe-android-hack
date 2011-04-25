@@ -103,8 +103,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final long TIME_SWITCH_TO_NETWORK_DELAY = 1000 * 3;
 
 	private static final boolean ANIMATION_VIEW_FLIP_ENABLED = true;
-	private static final int ANIMATION_VIEW_FLIP_SPEED = 200;
-	private static final float ANIMATION_VIEW_FLIP_DEPTH = 250f;
+	private static final int ANIMATION_VIEW_FLIP_SPEED = 400;
+	private static final float ANIMATION_VIEW_FLIP_DEPTH = 300f;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
