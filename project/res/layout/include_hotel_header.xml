@@ -74,8 +74,6 @@
 		android:id="@+id/book_now_button"
 		android:layout_width="100dp"
 		android:layout_height="fill_parent"
-		android:layout_toRightOf="@+id/hotel_name_text_view"
-		android:layout_alignParentRight="true"
 		android:layout_marginTop="4dp"
 		android:layout_marginLeft="6dp"
 		android:textStyle="bold"
