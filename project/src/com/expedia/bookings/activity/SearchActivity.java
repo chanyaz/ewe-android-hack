@@ -16,6 +16,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.location.Location;
@@ -841,8 +842,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mPanel.setOnPanelListener(mPanelListener);
 
-		mAdultsNumberPicker.setRange(1, 4, getResources().getStringArray(R.array.number_adults));
-		mChildrenNumberPicker.setRange(0, 4, getResources().getStringArray(R.array.number_children));
+		Resources res = getResources();
+		String[] adults = new String[4];
+		for (int a = 0; a < 4; a++) {
+			adults[a] = res.getQuantityString(R.plurals.number_of_adults, a + 1, a + 1);
+		}
+		String[] children = new String[5];
+		for (int a = 0; a < 5; a++) {
+			children[a] = res.getQuantityString(R.plurals.number_of_children, a, a);
+		}
+		mAdultsNumberPicker.setRange(1, 4, adults);
+		mChildrenNumberPicker.setRange(0, 4, children);
 
 		Time now = new Time();
 		now.setToNow();
