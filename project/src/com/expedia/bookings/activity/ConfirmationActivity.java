@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONException;
 
@@ -31,6 +32,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.SupportUtils;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -159,6 +161,20 @@ public class ConfirmationActivity extends MapActivity {
 		}
 		else {
 			cancellationPolicyView.setVisibility(View.GONE);
+		}
+
+		// Reservation support contact info
+		TextView contactView = (TextView) findViewById(R.id.contact_text_view);
+		if (Locale.getDefault().getCountry().toUpperCase().equals("CN")) {
+			// Special case for China
+			contactView.setText(getString(R.string.contact_phone_china_template, "10-800712-2608", "10-800120-2608"));
+		}
+		else if (SupportUtils.hasSupportNumber()) {
+			contactView.setText(getString(R.string.contact_phone_template, SupportUtils.getSupportNumber()));
+		}
+		else {
+			contactView.setText(getString(R.string.contact_phone_default_template, "1-800-780-5733",
+					"00-800-11-20-11-40"));
 		}
 
 		//////////////////////////////////////////////////

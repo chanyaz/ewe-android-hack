@@ -3,6 +3,8 @@ package com.expedia.bookings.utils;
 import java.util.HashMap;
 import java.util.Locale;
 
+import com.mobiata.android.Log;
+
 public class SupportUtils {
 
 	// Default is GB's number
@@ -52,6 +54,11 @@ public class SupportUtils {
 
 	public static String getSupportUrl() {
 		return "http://m.expedia.com/mt/support.expedia.com/app/home/p/532/?rfrr=app.android";
+	}
+
+	public static boolean hasSupportNumber() {
+		String countryCode = Locale.getDefault().getCountry().toUpperCase();
+		return SUPPORT_NUMBERS.containsKey(countryCode);
 	}
 
 	public static String getSupportNumber() {

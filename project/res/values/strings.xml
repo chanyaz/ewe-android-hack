@@ -137,7 +137,13 @@
 	<string name="confirmation_email">Confirmation Email</string>
 	<!-- Label for starting a new search -->
 	<string name="new_search">New Search</string>
-	
+	<!-- Contact info for a country with a known support line -->
+	<string name="contact_phone_template">If you have questions about your reservation, please call Expedia.com at %s.</string>
+	<!-- Contact info for China -->
+	<string name="contact_phone_china_template">If you have questions about your reservation, please call Expedia.com at %1$s (CN NetCom) or %2$s (CN Telecom).</string>
+	<!-- Contact info, unknown country -->
+	<string name="contact_phone_default_template">If you have questions about your reservation, please call Expedia.com at %1$s in the US/Canada or %2$s in Europe.</string>
+
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the date ranges (e.g., 3/21 - 3/24) -->
 	<string name="share_subject_template">Expedia Itinerary - %1$s (%2$s - %3$s)</string>
