@@ -54,9 +54,25 @@
 		<include 
 			android:id="@id/drawer_content"
 			layout="@layout/include_drawer_content" />		
-		
 
 	</com.mobiata.android.widget.Panel>
+	
+    <View 
+    	android:id="@+id/dismiss_view"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:visibility="gone"
+    	android:background="@color/dismiss" />
+    	
+    <ListView
+    	android:id="@+id/search_suggestions_list_view"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:layout_below="@id/search_bar_layout"
+    	android:visibility="gone"
+    	android:background="@android:color/white"
+    	android:cacheColorHint="@android:color/white"
+    	android:listSelector="@null" />
 	
 	<include 
 		android:id="@id/search_bar_layout"
@@ -69,25 +85,5 @@
 	<include 
 		android:id="@id/button_bar_layout"
 		layout="@layout/include_button_bar" /> 
-
-    <View 
-    	android:id="@+id/dismiss_view"
-    	android:layout_width="fill_parent"
-    	android:layout_height="fill_parent"
-    	android:layout_below="@id/search_bar_layout"
-    	android:layout_above="@id/button_bar_layout"
-    	android:visibility="gone"
-    	android:background="@color/dismiss" />
-    	
-    <ListView
-    	android:id="@+id/search_suggestions_list_view"
-    	android:layout_width="fill_parent"
-    	android:layout_height="fill_parent"
-    	android:layout_below="@id/search_bar_layout"
-    	android:layout_above="@id/button_bar_layout"
-    	android:visibility="gone"
-    	android:background="@android:color/white"
-    	android:cacheColorHint="@android:color/white"
-    	android:listSelector="@null" />
     		
 </RelativeLayout>
