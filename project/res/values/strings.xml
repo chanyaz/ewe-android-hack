@@ -153,6 +153,16 @@
 	<!-- About activity -->
 	<!-- Label for "contact Expedia" button in info page -->
 	<string name="contact_expedia">Contact Expedia</string>
+	<!-- Contact Expedia via... -->
+	<string name="contact_expedia_via">Contact Expedia Via...</string>
+	<!-- Contact Expedia via phone -->
+	<string name="contact_expedia_phone">Phone</string>
+	<!-- Contact Expedia via email -->
+	<string name="contact_expedia_email">Email</string>
+	<!-- Contact Expedia via email subject -->
+	<string name="contact_expedia_email_subject">Expedia Reservations Support</string>
+	<!-- Contact Expedia via website -->
+	<string name="contact_expedia_website">Website</string>
 	<!-- Label for "Expedia website" button in info page -->
 	<string name="expedia_website">Expedia Website</string>
 	<!-- Label for "app feedback" button in info page -->

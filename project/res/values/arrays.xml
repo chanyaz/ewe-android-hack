@@ -13,4 +13,10 @@
         <item>3 children</item>
         <item>4 children</item>
     </string-array>
+
+    <string-array name="contact_expedia_items">
+    	<item>@string/contact_expedia_email</item>
+    	<item>@string/contact_expedia_website</item>
+    	<item>@string/contact_expedia_phone</item>
+    </string-array>
 </resources>
