@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.Locale;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -26,8 +28,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		});
 		addSimpleRow(expediaSection, getString(R.string.expedia_website), new OnClickListener() {
 			public void onClick(View v) {
-
-				// TODO Auto-generated method stub
+				SocialUtils.openSite(context, getWebsiteUrl());
 			}
 		});
 
@@ -68,5 +69,26 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
 	public String getSupportUrl() {
 		return "http://m.expedia.com/mt/support.expedia.com/app/home/p/532/?rfrr=app.android";
+	}
+
+	public String getWebsiteUrl() {
+		Locale locale = Locale.getDefault();
+		String country = locale.getCountry();
+		if (country.equals("CA")) {
+			return "http://www.expedia.ca/?rfrr=app.android";
+		}
+		else if (country.equals("GB")) {
+			return "http://www.expedia.co.uk/?rfrr=app.android";
+		}
+		else if (country.equals("AU")) {
+			return "http://www.expedia.com.au/?rfrr=app.android";
+		}
+		else if (country.equals("NZ")) {
+			return "http://www.expedia.co.nz/?rfrr=app.android";
+		}
+		else {
+			// Default to US site
+			return "http://www.expedia.com/?rfrr=app.android";
+		}
 	}
 }
