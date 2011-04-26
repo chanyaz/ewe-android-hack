@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import android.R.anim;
 import android.app.ActivityGroup;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -61,6 +60,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.animation.Rotate3dAnimation;
 import com.expedia.bookings.dialog.LocationSuggestionDialog;
 import com.expedia.bookings.model.Search;
+import com.expedia.bookings.tracking.TrackingData;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.TagProgressBar;
 import com.google.android.maps.GeoPoint;
@@ -69,6 +70,7 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
 import com.mobiata.android.widget.NumberPicker;
@@ -86,6 +88,7 @@ import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.StrUtils;
+import com.omniture.AppMeasurement;
 
 @SuppressWarnings("unused")
 public class SearchActivity extends ActivityGroup implements LocationListener {
@@ -243,6 +246,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		onPageLoad();
+
 		setContentView(R.layout.activity_search);
 
 		mLocalActivityManager = getLocalActivityManager();
@@ -1612,6 +1618,57 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				hideRefinementDismissView();
 				hideSearchSuggestions();
 			}
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Omniture tracking
+
+	public void onPageLoad() {
+		// Only send page load when the app just started up - if there's a previous instance, that means
+		// it was just a configuration change.
+		if (getLastNonConfigurationInstance() == null) {
+			Log.d("Tracking \"App.Loading\" event...");
+
+			AppMeasurement s = new AppMeasurement(getApplication());
+
+			TrackingUtils.addStandardFields(this, s);
+
+			s.pageName = "App.Loading";
+
+			// Determine if this is a new install, an upgrade, or just a regular launch
+			TrackingData trackingData = new TrackingData();
+			String trackVersion = null;
+			if (trackingData.load(this)) {
+				trackVersion = trackingData.getVersion();
+			}
+
+			String currentVersion = AndroidUtils.getAppVersion(this);
+
+			boolean save = false;
+			if (trackVersion == null) {
+				// New install
+				s.events = "event28";
+				save = true;
+			}
+			else if (!trackVersion.equals(currentVersion)) {
+				// App was upgraded
+				s.events = "event29";
+				save = true;
+			}
+			else {
+				// Regular launch
+				s.events = "event27";
+			}
+
+			if (save) {
+				// Save new data
+				trackingData.setVersion(currentVersion);
+				trackingData.save(this);
+			}
+
+			// Send the tracking data
+			s.track();
 		}
 	}
 }
