@@ -1356,8 +1356,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
-			Log.t("Result code: %d", resultCode);
-
 			if (resultCode == InputMethodManager.RESULT_HIDDEN) {
 				hideDismissView();
 				hideSearchSuggestions();
