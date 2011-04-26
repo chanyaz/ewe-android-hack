@@ -72,12 +72,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
-	private static final String SAVED_INFO_FILENAME = "booking.dat";
-
-	// Kind of pointless when this is just stored as a static field, but at least protects
-	// against someone getting the plaintext file but not the app itself.
-	private static final String PASSWORD = "7eGeDr4jaD6jut9aha3hAyupAC6ZE9a";
-
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.booking";
 
 	private static final int DIALOG_BOOKING_PROGRESS = 1;
@@ -784,59 +778,20 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	}
 
 	private boolean saveBillingInfo() {
-		Log.d("Saving user's billing info.");
-
-		// Initialize a cipher
-		FileCipher fileCipher = new FileCipher(PASSWORD);
-
-		if (!fileCipher.isInitialized()) {
-			return false;
-		}
-
 		// Gather all the data to be saved
 		syncBillingInfo();
 
-		JSONObject data = mBillingInfo.toJson();
-
-		// Remove sensitive data
-		data.remove("brandName");
-		data.remove("brandCode");
-		data.remove("number");
-		data.remove("securityCode");
-
-		return fileCipher.saveSecureData(getFileStreamPath(SAVED_INFO_FILENAME), data.toString());
+		return mBillingInfo.save(this);
 	}
 
 	private boolean loadSavedBillingInfo() {
-		Log.d("Loading saved billing info.");
-
-		// Check that the saved billing info file exists
-		File f = getFileStreamPath(SAVED_INFO_FILENAME);
-		if (!f.exists()) {
-			return false;
-		}
-
-		// Initialize a cipher
-		FileCipher fileCipher = new FileCipher(PASSWORD);
-		if (!fileCipher.isInitialized()) {
-			return false;
-		}
-
-		String results = fileCipher.loadSecureData(f);
-		if (results == null || results.length() == 0) {
-			return false;
-		}
-
-		try {
-			JSONObject obj = new JSONObject(results);
-			mBillingInfo = new BillingInfo();
-			mBillingInfo.fromJson(obj);
+		BillingInfo tmpInfo = new BillingInfo();
+		if (tmpInfo.load(this)) {
+			mBillingInfo = tmpInfo;
 			return true;
 		}
-		catch (JSONException e) {
-			Log.e("Could not restore saved billing info.", e);
-			return false;
-		}
+
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
