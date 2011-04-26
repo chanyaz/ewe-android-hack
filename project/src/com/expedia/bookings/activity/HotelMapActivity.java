@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 
 import com.expedia.bookings.R;
@@ -18,6 +19,7 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.mobiata.android.Log;
+import com.mobiata.android.MapUtils;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.utils.JSONUtils;
@@ -64,8 +66,12 @@ public class HotelMapActivity extends MapActivity {
 			}
 		});
 
+		// Create the map and add it to the layout
+		MapView mapView = MapUtils.createMapView(this);
+		ViewGroup mapContainer = (ViewGroup) findViewById(R.id.map_layout);
+		mapContainer.addView(mapView);
+
 		// Configure the map
-		MapView mapView = (MapView) findViewById(R.id.map);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(false);
 

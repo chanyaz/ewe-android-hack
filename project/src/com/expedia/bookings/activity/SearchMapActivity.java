@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
@@ -60,8 +61,12 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 		mContext = this;
 
+		// Create the map and add it to the layout
+		mMapView = MapUtils.createMapView(this);
+		ViewGroup mapContainer = (ViewGroup) findViewById(R.id.map_layout);
+		mapContainer.addView(mMapView);
+
 		// Configure the map
-		mMapView = (MapView) findViewById(R.id.map);
 		mMapView.setBuiltInZoomControls(true);
 		mMapView.setSatellite(false);
 
@@ -260,7 +265,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			mParent.switchResultsView();
 		}
 	};
-	
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Private classes
 

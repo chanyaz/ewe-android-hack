@@ -1,39 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-    
-    <!--
-		In order to run this in debug mode, you need to replace the apiKey.
-		Debug apiKey: 0OeGguXEO_X_TAyapIYkZeu9deDDnDfM_e4Affg
-		Release apiKey: 0OeGguXEO_X_x5LTyo4gRT_kO5mQ4ADzQYkZX1A
-	-->
 
-    <com.google.android.maps.MapView
-        android:id="@+id/map"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:clickable="true"
-        android:apiKey="0OeGguXEO_X_TAyapIYkZeu9deDDnDfM_e4Affg" />
-    	
-    <ImageButton
-    	android:id="@+id/map_search_button"
+	<!-- The MapView is added dynamically to this layout -->
+	<LinearLayout
+		android:id="@+id/map_layout"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" />
+
+	<ImageButton
+		android:id="@+id/map_search_button"
 		android:layout_width="@dimen/action_bar_button_height"
 		android:layout_height="@dimen/action_bar_button_height"
-    	android:layout_alignParentBottom="true"
-    	android:layout_alignParentLeft="true"
-    	android:layout_margin="6dp"
-    	android:src="@drawable/btn_search_visible_map_area"
-    	style="@style/Widget.Button.Floating" />
-    	
-    <ImageButton
-    	android:id="@+id/view_button"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentLeft="true"
+		android:layout_margin="6dp"
+		android:src="@drawable/btn_search_visible_map_area"
+		style="@style/Widget.Button.Floating" />
+
+	<ImageButton
+		android:id="@+id/view_button"
 		android:layout_width="@dimen/action_bar_button_height"
 		android:layout_height="@dimen/action_bar_button_height"
-    	android:layout_alignParentBottom="true"
-    	android:layout_alignParentRight="true"
-    	android:layout_margin="6dp"
-    	android:src="@drawable/btn_list"
-    	style="@style/Widget.Button.Floating" />
-		
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true"
+		android:layout_margin="6dp"
+		android:src="@drawable/btn_list"
+		style="@style/Widget.Button.Floating" />
+
 </RelativeLayout>
