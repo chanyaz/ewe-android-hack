@@ -311,7 +311,11 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 			final double newX = mTagCenterX - dx * Math.cos(angle) - dy * Math.sin(angle);
 			final double newY = mTagCenterX - dx * Math.sin(angle) + dy * Math.cos(angle);
 
-			return mTagDestRect.contains((int) newX, (int) newY);
+			final Rect tagRect = new Rect(mTagDestRect);
+			tagRect.top += mOffsetY;
+			tagRect.bottom += mOffsetY;
+
+			return tagRect.contains((int) newX, (int) newY);
 		}
 		return false;
 	}
