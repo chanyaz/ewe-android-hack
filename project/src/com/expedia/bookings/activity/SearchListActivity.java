@@ -108,6 +108,8 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 		mAdapter = new HotelAdapter(this, response);
 		setListAdapter(mAdapter);
+		
+		mScrollBar.setResponse(response);
 	}
 
 	@Override
