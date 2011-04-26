@@ -5,7 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.PorterDuff.Mode;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -25,6 +25,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 	// Constants
 
 	private static final int HEIGHT_INDICATOR_MIN = 24;
+	private static final int HEIGHT_ROW_DIVIDER = 2;
 
 	private static final int PADDING_TOP_INDICATOR = 5;
 	private static final int PADDING_BOTTOM_INDICATOR = 5;
@@ -38,7 +39,6 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 	private Filter mFilter;
 	private Integer[] mCachedMarkerPositions;
 
-	private boolean mDoRedraw;
 	private AbsListView mListView;
 	private AbsListView.OnScrollListener mOnScrollListener;
 
@@ -79,14 +79,23 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		if (mDoRedraw) {
-			doDraw(canvas);
+		// Check if we need to show
+		if (mTotalItemCount < 1) {
+			return;
 		}
+		if (mTotalItemCount < mVisibleItemCount) {
+			return;
+		}
+
+		drawBar(canvas);
+		drawIndicator(canvas);
+		drawTripAdvisorMarkers(canvas);
 	}
 
 	@Override
 	public void onFilterChanged() {
 		checkCachedMarkers();
+		invalidate();
 	}
 
 	@Override
@@ -99,11 +108,12 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		// first item visible in the list, 0-indexed
 		mFirstVisibleItem = firstVisibleItem;
-		//mVisibleItemCount = visibleItemCount;
-		mTotalItemCount = totalItemCount;
 
-		mDoRedraw = true;
+		// subtract 1 to account for 0-indexed items
+		mTotalItemCount = totalItemCount - 1;
+
 		invalidate();
 
 		// Bubble this event
@@ -149,11 +159,6 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private methods
 
-	/**
-	 * Checks that we have the latest set of sorts/filters on the data.  If not, notify
-	 * that the dataset has changed and update the data.  Should be called before
-	 * any method that uses mCachedMarkers.
-	 */
 	public void checkCachedMarkers() {
 		List<Integer> propertyPositions = new ArrayList<Integer>();
 		int i = 0;
@@ -165,22 +170,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 			i++;
 		}
 
-		mCachedMarkerPositions = new Integer[propertyPositions.size()];
-		mCachedMarkerPositions = propertyPositions.toArray(mCachedMarkerPositions);
-	}
-
-	private void doDraw(Canvas canvas) {
-		// Check if we need to show
-		if (mTotalItemCount < 1) {
-			return;
-		}
-		if (mTotalItemCount < mVisibleItemCount) {
-			return;
-		}
-
-		drawBar(canvas);
-		drawIndicator(canvas);
-		drawTripAdvisorMarkers(canvas);
+		mCachedMarkerPositions = propertyPositions.toArray(new Integer[0]);
 	}
 
 	private void drawBar(Canvas canvas) {
@@ -190,8 +180,8 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 
 	private void drawIndicator(Canvas canvas) {
 		// SCROLL OFFSET
-		final int rowHeight = mListView.getChildAt(0).getHeight();
-		final int rowOffset = mListView.getChildAt(0).getTop();
+		final float rowHeight = mListView.getChildAt(0).getHeight() + HEIGHT_ROW_DIVIDER;
+		final float rowOffset = mListView.getChildAt(0).getTop();
 
 		// Calculate this here to get an actual float for smooth scrolling
 		mVisibleItemCount = mHeight / rowHeight;
@@ -207,7 +197,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 		final float adjustedTotalHeight = (mTotalItemCount - mVisibleItemCount) * rowHeight;
 		final float scrollPercent = adjustedPosition / adjustedTotalHeight;
 
-		Log.t("h: %f - p: %f", adjustedTotalHeight, adjustedPosition);
+		Log.t("v: %f - t: %f - f: %f", mVisibleItemCount, mTotalItemCount, mFirstVisibleItem);
 
 		final float left = (mWidth - mMinIndicatorWidth) / 2;
 		final float top = mScrollHeight * scrollPercent + mPaddingTop;
@@ -228,7 +218,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 			final int size = mCachedMarkerPositions.length;
 			for (int i = 0; i < size; i++) {
 				final float top = (int) ((float) mCachedMarkerPositions[i] / mTotalItemCount * mScrollHeight)
-						+ (mIndicatorHeight / 2) + mPaddingTop;
+						+ ((mIndicatorHeight - height) / 2) + mPaddingTop;
 
 				mTripAdvisorMarker.setBounds((int) left, (int) top, (int) right, (int) top + (int) height);
 				mTripAdvisorMarker.draw(canvas);
