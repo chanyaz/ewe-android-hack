@@ -527,6 +527,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		resetFocus();
 		setFilter();
+		
+		mSearchResponse = null;
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
