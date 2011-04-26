@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 import com.expedia.bookings.R;
-import com.mobiata.android.Log;
 
 public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callback, SensorEventListener, OnTouchListener {
 	//////////////////////////////////////////////////////////////////////////////////

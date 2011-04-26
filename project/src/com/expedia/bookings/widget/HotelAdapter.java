@@ -13,11 +13,13 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.mobiata.hotellib.data.Filter;
+import com.mobiata.hotellib.data.Filter.OnFilterChangedListener;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.SearchResponse;
 
-public class HotelAdapter extends BaseAdapter {
+public class HotelAdapter extends BaseAdapter implements OnFilterChangedListener {
 
 	private static final int TYPE_FIRST = 0;
 	private static final int TYPE_NOTFIRST = 1;
@@ -26,6 +28,7 @@ public class HotelAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
 
 	private SearchResponse mSearchResponse;
+	private Filter mFilter;
 
 	private Property[] mCachedProperties;
 
@@ -34,26 +37,20 @@ public class HotelAdapter extends BaseAdapter {
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		mSearchResponse = searchResponse;
+		mFilter = mSearchResponse.getFilter();
+		mFilter.addOnFilterChangedListener(this);
 
 		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
 	}
 
-	/**
-	 * Checks that we have the latest set of sorts/filters on the data.  If not, notify
-	 * that the dataset has changed and update the data.  Should be called before
-	 * any method that uses mCachedProperties.
-	 */
-	public void checkCachedProperties() {
-		if (mSearchResponse.filterChanged()) {
-			mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
-			notifyDataSetChanged();
-		}
+	@Override
+	public void onFilterChanged() {
+		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
+		notifyDataSetChanged();
 	}
 
 	@Override
 	public int getCount() {
-		checkCachedProperties();
-
 		if (mCachedProperties != null) {
 			return mCachedProperties.length;
 		}
@@ -63,7 +60,6 @@ public class HotelAdapter extends BaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
-		checkCachedProperties();
 		return mCachedProperties[position];
 	}
 
@@ -74,7 +70,6 @@ public class HotelAdapter extends BaseAdapter {
 
 	@Override
 	public long getItemId(int position) {
-		checkCachedProperties();
 		return Integer.valueOf(mCachedProperties[position].getPropertyId());
 	}
 
