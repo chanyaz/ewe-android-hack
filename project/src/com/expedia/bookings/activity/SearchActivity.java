@@ -527,11 +527,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		resetFocus();
 		setFilter();
-		
+
 		mSearchResponse = null;
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
+			stopLocationListener();
+
 			setSearchParams();
 			startSearchDownload();
 
@@ -545,12 +547,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
 			mSearchParams.setSearchType(SearchType.MY_LOCATION);
 
-			showLoading(R.string.progress_finding_location);
 			startLocationListener();
 
 			break;
 		}
 		case PROXIMITY: {
+			stopLocationListener();
+
 			mSearchEditText.setText(R.string.visible_map_area);
 			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
 			mSearchParams.setSearchType(SearchType.PROXIMITY);
@@ -1119,6 +1122,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void startLocationListener() {
+		showLoading(R.string.progress_finding_location);
+
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		String provider;
 		if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
