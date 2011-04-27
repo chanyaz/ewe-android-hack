@@ -261,5 +261,8 @@ public class HotelActivity extends Activity {
 		if (position != -1) {
 			s.eVar39 = position + "";
 		}
+
+		// Send the tracking data
+		s.track();
 	}
 }

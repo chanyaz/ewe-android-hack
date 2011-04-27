@@ -1815,6 +1815,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		// Number of search results
 		s.prop1 = mSearchResponse.getFilteredAndSortedProperties().length + "";
+
+		// Send the tracking data
+		s.track();
 	}
 
 	private int getDayDifference(Calendar date1, Calendar date2) {
@@ -1838,6 +1841,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		// Shopper/Confirmer
 		s.eVar25 = s.prop25 = "Shopper";
+
+		// Send the tracking data
+		s.track();
 	}
 
 	private void onSwitchToMap() {
@@ -1851,5 +1857,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		// Shopper/Confirmer
 		s.eVar25 = s.prop25 = "Shopper";
+
+		// Send the tracking data
+		s.track();
 	}
 }
