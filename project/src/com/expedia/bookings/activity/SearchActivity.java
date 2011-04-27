@@ -463,7 +463,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchListeners = new ArrayList<SearchListener>();
 		}
 
-		mSearchListeners.add(searchListener);
+		if (!mSearchListeners.contains(searchListener)) {
+			mSearchListeners.add(searchListener);
+		}
 	}
 
 	public SearchParams getSearchParams() {
@@ -1122,8 +1124,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		showLoading(R.string.progress_searching_hotels);
 		mSearchDownloader.cancelDownload(KEY_SEARCH);
 		mSearchDownloader.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
-
-		ImageCache.getInstance().recycleCache(true);
 	}
 
 	// Location methods
