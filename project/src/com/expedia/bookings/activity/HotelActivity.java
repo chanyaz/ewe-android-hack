@@ -7,6 +7,7 @@ import org.json.JSONException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
@@ -40,6 +41,10 @@ public class HotelActivity extends Activity {
 	private Property mProperty;
 
 	private int mImageToLoad;
+
+	private int mNumAmenities;
+
+	private int mMaxAmenities;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +146,12 @@ public class HotelActivity extends Activity {
 
 		// Amenities
 		ViewGroup amenitiesContainer = (ViewGroup) findViewById(R.id.amenities_table_row);
+		
+		// #6762 - This is a quick hack for 1.0.  In later versions, we'll show an unlimited # of 
+		// amenities, so we won't need to do such a limit.
+		mNumAmenities = 0;
+		mMaxAmenities = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ? 4 : 5;
+
 		// We have to do these manually as multiple amenities can lead to the same icon.
 		if (property.hasAmenity(Amenity.POOL) || property.hasAmenity(Amenity.POOL_INDOOR)
 				|| property.hasAmenity(Amenity.POOL_OUTDOOR)) {
@@ -185,15 +196,19 @@ public class HotelActivity extends Activity {
 	}
 
 	public void addAmenity(ViewGroup amenitiesTable, int iconResourceId, int strResourceId) {
-		View amenityLayout = getLayoutInflater().inflate(R.layout.snippet_amenity, amenitiesTable, false);
+		if (mNumAmenities < mMaxAmenities) {
+			View amenityLayout = getLayoutInflater().inflate(R.layout.snippet_amenity, amenitiesTable, false);
 
-		ImageView amenityIcon = (ImageView) amenityLayout.findViewById(R.id.icon_text_view);
-		amenityIcon.setImageResource(iconResourceId);
+			ImageView amenityIcon = (ImageView) amenityLayout.findViewById(R.id.icon_text_view);
+			amenityIcon.setImageResource(iconResourceId);
 
-		TextView amenityName = (TextView) amenityLayout.findViewById(R.id.name_text_view);
-		amenityName.setText(strResourceId);
+			TextView amenityName = (TextView) amenityLayout.findViewById(R.id.name_text_view);
+			amenityName.setText(strResourceId);
 
-		amenitiesTable.addView(amenityLayout);
+			amenitiesTable.addView(amenityLayout);
+
+			mNumAmenities++;
+		}
 	}
 
 	public void startRoomRatesActivity() {
