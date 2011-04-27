@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -64,6 +65,7 @@ import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.CurrencyUtils;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
+import com.omniture.AppMeasurement;
 
 public class BookingInfoActivity extends Activity implements Download, OnDownloadComplete {
 
@@ -253,6 +255,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			}
 
 			mFormHasBeenFocused = false;
+
+			onPageLoad();
 		}
 	}
 
@@ -800,6 +804,27 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		}
 
 		return false;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Omniture tracking
+
+	public void onPageLoad() {
+		Log.d("Tracking \"App.Hotels.Checkout.Payment\" event");
+
+		AppMeasurement s = new AppMeasurement(getApplication());
+
+		TrackingUtils.addStandardFields(this, s);
+
+		s.pageName = "App.Hotels.Checkout.Payment";
+
+		s.events = "event34";
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+
+		// Send the tracking data
+		s.track();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
