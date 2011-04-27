@@ -79,6 +79,7 @@ import com.mobiata.android.widget.SegmentedControlGroup;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.Filter;
 import com.mobiata.hotellib.data.Filter.PriceRange;
+import com.mobiata.hotellib.data.Filter.Rating;
 import com.mobiata.hotellib.data.Filter.SearchRadius;
 import com.mobiata.hotellib.data.Filter.Sort;
 import com.mobiata.hotellib.data.PriceTier;
@@ -175,9 +176,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private MapViewListener mMapViewListener;
 
 	private SearchParams mSearchParams;
+	private SearchParams mOldSearchParams;
 	private Session mSession;
 	private SearchResponse mSearchResponse;
 	private Filter mFilter;
+	private Filter mOldFilter;
 	private boolean mLocationListenerStarted;
 	private boolean mIsSearching;
 
@@ -191,10 +194,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Canvas mViewFlipCanvas;
 
 	private LocationSuggestionDialog mLocationSuggestionDialog;
-
-	// Tracking info
-
-	private boolean mFirstSearch;
 
 	// Threads / callbacks
 
@@ -263,13 +262,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mHandler = state.handler;
 			mSearchListeners = state.searchListeners;
 			mSearchParams = state.searchParams;
+			mOldSearchParams = state.oldSearchParams;
 			mSearchResponse = state.searchResponse;
 			mSession = state.session;
 			mFilter = state.filter;
+			mOldFilter = state.oldFilter;
 			mSearchSuggestionAdapter = state.searchSuggestionAdapter;
 			mIsSearching = state.isSearching;
 			mSearchDownloader = state.searchDownloader;
-			mFirstSearch = state.firstSearch;
 
 			setActivity(SearchMapActivity.class);
 			setActivity(SearchListActivity.class);
@@ -291,8 +291,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			setActivity(SearchMapActivity.class);
 			setActivity(SearchListActivity.class);
-			mFirstSearch = true;
-
 			startSearch();
 		}
 
@@ -330,13 +328,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.tag = mTag;
 		state.searchListeners = mSearchListeners;
 		state.searchParams = mSearchParams;
+		state.oldSearchParams = mOldSearchParams;
 		state.searchResponse = mSearchResponse;
 		state.session = mSession;
 		state.filter = mFilter;
+		state.oldFilter = mOldFilter;
 		state.searchSuggestionAdapter = mSearchSuggestionAdapter;
 		state.isSearching = mIsSearching;
 		state.searchDownloader = mSearchDownloader;
-		state.firstSearch = mFirstSearch;
 
 		return state;
 	}
@@ -724,7 +723,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 		}
 
-		onSearchComplete();
+		onSearchResultsChanged();
 	}
 
 	// Show/hide soft keyboard
@@ -1573,6 +1572,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				}
 			});
 			mPanelDismissView.startAnimation(animation);
+
+			onSearchResultsChanged();
 		}
 	};
 
@@ -1610,13 +1611,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public String tag;
 		public List<SearchListener> searchListeners;
 		public SearchParams searchParams;
+		public SearchParams oldSearchParams;
 		public SearchResponse searchResponse;
 		public Session session;
 		public Filter filter;
+		public Filter oldFilter;
 		public SearchSuggestionAdapter searchSuggestionAdapter;
 		public Boolean isSearching;
 		public BackgroundDownloader searchDownloader;
-		public boolean firstSearch;
 	}
 
 	private class SoftKeyResultReceiver extends ResultReceiver {
@@ -1684,20 +1686,108 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	private void onSearchComplete() {
+	private void onSearchResultsChanged() {
+		// If we already have results, check for refinements; if there were none, it's possible
+		// that the user just opened/closed a search param change without changing anything.
+		// 
+		// This is a somewhat lazy way of doing things, but it is easiest and catches a bunch
+		// of refinements at once instead of flooding the system with a ton of different refinements
+		String refinementsStr = null;
+		if (mOldFilter != null && mOldSearchParams != null) {
+			List<String> refinements = new ArrayList<String>();
+
+			// Sort change
+			if (mOldFilter.getSort() != mFilter.getSort()) {
+				if (mFilter.getSort() == Sort.POPULAR) {
+					refinements.add("App.Hotels.Search.Sort.Popular");
+				}
+				else {
+					refinements.add("App.Hotels.Search.Sort.Price");
+				}
+			}
+
+			// Number of travelers change
+			if (mSearchParams.getNumAdults() != mOldSearchParams.getNumAdults()
+					|| mSearchParams.getNumChildren() != mSearchParams.getNumChildren()) {
+				refinements.add("App.Hotels.Search.Refine.NumberTravelers");
+			}
+
+			// Location change
+			// Checks that the search type is the same, or else that a search of a particular type hasn't
+			// been modified (e.g., freeform text changing on a freeform search)
+			boolean refinedLocation = false;
+			if (mSearchParams.getSearchType() != mOldSearchParams.getSearchType()
+					|| (mSearchParams.getSearchType() == SearchType.FREEFORM && !mSearchParams.getFreeformLocation()
+							.equals(mOldSearchParams.getFreeformLocation()))
+					|| ((mSearchParams.getSearchType() == SearchType.MY_LOCATION || mSearchParams.getSearchType() == SearchType.PROXIMITY)
+									&& (mSearchParams.getSearchLatitude() != mOldSearchParams.getSearchLatitude() || mSearchParams
+											.getSearchLongitude() != mOldSearchParams.getSearchLongitude()))) {
+				refinements.add("App.Hotels.Search.Refine.Location");
+			}
+
+			// Checkin date change
+			if (!mSearchParams.getCheckInDate().equals(mOldSearchParams.getCheckInDate())) {
+				refinements.add("App.Hotels.Search.Refine.CheckinDate");
+			}
+
+			// Checkout date change
+			if (!mSearchParams.getCheckOutDate().equals(mOldSearchParams.getCheckOutDate())) {
+				refinements.add("App.Hotels.Search.Refine.CheckoutDate");
+			}
+
+			// Search radius change
+			if (mFilter.getSearchRadius() != mOldFilter.getSearchRadius()) {
+				refinements.add("App.Hotels.Search.Refine.SearchRadius");
+			}
+
+			// Price range change
+			if (mFilter.getPriceRange() != mOldFilter.getPriceRange()) {
+				refinements.add("App.Hotels.Search.Refine.PriceRange");
+			}
+
+			// Rating filter change
+			if (mFilter.getRating() != mOldFilter.getRating()) {
+				if (mFilter.getRating() == Rating.HIGHLY_RATED) {
+					refinements.add("App.Hotels.Search.Refine.ShowHighlyRatedHotels");
+				}
+				else {
+					refinements.add("App.Hotels.Search.Refine.ShowAllHotels");
+				}
+			}
+
+			int numRefinements = refinements.size();
+			if (numRefinements == 0) {
+				return;
+			}
+
+			StringBuilder sb = new StringBuilder();
+			for (int a = 0; a < numRefinements; a++) {
+				if (a != 0) {
+					sb.append("|");
+				}
+				sb.append(refinements.get(a));
+			}
+			refinementsStr = sb.toString();
+		}
+
+		// Update the last filter/search params we used to track refinements 
+		mOldSearchParams = mSearchParams.copy();
+		mOldFilter = mFilter.copy();
+
+		// Start actually tracking the search result change
 		Log.d("Tracking \"App.Hotels.Search\" event...");
 
 		AppMeasurement s = new AppMeasurement(getApplication());
 
+		TrackingUtils.addStandardFields(this, s);
+
 		s.pageName = "App.Hotels.Search";
 
 		// Whether this was the first search or a refined search
-		s.events = (mFirstSearch) ? "event30" : "event31";
-		mFirstSearch = false;
+		s.events = (refinementsStr != null && refinementsStr.length() > 0) ? "event31" : "event30";
 
-		// Refinement 
-		// TODO: Fill this in with the type of refinement made, if this was not the first search 
-		// s.eVar28 = s.prop16 = "?";
+		// Refinement  
+		s.eVar28 = s.prop16 = refinementsStr;
 
 		// LOB Search
 		s.eVar2 = s.prop2 = "hotels";
@@ -1708,8 +1798,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		// Check in/check out date
 		// TODO: Add this once we know the date format desired
-		s.eVar5 = s.prop5 = "?";
-		s.eVar6 = s.prop16 = "?";
+		// s.eVar5 = s.prop5 = "?";
+		// s.eVar6 = s.prop16 = "?";
 
 		// Shopper/Confirmer
 		s.eVar25 = s.prop25 = "Shopper";
@@ -1721,6 +1811,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		s.eVar48 = mSearchParams.getFreeformLocation();
 
 		// Number of search results
-		s.prop1 = mSearchResponse.getPropertiesCount() + "";
+		s.prop1 = mSearchResponse.getFilteredAndSortedProperties().length + "";
 	}
 }
