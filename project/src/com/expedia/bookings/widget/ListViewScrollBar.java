@@ -83,12 +83,12 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 
 	public ListViewScrollBar(Context context) {
 		super(context);
-		init(context);
+		init();
 	}
 
 	public ListViewScrollBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init(context);
+		init();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -152,9 +152,25 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 		mWidth = width;
 		mHeight = height;
 
-		final int padding = (int) (PADDING_TOUCH * mScaledDensity);
-		Rect bounds = new Rect(-padding, -padding, (int) mWidth + padding, (int) mHeight + padding);
-		setTouchDelegate(new TouchDelegate(bounds, this));
+		final View delegate = this;
+		final View parent = (View) delegate.getParent();
+		parent.post(new Runnable() {
+			// Post in the parent's message queue to make sure the parent
+			// lays out its children before we call getHitRect()
+			@Override
+			public void run() {
+				final int padding = (int) (PADDING_TOUCH * mScaledDensity);
+				final Rect bounds = new Rect();
+				delegate.getHitRect(bounds);
+				bounds.top -= padding;
+				bounds.left -= padding;
+				bounds.right += padding;
+				bounds.bottom += padding;
+				parent.setTouchDelegate(new TouchDelegate(bounds, delegate));
+			}
+		});
+
+		setOnTouchListener(this);
 
 		mIndicatorPaddingTop = PADDING_TOP_INDICATOR * mScaledDensity;
 		mIndicatorPaddingBottom = PADDING_BOTTOM_INDICATOR * mScaledDensity;
@@ -285,9 +301,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 		}
 	}
 
-	private void init(Context context) {
-		setOnTouchListener(this);
-
+	private void init() {
 		mBarDrawable = getResources().getDrawable(R.drawable.scroll_bar);
 		mIndicatorDrawable = getResources().getDrawable(R.drawable.scroll_indicator);
 		mTripAdvisorMarker = getResources().getDrawable(R.drawable.scroll_trip_advisor_marker);
