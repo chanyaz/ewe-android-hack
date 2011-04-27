@@ -110,7 +110,7 @@ public class HotelMapActivity extends MapActivity {
 	// Omniture tracking
 
 	public void onPageLoad() {
-		Log.i("Tracking \"App.Hotels.Infosite.Map\" event");
+		Log.d("Tracking \"App.Hotels.Infosite.Map\" event");
 
 		AppMeasurement s = new AppMeasurement(getApplication());
 

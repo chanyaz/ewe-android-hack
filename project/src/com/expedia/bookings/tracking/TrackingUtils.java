@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.telephony.TelephonyManager;
 
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.hotellib.data.BillingInfo;
 import com.mobiata.hotellib.data.Property;
@@ -100,6 +99,10 @@ public class TrackingUtils {
 		}
 
 		s.products = "Hotel; " + supplier + " Hotel:" + property.getPropertyId();
+	}
+
+	public static void addHotelRating(AppMeasurement s, Property property) {
+		s.prop38 = (property.isHighlyRated()) ? "highly rated" : property.getTripAdvisorRating() + "";
 	}
 
 	private static String md5(String s) {

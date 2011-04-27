@@ -9,8 +9,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.Log;
 import com.mobiata.android.app.AsyncLoadListActivity;
 import com.mobiata.hotellib.data.AvailabilityResponse;
 import com.mobiata.hotellib.data.Codes;
@@ -21,6 +23,7 @@ import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
+import com.omniture.AppMeasurement;
 
 public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
@@ -61,6 +64,10 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 		RatingBar hotelRating = (RatingBar) findViewById(R.id.hotel_rating_bar);
 		hotelRating.setRating((float) property.getHotelRating());
+
+		if (savedInstanceState == null) {
+			onPageLoad();
+		}
 	}
 
 	@Override
@@ -105,5 +112,33 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		mAdapter = new RoomsAndRatesAdapter(this, response.getRates());
 
 		setListAdapter(mAdapter);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Omniture tracking
+
+	public void onPageLoad() {
+		Log.d("Tracking \"App.Hotels.RoomsRates\" event");
+
+		AppMeasurement s = new AppMeasurement(getApplication());
+
+		TrackingUtils.addStandardFields(this, s);
+
+		s.pageName = "App.Hotels.RoomsRates";
+
+		// Promo description
+		s.eVar9 = mProperty.getLowestRate().getPromoDescription();
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+
+		// Rating or highly rated
+		TrackingUtils.addHotelRating(s, mProperty);
+
+		// Products
+		TrackingUtils.addProducts(s, mProperty);
+
+		// Send the tracking data
+		s.track();
 	}
 }

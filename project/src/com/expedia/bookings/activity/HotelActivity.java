@@ -237,7 +237,7 @@ public class HotelActivity extends Activity {
 	// Omniture tracking
 
 	public void onPageLoad() {
-		Log.i("Tracking \"App.Hotels.Infosite\" event");
+		Log.d("Tracking \"App.Hotels.Infosite\" event");
 
 		AppMeasurement s = new AppMeasurement(getApplication());
 
@@ -251,7 +251,7 @@ public class HotelActivity extends Activity {
 		s.eVar25 = s.prop25 = "Shopper";
 
 		// Rating or highly rated
-		s.prop38 = (mProperty.isHighlyRated()) ? "highly rated" : mProperty.getTripAdvisorRating() + "";
+		TrackingUtils.addHotelRating(s, mProperty);
 
 		// Products
 		TrackingUtils.addProducts(s, mProperty);
