@@ -1,6 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -39,7 +38,6 @@ import com.expedia.bookings.R;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.FileCipher;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
@@ -523,8 +521,18 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				}
 
 				syncBillingInfo();
-				boolean valid = mValidationProcessor.validate(mErrorHandler);
-				if (valid) {
+
+				List<ValidationError> errors = mValidationProcessor.validate();
+				if (errors.size() > 0) {
+					for (ValidationError error : errors) {
+						mErrorHandler.handleError(error);
+					}
+
+					// Request focus on the first field that was invalid
+					View firstErrorView = (View) errors.get(0).getObject();
+					firstErrorView.requestFocus();
+				}
+				else {
 					showDialog(DIALOG_BOOKING_PROGRESS);
 					BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, activity, activity);
 				}
