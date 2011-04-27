@@ -1550,6 +1550,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				}
 			});
 			mPanelDismissView.startAnimation(animation);
+
+			onOpenFilterPanel();
 		}
 
 		@Override
@@ -1821,5 +1823,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				date2.get(Calendar.DAY_OF_MONTH));
 
 		return Math.round((date1Rounded.getTimeInMillis() - date2Rounded.getTimeInMillis()) / (1000 * 60 * 60 * 24));
+	}
+
+	private void onOpenFilterPanel() {
+		Log.d("Tracking \"App.Hotels.Search.Refine\" event...");
+
+		AppMeasurement s = new AppMeasurement(getApplication());
+
+		TrackingUtils.addStandardFields(this, s);
+
+		s.pageName = "App.Hotels.Search.Refine";
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
 	}
 }
