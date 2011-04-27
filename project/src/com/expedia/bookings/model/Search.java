@@ -21,12 +21,16 @@ public class Search extends ActiveRecordBase<Search> {
 	public Search(Context context, SearchParams searchParams) {
 		super(context);
 
+		mDestinationId = searchParams.getDestinationId();
 		mFreeformLocation = searchParams.getFreeformLocation().trim();
 		mCheckInDate = searchParams.getCheckInDate();
 		mCheckOutDate = searchParams.getCheckOutDate();
 		mNumAdults = searchParams.getNumAdults();
 		mNumChildren = searchParams.getNumChildren();
 	}
+
+	@Column(name = "DestinationId")
+	private String mDestinationId;
 
 	@Column(name = "FreeFormLocation")
 	private String mFreeformLocation;
@@ -46,6 +50,7 @@ public class Search extends ActiveRecordBase<Search> {
 	public SearchParams getSearchParams() {
 		SearchParams searchParams = new SearchParams();
 		searchParams.setSearchType(SearchType.FREEFORM);
+		searchParams.setDestinationId(mDestinationId);
 		searchParams.setFreeformLocation(mFreeformLocation);
 		searchParams.setCheckInDate(mCheckInDate);
 		searchParams.setCheckOutDate(mCheckOutDate);

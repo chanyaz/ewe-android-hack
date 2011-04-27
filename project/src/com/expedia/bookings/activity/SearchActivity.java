@@ -308,12 +308,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		return state;
 	}
 
+	// Dialogs
+
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case DIALOG_LOCATION_SUGGESTIONS: {
 			final List<com.mobiata.hotellib.data.Location> locations = mSearchResponse.getLocations();
-			int size = locations.size();
+			final int size = locations.size();
 			final CharSequence[] freeformLocations = new CharSequence[mSearchResponse.getLocations().size()];
 			for (int a = 0; a < size; a++) {
 				freeformLocations[a] = StrUtils.formatAddressCity(locations.get(a));
@@ -323,8 +325,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			builder.setTitle(R.string.ChooseLocation);
 			builder.setItems(freeformLocations, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					mSearchEditText.setText(freeformLocations[which].toString());
-					mSearchParams.setDestinationId(locations.get(which).getDestinationId());
+					com.mobiata.hotellib.data.Location location = locations.get(which);
+					mSearchEditText.setText(StrUtils.formatAddress(location));
+					mSearchParams.setDestinationId(location.getDestinationId());
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearch();
 				}
