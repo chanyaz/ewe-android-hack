@@ -3,30 +3,33 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
-	android:padding="6dp"
-	android:orientation="horizontal"
+	android:paddingTop="6dp"
+	android:paddingLeft="6dp"
+	android:paddingRight="6dp"
+	android:paddingBottom="4dp"
+	android:orientation="vertical"
 	android:background="@drawable/bg_header">
-	<RelativeLayout
-		android:layout_width="wrap_content"
+	<TextView
+		android:id="@+id/name_text_view"
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_weight="1">
-		<TextView
-			android:id="@+id/name_text_view"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:layout_alignParentTop="true"
-			android:singleLine="true"
-			android:ellipsize="end"
-			android:textColor="#E1E1E1"
-			android:textSize="18sp"
-			android:textStyle="bold" />
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:singleLine="true"
+		android:ellipsize="end"
+		android:textColor="#E1E1E1"
+		android:textSize="18sp"
+		android:textStyle="bold" />
+
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center_vertical"
+		android:orientation="horizontal">
 		<LinearLayout
 			android:id="@+id/hotel_rating_layout"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_below="@+id/name_text_view"
-			android:layout_alignLeft="@+id/name_text_view"
 			android:orientation="vertical">
 			<TextView
 				android:id="@+id/hotel_rating_text_view"
@@ -47,10 +50,8 @@
 			android:id="@+id/trip_advisor_layout"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_toRightOf="@+id/hotel_rating_layout"
-			android:layout_alignTop="@+id/hotel_rating_layout"
-			android:layout_alignBottom="@+id/hotel_rating_layout"
 			android:layout_marginLeft="14dp"
+			android:layout_weight="1"
 			android:orientation="vertical">
 			<TextView
 				android:id="@+id/trip_advisor_text_view"
@@ -69,14 +70,16 @@
 				android:isIndicator="true"
 				style="@style/Widget.RatingBar.Small.TripAdvisor" />
 		</LinearLayout>
-	</RelativeLayout>
-	<Button
-		android:id="@+id/book_now_button"
-		android:layout_width="100dp"
-		android:layout_height="fill_parent"
-		android:layout_marginTop="4dp"
-		android:layout_marginLeft="6dp"
-		android:textStyle="bold"
-		android:text="@string/book_now"
-		style="@style/Widget.Button.Orange" />
+
+		<Button
+			android:id="@+id/book_now_button"
+			android:layout_width="100dp"
+			android:layout_height="38dp"
+			android:layout_marginTop="2dp"
+			android:layout_marginLeft="6dp"
+			android:layout_gravity="center_vertical|right"
+			android:textStyle="bold"
+			android:text="@string/book_now"
+			style="@style/Widget.Button.Orange" />
+	</LinearLayout>
 </LinearLayout>
