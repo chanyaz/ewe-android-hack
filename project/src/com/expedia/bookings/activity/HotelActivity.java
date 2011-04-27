@@ -38,6 +38,9 @@ import com.omniture.AppMeasurement;
 
 public class HotelActivity extends Activity {
 
+	// This is the position in the list that the hotel had when the user clicked on it 
+	public static final String EXTRA_POSITION = "EXTRA_POSITION";
+
 	private Context mContext;
 
 	private Property mProperty;
@@ -252,5 +255,11 @@ public class HotelActivity extends Activity {
 
 		// Products
 		TrackingUtils.addProducts(s, mProperty);
+
+		// Position, if opened from list
+		int position = getIntent().getIntExtra(EXTRA_POSITION, -1);
+		if (position != -1) {
+			s.eVar39 = position + "";
+		}
 	}
 }
