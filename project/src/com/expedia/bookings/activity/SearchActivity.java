@@ -192,6 +192,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private LocationSuggestionDialog mLocationSuggestionDialog;
 
+	// Tracking info
+
+	private boolean mFirstSearch;
+
 	// Threads / callbacks
 
 	private BackgroundDownloader mSearchDownloader = BackgroundDownloader.getInstance();
@@ -265,6 +269,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchSuggestionAdapter = state.searchSuggestionAdapter;
 			mIsSearching = state.isSearching;
 			mSearchDownloader = state.searchDownloader;
+			mFirstSearch = state.firstSearch;
 
 			setActivity(SearchMapActivity.class);
 			setActivity(SearchListActivity.class);
@@ -286,6 +291,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			setActivity(SearchMapActivity.class);
 			setActivity(SearchListActivity.class);
+			mFirstSearch = true;
+
+			startSearch();
 		}
 
 		// Load both activites
@@ -328,6 +336,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.searchSuggestionAdapter = mSearchSuggestionAdapter;
 		state.isSearching = mIsSearching;
 		state.searchDownloader = mSearchDownloader;
+		state.firstSearch = mFirstSearch;
 
 		return state;
 	}
@@ -714,6 +723,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				searchListener.onSearchCompleted(searchResponse);
 			}
 		}
+
+		onSearchComplete();
 	}
 
 	// Show/hide soft keyboard
@@ -1605,6 +1616,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public SearchSuggestionAdapter searchSuggestionAdapter;
 		public Boolean isSearching;
 		public BackgroundDownloader searchDownloader;
+		public boolean firstSearch;
 	}
 
 	private class SoftKeyResultReceiver extends ResultReceiver {
@@ -1670,5 +1682,45 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			// Send the tracking data
 			s.track();
 		}
+	}
+
+	private void onSearchComplete() {
+		Log.d("Tracking \"App.Hotels.Search\" event...");
+
+		AppMeasurement s = new AppMeasurement(getApplication());
+
+		s.pageName = "App.Hotels.Search";
+
+		// Whether this was the first search or a refined search
+		s.events = (mFirstSearch) ? "event30" : "event31";
+		mFirstSearch = false;
+
+		// Refinement 
+		// TODO: Fill this in with the type of refinement made, if this was not the first search 
+		// s.eVar28 = s.prop16 = "?";
+
+		// LOB Search
+		s.eVar2 = s.prop2 = "hotels";
+
+		// Region
+		// TODO: Add this once they figure out the format
+		// s.eVar4 = s.prop4 = "?";
+
+		// Check in/check out date
+		// TODO: Add this once we know the date format desired
+		s.eVar5 = s.prop5 = "?";
+		s.eVar6 = s.prop16 = "?";
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+
+		// Number adults searched for
+		s.eVar47 = mSearchParams.getNumAdults() + "";
+
+		// Freeform location
+		s.eVar48 = mSearchParams.getFreeformLocation();
+
+		// Number of search results
+		s.prop1 = mSearchResponse.getPropertiesCount() + "";
 	}
 }
