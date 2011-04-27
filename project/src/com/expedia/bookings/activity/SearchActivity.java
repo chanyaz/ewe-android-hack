@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.app.ActivityGroup;
@@ -1797,9 +1798,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		// s.eVar4 = s.prop4 = "?";
 
 		// Check in/check out date
-		// TODO: Add this once we know the date format desired
-		// s.eVar5 = s.prop5 = "?";
-		// s.eVar6 = s.prop16 = "?";
+		s.eVar5 = s.prop5 = getDayDifference(mSearchParams.getCheckInDate(), Calendar.getInstance()) + "";
+		s.eVar6 = s.prop16 = getDayDifference(mSearchParams.getCheckOutDate(), mSearchParams.getCheckInDate()) + "";
 
 		// Shopper/Confirmer
 		s.eVar25 = s.prop25 = "Shopper";
@@ -1812,5 +1812,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		// Number of search results
 		s.prop1 = mSearchResponse.getFilteredAndSortedProperties().length + "";
+	}
+
+	private int getDayDifference(Calendar date1, Calendar date2) {
+		// Round the calendars so that they are zero'd in on a day
+		Calendar date1Rounded = new GregorianCalendar(date1.get(Calendar.YEAR), date1.get(Calendar.MONTH),
+				date1.get(Calendar.DAY_OF_MONTH));
+		Calendar date2Rounded = new GregorianCalendar(date2.get(Calendar.YEAR), date2.get(Calendar.MONTH),
+				date2.get(Calendar.DAY_OF_MONTH));
+
+		return Math.round((date1Rounded.getTimeInMillis() - date2Rounded.getTimeInMillis()) / (1000 * 60 * 60 * 24));
 	}
 }
