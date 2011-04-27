@@ -1168,10 +1168,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
-				Log.t("Search EditText focus received.");
-				Log.t("SearchType: %s", mSearchParams.getSearchType());
+				Log.t("Search EditText received focus.");
 				if (mSearchParams.getSearchType() != SearchType.FREEFORM) {
-					mSearchEditText.setText("");
+					mSearchEditText.setText(null);
 					mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
 				}
 				else {
@@ -1185,7 +1184,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 			}
 			else {
-				Log.t("Search EditText focus lost.");
 				hideSearchSuggestions();
 				hideButtonBar();
 				hideSoftKeyboard(mSearchEditText);
@@ -1198,6 +1196,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+				mSearchParams.setSearchType(SearchType.FREEFORM);
+				mSearchParams.setFreeformLocation(mSearchEditText.getText().toString());
+
 				startSearch();
 				hideSoftKeyboard(v);
 				hideDismissView();
@@ -1221,15 +1222,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final View.OnClickListener mSearchEditTextClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			//			if (mSearchParams.getSearchType() != SearchType.FREEFORM) {
-			//				mSearchEditText.setText("");
-			//			}
-			//			else {
-			//				mSearchEditText.selectAll();
-			//			}
-
-			Log.t("Search EditText clicked.");
-
 			hideDatesLayout();
 			hideGuestsLayout();
 			showDismissView();
@@ -1267,6 +1259,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			mSearchParams.setSearchType(SearchType.FREEFORM);
+			mSearchParams.setFreeformLocation(mSearchEditText.getText().toString());
+
 			resetFocus();
 			startSearch();
 		}
