@@ -23,6 +23,11 @@ public class TrackingUtils {
 		Calendar now = Calendar.getInstance();
 		Date gmt = new Date(now.getTimeInMillis() - now.getTimeZone().getOffset(now.getTimeInMillis()));
 
+		// Add debugging flag if not release
+		if (!AndroidUtils.isRelease(context)) {
+			s.debugTracking = true;
+		}
+
 		// account
 		s.account = (AndroidUtils.isRelease(context)) ? "expedia1androidcom" : "expedia1androidcomdev";
 
