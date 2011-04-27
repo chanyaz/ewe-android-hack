@@ -45,6 +45,7 @@ public class Search extends ActiveRecordBase<Search> {
 
 	public SearchParams getSearchParams() {
 		SearchParams searchParams = new SearchParams();
+		searchParams.setSearchType(SearchType.FREEFORM);
 		searchParams.setFreeformLocation(mFreeformLocation);
 		searchParams.setCheckInDate(mCheckInDate);
 		searchParams.setCheckOutDate(mCheckOutDate);
