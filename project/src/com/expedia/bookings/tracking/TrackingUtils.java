@@ -11,8 +11,10 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.telephony.TelephonyManager;
 
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.hotellib.data.BillingInfo;
+import com.mobiata.hotellib.data.Property;
 import com.omniture.AppMeasurement;
 
 public class TrackingUtils {
@@ -71,6 +73,28 @@ public class TrackingUtils {
 			s.prop39 = "undefined";
 			break;
 		}
+	}
+
+	// The "products" field uses this format:
+	// Hotel;<supplier> Hotel:<hotel id>
+	public static void addProducts(AppMeasurement s, Property property) {
+		// Determine supplier type
+		String supplierType = property.getSupplierType();
+		String supplier = null;
+		if (supplierType.equals("E")) {
+			supplier = "Merchant";
+		}
+		else if (supplierType.equals("S")) {
+			supplier = "Sabre";
+		}
+		else if (supplierType.equals("W")) {
+			supplier = "Worldspan";
+		}
+		else {
+			supplier = "Unknown";
+		}
+
+		s.products = "Hotel; " + supplier + " Hotel:" + property.getPropertyId();
 	}
 
 	private static String md5(String s) {

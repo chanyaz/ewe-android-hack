@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.ImageAdapter;
 import com.mobiata.android.ImageCache;
@@ -33,6 +34,7 @@ import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Property.Amenity;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.utils.JSONUtils;
+import com.omniture.AppMeasurement;
 
 public class HotelActivity extends Activity {
 
@@ -146,7 +148,7 @@ public class HotelActivity extends Activity {
 
 		// Amenities
 		ViewGroup amenitiesContainer = (ViewGroup) findViewById(R.id.amenities_table_row);
-		
+
 		// #6762 - This is a quick hack for 1.0.  In later versions, we'll show an unlimited # of 
 		// amenities, so we won't need to do such a limit.
 		mNumAmenities = 0;
@@ -177,6 +179,11 @@ public class HotelActivity extends Activity {
 			TextView descriptionView = (TextView) findViewById(R.id.description_text_view);
 			descriptionView.setText(Html.fromHtml(description.replace("&gt;", ">").replace("&lt;", "<")));
 		}
+
+		// Tracking
+		if (getLastNonConfigurationInstance() == null) {
+			onPageLoad();
+		}
 	}
 
 	@Override
@@ -193,6 +200,12 @@ public class HotelActivity extends Activity {
 				cache.removeImage(imageUrl, true);
 			}
 		}
+	}
+
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		// Just return something, so we know that all that happened was an orientation change
+		return true;
 	}
 
 	public void addAmenity(ViewGroup amenitiesTable, int iconResourceId, int strResourceId) {
@@ -215,5 +228,29 @@ public class HotelActivity extends Activity {
 		Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
 		roomsRatesIntent.fillIn(getIntent(), 0);
 		startActivity(roomsRatesIntent);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Omniture tracking
+
+	public void onPageLoad() {
+		Log.i("Tracking \"App.Hotels.Infosite\" event");
+
+		AppMeasurement s = new AppMeasurement(getApplication());
+
+		TrackingUtils.addStandardFields(this, s);
+
+		s.pageName = "App.Hotels.Infosite";
+
+		s.events = "event32";
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+
+		// Rating or highly rated
+		s.prop38 = (mProperty.isHighlyRated()) ? "highly rated" : mProperty.getTripAdvisorRating() + "";
+
+		// Products
+		TrackingUtils.addProducts(s, mProperty);
 	}
 }
