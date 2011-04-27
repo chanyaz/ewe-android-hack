@@ -241,6 +241,10 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 	private void drawTripAdvisorMarkers(Canvas canvas) {
 		if (mCachedMarkerPositions != null) {
 			final int size = mCachedMarkerPositions.length;
+			if (size == mTotalItemCount) {
+				return;
+			}
+
 			for (int i = 0; i < size; i++) {
 				final float markerPercent = (float) mCachedMarkerPositions[i] / (mTotalItemCount - 1);
 				final float top = (mMarkerRangeHeight * markerPercent) - (mMarkerHeight / 2) + mIndicatorPaddingTop
