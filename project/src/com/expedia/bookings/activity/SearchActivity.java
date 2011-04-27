@@ -605,6 +605,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				animationOut = new Rotate3dAnimation(0, -90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
 				animationIn = new Rotate3dAnimation(90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
 			}
+
+			onSwitchToMap();
 		}
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
 			newActivityClass = SearchListActivity.class;
@@ -1833,6 +1835,19 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		TrackingUtils.addStandardFields(this, s);
 
 		s.pageName = "App.Hotels.Search.Refine";
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+	}
+
+	private void onSwitchToMap() {
+		Log.d("Tracking \"App.Hotels.Search.Map\" event...");
+
+		AppMeasurement s = new AppMeasurement(getApplication());
+
+		TrackingUtils.addStandardFields(this, s);
+
+		s.pageName = "App.Hotels.Search.Map";
 
 		// Shopper/Confirmer
 		s.eVar25 = s.prop25 = "Shopper";
