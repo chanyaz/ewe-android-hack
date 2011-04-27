@@ -263,10 +263,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		else {
 			mSearchParams = new SearchParams();
-			mSearchParams.setSearchType(SearchType.MY_LOCATION);
 			mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
-
-			startSearch();
 		}
 
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
@@ -286,7 +283,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		super.onResume();
 
 		if (!mIsSearching && mSearchResponse == null) {
-			startLocationListener();
+			mSearchParams = new SearchParams();
+			mSearchParams.setSearchType(SearchType.MY_LOCATION);
+			startSearch();
 		}
 	}
 
@@ -400,9 +399,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 
 			if (mSearchEditText.hasFocus() && mButtonBarIsVisible) {
-				hideButtonBar();
-				hideDismissView();
-				hideSearchSuggestions();
+				resetFocus();
 				return true;
 			}
 
@@ -884,7 +881,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		// Listeners
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
-		mSearchEditText.addTextChangedListener(mSearchEditTextWatcher);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
 		mDatesButton.setOnClickListener(mDatesButtonClickListener);
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
@@ -911,6 +907,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		hideDatesLayout();
 		hideGuestsLayout();
 		hideButtonBar();
+		hideSearchSuggestions();
 	}
 
 	private void setActivityByTag(String tag) {
@@ -1171,8 +1168,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
+				Log.t("Search EditText focus received.");
+				Log.t("SearchType: %s", mSearchParams.getSearchType());
 				if (mSearchParams.getSearchType() != SearchType.FREEFORM) {
 					mSearchEditText.setText("");
+					mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
 				}
 				else {
 					mSearchEditText.selectAll();
@@ -1185,27 +1185,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 			}
 			else {
+				Log.t("Search EditText focus lost.");
 				hideSearchSuggestions();
 				hideButtonBar();
 				hideSoftKeyboard(mSearchEditText);
 				setSearchViews(mSearchParams);
 			}
-		}
-	};
-
-	private final TextWatcher mSearchEditTextWatcher = new TextWatcher() {
-		@Override
-		public void afterTextChanged(Editable s) {
-		}
-
-		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		}
-
-		@Override
-		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
-			mSearchParams.setSearchType(SearchType.FREEFORM);
 		}
 	};
 
@@ -1236,12 +1221,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final View.OnClickListener mSearchEditTextClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if (mSearchParams.getSearchType() != SearchType.FREEFORM) {
-				mSearchEditText.setText("");
-			}
-			else {
-				mSearchEditText.selectAll();
-			}
+			//			if (mSearchParams.getSearchType() != SearchType.FREEFORM) {
+			//				mSearchEditText.setText("");
+			//			}
+			//			else {
+			//				mSearchEditText.selectAll();
+			//			}
+
+			Log.t("Search EditText clicked.");
 
 			hideDatesLayout();
 			hideGuestsLayout();
