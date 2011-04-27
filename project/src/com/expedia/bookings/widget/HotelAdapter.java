@@ -147,7 +147,7 @@ public class HotelAdapter extends BaseAdapter implements OnFilterChangedListener
 		}
 
 		// See if this property is highly rated via TripAdvisor
-		if (property.getTripAdvisorRating() >= 4.5) {
+		if (property.isHighlyRated()) {
 			holder.highlyRated.setVisibility(View.VISIBLE);
 			holder.highlyRatedImage.setVisibility(View.VISIBLE);
 		}
