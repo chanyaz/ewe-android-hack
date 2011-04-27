@@ -83,8 +83,7 @@
 				android:singleLine="true"
 				android:ellipsize="end"
 				android:textColor="#E1E1E1"
-				android:textSize="16sp"
-				android:text="Honololu, HI" />
+				android:textSize="16sp" />
 		</LinearLayout>
 	</RelativeLayout>
 	<Button

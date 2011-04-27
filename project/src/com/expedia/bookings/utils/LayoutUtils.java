@@ -30,6 +30,8 @@ public class LayoutUtils {
 		hotelRating.setRating((float) property.getHotelRating());
 		RatingBar tripAdvisorRating = (RatingBar) activity.findViewById(R.id.trip_advisor_rating_bar);
 		tripAdvisorRating.setRating((float) property.getTripAdvisorRating());
+		TextView location = (TextView) activity.findViewById(R.id.location_text_view);
+		location.setText(StrUtils.formatAddress(property.getLocation(), StrUtils.F_CITY + StrUtils.F_STATE_CODE));
 
 		Button bookButton = (Button) activity.findViewById(R.id.book_now_button);
 		bookButton.setOnClickListener(onBookNowClick);

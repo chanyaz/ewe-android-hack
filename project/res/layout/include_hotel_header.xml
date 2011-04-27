@@ -82,4 +82,12 @@
 			android:text="@string/book_now"
 			style="@style/Widget.Button.Orange" />
 	</LinearLayout>
+
+	<!-- This is here just to make compatibility easier between this and the landscape layout
+		but it is always invisible. -->
+	<TextView
+		android:id="@+id/location_text_view"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:visibility="gone" />
 </LinearLayout>
