@@ -41,7 +41,6 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 	private float mScaledDensity;
 
 	private SearchResponse mSearchResponse;
-	private Filter mFilter;
 	private Integer[] mCachedMarkerPositions;
 
 	private AbsListView mListView;
@@ -221,12 +220,16 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 		mOnScrollListener = onScrollListener;
 	}
 
-	public void setResponse(SearchResponse response) {
+	public void setSearchResponse(SearchResponse response) {
+		if (mSearchResponse != null) {
+			mSearchResponse.getFilter().removeOnFilterChangedListener(mSearchResponse);
+		}
+
 		mSearchResponse = response;
-		mFilter = mSearchResponse.getFilter();
-		mFilter.addOnFilterChangedListener(this);
+		mSearchResponse.getFilter().addOnFilterChangedListener(this);
 
 		checkCachedMarkers();
+		invalidate();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
