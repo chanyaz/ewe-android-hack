@@ -1171,7 +1171,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
-				Log.t("Search EditText received focus.");
 				if (mSearchParams.getSearchType() != SearchType.FREEFORM) {
 					mSearchEditText.setText(null);
 					mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
@@ -1200,6 +1199,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 				mSearchParams.setSearchType(SearchType.FREEFORM);
+				mSearchParams.setDestinationId(null);
 				mSearchParams.setFreeformLocation(mSearchEditText.getText().toString());
 
 				startSearch();
@@ -1263,6 +1263,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onClick(View v) {
 			mSearchParams.setSearchType(SearchType.FREEFORM);
+			mSearchParams.setDestinationId(null);
 			mSearchParams.setFreeformLocation(mSearchEditText.getText().toString());
 
 			resetFocus();

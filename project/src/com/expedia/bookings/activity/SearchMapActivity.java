@@ -252,6 +252,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			SearchParams searchParams = mParent.getSearchParams();
 
 			searchParams.setSearchType(SearchType.PROXIMITY);
+			searchParams.setDestinationId(null);
 
 			mParent.setSearchParams(searchParams);
 			mParent.setSearchParams(MapUtils.getLatitiude(center), MapUtils.getLongitiude(center));
