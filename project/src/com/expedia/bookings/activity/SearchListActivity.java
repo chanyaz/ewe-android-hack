@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.ListViewScrollBar;
+import com.mobiata.android.Log;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
@@ -26,6 +27,7 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 	private SearchActivity mParent;
 	private HotelAdapter mAdapter;
+	private SearchResponse mSearchResponse;
 
 	private ListViewScrollBar mScrollBar;
 	private ImageButton mViewButton;
@@ -41,11 +43,10 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		setContentView(R.layout.activity_search_list);
 
 		mParent = (SearchActivity) getParent();
-		mParent.addSearchListener(this);
-
 		mScrollBar = (ListViewScrollBar) findViewById(R.id.scroll_bar);
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
 
+		mParent.addSearchListener(this);
 		mScrollBar.setListView(getListView());
 		mScrollBar.setOnScrollListener(this);
 		mViewButton.setOnClickListener(mViewButtonClickListener);
@@ -53,9 +54,14 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
 			mAdapter = state.adapter;
+			mSearchResponse = state.searchResponse;
 
 			if (mAdapter != null) {
 				setListAdapter(mAdapter);
+			}
+
+			if (mSearchResponse != null) {
+				mScrollBar.setSearchResponse(mSearchResponse);
 			}
 		}
 	}
@@ -64,6 +70,7 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	public Object onRetainNonConfigurationInstance() {
 		ActivityState state = new ActivityState();
 		state.adapter = mAdapter;
+		state.searchResponse = mSearchResponse;
 
 		return state;
 	}
@@ -79,6 +86,15 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		intent.putExtra(Codes.SEARCH_PARAMS, mParent.getSearchParams().toString());
 		intent.putExtra(Codes.SESSION, mParent.getSession().toJson().toString());
 		startActivity(intent);
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		mIsScrolling = (scrollState != SCROLL_STATE_IDLE);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -106,10 +122,12 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 			return;
 		}
 
-		mAdapter = new HotelAdapter(this, response);
+		mSearchResponse = response;
+
+		mAdapter = new HotelAdapter(this, mSearchResponse);
 		setListAdapter(mAdapter);
-		
-		mScrollBar.setResponse(response);
+
+		mScrollBar.setSearchResponse(mSearchResponse);
 	}
 
 	@Override
@@ -143,14 +161,6 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 	private class ActivityState {
 		public HotelAdapter adapter;
-	}
-
-	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-	}
-
-	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		mIsScrolling = (scrollState != SCROLL_STATE_IDLE);
+		public SearchResponse searchResponse;
 	}
 }
