@@ -525,6 +525,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		hideDismissView();
 		hideSoftKeyboard(mSearchEditText);
 
+		setSearchViews(mSearchParams);
+
 		resetFocus();
 		setFilter();
 
@@ -533,7 +535,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
 			stopLocationListener();
-
 			setSearchParams();
 			startSearchDownload();
 
@@ -543,20 +544,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		}
 		case MY_LOCATION: {
-			mSearchEditText.setText(R.string.current_location);
-			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
-			mSearchParams.setSearchType(SearchType.MY_LOCATION);
-
 			startLocationListener();
 
 			break;
 		}
 		case PROXIMITY: {
 			stopLocationListener();
-
-			mSearchEditText.setText(R.string.visible_map_area);
-			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
-			mSearchParams.setSearchType(SearchType.PROXIMITY);
 			startSearchDownload();
 
 			break;
@@ -1039,7 +1032,25 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void setSearchViews(SearchParams searchParams) {
-		mSearchEditText.setText(searchParams.getFreeformLocation());
+		switch (mSearchParams.getSearchType()) {
+		case FREEFORM: {
+			mSearchEditText.setText(searchParams.getFreeformLocation());
+			break;
+		}
+		case MY_LOCATION: {
+			mSearchEditText.setText(R.string.current_location);
+			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
+			break;
+		}
+		case PROXIMITY: {
+			stopLocationListener();
+
+			mSearchEditText.setText(R.string.visible_map_area);
+			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
+			break;
+		}
+		}
+
 		mAdultsNumberPicker.setCurrent(searchParams.getNumAdults());
 		mChildrenNumberPicker.setCurrent(searchParams.getNumChildren());
 	}
@@ -1160,18 +1171,24 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
+				if (mSearchParams.getSearchType() != SearchType.FREEFORM) {
+					mSearchEditText.setText("");
+				}
+				else {
+					mSearchEditText.selectAll();
+				}
+
 				hideDatesLayout();
 				hideGuestsLayout();
 				showSearchSuggestions();
 				showButtonBar();
 				showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
-
-				mSearchEditText.selectAll();
 			}
 			else {
 				hideSearchSuggestions();
 				hideButtonBar();
 				hideSoftKeyboard(mSearchEditText);
+				setSearchViews(mSearchParams);
 			}
 		}
 	};
@@ -1219,6 +1236,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final View.OnClickListener mSearchEditTextClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			if (mSearchParams.getSearchType() != SearchType.FREEFORM) {
+				mSearchEditText.setText("");
+			}
+			else {
+				mSearchEditText.selectAll();
+			}
+
 			hideDatesLayout();
 			hideGuestsLayout();
 			showDismissView();
