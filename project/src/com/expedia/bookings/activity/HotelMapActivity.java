@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -24,6 +25,7 @@ import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.widget.HotelItemizedOverlay;
+import com.omniture.AppMeasurement;
 
 public class HotelMapActivity extends MapActivity {
 
@@ -87,10 +89,42 @@ public class HotelMapActivity extends MapActivity {
 		mc.setZoom(15);
 
 		hotelOverlay.onTap(0); // Open the popup initially
+
+		if (getLastNonConfigurationInstance() == null) {
+			onPageLoad();
+		}
+	}
+
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		// Just return something, so we know that all that happened was an orientation change
+		return true;
 	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Omniture tracking
+
+	public void onPageLoad() {
+		Log.i("Tracking \"App.Hotels.Infosite.Map\" event");
+
+		AppMeasurement s = new AppMeasurement(getApplication());
+
+		TrackingUtils.addStandardFields(this, s);
+
+		s.pageName = "App.Hotels.Infosite.Map";
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+
+		// Products
+		TrackingUtils.addProducts(s, mProperty);
+
+		// Send the tracking data
+		s.track();
 	}
 }
