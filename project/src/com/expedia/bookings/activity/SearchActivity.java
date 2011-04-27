@@ -1794,8 +1794,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		s.eVar2 = s.prop2 = "hotels";
 
 		// Region
-		// TODO: Add this once they figure out the format
-		// s.eVar4 = s.prop4 = "?";
+		s.eVar4 = s.prop4 = mSearchParams.getSearchLatitude() + "|" + mSearchParams.getSearchLongitude();
 
 		// Check in/check out date
 		s.eVar5 = s.prop5 = getDayDifference(mSearchParams.getCheckInDate(), Calendar.getInstance()) + "";
