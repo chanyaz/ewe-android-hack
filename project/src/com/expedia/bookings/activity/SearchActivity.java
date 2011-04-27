@@ -268,8 +268,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
 
-		setBookingInfoText();
 		setDrawerViews();
+		setSearchViews();
 	}
 
 	@Override
@@ -488,6 +488,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		else {
 			mSearchParams.setFreeformLocation(mSearchEditText.getText().toString().trim());
+			mSearchParams.setDestinationId(null);
 		}
 
 		Calendar startCalendar = Calendar.getInstance();
@@ -518,19 +519,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	public void startSearch() {
-		hideDatesLayout();
-		hideGuestsLayout();
-		hideSearchSuggestions();
-		hideButtonBar();
-		hideDismissView();
-		hideSoftKeyboard(mSearchEditText);
-
-		setSearchViews(mSearchParams);
-
-		resetFocus();
 		setFilter();
-
-		mSearchResponse = null;
+		setSearchViews();
+		resetFocus();
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
@@ -555,8 +546,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		}
 		}
-
-		setBookingInfoText();
 	}
 
 	public void switchResultsView() {
@@ -907,6 +896,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mFocusLayout.requestFocus();
 
 		hideSoftKeyboard(mSearchEditText);
+		hideDismissView();
 		hideDatesLayout();
 		hideGuestsLayout();
 		hideButtonBar();
@@ -1031,10 +1021,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	private void setSearchViews(SearchParams searchParams) {
+	private void setSearchViews() {
+		if (mSearchParams == null) {
+			mSearchParams = new SearchParams();
+		}
+
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
-			mSearchEditText.setText(searchParams.getFreeformLocation());
+			mSearchEditText.setText(mSearchParams.getFreeformLocation());
 			break;
 		}
 		case MY_LOCATION: {
@@ -1051,8 +1045,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		}
 
-		mAdultsNumberPicker.setCurrent(searchParams.getNumAdults());
-		mChildrenNumberPicker.setCurrent(searchParams.getNumChildren());
+		mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
+		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
+
+		setBookingInfoText();
 	}
 
 	// Searching methods
@@ -1114,6 +1110,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		}
 		}
+	}
+
+	private void startFreeFormLocationSearch() {
+		mSearchParams.setSearchType(SearchType.FREEFORM);
+		mSearchParams.setFreeformLocation(mSearchEditText.getText().toString().trim());
+		startSearch();
 	}
 
 	private void startSearchDownload() {
@@ -1189,7 +1191,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				hideSearchSuggestions();
 				hideButtonBar();
 				hideSoftKeyboard(mSearchEditText);
-				setSearchViews(mSearchParams);
+				setSearchViews();
 			}
 		}
 	};
@@ -1198,13 +1200,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-				mSearchParams.setSearchType(SearchType.FREEFORM);
-				mSearchParams.setDestinationId(null);
-				mSearchParams.setFreeformLocation(mSearchEditText.getText().toString());
-
-				startSearch();
-				hideSoftKeyboard(v);
-				hideDismissView();
+				startFreeFormLocationSearch();
 
 				return true;
 			}
@@ -1262,12 +1258,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			mSearchParams.setSearchType(SearchType.FREEFORM);
-			mSearchParams.setDestinationId(null);
-			mSearchParams.setFreeformLocation(mSearchEditText.getText().toString());
-
-			resetFocus();
-			startSearch();
+			startFreeFormLocationSearch();
 		}
 	};
 
@@ -1298,8 +1289,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				startSearch();
 			}
 			else {
-				mSearchParams = (SearchParams) mSearchSuggestionAdapter.getItem(position);
-				setSearchViews(mSearchParams);
+				setSearchParams((SearchParams) mSearchSuggestionAdapter.getItem(position));
 				startSearch();
 			}
 		}
