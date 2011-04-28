@@ -65,8 +65,16 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
 		// Section about some of our other apps
 		ViewGroup otherAppsSection = addSection(getString(R.string.travel_smart));
-		addAppAbout(otherAppsSection, APP_FLIGHTTRACK, 0);
-		addAppAbout(otherAppsSection, APP_FLIGHTBOARD, 0);
+		addAppAbout(otherAppsSection, APP_FLIGHTTRACK, 0, new OnClickListener() {
+			public void onClick(View v) {
+				onFlightTrackLink();
+			}
+		});
+		addAppAbout(otherAppsSection, APP_FLIGHTBOARD, 0, new OnClickListener() {
+			public void onClick(View v) {
+				onFlightBoardLink();
+			}
+		});
 
 		// Tracking
 		if (savedInstanceState == null) {
@@ -140,16 +148,26 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
 	public void onCallSupport() {
 		Log.d("Tracking \"call support\" onClick");
-		TrackingUtils.trackSimpleEvent(this, null, "event35", "Shopper", "App.Info.CallSupport");
+		TrackingUtils.trackSimpleEvent(this, null, "event35", null, "App.Info.CallSupport");
 	}
 
 	public void onEmailSupport() {
 		Log.d("Tracking \"email support\" onClick");
-		TrackingUtils.trackSimpleEvent(this, null, "event36", "Shopper", "App.Info.EmailSupport");
+		TrackingUtils.trackSimpleEvent(this, null, "event36", null, "App.Info.EmailSupport");
 	}
 
 	public void onTellAFriend() {
 		Log.d("Tracking \"tell a friend\" onClick");
-		TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", "App.Info.TellAFriend");
+		TrackingUtils.trackSimpleEvent(this, null, null, null, "App.Info.TellAFriend");
+	}
+
+	public void onFlightTrackLink() {
+		Log.d("Tracking \"flighttrack\" onClick");
+		TrackingUtils.trackSimpleEvent(this, null, null, null, "App.Link.FlightTrack");
+	}
+
+	public void onFlightBoardLink() {
+		Log.d("Tracking \"flightboard\" onClick");
+		TrackingUtils.trackSimpleEvent(this, null, null, null, "App.Link.FlightBoard");
 	}
 }
