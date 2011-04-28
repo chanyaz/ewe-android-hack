@@ -128,7 +128,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private TextView mPriceRangeTextView;
 	private SegmentedControlGroup mPriceButtonGroup;
 
-	private View mDismissView;
+	private View mRefinementDismissView;
 	private ListView mSearchSuggestionsListView;
 
 	private View mDatesLayout;
@@ -226,19 +226,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
 
-		initializeViews();
-
-		// Load both activites
 		mLocalActivityManager = getLocalActivityManager();
-		setActivity(SearchMapActivity.class);
-		setActivity(SearchListActivity.class);
+		initializeViews();
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
 			mHandler = state.handler;
-			mTag = state.tag;
-			mIntent = state.intent;
-			mLaunchedView = state.launchedView;
 			mSearchListeners = state.searchListeners;
 			mSearchParams = state.searchParams;
 			mSearchResponse = state.searchResponse;
@@ -248,8 +241,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mIsSearching = state.isSearching;
 			mSearchDownloader = state.searchDownloader;
 
-			if (mTag != null) {
-				setActivityByTag(mTag);
+			setActivity(SearchMapActivity.class);
+			setActivity(SearchListActivity.class);
+			if (state.tag != null) {
+				setActivityByTag(state.tag);
 			}
 
 			if (mSearchResponse != null) {
@@ -263,12 +258,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		else {
 			mSearchParams = new SearchParams();
 			mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
+
+			setActivity(SearchMapActivity.class);
+			setActivity(SearchListActivity.class);
 		}
+
+		// Load both activites
 
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
 
 		setDrawerViews();
-		setSearchViews();
+		setSearchEditViews();
 	}
 
 	@Override
@@ -293,8 +293,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		ActivityState state = new ActivityState();
 		state.handler = mHandler;
 		state.tag = mTag;
-		state.intent = mIntent;
-		state.launchedView = mLaunchedView;
 		state.searchListeners = mSearchListeners;
 		state.searchParams = mSearchParams;
 		state.searchResponse = mSearchResponse;
@@ -388,14 +386,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
 			if (mDatesLayoutIsVisible) {
 				hideDatesLayout();
-				hideDismissView();
+				hideRefinementDismissView();
 				hideButtonBar();
 				return true;
 			}
 
 			if (mGuestsLayoutIsVisible) {
 				hideGuestsLayout();
-				hideDismissView();
+				hideRefinementDismissView();
 				hideButtonBar();
 				return true;
 			}
@@ -419,7 +417,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	public void onLocationChanged(Location location) {
 		setSearchParams(location.getLatitude(), location.getLongitude());
-		startSearchDownload();
+		startSearchDownloader();
 
 		stopLocationListener();
 	}
@@ -520,15 +518,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	public void startSearch() {
-		setFilter();
-		setSearchViews();
+		buildFilter();
+		setSearchEditViews();
 		resetFocus();
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
 			stopLocationListener();
 			setSearchParams();
-			startSearchDownload();
+			startSearchDownloader();
 
 			Search.add(this, mSearchParams);
 			mSearchSuggestionAdapter.refreshData();
@@ -542,7 +540,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		case PROXIMITY: {
 			stopLocationListener();
-			startSearchDownload();
+			startSearchDownloader();
 
 			break;
 		}
@@ -684,7 +682,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private void hideSoftKeyboard(TextView v) {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-		hideDismissView();
+		hideRefinementDismissView();
 	}
 
 	private void showSoftKeyboard(View view) {
@@ -719,8 +717,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mDatesLayout.setVisibility(View.GONE);
 	}
 
-	private void hideDismissView() {
-		mDismissView.setVisibility(View.GONE);
+	private void hideRefinementDismissView() {
+		mRefinementDismissView.setVisibility(View.GONE);
 	}
 
 	private void hideGuestsLayout() {
@@ -756,7 +754,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void showDismissView() {
-		mDismissView.setVisibility(View.VISIBLE);
+		mRefinementDismissView.setVisibility(View.VISIBLE);
 	}
 
 	private void showGuestsLayout() {
@@ -816,7 +814,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mPriceRangeTextView = (TextView) findViewById(R.id.price_range_text_view);
 		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
 
-		mDismissView = findViewById(R.id.dismiss_view);
+		mRefinementDismissView = findViewById(R.id.dismiss_view);
 		mSearchSuggestionsListView = (ListView) findViewById(R.id.search_suggestions_list_view);
 
 		mDatesLayout = findViewById(R.id.dates_layout);
@@ -882,7 +880,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 
-		mDismissView.setOnClickListener(mDismissViewClickListener);
+		mRefinementDismissView.setOnClickListener(mDismissViewClickListener);
 		mSearchSuggestionsListView.setOnItemClickListener(mSearchSuggestionsItemClickListner);
 
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
@@ -897,7 +895,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mFocusLayout.requestFocus();
 
 		hideSoftKeyboard(mSearchEditText);
-		hideDismissView();
+		hideRefinementDismissView();
 		hideDatesLayout();
 		hideGuestsLayout();
 		hideButtonBar();
@@ -1022,7 +1020,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	private void setSearchViews() {
+	private void setSearchEditViews() {
 		if (mSearchParams == null) {
 			mSearchParams = new SearchParams();
 		}
@@ -1054,7 +1052,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	// Searching methods
 
-	private void setFilter() {
+	private void buildFilter() {
 		if (mFilter == null) {
 			mFilter = new Filter();
 		}
@@ -1119,7 +1117,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		startSearch();
 	}
 
-	private void startSearchDownload() {
+	private void startSearchDownloader() {
 		showLoading(R.string.progress_searching_hotels);
 		mSearchDownloader.cancelDownload(KEY_SEARCH);
 		mSearchDownloader.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
@@ -1190,7 +1188,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				hideSearchSuggestions();
 				hideButtonBar();
 				hideSoftKeyboard(mSearchEditText);
-				setSearchViews();
+				setSearchEditViews();
 			}
 		}
 	};
@@ -1234,7 +1232,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final RadioGroup.OnCheckedChangeListener mFilterButtonGroupCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			setFilter();
+			buildFilter();
 			setPriceRangeText();
 			mPanel.setOpen(false, true);
 		}
@@ -1273,7 +1271,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			hideSoftKeyboard(mSearchEditText);
 			hideDatesLayout();
 			hideGuestsLayout();
-			hideDismissView();
+			hideRefinementDismissView();
 		}
 	};
 
@@ -1359,8 +1357,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private class ActivityState {
 		public Handler handler;
 		public String tag;
-		public Intent intent;
-		public View launchedView;
 		public List<SearchListener> searchListeners;
 		public SearchParams searchParams;
 		public SearchResponse searchResponse;
@@ -1379,7 +1375,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
 			if (resultCode == InputMethodManager.RESULT_HIDDEN) {
-				hideDismissView();
+				hideRefinementDismissView();
 				hideSearchSuggestions();
 			}
 		}
