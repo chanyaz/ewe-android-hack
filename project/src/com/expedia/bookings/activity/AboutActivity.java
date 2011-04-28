@@ -56,6 +56,8 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		});
 		addSimpleRow(appSection, getString(R.string.TellAFriend), new OnClickListener() {
 			public void onClick(View v) {
+				onTellAFriend();
+
 				SocialUtils.email(mContext, getString(R.string.tell_a_friend_subject),
 						getString(R.string.tell_a_friend_body));
 			}
@@ -144,5 +146,10 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 	public void onEmailSupport() {
 		Log.d("Tracking \"email support\" onClick");
 		TrackingUtils.trackSimpleEvent(this, null, "event36", "Shopper", "App.Info.EmailSupport");
+	}
+
+	public void onTellAFriend() {
+		Log.d("Tracking \"tell a friend\" onClick");
+		TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", "App.Info.TellAFriend");
 	}
 }
