@@ -85,6 +85,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 					switch (which) {
 					case 0:
 						// Email
+						onEmailSupport();
 						SocialUtils.email(mContext, "support@expedia.com",
 								getString(R.string.contact_expedia_email_subject), null);
 						break;
@@ -138,5 +139,10 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 	public void onCallSupport() {
 		Log.d("Tracking \"call support\" onClick");
 		TrackingUtils.trackSimpleEvent(this, null, "event35", "Shopper", "App.Info.CallSupport");
+	}
+
+	public void onEmailSupport() {
+		Log.d("Tracking \"email support\" onClick");
+		TrackingUtils.trackSimpleEvent(this, null, "event36", "Shopper", "App.Info.EmailSupport");
 	}
 }
