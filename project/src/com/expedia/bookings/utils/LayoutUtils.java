@@ -22,7 +22,7 @@ import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.utils.StrUtils;
 
 public class LayoutUtils {
-	
+
 	public static void configureHeader(Activity activity, Property property, OnClickListener onBookNowClick) {
 		TextView name = (TextView) activity.findViewById(R.id.name_text_view);
 		name.setText(property.getName());
@@ -49,10 +49,10 @@ public class LayoutUtils {
 		String end = medDf.format(searchParams.getCheckOutDate().getTime());
 		int numDays = (int) Math.round((searchParams.getCheckOutDate().getTimeInMillis() - searchParams
 				.getCheckInDate().getTimeInMillis()) / (1000 * 60 * 60 * 24));
-		String numNights = (numDays == 1) ? context.getString(R.string.stay_duration_one_night) : context.getString(
-				R.string.stay_duration_template, numDays);
 		addDetail(context, detailsLayout, R.string.CheckIn, start);
-		addDetail(context, detailsLayout, R.string.CheckOut, end + "\n" + numNights);
+		addDetail(context, detailsLayout, R.string.CheckOut, end);
+		addDetail(context, detailsLayout, R.string.stay_duration,
+				context.getResources().getQuantityString(R.plurals.length_of_stay, numDays, numDays));
 
 		// If there's a breakdown list, show that; otherwise, show the nightly mRate
 		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(context);
