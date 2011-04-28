@@ -37,10 +37,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -61,9 +62,7 @@ import com.expedia.bookings.dialog.LocationSuggestionDialog;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.TagProgressBar;
-import com.google.android.maps.GeoPoint;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.MapUtils;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
@@ -105,7 +104,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final long TIME_SWITCH_TO_NETWORK_DELAY = 1000 * 3;
 
 	private static final boolean ANIMATION_VIEW_FLIP_ENABLED = true;
-	private static final int ANIMATION_VIEW_FLIP_SPEED = 400;
+	private static final int ANIMATION_VIEW_FLIP_SPEED = 350;
 	private static final float ANIMATION_VIEW_FLIP_DEPTH = 300f;
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -598,10 +597,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mContent.setVisibility(View.INVISIBLE);
 			setActivity(nextActivityClass);
 			setViewButtonImage();
-
-			if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-				setMapSearchButtonVisibility();
-			}
+			setMapSearchButtonVisibility();
 
 			nextAnimation.setDuration(ANIMATION_VIEW_FLIP_SPEED);
 			nextAnimation.setFillAfter(true);
@@ -618,8 +614,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				@Override
 				public void onAnimationEnd(Animation animation) {
 					setDrawerViews();
-					setMapSearchButtonVisibility();
-
 					mContent.setVisibility(View.VISIBLE);
 					mViewButton.setEnabled(true);
 				}
@@ -990,82 +984,71 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void setMapSearchButtonVisibility() {
-		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-			mMapSearchButton.setVisibility(View.GONE);
+		if (ANIMATION_VIEW_FLIP_ENABLED) {
+			if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+				final long duration = (long) (ANIMATION_VIEW_FLIP_SPEED * 1.5);
+				final long delay = (long) (ANIMATION_VIEW_FLIP_SPEED * 0.5);
+				final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
+				animation.setDuration(duration);
+				//animation.setStartTime(delay);
+				animation.setInterpolator(new AccelerateDecelerateInterpolator());
+				animation.setAnimationListener(new AnimationListener() {
+					@Override
+					public void onAnimationStart(Animation animation) {
+					}
+
+					@Override
+					public void onAnimationRepeat(Animation animation) {
+					}
+
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						mHandler.post(new Runnable() {
+							@Override
+							public void run() {
+								mMapSearchButton.setVisibility(View.GONE);
+							}
+						});
+					}
+				});
+				mMapSearchButton.startAnimation(animation);
+			}
+			else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
+				final long duration = (long) (ANIMATION_VIEW_FLIP_SPEED * 1.5);
+				final long delay = (long) (ANIMATION_VIEW_FLIP_SPEED * 0.5);
+				final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+				animation.setDuration(duration);
+				//animation.setStartTime(delay);
+				animation.setInterpolator(new AccelerateDecelerateInterpolator());
+				animation.setAnimationListener(new AnimationListener() {
+					@Override
+					public void onAnimationStart(Animation animation) {
+					}
+
+					@Override
+					public void onAnimationRepeat(Animation animation) {
+					}
+
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						mHandler.post(new Runnable() {
+							@Override
+							public void run() {
+								mMapSearchButton.setVisibility(View.VISIBLE);
+							}
+						});
+					}
+				});
+				mMapSearchButton.startAnimation(animation);
+			}
 		}
-		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-			mMapSearchButton.setVisibility(View.VISIBLE);
-		}
-
-		if (true) {
-			return;
-		}
-
-		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-			final long duration = (long) (ANIMATION_VIEW_FLIP_SPEED * 1.5);
-			final long delay = (long) (ANIMATION_VIEW_FLIP_SPEED * 0.5);
-			final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
-			animation.setDuration(duration);
-			animation.setFillAfter(true);
-			animation.setAnimationListener(new AnimationListener() {
-				@Override
-				public void onAnimationStart(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationRepeat(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationEnd(Animation animation) {
-					mHandler.post(new Runnable() {
-						@Override
-						public void run() {
-							mMapSearchButton.setVisibility(View.GONE);
-						}
-					});
-				}
-			});
-
-			mHandler.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					mMapSearchButton.startAnimation(animation);
-				}
-			}, delay);
-		}
-		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-			final long duration = (long) (ANIMATION_VIEW_FLIP_SPEED * 1.5);
-			final long delay = (long) (ANIMATION_VIEW_FLIP_SPEED * 0.5);
-			final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
-			animation.setDuration(duration);
-			animation.setFillAfter(true);
-			animation.setAnimationListener(new AnimationListener() {
-				@Override
-				public void onAnimationStart(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationRepeat(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationEnd(Animation animation) {
-					mHandler.post(new Runnable() {
-						@Override
-						public void run() {
-							mMapSearchButton.setVisibility(View.VISIBLE);
-						}
-					});
-				}
-			});
-
-			mHandler.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					mMapSearchButton.startAnimation(animation);
-				}
-			}, delay);
+		else {
+			if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+				mMapSearchButton.setVisibility(View.GONE);
+			}
+			else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
+				mMapSearchButton.setVisibility(View.VISIBLE);
+			}
 		}
 	}
 
