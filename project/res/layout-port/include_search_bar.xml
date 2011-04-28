@@ -20,7 +20,7 @@
 		android:textColor="#FF666666"
 		android:shadowColor="#88FFFFFF"
 		android:shadowDx="0"
-		android:shadowDy="-1"
+		android:shadowDy="1"
 		android:shadowRadius="0.1" />
     
     <LinearLayout
@@ -39,21 +39,61 @@
             android:textSize="16sp"
             android:imeOptions="actionSearch" />
             
-		<ImageButton
-			android:id="@+id/dates_button"
+        <RelativeLayout
 			android:layout_width="@dimen/action_bar_button_height"
 			android:layout_height="@dimen/action_bar_button_height"
-            android:layout_marginLeft="6dip"
-            android:src="@drawable/btn_dates"
-            style="@style/Widget.Button.SearchBar" />
+            android:layout_marginLeft="6dip">
+            	
+			<ImageButton
+				android:id="@+id/dates_button"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+	            android:src="@drawable/btn_dates"
+	            style="@style/Widget.Button.SearchBar" />
+	            
+	        <TextView
+				android:id="@+id/dates_text_view"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:gravity="center"
+				android:textSize="12dp"
+				android:textColor="#FF8E8E8E"
+				android:textStyle="bold"
+				android:shadowColor="#88000000"
+				android:shadowDx="0"
+				android:shadowDy="-1"
+				android:shadowRadius="0.1"/>
+        
+        </RelativeLayout>
+        
+        <RelativeLayout
+			android:layout_width="@dimen/action_bar_button_height"
+			android:layout_height="@dimen/action_bar_button_height"
+            android:layout_marginLeft="6dip">
 			
-		<ImageButton
-			android:id="@+id/guests_button"
-			android:layout_width="@dimen/action_bar_button_height"
-			android:layout_height="@dimen/action_bar_button_height"
-            android:layout_marginLeft="6dip"
-            android:src="@drawable/btn_guests"
-            style="@style/Widget.Button.SearchBar" />
+			<ImageButton
+				android:id="@+id/guests_button"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+	            android:src="@drawable/btn_guests"
+	            style="@style/Widget.Button.SearchBar" />
+	            
+			<TextView
+				android:id="@+id/guests_text_view"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:gravity="top|right"
+				android:textSize="12dp"
+				android:paddingTop="3dp"
+				android:paddingRight="10dp"
+				android:textColor="#FF8E8E8E"
+				android:textStyle="bold"
+				android:shadowColor="#88000000"
+				android:shadowDx="0"
+				android:shadowDy="-1"
+				android:shadowRadius="0.1"/>
+        
+        </RelativeLayout>
        
        </LinearLayout>
         

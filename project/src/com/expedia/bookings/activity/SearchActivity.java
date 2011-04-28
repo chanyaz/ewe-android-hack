@@ -137,7 +137,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private TextView mBookingInfoTextView;
 	private EditText mSearchEditText;
 	private ImageButton mDatesButton;
+	private TextView mDatesTextView;
 	private ImageButton mGuestsButton;
+	private TextView mGuestsTextView;
 
 	private View mPanelDismissView;
 	private Panel mPanel;
@@ -869,7 +871,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mBookingInfoTextView = (TextView) findViewById(R.id.booking_info_text_view);
 		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
 		mDatesButton = (ImageButton) findViewById(R.id.dates_button);
+		mDatesTextView = (TextView) findViewById(R.id.dates_text_view);
 		mGuestsButton = (ImageButton) findViewById(R.id.guests_button);
+		mGuestsTextView = (TextView) findViewById(R.id.guests_text_view);
 
 		mPanelDismissView = findViewById(R.id.panel_dismiss_view);
 		mPanel = (Panel) findViewById(R.id.drawer_panel);
@@ -1015,11 +1019,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		final int endYear = mDatesCalendarDatePicker.getEndYear();
 		final int endMonth = mDatesCalendarDatePicker.getEndMonth();
 		final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
+		final int adults = mAdultsNumberPicker.getCurrent();
+		final int children = mChildrenNumberPicker.getCurrent();
 
 		String[] shortMonthNames = getResources().getStringArray(R.array.short_month_names);
 
 		mBookingInfoTextView.setText(getString(R.string.booking_info_template, location, shortMonthNames[startMonth],
 				startDay, shortMonthNames[endMonth], endDay, endYear));
+		mDatesTextView.setText(String.valueOf(startDay));
+		mGuestsTextView.setText(String.valueOf((adults + children)));
 	}
 
 	private void setDrawerViews() {
@@ -1163,6 +1171,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			mRefinementInfoTextView.setText(StrUtils.formatGuests(mContext, adults, children));
 		}
+
+		setBookingInfoText();
 	}
 
 	private void setSearchEditViews() {
@@ -1696,9 +1706,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (mSearchParams.getSearchType() != mOldSearchParams.getSearchType()
 					|| (mSearchParams.getSearchType() == SearchType.FREEFORM && !mSearchParams.getFreeformLocation()
 							.equals(mOldSearchParams.getFreeformLocation()))
-					|| ((mSearchParams.getSearchType() == SearchType.MY_LOCATION || mSearchParams.getSearchType() == SearchType.PROXIMITY)
-									&& (mSearchParams.getSearchLatitude() != mOldSearchParams.getSearchLatitude() || mSearchParams
-											.getSearchLongitude() != mOldSearchParams.getSearchLongitude()))) {
+					|| ((mSearchParams.getSearchType() == SearchType.MY_LOCATION || mSearchParams.getSearchType() == SearchType.PROXIMITY) && (mSearchParams
+							.getSearchLatitude() != mOldSearchParams.getSearchLatitude() || mSearchParams
+							.getSearchLongitude() != mOldSearchParams.getSearchLongitude()))) {
 				refinements.add("App.Hotels.Search.Refine.Location");
 			}
 
