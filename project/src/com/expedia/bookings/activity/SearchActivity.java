@@ -63,7 +63,6 @@ import com.expedia.bookings.widget.TagProgressBar;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
@@ -1192,6 +1191,29 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				hideButtonBar();
 				hideSoftKeyboard(mSearchEditText);
 				setSearchViews();
+			}
+		}
+	};
+
+	private final TextWatcher mSearchEditTextTextWatcher = new TextWatcher() {
+		@Override
+		public void afterTextChanged(Editable s) {
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			if (s.equals(getString(R.string.current_location))) {
+				mSearchParams.setSearchType(SearchType.MY_LOCATION);
+			}
+			else if (s.equals(getString(R.string.visible_map_area))) {
+				mSearchParams.setSearchType(SearchType.PROXIMITY);
+			}
+			else {
+				mSearchParams.setSearchType(SearchType.FREEFORM);
 			}
 		}
 	};
