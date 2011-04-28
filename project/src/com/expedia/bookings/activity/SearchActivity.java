@@ -1001,6 +1001,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				if (mMapSearchButton.getVisibility() == View.GONE) {
 					return;
 				}
+				
+				mMapSearchButton.setEnabled(false);
 
 				final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
 				animation.setDuration(ANIMATION_VIEW_FLIP_SPEED * 2);
@@ -1030,6 +1032,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				if (mMapSearchButton.getVisibility() == View.VISIBLE) {
 					return;
 				}
+				
+				mMapSearchButton.setEnabled(true);
 
 				final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
 				animation.setDuration(ANIMATION_VIEW_FLIP_SPEED * 2);
