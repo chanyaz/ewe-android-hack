@@ -209,9 +209,12 @@ public class ConfirmationActivity extends MapActivity {
 		newSearchButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				onClickNewSearch();
+
 				Intent intent = new Intent(mContext, SearchActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
+				finish();
 			}
 		});
 
@@ -383,6 +386,23 @@ public class ConfirmationActivity extends MapActivity {
 
 		// Currency code
 		s.currencyCode = mRate.getTotalAmountAfterTax().getCurrency();
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public void onClickNewSearch() {
+		Log.d("Tracking \"new search\" onClick");
+
+		AppMeasurement s = new AppMeasurement(getApplication());
+
+		TrackingUtils.addStandardFields(this, s);
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+
+		// The section complete
+		s.eVar28 = s.prop16 = "CKO.CP.StartNewSearch";
 
 		// Send the tracking data
 		s.track();
