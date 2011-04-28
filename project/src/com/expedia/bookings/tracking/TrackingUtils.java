@@ -102,7 +102,7 @@ public class TrackingUtils {
 	}
 
 	public static void addHotelRating(AppMeasurement s, Property property) {
-		s.prop38 = (property.isHighlyRated()) ? "highly rated" : property.getTripAdvisorRating() + "";
+		s.prop38 = property.getTripAdvisorRating() + "";
 	}
 
 	private static String md5(String s) {
