@@ -114,6 +114,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final long ANIMATION_VIEW_FLIP_SPEED = 350;
 	private static final float ANIMATION_VIEW_FLIP_DEPTH = 300f;
 
+	private static final long ANIMATION_PANEL_SPEED = 750;
 	private static final long ANIMATION_PANEL_DISMISS_SPEED = 150;
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -211,13 +212,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchResponse = (SearchResponse) results;
 
 			if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
+				showPanel();
+
 				mSearchResponse.setFilter(mFilter);
 				mSession = mSearchResponse.getSession();
 
 				broadcastSearchCompleted(mSearchResponse);
 				hideLoading();
-				showPanel();
-
 				setPriceRangeText();
 			}
 			else if (mSearchResponse != null && mSearchResponse.getLocations() != null
@@ -766,7 +767,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void hidePanel() {
 		final Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_up_out);
-		animation.setDuration(ANIMATION_PANEL_DISMISS_SPEED);
+		animation.setDuration(ANIMATION_PANEL_SPEED);
+		animation.setInterpolator(new DecelerateInterpolator());
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
@@ -835,7 +837,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void showPanel() {
 		final Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_down_in);
-		animation.setDuration(ANIMATION_PANEL_DISMISS_SPEED);
+		animation.setDuration(ANIMATION_PANEL_SPEED);
+		animation.setInterpolator(new DecelerateInterpolator());
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
