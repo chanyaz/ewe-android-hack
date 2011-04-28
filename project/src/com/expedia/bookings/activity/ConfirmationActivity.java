@@ -31,6 +31,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.SupportUtils;
 import com.google.android.maps.GeoPoint;
@@ -53,6 +54,7 @@ import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
 import com.mobiata.hotellib.widget.HotelItemizedOverlay;
+import com.omniture.AppMeasurement;
 
 public class ConfirmationActivity extends MapActivity {
 
@@ -100,6 +102,10 @@ public class ConfirmationActivity extends MapActivity {
 
 				mBillingInfo = new BillingInfo();
 				mBillingInfo.setEmail("dan@mobiata.com");
+				Location location = new Location();
+				location.setCountryCode("US");
+				location.setPostalCode("55408");
+				mBillingInfo.setLocation(location);
 			}
 			catch (JSONException e) {
 				Log.e("Couldn't create dummy data!", e);
@@ -208,6 +214,11 @@ public class ConfirmationActivity extends MapActivity {
 				startActivity(intent);
 			}
 		});
+
+		// Tracking
+		if (savedInstanceState == null) {
+			onPageLoad();
+		}
 	}
 
 	@Override
@@ -333,5 +344,47 @@ public class ConfirmationActivity extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Omniture tracking
+
+	public void onPageLoad() {
+		Log.d("Tracking \"App.Hotels.Checkout.Confirmation\" pageLoad");
+
+		AppMeasurement s = new AppMeasurement(getApplication());
+
+		TrackingUtils.addStandardFields(this, s);
+
+		s.pageName = "App.Hotels.Checkout.Confirmation";
+
+		s.events = "purchase";
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Confirmer";
+
+		// Product details
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+		String checkIn = df.format(mSearchParams.getCheckInDate().getTime());
+		String checkOut = df.format(mSearchParams.getCheckOutDate().getTime());
+		s.eVar30 = "Hotel:" + checkIn + "-" + checkOut + ":N";
+
+		// Unique confirmation id
+		s.prop15 = s.purchaseID = mBookingResponse.getConfNumber();
+
+		// Billing country code
+		s.prop46 = s.state = mBillingInfo.getLocation().getCountryCode();
+
+		// Billing zip codes
+		s.prop49 = s.zip = mBillingInfo.getLocation().getPostalCode();
+
+		// Products
+		TrackingUtils.addProducts(s, mProperty);
+
+		// Currency code
+		s.currencyCode = mRate.getTotalAmountAfterTax().getCurrency();
+
+		// Send the tracking data
+		s.track();
 	}
 }
