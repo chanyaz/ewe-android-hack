@@ -62,10 +62,12 @@ import com.expedia.bookings.dialog.LocationSuggestionDialog;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.TagProgressBar;
+import com.google.android.maps.GeoPoint;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.MapUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
 import com.mobiata.android.widget.NumberPicker;
@@ -86,6 +88,10 @@ import com.mobiata.hotellib.utils.StrUtils;
 
 @SuppressWarnings("unused")
 public class SearchActivity extends ActivityGroup implements LocationListener {
+	public interface MapViewListener {
+		public GeoPoint onRequestMapCenter();
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
@@ -158,6 +164,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private View mLaunchedView;
 
 	private List<SearchListener> mSearchListeners;
+	private MapViewListener mMapViewListener;
+
 	private SearchParams mSearchParams;
 	private Session mSession;
 	private SearchResponse mSearchResponse;
@@ -478,6 +486,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	public Session getSession() {
 		return mSession;
+	}
+
+	public void setMapViewListener(MapViewListener mapViewListener) {
+		mMapViewListener = mapViewListener;
 	}
 
 	public void setSearchParams() {
@@ -1341,13 +1353,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final View.OnClickListener mMapSearchButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			//			GeoPoint center = mMapView.getMapCenter();
-			//			mSearchParams.setSearchType(SearchType.PROXIMITY);
-			//			mSearchParams.setDestinationId(null);
-			//
-			//			setSearchParams();
-			//			setSearchParams(MapUtils.getLatitiude(center), MapUtils.getLongitiude(center));
-			//			startSearch();
+			if (mMapViewListener != null) {
+				GeoPoint center = mMapViewListener.onRequestMapCenter();
+				mSearchParams.setSearchType(SearchType.PROXIMITY);
+				mSearchParams.setDestinationId(null);
+
+				setSearchParams();
+				setSearchParams(MapUtils.getLatitiude(center), MapUtils.getLongitiude(center));
+				startSearch();
+			}
 		}
 	};
 

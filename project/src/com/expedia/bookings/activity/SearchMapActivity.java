@@ -7,10 +7,10 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.SearchActivity.MapViewListener;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -22,14 +22,12 @@ import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Filter.OnFilterChangedListener;
 import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.SearchParams;
-import com.mobiata.hotellib.data.SearchParams.SearchType;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.widget.FixedMyLocationOverlay;
 import com.mobiata.hotellib.widget.HotelItemizedOverlay;
 import com.mobiata.hotellib.widget.HotelItemizedOverlay.OnBalloonTap;
 
-public class SearchMapActivity extends MapActivity implements SearchListener, OnFilterChangedListener {
+public class SearchMapActivity extends MapActivity implements SearchListener, OnFilterChangedListener, MapViewListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
@@ -68,12 +66,11 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 		mParent = (SearchActivity) getParent();
 		mParent.addSearchListener(this);
+		mParent.setMapViewListener(this);
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
 			mSearchResponse = state.searchResponse;
-			//mHotelItemizedOverlay = state.hotelItemizedOverlay;
-			//mMyLocationOverlay = state.myLocationOverlay;
 
 			if (mSearchResponse != null) {
 				onSearchCompleted(mSearchResponse);
@@ -120,8 +117,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	public Object onRetainNonConfigurationInstance() {
 		ActivityState state = new ActivityState();
 		state.searchResponse = mSearchResponse;
-		state.hotelItemizedOverlay = mHotelItemizedOverlay;
-		state.myLocationOverlay = mMyLocationOverlay;
 
 		return state;
 	}
@@ -223,6 +218,15 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		focusOnProperties();
 	}
 
+	@Override
+	public GeoPoint onRequestMapCenter() {
+		if (mMapView != null) {
+			return mMapView.getMapCenter();
+		}
+		
+		return null;
+	}
+
 	public void focusOnProperties() {
 		MapController mc = mMapView.getController();
 		mc.animateTo(mHotelItemizedOverlay.getCenter());
@@ -234,7 +238,5 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 	private class ActivityState {
 		public SearchResponse searchResponse;
-		public HotelItemizedOverlay hotelItemizedOverlay;
-		public MyLocationOverlay myLocationOverlay;
 	}
 }
