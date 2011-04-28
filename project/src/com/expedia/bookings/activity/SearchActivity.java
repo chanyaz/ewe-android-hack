@@ -986,11 +986,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private void setMapSearchButtonVisibility() {
 		if (ANIMATION_VIEW_FLIP_ENABLED) {
 			if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-				final long duration = (long) (ANIMATION_VIEW_FLIP_SPEED * 1.5);
-				final long delay = (long) (ANIMATION_VIEW_FLIP_SPEED * 0.5);
+				if (mMapSearchButton.getVisibility() == View.GONE) {
+					return;
+				}
+
 				final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
-				animation.setDuration(duration);
-				//animation.setStartTime(delay);
+				animation.setDuration(ANIMATION_VIEW_FLIP_SPEED * 2);
 				animation.setInterpolator(new AccelerateDecelerateInterpolator());
 				animation.setAnimationListener(new AnimationListener() {
 					@Override
@@ -1014,11 +1015,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				mMapSearchButton.startAnimation(animation);
 			}
 			else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-				final long duration = (long) (ANIMATION_VIEW_FLIP_SPEED * 1.5);
-				final long delay = (long) (ANIMATION_VIEW_FLIP_SPEED * 0.5);
+				if (mMapSearchButton.getVisibility() == View.VISIBLE) {
+					return;
+				}
+
 				final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
-				animation.setDuration(duration);
-				//animation.setStartTime(delay);
+				animation.setDuration(ANIMATION_VIEW_FLIP_SPEED * 2);
 				animation.setInterpolator(new AccelerateDecelerateInterpolator());
 				animation.setAnimationListener(new AnimationListener() {
 					@Override
