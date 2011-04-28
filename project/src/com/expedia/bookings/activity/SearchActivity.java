@@ -1517,6 +1517,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 				@Override
 				public void onAnimationStart(Animation animation) {
+					mPanelDismissView.setVisibility(View.VISIBLE);
 				}
 
 				@Override
@@ -1539,6 +1540,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 				@Override
 				public void onAnimationStart(Animation animation) {
+					mPanelDismissView.setVisibility(View.VISIBLE);
 				}
 
 				@Override
