@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.R.anim;
 import android.app.ActivityGroup;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -110,8 +111,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final long TIME_SWITCH_TO_NETWORK_DELAY = 1000 * 3;
 
 	private static final boolean ANIMATION_VIEW_FLIP_ENABLED = true;
-	private static final int ANIMATION_VIEW_FLIP_SPEED = 350;
+	private static final long ANIMATION_VIEW_FLIP_SPEED = 350;
 	private static final float ANIMATION_VIEW_FLIP_DEPTH = 300f;
+
+	private static final long ANIMATION_PANEL_DISMISS_SPEED = 150;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
@@ -213,6 +216,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 				broadcastSearchCompleted(mSearchResponse);
 				hideLoading();
+				showPanel();
 
 				setPriceRangeText();
 			}
@@ -541,6 +545,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		buildFilter();
 		setSearchEditViews();
 		resetFocus();
+		hidePanel();
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
@@ -759,6 +764,26 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchProgressBar.setVisibility(View.GONE);
 	}
 
+	private void hidePanel() {
+		final Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_up_out);
+		animation.setDuration(ANIMATION_PANEL_DISMISS_SPEED);
+		animation.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				mPanel.setVisibility(View.GONE);
+			}
+		});
+		mPanel.startAnimation(animation);
+	}
+
 	private void hideSearchSuggestions() {
 		mSearchSuggestionsListView.setVisibility(View.GONE);
 	}
@@ -806,6 +831,26 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchProgressBar.setVisibility(View.VISIBLE);
 		mSearchProgressBar.setShowProgress(true);
 		mSearchProgressBar.setText(text);
+	}
+
+	private void showPanel() {
+		final Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_down_in);
+		animation.setDuration(ANIMATION_PANEL_DISMISS_SPEED);
+		animation.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				mPanel.setVisibility(View.VISIBLE);
+			}
+		});
+		mPanel.startAnimation(animation);
 	}
 
 	private void showSearchSuggestions() {
@@ -1466,12 +1511,46 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final Panel.OnPanelListener mPanelListener = new Panel.OnPanelListener() {
 		@Override
 		public void onPanelOpened(Panel panel) {
-			mPanelDismissView.setVisibility(View.VISIBLE);
+			final Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, android.R.anim.fade_in);
+			animation.setDuration(ANIMATION_PANEL_DISMISS_SPEED);
+			animation.setAnimationListener(new AnimationListener() {
+
+				@Override
+				public void onAnimationStart(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					mPanelDismissView.setVisibility(View.VISIBLE);
+				}
+			});
+			mPanelDismissView.startAnimation(animation);
 		}
 
 		@Override
 		public void onPanelClosed(Panel panel) {
-			mPanelDismissView.setVisibility(View.GONE);
+			final Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, android.R.anim.fade_out);
+			animation.setDuration(ANIMATION_PANEL_DISMISS_SPEED);
+			animation.setAnimationListener(new AnimationListener() {
+
+				@Override
+				public void onAnimationStart(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					mPanelDismissView.setVisibility(View.GONE);
+				}
+			});
+			mPanelDismissView.startAnimation(animation);
 		}
 	};
 
