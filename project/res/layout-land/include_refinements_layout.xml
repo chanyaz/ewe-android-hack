@@ -16,17 +16,20 @@
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:visibility="gone">
-    	
+    		
     	<com.mobiata.android.widget.CalendarDatePicker
     		android:id="@+id/dates_date_picker"
     		android:layout_width="fill_parent"
     		android:layout_height="fill_parent"
+    		mobiata:headerBackground="@drawable/calendar_date_picker_cell_normal"
     		mobiata:cellBackground="@drawable/bg_calendar_cell"
+    		mobiata:todayCellBackground="@drawable/bg_calendar_cell_today"
     		mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell_other_month"
-    		mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell"
-    		mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell"
+    		mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
+    		mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
     		mobiata:cellTextColor="@color/cell_text"
-    		mobiata:otherMonthCellTextColor="@color/cell_text_other_month" />
+    		mobiata:otherMonthCellTextColor="@color/cell_text_other_month"
+    		mobiata:drawGridLines="false" />
     	
     </LinearLayout>
     
@@ -35,6 +38,7 @@
     	android:orientation="horizontal"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
+    	android:background="@drawable/btn_floating_normal"
     	android:visibility="gone">
 	    
 	    <com.mobiata.android.widget.NumberPicker
