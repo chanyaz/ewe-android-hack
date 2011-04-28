@@ -135,6 +135,11 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private ValidationProcessor mValidationProcessor;
 	private TextViewErrorHandler mErrorHandler;
 
+	// Tracking
+	private boolean mGuestsCompleted;
+	private boolean mBillingCompleted;
+	private boolean mCardCompleted;
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
 
@@ -215,6 +220,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		if (lastInstance != null) {
 			this.mBillingInfo = lastInstance.mBillingInfo;
 			this.mFormHasBeenFocused = lastInstance.mFormHasBeenFocused;
+			this.mGuestsCompleted = lastInstance.mGuestsCompleted;
+			this.mBillingCompleted = lastInstance.mBillingCompleted;
+			this.mCardCompleted = lastInstance.mCardCompleted;
 
 			if (this.mFormHasBeenFocused) {
 				onFormFieldFocus();
@@ -230,22 +238,21 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			}
 		}
 		else {
+			mGuestsCompleted = mBillingCompleted = mCardCompleted = false;
+
 			// Try loading saved billing info
 			if (loadSavedBillingInfo()) {
 				syncFormFields();
 
 				// Determine which form sections could be collapsed
-				mGuestsExpanded = false;
-				mBillingExpanded = false;
-				for (ValidationError error : mValidationProcessor.validate()) {
-					Object view = error.getObject();
-					if (view == mFirstNameEditText || view == mLastNameEditText || view == mTelephoneEditText
-							|| view == mEmailEditText) {
-						expandGuestsForm(false);
-					}
-					else if (view == mAddress1EditText || view == mCityEditText || view == mPostalCodeEditText) {
-						expandBillingForm(false);
-					}
+				checkSectionsCompleted(false);
+
+				if (!mGuestsCompleted) {
+					expandGuestsForm(false);
+				}
+
+				if (!mBillingCompleted) {
+					expandBillingForm(false);
 				}
 			}
 			else {
@@ -269,6 +276,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		instance.mFormHasBeenFocused = this.mFormHasBeenFocused;
 		instance.mGuestsExpanded = this.mGuestsExpanded;
 		instance.mBillingExpanded = this.mBillingExpanded;
+		instance.mGuestsCompleted = this.mGuestsCompleted;
+		instance.mBillingCompleted = this.mBillingCompleted;
+		instance.mCardCompleted = this.mCardCompleted;
 		return instance;
 	}
 
@@ -277,6 +287,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		public boolean mFormHasBeenFocused;
 		private boolean mGuestsExpanded;
 		private boolean mBillingExpanded;
+		private boolean mGuestsCompleted;
+		private boolean mBillingCompleted;
+		private boolean mCardCompleted;
 	}
 
 	@Override
@@ -552,6 +565,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				}
 				else {
 					saveBillingInfo();
+
+					checkSectionsCompleted(true);
 				}
 			}
 		};
@@ -806,6 +821,43 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		return false;
 	}
 
+	public void checkSectionsCompleted(boolean trackCompletion) {
+		boolean guestsCompleted = true;
+		boolean billingCompleted = true;
+		boolean cardCompleted = true;
+
+		for (ValidationError error : mValidationProcessor.validate()) {
+			Object view = error.getObject();
+			if (view == mFirstNameEditText || view == mLastNameEditText || view == mTelephoneEditText
+					|| view == mEmailEditText) {
+				guestsCompleted = false;
+			}
+			else if (view == mAddress1EditText || view == mCityEditText || view == mPostalCodeEditText) {
+				billingCompleted = false;
+			}
+			else if (view == mCardNumberEditText || view == mExpirationMonthEditText || view == mExpirationYearEditText
+					|| view == mSecurityCodeEditText) {
+				cardCompleted = false;
+			}
+		}
+
+		if (trackCompletion) {
+			if (!mGuestsCompleted && guestsCompleted) {
+				onCompletedSection("CKO.BD.CompletedGuestInfo");
+			}
+			if (!mBillingCompleted && billingCompleted) {
+				onCompletedSection("CKO.BD.CompletedBillingInfo");
+			}
+			if (!mCardCompleted && cardCompleted) {
+				onCompletedSection("CKO.BD.CompletedCreditCard");
+			}
+		}
+
+		mGuestsCompleted = guestsCompleted;
+		mBillingCompleted = billingCompleted;
+		mCardCompleted = cardCompleted;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Omniture tracking
 
@@ -822,6 +874,34 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// Shopper/Confirmer
 		s.eVar25 = s.prop25 = "Shopper";
+
+		// If any sections were already complete, fill them in here
+		if (mGuestsCompleted && mBillingCompleted) {
+			s.eVar28 = s.prop16 = "CKO.BD.CompletedGuestInfo|CKO.BD.CompletedBillingInfo";
+		}
+		else if (mGuestsCompleted) {
+			s.eVar28 = s.prop16 = "CKO.BD.CompletedGuestInfo";
+		}
+		else if (mBillingCompleted) {
+			s.eVar28 = s.prop16 = "CKO.BD.CompletedBillingInfo";
+		}
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public void onCompletedSection(String sectionName) {
+		Log.d("Tracking \"" + sectionName + "\" onClick");
+
+		AppMeasurement s = new AppMeasurement(getApplication());
+
+		TrackingUtils.addStandardFields(this, s);
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+
+		// The section complete
+		s.eVar28 = s.prop16 = sectionName;
 
 		// Send the tracking data
 		s.track();
