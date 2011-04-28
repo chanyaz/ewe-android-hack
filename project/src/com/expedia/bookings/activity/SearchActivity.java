@@ -131,6 +131,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private ImageButton mDatesButton;
 	private ImageButton mGuestsButton;
 
+	private View mPanelDismissView;
 	private Panel mPanel;
 
 	private View mSortLayout;
@@ -835,6 +836,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mDatesButton = (ImageButton) findViewById(R.id.dates_button);
 		mGuestsButton = (ImageButton) findViewById(R.id.guests_button);
 
+		mPanelDismissView = findViewById(R.id.panel_dismiss_view);
 		mPanel = (Panel) findViewById(R.id.drawer_panel);
 
 		mSortLayout = findViewById(R.id.sort_layout);
@@ -843,7 +845,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mPriceRangeTextView = (TextView) findViewById(R.id.price_range_text_view);
 		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
 
-		mRefinementDismissView = findViewById(R.id.dismiss_view);
+		mRefinementDismissView = findViewById(R.id.refinement_dismiss_view);
 		mSearchSuggestionsListView = (ListView) findViewById(R.id.search_suggestions_list_view);
 
 		mDatesLayout = findViewById(R.id.dates_layout);
@@ -908,11 +910,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mDatesButton.setOnClickListener(mDatesButtonClickListener);
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
 
+		mPanelDismissView.setOnClickListener(mPanelDismissViewClickListener);
 		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 
-		mRefinementDismissView.setOnClickListener(mDismissViewClickListener);
+		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
 		mSearchSuggestionsListView.setOnItemClickListener(mSearchSuggestionsItemClickListner);
 
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
@@ -1001,7 +1004,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				if (mMapSearchButton.getVisibility() == View.GONE) {
 					return;
 				}
-				
+
 				mMapSearchButton.setEnabled(false);
 
 				final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
@@ -1032,7 +1035,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				if (mMapSearchButton.getVisibility() == View.VISIBLE) {
 					return;
 				}
-				
+
 				mMapSearchButton.setEnabled(true);
 
 				final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
@@ -1402,7 +1405,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
-	private final View.OnClickListener mDismissViewClickListener = new View.OnClickListener() {
+	private final View.OnClickListener mRefinementDismissViewClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			hideButtonBar();
@@ -1410,6 +1413,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			hideDatesLayout();
 			hideGuestsLayout();
 			hideRefinementDismissView();
+		}
+	};
+
+	private final View.OnClickListener mPanelDismissViewClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			closeDrawer();
 		}
 	};
 
@@ -1456,10 +1466,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final Panel.OnPanelListener mPanelListener = new Panel.OnPanelListener() {
 		@Override
 		public void onPanelOpened(Panel panel) {
+			mPanelDismissView.setVisibility(View.VISIBLE);
 		}
 
 		@Override
 		public void onPanelClosed(Panel panel) {
+			mPanelDismissView.setVisibility(View.GONE);
 		}
 	};
 

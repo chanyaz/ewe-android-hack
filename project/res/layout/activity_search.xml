@@ -52,6 +52,13 @@
 		android:layout_below="@id/search_bar_layout"
 		android:visibility="gone" />
 	
+    <View 
+    	android:id="@+id/panel_dismiss_view"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:visibility="gone"
+    	android:background="@color/dismiss" />
+	
 	<com.mobiata.android.widget.Panel
 		android:id="@+id/drawer_panel"
 		android:layout_width="fill_parent"
@@ -77,7 +84,7 @@
 	</com.mobiata.android.widget.Panel>
 	
     <View 
-    	android:id="@+id/dismiss_view"
+    	android:id="@+id/refinement_dismiss_view"
     	android:layout_width="fill_parent"
     	android:layout_height="fill_parent"
     	android:visibility="gone"
