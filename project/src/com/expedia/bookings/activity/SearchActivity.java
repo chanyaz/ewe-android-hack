@@ -615,6 +615,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				animationOut = new Rotate3dAnimation(0, 90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
 				animationIn = new Rotate3dAnimation(-90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
 			}
+
+			onListLoad(false, null);
 		}
 
 		if (animationOut != null && animationIn != null) {
@@ -1780,7 +1782,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mOldFilter = mFilter.copy();
 
 		// Start actually tracking the search result change
-		Log.d("Tracking \"App.Hotels.Search\" event...");
+		onListLoad(true, refinementsStr);
+	}
+
+	private void onListLoad(boolean onSearchCompleted, String refinements) {
+		// Start actually tracking the search result change
+		Log.d("Tracking \"App.Hotels.Search\" pageLoad...");
 
 		AppMeasurement s = new AppMeasurement(getApplication());
 
@@ -1788,11 +1795,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		s.pageName = "App.Hotels.Search";
 
-		// Whether this was the first search or a refined search
-		s.events = (refinementsStr != null && refinementsStr.length() > 0) ? "event31" : "event30";
+		if (onSearchCompleted) {
+			// Whether this was the first search or a refined search
+			s.events = (refinements != null && refinements.length() > 0) ? "event31" : "event30";
 
-		// Refinement  
-		s.eVar28 = s.prop16 = refinementsStr;
+			// Refinement  
+			s.eVar28 = s.prop16 = refinements;
+		}
 
 		// LOB Search
 		s.eVar2 = s.prop2 = "hotels";
@@ -1831,7 +1840,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void onOpenFilterPanel() {
-		Log.d("Tracking \"App.Hotels.Search.Refine\" event...");
+		Log.d("Tracking \"App.Hotels.Search.Refine\" onClick...");
 
 		AppMeasurement s = new AppMeasurement(getApplication());
 
@@ -1847,7 +1856,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void onSwitchToMap() {
-		Log.d("Tracking \"App.Hotels.Search.Map\" event...");
+		Log.d("Tracking \"App.Hotels.Search.Map\" pageLoad...");
 
 		AppMeasurement s = new AppMeasurement(getApplication());
 
