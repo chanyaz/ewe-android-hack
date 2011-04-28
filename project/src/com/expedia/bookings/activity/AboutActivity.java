@@ -95,6 +95,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 						break;
 					case 2:
 						// Phone
+						onCallSupport();
 						SocialUtils.call(mContext, SupportUtils.getSupportNumber());
 						break;
 					}
@@ -141,6 +142,25 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
 		// Shopper/Confirmer
 		s.eVar25 = s.prop25 = "Shopper";
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public void onCallSupport() {
+		Log.d("Tracking \"call support\" onClick");
+
+		AppMeasurement s = new AppMeasurement(getApplication());
+
+		TrackingUtils.addStandardFields(this, s);
+
+		s.events = "event35";
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+
+		// Referrer id
+		s.eVar28 = s.prop16 = "App.Info.CallSupport";
 
 		// Send the tracking data
 		s.track();
