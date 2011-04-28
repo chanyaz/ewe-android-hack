@@ -36,7 +36,7 @@
 		android:layout_alignParentBottom="true"
 		android:layout_alignParentRight="true"
 		android:layout_margin="6dp"
-		android:src="@drawable/btn_map"
+		android:visibility="invisible"
 		style="@style/Widget.Button.Floating" />
 
 </RelativeLayout>

@@ -25,6 +25,25 @@
     	android:layout_height="fill_parent"
     	android:layout_marginTop="8dp"
     	android:layout_below="@id/search_bar_layout" />
+
+	<ImageButton
+		android:id="@+id/map_search_button"
+		android:layout_width="@dimen/action_bar_button_height"
+		android:layout_height="@dimen/action_bar_button_height"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentLeft="true"
+		android:layout_margin="6dp"
+		android:src="@drawable/btn_search_visible_map_area"
+		style="@style/Widget.Button.Floating" />
+
+	<ImageButton
+		android:id="@+id/view_button"
+		android:layout_width="@dimen/action_bar_button_height"
+		android:layout_height="@dimen/action_bar_button_height"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true"
+		android:layout_margin="6dp"
+		style="@style/Widget.Button.Floating" />
     	
     <com.expedia.bookings.widget.TagProgressBar
 	    android:id="@+id/search_progress_bar"

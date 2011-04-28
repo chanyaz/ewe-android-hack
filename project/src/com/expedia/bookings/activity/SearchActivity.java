@@ -39,6 +39,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
@@ -60,7 +61,9 @@ import com.expedia.bookings.dialog.LocationSuggestionDialog;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.TagProgressBar;
+import com.google.android.maps.GeoPoint;
 import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.MapUtils;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
@@ -114,6 +117,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private FrameLayout mContent;
 	private ImageView mViewFlipImage;
+
+	private ImageButton mMapSearchButton;
+	private ImageButton mViewButton;
 
 	private TextView mBookingInfoTextView;
 	private EditText mSearchEditText;
@@ -267,6 +273,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
 
+		setMapSearchButtonVisibility();
+		setViewButtonImage();
 		setDrawerViews();
 		setSearchEditViews();
 	}
@@ -548,6 +556,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	public void switchResultsView() {
+		mViewButton.setEnabled(false);
+
 		Class<?> newActivityClass = null;
 		Rotate3dAnimation animationOut = null;
 		Rotate3dAnimation animationIn = null;
@@ -587,6 +597,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mContent.draw(mViewFlipCanvas);
 			mContent.setVisibility(View.INVISIBLE);
 			setActivity(nextActivityClass);
+			setViewButtonImage();
+
+			if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+				setMapSearchButtonVisibility();
+			}
 
 			nextAnimation.setDuration(ANIMATION_VIEW_FLIP_SPEED);
 			nextAnimation.setFillAfter(true);
@@ -603,7 +618,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				@Override
 				public void onAnimationEnd(Animation animation) {
 					setDrawerViews();
+					setMapSearchButtonVisibility();
+
 					mContent.setVisibility(View.VISIBLE);
+					mViewButton.setEnabled(true);
 				}
 			});
 
@@ -621,7 +639,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 				@Override
 				public void onAnimationEnd(Animation animation) {
-					mContent.post(new Runnable() {
+					mHandler.post(new Runnable() {
 						@Override
 						public void run() {
 							mContent.draw(mViewFlipCanvas);
@@ -637,6 +655,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				setActivity(newActivityClass);
 			}
 			setDrawerViews();
+			setMapSearchButtonVisibility();
+			setViewButtonImage();
 		}
 	}
 
@@ -801,6 +821,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 		mViewFlipImage = (ImageView) findViewById(R.id.view_flip_image);
 
+		mMapSearchButton = (ImageButton) findViewById(R.id.map_search_button);
+		mViewButton = (ImageButton) findViewById(R.id.view_button);
+
 		mBookingInfoTextView = (TextView) findViewById(R.id.booking_info_text_view);
 		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
 		mDatesButton = (ImageButton) findViewById(R.id.dates_button);
@@ -870,6 +893,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mDatesCalendarDatePicker.setMaxRange(28);
 
 		// Listeners
+		mMapSearchButton.setOnClickListener(mMapSearchButtonClickListener);
+		mViewButton.setOnClickListener(mViewButtonClickListener);
+
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
@@ -963,6 +989,86 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setPriceRangeText();
 	}
 
+	private void setMapSearchButtonVisibility() {
+		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+			mMapSearchButton.setVisibility(View.GONE);
+		}
+		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
+			mMapSearchButton.setVisibility(View.VISIBLE);
+		}
+
+		if (true) {
+			return;
+		}
+
+		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+			final long duration = (long) (ANIMATION_VIEW_FLIP_SPEED * 1.5);
+			final long delay = (long) (ANIMATION_VIEW_FLIP_SPEED * 0.5);
+			final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
+			animation.setDuration(duration);
+			animation.setFillAfter(true);
+			animation.setAnimationListener(new AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					mHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							mMapSearchButton.setVisibility(View.GONE);
+						}
+					});
+				}
+			});
+
+			mHandler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					mMapSearchButton.startAnimation(animation);
+				}
+			}, delay);
+		}
+		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
+			final long duration = (long) (ANIMATION_VIEW_FLIP_SPEED * 1.5);
+			final long delay = (long) (ANIMATION_VIEW_FLIP_SPEED * 0.5);
+			final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+			animation.setDuration(duration);
+			animation.setFillAfter(true);
+			animation.setAnimationListener(new AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					mHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							mMapSearchButton.setVisibility(View.VISIBLE);
+						}
+					});
+				}
+			});
+
+			mHandler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					mMapSearchButton.startAnimation(animation);
+				}
+			}, delay);
+		}
+	}
+
 	private void setPriceRangeText() {
 		if (mSearchResponse != null) {
 			mSearchResponse.clusterProperties();
@@ -1048,6 +1154,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
 
 		setBookingInfoText();
+	}
+
+	private void setViewButtonImage() {
+		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+			mViewButton.setImageResource(R.drawable.btn_map);
+		}
+		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
+			mViewButton.setImageResource(R.drawable.btn_list);
+		}
 	}
 
 	// Searching methods
@@ -1235,6 +1350,26 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			buildFilter();
 			setPriceRangeText();
 			mPanel.setOpen(false, true);
+		}
+	};
+
+	private final View.OnClickListener mMapSearchButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			//			GeoPoint center = mMapView.getMapCenter();
+			//			mSearchParams.setSearchType(SearchType.PROXIMITY);
+			//			mSearchParams.setDestinationId(null);
+			//
+			//			setSearchParams();
+			//			setSearchParams(MapUtils.getLatitiude(center), MapUtils.getLongitiude(center));
+			//			startSearch();
+		}
+	};
+
+	private final View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			switchResultsView();
 		}
 	};
 

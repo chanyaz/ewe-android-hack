@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.ListViewScrollBar;
-import com.mobiata.android.Log;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
@@ -30,7 +28,6 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	private SearchResponse mSearchResponse;
 
 	private ListViewScrollBar mScrollBar;
-	private ImageButton mViewButton;
 
 	private boolean mIsScrolling = false;
 
@@ -44,12 +41,10 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 		mParent = (SearchActivity) getParent();
 		mScrollBar = (ListViewScrollBar) findViewById(R.id.scroll_bar);
-		mViewButton = (ImageButton) findViewById(R.id.view_button);
 
 		mParent.addSearchListener(this);
 		mScrollBar.setListView(getListView());
 		mScrollBar.setOnScrollListener(this);
-		mViewButton.setOnClickListener(mViewButtonClickListener);
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
@@ -140,21 +135,6 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		setListAdapter(null);
 		mAdapter = null;
 	}
-
-	//////////////////////////////////////////////////////////////////////////////////
-	// Listeners
-
-	private final View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			// Stop scrolling
-			if (mIsScrolling) {
-				getListView().setSelection(getListView().getFirstVisiblePosition());
-			}
-
-			mParent.switchResultsView();
-		}
-	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Private classes

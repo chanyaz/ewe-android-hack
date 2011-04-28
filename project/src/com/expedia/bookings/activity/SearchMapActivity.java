@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
 import com.google.android.maps.GeoPoint;
@@ -44,9 +43,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	private HotelItemizedOverlay mHotelItemizedOverlay;
 	private MyLocationOverlay mMyLocationOverlay;
 
-	private ImageButton mMapSearchButton;
-	private ImageButton mViewButton;
-
 	// Keeps track of whether this Activity is being actively displayed.  If not, do not
 	// enable the MyLocationOverlay.
 	private boolean mIsActive;
@@ -69,12 +65,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		// Configure the map
 		mMapView.setBuiltInZoomControls(true);
 		mMapView.setSatellite(false);
-
-		mMapSearchButton = (ImageButton) findViewById(R.id.map_search_button);
-		mMapSearchButton.setOnClickListener(mMapSearchButtonClickListener);
-
-		mViewButton = (ImageButton) findViewById(R.id.view_button);
-		mViewButton.setOnClickListener(mViewButtonClickListener);
 
 		mParent = (SearchActivity) getParent();
 		mParent.addSearchListener(this);
@@ -238,34 +228,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mc.animateTo(mHotelItemizedOverlay.getCenter());
 		mc.zoomToSpan(mHotelItemizedOverlay.getLatSpanE6(), mHotelItemizedOverlay.getLonSpanE6());
 	}
-
-	//////////////////////////////////////////////////////////////////////////////////
-	// Private methods
-
-	//////////////////////////////////////////////////////////////////////////////////
-	// Listeners
-
-	private final View.OnClickListener mMapSearchButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			GeoPoint center = mMapView.getMapCenter();
-			SearchParams searchParams = mParent.getSearchParams();
-
-			searchParams.setSearchType(SearchType.PROXIMITY);
-			searchParams.setDestinationId(null);
-
-			mParent.setSearchParams(searchParams);
-			mParent.setSearchParams(MapUtils.getLatitiude(center), MapUtils.getLongitiude(center));
-			mParent.startSearch();
-		}
-	};
-
-	private final View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			mParent.switchResultsView();
-		}
-	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Private classes
