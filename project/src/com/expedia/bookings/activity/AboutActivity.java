@@ -12,8 +12,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.SupportUtils;
+import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+import com.omniture.AppMeasurement;
 
 public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
@@ -63,6 +66,11 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		ViewGroup otherAppsSection = addSection(getString(R.string.travel_smart));
 		addAppAbout(otherAppsSection, APP_FLIGHTTRACK, 0);
 		addAppAbout(otherAppsSection, APP_FLIGHTBOARD, 0);
+
+		// Tracking
+		if (savedInstanceState == null) {
+			onPageLoad();
+		}
 	}
 
 	@Override
@@ -117,5 +125,24 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 	@Override
 	public boolean useDefaultBehavior() {
 		return false;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Omniture tracking
+
+	public void onPageLoad() {
+		Log.d("Tracking \"App.Hotel.Support\" pageLoad");
+
+		AppMeasurement s = new AppMeasurement(getApplication());
+
+		TrackingUtils.addStandardFields(this, s);
+
+		s.pageName = "App.Hotel.Support";
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+
+		// Send the tracking data
+		s.track();
 	}
 }
