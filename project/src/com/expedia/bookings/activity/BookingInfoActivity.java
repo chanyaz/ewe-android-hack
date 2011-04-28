@@ -442,16 +442,16 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// Set the default country as USA
 		setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
-
 		mCountrySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (mFormHasBeenFocused) {
 					mPostalCodeEditText.requestFocus();
 				}
+				onCountrySpinnerClick();
 			}
 
 			public void onNothingSelected(AdapterView<?> parent) {
-				// Should not happen, do nothing
+				onCountrySpinnerClick();
 			}
 		});
 
@@ -862,7 +862,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	// Omniture tracking
 
 	public void onPageLoad() {
-		Log.d("Tracking \"App.Hotels.Checkout.Payment\" event");
+		Log.d("Tracking \"App.Hotels.Checkout.Payment\" pageLoad");
 
 		AppMeasurement s = new AppMeasurement(getApplication());
 
@@ -902,6 +902,23 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// The section complete
 		s.eVar28 = s.prop16 = sectionName;
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public void onCountrySpinnerClick() {
+		Log.d("Tracking \"country spinner\" onClick");
+
+		AppMeasurement s = new AppMeasurement(getApplication());
+
+		TrackingUtils.addStandardFields(this, s);
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+
+		// The section complete
+		s.eVar28 = s.prop16 = "CKO.BD.ChangeCountry";
 
 		// Send the tracking data
 		s.track();
