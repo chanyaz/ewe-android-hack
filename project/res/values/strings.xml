@@ -17,6 +17,8 @@
 	<!-- Search Activity -->
 	<string name="search">Search</string>
 	<string name="booking_info_template">%1$s — %2$s %3$d to %4$s %5$s, %6$d</string>
+	<!-- Label indicating that there are no results matching their current filter -->
+	<string name="no_filter_results">Sorry, no hotels match your current filters.</string>
 	
 	<!-- Price range template -->
 	<string name="price_range_template">($%1$d — $%2$d)</string>
