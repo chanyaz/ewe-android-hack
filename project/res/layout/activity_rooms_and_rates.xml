@@ -81,12 +81,29 @@
 		android:src="@drawable/list_shadow"
 		android:scaleType="fitXY" />
 
-	<ProgressBar
+	<LinearLayout
 		android:id="@android:id/empty"
-		android:layout_width="100dp"
-		android:layout_height="100dp"
-		android:layout_gravity="center"
-		android:indeterminate="true"
-		style="@android:style/Widget.ProgressBar.Large.Inverse" />
-
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:gravity="center"
+		android:orientation="vertical">
+		<ProgressBar
+			android:id="@android:id/empty"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:indeterminate="true"
+			style="@android:style/Widget.ProgressBar.Large.Inverse" />
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="24dp"
+			android:text="@string/room_rates_loading"
+			android:textSize="18sp"
+			android:textStyle="bold"
+			android:textColor="#FF666666"
+			android:shadowColor="#88FFFFFF"
+			android:shadowDx="0"
+			android:shadowDy="-1"
+			android:shadowRadius="0.1" />
+	</LinearLayout>
 </LinearLayout>

@@ -59,6 +59,8 @@
 	<string name="amenity_pets">Pets</string>
 
 	<!-- Room and rates list -->
+	<!-- Loading message for rooms & rates -->
+	<string name="room_rates_loading">Finding available rooms...</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">per night</string>
 	<!-- Rate price displayed "average per night" -->
