@@ -222,7 +222,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 
 	public void setSearchResponse(SearchResponse response) {
 		if (mSearchResponse != null) {
-			mSearchResponse.getFilter().removeOnFilterChangedListener(mSearchResponse);
+			mSearchResponse.getFilter().removeOnFilterChangedListener(this);
 		}
 
 		mSearchResponse = response;
