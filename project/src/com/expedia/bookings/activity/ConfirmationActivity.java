@@ -392,19 +392,7 @@ public class ConfirmationActivity extends MapActivity {
 	}
 
 	public void onClickNewSearch() {
-		Log.d("Tracking \"new search\" onClick");
-
-		AppMeasurement s = new AppMeasurement(getApplication());
-
-		TrackingUtils.addStandardFields(this, s);
-
-		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
-
-		// The section complete
-		s.eVar28 = s.prop16 = "CKO.CP.StartNewSearch";
-
-		// Send the tracking data
-		s.track();
+		Log.d("Tracking \"new search\" onClick");		
+		TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", "CKO.CP.StartNewSearch");
 	}
 }

@@ -866,81 +866,34 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	public void onPageLoad() {
 		Log.d("Tracking \"App.Hotels.Checkout.Payment\" pageLoad");
 
-		AppMeasurement s = new AppMeasurement(getApplication());
-
-		TrackingUtils.addStandardFields(this, s);
-
-		s.pageName = "App.Hotels.Checkout.Payment";
-
-		s.events = "event34";
-
-		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
-
 		// If any sections were already complete, fill them in here
+		String referrerId = null;
 		if (mGuestsCompleted && mBillingCompleted) {
-			s.eVar28 = s.prop16 = "CKO.BD.CompletedGuestInfo|CKO.BD.CompletedBillingInfo";
+			referrerId = "CKO.BD.CompletedGuestInfo|CKO.BD.CompletedBillingInfo";
 		}
 		else if (mGuestsCompleted) {
-			s.eVar28 = s.prop16 = "CKO.BD.CompletedGuestInfo";
+			referrerId = "CKO.BD.CompletedGuestInfo";
 		}
 		else if (mBillingCompleted) {
-			s.eVar28 = s.prop16 = "CKO.BD.CompletedBillingInfo";
+			referrerId = "CKO.BD.CompletedBillingInfo";
 		}
 
-		// Send the tracking data
-		s.track();
+		TrackingUtils.trackSimpleEvent(this, "App.Hotels.Checkout.Payment", "event34", "Shopper", referrerId);
 	}
 
 	public void onCompletedSection(String sectionName) {
 		Log.d("Tracking \"" + sectionName + "\" onClick");
-
-		AppMeasurement s = new AppMeasurement(getApplication());
-
-		TrackingUtils.addStandardFields(this, s);
-
-		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
-
-		// The section complete
-		s.eVar28 = s.prop16 = sectionName;
-
-		// Send the tracking data
-		s.track();
+		TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", sectionName);
 	}
 
 	public void onCountrySpinnerClick() {
 		Log.d("Tracking \"country spinner\" onClick");
-
-		AppMeasurement s = new AppMeasurement(getApplication());
-
-		TrackingUtils.addStandardFields(this, s);
-
-		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
-
-		// The section complete
-		s.eVar28 = s.prop16 = "CKO.BD.ChangeCountry";
-
-		// Send the tracking data
-		s.track();
+		TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", "CKO.BD.ChangeCountry");
 	}
 
 	public void onClickSubmit() {
 		Log.d("Tracking \"submit\" onClick");
-
-		AppMeasurement s = new AppMeasurement(getApplication());
-
-		TrackingUtils.addStandardFields(this, s);
-
-		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
-
-		// The section complete
-		s.eVar28 = s.prop16 = "CKO.BD.Confirm";
-
-		// Send the tracking data
-		s.track();
+		TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", "CKO.BD.Confirm");
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////

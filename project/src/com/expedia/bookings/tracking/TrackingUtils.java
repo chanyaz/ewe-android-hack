@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.telephony.TelephonyManager;
@@ -17,6 +18,39 @@ import com.mobiata.hotellib.data.Property;
 import com.omniture.AppMeasurement;
 
 public class TrackingUtils {
+
+	// Most tracking events are pretty simple and can be captured by these few fields.  Just enter them
+	// and we'll handle the rest
+	public static void trackSimpleEvent(Context context, String pageName, String events, String shopperConfirmer,
+			String referrerId) {
+		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+
+		addStandardFields(context, s);
+
+		if (events != null) {
+			s.events = events;
+		}
+
+		if (shopperConfirmer != null) {
+			s.eVar25 = s.prop25 = shopperConfirmer;
+		}
+
+		if (referrerId != null) {
+			s.eVar28 = s.prop16 = referrerId;
+		}
+
+		// Handle the tracking different for pageLoads and onClicks.
+		// If there is no pageName, it is an onClick (by default)
+		if (pageName != null) {
+			s.pageName = pageName;
+			s.track();
+		}
+		else {
+			// TODO: Handle onClicks differently, not sure how at this point.
+			s.track();
+		}
+	}
+
 	public static void addStandardFields(Context context, AppMeasurement s) {
 		// Information gathering (before we run in and start setting variables)
 		Calendar now = Calendar.getInstance();

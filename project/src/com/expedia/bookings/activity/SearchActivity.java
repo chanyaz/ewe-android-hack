@@ -1841,33 +1841,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void onOpenFilterPanel() {
 		Log.d("Tracking \"App.Hotels.Search.Refine\" onClick...");
-
-		AppMeasurement s = new AppMeasurement(getApplication());
-
-		TrackingUtils.addStandardFields(this, s);
-
-		s.pageName = "App.Hotels.Search.Refine";
-
-		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
-
-		// Send the tracking data
-		s.track();
+		TrackingUtils.trackSimpleEvent(this, "App.Hotels.Search.Refine", null, "Shopper", null);
 	}
 
 	private void onSwitchToMap() {
 		Log.d("Tracking \"App.Hotels.Search.Map\" pageLoad...");
-
-		AppMeasurement s = new AppMeasurement(getApplication());
-
-		TrackingUtils.addStandardFields(this, s);
-
-		s.pageName = "App.Hotels.Search.Map";
-
-		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
-
-		// Send the tracking data
-		s.track();
+		TrackingUtils.trackSimpleEvent(this, "App.Hotels.Search.Map", null, "Shopper", null);
 	}
 }

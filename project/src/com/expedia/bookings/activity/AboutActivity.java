@@ -16,7 +16,6 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.SupportUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-import com.omniture.AppMeasurement;
 
 public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
@@ -133,36 +132,11 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
 	public void onPageLoad() {
 		Log.d("Tracking \"App.Hotel.Support\" pageLoad");
-
-		AppMeasurement s = new AppMeasurement(getApplication());
-
-		TrackingUtils.addStandardFields(this, s);
-
-		s.pageName = "App.Hotel.Support";
-
-		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
-
-		// Send the tracking data
-		s.track();
+		TrackingUtils.trackSimpleEvent(this, "App.Hotel.Support", null, "Shopper", null);
 	}
 
 	public void onCallSupport() {
 		Log.d("Tracking \"call support\" onClick");
-
-		AppMeasurement s = new AppMeasurement(getApplication());
-
-		TrackingUtils.addStandardFields(this, s);
-
-		s.events = "event35";
-
-		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
-
-		// Referrer id
-		s.eVar28 = s.prop16 = "App.Info.CallSupport";
-
-		// Send the tracking data
-		s.track();
+		TrackingUtils.trackSimpleEvent(this, null, "event35", "Shopper", "App.Info.CallSupport");
 	}
 }
