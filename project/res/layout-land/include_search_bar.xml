@@ -29,7 +29,7 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:textSize="16sp"
-            android:imeOptions="actionSearch|flagNoExtractUi" />
+            android:imeOptions="actionSearch" />
             
 		<ImageButton
 			android:id="@+id/dates_button"
