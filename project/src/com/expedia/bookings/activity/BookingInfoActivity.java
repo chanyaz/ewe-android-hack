@@ -65,7 +65,6 @@ import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.CurrencyUtils;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
-import com.omniture.AppMeasurement;
 
 public class BookingInfoActivity extends Activity implements Download, OnDownloadComplete {
 
@@ -474,7 +473,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				}
 				else {
 					mCreditCardImageView.setImageResource(R.drawable.ic_cc_unknown);
-					mSecurityCodeTipTextView.setText(R.string.security_code_tip_front_back);
+					mSecurityCodeTipTextView.setText(R.string.security_code_tip_back);
 				}
 			}
 		});
