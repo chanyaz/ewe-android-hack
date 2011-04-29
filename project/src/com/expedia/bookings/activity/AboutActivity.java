@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +17,7 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.SupportUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+import com.opinionlab.oo.sdk.android.CommentCardActivity;
 
 public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
@@ -46,7 +48,8 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		ViewGroup appSection = addSection();
 		addSimpleRow(appSection, getString(R.string.app_feedback), new OnClickListener() {
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				Intent intent = new Intent(mContext, CommentCardActivity.class);
+				startActivity(intent);
 			}
 		});
 		addSimpleRow(appSection, getString(R.string.app_support), new OnClickListener() {

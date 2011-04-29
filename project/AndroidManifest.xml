@@ -42,6 +42,8 @@
 
 		<activity android:name=".activity.AboutActivity" />
 
+		<activity android:name="com.opinionlab.oo.sdk.android.CommentCardActivity" />
+
     </application>
     
 </manifest>
