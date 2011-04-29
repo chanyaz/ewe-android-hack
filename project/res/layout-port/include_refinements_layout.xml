@@ -44,13 +44,15 @@
 			android:id="@+id/adults_number_picker"
 	    	android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
-	    	android:layout_weight="1" />
+	    	android:layout_weight="1"
+	    	mobiata:pickerTextSize="14dp" />
 	    	
 	    <com.mobiata.android.widget.NumberPicker
 			android:id="@+id/children_number_picker"
 	    	android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
-	    	android:layout_weight="1" />
+	    	android:layout_weight="1"
+	    	mobiata:pickerTextSize="14dp" />
     
     </LinearLayout>
     
