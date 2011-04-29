@@ -73,7 +73,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 		Rate rate = (Rate) getItem(position);
 
-		holder.description.setText(rate.getRoomDescription());
+		holder.description.setText(Html.fromHtml(rate.getRoomDescription()));
 		holder.price.setText(rate.getAverageRate().getFormattedMoney());
 
 		String explanation = "";
