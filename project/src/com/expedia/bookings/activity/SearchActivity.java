@@ -126,6 +126,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private static final long ANIMATION_PANEL_DISMISS_SPEED = 150;
 
+	private static final int MAX_GUESTS_TOTAL = 5;
+	private static final int MAX_GUEST_NUM = 4;
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
@@ -937,6 +940,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
 
+		//===================================================================
 		// Properties
 
 		//-------------------------------------------------------------------
@@ -959,17 +963,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mPanel.setOnPanelListener(mPanelListener);
 
-		Resources res = getResources();
-		String[] adults = new String[4];
-		for (int a = 0; a < 4; a++) {
-			adults[a] = res.getQuantityString(R.plurals.number_of_adults, a + 1, a + 1);
-		}
-		String[] children = new String[5];
-		for (int a = 0; a < 5; a++) {
-			children[a] = res.getQuantityString(R.plurals.number_of_children, a, a);
-		}
-		mAdultsNumberPicker.setRange(1, 4, adults);
-		mChildrenNumberPicker.setRange(0, 4, children);
+		mAdultsNumberPicker.setTextEnabled(false);
+		mChildrenNumberPicker.setTextEnabled(false);
+		mAdultsNumberPicker.setRange(1, 4);
+		mChildrenNumberPicker.setRange(0, 4);
+		setNumberPickerRanges();
 
 		Time now = new Time();
 		now.setToNow();
@@ -977,6 +975,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mDatesCalendarDatePicker.setMinDate(now.year, now.month, now.monthDay);
 		mDatesCalendarDatePicker.setMaxRange(28);
 
+		//===================================================================
 		// Listeners
 		mMapSearchButton.setOnClickListener(mMapSearchButtonClickListener);
 		mViewButton.setOnClickListener(mViewButtonClickListener);
@@ -1165,6 +1164,30 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				mMapSearchButton.setVisibility(View.VISIBLE);
 			}
 		}
+	}
+
+	private void setNumberPickerRanges() {
+		Resources res = getResources();
+		String[] adults = new String[4];
+		for (int a = 0; a < 4; a++) {
+			adults[a] = res.getQuantityString(R.plurals.number_of_adults, a + 1, a + 1);
+		}
+		String[] children = new String[5];
+		for (int a = 0; a < 5; a++) {
+			children[a] = res.getQuantityString(R.plurals.number_of_children, a, a);
+		}
+
+		final int numAdults = mAdultsNumberPicker.getCurrent();
+		final int numChildren = mChildrenNumberPicker.getCurrent();
+		final int total = numAdults + numChildren;
+		int remaining = MAX_GUESTS_TOTAL - total;
+		remaining = Math.min(MAX_GUEST_NUM, remaining);
+
+		mAdultsNumberPicker.setRange(1, numAdults + remaining, adults);
+		mChildrenNumberPicker.setRange(0, numChildren + remaining, children);
+		
+		mAdultsNumberPicker.setCurrent(numAdults);
+		mChildrenNumberPicker.setCurrent(numChildren);
 	}
 
 	private void setPriceRangeText() {
@@ -1563,6 +1586,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final NumberPicker.OnChangedListener mNumberPickerChangedListener = new NumberPicker.OnChangedListener() {
 		@Override
 		public void onChanged(NumberPicker picker, int oldVal, int newVal) {
+			setNumberPickerRanges();
 			setRefinementInfo();
 		}
 	};
