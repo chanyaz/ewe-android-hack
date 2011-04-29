@@ -118,7 +118,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final int MSG_BROADCAST_SEARCH_FAILED = 2;
 	private static final int MSG_BROADCAST_SEARCH_STARTED = 3;
 
-	private static final long TIME_SWITCH_TO_NETWORK_DELAY = 1000 * 3;
+	private static final long TIME_SWITCH_TO_NETWORK_DELAY = 1000;
 
 	private static final boolean ANIMATION_VIEW_FLIP_ENABLED = true;
 	private static final long ANIMATION_VIEW_FLIP_SPEED = 350;
