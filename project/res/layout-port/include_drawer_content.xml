@@ -9,20 +9,42 @@
 	android:paddingBottom="12dp"
 	android:background="@drawable/search_results_drawer_content_bg">
 	
-	<ImageButton
-		android:id="@+id/tripadvisor_only_button"
+	<RelativeLayout
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:background="@drawable/btn_drawer" />
+		android:layout_height="50dp">
+	
+		<Button
+			android:id="@+id/tripadvisor_only_button"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center|top"
+			android:text="@string/tripadvisor_rating_all"
+			android:textStyle="bold"
+			android:textColor="@color/btn_text"
+			android:shadowColor="#88FFFFFF"
+			android:shadowDx="0"
+			android:shadowDy="1"
+			android:shadowRadius="0.1"
+			android:background="@drawable/btn_drawer" />
+			
+		<ImageView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:padding="9dp"
+			android:gravity="center"
+			android:src="@drawable/btn_tripadvisor_filter" />
+		
+	</RelativeLayout>
 	
 	<LinearLayout
 		android:id="@+id/sort_layout"
 		android:orientation="vertical"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
-	
+		
 		<TextView
-			android:layout_width="wrap_content"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="6dp"
 			android:text="Sort"

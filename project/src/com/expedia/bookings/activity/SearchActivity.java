@@ -145,6 +145,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Panel mPanel;
 
 	private View mSortLayout;
+	private Button mTripAdvisorOnlyButton;
 	private SegmentedControlGroup mSortButtonGroup;
 	private SegmentedControlGroup mRadiusButtonGroup;
 	private TextView mPriceRangeTextView;
@@ -879,6 +880,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mPanel = (Panel) findViewById(R.id.drawer_panel);
 
 		mSortLayout = findViewById(R.id.sort_layout);
+		mTripAdvisorOnlyButton = (Button) findViewById(R.id.tripadvisor_only_button);
 		mSortButtonGroup = (SegmentedControlGroup) findViewById(R.id.sort_filter_button_group);
 		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
 		mPriceRangeTextView = (TextView) findViewById(R.id.price_range_text_view);
@@ -950,6 +952,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
 
 		mPanelDismissView.setOnClickListener(mPanelDismissViewClickListener);
+		mTripAdvisorOnlyButton.setOnClickListener(mTripAdvisorOnlyButtonClickListener);
 		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
@@ -1031,6 +1034,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void setDrawerViews() {
+		final Rating rating = mFilter.getRating();
+		switch (rating) {
+		case ALL: {
+			mTripAdvisorOnlyButton.setText(R.string.tripadvisor_rating_high);
+			break;
+		}
+		case HIGHLY_RATED: {
+			mTripAdvisorOnlyButton.setText(R.string.tripadvisor_rating_all);
+			break;
+		}
+		}
+
 		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
 			mSortLayout.setVisibility(View.VISIBLE);
 		}
@@ -1214,6 +1229,22 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
+	private void switchRatingFilter() {
+		final Rating rating = mFilter.getRating();
+		switch (rating) {
+		case ALL: {
+			mFilter.setRatingFilter(Rating.HIGHLY_RATED);
+			break;
+		}
+		case HIGHLY_RATED: {
+			mFilter.setRatingFilter(Rating.ALL);
+			break;
+		}
+		}
+		
+		setDrawerViews();
+	}
+
 	// Searching methods
 
 	private void buildFilter() {
@@ -1390,6 +1421,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 
 			return false;
+		}
+	};
+
+	private final View.OnClickListener mTripAdvisorOnlyButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			switchRatingFilter();
+			closeDrawer();
 		}
 	};
 
