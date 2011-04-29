@@ -7,3 +7,6 @@
 [submodule "lib/HotelLib"]
 	path = lib/HotelLib
 	url = git@team.mobiata.com:Android/HotelLib.git
+[submodule "lib/OpinionLab"]
+	path = lib/OpinionLab
+	url = git@team.mobiata.com:Android/OpinionLab
