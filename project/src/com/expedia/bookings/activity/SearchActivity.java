@@ -16,6 +16,7 @@ import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -76,6 +77,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
+import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
@@ -92,6 +94,7 @@ import com.mobiata.hotellib.data.PriceTier;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
 import com.mobiata.hotellib.data.SearchResponse;
+import com.mobiata.hotellib.data.ServerError;
 import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.StrUtils;
@@ -112,6 +115,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 
 	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
+	private static final int DIALOG_CLIENT_DEPRECATED = 1;
 
 	private static final int MSG_SWITCH_TO_NETWORK_LOCATION = 0;
 	private static final int MSG_BROADCAST_SEARCH_COMPLETED = 1;
@@ -252,8 +256,24 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				showDialog(DIALOG_LOCATION_SUGGESTIONS);
 			}
 			else {
-				mSearchProgressBar.setShowProgress(false);
-				mSearchProgressBar.setText(R.string.progress_search_failed);
+				// Handling for particular errors
+				boolean handledError = false;
+				if (mSearchResponse.hasErrors()) {
+					ServerError errorOne = mSearchResponse.getErrors().get(0);
+					if (errorOne.getCode().equals("01")) {
+						// Deprecated client version
+						showDialog(DIALOG_CLIENT_DEPRECATED);
+
+						mSearchProgressBar.setShowProgress(false);
+						mSearchProgressBar.setText(errorOne.getExtra("message"));
+						handledError = true;
+					}
+				}
+
+				if (!handledError) {
+					mSearchProgressBar.setShowProgress(false);
+					mSearchProgressBar.setText(R.string.progress_search_failed);
+				}
 			}
 		}
 	};
@@ -400,6 +420,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 							mSearchParams.getFreeformLocation()));
 				}
 			});
+			return builder.create();
+		}
+		case DIALOG_CLIENT_DEPRECATED: {
+			AlertDialog.Builder builder = new Builder(this);
+			final ServerError error = mSearchResponse.getErrors().get(0);
+			builder.setMessage(error.getExtra("message"));
+			builder.setPositiveButton(R.string.upgrade, new OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					SocialUtils.openSite(mContext, error.getExtra("url"));
+				}
+			});
+			builder.setNegativeButton(android.R.string.cancel, null);
 			return builder.create();
 		}
 		}
