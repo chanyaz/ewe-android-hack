@@ -23,8 +23,7 @@
     	android:id="@+id/content_layout"
     	android:layout_width="fill_parent"
     	android:layout_height="fill_parent"
-    	android:background="@color/bg_default"
-    	android:paddingTop="8dp"
+    	android:layout_marginTop="8dp"
     	android:layout_below="@id/search_bar_layout" />
 
 	<ImageButton

@@ -18,7 +18,6 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:gravity="center|top"
-			android:text="@string/tripadvisor_rating_all"
 			android:textStyle="bold"
 			android:textColor="@color/btn_text"
 			android:shadowColor="#88FFFFFF"

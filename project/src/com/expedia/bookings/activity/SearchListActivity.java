@@ -4,8 +4,6 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
@@ -16,7 +14,7 @@ import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchResponse;
 
-public class SearchListActivity extends ListActivity implements SearchListener, OnScrollListener {
+public class SearchListActivity extends ListActivity implements SearchListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
@@ -28,8 +26,6 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	private SearchResponse mSearchResponse;
 
 	private ListViewScrollBar mScrollBar;
-
-	private boolean mIsScrolling = false;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
@@ -44,7 +40,6 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 		mParent.addSearchListener(this);
 		mScrollBar.setListView(getListView());
-		mScrollBar.setOnScrollListener(this);
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
@@ -82,15 +77,6 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		intent.putExtra(Codes.SESSION, mParent.getSession().toJson().toString());
 		intent.putExtra(HotelActivity.EXTRA_POSITION, position);
 		startActivity(intent);
-	}
-
-	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-	}
-
-	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		mIsScrolling = (scrollState != SCROLL_STATE_IDLE);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////

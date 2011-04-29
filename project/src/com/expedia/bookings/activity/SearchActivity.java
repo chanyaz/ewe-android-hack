@@ -4,7 +4,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.ActivityGroup;
 import android.app.AlertDialog;
@@ -20,6 +22,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -70,6 +73,7 @@ import com.google.android.maps.GeoPoint;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -179,10 +183,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private List<SearchListener> mSearchListeners;
 	private MapViewListener mMapViewListener;
 
+	private List<Address> mAddresses;
 	private SearchParams mSearchParams;
 	private SearchParams mOldSearchParams;
 	private Session mSession;
 	private SearchResponse mSearchResponse;
+	private Map<PriceRange, PriceTier> mPriceTierCache;
 	private Filter mFilter;
 	private Filter mOldFilter;
 	private boolean mLocationListenerStarted;
@@ -215,10 +221,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onDownload(Object results) {
 			// Clear the old listener so we don't end up with a memory leak
-			if (mSearchResponse != null) {
-				mFilter.removeOnFilterChangedListener(mSearchResponse);
-			}
-
+			mFilter.clearOnFilterChangedListeners();
 			mSearchResponse = (SearchResponse) results;
 
 			if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
@@ -232,6 +235,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 				broadcastSearchCompleted(mSearchResponse);
 
+				buildPriceTierCache();
 				enablePanelHandle();
 				hideLoading();
 				setPriceRangeText();
@@ -274,6 +278,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchParams = state.searchParams;
 			mOldSearchParams = state.oldSearchParams;
 			mSearchResponse = state.searchResponse;
+			mPriceTierCache = state.priceTierCache;
 			mSession = state.session;
 			mFilter = state.filter;
 			mOldFilter = state.oldFilter;
@@ -340,6 +345,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.searchParams = mSearchParams;
 		state.oldSearchParams = mOldSearchParams;
 		state.searchResponse = mSearchResponse;
+		state.priceTierCache = mPriceTierCache;
 		state.session = mSession;
 		state.filter = mFilter;
 		state.oldFilter = mOldFilter;
@@ -356,22 +362,22 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case DIALOG_LOCATION_SUGGESTIONS: {
-			final List<com.mobiata.hotellib.data.Location> locations = mSearchResponse.getLocations();
-			final int size = locations.size();
-			final CharSequence[] freeformLocations = new CharSequence[mSearchResponse.getLocations().size()];
-			for (int a = 0; a < size; a++) {
-				freeformLocations[a] = StrUtils.formatAddressCity(locations.get(a));
+			final int size = mAddresses.size();
+			final CharSequence[] freeformLocations = new CharSequence[mAddresses.size()];
+			for (int i = 0; i < size; i++) {
+				freeformLocations[i] = LocationServices.formatAddress(mAddresses.get(i));
 			}
 
 			AlertDialog.Builder builder = new Builder(this);
 			builder.setTitle(R.string.ChooseLocation);
 			builder.setItems(freeformLocations, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					com.mobiata.hotellib.data.Location location = locations.get(which);
-					mSearchEditText.setText(StrUtils.formatAddress(location));
-					mSearchParams.setDestinationId(location.getDestinationId());
+					Address address = mAddresses.get(which);
+					mSearchEditText.setText(LocationServices.formatAddress(address));
+					mSearchParams.setFreeformLocation(LocationServices.formatAddress(address));
+					mSearchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
-					startSearch();
+					startSearchDownloader();
 				}
 			});
 			builder.setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
@@ -522,8 +528,27 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mMapViewListener = mapViewListener;
 	}
 
-	public void setSearchParams() {
-		setSearchParams(null, null);
+	public boolean setSearchParams() {
+		mAddresses = LocationServices.geocode(this, mSearchParams.getFreeformLocation());
+		if (mAddresses.size() > 1) {
+			mSearchProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(null);
+			showDialog(DIALOG_LOCATION_SUGGESTIONS);
+
+			return false;
+		}
+		else if (mAddresses.size() > 0) {
+			Address address = mAddresses.get(0);
+			setSearchParams(address.getLatitude(), address.getLongitude());
+
+			return true;
+		}
+		else {
+			mSearchProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(R.string.progress_search_failed);
+
+			return false;
+		}
 	}
 
 	public void setSearchParams(Double latitde, Double longitude) {
@@ -531,13 +556,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchParams = new SearchParams();
 		}
 
-		if (latitde != null && longitude != null) {
-			mSearchParams.setSearchLatLon(latitde, longitude);
-		}
-		else {
-			mSearchParams.setFreeformLocation(mSearchEditText.getText().toString().trim());
-			mSearchParams.setDestinationId(null);
-		}
+		mSearchParams.setSearchLatLon(latitde, longitude);
 
 		Calendar startCalendar = Calendar.getInstance();
 		Calendar endCalendar = Calendar.getInstance();
@@ -575,8 +594,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
 			stopLocationListener();
-			setSearchParams();
-			startSearchDownloader();
+			if (setSearchParams()) {
+				startSearchDownloader();
+			}
 
 			Search.add(this, mSearchParams);
 			mSearchSuggestionAdapter.refreshData();
@@ -764,6 +784,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	// Show/hide view methods
+
+	private void buildPriceTierCache() {
+		if (mSearchResponse != null) {
+			mSearchResponse.clusterProperties();
+
+			mPriceTierCache = new HashMap<PriceRange, PriceTier>();
+			mPriceTierCache.put(PriceRange.CHEAP, mSearchResponse.getPriceTier(PriceRange.CHEAP));
+			mPriceTierCache.put(PriceRange.MODERATE, mSearchResponse.getPriceTier(PriceRange.MODERATE));
+			mPriceTierCache.put(PriceRange.EXPENSIVE, mSearchResponse.getPriceTier(PriceRange.EXPENSIVE));
+			mPriceTierCache.put(PriceRange.ALL, mSearchResponse.getPriceTier(PriceRange.ALL));
+		}
+	}
 
 	private void closeDrawer() {
 		mPanel.setOpen(false, true);
@@ -1138,11 +1170,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void setPriceRangeText() {
-		if (mSearchResponse != null) {
-			mSearchResponse.clusterProperties();
+		if (mPriceTierCache != null) {
 
 			PriceRange priceRange = PriceRange.ALL;
-
 			switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
 			case R.id.price_cheap_button: {
 				priceRange = PriceRange.CHEAP;
@@ -1158,15 +1188,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 			}
 
-			PriceTier priceTier = mSearchResponse.getPriceTier(priceRange);
+			PriceTier priceTier = mPriceTierCache.get(priceRange);
 			if (priceTier != null) {
 				int priceMin = (int) priceTier.getMinRate().getAmount();
 				int priceMax = (int) priceTier.getMaxRate().getAmount();
 				mPriceRangeTextView.setText(getString(R.string.price_range_template, priceMin, priceMax));
 			}
-			else {
-				mPriceRangeTextView.setText(null);
-			}
+		}
+		else {
+			mPriceRangeTextView.setText(null);
 		}
 	}
 
@@ -1645,6 +1675,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public SearchParams searchParams;
 		public SearchParams oldSearchParams;
 		public SearchResponse searchResponse;
+		public Map<PriceRange, PriceTier> priceTierCache;
 		public Session session;
 		public Filter filter;
 		public Filter oldFilter;
