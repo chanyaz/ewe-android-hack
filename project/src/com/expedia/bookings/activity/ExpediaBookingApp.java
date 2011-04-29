@@ -42,8 +42,7 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 		ex.printStackTrace(printWriter);
 		s.prop36 = printWriter.toString();
 
-		// TODO: Register this as an onClick instead of page event
-		s.track();
+		TrackingUtils.trackOnClick(s);
 
 		// Call the original exception handler
 		mOriginalUncaughtExceptionHandler.uncaughtException(thread, ex);

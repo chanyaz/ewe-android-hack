@@ -46,9 +46,12 @@ public class TrackingUtils {
 			s.track();
 		}
 		else {
-			// TODO: Handle onClicks differently, not sure how at this point.
-			s.track();
+			trackOnClick(s);
 		}
+	}
+
+	public static void trackOnClick(AppMeasurement s) {
+		s.trackLink(null, "o", s.eVar28);
 	}
 
 	public static void addStandardFields(Context context, AppMeasurement s) {
