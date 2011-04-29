@@ -237,7 +237,7 @@ public class HotelActivity extends Activity {
 	// Omniture tracking
 
 	public void onPageLoad() {
-		Log.d("Tracking \"App.Hotels.Infosite\" event");
+		Log.d("Tracking \"App.Hotels.Infosite\" pageLoad");
 
 		AppMeasurement s = new AppMeasurement(getApplication());
 

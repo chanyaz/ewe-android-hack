@@ -1629,7 +1629,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		// Only send page load when the app just started up - if there's a previous instance, that means
 		// it was just a configuration change.
 		if (getLastNonConfigurationInstance() == null) {
-			Log.d("Tracking \"App.Loading\" event...");
+			Log.d("Tracking \"App.Loading\" pageLoad...");
 
 			AppMeasurement s = new AppMeasurement(getApplication());
 
