@@ -54,6 +54,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -223,6 +224,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
 				mSearchResponse.setFilter(mFilter);
 				mSession = mSearchResponse.getSession();
+
+				if (mSearchResponse.getFilteredAndSortedProperties().length <= 10) {
+					final int index = mRadiusButtonGroup.getChildCount() - 1;
+					((RadioButton) mRadiusButtonGroup.getChildAt(index)).setChecked(true);
+				}
 
 				broadcastSearchCompleted(mSearchResponse);
 
@@ -1241,7 +1247,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		}
 		}
-		
+
 		setDrawerViews();
 	}
 
