@@ -373,9 +373,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			builder.setItems(freeformLocations, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					Address address = mAddresses.get(which);
-					mSearchEditText.setText(LocationServices.formatAddress(address));
 					mSearchParams.setFreeformLocation(LocationServices.formatAddress(address));
-					mSearchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
+					setSearchParams(address.getLatitude(), address.getLongitude());
+					setSearchEditViews();
+
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearchDownloader();
 				}
@@ -597,9 +598,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (setSearchParams()) {
 				startSearchDownloader();
 			}
-
-			Search.add(this, mSearchParams);
-			mSearchSuggestionAdapter.refreshData();
 
 			break;
 		}
@@ -1350,6 +1348,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void startSearchDownloader() {
 		showLoading(R.string.progress_searching_hotels);
+		if (mSearchParams.getSearchType() == SearchType.FREEFORM) {
+			Search.add(this, mSearchParams);
+			mSearchSuggestionAdapter.refreshData();
+		}
+
 		mSearchDownloader.cancelDownload(KEY_SEARCH);
 		mSearchDownloader.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
