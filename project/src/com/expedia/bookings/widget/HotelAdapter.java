@@ -117,7 +117,7 @@ public class HotelAdapter extends BaseAdapter implements OnFilterChangedListener
 		}
 
 		Property property = (Property) getItem(position);
-		holder.thumbnail.setImageResource(R.drawable.ic_image_placeholder);
+		holder.thumbnail.setImageResource(R.drawable.ic_row_thumb_placeholder);
 		holder.name.setText(property.getName());
 
 		// We assume we have a lowest rate here; this may not be a safe assumption
