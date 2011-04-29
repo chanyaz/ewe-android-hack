@@ -530,8 +530,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		final BookingInfoActivity activity = this;
 		mConfirmationButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				onClickSubmit();
-
 				if (!mFormHasBeenFocused) {
 					// Don't let user click on this until they've at least made some attempt
 					// at entering data into the form fields.
@@ -551,6 +549,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 					firstErrorView.requestFocus();
 				}
 				else {
+					onClickSubmit();
 					showDialog(DIALOG_BOOKING_PROGRESS);
 					BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, activity, activity);
 				}
