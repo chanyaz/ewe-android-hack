@@ -1121,6 +1121,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		setPriceRangeText();
+		setRadioButtonShadowLayers();
 	}
 
 	private void setMapSearchButtonVisibility() {
@@ -1217,7 +1218,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mAdultsNumberPicker.setRange(1, numAdults + remaining, adults);
 		mChildrenNumberPicker.setRange(0, numChildren + remaining, children);
-		
+
 		mAdultsNumberPicker.setCurrent(numAdults);
 		mChildrenNumberPicker.setCurrent(numChildren);
 	}
@@ -1250,6 +1251,29 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		else {
 			mPriceRangeTextView.setText(null);
+		}
+	}
+
+	private void setRadioButtonShadowLayers() {
+		List<SegmentedControlGroup> groups = new ArrayList<SegmentedControlGroup>();
+		groups.add(mSortButtonGroup);
+		groups.add(mRadiusButtonGroup);
+		groups.add(mPriceButtonGroup);
+
+		for (SegmentedControlGroup group : groups) {
+			final int size = group.getChildCount();
+			for (int i = 0; i < size; i++) {
+				View view = group.getChildAt(i);
+				if (view instanceof RadioButton) {
+					RadioButton radioButton = (RadioButton) view;
+					if (radioButton.isChecked()) {
+						radioButton.setShadowLayer(0.1f, 0, -1, 0x88000000);
+					}
+					else {
+						radioButton.setShadowLayer(0.1f, 0, 1, 0x88FFFFFF);
+					}
+				}
+			}
 		}
 	}
 
@@ -1531,6 +1555,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			buildFilter();
 			setPriceRangeText();
+			setRadioButtonShadowLayers();
 			mPanel.setOpen(false, true);
 		}
 	};

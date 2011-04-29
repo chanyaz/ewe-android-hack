@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
 	android:id="@id/drawer_content"
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
@@ -19,7 +20,7 @@
 			android:layout_height="wrap_content"
 			android:gravity="center|top"
 			android:textStyle="bold"
-			android:textColor="@color/btn_text"
+			android:textColor="#FF3d404e"
 			android:shadowColor="#88FFFFFF"
 			android:shadowDx="0"
 			android:shadowDy="1"
@@ -59,7 +60,8 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="6dp"
-			android:orientation="horizontal">
+			android:orientation="horizontal"
+			mobiata:textColor="@color/segmented_button_text">
 				
 			<RadioButton
 				android:id="@+id/sort_popular_button"
@@ -68,7 +70,6 @@
 				android:layout_weight="1"
 				android:text="Popular"
 				android:textStyle="bold"
-				android:textColor="@color/btn_text"
 				android:checked="true" />
 		
 			<RadioButton
@@ -77,8 +78,7 @@
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:text="Price"
-				android:textStyle="bold"
-				android:textColor="@color/btn_text" />
+				android:textStyle="bold" />
 		
 		</com.mobiata.android.widget.SegmentedControlGroup>			
 	
@@ -101,7 +101,8 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="6dp"
-		android:orientation="horizontal">
+		android:orientation="horizontal"
+		mobiata:textColor="@color/segmented_button_text">
 	
 		<RadioButton
 			android:id="@+id/radius_small_button"
@@ -109,8 +110,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="2 mi"
-			android:textStyle="bold"
-			android:textColor="@color/btn_text" />
+			android:textStyle="bold" />
 			
 		<RadioButton
 			android:id="@+id/radius_medium_button"
@@ -118,8 +118,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="5 mi"
-			android:textStyle="bold"
-			android:textColor="@color/btn_text" />
+			android:textStyle="bold" />
 			
 		<RadioButton
 			android:id="@+id/radius_large_button"
@@ -136,8 +135,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="All"
-			android:textStyle="bold"
-			android:textColor="@color/btn_text" />
+			android:textStyle="bold" />
 		
 	</com.mobiata.android.widget.SegmentedControlGroup>
 	
@@ -178,7 +176,8 @@
 		android:id="@+id/price_filter_button_group"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal">
+		android:orientation="horizontal"
+		mobiata:textColor="@color/segmented_button_text">
 	
 		<RadioButton
 			android:id="@+id/price_cheap_button"
@@ -186,8 +185,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="$"
-			android:textStyle="bold"
-			android:textColor="@color/btn_text" />
+			android:textStyle="bold"/>
 			
 		<RadioButton
 			android:id="@+id/price_moderate_button"
@@ -195,8 +193,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="$$"
-			android:textStyle="bold"
-			android:textColor="@color/btn_text" />
+			android:textStyle="bold" />
 			
 		<RadioButton
 			android:id="@+id/price_expensive_button"
@@ -204,8 +201,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="$$$"
-			android:textStyle="bold"
-			android:textColor="@color/btn_text" />
+			android:textStyle="bold" />
 			
 		<RadioButton
 			android:id="@+id/price_all_button"
@@ -214,7 +210,6 @@
 			android:layout_weight="1"
 			android:text="All"
 			android:textStyle="bold"
-			android:textColor="@color/btn_text"
 			android:checked="true" />
 		
 	</com.mobiata.android.widget.SegmentedControlGroup>
