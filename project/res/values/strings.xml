@@ -65,6 +65,8 @@
 	<!-- Room and rates list -->
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Finding available rooms...</string>
+	<!-- Error message (no response) -->
+	<string name="error_no_response_room_rates">Could not download rooms &amp; rates information.  Please check your connection and try again.</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">per night</string>
 	<!-- Rate price displayed "average per night" -->

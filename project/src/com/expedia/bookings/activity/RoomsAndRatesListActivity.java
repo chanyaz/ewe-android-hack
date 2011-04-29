@@ -1,10 +1,13 @@
 package com.expedia.bookings.activity;
 
+import java.util.GregorianCalendar;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -19,6 +22,7 @@ import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.SearchParams;
+import com.mobiata.hotellib.data.ServerError;
 import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.JSONUtils;
@@ -33,11 +37,17 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 	private RoomsAndRatesAdapter mAdapter;
 
+	private ProgressBar mProgressBar;
+	private TextView mEmptyTextView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_rooms_and_rates);
+
+		mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+		mEmptyTextView = (TextView) findViewById(R.id.empty_text_view);
 
 		// Retrieve data to build this with
 		final Intent intent = getIntent();
@@ -89,7 +99,8 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 	@Override
 	public void showProgress() {
-		// TODO: Show progress for downloading rooms and rates information
+		mProgressBar.setVisibility(View.VISIBLE);
+		mEmptyTextView.setText(R.string.room_rates_loading);
 	}
 
 	@Override
@@ -100,14 +111,26 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 	@Override
 	public void onResults(Object results) {
+		mProgressBar.setVisibility(View.GONE);
+
 		if (results == null) {
-			// TODO: Add error handling here
+			mEmptyTextView.setText(R.string.error_no_response_room_rates);
 			return;
 		}
 
 		AvailabilityResponse response = (AvailabilityResponse) results;
 
 		mSession = response.getSession();
+
+		if (response.hasErrors()) {
+			StringBuilder sb = new StringBuilder();
+			for (ServerError error : response.getErrors()) {
+				sb.append(error.getMessage());
+				sb.append("\n");
+			}
+			mEmptyTextView.setText(sb.toString().trim());
+			return;
+		}
 
 		mAdapter = new RoomsAndRatesAdapter(this, response.getRates());
 
