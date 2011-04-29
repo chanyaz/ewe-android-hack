@@ -117,7 +117,5 @@
 			android:paddingRight="30dp"
 			android:textColor="@color/light_gray"
 			android:textSize="11sp" />
-
-		<!-- TODO: Add "TripAdvisor" bookmark -->
 	</RelativeLayout>
 </LinearLayout>
