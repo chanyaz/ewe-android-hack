@@ -28,12 +28,15 @@
 			android:layout_height="wrap_content"
 			android:layout_alignParentLeft="true"
 			android:layout_alignParentTop="true"
-			android:layout_marginTop="10dp"
-			android:layout_marginLeft="2dp"
+			android:layout_marginTop="6dp"
 			android:textColor="@android:color/white"
 			android:textStyle="bold"
-			android:textSize="14dp"
+			android:textSize="11dp"
 			android:text="@string/sale_caps"
+			android:shadowColor="#88000000"
+			android:shadowDx="2"
+			android:shadowDy="1"
+			android:shadowRadius="0.1"
 			mobiata:rotation="-45" />
 	</RelativeLayout>
 
