@@ -147,7 +147,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	@Override
 	public void onSearchCompleted(SearchResponse response) {
 		if (response == null) {
-			// TODO: Error handling?  Or should we assume that the parent never calls this with null?
+			// We assume that the parent handles errors, but just in case, don't crash if this happens
 			return;
 		}
 

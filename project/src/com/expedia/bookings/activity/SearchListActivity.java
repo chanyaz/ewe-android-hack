@@ -100,7 +100,7 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 	@Override
 	public void onSearchCompleted(SearchResponse response) {
 		if (response == null) {
-			// TODO: Error handling?  Or should we assume that the parent never calls this with null?
+			// We assume that the parent handles errors, but just in case, don't crash if this happens
 			return;
 		}
 
