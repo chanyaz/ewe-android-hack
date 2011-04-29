@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
-import android.view.TouchDelegate;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.AbsListView;
@@ -33,7 +32,6 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 	private static final int PADDING_BOTTOM_INDICATOR = 3;
 	private static final int PADDING_TOP_MARKER_RANGE = 8;
 	private static final int PADDING_BOTTOM_MARKER_RANGE = 8;
-	private static final int PADDING_TOUCH = 6;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
@@ -58,6 +56,8 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 	private float mHeight;
 	private float mScrollHeight;
 
+	private float mBarMinimumWidth;
+
 	private float mIndicatorPaddingTop;
 	private float mIndicatorPaddingBottom;
 	private float mMarkerRangePaddingTop;
@@ -66,8 +66,12 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 	private float mIndicatorWidth;
 	private float mMinIndicatorHeight;
 	private float mIndicatorHeight;
+	private float mIndicatorLeft;
+	private float mIndicatorRight;
 
 	private float mMarkerRangeHeight;
+
+	private Rect mBarRect;
 
 	private float mMarkerHeight;
 	private float mMarkerWidth;
@@ -76,6 +80,11 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 
 	private float mRowHeight;
 	private float mAdjustedTotalHeight;
+
+	private float mPaddingLeft;
+	private float mPaddingTop;
+	private float mPaddingRight;
+	private float mPaddingBottom;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -118,8 +127,17 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		mBarDrawable = getResources().getDrawable(R.drawable.scroll_bar);
 		mIndicatorDrawable = getResources().getDrawable(R.drawable.scroll_indicator);
+		mTripAdvisorMarker = getResources().getDrawable(R.drawable.scroll_trip_advisor_marker);
 
-		super.onMeasure(mBarDrawable.getMinimumWidth() | MeasureSpec.EXACTLY, heightMeasureSpec);
+		mPaddingLeft = getPaddingLeft();
+		mPaddingTop = getPaddingTop();
+		mPaddingRight = getPaddingRight();
+		mPaddingBottom = getPaddingBottom();
+
+		mBarMinimumWidth = mBarDrawable.getMinimumWidth();
+		final int width = (int) (mBarMinimumWidth + mPaddingLeft + mPaddingRight);
+
+		super.onMeasure(width | MeasureSpec.EXACTLY, heightMeasureSpec);
 	}
 
 	@Override
@@ -145,29 +163,8 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 
 	@Override
 	protected void onSizeChanged(int width, int height, int oldw, int oldh) {
-		DisplayMetrics metrics = getResources().getDisplayMetrics();
-		mScaledDensity = metrics.scaledDensity;
-
 		mWidth = width;
 		mHeight = height;
-
-		final View delegate = this;
-		final View parent = (View) delegate.getParent();
-		parent.post(new Runnable() {
-			// Post in the parent's message queue to make sure the parent
-			// lays out its children before we call getHitRect()
-			@Override
-			public void run() {
-				final int padding = (int) (PADDING_TOUCH * mScaledDensity);
-				final Rect bounds = new Rect();
-				delegate.getHitRect(bounds);
-				bounds.top -= padding;
-				bounds.left -= padding;
-				bounds.right += padding;
-				bounds.bottom += padding;
-				parent.setTouchDelegate(new TouchDelegate(bounds, delegate));
-			}
-		});
 
 		setOnTouchListener(this);
 
@@ -179,12 +176,21 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 		mMarkerRangeHeight = mHeight - mIndicatorPaddingTop - mIndicatorPaddingBottom - mMarkerRangePaddingTop
 				- mMarkerRangePaddingBottom;
 
+		final float barLeft = ((mWidth - mPaddingLeft - mPaddingRight - mBarMinimumWidth) / 2) + mPaddingLeft;
+		final float barRight = barLeft + mBarMinimumWidth;
+		final float barTop = mPaddingTop;
+		final float barBottom = mHeight - mPaddingBottom;
+
+		mBarRect = new Rect((int) barLeft, (int) barTop, (int) barRight, (int) barBottom);
+
 		mMinIndicatorHeight = HEIGHT_INDICATOR_MIN * mScaledDensity;
 		mIndicatorWidth = mIndicatorDrawable.getMinimumWidth();
+		mIndicatorLeft = ((mWidth - mPaddingLeft - mPaddingRight - mIndicatorWidth) / 2) + mPaddingLeft;
+		mIndicatorRight = mIndicatorLeft + mIndicatorWidth;
 
 		mMarkerWidth = mTripAdvisorMarker.getMinimumWidth();
 		mMarkerHeight = mTripAdvisorMarker.getMinimumHeight();
-		mMarkerLeft = (mWidth - mMarkerWidth) / 2;
+		mMarkerLeft = ((mWidth - mPaddingLeft - mPaddingRight - mMarkerWidth) / 2) + mPaddingLeft;
 		mMarkerRight = mMarkerLeft + mMarkerWidth;
 	}
 
@@ -250,7 +256,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 	}
 
 	private void drawBar(Canvas canvas) {
-		mBarDrawable.setBounds(0, 0, (int) mWidth, (int) mHeight);
+		mBarDrawable.setBounds(mBarRect);
 		mBarDrawable.draw(canvas);
 	}
 
@@ -271,17 +277,16 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 		mIndicatorHeight = mIndicatorHeight < mMinIndicatorHeight ? mMinIndicatorHeight : mIndicatorHeight;
 
 		// TOTAL SCROLL HEIGHT
-		mScrollHeight = mHeight - mIndicatorHeight - mIndicatorPaddingTop - mIndicatorPaddingBottom;
+		mScrollHeight = mHeight - mIndicatorHeight - mIndicatorPaddingTop - mIndicatorPaddingBottom - mPaddingTop
+				- mPaddingBottom;
 
 		final float adjustedPosition = (mFirstVisibleItem * mRowHeight) - rowOffset;
 		final float scrollPercent = adjustedPosition / mAdjustedTotalHeight;
 
-		final float left = (mWidth - mIndicatorWidth) / 2;
-		final float top = (mScrollHeight * scrollPercent) + mIndicatorPaddingTop;
-		final float right = left + mIndicatorWidth;
+		final float top = (mScrollHeight * scrollPercent) + mIndicatorPaddingTop + mPaddingTop;
 		final float bottom = top + mIndicatorHeight;
 
-		mIndicatorDrawable.setBounds((int) left, (int) top, (int) right, (int) bottom);
+		mIndicatorDrawable.setBounds((int) mIndicatorLeft, (int) top, (int) mIndicatorRight, (int) bottom);
 		mIndicatorDrawable.draw(canvas);
 	}
 
@@ -295,7 +300,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 			for (int i = 0; i < size; i++) {
 				final float markerPercent = (float) mCachedMarkerPositions[i] / (mTotalItemCount - 1);
 				final float top = (mMarkerRangeHeight * markerPercent) - (mMarkerHeight / 2) + mIndicatorPaddingTop
-						+ mMarkerRangePaddingTop;
+						+ mMarkerRangePaddingTop + mPaddingTop;
 
 				mTripAdvisorMarker.setBounds((int) mMarkerLeft, (int) top, (int) mMarkerRight, (int) top
 						+ (int) mMarkerHeight);
@@ -305,10 +310,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 	}
 
 	private void init() {
-		mBarDrawable = getResources().getDrawable(R.drawable.scroll_bar);
-		mIndicatorDrawable = getResources().getDrawable(R.drawable.scroll_indicator);
-		mTripAdvisorMarker = getResources().getDrawable(R.drawable.scroll_trip_advisor_marker);
-
-		setMeasuredDimension(mBarDrawable.getMinimumWidth(), getMeasuredHeight());
+		DisplayMetrics metrics = getResources().getDisplayMetrics();
+		mScaledDensity = metrics.scaledDensity;
 	}
 }

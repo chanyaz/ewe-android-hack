@@ -41,8 +41,9 @@
 		android:layout_height="fill_parent"
 		android:layout_above="@+id/view_button"
 		android:layout_alignParentRight="true"
-		android:layout_marginTop="6dp"
-		android:layout_marginRight="6dp" />
+		android:paddingTop="6dp"
+		android:paddingRight="6dp"
+		android:paddingLeft="18dp" />
 
 	<ImageButton
 		android:id="@id/view_button"
