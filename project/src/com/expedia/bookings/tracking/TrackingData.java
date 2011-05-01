@@ -14,7 +14,7 @@ import com.mobiata.hotellib.data.JSONable;
 
 public class TrackingData implements JSONable {
 
-	private static final String FILENAME = "1984.dat";
+	private static final String FILENAME = "version.dat";
 
 	private String mVersion;
 
