@@ -1,41 +1,42 @@
 package com.expedia.bookings.utils;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 
-import com.mobiata.android.Log;
-
 public class SupportUtils {
 
-	// Default is GB's number
-	private static final String DEFAULT_SUPPORT_NUMBER = "0330-123-1235";
+	// Default is US's number
+	private static final String DEFAULT_SUPPORT_NUMBER = "1-800-780-5733";
 
 	// Which support number to use for which country code (based on locale)
 	@SuppressWarnings("serial")
 	private static final HashMap<String, String> SUPPORT_NUMBERS = new HashMap<String, String>() {
 		{
-			put("US", "1-877-829-0215");
-			put("CA", "1-888-EXPEDIA");
-			put("MX", "001-8003157301");
-			put("AU", "13-38-10");
-			put("NZ", "0800-998-799");
-			put("JP", "0120-142-650");
-			put("IN", "1800-419-1919");
-			put("SG", "800-120-5806");
-			put("MY", "1-800-815676");
-			put("TH", "001-800-12-0667078");
-			put("IT", "+39-02-91483685");
-			put("DE", "01805-007146");
-			put("NL", "0900-397-3342");
-			put("ES", "901-01-01-14");
-			put("AT", "0820-600630");
-			put("GB", "0330-123-1235");
-			put("FR", "0892-301-300");
-			put("SE", "0200-810-341");
-			put("DK", "80200088");
-			put("NO", "800-36-401");
+			put("US", "1-800-780-5733");
+			put("CA", "1-800-780-5733");
+			put("JP", "81-3-5539-2655");
+			put("TW", "00801-13-6098");
+			put("TH", "001-800-12-0666828");
+			put("HK", "800-905-165");
+			put("KR", "00798-14-800-7901");
+			put("NZ", "0800-456-084");
+			put("SG", "800-120-5484");
+			put("MY", "1-800-815110");
+			put("AU", "1-800-188315");
 		}
 	};
+
+	private static final String[] EUROPEAN_COUNTRY_CODES = new String[] { "EU", "AD", "AL", "AT", "BA", "BE", "BG",
+			"BY", "CH", "CZ", "DE", "DK", "EE", "ES", "FI", "FO", "FR", "FX", "GB", "GI", "GR", "HR", "HU", "IE", "IS",
+			"IT", "LI", "LT", "LU", "LV", "MC", "MD", "MK", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SJ", "SK",
+			"SM", "UA", "VA", "CS"
+	};
+
+	// Ensure that EUROPEAN_COUNTRY_CODES is sorted for later binary search usage
+	static {
+		Arrays.sort(EUROPEAN_COUNTRY_CODES);
+	}
 
 	// Default is the US website
 	private static final String DEFAULT_WEBSITE = "http://www.expedia.com/?rfrr=app.android";
@@ -58,13 +59,18 @@ public class SupportUtils {
 
 	public static boolean hasSupportNumber() {
 		String countryCode = Locale.getDefault().getCountry().toUpperCase();
-		return SUPPORT_NUMBERS.containsKey(countryCode);
+		return (SUPPORT_NUMBERS.containsKey(countryCode) || Arrays.binarySearch(EUROPEAN_COUNTRY_CODES, countryCode) >= 0);
 	}
 
 	public static String getSupportNumber() {
 		String countryCode = Locale.getDefault().getCountry().toUpperCase();
+		boolean isEuropean = Arrays.binarySearch(EUROPEAN_COUNTRY_CODES, countryCode) >= 0;
 		if (SUPPORT_NUMBERS.containsKey(countryCode)) {
 			return SUPPORT_NUMBERS.get(countryCode);
+		}
+		else if (isEuropean) {
+			// Many European countries share the same code
+			return "00-800-11-20-11-40";
 		}
 		else {
 			return DEFAULT_SUPPORT_NUMBER;
