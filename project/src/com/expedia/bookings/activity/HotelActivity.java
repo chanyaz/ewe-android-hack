@@ -51,6 +51,9 @@ public class HotelActivity extends Activity {
 
 	private int mMaxAmenities;
 
+	// For tracking - tells you when a user paused the Activity but came back to it
+	private boolean mWasStopped;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -184,7 +187,7 @@ public class HotelActivity extends Activity {
 		}
 
 		// Tracking
-		if (getLastNonConfigurationInstance() == null) {
+		if (savedInstanceState == null) {
 			onPageLoad();
 		}
 	}
@@ -206,9 +209,20 @@ public class HotelActivity extends Activity {
 	}
 
 	@Override
-	public Object onRetainNonConfigurationInstance() {
-		// Just return something, so we know that all that happened was an orientation change
-		return true;
+	protected void onStop() {
+		super.onStop();
+
+		mWasStopped = true;
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		if (mWasStopped) {
+			onPageLoad();
+			mWasStopped = false;
+		}
 	}
 
 	public void addAmenity(ViewGroup amenitiesTable, int iconResourceId, int strResourceId) {

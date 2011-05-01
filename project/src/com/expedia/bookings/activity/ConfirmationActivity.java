@@ -61,6 +61,9 @@ public class ConfirmationActivity extends MapActivity {
 	private BillingInfo mBillingInfo;
 	private BookingResponse mBookingResponse;
 
+	// For tracking - tells you when a user paused the Activity but came back to it
+	private boolean mWasStopped;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -214,6 +217,23 @@ public class ConfirmationActivity extends MapActivity {
 		// Tracking
 		if (savedInstanceState == null) {
 			onPageLoad();
+		}
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+		mWasStopped = true;
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		if (mWasStopped) {
+			onPageLoad();
+			mWasStopped = false;
 		}
 	}
 

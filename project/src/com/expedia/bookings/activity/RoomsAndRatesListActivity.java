@@ -1,7 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.GregorianCalendar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -40,6 +38,9 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 	private ProgressBar mProgressBar;
 	private TextView mEmptyTextView;
 
+	// For tracking - tells you when a user paused the Activity but came back to it
+	private boolean mWasStopped;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -77,6 +78,23 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 		if (savedInstanceState == null) {
 			onPageLoad();
+		}
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+		mWasStopped = true;
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		if (mWasStopped) {
+			onPageLoad();
+			mWasStopped = false;
 		}
 	}
 

@@ -33,6 +33,9 @@ public class HotelMapActivity extends MapActivity {
 
 	private Property mProperty;
 
+	// For tracking - tells you when a user paused the Activity but came back to it
+	private boolean mWasStopped;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -90,15 +93,26 @@ public class HotelMapActivity extends MapActivity {
 
 		hotelOverlay.onTap(0); // Open the popup initially
 
-		if (getLastNonConfigurationInstance() == null) {
+		if (savedInstanceState == null) {
 			onPageLoad();
 		}
 	}
 
 	@Override
-	public Object onRetainNonConfigurationInstance() {
-		// Just return something, so we know that all that happened was an orientation change
-		return true;
+	protected void onStop() {
+		super.onStop();
+
+		mWasStopped = true;
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		if (mWasStopped) {
+			onPageLoad();
+			mWasStopped = false;
+		}
 	}
 
 	@Override

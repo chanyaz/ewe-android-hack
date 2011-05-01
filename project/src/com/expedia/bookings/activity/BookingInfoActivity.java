@@ -139,6 +139,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private boolean mBillingCompleted;
 	private boolean mCardCompleted;
 
+	// For tracking - tells you when a user paused the Activity but came back to it
+	private boolean mWasStopped;
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
 
@@ -289,6 +292,23 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		private boolean mGuestsCompleted;
 		private boolean mBillingCompleted;
 		private boolean mCardCompleted;
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+		mWasStopped = true;
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		if (mWasStopped) {
+			onPageLoad();
+			mWasStopped = false;
+		}
 	}
 
 	@Override
