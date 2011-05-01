@@ -64,6 +64,9 @@ public class TrackingUtils {
 			s.debugTracking = true;
 		}
 
+		// Add offline tracking, so user doesn't have to be online to be tracked
+		s.trackOffline = true;
+
 		// account
 		s.account = (AndroidUtils.isRelease(context)) ? "expedia1androidcom" : "expedia1androidcomdev";
 
