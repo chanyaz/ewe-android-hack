@@ -1,5 +1,6 @@
 package com.expedia.bookings.tracking;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.json.JSONException;
@@ -37,6 +38,13 @@ public class TrackingData implements JSONable {
 	}
 
 	public boolean load(Context context) {
+		// Check that file exists before trying to load
+		File file = context.getFileStreamPath(FILENAME);
+		if (!file.exists()) {
+			Log.d("Tracking file does not exist; must be a new installation.");
+			return false;
+		}
+
 		try {
 			fromJson(new JSONObject(IoUtils.readStringFromFile(FILENAME, context)));
 			return true;
