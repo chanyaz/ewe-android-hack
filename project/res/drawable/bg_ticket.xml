@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	<item>
-		<bitmap
-			android:src="@drawable/texture_paper"
-			android:tileMode="repeat" />
-	</item>
-	<item>
-		<shape>
-			<solid
-				android:color="@android:color/transparent" />
-			<stroke
-				android:width="@dimen/one_pixel"
-				android:color="#7B7B7C" />
-		</shape>
-	</item>
-</layer-list>
+<bitmap
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:src="@drawable/texture_paper"
+	android:tileMode="repeat" />

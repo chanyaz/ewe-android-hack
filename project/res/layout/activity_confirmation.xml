@@ -23,191 +23,195 @@
 			<LinearLayout
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:padding="@dimen/one_pixel"
-				android:orientation="vertical"
-				android:background="@drawable/bg_ticket">
-				<ImageView
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:src="@drawable/expedia_candy_cane"
-					android:scaleType="fitXY" />
-
-				<!-- Header with Expedia images -->
+				android:background="@drawable/bg_ticket_shadow">
 				<LinearLayout
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_below="@+id/top_candy_cane_image_view"
-					android:padding="6dp"
-					android:orientation="horizontal"
-					android:gravity="center_vertical">
+					android:orientation="vertical"
+					android:background="@drawable/bg_ticket">
 					<ImageView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:src="@drawable/expedia_logo" />
-					<ImageView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_gravity="right"
-						android:src="@drawable/enjoy_your_stay" />
-				</LinearLayout>
-
-				<!-- Map and thumbnail image -->
-				<RelativeLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content">
-					<com.google.android.maps.MapView
-						android:id="@+id/map_view"
 						android:layout_width="fill_parent"
-						android:layout_height="150dp"
-						android:layout_below="@+id/header_layout"
-						android:apiKey="0OeGguXEO_X_TAyapIYkZeu9deDDnDfM_e4Affg" />
-
-					<com.mobiata.android.widget.TiltedImageView
-						android:id="@+id/thumbnail_image_view"
-						android:layout_width="120dp"
-						android:layout_height="120dp"
-						android:layout_alignTop="@+id/map_view"
-						android:layout_marginLeft="10dp"
-						android:layout_marginTop="10dp"
-						android:scaleType="centerCrop"
-						android:src="@drawable/ic_image_placeholder"
-						android:background="@drawable/receipt_photo_frame"
-						mobiata:rotation="-5" />
-				</RelativeLayout>
-
-				<!-- Hotel overview -->
-				<TextView
-					android:id="@+id/name_text_view"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_below="@+id/map_view"
-					android:paddingTop="6dp"
-					android:paddingLeft="6dp"
-					android:paddingRight="6dp"
-					android:paddingBottom="2dp"
-					android:textSize="16sp"
-					android:textStyle="bold"
-					android:textColor="#333333" />
-
-				<LinearLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:paddingLeft="6dp"
-					android:paddingRight="6dp"
-					android:orientation="horizontal">
-					<LinearLayout
-						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_weight="1"
-						android:orientation="vertical">
-						<TextView
-							android:id="@+id/address1_text_view"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:textColor="#333333" />
-						<TextView
-							android:id="@+id/address2_text_view"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:textColor="#333333" />
-					</LinearLayout>
+						android:src="@drawable/expedia_candy_cane"
+						android:scaleType="fitXY" />
+
+					<!-- Header with Expedia images -->
 					<LinearLayout
-						android:layout_width="wrap_content"
+						android:layout_width="fill_parent"
 						android:layout_height="wrap_content"
-						android:paddingRight="10dp"
-						android:orientation="vertical">
-						<TextView
-							android:id="@+id/hotel_rating_text_view"
-							android:layout_height="wrap_content"
+						android:layout_below="@+id/top_candy_cane_image_view"
+						android:padding="6dp"
+						android:orientation="horizontal"
+						android:gravity="center_vertical">
+						<ImageView
 							android:layout_width="wrap_content"
-							android:text="@string/star_rating"
-							android:textColor="#333333"
-							android:textSize="12sp" />
-						<RatingBar
-							android:id="@+id/hotel_rating_bar"
 							android:layout_height="wrap_content"
+							android:src="@drawable/expedia_logo" />
+						<ImageView
 							android:layout_width="wrap_content"
-							android:numStars="5"
-							android:stepSize=".5"
-							android:isIndicator="true"
-							style="@style/Widget.RatingBar.Small.Shadowed" />
-						<TextView
-							android:id="@+id/trip_advisor_text_view"
 							android:layout_height="wrap_content"
-							android:layout_width="wrap_content"
-							android:text="@string/trip_advisor"
-							android:textColor="#333333"
-							android:textSize="12sp" />
-						<RatingBar
-							android:id="@+id/trip_advisor_rating_bar"
-							android:layout_height="wrap_content"
-							android:layout_width="wrap_content"
-							android:numStars="5"
-							android:stepSize=".5"
-							android:isIndicator="true"
-							style="@style/Widget.RatingBar.Small.TripAdvisor" />
+							android:layout_gravity="right"
+							android:src="@drawable/enjoy_your_stay" />
 					</LinearLayout>
-				</LinearLayout>
 
-				<!-- Booking summary -->
-				<TextView
-					android:id="@+id/name_text_view"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_below="@+id/map_view"
-					android:paddingTop="6dp"
-					android:paddingLeft="6dp"
-					android:paddingRight="6dp"
-					android:paddingBottom="2dp"
-					android:textSize="18sp"
-					android:textStyle="bold"
-					android:textColor="#333333"
-					android:text="@string/reservation_summary" />
+					<!-- Map and thumbnail image -->
+					<RelativeLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content">
+						<com.google.android.maps.MapView
+							android:id="@+id/map_view"
+							android:layout_width="fill_parent"
+							android:layout_height="150dp"
+							android:layout_below="@+id/header_layout"
+							android:apiKey="0OeGguXEO_X_TAyapIYkZeu9deDDnDfM_e4Affg" />
 
-				<LinearLayout
-					android:id="@+id/details_layout"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:paddingLeft="6dp"
-					android:paddingRight="6dp"
-					android:orientation="vertical" />
+						<com.mobiata.android.widget.TiltedImageView
+							android:id="@+id/thumbnail_image_view"
+							android:layout_width="120dp"
+							android:layout_height="120dp"
+							android:layout_alignTop="@+id/map_view"
+							android:layout_marginLeft="10dp"
+							android:layout_marginTop="10dp"
+							android:scaleType="centerCrop"
+							android:src="@drawable/ic_image_placeholder"
+							android:background="@drawable/receipt_photo_frame"
+							mobiata:rotation="-5" />
+					</RelativeLayout>
 
-				<View
-					android:layout_width="fill_parent"
-					android:layout_height="@dimen/two_pixels"
-					android:layout_margin="6dp"
-					android:background="@drawable/divider" />
-
-				<LinearLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:paddingLeft="6dp"
-					android:paddingRight="6dp"
-					android:paddingBottom="6dp"
-					android:orientation="horizontal">
+					<!-- Hotel overview -->
 					<TextView
-						android:layout_width="wrap_content"
+						android:id="@+id/name_text_view"
+						android:layout_width="fill_parent"
 						android:layout_height="wrap_content"
-						android:textColor="@color/dark_blue"
+						android:layout_below="@+id/map_view"
+						android:paddingTop="6dp"
+						android:paddingLeft="6dp"
+						android:paddingRight="6dp"
+						android:paddingBottom="2dp"
+						android:textSize="16sp"
+						android:textStyle="bold"
+						android:textColor="#333333" />
+
+					<LinearLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:paddingLeft="6dp"
+						android:paddingRight="6dp"
+						android:orientation="horizontal">
+						<LinearLayout
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_weight="1"
+							android:orientation="vertical">
+							<TextView
+								android:id="@+id/address1_text_view"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:textColor="#333333" />
+							<TextView
+								android:id="@+id/address2_text_view"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:textColor="#333333" />
+						</LinearLayout>
+						<LinearLayout
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:paddingRight="10dp"
+							android:orientation="vertical">
+							<TextView
+								android:id="@+id/hotel_rating_text_view"
+								android:layout_height="wrap_content"
+								android:layout_width="wrap_content"
+								android:text="@string/star_rating"
+								android:textColor="#333333"
+								android:textSize="12sp" />
+							<RatingBar
+								android:id="@+id/hotel_rating_bar"
+								android:layout_height="wrap_content"
+								android:layout_width="wrap_content"
+								android:numStars="5"
+								android:stepSize=".5"
+								android:isIndicator="true"
+								style="@style/Widget.RatingBar.Small.Shadowed" />
+							<TextView
+								android:id="@+id/trip_advisor_text_view"
+								android:layout_height="wrap_content"
+								android:layout_width="wrap_content"
+								android:text="@string/trip_advisor"
+								android:textColor="#333333"
+								android:textSize="12sp" />
+							<RatingBar
+								android:id="@+id/trip_advisor_rating_bar"
+								android:layout_height="wrap_content"
+								android:layout_width="wrap_content"
+								android:numStars="5"
+								android:stepSize=".5"
+								android:isIndicator="true"
+								style="@style/Widget.RatingBar.Small.TripAdvisor" />
+						</LinearLayout>
+					</LinearLayout>
+
+					<!-- Booking summary -->
+					<TextView
+						android:id="@+id/name_text_view"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_below="@+id/map_view"
+						android:paddingTop="6dp"
+						android:paddingLeft="6dp"
+						android:paddingRight="6dp"
+						android:paddingBottom="2dp"
 						android:textSize="18sp"
 						android:textStyle="bold"
-						android:text="@string/total_cost" />
-					<TextView
-						android:id="@+id/total_cost_text_view"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"
-						android:gravity="right"
-						android:textSize="18sp"
-						android:textColor="@android:color/black"
-						android:textStyle="bold" />
-				</LinearLayout>
+						android:textColor="#333333"
+						android:text="@string/reservation_summary" />
 
-				<ImageView
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:src="@drawable/expedia_candy_cane"
-					android:scaleType="fitXY" />
+					<LinearLayout
+						android:id="@+id/details_layout"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:paddingLeft="6dp"
+						android:paddingRight="6dp"
+						android:orientation="vertical" />
+
+					<View
+						android:layout_width="fill_parent"
+						android:layout_height="@dimen/two_pixels"
+						android:layout_margin="6dp"
+						android:background="@drawable/divider" />
+
+					<LinearLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:paddingLeft="6dp"
+						android:paddingRight="6dp"
+						android:paddingBottom="6dp"
+						android:orientation="horizontal">
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textColor="@color/dark_blue"
+							android:textSize="18sp"
+							android:textStyle="bold"
+							android:text="@string/total_cost" />
+						<TextView
+							android:id="@+id/total_cost_text_view"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_weight="1"
+							android:gravity="right"
+							android:textSize="18sp"
+							android:textColor="@android:color/black"
+							android:textStyle="bold" />
+					</LinearLayout>
+
+					<ImageView
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:src="@drawable/expedia_candy_cane"
+						android:scaleType="fitXY" />
+				</LinearLayout>
 			</LinearLayout>
 
 			<TextView
