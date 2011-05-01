@@ -71,7 +71,8 @@ public class TrackingUtils {
 		s.account = (AndroidUtils.isRelease(context)) ? "expedia1androidcom" : "expedia1androidcomdev";
 
 		// Server
-		// TODO: Not used currently, but might be if we have multiple servers someday
+		s.trackingServer = "om.expedia.net";
+		s.trackingServerSecure = "oms.expedia.net";
 
 		// Time parting
 		// Format is: YY:DayOfYear:Interval Size:Interval Num
