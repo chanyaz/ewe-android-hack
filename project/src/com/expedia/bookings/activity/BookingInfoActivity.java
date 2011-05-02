@@ -342,7 +342,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case DIALOG_BOOKING_PROGRESS: {
-			return new ProgressDialog(this);
+			ProgressDialog pd = new ProgressDialog(this);
+			pd.setMessage(getString(R.string.booking_loading));
+			return pd;
 		}
 		}
 
