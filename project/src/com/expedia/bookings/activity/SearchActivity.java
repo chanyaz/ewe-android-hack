@@ -326,6 +326,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 				broadcastSearchCompleted(mSearchResponse);
 			}
+
+			if (state.guestsLayoutIsVisible) {
+				showGuestsLayout();
+			}
+			else if (state.datesLayoutIsVisible) {
+				showDatesLayout();
+			}
+			else if (state.panelIsOpen) {
+				mPanel.setOpen(true, false);
+				mPanelDismissView.setVisibility(View.VISIBLE);
+			}
 		}
 		else {
 			mSearchParams = new SearchParams();
@@ -380,6 +391,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.searchSuggestionAdapter = mSearchSuggestionAdapter;
 		state.isSearching = mIsSearching;
 		state.searchDownloader = mSearchDownloader;
+		state.datesLayoutIsVisible = mDatesLayoutIsVisible;
+		state.guestsLayoutIsVisible = mGuestsLayoutIsVisible;
+		state.panelIsOpen = mPanel.isOpen();
 
 		return state;
 	}
@@ -885,7 +899,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void showDatesLayout() {
-		mDatesLayoutIsVisible = true;
 		resetFocus();
 		setRefinementInfo();
 		mDatesLayout.setVisibility(View.VISIBLE);
@@ -893,6 +906,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		showDismissView();
 		closeDrawer();
 		showButtonBar();
+
+		mDatesLayoutIsVisible = true;
 	}
 
 	private void showDismissView() {
@@ -900,7 +915,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void showGuestsLayout() {
-		mGuestsLayoutIsVisible = true;
 		resetFocus();
 		setRefinementInfo();
 		mGuestsLayout.setVisibility(View.VISIBLE);
@@ -908,6 +922,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		showDismissView();
 		closeDrawer();
 		showButtonBar();
+
+		mGuestsLayoutIsVisible = true;
 	}
 
 	private void showLoading(int resId) {
@@ -1779,6 +1795,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public SearchSuggestionAdapter searchSuggestionAdapter;
 		public Boolean isSearching;
 		public BackgroundDownloader searchDownloader;
+
+		public boolean datesLayoutIsVisible;
+		public boolean guestsLayoutIsVisible;
+		public boolean panelIsOpen;
 	}
 
 	private class SoftKeyResultReceiver extends ResultReceiver {

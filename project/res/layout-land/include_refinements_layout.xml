@@ -8,6 +8,7 @@
     android:layout_height="wrap_content"
     android:layout_below="@id/search_bar_layout"
     android:layout_alignParentBottom="true"
+    android:weightSum="100"
     android:gravity="center">
     
     <LinearLayout
@@ -36,23 +37,33 @@
     <LinearLayout
     	android:id="@+id/guests_layout"
     	android:orientation="horizontal"
-    	android:layout_width="fill_parent"
+    	android:layout_width="0dp"
     	android:layout_height="wrap_content"
+    	android:layout_weight="65"
+    	android:background="@drawable/popup_full_bright"
     	android:visibility="gone">
 	    
-	    <com.mobiata.android.widget.NumberPicker
-			android:id="@+id/adults_number_picker"
-	    	android:layout_width="0dp"
+	    <LinearLayout
+	    	android:orientation="horizontal"
+	    	android:layout_width="fill_parent"
 	    	android:layout_height="wrap_content"
-	    	android:layout_weight="1"
-	    	mobiata:pickerTextSize="14dp" />
+	    	android:padding="6dp">
 	    	
-	    <com.mobiata.android.widget.NumberPicker
-			android:id="@+id/children_number_picker"
-	    	android:layout_width="0dp"
-	    	android:layout_height="wrap_content"
-	    	android:layout_weight="1"
-	    	mobiata:pickerTextSize="14dp" />
+		    <com.mobiata.android.widget.NumberPicker
+				android:id="@+id/adults_number_picker"
+		    	android:layout_width="0dp"
+		    	android:layout_height="wrap_content"
+		    	android:layout_weight="1"
+		    	mobiata:pickerTextSize="14dp" />
+		    	
+		    <com.mobiata.android.widget.NumberPicker
+				android:id="@+id/children_number_picker"
+		    	android:layout_width="0dp"
+		    	android:layout_height="wrap_content"
+		    	android:layout_weight="1"
+		    	mobiata:pickerTextSize="14dp" />
+		    	
+		</LinearLayout>
     
     </LinearLayout>
     
