@@ -17,6 +17,7 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.SupportUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.opinionlab.oo.sdk.android.CommentCardActivity;
 
 public class AboutActivity extends com.mobiata.android.app.AboutActivity {
@@ -49,6 +50,8 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		addSimpleRow(appSection, getString(R.string.app_feedback), new OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, CommentCardActivity.class);
+				intent.putExtra(CommentCardActivity.EXTRA_REFERRAL_URL, "http://expediahotelandroid.expedia.com/"
+						+ AndroidUtils.getAppVersion(mContext));
 				startActivity(intent);
 			}
 		});

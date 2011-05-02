@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<comment_card>
+    <commentCardId>30168</commentCardId>
+    <headerText>Feedback</headerText>
+    <ratingQuestion>Please Give Us A Rating</ratingQuestion>
+    <lowRatingDescription>Dislike</lowRatingDescription>
+    <highRatingDescription>Like</highRatingDescription>
+    <commentLabel>What could we do better?</commentLabel>
+    <emailQuestion>Email Address</emailQuestion>
+    <thankYouText>Thank you for submitting your opinion. We value our customers\' feedback.</thankYouText>
+    <complianceMode>true</complianceMode>
+    <showCommentQuestion>true</showCommentQuestion>
+    <showEmailQuestion>true</showEmailQuestion>
+    <showRatingQuestion>true</showRatingQuestion>
+    <requireRating>false</requireRating>
+</comment_card>
