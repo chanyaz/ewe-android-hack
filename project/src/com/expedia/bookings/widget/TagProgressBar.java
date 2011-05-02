@@ -323,7 +323,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		// NOTE: A few of these measurements are pretty arbitrary, definitely
 		// making this view a one time use kind of view.
 
-		mOffsetY = (int) ((float) mTagHeight * 0.25f);
+		mOffsetY = (int) ((float) mHeight * 0.15f);
 		mRingMargin = (mTagWidth - mRingWidth) / 2;
 		mRingLeftOffset = (int) (mTagWidth * 0.028f);
 
@@ -367,7 +367,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		mRingFillCenterY = mRingFillDestRect.top + (mRingFillHeight / 2);
 
 		mTextX = mTagCenterX;
-		mTextY = mHeight * 0.9f;
+		mTextY = mHeight - (mOffsetY / 2);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
