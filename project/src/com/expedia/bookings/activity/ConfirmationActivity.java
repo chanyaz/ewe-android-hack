@@ -297,6 +297,7 @@ public class ConfirmationActivity extends MapActivity {
 				String dateStr = dayFormatter.format(date) + ", " + fullDateFormatter.format(date);
 				appendLabelValue(body, getString(R.string.room_rate_template, dateStr), breakdown.getAmount()
 						.getFormattedMoney());
+				body.append("\n");
 			}
 			body.append("\n\n");
 		}
