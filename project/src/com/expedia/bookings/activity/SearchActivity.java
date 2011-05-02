@@ -1890,7 +1890,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			// Number of travelers change
 			if (mSearchParams.getNumAdults() != mOldSearchParams.getNumAdults()
-					|| mSearchParams.getNumChildren() != mSearchParams.getNumChildren()) {
+					|| mSearchParams.getNumChildren() != mOldSearchParams.getNumChildren()) {
 				refinements.add("App.Hotels.Search.Refine.NumberTravelers");
 			}
 
