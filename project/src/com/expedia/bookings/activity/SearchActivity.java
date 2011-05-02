@@ -1687,11 +1687,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				mSearchEditText.requestFocus();
 
 				mSearchParams.setSearchType(SearchType.MY_LOCATION);
-				startSearch();
+				setSearchEditViews();
+				showDatesLayout();
 			}
 			else {
 				setSearchParams((SearchParams) mSearchSuggestionAdapter.getItem(position));
-				startSearch();
+				setSearchEditViews();
+				showDatesLayout();
 			}
 		}
 	};
