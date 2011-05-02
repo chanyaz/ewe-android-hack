@@ -201,6 +201,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private boolean mLocationListenerStarted;
 	private boolean mIsSearching;
 
+	private Thread mGeocodeThread;
+
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
 
 	private boolean mDatesLayoutIsVisible;
@@ -558,27 +560,37 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mMapViewListener = mapViewListener;
 	}
 
-	public boolean setSearchParams() {
-		mAddresses = LocationServices.geocode(this, mSearchParams.getFreeformLocation());
-		if (mAddresses.size() > 1) {
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(null);
-			showDialog(DIALOG_LOCATION_SUGGESTIONS);
-
-			return false;
+	public void setSearchParamsForFreeform() {
+		showLoading(R.string.progress_searching_hotels);
+		if (mGeocodeThread != null) {
+			mGeocodeThread.interrupt();
 		}
-		else if (mAddresses.size() > 0) {
-			Address address = mAddresses.get(0);
-			setSearchParams(address.getLatitude(), address.getLongitude());
-
-			return true;
-		}
-		else {
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.progress_search_failed);
-
-			return false;
-		}
+		mGeocodeThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				mAddresses = LocationServices.geocode(SearchActivity.this, mSearchParams.getFreeformLocation());
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						if (mAddresses != null && mAddresses.size() > 1) {
+							mSearchProgressBar.setShowProgress(false);
+							mSearchProgressBar.setText(null);
+							showDialog(DIALOG_LOCATION_SUGGESTIONS);
+						}
+						else if (mAddresses != null && mAddresses.size() > 0) {
+							Address address = mAddresses.get(0);
+							setSearchParams(address.getLatitude(), address.getLongitude());
+							startSearchDownloader();
+						}
+						else {
+							mSearchProgressBar.setShowProgress(false);
+							mSearchProgressBar.setText(R.string.progress_search_failed);
+						}
+					}
+				});
+			}
+		});
+		mGeocodeThread.start();
 	}
 
 	public void setSearchParams(Double latitde, Double longitude) {
@@ -624,20 +636,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
 			stopLocationListener();
-			if (setSearchParams()) {
-				startSearchDownloader();
-			}
-
-			break;
-		}
-		case MY_LOCATION: {
-			startLocationListener();
+			setSearchParamsForFreeform();
 
 			break;
 		}
 		case PROXIMITY: {
 			stopLocationListener();
 			startSearchDownloader();
+
+			break;
+		}
+		case MY_LOCATION: {
+			startLocationListener();
 
 			break;
 		}
@@ -1562,7 +1572,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				mSearchParams.setSearchType(SearchType.PROXIMITY);
 				mSearchParams.setDestinationId(null);
 
-				setSearchParams();
 				setSearchParams(MapUtils.getLatitiude(center), MapUtils.getLongitiude(center));
 				startSearch();
 			}
