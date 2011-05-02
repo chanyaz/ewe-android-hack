@@ -886,11 +886,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void showDatesLayout() {
 		mDatesLayoutIsVisible = true;
-		hideSoftKeyboard(mSearchEditText);
-		hideGuestsLayout();
-		hideSearchSuggestions();
+		resetFocus();
 		setRefinementInfo();
 		mDatesLayout.setVisibility(View.VISIBLE);
+		mDatesCalendarDatePicker.requestFocus();
 		showDismissView();
 		closeDrawer();
 		showButtonBar();
@@ -902,9 +901,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void showGuestsLayout() {
 		mGuestsLayoutIsVisible = true;
-		hideSoftKeyboard(mSearchEditText);
-		hideDatesLayout();
-		hideSearchSuggestions();
+		resetFocus();
 		setRefinementInfo();
 		mGuestsLayout.setVisibility(View.VISIBLE);
 		mAdultsNumberPicker.requestFocus();
@@ -1024,6 +1021,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
+		mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
 		mDatesButton.setOnClickListener(mDatesButtonClickListener);
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
 
@@ -1437,12 +1435,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	private void startFreeFormLocationSearch() {
-		mSearchParams.setSearchType(SearchType.FREEFORM);
-		mSearchParams.setFreeformLocation(mSearchEditText.getText().toString().trim());
-		startSearch();
-	}
-
 	private void startSearchDownloader() {
 		showLoading(R.string.progress_searching_hotels);
 		if (mSearchParams.getSearchType() == SearchType.FREEFORM) {
@@ -1537,14 +1529,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			if (s.equals(getString(R.string.current_location))) {
+			if (s.toString().equals(getString(R.string.current_location))) {
 				mSearchParams.setSearchType(SearchType.MY_LOCATION);
+				mSearchParams.setFreeformLocation("");
 			}
-			else if (s.equals(getString(R.string.visible_map_area))) {
+			else if (s.toString().equals(getString(R.string.visible_map_area))) {
 				mSearchParams.setSearchType(SearchType.PROXIMITY);
+				mSearchParams.setFreeformLocation("");
 			}
-			else {
+			else if (count > 0) {
 				mSearchParams.setSearchType(SearchType.FREEFORM);
+				mSearchParams.setFreeformLocation(s.toString());
 			}
 		}
 	};
@@ -1553,8 +1548,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-				startFreeFormLocationSearch();
-
+				startSearch();
 				return true;
 			}
 
@@ -1648,7 +1642,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			startFreeFormLocationSearch();
+			startSearch();
 		}
 	};
 
