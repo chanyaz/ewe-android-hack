@@ -264,7 +264,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			else {
 				// Handling for particular errors
 				boolean handledError = false;
-				if (mSearchResponse.hasErrors()) {
+				if (mSearchResponse != null && mSearchResponse.hasErrors()) {
 					ServerError errorOne = mSearchResponse.getErrors().get(0);
 					if (errorOne.getCode().equals("01")) {
 						// Deprecated client version
@@ -1122,8 +1122,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		final int endYear = mDatesCalendarDatePicker.getEndYear();
 		final int endMonth = mDatesCalendarDatePicker.getEndMonth();
 		final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
-		final int adults = mAdultsNumberPicker.getCurrent();
-		final int children = mChildrenNumberPicker.getCurrent();
+		final int adults = mSearchParams.getNumAdults();
+		final int children = mSearchParams.getNumChildren();
 
 		String[] shortMonthNames = getResources().getStringArray(R.array.short_month_names);
 
@@ -1672,6 +1672,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final NumberPicker.OnChangedListener mNumberPickerChangedListener = new NumberPicker.OnChangedListener() {
 		@Override
 		public void onChanged(NumberPicker picker, int oldVal, int newVal) {
+			mSearchParams.setNumAdults(mAdultsNumberPicker.getCurrent());
+			mSearchParams.setNumChildren(mChildrenNumberPicker.getCurrent());
+
 			setNumberPickerRanges();
 			setRefinementInfo();
 		}
