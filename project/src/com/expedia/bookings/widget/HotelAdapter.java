@@ -45,7 +45,7 @@ public class HotelAdapter extends BaseAdapter implements OnFilterChangedListener
 
 	@Override
 	public void onFilterChanged() {
-		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
+		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties(true);
 		notifyDataSetChanged();
 	}
 

@@ -245,7 +245,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 		List<Integer> propertyPositions = new ArrayList<Integer>();
 		int i = 0;
 
-		for (Property property : mSearchResponse.getFilteredAndSortedProperties()) {
+		for (Property property : mSearchResponse.getFilteredAndSortedProperties(true)) {
 			if (property.getTripAdvisorRating() >= Filter.TRIP_ADVISOR_HIGH_RATING) {
 				propertyPositions.add(i);
 			}

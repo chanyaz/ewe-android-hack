@@ -1066,6 +1066,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		((RadioButton) mPriceButtonGroup.getChildAt(DEFAULT_PRICE_RADIO_GROUP_CHILD)).setChecked(true);
 
 		setDrawerViews();
+		buildFilter();
 	}
 
 	private void resetFocus() {
