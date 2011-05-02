@@ -138,7 +138,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private boolean mGuestsCompleted;
 	private boolean mBillingCompleted;
 	private boolean mCardCompleted;
-	
+
 	// This is a tracking variable to solve a nasty problem.  The problem is that Spinner.onItemSelectedListener()
 	// fires wildly when you set the Spinner's position manually (sometimes twice at a time).  We only want to track
 	// when a user *explicitly* clicks on a new country.  What this does is keep track of what the system thinks
@@ -562,15 +562,20 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		final BookingInfoActivity activity = this;
 		mConfirmationButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if (!mFormHasBeenFocused) {
-					// Don't let user click on this until they've at least made some attempt
-					// at entering data into the form fields.
-					return;
-				}
-
 				syncBillingInfo();
 
 				List<ValidationError> errors = mValidationProcessor.validate();
+
+				if (!mFormHasBeenFocused) {
+					// Since the user hasn't even focused the form yet, instead push them towards the first
+					// invalid field to enter
+					if (errors.size() > 0) {
+						View firstErrorView = (View) errors.get(0).getObject();
+						firstErrorView.requestFocus();
+					}
+					return;
+				}
+
 				if (errors.size() > 0) {
 					for (ValidationError error : errors) {
 						mErrorHandler.handleError(error);
