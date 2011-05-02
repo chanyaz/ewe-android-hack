@@ -133,6 +133,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final int MAX_GUESTS_TOTAL = 5;
 	private static final int MAX_GUEST_NUM = 4;
 
+	private static final int DEFAULT_SORT_RADIO_GROUP_CHILD = 0;
+	private static final int DEFAULT_RADIUS_RADIO_GROUP_CHILD = 2;
+	private static final int DEFAULT_PRICE_RADIO_GROUP_CHILD = 3;
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
@@ -288,13 +292,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		onPageLoad();
-
 		setContentView(R.layout.activity_search);
-
-		mLocalActivityManager = getLocalActivityManager();
-		initializeViews();
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
@@ -310,6 +309,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchSuggestionAdapter = state.searchSuggestionAdapter;
 			mIsSearching = state.isSearching;
 			mSearchDownloader = state.searchDownloader;
+			mLocalActivityManager = getLocalActivityManager();
+
+			initializeViews();
 
 			setActivity(SearchMapActivity.class);
 			setActivity(SearchListActivity.class);
@@ -328,13 +330,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		else {
 			mSearchParams = new SearchParams();
 			mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
+			mLocalActivityManager = getLocalActivityManager();
+
+			initializeViews();
 
 			setActivity(SearchMapActivity.class);
 			setActivity(SearchListActivity.class);
 			startSearch();
 		}
-
-		// Load both activites
 
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
 
@@ -1003,6 +1006,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mChildrenNumberPicker.setTextEnabled(false);
 		mAdultsNumberPicker.setRange(1, 4);
 		mChildrenNumberPicker.setRange(0, 4);
+		mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
+		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
 		setNumberPickerRanges();
 
 		Time now = new Time();
@@ -1038,6 +1043,16 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	///////////////////////////////////////////////////////////////////////
+
+	private void resetFilter() {
+		mFilter = new Filter();
+
+		((RadioButton) mSortButtonGroup.getChildAt(DEFAULT_SORT_RADIO_GROUP_CHILD)).setChecked(true);
+		((RadioButton) mRadiusButtonGroup.getChildAt(DEFAULT_RADIUS_RADIO_GROUP_CHILD)).setChecked(true);
+		((RadioButton) mPriceButtonGroup.getChildAt(DEFAULT_PRICE_RADIO_GROUP_CHILD)).setChecked(true);
+
+		setDrawerViews();
+	}
 
 	private void resetFocus() {
 		mFocusLayout.requestFocus();
@@ -1218,10 +1233,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		final int numChildren = mChildrenNumberPicker.getCurrent();
 		final int total = numAdults + numChildren;
 		int remaining = MAX_GUESTS_TOTAL - total;
-		remaining = Math.min(MAX_GUEST_NUM, remaining);
 
-		mAdultsNumberPicker.setRange(1, numAdults + remaining, adults);
-		mChildrenNumberPicker.setRange(0, numChildren + remaining, children);
+		mAdultsNumberPicker.setRange(1, Math.min(MAX_GUEST_NUM, numAdults + remaining), adults);
+		mChildrenNumberPicker.setRange(0, Math.min(MAX_GUEST_NUM, numChildren + remaining), children);
 
 		mAdultsNumberPicker.setCurrent(numAdults);
 		mChildrenNumberPicker.setCurrent(numChildren);
@@ -1435,6 +1449,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			Search.add(this, mSearchParams);
 			mSearchSuggestionAdapter.refreshData();
 		}
+
+		resetFilter();
 
 		mSearchDownloader.cancelDownload(KEY_SEARCH);
 		mSearchDownloader.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
