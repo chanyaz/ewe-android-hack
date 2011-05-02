@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import android.app.Application;
 import android.content.Context;
@@ -73,6 +74,9 @@ public class TrackingUtils {
 		// Server
 		s.trackingServer = "om.expedia.net";
 		s.trackingServerSecure = "oms.expedia.net";
+
+		// Add the country locale
+		s.eVar31 = Locale.getDefault().getCountry();
 
 		// Time parting
 		// Format is: YY:DayOfYear:Interval Size:Interval Num
