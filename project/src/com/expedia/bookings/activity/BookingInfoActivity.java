@@ -138,6 +138,12 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private boolean mGuestsCompleted;
 	private boolean mBillingCompleted;
 	private boolean mCardCompleted;
+	
+	// This is a tracking variable to solve a nasty problem.  The problem is that Spinner.onItemSelectedListener()
+	// fires wildly when you set the Spinner's position manually (sometimes twice at a time).  We only want to track
+	// when a user *explicitly* clicks on a new country.  What this does is keep track of what the system thinks
+	// is the selected country - only the user can get this out of alignment, thus causing tracking.
+	private int mSelectedCountryPosition;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
@@ -463,14 +469,20 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
 		mCountrySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (mFormHasBeenFocused) {
-					mPostalCodeEditText.requestFocus();
+				// See description of mSelectedCountryPosition to understand why we're doing this
+				if (mSelectedCountryPosition != position) {
+					if (mFormHasBeenFocused) {
+						mPostalCodeEditText.requestFocus();
+					}
+					onCountrySpinnerClick();
+
+					// Once a user has explicitly changed the country, track every change thereafter
+					mSelectedCountryPosition = -1;
 				}
-				onCountrySpinnerClick();
 			}
 
 			public void onNothingSelected(AdapterView<?> parent) {
-				onCountrySpinnerClick();
+				// Do nothing
 			}
 		});
 
@@ -621,7 +633,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	}
 
 	private void setSpinnerSelection(Spinner spinner, String target) {
-		spinner.setSelection(findAdapterIndex(spinner.getAdapter(), target));
+		mSelectedCountryPosition = findAdapterIndex(spinner.getAdapter(), target);
+		spinner.setSelection(mSelectedCountryPosition);
 	}
 
 	private int findAdapterIndex(SpinnerAdapter adapter, String target) {
@@ -638,6 +651,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private void setSpinnerSelection(Spinner spinner, String[] codes, String targetCode) {
 		for (int n = 0; n < codes.length; n++) {
 			if (targetCode.equals(codes[n])) {
+				mSelectedCountryPosition = n;
 				spinner.setSelection(n);
 				return;
 			}
