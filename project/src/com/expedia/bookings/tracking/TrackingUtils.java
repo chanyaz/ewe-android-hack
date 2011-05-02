@@ -1,12 +1,15 @@
 package com.expedia.bookings.tracking;
 
+import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import android.app.Application;
 import android.content.Context;
@@ -106,9 +109,9 @@ public class TrackingUtils {
 		// GMT timestamp
 		s.prop32 = gmt.getTime() + "";
 
-		// Device carrier network
+		// Device carrier network info - format is "android|<carrier>|<network>"
 		TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		s.prop33 = tm.getNetworkOperatorName();
+		s.prop33 = "android|" + tm.getNetworkOperatorName() + "|" + getNetworkType(tm);
 
 		// App version
 		s.prop35 = AndroidUtils.getAppVersion(context);
@@ -155,6 +158,79 @@ public class TrackingUtils {
 
 	public static void addHotelRating(AppMeasurement s, Property property) {
 		s.prop38 = property.getTripAdvisorRating() + "";
+	}
+
+	private static Map<Integer, String> mNetworkTypes = null;
+
+	// This method is complicated by the fact that new network types were added to later versions
+	// of the Android OS.  As a result, we just check the hardcoded values in some cases.
+	private static String getNetworkType(TelephonyManager tm) {
+		if (mNetworkTypes == null) {
+			Map<Integer, String> types = new HashMap<Integer, String>();
+
+			try {
+				Field[] fields = tm.getClass().getFields();
+				for (Field field : fields) {
+					if (field.getName().equals("NETWORK_TYPE_1xRTT")) {
+						types.put(field.getInt(null), "1xrtt");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_CDMA")) {
+						types.put(field.getInt(null), "cdma");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_EDGE")) {
+						types.put(field.getInt(null), "edge");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_EHRPD")) {
+						types.put(field.getInt(null), "ehrpd");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_EVDO_0")) {
+						types.put(field.getInt(null), "evdo_0");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_EVDO_A")) {
+						types.put(field.getInt(null), "evdo_a");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_EVDO_B")) {
+						types.put(field.getInt(null), "evdo_b");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_GPRS")) {
+						types.put(field.getInt(null), "gprs");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_HSDPA")) {
+						types.put(field.getInt(null), "hsdpa");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_HSPA")) {
+						types.put(field.getInt(null), "hspa");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_HSUPA")) {
+						types.put(field.getInt(null), "hsupa");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_IDEN")) {
+						types.put(field.getInt(null), "iden");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_LTE")) {
+						types.put(field.getInt(null), "lte");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_UMTS")) {
+						types.put(field.getInt(null), "umts");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_UNKNOWN")) {
+						types.put(field.getInt(null), "unknown");
+					}
+				}
+
+				mNetworkTypes = types;
+			}
+			catch (IllegalAccessException e) {
+				Log.w("Could not load network types.", e);
+			}
+		}
+
+		int networkType = tm.getNetworkType();
+		if (mNetworkTypes != null && mNetworkTypes.containsKey(networkType)) {
+			return mNetworkTypes.get(networkType);
+		}
+
+		return "unknown";
 	}
 
 	private static String md5(String s) {
