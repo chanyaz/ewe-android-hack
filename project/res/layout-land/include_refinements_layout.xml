@@ -36,21 +36,20 @@
     <LinearLayout
     	android:id="@+id/guests_layout"
     	android:orientation="horizontal"
-    	android:layout_width="wrap_content"
+    	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
-    	android:background="@drawable/btn_floating_normal"
     	android:visibility="gone">
 	    
 	    <com.mobiata.android.widget.NumberPicker
 			android:id="@+id/adults_number_picker"
-	    	android:layout_width="wrap_content"
+	    	android:layout_width="0dp"
 	    	android:layout_height="wrap_content"
 	    	android:layout_weight="1"
 	    	mobiata:pickerTextSize="14dp" />
 	    	
 	    <com.mobiata.android.widget.NumberPicker
 			android:id="@+id/children_number_picker"
-	    	android:layout_width="wrap_content"
+	    	android:layout_width="0dp"
 	    	android:layout_height="wrap_content"
 	    	android:layout_weight="1"
 	    	mobiata:pickerTextSize="14dp" />
