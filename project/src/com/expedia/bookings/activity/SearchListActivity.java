@@ -9,6 +9,7 @@ import android.widget.ListView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.ListViewScrollBar;
+import com.mobiata.android.ImageCache;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
@@ -107,8 +108,9 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 		mSearchResponse = response;
 
 		mAdapter = new HotelAdapter(this, mSearchResponse);
-		setListAdapter(mAdapter);
+		ImageCache.getInstance().recycleCache(true);
 
+		setListAdapter(mAdapter);
 		mScrollBar.setSearchResponse(mSearchResponse);
 	}
 
