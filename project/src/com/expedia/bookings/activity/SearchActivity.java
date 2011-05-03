@@ -271,12 +271,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					if (errorOne.getCode().equals("01")) {
 						// Deprecated client version
 						showDialog(DIALOG_CLIENT_DEPRECATED);
-					}
-					
-					mSearchProgressBar.setShowProgress(false);
-					mSearchProgressBar.setText(errorOne.getExtra("message"));
-					handledError = true;
 
+						mSearchProgressBar.setShowProgress(false);
+						mSearchProgressBar.setText(errorOne.getExtra("message"));
+						handledError = true;
+					}
+
+					Log.e(errorOne.getMessage());
 				}
 
 				if (!handledError) {
@@ -1581,10 +1582,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (s.toString().equals(getString(R.string.current_location))) {
 				mSearchParams.setSearchType(SearchType.MY_LOCATION);
 				mSearchParams.setFreeformLocation("");
+				mSearchParams.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
 			}
 			else if (s.toString().equals(getString(R.string.visible_map_area))) {
 				mSearchParams.setSearchType(SearchType.PROXIMITY);
 				mSearchParams.setFreeformLocation("");
+				mSearchParams.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
 			}
 			else if (count > 0) {
 				mSearchParams.setSearchType(SearchType.FREEFORM);
@@ -1628,8 +1631,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public void onClick(View v) {
 			if (mMapViewListener != null) {
 				GeoPoint center = mMapViewListener.onRequestMapCenter();
-				mSearchParams.setSearchType(SearchType.PROXIMITY);
+				mSearchParams.setFreeformLocation("");
 				mSearchParams.setDestinationId(null);
+				mSearchParams.setSearchType(SearchType.PROXIMITY);
 
 				setSearchParams(MapUtils.getLatitiude(center), MapUtils.getLongitiude(center));
 				startSearch();
