@@ -10,12 +10,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -136,6 +133,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private static final int ERROR_EXPIRED_YEAR = 103;
 	private static final int ERROR_SHORT_SECURITY_CODE = 104;
 	private static final int ERROR_INVALID_CARD_TYPE = 105;
+	private static final int ERROR_AMEX_BAD_CURRENCY = 106;
 	private ValidationProcessor mValidationProcessor;
 	private TextViewErrorHandler mErrorHandler;
 
@@ -542,6 +540,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// Configure form validation
 		// Setup validators and error handlers
+		final String userCurrency = CurrencyUtils.getCurrencyCode(mContext);
 		TextViewValidator requiredFieldValidator = new TextViewValidator();
 		TextViewErrorHandler errorHandler = mErrorHandler = new TextViewErrorHandler(getString(R.string.required_field));
 		errorHandler.addResponse(ValidationError.ERROR_DATA_INVALID, getString(R.string.invalid_field));
@@ -550,6 +549,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		errorHandler.addResponse(ERROR_EXPIRED_YEAR, getString(R.string.invalid_expiration_year));
 		errorHandler.addResponse(ERROR_SHORT_SECURITY_CODE, getString(R.string.invalid_security_code));
 		errorHandler.addResponse(ERROR_INVALID_CARD_TYPE, getString(R.string.invalid_card_type));
+		errorHandler.addResponse(ERROR_AMEX_BAD_CURRENCY, getString(R.string.invalid_currency_for_amex, userCurrency));
 
 		// Add all the validators
 		mValidationProcessor.add(mFirstNameEditText, requiredFieldValidator);
@@ -565,6 +565,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				}
 				if (!FormatUtils.isValidCreditCardNumber(number)) {
 					return ERROR_INVALID_CARD_NUMBER;
+				}
+				if (mCreditCardType == CreditCardType.AMERICAN_EXPRESS
+						&& !CurrencyUtils.currencySupportedByAmex(mContext, userCurrency)) {
+					return ERROR_AMEX_BAD_CURRENCY;
 				}
 				return 0;
 			}

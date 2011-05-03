@@ -142,6 +142,8 @@
 	<string name="invalid_expiration_year">Please enter a year that hasn\'t already passed</string>
 	<!-- Error if an invalid security code was entered -->
 	<string name="invalid_security_code">Please enter a three or four digit security code</string>
+	<!-- Error if an invalid currency code is being used with American Express -->
+	<string name="invalid_currency_for_amex">Sorry, payments in this currency (%s) are not supported by American Express. Please use a different credit card.</string>
 	<!-- Message to display to user while booking is in progress -->
 	<string name="booking_loading">Booking...</string>
 	<!-- Title for error dialog when booking fails -->
