@@ -709,8 +709,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			fixFocus();
 
 			if (animateAndFocus) {
-				// TODO: Figure out why focus moves to postal code automatically
-				// mAddress1EditText.requestFocus();
+				mAddress1EditText.requestFocus();
 				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.showSoftInput(mAddress1EditText, InputMethodManager.SHOW_IMPLICIT);
 			}
