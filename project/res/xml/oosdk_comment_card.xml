@@ -7,7 +7,7 @@
     <highRatingDescription>Like</highRatingDescription>
     <commentLabel>What could we do better?</commentLabel>
     <emailQuestion>Email Address</emailQuestion>
-    <thankYouText>Thank you for submitting your opinion. We value our customers\' feedback.</thankYouText>
+    <thankYouText>Thank you for submitting your opinion. We value our customers' feedback.</thankYouText>
     <complianceMode>true</complianceMode>
     <showCommentQuestion>true</showCommentQuestion>
     <showEmailQuestion>true</showEmailQuestion>
