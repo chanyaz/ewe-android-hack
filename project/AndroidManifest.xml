@@ -41,6 +41,8 @@
 		<activity android:name=".activity.ConfirmationActivity" />
 
 		<activity android:name=".activity.AboutActivity" />
+		
+		<activity android:name=".activity.ExpediaBookingPreferenceActivity" />
 
 		<activity android:name="com.opinionlab.oo.sdk.android.CommentCardActivity" />
 

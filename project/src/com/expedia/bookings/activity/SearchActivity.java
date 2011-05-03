@@ -118,6 +118,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
 	private static final int DIALOG_CLIENT_DEPRECATED = 1;
 
+	private static final int REQUEST_CODE_SETTINGS = 1;
+
 	private static final int MSG_SWITCH_TO_NETWORK_LOCATION = 0;
 	private static final int MSG_BROADCAST_SEARCH_COMPLETED = 1;
 	private static final int MSG_BROADCAST_SEARCH_FAILED = 2;
@@ -405,6 +407,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		return state;
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == REQUEST_CODE_SETTINGS && resultCode == RESULT_OK) {
+			// This indicates that settings have changed; we should start a new search,
+			// as the currency (or possibly other settings in the future) have changed.
+			startSearchDownloader();
+		}
+	}
+
 	// Dialogs
 
 	@Override
@@ -476,6 +489,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.settings: {
+			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
+			startActivityForResult(intent, REQUEST_CODE_SETTINGS);
+			break;
+		}
 		case R.id.about: {
 			Intent intent = new Intent(this, AboutActivity.class);
 			startActivity(intent);
