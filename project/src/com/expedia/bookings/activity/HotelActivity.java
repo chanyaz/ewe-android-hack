@@ -30,6 +30,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Media;
+import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Property.Amenity;
 import com.mobiata.hotellib.data.Rate;
@@ -133,7 +134,7 @@ public class HotelActivity extends Activity {
 		TextView fromView = (TextView) findViewById(R.id.from_text_view);
 		if (lowestRate.getSavingsPercent() > 0) {
 			fromView.setText(Html.fromHtml(
-					getString(R.string.from_template, lowestRate.getAverageBaseRate().getFormattedMoney()), null,
+					getString(R.string.from_template, lowestRate.getAverageBaseRate().getFormattedMoney(Money.F_NO_DECIMAL)), null,
 					new StrikethroughTagHandler()));
 		}
 		else {
@@ -141,7 +142,7 @@ public class HotelActivity extends Activity {
 		}
 
 		TextView priceView = (TextView) findViewById(R.id.price_text_view);
-		priceView.setText(lowestRate.getAverageRate().getFormattedMoney());
+		priceView.setText(lowestRate.getAverageRate().getFormattedMoney(Money.F_NO_DECIMAL));
 
 		ImageButton mapButton = (ImageButton) findViewById(R.id.map_button);
 		mapButton.setOnClickListener(new OnClickListener() {

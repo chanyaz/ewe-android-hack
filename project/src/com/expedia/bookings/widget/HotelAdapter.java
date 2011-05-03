@@ -16,6 +16,7 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.hotellib.data.Filter;
 import com.mobiata.hotellib.data.Filter.OnFilterChangedListener;
+import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.SearchResponse;
@@ -129,7 +130,7 @@ public class HotelAdapter extends BaseAdapter implements OnFilterChangedListener
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.getSavingsPercent() > 0) {
 			holder.from.setText(Html.fromHtml(
-					mContext.getString(R.string.from_template, lowestRate.getAverageBaseRate().getFormattedMoney()),
+					mContext.getString(R.string.from_template, lowestRate.getAverageBaseRate().getFormattedMoney(Money.F_NO_DECIMAL)),
 					null, new StrikethroughTagHandler()));
 			holder.saleImage.setVisibility(View.VISIBLE);
 			holder.saleLabel.setVisibility(View.VISIBLE);
@@ -140,7 +141,7 @@ public class HotelAdapter extends BaseAdapter implements OnFilterChangedListener
 			holder.saleLabel.setVisibility(View.GONE);
 		}
 
-		holder.price.setText(lowestRate.getAverageRate().getFormattedMoney());
+		holder.price.setText(lowestRate.getAverageRate().getFormattedMoney(Money.F_NO_DECIMAL));
 
 		holder.hotelRating.setRating((float) property.getHotelRating());
 		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext));
