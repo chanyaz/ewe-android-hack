@@ -10,9 +10,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -32,7 +35,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -42,6 +44,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
 import com.mobiata.android.validation.TextViewErrorHandler;
@@ -74,6 +77,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.booking";
 
 	private static final int DIALOG_BOOKING_PROGRESS = 1;
+	private static final int DIALOG_BOOKING_NULL = 2;
+	private static final int DIALOG_BOOKING_ERROR = 3;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
@@ -147,6 +152,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
+
+	// Errors from a bad booking
+	List<ServerError> mErrors;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
@@ -352,6 +360,24 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			pd.setMessage(getString(R.string.booking_loading));
 			return pd;
 		}
+		case DIALOG_BOOKING_NULL: {
+			return DialogUtils.createSimpleDialog(this, DIALOG_BOOKING_NULL, R.string.error_booking_title,
+					R.string.error_booking_null);
+		}
+		case DIALOG_BOOKING_ERROR: {
+			// Gather the error message
+			String errorMsg = "";
+			int numErrors = mErrors.size();
+			for (int a = 0; a < numErrors; a++) {
+				if (a > 0) {
+					errorMsg += "\n";
+				}
+				errorMsg += mErrors.get(a).getMessage();
+			}
+
+			return DialogUtils.createSimpleDialog(this, DIALOG_BOOKING_NULL, getString(R.string.error_booking_title),
+					errorMsg);
+		}
 		}
 
 		return super.onCreateDialog(id);
@@ -364,18 +390,14 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		removeDialog(DIALOG_BOOKING_PROGRESS);
 
 		if (results == null) {
-			// TODO: Add error handling
-			Toast.makeText(this, "ERROR: results of booking null!", Toast.LENGTH_LONG).show();
+			showDialog(DIALOG_BOOKING_NULL);
 			return;
 		}
 
 		BookingResponse response = (BookingResponse) results;
 		if (response.hasErrors()) {
-			// TODO: Add error handling
-			Toast.makeText(this, "ERROR: results of booking had errors!", Toast.LENGTH_LONG).show();
-			for (ServerError error : response.getErrors()) {
-				Log.e(error.getCode() + ": " + error.getMessage());
-			}
+			mErrors = response.getErrors();
+			showDialog(DIALOG_BOOKING_ERROR);
 			return;
 		}
 

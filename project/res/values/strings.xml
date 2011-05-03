@@ -144,6 +144,10 @@
 	<string name="invalid_security_code">Please enter a three or four digit security code</string>
 	<!-- Message to display to user while booking is in progress -->
 	<string name="booking_loading">Booking...</string>
+	<!-- Title for error dialog when booking fails -->
+	<string name="error_booking_title">Error</string>
+	<!-- Error message when we couldn't get a response -->
+	<string name="error_booking_null">Could not connect to Expedia servers.  Please check your connection and try again.</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Reservation summary label -->
