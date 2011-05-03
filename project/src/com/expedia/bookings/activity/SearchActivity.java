@@ -931,7 +931,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void showLoading(String text) {
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		//setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		mSearchProgressBar.setVisibility(View.VISIBLE);
 		mSearchProgressBar.setShowProgress(true);
 		mSearchProgressBar.setText(text);

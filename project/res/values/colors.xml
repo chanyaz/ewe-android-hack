@@ -8,15 +8,5 @@
 	<color name="dismiss">#72000000</color>
 	
 	<color name="bg_default">#e7e7e7</color>
-
-	<!-- CalendarDatePicker colors -->
-	<color name="cell_selected">#FF1A5178</color>
-	<color name="cell_pressed">#FF2A82BD</color>
-	<color name="cell_enabled">#FFFFFFFF</color>
-	<color name="cell_disabled">#FFCCCCCC</color>
-
-	<color name="cell_other_month_selected">#FF999999</color>
-	<color name="cell_other_month_pressed">#FF2A82BD</color>
-	<color name="cell_other_month_enabled">#FFEEEEEE</color>
-	<color name="cell_other_month_disabled">#FFDDDDDD</color>
+	<color name="calendar_header">#FFF3F3F3</color>
 </resources>
