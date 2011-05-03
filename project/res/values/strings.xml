@@ -23,6 +23,8 @@
 	<string name="tripadvisor_rating_all">Show all hotels</string>
 	<!-- Label indicating that there are no results matching their current filter -->
 	<string name="no_filter_results">Sorry, no hotels match your current filters.</string>
+	<!-- Label indicating that geolocation failed -->
+	<string name="geolocation_failed">Unable to determine search location.</string>
 	<!-- Button label for upgrading the app -->
 	<string name="upgrade">Upgrade</string>
 	
