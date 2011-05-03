@@ -305,6 +305,12 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		super.onStop();
 
 		mWasStopped = true;
+
+		// Save the billing info, in case a user quit activity with a field focused
+		if (isFinishing()) {
+			saveBillingInfo();
+			checkSectionsCompleted(true);
+		}
 	}
 
 	@Override
