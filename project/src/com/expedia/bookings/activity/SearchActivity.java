@@ -275,12 +275,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 						mSearchProgressBar.setShowProgress(false);
 						mSearchProgressBar.setText(errorOne.getExtra("message"));
 						handledError = true;
+
+						TrackingUtils.trackErrorPage(mContext, "OutdatedVersion");
 					}
 
 					Log.e(errorOne.getMessage());
 				}
 
 				if (!handledError) {
+					TrackingUtils.trackErrorPage(mContext, "HotelListRequestFailed");
 					mSearchProgressBar.setShowProgress(false);
 					mSearchProgressBar.setText(R.string.progress_search_failed);
 				}
@@ -531,6 +534,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		stopLocationListener();
 		mSearchProgressBar.setShowProgress(false);
 		mSearchProgressBar.setText(R.string.ProviderDisabled);
+		TrackingUtils.trackErrorPage(this, "LocationServicesNotAvailable");
 	}
 
 	@Override
@@ -604,6 +608,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 							startSearchDownloader();
 						}
 						else {
+							TrackingUtils.trackErrorPage(mContext, "LocationNotFound");
 							mSearchProgressBar.setShowProgress(false);
 							mSearchProgressBar.setText(R.string.progress_search_failed);
 						}

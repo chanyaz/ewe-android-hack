@@ -389,6 +389,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		if (results == null) {
 			showDialog(DIALOG_BOOKING_NULL);
+			TrackingUtils.trackErrorPage(this, "ReservationRequestFailed");
 			return;
 		}
 
@@ -396,6 +397,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		if (response.hasErrors()) {
 			mErrors = response.getErrors();
 			showDialog(DIALOG_BOOKING_ERROR);
+			TrackingUtils.trackErrorPage(this, "ReservationRequestFailed");
 			return;
 		}
 
@@ -561,13 +563,16 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mValidationProcessor.add(mCardNumberEditText, new TextViewValidator(new Validator<CharSequence>() {
 			public int validate(CharSequence number) {
 				if (mCreditCardType == null) {
+					TrackingUtils.trackErrorPage(mContext, "CreditCardNotSupported");
 					return ERROR_INVALID_CARD_TYPE;
 				}
-				if (!FormatUtils.isValidCreditCardNumber(number)) {
+				else if (!FormatUtils.isValidCreditCardNumber(number)) {
+					TrackingUtils.trackErrorPage(mContext, "CreditCardNotSupported");
 					return ERROR_INVALID_CARD_NUMBER;
 				}
-				if (mCreditCardType == CreditCardType.AMERICAN_EXPRESS
+				else if (mCreditCardType == CreditCardType.AMERICAN_EXPRESS
 						&& !CurrencyUtils.currencySupportedByAmex(mContext, userCurrency)) {
+					TrackingUtils.trackErrorPage(mContext, "CurrencyNotSupported");
 					return ERROR_AMEX_BAD_CURRENCY;
 				}
 				return 0;

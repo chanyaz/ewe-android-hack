@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.telephony.TelephonyManager;
 
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.hotellib.data.BillingInfo;
 import com.mobiata.hotellib.data.Property;
@@ -49,6 +50,12 @@ public class TrackingUtils {
 		else {
 			trackOnClick(s);
 		}
+	}
+
+	// Simplified method for tracking error pages
+	public static void trackErrorPage(Context context, String errorName) {
+		Log.d("Tracking \"App.Error." + errorName + "\" pageLoad.");
+		trackSimpleEvent(context, "App.Error." + errorName, "event38", null, null);
 	}
 
 	public static void trackOnClick(AppMeasurement s) {

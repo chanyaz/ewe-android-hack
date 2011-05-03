@@ -132,6 +132,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		mProgressBar.setVisibility(View.GONE);
 
 		if (results == null) {
+			TrackingUtils.trackErrorPage(this, "RatesListRequestFailed");
 			mEmptyTextView.setText(R.string.error_no_response_room_rates);
 			return;
 		}
@@ -147,12 +148,17 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 				sb.append("\n");
 			}
 			mEmptyTextView.setText(sb.toString().trim());
+			TrackingUtils.trackErrorPage(this, "RatesListRequestFailed");
 			return;
 		}
 
 		mAdapter = new RoomsAndRatesAdapter(this, response.getRates());
 
 		setListAdapter(mAdapter);
+
+		if (mAdapter.getCount() == 0) {
+			TrackingUtils.trackErrorPage(this, "HotelHasNoRoomsAvailable");
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

@@ -11,6 +11,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.hotellib.data.Filter;
@@ -46,6 +47,9 @@ public class HotelAdapter extends BaseAdapter implements OnFilterChangedListener
 	@Override
 	public void onFilterChanged() {
 		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties(true);
+		if (mCachedProperties.length == 0) {
+			TrackingUtils.trackErrorPage(mContext, "FilteredToZeroResults");
+		}
 		notifyDataSetChanged();
 	}
 
