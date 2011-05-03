@@ -654,6 +654,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	public void startSearch() {
+		mSearchDownloader.cancelDownload(KEY_SEARCH);
+
 		buildFilter();
 		setSearchEditViews();
 		resetFocus();
