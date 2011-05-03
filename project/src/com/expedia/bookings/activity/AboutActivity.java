@@ -24,6 +24,8 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
 	private static final int DIALOG_CONTACT_EXPEDIA = 1;
 
+	private static final int REQUEST_CODE_FEEDBACK = 1;
+
 	private Context mContext;
 
 	@Override
@@ -52,7 +54,10 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 				Intent intent = new Intent(mContext, CommentCardActivity.class);
 				intent.putExtra(CommentCardActivity.EXTRA_REFERRAL_URL, "http://expediahotelandroid.expedia.com/"
 						+ AndroidUtils.getAppVersion(mContext));
-				startActivity(intent);
+				startActivityForResult(intent, REQUEST_CODE_FEEDBACK);
+
+				Log.d("Tracking \"App.Feedback\" pageLoad");
+				TrackingUtils.trackSimpleEvent(mContext, "App.Feedback", null, null, null);
 			}
 		});
 		addSimpleRow(appSection, getString(R.string.app_support), new OnClickListener() {
@@ -85,6 +90,19 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		// Tracking
 		if (savedInstanceState == null) {
 			onPageLoad();
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == REQUEST_CODE_FEEDBACK && resultCode == RESULT_OK) {
+			Log.d("Tracking \"app feedback\" onClick");
+
+			// TODO: referrerId should display the # of stars the user gave us, however we cannot get
+			// that information from OpinionLab yet.
+			TrackingUtils.trackSimpleEvent(this, null, "event37", null, null);
 		}
 	}
 
