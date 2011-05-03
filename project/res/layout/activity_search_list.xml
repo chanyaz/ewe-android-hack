@@ -43,7 +43,7 @@
 		android:layout_alignParentRight="true"
 		android:paddingTop="6dp"
 		android:paddingRight="6dp"
-		android:paddingLeft="18dp" />
+		android:paddingLeft="12dp" />
 
 	<ImageButton
 		android:id="@id/view_button"
