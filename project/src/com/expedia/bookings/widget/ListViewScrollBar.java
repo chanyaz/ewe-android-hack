@@ -173,8 +173,8 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 		mMarkerRangePaddingTop = PADDING_TOP_MARKER_RANGE * mScaledDensity;
 		mMarkerRangePaddingBottom = PADDING_BOTTOM_MARKER_RANGE * mScaledDensity;
 
-		mMarkerRangeHeight = mHeight - mIndicatorPaddingTop - mIndicatorPaddingBottom - mMarkerRangePaddingTop
-				- mMarkerRangePaddingBottom;
+		mMarkerRangeHeight = mHeight - mPaddingTop - mPaddingBottom - mIndicatorPaddingTop - mIndicatorPaddingBottom
+				- mMarkerRangePaddingTop - mMarkerRangePaddingBottom;
 
 		final float barLeft = ((mWidth - mPaddingLeft - mPaddingRight - mBarMinimumWidth) / 2) + mPaddingLeft;
 		final float barRight = barLeft + mBarMinimumWidth;
