@@ -28,6 +28,9 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
 	private Context mContext;
 
+	// For tracking - tells you when a user paused the Activity but came back to it
+	private boolean mWasStopped;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -90,6 +93,23 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		// Tracking
 		if (savedInstanceState == null) {
 			onPageLoad();
+		}
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+		mWasStopped = true;
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		if (mWasStopped) {
+			onPageLoad();
+			mWasStopped = false;
 		}
 	}
 
