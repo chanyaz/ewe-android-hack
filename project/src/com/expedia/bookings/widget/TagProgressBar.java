@@ -19,12 +19,14 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 
 public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callback, SensorEventListener, OnTouchListener {
 	//////////////////////////////////////////////////////////////////////////////////
@@ -92,6 +94,9 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 	private int mHeight;
 
 	private TextPaint mTextPaint;
+	private StaticLayout mTextLayout;
+	private float mTextLayoutDx;
+	private float mTextLayoutDy;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -126,6 +131,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		setKeepScreenOn(true);
+		loadResources();
 
 		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -150,6 +156,8 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 			catch (InterruptedException e) {
 			}
 		}
+
+		recycleResources();
 	}
 
 	@Override
@@ -195,7 +203,20 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		mAcceleration = event.values;
+		mAcceleration = event.values.clone();
+
+		switch (mOrientation) {
+		case Surface.ROTATION_90: {
+			mAcceleration[1] = event.values[0];
+			mAcceleration[0] = -event.values[1];
+			break;
+		}
+		case Surface.ROTATION_270: {
+			mAcceleration[1] = -event.values[0];
+			mAcceleration[0] = event.values[1];
+			break;
+		}
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -235,6 +256,18 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 			text = "";
 		}
 		mText = text;
+
+		calculateTextLayout();
+	}
+
+	private void calculateTextLayout() {
+		mTextLayout = new StaticLayout(mText, mTextPaint, (int) (mWidth * 0.9f), Alignment.ALIGN_CENTER, 1, 0, true);
+		mTextLayoutDx = mWidth * 0.05f;
+		mTextLayoutDy = mHeight - (((mHeight - (mOffsetY + mTagHeight)) + mTextLayout.getHeight()) / 2);
+
+		if (mOrientation == Surface.ROTATION_90 || mOrientation == Surface.ROTATION_270) {
+			mTextLayoutDy = (mOffsetY) / 2;
+		}
 	}
 
 	public void setTextColor(int color) {
@@ -257,77 +290,15 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private methods
 
-	private void init(Context context) {
-		setOnTouchListener(this);
-		setFocusableInTouchMode(true);
-
-		getHolder().addCallback(this);
-		mOrientation = getResources().getConfiguration().orientation;
-
-		mParent = (Activity) context;
-		mSensorManager = (SensorManager) mParent.getSystemService(Activity.SENSOR_SERVICE);
-		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-		DisplayMetrics metrics = new DisplayMetrics();
-		mParent.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-		mScaledDensity = metrics.scaledDensity;
-
-		mTextPaint = new TextPaint();
-		mTextPaint.setAntiAlias(true);
-
-		mPaint = new Paint();
-		mPaint.setAntiAlias(true);
-		mPaint.setFilterBitmap(true);
-
-		mTagBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_tag);
-		mTagWidth = mTagBitmap.getWidth();
-		mTagHeight = mTagBitmap.getHeight();
-		mTagSrcRect = new Rect(0, 0, mTagWidth, mTagHeight);
-
-		mKnobBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_knob);
-		mKnobWidth = mKnobBitmap.getWidth();
-		mKnobHeight = mKnobBitmap.getHeight();
-		mKnobSrcRect = new Rect(0, 0, mKnobWidth, mKnobHeight);
-
-		mKnobBgBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_knob_bg);
-		mKnobBgWidth = mKnobBgBitmap.getWidth();
-		mKnobBgHeight = mKnobBgBitmap.getHeight();
-		mKnobBgSrcRect = new Rect(0, 0, mKnobBgWidth, mKnobBgHeight);
-
-		mRingBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_ring);
-		mRingWidth = mRingBitmap.getWidth();
-		mRingHeight = mRingBitmap.getHeight();
-		mRingSrcRect = new Rect(0, 0, mRingWidth, mRingHeight);
-
-		mRingFillBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_ring_fill);
-		mRingFillWidth = mRingFillBitmap.getWidth();
-		mRingFillHeight = mRingFillBitmap.getHeight();
-		mRingFillSrcRect = new Rect(0, 0, mRingFillWidth, mRingFillHeight);
-	}
-
-	private boolean isInsideTag(float x, float y) {
-		if (mDrawingThread != null) {
-			final double angle = mDrawingThread.getAngle();
-			final double dx = x - mTagCenterX;
-			final double dy = y - mTagCenterY;
-			final double newX = mTagCenterX - dx * Math.cos(angle) - dy * Math.sin(angle);
-			final double newY = mTagCenterX - dx * Math.sin(angle) + dy * Math.cos(angle);
-
-			final Rect tagRect = new Rect(mTagDestRect);
-			tagRect.top += mOffsetY;
-			tagRect.bottom += mOffsetY;
-
-			return tagRect.contains((int) newX, (int) newY);
-		}
-		return false;
-	}
-
 	private void calculateMeasurements() {
 		// NOTE: A few of these measurements are pretty arbitrary, definitely
 		// making this view a one time use kind of view.
 
 		mOffsetY = (int) ((float) mHeight * 0.15f);
+		if (mOrientation == Surface.ROTATION_90 || mOrientation == Surface.ROTATION_270) {
+			mOffsetY = (int) ((float) mHeight * 0.25f);
+		}
+
 		mRingMargin = (mTagWidth - mRingWidth) / 2;
 		mRingLeftOffset = (int) (mTagWidth * 0.028f);
 
@@ -369,6 +340,101 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 		mRingFillCenterX = mRingFillDestRect.left + (mRingFillWidth / 2);
 		mRingFillCenterY = mRingFillDestRect.top + (mRingFillHeight / 2);
+
+		calculateTextLayout();
+	}
+
+	private void init(Context context) {
+		setOnTouchListener(this);
+		setFocusableInTouchMode(true);
+
+		getHolder().addCallback(this);
+
+		mParent = (Activity) context;
+		mSensorManager = (SensorManager) mParent.getSystemService(Activity.SENSOR_SERVICE);
+		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		mOrientation = mParent.getWindowManager().getDefaultDisplay().getOrientation();
+
+		DisplayMetrics metrics = new DisplayMetrics();
+		mParent.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+		mScaledDensity = metrics.scaledDensity;
+
+		mTextPaint = new TextPaint();
+		mTextPaint.setAntiAlias(true);
+
+		mPaint = new Paint();
+		mPaint.setAntiAlias(true);
+		mPaint.setFilterBitmap(true);
+	}
+
+	private boolean isInsideTag(float x, float y) {
+		if (mDrawingThread != null) {
+			double angle = mDrawingThread.getAngle();
+			if (mOrientation == Surface.ROTATION_90 || mOrientation == Surface.ROTATION_270) {
+				angle -= Math.PI;
+			}
+
+			final double dx = x - mTagCenterX;
+			final double dy = y - mTagCenterY;
+			final double newX = mTagCenterX - dx * Math.cos(angle) - dy * Math.sin(angle);
+			final double newY = mTagCenterX - dx * Math.sin(angle) + dy * Math.cos(angle);
+
+			final Rect tagRect = new Rect(mTagDestRect);
+			tagRect.top += mOffsetY;
+			tagRect.bottom += mOffsetY;
+
+			return tagRect.contains((int) newX, (int) newY);
+		}
+		return false;
+	}
+
+	private void loadResources() {
+		mTagBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_tag);
+		mTagWidth = mTagBitmap.getWidth();
+		mTagHeight = mTagBitmap.getHeight();
+		mTagSrcRect = new Rect(0, 0, mTagWidth, mTagHeight);
+
+		mKnobBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_knob);
+		mKnobWidth = mKnobBitmap.getWidth();
+		mKnobHeight = mKnobBitmap.getHeight();
+		mKnobSrcRect = new Rect(0, 0, mKnobWidth, mKnobHeight);
+
+		mKnobBgBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_knob_bg);
+		mKnobBgWidth = mKnobBgBitmap.getWidth();
+		mKnobBgHeight = mKnobBgBitmap.getHeight();
+		mKnobBgSrcRect = new Rect(0, 0, mKnobBgWidth, mKnobBgHeight);
+
+		mRingBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_ring);
+		mRingWidth = mRingBitmap.getWidth();
+		mRingHeight = mRingBitmap.getHeight();
+		mRingSrcRect = new Rect(0, 0, mRingWidth, mRingHeight);
+
+		mRingFillBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.progress_ring_fill);
+		mRingFillWidth = mRingFillBitmap.getWidth();
+		mRingFillHeight = mRingFillBitmap.getHeight();
+		mRingFillSrcRect = new Rect(0, 0, mRingFillWidth, mRingFillHeight);
+	}
+
+	private void recycleResources() {
+		if (mBackgroundBitmap != null) {
+			mBackgroundBitmap.recycle();
+		}
+		if (mTagBitmap != null) {
+			mTagBitmap.recycle();
+		}
+		if (mKnobBitmap != null) {
+			mKnobBitmap.recycle();
+		}
+		if (mKnobBgBitmap != null) {
+			mKnobBgBitmap.recycle();
+		}
+		if (mKnobBgBitmap != null) {
+			mRingBitmap.recycle();
+		}
+		if (mRingFillBitmap != null) {
+			mRingFillBitmap.recycle();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -573,12 +639,14 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 			final float tagDegrees = (float) (mAngle * 180.0d / Math.PI);
 			final float ringDegrees = (float) (ringAngle * 180.0d / Math.PI);
 
-			if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-				//canvas.rotate(90, mTagCenterX, mTagCenterY);
-			}
-
 			// CLEAR CANVAS WITH WHITE
 			canvas.drawColor(0xFFe4e4e4);
+
+			// DRAW TEXT
+			canvas.save();
+			canvas.translate(mTextLayoutDx, mTextLayoutDy);
+			mTextLayout.draw(canvas);
+			canvas.restore();
 
 			// DRAW BACKGROUND
 			// TOO EXPENSIVE! :(
@@ -610,17 +678,6 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 			canvas.drawBitmap(mKnobBitmap, mKnobSrcRect, mKnobDestRect, mPaint);
 
 			// restore saved canvas
-			canvas.restore();
-
-			// DRAW TEXT
-			StaticLayout layout = new StaticLayout(mText, mTextPaint, (int) (mWidth * 0.9f), Alignment.ALIGN_CENTER, 1,
-					0, true);
-			final int layoutHeight = layout.getHeight();
-			final float dx = mWidth * 0.05f;
-			final float dy = mHeight - (((mHeight - (mOffsetY + mTagHeight)) + layoutHeight) / 2);
-			canvas.save();
-			canvas.translate(dx, dy);
-			layout.draw(canvas);
 			canvas.restore();
 		}
 

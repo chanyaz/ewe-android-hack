@@ -38,6 +38,7 @@ import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -204,6 +205,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Filter mOldFilter;
 	private boolean mLocationListenerStarted;
 	private boolean mIsSearching;
+	private boolean mScreenRotationLocked;
 
 	private Thread mGeocodeThread;
 
@@ -269,11 +271,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					if (errorOne.getCode().equals("01")) {
 						// Deprecated client version
 						showDialog(DIALOG_CLIENT_DEPRECATED);
-
-						mSearchProgressBar.setShowProgress(false);
-						mSearchProgressBar.setText(errorOne.getExtra("message"));
-						handledError = true;
 					}
+					
+					mSearchProgressBar.setShowProgress(false);
+					mSearchProgressBar.setText(errorOne.getExtra("message"));
+					handledError = true;
+
 				}
 
 				if (!handledError) {
@@ -885,7 +888,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void hideLoading() {
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+		unlockScreenRotation();
 		mSearchProgressBar.setVisibility(View.GONE);
 	}
 
@@ -931,7 +934,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void showLoading(String text) {
-		//setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		lockScreenRotation();
 		mSearchProgressBar.setVisibility(View.VISIBLE);
 		mSearchProgressBar.setShowProgress(true);
 		mSearchProgressBar.setText(text);
@@ -945,6 +948,35 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void clearRefinementInfo() {
 		mRefinementInfoTextView.setText("");
+	}
+
+	// Screen orientation
+
+	private void lockScreenRotation() {
+		if (!mScreenRotationLocked) {
+			final int orientation = getWindowManager().getDefaultDisplay().getOrientation();
+			switch (orientation) {
+			case Surface.ROTATION_0: {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+				break;
+			}
+			case Surface.ROTATION_90: {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+				break;
+			}
+			case Surface.ROTATION_270: {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+				break;
+			}
+			}
+
+			mScreenRotationLocked = true;
+		}
+	}
+
+	private void unlockScreenRotation() {
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+		mScreenRotationLocked = false;
 	}
 
 	///////////////////////////////////////////////////////////////////////
