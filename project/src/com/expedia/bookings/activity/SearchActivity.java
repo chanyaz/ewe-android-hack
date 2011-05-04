@@ -356,12 +356,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			initializeViews();
 
-			mAdultsNumberPicker.setRange(1, 4);
-			mChildrenNumberPicker.setRange(0, 4);
-			mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
-			mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
-			setNumberPickerRanges();
-
 			setActivity(SearchMapActivity.class);
 			setActivity(SearchListActivity.class);
 			startSearch();
@@ -1083,6 +1077,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mAdultsNumberPicker.setTextEnabled(false);
 		mChildrenNumberPicker.setTextEnabled(false);
+		mAdultsNumberPicker.setRange(1, 4);
+		mChildrenNumberPicker.setRange(0, 4);
+		mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
+		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
+		setNumberPickerRanges();
 
 		Time now = new Time();
 		now.setToNow();
