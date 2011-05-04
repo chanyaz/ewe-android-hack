@@ -274,14 +274,16 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 						// Deprecated client version
 						showDialog(DIALOG_CLIENT_DEPRECATED);
 
+						TrackingUtils.trackErrorPage(mContext, "OutdatedVersion");
+
 						mSearchProgressBar.setShowProgress(false);
 						mSearchProgressBar.setText(errorOne.getExtra("message"));
-						handledError = true;
-
-						TrackingUtils.trackErrorPage(mContext, "OutdatedVersion");
 					}
-
-					Log.e(errorOne.getMessage());
+					else {
+						mSearchProgressBar.setShowProgress(false);
+						mSearchProgressBar.setText(errorOne.getMessage());
+					}
+					handledError = true;
 				}
 
 				if (!handledError) {
@@ -353,6 +355,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mLocalActivityManager = getLocalActivityManager();
 
 			initializeViews();
+
+			mAdultsNumberPicker.setRange(1, 4);
+			mChildrenNumberPicker.setRange(0, 4);
+			mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
+			mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
+			setNumberPickerRanges();
 
 			setActivity(SearchMapActivity.class);
 			setActivity(SearchListActivity.class);
@@ -1075,11 +1083,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mAdultsNumberPicker.setTextEnabled(false);
 		mChildrenNumberPicker.setTextEnabled(false);
-		mAdultsNumberPicker.setRange(1, 4);
-		mChildrenNumberPicker.setRange(0, 4);
-		mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
-		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
-		setNumberPickerRanges();
 
 		Time now = new Time();
 		now.setToNow();
