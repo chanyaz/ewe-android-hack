@@ -26,7 +26,7 @@
     		mobiata:headerBackground="@color/calendar_header"
     		mobiata:cellBackground="@drawable/bg_calendar_cell"
     		mobiata:todayCellBackground="@drawable/bg_calendar_cell_today"
-    		mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell_other_month"
+    		mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell"
     		mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
     		mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
     		mobiata:cellTextColor="@color/cell_text"
