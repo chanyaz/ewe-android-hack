@@ -257,7 +257,7 @@ public class HotelActivity extends Activity {
 		// List support
 		description = description.replace("<ul>", "\n\n");
 		description = description.replace("</ul>", "\n");
-		description = description.replace("<li>", "¥ ");
+		description = description.replace("<li>", getString(R.string.bullet_point) + " ");
 		description = description.replace("</li>", "\n");
 
 		// Try to add the address as the third section

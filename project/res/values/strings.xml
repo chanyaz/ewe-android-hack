@@ -61,7 +61,9 @@
 	<string name="trip_advisor">TripAdvisor</string>
 	<!-- Label for the address section of the description  -->
 	<string name="address">Address</string>
-	
+	<!-- Bullet point for list items  -->
+	<string name="bullet_point">•</string>
+
 	<!-- Shortened Amenity strings -->
 	<!-- Internet amenity -->
 	<string name="amenity_internet">Internet</string>
