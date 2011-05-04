@@ -351,6 +351,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		else {
 			mSearchParams = new SearchParams();
+			mSearchParams.setNumAdults(1);
+
 			mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 			mLocalActivityManager = getLocalActivityManager();
 
@@ -381,7 +383,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		if (!mIsSearching && mSearchResponse == null) {
 			mSearchParams = new SearchParams();
-			mSearchParams.setSearchType(SearchType.MY_LOCATION);
+			mSearchParams.setNumAdults(1);
 			startSearch();
 		}
 	}
