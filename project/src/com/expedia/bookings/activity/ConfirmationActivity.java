@@ -302,11 +302,18 @@ public class ConfirmationActivity extends MapActivity {
 			body.append("\n\n");
 		}
 
-		appendLabelValue(body, R.string.subtotal, mRate.getTotalAmountBeforeTax().getFormattedMoney());
-		body.append("\n");
-		appendLabelValue(body, R.string.TaxesAndFees, mRate.getTaxesAndFeesPerRoom().getFormattedMoney());
-		body.append("\n\n");
-		appendLabelValue(body, R.string.Total, mRate.getTotalAmountAfterTax().getFormattedMoney());
+		if (mRate.getTotalAmountBeforeTax() != null) {
+			appendLabelValue(body, R.string.subtotal, mRate.getTotalAmountBeforeTax().getFormattedMoney());
+			body.append("\n");
+		}
+		if (mRate.getTaxesAndFeesPerRoom() != null) {
+			appendLabelValue(body, R.string.TaxesAndFees, mRate.getTaxesAndFeesPerRoom().getFormattedMoney());
+			body.append("\n");
+		}
+		if (mRate.getTotalAmountAfterTax() != null) {
+			body.append("\n");
+			appendLabelValue(body, R.string.Total, mRate.getTotalAmountAfterTax().getFormattedMoney());
+		}
 
 		Policy cancellationPolicy = mRate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
 		if (cancellationPolicy != null) {
