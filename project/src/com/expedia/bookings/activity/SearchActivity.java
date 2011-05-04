@@ -434,7 +434,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		if (requestCode == REQUEST_CODE_SETTINGS && resultCode == RESULT_OK) {
 			// This indicates that settings have changed; we should start a new search,
 			// as the currency (or possibly other settings in the future) have changed.
-			startSearchDownloader();
+			startSearch();
 		}
 	}
 
