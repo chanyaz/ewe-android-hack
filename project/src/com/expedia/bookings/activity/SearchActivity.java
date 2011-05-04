@@ -1435,9 +1435,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			Date startDate = new Date(startYear, startMonth, startDay);
 			Date endDate = new Date(endYear, endMonth, endDay);
-			final int nights = (int) ((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+			int nights = (int) ((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+			nights = nights > 0 ? nights : 1;
 
-			mRefinementInfoTextView.setText(String.format("%d nights", nights > 0 ? nights : 1));
+			mRefinementInfoTextView.setText(getResources().getQuantityString(R.plurals.length_of_stay, nights, nights));
 		}
 		else if (mGuestsLayoutIsVisible) {
 			final int adults = mAdultsNumberPicker.getCurrent();
