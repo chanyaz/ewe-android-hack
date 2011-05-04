@@ -1,6 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,6 +7,10 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.ActivityGroup;
 import android.app.AlertDialog;
@@ -81,6 +84,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
 import com.mobiata.android.widget.NumberPicker;
@@ -92,6 +96,7 @@ import com.mobiata.hotellib.data.Filter.PriceRange;
 import com.mobiata.hotellib.data.Filter.Rating;
 import com.mobiata.hotellib.data.Filter.SearchRadius;
 import com.mobiata.hotellib.data.Filter.Sort;
+import com.mobiata.hotellib.data.JSONable;
 import com.mobiata.hotellib.data.PriceTier;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
@@ -339,8 +344,33 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 		}
 		else {
-			mSearchParams = new SearchParams();
-			mSearchParams.setNumAdults(1);
+			String searchParamsJson = SettingUtils.get(this, "searchParams", null);
+			String filterJson = SettingUtils.get(this, "filter", null);
+			String tag = SettingUtils.get(this, "tag", null);
+
+			if (searchParamsJson != null) {
+				try {
+					JSONObject obj = new JSONObject(searchParamsJson);
+					mSearchParams = new SearchParams(obj);
+				}
+				catch (JSONException e) {
+					Log.e("Failed to load saved search params.");
+				}
+			}
+			else {
+				mSearchParams = new SearchParams();
+				mSearchParams.setNumAdults(1);
+			}
+
+			if (filterJson != null) {
+				try {
+					JSONObject obj = new JSONObject(filterJson);
+					mFilter = new Filter(obj);
+				}
+				catch (JSONException e) {
+					Log.e("Failed to load saved filter.");
+				}
+			}
 
 			mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 			mLocalActivityManager = getLocalActivityManager();
@@ -357,10 +387,23 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			setActivity(SearchMapActivity.class);
 			setActivity(SearchListActivity.class);
+			if (tag != null) {
+				setActivityByTag(tag);
+			}
+
 			startSearch();
 		}
 
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
+	}
+
+	@Override
+	protected void onDestroy() {
+		SettingUtils.save(this, "searchParams", mSearchParams.toJson().toString());
+		SettingUtils.save(this, "filter", mFilter.toJson().toString());
+		SettingUtils.save(this, "tag", mTag);
+
+		super.onDestroy();
 	}
 
 	@Override
@@ -804,7 +847,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.datesLayoutIsVisible = mDatesLayoutIsVisible;
 		state.guestsLayoutIsVisible = mGuestsLayoutIsVisible;
 		state.panelIsOpen = mPanel.isOpen();
-		
+
 		return state;
 	}
 
