@@ -933,7 +933,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void showDatesLayout() {
 		resetFocus();
-		setRefinementInfo();
 		mDatesLayout.setVisibility(View.VISIBLE);
 		mDatesCalendarDatePicker.requestFocus();
 		showDismissView();
@@ -941,6 +940,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		showButtonBar();
 
 		mDatesLayoutIsVisible = true;
+		setRefinementInfo();
 	}
 
 	private void showDismissView() {
@@ -949,7 +949,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void showGuestsLayout() {
 		resetFocus();
-		setRefinementInfo();
 		mGuestsLayout.setVisibility(View.VISIBLE);
 		mAdultsNumberPicker.requestFocus();
 		showDismissView();
@@ -957,6 +956,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		showButtonBar();
 
 		mGuestsLayoutIsVisible = true;
+		setRefinementInfo();
 	}
 
 	private void showLoading(int resId) {
