@@ -358,17 +358,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			initializeViews();
 
+			mAdultsNumberPicker.setTextEnabled(false);
+			mChildrenNumberPicker.setTextEnabled(false);
+			mAdultsNumberPicker.setRange(1, 4);
+			mChildrenNumberPicker.setRange(0, 4);
+			mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
+			mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
+			setNumberPickerRanges();
+
 			setActivity(SearchMapActivity.class);
 			setActivity(SearchListActivity.class);
 			startSearch();
 		}
 
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
-
-		setMapSearchButtonVisibility();
-		setViewButtonImage();
-		setDrawerViews();
-		setSearchEditViews();
 	}
 
 	@Override
@@ -381,11 +384,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	protected void onResume() {
 		super.onResume();
 
-		if (!mIsSearching && mSearchResponse == null) {
-			mSearchParams = new SearchParams();
-			mSearchParams.setNumAdults(1);
-			startSearch();
-		}
+		setMapSearchButtonVisibility();
+		setViewButtonImage();
+		setDrawerViews();
+		setSearchEditViews();
 	}
 
 	@Override
@@ -1076,14 +1078,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mPanel.setOnPanelListener(mPanelListener);
-
-		mAdultsNumberPicker.setTextEnabled(false);
-		mChildrenNumberPicker.setTextEnabled(false);
-		mAdultsNumberPicker.setRange(1, 4);
-		mChildrenNumberPicker.setRange(0, 4);
-		mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
-		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
-		setNumberPickerRanges();
 
 		Time now = new Time();
 		now.setToNow();
