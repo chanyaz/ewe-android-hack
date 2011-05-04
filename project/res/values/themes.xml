@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<style name="Theme" parent="@android:style/Theme.NoTitleBar">
-        <item name="android:windowBackground">@color/window_background</item>
-        <item name="android:editTextStyle">@style/Widget.EditText</item>
-        <item name="android:buttonStyle">@style/Widget.Button</item>
-        <item name="android:imageButtonStyle">@style/Widget.Button</item>
+		<item name="android:windowBackground">@color/window_background</item>
+		<item name="android:windowContentOverlay">@null</item>
+		<item name="android:editTextStyle">@style/Widget.EditText</item>
+		<item name="android:buttonStyle">@style/Widget.Button</item>
+		<item name="android:imageButtonStyle">@style/Widget.Button</item>
 		<item name="android:ratingBarStyle">@style/Widget.RatingBar.Small.Shadowed</item>
 		<item name="android:spinnerStyle">@style/Widget.Spinner</item>
 	</style>
