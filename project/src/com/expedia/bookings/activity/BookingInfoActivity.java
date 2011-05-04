@@ -237,6 +237,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			this.mGuestsCompleted = lastInstance.mGuestsCompleted;
 			this.mBillingCompleted = lastInstance.mBillingCompleted;
 			this.mCardCompleted = lastInstance.mCardCompleted;
+			this.mErrors = lastInstance.mErrors;
 
 			if (this.mFormHasBeenFocused) {
 				onFormFieldFocus();
@@ -293,6 +294,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		instance.mGuestsCompleted = this.mGuestsCompleted;
 		instance.mBillingCompleted = this.mBillingCompleted;
 		instance.mCardCompleted = this.mCardCompleted;
+		instance.mErrors = this.mErrors;
 		return instance;
 	}
 
@@ -304,6 +306,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		private boolean mGuestsCompleted;
 		private boolean mBillingCompleted;
 		private boolean mCardCompleted;
+		private List<ServerError> mErrors;
 	}
 
 	@Override
