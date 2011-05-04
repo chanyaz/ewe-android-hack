@@ -373,7 +373,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				if (a > 0) {
 					errorMsg += "\n";
 				}
-				errorMsg += mErrors.get(a).getMessage();
+				errorMsg += mErrors.get(a).getPresentableMessage(this);
 			}
 
 			return DialogUtils.createSimpleDialog(this, DIALOG_BOOKING_NULL, getString(R.string.error_booking_title),

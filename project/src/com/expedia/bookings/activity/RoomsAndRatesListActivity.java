@@ -144,7 +144,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		if (response.hasErrors()) {
 			StringBuilder sb = new StringBuilder();
 			for (ServerError error : response.getErrors()) {
-				sb.append(error.getMessage());
+				sb.append(error.getPresentableMessage(this));
 				sb.append("\n");
 			}
 			mEmptyTextView.setText(sb.toString().trim());
