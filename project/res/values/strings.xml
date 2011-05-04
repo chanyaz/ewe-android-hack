@@ -59,6 +59,8 @@
 	<string name="star_rating">Star Rating</string>
 	<!-- Label for the hotel's trip advisor rating  -->
 	<string name="trip_advisor">TripAdvisor</string>
+	<!-- Label for the address section of the description  -->
+	<string name="address">Address</string>
 	
 	<!-- Shortened Amenity strings -->
 	<!-- Internet amenity -->

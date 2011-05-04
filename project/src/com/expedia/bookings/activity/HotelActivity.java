@@ -35,6 +35,7 @@ import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Property.Amenity;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.utils.JSONUtils;
+import com.mobiata.hotellib.utils.StrUtils;
 import com.omniture.AppMeasurement;
 
 public class HotelActivity extends Activity {
@@ -253,13 +254,14 @@ public class HotelActivity extends Activity {
 	private CharSequence formatDescription(String description) {
 		StringBuilder html = new StringBuilder();
 
-		Log.i("Original desc: " + description);
-
 		// List support
 		description = description.replace("<ul>", "\n\n");
 		description = description.replace("</ul>", "\n");
 		description = description.replace("<li>", "¥ ");
 		description = description.replace("</li>", "\n");
+
+		// Try to add the address as the third section
+		int addressSection = 2;
 
 		int len = description.length();
 		int index = 0;
@@ -295,6 +297,12 @@ public class HotelActivity extends Activity {
 
 				// Iterate
 				index = endSection + 4;
+
+				// Check if we should add address here or not
+				addressSection--;
+				if (addressSection == 0) {
+					addAddressSection(html);
+				}
 			}
 			else {
 				// If there's something mysteriously at the end we can't parse, just append it
@@ -303,7 +311,10 @@ public class HotelActivity extends Activity {
 			}
 		}
 
-		Log.i("Outgoing desc: " + html.toString());
+		// If we didn't have enough sections before this, add the address now
+		if (addressSection > 0) {
+			addAddressSection(html);
+		}
 
 		return Html.fromHtml(html.toString().trim());
 	}
@@ -314,6 +325,11 @@ public class HotelActivity extends Activity {
 		html.append("</b><br />");
 		html.append(body);
 		html.append("</p>");
+	}
+
+	private void addAddressSection(StringBuilder html) {
+		String address = mProperty.getName() + "\n" + StrUtils.formatAddress(mProperty.getLocation());
+		addSection(html, getString(R.string.address), address.replace("\n", "<br />"));
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
