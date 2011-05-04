@@ -79,6 +79,7 @@ import com.google.android.maps.GeoPoint;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.ImageCache;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
@@ -247,6 +248,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			// Clear the old listener so we don't end up with a memory leak
 			mFilter.clearOnFilterChangedListeners();
 			mSearchResponse = (SearchResponse) results;
+			ImageCache.getInstance().recycleCache(true);
 
 			if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
 				mSearchResponse.setFilter(mFilter);
