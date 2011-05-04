@@ -248,7 +248,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			// Clear the old listener so we don't end up with a memory leak
 			mFilter.clearOnFilterChangedListeners();
 			mSearchResponse = (SearchResponse) results;
-			ImageCache.getInstance().recycleCache(true);
 
 			if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
 				mSearchResponse.setFilter(mFilter);
@@ -259,6 +258,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					((RadioButton) mRadiusButtonGroup.getChildAt(index)).setChecked(true);
 				}
 
+				ImageCache.getInstance().recycleCache(true);
 				broadcastSearchCompleted(mSearchResponse);
 
 				buildPriceTierCache();
@@ -458,8 +458,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				public void onClick(DialogInterface dialog, int which) {
 					Address address = mAddresses.get(which);
 					mSearchParams.setFreeformLocation(LocationServices.formatAddress(address));
-					setSearchParams(address.getLatitude(), address.getLongitude());
 					setSearchEditViews();
+
+					setSearchParams(address.getLatitude(), address.getLongitude());
 
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearchDownloader();
