@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -114,6 +115,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	public static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
+	private static final String KEY_ACTIVITY_STATE = "KEY_ACTIVITY_STATE";
 
 	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
 	private static final int DIALOG_CLIENT_DEPRECATED = 1;
@@ -308,24 +310,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
-			mHandler = state.handler;
-			mSearchListeners = state.searchListeners;
-			mSearchParams = state.searchParams;
-			mOldSearchParams = state.oldSearchParams;
-			mSearchResponse = state.searchResponse;
-			mPriceTierCache = state.priceTierCache;
-			mSession = state.session;
-			mFilter = state.filter;
-			mOldFilter = state.oldFilter;
-			mSearchSuggestionAdapter = state.searchSuggestionAdapter;
-			mIsSearching = state.isSearching;
-			mSearchDownloader = state.searchDownloader;
-			mLocalActivityManager = getLocalActivityManager();
-
+			extractActivityState(state);
 			initializeViews();
 
 			setActivity(SearchMapActivity.class);
 			setActivity(SearchListActivity.class);
+
 			if (state.tag != null) {
 				setActivityByTag(state.tag);
 			}
@@ -334,7 +324,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				if (mFilter != null) {
 					mSearchResponse.setFilter(mFilter);
 				}
-
 				broadcastSearchCompleted(mSearchResponse);
 			}
 
@@ -392,25 +381,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	@Override
 	public Object onRetainNonConfigurationInstance() {
-		ActivityState state = new ActivityState();
-		state.handler = mHandler;
-		state.tag = mTag;
-		state.searchListeners = mSearchListeners;
-		state.searchParams = mSearchParams;
-		state.oldSearchParams = mOldSearchParams;
-		state.searchResponse = mSearchResponse;
-		state.priceTierCache = mPriceTierCache;
-		state.session = mSession;
-		state.filter = mFilter;
-		state.oldFilter = mOldFilter;
-		state.searchSuggestionAdapter = mSearchSuggestionAdapter;
-		state.isSearching = mIsSearching;
-		state.searchDownloader = mSearchDownloader;
-		state.datesLayoutIsVisible = mDatesLayoutIsVisible;
-		state.guestsLayoutIsVisible = mGuestsLayoutIsVisible;
-		state.panelIsOpen = mPanel.isOpen();
-
-		return state;
+		return buildActivityState();
 	}
 
 	@Override
@@ -812,6 +783,46 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private methods
+
+	// Activity State stuff
+
+	private ActivityState buildActivityState() {
+		ActivityState state = new ActivityState();
+		state.handler = mHandler;
+		state.tag = mTag;
+		state.searchListeners = mSearchListeners;
+		state.searchParams = mSearchParams;
+		state.oldSearchParams = mOldSearchParams;
+		state.searchResponse = mSearchResponse;
+		state.priceTierCache = mPriceTierCache;
+		state.session = mSession;
+		state.filter = mFilter;
+		state.oldFilter = mOldFilter;
+		state.searchSuggestionAdapter = mSearchSuggestionAdapter;
+		state.isSearching = mIsSearching;
+		state.searchDownloader = mSearchDownloader;
+		state.datesLayoutIsVisible = mDatesLayoutIsVisible;
+		state.guestsLayoutIsVisible = mGuestsLayoutIsVisible;
+		state.panelIsOpen = mPanel.isOpen();
+		
+		return state;
+	}
+
+	private void extractActivityState(ActivityState state) {
+		mHandler = state.handler;
+		mSearchListeners = state.searchListeners;
+		mSearchParams = state.searchParams;
+		mOldSearchParams = state.oldSearchParams;
+		mSearchResponse = state.searchResponse;
+		mPriceTierCache = state.priceTierCache;
+		mSession = state.session;
+		mFilter = state.filter;
+		mOldFilter = state.oldFilter;
+		mSearchSuggestionAdapter = state.searchSuggestionAdapter;
+		mIsSearching = state.isSearching;
+		mSearchDownloader = state.searchDownloader;
+		mLocalActivityManager = getLocalActivityManager();
+	}
 
 	// Broadcast methods
 
@@ -1847,6 +1858,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// Private classes
 
 	private class ActivityState {
+		private static final long serialVersionUID = 1L;
+
 		public Handler handler;
 		public String tag;
 		public List<SearchListener> searchListeners;
