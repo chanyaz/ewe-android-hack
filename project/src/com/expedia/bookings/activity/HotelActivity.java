@@ -103,7 +103,8 @@ public class HotelActivity extends Activity {
 				public void onImageLoaded(String url, Bitmap bitmap) {
 					if (mImageToLoad < mediaList.size()) {
 						Media media = mediaList.get(mImageToLoad++);
-						imageCache.loadImage(media.getUrl(), this);
+						String nextUrl = media.getUrl();
+						imageCache.loadImage(toString() + nextUrl, nextUrl, this);
 					}
 				}
 			};

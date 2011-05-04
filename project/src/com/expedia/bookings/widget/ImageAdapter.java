@@ -92,7 +92,7 @@ public class ImageAdapter extends BaseAdapter {
 			imageView.setImageResource(R.drawable.ic_image_placeholder);
 			imageView.setLayoutParams(LAYOUT_WIDE);
 			imageView.setBackgroundDrawable(null);
-			imageCache.loadImage(media.getUrl(), callback);
+			imageCache.loadImage(toString() + url, url, callback);
 		}
 
 		return convertView;
