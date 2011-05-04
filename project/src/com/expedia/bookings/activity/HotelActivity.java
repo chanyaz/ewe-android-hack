@@ -135,7 +135,8 @@ public class HotelActivity extends Activity {
 		TextView fromView = (TextView) findViewById(R.id.from_text_view);
 		if (lowestRate.getSavingsPercent() > 0) {
 			fromView.setText(Html.fromHtml(
-					getString(R.string.from_template, lowestRate.getAverageBaseRate().getFormattedMoney(Money.F_NO_DECIMAL)), null,
+					getString(R.string.from_template,
+							lowestRate.getAverageBaseRate().getFormattedMoney(Money.F_NO_DECIMAL)), null,
 					new StrikethroughTagHandler()));
 		}
 		else {
@@ -185,7 +186,7 @@ public class HotelActivity extends Activity {
 		String description = property.getDescriptionText();
 		if (description != null && description.length() > 0) {
 			TextView descriptionView = (TextView) findViewById(R.id.description_text_view);
-			descriptionView.setText(Html.fromHtml(description.replace("&gt;", ">").replace("&lt;", "<")));
+			descriptionView.setText(formatDescription(description));
 		}
 
 		// Tracking
@@ -247,6 +248,72 @@ public class HotelActivity extends Activity {
 		Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
 		roomsRatesIntent.fillIn(getIntent(), 0);
 		startActivity(roomsRatesIntent);
+	}
+
+	private CharSequence formatDescription(String description) {
+		StringBuilder html = new StringBuilder();
+
+		Log.i("Original desc: " + description);
+
+		// List support
+		description = description.replace("<ul>", "\n\n");
+		description = description.replace("</ul>", "\n");
+		description = description.replace("<li>", "¥ ");
+		description = description.replace("</li>", "\n");
+
+		int len = description.length();
+		int index = 0;
+		String title = null;
+		while (index < len && index >= 0) {
+			int nextSection = description.indexOf("<p>", index);
+			int endSection = description.indexOf("</p>", nextSection);
+
+			if (nextSection != -1 && endSection > nextSection) {
+				int nextTitle = description.indexOf("<b>", index);
+				int endTitle = description.indexOf("</b>", nextTitle);
+
+				if (nextTitle != -1 && endTitle > nextTitle && endTitle < endSection) {
+					title = description.substring(nextTitle + 3, endTitle);
+
+					String body = Html.fromHtml(description.substring(endTitle + 4, endSection)).toString().trim();
+
+					if (title.length() > 0 && body.length() > 0) {
+						addSection(html, title, body);
+						title = null;
+					}
+				}
+				else {
+					String body = description.substring(nextSection + 3, endSection).trim().replace("\n", "<br />");
+					if (title != null && body.length() > 0) {
+						addSection(html, title, body);
+						title = null;
+					}
+					else {
+						html.append("<p>" + body + "</p>");
+					}
+				}
+
+				// Iterate
+				index = endSection + 4;
+			}
+			else {
+				// If there's something mysteriously at the end we can't parse, just append it
+				html.append(description.substring(index));
+				break;
+			}
+		}
+
+		Log.i("Outgoing desc: " + html.toString());
+
+		return Html.fromHtml(html.toString().trim());
+	}
+
+	private void addSection(StringBuilder html, String title, String body) {
+		html.append("<p><b>");
+		html.append(title);
+		html.append("</b><br />");
+		html.append(body);
+		html.append("</p>");
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
