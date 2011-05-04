@@ -2,7 +2,6 @@ package com.expedia.bookings.widget;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -29,6 +28,14 @@ import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 
 public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callback, SensorEventListener, OnTouchListener {
+	//////////////////////////////////////////////////////////////////////////////////
+	// Constants
+
+	private static final boolean LIMIT_FPS = true;
+	private static final boolean LOG_FPS = false;
+	private static final float MAX_FPS = 50f;
+	private static final float MIN_DELTA = 1f / MAX_FPS;
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
@@ -486,11 +493,23 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		public void run() {
 			Canvas c;
 			while (mRunning) {
+				mNow = System.currentTimeMillis();
+				if (mLastDrawTime < 0) {
+					mLastDrawTime = mNow;
+				}
+				final float delta = (float) (mNow - mLastDrawTime) / 1000f;
+				if (LIMIT_FPS && delta < MIN_DELTA) {
+					continue;
+				}
+				if (LOG_FPS) {
+					Log.t("FPS: %d", (int) (1f / delta));
+				}
+
 				c = null;
 				try {
 					c = mSurfaceHolder.lockCanvas(null);
 					synchronized (mSurfaceHolder) {
-						doDraw(c);
+						doDraw(c, delta);
 					}
 				}
 				finally {
@@ -549,14 +568,8 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		//////////////////////////////////////////////////////////////////////////////
 		// Private methods
 
-		private void doDraw(Canvas canvas) {
+		private void doDraw(Canvas canvas, float delta) {
 			if (canvas != null) {
-				mNow = System.currentTimeMillis();
-				if (mLastDrawTime < 0) {
-					mLastDrawTime = mNow;
-				}
-				final float delta = (float) (mNow - mLastDrawTime) / 1000f;
-
 				if (!mTagGrabbed) {
 					updatePhysics(delta);
 				}
