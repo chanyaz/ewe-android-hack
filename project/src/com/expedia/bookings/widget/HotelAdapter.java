@@ -16,6 +16,7 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.hotellib.data.Filter;
 import com.mobiata.hotellib.data.Filter.OnFilterChangedListener;
+import com.mobiata.hotellib.data.Media;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
@@ -28,6 +29,7 @@ public class HotelAdapter extends BaseAdapter implements OnFilterChangedListener
 
 	private Context mContext;
 	private LayoutInflater mInflater;
+	private ImageCache mImageCache;
 
 	private SearchResponse mSearchResponse;
 	private Filter mFilter;
@@ -37,6 +39,7 @@ public class HotelAdapter extends BaseAdapter implements OnFilterChangedListener
 	public HotelAdapter(Context context, SearchResponse searchResponse) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mImageCache = ImageCache.getInstance();
 
 		mSearchResponse = searchResponse;
 		mFilter = mSearchResponse.getFilter();
@@ -130,8 +133,9 @@ public class HotelAdapter extends BaseAdapter implements OnFilterChangedListener
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.getSavingsPercent() > 0) {
 			holder.from.setText(Html.fromHtml(
-					mContext.getString(R.string.from_template, lowestRate.getAverageBaseRate().getFormattedMoney(Money.F_NO_DECIMAL)),
-					null, new StrikethroughTagHandler()));
+					mContext.getString(R.string.from_template,
+							lowestRate.getAverageBaseRate().getFormattedMoney(Money.F_NO_DECIMAL)), null,
+					new StrikethroughTagHandler()));
 			holder.saleImage.setVisibility(View.VISIBLE);
 			holder.saleLabel.setVisibility(View.VISIBLE);
 		}
@@ -162,6 +166,19 @@ public class HotelAdapter extends BaseAdapter implements OnFilterChangedListener
 		}
 
 		return convertView;
+	}
+
+	public void trimDrawables(int start, int end) {
+		final int size = mCachedProperties.length;
+		for (int i = 0; i < size; i++) {
+			if (i < start || i > end) {
+				Property property = mCachedProperties[i];
+				Media thumbnail = property.getThumbnail();
+				if (thumbnail != null && thumbnail.getUrl() != null) {
+					mImageCache.removeImage(thumbnail.getUrl(), true);
+				}
+			}
+		}
 	}
 
 	private static class HotelViewHolder {

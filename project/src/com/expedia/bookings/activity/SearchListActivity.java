@@ -4,6 +4,8 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
@@ -14,9 +16,11 @@ import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchResponse;
 
-public class SearchListActivity extends ListActivity implements SearchListener {
+public class SearchListActivity extends ListActivity implements SearchListener, OnScrollListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
+
+	private static final int MAX_THUMBNAILS = 100;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
@@ -34,13 +38,14 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_list);
-
+		
 		mParent = (SearchActivity) getParent();
 		mScrollBar = (ListViewScrollBar) findViewById(R.id.scroll_bar);
 
 		mParent.addSearchListener(this);
 		mScrollBar.setListView(getListView());
-
+		mScrollBar.setOnScrollListener(this);
+		
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
 			mAdapter = state.adapter;
@@ -77,6 +82,28 @@ public class SearchListActivity extends ListActivity implements SearchListener {
 		intent.putExtra(Codes.SESSION, mParent.getSession().toJson().toString());
 		intent.putExtra(HotelActivity.EXTRA_POSITION, position);
 		startActivity(intent);
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		// Trim the ends (recycle images)
+		if (totalItemCount > MAX_THUMBNAILS) {
+			final int center = firstVisibleItem + (visibleItemCount / 2);
+			int start = center - (MAX_THUMBNAILS / 2);
+			int end = center + (MAX_THUMBNAILS / 2);
+
+			// prevent overflow
+			start = start < 0 ? 0 : start;
+			end = end > totalItemCount ? totalItemCount : end;
+
+			mAdapter.trimDrawables(start, end);
+		}
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// TODO Auto-generated method stub
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
