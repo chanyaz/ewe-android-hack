@@ -7,41 +7,6 @@
 	android:paddingLeft="8dp"
 	android:paddingBottom="8dp"
 	android:background="@drawable/bg_row">
-	<TextView
-		android:id="@+id/room_description_text_view"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:paddingTop="8dp"
-		android:textColor="@android:color/black"
-		android:textSize="15sp"
-		android:textStyle="bold" />
-	<TextView
-		android:id="@+id/price_explanation_text_view"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_below="@+id/room_description_text_view"
-		android:textSize="12sp"
-		android:textColor="#696969" />
-	<TextView
-		android:id="@+id/price_text_view"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_below="@+id/price_explanation_text_view"
-		android:textSize="26sp"
-		android:textColor="#064192"
-		android:textStyle="bold"
-		android:includeFontPadding="false" />
-	<TextView
-		android:id="@+id/beds_text_view"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_alignBottom="@+id/price_text_view"
-		android:layout_marginBottom="4dp"
-		android:gravity="right"
-		android:paddingRight="8dp"
-		android:textSize="12sp"
-		android:textColor="#696969" />
 
 	<!-- Sale tag at the top right -->
 	<ImageView
@@ -63,4 +28,50 @@
 		android:textStyle="bold"
 		android:textSize="12dp"
 		mobiata:rotation="45" />
+
+	<TextView
+		android:id="@+id/room_description_text_view"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_toLeftOf="@+id/sale_image_view"
+		android:paddingTop="8dp"
+		android:gravity="left"
+		android:textColor="@android:color/black"
+		android:textSize="15sp"
+		android:textStyle="bold" />
+	<TextView
+		android:id="@+id/price_explanation_text_view"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/room_description_text_view"
+		android:layout_alignRight="@+id/room_description_text_view"
+		android:layout_alignParentLeft="true"
+		android:gravity="left"
+		android:textSize="12sp"
+		android:textColor="#696969" />
+	<TextView
+		android:id="@+id/price_text_view"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/price_explanation_text_view"
+		android:layout_alignRight="@+id/price_explanation_text_view"
+		android:layout_alignParentLeft="true"
+		android:gravity="left"
+		android:textSize="26sp"
+		android:textColor="#064192"
+		android:textStyle="bold"
+		android:includeFontPadding="false" />
+	<TextView
+		android:id="@+id/beds_text_view"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_alignBottom="@+id/price_text_view"
+		android:layout_marginBottom="4dp"
+		android:layout_marginRight="10dp"
+		android:gravity="right"
+		android:paddingRight="8dp"
+		android:textSize="12sp"
+		android:textColor="#696969" />
 </RelativeLayout>
