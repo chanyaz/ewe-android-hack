@@ -214,8 +214,10 @@
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
 	<string name="preference_category_general">General</string>
+	<!-- Title for currency setting -->
 	<string name="preference_currency_title">Currency</string>
-	<string name="preference_currency_summary">Currency for hotel rates</string>
+	<!-- Summary for currency setting.  E.g., "US Dollars (USD)" -->
+	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
 	<!-- Template for default currency -->
 	<string name="default_currency_template">Default (%s)</string>
 </resources>
