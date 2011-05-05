@@ -44,6 +44,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
+import com.mobiata.android.validation.RequiredValidator;
 import com.mobiata.android.validation.TextViewErrorHandler;
 import com.mobiata.android.validation.TextViewValidator;
 import com.mobiata.android.validation.ValidationError;
@@ -547,6 +548,14 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		// Setup validators and error handlers
 		final String userCurrency = CurrencyUtils.getCurrencyCode(mContext);
 		TextViewValidator requiredFieldValidator = new TextViewValidator();
+		Validator<TextView> usValidator = new Validator<TextView>() {
+			public int validate(TextView obj) {
+				if (mBillingInfo.getLocation().getCountryCode().equals("US")) {
+					return RequiredValidator.getInstance().validate(obj.getText());
+				}
+				return 0;
+			}
+		};
 		TextViewErrorHandler errorHandler = mErrorHandler = new TextViewErrorHandler(getString(R.string.required_field));
 		errorHandler.addResponse(ValidationError.ERROR_DATA_INVALID, getString(R.string.invalid_field));
 		errorHandler.addResponse(ERROR_INVALID_CARD_NUMBER, getString(R.string.invalid_card_number));
@@ -563,6 +572,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mValidationProcessor.add(mEmailEditText, new TextViewValidator(new EmailValidator()));
 		mValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
 		mValidationProcessor.add(mCityEditText, requiredFieldValidator);
+		mValidationProcessor.add(mStateEditText, usValidator);
+		mValidationProcessor.add(mPostalCodeEditText, usValidator);
 		mValidationProcessor.add(mCardNumberEditText, new TextViewValidator(new Validator<CharSequence>() {
 			public int validate(CharSequence number) {
 				if (mCreditCardType == null) {
@@ -912,7 +923,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 					|| view == mEmailEditText) {
 				guestsCompleted = false;
 			}
-			else if (view == mAddress1EditText || view == mCityEditText || view == mPostalCodeEditText) {
+			else if (view == mAddress1EditText || view == mCityEditText || view == mStateEditText
+					|| view == mPostalCodeEditText) {
 				billingCompleted = false;
 			}
 			else if (view == mCardNumberEditText || view == mExpirationMonthEditText || view == mExpirationYearEditText
