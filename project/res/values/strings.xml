@@ -211,7 +211,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hi there,\n\nCheck out Expedia Hotels for iPhone and iPod touch. It\'s free and lets you search and book rooms from over 100,000 hotels all over the world.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hi there,\n\nCheck out Expedia Hotels for Android, iPhone, and iPod Touch. It\'s free and lets you search and book rooms from over 100,000 hotels all over the world.\n\nhttp://www.expedia.com/app</string>
 	<!-- Copyright information -->
 	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAll rights reserved.</string>
 	
