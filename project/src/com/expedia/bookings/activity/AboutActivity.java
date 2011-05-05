@@ -150,7 +150,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 					case 2:
 						// Phone
 						onCallSupport();
-						SocialUtils.call(mContext, SupportUtils.getSupportNumber());
+						SocialUtils.call(mContext, SupportUtils.getInfoSupportNumber());
 						break;
 					}
 				}

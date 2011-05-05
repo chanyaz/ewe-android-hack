@@ -171,8 +171,8 @@ public class ConfirmationActivity extends MapActivity {
 			// Special case for China
 			contactView.setText(getString(R.string.contact_phone_china_template, "10-800712-2608", "10-800120-2608"));
 		}
-		else if (SupportUtils.hasSupportNumber()) {
-			contactView.setText(getString(R.string.contact_phone_template, SupportUtils.getSupportNumber()));
+		else if (SupportUtils.hasConfSupportNumber()) {
+			contactView.setText(getString(R.string.contact_phone_template, SupportUtils.getConfSupportNumber()));
 		}
 		else {
 			contactView.setText(getString(R.string.contact_phone_default_template, "1-800-780-5733",

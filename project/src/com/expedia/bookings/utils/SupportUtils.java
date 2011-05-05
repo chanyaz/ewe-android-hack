@@ -6,12 +6,46 @@ import java.util.Locale;
 
 public class SupportUtils {
 
-	// Default is US's number
-	private static final String DEFAULT_SUPPORT_NUMBER = "1-800-780-5733";
+	// Info numbers - these go on the info screen
+
+	// Default is GB's number
+	private static final String DEFAULT_SUPPORT_NUMBER_INFO = "0330-123-1235";
 
 	// Which support number to use for which country code (based on locale)
 	@SuppressWarnings("serial")
-	private static final HashMap<String, String> SUPPORT_NUMBERS = new HashMap<String, String>() {
+	private static final HashMap<String, String> SUPPORT_NUMBERS_INFO = new HashMap<String, String>() {
+		{
+			put("US", "1-877-829-0215");
+			put("CA", "1-888-EXPEDIA");
+			put("MX", "001-8003157301");
+			put("AU", "13-38-10");
+			put("NZ", "0800-998-799");
+			put("JP", "0120-142-650");
+			put("IN", "1800-419-1919");
+			put("SG", "800-120-5806");
+			put("MY", "1-800-815676");
+			put("TH", "001-800-12-0667078");
+			put("IT", "+39-02-91483685");
+			put("DE", "01805-007146");
+			put("NL", "0900-397-3342");
+			put("ES", "901-01-01-14");
+			put("AT", "0820-600630");
+			put("GB", "0330-123-1235");
+			put("FR", "0892-301-300");
+			put("SE", "0200-810-341");
+			put("DK", "80200088");
+			put("NO", "800-36-401");
+		}
+	};
+
+	// Confirmation numbers - these go on the confirmation screen
+
+	// Default is US's number
+	private static final String DEFAULT_SUPPORT_NUMBER_CONFIRMATION = "1-800-780-5733";
+
+	// Which support number to use for which country code (based on locale)
+	@SuppressWarnings("serial")
+	private static final HashMap<String, String> SUPPORT_NUMBERS_CONFIRMATION = new HashMap<String, String>() {
 		{
 			put("US", "1-800-780-5733");
 			put("CA", "1-800-780-5733");
@@ -57,23 +91,34 @@ public class SupportUtils {
 		return "http://m.expedia.com/mt/support.expedia.com/app/home/p/532/?rfrr=app.android";
 	}
 
-	public static boolean hasSupportNumber() {
+	public static String getInfoSupportNumber() {
 		String countryCode = Locale.getDefault().getCountry().toUpperCase();
-		return (SUPPORT_NUMBERS.containsKey(countryCode) || Arrays.binarySearch(EUROPEAN_COUNTRY_CODES, countryCode) >= 0);
+		if (SUPPORT_NUMBERS_INFO.containsKey(countryCode)) {
+			return SUPPORT_NUMBERS_INFO.get(countryCode);
+		}
+		else {
+			return DEFAULT_SUPPORT_NUMBER_INFO;
+		}
 	}
 
-	public static String getSupportNumber() {
+	public static boolean hasConfSupportNumber() {
+		String countryCode = Locale.getDefault().getCountry().toUpperCase();
+		return (SUPPORT_NUMBERS_CONFIRMATION.containsKey(countryCode) || Arrays.binarySearch(EUROPEAN_COUNTRY_CODES,
+				countryCode) >= 0);
+	}
+
+	public static String getConfSupportNumber() {
 		String countryCode = Locale.getDefault().getCountry().toUpperCase();
 		boolean isEuropean = Arrays.binarySearch(EUROPEAN_COUNTRY_CODES, countryCode) >= 0;
-		if (SUPPORT_NUMBERS.containsKey(countryCode)) {
-			return SUPPORT_NUMBERS.get(countryCode);
+		if (SUPPORT_NUMBERS_CONFIRMATION.containsKey(countryCode)) {
+			return SUPPORT_NUMBERS_CONFIRMATION.get(countryCode);
 		}
 		else if (isEuropean) {
 			// Many European countries share the same code
 			return "00-800-11-20-11-40";
 		}
 		else {
-			return DEFAULT_SUPPORT_NUMBER;
+			return DEFAULT_SUPPORT_NUMBER_CONFIRMATION;
 		}
 	}
 
