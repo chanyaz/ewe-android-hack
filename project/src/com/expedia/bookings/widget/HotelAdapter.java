@@ -39,7 +39,7 @@ public class HotelAdapter extends BaseAdapter {
 		mImageCache = ImageCache.getInstance();
 
 		mSearchResponse = searchResponse;
-		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
+		rebuildCache();
 	}
 
 	public void rebuildCache() {

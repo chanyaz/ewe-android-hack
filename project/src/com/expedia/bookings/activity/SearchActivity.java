@@ -316,10 +316,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mLocalActivityManager = getLocalActivityManager();
 		setActivity(SearchMapActivity.class);
 		setActivity(SearchListActivity.class);
-		
+
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
 			extractActivityState(state);
+
+			if (mSearchResponse != null) {
+				broadcastSearchCompleted(mSearchResponse);
+			}
 
 			if (mGuestsLayoutIsVisible) {
 				showGuestsLayout();
@@ -405,7 +409,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	@Override
 	public Object onRetainNonConfigurationInstance() {
-		return buildActivityState();
+		ActivityState state = buildActivityState();
+		mLocalActivityManager.removeAllActivities();
+
+		return state;
 	}
 
 	@Override
