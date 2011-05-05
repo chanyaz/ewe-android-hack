@@ -507,7 +507,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				// See description of mSelectedCountryPosition to understand why we're doing this
 				if (mSelectedCountryPosition != position) {
 					if (mFormHasBeenFocused) {
-						mPostalCodeEditText.requestFocus();
+						focusAndOpenKeyboard(mPostalCodeEditText);
 					}
 					onCountrySpinnerClick();
 
@@ -625,7 +625,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 					// invalid field to enter
 					if (errors.size() > 0) {
 						View firstErrorView = (View) errors.get(0).getObject();
-						firstErrorView.requestFocus();
+						focusAndOpenKeyboard(firstErrorView);
 					}
 					return;
 				}
@@ -637,7 +637,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 					// Request focus on the first field that was invalid
 					View firstErrorView = (View) errors.get(0).getObject();
-					firstErrorView.requestFocus();
+					focusAndOpenKeyboard(firstErrorView);
 				}
 				else {
 					onClickSubmit();
@@ -741,9 +741,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			fixFocus();
 
 			if (animateAndFocus) {
-				mFirstNameEditText.requestFocus();
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.showSoftInput(mFirstNameEditText, InputMethodManager.SHOW_IMPLICIT);
+				focusAndOpenKeyboard(mFirstNameEditText);
 			}
 
 			// TODO: Animation if animated
@@ -761,9 +759,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			fixFocus();
 
 			if (animateAndFocus) {
-				mAddress1EditText.requestFocus();
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.showSoftInput(mAddress1EditText, InputMethodManager.SHOW_IMPLICIT);
+				focusAndOpenKeyboard(mAddress1EditText);
 			}
 
 			// TODO: Animation if animated
@@ -785,6 +781,12 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mCardNumberEditText.setNextFocusLeftId(nextId);
 		mExpirationMonthEditText.setNextFocusUpId(nextId);
 		mExpirationYearEditText.setNextFocusUpId(nextId);
+	}
+	
+	private void focusAndOpenKeyboard(View view) {
+		view.requestFocus();
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
 	}
 
 	// BillingInfo syncing and saving/loading
