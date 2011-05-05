@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -34,7 +33,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
-	private Context mContext;
 	private SearchActivity mParent;
 	private MapView mMapView;
 	private SearchResponse mSearchResponse;
@@ -52,8 +50,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_map);
-
-		mContext = this;
 
 		// Create the map and add it to the layout
 		mMapView = MapUtils.createMapView(this);
@@ -161,11 +157,11 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			OnBalloonTap onTap = new OnBalloonTap() {
 				@Override
 				public void onBalloonTap(Property property) {
-					Intent intent = new Intent(mContext, HotelActivity.class);
+					Intent intent = new Intent(SearchMapActivity.this, HotelActivity.class);
 					intent.putExtra(Codes.PROPERTY, property.toJson().toString());
 					intent.putExtra(Codes.SEARCH_PARAMS, mParent.getSearchParams().toString());
 					intent.putExtra(Codes.SESSION, mParent.getSession().toJson().toString());
-					mContext.startActivity(intent);
+					SearchMapActivity.this.startActivity(intent);
 				}
 			};
 			mHotelItemizedOverlay = new HotelItemizedOverlay(this, properties, true, mMapView, onTap);
