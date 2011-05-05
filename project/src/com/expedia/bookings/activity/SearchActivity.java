@@ -129,9 +129,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final int REQUEST_CODE_SETTINGS = 1;
 
 	private static final int MSG_SWITCH_TO_NETWORK_LOCATION = 0;
-	private static final int MSG_BROADCAST_SEARCH_COMPLETED = 1;
-	private static final int MSG_BROADCAST_SEARCH_FAILED = 2;
-	private static final int MSG_BROADCAST_SEARCH_STARTED = 3;
 
 	private static final long TIME_SWITCH_TO_NETWORK_DELAY = 1000;
 
@@ -195,10 +192,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	// Others
 
-	private Context mContext = this;
-
 	private LocalActivityManager mLocalActivityManager;
-	private String mTag;
+	private String mTag = ACTIVITY_SEARCH_LIST;
 	private Intent mIntent;
 	private View mLaunchedView;
 
@@ -237,7 +232,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Download mSearchDownload = new Download() {
 		@Override
 		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext, mSession);
+			ExpediaServices services = new ExpediaServices(SearchActivity.this, mSession);
 			return services.search(mSearchParams, 0);
 		}
 	};
@@ -283,20 +278,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 						// Deprecated client version
 						showDialog(DIALOG_CLIENT_DEPRECATED);
 
-						TrackingUtils.trackErrorPage(mContext, "OutdatedVersion");
+						TrackingUtils.trackErrorPage(SearchActivity.this, "OutdatedVersion");
 
 						mSearchProgressBar.setShowProgress(false);
 						mSearchProgressBar.setText(errorOne.getExtra("message"));
 					}
 					else {
 						mSearchProgressBar.setShowProgress(false);
-						mSearchProgressBar.setText(errorOne.getPresentableMessage(mContext));
+						mSearchProgressBar.setText(errorOne.getPresentableMessage(SearchActivity.this));
 					}
 					handledError = true;
 				}
 
 				if (!handledError) {
-					TrackingUtils.trackErrorPage(mContext, "HotelListRequestFailed");
+					TrackingUtils.trackErrorPage(SearchActivity.this, "HotelListRequestFailed");
 					mSearchProgressBar.setShowProgress(false);
 					mSearchProgressBar.setText(R.string.progress_search_failed);
 				}
@@ -315,28 +310,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		onPageLoad();
 		setContentView(R.layout.activity_search);
 
+		initializeViews();
+
+		mLocalActivityManager = getLocalActivityManager();
+		setActivity(SearchMapActivity.class);
+		setActivity(SearchListActivity.class);
+
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
 			extractActivityState(state);
-			initializeViews();
 
-			setActivity(SearchMapActivity.class);
-			setActivity(SearchListActivity.class);
-
-			if (state.tag != null) {
-				setActivityByTag(state.tag);
-			}
-
-			if (mSearchResponse != null) {
-				if (mFilter != null) {
-					mSearchResponse.setFilter(mFilter);
-				}
-			}
-
-			if (state.guestsLayoutIsVisible) {
+			if (mGuestsLayoutIsVisible) {
 				showGuestsLayout();
 			}
-			else if (state.datesLayoutIsVisible) {
+			else if (mDatesLayoutIsVisible) {
 				showDatesLayout();
 			}
 			else if (state.panelIsOpen) {
@@ -373,11 +360,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				}
 			}
 
-			mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
-			mLocalActivityManager = getLocalActivityManager();
-
-			initializeViews();
-
 			mAdultsNumberPicker.setTextEnabled(false);
 			mChildrenNumberPicker.setTextEnabled(false);
 			mAdultsNumberPicker.setRange(1, 4);
@@ -386,15 +368,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
 			setNumberPickerRanges();
 
-			setActivity(SearchMapActivity.class);
-			setActivity(SearchListActivity.class);
-			if (tag != null) {
-				setActivityByTag(tag);
-			}
-
 			startSearch();
 		}
 
+		setActivityByTag(mTag);
+
+		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
 	}
 
@@ -489,7 +468,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			builder.setMessage(error.getExtra("message"));
 			builder.setPositiveButton(R.string.upgrade, new OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					SocialUtils.openSite(mContext, error.getExtra("url"));
+					SocialUtils.openSite(SearchActivity.this, error.getExtra("url"));
 				}
 			});
 			builder.setNegativeButton(android.R.string.cancel, null);
@@ -648,7 +627,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 							startSearchDownloader();
 						}
 						else {
-							TrackingUtils.trackErrorPage(mContext, "LocationNotFound");
+							TrackingUtils.trackErrorPage(SearchActivity.this, "LocationNotFound");
 							mSearchProgressBar.setShowProgress(false);
 							mSearchProgressBar.setText(R.string.geolocation_failed);
 						}
@@ -833,18 +812,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private ActivityState buildActivityState() {
 		ActivityState state = new ActivityState();
-		//state.handler = mHandler;
 		state.tag = mTag;
-		//state.searchParams = mSearchParams;
+		state.searchParams = mSearchParams;
 		state.oldSearchParams = mOldSearchParams;
 		state.searchResponse = mSearchResponse;
 		state.priceTierCache = mPriceTierCache;
 		state.session = mSession;
 		state.filter = mFilter;
 		state.oldFilter = mOldFilter;
-		state.searchSuggestionAdapter = mSearchSuggestionAdapter;
-		state.isSearching = mIsSearching;
-		state.searchDownloader = mSearchDownloader;
 		state.datesLayoutIsVisible = mDatesLayoutIsVisible;
 		state.guestsLayoutIsVisible = mGuestsLayoutIsVisible;
 		state.panelIsOpen = mPanel.isOpen();
@@ -853,25 +828,21 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void extractActivityState(ActivityState state) {
-		//mHandler = state.handler;
-		//mSearchParams = state.searchParams;
+		mTag = state.tag;
+		mSearchParams = state.searchParams;
 		mOldSearchParams = state.oldSearchParams;
 		mSearchResponse = state.searchResponse;
 		mPriceTierCache = state.priceTierCache;
 		mSession = state.session;
 		mFilter = state.filter;
 		mOldFilter = state.oldFilter;
-		mSearchSuggestionAdapter = state.searchSuggestionAdapter;
-		mIsSearching = state.isSearching;
-		mSearchDownloader = state.searchDownloader;
-		mLocalActivityManager = getLocalActivityManager();
+		mDatesLayoutIsVisible = state.datesLayoutIsVisible;
+		mGuestsLayoutIsVisible = state.guestsLayoutIsVisible;
 	}
 
 	// Broadcast methods
 
 	private void broadcastSearchStarted() {
-		mIsSearching = true;
-
 		if (mSearchListeners != null) {
 			for (SearchListener searchListener : mSearchListeners) {
 				searchListener.onSearchStarted();
@@ -880,9 +851,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void broadcastSearchFailed(String message) {
-		mIsSearching = false;
-		//mIsShowingMessage = true;
-
 		if (mSearchListeners != null) {
 			for (SearchListener searchListener : mSearchListeners) {
 				searchListener.onSearchFailed(message);
@@ -891,9 +859,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void broadcastSearchCompleted(SearchResponse searchResponse) {
-		mIsSearching = false;
 		mSearchResponse = searchResponse;
-
 		if (mSearchListeners != null) {
 			for (SearchListener searchListener : mSearchListeners) {
 				searchListener.onSearchCompleted(searchResponse);
@@ -1428,7 +1394,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		else if (mGuestsLayoutIsVisible) {
 			final int adults = mAdultsNumberPicker.getCurrent();
 			final int children = mChildrenNumberPicker.getCurrent();
-			mRefinementInfoTextView.setText(StrUtils.formatGuests(mContext, adults, children));
+			mRefinementInfoTextView.setText(StrUtils.formatGuests(this, adults, children));
 		}
 
 		setBookingInfoText();
@@ -1554,7 +1520,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		showLoading(R.string.progress_searching_hotels);
 		if (mSearchParams.getSearchType() == SearchType.FREEFORM) {
 			Search.add(this, mSearchParams);
-			mSearchSuggestionAdapter.refreshData();
+			mSearchSuggestionAdapter.refreshData(this);
 		}
 
 		resetFilter();
@@ -1869,18 +1835,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				switchToNetworkLocation();
 				break;
 			}
-			case MSG_BROADCAST_SEARCH_COMPLETED: {
-				broadcastSearchCompleted((SearchResponse) msg.obj);
-				break;
-			}
-			case MSG_BROADCAST_SEARCH_FAILED: {
-				broadcastSearchFailed((String) msg.obj);
-				break;
-			}
-			case MSG_BROADCAST_SEARCH_STARTED: {
-				broadcastSearchStarted();
-				break;
-			}
 			}
 		}
 	};
@@ -1889,7 +1843,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// Private classes
 
 	private class ActivityState {
-		public Handler handler;
 		public String tag;
 		public SearchParams searchParams;
 		public SearchParams oldSearchParams;
@@ -1898,9 +1851,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public Session session;
 		public Filter filter;
 		public Filter oldFilter;
-		public SearchSuggestionAdapter searchSuggestionAdapter;
-		public Boolean isSearching;
-		public BackgroundDownloader searchDownloader;
 
 		public boolean datesLayoutIsVisible;
 		public boolean guestsLayoutIsVisible;

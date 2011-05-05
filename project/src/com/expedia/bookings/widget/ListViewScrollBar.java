@@ -17,11 +17,10 @@ import android.widget.AbsListView.OnScrollListener;
 
 import com.mobiata.android.R;
 import com.mobiata.hotellib.data.Filter;
-import com.mobiata.hotellib.data.Filter.OnFilterChangedListener;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchResponse;
 
-public class ListViewScrollBar extends View implements OnScrollListener, OnFilterChangedListener, OnTouchListener {
+public class ListViewScrollBar extends View implements OnScrollListener, OnTouchListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
@@ -117,8 +116,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 		drawTripAdvisorMarkers(canvas);
 	}
 
-	@Override
-	public void onFilterChanged() {
+	public void rebuildCache() {
 		checkCachedMarkers();
 		invalidate();
 	}
@@ -227,12 +225,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnFilte
 	}
 
 	public void setSearchResponse(SearchResponse response) {
-		if (mSearchResponse != null) {
-			mSearchResponse.getFilter().removeOnFilterChangedListener(this);
-		}
-
 		mSearchResponse = response;
-		mSearchResponse.getFilter().addOnFilterChangedListener(this);
 
 		checkCachedMarkers();
 		invalidate();

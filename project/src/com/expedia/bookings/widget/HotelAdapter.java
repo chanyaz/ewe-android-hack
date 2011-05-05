@@ -14,15 +14,13 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.text.StrikethroughTagHandler;
-import com.mobiata.hotellib.data.Filter;
-import com.mobiata.hotellib.data.Filter.OnFilterChangedListener;
 import com.mobiata.hotellib.data.Media;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.SearchResponse;
 
-public class HotelAdapter extends BaseAdapter implements OnFilterChangedListener {
+public class HotelAdapter extends BaseAdapter {
 
 	private static final int TYPE_FIRST = 0;
 	private static final int TYPE_NOTFIRST = 1;
@@ -32,7 +30,6 @@ public class HotelAdapter extends BaseAdapter implements OnFilterChangedListener
 	private ImageCache mImageCache;
 
 	private SearchResponse mSearchResponse;
-	private Filter mFilter;
 
 	private Property[] mCachedProperties;
 
@@ -42,14 +39,10 @@ public class HotelAdapter extends BaseAdapter implements OnFilterChangedListener
 		mImageCache = ImageCache.getInstance();
 
 		mSearchResponse = searchResponse;
-		mFilter = mSearchResponse.getFilter();
-		mFilter.addOnFilterChangedListener(this);
-
 		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
 	}
 
-	@Override
-	public void onFilterChanged() {
+	public void rebuildCache() {
 		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties(true);
 		if (mCachedProperties.length == 0) {
 			TrackingUtils.trackErrorPage(mContext, "FilteredToZeroResults");

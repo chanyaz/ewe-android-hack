@@ -88,6 +88,10 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		if (mMyLocationOverlay != null) {
 			mMyLocationOverlay.disableMyLocation();
 		}
+
+		if (mSearchResponse != null) {
+			mSearchResponse.getFilter().removeOnFilterChangedListener(this);
+		}
 	}
 
 	@Override

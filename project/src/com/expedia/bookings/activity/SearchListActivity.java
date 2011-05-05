@@ -13,10 +13,12 @@ import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.ListViewScrollBar;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.Codes;
+import com.mobiata.hotellib.data.Filter.OnFilterChangedListener;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchResponse;
 
-public class SearchListActivity extends ListActivity implements SearchListener, OnScrollListener {
+public class SearchListActivity extends ListActivity implements SearchListener, OnScrollListener,
+		OnFilterChangedListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
@@ -38,33 +40,45 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_list);
-		
+
 		mParent = (SearchActivity) getParent();
 		mScrollBar = (ListViewScrollBar) findViewById(R.id.scroll_bar);
 
 		mParent.addSearchListener(this);
 		mScrollBar.setListView(getListView());
 		mScrollBar.setOnScrollListener(this);
-		
+
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
-			mAdapter = state.adapter;
 			mSearchResponse = state.searchResponse;
-
-			if (mAdapter != null) {
-				setListAdapter(mAdapter);
-			}
-
 			if (mSearchResponse != null) {
+				onSearchCompleted(mSearchResponse);
 				mScrollBar.setSearchResponse(mSearchResponse);
 			}
 		}
 	}
 
 	@Override
+	protected void onPause() {
+		super.onPause();
+
+		if (mSearchResponse != null) {
+			mSearchResponse.getFilter().removeOnFilterChangedListener(this);
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (mSearchResponse != null) {
+			mSearchResponse.getFilter().addOnFilterChangedListener(this);
+		}
+	}
+
+	@Override
 	public Object onRetainNonConfigurationInstance() {
 		ActivityState state = new ActivityState();
-		state.adapter = mAdapter;
 		state.searchResponse = mSearchResponse;
 
 		return state;
@@ -106,6 +120,12 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 	}
 
+	@Override
+	public void onFilterChanged() {
+		mAdapter.rebuildCache();
+		mScrollBar.rebuildCache();
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// SearchListener implementation
 
@@ -132,9 +152,11 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		}
 
 		mSearchResponse = response;
+		mSearchResponse.getFilter().addOnFilterChangedListener(this);
+		
 		mAdapter = new HotelAdapter(this, mSearchResponse);
-
 		setListAdapter(mAdapter);
+		
 		mScrollBar.setSearchResponse(mSearchResponse);
 	}
 
@@ -153,7 +175,6 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	// Private classes
 
 	private class ActivityState {
-		public HotelAdapter adapter;
 		public SearchResponse searchResponse;
 	}
 }
