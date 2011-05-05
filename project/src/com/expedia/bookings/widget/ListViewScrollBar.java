@@ -226,9 +226,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 	public void setSearchResponse(SearchResponse response) {
 		mSearchResponse = response;
-
-		checkCachedMarkers();
-		invalidate();
+		rebuildCache();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////

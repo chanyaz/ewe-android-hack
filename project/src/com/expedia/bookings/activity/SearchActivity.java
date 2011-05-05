@@ -1,6 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -8,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,12 +31,14 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.os.ResultReceiver;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.Time;
+import android.util.DebugUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -97,7 +97,6 @@ import com.mobiata.hotellib.data.Filter.PriceRange;
 import com.mobiata.hotellib.data.Filter.Rating;
 import com.mobiata.hotellib.data.Filter.SearchRadius;
 import com.mobiata.hotellib.data.Filter.Sort;
-import com.mobiata.hotellib.data.JSONable;
 import com.mobiata.hotellib.data.PriceTier;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
@@ -307,6 +306,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		onPageLoad();
 		setContentView(R.layout.activity_search);
 
@@ -315,7 +315,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mLocalActivityManager = getLocalActivityManager();
 		setActivity(SearchMapActivity.class);
 		setActivity(SearchListActivity.class);
-
+		
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
 			extractActivityState(state);
@@ -334,7 +334,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		else {
 			String searchParamsJson = SettingUtils.get(this, "searchParams", null);
 			String filterJson = SettingUtils.get(this, "filter", null);
-			String tag = SettingUtils.get(this, "tag", null);
+			mTag = SettingUtils.get(this, "tag", mTag);
 
 			if (searchParamsJson != null) {
 				try {
@@ -823,6 +823,16 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.datesLayoutIsVisible = mDatesLayoutIsVisible;
 		state.guestsLayoutIsVisible = mGuestsLayoutIsVisible;
 		state.panelIsOpen = mPanel.isOpen();
+
+		if (state.searchResponse != null) {
+			if (state.searchResponse.getFilter() != null) {
+				state.searchResponse.getFilter().clearOnFilterChangedListeners();
+			}
+		}
+
+		if (state.filter != null) {
+			state.filter.clearOnFilterChangedListeners();
+		}
 
 		return state;
 	}
@@ -1843,18 +1853,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// Private classes
 
 	private class ActivityState {
+		// Safe
 		public String tag;
-		public SearchParams searchParams;
-		public SearchParams oldSearchParams;
-		public SearchResponse searchResponse;
-		public Map<PriceRange, PriceTier> priceTierCache;
-		public Session session;
-		public Filter filter;
-		public Filter oldFilter;
-
 		public boolean datesLayoutIsVisible;
 		public boolean guestsLayoutIsVisible;
 		public boolean panelIsOpen;
+		public Map<PriceRange, PriceTier> priceTierCache;
+		public Session session;
+		public SearchParams searchParams;
+		public SearchParams oldSearchParams;
+
+		// Questionable
+		public SearchResponse searchResponse;
+		public Filter filter;
+		public Filter oldFilter;
 	}
 
 	private class SoftKeyResultReceiver extends ResultReceiver {
