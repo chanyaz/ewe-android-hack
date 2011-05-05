@@ -290,7 +290,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					}
 					else {
 						mSearchProgressBar.setShowProgress(false);
-						mSearchProgressBar.setText(errorOne.getPresentableMessage(mContext));
+						mSearchProgressBar.setText(errorOne.getMessage());
 					}
 					handledError = true;
 				}
@@ -331,7 +331,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				if (mFilter != null) {
 					mSearchResponse.setFilter(mFilter);
 				}
-				broadcastSearchCompleted(mSearchResponse);
 			}
 
 			if (state.guestsLayoutIsVisible) {
@@ -836,7 +835,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		ActivityState state = new ActivityState();
 		state.handler = mHandler;
 		state.tag = mTag;
-		state.searchListeners = mSearchListeners;
 		state.searchParams = mSearchParams;
 		state.oldSearchParams = mOldSearchParams;
 		state.searchResponse = mSearchResponse;
@@ -855,8 +853,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void extractActivityState(ActivityState state) {
-		mHandler = state.handler;
-		mSearchListeners = state.searchListeners;
+		//mHandler = state.handler;
 		mSearchParams = state.searchParams;
 		mOldSearchParams = state.oldSearchParams;
 		mSearchResponse = state.searchResponse;
@@ -1425,25 +1422,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void setRefinementInfo() {
 		if (mDatesLayoutIsVisible) {
-			final int startYear = mDatesCalendarDatePicker.getStartYear();
-			final int startMonth = mDatesCalendarDatePicker.getStartMonth();
-			final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
-
-			final int endYear = mDatesCalendarDatePicker.getEndYear();
-			final int endMonth = mDatesCalendarDatePicker.getEndMonth();
-			final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
-
-			Date startDate = new Date(startYear, startMonth, startDay);
-			Date endDate = new Date(endYear, endMonth, endDay);
-			int nights = (int) ((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-			nights = nights > 0 ? nights : 1;
-
-			mRefinementInfoTextView.setText(getResources().getQuantityString(R.plurals.length_of_stay, nights, nights));
+			final int nights = mDatesCalendarDatePicker.getSelectedRange();
+			mRefinementInfoTextView.setText(String.format("%d nights", nights > 0 ? nights : 1));
 		}
 		else if (mGuestsLayoutIsVisible) {
 			final int adults = mAdultsNumberPicker.getCurrent();
 			final int children = mChildrenNumberPicker.getCurrent();
-
 			mRefinementInfoTextView.setText(StrUtils.formatGuests(mContext, adults, children));
 		}
 
@@ -1905,11 +1889,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// Private classes
 
 	private class ActivityState {
-		private static final long serialVersionUID = 1L;
-
 		public Handler handler;
 		public String tag;
-		public List<SearchListener> searchListeners;
 		public SearchParams searchParams;
 		public SearchParams oldSearchParams;
 		public SearchResponse searchResponse;
