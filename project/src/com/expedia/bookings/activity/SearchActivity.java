@@ -290,7 +290,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					}
 					else {
 						mSearchProgressBar.setShowProgress(false);
-						mSearchProgressBar.setText(errorOne.getMessage());
+						mSearchProgressBar.setText(errorOne.getPresentableMessage(mContext));
 					}
 					handledError = true;
 				}
@@ -833,9 +833,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private ActivityState buildActivityState() {
 		ActivityState state = new ActivityState();
-		state.handler = mHandler;
+		//state.handler = mHandler;
 		state.tag = mTag;
-		state.searchParams = mSearchParams;
+		//state.searchParams = mSearchParams;
 		state.oldSearchParams = mOldSearchParams;
 		state.searchResponse = mSearchResponse;
 		state.priceTierCache = mPriceTierCache;
@@ -854,7 +854,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void extractActivityState(ActivityState state) {
 		//mHandler = state.handler;
-		mSearchParams = state.searchParams;
+		//mSearchParams = state.searchParams;
 		mOldSearchParams = state.oldSearchParams;
 		mSearchResponse = state.searchResponse;
 		mPriceTierCache = state.priceTierCache;
