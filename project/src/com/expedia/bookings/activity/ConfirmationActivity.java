@@ -61,6 +61,8 @@ public class ConfirmationActivity extends MapActivity {
 	private BillingInfo mBillingInfo;
 	private BookingResponse mBookingResponse;
 
+	private String mContactText;
+
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
 
@@ -169,15 +171,15 @@ public class ConfirmationActivity extends MapActivity {
 		TextView contactView = (TextView) findViewById(R.id.contact_text_view);
 		if (Locale.getDefault().getCountry().toUpperCase().equals("CN")) {
 			// Special case for China
-			contactView.setText(getString(R.string.contact_phone_china_template, "10-800712-2608", "10-800120-2608"));
+			mContactText = getString(R.string.contact_phone_china_template, "10-800712-2608", "10-800120-2608");
 		}
 		else if (SupportUtils.hasConfSupportNumber()) {
-			contactView.setText(getString(R.string.contact_phone_template, SupportUtils.getConfSupportNumber()));
+			mContactText = getString(R.string.contact_phone_template, SupportUtils.getConfSupportNumber());
 		}
 		else {
-			contactView.setText(getString(R.string.contact_phone_default_template, "1-800-780-5733",
-					"00-800-11-20-11-40"));
+			mContactText = getString(R.string.contact_phone_default_template, "1-800-780-5733", "00-800-11-20-11-40");
 		}
+		contactView.setText(mContactText);
 
 		//////////////////////////////////////////////////
 		// Button bar configuration
@@ -322,6 +324,9 @@ public class ConfirmationActivity extends MapActivity {
 			body.append("\n");
 			body.append(Html.fromHtml(cancellationPolicy.getDescription()));
 		}
+		
+		body.append("\n\n");
+		body.append(mContactText);
 
 		SocialUtils.email(this, subject, body.toString());
 	}
