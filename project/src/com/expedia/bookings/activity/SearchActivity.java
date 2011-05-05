@@ -85,6 +85,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
@@ -606,6 +607,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	public void setSearchParamsForFreeform() {
 		showLoading(R.string.progress_searching_hotels);
+
+		if (!NetUtils.isOnline(this)) {
+			mSearchProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(R.string.error_no_internet);
+			return;
+		}
+
 		if (mGeocodeThread != null) {
 			mGeocodeThread.interrupt();
 		}
@@ -1527,6 +1535,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void startSearchDownloader() {
+		if (!NetUtils.isOnline(this)) {
+			mSearchProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(R.string.error_no_internet);
+			return;
+		}
+
 		showLoading(R.string.progress_searching_hotels);
 		if (mSearchParams.getSearchType() == SearchType.FREEFORM) {
 			Search.add(this, mSearchParams);
