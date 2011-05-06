@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -15,6 +16,12 @@ public class PlaceholderTagProgressBar {
 		mContainer = container;
 		mProgressBar = progressBar;
 		mProgressTextView = progressTextView;
+
+		container.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				// Devour clicks so they can't get to underlying Activities
+			}
+		});
 	}
 
 	public void setShowProgress(boolean show) {
