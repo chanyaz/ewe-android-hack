@@ -44,10 +44,13 @@
 						<ImageView
 							android:id="@+id/thumbnail_image_view"
 							android:layout_width="100dp"
-							android:layout_height="80dp"
+							android:layout_height="100dp"
+							android:layout_marginTop="4dp"
 							android:layout_marginRight="8dp"
+							android:layout_marginLeft="1dp"
 							android:scaleType="centerCrop"
-							android:src="@drawable/ic_image_placeholder" />
+							android:src="@drawable/ic_image_placeholder"
+							android:background="@drawable/receipt_photo_frame" />
 						<LinearLayout
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
