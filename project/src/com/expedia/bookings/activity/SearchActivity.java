@@ -285,7 +285,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					}
 					else {
 						mSearchProgressBar.setShowProgress(false);
-						mSearchProgressBar.setText(errorOne.getMessage());
+						mSearchProgressBar.setText(errorOne.getPresentableMessage(SearchActivity.this));
 					}
 					handledError = true;
 				}
