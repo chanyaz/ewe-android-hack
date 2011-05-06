@@ -70,7 +70,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			// #6966: Fix specifically for Android 2.1 and below.  Since RelativeLayout can't properly align
 			// bottom on a ListView, I'm just going to add extra margin
 			if (Build.VERSION.SDK_INT <= 7) {
-				holder.beds.setPadding(0, (int) mContext.getResources().getDisplayMetrics().density * 24, 0, 0);
+				holder.beds.setPadding(0, (int) mContext.getResources().getDisplayMetrics().density * 24, (int) mContext.getResources().getDisplayMetrics().density * 10, 0);
 			}
 
 			convertView.setTag(holder);
