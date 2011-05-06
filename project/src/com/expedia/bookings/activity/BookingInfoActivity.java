@@ -782,11 +782,11 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mExpirationMonthEditText.setNextFocusUpId(nextId);
 		mExpirationYearEditText.setNextFocusUpId(nextId);
 	}
-	
+
 	private void focusAndOpenKeyboard(View view) {
 		view.requestFocus();
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+		imm.showSoftInput(view, 0);
 	}
 
 	// BillingInfo syncing and saving/loading
