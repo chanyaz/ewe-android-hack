@@ -138,19 +138,19 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
 					switch (which) {
 					case 0:
-						// Email
-						onEmailSupport();
-						SocialUtils.email(mContext, "support@expedia.com",
-								getString(R.string.contact_expedia_email_subject), null);
+						// Phone
+						onCallSupport();
+						SocialUtils.call(mContext, SupportUtils.getInfoSupportNumber());
 						break;
 					case 1:
 						// Website
 						SocialUtils.openSite(mContext, SupportUtils.getSupportUrl());
 						break;
 					case 2:
-						// Phone
-						onCallSupport();
-						SocialUtils.call(mContext, SupportUtils.getInfoSupportNumber());
+						// Email
+						onEmailSupport();
+						SocialUtils.email(mContext, "support@expedia.com",
+								getString(R.string.contact_expedia_email_subject), null);
 						break;
 					}
 				}

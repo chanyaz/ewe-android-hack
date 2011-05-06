@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="contact_expedia_items">
-    	<item>@string/contact_expedia_email</item>
-    	<item>@string/contact_expedia_website</item>
     	<item>@string/contact_expedia_phone</item>
+    	<item>@string/contact_expedia_website</item>
+    	<item>@string/contact_expedia_email</item>    	
     </string-array>
 </resources>
