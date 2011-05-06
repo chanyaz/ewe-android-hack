@@ -321,6 +321,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
 			extractActivityState(state);
+			setDrawerViews();
 
 			if (mSearchResponse != null) {
 				broadcastSearchCompleted(mSearchResponse);
@@ -378,7 +379,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		setActivityByTag(mTag);
-		setMapSearchButtonVisibility(false);
 
 		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
@@ -405,7 +405,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		setMapSearchButtonVisibility();
 		setViewButtonImage();
-		setDrawerViews();
 		setSearchEditViews();
 	}
 
@@ -1239,6 +1238,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void setDrawerViews() {
+		if (mFilter == null) {
+			return;
+		}
+
 		final Rating rating = mFilter.getRating();
 		switch (rating) {
 		case ALL: {
@@ -1263,17 +1266,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void setMapSearchButtonVisibility() {
-		setMapSearchButtonVisibility(true);
+		setMapSearchButtonVisibility(ANIMATION_VIEW_FLIP_ENABLED);
 	}
 
 	private void setMapSearchButtonVisibility(boolean animate) {
-		if (ANIMATION_VIEW_FLIP_ENABLED) {
+		if (animate) {
 			if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
 				if (mMapSearchButton.getVisibility() == View.GONE) {
-					return;
-				}
-				else if (!animate) {
-					mMapSearchButton.setVisibility(View.GONE);
 					return;
 				}
 
@@ -1307,10 +1306,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				if (mMapSearchButton.getVisibility() == View.VISIBLE) {
 					return;
 				}
-				else if (!animate) {
-					mMapSearchButton.setVisibility(View.VISIBLE);
-					return;
-				}
 
 				mMapSearchButton.setEnabled(true);
 
@@ -1340,6 +1335,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 		}
 		else {
+			mMapSearchButton.clearAnimation();
+
 			if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
 				mMapSearchButton.setVisibility(View.GONE);
 			}
@@ -1715,7 +1712,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			buildFilter();
 			setPriceRangeText();
 			setRadioButtonShadowLayers();
-			mPanel.setOpen(false, true);
+			closeDrawer();
 		}
 	};
 
