@@ -201,6 +201,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private List<Address> mAddresses;
 	private SearchParams mSearchParams;
 	private SearchParams mOldSearchParams;
+	private SearchParams mOriginalSearchParams;
 	private Session mSession;
 	private SearchResponse mSearchResponse;
 	private Map<PriceRange, PriceTier> mPriceTierCache;
@@ -520,6 +521,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
 			if (mDatesLayoutIsVisible) {
+				restoreSearchParams();
 				hideDatesLayout();
 				hideRefinementDismissView();
 				hideButtonBar();
@@ -527,6 +529,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 
 			if (mGuestsLayoutIsVisible) {
+				restoreSearchParams();
 				hideGuestsLayout();
 				hideRefinementDismissView();
 				hideButtonBar();
@@ -534,6 +537,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 
 			if (mSearchEditText.hasFocus() && mButtonBarIsVisible) {
+				restoreSearchParams();
 				resetFocus();
 				return true;
 			}
@@ -660,28 +664,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		mSearchParams.setSearchLatLon(latitde, longitude);
-
-		Calendar startCalendar = Calendar.getInstance();
-		Calendar endCalendar = Calendar.getInstance();
-
-		final int startYear = mDatesCalendarDatePicker.getStartYear();
-		final int startMonth = mDatesCalendarDatePicker.getStartMonth();
-		final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
-
-		final int endYear = mDatesCalendarDatePicker.getEndYear();
-		final int endMonth = mDatesCalendarDatePicker.getEndMonth();
-		final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
-
-		startCalendar.set(startYear, startMonth, startDay, 0, 0, 0);
-		endCalendar.set(endYear, endMonth, endDay, 0, 0, 0);
-
-		startCalendar.set(Calendar.MILLISECOND, 0);
-		endCalendar.set(Calendar.MILLISECOND, 0);
-
-		mSearchParams.setCheckInDate(startCalendar);
-		mSearchParams.setCheckOutDate(endCalendar);
-		mSearchParams.setNumAdults(mAdultsNumberPicker.getCurrent());
-		mSearchParams.setNumChildren(mChildrenNumberPicker.getCurrent());
 	}
 
 	public void setSearchParams(SearchParams searchParams) {
@@ -689,6 +671,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	public void startSearch() {
+		mOriginalSearchParams = null;
 		mSearchDownloader.cancelDownload(KEY_SEARCH);
 
 		buildFilter();
@@ -831,6 +814,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.tag = mTag;
 		state.searchParams = mSearchParams;
 		state.oldSearchParams = mOldSearchParams;
+		state.originalSearchParams = mOriginalSearchParams;
 		state.searchResponse = mSearchResponse;
 		state.priceTierCache = mPriceTierCache;
 		state.session = mSession;
@@ -857,6 +841,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mTag = state.tag;
 		mSearchParams = state.searchParams;
 		mOldSearchParams = state.oldSearchParams;
+		mOriginalSearchParams = state.originalSearchParams;
 		mSearchResponse = state.searchResponse;
 		mPriceTierCache = state.priceTierCache;
 		mSession = state.session;
@@ -976,6 +961,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void showButtonBar() {
+		saveSearchParams();
 		mButtonBarIsVisible = true;
 		mButtonBarLayout.setVisibility(View.VISIBLE);
 	}
@@ -1181,6 +1167,21 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		hideGuestsLayout();
 		hideButtonBar();
 		hideSearchSuggestions();
+	}
+
+	private void restoreSearchParams() {
+		if (mOriginalSearchParams != null) {
+			mSearchParams = mOriginalSearchParams.copy();
+			mOriginalSearchParams = null;
+
+			setSearchEditViews();
+		}
+	}
+
+	private void saveSearchParams() {
+		if (mOriginalSearchParams == null) {
+			mOriginalSearchParams = mSearchParams.copy();
+		}
 	}
 
 	private void setActivityByTag(String tag) {
@@ -1463,6 +1464,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		}
 		}
+
+		Calendar checkIn = mSearchParams.getCheckInDate();
+		mDatesCalendarDatePicker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
+				checkIn.get(Calendar.DAY_OF_MONTH));
+
+		Calendar checkOut = mSearchParams.getCheckOutDate();
+		mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
+				checkOut.get(Calendar.DAY_OF_MONTH));
 
 		mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
 		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
@@ -1761,6 +1770,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final View.OnClickListener mRefinementDismissViewClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			restoreSearchParams();
 			hideButtonBar();
 			hideSoftKeyboard(mSearchEditText);
 			hideDatesLayout();
@@ -1786,6 +1796,26 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
 		@Override
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
+			Calendar startCalendar = Calendar.getInstance();
+			Calendar endCalendar = Calendar.getInstance();
+
+			final int startYear = mDatesCalendarDatePicker.getStartYear();
+			final int startMonth = mDatesCalendarDatePicker.getStartMonth();
+			final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
+
+			final int endYear = mDatesCalendarDatePicker.getEndYear();
+			final int endMonth = mDatesCalendarDatePicker.getEndMonth();
+			final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
+
+			startCalendar.set(startYear, startMonth, startDay, 0, 0, 0);
+			endCalendar.set(endYear, endMonth, endDay, 0, 0, 0);
+
+			startCalendar.set(Calendar.MILLISECOND, 0);
+			endCalendar.set(Calendar.MILLISECOND, 0);
+
+			mSearchParams.setCheckInDate(startCalendar);
+			mSearchParams.setCheckOutDate(endCalendar);
+
 			setRefinementInfo();
 		}
 	};
@@ -1909,6 +1939,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public Session session;
 		public SearchParams searchParams;
 		public SearchParams oldSearchParams;
+		public SearchParams originalSearchParams;
 
 		// Questionable
 		public SearchResponse searchResponse;
