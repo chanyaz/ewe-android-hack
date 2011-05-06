@@ -216,6 +216,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
 
+	private boolean mPanelIsVisible;
 	private boolean mDatesLayoutIsVisible;
 	private boolean mGuestsLayoutIsVisible;
 	private boolean mButtonBarIsVisible;
@@ -326,15 +327,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				broadcastSearchCompleted(mSearchResponse);
 			}
 
+			if (mPanelIsVisible) {
+				mPanelDismissView.setVisibility(View.VISIBLE);
+				mPanel.setOpen(true, false);
+			}
 			if (mGuestsLayoutIsVisible) {
 				showGuestsLayout();
 			}
-			else if (mDatesLayoutIsVisible) {
+			if (mDatesLayoutIsVisible) {
 				showDatesLayout();
-			}
-			else if (state.panelIsOpen) {
-				mPanel.setOpen(true, false);
-				mPanelDismissView.setVisibility(View.VISIBLE);
 			}
 		}
 		else {
@@ -378,6 +379,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		setActivityByTag(mTag);
+		setMapSearchButtonVisibility(false);
 
 		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
@@ -836,9 +838,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.session = mSession;
 		state.filter = mFilter;
 		state.oldFilter = mOldFilter;
+		state.panelIsOpen = mPanelIsVisible;
 		state.datesLayoutIsVisible = mDatesLayoutIsVisible;
 		state.guestsLayoutIsVisible = mGuestsLayoutIsVisible;
-		state.panelIsOpen = mPanel.isOpen();
 
 		if (state.searchResponse != null) {
 			if (state.searchResponse.getFilter() != null) {
@@ -862,6 +864,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSession = state.session;
 		mFilter = state.filter;
 		mOldFilter = state.oldFilter;
+		mPanelIsVisible = state.panelIsOpen;
 		mDatesLayoutIsVisible = state.datesLayoutIsVisible;
 		mGuestsLayoutIsVisible = state.guestsLayoutIsVisible;
 	}
@@ -1261,9 +1264,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void setMapSearchButtonVisibility() {
+		setMapSearchButtonVisibility(true);
+	}
+
+	private void setMapSearchButtonVisibility(boolean animate) {
 		if (ANIMATION_VIEW_FLIP_ENABLED) {
 			if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
 				if (mMapSearchButton.getVisibility() == View.GONE) {
+					return;
+				}
+				else if (!animate) {
+					mMapSearchButton.setVisibility(View.GONE);
 					return;
 				}
 
@@ -1295,6 +1306,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 			else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
 				if (mMapSearchButton.getVisibility() == View.VISIBLE) {
+					return;
+				}
+				else if (!animate) {
+					mMapSearchButton.setVisibility(View.VISIBLE);
 					return;
 				}
 
@@ -1812,6 +1827,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final Panel.OnPanelListener mPanelListener = new Panel.OnPanelListener() {
 		@Override
 		public void onPanelOpened(Panel panel) {
+			mPanelIsVisible = true;
+
 			if (mPanelDismissView.getVisibility() == View.VISIBLE) {
 				return;
 			}
@@ -1839,6 +1856,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		@Override
 		public void onPanelClosed(Panel panel) {
+			mPanelIsVisible = false;
+
 			if (mPanelDismissView.getVisibility() == View.GONE) {
 				return;
 			}
@@ -1885,9 +1904,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private class ActivityState {
 		// Safe
 		public String tag;
+		public boolean panelIsOpen;
 		public boolean datesLayoutIsVisible;
 		public boolean guestsLayoutIsVisible;
-		public boolean panelIsOpen;
 		public Map<PriceRange, PriceTier> priceTierCache;
 		public Session session;
 		public SearchParams searchParams;
