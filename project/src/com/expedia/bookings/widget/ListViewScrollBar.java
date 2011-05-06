@@ -3,12 +3,14 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -53,6 +55,9 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 	private float mWidth;
 	private float mHeight;
+	private float mScreenHeight;
+	private float mTop;
+	private float mListViewHeight;
 	private float mScrollHeight;
 
 	private float mBarMinimumWidth;
@@ -91,11 +96,17 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	public ListViewScrollBar(Context context) {
 		super(context);
 		init();
+
+		Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
+		mScreenHeight = display.getHeight();
 	}
 
 	public ListViewScrollBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
+
+		Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
+		mScreenHeight = display.getHeight();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -111,13 +122,10 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		if (mListView != null && mListView.getCount() > 0) {
 			final View firstChild = mListView.getChildAt(0);
 			mRowHeight = firstChild.getHeight() + HEIGHT_ROW_DIVIDER;
-			mVisibleItemCount = mListView.getHeight() / mRowHeight;
+			mVisibleItemCount = mListViewHeight / mRowHeight;
 		}
 
 		if (mTotalItemCount < mVisibleItemCount) {
-			return;
-		}
-		else if (mTotalItemCount == (int) (mVisibleItemCount + 0.5f)) {
 			return;
 		}
 
@@ -173,6 +181,12 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	protected void onSizeChanged(int width, int height, int oldw, int oldh) {
 		mWidth = width;
 		mHeight = height;
+
+		final int[] location = new int[2];
+		mListView.getLocationOnScreen(location);
+		mTop = location[1];
+
+		mListViewHeight = mScreenHeight - mTop;
 
 		setOnTouchListener(this);
 
@@ -270,7 +284,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		mAdjustedTotalHeight = (mTotalItemCount - mVisibleItemCount) * mRowHeight;
 
 		// Calculate this here to get an actual float for smooth scrolling
-		mVisibleItemCount = mListView.getHeight() / mRowHeight;
+		mVisibleItemCount = mListViewHeight / mRowHeight;
 
 		// INDICATOR HEIGHT
 		mIndicatorHeight = (mHeight - mIndicatorPaddingTop - mIndicatorPaddingBottom)
