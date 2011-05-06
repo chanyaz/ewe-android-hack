@@ -403,7 +403,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	protected void onResume() {
 		super.onResume();
 
-		setMapSearchButtonVisibility();
+		setMapSearchButtonVisibility(false);
 		setViewButtonImage();
 		setSearchEditViews();
 	}
@@ -791,6 +791,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					});
 				}
 			});
+
+			mViewFlipImage.clearAnimation();
 			mViewFlipImage.startAnimation(animationOut);
 		}
 		else {
@@ -1270,79 +1272,77 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void setMapSearchButtonVisibility(boolean animate) {
-		if (animate) {
-			if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-				if (mMapSearchButton.getVisibility() == View.GONE) {
-					return;
+		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+			if (mMapSearchButton.getVisibility() == View.GONE) {
+				return;
+			}
+
+			mMapSearchButton.setEnabled(false);
+
+			final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
+			animation.setDuration(ANIMATION_VIEW_FLIP_SPEED * 2);
+			animation.setInterpolator(new AccelerateDecelerateInterpolator());
+			animation.setAnimationListener(new AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
 				}
 
-				mMapSearchButton.setEnabled(false);
-
-				final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
-				animation.setDuration(ANIMATION_VIEW_FLIP_SPEED * 2);
-				animation.setInterpolator(new AccelerateDecelerateInterpolator());
-				animation.setAnimationListener(new AnimationListener() {
-					@Override
-					public void onAnimationStart(Animation animation) {
-					}
-
-					@Override
-					public void onAnimationRepeat(Animation animation) {
-					}
-
-					@Override
-					public void onAnimationEnd(Animation animation) {
-						mHandler.post(new Runnable() {
-							@Override
-							public void run() {
-								mMapSearchButton.setVisibility(View.GONE);
-							}
-						});
-					}
-				});
-				mMapSearchButton.startAnimation(animation);
-			}
-			else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-				if (mMapSearchButton.getVisibility() == View.VISIBLE) {
-					return;
+				@Override
+				public void onAnimationRepeat(Animation animation) {
 				}
 
-				mMapSearchButton.setEnabled(true);
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					mHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							mMapSearchButton.setVisibility(View.GONE);
+						}
+					});
+				}
+			});
 
-				final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
-				animation.setDuration(ANIMATION_VIEW_FLIP_SPEED * 2);
-				animation.setInterpolator(new AccelerateDecelerateInterpolator());
-				animation.setAnimationListener(new AnimationListener() {
-					@Override
-					public void onAnimationStart(Animation animation) {
-					}
-
-					@Override
-					public void onAnimationRepeat(Animation animation) {
-					}
-
-					@Override
-					public void onAnimationEnd(Animation animation) {
-						mHandler.post(new Runnable() {
-							@Override
-							public void run() {
-								mMapSearchButton.setVisibility(View.VISIBLE);
-							}
-						});
-					}
-				});
-				mMapSearchButton.startAnimation(animation);
+			if (!animate) {
+				animation.setDuration(0);
 			}
+
+			mMapSearchButton.startAnimation(animation);
 		}
-		else {
-			mMapSearchButton.clearAnimation();
+		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
+			if (mMapSearchButton.getVisibility() == View.VISIBLE) {
+				return;
+			}
 
-			if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-				mMapSearchButton.setVisibility(View.GONE);
+			mMapSearchButton.setEnabled(true);
+
+			final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+			animation.setDuration(ANIMATION_VIEW_FLIP_SPEED * 2);
+			animation.setInterpolator(new AccelerateDecelerateInterpolator());
+			animation.setAnimationListener(new AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					mHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							mMapSearchButton.setVisibility(View.VISIBLE);
+						}
+					});
+				}
+			});
+
+			if (!animate) {
+				animation.setDuration(0);
 			}
-			else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-				mMapSearchButton.setVisibility(View.VISIBLE);
-			}
+
+			mMapSearchButton.startAnimation(animation);
 		}
 	}
 
