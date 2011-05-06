@@ -33,8 +33,9 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 	private static final boolean LIMIT_FPS = true;
 	private static final boolean LOG_FPS = false;
-	private static final float MAX_FPS = 50f;
+	private static final float MAX_FPS = 60f;
 	private static final float MIN_DELTA = 1f / MAX_FPS;
+	private static final int THREAD_SLEEP_TIME = 15;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
@@ -46,7 +47,11 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
-	private float[] mAcceleration;
+
+	private float mAcellX;
+	private float mAcellY;
+	private float mAcellZ;
+
 	private int mOrientation;
 	private float mScaledDensity;
 
@@ -210,20 +215,24 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		mAcceleration = event.values.clone();
+		final float[] acceleration = event.values.clone();
 
 		switch (mOrientation) {
 		case Surface.ROTATION_90: {
-			mAcceleration[1] = event.values[0];
-			mAcceleration[0] = -event.values[1];
+			acceleration[1] = event.values[0];
+			acceleration[0] = -event.values[1];
 			break;
 		}
 		case Surface.ROTATION_270: {
-			mAcceleration[1] = -event.values[0];
-			mAcceleration[0] = event.values[1];
+			acceleration[1] = -event.values[0];
+			acceleration[0] = event.values[1];
 			break;
 		}
 		}
+
+		mAcellX = acceleration[0] * -1;
+		mAcellY = acceleration[1] * -1;
+		mAcellZ = acceleration[2] * -1;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -479,6 +488,23 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		private double mLastAngle;
 		private long mLastTagAngleSetByTouchTime;
 
+		private double mInertia;
+		private double mMagnitude;
+		private double mMedianAngle;
+		private double mTagAngle;
+		private double mAngleDifference;
+		private double mForce;
+		private double mTorque;
+		private double mFrictionTorque;
+		private double mNetTorque;
+		private double mAngularAcceleration;
+		private double mFrictionZ;
+		private double mChangeInAngle;
+
+		float mRingAngle;
+		float mTagDegrees;
+		float mRingDegrees;
+
 		//////////////////////////////////////////////////////////////////////////////
 		// Constructor
 
@@ -499,6 +525,12 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 				}
 				final float delta = (float) (mNow - mLastDrawTime) / 1000f;
 				if (LIMIT_FPS && delta < MIN_DELTA) {
+					try {
+						sleep(THREAD_SLEEP_TIME);
+					}
+					catch (InterruptedException e) {
+						Log.e(e.getMessage());
+					}
 					continue;
 				}
 				if (LOG_FPS) {
@@ -582,75 +614,66 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		//////////////////////////////////////////////////////////////////////////////
 
 		private void updatePhysics(double delta) {
-			if (mAcceleration == null) {
-				return;
-			}
-
-			final float x = mAcceleration[0] * -1;
-			final float y = mAcceleration[1] * -1;
-			final float z = mAcceleration[2] * -1;
-
 			// !!! Notes taken from Andy's work on the iOS version !!!
 
 			// Find moment of inertia using I = (1/3) * m * L^2  (this is the moment of inertia equation for a rod of length L and mass m, with the axis of rotation at the end of the rod)
-			final double inertia = MASS * LENGTH * LENGTH / 3;
-			final double magnitude = Math.sqrt(x * x + y * y);
+			mInertia = MASS * LENGTH * LENGTH / 3;
+			mMagnitude = Math.sqrt(mAcellX * mAcellX + mAcellY * mAcellY);
 
 			// Find angle between Position vector and force vector
 			// atan2 produces an angle that is positive for counter-clockwise angles (upper half-plane, y > 0), and negative for clockwise angles (lower half-plane, y < 0)
-			final double angle = Math.atan2(y, x);
-			final double tagAngle = 1.5 * Math.PI - mAngle;
-			final double angleDifference = tagAngle - angle;
+			mMedianAngle = Math.atan2(mAcellY, mAcellX);
+			mTagAngle = 1.5 * Math.PI - mAngle;
+			mAngleDifference = mTagAngle - mMedianAngle;
 
 			// Force from the accelerometer is calculated using F = m * a
-			final double force = MASS * magnitude;
+			mForce = MASS * mMagnitude;
 
 			// Calculate Torque about pivot point using t = rFsin(Theta), where r is the position magnitude, F is the force magnitude, and theta is the angle between the 2 vectors
-			final double torque = LENGTH * force * Math.sin(angleDifference);
+			mTorque = LENGTH * mForce * Math.sin(mAngleDifference);
 
 			// Calculate Friction
-			double frictionTorque = LENGTH * (FRICTION_HANDLE * magnitude) * Math.sin(angleDifference);
-			if ((mAngularVelocity < 0.0 && frictionTorque < 0.0) || (mAngularVelocity > 0.0 && frictionTorque > 0.0)) {
-				frictionTorque *= -1.0;
+			mFrictionTorque = LENGTH * (FRICTION_HANDLE * mMagnitude) * Math.sin(mAngleDifference);
+			if ((mAngularVelocity < 0.0 && mFrictionTorque < 0.0) || (mAngularVelocity > 0.0 && mFrictionTorque > 0.0)) {
+				mFrictionTorque *= -1.0;
 			}
 
 			// Calculate net torque
-			final double netTorque = torque + frictionTorque;
+			mNetTorque = mTorque + mFrictionTorque;
 
 			// Find angular acceleration using T = Ia where T is torque, I is moment of inertia, and a is angular acceleration
-			final double angularAcceleration = netTorque / inertia;
-
-			mAngularVelocity += angularAcceleration * delta;
+			mAngularAcceleration = mNetTorque / mInertia;
+			mAngularVelocity += mAngularAcceleration * delta;
 
 			// Apply door friction
 
 			// Get amount of friction by the amount of acceleration on z.
-			double frictionZ = FRICTION_DOOR * z / -GRAVITY;
-			if (frictionZ > 1) {
-				frictionZ = 1;
+			mFrictionZ = FRICTION_DOOR * mAcellZ / -GRAVITY;
+			if (mFrictionZ > 1) {
+				mFrictionZ = 1;
 			}
 
 			// This applies the friction past a certain threshold of angle and only if the friction is positive (lying on its back).
-			if (frictionZ > 0 && z < THRESH_DOOR_FRICTION_ANGLE) {
-				mAngularVelocity *= (1 - frictionZ);
+			if (mFrictionZ > 0 && mAcellZ < THRESH_DOOR_FRICTION_ANGLE) {
+				mAngularVelocity *= (1 - mFrictionZ);
 			}
 
 			// This sets the velocity to zero if it's on its back far enough and there's not enough velocity to overcome friction.
-			if (z < THRESH_DOOR_FRICTION_ANGLE && mAngularVelocity < 0.05 && mAngularVelocity > -0.05) {
+			if (mAcellZ < THRESH_DOOR_FRICTION_ANGLE && mAngularVelocity < 0.05 && mAngularVelocity > -0.05) {
 				mAngularVelocity = 0;
 			}
 
-			final double changeInAngle = mAngularVelocity * delta;
-			mAngle += changeInAngle;
+			mChangeInAngle = mAngularVelocity * delta;
+			mAngle += mChangeInAngle;
 			mAngle = normalizeAngle(mAngle);
 
 			mLastTagAngleSetByTouchTime = 0;
 		}
 
 		private void draw(Canvas canvas) {
-			final float ringAngle = (float) normalizeAngle(((double) mNow / 1000) * DEGREES_PER_SECOND);
-			final float tagDegrees = (float) (mAngle * 180.0d / Math.PI);
-			final float ringDegrees = (float) (ringAngle * 180.0d / Math.PI);
+			mRingAngle = (float) normalizeAngle(((double) mNow / 1000) * DEGREES_PER_SECOND);
+			mTagDegrees = (float) (mAngle * 180.0d / Math.PI);
+			mRingDegrees = (float) (mRingAngle * 180.0d / Math.PI);
 
 			// CLEAR CANVAS WITH WHITE
 			canvas.drawColor(0xFFe4e4e4);
@@ -674,20 +697,20 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 			canvas.save();
 
 			// DRAW TAG =D
-			canvas.rotate(tagDegrees, mTagCenterX, mTagCenterY);
+			canvas.rotate(mTagDegrees, mTagCenterX, mTagCenterY);
 			canvas.drawBitmap(mTagBitmap, mTagSrcRect, mTagDestRect, mPaint);
 
 			// DRAW PROGRESS RING
 			if (mShowProgress) {
 				canvas.drawBitmap(mRingBitmap, mRingSrcRect, mRingDestRect, mPaint);
 
-				canvas.rotate(ringDegrees, mRingFillCenterX, mRingFillCenterY);
+				canvas.rotate(mRingDegrees, mRingFillCenterX, mRingFillCenterY);
 				canvas.drawBitmap(mRingFillBitmap, mRingFillSrcRect, mRingFillDestRect, mPaint);
-				canvas.rotate(-ringDegrees, mRingFillCenterX, mRingFillCenterY);
+				canvas.rotate(-mRingDegrees, mRingFillCenterX, mRingFillCenterY);
 			}
 
 			// DRAW DOOR KNOB
-			canvas.rotate(-tagDegrees, mTagCenterX, mTagCenterY);
+			canvas.rotate(-mTagDegrees, mTagCenterX, mTagCenterY);
 			canvas.drawBitmap(mKnobBitmap, mKnobSrcRect, mKnobDestRect, mPaint);
 
 			// restore saved canvas
