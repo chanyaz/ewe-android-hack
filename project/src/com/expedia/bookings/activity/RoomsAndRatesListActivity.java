@@ -1,5 +1,8 @@
 package com.expedia.bookings.activity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +25,7 @@ import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.ServerError;
 import com.mobiata.hotellib.data.Session;
+import com.mobiata.hotellib.server.AvailabilityResponseHandler;
 import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
@@ -57,6 +61,21 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 				Property.class);
 		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
 				SearchParams.class);
+
+		// TODO: Delete this once done testing
+		// This code allows us to test the HotelActivity standalone, for layout purposes.
+		// Just point the default launcher activity towards this instead of SearchActivity
+		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
+			try {
+				property = mProperty = new Property();
+				mProperty.fillWithTestData();
+				mSearchParams = new SearchParams();
+				mSearchParams.fillWithTestData();
+			}
+			catch (JSONException e) {
+				Log.e("Couldn't create dummy data!", e);
+			}
+		}
 
 		// Format the header
 		ImageView thumbnailView = (ImageView) findViewById(R.id.thumbnail_image_view);
@@ -123,8 +142,22 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 	@Override
 	public Object downloadImpl() {
-		ExpediaServices services = new ExpediaServices(this, mSession);
-		return services.availability(mSearchParams, mProperty);
+		Intent intent = getIntent();
+		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
+			try {
+				JSONObject obj = new JSONObject(getString(R.string.sample_availability_response));
+				AvailabilityResponseHandler handler = new AvailabilityResponseHandler(this, mSearchParams, mProperty);
+				return handler.handleJson(obj);
+			}
+			catch (JSONException e) {
+				Log.w("Something bad happened", e);
+				return null;
+			}
+		}
+		else {
+			ExpediaServices services = new ExpediaServices(this, mSession);
+			return services.availability(mSearchParams, mProperty);
+		}
 	}
 
 	@Override
