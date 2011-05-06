@@ -41,6 +41,7 @@ import com.mobiata.hotellib.data.BillingInfo;
 import com.mobiata.hotellib.data.BookingResponse;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Location;
+import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Policy;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
@@ -297,8 +298,13 @@ public class ConfirmationActivity extends MapActivity {
 			for (RateBreakdown breakdown : mRate.getRateBreakdownList()) {
 				Date date = breakdown.getDate().getCalendar().getTime();
 				String dateStr = dayFormatter.format(date) + ", " + fullDateFormatter.format(date);
-				appendLabelValue(body, getString(R.string.room_rate_template, dateStr), breakdown.getAmount()
-						.getFormattedMoney());
+				Money amount = breakdown.getAmount();
+				if (amount.getAmount() == 0) {
+					appendLabelValue(body, getString(R.string.room_rate_template, dateStr), getString(R.string.free));
+				}
+				else {
+					appendLabelValue(body, getString(R.string.room_rate_template, dateStr), amount.getFormattedMoney());
+				}
 				body.append("\n");
 			}
 			body.append("\n\n");
@@ -324,7 +330,7 @@ public class ConfirmationActivity extends MapActivity {
 			body.append("\n");
 			body.append(Html.fromHtml(cancellationPolicy.getDescription()));
 		}
-		
+
 		body.append("\n\n");
 		body.append(mContactText);
 
