@@ -60,8 +60,15 @@ public class LayoutUtils {
 			for (RateBreakdown breakdown : rate.getRateBreakdownList()) {
 				Date date = breakdown.getDate().getCalendar().getTime();
 				String dateStr = dateFormat.format(date);
-				addDetail(context, detailsLayout, context.getString(R.string.room_rate_template, dateStr), breakdown
-						.getAmount().getFormattedMoney());
+				Money amount = breakdown.getAmount();
+				if (amount.getAmount() == 0) {
+					addDetail(context, detailsLayout, context.getString(R.string.room_rate_template, dateStr),
+							context.getString(R.string.free));
+				}
+				else {
+					addDetail(context, detailsLayout, context.getString(R.string.room_rate_template, dateStr),
+							breakdown.getAmount().getFormattedMoney());
+				}
 			}
 		}
 		else if (rate.getDailyAmountBeforeTax() != null) {

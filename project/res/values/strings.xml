@@ -85,6 +85,8 @@
 	<string name="rooms_left_template">Only %d rooms left!</string>
 	<!-- Savings percentage label -->
 	<string name="savings_template">Save\n %2.0f%%</string>
+	<!-- Label for free nights -->
+	<string name="free">FREE!</string>
 
 	<!-- Booking info -->
 	<!-- edit label -->
