@@ -321,7 +321,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
 			extractActivityState(state);
-			setDrawerViews();
 
 			if (mSearchResponse != null) {
 				broadcastSearchCompleted(mSearchResponse);
@@ -405,6 +404,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		setMapSearchButtonVisibility(false);
 		setViewButtonImage();
+		setDrawerViews();
 		setSearchEditViews();
 	}
 
@@ -1241,6 +1241,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void setDrawerViews() {
 		if (mFilter == null) {
+			Log.t("Filter is null");
 			return;
 		}
 
