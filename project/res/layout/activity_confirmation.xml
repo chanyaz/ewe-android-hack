@@ -55,6 +55,10 @@
 					</LinearLayout>
 
 					<!-- Map and thumbnail image -->
+					<View
+						android:layout_width="fill_parent"
+						android:layout_height="@dimen/one_pixel"
+						android:background="#AEACA7" />
 					<RelativeLayout
 						android:layout_width="fill_parent"
 						android:layout_height="wrap_content">
@@ -77,6 +81,10 @@
 							android:background="@drawable/receipt_photo_frame"
 							mobiata:rotation="-5" />
 					</RelativeLayout>
+					<View
+						android:layout_width="fill_parent"
+						android:layout_height="@dimen/one_pixel"
+						android:background="#AEACA7" />
 
 					<!-- Hotel overview -->
 					<TextView
