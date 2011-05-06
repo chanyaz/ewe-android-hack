@@ -71,6 +71,7 @@ import com.expedia.bookings.dialog.LocationSuggestionDialog;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.tracking.TrackingData;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.widget.DumbTagProgressBar;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.TagProgressBar;
 import com.google.android.maps.GeoPoint;
@@ -186,7 +187,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private TextView mRefinementInfoTextView;
 	private Button mSearchButton;
 
-	private TagProgressBar mSearchProgressBar;
+	private DumbTagProgressBar mSearchProgressBar;
 
 	// Others
 
@@ -1085,7 +1086,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mRefinementInfoTextView = (TextView) findViewById(R.id.refinement_info_text_view);
 		mSearchButton = (Button) findViewById(R.id.search_button);
 
-		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
+		mSearchProgressBar = (DumbTagProgressBar) findViewById(R.id.search_progress_bar);
 
 		//===================================================================
 		// Properties

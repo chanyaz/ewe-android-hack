@@ -39,7 +39,7 @@
 		android:layout_margin="6dp"
 		style="@style/Widget.Button.Floating" />
     	
-    <com.expedia.bookings.widget.TagProgressBar
+    <com.expedia.bookings.widget.DumbTagProgressBar
 	    android:id="@+id/search_progress_bar"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
