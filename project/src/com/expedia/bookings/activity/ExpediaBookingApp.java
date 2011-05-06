@@ -9,6 +9,7 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.hotellib.Params;
+import com.nullwire.trace.ExceptionHandler;
 import com.omniture.AppMeasurement;
 
 public class ExpediaBookingApp extends com.activeandroid.Application implements UncaughtExceptionHandler {
@@ -23,9 +24,14 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 		params.mIsRelease = AndroidUtils.isRelease(this);
 		Log.configureLogging("ExpediaBookings", !params.mIsRelease);
 
-		// Setup logging for crashes
+		// Setup Omniture logging for crashes
 		mOriginalUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 		Thread.setDefaultUncaughtExceptionHandler(this);
+
+		// Setup our personal logging for crashes
+		if (params.mIsRelease) {
+			ExceptionHandler.register(this, "http://www.mobiata.com/appsupport/ftandroid/trace.php");
+		}
 	}
 
 	@Override
