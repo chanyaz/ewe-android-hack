@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.List;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +66,12 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			holder.beds = (TextView) convertView.findViewById(R.id.beds_text_view);
 			holder.saleImage = (ImageView) convertView.findViewById(R.id.sale_image_view);
 			holder.saleLabel = (TextView) convertView.findViewById(R.id.sale_text_view);
+
+			// #6966: Fix specifically for Android 2.1 and below.  Since RelativeLayout can't properly align
+			// bottom on a ListView, I'm just going to add extra margin
+			if (Build.VERSION.SDK_INT <= 7) {
+				holder.beds.setPadding(0, (int) mContext.getResources().getDisplayMetrics().density * 24, 0, 0);
+			}
 
 			convertView.setTag(holder);
 		}
