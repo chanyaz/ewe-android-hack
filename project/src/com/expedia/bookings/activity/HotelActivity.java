@@ -137,7 +137,7 @@ public class HotelActivity extends Activity {
 		if (lowestRate.getSavingsPercent() > 0) {
 			fromView.setText(Html.fromHtml(
 					getString(R.string.from_template,
-							lowestRate.getAverageBaseRate().getFormattedMoney(Money.F_NO_DECIMAL)), null,
+							lowestRate.getAverageBaseRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN)), null,
 					new StrikethroughTagHandler()));
 		}
 		else {
@@ -145,7 +145,7 @@ public class HotelActivity extends Activity {
 		}
 
 		TextView priceView = (TextView) findViewById(R.id.price_text_view);
-		priceView.setText(lowestRate.getAverageRate().getFormattedMoney(Money.F_NO_DECIMAL));
+		priceView.setText(lowestRate.getAverageRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
 
 		ImageButton mapButton = (ImageButton) findViewById(R.id.map_button);
 		mapButton.setOnClickListener(new OnClickListener() {

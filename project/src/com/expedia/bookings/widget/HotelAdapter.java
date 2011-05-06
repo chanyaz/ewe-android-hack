@@ -125,10 +125,10 @@ public class HotelAdapter extends BaseAdapter {
 		Rate lowestRate = property.getLowestRate();
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.getSavingsPercent() > 0) {
-			holder.from.setText(Html.fromHtml(
-					mContext.getString(R.string.from_template,
-							lowestRate.getAverageBaseRate().getFormattedMoney(Money.F_NO_DECIMAL)), null,
-					new StrikethroughTagHandler()));
+			holder.from
+					.setText(Html.fromHtml(mContext.getString(R.string.from_template, lowestRate.getAverageBaseRate()
+							.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN)), null,
+							new StrikethroughTagHandler()));
 			holder.saleImage.setVisibility(View.VISIBLE);
 			holder.saleLabel.setVisibility(View.VISIBLE);
 		}
@@ -138,7 +138,7 @@ public class HotelAdapter extends BaseAdapter {
 			holder.saleLabel.setVisibility(View.GONE);
 		}
 
-		holder.price.setText(lowestRate.getAverageRate().getFormattedMoney(Money.F_NO_DECIMAL));
+		holder.price.setText(lowestRate.getAverageRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
 
 		holder.hotelRating.setRating((float) property.getHotelRating());
 		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext));

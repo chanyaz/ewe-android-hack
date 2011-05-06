@@ -82,14 +82,14 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		Rate rate = (Rate) getItem(position);
 
 		holder.description.setText(Html.fromHtml(rate.getRoomDescription()));
-		holder.price.setText(rate.getAverageRate().getFormattedMoney(Money.F_NO_DECIMAL));
+		holder.price.setText(rate.getAverageRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
 
 		String explanation = "";
 
 		// Check if there should be a strike-through rate, if this is on sale
 		double savings = rate.getSavingsPercent();
 		if (savings > 0) {
-			explanation += "<strike>" + rate.getAverageBaseRate().getFormattedMoney(Money.F_NO_DECIMAL) + "</strike> ";
+			explanation += "<strike>" + rate.getAverageBaseRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN) + "</strike> ";
 
 			holder.saleLabel.setText(mContext.getString(R.string.savings_template, savings * 100));
 			holder.saleImage.setVisibility(View.VISIBLE);
