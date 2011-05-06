@@ -1544,13 +1544,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void startSearchDownloader() {
+		showLoading(R.string.progress_searching_hotels);
+
 		if (!NetUtils.isOnline(this)) {
 			mSearchProgressBar.setShowProgress(false);
 			mSearchProgressBar.setText(R.string.error_no_internet);
 			return;
 		}
 
-		showLoading(R.string.progress_searching_hotels);
 		if (mSearchParams.getSearchType() == SearchType.FREEFORM) {
 			Search.add(this, mSearchParams);
 			mSearchSuggestionAdapter.refreshData(this);
@@ -1572,6 +1573,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void startLocationListener() {
 		showLoading(R.string.progress_finding_location);
+
+		if (!NetUtils.isOnline(this)) {
+			mSearchProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(R.string.error_no_internet);
+			return;
+		}
 
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		String provider;
