@@ -26,15 +26,9 @@
     	android:layout_marginTop="8dp"
     	android:layout_below="@id/search_bar_layout" />
 
-	<ImageButton
+	<include 
 		android:id="@+id/map_search_button"
-		android:layout_width="@dimen/action_bar_button_height"
-		android:layout_height="@dimen/action_bar_button_height"
-		android:layout_alignParentBottom="true"
-		android:layout_alignParentLeft="true"
-		android:layout_margin="6dp"
-		android:src="@drawable/btn_search_visible_map_area"
-		style="@style/Widget.Button.Floating" />
+		layout="@layout/include_map_search_button" /> 
 
 	<ImageButton
 		android:id="@+id/view_button"

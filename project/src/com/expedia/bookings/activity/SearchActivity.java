@@ -31,14 +31,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.os.ResultReceiver;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.Time;
-import android.util.DebugUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -155,7 +153,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private FrameLayout mContent;
 	private ImageView mViewFlipImage;
 
-	private ImageButton mMapSearchButton;
+	private View mMapSearchButton;
 	private ImageButton mViewButton;
 
 	private TextView mBookingInfoTextView;
@@ -1070,7 +1068,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 		mViewFlipImage = (ImageView) findViewById(R.id.view_flip_image);
 
-		mMapSearchButton = (ImageButton) findViewById(R.id.map_search_button);
+		mMapSearchButton = (View) findViewById(R.id.map_search_button);
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
 
 		mBookingInfoTextView = (TextView) findViewById(R.id.booking_info_text_view);
