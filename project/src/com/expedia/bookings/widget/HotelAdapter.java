@@ -1,5 +1,8 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -47,6 +50,22 @@ public class HotelAdapter extends BaseAdapter {
 		if (mCachedProperties.length == 0) {
 			TrackingUtils.trackErrorPage(mContext, "FilteredToZeroResults");
 		}
+
+		final List<Property> properties = new ArrayList<Property>();
+		properties.addAll(mSearchResponse.getProperties());
+
+		final int size = mCachedProperties.length;
+		for (int i = 0; i < size; i++) {
+			properties.remove(mCachedProperties[i]);
+		}
+		
+		for (Property property : properties) {
+			Media thumbnail = property.getThumbnail();
+			if (thumbnail != null && thumbnail.getUrl() != null) {
+				mImageCache.removeImage(thumbnail.getUrl(), true);
+			}
+		}
+
 		notifyDataSetChanged();
 	}
 
