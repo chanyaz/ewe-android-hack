@@ -130,8 +130,8 @@ public class HoneycombSearchActivity extends ActivityGroup implements ISearchAct
 		FrameLayout popupContentLayout = (FrameLayout) findViewById(R.id.popup_content_layout);
 
 		mLocalActivityManager = getLocalActivityManager();
-		setLayoutActivity(mainContentLayout, SearchMapActivity.class);
 		setLayoutActivity(popupContentLayout, SearchListActivity.class);
+		setLayoutActivity(mainContentLayout, SearchMapActivity.class);
 
 		mFilter = new Filter();
 		
