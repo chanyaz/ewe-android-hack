@@ -41,11 +41,40 @@
 
 	<include
 		android:id="@+id/placeholder_progress_layout"
-		layout="@layout/include_placeholder_progress" />
-
-	<!-- <com.expedia.bookings.widget.DumbTagProgressBar android:id="@+id/search_progress_bar" 
-		android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@id/search_bar_layout" 
-		android:visibility="gone" /> -->
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_below="@id/search_bar_layout"
+		android:gravity="center"
+		android:orientation="vertical"
+		android:background="@color/bg_default"
+		android:visibility="gone">
+		<ProgressBar
+			android:id="@+id/placeholder_progress_bar"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:indeterminate="true"
+			style="@android:style/Widget.ProgressBar.Large.Inverse" />
+		<TextView
+			android:id="@+id/placeholder_progress_text_view"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:padding="24dp"
+			android:textSize="18sp"
+			android:textStyle="bold"
+			android:textColor="#FF666666"
+			android:shadowColor="#88FFFFFF"
+			android:shadowDx="0"
+			android:shadowDy="-1"
+			android:shadowRadius="0.1" />
+	</LinearLayout>
+	
+	<com.expedia.bookings.widget.gl.GLTagProgressBar
+		android:id="@+id/search_progress_bar"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_below="@id/search_bar_layout"
+		android:visibility="visible" />
 
 	<View
 		android:id="@+id/panel_dismiss_view"
