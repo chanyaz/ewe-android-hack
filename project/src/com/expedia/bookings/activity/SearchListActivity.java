@@ -131,6 +131,8 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	public void onFilterChanged() {
 		mAdapter.rebuildCache();
 		mScrollBar.rebuildCache();
+
+		getListView().setSelection(0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
