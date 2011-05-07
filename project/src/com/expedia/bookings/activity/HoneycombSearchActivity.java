@@ -203,6 +203,7 @@ public class HoneycombSearchActivity extends ActivityGroup implements ISearchAct
 			ProgressDialog dialog = new ProgressDialog(this);
 			dialog.setIndeterminate(true);
 			dialog.setMessage("Searching for Hotels...");
+			return dialog;
 		}
 		}
 
