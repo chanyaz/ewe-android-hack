@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.ListViewScrollBar;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Filter.OnFilterChangedListener;
@@ -27,7 +29,7 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
-	private SearchActivity mParent;
+	private ISearchActivity mParent;
 	private HotelAdapter mAdapter;
 	private SearchResponse mSearchResponse;
 
@@ -41,12 +43,21 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_list);
 
-		mParent = (SearchActivity) getParent();
+		mParent = (ISearchActivity) getParent();
 		mScrollBar = (ListViewScrollBar) findViewById(R.id.scroll_bar);
 
 		mParent.addSearchListener(this);
 		mScrollBar.setListView(getListView());
 		mScrollBar.setOnScrollListener(this);
+
+		if (AndroidUtils.getSdkVersion() == 11) {
+			((ImageButton) findViewById(R.id.view_button)).setVisibility(View.GONE);
+			final int left = mScrollBar.getPaddingLeft();
+			final int top = mScrollBar.getPaddingLeft();
+			final int right = mScrollBar.getPaddingLeft();
+
+			mScrollBar.setPadding(left, top, right, top);
+		}
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {

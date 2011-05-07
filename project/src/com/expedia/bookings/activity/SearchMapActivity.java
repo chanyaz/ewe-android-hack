@@ -33,7 +33,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
-	private SearchActivity mParent;
+	private ISearchActivity mParent;
 	private MapView mMapView;
 	private SearchResponse mSearchResponse;
 	private HotelItemizedOverlay mHotelItemizedOverlay;
@@ -60,7 +60,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mMapView.setBuiltInZoomControls(true);
 		mMapView.setSatellite(false);
 
-		mParent = (SearchActivity) getParent();
+		mParent = (ISearchActivity) getParent();
 		mParent.addSearchListener(this);
 		mParent.setMapViewListener(this);
 

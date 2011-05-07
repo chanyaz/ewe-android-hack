@@ -108,7 +108,7 @@ import com.mobiata.hotellib.utils.StrUtils;
 import com.omniture.AppMeasurement;
 
 @SuppressWarnings("unused")
-public class SearchActivity extends ActivityGroup implements LocationListener {
+public class SearchActivity extends ActivityGroup implements LocationListener, ISearchActivity {
 	public interface MapViewListener {
 		public GeoPoint onRequestMapCenter();
 	}
