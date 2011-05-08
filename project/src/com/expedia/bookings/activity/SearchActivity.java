@@ -344,7 +344,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (searchParamsJson != null) {
 				try {
 					JSONObject obj = new JSONObject(searchParamsJson);
-					mSearchParams = new SearchParams(obj);
+					setSearchParams(new SearchParams(obj));
 				}
 				catch (JSONException e) {
 					Log.e("Failed to load saved search params.");
@@ -666,6 +666,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	public void setSearchParams(SearchParams searchParams) {
 		mSearchParams = searchParams;
+		mSearchParams.ensureValidCheckInDate();
 	}
 
 	public void startSearch() {
