@@ -181,16 +181,7 @@ public class HotelAdapter extends BaseAdapter {
 	}
 
 	public void trimDrawables(int start, int end) {
-		final int size = mCachedProperties.length;
-		for (int i = 0; i < size; i++) {
-			if (i < start || i > end) {
-				Property property = mCachedProperties[i];
-				Media thumbnail = property.getThumbnail();
-				if (thumbnail != null && thumbnail.getUrl() != null) {
-					mImageCache.removeImage(thumbnail.getUrl(), true);
-				}
-			}
-		}
+		// Do nothing, we shouldn't run out of memory
 	}
 
 	private static class HotelViewHolder {

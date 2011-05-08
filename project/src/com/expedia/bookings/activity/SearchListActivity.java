@@ -107,18 +107,7 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		// Trim the ends (recycle images)
-		if (totalItemCount > MAX_THUMBNAILS) {
-			final int center = firstVisibleItem + (visibleItemCount / 2);
-			int start = center - (MAX_THUMBNAILS / 2);
-			int end = center + (MAX_THUMBNAILS / 2);
-
-			// prevent overflow
-			start = start < 0 ? 0 : start;
-			end = end > totalItemCount ? totalItemCount : end;
-
-			mAdapter.trimDrawables(start, end);
-		}
+		// Don't do any trimming for this version.
 	}
 
 	@Override

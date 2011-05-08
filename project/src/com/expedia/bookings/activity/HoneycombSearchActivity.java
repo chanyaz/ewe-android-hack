@@ -93,7 +93,7 @@ public class HoneycombSearchActivity extends ActivityGroup implements ISearchAct
 				mSearchResponse.setFilter(mFilter);
 				mSession = mSearchResponse.getSession();
 
-				ImageCache.getInstance().recycleCache(true);
+				// ImageCache.getInstance().recycleCache(true);
 				broadcastSearchCompleted(mSearchResponse);
 
 			}
