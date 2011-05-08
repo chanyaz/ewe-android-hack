@@ -30,7 +30,7 @@
 		</activity>
 		
 		<activity android:name=".activity.SearchActivity" />
-		<activity android:name=".activity.HoneycombSearchActivity" />
+		<activity android:name=".activity.HoneycombSearchActivity" android:screenOrientation="landscape" />
 		
 		<activity android:name=".activity.SearchListActivity" />
 		<activity android:name=".activity.SearchMapActivity" />
