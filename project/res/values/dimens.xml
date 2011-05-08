@@ -11,4 +11,8 @@
 	<!-- This is the amount of padding the bottom of the booking info activity needs
 		to account for the see-through bar -->
 	<dimen name="bottom_bar_height">50dp</dimen>
+	
+	<!-- These are slight differences between hdpi and mpdi positioning -->
+	<dimen name="sale_text_margin_top">2dp</dimen>
+	<dimen name="sale_text_margin_left">0dp</dimen>
 </resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- These are slight differences between hdpi and mpdi positioning -->
+	<dimen name="sale_text_margin_top">1dp</dimen>
+	<dimen name="sale_text_margin_left">-1dp</dimen>
+</resources>
