@@ -13,11 +13,8 @@
 	<FrameLayout
 		android:id="@+id/popup_content_layout"
 		android:layout_width="320dp"
-		android:layout_height="fill_parent"
-		android:layout_marginLeft="12dp"
-		android:layout_marginTop="12dp"
-		android:layout_marginRight="12dp"
-		android:layout_marginBottom="48dp"
+		android:layout_height="480dp"
+		android:layout_margin="18dp"
 		android:background="@drawable/popup_full_bright" />
 
 </RelativeLayout>
