@@ -2148,7 +2148,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		s.eVar48 = mSearchParams.getFreeformLocation();
 
 		// Number of search results
-		s.prop1 = mSearchResponse.getFilteredAndSortedProperties().length + "";
+		if (mSearchResponse != null && mSearchResponse.getFilteredAndSortedProperties() != null) {
+			s.prop1 = mSearchResponse.getFilteredAndSortedProperties().length + "";
+		}
 
 		// Send the tracking data
 		s.track();
