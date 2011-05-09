@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.hotellib.Params;
@@ -22,14 +23,15 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 
 		Params params = Params.getInstance();
 		params.mIsRelease = AndroidUtils.isRelease(this);
-		Log.configureLogging("ExpediaBookings", !params.mIsRelease);
+		boolean isLogEnablerInstalled = DebugUtils.isLogEnablerInstalled(this);
+		Log.configureLogging("ExpediaBookings", !params.mIsRelease || isLogEnablerInstalled);
 
 		// Setup Omniture logging for crashes
 		mOriginalUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 		Thread.setDefaultUncaughtExceptionHandler(this);
 
 		// Setup our personal logging for crashes
-		if (params.mIsRelease) {
+		if (params.mIsRelease && !isLogEnablerInstalled) {
 			ExceptionHandler.register(this, "http://www.mobiata.com/appsupport/ftandroid/trace.php");
 		}
 	}
