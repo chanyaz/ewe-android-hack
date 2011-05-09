@@ -29,6 +29,7 @@ import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.hotellib.data.Codes;
+import com.mobiata.hotellib.data.Location;
 import com.mobiata.hotellib.data.Media;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
@@ -135,10 +136,13 @@ public class HotelActivity extends Activity {
 		priceContainer.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_left));
 		TextView fromView = (TextView) findViewById(R.id.from_text_view);
 		if (lowestRate.getSavingsPercent() > 0) {
-			fromView.setText(Html.fromHtml(
-					getString(R.string.from_template,
-							lowestRate.getAverageBaseRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN)), null,
-					new StrikethroughTagHandler()));
+			fromView.setText(Html
+					.fromHtml(
+							getString(
+									R.string.from_template,
+									lowestRate.getAverageBaseRate().getFormattedMoney(
+											Money.F_NO_DECIMAL + Money.F_ROUND_DOWN)), null,
+							new StrikethroughTagHandler()));
 		}
 		else {
 			fromView.setText(R.string.from);
@@ -328,8 +332,18 @@ public class HotelActivity extends Activity {
 	}
 
 	private void addAddressSection(StringBuilder html) {
-		String address = mProperty.getName() + "\n" + StrUtils.formatAddress(mProperty.getLocation());
-		addSection(html, getString(R.string.address), address.replace("\n", "<br />"));
+		Location location = mProperty.getLocation();
+		if (location != null) {
+			int flags = StrUtils.F_STREET_ADDRESS + StrUtils.F_CITY + StrUtils.F_STATE_CODE + StrUtils.F_POSTAL_CODE;
+
+			String countryCode = location.getCountryCode();
+			if (countryCode != null && !countryCode.equals("US")) {
+				flags += StrUtils.F_COUNTRY_CODE;
+			}
+			String address = mProperty.getName() + "\n" + StrUtils.formatAddress(location, flags);
+
+			addSection(html, getString(R.string.address), address.replace("\n", "<br />"));
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
