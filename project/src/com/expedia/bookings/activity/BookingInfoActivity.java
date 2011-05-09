@@ -618,6 +618,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			public void onClick(View v) {
 				syncBillingInfo();
 
+				// Just to make sure, save the billing info when the user clicks submit
+				saveBillingInfo();
+
 				List<ValidationError> errors = mValidationProcessor.validate();
 
 				if (!mFormHasBeenFocused) {
