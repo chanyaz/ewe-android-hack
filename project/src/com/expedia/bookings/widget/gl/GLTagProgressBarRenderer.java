@@ -25,11 +25,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	//////////////////////////////////////////////////////////////////////////////
 	// Constants
 
-	static final boolean LIMIT_FPS = false;
 	static final boolean LOG_FPS = false;
-	private static final float MAX_FPS = 60f;
-	static final float MIN_DELTA = 1f / MAX_FPS;
-	static final int THREAD_SLEEP_TIME = 15;
 
 	private final static double GRAVITY = 9.81d;
 	private final static double MASS = 0.4d;
@@ -123,7 +119,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	private int[] mTextureNameWorkspace;
 	private int[] mCropWorkspace;
-	private boolean mUseVerts;
+	private boolean mUseVerts = true;
 	private boolean mUseHardwareBuffers;
 
 	public GLTagProgressBarRenderer(Context context) {
@@ -157,15 +153,6 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 			mLastDrawTime = mNow;
 		}
 		final float delta = (float) (mNow - mLastDrawTime) / 1000f;
-		if (LIMIT_FPS && delta < MIN_DELTA) {
-			try {
-				Thread.sleep(THREAD_SLEEP_TIME);
-			}
-			catch (InterruptedException e) {
-				Log.e(e.getMessage());
-			}
-			return;
-		}
 		if (LOG_FPS) {
 			Log.t("FPS: %d", (int) (1f / delta));
 		}
@@ -247,8 +234,12 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 			for (int x = 0; x < mSprites.length; x++) {
 				int resource = mSprites[x].getResourceId();
 				if (resource != lastLoadedResource) {
-					lastTextureId = loadBitmap(mContext, gl, resource);
+					int[] retVal = loadBitmap(mContext, gl, resource);
+					lastTextureId = retVal[0];
 					lastLoadedResource = resource;
+
+					mSprites[x].width = retVal[1];
+					mSprites[x].height = retVal[2];
 				}
 				mSprites[x].setTextureName(lastTextureId);
 				if (mUseHardwareBuffers) {
@@ -259,6 +250,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 					//mSprites[x].getGrid().generateHardwareBuffers(gl);
 				}
 			}
+
+			calculateMeasurements();
 		}
 	}
 
@@ -325,6 +318,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	// Private methods
 
 	void calculateMeasurements() {
+		mTagWidth = (int) mTagSprite.width;
+		mTagHeight = (int) mTagSprite.height;
 		// NOTE: A few of these measurements are pretty arbitrary, definitely
 		// making this view a one time use kind of view.
 
@@ -343,8 +338,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 		// DEST RECTS
 		mTagDestRect = new Rect();
-		mTagDestRect.top = mHeight - mTagCenterY - (int) (mTagWidth * 0.38);
-		mTagDestRect.bottom = mTagDestRect.top - mTagHeight;
+		mTagDestRect.top = mHeight - mOffsetY;
+		mTagDestRect.bottom = mTagDestRect.top + mTagHeight;
 		mTagDestRect.left = (int) (mTagCenterX - (mTagWidth / 2));
 		mTagDestRect.right = mTagDestRect.left + mTagWidth;
 
@@ -478,7 +473,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	private void updateSpritePositions() {
 		mTagSprite.x = mTagDestRect.left;
 		mTagSprite.y = mTagDestRect.top;
-		mTagSprite.
+		mTagSprite.rotation = mAngle;
 	}
 
 	/**
@@ -506,8 +501,11 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		}
 	}
 
-	protected int loadBitmap(Context context, GL10 gl, int resourceId) {
+	protected int[] loadBitmap(Context context, GL10 gl, int resourceId) {
 		int textureName = -1;
+		int[] retVal = new int[3];
+		retVal[0] = textureName;
+
 		if (context != null && gl != null) {
 			gl.glGenTextures(1, mTextureNameWorkspace, 0);
 
@@ -543,6 +541,9 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 			mCropWorkspace[2] = bitmap.getWidth();
 			mCropWorkspace[3] = -bitmap.getHeight();
 
+			retVal[1] = bitmap.getWidth();
+			retVal[2] = bitmap.getHeight();
+
 			bitmap.recycle();
 
 			((GL11) gl).glTexParameteriv(GL10.GL_TEXTURE_2D, GL11Ext.GL_TEXTURE_CROP_RECT_OES, mCropWorkspace, 0);
@@ -554,6 +555,6 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 		}
 
-		return textureName;
+		return retVal;
 	}
 }

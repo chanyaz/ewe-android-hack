@@ -27,10 +27,8 @@ public abstract class Renderable {
     public float y;
     public float z;
     
-    // Velocity.
-    public float velocityX;
-    public float velocityY;
-    public float velocityZ;
+    // Rotation
+    public double rotation;
     
     // Size.
     public float width;
