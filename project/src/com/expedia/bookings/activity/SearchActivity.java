@@ -1091,7 +1091,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchButton = (Button) findViewById(R.id.search_button);
 
 		// mSearchProgressBar = (DumbTagProgressBar) findViewById(R.id.search_progress_bar);
-		LinearLayout placeholderContainer = (LinearLayout) findViewById(R.id.placeholder_progress_layout);
+		ViewGroup placeholderContainer = (ViewGroup) findViewById(R.id.placeholder_progress_layout);
 		ProgressBar placeholderProgressBar = (ProgressBar) findViewById(R.id.placeholder_progress_bar);
 		TextView placeholderProgressTextView = (TextView) findViewById(R.id.placeholder_progress_text_view);
 		mSearchProgressBar = new PlaceholderTagProgressBar(placeholderContainer, placeholderProgressBar,

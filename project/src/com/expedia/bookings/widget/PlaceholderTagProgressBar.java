@@ -2,17 +2,17 @@ package com.expedia.bookings.widget;
 
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class PlaceholderTagProgressBar {
 
-	private LinearLayout mContainer;
+	private ViewGroup mContainer;
 	private ProgressBar mProgressBar;
 	private TextView mProgressTextView;
 
-	public PlaceholderTagProgressBar(LinearLayout container, ProgressBar progressBar, TextView progressTextView) {
+	public PlaceholderTagProgressBar(ViewGroup container, ProgressBar progressBar, TextView progressTextView) {
 		mContainer = container;
 		mProgressBar = progressBar;
 		mProgressTextView = progressTextView;

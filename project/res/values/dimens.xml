@@ -15,4 +15,7 @@
 	<!-- These are slight differences between hdpi and mpdi positioning -->
 	<dimen name="sale_text_margin_top">2dp</dimen>
 	<dimen name="sale_text_margin_left">0dp</dimen>
+
+	<!-- Offset for placeholder tag -->
+	<dimen name="placeholder_tag_margin_top">15dp</dimen>
 </resources>
