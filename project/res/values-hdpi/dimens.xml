@@ -4,9 +4,6 @@
 	<dimen name="sale_text_margin_top">1dp</dimen>
 	<dimen name="sale_text_margin_left">-1dp</dimen>
 	
-	<!-- Dimensions for the placeholder progress bar throbber -->
-	<dimen name="placeholder_throbber_size">76dp</dimen>
-	
 	<!-- Offset for placeholder tag -->
 	<dimen name="placeholder_tag_margin_top">44dp</dimen>
 </resources>
