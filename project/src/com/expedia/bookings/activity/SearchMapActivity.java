@@ -88,10 +88,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		if (mMyLocationOverlay != null) {
 			mMyLocationOverlay.disableMyLocation();
 		}
-
-		if (mSearchResponse != null) {
-			mSearchResponse.getFilter().removeOnFilterChangedListener(this);
-		}
 	}
 
 	@Override
@@ -102,10 +98,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 		if (mMyLocationOverlay != null) {
 			mMyLocationOverlay.enableMyLocation();
-		}
-
-		if (mSearchResponse != null) {
-			mSearchResponse.getFilter().addOnFilterChangedListener(this);
 		}
 	}
 
@@ -153,7 +145,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		List<Overlay> overlays = mMapView.getOverlays();
 
 		// Add hotels overlay
-		Property[] propertyArray = mSearchResponse.getFilteredAndSortedProperties(true);
+		Property[] propertyArray = mSearchResponse.getFilteredAndSortedProperties();
 		List<Property> properties = new ArrayList<Property>();
 
 		properties = propertyArray != null ? Arrays.asList(propertyArray) : null;
@@ -207,7 +199,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 	@Override
 	public void onFilterChanged() {
-		mHotelItemizedOverlay.setProperties(Arrays.asList(mSearchResponse.getFilteredAndSortedProperties(true)));
+		mHotelItemizedOverlay.setProperties(Arrays.asList(mSearchResponse.getFilteredAndSortedProperties()));
 
 		// Animate to a new center point
 		focusOnProperties();

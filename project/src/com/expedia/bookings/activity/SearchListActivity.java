@@ -55,24 +55,6 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
-
-		if (mSearchResponse != null) {
-			mSearchResponse.getFilter().removeOnFilterChangedListener(this);
-		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		if (mSearchResponse != null) {
-			mSearchResponse.getFilter().addOnFilterChangedListener(this);
-		}
-	}
-
-	@Override
 	public Object onRetainNonConfigurationInstance() {
 		ActivityState state = new ActivityState();
 		state.searchResponse = mSearchResponse;

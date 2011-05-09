@@ -46,7 +46,7 @@ public class HotelAdapter extends BaseAdapter {
 	}
 
 	public void rebuildCache() {
-		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties(true);
+		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
 		if (mCachedProperties.length == 0) {
 			TrackingUtils.trackErrorPage(mContext, "FilteredToZeroResults");
 		}
@@ -58,7 +58,7 @@ public class HotelAdapter extends BaseAdapter {
 		for (int i = 0; i < size; i++) {
 			properties.remove(mCachedProperties[i]);
 		}
-		
+
 		for (Property property : properties) {
 			Media thumbnail = property.getThumbnail();
 			if (thumbnail != null && thumbnail.getUrl() != null) {

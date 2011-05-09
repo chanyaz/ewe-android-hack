@@ -323,6 +323,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			extractActivityState(state);
 
 			if (mSearchResponse != null) {
+				if (mFilter != null) {
+					mSearchResponse.setFilter(mFilter);
+				}
 				broadcastSearchCompleted(mSearchResponse);
 			}
 
@@ -1503,6 +1506,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		}
 
+		mFilter.notifyFilterChanged();
+
 		setDrawerViews();
 	}
 
@@ -1565,6 +1570,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		}
 		}
+
+		// Notify that the filter has changed
+		mFilter.notifyFilterChanged();
 	}
 
 	private void startSearchDownloader() {
