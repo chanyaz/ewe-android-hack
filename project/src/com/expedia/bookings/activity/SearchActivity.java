@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -2134,7 +2135,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		s.eVar2 = s.prop2 = "hotels";
 
 		// Region
-		s.eVar4 = s.prop4 = mSearchParams.getSearchLatitude() + "|" + mSearchParams.getSearchLongitude();
+		DecimalFormat df = new DecimalFormat("#.######");
+		s.eVar4 = s.prop4 = df.format(mSearchParams.getSearchLatitude()) + "|"
+				+ df.format(mSearchParams.getSearchLongitude());
 
 		// Check in/check out date
 		s.eVar5 = s.prop5 = getDayDifference(mSearchParams.getCheckInDate(), Calendar.getInstance()) + "";
