@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -153,7 +154,14 @@ public class TrackingUtils {
 			supplier = "Unknown";
 		}
 
-		s.products = "Hotel; " + supplier + " Hotel:" + property.getPropertyId();
+		s.products = "Hotel;" + supplier + " Hotel:" + property.getPropertyId();
+	}
+
+	public static void addProducts(AppMeasurement s, Property property, int numNights, double totalCost) {
+		addProducts(s, property);
+
+		DecimalFormat df = new DecimalFormat("#.##");
+		s.products += ";" + numNights + ";" + df.format(totalCost);
 	}
 
 	public static void addHotelRating(AppMeasurement s, Property property) {

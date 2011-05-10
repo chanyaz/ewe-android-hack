@@ -385,7 +385,13 @@ public class ConfirmationActivity extends MapActivity {
 		s.prop49 = s.zip = mBillingInfo.getLocation().getPostalCode();
 
 		// Products
-		TrackingUtils.addProducts(s, mProperty);
+		int numDays = (int) Math.round((mSearchParams.getCheckOutDate().getTimeInMillis() - mSearchParams
+				.getCheckInDate().getTimeInMillis()) / (1000 * 60 * 60 * 24));
+		double totalCost = 0;
+		if (mRate != null && mRate.getTotalAmountAfterTax() != null) {
+			totalCost = mRate.getTotalAmountAfterTax().getAmount();
+		}
+		TrackingUtils.addProducts(s, mProperty, numDays, totalCost);
 
 		// Currency code
 		s.currencyCode = mRate.getTotalAmountAfterTax().getCurrency();

@@ -66,6 +66,7 @@ import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.CurrencyUtils;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
+import com.omniture.AppMeasurement;
 
 public class BookingInfoActivity extends Activity implements Download, OnDownloadComplete {
 
@@ -962,6 +963,20 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	public void onPageLoad() {
 		Log.d("Tracking \"App.Hotels.Checkout.Payment\" pageLoad");
 
+		AppMeasurement s = new AppMeasurement(getApplication());
+
+		TrackingUtils.addStandardFields(this, s);
+
+		s.pageName = "App.Hotels.Checkout.Payment";
+
+		s.events = "event34";
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+
+		// Products
+		TrackingUtils.addProducts(s, mProperty);
+
 		// If any sections were already complete, fill them in here
 		String referrerId = null;
 		if (mGuestsCompleted && mBillingCompleted) {
@@ -974,7 +989,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			referrerId = "CKO.BD.CompletedBillingInfo";
 		}
 
-		TrackingUtils.trackSimpleEvent(this, "App.Hotels.Checkout.Payment", "event34", "Shopper", referrerId);
+		s.eVar28 = s.prop16 = referrerId;
+
+		// Send the tracking data
+		s.track();
 	}
 
 	public void onCompletedSection(String sectionName) {
