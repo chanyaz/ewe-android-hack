@@ -83,8 +83,8 @@ public class TrackingUtils {
 		s.account = (AndroidUtils.isRelease(context)) ? "expedia1androidcom" : "expedia1androidcomdev";
 
 		// Server
-		s.trackingServer = "om.expedia.net";
-		s.trackingServerSecure = "oms.expedia.net";
+		s.trackingServer = "om.expedia.com";
+		s.trackingServerSecure = "oms.expedia.com";
 
 		// Add the country locale
 		s.eVar31 = Locale.getDefault().getCountry();
