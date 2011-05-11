@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.telephony.TelephonyManager;
 
+import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.hotellib.data.BillingInfo;
@@ -72,7 +73,7 @@ public class TrackingUtils {
 		Date gmt = new Date(now.getTimeInMillis() - now.getTimeZone().getOffset(now.getTimeInMillis()));
 
 		// Add debugging flag if not release
-		if (!AndroidUtils.isRelease(context)) {
+		if (!AndroidUtils.isRelease(context) || DebugUtils.isLogEnablerInstalled(context)) {
 			s.debugTracking = true;
 		}
 
