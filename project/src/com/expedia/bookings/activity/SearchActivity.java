@@ -245,11 +245,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			// Clear the old listener so we don't end up with a memory leak
 			mFilter.clearOnFilterChangedListeners();
 			mSearchResponse = (SearchResponse) results;
-			mSearchResponse.setSearchType(mSearchParams.getSearchType());
-			mSearchResponse.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
 
 			if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
 				mSearchResponse.setFilter(mFilter);
+				mSearchResponse.setSearchType(mSearchParams.getSearchType());
+				mSearchResponse.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
 				mSession = mSearchResponse.getSession();
 
 				if (mSearchResponse.getFilteredAndSortedProperties().length <= 10) {
