@@ -221,8 +221,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		final float y = event.getY();
 
 		final float indicatorHalfHeight = mIndicatorHeight / 2;
-		final float percent = (y + mIndicatorPaddingTop + indicatorHalfHeight)
-				/ (mHeight - mIndicatorPaddingBottom - indicatorHalfHeight);
+		final float percent = (y - mPaddingTop) / mScrollHeight;
 
 		int position = (int) (((mTotalItemCount - mVisibleItemCount) * percent) - (mVisibleItemCount / 2));
 		if (position < 0) {
