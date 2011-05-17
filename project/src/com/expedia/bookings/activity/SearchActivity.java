@@ -26,6 +26,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
@@ -42,6 +43,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Surface;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -647,6 +649,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 						}
 						else if (mAddresses != null && mAddresses.size() > 0) {
 							Address address = mAddresses.get(0);
+							mSearchParams.setFreeformLocation(address);
+							setSearchEditViews();
 							setSearchParams(address.getLatitude(), address.getLongitude());
 							startSearchDownloader();
 						}
@@ -1122,6 +1126,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mPanel.setOnPanelListener(mPanelListener);
+
+		final View delegate = mPanel.getHandle();
+		final View parent = (View) delegate.getParent();
+		parent.post(new Runnable() {
+			@Override
+			public void run() {
+				final Rect r = new Rect();
+				delegate.getHitRect(r);
+				r.top -= 50;
+				parent.setTouchDelegate(new TouchDelegate(r, delegate));
+			}
+		});
 
 		Time now = new Time();
 		now.setToNow();
