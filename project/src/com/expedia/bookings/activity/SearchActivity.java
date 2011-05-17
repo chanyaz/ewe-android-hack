@@ -408,6 +408,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
+		Time now = new Time();
+		now.setToNow();
+		mDatesCalendarDatePicker.setMinDate(now.year, now.month, now.monthDay);
 
 		setMapSearchButtonVisibility(false);
 		setViewButtonImage();
