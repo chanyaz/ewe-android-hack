@@ -391,24 +391,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	@Override
-	protected void onDestroy() {
+	protected void onPause() {
+		super.onPause();
+
+		stopLocationListener();
+
 		SettingUtils.save(this, "searchParams", mSearchParams.toJson().toString());
 		SettingUtils.save(this, "filter", mFilter.toJson().toString());
 		SettingUtils.save(this, "tag", mTag);
-
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		stopLocationListener();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
 		Time now = new Time();
 		now.setToNow();
 		mDatesCalendarDatePicker.setMinDate(now.year, now.month, now.monthDay);
