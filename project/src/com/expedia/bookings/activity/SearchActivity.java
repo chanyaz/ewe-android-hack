@@ -1668,8 +1668,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
 				if (mSearchParams.getSearchType() != SearchType.FREEFORM) {
-					mSearchEditText.setText(null);
-					mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
+					mSearchEditText.post(new Runnable() {
+						@Override
+						public void run() {
+							mSearchEditText.setText(null);
+							mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
+						}
+					});
 				}
 				else {
 					mSearchEditText.selectAll();
