@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.Log;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.hotellib.data.Media;
 import com.mobiata.hotellib.data.Money;
@@ -23,7 +24,7 @@ import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.SearchResponse;
 
-public class HotelAdapter extends BaseAdapter {
+public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private static final int TYPE_FIRST = 0;
 	private static final int TYPE_NOTFIRST = 1;
@@ -36,6 +37,8 @@ public class HotelAdapter extends BaseAdapter {
 
 	private Property[] mCachedProperties;
 
+	private boolean mIsMeasuring = false;
+
 	public HotelAdapter(Context context, SearchResponse searchResponse) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -46,6 +49,8 @@ public class HotelAdapter extends BaseAdapter {
 	}
 
 	public void rebuildCache() {
+		Log.d("Rebuilding hotel list adapter cache...");
+
 		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
 		if (mCachedProperties.length == 0) {
 			TrackingUtils.trackErrorPage(mContext, "FilteredToZeroResults");
@@ -137,7 +142,6 @@ public class HotelAdapter extends BaseAdapter {
 		}
 
 		Property property = (Property) getItem(position);
-		holder.thumbnail.setImageResource(R.drawable.ic_row_thumb_placeholder);
 		holder.name.setText(property.getName());
 
 		// We assume we have a lowest rate here; this may not be a safe assumption
@@ -163,8 +167,20 @@ public class HotelAdapter extends BaseAdapter {
 		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext));
 
 		// See if there's a first image; if there is, use that as the thumbnail
-		if (property.getThumbnail() != null) {
-			ImageCache.getInstance().loadImage(property.getThumbnail().getUrl(), holder.thumbnail);
+		// Don't try to load the thumbnail if we're just measuring the height of the ListView
+		boolean imageSet = false;
+		if (!mIsMeasuring && property.getThumbnail() != null) {
+			String url = property.getThumbnail().getUrl();
+			if (mImageCache.containsImage(url)) {
+				holder.thumbnail.setImageBitmap(mImageCache.getImage(url));
+				imageSet = true;
+			}
+			else {
+				mImageCache.loadImage(url, holder.thumbnail);
+			}
+		}
+		if (!imageSet) {
+			holder.thumbnail.setImageResource(R.drawable.ic_row_thumb_placeholder);
 		}
 
 		// See if this property is highly rated via TripAdvisor
@@ -204,5 +220,18 @@ public class HotelAdapter extends BaseAdapter {
 		public ImageView highlyRatedImage;
 		public RatingBar hotelRating;
 		public TextView distance;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnMeasureListener
+
+	@Override
+	public void onStartMeasure() {
+		mIsMeasuring = true;
+	}
+
+	@Override
+	public void onStopMeasure() {
+		mIsMeasuring = false;
 	}
 }

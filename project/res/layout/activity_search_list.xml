@@ -6,7 +6,7 @@
 	android:layout_height="fill_parent"
 	android:background="@color/bg_default">
 
-	<ListView
+	<com.expedia.bookings.widget.MeasureListView
 		android:id="@android:id/list"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
