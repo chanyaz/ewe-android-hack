@@ -141,6 +141,11 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder = (HotelViewHolder) convertView.getTag();
 		}
 
+		// If we're just measuring the height/width of the row, just return the view without doing anything to it.
+		if (mIsMeasuring) {
+			return convertView;
+		}
+
 		Property property = (Property) getItem(position);
 		holder.name.setText(property.getName());
 
