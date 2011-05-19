@@ -205,11 +205,14 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		final int size = mCachedProperties.length;
 		for (int i = 0; i < size; i++) {
 			if (i < start || i > end) {
-				Property property = mCachedProperties[i];
-				Media thumbnail = property.getThumbnail();
-				if (thumbnail != null && thumbnail.getUrl() != null) {
-					mImageCache.removeImage(thumbnail.getUrl(), true);
+				Media thumbnail = mCachedProperties[i].getThumbnail();
+				if (thumbnail != null) {
+					String url = thumbnail.getUrl();
+					mImageCache.removeImage(url, true);
 				}
+			}
+			else {
+				i = end;
 			}
 		}
 	}
