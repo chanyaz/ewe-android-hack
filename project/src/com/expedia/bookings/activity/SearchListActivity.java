@@ -76,19 +76,30 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		startActivity(intent);
 	}
 
+	private int mLastCenter = -999;
+
+	private static final int TRIM_TOLERANCE = 5;
+
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		// Trim the ends (recycle images)
 		if (totalItemCount > MAX_THUMBNAILS) {
 			final int center = firstVisibleItem + (visibleItemCount / 2);
-			int start = center - (MAX_THUMBNAILS / 2);
-			int end = center + (MAX_THUMBNAILS / 2);
 
-			// prevent overflow
-			start = start < 0 ? 0 : start;
-			end = end > totalItemCount ? totalItemCount : end;
+			// Don't always trim drawables; only trim them if we've moved the list far enough away from where
+			// we last were.
+			if (center < mLastCenter - TRIM_TOLERANCE || center > mLastCenter + TRIM_TOLERANCE) {
+				mLastCenter = center;
 
-			mAdapter.trimDrawables(start, end);
+				int start = center - (MAX_THUMBNAILS / 2);
+				int end = center + (MAX_THUMBNAILS / 2);
+
+				// prevent overflow
+				start = start < 0 ? 0 : start;
+				end = end > totalItemCount ? totalItemCount : end;
+
+				mAdapter.trimDrawables(start, end);
+			}
 		}
 	}
 
