@@ -1,7 +1,8 @@
 package com.expedia.bookings.widget.gl;
 
 import javax.microedition.khronos.opengles.GL10;
-import javax.microedition.khronos.opengles.GL11Ext;
+
+import com.mobiata.android.Log;
 
 /**
  * This is the OpenGL ES version of a sprite.  It is more complicated than the
@@ -48,21 +49,26 @@ public class GLSprite extends Renderable {
 
 	public void draw(GL10 gl) {
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureName);
+		if(x > 0 && y > 0) {
+			Log.t("rotation: %f", rotation);
+		}
 
 		if (mGrid == null) {
-			// Draw using the DrawTexture extension.
-			((GL11Ext) gl).glDrawTexfOES(x, y, z, width, height);
+			mGrid = new Grid(2, 2, false);
+			mGrid.set(0, 0, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, null);
+			mGrid.set(1, 0, width, 0.0f, 0.0f, 1.0f, 1.0f, null);
+			mGrid.set(0, 1, 0.0f, height, 0.0f, 0.0f, 0.0f, null);
+			mGrid.set(1, 1, width, height, 0.0f, 1.0f, 0.0f, null);
 		}
-		else {
-			// Draw using verts or VBO verts.
-			gl.glPushMatrix();
-			gl.glLoadIdentity();
-			gl.glTranslatef(x, y, z);
-			//gl.glRotatef((float) rotation, x, y, z);
 
-			mGrid.draw(gl, true, false);
+		// Draw using verts or VBO verts.
+		gl.glPushMatrix();
+		gl.glLoadIdentity();
+		gl.glTranslatef(x, y, z);
+		gl.glRotatef((float) rotation, x, y, z);
 
-			gl.glPopMatrix();
-		}
+		mGrid.draw(gl, true, false);
+
+		gl.glPopMatrix();
 	}
 }

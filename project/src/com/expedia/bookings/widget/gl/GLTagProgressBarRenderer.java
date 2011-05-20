@@ -110,7 +110,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	private static BitmapFactory.Options sBitmapOptions = new BitmapFactory.Options();
 
-	private GLSprite[] mSprites = new GLSprite[5];
+	private GLSprite[] mSprites;
 	private GLSprite mTagSprite;
 	private GLSprite mRingSprite;
 	private GLSprite mRingFillSprite;
@@ -120,7 +120,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	private int[] mTextureNameWorkspace;
 	private int[] mCropWorkspace;
 	private boolean mUseVerts = true;
-	private boolean mUseHardwareBuffers;
+	private boolean mUseHardwareBuffers = false;
 
 	public GLTagProgressBarRenderer(Context context) {
 		mContext = context;
@@ -129,18 +129,19 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mCropWorkspace = new int[4];
 		sBitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
 
-		mTagSprite = new GLSprite(R.drawable.progress_tag);
-		mRingSprite = new GLSprite(R.drawable.progress_ring);
-		mRingFillSprite = new GLSprite(R.drawable.progress_ring_fill);
-		mKnobSprite = new GLSprite(R.drawable.progress_knob);
-		mKnobBgSprite = new GLSprite(R.drawable.progress_knob_bg);
+		mTagSprite = new GLSprite(R.drawable.gl_progress_tag);
+		mRingSprite = new GLSprite(R.drawable.gl_progress_ring);
+		mRingFillSprite = new GLSprite(R.drawable.gl_progress_ring_fill);
+		mKnobSprite = new GLSprite(R.drawable.gl_progress_knob);
+		mKnobBgSprite = new GLSprite(R.drawable.gl_progress_knob_bg);
 
 		// Setup sprites
-		mSprites[0] = mTagSprite;
-		mSprites[1] = mRingSprite;
-		mSprites[2] = mRingFillSprite;
-		mSprites[3] = mKnobSprite;
-		mSprites[4] = mKnobBgSprite;
+		mSprites = new GLSprite[5];
+		mSprites[0] = mKnobBgSprite;
+		mSprites[1] = mTagSprite;
+		mSprites[2] = mRingSprite;
+		mSprites[3] = mRingFillSprite;
+		mSprites[4] = mKnobSprite;
 	}
 
 	@Override
@@ -170,7 +171,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		calculateMeasurements();
 
 		gl.glViewport(0, 0, width, height);
-
+		
 		/*
 		 * Set our projection matrix. This doesn't have to be done each time we
 		 * draw, but usually a new projection needs to be set when the viewport
@@ -238,6 +239,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 					lastTextureId = retVal[0];
 					lastLoadedResource = resource;
 
+					mSprites[x].setTextureName(retVal[0]);
 					mSprites[x].width = retVal[1];
 					mSprites[x].height = retVal[2];
 				}
@@ -314,6 +316,10 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mUseHardwareBuffers = useVerts ? useHardwareBuffers : false;
 	}
 
+	public void setOrientation(int orientation) {
+		mOrientation = orientation;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////
 	// Private methods
 
@@ -338,7 +344,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 		// DEST RECTS
 		mTagDestRect = new Rect();
-		mTagDestRect.top = mHeight - mOffsetY;
+		mTagDestRect.top = mOffsetY;
 		mTagDestRect.bottom = mTagDestRect.top + mTagHeight;
 		mTagDestRect.left = (int) (mTagCenterX - (mTagWidth / 2));
 		mTagDestRect.right = mTagDestRect.left + mTagWidth;
@@ -541,6 +547,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 			mCropWorkspace[2] = bitmap.getWidth();
 			mCropWorkspace[3] = -bitmap.getHeight();
 
+			retVal[0] = textureName;
 			retVal[1] = bitmap.getWidth();
 			retVal[2] = bitmap.getHeight();
 

@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget.gl;
 
-import com.expedia.bookings.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -140,6 +138,8 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);		
 		
 		mRenderer = new GLTagProgressBarRenderer(context);
+		mRenderer.setOrientation(mOrientation);
+		
 		setRenderer(mRenderer);
 	}
 }
