@@ -506,6 +506,14 @@
 		android:orientation="horizontal"
 		android:background="#C000"
 		style="@android:style/ButtonBar">
+		<ImageView
+			android:id="@+id/charge_details_lock_image_view"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_marginLeft="4dp"
+			android:src="@drawable/btn_padlock_normal"
+			android:visibility="gone" />
 		<TextView
 			android:id="@+id/charge_details_text_view"
 			android:layout_width="wrap_content"

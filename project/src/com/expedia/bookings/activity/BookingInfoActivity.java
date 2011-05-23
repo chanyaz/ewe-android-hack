@@ -127,6 +127,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	// Cached views (non-interactive)
 	private ImageView mCreditCardImageView;
 	private TextView mSecurityCodeTipTextView;
+	private ImageView mChargeDetailsImageView;
 	private TextView mChargeDetailsTextView;
 
 	// Validation
@@ -224,6 +225,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		// Other cached views
 		mCreditCardImageView = (ImageView) findViewById(R.id.credit_card_image_view);
 		mSecurityCodeTipTextView = (TextView) findViewById(R.id.security_code_tip_text_view);
+		mChargeDetailsImageView = (ImageView) findViewById(R.id.charge_details_lock_image_view);
 		mChargeDetailsTextView = (TextView) findViewById(R.id.charge_details_text_view);
 
 		// Configure the layout
@@ -726,6 +728,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// Change the button text
 		mConfirmationButton.setText(R.string.confirm_book);
+
+		// Reveal the charge lock icon
+		mChargeDetailsImageView.setVisibility(View.VISIBLE);
 
 		// Add the charge details text
 		mChargeDetailsTextView.setText(getString(R.string.charge_details_template, mRate.getTotalAmountAfterTax()
