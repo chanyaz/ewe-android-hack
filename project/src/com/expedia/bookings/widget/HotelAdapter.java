@@ -95,6 +95,12 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	@Override
 	public long getItemId(int position) {
+		if (position >= mCachedProperties.length) {
+			Log.w("Adapter may be trying to store instance state of hotels in list that have been filtered out while map is visible (See #7118).");
+			Log.w("If you didn't just click a hotel after filtering on the Map tab in Android 2.2 or lower, this means there's a more serious problem.");
+			return -1;
+		}
+
 		return Integer.valueOf(mCachedProperties[position].getPropertyId());
 	}
 
