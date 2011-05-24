@@ -626,6 +626,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	public void setSearchParamsForFreeform() {
 		showLoading(R.string.progress_searching_hotels);
 
+		mSearchParams.setUserFreeformLocation(mSearchParams.getFreeformLocation());
+
 		if (!NetUtils.isOnline(this)) {
 			mSearchProgressBar.setShowProgress(false);
 			mSearchProgressBar.setText(R.string.error_no_internet);
@@ -2157,8 +2159,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		// Region
 		DecimalFormat df = new DecimalFormat("#.######");
-		s.eVar4 = s.prop4 = df.format(mSearchParams.getSearchLatitude()) + "|"
-				+ df.format(mSearchParams.getSearchLongitude());
+		String region = null;
+		if (mSearchParams.getSearchType() == SearchType.FREEFORM) {
+			region = mSearchParams.getFreeformLocation();
+		}
+		else {
+			region = df.format(mSearchParams.getSearchLatitude()) + "|"
+					+ df.format(mSearchParams.getSearchLongitude());
+		}
+		s.eVar4 = s.prop4 = region;
 
 		// Check in/check out date
 		s.eVar5 = s.prop5 = getDayDifference(mSearchParams.getCheckInDate(), Calendar.getInstance()) + "";
@@ -2171,7 +2180,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		s.eVar47 = mSearchParams.getNumAdults() + "";
 
 		// Freeform location
-		s.eVar48 = mSearchParams.getFreeformLocation();
+		if (mSearchParams.getSearchType() == SearchType.FREEFORM) {
+			s.eVar48 = mSearchParams.getUserFreeformLocation();
+		}
 
 		// Number of search results
 		if (mSearchResponse != null && mSearchResponse.getFilteredAndSortedProperties() != null) {
