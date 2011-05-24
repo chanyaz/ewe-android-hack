@@ -440,7 +440,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mRingFillCenterY = mRingFillDestRect.top + (mRingFillHeight / 2);
 
 		//calculateTextLayout();
-		
+
 		Log.t("t: %d - l: %d", mTagDestRect.top, mTagDestRect.left);
 	}
 
@@ -543,10 +543,26 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	private void updateSpritePositions() {
 		mTagSprite.x = mTagDestRect.left;
-		mTagSprite.y = 0 - (SIZE_TAG_HEIGHT * mScaledDensity); //mHeight - mTagDestRect.top;
+		mTagSprite.y = mHeight - mTagDestRect.top - mTagDestRect.bottom;
 		mTagSprite.rotation = -mAngle * 180 / Math.PI;
 		mTagSprite.rotationX = (SIZE_TAG_WIDTH * mScaledDensity) / 2;
 		mTagSprite.rotationY = mTagSprite.height - mTagSprite.rotationX;
+
+		mKnobBgSprite.x = mKnobBgDestRect.left;
+		mKnobBgSprite.y = mHeight - mKnobBgDestRect.bottom;
+
+		mKnobSprite.x = mKnobDestRect.left;
+		mKnobSprite.y = mHeight - mKnobDestRect.bottom;
+
+		mKnobSprite.x = mKnobDestRect.left;
+		mKnobSprite.y = mHeight - mKnobDestRect.bottom;
+
+		mRingSprite.x = mRingDestRect.left;
+		mRingSprite.y = mHeight - mRingDestRect.bottom;
+
+		mRingFillSprite.x = mRingFillDestRect.left;
+		mRingFillSprite.y = mHeight - mRingFillDestRect.bottom;
+		mRingFillSprite.rotation = ((float) System.currentTimeMillis() / 1000f) * 360f;
 	}
 
 	/**
