@@ -25,10 +25,11 @@ public abstract class Renderable {
     // Position.
     public float x;
     public float y;
-    public float z;
     
     // Rotation
     public double rotation;
+    public float rotationX;
+    public float rotationY;
     
     // Size.
     public float width;

@@ -59,8 +59,12 @@ public class GLSprite extends Renderable {
 		// Draw using verts or VBO verts.
 		gl.glPushMatrix();
 		gl.glLoadIdentity();
-		gl.glTranslatef(x, y, z);
-		gl.glRotatef((float) rotation, x, y, z);
+		
+		gl.glTranslatef(x, y, 0);
+		
+		gl.glTranslatef(rotationX, rotationY, 0);
+		gl.glRotatef((float) rotation, 0, 0, 1);
+		gl.glTranslatef(-rotationX, -rotationY, 0);
 
 		mGrid.draw(gl, true, false);
 

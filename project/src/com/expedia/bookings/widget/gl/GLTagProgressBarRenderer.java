@@ -9,12 +9,14 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11Ext;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
+import android.util.DisplayMetrics;
 import android.view.Surface;
 
 import com.expedia.bookings.R;
@@ -35,6 +37,9 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	private final static double THRESH_DOOR_FRICTION_ANGLE = -8.5d;
 	private final static double DEGREES_PER_SECOND = 2 * Math.PI;
 	private final static int MAX_ANGULAR_VELOCITY = 150;
+
+	private final static int SIZE_TAG_WIDTH = 97;
+	private final static int SIZE_TAG_HEIGHT = 245;
 
 	//////////////////////////////////////////////////////////////////////////////
 	// Private members
@@ -72,6 +77,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	float mRingDegrees;
 
 	private int mOrientation;
+	private float mScaledDensity;
 
 	int mWidth;
 	int mHeight;
@@ -160,7 +166,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		updatePhysics(delta);
 		updateSpritePositions();
 		drawFrame(gl);
-		
+
 		mLastDrawTime = System.currentTimeMillis();
 	}
 
@@ -169,10 +175,14 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mWidth = width;
 		mHeight = height;
 
+		DisplayMetrics metrics = new DisplayMetrics();
+		((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		mScaledDensity = metrics.scaledDensity;
+
 		calculateMeasurements();
 
 		gl.glViewport(0, 0, width, height);
-		
+
 		/*
 		 * Set our projection matrix. This doesn't have to be done each time we
 		 * draw, but usually a new projection needs to be set when the viewport
@@ -182,7 +192,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		gl.glLoadIdentity();
 		gl.glOrthof(0.0f, width, 0.0f, height, 0.0f, 1.0f);
 
-		gl.glShadeModel(GL10.GL_FLAT);
+		gl.glShadeModel(GL10.GL_SMOOTH);
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glColor4x(0x10000, 0x10000, 0x10000, 0x10000);
@@ -198,7 +208,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
 
 		gl.glClearColor(1, 1, 1, 1);
-		gl.glShadeModel(GL10.GL_FLAT);
+		gl.glShadeModel(GL10.GL_SMOOTH);
 		gl.glDisable(GL10.GL_DEPTH_TEST);
 		gl.glEnable(GL10.GL_TEXTURE_2D);
 		/*
@@ -206,7 +216,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		 * performance. One might want to tweak that especially on software
 		 * renderer.
 		 */
-		gl.glDisable(GL10.GL_DITHER);
+		gl.glEnable(GL10.GL_DITHER);
+		//gl.glEnable(GL10.GL_MULTISAMPLE);
 		gl.glDisable(GL10.GL_LIGHTING);
 
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
@@ -325,8 +336,59 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	// Private methods
 
 	void calculateMeasurements() {
-		mTagWidth = (int) mTagSprite.width;
-		mTagHeight = (int) mTagSprite.height;
+		mTagWidth = (int) (SIZE_TAG_WIDTH * mScaledDensity);
+		mTagHeight = (int) (SIZE_TAG_HEIGHT * mScaledDensity);
+
+		//		// NOTE: A few of these measurements are pretty arbitrary, definitely
+		//		// making this view a one time use kind of view.
+		//
+		//		mOffsetY = (int) ((float) mHeight * 0.15f);
+		//		if (mOrientation == Surface.ROTATION_90 || mOrientation == Surface.ROTATION_270) {
+		//			mOffsetY = (int) ((float) mHeight * 0.25f);
+		//		}
+		//
+		//		mRingMargin = (mTagWidth - mRingWidth) / 2;
+		//		mRingLeftOffset = (int) (mTagWidth * 0.028f);
+		//
+		//		mTagCenterX = mWidth / 2;
+		//		mTagCenterY = mOffsetY + (int) (mTagWidth / 2);
+		//
+		//		final int knobTopOffset = (int) (mKnobHeight * 0.09f);
+		//
+		//		// DEST RECTS
+		//		mTagDestRect = new Rect();
+		//		mTagDestRect.top = mHeight - mTagHeight - mOffsetY;
+		//		mTagDestRect.bottom = mTagDestRect.top + mTagHeight;
+		//		mTagDestRect.left = (int) (mTagCenterX - (mTagWidth / 2));
+		//		mTagDestRect.right = mTagDestRect.left + mTagWidth;
+		//
+		//		mKnobBgDestRect = new Rect();
+		//		mKnobBgDestRect.top = mTagCenterY - (mKnobBgHeight / 2);
+		//		mKnobBgDestRect.bottom = mKnobBgDestRect.top + mKnobBgHeight;
+		//		mKnobBgDestRect.left = (int) (mTagCenterX - (mKnobBgWidth / 2));
+		//		mKnobBgDestRect.right = mKnobBgDestRect.left + mKnobBgWidth;
+		//
+		//		mKnobDestRect = new Rect();
+		//		mKnobDestRect.top = mTagCenterY - (mKnobHeight / 2) + knobTopOffset;
+		//		mKnobDestRect.bottom = mKnobDestRect.top + mKnobHeight;
+		//		mKnobDestRect.left = (int) (mTagCenterX - (mKnobWidth / 2));
+		//		mKnobDestRect.right = mKnobDestRect.left + mKnobWidth;
+		//
+		//		mRingDestRect = new Rect();
+		//		mRingDestRect.top = mTagDestRect.bottom - mRingHeight - mRingMargin;
+		//		mRingDestRect.bottom = mRingDestRect.top + mRingHeight;
+		//		mRingDestRect.left = (int) (mTagCenterX - (mRingWidth / 2)) + mRingLeftOffset;
+		//		mRingDestRect.right = mRingDestRect.left + mRingWidth;
+		//
+		//		mRingFillDestRect = new Rect();
+		//		mRingFillDestRect.top = mRingDestRect.top + ((mRingHeight - mRingFillHeight) / 2);
+		//		mRingFillDestRect.bottom = mRingFillDestRect.top + mRingFillHeight;
+		//		mRingFillDestRect.left = (int) (mTagCenterX - (mRingFillWidth / 2)) + mRingLeftOffset;
+		//		mRingFillDestRect.right = mRingFillDestRect.left + mRingFillWidth;
+		//
+		//		mRingFillCenterX = mRingFillDestRect.left + (mRingFillWidth / 2);
+		//		mRingFillCenterY = mRingFillDestRect.top + (mRingFillHeight / 2);
+
 		// NOTE: A few of these measurements are pretty arbitrary, definitely
 		// making this view a one time use kind of view.
 
@@ -345,7 +407,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 		// DEST RECTS
 		mTagDestRect = new Rect();
-		mTagDestRect.top = mOffsetY;
+		mTagDestRect.top = mTagCenterY - (int) (mTagWidth * 0.38);
 		mTagDestRect.bottom = mTagDestRect.top + mTagHeight;
 		mTagDestRect.left = (int) (mTagCenterX - (mTagWidth / 2));
 		mTagDestRect.right = mTagDestRect.left + mTagWidth;
@@ -378,6 +440,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mRingFillCenterY = mRingFillDestRect.top + (mRingFillHeight / 2);
 
 		//calculateTextLayout();
+		
+		Log.t("t: %d - l: %d", mTagDestRect.top, mTagDestRect.left);
 	}
 
 	private void drawFrame(GL10 gl) {
@@ -479,8 +543,10 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	private void updateSpritePositions() {
 		mTagSprite.x = mTagDestRect.left;
-		mTagSprite.y = mTagDestRect.top;
-		mTagSprite.rotation = mAngle;
+		mTagSprite.y = 0 - (SIZE_TAG_HEIGHT * mScaledDensity); //mHeight - mTagDestRect.top;
+		mTagSprite.rotation = -mAngle * 180 / Math.PI;
+		mTagSprite.rotationX = (SIZE_TAG_WIDTH * mScaledDensity) / 2;
+		mTagSprite.rotationY = mTagSprite.height - mTagSprite.rotationX;
 	}
 
 	/**
