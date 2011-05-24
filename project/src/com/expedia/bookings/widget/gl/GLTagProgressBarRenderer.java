@@ -40,6 +40,14 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	private final static int SIZE_TAG_WIDTH = 97;
 	private final static int SIZE_TAG_HEIGHT = 245;
+	private final static int SIZE_KNOB_BG_WIDTH = 85;
+	private final static int SIZE_KNOB_BG_HEIGHT = 85;
+	private final static int SIZE_KNOB_WIDTH = 75;
+	private final static int SIZE_KNOB_HEIGHT = 77;
+	private final static int SIZE_RING_WIDTH = 85;
+	private final static int SIZE_RING_HEIGHT = 85;
+	private final static int SIZE_RING_FILL_WIDTH = 85;
+	private final static int SIZE_RING_FILL_HEIGHT = 85;
 
 	//////////////////////////////////////////////////////////////////////////////
 	// Private members
@@ -338,56 +346,14 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	void calculateMeasurements() {
 		mTagWidth = (int) (SIZE_TAG_WIDTH * mScaledDensity);
 		mTagHeight = (int) (SIZE_TAG_HEIGHT * mScaledDensity);
-
-		//		// NOTE: A few of these measurements are pretty arbitrary, definitely
-		//		// making this view a one time use kind of view.
-		//
-		//		mOffsetY = (int) ((float) mHeight * 0.15f);
-		//		if (mOrientation == Surface.ROTATION_90 || mOrientation == Surface.ROTATION_270) {
-		//			mOffsetY = (int) ((float) mHeight * 0.25f);
-		//		}
-		//
-		//		mRingMargin = (mTagWidth - mRingWidth) / 2;
-		//		mRingLeftOffset = (int) (mTagWidth * 0.028f);
-		//
-		//		mTagCenterX = mWidth / 2;
-		//		mTagCenterY = mOffsetY + (int) (mTagWidth / 2);
-		//
-		//		final int knobTopOffset = (int) (mKnobHeight * 0.09f);
-		//
-		//		// DEST RECTS
-		//		mTagDestRect = new Rect();
-		//		mTagDestRect.top = mHeight - mTagHeight - mOffsetY;
-		//		mTagDestRect.bottom = mTagDestRect.top + mTagHeight;
-		//		mTagDestRect.left = (int) (mTagCenterX - (mTagWidth / 2));
-		//		mTagDestRect.right = mTagDestRect.left + mTagWidth;
-		//
-		//		mKnobBgDestRect = new Rect();
-		//		mKnobBgDestRect.top = mTagCenterY - (mKnobBgHeight / 2);
-		//		mKnobBgDestRect.bottom = mKnobBgDestRect.top + mKnobBgHeight;
-		//		mKnobBgDestRect.left = (int) (mTagCenterX - (mKnobBgWidth / 2));
-		//		mKnobBgDestRect.right = mKnobBgDestRect.left + mKnobBgWidth;
-		//
-		//		mKnobDestRect = new Rect();
-		//		mKnobDestRect.top = mTagCenterY - (mKnobHeight / 2) + knobTopOffset;
-		//		mKnobDestRect.bottom = mKnobDestRect.top + mKnobHeight;
-		//		mKnobDestRect.left = (int) (mTagCenterX - (mKnobWidth / 2));
-		//		mKnobDestRect.right = mKnobDestRect.left + mKnobWidth;
-		//
-		//		mRingDestRect = new Rect();
-		//		mRingDestRect.top = mTagDestRect.bottom - mRingHeight - mRingMargin;
-		//		mRingDestRect.bottom = mRingDestRect.top + mRingHeight;
-		//		mRingDestRect.left = (int) (mTagCenterX - (mRingWidth / 2)) + mRingLeftOffset;
-		//		mRingDestRect.right = mRingDestRect.left + mRingWidth;
-		//
-		//		mRingFillDestRect = new Rect();
-		//		mRingFillDestRect.top = mRingDestRect.top + ((mRingHeight - mRingFillHeight) / 2);
-		//		mRingFillDestRect.bottom = mRingFillDestRect.top + mRingFillHeight;
-		//		mRingFillDestRect.left = (int) (mTagCenterX - (mRingFillWidth / 2)) + mRingLeftOffset;
-		//		mRingFillDestRect.right = mRingFillDestRect.left + mRingFillWidth;
-		//
-		//		mRingFillCenterX = mRingFillDestRect.left + (mRingFillWidth / 2);
-		//		mRingFillCenterY = mRingFillDestRect.top + (mRingFillHeight / 2);
+		mKnobBgWidth = (int) (SIZE_KNOB_BG_WIDTH * mScaledDensity);
+		mKnobBgHeight = (int) (SIZE_KNOB_BG_HEIGHT * mScaledDensity);
+		mKnobWidth = (int) (SIZE_KNOB_WIDTH * mScaledDensity);
+		mKnobHeight = (int) (SIZE_KNOB_HEIGHT * mScaledDensity);
+		mRingWidth = (int) (SIZE_RING_WIDTH * mScaledDensity);
+		mRingHeight = (int) (SIZE_RING_HEIGHT * mScaledDensity);
+		mRingFillWidth = (int) (SIZE_RING_FILL_WIDTH * mScaledDensity);
+		mRingFillHeight = (int) (SIZE_RING_FILL_HEIGHT * mScaledDensity);
 
 		// NOTE: A few of these measurements are pretty arbitrary, definitely
 		// making this view a one time use kind of view.
@@ -441,7 +407,27 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 		//calculateTextLayout();
 
-		Log.t("t: %d - l: %d", mTagDestRect.top, mTagDestRect.left);
+		mTagSprite.x = mTagDestRect.left;
+		mTagSprite.y = mHeight - mTagDestRect.bottom;
+		mTagSprite.rotationX = mTagWidth / 2;
+		mTagSprite.rotationY = mTagHeight - (mTagDestRect.top - mTagCenterY);
+
+		mKnobBgSprite.x = mKnobBgDestRect.left;
+		mKnobBgSprite.y = mHeight - mKnobBgDestRect.bottom;
+
+		mKnobSprite.x = mKnobDestRect.left;
+		mKnobSprite.y = mHeight - mKnobDestRect.bottom;
+
+		mKnobSprite.x = mKnobDestRect.left;
+		mKnobSprite.y = mHeight - mKnobDestRect.bottom;
+
+		mRingSprite.x = mRingDestRect.left;
+		mRingSprite.y = mHeight - mRingDestRect.bottom;
+
+		mRingFillSprite.x = mRingFillDestRect.left;
+		mRingFillSprite.y = mHeight - mRingFillDestRect.bottom;
+		mRingFillSprite.rotationX = mRingFillWidth / 2;
+		mRingFillSprite.rotationY = mRingFillHeight / 2;
 	}
 
 	private void drawFrame(GL10 gl) {
@@ -542,27 +528,10 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	}
 
 	private void updateSpritePositions() {
-		mTagSprite.x = mTagDestRect.left;
-		mTagSprite.y = mHeight - mTagDestRect.top - mTagDestRect.bottom;
 		mTagSprite.rotation = -mAngle * 180 / Math.PI;
-		mTagSprite.rotationX = (SIZE_TAG_WIDTH * mScaledDensity) / 2;
-		mTagSprite.rotationY = mTagSprite.height - mTagSprite.rotationX;
 
-		mKnobBgSprite.x = mKnobBgDestRect.left;
-		mKnobBgSprite.y = mHeight - mKnobBgDestRect.bottom;
-
-		mKnobSprite.x = mKnobDestRect.left;
-		mKnobSprite.y = mHeight - mKnobDestRect.bottom;
-
-		mKnobSprite.x = mKnobDestRect.left;
-		mKnobSprite.y = mHeight - mKnobDestRect.bottom;
-
-		mRingSprite.x = mRingDestRect.left;
-		mRingSprite.y = mHeight - mRingDestRect.bottom;
-
-		mRingFillSprite.x = mRingFillDestRect.left;
-		mRingFillSprite.y = mHeight - mRingFillDestRect.bottom;
-		mRingFillSprite.rotation = ((float) System.currentTimeMillis() / 1000f) * 360f;
+		mRingAngle = (float) (normalizeAngle(((double) mNow / 1000) * DEGREES_PER_SECOND) * 180 / Math.PI);
+		mRingFillSprite.rotation = mRingAngle;
 	}
 
 	/**
