@@ -2,8 +2,6 @@ package com.expedia.bookings.widget.gl;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import com.mobiata.android.Log;
-
 /**
  * This is the OpenGL ES version of a sprite.  It is more complicated than the
  * CanvasSprite class because it can be used in more than one way.  This class
@@ -49,9 +47,6 @@ public class GLSprite extends Renderable {
 
 	public void draw(GL10 gl) {
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureName);
-		if(x > 0 && y > 0) {
-			Log.t("rotation: %f", rotation);
-		}
 
 		if (mGrid == null) {
 			mGrid = new Grid(2, 2, false);

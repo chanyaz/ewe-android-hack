@@ -10,6 +10,7 @@ import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.Surface;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
@@ -72,8 +73,23 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 		return true;
 	}
 
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		super.surfaceCreated(holder);
+		
+		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		super.surfaceDestroyed(holder);
+		
+		mSensorManager.unregisterListener(this);
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Listener implementations
+	
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -135,11 +151,10 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 
 		setOnTouchListener(this);
 		setFocusableInTouchMode(true);
-		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);		
-		
+
 		mRenderer = new GLTagProgressBarRenderer(context);
 		mRenderer.setOrientation(mOrientation);
-		
+
 		setRenderer(mRenderer);
 	}
 }

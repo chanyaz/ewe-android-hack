@@ -146,7 +146,6 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onDrawFrame(GL10 gl) {
-		gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
 		mNow = System.currentTimeMillis();
@@ -161,6 +160,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		updatePhysics(delta);
 		updateSpritePositions();
 		drawFrame(gl);
+		
+		mLastDrawTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -196,7 +197,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		 */
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
 
-		gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+		gl.glClearColor(1, 1, 1, 1);
 		gl.glShadeModel(GL10.GL_FLAT);
 		gl.glDisable(GL10.GL_DEPTH_TEST);
 		gl.glEnable(GL10.GL_TEXTURE_2D);
