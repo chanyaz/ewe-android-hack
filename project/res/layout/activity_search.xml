@@ -38,15 +38,13 @@
 		android:layout_alignParentRight="true"
 		android:layout_margin="6dp"
 		style="@style/Widget.Button.Floating" />
-
-	<include
-		android:id="@+id/placeholder_progress_layout"
-		layout="@layout/include_placeholder_progress" />
-
-	<com.expedia.bookings.widget.gl.GLTagProgressBar 
+ 	
+	<com.expedia.bookings.widget.TagProgressBar 
+		android:id="@+id/search_progress_bar"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:layout_below="@id/search_bar_layout" />
+		android:layout_below="@id/search_bar_layout"
+		android:visibility="gone" />
 
 	<View
 		android:id="@+id/panel_dismiss_view"

@@ -34,4 +34,6 @@ public abstract class Renderable {
     // Size.
     public float width;
     public float height;
+    
+    public boolean visible = true;
 }

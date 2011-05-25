@@ -64,7 +64,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -75,8 +74,9 @@ import com.expedia.bookings.dialog.LocationSuggestionDialog;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.tracking.TrackingData;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.widget.PlaceholderTagProgressBar;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
+import com.expedia.bookings.widget.TagProgressBar;
+import com.expedia.bookings.widget.gl.GLTagProgressBar;
 import com.google.android.maps.GeoPoint;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -190,7 +190,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private TextView mRefinementInfoTextView;
 	private Button mSearchButton;
 
-	private PlaceholderTagProgressBar mSearchProgressBar;
+	private TagProgressBar mSearchProgressBar;
 
 	// Others
 
@@ -1097,12 +1097,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mRefinementInfoTextView = (TextView) findViewById(R.id.refinement_info_text_view);
 		mSearchButton = (Button) findViewById(R.id.search_button);
 
-		// mSearchProgressBar = (DumbTagProgressBar) findViewById(R.id.search_progress_bar);
-		ViewGroup placeholderContainer = (ViewGroup) findViewById(R.id.placeholder_progress_layout);
-		ProgressBar placeholderProgressBar = (ProgressBar) findViewById(R.id.placeholder_progress_bar);
-		TextView placeholderProgressTextView = (TextView) findViewById(R.id.placeholder_progress_text_view);
-		mSearchProgressBar = new PlaceholderTagProgressBar(placeholderContainer, placeholderProgressBar,
-				placeholderProgressTextView);
+		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
 
 		//===================================================================
 		// Properties

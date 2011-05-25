@@ -44,10 +44,10 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	private final static int SIZE_KNOB_BG_HEIGHT = 85;
 	private final static int SIZE_KNOB_WIDTH = 75;
 	private final static int SIZE_KNOB_HEIGHT = 77;
-	private final static int SIZE_RING_WIDTH = 85;
-	private final static int SIZE_RING_HEIGHT = 85;
-	private final static int SIZE_RING_FILL_WIDTH = 85;
-	private final static int SIZE_RING_FILL_HEIGHT = 85;
+	private final static int SIZE_RING_WIDTH = 65;
+	private final static int SIZE_RING_HEIGHT = 65;
+	private final static int SIZE_RING_FILL_WIDTH = 65;
+	private final static int SIZE_RING_FILL_HEIGHT = 65;
 
 	//////////////////////////////////////////////////////////////////////////////
 	// Private members
@@ -56,6 +56,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	private long mLastDrawTime = -1;
 	private long mNow;
+	
+	private boolean mShowProgress = true;
 
 	private double mAngle;
 	private double mAngularVelocity = 0;
@@ -340,6 +342,16 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mOrientation = orientation;
 	}
 
+	public boolean getShowProgress() {
+		return mShowProgress;
+	}
+
+	public void setShowProgress(boolean showProgress) {
+		mShowProgress = showProgress;
+		mRingSprite.visible = showProgress;
+		mRingFillSprite.visible = showProgress;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////
 	// Private methods
 
@@ -410,7 +422,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mTagSprite.x = mTagDestRect.left;
 		mTagSprite.y = mHeight - mTagDestRect.bottom;
 		mTagSprite.rotationX = mTagWidth / 2;
-		mTagSprite.rotationY = mTagHeight - (mTagDestRect.top - mTagCenterY);
+		mTagSprite.rotationY = mTagHeight - (mTagCenterY - mTagDestRect.top);
 
 		mKnobBgSprite.x = mKnobBgDestRect.left;
 		mKnobBgSprite.y = mHeight - mKnobBgDestRect.bottom;
@@ -531,7 +543,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mTagSprite.rotation = -mAngle * 180 / Math.PI;
 
 		mRingAngle = (float) (normalizeAngle(((double) mNow / 1000) * DEGREES_PER_SECOND) * 180 / Math.PI);
-		mRingFillSprite.rotation = mRingAngle;
+		mRingFillSprite.rotation = -mRingAngle;
 	}
 
 	/**
@@ -540,8 +552,9 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	 * @param gl
 	 */
 	public void shutdown(GL10 gl) {
-		if (mSprites != null) {
+		Log.t("GL shutdown called.");
 
+		if (mSprites != null) {
 			int lastFreedResource = -1;
 			int[] textureToDelete = new int[1];
 

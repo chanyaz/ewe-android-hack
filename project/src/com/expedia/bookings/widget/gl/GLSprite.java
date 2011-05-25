@@ -46,6 +46,10 @@ public class GLSprite extends Renderable {
 	}
 
 	public void draw(GL10 gl) {
+		if (!visible) {
+			return;
+		}
+
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureName);
 
 		if (mGrid == null) {
@@ -56,12 +60,11 @@ public class GLSprite extends Renderable {
 			mGrid.set(1, 1, width, height, 0.0f, 1.0f, 0.0f, null);
 		}
 
-		// Draw using verts or VBO verts.
 		gl.glPushMatrix();
 		gl.glLoadIdentity();
-		
+
 		gl.glTranslatef(x, y, 0);
-		
+
 		gl.glTranslatef(rotationX, rotationY, 0);
 		gl.glRotatef((float) rotation, 0, 0, 1);
 		gl.glTranslatef(-rotationX, -rotationY, 0);

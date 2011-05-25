@@ -19,8 +19,7 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 	// Private members
 	private Context mContext;
 
-	private boolean mShowProgress = true;
-	private String mText;
+	
 
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
@@ -76,14 +75,12 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		super.surfaceCreated(holder);
-		
 		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		super.surfaceDestroyed(holder);
-		
+		super.surfaceDestroyed(holder);		
 		mSensorManager.unregisterListener(this);
 	}
 
@@ -118,26 +115,11 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 	// Public methods
 
 	public boolean getShowProgress() {
-		return mShowProgress;
-	}
-
-	public String getText() {
-		return mText;
+		return mRenderer.getShowProgress();
 	}
 
 	public void setShowProgress(boolean showProgress) {
-		mShowProgress = showProgress;
-	}
-
-	public void setText(int resId) {
-		setText(mContext.getString(resId));
-	}
-
-	public void setText(String text) {
-		if (text == null) {
-			text = "";
-		}
-		mText = text;
+		mRenderer.setShowProgress(showProgress);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
