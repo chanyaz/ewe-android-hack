@@ -1,16 +1,21 @@
 package com.expedia.bookings.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
-import com.mobiata.android.Log;
 
 public class TagProgressBar extends ViewGroup {
+	private final static int TEXTVIEW_PADDING = 12;
+	private final static int TEXTVIEW_TEXT_SIZE = 16;
+
 	private Context mContext;
 
 	private RelativeLayout mLayout;
@@ -29,14 +34,28 @@ public class TagProgressBar extends ViewGroup {
 
 		mLayout.layout(0, 0, width, height);
 		mGLTagProgressBar.layout(0, 0, width, height);
-		
-		mTextView.layout(0, height - mTextView.getMeasuredHeight(), width, height);
-		
-		Log.t("h: %d", mTextView.getMeasuredHeight());
+		mTextView.layout(0, height - mTextView.getHeight(), width, height);
+	}
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		int w = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
+		int h = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);
+
+		final int count = getChildCount();
+		for (int i = 0; i < count; i++) {
+			getChildAt(i).measure(MeasureSpec.makeMeasureSpec(w, MeasureSpec.AT_MOST),
+					MeasureSpec.makeMeasureSpec(h, MeasureSpec.AT_MOST));
+		}
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
 	private void init(Context context) {
 		mContext = context;
+
+		DisplayMetrics metrics = new DisplayMetrics();
+		((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		final float scaledDensity = metrics.scaledDensity;
 
 		// Create views
 		mLayout = new RelativeLayout(context);
@@ -51,11 +70,15 @@ public class TagProgressBar extends ViewGroup {
 		mGLTagProgressBar.setLayoutParams(layoutParams);
 
 		// Set params for TextView
+		final int tvPadding = (int) (TEXTVIEW_PADDING * scaledDensity);
+
 		layoutParams = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 		mTextView.setLayoutParams(layoutParams);
 		mTextView.setTextColor(0xFF555555);
+		mTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, TEXTVIEW_TEXT_SIZE);
 		mTextView.setGravity(Gravity.CENTER);
+		mTextView.setPadding(tvPadding, tvPadding, tvPadding, tvPadding);
 
 		// Add views to layout
 		mLayout.addView(mGLTagProgressBar);
