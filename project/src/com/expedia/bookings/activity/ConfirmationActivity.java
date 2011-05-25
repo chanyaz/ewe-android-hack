@@ -36,6 +36,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
+import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.hotellib.data.BillingInfo;
 import com.mobiata.hotellib.data.BookingResponse;
@@ -124,7 +125,10 @@ public class ConfirmationActivity extends MapActivity {
 		}
 
 		// Show on the map where the hotel is
-		MapView mapView = (MapView) findViewById(R.id.map_view);
+		MapView mapView = MapUtils.createMapView(this);
+		ViewGroup mapContainer = (ViewGroup) findViewById(R.id.map_layout);
+		mapContainer.addView(mapView);
+
 		List<Property> properties = new ArrayList<Property>(1);
 		properties.add(mProperty);
 		List<Overlay> overlays = mapView.getOverlays();

@@ -62,12 +62,12 @@
 					<RelativeLayout
 						android:layout_width="fill_parent"
 						android:layout_height="wrap_content">
-						<com.google.android.maps.MapView
-							android:id="@+id/map_view"
+						<!-- The MapView is added dynamically to this layout -->
+						<LinearLayout
+							android:id="@+id/map_layout"
 							android:layout_width="fill_parent"
 							android:layout_height="150dp"
-							android:layout_below="@+id/header_layout"
-							android:apiKey="0OeGguXEO_X_TAyapIYkZeu9deDDnDfM_e4Affg" />
+							android:layout_below="@+id/header_layout" />
 
 						<com.mobiata.android.widget.TiltedImageView
 							android:id="@+id/thumbnail_image_view"
