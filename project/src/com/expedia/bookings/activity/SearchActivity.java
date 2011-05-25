@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -87,6 +89,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
@@ -147,6 +150,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final int DEFAULT_RADIUS_RADIO_GROUP_CHILD = 2;
 	private static final int DEFAULT_PRICE_RADIO_GROUP_CHILD = 3;
 
+	private static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
+	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
@@ -193,6 +199,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private TagProgressBar mSearchProgressBar;
 
 	// Others
+
+	private Context mContext;
 
 	private LocalActivityManager mLocalActivityManager;
 	private String mTag = ACTIVITY_SEARCH_LIST;
@@ -305,6 +313,49 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
+	private Download mLoadSavedResults = new Download() {
+		@Override
+		public Object doDownload() {
+			SearchResponse response = null;
+			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
+			if (savedSearchResults.exists()) {
+				if (savedSearchResults.lastModified() + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
+					Log.d("There are saved search results, but they expired.  Starting a new search instead.");
+				}
+				else {
+					try {
+						long start = System.currentTimeMillis();
+						JSONObject obj = new JSONObject(IoUtils.readStringFromFile(SEARCH_RESULTS_FILE, mContext));
+						response = new SearchResponse(obj);
+						Log.i("Saved current search results, time taken: " + (System.currentTimeMillis() - start)
+								+ " ms");
+					}
+					catch (IOException e) {
+						Log.w("Couldn't load saved search results file.", e);
+					}
+					catch (JSONException e) {
+						Log.w("Couldn't parse saved search results file.", e);
+					}
+				}
+			}
+
+			return response;
+		}
+	};
+
+	private OnDownloadComplete mLoadSavedResultsCallback = new OnDownloadComplete() {
+		@Override
+		public void onDownload(Object results) {
+			if (results == null) {
+				// This means the load didn't work; kick off a new search
+				startSearch();
+			}
+			else {
+				mSearchCallback.onDownload(results);
+			}
+		}
+	};
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
 
@@ -313,6 +364,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mContext = this;
 
 		onPageLoad();
 		setContentView(R.layout.activity_search);
@@ -381,7 +434,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
 			setNumberPickerRanges();
 
-			startSearch();
+			// Attempt to load saved search results; if we fail, start a new search
+			BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mLoadSavedResults, mLoadSavedResultsCallback);
+			showLoading(R.string.loading_previous);
 		}
 
 		setActivityByTag(mTag);
@@ -413,6 +468,36 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setViewButtonImage();
 		setDrawerViews();
 		setSearchEditViews();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (isFinishing()) {
+			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
+
+			// Cancel any currently downloading searches
+			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
+			if (downloader.isDownloading(KEY_SEARCH)) {
+				Log.d("Cancelling search because activity is ending.");
+				downloader.cancelDownload(KEY_SEARCH);
+			}
+			// Save a search response as long as:
+			// 1. We weren't currently searching
+			// 2. The search response exists and has no errors.
+			// 3. We don't already have a saved search response (means nothing changed)
+			else if (mSearchResponse != null && !mSearchResponse.hasErrors() && !savedSearchResults.exists()) {
+				try {
+					long start = System.currentTimeMillis();
+					IoUtils.writeStringToFile(SEARCH_RESULTS_FILE, mSearchResponse.toJson().toString(), this);
+					Log.i("Saved current search results, time taken: " + (System.currentTimeMillis() - start) + " ms");
+				}
+				catch (IOException e) {
+					Log.w("Couldn't save search results.", e);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -682,8 +767,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	public void startSearch() {
+		Log.i("Starting a new search...");
+
 		mOriginalSearchParams = null;
 		mSearchDownloader.cancelDownload(KEY_SEARCH);
+
+		// Delete the currently saved search results
+		File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
+		if (savedSearchResults.exists()) {
+			boolean results = savedSearchResults.delete();
+			Log.d("Deleting previous search results.  Success: ");
+		}
 
 		buildFilter();
 		setSearchEditViews();
