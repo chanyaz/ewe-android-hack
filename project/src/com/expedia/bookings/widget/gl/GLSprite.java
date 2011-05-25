@@ -65,10 +65,12 @@ public class GLSprite extends Renderable {
 
 		gl.glTranslatef(x, y, 0);
 
-		gl.glTranslatef(rotationX, rotationY, 0);
-		gl.glRotatef((float) rotation, 0, 0, 1);
-		gl.glTranslatef(-rotationX, -rotationY, 0);
-
+		if (rotation % 360 != 0) {
+			gl.glTranslatef(rotationX, rotationY, 0);
+			gl.glRotatef((float) rotation, 0, 0, 1);
+			gl.glTranslatef(-rotationX, -rotationY, 0);
+		}
+		
 		mGrid.draw(gl, true, false);
 
 		gl.glPopMatrix();

@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -77,8 +78,10 @@ public class TagProgressBar extends ViewGroup {
 		mTextView.setLayoutParams(layoutParams);
 		mTextView.setTextColor(0xFF555555);
 		mTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, TEXTVIEW_TEXT_SIZE);
+		mTextView.setTypeface(Typeface.DEFAULT_BOLD);
 		mTextView.setGravity(Gravity.CENTER);
 		mTextView.setPadding(tvPadding, tvPadding, tvPadding, tvPadding);
+		mTextView.setShadowLayer(0.1f, 0, 1, 0x88FFFFFF);
 
 		// Add views to layout
 		mLayout.addView(mGLTagProgressBar);

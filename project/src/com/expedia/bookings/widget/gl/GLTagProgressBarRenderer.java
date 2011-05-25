@@ -14,10 +14,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
+import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.Surface;
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.Log;
@@ -56,8 +60,9 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	private long mLastDrawTime = -1;
 	private long mNow;
-	
+
 	private boolean mShowProgress = true;
+	private boolean mTagGrabbed = false;
 
 	private double mAngle;
 	private double mAngularVelocity = 0;
@@ -65,6 +70,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	private float mAccelX;
 	private float mAccelY;
 	private float mAccelZ;
+
+	private Handler mTouchHandler;
 
 	private double mLastAngle;
 	private long mLastTagAngleSetByTouchTime;
@@ -89,40 +96,40 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	private int mOrientation;
 	private float mScaledDensity;
 
-	int mWidth;
-	int mHeight;
+	private float mWidth;
+	private float mHeight;
 
-	private Rect mTagSrcRect;
-	private Rect mKnobSrcRect;
-	private Rect mKnobBgSrcRect;
-	private Rect mRingSrcRect;
-	private Rect mRingFillSrcRect;
+	private RectF mTagSrcRect;
+	private RectF mKnobSrcRect;
+	private RectF mKnobBgSrcRect;
+	private RectF mRingSrcRect;
+	private RectF mRingFillSrcRect;
 
-	private Rect mTagDestRect;
-	private Rect mKnobDestRect;
-	private Rect mKnobBgDestRect;
-	private Rect mRingDestRect;
-	private Rect mRingFillDestRect;
+	private RectF mTagDestRect;
+	private RectF mKnobDestRect;
+	private RectF mKnobBgDestRect;
+	private RectF mRingDestRect;
+	private RectF mRingFillDestRect;
 
-	private int mTagWidth;
-	private int mTagHeight;
-	private int mKnobBgWidth;
-	private int mKnobBgHeight;
-	private int mKnobWidth;
-	private int mKnobHeight;
-	private int mRingWidth;
-	private int mRingHeight;
-	private int mRingFillWidth;
-	private int mRingFillHeight;
+	private float mTagWidth;
+	private float mTagHeight;
+	private float mKnobBgWidth;
+	private float mKnobBgHeight;
+	private float mKnobWidth;
+	private float mKnobHeight;
+	private float mRingWidth;
+	private float mRingHeight;
+	private float mRingFillWidth;
+	private float mRingFillHeight;
 
-	private int mOffsetY;
-	private int mRingMargin;
-	private int mRingLeftOffset;
+	private float mOffsetY;
+	private float mRingMargin;
+	private float mRingLeftOffset;
 
-	private int mTagCenterX;
-	private int mTagCenterY;
-	private int mRingFillCenterX;
-	private int mRingFillCenterY;
+	private float mTagCenterX;
+	private float mTagCenterY;
+	private float mRingFillCenterX;
+	private float mRingFillCenterY;
 
 	private static BitmapFactory.Options sBitmapOptions = new BitmapFactory.Options();
 
@@ -170,10 +177,12 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		}
 		final float delta = (float) (mNow - mLastDrawTime) / 1000f;
 		if (LOG_FPS) {
-			Log.t("FPS: %d", (int) (1f / delta));
+			Log.t("FPS: %d", (1f / delta));
 		}
 
-		updatePhysics(delta);
+		if (!mTagGrabbed) {
+			updatePhysics(delta);
+		}
 		updateSpritePositions();
 		drawFrame(gl);
 
@@ -182,8 +191,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-		mWidth = width;
-		mHeight = height;
+		mWidth = (float) width;
+		mHeight = (float) height;
 
 		DisplayMetrics metrics = new DisplayMetrics();
 		((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -203,6 +212,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		gl.glOrthof(0.0f, width, 0.0f, height, 0.0f, 1.0f);
 
 		gl.glShadeModel(GL10.GL_SMOOTH);
+		gl.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glColor4x(0x10000, 0x10000, 0x10000, 0x10000);
@@ -217,8 +227,9 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		 */
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
 
-		gl.glClearColor(1, 1, 1, 1);
+		gl.glClearColor(0.894117647f, 0.894117647f, 0.894117647f, 1);
 		gl.glShadeModel(GL10.GL_SMOOTH);
+		gl.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
 		gl.glDisable(GL10.GL_DEPTH_TEST);
 		gl.glEnable(GL10.GL_TEXTURE_2D);
 		/*
@@ -227,7 +238,6 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		 * renderer.
 		 */
 		gl.glEnable(GL10.GL_DITHER);
-		//gl.glEnable(GL10.GL_MULTISAMPLE);
 		gl.glDisable(GL10.GL_LIGHTING);
 
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
@@ -282,6 +292,33 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	//////////////////////////////////////////////////////////////////////////////
 	// Public methods
 
+	public boolean onTouch(View v, MotionEvent event) {
+		final int action = event.getAction();
+		switch (action) {
+		case MotionEvent.ACTION_DOWN: {
+			if (isInsideTag(event.getX(), event.getY())) {
+				mTagGrabbed = true;
+				setAngleAndVelocityByTouchPoint(event.getX(), event.getY());
+			}
+			break;
+		}
+		case MotionEvent.ACTION_MOVE: {
+			if (mTagGrabbed) {
+				setAngleAndVelocityByTouchPoint(event.getX(), event.getY());
+			}
+
+			break;
+		}
+		case MotionEvent.ACTION_UP: {
+			mTagGrabbed = false;
+
+			break;
+		}
+		}
+
+		return true;
+	}
+
 	public int[] getConfigSpec() {
 		// We don't need a depth buffer, and don't care about our
 		// color depth.
@@ -289,17 +326,34 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		return configSpec;
 	}
 
-	public synchronized void setAcceleration(float x, float y, float z) {
+	public boolean isInsideTag(float x, float y) {
+		if (mTagDestRect == null) {
+			return false;
+		}
+
+		if (mOrientation == Surface.ROTATION_90 || mOrientation == Surface.ROTATION_270) {
+			mAngle -= Math.PI;
+		}
+
+		final double dx = x - mTagCenterX;
+		final double dy = y - mTagCenterY;
+		final double newX = mTagCenterX - dx * Math.cos(mAngle) - dy * Math.sin(mAngle);
+		final double newY = mTagCenterX - dx * Math.sin(mAngle) + dy * Math.cos(mAngle);
+
+		final RectF tagRect = new RectF(mTagDestRect);
+		tagRect.top += mOffsetY;
+		tagRect.bottom += mOffsetY;
+
+		return tagRect.contains((float) newX, (float) newY);
+	}
+
+	public void setAcceleration(float x, float y, float z) {
 		mAccelX = x;
 		mAccelY = y;
 		mAccelZ = z;
 	}
 
-	public synchronized void setAngleAndVelocityByTouchPoint(float x, float y) {
-		if (!isInsideTag(x, y)) {
-			return;
-		}
-
+	public void setAngleAndVelocityByTouchPoint(float x, float y) {
 		long now = System.currentTimeMillis();
 		if (mLastTagAngleSetByTouchTime < 0) {
 			mLastTagAngleSetByTouchTime = now;
@@ -356,62 +410,62 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	// Private methods
 
 	void calculateMeasurements() {
-		mTagWidth = (int) (SIZE_TAG_WIDTH * mScaledDensity);
-		mTagHeight = (int) (SIZE_TAG_HEIGHT * mScaledDensity);
-		mKnobBgWidth = (int) (SIZE_KNOB_BG_WIDTH * mScaledDensity);
-		mKnobBgHeight = (int) (SIZE_KNOB_BG_HEIGHT * mScaledDensity);
-		mKnobWidth = (int) (SIZE_KNOB_WIDTH * mScaledDensity);
-		mKnobHeight = (int) (SIZE_KNOB_HEIGHT * mScaledDensity);
-		mRingWidth = (int) (SIZE_RING_WIDTH * mScaledDensity);
-		mRingHeight = (int) (SIZE_RING_HEIGHT * mScaledDensity);
-		mRingFillWidth = (int) (SIZE_RING_FILL_WIDTH * mScaledDensity);
-		mRingFillHeight = (int) (SIZE_RING_FILL_HEIGHT * mScaledDensity);
+		mTagWidth = SIZE_TAG_WIDTH * mScaledDensity;
+		mTagHeight = SIZE_TAG_HEIGHT * mScaledDensity;
+		mKnobBgWidth = SIZE_KNOB_BG_WIDTH * mScaledDensity;
+		mKnobBgHeight = SIZE_KNOB_BG_HEIGHT * mScaledDensity;
+		mKnobWidth = SIZE_KNOB_WIDTH * mScaledDensity;
+		mKnobHeight = SIZE_KNOB_HEIGHT * mScaledDensity;
+		mRingWidth = SIZE_RING_WIDTH * mScaledDensity;
+		mRingHeight = SIZE_RING_HEIGHT * mScaledDensity;
+		mRingFillWidth = SIZE_RING_FILL_WIDTH * mScaledDensity;
+		mRingFillHeight = SIZE_RING_FILL_HEIGHT * mScaledDensity;
 
 		// NOTE: A few of these measurements are pretty arbitrary, definitely
 		// making this view a one time use kind of view.
 
-		mOffsetY = (int) ((float) mHeight * 0.15f);
+		mOffsetY = (float) mHeight * 0.15f;
 		if (mOrientation == Surface.ROTATION_90 || mOrientation == Surface.ROTATION_270) {
-			mOffsetY = (int) ((float) mHeight * 0.25f);
+			mOffsetY = mHeight * 0.25f;
 		}
 
 		mRingMargin = (mTagWidth - mRingWidth) / 2;
-		mRingLeftOffset = (int) (mTagWidth * 0.028f);
+		mRingLeftOffset = mTagWidth * 0.028f;
 
 		mTagCenterX = mWidth / 2;
-		mTagCenterY = mOffsetY + (int) (mTagWidth / 2);
+		mTagCenterY = mOffsetY + (mTagWidth / 2);
 
-		final int knobTopOffset = (int) (mKnobHeight * 0.09f);
+		final float knobTopOffset = (mKnobHeight * 0.09f);
 
 		// DEST RECTS
-		mTagDestRect = new Rect();
-		mTagDestRect.top = mTagCenterY - (int) (mTagWidth * 0.38);
+		mTagDestRect = new RectF();
+		mTagDestRect.top = mTagCenterY - (mTagWidth * 0.38f);
 		mTagDestRect.bottom = mTagDestRect.top + mTagHeight;
-		mTagDestRect.left = (int) (mTagCenterX - (mTagWidth / 2));
+		mTagDestRect.left = (mTagCenterX - (mTagWidth / 2));
 		mTagDestRect.right = mTagDestRect.left + mTagWidth;
 
-		mKnobBgDestRect = new Rect();
+		mKnobBgDestRect = new RectF();
 		mKnobBgDestRect.top = mTagCenterY - (mKnobBgHeight / 2);
 		mKnobBgDestRect.bottom = mKnobBgDestRect.top + mKnobBgHeight;
-		mKnobBgDestRect.left = (int) (mTagCenterX - (mKnobBgWidth / 2));
+		mKnobBgDestRect.left = (mTagCenterX - (mKnobBgWidth / 2));
 		mKnobBgDestRect.right = mKnobBgDestRect.left + mKnobBgWidth;
 
-		mKnobDestRect = new Rect();
+		mKnobDestRect = new RectF();
 		mKnobDestRect.top = mTagCenterY - (mKnobHeight / 2) + knobTopOffset;
 		mKnobDestRect.bottom = mKnobDestRect.top + mKnobHeight;
-		mKnobDestRect.left = (int) (mTagCenterX - (mKnobWidth / 2));
+		mKnobDestRect.left = (mTagCenterX - (mKnobWidth / 2));
 		mKnobDestRect.right = mKnobDestRect.left + mKnobWidth;
 
-		mRingDestRect = new Rect();
+		mRingDestRect = new RectF();
 		mRingDestRect.top = mTagDestRect.bottom - mRingHeight - mRingMargin;
 		mRingDestRect.bottom = mRingDestRect.top + mRingHeight;
-		mRingDestRect.left = (int) (mTagCenterX - (mRingWidth / 2)) + mRingLeftOffset;
+		mRingDestRect.left = (mTagCenterX - (mRingWidth / 2)) + mRingLeftOffset;
 		mRingDestRect.right = mRingDestRect.left + mRingWidth;
 
-		mRingFillDestRect = new Rect();
+		mRingFillDestRect = new RectF();
 		mRingFillDestRect.top = mRingDestRect.top + ((mRingHeight - mRingFillHeight) / 2);
 		mRingFillDestRect.bottom = mRingFillDestRect.top + mRingFillHeight;
-		mRingFillDestRect.left = (int) (mTagCenterX - (mRingFillWidth / 2)) + mRingLeftOffset;
+		mRingFillDestRect.left = (mTagCenterX - (mRingFillWidth / 2)) + mRingLeftOffset;
 		mRingFillDestRect.right = mRingFillDestRect.left + mRingFillWidth;
 
 		mRingFillCenterX = mRingFillDestRect.left + (mRingFillWidth / 2);
@@ -435,6 +489,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 		mRingSprite.x = mRingDestRect.left;
 		mRingSprite.y = mHeight - mRingDestRect.bottom;
+		mRingSprite.rotationX = mRingWidth / 2;
+		mRingSprite.rotationY = mRingHeight / 2;
 
 		mRingFillSprite.x = mRingFillDestRect.left;
 		mRingFillSprite.y = mHeight - mRingFillDestRect.bottom;
@@ -459,23 +515,6 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 				Grid.endDrawing(gl);
 			}
 		}
-	}
-
-	private boolean isInsideTag(float x, float y) {
-		if (mOrientation == Surface.ROTATION_90 || mOrientation == Surface.ROTATION_270) {
-			mAngle -= Math.PI;
-		}
-
-		final double dx = x - mTagCenterX;
-		final double dy = y - mTagCenterY;
-		final double newX = mTagCenterX - dx * Math.cos(mAngle) - dy * Math.sin(mAngle);
-		final double newY = mTagCenterX - dx * Math.sin(mAngle) + dy * Math.cos(mAngle);
-
-		final Rect tagRect = new Rect(mTagDestRect);
-		tagRect.top += mOffsetY;
-		tagRect.bottom += mOffsetY;
-
-		return tagRect.contains((int) newX, (int) newY);
 	}
 
 	private double normalizeAngle(double angle) {
@@ -540,10 +579,24 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	}
 
 	private void updateSpritePositions() {
-		mTagSprite.rotation = -mAngle * 180 / Math.PI;
+		final double angle = mAngle * 180 / Math.PI;
+		mTagSprite.rotation = -angle;
 
-		mRingAngle = (float) (normalizeAngle(((double) mNow / 1000) * DEGREES_PER_SECOND) * 180 / Math.PI);
-		mRingFillSprite.rotation = -mRingAngle;
+		final double length = mRingFillDestRect.centerY() - mTagCenterY;
+		final double progressAngle = normalizeAngle(((double) mNow / 1000) * DEGREES_PER_SECOND) * 180 / Math.PI;
+		final double ringAngle = (float) (angle + progressAngle);
+
+		final double glAdjustedAngle = -mAngle - (Math.PI / 2);
+		final double offsetX = Math.cos(glAdjustedAngle) * length;
+		final double offsetY = (Math.sin(glAdjustedAngle) * length) + length;
+
+		mRingFillSprite.x = mRingFillDestRect.left + (float) offsetX;
+		mRingFillSprite.y = mHeight - mRingFillDestRect.bottom + (float) offsetY;
+		mRingFillSprite.rotation = -ringAngle;
+
+		mRingSprite.x = mRingFillSprite.x;
+		mRingSprite.y = mRingFillSprite.y;
+		mRingSprite.rotation = mRingFillSprite.rotation;
 	}
 
 	/**

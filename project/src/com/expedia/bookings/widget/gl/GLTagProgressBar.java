@@ -19,13 +19,9 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 	// Private members
 	private Context mContext;
 
-	
-
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
 	private int mOrientation;
-
-	private boolean mTagGrabbed = false;
 
 	GLTagProgressBarRenderer mRenderer;
 
@@ -47,46 +43,23 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		final int action = event.getAction();
-		switch (action) {
-		case MotionEvent.ACTION_DOWN: {
-			mTagGrabbed = true;
-			mRenderer.setAngleAndVelocityByTouchPoint(event.getX(), event.getY());
-
-			break;
-		}
-		case MotionEvent.ACTION_MOVE: {
-			if (mTagGrabbed) {
-				mRenderer.setAngleAndVelocityByTouchPoint(event.getX(), event.getY());
-			}
-
-			break;
-		}
-		case MotionEvent.ACTION_UP: {
-			mTagGrabbed = false;
-
-			break;
-		}
-		}
-
-		return true;
+		return mRenderer.onTouch(v, event);
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		super.surfaceCreated(holder);
-		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		super.surfaceDestroyed(holder);		
+		super.surfaceDestroyed(holder);
 		mSensorManager.unregisterListener(this);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Listener implementations
-	
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
