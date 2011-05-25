@@ -29,6 +29,8 @@
 	<string name="upgrade">Upgrade</string>
 	<!-- Button label for searching the visible map area -->
 	<string name="map_search_button">Search Map Area</string>
+	<!-- Message when app is loading saved search results -->
+	<string name="loading_previous">Loading previous search results...</string>
 	
 	<!-- Price range template -->
 	<string name="price_range_template">($%1$d — $%2$d)</string>
