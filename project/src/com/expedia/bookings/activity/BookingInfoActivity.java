@@ -439,7 +439,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		// Configure the booking summary at the top of the page
 		ImageView thumbnailView = (ImageView) findViewById(R.id.thumbnail_image_view);
 		if (mProperty.getThumbnail() != null) {
-			ImageCache.getInstance().loadImage(mProperty.getThumbnail().getUrl(), thumbnailView);
+			ImageCache.loadImage(mProperty.getThumbnail().getUrl(), thumbnailView);
 		}
 		else {
 			thumbnailView.setVisibility(View.GONE);

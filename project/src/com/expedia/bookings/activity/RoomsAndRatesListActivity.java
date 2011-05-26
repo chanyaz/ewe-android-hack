@@ -80,7 +80,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		// Format the header
 		ImageView thumbnailView = (ImageView) findViewById(R.id.thumbnail_image_view);
 		if (property.getThumbnail() != null) {
-			ImageCache.getInstance().loadImage(property.getThumbnail().getUrl(), thumbnailView);
+			ImageCache.loadImage(property.getThumbnail().getUrl(), thumbnailView);
 		}
 		else {
 			thumbnailView.setVisibility(View.GONE);

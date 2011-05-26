@@ -98,7 +98,6 @@ public class HotelActivity extends Activity {
 			gallery.setAdapter(adapter);
 
 			// Start loading images in the background.  Load them one-by-one.
-			final ImageCache imageCache = ImageCache.getInstance();
 			mImageToLoad = 0;
 			OnImageLoaded loader = new OnImageLoaded() {
 				@Override
@@ -106,7 +105,7 @@ public class HotelActivity extends Activity {
 					if (mImageToLoad < mediaList.size()) {
 						Media media = mediaList.get(mImageToLoad++);
 						String nextUrl = media.getUrl();
-						imageCache.loadImage(toString() + nextUrl, nextUrl, this);
+						ImageCache.loadImage(toString() + nextUrl, nextUrl, this);
 					}
 				}
 			};
@@ -208,10 +207,9 @@ public class HotelActivity extends Activity {
 			// In order to avoid memory issues, clear the cache of images we might've loaded in this activity
 			Log.d("Clearing out images from property.");
 
-			ImageCache cache = ImageCache.getInstance();
 			for (Media image : mProperty.getMediaList()) {
 				String imageUrl = image.getUrl();
-				cache.removeImage(imageUrl, true);
+				ImageCache.removeImage(imageUrl, true);
 			}
 		}
 	}

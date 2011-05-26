@@ -31,7 +31,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private Context mContext;
 	private LayoutInflater mInflater;
-	private ImageCache mImageCache;
 
 	private SearchResponse mSearchResponse;
 
@@ -42,7 +41,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	public HotelAdapter(Context context, SearchResponse searchResponse) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mImageCache = ImageCache.getInstance();
 
 		mSearchResponse = searchResponse;
 		rebuildCache();
@@ -67,7 +65,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		for (Property property : properties) {
 			Media thumbnail = property.getThumbnail();
 			if (thumbnail != null && thumbnail.getUrl() != null) {
-				mImageCache.removeImage(thumbnail.getUrl(), true);
+				ImageCache.removeImage(thumbnail.getUrl(), true);
 			}
 		}
 
@@ -182,13 +180,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		boolean imageSet = false;
 		if (!mIsMeasuring && property.getThumbnail() != null) {
 			String url = property.getThumbnail().getUrl();
-			if (mImageCache.containsImage(url)) {
-				holder.thumbnail.setImageBitmap(mImageCache.getImage(url));
-				imageSet = true;
-			}
-			else {
-				mImageCache.loadImage(url, holder.thumbnail);
-			}
+			imageSet = ImageCache.loadImage(url, holder.thumbnail);;
 		}
 		if (!imageSet) {
 			holder.thumbnail.setImageResource(R.drawable.ic_row_thumb_placeholder);
@@ -214,7 +206,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 				Media thumbnail = mCachedProperties[i].getThumbnail();
 				if (thumbnail != null) {
 					String url = thumbnail.getUrl();
-					mImageCache.removeImage(url, true);
+					ImageCache.removeImage(url, true);
 				}
 			}
 			else {

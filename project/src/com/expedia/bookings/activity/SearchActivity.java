@@ -267,7 +267,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					((RadioButton) mRadiusButtonGroup.getChildAt(index)).setChecked(true);
 				}
 
-				ImageCache.getInstance().recycleCache(true);
+				ImageCache.recycleCache(true);
 				broadcastSearchCompleted(mSearchResponse);
 
 				buildPriceTierCache();

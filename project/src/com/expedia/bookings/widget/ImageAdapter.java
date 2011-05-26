@@ -73,9 +73,8 @@ public class ImageAdapter extends BaseAdapter {
 			}
 		};
 
-		ImageCache imageCache = ImageCache.getInstance();
-		if (imageCache.containsImage(url)) {
-			Bitmap bitmap = imageCache.getImage(url);
+		if (ImageCache.containsImage(url)) {
+			Bitmap bitmap = ImageCache.getImage(url);
 			if (bitmap.getWidth() > bitmap.getHeight()) {
 				imageView.setLayoutParams(LAYOUT_WIDE);
 				imageView.setBackgroundDrawable(null);
@@ -92,7 +91,7 @@ public class ImageAdapter extends BaseAdapter {
 			imageView.setImageResource(R.drawable.ic_image_placeholder);
 			imageView.setLayoutParams(LAYOUT_WIDE);
 			imageView.setBackgroundDrawable(null);
-			imageCache.loadImage(toString() + url, url, callback);
+			ImageCache.loadImage(toString() + url, url, callback);
 		}
 
 		return convertView;

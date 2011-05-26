@@ -118,7 +118,7 @@ public class ConfirmationActivity extends MapActivity {
 		// Thumbnail in the map
 		ImageView thumbnail = (ImageView) findViewById(R.id.thumbnail_image_view);
 		if (mProperty.getThumbnail() != null) {
-			ImageCache.getInstance().loadImage(mProperty.getThumbnail().getUrl(), thumbnail);
+			ImageCache.loadImage(mProperty.getThumbnail().getUrl(), thumbnail);
 		}
 		else {
 			thumbnail.setVisibility(View.GONE);
