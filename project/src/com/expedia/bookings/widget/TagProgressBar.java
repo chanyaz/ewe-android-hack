@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,6 +50,15 @@ public class TagProgressBar extends ViewGroup {
 					MeasureSpec.makeMeasureSpec(h, MeasureSpec.AT_MOST));
 		}
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+	}
+
+	@Override
+	protected void onVisibilityChanged(View changedView, int visibility) {
+		super.onVisibilityChanged(changedView, visibility);
+
+		if (mGLTagProgressBar != null) {
+			mGLTagProgressBar.setSensorManagerRegistration(visibility == View.VISIBLE);
+		}
 	}
 
 	private void init(Context context) {
@@ -112,5 +122,19 @@ public class TagProgressBar extends ViewGroup {
 			text = "";
 		}
 		mTextView.setText(text);
+	}
+
+	public void onPause() {
+		mGLTagProgressBar.onPause();
+	}
+
+	public void onResume() {
+		mGLTagProgressBar.onResume();
+	}
+
+	@Override
+	public void setVisibility(int visibility) {
+		super.setVisibility(visibility);
+		mGLTagProgressBar.setVisibility(visibility);
 	}
 }

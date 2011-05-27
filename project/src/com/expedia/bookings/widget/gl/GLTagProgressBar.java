@@ -42,20 +42,62 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 	// Overrides
 
 	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		return mRenderer.onTouch(v, event);
+	public boolean onTouch(View view, MotionEvent event) {
+		if (mRenderer == null) {
+			return true;
+		}
+
+		final View v = view;
+		final MotionEvent e = event;
+
+		queueEvent(new Runnable() {
+			@Override
+			public void run() {
+				mRenderer.onTouch(v, e);
+			}
+		});
+		
+		return true;
+	}
+
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		setSensorManagerRegistration(getVisibility() == View.VISIBLE);
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+		setSensorManagerRegistration(false);
+	}
+
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
+		super.surfaceChanged(holder, format, w, h);
+		setSensorManagerRegistration(getVisibility() == View.VISIBLE);
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		super.surfaceCreated(holder);
-		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+		setSensorManagerRegistration(getVisibility() == View.VISIBLE);
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		super.surfaceDestroyed(holder);
-		mSensorManager.unregisterListener(this);
+		setSensorManagerRegistration(false);
+	}
+
+	public void setSensorManagerRegistration(boolean registered) {
+		if (registered) {
+			mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+		}
+		else {
+			mSensorManager.unregisterListener(this);
+			mRenderer.reset();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -67,6 +109,10 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
+		if (mRenderer == null) {
+			return;
+		}
+
 		final float[] acceleration = event.values.clone();
 		switch (mOrientation) {
 		case Surface.ROTATION_90: {
@@ -81,7 +127,12 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 		}
 		}
 
-		mRenderer.setAcceleration(acceleration[0] * -1, acceleration[1] * -1, acceleration[2] * -1);
+		queueEvent(new Runnable() {
+			@Override
+			public void run() {
+				mRenderer.setAcceleration(acceleration[0] * -1, acceleration[1] * -1, acceleration[2] * -1);
+			}
+		});
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -100,6 +151,7 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 
 	private void init(Context context) {
 		mContext = (Activity) context;
+
 		mSensorManager = (SensorManager) mContext.getSystemService(Activity.SENSOR_SERVICE);
 		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		mOrientation = ((Activity) context).getWindowManager().getDefaultDisplay().getOrientation();
@@ -107,7 +159,7 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 		setOnTouchListener(this);
 		setFocusableInTouchMode(true);
 
-		mRenderer = new GLTagProgressBarRenderer(context);
+		mRenderer = new GLTagProgressBarRenderer(context, this);
 		mRenderer.setOrientation(mOrientation);
 
 		setRenderer(mRenderer);

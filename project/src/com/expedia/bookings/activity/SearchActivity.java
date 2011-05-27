@@ -449,6 +449,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	protected void onPause() {
 		super.onPause();
 
+		mSearchProgressBar.onPause();
 		stopLocationListener();
 
 		SettingUtils.save(this, "searchParams", mSearchParams.toJson().toString());
@@ -459,6 +460,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		mSearchProgressBar.onResume();
 
 		Time now = new Time();
 		now.setToNow();
@@ -1215,6 +1218,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchSuggestionsListView.addFooterView(footer, null, false);
 		//-------------------------------------------------------------------
 
+		mSearchProgressBar.setVisibility(View.GONE);
+		
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mPanel.setOnPanelListener(mPanelListener);
 
@@ -2253,8 +2258,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			region = mSearchParams.getFreeformLocation();
 		}
 		else {
-			region = df.format(mSearchParams.getSearchLatitude()) + "|"
-					+ df.format(mSearchParams.getSearchLongitude());
+			region = df.format(mSearchParams.getSearchLatitude()) + "|" + df.format(mSearchParams.getSearchLongitude());
 		}
 		s.eVar4 = s.prop4 = region;
 

@@ -57,6 +57,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	// Private members
 
 	private Context mContext;
+	private View mParent;
 
 	private long mLastDrawTime = -1;
 	private long mNow;
@@ -145,8 +146,9 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	private boolean mUseVerts = true;
 	private boolean mUseHardwareBuffers = false;
 
-	public GLTagProgressBarRenderer(Context context) {
+	public GLTagProgressBarRenderer(Context context, View view) {
 		mContext = context;
+		mParent = view;
 
 		mTextureNameWorkspace = new int[1];
 		mCropWorkspace = new int[4];
@@ -169,6 +171,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onDrawFrame(GL10 gl) {
+		final boolean visible = (mParent.getVisibility() == View.VISIBLE);
+
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
 		mNow = System.currentTimeMillis();
@@ -176,17 +180,24 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 			mLastDrawTime = mNow;
 		}
 		final float delta = (float) (mNow - mLastDrawTime) / 1000f;
-		if (LOG_FPS) {
-			Log.t("FPS: %d", (1f / delta));
+		if (LOG_FPS && visible) {
+			Log.t("FPS: %d", (int) (1f / delta));
 		}
 
-		if (!mTagGrabbed) {
-			updatePhysics(delta);
+		if (visible) {
+			if (!mTagGrabbed) {
+				updatePhysics(delta);
+			}
+			updateSpritePositions();
 		}
-		updateSpritePositions();
 		drawFrame(gl);
 
-		mLastDrawTime = System.currentTimeMillis();
+		if (visible) {
+			mLastDrawTime = System.currentTimeMillis();
+		}
+		else {
+			mLastDrawTime = -1;
+		}
 	}
 
 	@Override
@@ -212,11 +223,13 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		gl.glOrthof(0.0f, width, 0.0f, height, 0.0f, 1.0f);
 
 		gl.glShadeModel(GL10.GL_SMOOTH);
-		gl.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glColor4x(0x10000, 0x10000, 0x10000, 0x10000);
 		gl.glEnable(GL10.GL_TEXTURE_2D);
+
+		gl.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
+		gl.glHint(GL11.GL_POLYGON_SMOOTH_HINT, GL11.GL_NICEST);
 	}
 
 	@Override
@@ -229,7 +242,6 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 		gl.glClearColor(0.894117647f, 0.894117647f, 0.894117647f, 1);
 		gl.glShadeModel(GL10.GL_SMOOTH);
-		gl.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
 		gl.glDisable(GL10.GL_DEPTH_TEST);
 		gl.glEnable(GL10.GL_TEXTURE_2D);
 		/*
@@ -239,6 +251,9 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		 */
 		gl.glEnable(GL10.GL_DITHER);
 		gl.glDisable(GL10.GL_LIGHTING);
+
+		gl.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
+		gl.glHint(GL11.GL_POLYGON_SMOOTH_HINT, GL11.GL_NICEST);
 
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
@@ -345,6 +360,11 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		tagRect.bottom += mOffsetY;
 
 		return tagRect.contains((float) newX, (float) newY);
+	}
+
+	public void reset() {
+		mAngularAcceleration = 0;
+		mAngle = 0;
 	}
 
 	public void setAcceleration(float x, float y, float z) {

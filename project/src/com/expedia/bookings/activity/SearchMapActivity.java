@@ -33,7 +33,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
-	private SearchActivity mParent;
 	private MapView mMapView;
 	private SearchResponse mSearchResponse;
 	private HotelItemizedOverlay mHotelItemizedOverlay;
@@ -60,9 +59,9 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mMapView.setBuiltInZoomControls(true);
 		mMapView.setSatellite(false);
 
-		mParent = (SearchActivity) getParent();
-		mParent.addSearchListener(this);
-		mParent.setMapViewListener(this);
+		final SearchActivity parent = (SearchActivity) getParent();
+		parent.addSearchListener(this);
+		parent.setMapViewListener(this);
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
@@ -153,10 +152,12 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			OnBalloonTap onTap = new OnBalloonTap() {
 				@Override
 				public void onBalloonTap(Property property) {
+					final SearchActivity parent = (SearchActivity) getParent();
+					
 					Intent intent = new Intent(SearchMapActivity.this, HotelActivity.class);
 					intent.putExtra(Codes.PROPERTY, property.toJson().toString());
-					intent.putExtra(Codes.SEARCH_PARAMS, mParent.getSearchParams().toString());
-					intent.putExtra(Codes.SESSION, mParent.getSession().toJson().toString());
+					intent.putExtra(Codes.SEARCH_PARAMS, parent.getSearchParams().toString());
+					intent.putExtra(Codes.SESSION, parent.getSession().toJson().toString());
 					SearchMapActivity.this.startActivity(intent);
 				}
 			};
