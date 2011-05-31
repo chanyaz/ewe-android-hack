@@ -74,11 +74,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.animation.Rotate3dAnimation;
 import com.expedia.bookings.dialog.LocationSuggestionDialog;
 import com.expedia.bookings.model.Search;
-import com.expedia.bookings.tracking.TrackingData;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.TagProgressBar;
-import com.expedia.bookings.widget.gl.GLTagProgressBar;
 import com.google.android.maps.GeoPoint;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -2090,6 +2088,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Omniture tracking
 
+	// The SettingUtils key for the last version tracked
+	private static final String TRACK_VERSION = "tracking_version";
+
 	public void onPageLoad() {
 		// Only send page load when the app just started up - if there's a previous instance, that means
 		// it was just a configuration change.
@@ -2103,12 +2104,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			s.pageName = "App.Loading";
 
 			// Determine if this is a new install, an upgrade, or just a regular launch
-			TrackingData trackingData = new TrackingData();
-			String trackVersion = null;
-			if (trackingData.load(this)) {
-				trackVersion = trackingData.getVersion();
-			}
-
+			String trackVersion = SettingUtils.get(this, TRACK_VERSION, null);
 			String currentVersion = AndroidUtils.getAppVersion(this);
 
 			boolean save = false;
@@ -2129,8 +2125,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			if (save) {
 				// Save new data
-				trackingData.setVersion(currentVersion);
-				trackingData.save(this);
+				SettingUtils.save(this, TRACK_VERSION, currentVersion);
 			}
 
 			// Send the tracking data
