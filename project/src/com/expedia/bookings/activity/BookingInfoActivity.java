@@ -910,6 +910,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private boolean saveBillingInfo() {
 		// Gather all the data to be saved
 		syncBillingInfo();
+		
+		// Save the hashed email, just for tracking purposes
+		TrackingUtils.saveEmailForTracking(this, mBillingInfo.getEmail());
 
 		return mBillingInfo.save(this);
 	}

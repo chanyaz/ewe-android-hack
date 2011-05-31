@@ -20,11 +20,15 @@ import android.telephony.TelephonyManager;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.hotellib.data.BillingInfo;
 import com.mobiata.hotellib.data.Property;
 import com.omniture.AppMeasurement;
 
 public class TrackingUtils {
+
+	private static final String EMAIL_HASH_KEY = "email_hash";
+	private static final String NO_EMAIL = "NO EMAIL PROVIDED";
 
 	// Most tracking events are pretty simple and can be captured by these few fields.  Just enter them
 	// and we'll handle the rest
@@ -100,9 +104,20 @@ public class TrackingUtils {
 		s.eVar50 = "app.android";
 
 		// hashed email
-		BillingInfo billingInfo = new BillingInfo();
-		if (billingInfo.load(context)) {
-			s.prop11 = md5(billingInfo.getEmail());
+		// Normally we store this in a setting; in 1.0 we stored this in BillingInfo, but
+		// that's really slow to retrieve so we no longer do that.
+		String emailHashed = null;
+		if (!SettingUtils.contains(context, EMAIL_HASH_KEY)) {
+			BillingInfo billingInfo = new BillingInfo();
+			if (billingInfo.load(context)) {
+				saveEmailForTracking(context, billingInfo.getEmail());
+			}
+		}
+		else {
+			emailHashed = SettingUtils.get(context, EMAIL_HASH_KEY, null);
+		}
+		if (emailHashed != null && !emailHashed.equals(NO_EMAIL)) {
+			s.prop11 = emailHashed;
 		}
 
 		// Unique device id
@@ -133,6 +148,15 @@ public class TrackingUtils {
 		case Configuration.ORIENTATION_UNDEFINED:
 			s.prop39 = "undefined";
 			break;
+		}
+	}
+
+	public static void saveEmailForTracking(Context context, String email) {
+		if (email != null && email.length() > 0) {
+			SettingUtils.save(context, EMAIL_HASH_KEY, md5(email));
+		}
+		else {
+			SettingUtils.save(context, EMAIL_HASH_KEY, NO_EMAIL);
 		}
 	}
 
