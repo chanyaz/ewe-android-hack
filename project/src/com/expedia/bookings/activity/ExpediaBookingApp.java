@@ -48,7 +48,7 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 		final Writer writer = new StringWriter();
 		final PrintWriter printWriter = new PrintWriter(writer);
 		ex.printStackTrace(printWriter);
-		s.prop36 = printWriter.toString();
+		s.prop36 = ex.getMessage() + "|" + writer.toString();
 
 		TrackingUtils.trackOnClick(s);
 
