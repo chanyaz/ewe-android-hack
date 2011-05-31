@@ -14,7 +14,9 @@ import java.util.Map;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
 import com.mobiata.android.DebugUtils;
@@ -107,14 +109,15 @@ public class TrackingUtils {
 		// Normally we store this in a setting; in 1.0 we stored this in BillingInfo, but
 		// that's really slow to retrieve so we no longer do that.
 		String emailHashed = null;
-		if (!SettingUtils.contains(context, EMAIL_HASH_KEY)) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		if (!prefs.contains(EMAIL_HASH_KEY)) {
 			BillingInfo billingInfo = new BillingInfo();
 			if (billingInfo.load(context)) {
 				saveEmailForTracking(context, billingInfo.getEmail());
 			}
 		}
 		else {
-			emailHashed = SettingUtils.get(context, EMAIL_HASH_KEY, null);
+			emailHashed = prefs.getString(EMAIL_HASH_KEY, null);
 		}
 		if (emailHashed != null && !emailHashed.equals(NO_EMAIL)) {
 			s.prop11 = emailHashed;

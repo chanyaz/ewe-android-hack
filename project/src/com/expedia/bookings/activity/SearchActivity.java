@@ -23,6 +23,8 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -38,6 +40,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.ResultReceiver;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.Time;
@@ -396,9 +399,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 		}
 		else {
-			String searchParamsJson = SettingUtils.get(this, "searchParams", null);
-			String filterJson = SettingUtils.get(this, "filter", null);
-			mTag = SettingUtils.get(this, "tag", mTag);
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+			String searchParamsJson = prefs.getString("searchParams", null);
+			String filterJson = prefs.getString("filter", null);
+			mTag = prefs.getString("tag", mTag);
 
 			if (searchParamsJson != null) {
 				try {
@@ -450,9 +454,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchProgressBar.onPause();
 		stopLocationListener();
 
-		SettingUtils.save(this, "searchParams", mSearchParams.toJson().toString());
-		SettingUtils.save(this, "filter", mFilter.toJson().toString());
-		SettingUtils.save(this, "tag", mTag);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor editor = prefs.edit();
+		editor.putString("searchParams", mSearchParams.toJson().toString());
+		editor.putString("filter", mFilter.toJson().toString());
+		editor.putString("tag", mTag);
+		SettingUtils.commitOrApply(editor);
 	}
 
 	@Override
