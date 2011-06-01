@@ -328,7 +328,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 						long start = System.currentTimeMillis();
 						JSONObject obj = new JSONObject(IoUtils.readStringFromFile(SEARCH_RESULTS_FILE, mContext));
 						response = new SearchResponse(obj);
-						Log.i("Saved current search results, time taken: " + (System.currentTimeMillis() - start)
+						Log.i("Loaded current search results, time taken: " + (System.currentTimeMillis() - start)
 								+ " ms");
 					}
 					catch (IOException e) {
@@ -498,10 +498,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			else if (mSearchResponse != null && !mSearchResponse.hasErrors() && !savedSearchResults.exists()) {
 				try {
 					long start = System.currentTimeMillis();
-					IoUtils.writeStringToFile(SEARCH_RESULTS_FILE, mSearchResponse.toJson().toString(), this);
+					IoUtils.writeStringToFile(SEARCH_RESULTS_FILE, mSearchResponse.toJson().toString(0), this);
 					Log.i("Saved current search results, time taken: " + (System.currentTimeMillis() - start) + " ms");
 				}
 				catch (IOException e) {
+					Log.w("Couldn't save search results.", e);
+				}
+				catch (JSONException e) {
 					Log.w("Couldn't save search results.", e);
 				}
 			}
@@ -784,7 +787,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
 		if (savedSearchResults.exists()) {
 			boolean results = savedSearchResults.delete();
-			Log.d("Deleting previous search results.  Success: ");
+			Log.d("Deleting previous search results.  Success: " + results);
 		}
 
 		buildFilter();
