@@ -59,6 +59,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	private Context mContext;
 	private View mParent;
 
+	private GL10 mGL;
+
 	private long mLastDrawTime = -1;
 	private long mNow;
 
@@ -202,6 +204,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
+		mGL = gl;
+
 		mWidth = (float) width;
 		mHeight = (float) height;
 
@@ -234,6 +238,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+		Log.t("GL surface created.");
 		/*
 		 * Some one-time OpenGL initialization can be made here probably based
 		 * on features of this particular context
@@ -241,6 +246,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
 
 		gl.glClearColor(0.894117647f, 0.894117647f, 0.894117647f, 1);
+		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 		gl.glShadeModel(GL10.GL_SMOOTH);
 		gl.glDisable(GL10.GL_DEPTH_TEST);
 		gl.glEnable(GL10.GL_TEXTURE_2D);
@@ -296,7 +302,6 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 					if (!currentGrid.usingHardwareBuffers()) {
 						currentGrid.generateHardwareBuffers(gl);
 					}
-					//mSprites[x].getGrid().generateHardwareBuffers(gl);
 				}
 			}
 
@@ -367,13 +372,13 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mAngle = 0;
 	}
 
-	public void setAcceleration(float x, float y, float z) {
+	public synchronized void setAcceleration(float x, float y, float z) {
 		mAccelX = x;
 		mAccelY = y;
 		mAccelZ = z;
 	}
 
-	public void setAngleAndVelocityByTouchPoint(float x, float y) {
+	public synchronized void setAngleAndVelocityByTouchPoint(float x, float y) {
 		long now = System.currentTimeMillis();
 		if (mLastTagAngleSetByTouchTime < 0) {
 			mLastTagAngleSetByTouchTime = now;
@@ -541,7 +546,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		return angle % (2 * Math.PI);
 	}
 
-	private void updatePhysics(double delta) {
+	private synchronized void updatePhysics(double delta) {
 		// !!! Notes taken from Andy's work on the iOS version !!!
 
 		// Find moment of inertia using I = (1/3) * m * L^2  (this is the moment of inertia equation for a rod of length L and mass m, with the axis of rotation at the end of the rod)
@@ -624,8 +629,12 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	 * release OpenGL ES resources.
 	 * @param gl
 	 */
-	public void shutdown(GL10 gl) {
+	public void shutdown() {
 		Log.t("GL shutdown called.");
+		
+		if(mGL == null) {
+			return;
+		}
 
 		if (mSprites != null) {
 			int lastFreedResource = -1;
@@ -635,11 +644,11 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 				int resource = mSprites[x].getResourceId();
 				if (resource != lastFreedResource) {
 					textureToDelete[0] = mSprites[x].getTextureName();
-					gl.glDeleteTextures(1, textureToDelete, 0);
+					mGL.glDeleteTextures(1, textureToDelete, 0);
 					mSprites[x].setTextureName(0);
 				}
 				if (mUseHardwareBuffers) {
-					mSprites[x].getGrid().releaseHardwareBuffers(gl);
+					mSprites[x].getGrid().releaseHardwareBuffers(mGL);
 				}
 			}
 		}

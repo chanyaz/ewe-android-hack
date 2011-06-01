@@ -47,16 +47,8 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 			return true;
 		}
 
-		final View v = view;
-		final MotionEvent e = event;
+		mRenderer.onTouch(view, event);
 
-		queueEvent(new Runnable() {
-			@Override
-			public void run() {
-				mRenderer.onTouch(v, e);
-			}
-		});
-		
 		return true;
 	}
 
@@ -68,8 +60,10 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 
 	@Override
 	protected void onDetachedFromWindow() {
-		super.onDetachedFromWindow();
+		mRenderer.shutdown();
 		setSensorManagerRegistration(false);
+		
+		super.onDetachedFromWindow();
 	}
 
 	@Override
@@ -127,12 +121,7 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 		}
 		}
 
-		queueEvent(new Runnable() {
-			@Override
-			public void run() {
-				mRenderer.setAcceleration(acceleration[0] * -1, acceleration[1] * -1, acceleration[2] * -1);
-			}
-		});
+		mRenderer.setAcceleration(acceleration[0] * -1, acceleration[1] * -1, acceleration[2] * -1);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -151,17 +140,16 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 
 	private void init(Context context) {
 		mContext = (Activity) context;
-
-		mSensorManager = (SensorManager) mContext.getSystemService(Activity.SENSOR_SERVICE);
-		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		mOrientation = ((Activity) context).getWindowManager().getDefaultDisplay().getOrientation();
-
-		setOnTouchListener(this);
-		setFocusableInTouchMode(true);
 
 		mRenderer = new GLTagProgressBarRenderer(context, this);
 		mRenderer.setOrientation(mOrientation);
 
 		setRenderer(mRenderer);
+		setOnTouchListener(this);
+		setFocusableInTouchMode(true);
+
+		mSensorManager = (SensorManager) mContext.getSystemService(Activity.SENSOR_SERVICE);
+		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 	}
 }
