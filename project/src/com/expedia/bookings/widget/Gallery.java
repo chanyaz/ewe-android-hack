@@ -175,7 +175,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		int spacing = a.getDimensionPixelOffset(R.styleable.Gallery_android_spacing, 0);
 		setSpacing(spacing);
 
-		float unselectedAlpha = a.getFloat(R.styleable.Gallery_android_animationDuration, 0.5f);
+		float unselectedAlpha = a.getFloat(R.styleable.Gallery_android_unselectedAlpha, 0.5f);
 		setUnselectedAlpha(unselectedAlpha);
 
 		a.recycle();
