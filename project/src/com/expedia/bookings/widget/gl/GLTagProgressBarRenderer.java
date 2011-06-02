@@ -66,6 +66,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	private boolean mShowProgress = true;
 	private boolean mTagGrabbed = false;
+	private boolean mDoReset = true;
 
 	private double mAngle;
 	private double mAngularVelocity = 0;
@@ -184,6 +185,10 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		final float delta = (float) (mNow - mLastDrawTime) / 1000f;
 		if (LOG_FPS && visible) {
 			Log.t("FPS: %d", (int) (1f / delta));
+		}
+
+		if (mDoReset) {
+			reset();
 		}
 
 		if (visible) {
@@ -368,9 +373,35 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		return tagRect.contains((float) newX, (float) newY);
 	}
 
-	public void reset() {
-		mAngularAcceleration = 0;
+	public void postReset() {
+		mDoReset = true;
+	}
+
+	private void reset() {
 		mAngle = 0;
+		mAngularVelocity = 0;
+
+		mAccelX = 0;
+		mAccelY = 0;
+		mAccelZ = 0;
+
+		mLastAngle = 0;
+		mLastTagAngleSetByTouchTime = 0;
+
+		mInertia = 0;
+		mMagnitude = 0;
+		mMedianAngle = 0;
+		mTagAngle = 0;
+		mAngleDifference = 0;
+		mForce = 0;
+		mTorque = 0;
+		mFrictionTorque = 0;
+		mNetTorque = 0;
+		mAngularAcceleration = 0;
+		mFrictionZ = 0;
+		mChangeInAngle = 0;
+
+		mDoReset = false;
 	}
 
 	public synchronized void setAcceleration(float x, float y, float z) {
@@ -712,4 +743,5 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 		return retVal;
 	}
+
 }

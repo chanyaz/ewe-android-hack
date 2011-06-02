@@ -135,6 +135,12 @@ public class TagProgressBar extends ViewGroup {
 	@Override
 	public void setVisibility(int visibility) {
 		super.setVisibility(visibility);
-		mGLTagProgressBar.setVisibility(visibility);
+		if (mGLTagProgressBar != null) {
+			mGLTagProgressBar.setVisibility(visibility);
+
+			if (visibility != View.VISIBLE) {
+				mGLTagProgressBar.reset();
+			}
+		}
 	}
 }

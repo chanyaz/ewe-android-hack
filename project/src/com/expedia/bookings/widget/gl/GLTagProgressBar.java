@@ -62,7 +62,7 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 	protected void onDetachedFromWindow() {
 		mRenderer.shutdown();
 		setSensorManagerRegistration(false);
-		
+
 		super.onDetachedFromWindow();
 	}
 
@@ -90,7 +90,7 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 		}
 		else {
 			mSensorManager.unregisterListener(this);
-			mRenderer.reset();
+			reset();
 		}
 	}
 
@@ -133,6 +133,12 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 
 	public void setShowProgress(boolean showProgress) {
 		mRenderer.setShowProgress(showProgress);
+	}
+
+	public void reset() {
+		if (mRenderer != null) {
+			mRenderer.postReset();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
