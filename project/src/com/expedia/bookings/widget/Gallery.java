@@ -580,6 +580,14 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		int childrenLeft = mSpinnerPadding.left;
 		int childrenWidth = getRight() - getLeft() - mSpinnerPadding.left - mSpinnerPadding.right;
 
+		// Retain the current offset (if Gallery is mid-scroll/fling)
+		int currOffset = 0;
+		if (mSelectedChild != null) {
+			int selectedCenter = getCenterOfView(mSelectedChild);
+			int targetCenter = getCenterOfGallery();
+			currOffset = selectedCenter - targetCenter;
+		}
+
 		if (mDataChanged) {
 			handleDataChanged();
 		}
@@ -621,6 +629,8 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		// Put the selected child in the center
 		int selectedOffset = childrenLeft + (childrenWidth / 2) - (sel.getWidth() / 2);
 		sel.offsetLeftAndRight(selectedOffset);
+
+		offsetChildrenLeftAndRight(currOffset);
 
 		fillToGalleryRight();
 		fillToGalleryLeft();
