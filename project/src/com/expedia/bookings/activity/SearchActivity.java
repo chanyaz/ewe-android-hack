@@ -539,7 +539,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			final int size = mAddresses.size();
 			final CharSequence[] freeformLocations = new CharSequence[mAddresses.size()];
 			for (int i = 0; i < size; i++) {
-				freeformLocations[i] = LocationServices.formatAddress(mAddresses.get(i));
+				String formattedAddress = LocationServices.formatAddress(mAddresses.get(i));
+				formattedAddress = formattedAddress.replace(", USA", "");
+				freeformLocations[i] = formattedAddress;
 			}
 
 			AlertDialog.Builder builder = new Builder(this);
@@ -547,7 +549,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			builder.setItems(freeformLocations, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					Address address = mAddresses.get(which);
-					mSearchParams.setFreeformLocation(LocationServices.formatAddress(address));
+					String formattedAddress = LocationServices.formatAddress(address);
+					formattedAddress = formattedAddress.replace(", USA", "");
+
+					mSearchParams.setFreeformLocation(formattedAddress);
 					setSearchEditViews();
 
 					setSearchParams(address.getLatitude(), address.getLongitude());
@@ -747,7 +752,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 						}
 						else if (mAddresses != null && mAddresses.size() > 0) {
 							Address address = mAddresses.get(0);
-							mSearchParams.setFreeformLocation(address);
+							String formattedAddress = LocationServices.formatAddress(address);
+							formattedAddress = formattedAddress.replace(", USA", "");
+
+							mSearchParams.setFreeformLocation(formattedAddress);
 							setSearchEditViews();
 							setSearchParams(address.getLatitude(), address.getLongitude());
 							startSearchDownloader();
@@ -1227,7 +1235,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		//-------------------------------------------------------------------
 
 		mSearchProgressBar.setVisibility(View.GONE);
-		
+
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mPanel.setOnPanelListener(mPanelListener);
 
