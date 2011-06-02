@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Gallery">
+    	<!-- These are styleables that are in a standard Gallery, 
+    		reproduced here so we can use them -->
+        <attr name="android:gravity" />
+        <attr name="android:animationDuration" />
+        <attr name="android:spacing" />
+        <attr name="android:unselectedAlpha" />
+    </declare-styleable>
+</resources>

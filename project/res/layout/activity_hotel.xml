@@ -14,7 +14,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="200dp"
 		android:background="@drawable/bg_gallery">
-		<Gallery
+		<com.expedia.bookings.widget.Gallery
 			android:id="@+id/images_gallery"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
