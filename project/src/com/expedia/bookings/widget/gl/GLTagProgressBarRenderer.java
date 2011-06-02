@@ -226,28 +226,28 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		gl.glLoadIdentity();
 		gl.glOrthof(0.0f, width, 0.0f, height, 0.0f, 1.0f);
 
-		gl.glShadeModel(GL10.GL_SMOOTH);
+		gl.glShadeModel(GL10.GL_FLAT);
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glColor4x(0x10000, 0x10000, 0x10000, 0x10000);
 		gl.glEnable(GL10.GL_TEXTURE_2D);
 
-		gl.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
-		gl.glHint(GL11.GL_POLYGON_SMOOTH_HINT, GL11.GL_NICEST);
+		// Custom settings
+		gl.glShadeModel(GL10.GL_SMOOTH);
+		gl.glEnable(GL10.GL_SMOOTH);
+		gl.glEnable(GL10.GL_MULTISAMPLE);
 	}
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		Log.t("GL surface created.");
 		/*
-		 * Some one-time OpenGL initialization can be made here probably based
-		 * on features of this particular context
-		 */
+		* Some one-time OpenGL initialization can be made here probably based
+		* on features of this particular context
+		*/
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
 
 		gl.glClearColor(0.894117647f, 0.894117647f, 0.894117647f, 1);
-		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-		gl.glShadeModel(GL10.GL_SMOOTH);
+		//gl.glShadeModel(GL10.GL_FLAT);
 		gl.glDisable(GL10.GL_DEPTH_TEST);
 		gl.glEnable(GL10.GL_TEXTURE_2D);
 		/*
@@ -255,11 +255,12 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		 * performance. One might want to tweak that especially on software
 		 * renderer.
 		 */
-		gl.glEnable(GL10.GL_DITHER);
+		//gl.glDisable(GL10.GL_DITHER);
 		gl.glDisable(GL10.GL_LIGHTING);
 
-		gl.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
-		gl.glHint(GL11.GL_POLYGON_SMOOTH_HINT, GL11.GL_NICEST);
+		// Custom settings
+		gl.glShadeModel(GL10.GL_SMOOTH);
+		gl.glEnable(GL10.GL_DITHER);
 
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
@@ -631,8 +632,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	 */
 	public void shutdown() {
 		Log.t("GL shutdown called.");
-		
-		if(mGL == null) {
+
+		if (mGL == null) {
 			return;
 		}
 
