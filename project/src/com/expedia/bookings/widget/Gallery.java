@@ -131,6 +131,11 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	private View mSelectedChild;
 
 	/**
+	 * The child view when a scroll first starts.
+	 */
+	private View mInitialScrollChild;
+
+	/**
 	 * Whether to continuously callback on the item selected listener during a
 	 * fling.
 	 */
@@ -925,8 +930,25 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 				mSuppressSelectionChanged = true;
 		}
 
-		// Fling the gallery!
-		mFlingRunnable.startUsingVelocity((int) -velocityX);
+		// Calculate the distance the fling will take you.  If it will propel you to the next
+		// image, force it to only scroll to the next image.
+		int distanceToNext = mSelectedChild.getWidth() + mSpacing;
+		int flingDistance = Math.round(Math.abs(velocityX * mAnimationDuration));
+		if (flingDistance > distanceToNext) {
+			if (mSelectedChild != mInitialScrollChild) {
+				scrollIntoSlots();
+			}
+			else {
+				int nextPos = getSelectedItemPosition();
+				nextPos += (velocityX < 0) ? 1 : -1;
+				scrollToPosition(nextPos);
+			}
+		}
+		else {
+			// Fling the gallery!
+			mFlingRunnable.startUsingVelocity((int) -velocityX);
+		}
+
 		setScrolling(true);
 
 		return true;
@@ -971,6 +993,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		}
 
 		if (mIsFirstScroll) {
+			mInitialScrollChild = mSelectedChild;
 			setScrolling(true);
 		}
 
@@ -1655,10 +1678,25 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 			return;
 		}
 
+		int nextPos = (getSelectedItemPosition() + 1) % count;
+
+		scrollToPosition(nextPos);
+	}
+
+	private void scrollToPosition(int position) {
+		int count = getCount();
+		if (count <= 1) {
+			return;
+		}
+
 		int currPos = getSelectedItemPosition();
-		int nextPos = (currPos + 1) % count;
-		int diff = currPos - nextPos;
+		int diff = currPos - position;
 		int offset = diff * (mSelectedChild.getWidth() + mSpacing);
+
+		// Take into account the current offset
+		int selectedCenter = getCenterOfView(mSelectedChild);
+		int targetCenter = getCenterOfGallery();
+		offset -= selectedCenter - targetCenter;
 
 		// We actually need the animation time to be longer for longer flips.  It turns out
 		// that if you try to flip by 30 images at once in 400 ms, it doesn't work.  So
