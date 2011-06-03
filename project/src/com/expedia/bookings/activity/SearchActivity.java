@@ -1564,7 +1564,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void setRefinementInfo() {
 		if (mDatesLayoutIsVisible) {
-			int nights = mDatesCalendarDatePicker.getSelectedRange();
+			int nights = mDatesCalendarDatePicker.getSelectedRange() - 1;
 			nights = nights > 0 ? nights : 1;
 			mRefinementInfoTextView.setText(getResources().getQuantityString(R.plurals.length_of_stay, nights, nights));
 		}
