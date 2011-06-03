@@ -535,6 +535,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 			// We haven't been callbacking during the fling, so do it now
 			super.selectionChanged();
 		}
+		setScrolling(false);
 		invalidate();
 	}
 
@@ -927,6 +928,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 		// Fling the gallery!
 		mFlingRunnable.startUsingVelocity((int) -velocityX);
+		setScrolling(true);
 
 		return true;
 	}
@@ -967,6 +969,10 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		else {
 			if (mSuppressSelectionChanged)
 				mSuppressSelectionChanged = false;
+		}
+		
+		if (mIsFirstScroll) {
+			setScrolling(true);
 		}
 
 		// Track the motion
@@ -1220,6 +1226,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		if (child != null) {
 			int distance = getCenterOfGallery() - getCenterOfView(child);
 			mFlingRunnable.startUsingDistance(distance);
+			setScrolling(true);
 			return true;
 		}
 
@@ -1551,6 +1558,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	private boolean mStarted = false;
 	private boolean mVisible = false;
 	private boolean mUserPresent = true;
+	private boolean mScrolling = false;
 	private boolean mRegisteredReceiver = false;
 
 	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -1599,6 +1607,11 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		updateRunning();
 	}
 
+	public void setScrolling(boolean isScrolling) {
+		mScrolling = isScrolling;
+		updateRunning();
+	}
+
 	public void startFlipping() {
 		mStarted = true;
 		updateRunning();
@@ -1610,7 +1623,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	}
 
 	private void updateRunning() {
-		boolean running = mVisible && mStarted && mUserPresent;
+		boolean running = mVisible && mStarted && mUserPresent && !mScrolling;
 		if (running != mRunning) {
 			if (running) {
 				Message msg = mHandler.obtainMessage(FLIP_MSG);
@@ -1623,7 +1636,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		}
 
 		Log.d("updateRunning() mVisible=" + mVisible + ", mStarted=" + mStarted
-				+ ", mUserPresent=" + mUserPresent + ", mRunning=" + mRunning);
+				+ ", mUserPresent=" + mUserPresent + ", mRunning=" + mRunning + ", mScrolling=" + mScrolling);
 	}
 
 	// This method isn't perfect; in particular, it assumes that you are scrolling to an item
