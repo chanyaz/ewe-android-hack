@@ -535,7 +535,6 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 			// We haven't been callbacking during the fling, so do it now
 			super.selectionChanged();
 		}
-		setScrolling(false);
 		invalidate();
 	}
 
@@ -970,7 +969,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 			if (mSuppressSelectionChanged)
 				mSuppressSelectionChanged = false;
 		}
-		
+
 		if (mIsFirstScroll) {
 			setScrolling(true);
 		}
@@ -1608,8 +1607,10 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	}
 
 	public void setScrolling(boolean isScrolling) {
-		mScrolling = isScrolling;
-		updateRunning();
+		if (isScrolling != mScrolling) {
+			mScrolling = isScrolling;
+			updateRunning();
+		}
 	}
 
 	public void startFlipping() {
@@ -1620,6 +1621,10 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	public void stopFlipping() {
 		mStarted = false;
 		updateRunning();
+	}
+
+	public boolean isFlipping() {
+		return mRunning;
 	}
 
 	private void updateRunning() {

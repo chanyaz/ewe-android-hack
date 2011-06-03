@@ -46,6 +46,8 @@ public class HotelActivity extends Activity {
 
 	private Context mContext;
 
+	private Gallery mGallery;
+
 	private Property mProperty;
 
 	private int mImageToLoad;
@@ -70,6 +72,13 @@ public class HotelActivity extends Activity {
 		Property property = mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
 				Property.class);
 
+		// Retrieve the last instance
+		boolean startFlipping = true;
+		Instance instance = (Instance) getLastNonConfigurationInstance();
+		if (instance != null) {
+			startFlipping = instance.mGalleryFlipping;
+		}
+
 		// TODO: Delete this once done testing
 		// This code allows us to test the HotelActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
@@ -91,7 +100,7 @@ public class HotelActivity extends Activity {
 		});
 
 		// Configure the gallery
-		Gallery gallery = (Gallery) findViewById(R.id.images_gallery);
+		Gallery gallery = mGallery = (Gallery) findViewById(R.id.images_gallery);
 		if (property.getMediaCount() > 0) {
 			final List<String> urls = new ArrayList<String>(property.getMediaCount());
 			for (Media media : property.getMediaList()) {
@@ -112,7 +121,9 @@ public class HotelActivity extends Activity {
 			};
 			loader.onImageLoaded(null, null);
 
-			gallery.startFlipping();
+			if (startFlipping) {
+				gallery.startFlipping();
+			}
 		}
 		else {
 			gallery.setVisibility(View.GONE);
@@ -200,6 +211,17 @@ public class HotelActivity extends Activity {
 		if (savedInstanceState == null) {
 			onPageLoad();
 		}
+	}
+
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		Instance instance = new Instance();
+		instance.mGalleryFlipping = mGallery.isFlipping();
+		return instance;
+	}
+
+	private static class Instance {
+		private boolean mGalleryFlipping;
 	}
 
 	@Override
