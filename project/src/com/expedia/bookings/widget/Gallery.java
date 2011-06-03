@@ -2,10 +2,15 @@ package com.expedia.bookings.widget;
 
 import java.util.List;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.GestureDetector;
@@ -44,6 +49,11 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	private static final int SCROLL_TO_FLING_UNCERTAINTY_TIMEOUT = 250;
 
 	/**
+	 * The default flip interval, if flipping through gallery.
+	 */
+	private static final int DEFAULT_FLIP_INTERVAL = 4000;
+
+	/**
 	 * Horizontal spacing between items.
 	 */
 	private int mSpacing = 0;
@@ -58,6 +68,11 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	 * The alpha of items that are not selected.
 	 */
 	private float mUnselectedAlpha;
+
+	/**
+	 * The rate at which the Gallery flips items.
+	 */
+	private int mFlipInterval = 0;
 
 	/**
 	 * Left most edge of a child seen so far during layout.
@@ -178,6 +193,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		float unselectedAlpha = a.getFloat(R.styleable.Gallery_android_unselectedAlpha, 0.5f);
 		setUnselectedAlpha(unselectedAlpha);
 
+		int flipInterval = a.getInt(R.styleable.Gallery_android_flipInterval, DEFAULT_FLIP_INTERVAL);
+		setFlipInterval(flipInterval);
+
 		a.recycle();
 
 		// We draw the selected item last (because otherwise the item to the
@@ -262,6 +280,15 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	 */
 	public void setUnselectedAlpha(float unselectedAlpha) {
 		mUnselectedAlpha = unselectedAlpha;
+	}
+
+	/**
+	 * Sets the flip interval between items in the Gallery
+	 * 
+	 * @param flipInterval the flip interval between items in the Gallery
+	 */
+	public void setFlipInterval(int flipInterval) {
+		mFlipInterval = flipInterval;
 	}
 
 	@Override
@@ -1327,13 +1354,17 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		}
 
 		public void startUsingDistance(int distance) {
+			startUsingDistance(distance, mAnimationDuration);
+		}
+
+		public void startUsingDistance(int distance, int animationDuration) {
 			if (distance == 0)
 				return;
 
 			startCommon();
 
 			mLastFlingX = 0;
-			mScroller.startScroll(0, 0, -distance, 0, mAnimationDuration);
+			mScroller.startScroll(0, 0, -distance, 0, animationDuration);
 			post(this);
 		}
 
@@ -1512,4 +1543,132 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 			public ImageView item;
 		}
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Automatic rotation section
+
+	private boolean mRunning = false;
+	private boolean mStarted = false;
+	private boolean mVisible = false;
+	private boolean mUserPresent = true;
+	private boolean mRegisteredReceiver = false;
+
+	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			final String action = intent.getAction();
+			if (Intent.ACTION_SCREEN_OFF.equals(action)) {
+				mUserPresent = false;
+				updateRunning();
+			}
+			else if (Intent.ACTION_USER_PRESENT.equals(action)) {
+				mUserPresent = true;
+				updateRunning();
+			}
+		}
+	};
+
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+
+		// Listen for broadcasts related to user-presence
+		final IntentFilter filter = new IntentFilter();
+		filter.addAction(Intent.ACTION_SCREEN_OFF);
+		filter.addAction(Intent.ACTION_USER_PRESENT);
+		getContext().registerReceiver(mReceiver, filter);
+		mRegisteredReceiver = true;
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+		mVisible = false;
+
+		if (mRegisteredReceiver) {
+			getContext().unregisterReceiver(mReceiver);
+			mRegisteredReceiver = false;
+		}
+		updateRunning();
+	}
+
+	@Override
+	protected void onWindowVisibilityChanged(int visibility) {
+		super.onWindowVisibilityChanged(visibility);
+		mVisible = visibility == VISIBLE;
+		updateRunning();
+	}
+
+	public void startFlipping() {
+		mStarted = true;
+		updateRunning();
+	}
+
+	public void stopFlipping() {
+		mStarted = false;
+		updateRunning();
+	}
+
+	private void updateRunning() {
+		boolean running = mVisible && mStarted && mUserPresent;
+		if (running != mRunning) {
+			if (running) {
+				Message msg = mHandler.obtainMessage(FLIP_MSG);
+				mHandler.sendMessageDelayed(msg, mFlipInterval);
+			}
+			else {
+				mHandler.removeMessages(FLIP_MSG);
+			}
+			mRunning = running;
+		}
+
+		Log.d("updateRunning() mVisible=" + mVisible + ", mStarted=" + mStarted
+				+ ", mUserPresent=" + mUserPresent + ", mRunning=" + mRunning);
+	}
+
+	// This method isn't perfect; in particular, it assumes that you are scrolling to an item
+	// that has the same width as the current item.
+	//
+	// It also should not be run while the user is scrolling/flinging.  It could account for that, but I
+	// see no need for that right now.
+	private void showNext() {
+		int count = getCount();
+		if (count <= 1) {
+			return;
+		}
+
+		int currPos = getSelectedItemPosition();
+		int nextPos = (currPos + 1) % count;
+		int diff = currPos - nextPos;
+		int offset = diff * (mSelectedChild.getWidth() + mSpacing);
+
+		// We actually need the animation time to be longer for longer flips.  It turns out
+		// that if you try to flip by 30 images at once in 400 ms, it doesn't work.  So
+		// we extend the animation time more for each additional image past the first
+		// (but below the flipping interval).
+		int duration = mAnimationDuration + (mAnimationDuration * Math.abs(diff) / 2);
+		if (duration > mFlipInterval) {
+			duration -= mAnimationDuration;
+			if (duration < 0) {
+				duration = mFlipInterval / 2;
+			}
+		}
+
+		mFlingRunnable.startUsingDistance(offset, duration);
+	}
+
+	private final int FLIP_MSG = 1;
+
+	private final Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if (msg.what == FLIP_MSG) {
+				if (mRunning) {
+					showNext();
+					msg = obtainMessage(FLIP_MSG);
+					sendMessageDelayed(msg, mFlipInterval);
+				}
+			}
+		}
+	};
 }

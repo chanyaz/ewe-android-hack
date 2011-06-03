@@ -111,6 +111,8 @@ public class HotelActivity extends Activity {
 				}
 			};
 			loader.onImageLoaded(null, null);
+
+			gallery.startFlipping();
 		}
 		else {
 			gallery.setVisibility(View.GONE);
