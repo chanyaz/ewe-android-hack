@@ -11,11 +11,15 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mobiata.android.R;
 import com.mobiata.hotellib.data.Filter;
@@ -25,6 +29,8 @@ import com.mobiata.hotellib.data.SearchResponse;
 public class ListViewScrollBar extends View implements OnScrollListener, OnTouchListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
+
+	private final Toast mToast = Toast.makeText(getContext(), null, Toast.LENGTH_SHORT);
 
 	private static final int HEIGHT_INDICATOR_MIN = 24;
 	private static final int HEIGHT_ROW_DIVIDER = 2;
@@ -40,10 +46,13 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	private float mScaledDensity;
 
 	private SearchResponse mSearchResponse;
+	private Property[] mCachedProperties;
 	private Integer[] mCachedMarkerPositions;
 
-	private AbsListView mListView;
+	private ListView mListView;
 	private AbsListView.OnScrollListener mOnScrollListener;
+	
+	private float mTouchPercent;
 
 	private Drawable mBarDrawable;
 	private Drawable mIndicatorDrawable;
@@ -217,11 +226,13 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	}
 
 	@Override
-	public boolean onTouch(View v, MotionEvent event) {
+	public boolean onTouch(View v, MotionEvent event) {		
 		final float y = event.getY();
-		final float percent = (y - mPaddingTop) / mScrollHeight;
+		mTouchPercent = (y - mPaddingTop - mIndicatorPaddingTop - (mIndicatorHeight / 2)) / mScrollHeight;
+		
+		mGestureDetector.onTouchEvent(event);
 
-		int position = (int) (((mTotalItemCount - mVisibleItemCount) * percent) - (mVisibleItemCount / 2));
+		int position = (int) ((mTotalItemCount * mTouchPercent) - (mVisibleItemCount / 2));
 		if (position < 0) {
 			position = 0;
 		}
@@ -229,14 +240,20 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 			position = (int) mTotalItemCount - 1;
 		}
 
-		mListView.setSelection(position);
+		final int offset = (int) ((mTouchPercent * mRowHeight * (mTotalItemCount - mVisibleItemCount)) - (position * mRowHeight));
+
+		((ListView) mListView).setSelectionFromTop(position, -offset);
+
+		mToast.setText((int) (mTouchPercent * 100) + "%");
+		mToast.show();
+
 		return true;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Public methods
 
-	public void setListView(AbsListView view) {
+	public void setListView(ListView view) {
 		mListView = view;
 		mListView.setOnScrollListener(this);
 	}
@@ -257,7 +274,8 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		List<Integer> propertyPositions = new ArrayList<Integer>();
 		int i = 0;
 
-		for (Property property : mSearchResponse.getFilteredAndSortedProperties()) {
+		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
+		for (Property property : mCachedProperties) {
 			if (property.getTripAdvisorRating() >= Filter.TRIP_ADVISOR_HIGH_RATING) {
 				propertyPositions.add(i);
 			}
@@ -321,8 +339,80 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		}
 	}
 
+	private float getNearestTATouchPercent(float percent) {
+		if (mCachedMarkerPositions == null || mCachedProperties == null) {
+			checkCachedMarkers();
+		}
+
+		final int propertiesSize = mCachedProperties.length;
+		final int markersSize = mCachedMarkerPositions.length;
+
+		final int start = (int) (percent * propertiesSize);
+		final int range = (int) Math.ceil(mVisibleItemCount / 2);
+		boolean jumpPositive = true;
+		int jump = 0;
+
+		while (Math.abs(jump) < range) {
+			final int position = start + jump;
+			for (int i = 0; i < markersSize; i++) {
+				if (mCachedMarkerPositions[i] == position) {
+					final float markerPercent = (float) position / (float) propertiesSize;
+					final float y = (mMarkerRangeHeight * markerPercent) + mIndicatorPaddingTop
+							+ mMarkerRangePaddingTop + mPaddingTop;
+					final float touchPercent = (y - mPaddingTop - mIndicatorPaddingTop - (mIndicatorHeight / 2))
+							/ mScrollHeight;
+
+					return touchPercent;
+				}
+			}
+
+			if (jumpPositive) {
+				jump *= -1;
+				jumpPositive = false;
+			}
+			else {
+				jump *= -1;
+				jump += jumpPositive ? 1 : -1;
+				jumpPositive = true;
+			}
+		}
+
+		return percent;
+	}
+
 	private void init() {
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
 		mScaledDensity = metrics.scaledDensity;
 	}
+
+	private final GestureDetector mGestureDetector = new GestureDetector(new OnGestureListener() {
+		@Override
+		public boolean onSingleTapUp(MotionEvent e) {
+			mTouchPercent = getNearestTATouchPercent(mTouchPercent);
+			return false;
+		}
+
+		@Override
+		public void onShowPress(MotionEvent e) {
+		}
+
+		@Override
+		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+			return false;
+		}
+
+		@Override
+		public void onLongPress(MotionEvent e) {
+		}
+
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+			return false;
+		}
+
+		@Override
+		public boolean onDown(MotionEvent e) {
+			return false;
+		}
+	});
 }
