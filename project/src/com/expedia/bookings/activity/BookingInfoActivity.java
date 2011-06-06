@@ -513,6 +513,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				String key = s.toString().toLowerCase();
 				if (COMMON_US_CITIES.containsKey(key)) {
 					mStateEditText.setText(COMMON_US_CITIES.get(key));
+					mStateEditText.setError(null);
 					setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
 				}
 			}
