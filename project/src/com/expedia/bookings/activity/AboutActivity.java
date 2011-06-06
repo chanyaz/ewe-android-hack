@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.LinkedHashMap;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.SupportUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
@@ -89,6 +92,16 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 				onFlightBoardLink();
 			}
 		});
+
+		ViewGroup rulesRestrictionsSection = addSection();
+		final LinkedHashMap<String, String> map = RulesRestrictionsUtils.getInfoData(this);
+		for (final String label : map.keySet()) {
+			addSimpleRow(rulesRestrictionsSection, label, new OnClickListener() {
+				public void onClick(View v) {
+					SocialUtils.openSite(mContext, map.get(label));
+				}
+			});
+		}
 
 		// Tracking
 		if (savedInstanceState == null) {

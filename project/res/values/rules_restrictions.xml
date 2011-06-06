@@ -100,6 +100,74 @@
 		<item>@string/privacy_policy_url_mx</item>
 	</string-array>
 
+	<!-- These are the rules/restrictions that should be displayed in the info screen. -->
+	<string-array name="info_rules_restrictions_map_us">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_us</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_us</item>
+	</string-array>
+	<string-array name="info_rules_restrictions_map_gb">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_gb</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_gb</item>
+	</string-array>
+	<string-array name="info_rules_restrictions_map_de">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_de</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_de</item>
+	</string-array>
+	<string-array name="info_rules_restrictions_map_fr">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_fr</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_fr</item>
+	</string-array>
+	<string-array name="info_rules_restrictions_map_it">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_it</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_it</item>
+	</string-array>
+	<string-array name="info_rules_restrictions_map_es">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_es</item>
+		<item>@string/info_label_terms_of_use</item><item>@string/terms_of_use_url_es</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_es</item>
+	</string-array>
+	<string-array name="info_rules_restrictions_map_ie">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_ie</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_ie</item>
+	</string-array>
+	<string-array name="info_rules_restrictions_map_no">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_no</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_no</item>
+	</string-array>
+	<string-array name="info_rules_restrictions_map_au">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_au</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_au</item>
+	</string-array>
+	<string-array name="info_rules_restrictions_map_nz">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_nz</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_nz</item>
+	</string-array>
+	<string-array name="info_rules_restrictions_map_in">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_in</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_in</item>
+	</string-array>
+	<string-array name="info_rules_restrictions_map_sg">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_sg</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_sg</item>
+	</string-array>
+	<string-array name="info_rules_restrictions_map_ca">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_ca</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_ca</item>
+	</string-array>
+	<string-array name="info_rules_restrictions_map_ca_fr">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_ca_fr</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_ca_fr</item>
+	</string-array>
+	<string-array name="info_rules_restrictions_map_mx">
+		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_mx</item>
+		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_mx</item>
+	</string-array>
+
+	<!-- The info screen labels for rows -->
+	<string name="info_label_terms_conditions">Terms and Conditions</string>
+	<string name="info_label_terms_of_use">Terms of Use</string>
+	<string name="info_label_privacy_policy">Privacy Policy</string>
+
 	<!-- This is the raw data for URLs and text  -->
 	<string name="terms_conditions_url_us">http://www.expedia.com/daily/service/legal.asp</string>
 	<string name="terms_conditions_url_gb">http://www.expedia.co.uk/daily/service/legal.asp</string>
