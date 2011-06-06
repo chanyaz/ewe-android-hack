@@ -19,7 +19,7 @@
 	<string name="rules_restrictions_disclaimer_de">Mit Absenden der Buchung stimme ich den vorstehenden Geschäftsbedingungen und der Geltung der &lt;a href="%1$s">allgemeinen Geschäftsbedingungen&lt;/a> von Expedia zu. Die &lt;a href="%2$s">Datenschutzerklärung&lt;/a> habe ich zur Kenntnis genommen.</string>
 	<string name="rules_restrictions_disclaimer_fr">J\'ai lu et j\'accepte les conditions et restrictions, &lt;a href="%1$s">les conditions d\'utilisation&lt;/a> et &lt;a href="%2$s">la charte de confidentialité&lt;/a>.</string>
 	<string name="rules_restrictions_disclaimer_it">Dopo averne preso visione, accetto il regolamento, i &lt;a href="%1$s">Condizioni Generali di Contratto&lt;/a> e la &lt;a href="%2$s">politica sulla privacy&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_es">He leído y acepto las reglas y restricciones anteriores, &lt;a href="%1$s">los términos y condiciones de la reserva&lt;/a>, &lt;a href="%2$s">los términos de uso&lt;/a> y &lt;a href="%3$s">la directiva de privacidad&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_es">He leído y acepto las reglas y restricciones anteriores, &lt;a href="%1$s">los términos y condiciones de la reserva&lt;/a>, y &lt;a href="%2$s">la directiva de privacidad&lt;/a>.</string>
 	<string name="rules_restrictions_disclaimer_ie">By completing this booking I agree that I have read and accept the above rules and restrictions, the &lt;a href="%1$s">Terms and Conditions&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
 	<string name="rules_restrictions_disclaimer_no">Jeg har lest og godtar reglene og begrensningene, &lt;a href="%1$s">vilkårene for bruk&lt;/a> og &lt;a href="%2$s">personvernbestemmelsene&lt;/a>.</string>
 	<string name="rules_restrictions_disclaimer_au">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
@@ -60,7 +60,6 @@
 	</string-array>
 	<string-array name="rule_restrictions_disclaimer_urls_es">
 		<item>@string/terms_conditions_url_es</item>
-		<item>@string/terms_of_use_url_es</item>
 		<item>@string/privacy_policy_url_es</item>
 	</string-array>
 	<string-array name="rule_restrictions_disclaimer_urls_ie">
@@ -123,7 +122,6 @@
 	</string-array>
 	<string-array name="info_rules_restrictions_map_es">
 		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_es</item>
-		<item>@string/info_label_terms_of_use</item><item>@string/terms_of_use_url_es</item>
 		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_es</item>
 	</string-array>
 	<string-array name="info_rules_restrictions_map_ie">
@@ -165,7 +163,6 @@
 
 	<!-- The info screen labels for rows -->
 	<string name="info_label_terms_conditions">Terms and Conditions</string>
-	<string name="info_label_terms_of_use">Terms of Use</string>
 	<string name="info_label_privacy_policy">Privacy Policy</string>
 
 	<!-- This is the raw data for URLs and text  -->
@@ -184,8 +181,6 @@
 	<string name="terms_conditions_url_ca">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
 	<string name="terms_conditions_url_ca_fr">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
 	<string name="terms_conditions_url_mx">http://www.expedia.com.mx/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-
-	<string name="terms_of_use_url_es">http://www.expedia.es/terminos-y-condiciones-generales.aspx</string>
 
 	<string name="privacy_policy_url_us">http://www.expedia.com/daily/service/privacy.asp</string>
 	<string name="privacy_policy_url_gb">http://www.expedia.co.uk/daily/service/privacy.asp</string>
