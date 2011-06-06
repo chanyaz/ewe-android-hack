@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	This file is for all data related to rules & restrictions placed
+	on this app.
+	
+	TODO: PUT THESE IN THEIR PROPER TRANSLATION FOLDERS.
+		
+	Right now these strings are here in order to avoid the Android Market
+	saying that we have full translations for each language when this
+	is the ONLY part of the app that is fully translated.
+	
+	See ticket #7529 for more information.
+-->
+<resources>
+	<!-- These are the base strings for rules & restrictions on the booking info page.
+		They should be filled up with urls -->
+	<string name="rules_restrictions_disclaimer_us">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_gb">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms and Conditions&lt;/a> and the &lt;a href="%2$s">privacy policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_de">Mit Absenden der Buchung stimme ich den vorstehenden Geschäftsbedingungen und der Geltung der &lt;a href="%1$s">allgemeinen Geschäftsbedingungen&lt;/a> von Expedia zu. Die &lt;a href="%2$s">Datenschutzerklärung&lt;/a> habe ich zur Kenntnis genommen.</string>
+	<string name="rules_restrictions_disclaimer_fr">J\'ai lu et j\'accepte les conditions et restrictions, &lt;a href="%1$s">les conditions d\'utilisation&lt;/a> et &lt;a href="%2$s">la charte de confidentialité&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_it">Dopo averne preso visione, accetto il regolamento, i &lt;a href="%1$s">Condizioni Generali di Contratto&lt;/a> e la &lt;a href="%2$s">politica sulla privacy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_es">He leído y acepto las reglas y restricciones anteriores, &lt;a href="%1$s">los términos y condiciones de la reserva&lt;/a>, &lt;a href="%2$s">los términos de uso&lt;/a> y &lt;a href="%3$s">la directiva de privacidad&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_ie">By completing this booking I agree that I have read and accept the above rules and restrictions, the &lt;a href="%1$s">Terms and Conditions&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_no">Jeg har lest og godtar reglene og begrensningene, &lt;a href="%1$s">vilkårene for bruk&lt;/a> og &lt;a href="%2$s">personvernbestemmelsene&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_au">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_nz">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_in">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_sg">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_ca">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_ca_fr">En faisant cette réservation, je reconnais avoir lu et accepté les règles et restrictions énoncées ci-dessus, de même que les &lt;a href="%1$s">modalités d’utilisation&lt;/a> et la &lt;a href="%2$s">politique en matière de protection des renseignements personnels&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_mx">Al completar esta reservacion, manifiesto que he leido y acepto las Reglas y Restricciones, los &lt;a href="%1$s">Terminos de Uso&lt;/a> y &lt;a href="%2$s">las Politicas de Privacidad anteriores&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_nl">Door deze boeking af te ronden geeft u aan dat de bovenstaande Voorwaarden en Bepalingen, algemene voorwaarden en Privacy Policy heeft gelezen en deze accepteert</string>
+	<string name="rules_restrictions_disclaimer_be_fr">En achevant cette réservation, je confirme que j\'ai lu les conditions et les restrictions ci-dessus, ainsi que les conditions générales de vente et d\'utilisation et la politique en matière de vie privée et que je les accepte »</string>
+	<string name="rules_restrictions_disclaimer_be_nl">Door deze boeking te voltooien bevestig ik dat ik de bovenvermelde regels en beperkingen evenals de reserveringsvoorwaarden en de privacy policy heb gelezen en dat ik deze aanvaard.</string>
+	<string name="rules_restrictions_disclaimer_at">Mit der Reservierung bestätigen Sie, die Allgemeinen Geschäftsbedingungen von EXPEDIA und die Datenschutzregelung von EXPEDIA vorab gelesen und vollinhaltlich akzeptiert zu haben.</string>
+	<string name="rules_restrictions_disclaimer_dk">Ved at gennemføre reserveringen bekræfter jeg, at jeg har læst og accepteret ovennævnte specifikke vilkår og begrænsinger, generelle vilkår og betingelser samt regler om beskyttelse af personlige oplysninger. </string>
+	<string name="rules_restrictions_disclaimer_se">Genom att göra denna bokning bekräftar jag att jag har läst och accepterar ovanstående Regler och Begränsningar, Användarvillkor och Integritetspolicy.</string>
+	<string name="rules_restrictions_disclaimer_jp">私は、この予約の申込みをした場合、上記の「規則と制限事項」、「利用規約」及び「プライバシー・ポリシー」を読んだ上で承諾したものとみなされることに同意します。</string>
+
+	<!-- These are a series of string resources that define what to put into the disclaimers -->
+	<string-array name="rule_restrictions_disclaimer_urls_us">
+		<item>@string/terms_conditions_url_us</item>
+		<item>@string/privacy_policy_url_us</item>
+	</string-array>
+	<string-array name="rule_restrictions_disclaimer_urls_gb">
+		<item>@string/terms_conditions_url_gb</item>
+		<item>@string/privacy_policy_url_gb</item>
+	</string-array>
+	<string-array name="rule_restrictions_disclaimer_urls_de">
+		<item>@string/terms_conditions_url_de</item>
+		<item>@string/privacy_policy_url_de</item>
+	</string-array>
+	<string-array name="rule_restrictions_disclaimer_urls_fr">
+		<item>@string/terms_conditions_url_fr</item>
+		<item>@string/privacy_policy_url_fr</item>
+	</string-array>
+	<string-array name="rule_restrictions_disclaimer_urls_it">
+		<item>@string/terms_conditions_url_it</item>
+		<item>@string/privacy_policy_url_it</item>
+	</string-array>
+	<string-array name="rule_restrictions_disclaimer_urls_es">
+		<item>@string/terms_conditions_url_es</item>
+		<item>@string/terms_of_use_url_es</item>
+		<item>@string/privacy_policy_url_es</item>
+	</string-array>
+	<string-array name="rule_restrictions_disclaimer_urls_ie">
+		<item>@string/terms_conditions_url_ie</item>
+		<item>@string/privacy_policy_url_ie</item>
+	</string-array>
+	<string-array name="rule_restrictions_disclaimer_urls_no">
+		<item>@string/terms_conditions_url_no</item>
+		<item>@string/privacy_policy_url_no</item>
+	</string-array>
+	<string-array name="rule_restrictions_disclaimer_urls_au">
+		<item>@string/terms_conditions_url_au</item>
+		<item>@string/privacy_policy_url_au</item>
+	</string-array>
+	<string-array name="rule_restrictions_disclaimer_urls_nz">
+		<item>@string/terms_conditions_url_nz</item>
+		<item>@string/privacy_policy_url_nz</item>
+	</string-array>
+	<string-array name="rule_restrictions_disclaimer_urls_in">
+		<item>@string/terms_conditions_url_in</item>
+		<item>@string/privacy_policy_url_in</item>
+	</string-array>
+	<string-array name="rule_restrictions_disclaimer_urls_sg">
+		<item>@string/terms_conditions_url_sg</item>
+		<item>@string/privacy_policy_url_sg</item>
+	</string-array>
+	<string-array name="rule_restrictions_disclaimer_urls_ca">
+		<item>@string/terms_conditions_url_ca</item>
+		<item>@string/privacy_policy_url_ca</item>
+	</string-array>
+	<string-array name="rule_restrictions_disclaimer_urls_ca_fr">
+		<item>@string/terms_conditions_url_ca_fr</item>
+		<item>@string/privacy_policy_url_ca_fr</item>
+	</string-array>
+	<string-array name="rule_restrictions_disclaimer_urls_mx">
+		<item>@string/terms_conditions_url_mx</item>
+		<item>@string/privacy_policy_url_mx</item>
+	</string-array>
+
+	<!-- This is the raw data for URLs and text  -->
+	<string name="terms_conditions_url_us">http://www.expedia.com/daily/service/legal.asp</string>
+	<string name="terms_conditions_url_gb">http://www.expedia.co.uk/daily/service/legal.asp</string>
+	<string name="terms_conditions_url_de">http://www.expedia.de/daily/service/agb.aspx</string>
+	<string name="terms_conditions_url_fr">http://www.expedia.fr/daily/services/legal/cvg.aspx</string>
+	<string name="terms_conditions_url_it">http://www.expedia.it/daily/informazioni_legali/condizioni_vendita.aspx</string>
+	<string name="terms_conditions_url_es">http://www.expedia.es/terminos-y-condiciones-generales-para-reservas.aspx</string>
+	<string name="terms_conditions_url_ie">https://www.expedia.ie/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_no">http://www.expedia.no/no/tandc.aspx</string>
+	<string name="terms_conditions_url_au">http://www.expedia.com.au/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_nz">http://www.expedia.co.nz/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_in">http://www.expedia.co.in/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_sg">http://www.expedia.com.sg/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_ca">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
+	<string name="terms_conditions_url_ca_fr">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
+	<string name="terms_conditions_url_mx">http://www.expedia.com.mx/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+
+	<string name="terms_of_use_url_es">http://www.expedia.es/terminos-y-condiciones-generales.aspx</string>
+
+	<string name="privacy_policy_url_us">http://www.expedia.com/daily/service/privacy.asp</string>
+	<string name="privacy_policy_url_gb">http://www.expedia.co.uk/daily/service/privacy.asp</string>
+	<string name="privacy_policy_url_de">http://www.expedia.de/service/safecc.aspx</string>
+	<string name="privacy_policy_url_fr">http://www.expedia.fr/daily/services/legal/charte-conf.aspx</string>
+	<string name="privacy_policy_url_it">http://www.expedia.it/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_es">http://www.expedia.es/politica-de-privacidad.aspx</string>
+	<string name="privacy_policy_url_ie">https://www.expedia.ie/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_no">https://www.expedia.no/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPolicyAdded.htx&amp;eapid=327-30035</string>
+	<string name="privacy_policy_url_au">http://www.expedia.com.au/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_nz">http://www.expedia.co.nz/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_in">http://www.expedia.co.in/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_sg">http://www.expedia.com.sg/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_ca">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
+	<string name="privacy_policy_url_ca_fr">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
+	<string name="privacy_policy_url_mx">http://www.expedia.com.mx/politica-de-privacidad.aspx</string>
+</resources>

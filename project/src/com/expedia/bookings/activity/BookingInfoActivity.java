@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -27,14 +28,19 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -123,12 +129,16 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private EditText mExpirationYearEditText;
 	private EditText mSecurityCodeEditText;
 	private Button mConfirmationButton;
+	private CheckBox mRulesRestrictionsCheckbox;
 
 	// Cached views (non-interactive)
+	private ScrollView mScrollView;
 	private ImageView mCreditCardImageView;
 	private TextView mSecurityCodeTipTextView;
 	private ImageView mChargeDetailsImageView;
 	private TextView mChargeDetailsTextView;
+	private TextView mRulesRestrictionsTextView;
+	private ViewGroup mRulesRestrictionsLayout;
 
 	// Validation
 	private static final int ERROR_INVALID_CARD_NUMBER = 101;
@@ -137,6 +147,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private static final int ERROR_SHORT_SECURITY_CODE = 104;
 	private static final int ERROR_INVALID_CARD_TYPE = 105;
 	private static final int ERROR_AMEX_BAD_CURRENCY = 106;
+	private static final int ERROR_NO_TERMS_CONDITIONS_AGREEMEMT = 107;
 	private ValidationProcessor mValidationProcessor;
 	private TextViewErrorHandler mErrorHandler;
 
@@ -221,12 +232,16 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mExpirationYearEditText = (EditText) findViewById(R.id.expiration_year_edit_text);
 		mSecurityCodeEditText = (EditText) findViewById(R.id.security_code_edit_text);
 		mConfirmationButton = (Button) findViewById(R.id.confirm_book_button);
+		mRulesRestrictionsCheckbox = (CheckBox) findViewById(R.id.rules_restrictions_checkbox);
 
 		// Other cached views
+		mScrollView = (ScrollView) findViewById(R.id.scroll_view);
 		mCreditCardImageView = (ImageView) findViewById(R.id.credit_card_image_view);
 		mSecurityCodeTipTextView = (TextView) findViewById(R.id.security_code_tip_text_view);
 		mChargeDetailsImageView = (ImageView) findViewById(R.id.charge_details_lock_image_view);
 		mChargeDetailsTextView = (TextView) findViewById(R.id.charge_details_text_view);
+		mRulesRestrictionsTextView = (TextView) findViewById(R.id.rules_restrictions_text_view);
+		mRulesRestrictionsLayout = (ViewGroup) findViewById(R.id.rules_restrictions_layout);
 
 		// Configure the layout
 		configureTicket();
@@ -548,6 +563,23 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			}
 		});
 
+		// Only display the checkbox if we're in a locale that requires its display
+		if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox()) {
+			mRulesRestrictionsCheckbox.setVisibility(View.VISIBLE);
+			mRulesRestrictionsCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					buttonView.setError(null);
+				}
+			});
+		}
+		else {
+			mRulesRestrictionsCheckbox.setVisibility(View.GONE);
+		}
+
+		// Setup the correct text (and link enabling) on the terms & conditions textview
+		mRulesRestrictionsTextView.setText(RulesRestrictionsUtils.getRulesRestrictionsConfirmation(this));
+		mRulesRestrictionsTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
 		// Configure form validation
 		// Setup validators and error handlers
 		final String userCurrency = CurrencyUtils.getCurrencyCode(mContext);
@@ -568,6 +600,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		errorHandler.addResponse(ERROR_SHORT_SECURITY_CODE, getString(R.string.invalid_security_code));
 		errorHandler.addResponse(ERROR_INVALID_CARD_TYPE, getString(R.string.invalid_card_type));
 		errorHandler.addResponse(ERROR_AMEX_BAD_CURRENCY, getString(R.string.invalid_currency_for_amex, userCurrency));
+		errorHandler.addResponse(ERROR_NO_TERMS_CONDITIONS_AGREEMEMT, getString(R.string.error_no_user_agreement));
 
 		// Add all the validators
 		mValidationProcessor.add(mFirstNameEditText, requiredFieldValidator);
@@ -614,6 +647,14 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				return (obj.length() < 3) ? ERROR_SHORT_SECURITY_CODE : 0;
 			}
 		}));
+		mValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
+			public int validate(CheckBox obj) {
+				if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
+					return ERROR_NO_TERMS_CONDITIONS_AGREEMEMT;
+				}
+				return 0;
+			}
+		});
 
 		// Configure the bottom of the page form stuff
 		final BookingInfoActivity activity = this;
@@ -625,25 +666,31 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				saveBillingInfo();
 
 				List<ValidationError> errors = mValidationProcessor.validate();
+				int numErrors = errors.size();
 
 				if (!mFormHasBeenFocused) {
 					// Since the user hasn't even focused the form yet, instead push them towards the first
 					// invalid field to enter
-					if (errors.size() > 0) {
+					if (numErrors > 0) {
 						View firstErrorView = (View) errors.get(0).getObject();
 						focusAndOpenKeyboard(firstErrorView);
 					}
 					return;
 				}
 
-				if (errors.size() > 0) {
+				if (numErrors > 0) {
 					for (ValidationError error : errors) {
 						mErrorHandler.handleError(error);
 					}
 
 					// Request focus on the first field that was invalid
 					View firstErrorView = (View) errors.get(0).getObject();
-					focusAndOpenKeyboard(firstErrorView);
+					if (firstErrorView == mRulesRestrictionsCheckbox) {
+						mScrollView.requestChildFocus(mRulesRestrictionsLayout, mRulesRestrictionsLayout);
+					}
+					else {
+						focusAndOpenKeyboard(firstErrorView);
+					}
 				}
 				else {
 					onClickSubmit();
@@ -910,7 +957,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private boolean saveBillingInfo() {
 		// Gather all the data to be saved
 		syncBillingInfo();
-		
+
 		// Save the hashed email, just for tracking purposes
 		TrackingUtils.saveEmailForTracking(this, mBillingInfo.getEmail());
 

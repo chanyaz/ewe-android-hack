@@ -134,6 +134,8 @@
 	<string name="security_code_tip_front">See front of credit card</string>
 	<!-- Security code tip (if code is on front of card) -->
 	<string name="security_code_tip_back">See back of credit card</string>
+	<!-- Rules & restrictions section header -->
+	<string name="rules_restrictions">Rules &amp; Restrictions</string>
 	<!-- Disclaimer about charges and currency -->
 	<string name="disclaimer_currency">All charges will incur in the hotel\'s local currency.</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -156,6 +158,8 @@
 	<string name="invalid_security_code">Please enter a three or four digit security code</string>
 	<!-- Error if an invalid currency code is being used with American Express -->
 	<string name="invalid_currency_for_amex">Sorry, payments in this currency (%s) are not supported by American Express. Please use a different credit card.</string>
+	<!-- Error if user agreement needs to be checked but is not -->
+	<string name="error_no_user_agreement">You must accept the terms to book</string>
 	<!-- Message to display to user while booking is in progress -->
 	<string name="booking_loading">Booking...</string>
 	<!-- Title for error dialog when booking fails -->
