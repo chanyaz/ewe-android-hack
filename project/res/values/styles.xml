@@ -63,6 +63,10 @@
     <style name="Widget.Spinner" parent="@android:style/Widget.Spinner">
     	<item name="android:background">@drawable/btn_dropdown</item>
     </style>
+    
+    <style name="Widget.CompoundButton.CheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+    	<item name="android:button">@drawable/btn_check</item>
+    </style>
 
     <style name="ExpediaList">
     	<item name="android:background">#e7e7e7</item>

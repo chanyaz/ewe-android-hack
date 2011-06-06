@@ -8,5 +8,6 @@
 		<item name="android:imageButtonStyle">@style/Widget.Button</item>
 		<item name="android:ratingBarStyle">@style/Widget.RatingBar.Small.Shadowed</item>
 		<item name="android:spinnerStyle">@style/Widget.Spinner</item>
+		<item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
 	</style>
 </resources>
