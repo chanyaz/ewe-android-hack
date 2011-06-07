@@ -19,6 +19,7 @@ import android.view.View.OnTouchListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mobiata.android.Log;
 import com.mobiata.android.R;
@@ -41,7 +42,9 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
-	private float mScaledDensity;
+	private final Toast mToast = Toast.makeText(getContext(), null, Toast.LENGTH_SHORT);
+
+	private double mScaledDensity;
 
 	private SearchResponse mSearchResponse;
 	private Property[] mCachedProperties;
@@ -50,52 +53,52 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	private ListView mListView;
 	private AbsListView.OnScrollListener mOnScrollListener;
 
-	private float mTouchPercent;
+	private double mTouchPercent;
 
 	private Drawable mBarDrawable;
 	private Drawable mIndicatorDrawable;
 	private Drawable mTripAdvisorMarker;
 
-	private float mFirstVisibleItem;
-	private float mVisibleItemCount;
-	private float mTotalItemCount;
+	private double mFirstVisibleItem;
+	private double mVisibleItemCount;
+	private double mTotalItemCount;
 
-	private float mWidth;
-	private float mHeight;
-	private float mScreenHeight;
-	private float mTop;
-	private float mListViewHeight;
-	private float mScrollHeight;
+	private double mWidth;
+	private double mHeight;
+	private double mScreenHeight;
+	private double mTop;
+	private double mListViewHeight;
+	private double mScrollHeight;
 
-	private float mBarMinimumWidth;
+	private double mBarMinimumWidth;
 
-	private float mIndicatorPaddingTop;
-	private float mIndicatorPaddingBottom;
-	private float mMarkerRangePaddingTop;
-	private float mMarkerRangePaddingBottom;
+	private double mIndicatorPaddingTop;
+	private double mIndicatorPaddingBottom;
+	private double mMarkerRangePaddingTop;
+	private double mMarkerRangePaddingBottom;
 
-	private float mIndicatorWidth;
-	private float mMinIndicatorHeight;
-	private float mIndicatorHeight;
-	private float mIndicatorLeft;
-	private float mIndicatorRight;
+	private double mIndicatorWidth;
+	private double mMinIndicatorHeight;
+	private double mIndicatorHeight;
+	private double mIndicatorLeft;
+	private double mIndicatorRight;
 
-	private float mMarkerRangeHeight;
+	private double mMarkerRangeHeight;
 
 	private Rect mBarRect;
 
-	private float mMarkerHeight;
-	private float mMarkerWidth;
-	private float mMarkerLeft;
-	private float mMarkerRight;
+	private double mMarkerHeight;
+	private double mMarkerWidth;
+	private double mMarkerLeft;
+	private double mMarkerRight;
 
-	private float mRowHeight;
-	private float mAdjustedTotalHeight;
+	private double mRowHeight;
+	private double mAdjustedTotalHeight;
 
-	private float mPaddingLeft;
-	private float mPaddingTop;
-	private float mPaddingRight;
-	private float mPaddingBottom;
+	private double mPaddingLeft;
+	private double mPaddingTop;
+	private double mPaddingRight;
+	private double mPaddingBottom;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -165,8 +168,8 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		mFirstVisibleItem = (float) firstVisibleItem;
-		mTotalItemCount = (float) totalItemCount;
+		mFirstVisibleItem = (double) firstVisibleItem;
+		mTotalItemCount = (double) totalItemCount;
 
 		invalidate();
 
@@ -205,10 +208,10 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		mMarkerRangeHeight = mHeight - mPaddingTop - mPaddingBottom - mIndicatorPaddingTop - mIndicatorPaddingBottom
 				- mMarkerRangePaddingTop - mMarkerRangePaddingBottom;
 
-		final float barLeft = ((mWidth - mPaddingLeft - mPaddingRight - mBarMinimumWidth) / 2) + mPaddingLeft;
-		final float barRight = barLeft + mBarMinimumWidth;
-		final float barTop = mPaddingTop;
-		final float barBottom = mHeight - mPaddingBottom;
+		final double barLeft = ((mWidth - mPaddingLeft - mPaddingRight - mBarMinimumWidth) / 2) + mPaddingLeft;
+		final double barRight = barLeft + mBarMinimumWidth;
+		final double barTop = mPaddingTop;
+		final double barBottom = mHeight - mPaddingBottom;
 
 		mBarRect = new Rect((int) barLeft, (int) barTop, (int) barRight, (int) barBottom);
 
@@ -225,11 +228,11 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		final float y = event.getY();
-		mTouchPercent = (y - mPaddingTop - mIndicatorPaddingTop - (mIndicatorHeight / 2)) / mScrollHeight;
+		final double y = event.getY();
+		mTouchPercent = (y - mPaddingTop - mIndicatorPaddingTop - (mIndicatorHeight / 2f)) / mScrollHeight;
 		mGestureDetector.onTouchEvent(event);
 
-		int position = (int) ((mTotalItemCount * mTouchPercent) - (mVisibleItemCount / 2));
+		int position = (int) ((mTotalItemCount * mTouchPercent) - (mVisibleItemCount / 2f));
 		if (position < 0) {
 			position = 0;
 		}
@@ -240,6 +243,9 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		final int offset = (int) ((mTouchPercent * mRowHeight * (mTotalItemCount - mVisibleItemCount)) - (position * mRowHeight));
 
 		((ListView) mListView).setSelectionFromTop(position, -offset);
+
+		mToast.setText((mTouchPercent * 100) + "%");
+		mToast.show();
 
 		return true;
 	}
@@ -287,12 +293,12 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	private void drawIndicator(Canvas canvas) {
 		// SCROLL OFFSET
 		final View firstChild = mListView.getChildAt(0);
-		final float rowOffset = firstChild.getTop();
+		final double rowOffset = firstChild.getTop();
 
 		mRowHeight = firstChild.getHeight() + HEIGHT_ROW_DIVIDER;
 		mAdjustedTotalHeight = (mTotalItemCount - mVisibleItemCount) * mRowHeight;
 
-		// Calculate this here to get an actual float for smooth scrolling
+		// Calculate this here to get an actual double for smooth scrolling
 		mVisibleItemCount = mListViewHeight / mRowHeight;
 
 		// INDICATOR HEIGHT
@@ -304,11 +310,11 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		mScrollHeight = mHeight - mIndicatorHeight - mIndicatorPaddingTop - mIndicatorPaddingBottom - mPaddingTop
 				- mPaddingBottom;
 
-		final float adjustedPosition = (mFirstVisibleItem * mRowHeight) - rowOffset;
-		final float scrollPercent = adjustedPosition / mAdjustedTotalHeight;
+		final double adjustedPosition = (mFirstVisibleItem * mRowHeight) - rowOffset;
+		final double scrollPercent = adjustedPosition / mAdjustedTotalHeight;
 
-		final float top = (mScrollHeight * scrollPercent) + mIndicatorPaddingTop + mPaddingTop;
-		final float bottom = top + mIndicatorHeight;
+		final double top = (mScrollHeight * scrollPercent) + mIndicatorPaddingTop + mPaddingTop;
+		final double bottom = top + mIndicatorHeight;
 
 		mIndicatorDrawable.setBounds((int) mIndicatorLeft, (int) top, (int) mIndicatorRight, (int) bottom);
 		mIndicatorDrawable.draw(canvas);
@@ -322,8 +328,8 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 			}
 
 			for (int i = 0; i < size; i++) {
-				final float markerPercent = (float) mCachedMarkerPositions[i] / (mTotalItemCount - 1);
-				final float top = (mMarkerRangeHeight * markerPercent) - (mMarkerHeight / 2) + mIndicatorPaddingTop
+				final double markerPercent = (double) mCachedMarkerPositions[i] / (mTotalItemCount - 1);
+				final double top = (mMarkerRangeHeight * markerPercent) - (mMarkerHeight / 2) + mIndicatorPaddingTop
 						+ mMarkerRangePaddingTop + mPaddingTop;
 
 				mTripAdvisorMarker.setBounds((int) mMarkerLeft, (int) top, (int) mMarkerRight, (int) top
@@ -333,25 +339,27 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		}
 	}
 
-	private float getNearestTATouchPercentByIndicatorPercent(float percent) {
+	private double getNearestTATouchPercentByIndicatorPercent(double percent) {
 		if (mCachedMarkerPositions == null || mCachedProperties == null) {
 			checkCachedMarkers();
 		}
 
+		final double translationRatio = (mScrollHeight / mMarkerRangeHeight);
+
 		// Translate to marker range
-		percent -= 0.5;
-		percent *= (mScrollHeight / mMarkerRangeHeight);
-		percent += 0.5;
+		percent -= 0.5f;
+		percent *= translationRatio;
+		percent += 0.5f;
 
 		final int propertiesSize = mCachedProperties.length;
 		final int markersSize = mCachedMarkerPositions.length;
-		Float minDifference = null;
+		Double minDifference = null;
 
 		for (int i = 0; i < markersSize; i++) {
-			final float markerPercent = (float) mCachedMarkerPositions[i] / (float) propertiesSize;
-			final float difference = markerPercent - percent;
-			final float absDifference = Math.abs(difference);
-			if (absDifference < 0.05) {
+			final double markerPercent = (double) mCachedMarkerPositions[i] / ((double) propertiesSize - 1);
+			final double difference = markerPercent - percent;
+			final double absDifference = Math.abs(difference);
+			if (absDifference < 0.05f) {
 				if (minDifference == null || absDifference < Math.abs(minDifference)) {
 					minDifference = difference;
 				}
@@ -364,9 +372,9 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		}
 
 		// Translate to indicator range
-		percent -= 0.5;
-		percent *= (mMarkerRangeHeight / mScrollHeight);
-		percent += 0.5;
+		percent -= 0.5f;
+		percent /= translationRatio;
+		percent += 0.5f;
 
 		return percent;
 	}
