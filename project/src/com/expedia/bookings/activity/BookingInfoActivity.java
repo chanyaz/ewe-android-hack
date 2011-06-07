@@ -580,8 +580,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			mSecurityCodeEditText.setNextFocusDownId(R.id.rules_restrictions_checkbox);
 			mSecurityCodeEditText.setNextFocusRightId(R.id.rules_restrictions_checkbox);
 
-			mSecurityCodeEditText.setImeOptions(mSecurityCodeEditText.getImeOptions()
-					| EditorInfo.IME_FLAG_NAVIGATE_NEXT | EditorInfo.IME_ACTION_NEXT);
+			mSecurityCodeEditText.setImeOptions(mSecurityCodeEditText.getImeOptions() | EditorInfo.IME_ACTION_NEXT);
 			mSecurityCodeEditText.setOnEditorActionListener(new OnEditorActionListener() {
 				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 					if (actionId == EditorInfo.IME_ACTION_NEXT) {
@@ -864,7 +863,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.showSoftInput(view, 0);
 	}
-	
+
 	// Focusing the rules & restrictions is special for two reasons:
 	// 1. It needs to focus the containing layout, so users can view the entire rules & restrictions.
 	// 2. It doesn't need to open the soft keyboard.
