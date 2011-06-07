@@ -20,10 +20,12 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -37,6 +39,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -572,6 +575,22 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 					buttonView.setError(null);
 				}
 			});
+
+			// Configure credit card security code field to point towards the checkbox
+			mSecurityCodeEditText.setNextFocusDownId(R.id.rules_restrictions_checkbox);
+			mSecurityCodeEditText.setNextFocusRightId(R.id.rules_restrictions_checkbox);
+
+			mSecurityCodeEditText.setImeOptions(mSecurityCodeEditText.getImeOptions()
+					| EditorInfo.IME_FLAG_NAVIGATE_NEXT | EditorInfo.IME_ACTION_NEXT);
+			mSecurityCodeEditText.setOnEditorActionListener(new OnEditorActionListener() {
+				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+					if (actionId == EditorInfo.IME_ACTION_NEXT) {
+						focusRulesRestrictions();
+						return true;
+					}
+					return false;
+				}
+			});
 		}
 		else {
 			mRulesRestrictionsCheckbox.setVisibility(View.GONE);
@@ -687,7 +706,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 					// Request focus on the first field that was invalid
 					View firstErrorView = (View) errors.get(0).getObject();
 					if (firstErrorView == mRulesRestrictionsCheckbox) {
-						mScrollView.requestChildFocus(mRulesRestrictionsLayout, mRulesRestrictionsLayout);
+						focusRulesRestrictions();
 					}
 					else {
 						focusAndOpenKeyboard(firstErrorView);
@@ -844,6 +863,14 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		view.requestFocus();
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.showSoftInput(view, 0);
+	}
+	
+	// Focusing the rules & restrictions is special for two reasons:
+	// 1. It needs to focus the containing layout, so users can view the entire rules & restrictions.
+	// 2. It doesn't need to open the soft keyboard.
+	private void focusRulesRestrictions() {
+		mScrollView.requestChildFocus(mRulesRestrictionsLayout, mRulesRestrictionsLayout);
+		mScrollView.requestChildFocus(mRulesRestrictionsCheckbox, mRulesRestrictionsCheckbox);
 	}
 
 	// BillingInfo syncing and saving/loading
