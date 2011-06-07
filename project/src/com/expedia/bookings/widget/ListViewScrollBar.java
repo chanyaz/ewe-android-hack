@@ -20,6 +20,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
+import com.mobiata.android.Log;
 import com.mobiata.android.R;
 import com.mobiata.hotellib.data.Filter;
 import com.mobiata.hotellib.data.Property;
@@ -48,7 +49,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 	private ListView mListView;
 	private AbsListView.OnScrollListener mOnScrollListener;
-	
+
 	private float mTouchPercent;
 
 	private Drawable mBarDrawable;
@@ -223,10 +224,9 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	}
 
 	@Override
-	public boolean onTouch(View v, MotionEvent event) {		
+	public boolean onTouch(View v, MotionEvent event) {
 		final float y = event.getY();
 		mTouchPercent = (y - mPaddingTop - mIndicatorPaddingTop - (mIndicatorHeight / 2)) / mScrollHeight;
-		
 		mGestureDetector.onTouchEvent(event);
 
 		int position = (int) ((mTotalItemCount * mTouchPercent) - (mVisibleItemCount / 2));
@@ -333,43 +333,40 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		}
 	}
 
-	private float getNearestTATouchPercent(float percent) {
+	private float getNearestTATouchPercentByIndicatorPercent(float percent) {
 		if (mCachedMarkerPositions == null || mCachedProperties == null) {
 			checkCachedMarkers();
 		}
 
+		// Translate to marker range
+		percent -= 0.5;
+		percent *= (mScrollHeight / mMarkerRangeHeight);
+		percent += 0.5;
+
 		final int propertiesSize = mCachedProperties.length;
 		final int markersSize = mCachedMarkerPositions.length;
+		Float minDifference = null;
 
-		final int start = (int) (percent * propertiesSize);
-		final int range = (int) Math.ceil(mVisibleItemCount / 2);
-		boolean jumpPositive = true;
-		int jump = 0;
-
-		while (Math.abs(jump) < range) {
-			final int position = start + jump;
-			for (int i = 0; i < markersSize; i++) {
-				if (mCachedMarkerPositions[i] == position) {
-					final float markerPercent = (float) position / (float) propertiesSize;
-					final float y = (mMarkerRangeHeight * markerPercent) + mIndicatorPaddingTop
-							+ mMarkerRangePaddingTop + mPaddingTop;
-					final float touchPercent = (y - mPaddingTop - mIndicatorPaddingTop - (mIndicatorHeight / 2))
-							/ mScrollHeight;
-
-					return touchPercent;
+		for (int i = 0; i < markersSize; i++) {
+			final float markerPercent = (float) mCachedMarkerPositions[i] / (float) propertiesSize;
+			final float difference = markerPercent - percent;
+			final float absDifference = Math.abs(difference);
+			if (absDifference < 0.05) {
+				if (minDifference == null || absDifference < Math.abs(minDifference)) {
+					minDifference = difference;
 				}
 			}
-
-			if (jumpPositive) {
-				jump *= -1;
-				jumpPositive = false;
-			}
-			else {
-				jump *= -1;
-				jump += jumpPositive ? 1 : -1;
-				jumpPositive = true;
-			}
 		}
+
+		if (minDifference != null) {
+			percent += minDifference;
+			Log.t("Setting new percent");
+		}
+
+		// Translate to indicator range
+		percent -= 0.5;
+		percent *= (mMarkerRangeHeight / mScrollHeight);
+		percent += 0.5;
 
 		return percent;
 	}
@@ -382,8 +379,8 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	private final GestureDetector mGestureDetector = new GestureDetector(new OnGestureListener() {
 		@Override
 		public boolean onSingleTapUp(MotionEvent e) {
-			mTouchPercent = getNearestTATouchPercent(mTouchPercent);
-			return false;
+			mTouchPercent = getNearestTATouchPercentByIndicatorPercent(mTouchPercent);
+			return true;
 		}
 
 		@Override
@@ -406,7 +403,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 		@Override
 		public boolean onDown(MotionEvent e) {
-			return false;
+			return onSingleTapUp(e);
 		}
 	});
 }
