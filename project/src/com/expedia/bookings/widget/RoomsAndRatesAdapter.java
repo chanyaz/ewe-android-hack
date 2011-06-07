@@ -70,7 +70,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			// #6966: Fix specifically for Android 2.1 and below.  Since RelativeLayout can't properly align
 			// bottom on a ListView, I'm just going to add extra margin
 			if (Build.VERSION.SDK_INT <= 7) {
-				holder.beds.setPadding(0, (int) mContext.getResources().getDisplayMetrics().density * 24, (int) mContext.getResources().getDisplayMetrics().density * 10, 0);
+				holder.beds.setPadding(0, (int) mContext.getResources().getDisplayMetrics().density * 24,
+						(int) mContext.getResources().getDisplayMetrics().density * 10, 0);
 			}
 
 			convertView.setTag(holder);
@@ -82,14 +83,16 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		Rate rate = (Rate) getItem(position);
 
 		holder.description.setText(Html.fromHtml(rate.getRoomDescription()));
-		holder.price.setText(rate.getAverageRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
+		holder.price.setText(rate.getDisplayRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
 
 		String explanation = "";
 
 		// Check if there should be a strike-through rate, if this is on sale
 		double savings = rate.getSavingsPercent();
 		if (savings > 0) {
-			explanation += "<strike>" + rate.getAverageBaseRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN) + "</strike> ";
+			explanation += "<strike>"
+					+ rate.getDisplayBaseRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN)
+					+ "</strike> ";
 
 			holder.saleLabel.setText(mContext.getString(R.string.savings_template, savings * 100));
 			holder.saleImage.setVisibility(View.VISIBLE);
@@ -103,15 +106,12 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		// Determine whether to show rate, rate per night, or avg rate per night for explanation
 		int explanationId = 0;
 		List<RateBreakdown> rateBreakdown = rate.getRateBreakdownList();
-		if (rateBreakdown == null) {
-			// If rateBreakdown is null, we assume that this is a per/night hotel
-			explanationId = R.string.rate_per_night;
-		}
-		else {
-			if (rateBreakdown.size() <= 1) {
-				holder.priceExplanation.setVisibility(View.GONE);
+		if (!Rate.showInclusivePrices()) {
+			if (rateBreakdown == null) {
+				// If rateBreakdown is null, we assume that this is a per/night hotel
+				explanationId = R.string.rate_per_night;
 			}
-			else {
+			else if (rateBreakdown.size() > 1) {
 				if (rate.rateChanges()) {
 					explanationId = R.string.rate_avg_per_night;
 				}

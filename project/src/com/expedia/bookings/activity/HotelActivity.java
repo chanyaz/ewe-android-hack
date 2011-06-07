@@ -149,20 +149,18 @@ public class HotelActivity extends Activity {
 		priceContainer.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_left));
 		TextView fromView = (TextView) findViewById(R.id.from_text_view);
 		if (lowestRate.getSavingsPercent() > 0) {
-			fromView.setText(Html
-					.fromHtml(
-							getString(
-									R.string.from_template,
-									lowestRate.getAverageBaseRate().getFormattedMoney(
-											Money.F_NO_DECIMAL + Money.F_ROUND_DOWN)), null,
-							new StrikethroughTagHandler()));
+			Money baseRate = lowestRate.getDisplayBaseRate();
+			fromView.setText(Html.fromHtml(
+					getString(R.string.from_template,
+							baseRate.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN)), null,
+					new StrikethroughTagHandler()));
 		}
 		else {
 			fromView.setText(R.string.from);
 		}
 
 		TextView priceView = (TextView) findViewById(R.id.price_text_view);
-		priceView.setText(lowestRate.getAverageRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
+		priceView.setText(lowestRate.getDisplayRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
 
 		ImageButton mapButton = (ImageButton) findViewById(R.id.map_button);
 		mapButton.setOnClickListener(new OnClickListener() {

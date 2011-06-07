@@ -136,6 +136,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.from = (TextView) convertView.findViewById(R.id.from_text_view);
 			holder.highlyRated = (TextView) convertView.findViewById(R.id.highly_rated_text_view);
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
+			holder.perNight = (TextView) convertView.findViewById(R.id.per_night_text_view);
 			holder.highlyRatedImage = (ImageView) convertView.findViewById(R.id.highly_rated_image_view);
 			holder.hotelRating = (RatingBar) convertView.findViewById(R.id.hotel_rating_bar);
 			holder.distance = (TextView) convertView.findViewById(R.id.distance_text_view);
@@ -158,7 +159,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.getSavingsPercent() > 0) {
 			holder.from
-					.setText(Html.fromHtml(mContext.getString(R.string.from_template, lowestRate.getAverageBaseRate()
+					.setText(Html.fromHtml(mContext.getString(R.string.from_template, lowestRate.getDisplayBaseRate()
 							.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN)), null,
 							new StrikethroughTagHandler()));
 			holder.saleImage.setVisibility(View.VISIBLE);
@@ -170,7 +171,14 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.saleLabel.setVisibility(View.GONE);
 		}
 
-		holder.price.setText(lowestRate.getAverageRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
+		holder.price.setText(lowestRate.getDisplayRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
+
+		if (Rate.showInclusivePrices()) {
+			holder.perNight.setVisibility(View.GONE);
+		}
+		else {
+			holder.perNight.setVisibility(View.VISIBLE);
+		}
 
 		holder.hotelRating.setRating((float) property.getHotelRating());
 		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext));
@@ -180,7 +188,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		boolean imageSet = false;
 		if (!mIsMeasuring && property.getThumbnail() != null) {
 			String url = property.getThumbnail().getUrl();
-			imageSet = ImageCache.loadImage(url, holder.thumbnail);;
+			imageSet = ImageCache.loadImage(url, holder.thumbnail);
 		}
 		if (!imageSet) {
 			holder.thumbnail.setImageResource(R.drawable.ic_row_thumb_placeholder);
@@ -223,6 +231,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		public TextView from;
 		public TextView highlyRated;
 		public TextView price;
+		public TextView perNight;
 		public ImageView highlyRatedImage;
 		public RatingBar hotelRating;
 		public TextView distance;
