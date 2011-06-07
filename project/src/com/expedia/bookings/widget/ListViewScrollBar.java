@@ -51,6 +51,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	private AbsListView.OnScrollListener mOnScrollListener;
 
 	private double mTouchPercent;
+	private boolean mListViewIsScrolling = false;
 
 	private Drawable mBarDrawable;
 	private Drawable mIndicatorDrawable;
@@ -178,6 +179,8 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		mListViewIsScrolling = !(scrollState == SCROLL_STATE_IDLE);
+		
 		// Bubble this event
 		if (mOnScrollListener != null) {
 			mOnScrollListener.onScrollStateChanged(view, scrollState);
@@ -239,6 +242,9 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 		final int offset = (int) ((mTouchPercent * mRowHeight * (mTotalItemCount - mVisibleItemCount)) - (position * mRowHeight));
 
+		if(mListViewIsScrolling) {
+			
+		}
 		((ListView) mListView).setSelectionFromTop(position, -offset);
 
 		return true;
