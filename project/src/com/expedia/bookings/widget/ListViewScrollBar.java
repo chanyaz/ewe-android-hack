@@ -19,7 +19,6 @@ import android.view.View.OnTouchListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.mobiata.android.Log;
 import com.mobiata.android.R;
@@ -41,8 +40,6 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
-
-	private final Toast mToast = Toast.makeText(getContext(), null, Toast.LENGTH_SHORT);
 
 	private double mScaledDensity;
 
@@ -243,9 +240,6 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		final int offset = (int) ((mTouchPercent * mRowHeight * (mTotalItemCount - mVisibleItemCount)) - (position * mRowHeight));
 
 		((ListView) mListView).setSelectionFromTop(position, -offset);
-
-		mToast.setText((mTouchPercent * 100) + "%");
-		mToast.show();
 
 		return true;
 	}
