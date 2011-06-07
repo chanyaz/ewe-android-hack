@@ -236,11 +236,6 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glColor4x(0x10000, 0x10000, 0x10000, 0x10000);
 		gl.glEnable(GL10.GL_TEXTURE_2D);
-
-		// Custom settings
-		gl.glShadeModel(GL10.GL_SMOOTH);
-		gl.glEnable(GL10.GL_SMOOTH);
-		gl.glEnable(GL10.GL_MULTISAMPLE);
 	}
 
 	@Override
@@ -266,8 +261,11 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		// Custom settings
 		gl.glShadeModel(GL10.GL_SMOOTH);
 		gl.glEnable(GL10.GL_DITHER);
+		gl.glEnable(GL10.GL_MULTISAMPLE);
+		
+		gl.glHint(GL10.GL_POLYGON_SMOOTH_HINT, GL10.GL_DONT_CARE);
 
-		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);	
 
 		if (mSprites != null) {
 
