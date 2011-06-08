@@ -472,15 +472,11 @@
 
 
 			<!-- Rules & Restrictions section -->
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/rules_restrictions"
-				style="@style/formSectionHeaderText" />
 			<RelativeLayout
 				android:id="@+id/rules_restrictions_layout"
 				android:layout_width="fill_parent"
-				android:layout_height="wrap_content">
+				android:layout_height="wrap_content"
+				android:layout_marginTop="10dp">
 				<CheckBox
 					android:id="@+id/rules_restrictions_checkbox"
 					android:layout_width="wrap_content"
@@ -494,30 +490,31 @@
 					android:layout_height="wrap_content"
 					android:layout_toRightOf="@+id/rules_restrictions_checkbox"
 					android:layout_alignParentRight="true"
-					android:textColor="#6A6D71" />
+					android:textSize="15sp"
+					android:textColor="@android:color/black" />
 			</RelativeLayout>
-
-			<View
-				android:layout_width="fill_parent"
-				android:layout_height="@dimen/two_pixels"
-				android:layout_marginLeft="6dp"
-				android:layout_marginRight="6dp"
-				android:layout_marginTop="10dp"
-				android:layout_marginBottom="10dp"
-				android:background="@drawable/divider" />
 
 			<!-- Disclaimer notices at the bottom of the screen -->
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:layout_marginTop="6dp"
 				android:textColor="#6A6D71"
 				android:text="@string/disclaimer_currency" />
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="0dp"
+				android:layout_marginTop="6dp"
+				android:layout_marginBottom="0dp"
+				android:text="@string/rules_restrictions"
+				style="@style/formSectionHeaderText" />
 
 			<TextView
 				android:id="@+id/cancellation_policy_text_view"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="8dp"
 				android:textColor="#6A6D71" />
 
 			<!-- This view serves a purpose, which is to allow the ScrollView to scroll 
