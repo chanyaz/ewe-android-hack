@@ -869,7 +869,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	// 2. It doesn't need to open the soft keyboard.
 	private void focusRulesRestrictions() {
 		mScrollView.requestChildFocus(mRulesRestrictionsLayout, mRulesRestrictionsLayout);
-		mScrollView.requestChildFocus(mRulesRestrictionsCheckbox, mRulesRestrictionsCheckbox);
+		mScrollView.scrollBy(0, (int) getResources().getDisplayMetrics().density * 15);
 	}
 
 	// BillingInfo syncing and saving/loading
