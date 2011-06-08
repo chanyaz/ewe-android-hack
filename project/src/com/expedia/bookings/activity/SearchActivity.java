@@ -147,9 +147,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final int MAX_GUESTS_TOTAL = 5;
 	private static final int MAX_GUEST_NUM = 4;
 
-	private static final int DEFAULT_SORT_RADIO_GROUP_CHILD = 0;
-	private static final int DEFAULT_RADIUS_RADIO_GROUP_CHILD = 2;
-	private static final int DEFAULT_PRICE_RADIO_GROUP_CHILD = 3;
+	private static final int DEFAULT_SORT_RADIO_GROUP_CHILD = R.id.sort_price_button;
+	private static final int DEFAULT_RADIUS_RADIO_GROUP_CHILD = R.id.radius_large_button;
+	private static final int DEFAULT_PRICE_RADIO_GROUP_CHILD = R.id.price_all_button;
 
 	private static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
@@ -236,6 +236,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Canvas mViewFlipCanvas;
 
 	private LocationSuggestionDialog mLocationSuggestionDialog;
+	
+	// This indicates to mSearchCallback that we just loaded saved search results,
+	// and as such should behave a bit differently than if we just did a new search.
+	private boolean mLoadedSavedResults;
 
 	// Threads / callbacks
 
@@ -263,9 +267,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				mSearchResponse.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
 				mSession = mSearchResponse.getSession();
 
-				if (mSearchResponse.getFilteredAndSortedProperties().length <= 10) {
-					final int index = mRadiusButtonGroup.getChildCount() - 1;
-					((RadioButton) mRadiusButtonGroup.getChildAt(index)).setChecked(true);
+				if (!mLoadedSavedResults && mSearchResponse.getFilteredAndSortedProperties().length <= 10) {
+					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
+					mRadiusButtonGroup.check(R.id.radius_all_button);
 				}
 
 				ImageCache.recycleCache(true);
@@ -275,7 +279,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				enablePanelHandle();
 				hideLoading();
 				setPriceRangeText();
-
 			}
 			else if (mSearchResponse != null && mSearchResponse.getLocations() != null
 					&& mSearchResponse.getLocations().size() > 0) {
@@ -352,7 +355,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				startSearch();
 			}
 			else {
+				mLoadedSavedResults = true;
 				mSearchCallback.onDownload(results);
+				mLoadedSavedResults = false;
 			}
 		}
 	};
@@ -1287,11 +1292,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	///////////////////////////////////////////////////////////////////////
 
 	private void resetFilter() {
-		mFilter = new Filter();
+		Log.d("Resetting filter...");
 
-		((RadioButton) mSortButtonGroup.getChildAt(DEFAULT_SORT_RADIO_GROUP_CHILD)).setChecked(true);
-		((RadioButton) mRadiusButtonGroup.getChildAt(DEFAULT_RADIUS_RADIO_GROUP_CHILD)).setChecked(true);
-		((RadioButton) mPriceButtonGroup.getChildAt(DEFAULT_PRICE_RADIO_GROUP_CHILD)).setChecked(true);
+		mFilter = new Filter();
+		mFilter.setSearchRadius(Filter.SearchRadius.LARGE);
 
 		setDrawerViews();
 		buildFilter();
@@ -1383,18 +1387,72 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			return;
 		}
 
-		final Rating rating = mFilter.getRating();
-		switch (rating) {
-		case ALL: {
+		Log.d("setDrawerViews().  Current filter: " + mFilter.toJson().toString());
+
+		// Temporarily remove OnCheckedChangeListeners before we start fiddling around with the buttons
+		mSortButtonGroup.setOnCheckedChangeListener(null);
+		mRadiusButtonGroup.setOnCheckedChangeListener(null);
+		mPriceButtonGroup.setOnCheckedChangeListener(null);
+
+		// Configure tripadvisor filter
+		switch (mFilter.getRating()) {
+		case ALL:
 			mTripAdvisorOnlyButton.setText(R.string.tripadvisor_rating_high);
 			break;
-		}
-		case HIGHLY_RATED: {
+		case HIGHLY_RATED:
 			mTripAdvisorOnlyButton.setText(R.string.tripadvisor_rating_all);
 			break;
 		}
+
+		// Configure the sort buttons
+		switch (mFilter.getSort()) {
+		case POPULAR:
+			mSortButtonGroup.check(R.id.sort_popular_button);
+			break;
+		case PRICE:
+			mSortButtonGroup.check(R.id.sort_price_button);
+			break;
+		default:
+			mSortButtonGroup.check(DEFAULT_SORT_RADIO_GROUP_CHILD);
 		}
 
+		// Configure the search radius buttons
+		switch (mFilter.getSearchRadius()) {
+		case SMALL:
+			mRadiusButtonGroup.check(R.id.radius_small_button);
+			break;
+		case MEDIUM:
+			mRadiusButtonGroup.check(R.id.radius_medium_button);
+			break;
+		case LARGE:
+			mRadiusButtonGroup.check(R.id.radius_large_button);
+			break;
+		case ALL:
+			mRadiusButtonGroup.check(R.id.radius_all_button);
+			break;
+		default:
+			mRadiusButtonGroup.check(DEFAULT_RADIUS_RADIO_GROUP_CHILD);
+		}
+
+		// Configure the price buttons
+		switch (mFilter.getPriceRange()) {
+		case CHEAP:
+			mPriceButtonGroup.check(R.id.price_cheap_button);
+			break;
+		case MODERATE:
+			mPriceButtonGroup.check(R.id.price_moderate_button);
+			break;
+		case EXPENSIVE:
+			mPriceButtonGroup.check(R.id.price_expensive_button);
+			break;
+		case ALL:
+			mPriceButtonGroup.check(R.id.price_all_button);
+			break;
+		default:
+			mPriceButtonGroup.check(DEFAULT_PRICE_RADIO_GROUP_CHILD);
+		}
+
+		// Flip to user's preferred view
 		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
 			mSortLayout.setVisibility(View.VISIBLE);
 		}
@@ -1404,6 +1462,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		setPriceRangeText();
 		setRadioButtonShadowLayers();
+
+		// Restore OnCheckedChangeListeners
+		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
+		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
+		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 	}
 
 	private void setMapSearchButtonVisibility() {
@@ -1645,6 +1708,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// Searching methods
 
 	private void buildFilter() {
+		Log.d("Building up filter from current view settings...");
+
 		if (mFilter == null) {
 			mFilter = new Filter();
 		}
