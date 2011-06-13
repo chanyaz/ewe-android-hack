@@ -544,6 +544,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		});
 
 		// Configure card number - detection
+		// Also configure the lock appearing/disappearing
 		mCardNumberEditText.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				// Do nothing
@@ -564,8 +565,15 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 					mCreditCardImageView.setImageResource(R.drawable.ic_cc_unknown);
 					mSecurityCodeTipTextView.setText(R.string.security_code_tip_back);
 				}
+
+				// If there is text, don't show the lock icon
+				int lockIcon = (s == null || s.length() == 0) ? R.drawable.credit_card_lock : 0;
+				mCardNumberEditText.setCompoundDrawablesWithIntrinsicBounds(lockIcon, 0, 0, 0);
 			}
 		});
+
+		mCardNumberEditText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.credit_card_lock, 0, 0, 0);
+		mCardNumberEditText.setCompoundDrawablePadding(Math.round(6 * getResources().getDisplayMetrics().density));
 
 		// Only display the checkbox if we're in a locale that requires its display
 		if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox()) {

@@ -203,7 +203,8 @@
 						android:nextFocusRight="@+id/last_name_edit_text"
 						android:inputType="textPersonName|textCapWords"
 						android:imeOptions="flagNoExtractUi"
-						android:hint="@string/FirstName" />
+						android:hint="@string/FirstName"
+						android:textColorHint="@color/hint_color" />
 					<EditText
 						android:id="@+id/last_name_edit_text"
 						android:layout_width="wrap_content"
@@ -215,7 +216,8 @@
 						android:nextFocusRight="@+id/telephone_edit_text"
 						android:inputType="textPersonName|textCapWords"
 						android:imeOptions="flagNoExtractUi"
-						android:hint="@string/LastName" />
+						android:hint="@string/LastName"
+						android:textColorHint="@color/hint_color" />
 				</LinearLayout>
 				<EditText
 					android:id="@+id/telephone_edit_text"
@@ -227,7 +229,8 @@
 					android:nextFocusRight="@+id/email_edit_text"
 					android:inputType="phone"
 					android:imeOptions="flagNoExtractUi"
-					android:hint="@string/Telephone" />
+					android:hint="@string/Telephone"
+					android:textColorHint="@color/hint_color" />
 				<EditText
 					android:id="@+id/email_edit_text"
 					android:layout_width="fill_parent"
@@ -238,7 +241,8 @@
 					android:nextFocusRight="@+id/address1_edit_text"
 					android:inputType="textEmailAddress"
 					android:imeOptions="flagNoExtractUi"
-					android:hint="@string/EmailForConf" />
+					android:hint="@string/EmailForConf"
+					android:textColorHint="@color/hint_color" />
 			</LinearLayout>
 
 			<!-- Billing info form fields -->
@@ -297,7 +301,8 @@
 					android:nextFocusRight="@+id/address2_edit_text"
 					android:inputType="textPostalAddress|textCapWords"
 					android:imeOptions="flagNoExtractUi"
-					android:hint="@string/hint_address1" />
+					android:hint="@string/hint_address1"
+					android:textColorHint="@color/hint_color" />
 				<EditText
 					android:id="@+id/address2_edit_text"
 					android:layout_width="fill_parent"
@@ -308,7 +313,8 @@
 					android:nextFocusRight="@+id/city_edit_text"
 					android:inputType="textPostalAddress|textCapWords"
 					android:imeOptions="flagNoExtractUi"
-					android:hint="@string/hint_address2" />
+					android:hint="@string/hint_address2"
+					android:textColorHint="@color/hint_color" />
 				<LinearLayout
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
@@ -326,7 +332,8 @@
 						android:minWidth="150dp"
 						android:inputType="textPostalAddress|textCapWords"
 						android:imeOptions="flagNoExtractUi"
-						android:hint="@string/City" />
+						android:hint="@string/City"
+						android:textColorHint="@color/hint_color" />
 					<EditText
 						android:id="@+id/state_edit_text"
 						android:layout_width="100dp"
@@ -338,7 +345,8 @@
 						android:inputType="textPostalAddress|textCapCharacters"
 						android:imeOptions="flagNoExtractUi"
 						android:maxLength="3"
-						android:hint="@string/hint_state_code" />
+						android:hint="@string/hint_state_code"
+						android:textColorHint="@color/hint_color" />
 				</LinearLayout>
 				<LinearLayout
 					android:layout_width="fill_parent"
@@ -366,7 +374,8 @@
 						android:nextFocusRight="@+id/card_number_edit_text"
 						android:inputType="textPostalAddress|textCapCharacters"
 						android:imeOptions="flagNoExtractUi"
-						android:hint="@string/PostalCode" />
+						android:hint="@string/PostalCode"
+						android:textColorHint="@color/hint_color" />
 				</LinearLayout>
 			</LinearLayout>
 
@@ -397,7 +406,8 @@
 						android:inputType="number"
 						android:imeOptions="flagNoExtractUi"
 						android:maxLength="20"
-						android:hint="@string/hint_card_number" />
+						android:hint="@string/hint_card_number"
+						android:textColorHint="@color/hint_color" />
 					<EditText
 						android:id="@+id/expiration_month_edit_text"
 						android:layout_width="60dp"
@@ -409,7 +419,8 @@
 						android:inputType="number"
 						android:imeOptions="flagNoExtractUi"
 						android:maxLength="2"
-						android:hint="@string/hint_expiration_month" />
+						android:hint="@string/hint_expiration_month"
+						android:textColorHint="@color/hint_color" />
 					<EditText
 						android:id="@+id/expiration_year_edit_text"
 						android:layout_width="60dp"
@@ -421,7 +432,8 @@
 						android:inputType="number"
 						android:imeOptions="flagNoExtractUi"
 						android:maxLength="2"
-						android:hint="@string/hint_expiration_year" />
+						android:hint="@string/hint_expiration_year"
+						android:textColorHint="@color/hint_color" />
 				</LinearLayout>
 				<LinearLayout
 					android:layout_width="fill_parent"
