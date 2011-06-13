@@ -55,14 +55,14 @@
 		    	android:layout_width="0dp"
 		    	android:layout_height="wrap_content"
 		    	android:layout_weight="1"
-		    	mobiata:pickerTextSize="14dp" />
+		    	android:textSize="14dp" />
 		    	
 		    <com.mobiata.android.widget.NumberPicker
 				android:id="@+id/children_number_picker"
 		    	android:layout_width="0dp"
 		    	android:layout_height="wrap_content"
 		    	android:layout_weight="1"
-		    	mobiata:pickerTextSize="14dp" />
+		    	android:textSize="14dp" />
 		    	
 		</LinearLayout>
     
