@@ -20,7 +20,6 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
-import com.mobiata.android.Log;
 import com.mobiata.android.R;
 import com.mobiata.hotellib.data.Filter;
 import com.mobiata.hotellib.data.Property;
@@ -368,7 +367,6 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 		if (minDifference != null) {
 			percent += minDifference;
-			Log.t("Setting new percent");
 		}
 
 		// Translate to indicator range

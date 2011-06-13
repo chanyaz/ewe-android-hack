@@ -2,6 +2,8 @@ package com.expedia.bookings.widget.gl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -13,7 +15,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
@@ -27,7 +28,11 @@ import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 
 @SuppressWarnings("unused")
-class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
+public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
+	public interface OnDrawStartedListener {
+		public void onDrawStarted();
+	}
+
 	//////////////////////////////////////////////////////////////////////////////
 	// Constants
 
@@ -61,12 +66,16 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	private GL10 mGL;
 
+	private List<OnDrawStartedListener> mOnDrawStartedListners;
+
 	private long mLastDrawTime = -1;
 	private long mNow;
 
 	private boolean mShowProgress = true;
 	private boolean mTagGrabbed = false;
+	private boolean mIsPaused = false;
 	private boolean mDoReset = true;
+	private boolean mDrawingStarted = false;
 
 	private double mAngle;
 	private double mAngularVelocity = 0;
@@ -191,7 +200,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 			reset();
 		}
 
-		if (visible) {
+		if (visible && !mIsPaused) {
 			if (!mTagGrabbed) {
 				updatePhysics(delta);
 			}
@@ -205,10 +214,20 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		else {
 			mLastDrawTime = -1;
 		}
+
+		if (!mDrawingStarted && !mIsPaused) {
+			for (OnDrawStartedListener onDrawStartedListener : mOnDrawStartedListners) {
+				onDrawStartedListener.onDrawStarted();
+			}
+			mDrawingStarted = true;
+		}
 	}
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
+		gl.glClearColor(0.894117647f, 0.894117647f, 0.894117647f, 1);
+		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+
 		mGL = gl;
 
 		mWidth = (float) width;
@@ -240,13 +259,15 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+		gl.glClearColor(0.894117647f, 0.894117647f, 0.894117647f, 1);
+		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+
 		/*
 		* Some one-time OpenGL initialization can be made here probably based
 		* on features of this particular context
 		*/
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
 
-		gl.glClearColor(0.894117647f, 0.894117647f, 0.894117647f, 1);
 		//gl.glShadeModel(GL10.GL_FLAT);
 		gl.glDisable(GL10.GL_DEPTH_TEST);
 		gl.glEnable(GL10.GL_TEXTURE_2D);
@@ -262,10 +283,8 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		gl.glShadeModel(GL10.GL_SMOOTH);
 		gl.glEnable(GL10.GL_DITHER);
 		gl.glEnable(GL10.GL_MULTISAMPLE);
-		
-		gl.glHint(GL10.GL_POLYGON_SMOOTH_HINT, GL10.GL_DONT_CARE);
 
-		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);	
+		gl.glHint(GL10.GL_POLYGON_SMOOTH_HINT, GL10.GL_DONT_CARE);
 
 		if (mSprites != null) {
 
@@ -373,6 +392,7 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	public void postReset() {
 		mDoReset = true;
+		mDrawingStarted = false;
 	}
 
 	private void reset() {
@@ -459,6 +479,22 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mShowProgress = showProgress;
 		mRingSprite.visible = showProgress;
 		mRingFillSprite.visible = showProgress;
+	}
+
+	// Listeners
+
+	public void addOnDrawStartedListener(OnDrawStartedListener onDrawStartedListener) {
+		if (mOnDrawStartedListners == null) {
+			mOnDrawStartedListners = new ArrayList<OnDrawStartedListener>();
+		}
+
+		mOnDrawStartedListners.add(onDrawStartedListener);
+	}
+
+	public void removeOnDrawStartedListener(OnDrawStartedListener onDrawStartedListener) {
+		if (mOnDrawStartedListners != null) {
+			mOnDrawStartedListners.remove(onDrawStartedListener);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -742,4 +778,11 @@ class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		return retVal;
 	}
 
+	public void pause() {
+		mIsPaused = true;
+	}
+	
+	public void resume() {
+		mIsPaused = false;
+	}
 }

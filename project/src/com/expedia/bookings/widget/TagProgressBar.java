@@ -7,22 +7,27 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
+import com.expedia.bookings.widget.gl.GLTagProgressBarRenderer.OnDrawStartedListener;
 
-public class TagProgressBar extends ViewGroup {
-	private final static int TEXTVIEW_PADDING = 12;
+public class TagProgressBar extends ViewGroup implements OnDrawStartedListener {
+	private final static int TEXTVIEW_PADDING = 16;
 	private final static int TEXTVIEW_TEXT_SIZE = 16;
 
 	private Context mContext;
 
 	private RelativeLayout mLayout;
 	private GLTagProgressBar mGLTagProgressBar;
+	private View mTagHiderView;
 	private TextView mTextView;
+
+	private int mOrientation;
 
 	public TagProgressBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -36,7 +41,13 @@ public class TagProgressBar extends ViewGroup {
 
 		mLayout.layout(0, 0, width, height);
 		mGLTagProgressBar.layout(0, 0, width, height);
-		mTextView.layout(0, height - mTextView.getHeight(), width, height);
+
+		if (mOrientation == Surface.ROTATION_0 || mOrientation == Surface.ROTATION_180) {
+			mTextView.layout(0, height - mTextView.getHeight(), width, height);
+		}
+		else {
+			mTextView.layout(0, mTextView.getPaddingTop(), width, height);
+		}
 	}
 
 	@Override
@@ -68,10 +79,15 @@ public class TagProgressBar extends ViewGroup {
 		((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		final float scaledDensity = metrics.scaledDensity;
 
+		mOrientation = ((Activity) context).getWindowManager().getDefaultDisplay().getOrientation();
+
 		// Create views
 		mLayout = new RelativeLayout(context);
 		mGLTagProgressBar = new GLTagProgressBar(context);
+		mTagHiderView = new View(context);
 		mTextView = new TextView(context);
+
+		mGLTagProgressBar.addOnDrawStartedListener(this);
 
 		// Create layout params
 		RelativeLayout.LayoutParams layoutParams;
@@ -80,11 +96,14 @@ public class TagProgressBar extends ViewGroup {
 		layoutParams = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 		mGLTagProgressBar.setLayoutParams(layoutParams);
 
+		// Set params for tag hider view
+		layoutParams = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+		mTagHiderView.setLayoutParams(layoutParams);
+		mTagHiderView.setBackgroundColor(0xFFE4E4E4);
+
 		// Set params for TextView
 		final int tvPadding = (int) (TEXTVIEW_PADDING * scaledDensity);
-
 		layoutParams = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-		layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 		mTextView.setLayoutParams(layoutParams);
 		mTextView.setTextColor(0xFF555555);
 		mTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, TEXTVIEW_TEXT_SIZE);
@@ -95,6 +114,7 @@ public class TagProgressBar extends ViewGroup {
 
 		// Add views to layout
 		mLayout.addView(mGLTagProgressBar);
+		mLayout.addView(mTagHiderView);
 		mLayout.addView(mTextView);
 
 		// Add layout
@@ -133,14 +153,34 @@ public class TagProgressBar extends ViewGroup {
 	}
 
 	@Override
-	public void setVisibility(int visibility) {
+	public void setVisibility(final int visibility) {
 		super.setVisibility(visibility);
 		if (mGLTagProgressBar != null) {
-			mGLTagProgressBar.setVisibility(visibility);
-
 			if (visibility != View.VISIBLE) {
-				mGLTagProgressBar.reset();
+				mTagHiderView.post(new Runnable() {
+					@Override
+					public void run() {
+						mTagHiderView.setVisibility(View.VISIBLE);
+					}
+				});
 			}
+
+			mTagHiderView.post(new Runnable() {
+				@Override
+				public void run() {
+					mGLTagProgressBar.setVisibility(visibility);
+				}
+			});
 		}
+	}
+
+	@Override
+	public void onDrawStarted() {
+		post(new Runnable() {
+			@Override
+			public void run() {
+				mTagHiderView.setVisibility(View.GONE);
+			}
+		});
 	}
 }

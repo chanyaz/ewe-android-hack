@@ -14,6 +14,8 @@ import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
+import com.expedia.bookings.widget.gl.GLTagProgressBarRenderer.OnDrawStartedListener;
+
 public class GLTagProgressBar extends GLSurfaceView implements SensorEventListener, OnTouchListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
@@ -64,6 +66,18 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 		setSensorManagerRegistration(false);
 
 		super.onDetachedFromWindow();
+	}
+
+	@Override
+	protected void onVisibilityChanged(View changedView, int visibility) {
+		super.onVisibilityChanged(changedView, visibility);
+		if (visibility != View.VISIBLE) {
+			mRenderer.pause();
+			reset();
+		}
+		else {
+			mRenderer.resume();
+		}
 	}
 
 	@Override
@@ -139,6 +153,16 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 		if (mRenderer != null) {
 			mRenderer.postReset();
 		}
+	}
+
+	// Listeners
+
+	public void addOnDrawStartedListener(OnDrawStartedListener onDrawStartedListener) {
+		mRenderer.addOnDrawStartedListener(onDrawStartedListener);
+	}
+
+	public void removeOnDrawStartedListener(OnDrawStartedListener onDrawStartedListener) {
+		mRenderer.removeOnDrawStartedListener(onDrawStartedListener);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
