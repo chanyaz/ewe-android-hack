@@ -14,28 +14,27 @@
 <resources>
 	<!-- These are the base strings for rules & restrictions on the booking info page.
 		They should be filled up with urls -->
-	<string name="rules_restrictions_disclaimer_us">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_gb">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms and Conditions&lt;/a> and the &lt;a href="%2$s">privacy policy&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_de">Mit Absenden der Buchung stimme ich den vorstehenden Geschäftsbedingungen und der Geltung der &lt;a href="%1$s">allgemeinen Geschäftsbedingungen&lt;/a> von Expedia zu. Die &lt;a href="%2$s">Datenschutzerklärung&lt;/a> habe ich zur Kenntnis genommen.</string>
-	<string name="rules_restrictions_disclaimer_fr">J\'ai lu et j\'accepte les conditions et restrictions, &lt;a href="%1$s">les conditions d\'utilisation&lt;/a> et &lt;a href="%2$s">la charte de confidentialité&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_it">Dopo averne preso visione, accetto il regolamento, i &lt;a href="%1$s">Condizioni Generali di Contratto&lt;/a> e la &lt;a href="%2$s">politica sulla privacy&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_es">He leído y acepto las reglas y restricciones anteriores, &lt;a href="%1$s">los términos y condiciones de la reserva&lt;/a>, y &lt;a href="%2$s">la directiva de privacidad&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_ie">By completing this booking I agree that I have read and accept the above rules and restrictions, the &lt;a href="%1$s">Terms and Conditions&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_us">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_gb">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s">Terms and Conditions&lt;/a> and the &lt;a href="%2$s">privacy policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_de">Mit Absenden der Buchung stimme ich den Geschäftsbedingungen und der Geltung der &lt;a href="%1$s">allgemeinen Geschäftsbedingungen&lt;/a> von Expedia zu. Die &lt;a href="%2$s">Datenschutzerklärung&lt;/a> habe ich zur Kenntnis genommen.</string>
+	<string name="rules_restrictions_disclaimer_fr">J\'ai lu et j\'accepte les conditions et restrictions, les &lt;a href="%1$s">conditions d\'utilisation&lt;/a> et &lt;a href="%2$s">la charte de confidentialité&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_it">Dopo averne preso visione, accetto il regolamento, i &lt;a href="%1$s">Condizioni Generali di Contratto&lt;/a> e la &lt;a href="%2$s">politica sulla privacy&lt;/a></string>
+	<string name="rules_restrictions_disclaimer_es">He leído y acepto las reglas y restricciones, los &lt;a href="%1$s">términos y condiciones de la reserva&lt;/a>, y la &lt;a href="%2$s">directiva de privacidad&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_ie">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s">Terms and Conditions&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
 	<string name="rules_restrictions_disclaimer_no">Jeg har lest og godtar reglene og begrensningene, &lt;a href="%1$s">vilkårene for bruk&lt;/a> og &lt;a href="%2$s">personvernbestemmelsene&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_au">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_nz">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_in">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_sg">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_ca">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_ca_fr">En faisant cette réservation, je reconnais avoir lu et accepté les règles et restrictions énoncées ci-dessus, de même que les &lt;a href="%1$s">modalités d’utilisation&lt;/a> et la &lt;a href="%2$s">politique en matière de protection des renseignements personnels&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_mx">Al completar esta reservacion, manifiesto que he leido y acepto las Reglas y Restricciones, los &lt;a href="%1$s">Terminos de Uso&lt;/a> y &lt;a href="%2$s">las Politicas de Privacidad anteriores&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_nl">Door deze boeking af te ronden, verklaar ik de hiervoor vermelde Regels en Beperkingen, de &lt;a href="%1$s">Algemene Boekingsvoorwaarden&lt;/a> en het &lt;a href="%2$s">Privacybeleid&lt;/a> te hebben gelezen en hiermee uitdrukkelijk akkoord te gaan.</string>
-	<string name="rules_restrictions_disclaimer_be_fr">En achevant cette réservation, je confirme que j\'ai lu les conditions et les restrictions ci-dessus, ainsi que les &lt;a href="%1$s">conditions générales de vente et d\'utilisation&lt;/a> et la &lt;a href="%2$s">politique en matière de vie privée&lt;/a> et que je les accepte »</string>
-	<string name="rules_restrictions_disclaimer_be_nl">Door deze boeking te voltooien bevestig ik dat ik de bovenvermelde regels en beperkingen evenals de &lt;a href="%1$s">reserveringsvoorwaarden&lt;/a> en de &lt;a href="%2$s">privacy policy&lt;/a> heb gelezen en dat ik deze aanvaard.</string>
-	<string name="rules_restrictions_disclaimer_at">Mit der Reservierung bestätigen Sie, die &lt;a href="%1$s">Allgemeinen Geschäftsbedingungen von EXPEDIA&lt;/a> und die &lt;a href="%2$s">Datenschutzregelung von EXPEDIA&lt;/a> vorab gelesen und vollinhaltlich akzeptiert zu haben.</string>
-	<string name="rules_restrictions_disclaimer_dk">Ved at gennemføre reserveringen bekræfter jeg, at jeg har læst og accepteret ovennævnte specifikke vilkår og begrænsinger, &lt;a href="%1$s">generelle vilkår og betingelser&lt;/a> samt &lt;a href="%2$s">regler om beskyttelse af personlige oplysninger&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_se">Genom att göra denna bokning bekräftar jag att jag har läst och accepterar ovanstående Regler och Begränsningar, &lt;a href="%1$s">Användarvillkor&lt;/a> och &lt;a href="%2$s">Integritetspolicy&lt;/a>.</string>
-	<string name="rules_restrictions_disclaimer_jp">私は、この予約の申込みをした場合、上記の「規則と制限事項」、「&lt;a href="%1$s">利用規約&lt;/a>」及び「&lt;a href="%2$s">プライバシー・ポリシー&lt;/a>」を読んだ上で承諾したものとみなされることに同意します。</string>
+	<string name="rules_restrictions_disclaimer_au">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_nz">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_in">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_sg">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_ca">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s">Terms of Use&lt;/a> and the &lt;a href="%2$s">Privacy Policy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_ca_fr">En faisant cette réservation, je reconnais avoir lu et accepté les règles et restrictions, de même que les &lt;a href="%1$s">modalités d\'utilisation&lt;/a> et la &lt;a href="%2$s">politique en matière de protection des renseignements personnels&lt;/a></string>
+	<string name="rules_restrictions_disclaimer_mx">Al completar esta reservacion, manifiesto que he leido y acepto las Reglas y Restricciones, los &lt;a href="%1$s">Terminos de Uso&lt;/a> y las &lt;a href="%2$s">Politicas de Privacidad&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_nl">Door deze boeking af te ronden, verklaar ik de Regels en Beperkingen, de &lt;a href="%1$s">Algemene Boekingsvoorwaarden&lt;/a> en het &lt;a href="%1$s">Privacybeleid&lt;/a> te hebben gelezen en hiermee uitdrukkelijk akkoord te gaan</string>
+	<string name="rules_restrictions_disclaimer_be_fr">En achevant cette réservation, je confirme que j\'ai lu les conditions et les restrictions, ainsi que les &lt;a href="%1$s">conditions générales de vente et d\'utilisation&lt;/a> et la &lt;a href="%2$s">politique en matière de vie privée&lt;/a> et que je les accepte »</string>
+	<string name="rules_restrictions_disclaimer_at">Mit der Reservierung bestätigen Sie, die Geschäftsbedingungen, die &lt;a href="%1$s">Allgemeinen Geschäftsbedingungen von EXPEDIA&lt;/a> und die &lt;a href="%2$s">Datenschutzregelung von EXPEDIA&lt;/a> vorab gelesen und vollinhaltlich akzeptiert zu haben.</string>
+	<string name="rules_restrictions_disclaimer_dk">Ved at gennemføre reservationen bekræfter jeg, at jeg har læst og accepteret regler og begrænsninger, &lt;a href="%1$s">vilkår og betingelser&lt;/a> samt &lt;a href="%2$s">fortrolighedspolitik&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_se">Genom att göra denna bokning bekräftar jag att jag har läst och accepterar Regler och Begränsningar, &lt;a href="%1$s">Användarvillkor&lt;/a> och &lt;a href="%2$s">Integritetspolicy&lt;/a>.</string>
+	<string name="rules_restrictions_disclaimer_jp">私は、この予約の申込みをした場合、「規則と制限事項」、「&lt;a href="%1$s">利用規約&lt;/a>」及び「&lt;a href="%2$s">プライバシー・ポリシー&lt;/a>」を読んだ上で承諾したものとみなされることに同意します。</string>
 
 	<!-- These are a series of string resources that define what to put into the disclaimers -->
 	<string-array name="rule_restrictions_disclaimer_urls_us">
@@ -105,10 +104,6 @@
 	<string-array name="rule_restrictions_disclaimer_urls_be_fr">
 		<item>@string/terms_conditions_url_be_fr</item>
 		<item>@string/privacy_policy_url_be_fr</item>
-	</string-array>
-	<string-array name="rule_restrictions_disclaimer_urls_be_nl">
-		<item>@string/terms_conditions_url_be_nl</item>
-		<item>@string/privacy_policy_url_be_nl</item>
 	</string-array>
 	<string-array name="rule_restrictions_disclaimer_urls_at">
 		<item>@string/terms_conditions_url_at</item>
@@ -196,10 +191,6 @@
 		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_be_fr</item>
 		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_be_fr</item>
 	</string-array>
-	<string-array name="info_rules_restrictions_map_be_nl">
-		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_be_nl</item>
-		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_be_nl</item>
-	</string-array>
 	<string-array name="info_rules_restrictions_map_at">
 		<item>@string/info_label_terms_conditions</item><item>@string/terms_conditions_url_at</item>
 		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_at</item>
@@ -235,11 +226,10 @@
 	<string name="terms_conditions_url_in">http://www.expedia.co.in/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_sg">http://www.expedia.com.sg/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_ca">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
-	<string name="terms_conditions_url_ca_fr">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
+	<string name="terms_conditions_url_ca_fr">http://www.expedia.ca/daily/frc3084/service/legal.asp</string>
 	<string name="terms_conditions_url_mx">http://www.expedia.com.mx/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_nl">http://www.expedia.nl/daily/service/websiteterms.aspx</string>
 	<string name="terms_conditions_url_be_fr">http://www.expedia.be/daily/content/termsConditions/general/default.aspx</string>
-	<string name="terms_conditions_url_be_nl">http://www.expedia.be/daily/content/termsConditions/general/default.aspx</string>
 	<string name="terms_conditions_url_at">http://www.expedia.at/daily/service/agb.aspx</string>
 	<string name="terms_conditions_url_dk">http://www.expedia.dk/dk/tandc.aspx</string>
 	<string name="terms_conditions_url_se">http://www.expedia.se/se/tandc.aspx</string>
@@ -258,11 +248,10 @@
 	<string name="privacy_policy_url_in">http://www.expedia.co.in/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_sg">http://www.expedia.com.sg/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_ca">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
-	<string name="privacy_policy_url_ca_fr">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
+	<string name="privacy_policy_url_ca_fr">http://www.expedia.ca/daily/frc3084/service/privacy.asp</string>
 	<string name="privacy_policy_url_mx">http://www.expedia.com.mx/politica-de-privacidad.aspx</string>
 	<string name="privacy_policy_url_nl">https://www.expedia.nl/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_be_fr">https://www.expedia.be/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_be_nl">https://www.expedia.be/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_at">http://www.expedia.at/daily/service/safecc.aspx</string>
 	<string name="privacy_policy_url_dk">https://www.expedia.dk/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPolicyAdded.htx&amp;eapid=392-30036</string>
 	<string name="privacy_policy_url_se">https://www.expedia.se/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPolicyAdded.htx&amp;eapid=314-30009 </string>
