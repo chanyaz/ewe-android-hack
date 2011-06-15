@@ -63,15 +63,6 @@ public class TagProgressBar extends ViewGroup implements OnDrawStartedListener {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
-	@Override
-	protected void onVisibilityChanged(View changedView, int visibility) {
-		super.onVisibilityChanged(changedView, visibility);
-
-		if (mGLTagProgressBar != null) {
-			mGLTagProgressBar.setSensorManagerRegistration(visibility == View.VISIBLE);
-		}
-	}
-
 	private void init(Context context) {
 		mContext = context;
 
@@ -164,6 +155,8 @@ public class TagProgressBar extends ViewGroup implements OnDrawStartedListener {
 					}
 				});
 			}
+
+			mGLTagProgressBar.setSensorManagerRegistration(visibility == View.VISIBLE);
 
 			mTagHiderView.post(new Runnable() {
 				@Override

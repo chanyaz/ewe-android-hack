@@ -69,8 +69,8 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 	}
 
 	@Override
-	protected void onVisibilityChanged(View changedView, int visibility) {
-		super.onVisibilityChanged(changedView, visibility);
+	public void setVisibility(int visibility) {
+		super.setVisibility(visibility);
 		if (visibility != View.VISIBLE) {
 			mRenderer.pause();
 			reset();
