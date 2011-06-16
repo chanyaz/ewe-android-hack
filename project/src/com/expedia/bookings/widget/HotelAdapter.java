@@ -37,6 +37,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private Property[] mCachedProperties;
 
 	private boolean mIsMeasuring = false;
+	private boolean mShowDistance = true;
 
 	public HotelAdapter(Context context, SearchResponse searchResponse) {
 		mContext = context;
@@ -70,6 +71,10 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		}
 
 		notifyDataSetChanged();
+	}
+
+	public void setShowDistance(boolean showDistance) {
+		mShowDistance = showDistance;
 	}
 
 	@Override
@@ -182,6 +187,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		holder.hotelRating.setRating((float) property.getHotelRating());
 		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext));
+		holder.distance.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
 
 		// See if there's a first image; if there is, use that as the thumbnail
 		// Don't try to load the thumbnail if we're just measuring the height of the ListView

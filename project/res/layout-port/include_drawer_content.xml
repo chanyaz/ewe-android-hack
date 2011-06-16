@@ -84,60 +84,68 @@
 	
 	</LinearLayout>
 	
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="6dp"
-		android:text="Distance"
-		android:textStyle="bold"
-		android:textColor="@color/btn_text"
-		android:shadowColor="#88FFFFFF"
-		android:shadowDx="0"
-		android:shadowDy="1"
-		android:shadowRadius="0.1" />
-	
-	<com.mobiata.android.widget.SegmentedControlGroup 
-		android:id="@+id/radius_filter_button_group"
+	<LinearLayout
+		android:id="@+id/distance_layout"
+		android:orientation="vertical"
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="6dp"
-		android:orientation="horizontal"
-		mobiata:textColor="@color/segmented_button_text">
+		android:layout_height="wrap_content">
 	
-		<RadioButton
-			android:id="@+id/radius_small_button"
-			android:layout_width="0dp"
+		<TextView
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="2 mi"
-			android:textStyle="bold" />
-			
-		<RadioButton
-			android:id="@+id/radius_medium_button"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="5 mi"
-			android:textStyle="bold" />
-			
-		<RadioButton
-			android:id="@+id/radius_large_button"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="10 mi"
+			android:layout_marginBottom="6dp"
+			android:text="Distance"
 			android:textStyle="bold"
-			android:checked="true" />
-			
-		<RadioButton
-			android:id="@+id/radius_all_button"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="All"
-			android:textStyle="bold" />
+			android:textColor="@color/btn_text"
+			android:shadowColor="#88FFFFFF"
+			android:shadowDx="0"
+			android:shadowDy="1"
+			android:shadowRadius="0.1" />
 		
-	</com.mobiata.android.widget.SegmentedControlGroup>
+		<com.mobiata.android.widget.SegmentedControlGroup 
+			android:id="@+id/radius_filter_button_group"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="6dp"
+			android:orientation="horizontal"
+			mobiata:textColor="@color/segmented_button_text">
+		
+			<RadioButton
+				android:id="@+id/radius_small_button"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="2 mi"
+				android:textStyle="bold" />
+				
+			<RadioButton
+				android:id="@+id/radius_medium_button"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="5 mi"
+				android:textStyle="bold" />
+				
+			<RadioButton
+				android:id="@+id/radius_large_button"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="10 mi"
+				android:textStyle="bold"
+				android:checked="true" />
+				
+			<RadioButton
+				android:id="@+id/radius_all_button"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="All"
+				android:textStyle="bold" />
+			
+		</com.mobiata.android.widget.SegmentedControlGroup>
+	
+	</LinearLayout>
 	
 	<LinearLayout
 		android:orientation="horizontal"

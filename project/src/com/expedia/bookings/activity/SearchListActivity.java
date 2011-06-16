@@ -9,6 +9,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.SearchActivity.SetShowDistanceListener;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.ListViewScrollBar;
 import com.mobiata.hotellib.app.SearchListener;
@@ -18,7 +19,7 @@ import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchResponse;
 
 public class SearchListActivity extends ListActivity implements SearchListener, OnScrollListener,
-		OnFilterChangedListener {
+		OnFilterChangedListener, SetShowDistanceListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
@@ -33,6 +34,8 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 	private ListViewScrollBar mScrollBar;
 
+	private boolean mShowDistance = true;
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
 
@@ -45,6 +48,8 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		mScrollBar = (ListViewScrollBar) findViewById(R.id.scroll_bar);
 
 		mParent.addSearchListener(this);
+		mParent.addSetShowDistanceListener(this);
+
 		mScrollBar.setListView(getListView());
 		mScrollBar.setOnScrollListener(this);
 
@@ -147,7 +152,16 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 		mScrollBar.setSearchResponse(mSearchResponse);
 		mAdapter = new HotelAdapter(this, mSearchResponse);
+		mAdapter.setShowDistance(mShowDistance);
 		setListAdapter(mAdapter);
+	}
+
+	@Override
+	public void onSetShowDistance(boolean showDistance) {
+		mShowDistance = showDistance;
+		if (mAdapter != null) {
+			mAdapter.setShowDistance(showDistance);
+		}
 	}
 
 	@Override

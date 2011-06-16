@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity.MapViewListener;
+import com.expedia.bookings.activity.SearchActivity.SetShowDistanceListener;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -26,7 +27,8 @@ import com.mobiata.hotellib.widget.FixedMyLocationOverlay;
 import com.mobiata.hotellib.widget.HotelItemizedOverlay;
 import com.mobiata.hotellib.widget.HotelItemizedOverlay.OnBalloonTap;
 
-public class SearchMapActivity extends MapActivity implements SearchListener, OnFilterChangedListener, MapViewListener {
+public class SearchMapActivity extends MapActivity implements SearchListener, OnFilterChangedListener, MapViewListener,
+		SetShowDistanceListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
@@ -41,6 +43,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	// Keeps track of whether this Activity is being actively displayed.  If not, do not
 	// enable the MyLocationOverlay.
 	private boolean mIsActive;
+	private boolean mShowDistance = true;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
@@ -62,6 +65,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		final SearchActivity parent = (SearchActivity) getParent();
 		parent.addSearchListener(this);
 		parent.setMapViewListener(this);
+		parent.addSetShowDistanceListener(this);
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
@@ -153,7 +157,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 				@Override
 				public void onBalloonTap(Property property) {
 					final SearchActivity parent = (SearchActivity) getParent();
-					
+
 					Intent intent = new Intent(SearchMapActivity.this, HotelActivity.class);
 					intent.putExtra(Codes.PROPERTY, property.toJson().toString());
 					intent.putExtra(Codes.SEARCH_PARAMS, parent.getSearchParams().toString());
@@ -162,11 +166,13 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 				}
 			};
 			mHotelItemizedOverlay = new HotelItemizedOverlay(this, properties, true, mMapView, onTap);
+			mHotelItemizedOverlay.setShowDistance(mShowDistance);
 			mHotelItemizedOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
 			overlays.add(mHotelItemizedOverlay);
 		}
 		else {
 			mHotelItemizedOverlay.setProperties(properties);
+			mHotelItemizedOverlay.setShowDistance(mShowDistance);
 		}
 
 		// Add an overlay for my location
@@ -180,6 +186,14 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 		// Set the center point
 		focusOnProperties();
+	}
+
+	@Override
+	public void onSetShowDistance(boolean showDistance) {
+		mShowDistance = showDistance;
+		if(mHotelItemizedOverlay != null) {
+			mHotelItemizedOverlay.setShowDistance(showDistance);
+		}
 	}
 
 	@Override

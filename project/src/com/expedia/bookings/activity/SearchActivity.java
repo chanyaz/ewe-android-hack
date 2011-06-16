@@ -120,6 +120,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public GeoPoint onRequestMapCenter();
 	}
 
+	public interface SetShowDistanceListener {
+		public void onSetShowDistance(boolean showDistance);
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
@@ -180,6 +184,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private View mSortLayout;
 	private Button mTripAdvisorOnlyButton;
 	private SegmentedControlGroup mSortButtonGroup;
+	private View mDistanceLayout;
 	private SegmentedControlGroup mRadiusButtonGroup;
 	private TextView mPriceRangeTextView;
 	private SegmentedControlGroup mPriceButtonGroup;
@@ -210,6 +215,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private List<SearchListener> mSearchListeners;
 	private MapViewListener mMapViewListener;
+	private List<SetShowDistanceListener> mSetShowDistanceListeners;
 
 	private List<Address> mAddresses;
 	private SearchParams mSearchParams;
@@ -231,12 +237,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private boolean mDatesLayoutIsVisible;
 	private boolean mGuestsLayoutIsVisible;
 	private boolean mButtonBarIsVisible;
+	private boolean mShowDistance = true;
 
 	private Bitmap mViewFlipBitmap;
 	private Canvas mViewFlipCanvas;
 
 	private LocationSuggestionDialog mLocationSuggestionDialog;
-	
+
 	// This indicates to mSearchCallback that we just loaded saved search results,
 	// and as such should behave a bit differently than if we just did a new search.
 	private boolean mLoadedSavedResults;
@@ -408,6 +415,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			String searchParamsJson = prefs.getString("searchParams", null);
 			String filterJson = prefs.getString("filter", null);
 			mTag = prefs.getString("tag", mTag);
+			mShowDistance = prefs.getBoolean("showDistance", true);
 
 			if (searchParamsJson != null) {
 				try {
@@ -447,6 +455,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		setActivityByTag(mTag);
+		setShowDistance(mShowDistance);
 
 		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
@@ -464,6 +473,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		editor.putString("searchParams", mSearchParams.toJson().toString());
 		editor.putString("filter", mFilter.toJson().toString());
 		editor.putString("tag", mTag);
+		editor.putBoolean("showDistance", mShowDistance);
 		SettingUtils.commitOrApply(editor);
 	}
 
@@ -561,6 +571,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					setSearchEditViews();
 
 					setSearchParams(address.getLatitude(), address.getLongitude());
+					setShowDistance(address.getSubThoroughfare() != null);
 
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearchDownloader();
@@ -717,6 +728,16 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
+	public void addSetShowDistanceListener(SetShowDistanceListener setShowDistanceListener) {
+		if (mSetShowDistanceListeners == null) {
+			mSetShowDistanceListeners = new ArrayList<SetShowDistanceListener>();
+		}
+
+		if (!mSetShowDistanceListeners.contains(setShowDistanceListener)) {
+			mSetShowDistanceListeners.add(setShowDistanceListener);
+		}
+	}
+
 	public SearchParams getSearchParams() {
 		return mSearchParams;
 	}
@@ -763,6 +784,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 							mSearchParams.setFreeformLocation(formattedAddress);
 							setSearchEditViews();
 							setSearchParams(address.getLatitude(), address.getLongitude());
+							setShowDistance(address.getSubThoroughfare() != null);
 							startSearchDownloader();
 						}
 						else {
@@ -783,6 +805,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		mSearchParams.setSearchLatLon(latitde, longitude);
+
+		setShowDistance(true);
 	}
 
 	public void setSearchParams(SearchParams searchParams) {
@@ -954,6 +978,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.panelDismissViewlIsVisible = mPanelDismissView.getVisibility() == View.VISIBLE;
 		state.datesLayoutIsVisible = mDatesLayoutIsVisible;
 		state.guestsLayoutIsVisible = mGuestsLayoutIsVisible;
+		state.showDistance = mShowDistance;
 
 		if (state.searchResponse != null) {
 			if (state.searchResponse.getFilter() != null) {
@@ -980,6 +1005,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mOldFilter = state.oldFilter;
 		mDatesLayoutIsVisible = state.datesLayoutIsVisible;
 		mGuestsLayoutIsVisible = state.guestsLayoutIsVisible;
+		mShowDistance = state.showDistance;
 	}
 
 	// Broadcast methods
@@ -1200,6 +1226,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSortLayout = findViewById(R.id.sort_layout);
 		mTripAdvisorOnlyButton = (Button) findViewById(R.id.tripadvisor_only_button);
 		mSortButtonGroup = (SegmentedControlGroup) findViewById(R.id.sort_filter_button_group);
+		mDistanceLayout = findViewById(R.id.distance_layout);
 		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
 		mPriceRangeTextView = (TextView) findViewById(R.id.price_range_text_view);
 		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
@@ -1638,6 +1665,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		setBookingInfoText();
+	}
+
+	private void setShowDistance(boolean showDistance) {
+		mShowDistance = showDistance;
+		mDistanceLayout.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
+
+		if (mSetShowDistanceListeners != null) {
+			for (SetShowDistanceListener showDistanceListener : mSetShowDistanceListeners) {
+				showDistanceListener.onSetShowDistance(showDistance);
+			}
+		}
 	}
 
 	private void setSearchEditViews() {
@@ -2142,6 +2180,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public boolean panelDismissViewlIsVisible;
 		public boolean datesLayoutIsVisible;
 		public boolean guestsLayoutIsVisible;
+		public boolean showDistance;
 		public Map<PriceRange, PriceTier> priceTierCache;
 		public Session session;
 		public SearchParams searchParams;
