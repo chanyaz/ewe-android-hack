@@ -94,7 +94,9 @@
 		android:visibility="gone"
 		android:background="@android:color/white"
 		android:cacheColorHint="@android:color/white"
-		android:listSelector="@null" />
+		android:listSelector="@null"
+		android:divider="@null"
+		android:dividerHeight="0dp" />
 
 	<include
 		android:id="@id/search_bar_layout"
