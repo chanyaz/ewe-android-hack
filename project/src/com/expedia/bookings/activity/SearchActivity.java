@@ -2313,10 +2313,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (mFilter.getPriceRange() != mOldFilter.getPriceRange()) {
 				refinements.add("App.Hotels.Search.Refine.PriceRange");
 			}
-			
+
 			// Star rating change
 			if (mFilter.getMinimumStarRating() != mOldFilter.getMinimumStarRating()) {
 				refinements.add("App.Hotels.Search.Refine.StarRating");
+			}
+
+			boolean hasHotelFilter = mFilter.getHotelName() != null;
+			boolean oldHasHotelFilter = mOldFilter.getHotelName() != null;
+			if (hasHotelFilter != oldHasHotelFilter
+					|| (hasHotelFilter && !mFilter.getHotelName().equals(mOldFilter.getHotelName()))) {
+				refinements.add("App.Hotels.Search.Refine.HotelName");
 			}
 
 			// Rating filter change
