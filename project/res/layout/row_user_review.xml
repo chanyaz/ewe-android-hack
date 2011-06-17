@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:paddingLeft="6dp"
+	android:paddingBottom="6dp"
+	android:paddingRight="6dp"
+	android:background="@android:color/transparent">
+	<RelativeLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/bg_user_review">
+		<RatingBar 
+			android:id="@+id/user_review_rating_bar"
+			android:layout_height="wrap_content" 
+			android:layout_width="wrap_content"
+			android:layout_margin="3dp" 
+			android:layout_alignParentTop="true"
+			android:layout_alignParentRight="true"
+			android:numStars="5" 
+			android:stepSize="1" 
+			android:isIndicator="true"
+			style="@style/Widget.RatingBar.Small.UserReview" />
+		<TextView android:id="@+id/user_review_title_text_view"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:layout_margin="3dp" 
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentTop="true"
+			android:layout_toLeftOf="@id/user_review_rating_bar"
+			android:singleLine="true" 
+			android:ellipsize="end" 
+			android:textStyle="bold"
+			android:textColor="#333" />
+		<View 
+			android:id="@+id/user_review_separator"
+			android:layout_width="fill_parent" 
+			android:layout_height="@dimen/one_pixel"
+			android:layout_marginTop="1dp" 
+			android:layout_marginLeft="3dp"
+			android:layout_marginRight="3dp"
+			android:layout_below="@id/user_review_title_text_view"
+			android:background="#CECFD3" />
+		<TextView android:id="@+id/user_review_body_text_view"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:layout_margin="3dp" 
+			android:layout_below="@id/user_review_separator"
+			android:textColor="#333" />
+		<RelativeLayout 
+			android:id="@+id/user_review_read_more_container"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:layout_below="@id/user_review_body_text_view" >
+			<TextView 
+				android:id="@+id/user_review_read_more_text_button"
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:layout_centerHorizontal="true"
+				android:textStyle="bold"
+				android:textColor="#333" 
+				android:text="@string/user_review_read_more" />
+			<ImageView 
+				android:id="@+id/user_review_read_more_triangle"
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@id/user_review_read_more_text_button"
+				android:layout_marginLeft="6dp" 
+				android:layout_centerInParent="true"
+				android:src="@drawable/user_review_read_more_icon" />
+		</RelativeLayout>
+		<TextView
+			android:id="@+id/user_review_date_text_view"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:layout_below="@id/user_review_read_more_container"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true" 
+			android:layout_margin="3dp"
+			android:textColor="#787878" />
+		<TextView 
+			android:id="@+id/user_review_name_and_location_text_view"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:layout_margin="3dp"
+			android:layout_below="@id/user_review_read_more_container"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentLeft="true"
+			android:layout_toLeftOf="@id/user_review_date_text_view"
+			android:singleLine="true" 
+			android:ellipsize="end" 
+			android:textColor="#787878" />
+	</RelativeLayout>
+</LinearLayout>

@@ -95,7 +95,35 @@
 	<string name="amenity_internet">Internet</string>
 	<!-- Pets allowed amenity -->
 	<string name="amenity_pets">Pets</string>
-
+	
+	<!-- User Reviews list strings -->
+	<!-- Loading text prompt -->
+	<string name="user_review_loading_text">Loading user reviews...</string>
+	<plurals name="user_reviews_x_total_reviews">
+		<item quantity="one">user review</item>
+		<item quantity="other">total reviews</item>
+	</plurals>
+	<!-- The x total reviews text all -->
+	<string name="user_review_total_reviews_tag">&lt;b>%1$d&lt;/b> %2$s</string>
+	<!-- The 'out of 5' text for the big rating -->
+	<string name="user_review_rating_out_of">out of 5</string>
+	<!-- Sort button prompt title -->
+	<string name="user_review_sort_prompt_title">Sort by</string>
+	<!-- The text for the sort button, recent -->
+	<string name="user_review_sort_button_recent">Recent</string>
+	<!-- The text for the sort button, recent -->
+	<string name="user_review_sort_button_favorable">Favorable</string>
+	<!-- The text for the sort button, recent -->
+	<string name="user_review_sort_button_critical">Critical</string>
+	<!-- Loading more reviews -->
+	<string name="user_review_loading_more_reviews">Loading more reviews...</string>
+	<!-- Read more of the review -->
+	<string name="user_review_read_more">Read more</string>
+	<!-- User review recommendation text -->
+	<string name="user_review_recommendation_tag_text">&lt;b>%1$d%%&lt;/b> recommend</string>
+	<!-- User review name and place review signature -->
+	<string name="user_review_name_and_location_signature">%1$s from %2$s</string>
+	
 	<!-- Room and rates list -->
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Finding available rooms...</string>

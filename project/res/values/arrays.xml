@@ -5,4 +5,10 @@
     	<item>@string/contact_expedia_website</item>
     	<item>@string/contact_expedia_email</item>    	
     </string-array>
+    
+    <string-array name="user_review_sort_options">
+    	<item>@string/user_review_sort_button_recent</item>
+    	<item>@string/user_review_sort_button_favorable</item>
+    	<item>@string/user_review_sort_button_critical</item>
+    </string-array>
 </resources>

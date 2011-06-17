@@ -3,3 +3,5 @@ gen/
 .settings/
 .project
 .classpath
+.DS_Store
+project/.DS_Store

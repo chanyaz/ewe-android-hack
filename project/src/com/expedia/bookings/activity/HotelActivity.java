@@ -185,6 +185,22 @@ public class HotelActivity extends Activity {
 				startActivity(intent);
 			}
 		});
+		
+		Button userReviewsButton = (Button) findViewById(R.id.user_reviews_button);
+		if(mProperty.hasExpediaReviews()) {
+			userReviewsButton.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					Intent intent = new Intent(mContext, UserReviewsListActivity.class);
+					intent.fillIn(getIntent(), 0);
+					startActivity(intent);
+				}	
+			});
+		}
+		else {
+			userReviewsButton.setEnabled(false);
+			userReviewsButton.setTextColor(R.color.btn_text_disabled);
+//			userReviewsButton.setShadowLayer((float) 1.0, (float) 1.0, (float) 1.0, R.color.hotel_activity_user_review_disabled_button_shadow);
+		}
 
 		// Amenities
 		// Disable some aspects of the horizontal scrollview so it looks pretty

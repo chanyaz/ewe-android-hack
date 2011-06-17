@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/user_reviews_list_loading_more_container"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
+	<ProgressBar
+		android:id="@+id/user_review_loading_more_progress_spinner"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="6dp"
+		android:layout_marginBottom="6dp"
+		android:layout_marginRight="6dp" />
+	<TextView
+		android:id="@+id/user_review_loading_more_text"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="9dp"
+		android:layout_marginTop="3dp"
+		android:layout_toRightOf="@id/user_review_loading_more_progress_spinner"
+		android:layout_centerVertical="true"
+		android:textColor="#333"
+		android:background="@color/bg_default"
+		android:textStyle="bold"
+		android:textSize="16dp"
+		android:text="@string/user_review_loading_more_reviews" />
+</RelativeLayout>

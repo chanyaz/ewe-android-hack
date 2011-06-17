@@ -14,4 +14,10 @@
 	<color name="hint_color">#808080</color>
 	
 	<color name="suggestion_row_divider">#FFE5E5E5</color>
+	
+	<!-- Color for a disabled user reviews button, text -->
+	<color name="hotel_activity_user_review_disabled_text_color">#616161</color>
+	
+	<!-- Shadow color of a disabled review button -->
+	<color name="hotel_activity_user_review_disabled_button_shadow">#4fffffff</color>
 </resources>
