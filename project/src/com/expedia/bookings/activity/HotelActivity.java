@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -162,7 +162,7 @@ public class HotelActivity extends Activity {
 		TextView priceView = (TextView) findViewById(R.id.price_text_view);
 		priceView.setText(lowestRate.getDisplayRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
 
-		ImageButton mapButton = (ImageButton) findViewById(R.id.map_button);
+		Button mapButton = (Button) findViewById(R.id.map_button);
 		mapButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, HotelMapActivity.class);

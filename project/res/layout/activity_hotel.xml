@@ -68,15 +68,6 @@
 			android:textStyle="bold"
 			android:textColor="@android:color/white"
 			android:visibility="gone" />
-		<ImageButton
-			android:id="@+id/map_button"
-			android:layout_width="@dimen/action_bar_button_height"
-			android:layout_height="@dimen/action_bar_button_height"
-			android:layout_alignParentBottom="true"
-			android:layout_alignParentRight="true"
-			android:layout_marginRight="4dp"
-			android:src="@drawable/btn_map"
-			style="@style/Widget.Button.Floating" />
 		<ImageView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -127,11 +118,35 @@
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="12dp"
 					android:layout_marginRight="12dp"
-					android:layout_marginBottom="10dp"
 					android:textColor="#333333" />
+				<LinearLayout 
+							android:orientation="horizontal"
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"
+							android:layout_marginBottom="12dp">
+						<Button
+							android:id="@+id/map_button"
+							android:layout_marginLeft="12dp"
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"
+							android:layout_weight="1"
+							android:textStyle="bold"
+							android:text="@string/show_on_map"
+							style="@style/Widget.Button.HotelDetails" />
+						<Button
+							android:id="@+id/user_reviews_button"
+							android:layout_marginRight="12dp"
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"
+							android:layout_weight="1"
+							android:layout_toRightOf="@id/map_button"
+							android:textStyle="bold"
+							android:text="@string/user_reviews"
+							style="@style/Widget.Button.HotelDetails" />
+				</LinearLayout>
 			</LinearLayout>
 		</ScrollView>
-
+		
 		<ImageView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"

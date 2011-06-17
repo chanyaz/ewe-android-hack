@@ -65,6 +65,10 @@
 	<string name="trip_advisor">TripAdvisor</string>
 	<!-- Label for the address section of the description  -->
 	<string name="address">Address</string>
+	<!-- Label for button to open map view -->
+	<string name="show_on_map">Show On Map</string>
+	<!-- Label for button to show user reviews -->
+	<string name="user_reviews">User Reviews</string>
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
 
