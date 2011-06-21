@@ -288,7 +288,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				broadcastSearchCompleted(mSearchResponse);
 
 				buildPriceTierCache();
-				enablePanelHandle();
 				hideLoading();
 				setPriceRangeText();
 			}
@@ -1015,7 +1014,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		buildFilter();
 		setSearchEditViews();
 		setDisplayType(DisplayType.NONE);
-		disablePanelHandle();
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
@@ -1049,7 +1047,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		if (mSearchParams.getSearchType() == SearchType.FREEFORM) {
 			Search.add(this, mSearchParams);
-			mSearchSuggestionAdapter.refreshData(this);
+			mSearchSuggestionAdapter.refreshData();
 		}
 
 		resetFilter();
@@ -1140,7 +1138,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	//----------------------------------
 
 	private void setDisplayType(DisplayType displayType) {
-		setDisplayType(displayType, false);
+		setDisplayType(displayType, true);
 	}
 
 	private void setDisplayType(DisplayType displayType, boolean animate) {
@@ -1161,7 +1159,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			hideSoftKeyboard(mSearchEditText);
 			mSearchSuggestionsListView.setVisibility(View.GONE);
 
-			mPanelDismissView.setVisibility(View.GONE);
+			//mPanelDismissView.setVisibility(View.GONE);
 			mPanel.setOpen(false, animate);
 
 			mRefinementDismissView.setVisibility(View.GONE);
@@ -1173,6 +1171,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		case KEYBOARD: {
 			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
+			mSearchSuggestionAdapter.refreshData();
 			mSearchSuggestionsListView.setVisibility(View.VISIBLE);
 
 			mPanelDismissView.setVisibility(View.GONE);
@@ -1186,6 +1185,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		}
 		case CALENDAR: {
+			mSearchEditText.clearFocus();
+
 			hideSoftKeyboard(mSearchEditText);
 			mSearchSuggestionsListView.setVisibility(View.GONE);
 
@@ -1200,6 +1201,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		}
 		case GUEST_PICKER: {
+			mSearchEditText.clearFocus();
+
 			hideSoftKeyboard(mSearchEditText);
 			mSearchSuggestionsListView.setVisibility(View.GONE);
 
@@ -1214,6 +1217,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		}
 		case DRAWER: {
+			mSearchEditText.clearFocus();
+
 			hideSoftKeyboard(mSearchEditText);
 			mSearchSuggestionsListView.setVisibility(View.GONE);
 
@@ -1238,6 +1243,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void hideLoading() {
 		unlockScreenRotation();
+		enablePanelHandle();
 		mSearchProgressBar.setVisibility(View.GONE);
 	}
 
@@ -1247,6 +1253,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void showLoading(String text) {
 		lockScreenRotation();
+		disablePanelHandle();
 		mSearchProgressBar.setVisibility(View.VISIBLE);
 		mSearchProgressBar.setShowProgress(true);
 		mSearchProgressBar.setText(text);
@@ -1774,6 +1781,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
 			mSearchEditText.setText(mSearchParams.getFreeformLocation());
+			mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
 			break;
 		}
 		case MY_LOCATION: {
@@ -1923,20 +1931,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 			if (position == 0) {
-				mSearchEditText.setText(R.string.current_location);
-				mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
-				mSearchEditText.selectAll();
-				mSearchEditText.requestFocus();
-
 				mSearchParams.setSearchType(SearchType.MY_LOCATION);
-				setSearchEditViews();
-				setDisplayType(DisplayType.CALENDAR);
 			}
 			else {
 				setSearchParams((SearchParams) mSearchSuggestionAdapter.getItem(position));
-				setSearchEditViews();
-				setDisplayType(DisplayType.CALENDAR);
 			}
+
+			setDisplayType(DisplayType.CALENDAR);
 		}
 	};
 
@@ -2088,7 +2089,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final View.OnClickListener mPanelDismissViewClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			setDisplayType(DisplayType.NONE, true);
+			setDisplayType(DisplayType.NONE);
 		}
 	};
 
@@ -2117,7 +2118,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onClick(View v) {
 			switchRatingFilter();
-			setDisplayType(DisplayType.NONE, true);
+			setDisplayType(DisplayType.NONE);
 		}
 	};
 
@@ -2132,6 +2133,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
+				setDisplayType(DisplayType.KEYBOARD);
+
 				if (mSearchParams.getSearchType() != SearchType.FREEFORM) {
 					mSearchEditText.post(new Runnable() {
 						@Override
@@ -2144,11 +2147,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				else {
 					mSearchEditText.selectAll();
 				}
-
-				setDisplayType(DisplayType.KEYBOARD);
-			}
-			else {
-				setDisplayType(DisplayType.NONE);
 			}
 		}
 	};

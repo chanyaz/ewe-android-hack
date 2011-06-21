@@ -17,19 +17,21 @@ public class SearchSuggestionAdapter extends BaseAdapter {
 	private static final int TYPE_CURRENT_LOCATION = 0;
 	private static final int TYPE_SEARCH_PARAM = 1;
 
-	protected LayoutInflater mInflater;
-	public List<SearchParams> mSearchParams;
+	private Context mContext;
+	private LayoutInflater mInflater;
+	private List<SearchParams> mSearchParams;
 	private int mCurrentLocationColor;
 
 	public SearchSuggestionAdapter(Context context) {
+		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mCurrentLocationColor = context.getResources().getColor(R.color.MyLocationBlue);
 
-		refreshData(context);
+		refreshData();
 	}
 
-	public void refreshData(Context context) {
-		mSearchParams = Search.getAllSearchParams(context);
+	public void refreshData() {
+		mSearchParams = Search.getAllSearchParams(mContext);
 		notifyDataSetChanged();
 	}
 

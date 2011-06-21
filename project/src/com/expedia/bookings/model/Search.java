@@ -71,7 +71,7 @@ public class Search extends ActiveRecordBase<Search> {
 	}
 
 	public static void add(Context context, SearchParams searchParams) {
-		if (searchParams.getSearchType() == SearchType.MY_LOCATION || searchParams.getFreeformLocation() == null
+		if (searchParams.getSearchType() != SearchType.FREEFORM || searchParams.getFreeformLocation() == null
 				&& searchParams.getFreeformLocation().length() > 0) {
 
 			return;
