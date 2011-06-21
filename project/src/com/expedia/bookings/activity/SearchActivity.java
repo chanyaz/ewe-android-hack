@@ -406,8 +406,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				}
 				broadcastSearchCompleted(mSearchResponse);
 			}
-
-			setDisplayType(mDisplayType);
 		}
 		else {
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -440,21 +438,22 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				}
 			}
 
-			mAdultsNumberPicker.setTextEnabled(false);
-			mChildrenNumberPicker.setTextEnabled(false);
-			mAdultsNumberPicker.setRange(1, 4);
-			mChildrenNumberPicker.setRange(0, 4);
-			mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
-			mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
-			setNumberPickerRanges();
-
 			// Attempt to load saved search results; if we fail, start a new search
 			BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mLoadSavedResults, mLoadSavedResultsCallback);
 			showLoading(R.string.loading_previous);
 		}
 
+		mAdultsNumberPicker.setTextEnabled(false);
+		mChildrenNumberPicker.setTextEnabled(false);
+		mAdultsNumberPicker.setRange(1, 4);
+		mChildrenNumberPicker.setRange(0, 4);
+		mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
+		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
+		setNumberPickerRanges();
+
 		setActivityByTag(mTag);
 		setShowDistance(mShowDistance);
+		setDisplayType(mDisplayType);
 
 		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
