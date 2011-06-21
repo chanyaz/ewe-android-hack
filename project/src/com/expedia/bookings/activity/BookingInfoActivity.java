@@ -10,9 +10,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -21,6 +24,8 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -40,6 +45,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -87,6 +93,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private static final int DIALOG_BOOKING_PROGRESS = 1;
 	private static final int DIALOG_BOOKING_NULL = 2;
 	private static final int DIALOG_BOOKING_ERROR = 3;
+	private static final int DIALOG_CLEAR_PRIVATE_DATA = 4;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
@@ -373,6 +380,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
 	}
 
+	//////////////////////////////////////////////////////////////////////////////////
 	// Dialogs
 
 	@Override
@@ -402,12 +410,68 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			return DialogUtils.createSimpleDialog(this, DIALOG_BOOKING_ERROR, getString(R.string.error_booking_title),
 					errorMsg);
 		}
+		case DIALOG_CLEAR_PRIVATE_DATA: {
+			Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.dialog_clear_private_data_title);
+			builder.setMessage(R.string.dialog_clear_private_data_msg);
+			builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					// Delete private data and clear form
+					mBillingInfo.delete(mContext);
+
+					mFirstNameEditText.setText(null);
+					mLastNameEditText.setText(null);
+					mTelephoneEditText.setText(null);
+					mEmailEditText.setText(null);
+					mAddress1EditText.setText(null);
+					mAddress2EditText.setText(null);
+					mCityEditText.setText(null);
+					mPostalCodeEditText.setText(null);
+					mStateEditText.setText(null);
+					setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
+					mCardNumberEditText.setText(null);
+					mExpirationMonthEditText.setText(null);
+					mExpirationYearEditText.setText(null);
+					mSecurityCodeEditText.setText(null);
+					mRulesRestrictionsCheckbox.setChecked(false);
+
+					expandGuestsForm(false);
+					expandBillingForm(false);
+
+					// Inform the men
+					Toast.makeText(mContext, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
+				}
+			});
+			builder.setNegativeButton(android.R.string.cancel, null);
+			return builder.create();
+		}
 		}
 
 		return super.onCreateDialog(id);
 	}
 
-	// BackgroundDownloader interface implementations
+	//////////////////////////////////////////////////////////////////////////////////
+	// Menus
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_booking, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.clear_private_data:
+			showDialog(DIALOG_CLEAR_PRIVATE_DATA);
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////
+	// BackgroundDownloader interface
 
 	@Override
 	public void onDownload(Object results) {

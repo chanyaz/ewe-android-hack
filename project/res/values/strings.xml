@@ -146,6 +146,14 @@
 	<string name="charge_details_template">Your credit card will be charged %s</string>
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">Confirm &amp; Book</string>
+	<!-- Label for clearing private data -->
+	<string name="clear_private_data">Clear Private Data</string>
+	<!-- Title for dialog confirming the clearing of private data -->
+	<string name="dialog_clear_private_data_title">Clear Private Data?</string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_clear_private_data_msg">This removes all saved billing and contact information.</string>
+	<!-- Title for dialog after private data has been cleared -->
+	<string name="toast_private_data_cleared">Private data cleared</string>
 	<!-- Error message if field was required but not entered -->
 	<string name="required_field">Please enter a value for this field.</string>
 	<!-- Error message if field had data entered but was invalid -->
