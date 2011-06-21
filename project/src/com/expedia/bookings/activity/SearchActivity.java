@@ -114,8 +114,11 @@ import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.StrUtils;
 import com.omniture.AppMeasurement;
 
-@SuppressWarnings("unused")
 public class SearchActivity extends ActivityGroup implements LocationListener {
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// INTERFACES
+	//////////////////////////////////////////////////////////////////////////////////////////
+
 	public interface MapViewListener {
 		public GeoPoint onRequestMapCenter();
 	}
@@ -124,11 +127,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public void onSetShowDistance(boolean showDistance);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////
-	// Constants
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// ENUMS
+	//////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final String ACTIVITY_SEARCH_LIST = SearchListActivity.class.getCanonicalName();
-	public static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
+	private enum DisplayType {
+		NONE, KEYBOARD, CALENDAR, GUEST_PICKER, DRAWER
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String ACTIVITY_SEARCH_LIST = SearchListActivity.class.getCanonicalName();
+	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_ACTIVITY_STATE = "KEY_ACTIVITY_STATE";
@@ -158,53 +170,49 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
 
-	//////////////////////////////////////////////////////////////////////////////////
-	// Private members
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// PRIVATE MEMBERS
+	//////////////////////////////////////////////////////////////////////////////////////////
 
-	// Views
+	//----------------------------------
+	// VIEWS
+	//----------------------------------
 
-	private View mFocusLayout;
-
-	private FrameLayout mContent;
-	private ImageView mViewFlipImage;
-
-	private View mMapSearchButton;
-	private ImageButton mViewButton;
-
-	private TextView mBookingInfoTextView;
-	private EditText mSearchEditText;
-	private ImageButton mDatesButton;
-	private TextView mDatesTextView;
-	private ImageButton mGuestsButton;
-	private TextView mGuestsTextView;
-
-	private View mPanelDismissView;
-	private Panel mPanel;
-
-	private View mSortLayout;
+	private Button mSearchButton;
 	private Button mTripAdvisorOnlyButton;
-	private SegmentedControlGroup mSortButtonGroup;
-	private View mDistanceLayout;
-	private SegmentedControlGroup mRadiusButtonGroup;
-	private TextView mPriceRangeTextView;
-	private SegmentedControlGroup mPriceButtonGroup;
-
-	private View mRefinementDismissView;
-	private ListView mSearchSuggestionsListView;
-
-	private View mDatesLayout;
 	private CalendarDatePicker mDatesCalendarDatePicker;
-	private View mGuestsLayout;
+	private EditText mSearchEditText;
+	private FrameLayout mContent;
+	private ImageButton mDatesButton;
+	private ImageButton mGuestsButton;
+	private ImageButton mViewButton;
+	private ImageView mViewFlipImage;
+	private ListView mSearchSuggestionsListView;
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
-
-	private View mButtonBarLayout;
-	private TextView mRefinementInfoTextView;
-	private Button mSearchButton;
-
+	private Panel mPanel;
+	private SegmentedControlGroup mPriceButtonGroup;
+	private SegmentedControlGroup mRadiusButtonGroup;
+	private SegmentedControlGroup mSortButtonGroup;
 	private TagProgressBar mSearchProgressBar;
+	private TextView mBookingInfoTextView;
+	private TextView mDatesTextView;
+	private TextView mGuestsTextView;
+	private TextView mPriceRangeTextView;
+	private TextView mRefinementInfoTextView;
+	private View mButtonBarLayout;
+	private View mDatesLayout;
+	private View mDistanceLayout;
+	private View mFocusLayout;
+	private View mGuestsLayout;
+	private View mMapSearchButton;
+	private View mPanelDismissView;
+	private View mRefinementDismissView;
+	private View mSortLayout;
 
-	// Others
+	//----------------------------------
+	// OTHERS
+	//----------------------------------
 
 	private Context mContext;
 
@@ -212,6 +220,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private String mTag = ACTIVITY_SEARCH_LIST;
 	private Intent mIntent;
 	private View mLaunchedView;
+
+	private DisplayType mDisplayType = DisplayType.NONE;
+	private boolean mShowDistance = true;
+
+	private Bitmap mViewFlipBitmap;
+	private Canvas mViewFlipCanvas;
 
 	private List<SearchListener> mSearchListeners;
 	private MapViewListener mMapViewListener;
@@ -227,28 +241,19 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Filter mFilter;
 	private Filter mOldFilter;
 	private boolean mLocationListenerStarted;
-	private boolean mIsSearching;
 	private boolean mScreenRotationLocked;
 
 	private Thread mGeocodeThread;
-
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
-
-	private boolean mDatesLayoutIsVisible;
-	private boolean mGuestsLayoutIsVisible;
-	private boolean mButtonBarIsVisible;
-	private boolean mShowDistance = true;
-
-	private Bitmap mViewFlipBitmap;
-	private Canvas mViewFlipCanvas;
-
 	private LocationSuggestionDialog mLocationSuggestionDialog;
 
 	// This indicates to mSearchCallback that we just loaded saved search results,
 	// and as such should behave a bit differently than if we just did a new search.
 	private boolean mLoadedSavedResults;
 
-	// Threads / callbacks
+	//----------------------------------
+	// THREADS/CALLBACKS
+	//----------------------------------
 
 	private BackgroundDownloader mSearchDownloader = BackgroundDownloader.getInstance();
 
@@ -369,10 +374,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
-	//////////////////////////////////////////////////////////////////////////////////
-	// Overrides
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// OVERRIDES
+	//////////////////////////////////////////////////////////////////////////////////////////
 
-	// Lifecycle events
+	//----------------------------------
+	// LIFECYCLE EVENTS
+	//----------------------------------
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -400,15 +408,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				broadcastSearchCompleted(mSearchResponse);
 			}
 
-			if (state.panelDismissViewlIsVisible) {
-				mPanelDismissView.setVisibility(View.VISIBLE);
-			}
-			if (mGuestsLayoutIsVisible) {
-				showGuestsLayout();
-			}
-			if (mDatesLayoutIsVisible) {
-				showDatesLayout();
-			}
+			setDisplayType(mDisplayType);
 		}
 		else {
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -545,7 +545,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	// Dialogs
+	//----------------------------------
+	// DIALOGS
+	//----------------------------------
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -612,7 +614,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		return super.onCreateDialog(id);
 	}
 
-	// Menus
+	//----------------------------------
+	// MENUS
+	//----------------------------------
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -638,35 +642,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		return super.onOptionsItemSelected(item);
 	}
 
-	// Key events
+	//----------------------------------
+	// KEY EVENTS
+	//----------------------------------
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-			if (mDatesLayoutIsVisible) {
-				restoreSearchParams();
-				hideDatesLayout();
-				hideRefinementDismissView();
-				hideButtonBar();
-				return true;
-			}
-
-			if (mGuestsLayoutIsVisible) {
-				restoreSearchParams();
-				hideGuestsLayout();
-				hideRefinementDismissView();
-				hideButtonBar();
-				return true;
-			}
-
-			if (mSearchEditText.hasFocus() && mButtonBarIsVisible) {
-				restoreSearchParams();
-				resetFocus();
-				return true;
-			}
-
-			if (mPanel.isOpen()) {
-				closeDrawer();
+			if (mDisplayType != DisplayType.NONE) {
+				setDisplayType(DisplayType.NONE);
 				return true;
 			}
 		}
@@ -674,7 +658,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		return super.dispatchKeyEvent(event);
 	}
 
-	// Location listener implementation
+	//----------------------------------
+	// LOCATION LISTENER IMPLEMENTATION
+	//----------------------------------
 
 	@Override
 	public void onLocationChanged(Location location) {
@@ -715,8 +701,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////
-	// Public methods
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// PUBLIC METHODS
+	//////////////////////////////////////////////////////////////////////////////////////////
 
 	public void addSearchListener(SearchListener searchListener) {
 		if (mSearchListeners == null) {
@@ -750,7 +737,205 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mMapViewListener = mapViewListener;
 	}
 
-	public void setSearchParamsForFreeform() {
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// PRIVATE METHODS
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	//----------------------------------
+	// VIEW INITIALIZATION
+	//----------------------------------
+
+	private void initializeViews() {
+		// Get views
+		mFocusLayout = findViewById(R.id.focus_layout);
+
+		mContent = (FrameLayout) findViewById(R.id.content_layout);
+		mViewFlipImage = (ImageView) findViewById(R.id.view_flip_image);
+
+		mMapSearchButton = (View) findViewById(R.id.map_search_button);
+		mViewButton = (ImageButton) findViewById(R.id.view_button);
+
+		mBookingInfoTextView = (TextView) findViewById(R.id.booking_info_text_view);
+		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
+		mDatesButton = (ImageButton) findViewById(R.id.dates_button);
+		mDatesTextView = (TextView) findViewById(R.id.dates_text_view);
+		mGuestsButton = (ImageButton) findViewById(R.id.guests_button);
+		mGuestsTextView = (TextView) findViewById(R.id.guests_text_view);
+
+		mPanelDismissView = findViewById(R.id.panel_dismiss_view);
+		mPanel = (Panel) findViewById(R.id.drawer_panel);
+
+		mSortLayout = findViewById(R.id.sort_layout);
+		mTripAdvisorOnlyButton = (Button) findViewById(R.id.tripadvisor_only_button);
+		mSortButtonGroup = (SegmentedControlGroup) findViewById(R.id.sort_filter_button_group);
+		mDistanceLayout = findViewById(R.id.distance_layout);
+		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
+		mPriceRangeTextView = (TextView) findViewById(R.id.price_range_text_view);
+		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
+
+		mRefinementDismissView = findViewById(R.id.refinement_dismiss_view);
+		mSearchSuggestionsListView = (ListView) findViewById(R.id.search_suggestions_list_view);
+
+		mDatesLayout = findViewById(R.id.dates_layout);
+		mDatesCalendarDatePicker = (CalendarDatePicker) findViewById(R.id.dates_date_picker);
+		mGuestsLayout = findViewById(R.id.guests_layout);
+		mAdultsNumberPicker = (NumberPicker) findViewById(R.id.adults_number_picker);
+		mChildrenNumberPicker = (NumberPicker) findViewById(R.id.children_number_picker);
+
+		mButtonBarLayout = findViewById(R.id.button_bar_layout);
+		mRefinementInfoTextView = (TextView) findViewById(R.id.refinement_info_text_view);
+		mSearchButton = (Button) findViewById(R.id.search_button);
+
+		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
+
+		//===================================================================
+		// Properties
+
+		//-------------------------------------------------------------------
+		// Note: Eff everything about this. First off, this footer has to be
+		// added to the listview because it's behind a transparent view so it
+		// needs to be padded up. Padding doesn't work like it should so we
+		// we have to do it with a view. You'll notice that instead of
+		// setting the footer's layout params we're adding a view with the
+		// layout params we require. For some reason setting the layout
+		// params of the footer view results in class cast exception. >:-|
+		LinearLayout footer = new LinearLayout(this);
+		footer.addView(
+				new View(this),
+				new LayoutParams(LayoutParams.FILL_PARENT, getResources().getDimensionPixelSize(
+						R.dimen.row_search_suggestion_footer_height)));
+
+		mSearchSuggestionsListView.addFooterView(footer, null, false);
+		//-------------------------------------------------------------------
+
+		mSearchProgressBar.setVisibility(View.GONE);
+
+		mPanel.setInterpolator(new AccelerateInterpolator());
+		mPanel.setOnPanelListener(mPanelListener);
+
+		final View delegate = mPanel.getHandle();
+		final View parent = (View) delegate.getParent();
+		parent.post(new Runnable() {
+			@Override
+			public void run() {
+				final Rect r = new Rect();
+				delegate.getHitRect(r);
+				r.top -= 50;
+				parent.setTouchDelegate(new TouchDelegate(r, delegate));
+			}
+		});
+		Time now = new Time();
+		now.setToNow();
+		mDatesCalendarDatePicker.setSelectionMode(SelectionMode.RANGE);
+		mDatesCalendarDatePicker.setMinDate(now.year, now.month, now.monthDay);
+		mDatesCalendarDatePicker.setMaxRange(29);
+
+		//===================================================================
+		// Listeners
+		mMapSearchButton.setOnClickListener(mMapSearchButtonClickListener);
+		mViewButton.setOnClickListener(mViewButtonClickListener);
+
+		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
+		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
+		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
+		mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
+		mDatesButton.setOnClickListener(mDatesButtonClickListener);
+		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
+
+		mPanelDismissView.setOnClickListener(mPanelDismissViewClickListener);
+		mTripAdvisorOnlyButton.setOnClickListener(mTripAdvisorOnlyButtonClickListener);
+		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
+		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
+		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
+
+		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
+		mSearchSuggestionsListView.setOnItemClickListener(mSearchSuggestionsItemClickListner);
+
+		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
+		mAdultsNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
+		mChildrenNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
+		mSearchButton.setOnClickListener(mSearchButtonClickListener);
+	}
+
+	//----------------------------------
+	// SEARCH METHODS
+	//----------------------------------
+
+	private void buildFilter() {
+		Log.d("Building up filter from current view settings...");
+
+		if (mFilter == null) {
+			mFilter = new Filter();
+		}
+
+		// Sort
+		switch (mSortButtonGroup.getCheckedRadioButtonId()) {
+		case R.id.sort_popular_button: {
+			mFilter.setSort(Sort.POPULAR);
+			break;
+		}
+		case R.id.sort_price_button: {
+			mFilter.setSort(Sort.PRICE);
+		}
+		}
+
+		// Price
+		switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
+		case R.id.price_cheap_button: {
+			mFilter.setPriceRange(PriceRange.CHEAP);
+			break;
+		}
+		case R.id.price_moderate_button: {
+			mFilter.setPriceRange(PriceRange.MODERATE);
+			break;
+		}
+		case R.id.price_expensive_button: {
+			mFilter.setPriceRange(PriceRange.EXPENSIVE);
+			break;
+		}
+		default:
+		case R.id.price_all_button: {
+			mFilter.setPriceRange(PriceRange.ALL);
+			break;
+		}
+		}
+
+		// Distance
+		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
+		case R.id.radius_small_button: {
+			mFilter.setSearchRadius(SearchRadius.SMALL);
+			break;
+		}
+		case R.id.radius_medium_button: {
+			mFilter.setSearchRadius(SearchRadius.MEDIUM);
+			break;
+		}
+		case R.id.radius_large_button: {
+			mFilter.setSearchRadius(SearchRadius.LARGE);
+			break;
+		}
+		default:
+		case R.id.radius_all_button: {
+			mFilter.setSearchRadius(SearchRadius.ALL);
+			break;
+		}
+		}
+
+		// Notify that the filter has changed
+		mFilter.notifyFilterChanged();
+	}
+
+	private void resetFilter() {
+		Log.d("Resetting filter...");
+
+		mFilter = new Filter();
+		mFilter.setSearchRadius(Filter.SearchRadius.LARGE);
+
+		setDrawerViews();
+		buildFilter();
+	}
+
+	private void setSearchParamsForFreeform() {
 		showLoading(R.string.progress_searching_hotels);
 
 		mSearchParams.setUserFreeformLocation(mSearchParams.getFreeformLocation());
@@ -799,7 +984,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mGeocodeThread.start();
 	}
 
-	public void setSearchParams(Double latitde, Double longitude) {
+	private void setSearchParams(Double latitde, Double longitude) {
 		if (mSearchParams == null) {
 			mSearchParams = new SearchParams();
 		}
@@ -809,12 +994,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setShowDistance(true);
 	}
 
-	public void setSearchParams(SearchParams searchParams) {
+	private void setSearchParams(SearchParams searchParams) {
 		mSearchParams = searchParams;
 		mSearchParams.ensureValidCheckInDate();
 	}
 
-	public void startSearch() {
+	private void startSearch() {
 		Log.i("Starting a new search...");
 
 		mOriginalSearchParams = null;
@@ -829,7 +1014,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		buildFilter();
 		setSearchEditViews();
-		resetFocus();
+		setDisplayType(DisplayType.NONE);
 		disablePanelHandle();
 
 		switch (mSearchParams.getSearchType()) {
@@ -853,7 +1038,221 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	public void switchResultsView() {
+	private void startSearchDownloader() {
+		showLoading(R.string.progress_searching_hotels);
+
+		if (!NetUtils.isOnline(this)) {
+			mSearchProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(R.string.error_no_internet);
+			return;
+		}
+
+		if (mSearchParams.getSearchType() == SearchType.FREEFORM) {
+			Search.add(this, mSearchParams);
+			mSearchSuggestionAdapter.refreshData(this);
+		}
+
+		resetFilter();
+
+		mSearchDownloader.cancelDownload(KEY_SEARCH);
+		mSearchDownloader.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
+	}
+
+	//----------------------------------
+	// ACTIVITY STATE METHODS
+	//----------------------------------
+
+	private ActivityState buildActivityState() {
+		ActivityState state = new ActivityState();
+		state.tag = mTag;
+		state.searchParams = mSearchParams;
+		state.oldSearchParams = mOldSearchParams;
+		state.originalSearchParams = mOriginalSearchParams;
+		state.searchResponse = mSearchResponse;
+		state.priceTierCache = mPriceTierCache;
+		state.session = mSession;
+		state.filter = mFilter;
+		state.oldFilter = mOldFilter;
+		state.showDistance = mShowDistance;
+		state.displayType = mDisplayType;
+
+		if (state.searchResponse != null) {
+			if (state.searchResponse.getFilter() != null) {
+				state.searchResponse.getFilter().clearOnFilterChangedListeners();
+			}
+		}
+
+		if (state.filter != null) {
+			state.filter.clearOnFilterChangedListeners();
+		}
+
+		return state;
+	}
+
+	private void extractActivityState(ActivityState state) {
+		mTag = state.tag;
+		mSearchParams = state.searchParams;
+		mOldSearchParams = state.oldSearchParams;
+		mOriginalSearchParams = state.originalSearchParams;
+		mSearchResponse = state.searchResponse;
+		mPriceTierCache = state.priceTierCache;
+		mSession = state.session;
+		mFilter = state.filter;
+		mOldFilter = state.oldFilter;
+		mShowDistance = state.showDistance;
+		mDisplayType = state.displayType;
+	}
+
+	//----------------------------------
+	// BROADCAST METHODS
+	//----------------------------------
+
+	private void broadcastSearchCompleted(SearchResponse searchResponse) {
+		mSearchResponse = searchResponse;
+		if (mSearchListeners != null) {
+			for (SearchListener searchListener : mSearchListeners) {
+				searchListener.onSearchCompleted(searchResponse);
+			}
+		}
+
+		onSearchResultsChanged();
+	}
+
+	//----------------------------------
+	// SHOW/HIDE SOFT KEYBOARD METHODS
+	//----------------------------------
+
+	private void hideSoftKeyboard(TextView v) {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+	}
+
+	private void showSoftKeyboard(View view, ResultReceiver resultReceiver) {
+		Configuration config = getResources().getConfiguration();
+		if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
+			InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+			imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT, resultReceiver);
+		}
+	}
+
+	//----------------------------------
+	// SHOW/HIDE VIEW METHODS
+	//----------------------------------
+
+	private void setDisplayType(DisplayType displayType) {
+		setDisplayType(displayType, false);
+	}
+
+	private void setDisplayType(DisplayType displayType, boolean animate) {
+		if (mDisplayType == DisplayType.NONE && displayType != DisplayType.NONE) {
+			storeSearchParams();
+		}
+		else if (displayType == DisplayType.NONE && mDisplayType != DisplayType.NONE) {
+			restoreSearchParams();
+		}
+
+		mDisplayType = displayType;
+
+		switch (mDisplayType) {
+		case NONE: {
+			// Reset focus
+			mFocusLayout.requestFocus();
+
+			hideSoftKeyboard(mSearchEditText);
+			mSearchSuggestionsListView.setVisibility(View.GONE);
+
+			mPanelDismissView.setVisibility(View.GONE);
+			mPanel.setOpen(false, animate);
+
+			mRefinementDismissView.setVisibility(View.GONE);
+			mButtonBarLayout.setVisibility(View.GONE);
+			mDatesLayout.setVisibility(View.GONE);
+			mGuestsLayout.setVisibility(View.GONE);
+
+			break;
+		}
+		case KEYBOARD: {
+			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
+			mSearchSuggestionsListView.setVisibility(View.VISIBLE);
+
+			mPanelDismissView.setVisibility(View.GONE);
+			mPanel.setOpen(false, animate);
+
+			mRefinementDismissView.setVisibility(View.VISIBLE);
+			mButtonBarLayout.setVisibility(View.VISIBLE);
+			mDatesLayout.setVisibility(View.GONE);
+			mGuestsLayout.setVisibility(View.GONE);
+
+			break;
+		}
+		case CALENDAR: {
+			hideSoftKeyboard(mSearchEditText);
+			mSearchSuggestionsListView.setVisibility(View.GONE);
+
+			mPanelDismissView.setVisibility(View.GONE);
+			mPanel.setOpen(false, animate);
+
+			mRefinementDismissView.setVisibility(View.VISIBLE);
+			mButtonBarLayout.setVisibility(View.VISIBLE);
+			mDatesLayout.setVisibility(View.VISIBLE);
+			mGuestsLayout.setVisibility(View.GONE);
+
+			break;
+		}
+		case GUEST_PICKER: {
+			hideSoftKeyboard(mSearchEditText);
+			mSearchSuggestionsListView.setVisibility(View.GONE);
+
+			mPanelDismissView.setVisibility(View.GONE);
+			mPanel.setOpen(false, animate);
+
+			mRefinementDismissView.setVisibility(View.VISIBLE);
+			mButtonBarLayout.setVisibility(View.VISIBLE);
+			mDatesLayout.setVisibility(View.GONE);
+			mGuestsLayout.setVisibility(View.VISIBLE);
+
+			break;
+		}
+		case DRAWER: {
+			hideSoftKeyboard(mSearchEditText);
+			mSearchSuggestionsListView.setVisibility(View.GONE);
+
+			mPanelDismissView.setVisibility(View.VISIBLE);
+			mPanel.setOpen(true, animate);
+
+			mRefinementDismissView.setVisibility(View.GONE);
+			mButtonBarLayout.setVisibility(View.GONE);
+			mDatesLayout.setVisibility(View.GONE);
+			mGuestsLayout.setVisibility(View.GONE);
+
+			break;
+		}
+		}
+
+		setSearchEditViews();
+		setRefinementInfo();
+		setBookingInfoText();
+	}
+
+	//----------------------------------
+
+	private void hideLoading() {
+		unlockScreenRotation();
+		mSearchProgressBar.setVisibility(View.GONE);
+	}
+
+	private void showLoading(int resId) {
+		showLoading(getString(resId));
+	}
+
+	private void showLoading(String text) {
+		lockScreenRotation();
+		mSearchProgressBar.setVisibility(View.VISIBLE);
+		mSearchProgressBar.setShowProgress(true);
+		mSearchProgressBar.setText(text);
+	}
+
+	private void switchResultsView() {
 		mViewButton.setEnabled(false);
 
 		Class<?> newActivityClass = null;
@@ -959,108 +1358,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////
-	// Private methods
-
-	// Activity State stuff
-
-	private ActivityState buildActivityState() {
-		ActivityState state = new ActivityState();
-		state.tag = mTag;
-		state.searchParams = mSearchParams;
-		state.oldSearchParams = mOldSearchParams;
-		state.originalSearchParams = mOriginalSearchParams;
-		state.searchResponse = mSearchResponse;
-		state.priceTierCache = mPriceTierCache;
-		state.session = mSession;
-		state.filter = mFilter;
-		state.oldFilter = mOldFilter;
-		state.panelDismissViewlIsVisible = mPanelDismissView.getVisibility() == View.VISIBLE;
-		state.datesLayoutIsVisible = mDatesLayoutIsVisible;
-		state.guestsLayoutIsVisible = mGuestsLayoutIsVisible;
-		state.showDistance = mShowDistance;
-
-		if (state.searchResponse != null) {
-			if (state.searchResponse.getFilter() != null) {
-				state.searchResponse.getFilter().clearOnFilterChangedListeners();
-			}
-		}
-
-		if (state.filter != null) {
-			state.filter.clearOnFilterChangedListeners();
-		}
-
-		return state;
-	}
-
-	private void extractActivityState(ActivityState state) {
-		mTag = state.tag;
-		mSearchParams = state.searchParams;
-		mOldSearchParams = state.oldSearchParams;
-		mOriginalSearchParams = state.originalSearchParams;
-		mSearchResponse = state.searchResponse;
-		mPriceTierCache = state.priceTierCache;
-		mSession = state.session;
-		mFilter = state.filter;
-		mOldFilter = state.oldFilter;
-		mDatesLayoutIsVisible = state.datesLayoutIsVisible;
-		mGuestsLayoutIsVisible = state.guestsLayoutIsVisible;
-		mShowDistance = state.showDistance;
-	}
-
-	// Broadcast methods
-
-	private void broadcastSearchStarted() {
-		if (mSearchListeners != null) {
-			for (SearchListener searchListener : mSearchListeners) {
-				searchListener.onSearchStarted();
-			}
-		}
-	}
-
-	private void broadcastSearchFailed(String message) {
-		if (mSearchListeners != null) {
-			for (SearchListener searchListener : mSearchListeners) {
-				searchListener.onSearchFailed(message);
-			}
-		}
-	}
-
-	private void broadcastSearchCompleted(SearchResponse searchResponse) {
-		mSearchResponse = searchResponse;
-		if (mSearchListeners != null) {
-			for (SearchListener searchListener : mSearchListeners) {
-				searchListener.onSearchCompleted(searchResponse);
-			}
-		}
-
-		onSearchResultsChanged();
-	}
-
-	// Show/hide soft keyboard
-
-	private void hideSoftKeyboard(TextView v) {
-		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-		hideRefinementDismissView();
-	}
-
-	private void showSoftKeyboard(View view) {
-		showSoftKeyboard(view, null);
-	}
-
-	private void showSoftKeyboard(View view, ResultReceiver resultReceiver) {
-		Configuration config = getResources().getConfiguration();
-		if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
-			InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-			imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT, resultReceiver);
-		}
-
-		showDismissView();
-		closeDrawer();
-	}
-
-	// Show/hide view methods
+	//----------------------------------
+	// VIEW BUILDING METHODS
+	//----------------------------------
 
 	private void buildPriceTierCache() {
 		if (mSearchResponse != null) {
@@ -1074,10 +1374,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	private void closeDrawer() {
-		mPanel.setOpen(false, true);
-	}
-
 	private void disablePanelHandle() {
 		mPanel.getHandle().setEnabled(false);
 	}
@@ -1086,92 +1382,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mPanel.getHandle().setEnabled(true);
 	}
 
-	private void hideButtonBar() {
-		mButtonBarIsVisible = false;
-		mButtonBarLayout.setVisibility(View.GONE);
-	}
-
-	private void hideDatesLayout() {
-		mDatesLayoutIsVisible = false;
-		clearRefinementInfo();
-		mDatesLayout.setVisibility(View.GONE);
-	}
-
-	private void hideRefinementDismissView() {
-		mRefinementDismissView.setVisibility(View.GONE);
-	}
-
-	private void hideGuestsLayout() {
-		mGuestsLayoutIsVisible = false;
-		clearRefinementInfo();
-		mGuestsLayout.setVisibility(View.GONE);
-	}
-
-	private void hideLoading() {
-		unlockScreenRotation();
-		mSearchProgressBar.setVisibility(View.GONE);
-	}
-
-	private void hideSearchSuggestions() {
-		mSearchSuggestionsListView.setVisibility(View.GONE);
-	}
-
-	private void showButtonBar() {
-		saveSearchParams();
-		mButtonBarIsVisible = true;
-		mButtonBarLayout.setVisibility(View.VISIBLE);
-	}
-
-	private void showDatesLayout() {
-		resetFocus();
-		mDatesLayout.setVisibility(View.VISIBLE);
-		mDatesCalendarDatePicker.requestFocus();
-		showDismissView();
-		closeDrawer();
-		showButtonBar();
-
-		mDatesLayoutIsVisible = true;
-		setRefinementInfo();
-	}
-
-	private void showDismissView() {
-		mRefinementDismissView.setVisibility(View.VISIBLE);
-	}
-
-	private void showGuestsLayout() {
-		resetFocus();
-		mGuestsLayout.setVisibility(View.VISIBLE);
-		mAdultsNumberPicker.requestFocus();
-		showDismissView();
-		closeDrawer();
-		showButtonBar();
-
-		mGuestsLayoutIsVisible = true;
-		setRefinementInfo();
-	}
-
-	private void showLoading(int resId) {
-		showLoading(getString(resId));
-	}
-
-	private void showLoading(String text) {
-		lockScreenRotation();
-		mSearchProgressBar.setVisibility(View.VISIBLE);
-		mSearchProgressBar.setShowProgress(true);
-		mSearchProgressBar.setText(text);
-	}
-
-	private void showSearchSuggestions() {
-		mSearchSuggestionsListView.setVisibility(View.VISIBLE);
-	}
-
-	// Other methods
-
-	private void clearRefinementInfo() {
-		mRefinementInfoTextView.setText("");
-	}
-
-	// Screen orientation
+	//----------------------------------
+	// SCREEN ORIENTATION METHODS
+	//----------------------------------
 
 	private void lockScreenRotation() {
 		if (!mScreenRotationLocked) {
@@ -1200,159 +1413,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mScreenRotationLocked = false;
 	}
 
-	///////////////////////////////////////////////////////////////////////
-	// VIEW INITIALIZATION
-
-	private void initializeViews() {
-		// Get views
-		mFocusLayout = findViewById(R.id.focus_layout);
-
-		mContent = (FrameLayout) findViewById(R.id.content_layout);
-		mViewFlipImage = (ImageView) findViewById(R.id.view_flip_image);
-
-		mMapSearchButton = (View) findViewById(R.id.map_search_button);
-		mViewButton = (ImageButton) findViewById(R.id.view_button);
-
-		mBookingInfoTextView = (TextView) findViewById(R.id.booking_info_text_view);
-		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
-		mDatesButton = (ImageButton) findViewById(R.id.dates_button);
-		mDatesTextView = (TextView) findViewById(R.id.dates_text_view);
-		mGuestsButton = (ImageButton) findViewById(R.id.guests_button);
-		mGuestsTextView = (TextView) findViewById(R.id.guests_text_view);
-
-		mPanelDismissView = findViewById(R.id.panel_dismiss_view);
-		mPanel = (Panel) findViewById(R.id.drawer_panel);
-
-		mSortLayout = findViewById(R.id.sort_layout);
-		mTripAdvisorOnlyButton = (Button) findViewById(R.id.tripadvisor_only_button);
-		mSortButtonGroup = (SegmentedControlGroup) findViewById(R.id.sort_filter_button_group);
-		mDistanceLayout = findViewById(R.id.distance_layout);
-		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
-		mPriceRangeTextView = (TextView) findViewById(R.id.price_range_text_view);
-		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
-
-		mRefinementDismissView = findViewById(R.id.refinement_dismiss_view);
-		mSearchSuggestionsListView = (ListView) findViewById(R.id.search_suggestions_list_view);
-
-		mDatesLayout = findViewById(R.id.dates_layout);
-		mDatesCalendarDatePicker = (CalendarDatePicker) findViewById(R.id.dates_date_picker);
-		mGuestsLayout = findViewById(R.id.guests_layout);
-		mAdultsNumberPicker = (NumberPicker) findViewById(R.id.adults_number_picker);
-		mChildrenNumberPicker = (NumberPicker) findViewById(R.id.children_number_picker);
-
-		mButtonBarLayout = findViewById(R.id.button_bar_layout);
-		mRefinementInfoTextView = (TextView) findViewById(R.id.refinement_info_text_view);
-		mSearchButton = (Button) findViewById(R.id.search_button);
-
-		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
-
-		//===================================================================
-		// Properties
-
-		//-------------------------------------------------------------------
-		// Note: Eff everything about this. First off, this footer has to be
-		// added to the listview because it's behind a transparent view so it
-		// needs to be padded up. Padding doesn't work like it should so we
-		// we have to do it with a view. You'll notice that instead of
-		// setting the footer's layout params we're adding a view with the
-		// layout params we require. For some reason setting the layout
-		// params of the footer view results in class cast exception. >:-|
-		LinearLayout footer = new LinearLayout(this);
-		footer.addView(
-				new View(this),
-				new LayoutParams(LayoutParams.FILL_PARENT, getResources().getDimensionPixelSize(
-						R.dimen.row_search_suggestion_footer_height)));
-
-		mSearchSuggestionsListView.addFooterView(footer, null, false);
-		//-------------------------------------------------------------------
-
-		mSearchProgressBar.setVisibility(View.GONE);
-
-		mPanel.setInterpolator(new AccelerateInterpolator());
-		mPanel.setOnPanelListener(mPanelListener);
-
-		final View delegate = mPanel.getHandle();
-		final View parent = (View) delegate.getParent();
-		parent.post(new Runnable() {
-			@Override
-			public void run() {
-				final Rect r = new Rect();
-				delegate.getHitRect(r);
-				r.top -= 50;
-				parent.setTouchDelegate(new TouchDelegate(r, delegate));
-			}
-		});
-
-		Time now = new Time();
-		now.setToNow();
-		mDatesCalendarDatePicker.setSelectionMode(SelectionMode.RANGE);
-		mDatesCalendarDatePicker.setMinDate(now.year, now.month, now.monthDay);
-		mDatesCalendarDatePicker.setMaxRange(29);
-
-		//===================================================================
-		// Listeners
-		mMapSearchButton.setOnClickListener(mMapSearchButtonClickListener);
-		mViewButton.setOnClickListener(mViewButtonClickListener);
-
-		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
-		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
-		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
-		mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
-		mDatesButton.setOnClickListener(mDatesButtonClickListener);
-		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
-
-		mPanelDismissView.setOnClickListener(mPanelDismissViewClickListener);
-		mTripAdvisorOnlyButton.setOnClickListener(mTripAdvisorOnlyButtonClickListener);
-		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
-		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
-		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
-
-		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
-		mSearchSuggestionsListView.setOnItemClickListener(mSearchSuggestionsItemClickListner);
-
-		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
-		mAdultsNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
-		mChildrenNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
-		mSearchButton.setOnClickListener(mSearchButtonClickListener);
-	}
-
-	///////////////////////////////////////////////////////////////////////
-
-	private void resetFilter() {
-		Log.d("Resetting filter...");
-
-		mFilter = new Filter();
-		mFilter.setSearchRadius(Filter.SearchRadius.LARGE);
-
-		setDrawerViews();
-		buildFilter();
-	}
-
-	private void resetFocus() {
-		mFocusLayout.requestFocus();
-
-		hideSoftKeyboard(mSearchEditText);
-		hideRefinementDismissView();
-		hideDatesLayout();
-		hideGuestsLayout();
-		hideButtonBar();
-		hideSearchSuggestions();
-	}
-
-	private void restoreSearchParams() {
-		if (mOriginalSearchParams != null) {
-			mSearchParams = mOriginalSearchParams.copy();
-			mOriginalSearchParams = null;
-
-			setSearchEditViews();
-		}
-	}
-
-	private void saveSearchParams() {
-		if (mOriginalSearchParams == null) {
-			mOriginalSearchParams = mSearchParams.copy();
-		}
-	}
+	//----------------------------------
+	// ACTIVITY GROUP METHODS
+	//----------------------------------
 
 	private void setActivityByTag(String tag) {
 		if (tag.equals(ACTIVITY_SEARCH_LIST)) {
@@ -1389,9 +1452,31 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
+	//----------------------------------
+	// STORE/RESTORE SEARCH PARAMS
+	//----------------------------------
+
+	private void restoreSearchParams() {
+		if (mOriginalSearchParams != null) {
+			mSearchParams = mOriginalSearchParams.copy();
+			mOriginalSearchParams = null;
+
+			setSearchEditViews();
+		}
+	}
+
+	private void storeSearchParams() {
+		if (mOriginalSearchParams == null) {
+			mOriginalSearchParams = mSearchParams.copy();
+		}
+	}
+
+	//----------------------------------
+	// VIEW ATTRIBUTE METHODS
+	//----------------------------------
+
 	private void setBookingInfoText() {
 		final String location = mSearchEditText.getText().toString();
-		final int startYear = mDatesCalendarDatePicker.getStartYear();
 		final int startMonth = mDatesCalendarDatePicker.getStartMonth();
 		final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
 		final int endYear = mDatesCalendarDatePicker.getEndYear();
@@ -1653,15 +1738,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void setRefinementInfo() {
-		if (mDatesLayoutIsVisible) {
+		if (mDisplayType == DisplayType.CALENDAR) {
 			int nights = mDatesCalendarDatePicker.getSelectedRange() - 1;
 			nights = nights > 0 ? nights : 1;
 			mRefinementInfoTextView.setText(getResources().getQuantityString(R.plurals.length_of_stay, nights, nights));
 		}
-		else if (mGuestsLayoutIsVisible) {
+		else if (mDisplayType == DisplayType.GUEST_PICKER) {
 			final int adults = mAdultsNumberPicker.getCurrent();
 			final int children = mChildrenNumberPicker.getCurrent();
 			mRefinementInfoTextView.setText(StrUtils.formatGuests(this, adults, children));
+		}
+		else {
+			mRefinementInfoTextView.setText(null);
 		}
 
 		setBookingInfoText();
@@ -1743,93 +1831,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setDrawerViews();
 	}
 
-	// Searching methods
-
-	private void buildFilter() {
-		Log.d("Building up filter from current view settings...");
-
-		if (mFilter == null) {
-			mFilter = new Filter();
-		}
-
-		// Sort
-		switch (mSortButtonGroup.getCheckedRadioButtonId()) {
-		case R.id.sort_popular_button: {
-			mFilter.setSort(Sort.POPULAR);
-			break;
-		}
-		case R.id.sort_price_button: {
-			mFilter.setSort(Sort.PRICE);
-		}
-		}
-
-		// Price
-		switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
-		case R.id.price_cheap_button: {
-			mFilter.setPriceRange(PriceRange.CHEAP);
-			break;
-		}
-		case R.id.price_moderate_button: {
-			mFilter.setPriceRange(PriceRange.MODERATE);
-			break;
-		}
-		case R.id.price_expensive_button: {
-			mFilter.setPriceRange(PriceRange.EXPENSIVE);
-			break;
-		}
-		default:
-		case R.id.price_all_button: {
-			mFilter.setPriceRange(PriceRange.ALL);
-			break;
-		}
-		}
-
-		// Distance
-		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
-		case R.id.radius_small_button: {
-			mFilter.setSearchRadius(SearchRadius.SMALL);
-			break;
-		}
-		case R.id.radius_medium_button: {
-			mFilter.setSearchRadius(SearchRadius.MEDIUM);
-			break;
-		}
-		case R.id.radius_large_button: {
-			mFilter.setSearchRadius(SearchRadius.LARGE);
-			break;
-		}
-		default:
-		case R.id.radius_all_button: {
-			mFilter.setSearchRadius(SearchRadius.ALL);
-			break;
-		}
-		}
-
-		// Notify that the filter has changed
-		mFilter.notifyFilterChanged();
-	}
-
-	private void startSearchDownloader() {
-		showLoading(R.string.progress_searching_hotels);
-
-		if (!NetUtils.isOnline(this)) {
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.error_no_internet);
-			return;
-		}
-
-		if (mSearchParams.getSearchType() == SearchType.FREEFORM) {
-			Search.add(this, mSearchParams);
-			mSearchSuggestionAdapter.refreshData(this);
-		}
-
-		resetFilter();
-
-		mSearchDownloader.cancelDownload(KEY_SEARCH);
-		mSearchDownloader.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
-	}
-
-	// Location methods
+	//----------------------------------
+	// LOCATION METHODS
+	//----------------------------------
 
 	private void scheduleSwitchToNetworkLocation() {
 		Message msg = new Message();
@@ -1875,40 +1879,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////
-	// Listeners
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// VIEW MODIFIERS
+	//////////////////////////////////////////////////////////////////////////////////////////
 
-	private final View.OnFocusChangeListener mSearchEditTextFocusChangeListener = new View.OnFocusChangeListener() {
-		@Override
-		public void onFocusChange(View v, boolean hasFocus) {
-			if (hasFocus) {
-				if (mSearchParams.getSearchType() != SearchType.FREEFORM) {
-					mSearchEditText.post(new Runnable() {
-						@Override
-						public void run() {
-							mSearchEditText.setText(null);
-							mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
-						}
-					});
-				}
-				else {
-					mSearchEditText.selectAll();
-				}
-
-				hideDatesLayout();
-				hideGuestsLayout();
-				showSearchSuggestions();
-				showButtonBar();
-				showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
-			}
-			else {
-				hideSearchSuggestions();
-				hideButtonBar();
-				hideSoftKeyboard(mSearchEditText);
-				setSearchEditViews();
-			}
-		}
-	};
+	//----------------------------------
+	// TEXT WATCHERS
+	//----------------------------------
 
 	private final TextWatcher mSearchEditTextTextWatcher = new TextWatcher() {
 		@Override
@@ -1938,107 +1915,28 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
-	private final TextView.OnEditorActionListener mSearchEditorActionListener = new TextView.OnEditorActionListener() {
+	//----------------------------------
+	// EVENT LISTENERS
+	//----------------------------------
+
+	private final AdapterView.OnItemClickListener mSearchSuggestionsItemClickListner = new AdapterView.OnItemClickListener() {
 		@Override
-		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-				startSearch();
-				return true;
+		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+			if (position == 0) {
+				mSearchEditText.setText(R.string.current_location);
+				mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
+				mSearchEditText.selectAll();
+				mSearchEditText.requestFocus();
+
+				mSearchParams.setSearchType(SearchType.MY_LOCATION);
+				setSearchEditViews();
+				setDisplayType(DisplayType.CALENDAR);
 			}
-
-			return false;
-		}
-	};
-
-	private final View.OnClickListener mTripAdvisorOnlyButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			switchRatingFilter();
-			closeDrawer();
-		}
-	};
-
-	private final RadioGroup.OnCheckedChangeListener mFilterButtonGroupCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
-		@Override
-		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			buildFilter();
-			setPriceRangeText();
-			setRadioButtonShadowLayers();
-			closeDrawer();
-		}
-	};
-
-	private final View.OnClickListener mMapSearchButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			if (mMapViewListener != null) {
-				GeoPoint center = mMapViewListener.onRequestMapCenter();
-				mSearchParams.setFreeformLocation("");
-				mSearchParams.setDestinationId(null);
-				mSearchParams.setSearchType(SearchType.PROXIMITY);
-
-				setSearchParams(MapUtils.getLatitiude(center), MapUtils.getLongitiude(center));
-				startSearch();
+			else {
+				setSearchParams((SearchParams) mSearchSuggestionAdapter.getItem(position));
+				setSearchEditViews();
+				setDisplayType(DisplayType.CALENDAR);
 			}
-		}
-	};
-
-	private final View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			switchResultsView();
-		}
-	};
-
-	private final View.OnClickListener mSearchEditTextClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			hideDatesLayout();
-			hideGuestsLayout();
-			showDismissView();
-			showSearchSuggestions();
-			showButtonBar();
-			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
-		}
-	};
-
-	private final View.OnClickListener mDatesButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			showDatesLayout();
-		}
-	};
-
-	private final View.OnClickListener mGuestsButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			showGuestsLayout();
-		}
-	};
-
-	private final View.OnClickListener mRefinementDismissViewClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			restoreSearchParams();
-			hideButtonBar();
-			hideSoftKeyboard(mSearchEditText);
-			hideDatesLayout();
-			hideGuestsLayout();
-			hideRefinementDismissView();
-		}
-	};
-
-	private final View.OnClickListener mPanelDismissViewClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			closeDrawer();
-		}
-	};
-
-	private final View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			startSearch();
 		}
 	};
 
@@ -2077,27 +1975,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			setNumberPickerRanges();
 			setRefinementInfo();
-		}
-	};
-
-	private final AdapterView.OnItemClickListener mSearchSuggestionsItemClickListner = new AdapterView.OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-			if (position == 0) {
-				mSearchEditText.setText(R.string.current_location);
-				mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
-				mSearchEditText.selectAll();
-				mSearchEditText.requestFocus();
-
-				mSearchParams.setSearchType(SearchType.MY_LOCATION);
-				setSearchEditViews();
-				showDatesLayout();
-			}
-			else {
-				setSearchParams((SearchParams) mSearchSuggestionAdapter.getItem(position));
-				setSearchEditViews();
-				showDatesLayout();
-			}
 		}
 	};
 
@@ -2157,8 +2034,128 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
+	private final RadioGroup.OnCheckedChangeListener mFilterButtonGroupCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			buildFilter();
+			setPriceRangeText();
+			setRadioButtonShadowLayers();
+			setDisplayType(DisplayType.NONE, true);
+		}
+	};
+
+	private final TextView.OnEditorActionListener mSearchEditorActionListener = new TextView.OnEditorActionListener() {
+		@Override
+		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+				startSearch();
+				return true;
+			}
+
+			return false;
+		}
+	};
+
+	private final View.OnClickListener mDatesButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			setDisplayType(DisplayType.CALENDAR);
+		}
+	};
+
+	private final View.OnClickListener mGuestsButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			setDisplayType(DisplayType.GUEST_PICKER);
+		}
+	};
+
+	private final View.OnClickListener mMapSearchButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			if (mMapViewListener != null) {
+				GeoPoint center = mMapViewListener.onRequestMapCenter();
+				mSearchParams.setFreeformLocation("");
+				mSearchParams.setDestinationId(null);
+				mSearchParams.setSearchType(SearchType.PROXIMITY);
+
+				setSearchParams(MapUtils.getLatitiude(center), MapUtils.getLongitiude(center));
+				startSearch();
+			}
+		}
+	};
+
+	private final View.OnClickListener mPanelDismissViewClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			setDisplayType(DisplayType.NONE, true);
+		}
+	};
+
+	private final View.OnClickListener mRefinementDismissViewClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			setDisplayType(DisplayType.NONE);
+		}
+	};
+
+	private final View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			startSearch();
+		}
+	};
+
+	private final View.OnClickListener mSearchEditTextClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			setDisplayType(DisplayType.KEYBOARD);
+		}
+	};
+
+	private final View.OnClickListener mTripAdvisorOnlyButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			switchRatingFilter();
+			setDisplayType(DisplayType.NONE, true);
+		}
+	};
+
+	private final View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			switchResultsView();
+		}
+	};
+
+	private final View.OnFocusChangeListener mSearchEditTextFocusChangeListener = new View.OnFocusChangeListener() {
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			if (hasFocus) {
+				if (mSearchParams.getSearchType() != SearchType.FREEFORM) {
+					mSearchEditText.post(new Runnable() {
+						@Override
+						public void run() {
+							mSearchEditText.setText(null);
+							mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
+						}
+					});
+				}
+				else {
+					mSearchEditText.selectAll();
+				}
+
+				setDisplayType(DisplayType.KEYBOARD);
+			}
+			else {
+				setDisplayType(DisplayType.NONE);
+			}
+		}
+	};
+
 	//////////////////////////////////////////////////////////////////////////////////////////
-	// Handlers, Messages
+	// HANDLERS
+	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -2172,20 +2169,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////
-	// Private classes
+	// PRIVATE CLASSES
+	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private class ActivityState {
 		// Safe
 		public String tag;
-		public boolean panelDismissViewlIsVisible;
-		public boolean datesLayoutIsVisible;
-		public boolean guestsLayoutIsVisible;
 		public boolean showDistance;
 		public Map<PriceRange, PriceTier> priceTierCache;
 		public Session session;
 		public SearchParams searchParams;
 		public SearchParams oldSearchParams;
 		public SearchParams originalSearchParams;
+
+		public DisplayType displayType;
 
 		// Questionable
 		public SearchResponse searchResponse;
@@ -2201,14 +2198,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
 			if (resultCode == InputMethodManager.RESULT_HIDDEN) {
-				hideRefinementDismissView();
-				hideSearchSuggestions();
+				setDisplayType(DisplayType.NONE);
 			}
 		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
-	// Omniture tracking
+	// OMNITURE TRACKING
+	//////////////////////////////////////////////////////////////////////////////////////////
 
 	// The SettingUtils key for the last version tracked
 	private static final String TRACK_VERSION = "tracking_version";
