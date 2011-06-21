@@ -48,7 +48,9 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity {
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
 		// This is not a foolproof way to determine if preferences were changed, but
 		// it's close enough.
-		setResult(RESULT_OK);
+		if (!preference.getKey().equals(getString(R.string.preference_clear_private_data_key))) {
+			setResult(RESULT_OK);
+		}
 
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}

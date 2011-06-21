@@ -9,5 +9,12 @@
 			android:entries="@array/currency_names"
 			android:entryValues="@array/currency_codes"
 			android:defaultValue="@string/CurrencyDefault" />
+		<com.expedia.bookings.dialog.ClearPrivateDataDialogPreference
+			android:key="@string/preference_clear_private_data_key"
+			android:title="@string/clear_private_data"
+			android:dialogTitle="@string/dialog_clear_private_data_title"
+			android:dialogMessage="@string/dialog_clear_private_data_msg"
+			android:positiveButtonText="@android:string/ok"
+			android:negativeButtonText="@android:string/cancel" />
 	</PreferenceCategory>
 </PreferenceScreen>
