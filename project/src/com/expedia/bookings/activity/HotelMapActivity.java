@@ -88,10 +88,9 @@ public class HotelMapActivity extends MapActivity {
 		overlays.add(hotelOverlay);
 
 		MapController mc = mapView.getController();
-		mc.setCenter(hotelOverlay.getCenter());
 		mc.setZoom(15);
 
-		hotelOverlay.onTap(0); // Open the popup initially
+		hotelOverlay.showBalloon(0, false); // Open the popup initially
 
 		if (savedInstanceState == null) {
 			onPageLoad();
