@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,7 +24,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.Gallery;
-import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache;
@@ -38,7 +36,6 @@ import com.mobiata.hotellib.data.Media;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Property.Amenity;
-import com.mobiata.hotellib.data.PropertyInfo;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.ReviewsResponse;
 import com.mobiata.hotellib.server.ExpediaServices;
@@ -98,28 +95,6 @@ public class HotelActivity extends Activity {
 				Log.e("Couldn't create dummy data!", e);
 			}
 		}
-
-		Download download = new Download() {
-			public Object doDownload() {
-				ExpediaServices service = new ExpediaServices(mContext);
-				return service.reviews(mProperty, null);
-			}
-		};
-
-		OnDownloadComplete callback = new OnDownloadComplete() {
-			public void onDownload(Object results) {
-				int x = 0;
-				int y = 1;
-
-				if (results != null) {
-					ReviewsResponse response = (ReviewsResponse) results;
-					int z = 5;
-					int a = 5 + z;
-				}
-			}
-		};
-
-		//		BackgroundDownloader.getInstance().startDownload("TEst", download, callback);
 
 		// Fill in header views
 		LayoutUtils.configureHeader(this, property, new OnClickListener() {
