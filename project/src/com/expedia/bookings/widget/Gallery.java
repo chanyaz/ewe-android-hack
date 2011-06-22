@@ -995,6 +995,10 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		if (mIsFirstScroll) {
 			mInitialScrollChild = mSelectedChild;
 			setScrolling(true);
+
+			if (mOnScrollListener != null) {
+				mOnScrollListener.onScroll();
+			}
 		}
 
 		// Track the motion
@@ -1727,4 +1731,17 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 			}
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// User interaction interface
+
+	public interface OnScrollListener {
+		public void onScroll();
+	}
+
+	private OnScrollListener mOnScrollListener = null;
+
+	public void setOnScrollListener(OnScrollListener listener) {
+		mOnScrollListener = listener;
+	}
 }

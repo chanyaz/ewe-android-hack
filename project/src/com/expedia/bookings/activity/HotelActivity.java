@@ -18,14 +18,14 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.Gallery;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.expedia.bookings.widget.Gallery.OnScrollListener;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
@@ -37,8 +37,6 @@ import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Property.Amenity;
 import com.mobiata.hotellib.data.Rate;
-import com.mobiata.hotellib.data.ReviewsResponse;
-import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
 import com.omniture.AppMeasurement;
@@ -49,6 +47,8 @@ public class HotelActivity extends Activity {
 	public static final String EXTRA_POSITION = "EXTRA_POSITION";
 
 	private Context mContext;
+	
+	private ScrollView mScrollView;
 
 	private Gallery mGallery;
 
@@ -105,6 +105,7 @@ public class HotelActivity extends Activity {
 
 		// Configure the gallery
 		Gallery gallery = mGallery = (Gallery) findViewById(R.id.images_gallery);
+		mScrollView = (ScrollView) findViewById(R.id.scroll_view);
 		if (property.getMediaCount() > 0) {
 			final List<String> urls = new ArrayList<String>(property.getMediaCount());
 			for (Media media : property.getMediaList()) {
@@ -127,6 +128,16 @@ public class HotelActivity extends Activity {
 
 			if (startFlipping) {
 				gallery.startFlipping();
+			}
+
+			// Set it up so that we scroll to the top whenever user scrolls the gallery
+			// ONLY do this is not landscape
+			if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+				gallery.setOnScrollListener(new OnScrollListener() {
+					public void onScroll() {
+						mScrollView.smoothScrollTo(0, 0);
+					}
+				});
 			}
 		}
 		else {
