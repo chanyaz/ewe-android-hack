@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Label indicating how many hotels are left after filtering -->
+	<string name="filter_info_template">&lt;b>%1$d&lt;/b> matching hotels&lt;br>Sorted %2$s</string>
+</resources>

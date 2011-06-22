@@ -17,6 +17,10 @@
 	<!-- Search Activity -->
 	<string name="search">Search</string>
 	<string name="booking_info_template">%1$s — %2$s %3$d to %4$s %5$s, %6$d</string>
+	<!-- Label indicating how many hotels are left after filtering -->
+	<string name="filter_info_template">&lt;b>%1$d&lt;/b> matching hotels</string>
+	<!-- Hint for filtering results by hotel name -->
+	<string name="filter_hotel_name_hint">Filter by hotel name</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
 	<string name="tripadvisor_rating_high">Show only highly rated hotels</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
@@ -32,8 +36,15 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Loading previous search results...</string>
 	
+	<!-- Sort adverbs, e.g. Sorted "adverb" -->
+	<string name="sort_adverb_alphabetical">alphabetically</string>
+	<string name="sort_adverb_distance">by distance</string>
+	<string name="sort_adverb_popular">by popularity</string>
+	<string name="sort_adverb_price">by price</string>
+	<string name="sort_adverb_rating">by rating</string>
+	
 	<!-- Price range template -->
-	<string name="price_range_template">($%1$d — $%2$d)</string>
+	<string name="price_range_template">$%1$d — $%2$d</string>
 	
 	<!-- Progress messages -->	
 	<string name="progress_finding_location">Finding Current Location...</string>

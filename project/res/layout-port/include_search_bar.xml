@@ -12,7 +12,7 @@
     	android:id="@+id/booking_info_text_view"
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
-    	android:layout_marginBottom="6dp"
+    	android:layout_marginBottom="2dp"
     	android:gravity="center"
     	android:singleLine="true"
     	android:ellipsize="end"

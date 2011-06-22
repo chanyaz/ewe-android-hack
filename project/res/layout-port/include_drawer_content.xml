@@ -6,107 +6,91 @@
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
-	android:padding="6dp"
-	android:paddingBottom="12dp"
 	android:background="@drawable/search_results_drawer_content_bg">
 	
-	<RelativeLayout
-		android:layout_width="fill_parent"
-		android:layout_height="50dp">
-	
-		<Button
-			android:id="@+id/tripadvisor_only_button"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:gravity="center|top"
-			android:textStyle="bold"
-			android:textColor="#FF3d404e"
-			android:shadowColor="#88FFFFFF"
-			android:shadowDx="0"
-			android:shadowDy="1"
-			android:shadowRadius="0.1"
-			android:background="@drawable/btn_drawer" />
-			
-		<ImageView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_alignParentBottom="true"
-			android:padding="9dp"
-			android:gravity="center"
-			android:src="@drawable/btn_tripadvisor_filter" />
+	<TextView
+    	android:id="@+id/filter_info_text_view"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:padding="2dp"
+    	android:gravity="center"
+    	android:singleLine="true"
+		android:textColor="#FF3D404F"
+		android:shadowColor="#88FFFFFF"
+		android:shadowDx="0"
+		android:shadowDy="1"
+		android:shadowRadius="0.1"
+		android:background="#FFE3E3E3"
+		android:text=""
+		android:textSize="12dp" />
 		
-	</RelativeLayout>
-	
-	<LinearLayout
-		android:id="@+id/sort_layout"
+	<View 
+    	android:layout_width="fill_parent"
+    	android:layout_height="1px"
+    	android:background="#FFB5B5B5"/>
+    	
+   	<LinearLayout
 		android:orientation="vertical"
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
-		
-		<TextView
+		android:layout_height="wrap_content"
+		android:padding="6dp">
+	
+		<EditText
+			android:id="@+id/filter_hotel_name_edit_text"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginBottom="6dp"
-			android:text="Sort"
-			android:textStyle="bold"
-			android:textColor="@color/btn_text"
-			android:shadowColor="#88FFFFFF"
-			android:shadowDx="0"
-			android:shadowDy="1"
-			android:shadowRadius="0.1" />
+			android:gravity="center_vertical"
+			android:singleLine="true"
+			android:textSize="16sp"
+			android:hint="@string/filter_hotel_name_hint" />
 		
-		<com.mobiata.android.widget.SegmentedControlGroup 
-			android:id="@+id/sort_filter_button_group"
+		<!-- NOT USED -->
+		<RelativeLayout
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="6dp"
-			android:orientation="horizontal"
-			mobiata:textColor="@color/segmented_button_text">
-				
-			<RadioButton
-				android:id="@+id/sort_popular_button"
-				android:layout_width="0dp"
+			android:layout_height="50dp"
+			android:visibility="gone">
+		
+			<Button
+				android:id="@+id/tripadvisor_only_button"
+				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:text="Popular"
+				android:gravity="center|top"
 				android:textStyle="bold"
-				android:checked="true" />
-		
-			<RadioButton
-				android:id="@+id/sort_price_button"
-				android:layout_width="0dp"
+				android:textColor="#FF3d404e"
+				android:shadowColor="#88FFFFFF"
+				android:shadowDx="0"
+				android:shadowDy="1"
+				android:shadowRadius="0.1"
+				android:background="@drawable/btn_drawer" />
+				
+			<ImageView
+				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:text="Price"
-				android:textStyle="bold" />
+				android:layout_alignParentBottom="true"
+				android:padding="9dp"
+				android:gravity="center"
+				android:src="@drawable/btn_tripadvisor_filter" />
+			
+		</RelativeLayout>
+		<!-- NOT USED -->
 		
-		</com.mobiata.android.widget.SegmentedControlGroup>			
-	
-	</LinearLayout>
-	
-	<LinearLayout
-		android:id="@+id/distance_layout"
-		android:orientation="vertical"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
-	
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginBottom="6dp"
 			android:text="Distance"
 			android:textStyle="bold"
 			android:textColor="@color/btn_text"
 			android:shadowColor="#88FFFFFF"
 			android:shadowDx="0"
 			android:shadowDy="1"
-			android:shadowRadius="0.1" />
+			android:shadowRadius="0.1"
+			android:textSize="12dp" />
 		
 		<com.mobiata.android.widget.SegmentedControlGroup 
 			android:id="@+id/radius_filter_button_group"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginBottom="6dp"
+			android:layout_marginBottom="4dp"
 			android:orientation="horizontal"
 			mobiata:textColor="@color/segmented_button_text">
 		
@@ -144,82 +128,214 @@
 				android:textStyle="bold" />
 			
 		</com.mobiata.android.widget.SegmentedControlGroup>
-	
-	</LinearLayout>
-	
-	<LinearLayout
-		android:orientation="horizontal"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
 		
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:layout_marginBottom="6dp"
-			android:text="Price"
+			android:text="Rating"
 			android:textStyle="bold"
 			android:textColor="@color/btn_text"
 			android:shadowColor="#88FFFFFF"
 			android:shadowDx="0"
 			android:shadowDy="1"
-			android:shadowRadius="0.1" />
-			
-		<TextView
-			android:id="@+id/price_range_text_view"
-			android:layout_width="wrap_content"
+			android:shadowRadius="0.1"
+			android:textSize="12dp" />
+		
+		<com.mobiata.android.widget.SegmentedControlGroup 
+			android:id="@+id/rating_filter_button_group"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:layout_marginBottom="6dp"
-			android:gravity="right"
-			android:textColor="@color/btn_text"
-			android:shadowColor="#88FFFFFF"
-			android:shadowDx="0"
-			android:shadowDy="1"
-			android:shadowRadius="0.1" />
+			android:layout_marginBottom="4dp"
+			android:orientation="horizontal"
+			mobiata:textColor="@color/segmented_button_text">
+		
+			<com.mobiata.android.widget.RadioButtonCenter
+				android:id="@+id/rating_low_button"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:button="@drawable/btn_filter_rating_low"
+				android:text="3+"
+				android:textStyle="bold" />
+				
+			<com.mobiata.android.widget.RadioButtonCenter
+				android:id="@+id/rating_medium_button"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:button="@drawable/btn_filter_rating_medium"
+				android:text="4+"
+				android:textStyle="bold" />
+				
+			<com.mobiata.android.widget.RadioButtonCenter
+				android:id="@+id/rating_high_button"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:button="@drawable/btn_filter_rating_high"
+				android:text="5"
+				android:textStyle="bold" />
+				
+			<RadioButton
+				android:id="@+id/rating_all_button"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="All"
+				android:textStyle="bold"
+				android:checked="true" />
+			
+		</com.mobiata.android.widget.SegmentedControlGroup>
+		
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="Price"
+				android:textStyle="bold"
+				android:textColor="@color/btn_text"
+				android:shadowColor="#88FFFFFF"
+				android:shadowDx="0"
+				android:shadowDy="1"
+				android:shadowRadius="0.1"
+				android:textSize="12dp" />
+				
+			<TextView
+				android:id="@+id/price_range_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:gravity="right"
+				android:textColor="@color/btn_text"
+				android:shadowColor="#88FFFFFF"
+				android:shadowDx="0"
+				android:shadowDy="1"
+				android:shadowRadius="0.1"
+				android:textSize="12dp" />
+			
+		</LinearLayout>
+		
+		<com.mobiata.android.widget.SegmentedControlGroup 
+			android:id="@+id/price_filter_button_group"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="4dp"
+			android:orientation="horizontal"
+			mobiata:textColor="@color/segmented_button_text">
+		
+			<RadioButton
+				android:id="@+id/price_cheap_button"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="$"
+				android:textStyle="bold"/>
+				
+			<RadioButton
+				android:id="@+id/price_moderate_button"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="$$"
+				android:textStyle="bold" />
+				
+			<RadioButton
+				android:id="@+id/price_expensive_button"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="$$$"
+				android:textStyle="bold" />
+				
+			<RadioButton
+				android:id="@+id/price_all_button"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="All"
+				android:textStyle="bold"
+				android:checked="true" />
+			
+		</com.mobiata.android.widget.SegmentedControlGroup>
+		
+		<LinearLayout
+			android:id="@+id/sort_layout"
+			android:orientation="vertical"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Sort"
+				android:textStyle="bold"
+				android:textColor="@color/btn_text"
+				android:shadowColor="#88FFFFFF"
+				android:shadowDx="0"
+				android:shadowDy="1"
+				android:shadowRadius="0.1"
+				android:textSize="12dp" />
+			
+			<com.mobiata.android.widget.SegmentedControlGroup 
+				android:id="@+id/sort_filter_button_group"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				mobiata:textColor="@color/segmented_button_text">
+					
+				<com.mobiata.android.widget.RadioButtonCenter
+					android:id="@+id/sort_popular_button"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textStyle="bold"
+					android:checked="true"
+					android:button="@drawable/btn_sort_popularity" />
+			
+				<com.mobiata.android.widget.RadioButtonCenter
+					android:id="@+id/sort_price_button"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textStyle="bold"
+					android:button="@drawable/btn_sort_price" />
+					
+			
+				<com.mobiata.android.widget.RadioButtonCenter
+					android:id="@+id/sort_reviews_button"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textStyle="bold"
+					android:button="@drawable/btn_sort_reviews" />
+				
+			
+				<com.mobiata.android.widget.RadioButtonCenter
+					android:id="@+id/sort_alpha_button"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textStyle="bold"
+					android:button="@drawable/btn_sort_alphabetical" />
+				
+			
+				<com.mobiata.android.widget.RadioButtonCenter
+					android:id="@+id/sort_distance_button"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textStyle="bold"
+					android:button="@drawable/btn_sort_distance" />
+			
+			</com.mobiata.android.widget.SegmentedControlGroup>			
+		
+		</LinearLayout>
 		
 	</LinearLayout>
-	
-	<com.mobiata.android.widget.SegmentedControlGroup 
-		android:id="@+id/price_filter_button_group"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal"
-		mobiata:textColor="@color/segmented_button_text">
-	
-		<RadioButton
-			android:id="@+id/price_cheap_button"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="$"
-			android:textStyle="bold"/>
-			
-		<RadioButton
-			android:id="@+id/price_moderate_button"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="$$"
-			android:textStyle="bold" />
-			
-		<RadioButton
-			android:id="@+id/price_expensive_button"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="$$$"
-			android:textStyle="bold" />
-			
-		<RadioButton
-			android:id="@+id/price_all_button"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="All"
-			android:textStyle="bold"
-			android:checked="true" />
-		
-	</com.mobiata.android.widget.SegmentedControlGroup>
 	
 </LinearLayout>

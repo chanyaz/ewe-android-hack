@@ -42,6 +42,7 @@ import android.os.Message;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.text.format.Time;
 import android.view.KeyEvent;
@@ -97,6 +98,7 @@ import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
 import com.mobiata.android.widget.NumberPicker;
 import com.mobiata.android.widget.Panel;
+import com.mobiata.android.widget.RadioButtonCenter;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.Filter;
@@ -138,6 +140,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final HashMap<Sort, Integer> SORT_ADVERBS = new HashMap<Sort, Integer>() {
+		private static final long serialVersionUID = 1L;
+
+		{
+			put(Sort.ALPHABETICAL, R.string.sort_adverb_alphabetical);
+			put(Sort.DISTANCE, R.string.sort_adverb_distance);
+			put(Sort.POPULAR, R.string.sort_adverb_popular);
+			put(Sort.PRICE, R.string.sort_adverb_price);
+			put(Sort.RATING, R.string.sort_adverb_rating);
+		}
+	};
 
 	private static final String ACTIVITY_SEARCH_LIST = SearchListActivity.class.getCanonicalName();
 	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
@@ -181,6 +195,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Button mSearchButton;
 	private Button mTripAdvisorOnlyButton;
 	private CalendarDatePicker mDatesCalendarDatePicker;
+	private EditText mFilterHotelNameEditText;
 	private EditText mSearchEditText;
 	private FrameLayout mContent;
 	private ImageButton mDatesButton;
@@ -191,18 +206,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
 	private Panel mPanel;
-	private SegmentedControlGroup mPriceButtonGroup;
+	private RadioButtonCenter mSortDistanceRadioButtonCenter;
 	private SegmentedControlGroup mRadiusButtonGroup;
+	private SegmentedControlGroup mRatingButtonGroup;
+	private SegmentedControlGroup mPriceButtonGroup;
 	private SegmentedControlGroup mSortButtonGroup;
 	private TagProgressBar mSearchProgressBar;
 	private TextView mBookingInfoTextView;
 	private TextView mDatesTextView;
+	private TextView mFilterInfoTextView;
 	private TextView mGuestsTextView;
 	private TextView mPriceRangeTextView;
 	private TextView mRefinementInfoTextView;
 	private View mButtonBarLayout;
 	private View mDatesLayout;
-	private View mDistanceLayout;
 	private View mFocusLayout;
 	private View mGuestsLayout;
 	private View mMapSearchButton;
@@ -290,6 +307,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				buildPriceTierCache();
 				hideLoading();
 				setPriceRangeText();
+				setFilterInfoText();
 			}
 			else if (mSearchResponse != null && mSearchResponse.getLocations() != null
 					&& mSearchResponse.getLocations().size() > 0) {
@@ -453,7 +471,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		setActivityByTag(mTag);
 		setShowDistance(mShowDistance);
-		setDisplayType(mDisplayType);
+		setDisplayType(mDisplayType, false);
 
 		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
@@ -763,11 +781,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mPanelDismissView = findViewById(R.id.panel_dismiss_view);
 		mPanel = (Panel) findViewById(R.id.drawer_panel);
 
+		mFilterInfoTextView = (TextView) findViewById(R.id.filter_info_text_view);
 		mSortLayout = findViewById(R.id.sort_layout);
 		mTripAdvisorOnlyButton = (Button) findViewById(R.id.tripadvisor_only_button);
+		mFilterHotelNameEditText = (EditText) findViewById(R.id.filter_hotel_name_edit_text);
 		mSortButtonGroup = (SegmentedControlGroup) findViewById(R.id.sort_filter_button_group);
-		mDistanceLayout = findViewById(R.id.distance_layout);
+		mSortDistanceRadioButtonCenter = (RadioButtonCenter) findViewById(R.id.sort_distance_button);
 		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
+		mRatingButtonGroup = (SegmentedControlGroup) findViewById(R.id.rating_filter_button_group);
 		mPriceRangeTextView = (TextView) findViewById(R.id.price_range_text_view);
 		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
 
@@ -828,6 +849,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mDatesCalendarDatePicker.setMinDate(now.year, now.month, now.monthDay);
 		mDatesCalendarDatePicker.setMaxRange(29);
 
+		// Segmented button drawables
+
+		//((RadioButton) mSortButtonGroup.getChildAt(0)).setButtonDrawable(R.drawable.sort_popularity);
+
 		//===================================================================
 		// Listeners
 		mMapSearchButton.setOnClickListener(mMapSearchButtonClickListener);
@@ -842,9 +867,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mPanelDismissView.setOnClickListener(mPanelDismissViewClickListener);
 		mTripAdvisorOnlyButton.setOnClickListener(mTripAdvisorOnlyButtonClickListener);
-		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
+		mFilterHotelNameEditText.addTextChangedListener(mFilterHotelNameTextWatcher);
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
+		mRatingButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
+		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 
 		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
 		mSearchSuggestionsListView.setOnItemClickListener(mSearchSuggestionsItemClickListner);
@@ -866,14 +893,45 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mFilter = new Filter();
 		}
 
-		// Sort
-		switch (mSortButtonGroup.getCheckedRadioButtonId()) {
-		case R.id.sort_popular_button: {
-			mFilter.setSort(Sort.POPULAR);
+		// Distance
+		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
+		case R.id.radius_small_button: {
+			mFilter.setSearchRadius(SearchRadius.SMALL);
 			break;
 		}
-		case R.id.sort_price_button: {
-			mFilter.setSort(Sort.PRICE);
+		case R.id.radius_medium_button: {
+			mFilter.setSearchRadius(SearchRadius.MEDIUM);
+			break;
+		}
+		case R.id.radius_large_button: {
+			mFilter.setSearchRadius(SearchRadius.LARGE);
+			break;
+		}
+		default:
+		case R.id.radius_all_button: {
+			mFilter.setSearchRadius(SearchRadius.ALL);
+			break;
+		}
+		}
+
+		// Rating
+		switch (mRatingButtonGroup.getCheckedRadioButtonId()) {
+		case R.id.rating_low_button: {
+			mFilter.setMinimumStarRating(3);
+			break;
+		}
+		case R.id.rating_medium_button: {
+			mFilter.setMinimumStarRating(4);
+			break;
+		}
+		case R.id.rating_high_button: {
+			mFilter.setMinimumStarRating(5);
+			break;
+		}
+		default:
+		case R.id.rating_all_button: {
+			mFilter.setMinimumStarRating(0);
+			break;
 		}
 		}
 
@@ -898,29 +956,33 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		}
 
-		// Distance
-		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
-		case R.id.radius_small_button: {
-			mFilter.setSearchRadius(SearchRadius.SMALL);
+		// Sort
+		switch (mSortButtonGroup.getCheckedRadioButtonId()) {
+		case R.id.sort_popular_button: {
+			mFilter.setSort(Sort.POPULAR);
 			break;
 		}
-		case R.id.radius_medium_button: {
-			mFilter.setSearchRadius(SearchRadius.MEDIUM);
+		case R.id.sort_price_button: {
+			mFilter.setSort(Sort.PRICE);
 			break;
 		}
-		case R.id.radius_large_button: {
-			mFilter.setSearchRadius(SearchRadius.LARGE);
+		case R.id.sort_reviews_button: {
+			mFilter.setSort(Sort.RATING);
 			break;
 		}
-		default:
-		case R.id.radius_all_button: {
-			mFilter.setSearchRadius(SearchRadius.ALL);
+		case R.id.sort_alpha_button: {
+			mFilter.setSort(Sort.ALPHABETICAL);
+			break;
+		}
+		case R.id.sort_distance_button: {
+			mFilter.setSort(Sort.DISTANCE);
 			break;
 		}
 		}
 
 		// Notify that the filter has changed
 		mFilter.notifyFilterChanged();
+		setFilterInfoText();
 	}
 
 	private void resetFilter() {
@@ -1236,6 +1298,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setSearchEditViews();
 		setRefinementInfo();
 		setBookingInfoText();
+		setFilterInfoText();
 	}
 
 	//----------------------------------
@@ -1587,6 +1650,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 	}
 
+	private void setFilterInfoText() {
+		if (mSearchResponse != null) {
+			final int count = mSearchResponse.getFilteredAndSortedProperties().length;
+			final String sorted = getString(SORT_ADVERBS.get(mFilter.getSort()));
+			final String text = String.format(getString(R.string.filter_info_template), count, sorted);
+
+			mFilterInfoTextView.setText(Html.fromHtml(text));
+			mFilterInfoTextView.setVisibility(View.VISIBLE);
+		}
+		else {
+			mFilterInfoTextView.setVisibility(View.GONE);
+		}
+	}
+
 	private void setMapSearchButtonVisibility() {
 		setMapSearchButtonVisibility(ANIMATION_VIEW_FLIP_ENABLED);
 	}
@@ -1722,9 +1799,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void setRadioButtonShadowLayers() {
 		List<SegmentedControlGroup> groups = new ArrayList<SegmentedControlGroup>();
-		groups.add(mSortButtonGroup);
 		groups.add(mRadiusButtonGroup);
+		groups.add(mRatingButtonGroup);
 		groups.add(mPriceButtonGroup);
+		groups.add(mSortButtonGroup);
 
 		for (SegmentedControlGroup group : groups) {
 			final int size = group.getChildCount();
@@ -1763,7 +1841,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void setShowDistance(boolean showDistance) {
 		mShowDistance = showDistance;
-		mDistanceLayout.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
+		mSortDistanceRadioButtonCenter.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
+		mSortButtonGroup.invalidate();
 
 		if (mSetShowDistanceListeners != null) {
 			for (SetShowDistanceListener showDistanceListener : mSetShowDistanceListeners) {
@@ -1922,6 +2001,23 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
+	private final TextWatcher mFilterHotelNameTextWatcher = new TextWatcher() {
+		@Override
+		public void afterTextChanged(Editable s) {
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			mFilter.setHotelName(s.toString());
+			mFilter.notifyFilterChanged();
+			setFilterInfoText();
+		}
+	};
+
 	//----------------------------------
 	// EVENT LISTENERS
 	//----------------------------------
@@ -1981,6 +2077,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final Panel.OnPanelListener mPanelListener = new Panel.OnPanelListener() {
 		@Override
 		public void onPanelOpened(Panel panel) {
+			mDisplayType = DisplayType.DRAWER;
+
 			if (mPanelDismissView.getVisibility() == View.VISIBLE) {
 				return;
 			}
@@ -2040,7 +2138,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			buildFilter();
 			setPriceRangeText();
 			setRadioButtonShadowLayers();
-			setDisplayType(DisplayType.NONE, true);
 		}
 	};
 
