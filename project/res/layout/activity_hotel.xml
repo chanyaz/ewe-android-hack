@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
@@ -7,95 +7,92 @@
 
 	<!-- Info bar at the top of the screen -->
 	<include
+		android:id="@+id/header"
 		layout="@layout/include_hotel_header" />
 
-	<!-- Rotating image gallery -->
-	<RelativeLayout
+	<ScrollView
 		android:layout_width="fill_parent"
-		android:layout_height="200dp"
-		android:background="@drawable/bg_gallery">
-		<com.expedia.bookings.widget.Gallery
-			android:id="@+id/images_gallery"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:fadingEdge="none"
-			android:spacing="20dp"
-			android:unselectedAlpha="1.0" />
-		<LinearLayout
-			android:id="@+id/price_layout"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentTop="true"
-			android:layout_alignParentLeft="true"
-			android:layout_marginTop="8dp"
-			android:paddingTop="3dp"
-			android:paddingRight="25dp"
-			android:gravity="left"
-			android:orientation="vertical"
-			android:background="@drawable/bg_ribbon">
-			<TextView
-				android:id="@+id/from_text_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textColor="#333333"
-				android:textStyle="bold"
-				android:textSize="12dp"
-				android:includeFontPadding="false" />
-			<TextView
-				android:id="@+id/price_text_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textColor="#00355F"
-				android:textStyle="bold"
-				android:textSize="18dp"
-				android:includeFontPadding="false" />
-		</LinearLayout>
-		<TextView
-			android:id="@+id/promo_description_text_view"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentBottom="true"
-			android:layout_alignParentLeft="true"
-			android:layout_marginRight="64dp"
-			android:layout_marginLeft="16dp"
-			android:maxWidth="220dp"
-			android:gravity="center"
-			android:paddingTop="2dp"
-			android:paddingBottom="2dp"
-			android:paddingLeft="8dp"
-			android:paddingRight="8dp"
-			android:background="@drawable/bg_promo"
-			android:textStyle="bold"
-			android:textColor="@android:color/white"
-			android:visibility="gone" />
-		<ImageView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:layout_alignParentTop="true"
-			android:scaleType="fitXY"
-			android:src="@drawable/shadow" />
-	</RelativeLayout>
+		android:layout_height="fill_parent"
+		android:layout_alignParentLeft="true"
+		android:layout_below="@+id/header"
+		android:fillViewport="true"
+		android:fadingEdge="none">
 
-	<!-- Details about the hotel. This is filled in dynamically based on available 
-		hotel data -->
-	<RelativeLayout
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
-		<ScrollView
+		<RelativeLayout
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
-			android:layout_alignParentLeft="true"
-			android:layout_alignParentTop="true"
-			android:layout_marginTop="4dp"
-			android:fillViewport="true"
-			android:fadingEdge="none">
+			android:orientation="vertical">
+
+			<!-- Rotating image gallery -->
+			<RelativeLayout
+				android:id="@+id/gallery_layout"
+				android:layout_width="fill_parent"
+				android:layout_height="200dp"
+				android:background="@drawable/bg_gallery">
+				<com.expedia.bookings.widget.Gallery
+					android:id="@+id/images_gallery"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:fadingEdge="none"
+					android:spacing="20dp"
+					android:unselectedAlpha="1.0" />
+				<LinearLayout
+					android:id="@+id/price_layout"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentTop="true"
+					android:layout_alignParentLeft="true"
+					android:layout_marginTop="8dp"
+					android:paddingTop="3dp"
+					android:paddingRight="25dp"
+					android:gravity="left"
+					android:orientation="vertical"
+					android:background="@drawable/bg_ribbon">
+					<TextView
+						android:id="@+id/from_text_view"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="#333333"
+						android:textStyle="bold"
+						android:textSize="12dp"
+						android:includeFontPadding="false" />
+					<TextView
+						android:id="@+id/price_text_view"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="#00355F"
+						android:textStyle="bold"
+						android:textSize="18dp"
+						android:includeFontPadding="false" />
+				</LinearLayout>
+				<TextView
+					android:id="@+id/promo_description_text_view"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentBottom="true"
+					android:layout_alignParentLeft="true"
+					android:layout_marginRight="64dp"
+					android:layout_marginLeft="16dp"
+					android:maxWidth="220dp"
+					android:gravity="center"
+					android:paddingTop="2dp"
+					android:paddingBottom="2dp"
+					android:paddingLeft="8dp"
+					android:paddingRight="8dp"
+					android:background="@drawable/bg_promo"
+					android:textStyle="bold"
+					android:textColor="@android:color/white"
+					android:visibility="gone" />
+			</RelativeLayout>
+
+			<!-- Details about the hotel. This is filled in dynamically based on available 
+				hotel data -->
 			<LinearLayout
 				android:layout_width="fill_parent"
 				android:layout_height="fill_parent"
-				android:layout_weight="1"
-				android:background="#E3E3E6"
-				android:orientation="vertical">
+				android:layout_below="@+id/gallery_layout"
+				android:orientation="vertical"
+				android:background="#E3E3E6">
 				<TableLayout
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
@@ -119,39 +116,47 @@
 					android:layout_marginLeft="12dp"
 					android:layout_marginRight="12dp"
 					android:textColor="#333333" />
-				<LinearLayout 
-							android:orientation="horizontal"
-							android:layout_width="fill_parent"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="12dp">
-						<Button
-							android:id="@+id/map_button"
-							android:layout_marginLeft="12dp"
-							android:layout_width="fill_parent"
-							android:layout_height="wrap_content"
-							android:layout_weight="1"
-							android:textStyle="bold"
-							android:text="@string/show_on_map"
-							style="@style/Widget.Button.HotelDetails" />
-						<Button
-							android:id="@+id/user_reviews_button"
-							android:layout_marginRight="12dp"
-							android:layout_width="fill_parent"
-							android:layout_height="wrap_content"
-							android:layout_weight="1"
-							android:layout_toRightOf="@id/map_button"
-							android:textStyle="bold"
-							android:text="@string/user_reviews"
-							style="@style/Widget.Button.HotelDetails" />
+				<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="12dp">
+					<Button
+						android:id="@+id/map_button"
+						android:layout_marginLeft="12dp"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:textStyle="bold"
+						android:text="@string/show_on_map"
+						style="@style/Widget.Button.HotelDetails" />
+					<Button
+						android:id="@+id/user_reviews_button"
+						android:layout_marginRight="12dp"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:layout_toRightOf="@id/map_button"
+						android:textStyle="bold"
+						android:text="@string/user_reviews"
+						style="@style/Widget.Button.HotelDetails" />
 				</LinearLayout>
 			</LinearLayout>
-		</ScrollView>
-		
-		<ImageView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/separator_view"
-			android:scaleType="fitXY"
-			android:src="@drawable/detail_divider" />
-	</RelativeLayout>
-</LinearLayout>
+
+			<ImageView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/gallery_layout"
+				android:scaleType="fitXY"
+				android:src="@drawable/detail_divider" />
+		</RelativeLayout>
+	</ScrollView>
+
+	<ImageView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_below="@+id/header"
+		android:scaleType="fitXY"
+		android:src="@drawable/shadow" />
+</RelativeLayout>
