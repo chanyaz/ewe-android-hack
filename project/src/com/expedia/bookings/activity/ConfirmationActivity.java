@@ -318,10 +318,21 @@ public class ConfirmationActivity extends MapActivity {
 			appendLabelValue(body, R.string.subtotal, mRate.getTotalAmountBeforeTax().getFormattedMoney());
 			body.append("\n");
 		}
-		if (mRate.getTaxesAndFeesPerRoom() != null) {
-			appendLabelValue(body, R.string.TaxesAndFees, mRate.getTaxesAndFeesPerRoom().getFormattedMoney());
+
+		Money surcharge = mRate.getSurcharge();
+		Money extraGuestFee = mRate.getExtraGuestFee();
+		if (extraGuestFee != null) {
+			appendLabelValue(body, R.string.extra_guest_charge, extraGuestFee.getFormattedMoney());
+			if (surcharge != null) {
+				surcharge = surcharge.copy();
+				surcharge.subtract(extraGuestFee);
+			}
+		}
+		if (surcharge != null) {
+			appendLabelValue(body, R.string.TaxesAndFees, surcharge.getFormattedMoney());
 			body.append("\n");
 		}
+
 		if (mRate.getTotalAmountAfterTax() != null) {
 			body.append("\n");
 			appendLabelValue(body, R.string.Total, mRate.getTotalAmountAfterTax().getFormattedMoney());

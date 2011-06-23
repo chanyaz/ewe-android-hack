@@ -78,10 +78,18 @@ public class LayoutUtils {
 					.getFormattedMoney());
 		}
 
-		Money taxesAndFeesPerRoom = rate.getTaxesAndFeesPerRoom();
-		if (taxesAndFeesPerRoom != null && taxesAndFeesPerRoom.getFormattedMoney() != null
-				&& taxesAndFeesPerRoom.getFormattedMoney().length() > 0) {
-			addDetail(context, detailsLayout, R.string.TaxesAndFees, taxesAndFeesPerRoom.getFormattedMoney());
+		Money totalSurcharge = rate.getSurcharge();
+		Money extraGuestFee = rate.getExtraGuestFee();
+		if (extraGuestFee != null) {
+			addDetail(context, detailsLayout, R.string.extra_guest_charge, extraGuestFee.getFormattedMoney());
+			if (totalSurcharge != null) {
+				// Make a mutable copy
+				totalSurcharge = totalSurcharge.copy();
+				totalSurcharge.subtract(extraGuestFee);
+			}
+		}
+		if (totalSurcharge != null) {
+			addDetail(context, detailsLayout, R.string.TaxesAndFees, totalSurcharge.getFormattedMoney());
 		}
 	}
 

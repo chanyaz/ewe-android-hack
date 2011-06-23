@@ -130,6 +130,8 @@
 	</plurals>
 	<!-- Label for room rate on a particular date -->
 	<string name="room_rate_template">Room Rate %s</string>
+	<!-- Label for the extra guest charge -->
+	<string name="extra_guest_charge">Extra Guest Charge</string>
 	<!-- Label for total cost of hotel stay -->
 	<string name="total_cost">Total Cost</string>
 	<!-- Label for "guest info" form field section -->
