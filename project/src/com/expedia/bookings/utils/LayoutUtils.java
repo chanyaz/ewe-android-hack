@@ -42,6 +42,8 @@ public class LayoutUtils {
 			Rate rate) {
 		addDetail(context, detailsLayout, R.string.room_type, rate.getRoomDescription());
 
+		addDetail(context, detailsLayout, R.string.bed_type, rate.getRatePlanName());
+
 		addDetail(context, detailsLayout, R.string.GuestsLabel, StrUtils.formatGuests(context, searchParams));
 
 		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(context);

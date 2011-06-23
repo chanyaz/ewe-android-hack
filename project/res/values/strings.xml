@@ -119,6 +119,8 @@
 	<string name="edit">Edit</string>
 	<!-- Label for room type -->
 	<string name="room_type">Room Type</string>
+	<!-- Label for bed type -->
+	<string name="bed_type">Bed Type</string>
 	<!-- Label for length of stay -->
 	<string name="stay_duration">Length of Stay</string>
 	<!-- Quantity for the length of stay -->
