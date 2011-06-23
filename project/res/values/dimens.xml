@@ -21,4 +21,8 @@
 
 	<!-- Offset for placeholder tag -->
 	<dimen name="placeholder_tag_margin_top">15dp</dimen>
+
+	<!-- Text sizes for amenities -->
+	<dimen name="amenity_text_size_large">13sp</dimen>
+	<dimen name="amenity_text_size_small">11sp</dimen>
 </resources>

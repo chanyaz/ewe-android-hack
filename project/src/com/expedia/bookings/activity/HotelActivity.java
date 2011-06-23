@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +14,13 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -47,7 +51,7 @@ public class HotelActivity extends Activity {
 	public static final String EXTRA_POSITION = "EXTRA_POSITION";
 
 	private Context mContext;
-	
+
 	private ScrollView mScrollView;
 
 	private Gallery mGallery;
@@ -55,10 +59,6 @@ public class HotelActivity extends Activity {
 	private Property mProperty;
 
 	private int mImageToLoad;
-
-	private int mNumAmenities;
-
-	private int mMaxAmenities;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
@@ -187,30 +187,102 @@ public class HotelActivity extends Activity {
 		});
 
 		// Amenities
+		// Disable some aspects of the horizontal scrollview so it looks pretty
+		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) findViewById(R.id.amenities_scroll_view);
+		amenitiesScrollView.setHorizontalScrollBarEnabled(false);
+
+		// Have to disable overscroll mode via reflection, since it's only in API 9+
+		try {
+			Field f = HorizontalScrollView.class.getField("OVER_SCROLL_NEVER");
+			Method m = HorizontalScrollView.class.getMethod("setOverScrollMode", int.class);
+			m.invoke(amenitiesScrollView, f.getInt(null));
+		}
+		catch (NoSuchFieldError e) {
+			// Ignore; this will just happen pre-9
+		}
+		catch (NoSuchMethodException e) {
+			// Ignore; this will just happen pre-9
+		}
+		catch (Exception e) {
+			Log.w("Something went wrong trying to disable overscroll mode.", e);
+		}
+
 		ViewGroup amenitiesContainer = (ViewGroup) findViewById(R.id.amenities_table_row);
 
-		// #6762 - This is a quick hack for 1.0.  In later versions, we'll show an unlimited # of 
-		// amenities, so we won't need to do such a limit.
-		mNumAmenities = 0;
-		mMaxAmenities = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ? 4 : 5;
-
-		// We have to do these manually as multiple amenities can lead to the same icon.
+		// We have to do these manually as multiple amenities can lead to the same icon, also for proper ordering
 		if (property.hasAmenity(Amenity.POOL) || property.hasAmenity(Amenity.POOL_INDOOR)
 				|| property.hasAmenity(Amenity.POOL_OUTDOOR)) {
-			addAmenity(amenitiesContainer, R.drawable.ic_amenity_pool, R.string.AmenityPool);
+			addAmenity(amenitiesContainer, Amenity.POOL, R.drawable.ic_amenity_pool);
 		}
 		if (property.hasAmenity(Amenity.INTERNET)) {
-			addAmenity(amenitiesContainer, R.drawable.ic_amenity_internet, R.string.amenity_internet);
+			addAmenity(amenitiesContainer, Amenity.INTERNET, R.drawable.ic_amenity_internet);
 		}
 		if (property.hasAmenity(Amenity.BREAKFAST)) {
-			addAmenity(amenitiesContainer, R.drawable.ic_amenity_breakfast, R.string.AmenityBreakfast);
+			addAmenity(amenitiesContainer, Amenity.BREAKFAST, R.drawable.ic_amenity_breakfast);
 		}
 		if (property.hasAmenity(Amenity.PARKING) || property.hasAmenity(Amenity.EXTENDED_PARKING)
 				|| property.hasAmenity(Amenity.FREE_PARKING)) {
-			addAmenity(amenitiesContainer, R.drawable.ic_amenity_parking, R.string.AmenityParking);
+			addAmenity(amenitiesContainer, Amenity.PARKING, R.drawable.ic_amenity_parking);
 		}
 		if (property.hasAmenity(Amenity.PETS_ALLOWED)) {
-			addAmenity(amenitiesContainer, R.drawable.ic_amenity_pets, R.string.amenity_pets);
+			addAmenity(amenitiesContainer, Amenity.PETS_ALLOWED, R.drawable.ic_amenity_pets);
+		}
+		if (property.hasAmenity(Amenity.RESTAURANT)) {
+			addAmenity(amenitiesContainer, Amenity.RESTAURANT, R.drawable.ic_amenity_restaurant);
+		}
+		if (property.hasAmenity(Amenity.FITNESS_CENTER)) {
+			addAmenity(amenitiesContainer, Amenity.FITNESS_CENTER, R.drawable.ic_amenity_fitness_center);
+		}
+		if (property.hasAmenity(Amenity.ROOM_SERVICE)) {
+			addAmenity(amenitiesContainer, Amenity.ROOM_SERVICE, R.drawable.ic_amenity_room_service);
+		}
+		if (property.hasAmenity(Amenity.SPA)) {
+			addAmenity(amenitiesContainer, Amenity.SPA, R.drawable.ic_amenity_spa);
+		}
+		if (property.hasAmenity(Amenity.BUSINESS_CENTER)) {
+			addAmenity(amenitiesContainer, Amenity.BUSINESS_CENTER, R.drawable.ic_amenity_business);
+		}
+		if (property.hasAmenity(Amenity.FREE_AIRPORT_SHUTTLE)) {
+			addAmenity(amenitiesContainer, Amenity.FREE_AIRPORT_SHUTTLE, R.drawable.ic_amenity_airport_shuttle);
+		}
+		if (property.hasAmenity(Amenity.ACCESSIBLE_BATHROOM)) {
+			addAmenity(amenitiesContainer, Amenity.ACCESSIBLE_BATHROOM, R.drawable.ic_amenity_accessible_bathroom);
+		}
+		if (property.hasAmenity(Amenity.HOT_TUB)) {
+			addAmenity(amenitiesContainer, Amenity.HOT_TUB, R.drawable.ic_amenity_hot_tub);
+		}
+		if (property.hasAmenity(Amenity.JACUZZI)) {
+			addAmenity(amenitiesContainer, Amenity.JACUZZI, R.drawable.ic_amenity_jacuzzi);
+		}
+		if (property.hasAmenity(Amenity.WHIRLPOOL_BATH)) {
+			addAmenity(amenitiesContainer, Amenity.WHIRLPOOL_BATH, R.drawable.ic_amenity_whirl_pool);
+		}
+		if (property.hasAmenity(Amenity.KITCHEN)) {
+			addAmenity(amenitiesContainer, Amenity.KITCHEN, R.drawable.ic_amenity_kitchen);
+		}
+		if (property.hasAmenity(Amenity.KIDS_ACTIVITIES)) {
+			addAmenity(amenitiesContainer, Amenity.KIDS_ACTIVITIES, R.drawable.ic_amenity_children_activities);
+		}
+		if (property.hasAmenity(Amenity.BABYSITTING)) {
+			addAmenity(amenitiesContainer, Amenity.BABYSITTING, R.drawable.ic_amenity_baby_sitting);
+		}
+		if (property.hasAmenity(Amenity.ACCESSIBLE_PATHS)) {
+			addAmenity(amenitiesContainer, Amenity.ACCESSIBLE_PATHS, R.drawable.ic_amenity_accessible_ramp);
+		}
+		if (property.hasAmenity(Amenity.ROLL_IN_SHOWER)) {
+			addAmenity(amenitiesContainer, Amenity.ROLL_IN_SHOWER, R.drawable.ic_amenity_accessible_shower);
+		}
+		if (property.hasAmenity(Amenity.HANDICAPPED_PARKING)) {
+			addAmenity(amenitiesContainer, Amenity.HANDICAPPED_PARKING, R.drawable.ic_amenity_handicap_parking);
+		}
+		if (property.hasAmenity(Amenity.IN_ROOM_ACCESSIBILITY)) {
+			addAmenity(amenitiesContainer, Amenity.IN_ROOM_ACCESSIBILITY, R.drawable.ic_amenity_accessible_room);
+		}
+		if (property.hasAmenity(Amenity.DEAF_ACCESSIBILITY_EQUIPMENT)) {
+			addAmenity(amenitiesContainer, Amenity.DEAF_ACCESSIBILITY_EQUIPMENT, R.drawable.ic_amenity_deaf_access);
+		}
+		if (property.hasAmenity(Amenity.BRAILLE_SIGNAGE)) {
+			addAmenity(amenitiesContainer, Amenity.BRAILLE_SIGNAGE, R.drawable.ic_amenity_braille_signs);
 		}
 
 		// Description
@@ -269,20 +341,21 @@ public class HotelActivity extends Activity {
 		}
 	}
 
-	public void addAmenity(ViewGroup amenitiesTable, int iconResourceId, int strResourceId) {
-		if (mNumAmenities < mMaxAmenities) {
-			View amenityLayout = getLayoutInflater().inflate(R.layout.snippet_amenity, amenitiesTable, false);
+	public void addAmenity(ViewGroup amenitiesTable, Amenity amenity, int iconResourceId) {
+		View amenityLayout = getLayoutInflater().inflate(R.layout.snippet_amenity, amenitiesTable, false);
 
-			ImageView amenityIcon = (ImageView) amenityLayout.findViewById(R.id.icon_text_view);
-			amenityIcon.setImageResource(iconResourceId);
+		ImageView amenityIcon = (ImageView) amenityLayout.findViewById(R.id.icon_text_view);
+		amenityIcon.setImageResource(iconResourceId);
 
-			TextView amenityName = (TextView) amenityLayout.findViewById(R.id.name_text_view);
-			amenityName.setText(strResourceId);
-
-			amenitiesTable.addView(amenityLayout);
-
-			mNumAmenities++;
+		TextView amenityName = (TextView) amenityLayout.findViewById(R.id.name_text_view);
+		String amenityStr = getString(amenity.getStrId());
+		if (amenityStr.contains(" ")) {
+			amenityName.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+					getResources().getDimension(R.dimen.amenity_text_size_small));
 		}
+		amenityName.setText(amenity.getStrId());
+
+		amenitiesTable.addView(amenityLayout);
 	}
 
 	public void startRoomRatesActivity() {
