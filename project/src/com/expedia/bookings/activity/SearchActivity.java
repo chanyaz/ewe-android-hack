@@ -153,6 +153,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
+	private static final HashMap<Sort, Integer> SORT_DESCRIPTIONS = new HashMap<Sort, Integer>() {
+		private static final long serialVersionUID = 1L;
+
+		{
+			put(Sort.ALPHABETICAL, R.string.sort_description_alphabetical);
+			put(Sort.DISTANCE, R.string.sort_description_distance);
+			put(Sort.POPULAR, R.string.sort_description_popular);
+			put(Sort.PRICE, R.string.sort_description_price);
+			put(Sort.RATING, R.string.sort_description_rating);
+		}
+	};
+
 	private static final String ACTIVITY_SEARCH_LIST = SearchListActivity.class.getCanonicalName();
 	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
 
@@ -218,6 +230,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private TextView mGuestsTextView;
 	private TextView mPriceRangeTextView;
 	private TextView mRefinementInfoTextView;
+	private TextView mSortTypeTextView;
 	private View mButtonBarLayout;
 	private View mDatesLayout;
 	private View mFocusLayout;
@@ -786,6 +799,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mTripAdvisorOnlyButton = (Button) findViewById(R.id.tripadvisor_only_button);
 		mFilterHotelNameEditText = (EditText) findViewById(R.id.filter_hotel_name_edit_text);
 		mSortButtonGroup = (SegmentedControlGroup) findViewById(R.id.sort_filter_button_group);
+		mSortTypeTextView = (TextView) findViewById(R.id.sort_type_text_view);
 		mSortDistanceRadioButtonCenter = (RadioButtonCenter) findViewById(R.id.sort_distance_button);
 		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
 		mRatingButtonGroup = (SegmentedControlGroup) findViewById(R.id.rating_filter_button_group);
@@ -1642,6 +1656,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		setPriceRangeText();
+		setSortTypeText();
 		setRadioButtonShadowLayers();
 
 		// Restore OnCheckedChangeListeners
@@ -1839,18 +1854,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setBookingInfoText();
 	}
 
-	private void setShowDistance(boolean showDistance) {
-		mShowDistance = showDistance;
-		mSortDistanceRadioButtonCenter.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
-		mSortButtonGroup.invalidate();
-
-		if (mSetShowDistanceListeners != null) {
-			for (SetShowDistanceListener showDistanceListener : mSetShowDistanceListeners) {
-				showDistanceListener.onSetShowDistance(showDistance);
-			}
-		}
-	}
-
 	private void setSearchEditViews() {
 		if (mSearchParams == null) {
 			mSearchParams = new SearchParams();
@@ -1888,6 +1891,22 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
 
 		setBookingInfoText();
+	}
+
+	private void setShowDistance(boolean showDistance) {
+		mShowDistance = showDistance;
+		mSortDistanceRadioButtonCenter.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
+		mSortButtonGroup.invalidate();
+
+		if (mSetShowDistanceListeners != null) {
+			for (SetShowDistanceListener showDistanceListener : mSetShowDistanceListeners) {
+				showDistanceListener.onSetShowDistance(showDistance);
+			}
+		}
+	}
+
+	private void setSortTypeText() {
+		mSortTypeTextView.setText(getString(SORT_DESCRIPTIONS.get(mFilter.getSort())));
 	}
 
 	private void setViewButtonImage() {
@@ -2137,6 +2156,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			buildFilter();
 			setPriceRangeText();
+			setSortTypeText();
 			setRadioButtonShadowLayers();
 		}
 	};

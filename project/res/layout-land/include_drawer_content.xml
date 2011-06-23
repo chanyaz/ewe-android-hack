@@ -55,6 +55,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:orientation="horizontal"
+			android:gravity="center"
 			mobiata:textColor="@color/segmented_button_text">
 		
 			<RadioButton
@@ -102,32 +103,33 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:orientation="horizontal"
+			android:gravity="center"
 			mobiata:textColor="@color/segmented_button_text">
-		
-			<com.mobiata.android.widget.RadioButtonCenter
+			 
+			<RadioButton
 				android:id="@+id/rating_low_button"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:button="@drawable/btn_filter_rating_low"
+				android:drawableBottom="@drawable/btn_filter_rating_low"
 				android:text="3+"
 				android:textStyle="bold" />
-				
-			<com.mobiata.android.widget.RadioButtonCenter
+			 
+			<RadioButton
 				android:id="@+id/rating_medium_button"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:button="@drawable/btn_filter_rating_medium"
+				android:drawableBottom="@drawable/btn_filter_rating_medium"
 				android:text="4+"
 				android:textStyle="bold" />
-				
-			<com.mobiata.android.widget.RadioButtonCenter
+			 
+			<RadioButton
 				android:id="@+id/rating_high_button"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:button="@drawable/btn_filter_rating_high"
+				android:drawableBottom="@drawable/btn_filter_rating_high"
 				android:text="5"
 				android:textStyle="bold" />
 				
@@ -155,6 +157,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:orientation="horizontal"
+			android:gravity="center"
 			mobiata:textColor="@color/segmented_button_text">
 		
 			<RadioButton
@@ -208,6 +211,7 @@
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:orientation="horizontal"
+				android:gravity="center"
 				mobiata:textColor="@color/segmented_button_text">
 				
 				<com.mobiata.android.widget.RadioButtonCenter
@@ -263,6 +267,12 @@
 	<!-- HIDDEN -->
 	<TextView
 		android:id="@+id/price_range_text_view"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:visibility="gone" />
+					
+	<TextView
+		android:id="@+id/sort_type_text_view"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:visibility="gone" />
