@@ -51,6 +51,7 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
+import com.expedia.bookings.widget.RoomTypeHandler;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -100,6 +101,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	// Private members
 
 	private Context mContext;
+
+	// Room type handler
+
+	private RoomTypeHandler mRoomTypeHandler;
 
 	// Data pertaining to this booking
 
@@ -230,6 +235,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			}
 		}
 
+		// Configure the room type handler
+		mRoomTypeHandler = new RoomTypeHandler(this, mProperty, mRate);
+		mRoomTypeHandler.onCreate();
+
 		// Retrieve some data we keep using
 		Resources r = getResources();
 		mCountryCodes = r.getStringArray(R.array.country_codes);
@@ -337,6 +346,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		instance.put(INSTANCE_CARD_COMPLETED, mCardCompleted);
 		instance.put(INSTANCE_ERRORS, mErrors);
 
+		mRoomTypeHandler.onRetainNonConfigurationInstance(instance);
 
 		return instance;
 	}
@@ -373,6 +383,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		if (downloader.isDownloading(DOWNLOAD_KEY)) {
 			downloader.registerDownloadCallback(DOWNLOAD_KEY, this);
 		}
+
+		mRoomTypeHandler.onResume();
 	}
 
 	@Override
@@ -381,6 +393,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// If we're downloading, unregister the callback so we can resume it once the user is watching again 
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+
+		mRoomTypeHandler.onPause();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -500,6 +514,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		intent.fillIn(getIntent(), 0);
 		intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
 		intent.putExtra(Codes.SESSION, mSession.toJson().toString());
+		mRoomTypeHandler.saveToIntent(intent);
 
 		// Create a BillingInfo that lacks the user's security code (for safety)
 		JSONObject billingJson = mBillingInfo.toJson();
@@ -541,6 +556,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// Configure the details
 		ViewGroup detailsLayout = (ViewGroup) findViewById(R.id.details_layout);
+		mRoomTypeHandler.load(detailsLayout);
 		com.expedia.bookings.utils.LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate);
 
 		// Configure the total cost
