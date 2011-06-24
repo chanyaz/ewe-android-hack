@@ -15,6 +15,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +30,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.SupportUtils;
+import com.expedia.bookings.widget.RoomTypeHandler;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -56,6 +58,8 @@ import com.omniture.AppMeasurement;
 public class ConfirmationActivity extends MapActivity {
 
 	private Context mContext;
+
+	private RoomTypeHandler mRoomTypeHandler;
 
 	private SearchParams mSearchParams;
 	private Property mProperty;
@@ -112,6 +116,9 @@ public class ConfirmationActivity extends MapActivity {
 			}
 		}
 
+		mRoomTypeHandler = new RoomTypeHandler(this, mProperty, mRate);
+		mRoomTypeHandler.onCreate();
+
 		//////////////////////////////////////////////////
 		// Screen configuration
 
@@ -158,6 +165,7 @@ public class ConfirmationActivity extends MapActivity {
 		LayoutUtils.addDetail(this, detailsLayout, R.string.confirmation_number, mBookingResponse.getConfNumber());
 		LayoutUtils.addDetail(this, detailsLayout, R.string.itinerary_number, mBookingResponse.getItineraryId());
 		LayoutUtils.addDetail(this, detailsLayout, R.string.confirmation_email, mBillingInfo.getEmail());
+		mRoomTypeHandler.load(detailsLayout);
 		LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate);
 
 		// Total cost / cancellation policy at the bottom
@@ -228,6 +236,20 @@ public class ConfirmationActivity extends MapActivity {
 	}
 
 	@Override
+	public Object onRetainNonConfigurationInstance() {
+		SparseArray<Object> instance = new SparseArray<Object>();
+		mRoomTypeHandler.onRetainNonConfigurationInstance(instance);
+		return instance;
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		mRoomTypeHandler.onPause();
+	}
+
+	@Override
 	protected void onStop() {
 		super.onStop();
 
@@ -242,6 +264,13 @@ public class ConfirmationActivity extends MapActivity {
 			onPageLoad();
 			mWasStopped = false;
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		mRoomTypeHandler.onResume();
 	}
 
 	@Override
