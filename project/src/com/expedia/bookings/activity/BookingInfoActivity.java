@@ -23,6 +23,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,6 +51,7 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
+import com.expedia.bookings.widget.RoomTypeHandler;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -99,6 +101,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	// Private members
 
 	private Context mContext;
+
+	// Room type handler
+
+	private RoomTypeHandler mRoomTypeHandler;
 
 	// Data pertaining to this booking
 
@@ -178,11 +184,22 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	// Errors from a bad booking
 	List<ServerError> mErrors;
 
+	// Instance keys
+	private static final int INSTANCE_BILLING_INFO = 1;
+	private static final int INSTANCE_FORM_HAS_BEEN_FOCUSED = 2;
+	private static final int INSTANCE_GUESTS_EXPANDED = 3;
+	private static final int INSTANCE_BILLING_EXPANDED = 4;
+	private static final int INSTANCE_GUESTS_COMPLETED = 5;
+	private static final int INSTANCE_BILLING_COMPLETED = 6;
+	private static final int INSTANCE_CARD_COMPLETED = 7;
+	private static final int INSTANCE_ERRORS = 8;
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
 
 	// Lifecycle events
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -217,6 +234,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				Log.e("Couldn't create dummy data!", e);
 			}
 		}
+
+		// Configure the room type handler
+		mRoomTypeHandler = new RoomTypeHandler(this, mProperty, mRate);
+		mRoomTypeHandler.onCreate();
 
 		// Retrieve some data we keep using
 		Resources r = getResources();
@@ -259,14 +280,14 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		configureFooter();
 
 		// Retrieve previous instance
-		Instance lastInstance = (Instance) getLastNonConfigurationInstance();
+		SparseArray<Object> lastInstance = (SparseArray<Object>) getLastNonConfigurationInstance();
 		if (lastInstance != null) {
-			this.mBillingInfo = lastInstance.mBillingInfo;
-			this.mFormHasBeenFocused = lastInstance.mFormHasBeenFocused;
-			this.mGuestsCompleted = lastInstance.mGuestsCompleted;
-			this.mBillingCompleted = lastInstance.mBillingCompleted;
-			this.mCardCompleted = lastInstance.mCardCompleted;
-			this.mErrors = lastInstance.mErrors;
+			this.mBillingInfo = (BillingInfo) lastInstance.get(INSTANCE_BILLING_INFO);
+			this.mFormHasBeenFocused = (Boolean) lastInstance.get(INSTANCE_FORM_HAS_BEEN_FOCUSED);
+			this.mGuestsCompleted = (Boolean) lastInstance.get(INSTANCE_GUESTS_COMPLETED);
+			this.mBillingCompleted = (Boolean) lastInstance.get(INSTANCE_BILLING_COMPLETED);
+			this.mCardCompleted = (Boolean) lastInstance.get(INSTANCE_CARD_COMPLETED);
+			this.mErrors = (List<ServerError>) lastInstance.get(INSTANCE_ERRORS);
 
 			if (this.mFormHasBeenFocused) {
 				onFormFieldFocus();
@@ -274,10 +295,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 			syncFormFields();
 
-			if (lastInstance.mGuestsExpanded) {
+			if ((Boolean) lastInstance.get(INSTANCE_GUESTS_EXPANDED)) {
 				expandGuestsForm(false);
 			}
-			if (lastInstance.mBillingExpanded) {
+			if ((Boolean) lastInstance.get(INSTANCE_BILLING_EXPANDED)) {
 				expandBillingForm(false);
 			}
 		}
@@ -315,27 +336,19 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	public Object onRetainNonConfigurationInstance() {
 		syncBillingInfo();
 
-		Instance instance = new Instance();
-		instance.mBillingInfo = this.mBillingInfo;
-		instance.mFormHasBeenFocused = this.mFormHasBeenFocused;
-		instance.mGuestsExpanded = this.mGuestsExpanded;
-		instance.mBillingExpanded = this.mBillingExpanded;
-		instance.mGuestsCompleted = this.mGuestsCompleted;
-		instance.mBillingCompleted = this.mBillingCompleted;
-		instance.mCardCompleted = this.mCardCompleted;
-		instance.mErrors = this.mErrors;
-		return instance;
-	}
+		SparseArray<Object> instance = new SparseArray<Object>();
+		instance.put(INSTANCE_BILLING_INFO, mBillingInfo);
+		instance.put(INSTANCE_FORM_HAS_BEEN_FOCUSED, mFormHasBeenFocused);
+		instance.put(INSTANCE_GUESTS_EXPANDED, mGuestsExpanded);
+		instance.put(INSTANCE_BILLING_EXPANDED, mBillingExpanded);
+		instance.put(INSTANCE_GUESTS_COMPLETED, mGuestsCompleted);
+		instance.put(INSTANCE_BILLING_COMPLETED, mBillingCompleted);
+		instance.put(INSTANCE_CARD_COMPLETED, mCardCompleted);
+		instance.put(INSTANCE_ERRORS, mErrors);
 
-	private class Instance {
-		public BillingInfo mBillingInfo;
-		public boolean mFormHasBeenFocused;
-		private boolean mGuestsExpanded;
-		private boolean mBillingExpanded;
-		private boolean mGuestsCompleted;
-		private boolean mBillingCompleted;
-		private boolean mCardCompleted;
-		private List<ServerError> mErrors;
+		mRoomTypeHandler.onRetainNonConfigurationInstance(instance);
+
+		return instance;
 	}
 
 	@Override
@@ -370,6 +383,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		if (downloader.isDownloading(DOWNLOAD_KEY)) {
 			downloader.registerDownloadCallback(DOWNLOAD_KEY, this);
 		}
+
+		mRoomTypeHandler.onResume();
 	}
 
 	@Override
@@ -378,6 +393,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// If we're downloading, unregister the callback so we can resume it once the user is watching again 
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+
+		mRoomTypeHandler.onPause();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -497,6 +514,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		intent.fillIn(getIntent(), 0);
 		intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
 		intent.putExtra(Codes.SESSION, mSession.toJson().toString());
+		mRoomTypeHandler.saveToIntent(intent);
 
 		// Create a BillingInfo that lacks the user's security code (for safety)
 		JSONObject billingJson = mBillingInfo.toJson();
@@ -538,6 +556,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// Configure the details
 		ViewGroup detailsLayout = (ViewGroup) findViewById(R.id.details_layout);
+		mRoomTypeHandler.load(detailsLayout);
 		com.expedia.bookings.utils.LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate);
 
 		// Configure the total cost

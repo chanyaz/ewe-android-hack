@@ -38,10 +38,7 @@ public class LayoutUtils {
 	}
 
 	public static void addRateDetails(Context context, ViewGroup detailsLayout, SearchParams searchParams,
-			Property property,
-			Rate rate) {
-		addDetail(context, detailsLayout, R.string.room_type, rate.getRoomDescription());
-
+			Property property, Rate rate) {
 		addDetail(context, detailsLayout, R.string.bed_type, rate.getRatePlanName());
 
 		addDetail(context, detailsLayout, R.string.GuestsLabel, StrUtils.formatGuests(context, searchParams));

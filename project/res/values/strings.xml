@@ -119,6 +119,10 @@
 	<string name="edit">Edit</string>
 	<!-- Label for room type -->
 	<string name="room_type">Room Type</string>
+	<!-- Error if we couldn't load the room type details -->
+	<string name="error_room_type_load">We\'re sorry, we could not load room details.  Check your internet connection and try again.</string>
+	<!-- Error if we couldn't find the room type details -->
+	<string name="error_room_type_nonexistant">We\'re sorry, we could not find extra details on this room.</string>
 	<!-- Label for bed type -->
 	<string name="bed_type">Bed Type</string>
 	<!-- Label for length of stay -->
