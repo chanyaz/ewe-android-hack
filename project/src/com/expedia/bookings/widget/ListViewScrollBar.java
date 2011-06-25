@@ -20,7 +20,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
-import com.mobiata.android.R;
+import com.expedia.bookings.R;
 import com.mobiata.hotellib.data.Filter;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchResponse;
@@ -150,7 +150,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		mBarDrawable = getResources().getDrawable(R.drawable.scroll_bar);
 		mIndicatorDrawable = getResources().getDrawable(R.drawable.scroll_indicator);
-		mTripAdvisorMarker = getResources().getDrawable(R.drawable.scroll_trip_advisor_marker);
+		mTripAdvisorMarker = getResources().getDrawable(R.drawable.scroll_highly_rated_marker);
 
 		mPaddingLeft = getPaddingLeft();
 		mPaddingTop = getPaddingTop();

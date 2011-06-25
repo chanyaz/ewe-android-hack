@@ -139,7 +139,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.saleLabel = (TextView) convertView.findViewById(R.id.sale_text_view);
 			holder.name = (TextView) convertView.findViewById(R.id.name_text_view);
 			holder.from = (TextView) convertView.findViewById(R.id.from_text_view);
-			holder.highlyRated = (TextView) convertView.findViewById(R.id.highly_rated_text_view);
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
 			holder.perNight = (TextView) convertView.findViewById(R.id.per_night_text_view);
 			holder.highlyRatedImage = (ImageView) convertView.findViewById(R.id.highly_rated_image_view);
@@ -202,11 +201,9 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		// See if this property is highly rated via TripAdvisor
 		if (property.isHighlyRated()) {
-			holder.highlyRated.setVisibility(View.VISIBLE);
 			holder.highlyRatedImage.setVisibility(View.VISIBLE);
 		}
 		else {
-			holder.highlyRated.setVisibility(View.GONE);
 			holder.highlyRatedImage.setVisibility(View.GONE);
 		}
 
@@ -235,7 +232,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		public TextView saleLabel;
 		public TextView name;
 		public TextView from;
-		public TextView highlyRated;
 		public TextView price;
 		public TextView perNight;
 		public ImageView highlyRatedImage;

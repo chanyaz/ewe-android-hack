@@ -68,18 +68,6 @@
 			android:textSize="11sp"
 			android:includeFontPadding="false" />
 		<TextView
-			android:id="@+id/highly_rated_text_view"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/name_text_view"
-			android:layout_alignParentRight="true"
-			android:paddingRight="30dp"
-			android:text="@string/highly_rated"
-			android:textColor="@color/light_gray"
-			android:textSize="11sp"
-			android:includeFontPadding="false"
-			android:visibility="gone" />
-		<TextView
 			android:id="@+id/price_text_view"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -102,8 +90,7 @@
 			android:id="@+id/highly_rated_image_view"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_below="@id/highly_rated_text_view"
-			android:layout_alignBottom="@id/price_text_view"
+			android:layout_centerVertical="true"
 			android:layout_alignParentRight="true"
 			android:paddingTop="2dp"
 			android:src="@drawable/ic_highly_rated"
