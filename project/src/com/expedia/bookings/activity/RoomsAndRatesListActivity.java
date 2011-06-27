@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,8 +17,10 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
+import com.mobiata.android.FormatUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
+import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.app.AsyncLoadListActivity;
 import com.mobiata.hotellib.data.AvailabilityResponse;
 import com.mobiata.hotellib.data.Codes;
@@ -41,6 +45,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 	private ProgressBar mProgressBar;
 	private TextView mEmptyTextView;
+	private TextView mFooterTextView;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
@@ -94,6 +99,11 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 		RatingBar hotelRating = (RatingBar) findViewById(R.id.hotel_rating_bar);
 		hotelRating.setRating((float) property.getHotelRating());
+
+		// Setup the ListView
+		View footer = getLayoutInflater().inflate(R.layout.footer_rooms_and_rates, null);
+		mFooterTextView = (TextView) footer.findViewById(R.id.footer_text_view);
+		getListView().addFooterView(footer, null, false);
 
 		if (savedInstanceState == null) {
 			onPageLoad();
@@ -188,6 +198,13 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		mAdapter = new RoomsAndRatesAdapter(this, response);
 
 		setListAdapter(mAdapter);
+
+		List<String> commonValueAdds = response.getCommonValueAdds();
+		if (commonValueAdds != null) {
+			mFooterTextView.setText(getString(R.string.common_value_add_template,
+					FormatUtils.series(this, commonValueAdds, ",", Conjunction.AND)));
+			mFooterTextView.setVisibility(View.VISIBLE);
+		}
 
 		if (mAdapter.getCount() == 0) {
 			TrackingUtils.trackErrorPage(this, "HotelHasNoRoomsAvailable");
