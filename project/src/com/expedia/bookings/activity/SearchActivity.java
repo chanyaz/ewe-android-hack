@@ -41,6 +41,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -76,7 +77,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.Rotate3dAnimation;
-import com.expedia.bookings.dialog.LocationSuggestionDialog;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
@@ -169,16 +169,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
-	private static final String KEY_ACTIVITY_STATE = "KEY_ACTIVITY_STATE";
 
 	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
 	private static final int DIALOG_CLIENT_DEPRECATED = 1;
+	private static final int DIALOG_ENABLE_LOCATIONS = 2;
 
 	private static final int REQUEST_CODE_SETTINGS = 1;
 
-	private static final int MSG_SWITCH_TO_NETWORK_LOCATION = 0;
-
-	private static final long TIME_SWITCH_TO_NETWORK_DELAY = 1000;
+	private static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
 
 	private static final boolean ANIMATION_VIEW_FLIP_ENABLED = true;
 	private static final long ANIMATION_VIEW_FLIP_SPEED = 350;
@@ -270,12 +268,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Map<PriceRange, PriceTier> mPriceTierCache;
 	private Filter mFilter;
 	private Filter mOldFilter;
-	private boolean mLocationListenerStarted;
 	private boolean mScreenRotationLocked;
+	public boolean mStartSearchOnResume;
 
 	private Thread mGeocodeThread;
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
-	private LocationSuggestionDialog mLocationSuggestionDialog;
 
 	// This indicates to mSearchCallback that we just loaded saved search results,
 	// and as such should behave a bit differently than if we just did a new search.
@@ -520,6 +517,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setViewButtonImage();
 		setDrawerViews();
 		setSearchEditViews();
+
+		if (mStartSearchOnResume) {
+			startSearch();
+			mStartSearchOnResume = false;
+		}
 	}
 
 	@Override
@@ -638,6 +640,19 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			builder.setNegativeButton(android.R.string.cancel, null);
 			return builder.create();
 		}
+		case DIALOG_ENABLE_LOCATIONS: {
+			AlertDialog.Builder builder = new Builder(this);
+			builder.setMessage(R.string.EnableLocationSettings);
+			builder.setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					Intent intent = new Intent(Settings.ACTION_SECURITY_SETTINGS);
+					startActivity(intent);
+					mStartSearchOnResume = true;
+				}
+			});
+			builder.setNegativeButton(android.R.string.cancel, null);
+			return builder.create();
+		}
 		}
 
 		return super.onCreateDialog(id);
@@ -693,6 +708,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
+		Log.d("onLocationChanged(): " + location.toString());
+
 		setSearchParams(location.getLatitude(), location.getLongitude());
 		startSearchDownloader();
 
@@ -701,21 +718,51 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		stopLocationListener();
-		mSearchProgressBar.setShowProgress(false);
-		mSearchProgressBar.setText(R.string.ProviderDisabled);
-		TrackingUtils.trackErrorPage(this, "LocationServicesNotAvailable");
+		Log.w("onProviderDisabled(): " + provider);
+
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		boolean stillWorking = true;
+
+		// If the NETWORK provider is disabled, switch to GPS (if available)
+		if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
+			if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+				lm.removeUpdates(this);
+				lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+			}
+			else {
+				stillWorking = false;
+			}
+		}
+		// If the GPS provider is disabled and we were using it, send error
+		else if (provider.equals(LocationManager.GPS_PROVIDER)
+				&& !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			stillWorking = false;
+		}
+
+		if (!stillWorking) {
+			lm.removeUpdates(this);
+			mSearchProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(R.string.ProviderDisabled);
+			TrackingUtils.trackErrorPage(this, "LocationServicesNotAvailable");
+		}
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
+		Log.i("onProviderDisabled(): " + provider);
+
+		// Switch to network if it's now available (because it's much faster)
 		if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
-			scheduleSwitchToNetworkLocation();
+			LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+			lm.removeUpdates(this);
+			lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 		}
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
+		Log.w("onStatusChanged(): provider=" + provider + " status=" + status);
+
 		if (status == LocationProvider.OUT_OF_SERVICE) {
 			stopLocationListener();
 			Log.w("Location listener failed: out of service");
@@ -1104,7 +1151,16 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		}
 		case MY_LOCATION: {
-			startLocationListener();
+			// See if we have a good enough location stored
+			long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
+			Location location = LocationServices.getLastBestLocation(this, minTime);
+			if (location != null) {
+				setSearchParams(location.getLatitude(), location.getLongitude());
+				startSearchDownloader();
+			}
+			else {
+				startLocationListener();
+			}
 
 			break;
 		}
@@ -1148,6 +1204,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.oldFilter = mOldFilter;
 		state.showDistance = mShowDistance;
 		state.displayType = mDisplayType;
+		state.startSearchOnResume = mStartSearchOnResume;
 
 		if (state.searchResponse != null) {
 			if (state.searchResponse.getFilter() != null) {
@@ -1174,6 +1231,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mOldFilter = state.oldFilter;
 		mShowDistance = state.showDistance;
 		mDisplayType = state.displayType;
+		mStartSearchOnResume = state.startSearchOnResume;
 	}
 
 	//----------------------------------
@@ -1940,12 +1998,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// LOCATION METHODS
 	//----------------------------------
 
-	private void scheduleSwitchToNetworkLocation() {
-		Message msg = new Message();
-		msg.what = MSG_SWITCH_TO_NETWORK_LOCATION;
-		mHandler.sendMessageDelayed(msg, TIME_SWITCH_TO_NETWORK_DELAY);
-	}
-
 	private void startLocationListener() {
 		showLoading(R.string.progress_finding_location);
 
@@ -1955,33 +2007,31 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			return;
 		}
 
+		// Prefer network location (because it's faster).  Otherwise use GPS
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		String provider;
-		if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			provider = LocationManager.GPS_PROVIDER;
-			if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-				scheduleSwitchToNetworkLocation();
-			}
-		}
-		else {
+		String provider = null;
+		if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			provider = LocationManager.NETWORK_PROVIDER;
 		}
+		else if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			provider = LocationManager.GPS_PROVIDER;
+		}
 
-		lm.requestLocationUpdates(provider, 0, 0, this);
+		if (provider == null) {
+			Log.w("Could not find a location provider, informing user of error...");
+			mSearchProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(R.string.ProviderDisabled);
+			showDialog(DIALOG_ENABLE_LOCATIONS);
+		}
+		else {
+			Log.i("Starting location listener, provider=" + provider);
+			lm.requestLocationUpdates(provider, 0, 0, this);
+		}
 	}
 
 	private void stopLocationListener() {
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		lm.removeUpdates(this);
-		mHandler.removeMessages(MSG_SWITCH_TO_NETWORK_LOCATION);
-	}
-
-	private void switchToNetworkLocation() {
-		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			stopLocationListener();
-			lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -2273,12 +2323,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case MSG_SWITCH_TO_NETWORK_LOCATION: {
-				switchToNetworkLocation();
-				break;
-			}
-			}
+
 		}
 	};
 
@@ -2295,6 +2340,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public SearchParams searchParams;
 		public SearchParams oldSearchParams;
 		public SearchParams originalSearchParams;
+		public boolean startSearchOnResume;
 
 		public DisplayType displayType;
 
@@ -2395,7 +2441,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			// Location change
 			// Checks that the search type is the same, or else that a search of a particular type hasn't
 			// been modified (e.g., freeform text changing on a freeform search)
-			boolean refinedLocation = false;
 			if (mSearchParams.getSearchType() != mOldSearchParams.getSearchType()
 					|| (mSearchParams.getSearchType() == SearchType.FREEFORM && !mSearchParams.getFreeformLocation()
 							.equals(mOldSearchParams.getFreeformLocation()))

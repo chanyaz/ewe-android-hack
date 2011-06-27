@@ -113,6 +113,10 @@
 	<string name="savings_template">Save\n %2.0f%%</string>
 	<!-- Label for free nights -->
 	<string name="free">FREE!</string>
+	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") -->
+	<string name="value_add_template">Includes %s</string>
+	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") -->
+	<string name="common_value_add_template">All rooms include %s</string>
 
 	<!-- Booking info -->
 	<!-- edit label -->
