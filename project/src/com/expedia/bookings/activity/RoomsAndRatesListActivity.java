@@ -185,7 +185,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 			return;
 		}
 
-		mAdapter = new RoomsAndRatesAdapter(this, response.getRates());
+		mAdapter = new RoomsAndRatesAdapter(this, response);
 
 		setListAdapter(mAdapter);
 

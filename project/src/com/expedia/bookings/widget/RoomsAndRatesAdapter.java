@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -13,7 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.FormatUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.mobiata.hotellib.data.AvailabilityResponse;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.RateBreakdown;
@@ -29,12 +32,32 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 	private List<Rate> mRates;
 
-	public RoomsAndRatesAdapter(Context context, List<Rate> rates) {
+	private List<String> mValueAdds;
+
+	public RoomsAndRatesAdapter(Context context, AvailabilityResponse response) {
 		mContext = context;
 
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		mRates = rates;
+		mRates = response.getRates();
+
+		// Calculate the individual value-adds for each row, based on the common value-adds
+		List<String> common = response.getCommonValueAdds();
+		mValueAdds = new ArrayList<String>(mRates.size());
+		for (int a = 0; a < mRates.size(); a++) {
+			Rate rate = mRates.get(a);
+			List<String> unique = new ArrayList<String>(rate.getValueAdds());
+			if (common != null) {
+				unique.removeAll(common);
+			}
+			if (unique.size() > 0) {
+				mValueAdds.add(context.getString(R.string.value_add_template,
+							FormatUtils.series(context, unique, ",", null)));
+			}
+			else {
+				mValueAdds.add(null);
+			}
+		}
 	}
 
 	@Override
@@ -66,6 +89,9 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			holder.beds = (TextView) convertView.findViewById(R.id.beds_text_view);
 			holder.saleImage = (ImageView) convertView.findViewById(R.id.sale_image_view);
 			holder.saleLabel = (TextView) convertView.findViewById(R.id.sale_text_view);
+			holder.valueAddsLayout = (ViewGroup) convertView.findViewById(R.id.value_adds_layout);
+			holder.valueAdds = (TextView) convertView.findViewById(R.id.value_adds_text_view);
+			holder.valueAddsBeds = (TextView) convertView.findViewById(R.id.value_adds_beds_text_view);
 
 			// #6966: Fix specifically for Android 2.1 and below.  Since RelativeLayout can't properly align
 			// bottom on a ListView, I'm just going to add extra margin
@@ -147,7 +173,21 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			}
 		}
 
-		holder.beds.setText(bedText);
+		// If there are value adds, setup the alternate view
+		String valueAdds = mValueAdds.get(position);
+		if (valueAdds == null) {
+			holder.beds.setVisibility(View.VISIBLE);
+			holder.valueAddsLayout.setVisibility(View.GONE);
+
+			holder.beds.setText(bedText);
+		}
+		else {
+			holder.beds.setVisibility(View.GONE);
+			holder.valueAddsLayout.setVisibility(View.VISIBLE);
+
+			holder.valueAdds.setText(mValueAdds.get(position));
+			holder.valueAddsBeds.setText(bedText);
+		}
 
 		return convertView;
 	}
@@ -159,5 +199,9 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		public TextView beds;
 		public ImageView saleImage;
 		public TextView saleLabel;
+
+		public ViewGroup valueAddsLayout;
+		public TextView valueAdds;
+		public TextView valueAddsBeds;
 	}
 }

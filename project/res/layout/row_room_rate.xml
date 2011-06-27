@@ -73,6 +73,32 @@
 		android:layout_marginLeft="20dp"
 		android:gravity="right"
 		android:paddingRight="8dp"
-		android:textSize="12sp"
-		android:textColor="#696969" />
+		style="@style/rateInfoText" />
+
+	<!-- This view replaces the above beds_text_view if the row has value-adds -->
+	<LinearLayout
+		android:id="@+id/value_adds_layout"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/price_text_view"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentBottom="true"
+		android:orientation="horizontal"
+		android:visibility="gone">
+		<TextView
+			android:id="@+id/value_adds_text_view"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			style="@style/rateInfoText" />
+		<TextView
+			android:id="@+id/value_adds_beds_text_view"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:layout_marginRight="8dp"
+			android:gravity="right"
+			style="@style/rateInfoText" />
+	</LinearLayout>
 </RelativeLayout>
