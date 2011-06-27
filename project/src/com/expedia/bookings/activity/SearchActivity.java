@@ -41,6 +41,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -173,6 +174,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
 	private static final int DIALOG_CLIENT_DEPRECATED = 1;
+	private static final int DIALOG_ENABLE_LOCATIONS = 2;
 
 	private static final int REQUEST_CODE_SETTINGS = 1;
 
@@ -270,6 +272,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Filter mOldFilter;
 	private boolean mLocationListenerStarted;
 	private boolean mScreenRotationLocked;
+	public boolean mStartSearchOnResume;
 
 	private Thread mGeocodeThread;
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
@@ -518,6 +521,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setViewButtonImage();
 		setDrawerViews();
 		setSearchEditViews();
+
+		if (mStartSearchOnResume) {
+			startSearch();
+			mStartSearchOnResume = false;
+		}
 	}
 
 	@Override
@@ -631,6 +639,19 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			builder.setPositiveButton(R.string.upgrade, new OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					SocialUtils.openSite(SearchActivity.this, error.getExtra("url"));
+				}
+			});
+			builder.setNegativeButton(android.R.string.cancel, null);
+			return builder.create();
+		}
+		case DIALOG_ENABLE_LOCATIONS: {
+			AlertDialog.Builder builder = new Builder(this);
+			builder.setMessage(R.string.EnableLocationSettings);
+			builder.setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					Intent intent = new Intent(Settings.ACTION_SECURITY_SETTINGS);
+					startActivity(intent);
+					mStartSearchOnResume = true;
 				}
 			});
 			builder.setNegativeButton(android.R.string.cancel, null);
@@ -1187,6 +1208,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.oldFilter = mOldFilter;
 		state.showDistance = mShowDistance;
 		state.displayType = mDisplayType;
+		state.startSearchOnResume = mStartSearchOnResume;
 
 		if (state.searchResponse != null) {
 			if (state.searchResponse.getFilter() != null) {
@@ -1213,6 +1235,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mOldFilter = state.oldFilter;
 		mShowDistance = state.showDistance;
 		mDisplayType = state.displayType;
+		mStartSearchOnResume = state.startSearchOnResume;
 	}
 
 	//----------------------------------
@@ -2000,7 +2023,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		if (provider == null) {
 			Log.w("Could not find a location provider, informing user of error...");
-			// TODO: Implement case where no location managers are provided	
+			mSearchProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(R.string.ProviderDisabled);
+			showDialog(DIALOG_ENABLE_LOCATIONS);
 		}
 		else {
 			Log.i("Starting location listener, provider=" + provider);
@@ -2319,6 +2344,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public SearchParams searchParams;
 		public SearchParams oldSearchParams;
 		public SearchParams originalSearchParams;
+		public boolean startSearchOnResume;
 
 		public DisplayType displayType;
 
