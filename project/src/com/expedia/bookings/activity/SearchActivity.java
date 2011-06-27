@@ -176,10 +176,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private static final int REQUEST_CODE_SETTINGS = 1;
 
-	private static final int MSG_SWITCH_TO_NETWORK_LOCATION = 0;
-
-	private static final long TIME_SWITCH_TO_NETWORK_DELAY = 1000;
-
 	private static final boolean ANIMATION_VIEW_FLIP_ENABLED = true;
 	private static final long ANIMATION_VIEW_FLIP_SPEED = 350;
 	private static final float ANIMATION_VIEW_FLIP_DEPTH = 300f;
@@ -693,6 +689,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
+		Log.d("onLocationChanged(): " + location.toString());
+
 		setSearchParams(location.getLatitude(), location.getLongitude());
 		startSearchDownloader();
 
@@ -701,21 +699,51 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		stopLocationListener();
-		mSearchProgressBar.setShowProgress(false);
-		mSearchProgressBar.setText(R.string.ProviderDisabled);
-		TrackingUtils.trackErrorPage(this, "LocationServicesNotAvailable");
+		Log.w("onProviderDisabled(): " + provider);
+
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		boolean stillWorking = true;
+
+		// If the NETWORK provider is disabled, switch to GPS (if available)
+		if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
+			if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+				lm.removeUpdates(this);
+				lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+			}
+			else {
+				stillWorking = false;
+			}
+		}
+		// If the GPS provider is disabled and we were using it, send error
+		else if (provider.equals(LocationManager.GPS_PROVIDER)
+				&& !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			stillWorking = false;
+		}
+
+		if (!stillWorking) {
+			lm.removeUpdates(this);
+			mSearchProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(R.string.ProviderDisabled);
+			TrackingUtils.trackErrorPage(this, "LocationServicesNotAvailable");
+		}
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
+		Log.i("onProviderDisabled(): " + provider);
+
+		// Switch to network if it's now available (because it's much faster)
 		if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
-			scheduleSwitchToNetworkLocation();
+			LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+			lm.removeUpdates(this);
+			lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 		}
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
+		Log.w("onStatusChanged(): provider=" + provider + " status=" + status);
+
 		if (status == LocationProvider.OUT_OF_SERVICE) {
 			stopLocationListener();
 			Log.w("Location listener failed: out of service");
@@ -1940,12 +1968,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// LOCATION METHODS
 	//----------------------------------
 
-	private void scheduleSwitchToNetworkLocation() {
-		Message msg = new Message();
-		msg.what = MSG_SWITCH_TO_NETWORK_LOCATION;
-		mHandler.sendMessageDelayed(msg, TIME_SWITCH_TO_NETWORK_DELAY);
-	}
-
 	private void startLocationListener() {
 		showLoading(R.string.progress_finding_location);
 
@@ -1955,33 +1977,29 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			return;
 		}
 
+		// Prefer network location (because it's faster).  Otherwise use GPS
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		String provider;
-		if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			provider = LocationManager.GPS_PROVIDER;
-			if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-				scheduleSwitchToNetworkLocation();
-			}
-		}
-		else {
+		String provider = null;
+		if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			provider = LocationManager.NETWORK_PROVIDER;
 		}
+		else if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			provider = LocationManager.GPS_PROVIDER;
+		}
 
-		lm.requestLocationUpdates(provider, 0, 0, this);
+		if (provider == null) {
+			Log.w("Could not find a location provider, informing user of error...");
+			// TODO: Implement case where no location managers are provided	
+		}
+		else {
+			Log.i("Starting location listener, provider=" + provider);
+			lm.requestLocationUpdates(provider, 0, 0, this);
+		}
 	}
 
 	private void stopLocationListener() {
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		lm.removeUpdates(this);
-		mHandler.removeMessages(MSG_SWITCH_TO_NETWORK_LOCATION);
-	}
-
-	private void switchToNetworkLocation() {
-		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			stopLocationListener();
-			lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -2273,12 +2291,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case MSG_SWITCH_TO_NETWORK_LOCATION: {
-				switchToNetworkLocation();
-				break;
-			}
-			}
+
 		}
 	};
 
