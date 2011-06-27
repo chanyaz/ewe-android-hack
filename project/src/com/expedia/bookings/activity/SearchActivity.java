@@ -77,7 +77,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.Rotate3dAnimation;
-import com.expedia.bookings.dialog.LocationSuggestionDialog;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
@@ -170,7 +169,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
-	private static final String KEY_ACTIVITY_STATE = "KEY_ACTIVITY_STATE";
 
 	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
 	private static final int DIALOG_CLIENT_DEPRECATED = 1;
@@ -270,13 +268,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Map<PriceRange, PriceTier> mPriceTierCache;
 	private Filter mFilter;
 	private Filter mOldFilter;
-	private boolean mLocationListenerStarted;
 	private boolean mScreenRotationLocked;
 	public boolean mStartSearchOnResume;
 
 	private Thread mGeocodeThread;
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
-	private LocationSuggestionDialog mLocationSuggestionDialog;
 
 	// This indicates to mSearchCallback that we just loaded saved search results,
 	// and as such should behave a bit differently than if we just did a new search.
@@ -2445,7 +2441,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			// Location change
 			// Checks that the search type is the same, or else that a search of a particular type hasn't
 			// been modified (e.g., freeform text changing on a freeform search)
-			boolean refinedLocation = false;
 			if (mSearchParams.getSearchType() != mOldSearchParams.getSearchType()
 					|| (mSearchParams.getSearchType() == SearchType.FREEFORM && !mSearchParams.getFreeformLocation()
 							.equals(mOldSearchParams.getFreeformLocation()))
