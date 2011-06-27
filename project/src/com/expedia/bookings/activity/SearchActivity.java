@@ -176,6 +176,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private static final int REQUEST_CODE_SETTINGS = 1;
 
+	private static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
+
 	private static final boolean ANIMATION_VIEW_FLIP_ENABLED = true;
 	private static final long ANIMATION_VIEW_FLIP_SPEED = 350;
 	private static final float ANIMATION_VIEW_FLIP_DEPTH = 300f;
@@ -1132,7 +1134,16 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		}
 		case MY_LOCATION: {
-			startLocationListener();
+			// See if we have a good enough location stored
+			long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
+			Location location = LocationServices.getLastBestLocation(this, minTime);
+			if (location != null) {
+				setSearchParams(location.getLatitude(), location.getLongitude());
+				startSearchDownloader();
+			}
+			else {
+				startLocationListener();
+			}
 
 			break;
 		}
