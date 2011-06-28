@@ -77,8 +77,7 @@ public class LayoutUtils {
 		}
 
 		Money taxesAndFeesPerRoom = rate.getTaxesAndFeesPerRoom();
-		if (taxesAndFeesPerRoom != null && taxesAndFeesPerRoom.getFormattedMoney() != null
-				&& taxesAndFeesPerRoom.getFormattedMoney().length() > 0) {
+		if (taxesAndFeesPerRoom != null && taxesAndFeesPerRoom.getAmount() > 0) {
 			addDetail(context, detailsLayout, R.string.TaxesAndFees, taxesAndFeesPerRoom.getFormattedMoney());
 		}
 	}
