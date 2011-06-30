@@ -3,4 +3,3 @@
 	<!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
 	<dimen name="gallery_size">600dp</dimen>
 </resources>
-g
