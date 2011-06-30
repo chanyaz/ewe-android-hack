@@ -21,4 +21,7 @@
 
 	<!-- Offset for placeholder tag -->
 	<dimen name="placeholder_tag_margin_top">15dp</dimen>
+	
+	<!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
+	<dimen name="gallery_size">200dp</dimen>
 </resources>
