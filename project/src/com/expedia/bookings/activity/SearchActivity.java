@@ -104,6 +104,7 @@ import com.mobiata.hotellib.data.Filter.PriceRange;
 import com.mobiata.hotellib.data.Filter.Rating;
 import com.mobiata.hotellib.data.Filter.SearchRadius;
 import com.mobiata.hotellib.data.Filter.Sort;
+import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.PriceTier;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
@@ -1592,9 +1593,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			PriceTier priceTier = mPriceTierCache.get(priceRange);
 			if (priceTier != null) {
-				int priceMin = (int) priceTier.getMinRate().getAmount();
-				int priceMax = (int) priceTier.getMaxRate().getAmount();
-				mPriceRangeTextView.setText(getString(R.string.price_range_template, priceMin, priceMax));
+				Money priceMin = priceTier.getMinRate();
+				Money priceMax = priceTier.getMaxRate();
+				String priceMinStr = priceMin.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN);
+				String priceMaxStr = priceMax.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN);
+				mPriceRangeTextView.setText(getString(R.string.price_range_template, priceMinStr, priceMaxStr));
 			}
 		}
 		else {

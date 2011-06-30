@@ -39,7 +39,7 @@
 	<string name="loading_previous">Loading previous search results...</string>
 	
 	<!-- Price range template -->
-	<string name="price_range_template">($%1$d — $%2$d)</string>
+	<string name="price_range_template">(%1$s — %2$s)</string>
 	
 	<!-- Progress messages -->	
 	<string name="progress_finding_location">Finding Current Location...</string>
