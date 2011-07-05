@@ -237,7 +237,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Canvas mViewFlipCanvas;
 
 	private LocationSuggestionDialog mLocationSuggestionDialog;
-	
+
 	// This indicates to mSearchCallback that we just loaded saved search results,
 	// and as such should behave a bit differently than if we just did a new search.
 	private boolean mLoadedSavedResults;
@@ -2027,8 +2027,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			startCalendar.set(Calendar.MILLISECOND, 0);
 			endCalendar.set(Calendar.MILLISECOND, 0);
 
-			mSearchParams.setCheckInDate(startCalendar);
-			mSearchParams.setCheckOutDate(endCalendar);
+			if (mOriginalSearchParams != null) {
+				mSearchParams.setCheckInDate(startCalendar);
+				mSearchParams.setCheckOutDate(endCalendar);
+			}
 
 			setRefinementInfo();
 		}
@@ -2060,12 +2062,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 			else {
 				//setSearchParams((SearchParams) mSearchSuggestionAdapter.getItem(position));
-				
+
 				SearchParams searchParams = (SearchParams) mSearchSuggestionAdapter.getItem(position);
 				mSearchParams.setSearchType(SearchType.FREEFORM);
 				mSearchParams.setFreeformLocation(searchParams.getFreeformLocation());
 				mSearchParams.ensureValidCheckInDate();
-				
+
 				setSearchEditViews();
 				showDatesLayout();
 			}
