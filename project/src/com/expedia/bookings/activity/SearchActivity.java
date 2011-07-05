@@ -1160,6 +1160,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 				break;
 			}
+			case Surface.ROTATION_180: {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
+				break;
+			}
 			case Surface.ROTATION_270: {
 				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
 				break;
@@ -2010,24 +2014,24 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
 		@Override
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-			Calendar startCalendar = Calendar.getInstance();
-			Calendar endCalendar = Calendar.getInstance();
-
-			final int startYear = mDatesCalendarDatePicker.getStartYear();
-			final int startMonth = mDatesCalendarDatePicker.getStartMonth();
-			final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
-
-			final int endYear = mDatesCalendarDatePicker.getEndYear();
-			final int endMonth = mDatesCalendarDatePicker.getEndMonth();
-			final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
-
-			startCalendar.set(startYear, startMonth, startDay, 0, 0, 0);
-			endCalendar.set(endYear, endMonth, endDay, 0, 0, 0);
-
-			startCalendar.set(Calendar.MILLISECOND, 0);
-			endCalendar.set(Calendar.MILLISECOND, 0);
-
 			if (mOriginalSearchParams != null) {
+				Calendar startCalendar = Calendar.getInstance();
+				Calendar endCalendar = Calendar.getInstance();
+
+				final int startYear = mDatesCalendarDatePicker.getStartYear();
+				final int startMonth = mDatesCalendarDatePicker.getStartMonth();
+				final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
+
+				final int endYear = mDatesCalendarDatePicker.getEndYear();
+				final int endMonth = mDatesCalendarDatePicker.getEndMonth();
+				final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
+
+				startCalendar.set(startYear, startMonth, startDay, 0, 0, 0);
+				endCalendar.set(endYear, endMonth, endDay, 0, 0, 0);
+
+				startCalendar.set(Calendar.MILLISECOND, 0);
+				endCalendar.set(Calendar.MILLISECOND, 0);
+
 				mSearchParams.setCheckInDate(startCalendar);
 				mSearchParams.setCheckOutDate(endCalendar);
 			}
