@@ -142,8 +142,8 @@
 	<string name="security_code_tip_back">See back of credit card</string>
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">Rules &amp; Restrictions</string>
-	<!-- Disclaimer about charges and currency -->
-	<string name="disclaimer_currency">All charges will incur in the hotel\'s local currency.</string>
+	<!-- Disclaimer about how to earn expedia points -->
+	<string name="disclaimer_expedia_points">If you have an Expedia Rewards account, please book with the same email address and your points will automatically post after your stay. Please note that it may take up to 30 days for your points to appear.</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">Your credit card will be charged %s</string>
 	<!-- Button label for confirming your booking -->
