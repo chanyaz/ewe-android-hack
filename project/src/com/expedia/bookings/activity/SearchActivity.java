@@ -2059,7 +2059,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				showDatesLayout();
 			}
 			else {
-				setSearchParams((SearchParams) mSearchSuggestionAdapter.getItem(position));
+				//setSearchParams((SearchParams) mSearchSuggestionAdapter.getItem(position));
+				
+				SearchParams searchParams = (SearchParams) mSearchSuggestionAdapter.getItem(position);
+				mSearchParams.setSearchType(SearchType.FREEFORM);
+				mSearchParams.setFreeformLocation(searchParams.getFreeformLocation());
+				mSearchParams.ensureValidCheckInDate();
+				
 				setSearchEditViews();
 				showDatesLayout();
 			}
