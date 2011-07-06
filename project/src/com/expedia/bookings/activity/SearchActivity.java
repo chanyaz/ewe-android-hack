@@ -224,6 +224,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private boolean mLocationListenerStarted;
 	private boolean mIsSearching;
 	private boolean mScreenRotationLocked;
+	private long mLastSearchTime = -1;
 
 	private Thread mGeocodeThread;
 
@@ -280,6 +281,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				enablePanelHandle();
 				hideLoading();
 				setPriceRangeText();
+
+				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 			}
 			else if (mSearchResponse != null && mSearchResponse.getLocations() != null
 					&& mSearchResponse.getLocations().size() > 0) {
@@ -482,6 +485,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setViewButtonImage();
 		setDrawerViews();
 		setSearchEditViews();
+
+		if (mLastSearchTime != -1 && mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
+			Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
+			startSearch();
+		}
 	}
 
 	@Override
@@ -955,6 +963,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.panelDismissViewlIsVisible = mPanelDismissView.getVisibility() == View.VISIBLE;
 		state.datesLayoutIsVisible = mDatesLayoutIsVisible;
 		state.guestsLayoutIsVisible = mGuestsLayoutIsVisible;
+		state.lastSearchTime = mLastSearchTime;
 
 		if (state.searchResponse != null) {
 			if (state.searchResponse.getFilter() != null) {
@@ -981,6 +990,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mOldFilter = state.oldFilter;
 		mDatesLayoutIsVisible = state.datesLayoutIsVisible;
 		mGuestsLayoutIsVisible = state.guestsLayoutIsVisible;
+		mLastSearchTime = state.lastSearchTime;
 	}
 
 	// Broadcast methods
@@ -2162,6 +2172,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public SearchParams searchParams;
 		public SearchParams oldSearchParams;
 		public SearchParams originalSearchParams;
+		public long lastSearchTime;
 
 		// Questionable
 		public SearchResponse searchResponse;
