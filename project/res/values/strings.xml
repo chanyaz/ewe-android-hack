@@ -262,6 +262,10 @@
 	<string name="share_body_start">Here is my hotel reservation info:</string>
 	<!-- Name of user -->
 	<string name="name">Name</string>
+	<!-- Number of adults label -->
+	<string name="adults">Adults</string>
+	<!-- Number of children label -->
+	<string name="children">Children</string>
 	<!-- Subtotal label -->
 	<string name="subtotal">Subtotal</string>
 	<!-- Cancellation policy label -->

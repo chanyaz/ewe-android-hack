@@ -306,25 +306,38 @@ public class ConfirmationActivity extends MapActivity {
 		StringBuilder body = new StringBuilder();
 		body.append(getString(R.string.share_body_start));
 		body.append("\n\n");
+
 		body.append(mProperty.getName());
 		body.append("\n");
 		body.append(StrUtils.formatAddress(mProperty.getLocation()));
 		body.append("\n\n");
+
 		appendLabelValue(body, R.string.confirmation_number, mBookingResponse.getConfNumber());
-		body.append("\n\n");
+		body.append("\n");
 		appendLabelValue(body, R.string.itinerary_number, mBookingResponse.getItineraryId());
 		body.append("\n\n");
+
+		appendLabelValue(body, R.string.name,
+				getString(R.string.name_template, mBillingInfo.getFirstName(), mBillingInfo.getLastName()));
+		body.append("\n");
 		appendLabelValue(body, R.string.CheckIn,
 				dayFormatter.format(checkIn) + ", " + fullDateFormatter.format(checkIn));
 		body.append("\n");
 		appendLabelValue(body, R.string.CheckOut,
 				dayFormatter.format(checkOut) + ", " + fullDateFormatter.format(checkOut));
 		body.append("\n");
-		body.append(res.getQuantityString(R.plurals.number_of_adults, mSearchParams.getNumAdults(),
-				mSearchParams.getNumAdults()));
+		int numDays = mSearchParams.getStayDuration();
+		appendLabelValue(body, R.string.stay_duration,
+				res.getQuantityString(R.plurals.length_of_stay, numDays, numDays));
+		body.append("\n\n");
+
+		appendLabelValue(body, R.string.room_type, Html.fromHtml(mRate.getRoomDescription()).toString());
 		body.append("\n");
-		body.append(res.getQuantityString(R.plurals.number_of_children, mSearchParams.getNumChildren(),
-				mSearchParams.getNumChildren()));
+		appendLabelValue(body, R.string.bed_type, mRate.getRatePlanName());
+		body.append("\n");
+		appendLabelValue(body, R.string.adults, mSearchParams.getNumAdults() + "");
+		body.append("\n");
+		appendLabelValue(body, R.string.children, mSearchParams.getNumChildren() + "");
 		body.append("\n\n");
 
 		if (mRate.getRateBreakdownList() != null) {
