@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -97,6 +98,7 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 			}
 			else if (isExpanded()) {
 				bd.startDownload(DOWNLOAD_KEY, this, this);
+				TrackingUtils.trackSimpleEvent(mActivity, null, null, "Shopper", "App.Hotels.BD.ExpandRoomDetails");
 			}
 		}
 	}
