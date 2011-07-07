@@ -1166,33 +1166,41 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			if (rotation == Surface.ROTATION_0) {
 				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+					Log.t("Rotation: 0 - Orientation: portrait - requesting portrait orientation");
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 				}
 				else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					Log.t("Rotation: 0 - Orientation: landscape - requesting landscape orientation");
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 				}
 			}
 			else if (rotation == Surface.ROTATION_90) {
 				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+					Log.t("Rotation: 90 - Orientation: portrait - requesting reverse portrait orientation");
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
 				}
 				else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					Log.t("Rotation: 90 - Orientation: landscape - requesting landscape orientation");
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 				}
 			}
 			else if (rotation == Surface.ROTATION_180) {
 				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+					Log.t("Rotation: 180 - Orientation: portrait - requesting reverse portrait orientation");
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
 				}
 				else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					Log.t("Rotation: 180 - Orientation: landscape - requesting reverse landscape orientation");
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
 				}
 			}
 			else if (rotation == Surface.ROTATION_270) {
 				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+					Log.t("Rotation: 270 - Orientation: portrait - requesting portrait orientation");
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 				}
 				else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					Log.t("Rotation: 270 - Orientation: landscape - requesting reverse landscape orientation");
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
 				}
 			}
