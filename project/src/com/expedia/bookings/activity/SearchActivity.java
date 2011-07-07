@@ -222,9 +222,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Filter mFilter;
 	private Filter mOldFilter;
 	private boolean mLocationListenerStarted;
-	private boolean mIsSearching;
 	private boolean mScreenOrientationLocked;
 	private long mLastSearchTime = -1;
+
+	private boolean mIsSearching;
 
 	private Thread mGeocodeThread;
 
@@ -259,6 +260,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
 		@Override
 		public void onDownload(Object results) {
+			mIsSearching = false;
 			// Clear the old listener so we don't end up with a memory leak
 			mFilter.clearOnFilterChangedListeners();
 			mSearchResponse = (SearchResponse) results;
@@ -375,7 +377,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mContext = this;		
+		mContext = this;
 
 		onPageLoad();
 		setContentView(R.layout.activity_search);
@@ -405,6 +407,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 			if (mDatesLayoutIsVisible) {
 				showDatesLayout();
+			}
+
+			if (state.loadingIsVisible) {
+				showLoading(state.loadingText);
+			}
+
+			if (mIsSearching) {
+				startSearch();
 			}
 		}
 		else {
@@ -803,6 +813,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	public void startSearch() {
 		Log.i("Starting a new search...");
 
+		mIsSearching = true;
 		mOriginalSearchParams = null;
 		mSearchDownloader.cancelDownload(KEY_SEARCH);
 
@@ -966,6 +977,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.guestsLayoutIsVisible = mGuestsLayoutIsVisible;
 		state.lastSearchTime = mLastSearchTime;
 
+		state.isSearching = mIsSearching;
+		state.searchDownloader = mSearchDownloader;
+		state.loadingIsVisible = mSearchProgressBar.getVisibility() == View.VISIBLE;
+		state.loadingText = mSearchProgressBar.getText().toString();
+
 		if (state.searchResponse != null) {
 			if (state.searchResponse.getFilter() != null) {
 				state.searchResponse.getFilter().clearOnFilterChangedListeners();
@@ -992,6 +1008,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mDatesLayoutIsVisible = state.datesLayoutIsVisible;
 		mGuestsLayoutIsVisible = state.guestsLayoutIsVisible;
 		mLastSearchTime = state.lastSearchTime;
+
+		mIsSearching = state.isSearching;
+		mSearchDownloader = state.searchDownloader;
 	}
 
 	// Broadcast methods
@@ -1094,7 +1113,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void hideLoading() {
-		unlockScreenOrientation();
 		mSearchProgressBar.setVisibility(View.GONE);
 	}
 
@@ -1141,7 +1159,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void showLoading(String text) {
-		lockScreenOrientation();
 		mSearchProgressBar.setVisibility(View.VISIBLE);
 		mSearchProgressBar.setShowProgress(true);
 		mSearchProgressBar.setText(text);
@@ -1155,63 +1172,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void clearRefinementInfo() {
 		mRefinementInfoTextView.setText("");
-	}
-
-	// Screen orientation
-
-	private void lockScreenOrientation() {
-		if (!mScreenOrientationLocked) {
-			final int orientation = getResources().getConfiguration().orientation;
-			final int rotation = getWindowManager().getDefaultDisplay().getOrientation();
-
-			if (rotation == Surface.ROTATION_0) {
-				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-					Log.t("Rotation: 0 - Orientation: portrait - requesting portrait orientation");
-					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-				}
-				else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-					Log.t("Rotation: 0 - Orientation: landscape - requesting landscape orientation");
-					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-				}
-			}
-			else if (rotation == Surface.ROTATION_90) {
-				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-					Log.t("Rotation: 90 - Orientation: portrait - requesting reverse portrait orientation");
-					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
-				}
-				else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-					Log.t("Rotation: 90 - Orientation: landscape - requesting landscape orientation");
-					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-				}
-			}
-			else if (rotation == Surface.ROTATION_180) {
-				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-					Log.t("Rotation: 180 - Orientation: portrait - requesting reverse portrait orientation");
-					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
-				}
-				else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-					Log.t("Rotation: 180 - Orientation: landscape - requesting reverse landscape orientation");
-					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
-				}
-			}
-			else if (rotation == Surface.ROTATION_270) {
-				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-					Log.t("Rotation: 270 - Orientation: portrait - requesting portrait orientation");
-					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-				}
-				else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-					Log.t("Rotation: 270 - Orientation: landscape - requesting reverse landscape orientation");
-					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
-				}
-			}
-
-			mScreenOrientationLocked = true;
-		}
-	}
-
-	private void unlockScreenOrientation() {
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-		mScreenOrientationLocked = false;
 	}
 
 	///////////////////////////////////////////////////////////////////////
@@ -1714,8 +1674,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
 				checkOut.get(Calendar.DAY_OF_MONTH));
 
-		mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
-		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
+		mAdultsNumberPicker.post(new Runnable() {
+			@Override
+			public void run() {
+				mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
+			}
+		});
+		mChildrenNumberPicker.post(new Runnable() {
+			@Override
+			public void run() {
+				mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
+			}
+		});
 
 		setBookingInfoText();
 	}
@@ -2198,6 +2168,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public SearchParams oldSearchParams;
 		public SearchParams originalSearchParams;
 		public long lastSearchTime;
+
+		public boolean loadingIsVisible;
+		public String loadingText;
+
+		public boolean isSearching;
+		public BackgroundDownloader searchDownloader;
 
 		// Questionable
 		public SearchResponse searchResponse;
