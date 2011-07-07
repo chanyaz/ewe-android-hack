@@ -413,6 +413,21 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// #7090: If the user was just sent from the ConfirmationActivity, quit (if desired)
+		if (getIntent().getBooleanExtra(ConfirmationActivity.EXTRA_FINISH, false)) {
+			finish();
+			return;
+		}
+
+		// #7090: First, check to see if the user last confirmed a booking.  If that is the case,
+		//        then we should forward the user to the ConfirmationActivity
+		if (ConfirmationActivity.hasSavedConfirmationData(this)) {
+			Intent intent = new Intent(this, ConfirmationActivity.class);
+			startActivity(intent);
+			finish();
+			return;
+		}
+
 		mContext = this;
 
 		onPageLoad();

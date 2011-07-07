@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +42,7 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.util.IoUtils;
 import com.mobiata.hotellib.data.BillingInfo;
 import com.mobiata.hotellib.data.BookingResponse;
 import com.mobiata.hotellib.data.Codes;
@@ -57,6 +60,16 @@ import com.omniture.AppMeasurement;
 
 public class ConfirmationActivity extends MapActivity {
 
+	public static final String EXTRA_FINISH = "EXTRA_FINISH";
+
+	private static final String CONFIRMATION_DATA_FILE = "confirmation.dat";
+
+	private static final int INSTANCE_PROPERTY = 1;
+	private static final int INSTANCE_SEARCH_PARAMS = 2;
+	private static final int INSTANCE_RATE = 3;
+	private static final int INSTANCE_BILLING_INFO = 4;
+	private static final int INSTANCE_BOOKING_RESPONSE = 5;
+
 	private Context mContext;
 
 	private RoomTypeHandler mRoomTypeHandler;
@@ -72,6 +85,7 @@ public class ConfirmationActivity extends MapActivity {
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,14 +95,47 @@ public class ConfirmationActivity extends MapActivity {
 		setContentView(R.layout.activity_confirmation);
 
 		// Retrieve data to build this with
+		boolean loadedData = false;
+		SparseArray<Object> instance = (SparseArray<Object>) getLastNonConfigurationInstance();
+		if (instance != null) {
+			mSearchParams = (SearchParams) instance.get(INSTANCE_SEARCH_PARAMS);
+			mProperty = (Property) instance.get(INSTANCE_PROPERTY);
+			mRate = (Rate) instance.get(INSTANCE_RATE);
+			mBillingInfo = (BillingInfo) instance.get(INSTANCE_BILLING_INFO);
+			mBookingResponse = (BookingResponse) instance.get(INSTANCE_BOOKING_RESPONSE);
+			loadedData = true;
+		}
+		else if (hasSavedConfirmationData(this)) {
+			if (loadSavedConfirmationData()) {
+				loadedData = true;
+			}
+			else {
+				// If we failed to load the saved confirmation data, we should
+				// delete the file and go back (since we are only here if we were called
+				// directly from a startup).
+				deleteSavedConfirmationData(this);
+				finish();
+			}
+		}
+
 		final Intent intent = getIntent();
-		mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
-		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
-				SearchParams.class);
-		mRate = (Rate) JSONUtils.parseJSONableFromIntent(intent, Codes.RATE, Rate.class);
-		mBillingInfo = (BillingInfo) JSONUtils.parseJSONableFromIntent(intent, Codes.BILLING_INFO, BillingInfo.class);
-		mBookingResponse = (BookingResponse) JSONUtils.parseJSONableFromIntent(intent, Codes.BOOKING_RESPONSE,
-				BookingResponse.class);
+		if (!loadedData) {
+			mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
+					SearchParams.class);
+			mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
+			mRate = (Rate) JSONUtils.parseJSONableFromIntent(intent, Codes.RATE, Rate.class);
+			mBillingInfo = (BillingInfo) JSONUtils.parseJSONableFromIntent(intent, Codes.BILLING_INFO,
+					BillingInfo.class);
+			mBookingResponse = (BookingResponse) JSONUtils.parseJSONableFromIntent(intent, Codes.BOOKING_RESPONSE,
+					BookingResponse.class);
+
+			// Start a background thread to save this data to the disk
+			new Thread(new Runnable() {
+				public void run() {
+					saveConfirmationData();
+				}
+			}).start();
+		}
 
 		// TODO: Delete this once done testing
 		// This code allows us to test the ConfirmationActivity standalone, for layout purposes.
@@ -220,7 +267,12 @@ public class ConfirmationActivity extends MapActivity {
 		newSearchButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Log.i("User is initiating a new search.");
+
 				onClickNewSearch();
+
+				// Ensure we can't come back here again
+				deleteSavedConfirmationData(mContext);
 
 				Intent intent = new Intent(mContext, SearchActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -238,6 +290,13 @@ public class ConfirmationActivity extends MapActivity {
 	@Override
 	public Object onRetainNonConfigurationInstance() {
 		SparseArray<Object> instance = new SparseArray<Object>();
+
+		instance.put(INSTANCE_SEARCH_PARAMS, mSearchParams);
+		instance.put(INSTANCE_PROPERTY, mProperty);
+		instance.put(INSTANCE_RATE, mRate);
+		instance.put(INSTANCE_BILLING_INFO, mBillingInfo);
+		instance.put(INSTANCE_BOOKING_RESPONSE, mBookingResponse);
+
 		mRoomTypeHandler.onRetainNonConfigurationInstance(instance);
 		return instance;
 	}
@@ -275,12 +334,14 @@ public class ConfirmationActivity extends MapActivity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// #6685: User pressing "back" from a confirmation screen should not be allowed to re-book.
-		// This sends them back to the search activity for a new search.
+		// #7090: A user should remain on the confirmation page until they explicitly press the
+		// "new search" key.  This is the easiest way to get out of this - send the user back
+		// to the start, then finish that activity, when the user presses back.
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
 			finish();
 			Intent i = new Intent(mContext, SearchActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			i.putExtra("EXTRA_FINISH", true);
 			startActivity(i);
 			return true;
 		}
@@ -407,6 +468,58 @@ public class ConfirmationActivity extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Breadcrumb (reloading activity)
+
+	public static boolean hasSavedConfirmationData(Context context) {
+		File savedConfResults = context.getFileStreamPath(CONFIRMATION_DATA_FILE);
+		return savedConfResults.exists();
+	}
+
+	public static boolean deleteSavedConfirmationData(Context context) {
+		Log.i("Deleting saved confirmation data.");
+		File savedConfResults = context.getFileStreamPath(CONFIRMATION_DATA_FILE);
+		return savedConfResults.delete();
+	}
+
+	public boolean loadSavedConfirmationData() {
+		Log.i("Loading saved confirmation data...");
+		try {
+			JSONObject data = new JSONObject(IoUtils.readStringFromFile(CONFIRMATION_DATA_FILE, this));
+			mSearchParams = (SearchParams) JSONUtils.getJSONable(data, Codes.SEARCH_PARAMS, SearchParams.class);
+			mProperty = (Property) JSONUtils.getJSONable(data, Codes.PROPERTY, Property.class);
+			mRate = (Rate) JSONUtils.getJSONable(data, Codes.RATE, Rate.class);
+			mBillingInfo = (BillingInfo) JSONUtils.getJSONable(data, Codes.BILLING_INFO, BillingInfo.class);
+			mBookingResponse = (BookingResponse) JSONUtils.getJSONable(data, Codes.BOOKING_RESPONSE,
+					BookingResponse.class);
+			return true;
+		}
+		catch (Exception e) {
+			Log.e("Could not load ConfirmationActivity state.", e);
+			return false;
+		}
+	}
+
+	public boolean saveConfirmationData() {
+		Log.i("Saving confirmation data...");
+		try {
+			JSONObject data = new JSONObject();
+			data.put(Codes.SEARCH_PARAMS, mSearchParams.toJson());
+			data.put(Codes.PROPERTY, mProperty.toJson());
+			data.put(Codes.RATE, mRate.toJson());
+			data.put(Codes.BILLING_INFO, mBillingInfo.toJson());
+			data.put(Codes.BOOKING_RESPONSE, mBookingResponse.toJson());
+
+			IoUtils.writeStringToFile(CONFIRMATION_DATA_FILE, data.toString(0), this);
+
+			return true;
+		}
+		catch (Exception e) {
+			Log.e("Could not save ConfirmationActivity state.", e);
+			return false;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
