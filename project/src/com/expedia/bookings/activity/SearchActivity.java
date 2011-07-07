@@ -477,33 +477,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mSearchProgressBar.onResume();
 
-		final int orientation = getResources().getConfiguration().orientation;
-		final int rotation = getWindowManager().getDefaultDisplay().getOrientation();
-		if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			Log.t("ORIENTATION_LANDSCAPE");
-		}
-		else if(orientation == Configuration.ORIENTATION_PORTRAIT) {
-			Log.t("ORIENTATION_PORTRAIT");
-		}
-		switch(rotation) {
-		case Surface.ROTATION_0: {
-			Log.t("ROTATION_0");
-			break;
-		}
-		case Surface.ROTATION_90: {
-			Log.t("ROTATION_90");
-			break;
-		}
-		case Surface.ROTATION_180: {
-			Log.t("ROTATION_180");
-			break;
-		}
-		case Surface.ROTATION_270: {
-			Log.t("ROTATION_270");
-			break;
-		}
-		}
-
 		Time now = new Time();
 		now.setToNow();
 		mDatesCalendarDatePicker.setMinDate(now.year, now.month, now.monthDay);
@@ -1199,7 +1172,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 				}
 			}
-			if (rotation == Surface.ROTATION_90) {
+			else if (rotation == Surface.ROTATION_90) {
 				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
 				}
