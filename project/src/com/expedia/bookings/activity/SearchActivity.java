@@ -25,7 +25,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -43,11 +42,9 @@ import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +86,7 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.text.format.Time;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
@@ -513,6 +511,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				downloader.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
 			}
 		}
+		
+		// Set max calendar date
+		Time maxTime = new Time(System.currentTimeMillis());
+		maxTime.monthDay += 330;
+		maxTime.normalize(true);
+		
+		mDatesCalendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
 	}
 
 	@Override
