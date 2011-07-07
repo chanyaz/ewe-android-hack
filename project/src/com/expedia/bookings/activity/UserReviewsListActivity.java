@@ -13,9 +13,12 @@ import android.os.Message;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -288,6 +291,16 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 				}
 			}
 		};
+
+		// Configure the book now button
+		Button bookNowButton = (Button) findViewById(R.id.book_now_button);
+		bookNowButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent newIntent = new Intent(mContext, RoomsAndRatesListActivity.class);
+				newIntent.fillIn(getIntent(), 0);
+				startActivity(newIntent);
+			}
+		});
 	}
 
 	public void configureHeader() {
