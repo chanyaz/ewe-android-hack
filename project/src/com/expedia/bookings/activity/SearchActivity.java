@@ -223,7 +223,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Filter mOldFilter;
 	private boolean mLocationListenerStarted;
 	private boolean mIsSearching;
-	private boolean mScreenRotationLocked;
+	private boolean mScreenOrientationLocked;
 	private long mLastSearchTime = -1;
 
 	private Thread mGeocodeThread;
@@ -1093,7 +1093,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void hideLoading() {
-		unlockScreenRotation();
+		unlockScreenOrientation();
 		mSearchProgressBar.setVisibility(View.GONE);
 	}
 
@@ -1140,7 +1140,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void showLoading(String text) {
-		lockScreenRotation();
+		lockScreenOrientation();
 		mSearchProgressBar.setVisibility(View.VISIBLE);
 		mSearchProgressBar.setShowProgress(true);
 		mSearchProgressBar.setText(text);
@@ -1158,35 +1158,35 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	// Screen orientation
 
-	private void lockScreenRotation() {
-		if (!mScreenRotationLocked) {
-			final int orientation = getWindowManager().getDefaultDisplay().getOrientation();
-			switch (orientation) {
-			case Surface.ROTATION_0: {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-				break;
+	private void lockScreenOrientation() {
+		if (!mScreenOrientationLocked) {
+			final int orientation = getResources().getConfiguration().orientation;
+			final int rotation = getWindowManager().getDefaultDisplay().getOrientation();
+
+			if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_90) {
+				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+				}
+				else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+				}
 			}
-			case Surface.ROTATION_90: {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-				break;
-			}
-			case Surface.ROTATION_180: {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
-				break;
-			}
-			case Surface.ROTATION_270: {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
-				break;
-			}
+			else if (rotation == Surface.ROTATION_180 || rotation == Surface.ROTATION_270) {
+				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
+				}
+				else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+				}
 			}
 
-			mScreenRotationLocked = true;
+			mScreenOrientationLocked = true;
 		}
 	}
 
-	private void unlockScreenRotation() {
+	private void unlockScreenOrientation() {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-		mScreenRotationLocked = false;
+		mScreenOrientationLocked = false;
 	}
 
 	///////////////////////////////////////////////////////////////////////
