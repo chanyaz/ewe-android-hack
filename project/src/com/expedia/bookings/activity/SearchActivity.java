@@ -128,6 +128,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	public static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
+	private static final String KEY_LOADING_PREVIOUS = "KEY_LOADING_PREVIOUS";
 	private static final String KEY_ACTIVITY_STATE = "KEY_ACTIVITY_STATE";
 
 	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
@@ -225,8 +226,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private boolean mScreenOrientationLocked;
 	private long mLastSearchTime = -1;
 
-	private boolean mIsSearching;
-
 	private Thread mGeocodeThread;
 
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
@@ -260,7 +259,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
 		@Override
 		public void onDownload(Object results) {
-			mIsSearching = false;
 			// Clear the old listener so we don't end up with a memory leak
 			mFilter.clearOnFilterChangedListeners();
 			mSearchResponse = (SearchResponse) results;
@@ -412,10 +410,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (state.loadingIsVisible) {
 				showLoading(state.loadingText);
 			}
-
-			if (mIsSearching) {
-				startSearch();
-			}
 		}
 		else {
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -456,7 +450,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			setNumberPickerRanges();
 
 			// Attempt to load saved search results; if we fail, start a new search
-			BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mLoadSavedResults, mLoadSavedResultsCallback);
+			BackgroundDownloader.getInstance().startDownload(KEY_LOADING_PREVIOUS, mLoadSavedResults, mLoadSavedResultsCallback);
 			showLoading(R.string.loading_previous);
 		}
 
@@ -473,12 +467,19 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchProgressBar.onPause();
 		stopLocationListener();
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		Editor editor = prefs.edit();
-		editor.putString("searchParams", mSearchParams.toJson().toString());
-		editor.putString("filter", mFilter.toJson().toString());
-		editor.putString("tag", mTag);
-		SettingUtils.commitOrApply(editor);
+		if (!isFinishing()) {
+			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
+			downloader.unregisterDownloadCallback(KEY_LOADING_PREVIOUS);
+			downloader.unregisterDownloadCallback(KEY_SEARCH);
+		}
+		else {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+			Editor editor = prefs.edit();
+			editor.putString("searchParams", mSearchParams.toJson().toString());
+			editor.putString("filter", mFilter.toJson().toString());
+			editor.putString("tag", mTag);
+			SettingUtils.commitOrApply(editor);
+		}
 	}
 
 	@Override
@@ -501,6 +502,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchParams.ensureValidCheckInDate();
 			startSearch();
 		}
+		else {
+			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
+			if (downloader.isDownloading(KEY_LOADING_PREVIOUS)) {
+				Log.d("Already loading previous search results, resuming the load...");
+				downloader.registerDownloadCallback(KEY_LOADING_PREVIOUS, mLoadSavedResultsCallback);
+			}
+			else if (downloader.isDownloading(KEY_SEARCH)) {
+				Log.d("Already searching, resuming the search...");
+				downloader.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
+			}
+		}
 	}
 
 	@Override
@@ -515,6 +527,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (downloader.isDownloading(KEY_SEARCH)) {
 				Log.d("Cancelling search because activity is ending.");
 				downloader.cancelDownload(KEY_SEARCH);
+			}
+			if (downloader.isDownloading(KEY_LOADING_PREVIOUS)) {
+				Log.d("Cancelling loading previous results because activity is ending.");
+				downloader.cancelDownload(KEY_LOADING_PREVIOUS);
 			}
 			// Save a search response as long as:
 			// 1. We weren't currently searching
@@ -813,7 +829,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	public void startSearch() {
 		Log.i("Starting a new search...");
 
-		mIsSearching = true;
 		mOriginalSearchParams = null;
 		mSearchDownloader.cancelDownload(KEY_SEARCH);
 
@@ -977,8 +992,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.guestsLayoutIsVisible = mGuestsLayoutIsVisible;
 		state.lastSearchTime = mLastSearchTime;
 
-		state.isSearching = mIsSearching;
-		state.searchDownloader = mSearchDownloader;
 		state.loadingIsVisible = mSearchProgressBar.getVisibility() == View.VISIBLE;
 		state.loadingText = mSearchProgressBar.getText().toString();
 
@@ -1008,9 +1021,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mDatesLayoutIsVisible = state.datesLayoutIsVisible;
 		mGuestsLayoutIsVisible = state.guestsLayoutIsVisible;
 		mLastSearchTime = state.lastSearchTime;
-
-		mIsSearching = state.isSearching;
-		mSearchDownloader = state.searchDownloader;
 	}
 
 	// Broadcast methods
@@ -2171,9 +2181,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		public boolean loadingIsVisible;
 		public String loadingText;
-
-		public boolean isSearching;
-		public BackgroundDownloader searchDownloader;
 
 		// Questionable
 		public SearchResponse searchResponse;
