@@ -1163,7 +1163,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			final int orientation = getResources().getConfiguration().orientation;
 			final int rotation = getWindowManager().getDefaultDisplay().getOrientation();
 
-			if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_90) {
+			if (rotation == Surface.ROTATION_0) {
 				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 				}
@@ -1171,9 +1171,25 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 				}
 			}
-			else if (rotation == Surface.ROTATION_180 || rotation == Surface.ROTATION_270) {
+			if (rotation == Surface.ROTATION_90) {
 				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
+				}
+				else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+				}
+			}
+			else if (rotation == Surface.ROTATION_180) {
+				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
+				}
+				else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+				}
+			}
+			else if (rotation == Surface.ROTATION_270) {
+				if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 				}
 				else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
