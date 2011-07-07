@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +19,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -65,6 +65,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 	// Review data structures
 	private ReviewSort mCurrentReviewSort = ReviewSort.NEWEST_REVIEW_FIRST;
 	private HashMap<ReviewSort, ArrayList<Review>> mReviewsMap = new HashMap<ReviewSort, ArrayList<Review>>();
+	private HashMap<ReviewSort, Boolean> mReviewsAttemptDownloadMap = new HashMap<ReviewSort, Boolean>();
 	public HashMap<ReviewSort, Integer> mPageNumberMap = new HashMap<ReviewSort, Integer>();
 	public boolean moreCriticalPages = true;
 	public boolean moreFavorablePages = true;
@@ -132,6 +133,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 		@Override
 		public void onDownload(Object results) {
 			ReviewsResponse response = (ReviewsResponse) results;
+			mReviewsAttemptDownloadMap.put(thisReviewSort, true);
 
 			if (response != null && response.getReviewCount() > 0) {
 				ArrayList<Review> previouslyLoadedReviews = mReviewsMap.get(thisReviewSort);
@@ -171,7 +173,6 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 				}
 
 				if (filteredReviews.size() > 0 && reviewsFiltered) {
-					Log.d("UserReviews", "filtered reviews exist to add to list");
 					filteredReviews.trimToSize();
 					newlyLoadedReviews = filteredReviews;
 				}
@@ -195,6 +196,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 				mReviewsMap.put(thisReviewSort, previouslyLoadedReviews);
 				if (thisReviewSort == mCurrentReviewSort) {
 					mAdapter.switchUserReviews(previouslyLoadedReviews);
+					setNoReviewsText();
 				}
 
 				if (mReviewsMap.get(ReviewSort.HIGHEST_RATING_FIRST) == null) {
@@ -209,6 +211,13 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 					mReviewsDownloader.startDownload(KEY_REVIEWS_NEWEST, mNewestReviewFirstDownload,
 							mNewestReviewFirstDownloadCallback);
 				}
+			}
+			else {
+				//send message to remove loading footer
+				Message msg = new Message();
+				boolean addFooter = false;
+				msg.obj = addFooter;
+				mHandler.sendMessage(msg);
 			}
 		}
 	}
@@ -226,6 +235,11 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 		// Retrieve data to build this with
 		final Intent intent = getIntent();
 		mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
+
+		// Initialize the ReviewSort attempted download map
+		mReviewsAttemptDownloadMap.put(ReviewSort.HIGHEST_RATING_FIRST, false);
+		mReviewsAttemptDownloadMap.put(ReviewSort.LOWEST_RATING_FIRST, false);
+		mReviewsAttemptDownloadMap.put(ReviewSort.NEWEST_REVIEW_FIRST, false);
 
 		// Load the three different lists as the adapter is being constructed
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
@@ -332,6 +346,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 				mAdapter = new UserReviewsAdapter(mContext, mProperty);
 				setListAdapter(mAdapter);
 				mAdapter.switchUserReviews(mReviewsMap.get(mCurrentReviewSort));
+				setNoReviewsText();
 			}
 		});
 
@@ -367,6 +382,25 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 		CharSequence styledText = Html.fromHtml(text);
 
 		recommendText.setText(styledText);
+	}
+
+	public void setNoReviewsText() {
+		if (mAdapter.getCount() == 0 && mReviewsAttemptDownloadMap.get(mCurrentReviewSort)) {
+			TextView emptyTextView = (TextView) findViewById(R.id.empty_text_view);
+			ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+			progressBar.setVisibility(View.GONE);
+			String text;
+			if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST) {
+				text = getString(R.string.user_review_no_favorable_reviews);
+			}
+			else if (mCurrentReviewSort == ReviewSort.LOWEST_RATING_FIRST) {
+				text = getString(R.string.user_review_no_critical_reviews);
+			}
+			else {
+				text = getString(R.string.user_review_no_recent_reviews);
+			}
+			emptyTextView.setText(text);
+		}
 	}
 
 	// Scroll listener infinite loading implementation
