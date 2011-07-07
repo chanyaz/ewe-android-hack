@@ -488,6 +488,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		if (mLastSearchTime != -1 && mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
 			Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
+			mSearchParams.ensureValidCheckInDate();
 			startSearch();
 		}
 	}
