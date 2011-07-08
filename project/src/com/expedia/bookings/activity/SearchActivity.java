@@ -290,31 +290,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				showDialog(DIALOG_LOCATION_SUGGESTIONS);
 			}
 			else {
-				// Handling for particular errors
-				boolean handledError = false;
-				if (mSearchResponse != null && mSearchResponse.hasErrors()) {
-					ServerError errorOne = mSearchResponse.getErrors().get(0);
-					if (errorOne.getCode().equals("01")) {
-						// Deprecated client version
-						showDialog(DIALOG_CLIENT_DEPRECATED);
-
-						TrackingUtils.trackErrorPage(SearchActivity.this, "OutdatedVersion");
-
-						mSearchProgressBar.setShowProgress(false);
-						mSearchProgressBar.setText(errorOne.getExtra("message"));
-					}
-					else {
-						mSearchProgressBar.setShowProgress(false);
-						mSearchProgressBar.setText(errorOne.getPresentableMessage(SearchActivity.this));
-					}
-					handledError = true;
-				}
-
-				if (!handledError) {
-					TrackingUtils.trackErrorPage(SearchActivity.this, "HotelListRequestFailed");
-					mSearchProgressBar.setShowProgress(false);
-					mSearchProgressBar.setText(R.string.progress_search_failed);
-				}
+				handleError();
 			}
 		}
 	};
@@ -389,10 +365,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			extractActivityState(state);
 
 			if (mSearchResponse != null) {
-				if (mFilter != null) {
-					mSearchResponse.setFilter(mFilter);
+				if (mSearchResponse.hasErrors()) {
+					handleError();
 				}
-				broadcastSearchCompleted(mSearchResponse);
+				else {
+					if (mFilter != null) {
+						mSearchResponse.setFilter(mFilter);
+					}
+					broadcastSearchCompleted(mSearchResponse);
+				}
 			}
 
 			if (state.panelDismissViewlIsVisible) {
@@ -403,10 +384,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 			if (mDatesLayoutIsVisible) {
 				showDatesLayout();
-			}
-
-			if (state.loadingIsVisible) {
-				showLoading(state.loadingText);
 			}
 		}
 		else {
@@ -448,7 +425,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			setNumberPickerRanges();
 
 			// Attempt to load saved search results; if we fail, start a new search
-			BackgroundDownloader.getInstance().startDownload(KEY_LOADING_PREVIOUS, mLoadSavedResults, mLoadSavedResultsCallback);
+			BackgroundDownloader.getInstance().startDownload(KEY_LOADING_PREVIOUS, mLoadSavedResults,
+					mLoadSavedResultsCallback);
 			showLoading(R.string.loading_previous);
 		}
 
@@ -505,18 +483,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (downloader.isDownloading(KEY_LOADING_PREVIOUS)) {
 				Log.d("Already loading previous search results, resuming the load...");
 				downloader.registerDownloadCallback(KEY_LOADING_PREVIOUS, mLoadSavedResultsCallback);
+				showLoading(R.string.loading_previous);
 			}
 			else if (downloader.isDownloading(KEY_SEARCH)) {
 				Log.d("Already searching, resuming the search...");
 				downloader.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
+				showLoading(R.string.progress_searching_hotels);
 			}
 		}
-		
+
 		// Set max calendar date
 		Time maxTime = new Time(System.currentTimeMillis());
 		maxTime.monthDay += 330;
 		maxTime.normalize(true);
-		
+
 		mDatesCalendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
 	}
 
@@ -582,6 +562,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case DIALOG_LOCATION_SUGGESTIONS: {
+			// If we're displaying this, show an empty progress bar
+			mSearchProgressBar.setVisibility(View.VISIBLE);
+			mSearchProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(null);
+
 			final int size = mAddresses.size();
 			final CharSequence[] freeformLocations = new CharSequence[mAddresses.size()];
 			for (int i = 0; i < size; i++) {
@@ -996,9 +981,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.datesLayoutIsVisible = mDatesLayoutIsVisible;
 		state.guestsLayoutIsVisible = mGuestsLayoutIsVisible;
 		state.lastSearchTime = mLastSearchTime;
-
-		state.loadingIsVisible = mSearchProgressBar.getVisibility() == View.VISIBLE;
-		state.loadingText = mSearchProgressBar.getText().toString();
+		state.addresses = mAddresses;
 
 		if (state.searchResponse != null) {
 			if (state.searchResponse.getFilter() != null) {
@@ -1026,6 +1009,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mDatesLayoutIsVisible = state.datesLayoutIsVisible;
 		mGuestsLayoutIsVisible = state.guestsLayoutIsVisible;
 		mLastSearchTime = state.lastSearchTime;
+		mAddresses = state.addresses;
 	}
 
 	// Broadcast methods
@@ -1055,6 +1039,37 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		onSearchResultsChanged();
+	}
+
+	// Search results handling
+
+	public void handleError() {
+		// Handling for particular errors
+		boolean handledError = false;
+		if (mSearchResponse != null && mSearchResponse.hasErrors()) {
+			ServerError errorOne = mSearchResponse.getErrors().get(0);
+			if (errorOne.getCode().equals("01")) {
+				// Deprecated client version
+				showDialog(DIALOG_CLIENT_DEPRECATED);
+
+				TrackingUtils.trackErrorPage(SearchActivity.this, "OutdatedVersion");
+
+				mSearchProgressBar.setShowProgress(false);
+				mSearchProgressBar.setText(errorOne.getExtra("message"));
+			}
+			else {
+				mSearchProgressBar.setShowProgress(false);
+				mSearchProgressBar.setText(errorOne.getPresentableMessage(SearchActivity.this));
+			}
+			handledError = true;
+		}
+
+		if (!handledError) {
+			TrackingUtils.trackErrorPage(SearchActivity.this, "HotelListRequestFailed");
+			mSearchProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(R.string.progress_search_failed);
+		}
+		mSearchProgressBar.setVisibility(View.VISIBLE);
 	}
 
 	// Show/hide soft keyboard
@@ -2183,9 +2198,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public SearchParams oldSearchParams;
 		public SearchParams originalSearchParams;
 		public long lastSearchTime;
-
-		public boolean loadingIsVisible;
-		public String loadingText;
+		public List<Address> addresses; // For geocoding disambiguation
 
 		// Questionable
 		public SearchResponse searchResponse;
