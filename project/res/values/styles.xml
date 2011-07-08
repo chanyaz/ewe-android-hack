@@ -20,8 +20,8 @@
 		<item name="android:progressDrawable">@drawable/star_inset_ratingbar</item>
 	</style>     
 	
-	<style name="Widget.RatingBar.Small.TripAdvisor" parent="@style/Widget.RatingBar.Small.Shadowed">
-		<item name="android:progressDrawable">@drawable/star_tripadvisor_ratingbar</item>
+	<style name="Widget.RatingBar.Small.UserRating" parent="@style/Widget.RatingBar.Small.Shadowed">
+		<item name="android:progressDrawable">@drawable/star_user_review_rating_bar_on_black_bg</item>
 	</style>
 	
 	<style name="Widget.RatingBar.Small.UserReview" parent="style/Widget.RatingBar.Small.Shadowed">

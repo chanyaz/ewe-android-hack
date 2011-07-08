@@ -12,7 +12,7 @@
 		android:layout_weight="1"
 		android:layout_marginRight="8dp">
 		<LinearLayout
-			android:id="@+id/trip_advisor_layout"
+			android:id="@+id/user_rating_layout"
 			android:layout_width="wrap_content"
 			android:layout_height="fill_parent"
 			android:layout_alignParentRight="true"
@@ -20,27 +20,27 @@
 			android:gravity="center_vertical"
 			android:orientation="vertical">
 			<TextView
-				android:id="@+id/trip_advisor_text_view"
+				android:id="@+id/user_rating_text_view"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
-				android:text="@string/trip_advisor"
+				android:text="@string/user_rating"
 				android:textColor="#E1E1E1"
 				android:textSize="12sp" />
 			<RatingBar
-				android:id="@+id/trip_advisor_rating_bar"
+				android:id="@+id/user_rating_bar"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
 				android:layout_marginTop="1dp"
 				android:numStars="5"
 				android:stepSize=".5"
 				android:isIndicator="true"
-				style="@style/Widget.RatingBar.Small.TripAdvisor" />
+				style="@style/Widget.RatingBar.Small.UserRating" />
 		</LinearLayout>
 		<LinearLayout
 			android:id="@+id/hotel_rating_layout"
 			android:layout_width="wrap_content"
 			android:layout_height="fill_parent"
-			android:layout_toLeftOf="@+id/trip_advisor_layout"
+			android:layout_toLeftOf="@+id/user_rating_layout"
 			android:layout_marginLeft="14dp"
 			android:gravity="center_vertical"
 			android:orientation="vertical">

@@ -204,8 +204,8 @@ public class ConfirmationActivity extends MapActivity {
 		address2View.setText(StrUtils.formatAddressCity(location));
 		RatingBar hotelRating = (RatingBar) findViewById(R.id.hotel_rating_bar);
 		hotelRating.setRating((float) mProperty.getHotelRating());
-		RatingBar tripAdvisorRating = (RatingBar) findViewById(R.id.trip_advisor_rating_bar);
-		tripAdvisorRating.setRating((float) mProperty.getTripAdvisorRating());
+		RatingBar userRating = (RatingBar) findViewById(R.id.user_rating_bar);
+		userRating.setRating((float) mProperty.getTripAdvisorRating());
 
 		// Reservation summary
 		ViewGroup detailsLayout = (ViewGroup) findViewById(R.id.details_layout);

@@ -143,20 +143,20 @@
 								android:isIndicator="true"
 								style="@style/Widget.RatingBar.Small.Shadowed" />
 							<TextView
-								android:id="@+id/trip_advisor_text_view"
+								android:id="@+id/user_rating_text_view"
 								android:layout_height="wrap_content"
 								android:layout_width="wrap_content"
-								android:text="@string/trip_advisor"
+								android:text="@string/user_rating"
 								android:textColor="#333333"
 								android:textSize="12sp" />
 							<RatingBar
-								android:id="@+id/trip_advisor_rating_bar"
+								android:id="@+id/user_rating_bar"
 								android:layout_height="wrap_content"
 								android:layout_width="wrap_content"
 								android:numStars="5"
 								android:stepSize=".5"
 								android:isIndicator="true"
-								style="@style/Widget.RatingBar.Small.TripAdvisor" />
+								style="@style/Widget.RatingBar.Small.UserRating" />
 						</LinearLayout>
 					</LinearLayout>
 

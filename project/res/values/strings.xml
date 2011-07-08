@@ -80,7 +80,7 @@
 	<!-- Label for the hotel's star rating -->
 	<string name="star_rating">Star Rating</string>
 	<!-- Label for the hotel's trip advisor rating  -->
-	<string name="trip_advisor">TripAdvisor</string>
+	<string name="user_rating">User Rating</string>
 	<!-- Label for the address section of the description  -->
 	<string name="address">Address</string>
 	<!-- Label for button to open map view -->
