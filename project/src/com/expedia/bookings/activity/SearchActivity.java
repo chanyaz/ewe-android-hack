@@ -2394,7 +2394,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		// Check in/check out date
 		s.eVar5 = s.prop5 = CalendarUtils.getDaysBetween(mSearchParams.getCheckInDate(), Calendar.getInstance()) + "";
-		s.eVar6 = s.prop16 = CalendarUtils.getDaysBetween(mSearchParams.getCheckOutDate(), mSearchParams.getCheckInDate()) + "";
+		s.eVar6 = s.prop16 = CalendarUtils.getDaysBetween(mSearchParams.getCheckOutDate(),
+				mSearchParams.getCheckInDate()) + "";
 
 		// Shopper/Confirmer
 		s.eVar25 = s.prop25 = "Shopper";
