@@ -110,6 +110,7 @@ import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.data.ServerError;
 import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
+import com.mobiata.hotellib.utils.CalendarUtils;
 import com.mobiata.hotellib.utils.StrUtils;
 import com.omniture.AppMeasurement;
 
@@ -2393,8 +2394,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		s.eVar4 = s.prop4 = region;
 
 		// Check in/check out date
-		s.eVar5 = s.prop5 = getDayDifference(mSearchParams.getCheckInDate(), Calendar.getInstance()) + "";
-		s.eVar6 = s.prop16 = getDayDifference(mSearchParams.getCheckOutDate(), mSearchParams.getCheckInDate()) + "";
+		s.eVar5 = s.prop5 = CalendarUtils.getDaysBetween(mSearchParams.getCheckInDate(), Calendar.getInstance()) + "";
+		s.eVar6 = s.prop16 = CalendarUtils.getDaysBetween(mSearchParams.getCheckOutDate(), mSearchParams.getCheckInDate()) + "";
 
 		// Shopper/Confirmer
 		s.eVar25 = s.prop25 = "Shopper";
@@ -2414,16 +2415,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		// Send the tracking data
 		s.track();
-	}
-
-	private int getDayDifference(Calendar date1, Calendar date2) {
-		// Round the calendars so that they are zero'd in on a day
-		Calendar date1Rounded = new GregorianCalendar(date1.get(Calendar.YEAR), date1.get(Calendar.MONTH),
-				date1.get(Calendar.DAY_OF_MONTH));
-		Calendar date2Rounded = new GregorianCalendar(date2.get(Calendar.YEAR), date2.get(Calendar.MONTH),
-				date2.get(Calendar.DAY_OF_MONTH));
-
-		return Math.round((date1Rounded.getTimeInMillis() - date2Rounded.getTimeInMillis()) / (1000 * 60 * 60 * 24));
 	}
 
 	private void onOpenFilterPanel() {

@@ -47,8 +47,7 @@ public class LayoutUtils {
 		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(context);
 		String start = medDf.format(searchParams.getCheckInDate().getTime());
 		String end = medDf.format(searchParams.getCheckOutDate().getTime());
-		int numDays = (int) Math.round((searchParams.getCheckOutDate().getTimeInMillis() - searchParams
-				.getCheckInDate().getTimeInMillis()) / (1000 * 60 * 60 * 24));
+		int numDays = searchParams.getStayDuration();
 		addDetail(context, detailsLayout, R.string.CheckIn, start);
 		addDetail(context, detailsLayout, R.string.CheckOut, end);
 		addDetail(context, detailsLayout, R.string.stay_duration,
