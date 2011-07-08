@@ -285,9 +285,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 			else if (mSearchResponse != null && mSearchResponse.getLocations() != null
 					&& mSearchResponse.getLocations().size() > 0) {
-
-				mSearchProgressBar.setShowProgress(false);
-				mSearchProgressBar.setText(null);
 				showDialog(DIALOG_LOCATION_SUGGESTIONS);
 			}
 			else {
@@ -596,17 +593,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			builder.setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
-					mSearchProgressBar.setShowProgress(false);
-					mSearchProgressBar.setText(getString(R.string.NoGeocodingResults,
-							mSearchParams.getFreeformLocation()));
+					simulateErrorResponse(getString(R.string.NoGeocodingResults, mSearchParams.getFreeformLocation()));
 				}
 			});
 			builder.setOnCancelListener(new OnCancelListener() {
 				public void onCancel(DialogInterface dialog) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
-					mSearchProgressBar.setShowProgress(false);
-					mSearchProgressBar.setText(getString(R.string.NoGeocodingResults,
-							mSearchParams.getFreeformLocation()));
+					simulateErrorResponse(getString(R.string.NoGeocodingResults, mSearchParams.getFreeformLocation()));
 				}
 			});
 			return builder.create();
@@ -703,8 +696,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	public void onProviderDisabled(String provider) {
 		stopLocationListener();
-		mSearchProgressBar.setShowProgress(false);
-		mSearchProgressBar.setText(R.string.ProviderDisabled);
+		simulateErrorResponse(R.string.ProviderDisabled);
 		TrackingUtils.trackErrorPage(this, "LocationServicesNotAvailable");
 	}
 
@@ -720,14 +712,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		if (status == LocationProvider.OUT_OF_SERVICE) {
 			stopLocationListener();
 			Log.w("Location listener failed: out of service");
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.ProviderOutOfService);
+			simulateErrorResponse(R.string.ProviderOutOfService);
 		}
 		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
 			stopLocationListener();
 			Log.w("Location listener failed: temporarily unavailable");
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.ProviderTemporarilyUnavailable);
+			simulateErrorResponse(R.string.ProviderTemporarilyUnavailable);
 		}
 	}
 
@@ -762,8 +752,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchParams.setUserFreeformLocation(mSearchParams.getFreeformLocation());
 
 		if (!NetUtils.isOnline(this)) {
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.error_no_internet);
+			simulateErrorResponse(R.string.error_no_internet);
 			return;
 		}
 
@@ -778,8 +767,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					@Override
 					public void run() {
 						if (mAddresses != null && mAddresses.size() > 1) {
-							mSearchProgressBar.setShowProgress(false);
-							mSearchProgressBar.setText(null);
 							showDialog(DIALOG_LOCATION_SUGGESTIONS);
 						}
 						else if (mAddresses != null && mAddresses.size() > 0) {
@@ -794,8 +781,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 						}
 						else {
 							TrackingUtils.trackErrorPage(SearchActivity.this, "LocationNotFound");
-							mSearchProgressBar.setShowProgress(false);
-							mSearchProgressBar.setText(R.string.geolocation_failed);
+							simulateErrorResponse(R.string.geolocation_failed);
 						}
 					}
 				});
@@ -822,6 +808,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mOriginalSearchParams = null;
 		mSearchDownloader.cancelDownload(KEY_SEARCH);
+		mSearchResponse = null;
 
 		// Delete the currently saved search results
 		File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
@@ -1043,6 +1030,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	// Search results handling
+
+	private void simulateErrorResponse(int strId) {
+		simulateErrorResponse(getString(strId));
+	}
+
+	private void simulateErrorResponse(String text) {
+		SearchResponse response = new SearchResponse();
+		ServerError error = new ServerError();
+		error.setPresentationMessage(text);
+		error.setCode("SIMULATED");
+		response.addError(error);
+
+		mSearchCallback.onDownload(response);
+	}
 
 	public void handleError() {
 		// Handling for particular errors
@@ -1818,8 +1819,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		showLoading(R.string.progress_searching_hotels);
 
 		if (!NetUtils.isOnline(this)) {
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.error_no_internet);
+			simulateErrorResponse(R.string.error_no_internet);
 			return;
 		}
 
@@ -1846,8 +1846,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		showLoading(R.string.progress_finding_location);
 
 		if (!NetUtils.isOnline(this)) {
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.error_no_internet);
+			simulateErrorResponse(R.string.error_no_internet);
 			return;
 		}
 
