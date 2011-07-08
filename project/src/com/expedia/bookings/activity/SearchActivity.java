@@ -413,6 +413,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					Log.e("Failed to load saved filter.");
 				}
 			}
+			else {
+				mFilter = new Filter();
+			}
 
 			mAdultsNumberPicker.setTextEnabled(false);
 			mChildrenNumberPicker.setTextEnabled(false);
@@ -447,12 +450,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			downloader.unregisterDownloadCallback(KEY_SEARCH);
 		}
 		else {
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-			Editor editor = prefs.edit();
-			editor.putString("searchParams", mSearchParams.toJson().toString());
-			editor.putString("filter", mFilter.toJson().toString());
-			editor.putString("tag", mTag);
-			SettingUtils.commitOrApply(editor);
+			saveParams();
 		}
 	}
 
@@ -503,6 +501,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		super.onDestroy();
 
 		if (isFinishing()) {
+			saveParams();
+
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
 
 			// Cancel any currently downloading searches
@@ -530,6 +530,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				}
 				catch (JSONException e) {
 					Log.w("Couldn't save search results.", e);
+				}
+				catch (OutOfMemoryError e) {
+					Log.w("Ran out of memory while trying to save search results file", e);
 				}
 			}
 		}
@@ -998,6 +1001,16 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mGuestsLayoutIsVisible = state.guestsLayoutIsVisible;
 		mLastSearchTime = state.lastSearchTime;
 		mAddresses = state.addresses;
+	}
+
+	private void saveParams() {
+		Log.d("Saving search parameters, filter and tag...");
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor editor = prefs.edit();
+		editor.putString("searchParams", mSearchParams.toJson().toString());
+		editor.putString("filter", mFilter.toJson().toString());
+		editor.putString("tag", mTag);
+		SettingUtils.commitOrApply(editor);
 	}
 
 	// Broadcast methods
