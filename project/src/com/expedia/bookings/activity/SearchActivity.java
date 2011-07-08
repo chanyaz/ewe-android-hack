@@ -1085,6 +1085,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchProgressBar.setText(R.string.progress_search_failed);
 		}
 		mSearchProgressBar.setVisibility(View.VISIBLE);
+
+		// Ensure that users cannot open the handle if there's an error up
+		disablePanelHandle();
 	}
 
 	// Show/hide soft keyboard
