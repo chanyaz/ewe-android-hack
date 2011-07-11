@@ -17,7 +17,7 @@
 		<!-- Rotating image gallery -->
 		<RelativeLayout
 			android:id="@+id/gallery_layout"
-			android:layout_width="250dp"
+			android:layout_width="@dimen/gallery_size"
 			android:layout_height="fill_parent"
 			android:background="@drawable/bg_gallery">
 			<com.expedia.bookings.widget.Gallery

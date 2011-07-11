@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -45,11 +43,9 @@ import android.provider.Settings;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +86,7 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.text.format.Time;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
@@ -106,6 +103,7 @@ import com.mobiata.hotellib.data.Filter.PriceRange;
 import com.mobiata.hotellib.data.Filter.Rating;
 import com.mobiata.hotellib.data.Filter.SearchRadius;
 import com.mobiata.hotellib.data.Filter.Sort;
+import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.PriceTier;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
@@ -113,6 +111,7 @@ import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.data.ServerError;
 import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
+import com.mobiata.hotellib.utils.CalendarUtils;
 import com.mobiata.hotellib.utils.StrUtils;
 import com.omniture.AppMeasurement;
 
@@ -169,6 +168,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
+	private static final String KEY_LOADING_PREVIOUS = "KEY_LOADING_PREVIOUS";
 
 	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
 	private static final int DIALOG_CLIENT_DEPRECATED = 1;
@@ -268,8 +268,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Map<PriceRange, PriceTier> mPriceTierCache;
 	private Filter mFilter;
 	private Filter mOldFilter;
-	private boolean mScreenRotationLocked;
 	public boolean mStartSearchOnResume;
+	private long mLastSearchTime = -1;
 
 	private Thread mGeocodeThread;
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
@@ -318,40 +318,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				hideLoading();
 				setPriceRangeText();
 				setFilterInfoText();
+
+				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 			}
 			else if (mSearchResponse != null && mSearchResponse.getLocations() != null
 					&& mSearchResponse.getLocations().size() > 0) {
-
-				mSearchProgressBar.setShowProgress(false);
-				mSearchProgressBar.setText(null);
 				showDialog(DIALOG_LOCATION_SUGGESTIONS);
 			}
 			else {
-				// Handling for particular errors
-				boolean handledError = false;
-				if (mSearchResponse != null && mSearchResponse.hasErrors()) {
-					ServerError errorOne = mSearchResponse.getErrors().get(0);
-					if (errorOne.getCode().equals("01")) {
-						// Deprecated client version
-						showDialog(DIALOG_CLIENT_DEPRECATED);
-
-						TrackingUtils.trackErrorPage(SearchActivity.this, "OutdatedVersion");
-
-						mSearchProgressBar.setShowProgress(false);
-						mSearchProgressBar.setText(errorOne.getExtra("message"));
-					}
-					else {
-						mSearchProgressBar.setShowProgress(false);
-						mSearchProgressBar.setText(errorOne.getPresentableMessage(SearchActivity.this));
-					}
-					handledError = true;
-				}
-
-				if (!handledError) {
-					TrackingUtils.trackErrorPage(SearchActivity.this, "HotelListRequestFailed");
-					mSearchProgressBar.setShowProgress(false);
-					mSearchProgressBar.setText(R.string.progress_search_failed);
-				}
+				handleError();
 			}
 		}
 	};
@@ -444,10 +419,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			extractActivityState(state);
 
 			if (mSearchResponse != null) {
-				if (mFilter != null) {
-					mSearchResponse.setFilter(mFilter);
+				if (mSearchResponse.hasErrors()) {
+					handleError();
 				}
-				broadcastSearchCompleted(mSearchResponse);
+				else {
+					if (mFilter != null) {
+						mSearchResponse.setFilter(mFilter);
+					}
+					broadcastSearchCompleted(mSearchResponse);
+				}
 			}
 		}
 		else {
@@ -480,9 +460,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					Log.e("Failed to load saved filter.");
 				}
 			}
+			else {
+				mFilter = new Filter();
+			}
 
 			// Attempt to load saved search results; if we fail, start a new search
-			BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mLoadSavedResults, mLoadSavedResultsCallback);
+			BackgroundDownloader.getInstance().startDownload(KEY_LOADING_PREVIOUS, mLoadSavedResults,
+					mLoadSavedResultsCallback);
 			showLoading(R.string.loading_previous);
 		}
 
@@ -509,13 +493,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchProgressBar.onPause();
 		stopLocationListener();
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		Editor editor = prefs.edit();
-		editor.putString("searchParams", mSearchParams.toJson().toString());
-		editor.putString("filter", mFilter.toJson().toString());
-		editor.putString("tag", mTag);
-		editor.putBoolean("showDistance", mShowDistance);
-		SettingUtils.commitOrApply(editor);
+		if (!isFinishing()) {
+			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
+			downloader.unregisterDownloadCallback(KEY_LOADING_PREVIOUS);
+			downloader.unregisterDownloadCallback(KEY_SEARCH);
+		}
+		else {
+			saveParams();
+		}
 	}
 
 	@Override
@@ -537,6 +522,31 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			startSearch();
 			mStartSearchOnResume = false;
 		}
+		else if (mLastSearchTime != -1 && mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
+			Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
+			mSearchParams.ensureValidCheckInDate();
+			startSearch();
+		}
+		else {
+			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
+			if (downloader.isDownloading(KEY_LOADING_PREVIOUS)) {
+				Log.d("Already loading previous search results, resuming the load...");
+				downloader.registerDownloadCallback(KEY_LOADING_PREVIOUS, mLoadSavedResultsCallback);
+				showLoading(R.string.loading_previous);
+			}
+			else if (downloader.isDownloading(KEY_SEARCH)) {
+				Log.d("Already searching, resuming the search...");
+				downloader.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
+				showLoading(R.string.progress_searching_hotels);
+			}
+		}
+
+		// Set max calendar date
+		Time maxTime = new Time(System.currentTimeMillis());
+		maxTime.monthDay += 330;
+		maxTime.normalize(true);
+
+		mDatesCalendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
 	}
 
 	@Override
@@ -544,6 +554,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		super.onDestroy();
 
 		if (isFinishing()) {
+			saveParams();
+
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
 
 			// Cancel any currently downloading searches
@@ -551,6 +563,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (downloader.isDownloading(KEY_SEARCH)) {
 				Log.d("Cancelling search because activity is ending.");
 				downloader.cancelDownload(KEY_SEARCH);
+			}
+			if (downloader.isDownloading(KEY_LOADING_PREVIOUS)) {
+				Log.d("Cancelling loading previous results because activity is ending.");
+				downloader.cancelDownload(KEY_LOADING_PREVIOUS);
 			}
 			// Save a search response as long as:
 			// 1. We weren't currently searching
@@ -567,6 +583,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				}
 				catch (JSONException e) {
 					Log.w("Couldn't save search results.", e);
+				}
+				catch (OutOfMemoryError e) {
+					Log.w("Ran out of memory while trying to save search results file", e);
 				}
 			}
 		}
@@ -599,6 +618,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case DIALOG_LOCATION_SUGGESTIONS: {
+			// If we're displaying this, show an empty progress bar
+			mSearchProgressBar.setVisibility(View.VISIBLE);
+			mSearchProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(null);
+
 			final int size = mAddresses.size();
 			final CharSequence[] freeformLocations = new CharSequence[mAddresses.size()];
 			for (int i = 0; i < size; i++) {
@@ -628,17 +652,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			builder.setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
-					mSearchProgressBar.setShowProgress(false);
-					mSearchProgressBar.setText(getString(R.string.NoGeocodingResults,
-							mSearchParams.getFreeformLocation()));
+					simulateErrorResponse(getString(R.string.NoGeocodingResults, mSearchParams.getFreeformLocation()));
 				}
 			});
 			builder.setOnCancelListener(new OnCancelListener() {
 				public void onCancel(DialogInterface dialog) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
-					mSearchProgressBar.setShowProgress(false);
-					mSearchProgressBar.setText(getString(R.string.NoGeocodingResults,
-							mSearchParams.getFreeformLocation()));
+					simulateErrorResponse(getString(R.string.NoGeocodingResults, mSearchParams.getFreeformLocation()));
 				}
 			});
 			return builder.create();
@@ -756,8 +776,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		if (!stillWorking) {
 			lm.removeUpdates(this);
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.ProviderDisabled);
+			simulateErrorResponse(R.string.ProviderDisabled);
 			TrackingUtils.trackErrorPage(this, "LocationServicesNotAvailable");
 		}
 	}
@@ -781,14 +800,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		if (status == LocationProvider.OUT_OF_SERVICE) {
 			stopLocationListener();
 			Log.w("Location listener failed: out of service");
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.ProviderOutOfService);
+			simulateErrorResponse(R.string.ProviderOutOfService);
 		}
 		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
 			stopLocationListener();
 			Log.w("Location listener failed: temporarily unavailable");
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.ProviderTemporarilyUnavailable);
+			simulateErrorResponse(R.string.ProviderTemporarilyUnavailable);
 		}
 	}
 
@@ -1220,6 +1237,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		state.showDistance = mShowDistance;
 		state.displayType = mDisplayType;
 		state.startSearchOnResume = mStartSearchOnResume;
+		state.lastSearchTime = mLastSearchTime;
+		state.addresses = mAddresses;
 
 		if (state.searchResponse != null) {
 			if (state.searchResponse.getFilter() != null) {
@@ -1247,6 +1266,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mShowDistance = state.showDistance;
 		mDisplayType = state.displayType;
 		mStartSearchOnResume = state.startSearchOnResume;
+		mLastSearchTime = state.lastSearchTime;
+		mAddresses = state.addresses;
+	}
+
+	private void saveParams() {
+		Log.d("Saving search parameters, filter and tag...");
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor editor = prefs.edit();
+		editor.putString("searchParams", mSearchParams.toJson().toString());
+		editor.putString("filter", mFilter.toJson().toString());
+		editor.putString("tag", mTag);
+		SettingUtils.commitOrApply(editor);
 	}
 
 	//----------------------------------
@@ -1263,12 +1294,62 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		onSearchResultsChanged();
 	}
+	
+	//----------------------------------
+	// Search results handling
+	//----------------------------------
+	
+	private void simulateErrorResponse(int strId) {
+		simulateErrorResponse(getString(strId));
+	}
+
+	private void simulateErrorResponse(String text) {
+		SearchResponse response = new SearchResponse();
+		ServerError error = new ServerError();
+		error.setPresentationMessage(text);
+		error.setCode("SIMULATED");
+		response.addError(error);
+
+		mSearchCallback.onDownload(response);
+	}
+
+	public void handleError() {
+		// Handling for particular errors
+		boolean handledError = false;
+		if (mSearchResponse != null && mSearchResponse.hasErrors()) {
+			ServerError errorOne = mSearchResponse.getErrors().get(0);
+			if (errorOne.getCode().equals("01")) {
+				// Deprecated client version
+				showDialog(DIALOG_CLIENT_DEPRECATED);
+
+				TrackingUtils.trackErrorPage(SearchActivity.this, "OutdatedVersion");
+
+				mSearchProgressBar.setShowProgress(false);
+				mSearchProgressBar.setText(errorOne.getExtra("message"));
+			}
+			else {
+				mSearchProgressBar.setShowProgress(false);
+				mSearchProgressBar.setText(errorOne.getPresentableMessage(SearchActivity.this));
+			}
+			handledError = true;
+		}
+
+		if (!handledError) {
+			TrackingUtils.trackErrorPage(SearchActivity.this, "HotelListRequestFailed");
+			mSearchProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(R.string.progress_search_failed);
+		}
+		mSearchProgressBar.setVisibility(View.VISIBLE);
+
+		// Ensure that users cannot open the handle if there's an error up
+		disablePanelHandle();
+	}
 
 	//----------------------------------
 	// SHOW/HIDE SOFT KEYBOARD METHODS
 	//----------------------------------
 
-	private void hideSoftKeyboard(TextView v) {
+	void hideSoftKeyboard(TextView v) {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 	}
@@ -1391,8 +1472,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	//----------------------------------
 
 	private void hideLoading() {
-		unlockScreenRotation();
-		enablePanelHandle();
 		mSearchProgressBar.setVisibility(View.GONE);
 	}
 
@@ -1401,8 +1480,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void showLoading(String text) {
-		lockScreenRotation();
-		disablePanelHandle();
 		mSearchProgressBar.setVisibility(View.VISIBLE);
 		mSearchProgressBar.setShowProgress(true);
 		mSearchProgressBar.setText(text);
@@ -1430,7 +1507,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
 			newActivityClass = SearchListActivity.class;
-
 			if (ANIMATION_VIEW_FLIP_ENABLED) {
 				animationOut = new Rotate3dAnimation(0, 90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
 				animationIn = new Rotate3dAnimation(-90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
@@ -1536,37 +1612,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void enablePanelHandle() {
 		mPanel.getHandle().setEnabled(true);
-	}
-
-	//----------------------------------
-	// SCREEN ORIENTATION METHODS
-	//----------------------------------
-
-	private void lockScreenRotation() {
-		if (!mScreenRotationLocked) {
-			final int orientation = getWindowManager().getDefaultDisplay().getOrientation();
-			switch (orientation) {
-			case Surface.ROTATION_0: {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-				break;
-			}
-			case Surface.ROTATION_90: {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-				break;
-			}
-			case Surface.ROTATION_270: {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
-				break;
-			}
-			}
-
-			mScreenRotationLocked = true;
-		}
-	}
-
-	private void unlockScreenRotation() {
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-		mScreenRotationLocked = false;
 	}
 
 	//----------------------------------
@@ -1875,9 +1920,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			PriceTier priceTier = mPriceTierCache.get(priceRange);
 			if (priceTier != null) {
-				int priceMin = (int) priceTier.getMinRate().getAmount();
-				int priceMax = (int) priceTier.getMaxRate().getAmount();
-				mPriceRangeTextView.setText(getString(R.string.price_range_template, priceMin, priceMax));
+				Money priceMin = priceTier.getMinRate();
+				Money priceMax = priceTier.getMaxRate();
+				String priceMinStr = priceMin.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN);
+				String priceMaxStr = priceMax.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN);
+				mPriceRangeTextView.setText(getString(R.string.price_range_template, priceMinStr, priceMaxStr));
 			}
 		}
 		else {
@@ -1960,8 +2007,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
 				checkOut.get(Calendar.DAY_OF_MONTH));
 
-		mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
-		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
+		mAdultsNumberPicker.post(new Runnable() {
+			@Override
+			public void run() {
+				mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
+			}
+		});
+		mChildrenNumberPicker.post(new Runnable() {
+			@Override
+			public void run() {
+				mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
+			}
+		});
 
 		setBookingInfoText();
 	}
@@ -2017,8 +2074,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		showLoading(R.string.progress_finding_location);
 
 		if (!NetUtils.isOnline(this)) {
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.error_no_internet);
+			simulateErrorResponse(R.string.error_no_internet);
 			return;
 		}
 
@@ -2123,25 +2179,27 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
 		@Override
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-			Calendar startCalendar = Calendar.getInstance();
-			Calendar endCalendar = Calendar.getInstance();
+			if (mOriginalSearchParams != null) {
+				Calendar startCalendar = Calendar.getInstance();
+				Calendar endCalendar = Calendar.getInstance();
 
-			final int startYear = mDatesCalendarDatePicker.getStartYear();
-			final int startMonth = mDatesCalendarDatePicker.getStartMonth();
-			final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
+				final int startYear = mDatesCalendarDatePicker.getStartYear();
+				final int startMonth = mDatesCalendarDatePicker.getStartMonth();
+				final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
 
-			final int endYear = mDatesCalendarDatePicker.getEndYear();
-			final int endMonth = mDatesCalendarDatePicker.getEndMonth();
-			final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
+				final int endYear = mDatesCalendarDatePicker.getEndYear();
+				final int endMonth = mDatesCalendarDatePicker.getEndMonth();
+				final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
 
-			startCalendar.set(startYear, startMonth, startDay, 0, 0, 0);
-			endCalendar.set(endYear, endMonth, endDay, 0, 0, 0);
+				startCalendar.set(startYear, startMonth, startDay, 0, 0, 0);
+				endCalendar.set(endYear, endMonth, endDay, 0, 0, 0);
 
-			startCalendar.set(Calendar.MILLISECOND, 0);
-			endCalendar.set(Calendar.MILLISECOND, 0);
+				startCalendar.set(Calendar.MILLISECOND, 0);
+				endCalendar.set(Calendar.MILLISECOND, 0);
 
-			mSearchParams.setCheckInDate(startCalendar);
-			mSearchParams.setCheckOutDate(endCalendar);
+				mSearchParams.setCheckInDate(startCalendar);
+				mSearchParams.setCheckOutDate(endCalendar);
+			}
 
 			setRefinementInfo();
 		}
@@ -2358,6 +2416,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public boolean startSearchOnResume;
 
 		public DisplayType displayType;
+		public long lastSearchTime;
+		public List<Address> addresses; // For geocoding disambiguation
 
 		// Questionable
 		public SearchResponse searchResponse;
@@ -2563,8 +2623,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		s.eVar4 = s.prop4 = region;
 
 		// Check in/check out date
-		s.eVar5 = s.prop5 = getDayDifference(mSearchParams.getCheckInDate(), Calendar.getInstance()) + "";
-		s.eVar6 = s.prop16 = getDayDifference(mSearchParams.getCheckOutDate(), mSearchParams.getCheckInDate()) + "";
+		s.eVar5 = s.prop5 = CalendarUtils.getDaysBetween(mSearchParams.getCheckInDate(), Calendar.getInstance()) + "";
+		s.eVar6 = s.prop16 = CalendarUtils.getDaysBetween(mSearchParams.getCheckOutDate(),
+				mSearchParams.getCheckInDate()) + "";
 
 		// Shopper/Confirmer
 		s.eVar25 = s.prop25 = "Shopper";
@@ -2584,16 +2645,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		// Send the tracking data
 		s.track();
-	}
-
-	private int getDayDifference(Calendar date1, Calendar date2) {
-		// Round the calendars so that they are zero'd in on a day
-		Calendar date1Rounded = new GregorianCalendar(date1.get(Calendar.YEAR), date1.get(Calendar.MONTH),
-				date1.get(Calendar.DAY_OF_MONTH));
-		Calendar date2Rounded = new GregorianCalendar(date2.get(Calendar.YEAR), date2.get(Calendar.MONTH),
-				date2.get(Calendar.DAY_OF_MONTH));
-
-		return Math.round((date1Rounded.getTimeInMillis() - date2Rounded.getTimeInMillis()) / (1000 * 60 * 60 * 24));
 	}
 
 	private void onOpenFilterPanel() {

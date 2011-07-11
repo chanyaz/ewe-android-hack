@@ -5,12 +5,18 @@
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-		<item quantity="one">1 Adult</item>
+		<item quantity="zero">%d Adults</item>
+		<item quantity="one">%d Adult</item>
+		<item quantity="two">%d Adults</item>
+		<item quantity="many">%d Adults</item>
 		<item quantity="other">%d Adults</item>
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-		<item quantity="one">1 Child</item>
+		<item quantity="zero">%d Children</item>
+		<item quantity="one">%d Child</item>
+		<item quantity="two">%d Children</item>
+		<item quantity="many">%d Children</item>
 		<item quantity="other">%d Children</item>
 	</plurals>
 
@@ -51,7 +57,7 @@
 	<string name="sort_description_rating">Rating</string>
 	
 	<!-- Price range template -->
-	<string name="price_range_template">$%1$d — $%2$d</string>
+	<string name="price_range_template">(%1$s — %2$s)</string>
 	
 	<!-- Progress messages -->	
 	<string name="progress_finding_location">Finding Current Location...</string>
@@ -204,8 +210,8 @@
 	<string name="security_code_tip_back">See back of credit card</string>
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">Rules &amp; Restrictions</string>
-	<!-- Disclaimer about charges and currency -->
-	<string name="disclaimer_currency">All charges will incur in the hotel\'s local currency.</string>
+	<!-- Disclaimer about how to earn expedia points -->
+	<string name="disclaimer_expedia_points">If you have an Expedia Rewards account, please book with the same email address and your points will automatically post after your stay. Please note that it may take up to 30 days for your points to appear.</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">Your credit card will be charged %s</string>
 	<!-- Button label for confirming your booking -->
