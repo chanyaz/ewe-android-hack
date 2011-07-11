@@ -49,13 +49,13 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	private static final String CURRENT_CENTER_LAT = "CURRENT_CENTER_LAT";
 	private static final String CURRENT_CENTER_LON = "CURRENT_CENTER_LON";
 	private static final String CURRENT_ZOOM_LEVEL = "CURRENT_ZOOM_LEVEL";
-	private static final String CURRENT_TAPPED_ITEM_POSITION = "CURRENT_TAPPED_ITEM_POSITION";
+	private static final String CURRENT_TAPPED_ITEM_PROPERTY_ID = "CURRENT_TAPPED_ITEM_PROPERTY_ID";
 	
 	// saved information for map
 	private GeoPoint mSavedCenter;
 	private int mSavedZoomLevel;
-	private int mTappedPosition;
-
+	private String mTappedPropertyId;
+	
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
 
@@ -123,7 +123,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		outState.putInt(CURRENT_CENTER_LAT, mMapView.getMapCenter().getLatitudeE6());
 		outState.putInt(CURRENT_CENTER_LON, mMapView.getMapCenter().getLongitudeE6());
 		outState.putInt(CURRENT_ZOOM_LEVEL, mMapView.getZoomLevel());
-		outState.putInt(CURRENT_TAPPED_ITEM_POSITION, mHotelItemizedOverlay.getTappedPosition());
+		outState.putString(CURRENT_TAPPED_ITEM_PROPERTY_ID, mHotelItemizedOverlay.getTappedPropertyId());
 		
 		super.onSaveInstanceState(outState);
 	}
@@ -240,6 +240,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	public void onFilterChanged() {
 		mSavedCenter = mMapView.getMapCenter();
 		mSavedZoomLevel = mMapView.getZoomLevel();
+		mTappedPropertyId = mHotelItemizedOverlay.getTappedPropertyId();
 		
 		mHotelItemizedOverlay.setProperties(Arrays.asList(mSearchResponse.getFilteredAndSortedProperties()));
 		mMapView.invalidate();
@@ -275,8 +276,8 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		if(mSavedCenter != null) {
 			mc.setCenter(mSavedCenter);
 			mc.setZoom(mSavedZoomLevel);
-			if(mTappedPosition != -1) {
-				mHotelItemizedOverlay.showBalloon(mTappedPosition, false);
+			if(mTappedPropertyId != null) {
+				mHotelItemizedOverlay.showBalloon(mTappedPropertyId);
 			}
 		} else {
 			mc.animateTo(mHotelItemizedOverlay.getCenter());
@@ -297,7 +298,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			mSavedCenter = new GeoPoint(latE6, lonE6);
 			mSavedZoomLevel = savedInstanceState.getInt(CURRENT_ZOOM_LEVEL);
 			
-			mTappedPosition = savedInstanceState.getInt(CURRENT_TAPPED_ITEM_POSITION, -1);
+			mTappedPropertyId = savedInstanceState.getString(CURRENT_TAPPED_ITEM_PROPERTY_ID);
 		}
 	}
 	
