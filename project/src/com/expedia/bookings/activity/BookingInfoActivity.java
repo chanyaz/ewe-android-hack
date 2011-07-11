@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
@@ -651,10 +652,17 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 				// If there is text, don't show the lock icon
 				int lockIcon = (s == null || s.length() == 0) ? R.drawable.credit_card_lock : 0;
-				mCardNumberEditText.setCompoundDrawablesWithIntrinsicBounds(lockIcon, 0, 0, 0);
+				Drawable dr[] = mCardNumberEditText.getCompoundDrawables();
+				if(dr != null) {
+					Drawable lockIconDrawable = lockIcon == 0 ? null : getResources().getDrawable(lockIcon);
+					mCardNumberEditText.setCompoundDrawablesWithIntrinsicBounds(lockIconDrawable, dr[1], dr[2], dr[3]);
+				} else {
+					mCardNumberEditText.setCompoundDrawablesWithIntrinsicBounds(lockIcon, 0, 0, 0);
+				}
 			}
 		});
 
+		
 		mCardNumberEditText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.credit_card_lock, 0, 0, 0);
 		mCardNumberEditText.setCompoundDrawablePadding(Math.round(6 * getResources().getDisplayMetrics().density));
 

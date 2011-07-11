@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -44,7 +45,12 @@ public class CustomEditText extends EditText {
 
 	private int MINIMUM_WIDTH_IN_DP = 100;
 	private int MINIMUM_PADDING_IN_DP = 60;
-    	
+	
+	// this flag helps to keep track of 
+	// whether or not to setup/dismiss
+	// the clear field button based on intent
+	private boolean isClearFieldButtonShowing;
+	
 	/*
 	 * This textwatcher is responsible for 
 	 * dismissing the error when the user starts 
@@ -54,8 +60,25 @@ public class CustomEditText extends EditText {
 		
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
+
 			if(s.length() > 0) {
-				setError(null, null);
+
+				// hide the error if the user
+				// inputs text while the error 
+				// exists
+				if(mCustomError != null) {
+					setError(null, null);
+				} 
+				
+				// if the textview is in focus 
+				// and there is no error to be shown,
+				// show the clear field drawable 
+				// for the user to easily clear the text
+				if(isFocused() && mCustomError == null) {
+					setClearFieldButton();
+				}
+			} else {
+				removeClearFieldButton();
 			}
 		}
 		
@@ -73,6 +96,7 @@ public class CustomEditText extends EditText {
      */
     public static class SavedState extends BaseSavedState {
         CharSequence error;
+        boolean isClearFieldButtonShowing;
 
         SavedState(Parcelable superState) {
             super(superState);
@@ -85,7 +109,18 @@ public class CustomEditText extends EditText {
             if (error == null) {
                 out.writeInt(0);
             } else {
-                out.writeInt(1);
+            	if(isClearFieldButtonShowing) {
+            		// use the 2 to indicate that 
+            		// the clear field button is showing
+            		// even when there is an error
+            		out.writeInt(2);
+            	} else {
+            		// use the 1 to indicate that the
+            		// clear field button is not showing
+            		// when there is no error
+            		out.writeInt(1);
+            	}
+
                 TextUtils.writeToParcel(error, out, flags);
             }
         }
@@ -115,6 +150,18 @@ public class CustomEditText extends EditText {
         private SavedState(Parcel in) {
             super(in);
             if (in.readInt() != 0) {
+            	
+            	if(in.readInt() == 1) {
+            		isClearFieldButtonShowing = false;
+            	} else if(in.readInt() == 2) {
+            		isClearFieldButtonShowing = true;
+            	}
+            	
+            	// set the integer to 1 so as to pick up the
+            	// error just as a string. We used the different
+            	// integer values only to indicate whether or not
+            	// the clear field button was showing
+            	in.writeInt(1);
                 error = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
             }
         }
@@ -161,6 +208,36 @@ public class CustomEditText extends EditText {
 	            setError(error, dr);
 			}
 	}	
+	
+	public void setClearFieldButton() {
+        Drawable icon = getContext().getResources().
+        getDrawable(R.drawable.btn_cancel_normal);
+
+        icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
+
+		final Drawable[] dr = getCompoundDrawables();
+		
+		if(dr != null) {
+			setCompoundDrawables(dr[0], dr[1], icon, dr[3]);
+		} else {
+			setCompoundDrawables(null, null, icon, null);
+		}
+		
+		isClearFieldButtonShowing = true;
+	}
+	
+	public void removeClearFieldButton() {
+		// only remove the right drawable 
+		// if the clear field button is 
+		// actually showing
+		if(isClearFieldButtonShowing) {
+			Drawable dr[] = getCompoundDrawables();
+			if(dr != null) {
+				setCompoundDrawables(dr[0], dr[1], null, dr[3]);
+			}
+			isClearFieldButtonShowing = false;
+		}
+	}
 	
 	@Override
 	public void setError(CharSequence error, Drawable icon) {
@@ -247,24 +324,60 @@ public class CustomEditText extends EditText {
     	}
 
     	if(focused) { 
+    		
+    		// give preference to the error 
+    		// popup if it exists since we should first
+    		// indicate to the user the reason for the error
+    		// before giving the user the ability to clear text
     		if(mCustomError != null) {
     			showError();
+    		} else if(getText().length() > 0) {
+        			setClearFieldButton();
     		}
     	} else {
             if (mCustomError != null) {
                 hideError();
+            } else {
+            	// remove the right drawable only if we know
+            	// that its not the error icon 
+                removeClearFieldButton();
             }
     	}
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
 
     }
     
+    
+    
     @Override
+	public boolean onTouchEvent(MotionEvent event) {
+    	
+    	Drawable dr[] = getCompoundDrawables();
+    	if(dr != null && dr[2] != null && isClearFieldButtonShowing) {
+	        Rect rBounds = dr[2].getBounds();
+	        int x = (int)event.getX();
+	        int y = (int)event.getY();
+	        if(x>= (this.getRight()- this.getLeft() - rBounds.width()) && 
+	           x<=(this.getRight() - this.getLeft()) && 
+	           y>=0 && y<=(this.getHeight()))
+	        {
+	            //System.out.println("touch");
+	            this.setText("");
+	            event.setAction(MotionEvent.ACTION_CANCEL);//use this to prevent the keyboard from coming up
+	            removeClearFieldButton();
+	        }
+    	}
+    	
+		return super.onTouchEvent(event);
+	}
+
+	@Override
     public Parcelable onSaveInstanceState() {
     	Parcelable superState = super.onSaveInstanceState();
     	
     	SavedState ss = new SavedState(superState);
     	ss.error = mCustomError;
+    	ss.isClearFieldButtonShowing = isClearFieldButtonShowing;
     	
     	return ss;
     }
@@ -288,6 +401,10 @@ public class CustomEditText extends EditText {
     				setError(error);
     			}
     		});
+    	}
+    	
+    	if(ss.isClearFieldButtonShowing) {
+    		setClearFieldButton();
     	}
     }
     
@@ -321,6 +438,7 @@ public class CustomEditText extends EditText {
    
         mCustomPopup.showAsDropDown(this, getErrorX(), getErrorY());
         mCustomPopup.fixDirection(mCustomPopup.isAboveAnchor());
+        isClearFieldButtonShowing = false;
 	}
 
 	private void inflatePopup() {
