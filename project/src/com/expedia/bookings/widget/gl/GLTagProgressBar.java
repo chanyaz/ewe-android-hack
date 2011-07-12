@@ -78,6 +78,8 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 		else {
 			mRenderer.resume();
 		}
+		
+		setSensorManagerRegistration(visibility == View.VISIBLE);
 	}
 
 	@Override
