@@ -23,6 +23,8 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.widget.AdapterView;
+import com.expedia.bookings.widget.AdapterView.OnItemSelectedListener;
 import com.expedia.bookings.widget.Gallery;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
@@ -43,6 +45,8 @@ public class HotelActivity extends Activity {
 
 	// This is the position in the list that the hotel had when the user clicked on it 
 	public static final String EXTRA_POSITION = "EXTRA_POSITION";
+
+	private static final int MAX_IMAGES_LOADED = 10;
 
 	private Context mContext;
 
@@ -108,18 +112,58 @@ public class HotelActivity extends Activity {
 			}
 			gallery.setUrls(urls);
 
-			// Start loading images in the background.  Load them one-by-one.
-			mImageToLoad = 0;
-			OnImageLoaded loader = new OnImageLoaded() {
+			gallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 				@Override
-				public void onImageLoaded(String url, Bitmap bitmap) {
-					if (mImageToLoad < urls.size()) {
-						String nextUrl = urls.get(mImageToLoad++);
-						ImageCache.loadImage(toString() + nextUrl, nextUrl, this);
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					// Pre-load images around the currently selected image, until we have MAX_IMAGES_LOADED
+					// loading.  Then cancel downloads on all the rest.
+					int left = position;
+					int right = position;
+					int loaded = 1;
+					int len = urls.size();
+					OnImageLoaded doNothing = new OnImageLoaded() {
+						public void onImageLoaded(String url, Bitmap bitmap) {
+							// Do nothing.  In the future, ImageCache should have 
+							// the ability to simply preload, but this is a fix 
+							// for #8401 for the 1.0.2 release and I don't want to
+							// have to update/branch Utils.
+						}
+					};
+					while (loaded < MAX_IMAGES_LOADED) {
+						if (left > 0) {
+							left--;
+							ImageCache.loadImage(urls.get(left), doNothing);
+							loaded++;
+						}
+						if (loaded == MAX_IMAGES_LOADED) {
+							break;
+						}
+						if (right < len - 1) {
+							right++;
+							ImageCache.loadImage(urls.get(right), doNothing);
+							loaded++;
+						}
+					}
+
+					// Clear images a few to the right/left of the bounds.  Don't need to check all of them,
+					// just enough to ensure we're always below the max images loaded.
+					int removed = 0;
+					while (removed < MAX_IMAGES_LOADED && left > 0) {
+						left--;
+						ImageCache.removeImage(urls.get(left), true);
+					}
+					removed = 0;
+					while (removed < MAX_IMAGES_LOADED && right < len - 1) {
+						right++;
+						ImageCache.removeImage(urls.get(right), true);
 					}
 				}
-			};
-			loader.onImageLoaded(null, null);
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// Do nothing
+				}
+			});
 
 			if (startFlipping) {
 				gallery.startFlipping();
