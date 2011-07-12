@@ -5,6 +5,7 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,7 +41,7 @@ public class LayoutUtils {
 	public static void addRateDetails(Context context, ViewGroup detailsLayout, SearchParams searchParams,
 			Property property,
 			Rate rate) {
-		addDetail(context, detailsLayout, R.string.room_type, rate.getRoomDescription());
+		addDetail(context, detailsLayout, R.string.room_type, Html.fromHtml(rate.getRoomDescription()));
 
 		addDetail(context, detailsLayout, R.string.GuestsLabel, StrUtils.formatGuests(context, searchParams));
 
@@ -81,11 +82,11 @@ public class LayoutUtils {
 		}
 	}
 
-	public static void addDetail(Context context, ViewGroup parent, int labelStrId, String value) {
+	public static void addDetail(Context context, ViewGroup parent, int labelStrId, CharSequence value) {
 		addDetail(context, parent, context.getString(labelStrId), value);
 	}
 
-	public static void addDetail(Context context, ViewGroup parent, String label, String value) {
+	public static void addDetail(Context context, ViewGroup parent, CharSequence label, CharSequence value) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View detailRow = inflater.inflate(R.layout.snippet_booking_detail, parent, false);
 		TextView labelView = (TextView) detailRow.findViewById(R.id.label_text_view);
