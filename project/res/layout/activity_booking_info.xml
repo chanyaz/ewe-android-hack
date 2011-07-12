@@ -76,12 +76,14 @@
 								android:id="@+id/address1_text_view"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
+								android:gravity="right"
 								android:textColor="@color/dark_blue"
 								android:textSize="12sp" />
 							<TextView
 								android:id="@+id/address2_text_view"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
+								android:gravity="right"
 								android:textColor="@color/dark_blue"
 								android:textSize="12sp" />
 						</LinearLayout>
