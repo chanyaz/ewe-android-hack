@@ -226,7 +226,7 @@ public class HotelActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 
-		if (isFinishing()) {
+		if (isFinishing() && mProperty.getMediaCount() > 0) {
 			// In order to avoid memory issues, clear the cache of images we might've loaded in this activity
 			Log.d("Clearing out images from property.");
 
