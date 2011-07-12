@@ -78,7 +78,7 @@ public class Search extends ActiveRecordBase<Search> {
 		}
 
 		Search.delete(context, Search.class, "lower(FreeFormLocation) = '"
-				+ searchParams.getFreeformLocation().toLowerCase().trim() + "'");
+				+ searchParams.getFreeformLocation().toLowerCase().replace("'", "''").trim() + "'");
 		new Search(context, searchParams).save();
 	}
 }
