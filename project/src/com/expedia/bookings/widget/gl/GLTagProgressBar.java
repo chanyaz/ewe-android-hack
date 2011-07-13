@@ -78,7 +78,7 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 		else {
 			mRenderer.resume();
 		}
-		
+
 		setSensorManagerRegistration(visibility == View.VISIBLE);
 	}
 
@@ -124,15 +124,21 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 		}
 
 		final float[] acceleration = event.values.clone();
-		switch (mOrientation) {
+		final int orientation = ((Activity) mContext).getWindowManager().getDefaultDisplay().getOrientation();
+		switch (orientation) {
 		case Surface.ROTATION_90: {
-			acceleration[1] = event.values[0];
 			acceleration[0] = -event.values[1];
+			acceleration[1] = event.values[0];
+			break;
+		}
+		case Surface.ROTATION_180: {
+			acceleration[0] = event.values[0];
+			acceleration[1] = -event.values[1];
 			break;
 		}
 		case Surface.ROTATION_270: {
-			acceleration[1] = -event.values[0];
 			acceleration[0] = event.values[1];
+			acceleration[1] = -event.values[0];
 			break;
 		}
 		}
