@@ -271,6 +271,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private Thread mGeocodeThread;
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
+	
+	private boolean mIsActivityResumed = false;
 
 	// This indicates to mSearchCallback that we just loaded saved search results,
 	// and as such should behave a bit differently than if we just did a new search.
@@ -306,7 +308,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 				if (!mLoadedSavedResults && mSearchResponse.getFilteredAndSortedProperties().length <= 10) {
 					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
+					mFilter.setSearchRadius(SearchRadius.ALL);
 					mRadiusButtonGroup.check(R.id.radius_all_button);
+					mSearchResponse.clearCache();
 				}
 
 				ImageCache.recycleCache(true);
@@ -487,6 +491,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		mIsActivityResumed = false;
 
 		mSearchProgressBar.onPause();
 		stopLocationListener();
@@ -545,6 +550,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		maxTime.normalize(true);
 
 		mDatesCalendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
+		mIsActivityResumed = true;
 	}
 
 	@Override
@@ -1071,7 +1077,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		}
 
-		if (currentFilter == null || !mFilter.equals(currentFilter)) {
+		/*
+		 * Don't notify listeners of the filter having changed when the activity is either not 
+		 * completely setup or paused. This is because we don't want the filter changes to propogate
+		 * when the radio buttons are being setup as it causes wasted cycles notifying all listeners
+		 */
+		if (currentFilter == null || !mFilter.equals(currentFilter) && mIsActivityResumed) {
 			Log.d("Filter has changed, notifying listeners.");
 			mFilter.notifyFilterChanged();
 		}

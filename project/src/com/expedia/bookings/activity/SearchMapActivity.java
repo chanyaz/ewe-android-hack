@@ -124,7 +124,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		outState.putInt(CURRENT_CENTER_LON, mMapView.getMapCenter().getLongitudeE6());
 		outState.putInt(CURRENT_ZOOM_LEVEL, mMapView.getZoomLevel());
 		
-		String tappedPropertyId = mHotelItemizedOverlay.getTappedPropertyId();
+		String tappedPropertyId = (mHotelItemizedOverlay == null) ? null : mHotelItemizedOverlay.getTappedPropertyId();
 		if(tappedPropertyId != null) {
 			outState.putString(CURRENT_TAPPED_ITEM_PROPERTY_ID, tappedPropertyId);
 		}
@@ -260,6 +260,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		if(areHotelsVisible != null && !areHotelsVisible.booleanValue()) {
 			clearSavedMapInfo();
 		}
+		
 		// Animate to a new center point
 		focusOnProperties();
 	}
