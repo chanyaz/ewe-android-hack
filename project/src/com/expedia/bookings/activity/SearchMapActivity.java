@@ -123,7 +123,11 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		outState.putInt(CURRENT_CENTER_LAT, mMapView.getMapCenter().getLatitudeE6());
 		outState.putInt(CURRENT_CENTER_LON, mMapView.getMapCenter().getLongitudeE6());
 		outState.putInt(CURRENT_ZOOM_LEVEL, mMapView.getZoomLevel());
-		outState.putString(CURRENT_TAPPED_ITEM_PROPERTY_ID, mHotelItemizedOverlay.getTappedPropertyId());
+		
+		String tappedPropertyId = mHotelItemizedOverlay.getTappedPropertyId();
+		if(tappedPropertyId != null) {
+			outState.putString(CURRENT_TAPPED_ITEM_PROPERTY_ID, tappedPropertyId);
+		}
 		
 		super.onSaveInstanceState(outState);
 	}
@@ -195,7 +199,9 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			overlays.add(mHotelItemizedOverlay);
 		}
 		else {
-			mHotelItemizedOverlay.setProperties(properties);
+			// clear the map info to determine center based on new search
+			clearSavedMapInfo();
+			mHotelItemizedOverlay.setProperties(properties, mSearchResponse.getProperties());
 			mHotelItemizedOverlay.setShowDistance(mShowDistance);
 		}
 
@@ -242,7 +248,8 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mSavedZoomLevel = mMapView.getZoomLevel();
 		mTappedPropertyId = mHotelItemizedOverlay.getTappedPropertyId();
 		
-		mHotelItemizedOverlay.setProperties(Arrays.asList(mSearchResponse.getFilteredAndSortedProperties()));
+		mHotelItemizedOverlay.setProperties(Arrays.asList(mSearchResponse.getFilteredAndSortedProperties()), 
+					mSearchResponse.getProperties());
 		mMapView.invalidate();
 		Boolean areHotelsVisible = mHotelItemizedOverlay.areHotelsVisible();
 	
@@ -306,6 +313,8 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mSavedCenter = null;
 		mSavedZoomLevel = -1;
 	}
+	
+
 	
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Private classes
