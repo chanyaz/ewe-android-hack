@@ -980,8 +980,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private void buildFilter() {
 		Log.d("Building up filter from current view settings...");
 
+		Filter currentFilter = null;
 		if (mFilter == null) {
 			mFilter = new Filter();
+		}
+		else {
+			currentFilter = mFilter.copy();
 		}
 
 		// Distance
@@ -1067,8 +1071,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		}
 
-		// Notify that the filter has changed
-		mFilter.notifyFilterChanged();
+		if (currentFilter == null || !mFilter.equals(currentFilter)) {
+			Log.d("Filter has changed, notifying listeners.");
+			mFilter.notifyFilterChanged();
+		}
+
 		setFilterInfoText();
 	}
 
