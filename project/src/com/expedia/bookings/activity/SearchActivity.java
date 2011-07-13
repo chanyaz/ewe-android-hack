@@ -144,7 +144,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		private static final long serialVersionUID = 1L;
 
 		{
-			put(Sort.ALPHABETICAL, R.string.sort_adverb_alphabetical);
 			put(Sort.DISTANCE, R.string.sort_adverb_distance);
 			put(Sort.POPULAR, R.string.sort_adverb_popular);
 			put(Sort.PRICE, R.string.sort_adverb_price);
@@ -156,7 +155,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		private static final long serialVersionUID = 1L;
 
 		{
-			put(Sort.ALPHABETICAL, R.string.sort_description_alphabetical);
 			put(Sort.DISTANCE, R.string.sort_description_distance);
 			put(Sort.POPULAR, R.string.sort_description_popular);
 			put(Sort.PRICE, R.string.sort_description_price);
@@ -1061,10 +1059,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		case R.id.sort_reviews_button: {
 			mFilter.setSort(Sort.RATING);
-			break;
-		}
-		case R.id.sort_alpha_button: {
-			mFilter.setSort(Sort.ALPHABETICAL);
 			break;
 		}
 		case R.id.sort_distance_button: {

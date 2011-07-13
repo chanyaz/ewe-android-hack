@@ -242,15 +242,6 @@
 				
 			
 				<com.mobiata.android.widget.RadioButtonCenter
-					android:id="@+id/sort_alpha_button"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:textStyle="bold"
-					android:button="@drawable/btn_sort_alphabetical" />
-				
-			
-				<com.mobiata.android.widget.RadioButtonCenter
 					android:id="@+id/sort_distance_button"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
