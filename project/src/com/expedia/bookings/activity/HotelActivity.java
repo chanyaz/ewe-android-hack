@@ -129,11 +129,14 @@ public class HotelActivity extends Activity {
 							// have to update/branch Utils.
 						}
 					};
-					while (loaded < MAX_IMAGES_LOADED) {
+					boolean hasMore = true;
+					while (loaded < MAX_IMAGES_LOADED && hasMore) {
+						hasMore = false;
 						if (left > 0) {
 							left--;
 							ImageCache.loadImage(urls.get(left), doNothing);
 							loaded++;
+							hasMore = true;
 						}
 						if (loaded == MAX_IMAGES_LOADED) {
 							break;
@@ -142,6 +145,7 @@ public class HotelActivity extends Activity {
 							right++;
 							ImageCache.loadImage(urls.get(right), doNothing);
 							loaded++;
+							hasMore = true;
 						}
 					}
 
