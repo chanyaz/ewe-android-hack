@@ -132,7 +132,7 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 			break;
 		}
 		case Surface.ROTATION_180: {
-			acceleration[0] = event.values[0];
+			acceleration[0] = -event.values[0];
 			acceleration[1] = -event.values[1];
 			break;
 		}
