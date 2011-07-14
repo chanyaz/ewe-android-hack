@@ -103,17 +103,18 @@
 			android:numStars="5"
 			android:stepSize=".5"
 			android:isIndicator="true"
-			android:visibility="gone"
+			android:visibility="invisible"
 			style="@style/Widget.RatingBar.Small.Inset" />
 		<RatingBar
 			android:id="@+id/user_rating_bar"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_below="@id/price_text_view"
+			android:layout_alignBottom="@id/hotel_rating_bar"
 			android:numStars="5"
 			android:stepSize=".5"
 			android:isIndicator="true"
-			android:visibility="gone"
+			android:visibility="invisible"
 			style="@style/Widget.RatingBar.Small.UserReview" />
 		<TextView
 			android:id="@+id/distance_text_view"

@@ -192,11 +192,11 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		holder.hotelRating.setRating((float) property.getHotelRating());
 		holder.userRating.setRating((float) property.getUserRating());
 		if(mIsSortedByUserRating) {
-			holder.hotelRating.setVisibility(View.GONE);
+			holder.hotelRating.setVisibility(View.INVISIBLE);
 			holder.userRating.setVisibility(View.VISIBLE);
 		} else {
 			holder.hotelRating.setVisibility(View.VISIBLE);
-			holder.userRating.setVisibility(View.GONE);
+			holder.userRating.setVisibility(View.INVISIBLE);
 		}
 		
 		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext));

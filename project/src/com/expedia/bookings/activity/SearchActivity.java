@@ -1728,7 +1728,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mTripAdvisorOnlyButton.setText(R.string.tripadvisor_rating_all);
 			break;
 		}
-
+		
 		// Configure the sort buttons
 		switch (mFilter.getSort()) {
 		case POPULAR:
@@ -1736,6 +1736,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		case PRICE:
 			mSortButtonGroup.check(R.id.sort_price_button);
+			break;
+		case RATING:
+			mSortButtonGroup.check(R.id.sort_reviews_button);
+			break;
+		case DISTANCE:
+			mSortButtonGroup.check(R.id.sort_distance_button);
 			break;
 		default:
 			mSortButtonGroup.check(DEFAULT_SORT_RADIO_GROUP_CHILD);
