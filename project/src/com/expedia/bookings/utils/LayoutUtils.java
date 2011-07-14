@@ -29,7 +29,7 @@ public class LayoutUtils {
 		RatingBar hotelRating = (RatingBar) activity.findViewById(R.id.hotel_rating_bar);
 		hotelRating.setRating((float) property.getHotelRating());
 		RatingBar userRating = (RatingBar) activity.findViewById(R.id.user_rating_bar);
-		userRating.setRating((float) property.getTripAdvisorRating());
+		userRating.setRating((float) property.getUserRating());
 		TextView location = (TextView) activity.findViewById(R.id.location_text_view);
 		location.setText(StrUtils.formatAddress(property.getLocation(), StrUtils.F_CITY + StrUtils.F_STATE_CODE));
 

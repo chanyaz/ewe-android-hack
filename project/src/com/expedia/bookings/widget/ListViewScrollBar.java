@@ -275,7 +275,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
 		for (Property property : mCachedProperties) {
-			if (property.getTripAdvisorRating() >= Filter.TRIP_ADVISOR_HIGH_RATING) {
+			if (property.getUserRating() >= Filter.HIGH_USER_RATING) {
 				propertyPositions.add(i);
 			}
 			i++;

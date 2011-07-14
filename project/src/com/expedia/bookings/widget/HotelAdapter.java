@@ -23,6 +23,7 @@ import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.SearchResponse;
+import com.mobiata.hotellib.data.Filter.Sort;
 
 public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
@@ -38,6 +39,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private boolean mIsMeasuring = false;
 	private boolean mShowDistance = true;
+	private boolean mIsSortedByUserRating = false;
 
 	public HotelAdapter(Context context, SearchResponse searchResponse) {
 		mContext = context;
@@ -55,6 +57,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			TrackingUtils.trackErrorPage(mContext, "FilteredToZeroResults");
 		}
 
+		mIsSortedByUserRating = (mSearchResponse.getFilter().getSort() == Sort.RATING);
+		
 		final List<Property> properties = new ArrayList<Property>();
 		properties.addAll(mSearchResponse.getProperties());
 
@@ -143,6 +147,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.perNight = (TextView) convertView.findViewById(R.id.per_night_text_view);
 			holder.highlyRatedImage = (ImageView) convertView.findViewById(R.id.highly_rated_image_view);
 			holder.hotelRating = (RatingBar) convertView.findViewById(R.id.hotel_rating_bar);
+			holder.userRating = (RatingBar) convertView.findViewById(R.id.user_rating_bar);
 			holder.distance = (TextView) convertView.findViewById(R.id.distance_text_view);
 			convertView.setTag(holder);
 		}
@@ -185,6 +190,15 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		}
 
 		holder.hotelRating.setRating((float) property.getHotelRating());
+		holder.userRating.setRating((float) property.getUserRating());
+		if(mIsSortedByUserRating) {
+			holder.hotelRating.setVisibility(View.GONE);
+			holder.userRating.setVisibility(View.VISIBLE);
+		} else {
+			holder.hotelRating.setVisibility(View.VISIBLE);
+			holder.userRating.setVisibility(View.GONE);
+		}
+		
 		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext));
 		holder.distance.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
 
@@ -236,6 +250,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		public TextView perNight;
 		public ImageView highlyRatedImage;
 		public RatingBar hotelRating;
+		public RatingBar userRating;
 		public TextView distance;
 	}
 
