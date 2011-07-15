@@ -5,77 +5,38 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:background="@color/bg_default">
-	<RelativeLayout
-		android:id="@+id/header_layout"
-		android:layout_width="match_parent"
+	<com.mobiata.android.widget.SegmentedControlGroup
+		android:id="@+id/user_review_sort_group"
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:padding="8dp"
-		android:background="@drawable/bg_header">
-		<LinearLayout
-			android:id="@+id/user_review_big_rating"
-			android:layout_width="60dp"
-			android:layout_height="60dp"
-			android:orientation="vertical"
-			android:shadowColor="#84ffffff"
-			android:shadowDx="1.0"
-			android:shadowDy="1.0"
-			android:shadowRadius="1.0"
-			android:textColor="#2f2f2f"
-			android:background="@drawable/user_review_bigrating_bg">
-			<TextView
-				android:id="@+id/user_review_rating_value"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center"
-				android:includeFontPadding="false"
-				android:textColor="#2f2f2f"
-				android:textStyle="bold"
-				android:textSize="24dp" />
-			<TextView
-				android:id="@+id/user_review_rating_out_of"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:gravity="center"
-				android:includeFontPadding="false"
-				android:textColor="#2f2f2f"
-				android:textSize="12sp"
-				android:text="@string/user_review_rating_out_of" />
-		</LinearLayout>
-		<com.mobiata.android.widget.SegmentedControlGroup
-			android:id="@+id/user_review_sort_group"
-			android:layout_width="fill_parent"
+		android:orientation="horizontal"
+		android:background="@drawable/bg_header"
+		style="@style/Widget.SegmentedControlGroup.UserReviews">
+		<RadioButton
+			android:id="@+id/user_review_button_recent"
+			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="6dp"
-			android:layout_marginBottom="6dp"
-			android:orientation="horizontal"
-			android:layout_toRightOf="@id/user_review_big_rating"
-			android:layout_centerVertical="true"
-			style="@style/Widget.SegmentedControlGroup.UserReviews">
-			<RadioButton
-				android:id="@+id/user_review_button_recent"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:text="@string/user_review_sort_button_recent" />
-			<RadioButton
-				android:id="@+id/user_review_button_favorable"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:text="@string/user_review_sort_button_favorable" />
-			<RadioButton
-				android:id="@+id/user_review_button_critical"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:text="@string/user_review_sort_button_critical" />
-		</com.mobiata.android.widget.SegmentedControlGroup>
-	</RelativeLayout>
+			android:layout_weight="1"
+			android:text="@string/user_review_sort_button_recent" />
+		<RadioButton
+			android:id="@+id/user_review_button_favorable"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/user_review_sort_button_favorable" />
+		<RadioButton
+			android:id="@+id/user_review_button_critical"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/user_review_sort_button_critical" />
+	</com.mobiata.android.widget.SegmentedControlGroup>
 	<ListView
 		android:id="@android:id/list"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/header_layout"
+		android:layout_below="@id/user_review_sort_group"
 		android:layout_alignParentBottom="true"
 		android:paddingBottom="@dimen/bottom_bar_height"
 		android:smoothScrollbar="false"
@@ -118,6 +79,26 @@
 		android:layout_alignParentBottom="true"
 		android:background="#C000"
 		style="@android:style/ButtonBar">
+		<TextView
+			android:id="@+id/user_review_total_reviews"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true"
+			android:layout_marginLeft="8dp"
+			android:layout_marginRight="4dp"
+			android:textColor="#ffffff" />
+		<RatingBar 
+			android:id="@+id/user_review_rating_bar_bottom"
+			android:layout_height="wrap_content" 
+			android:layout_width="wrap_content"
+			android:layout_toRightOf="@id/user_review_total_reviews"
+			android:layout_centerVertical="true"
+			android:paddingBottom="4dp"
+			android:numStars="5" 
+			android:stepSize="1" 
+			android:isIndicator="true"
+			style="@style/Widget.RatingBar.Small.UserReview" />
 		<Button
 			android:id="@+id/book_now_button"
 			android:layout_width="140dp"

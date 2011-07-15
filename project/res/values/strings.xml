@@ -124,7 +124,9 @@
 	<!-- Read more of the review -->
 	<string name="user_review_read_more">Read more</string>
 	<!-- User review recommendation text -->
-	<string name="user_review_recommendation_tag_text">&lt;b>%1$d%%&lt;/b> recommend</string>
+	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> out of &lt;b>%2$d&lt;/b> guests recommend this hotel.</string>
+	<!-- X total reviews -->
+	<string name="user_review_total_reviews">&lt;b>%1$d Reviews&lt;/b></string>
 	<!-- User review name and place review signature -->
 	<string name="user_review_name_and_location_signature">%1$s from %2$s</string>
 	<!-- User review no critical reviews -->

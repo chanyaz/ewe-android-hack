@@ -6,7 +6,6 @@ import java.util.HashMap;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,11 +17,13 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -48,6 +49,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 	private static final String KEY_REVIEWS_NEWEST = "KEY_REVIEWS_NEWEST";
 	private static final int FAVORABLE_REVIEW_CUTOFF = 3;
 	private static final int CRITICAL_REVIEW_CUTOFF = 2;
+	private static final int THUMB_CUTOFF_INCLUSIVE = 5;
 
 	// Views
 	private ListView mUserReviewsListView;
@@ -363,25 +365,30 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 
 		btn.setChecked(true);
 
-		int numberOfReviews = mProperty.getTotalReviews();
-		TextView countTextView = (TextView) findViewById(R.id.user_reviews_count);
-		Resources res = getResources();
-		String xReviewsSecondaryText = res.getQuantityString(R.plurals.user_reviews_x_total_reviews, numberOfReviews);
-		String countText = String.format(getString(R.string.user_review_total_reviews_tag), numberOfReviews,
-				xReviewsSecondaryText);
-		CharSequence countStyled = Html.fromHtml(countText);
-		countTextView.setText(countStyled);
-
-		((TextView) findViewById(R.id.user_review_rating_value)).setText(Double.toString(mProperty
-				.getAverageExpediaRating()));
-
 		TextView recommendText = (TextView) findViewById(R.id.user_reviews_recommendation_tag);
 
-		int percentRec = (mProperty.getTotalRecommendations() * 100) / mProperty.getTotalReviews();
-		String text = String.format(getString(R.string.user_review_recommendation_tag_text), percentRec);
+		int numberRec = mProperty.getTotalRecommendations();
+		int numberTotal = mProperty.getTotalReviews();
+		String text = String.format(getString(R.string.user_review_recommendation_tag_text), numberRec, numberTotal);
 		CharSequence styledText = Html.fromHtml(text);
 
+		ImageView thumbView = (ImageView) findViewById(R.id.user_reviews_thumb);
+
+		if (numberRec * 10 / numberTotal >= THUMB_CUTOFF_INCLUSIVE) {
+			thumbView.setImageResource(R.drawable.review_thumbs_up);
+		}
+		else {
+			thumbView.setImageResource(R.drawable.review_thumbs_down);
+		}
 		recommendText.setText(styledText);
+
+		TextView totalReviews = (TextView) findViewById(R.id.user_review_total_reviews);
+		String totalReviewsText = String.format(getString(R.string.user_review_total_reviews), numberTotal);
+		CharSequence styledTotalText = Html.fromHtml(totalReviewsText);
+		totalReviews.setText(styledTotalText);
+
+		RatingBar bottomRatingBar = (RatingBar) findViewById(R.id.user_review_rating_bar_bottom);
+		bottomRatingBar.setRating((float) mProperty.getAverageExpediaRating());
 	}
 
 	public void setNoReviewsText() {

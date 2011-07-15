@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -73,8 +73,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 			viewHolder.title = (TextView) convertView.findViewById(R.id.user_review_title_text_view);
 			viewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.user_review_rating_bar);
 			viewHolder.body = (TextView) convertView.findViewById(R.id.user_review_body_text_view);
-			viewHolder.readMoreContainer = (RelativeLayout) convertView
-					.findViewById(R.id.user_review_read_more_container);
+			viewHolder.readMore = (Button) convertView.findViewById(R.id.user_review_read_more_button);
 			viewHolder.nameAndLocation = (TextView) convertView
 					.findViewById(R.id.user_review_name_and_location_text_view);
 			viewHolder.submissionDate = (TextView) convertView.findViewById(R.id.user_review_date_text_view);
@@ -85,12 +84,12 @@ public class UserReviewsAdapter extends BaseAdapter {
 		}
 
 		// This click listener is set outside of the convertView so that it displays the right data
-		viewHolder.readMoreContainer.setOnClickListener(new OnClickListener() {
+		viewHolder.readMore.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				viewHolder.body.setText(userReviewLoaded.review.getBody());
 				userReviewLoaded.isDisplayingFull = true;
-				viewHolder.readMoreContainer.setVisibility(View.GONE);
+				viewHolder.readMore.setVisibility(View.GONE);
 			}
 		});
 		viewHolder.title.setText(userReviewLoaded.review.getTitle());
@@ -101,15 +100,15 @@ public class UserReviewsAdapter extends BaseAdapter {
 		}
 
 		if (userReviewLoaded.isDisplayingFull) {
-			viewHolder.readMoreContainer.setVisibility(View.GONE);
+			viewHolder.readMore.setVisibility(View.GONE);
 			viewHolder.body.setText(userReviewLoaded.review.getBody());
 		}
 		else if (userReviewLoaded.bodyWasReduced) {
-			viewHolder.readMoreContainer.setVisibility(View.VISIBLE);
+			viewHolder.readMore.setVisibility(View.VISIBLE);
 			viewHolder.body.setText(userReviewLoaded.bodyReduced);
 		}
 		else {
-			viewHolder.readMoreContainer.setVisibility(View.GONE);
+			viewHolder.readMore.setVisibility(View.GONE);
 			viewHolder.body.setText(userReviewLoaded.review.getBody());
 		}
 
@@ -159,7 +158,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 		public TextView nameAndLocation;
 		public TextView submissionDate;
 		public TextView body;
-		public RelativeLayout readMoreContainer;
+		public Button readMore;
 	}
 
 	public void addUserReviews(ArrayList<Review> reviews) {
@@ -189,6 +188,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 			String body = review.getBody();
 			if (body.length() > BODY_LENGTH_CUTOFF) {
 				loadedReview.bodyReduced = body.substring(0, BODY_LENGTH_CUTOFF);
+				loadedReview.bodyReduced += "...";
 				loadedReview.bodyWasReduced = true;
 			}
 			else {
