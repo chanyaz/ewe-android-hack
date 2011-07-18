@@ -1974,7 +1974,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onClick(View v) {
 			switchRatingFilter();
-			closeDrawer();
 		}
 	};
 
@@ -1984,7 +1983,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			buildFilter();
 			setPriceRangeText();
 			setRadioButtonShadowLayers();
-			closeDrawer();
 		}
 	};
 
