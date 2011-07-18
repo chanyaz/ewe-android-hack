@@ -49,9 +49,7 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		mScrollBar.setOnScrollListener(this);
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
-		if (state != null) {
-			onSearchCompleted(state.searchResponse);
-			
+		if (state != null) {			
 			mSearchResponse = state.searchResponse;
 			mSearchResponse.getFilter().addOnFilterChangedListener(this);
 
