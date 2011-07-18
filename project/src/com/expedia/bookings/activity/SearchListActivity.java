@@ -51,6 +51,13 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
 			onSearchCompleted(state.searchResponse);
+			
+			mSearchResponse = state.searchResponse;
+			mSearchResponse.getFilter().addOnFilterChangedListener(this);
+
+			mScrollBar.setSearchResponse(mSearchResponse);
+			mAdapter = state.adapter;
+			setListAdapter(mAdapter);
 		}
 	}
 
@@ -58,6 +65,7 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	public Object onRetainNonConfigurationInstance() {
 		ActivityState state = new ActivityState();
 		state.searchResponse = mSearchResponse;
+		state.adapter = mAdapter;
 
 		return state;
 	}
@@ -166,5 +174,6 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 	private class ActivityState {
 		public SearchResponse searchResponse;
+		public HotelAdapter adapter;
 	}
 }
