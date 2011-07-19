@@ -188,9 +188,9 @@ public class HotelActivity extends Activity {
 		Button mapButton = (Button) findViewById(R.id.map_button);
 		mapButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(mContext, HotelMapActivity.class);
-				intent.fillIn(intent, 0);
-				startActivity(intent);
+				Intent newIntent = new Intent(mContext, HotelMapActivity.class);
+				newIntent.fillIn(intent, 0);
+				startActivity(newIntent);
 			}
 		});
 		
@@ -198,9 +198,9 @@ public class HotelActivity extends Activity {
 		if(mProperty.hasExpediaReviews()) {
 			userReviewsButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					Intent intent = new Intent(mContext, UserReviewsListActivity.class);
-					intent.fillIn(intent, 0);
-					startActivity(intent);
+					Intent newIntent = new Intent(mContext, UserReviewsListActivity.class);
+					newIntent.fillIn(intent, 0);
+					startActivity(newIntent);
 				}	
 			});
 		}
