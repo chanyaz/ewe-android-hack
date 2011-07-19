@@ -7,8 +7,9 @@
   android:id="@+id/root"
   android:layout_width="303dp"
   android:layout_height="87dp"
-  android:background="@drawable/widget_bg"
-  android:orientation="vertical">
+  android:clickable="true"
+  android:focusable="true"
+  android:background="@drawable/widget_bg">
   <TextView
   	android:id="@+id/loading_text_view"
   	android:layout_width="wrap_content"
@@ -17,10 +18,8 @@
 	android:layout_centerInParent="true" />
   <RelativeLayout
   	android:id="@+id/widget_contents_container"
-  	android:layout_width="wrap_content"
+  	android:layout_width="fill_parent"
   	android:layout_height="fill_parent"
-  	android:clickable="true"
-  	android:focusable="true"
   	android:visibility="gone">
   		
 	  <ImageView

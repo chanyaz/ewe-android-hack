@@ -100,7 +100,7 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 		
 		Intent onClickIntent = new Intent(mContext, HotelActivity.class);
 		onClickIntent.fillIn(intent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		rv.setOnClickPendingIntent(R.id.widget_contents_container, PendingIntent.getActivity(mContext, 3, onClickIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(mContext, 3, onClickIntent, PendingIntent.FLAG_CANCEL_CURRENT));
 		
 		rv.setViewVisibility(R.id.loading_text_view, View.GONE);
 		
