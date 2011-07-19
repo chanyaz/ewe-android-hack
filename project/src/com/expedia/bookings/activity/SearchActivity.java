@@ -43,6 +43,7 @@ import android.provider.Settings;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -98,6 +99,7 @@ import com.mobiata.android.widget.Panel;
 import com.mobiata.android.widget.RadioButtonCenter;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.mobiata.hotellib.app.SearchListener;
+import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Filter;
 import com.mobiata.hotellib.data.Filter.PriceRange;
 import com.mobiata.hotellib.data.Filter.Rating;
@@ -174,7 +176,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private static final int REQUEST_CODE_SETTINGS = 1;
 
-	private static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
+	public static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
 
 	private static final boolean ANIMATION_VIEW_FLIP_ENABLED = true;
 	private static final long ANIMATION_VIEW_FLIP_SPEED = 350;
@@ -189,7 +191,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final int DEFAULT_RADIUS_RADIO_GROUP_CHILD = R.id.radius_large_button;
 	private static final int DEFAULT_PRICE_RADIO_GROUP_CHILD = R.id.price_all_button;
 
-	private static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
+	public static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -1212,6 +1214,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void startSearchDownloader() {
+		saveParams();
+		// broadcast the change of the search params
+		// only after the params have been setup 
+		// and are ready to be used to query expedia
+		// services for relevant hotels
+		broadcastSearchParamsChanged();
+
 		showLoading(R.string.progress_searching_hotels);
 
 		if (!NetUtils.isOnline(this)) {
@@ -1305,6 +1314,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		onSearchResultsChanged();
+	}
+	
+	
+	private void broadcastSearchParamsChanged() {
+		// Inform all interested parties that search params have changed
+		Intent i2 = new Intent("com.expedia.bookings.SEARCH_PARAMS_CHANGED");
+		i2.putExtra(Codes.SEARCH_PARAMS, mSearchParams.toJson().toString());
+		startService(i2);
 	}
 	
 	//----------------------------------

@@ -66,13 +66,21 @@ public class HotelActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setupHotelActivity(savedInstanceState, getIntent());
+	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		setupHotelActivity(null, intent);
+	}
 
+	private void setupHotelActivity(Bundle savedInstanceState, final Intent intent) {
 		mContext = this;
 
 		setContentView(R.layout.activity_hotel);
 
 		// Retrieve data to build this with
-		final Intent intent = getIntent();
 		Property property = mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
 				Property.class);
 
@@ -99,7 +107,7 @@ public class HotelActivity extends Activity {
 		// Fill in header views
 		LayoutUtils.configureHeader(this, property, new OnClickListener() {
 			public void onClick(View v) {
-				startRoomRatesActivity();
+				startRoomRatesActivity(intent);
 			}
 		});
 
@@ -158,7 +166,7 @@ public class HotelActivity extends Activity {
 		priceContainer.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startRoomRatesActivity();
+				startRoomRatesActivity(intent);
 			}
 		});
 		priceContainer.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_left));
@@ -181,7 +189,7 @@ public class HotelActivity extends Activity {
 		mapButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, HotelMapActivity.class);
-				intent.fillIn(getIntent(), 0);
+				intent.fillIn(intent, 0);
 				startActivity(intent);
 			}
 		});
@@ -191,7 +199,7 @@ public class HotelActivity extends Activity {
 			userReviewsButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					Intent intent = new Intent(mContext, UserReviewsListActivity.class);
-					intent.fillIn(getIntent(), 0);
+					intent.fillIn(intent, 0);
 					startActivity(intent);
 				}	
 			});
@@ -310,7 +318,7 @@ public class HotelActivity extends Activity {
 
 		// Tracking
 		if (savedInstanceState == null) {
-			onPageLoad();
+			onPageLoad(intent);
 		}
 	}
 
@@ -352,7 +360,7 @@ public class HotelActivity extends Activity {
 		super.onStart();
 
 		if (mWasStopped) {
-			onPageLoad();
+			onPageLoad(getIntent());
 			mWasStopped = false;
 		}
 	}
@@ -374,9 +382,9 @@ public class HotelActivity extends Activity {
 		amenitiesTable.addView(amenityLayout);
 	}
 
-	public void startRoomRatesActivity() {
+	public void startRoomRatesActivity(Intent intent) {
 		Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
-		roomsRatesIntent.fillIn(getIntent(), 0);
+		roomsRatesIntent.fillIn(intent, 0);
 		startActivity(roomsRatesIntent);
 	}
 
@@ -474,7 +482,7 @@ public class HotelActivity extends Activity {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Omniture tracking
 
-	public void onPageLoad() {
+	public void onPageLoad(Intent intent) {
 		Log.d("Tracking \"App.Hotels.Infosite\" pageLoad");
 
 		AppMeasurement s = new AppMeasurement(getApplication());
@@ -495,7 +503,7 @@ public class HotelActivity extends Activity {
 		TrackingUtils.addProducts(s, mProperty);
 
 		// Position, if opened from list
-		int position = getIntent().getIntExtra(EXTRA_POSITION, -1);
+		int position = intent.getIntExtra(EXTRA_POSITION, -1);
 		if (position != -1) {
 			s.eVar39 = position + "";
 		}

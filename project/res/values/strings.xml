@@ -42,6 +42,10 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Loading previous search results...</string>
 	
+	<!-- Widget -->
+	<string name="loading_hotels">Loading hotels...</string>
+	<string name="widget_savings_template">Save %2.0f%%</string>
+	
 	<!-- Sort adverbs, e.g. Sorted "adverb" -->
 	<string name="sort_adverb_distance">by distance</string>
 	<string name="sort_adverb_popular">by popularity</string>

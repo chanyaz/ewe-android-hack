@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+ 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content"
+	android:layout_width="wrap_content">
+<RelativeLayout
+  android:id="@+id/root"
+  android:layout_width="303dp"
+  android:layout_height="87dp"
+  android:background="@drawable/widget_bg"
+  android:orientation="vertical">
+  <TextView
+  	android:id="@+id/loading_text_view"
+  	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="@string/loading_hotels"
+	android:layout_centerInParent="true" />
+  <RelativeLayout
+  	android:id="@+id/widget_contents_container"
+  	android:layout_width="wrap_content"
+  	android:layout_height="fill_parent"
+  	android:clickable="true"
+  	android:focusable="true"
+  	android:visibility="gone">
+  		
+	  <ImageView
+	  	android:id="@+id/hotel_image_view"
+	  	android:layout_height="60dp"
+		android:layout_width="60dp"
+		android:layout_marginLeft="5dp"
+		android:layout_marginBottom="5dp"
+		android:layout_marginTop="5dp"
+		android:layout_centerVertical="true"
+		android:layout_alignParentLeft="true"
+		android:scaleType="centerCrop"
+		android:src="@drawable/widget_thumbnail_background" />
+	
+	  <ImageView
+	  	android:layout_height="wrap_content"
+	  	android:layout_width="wrap_content"
+	  	android:layout_alignTop="@id/hotel_image_view"
+	  	android:layout_alignBottom="@id/hotel_image_view"
+	  	android:layout_alignRight="@id/hotel_image_view"
+	  	android:layout_alignLeft="@id/hotel_image_view"
+	  	android:background="@drawable/widget_rounded_pic_corners" />
+		
+	  <TextView
+	  	android:id="@+id/hotel_name_text_view"
+	  	android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_toRightOf="@id/hotel_image_view"
+		android:layout_toLeftOf="@+id/navigation_container"
+		android:layout_alignTop="@id/hotel_image_view"
+		android:includeFontPadding="false"
+		android:paddingLeft="5dp"
+		android:singleLine="true"
+		android:ellipsize="end"
+		style="@style/widgetHotelNameText"/>
+		
+	  <TextView
+	  	android:id="@+id/location_text_view"
+	  	android:layout_height="wrap_content"
+	  	android:layout_width="wrap_content"
+	  	android:paddingLeft="5dp"
+	  	android:layout_below="@id/hotel_name_text_view"
+	  	android:layout_alignLeft="@id/hotel_name_text_view"
+	  	style="@style/widgetHotelLocationText"/>
+	  	
+	  <LinearLayout
+	  	android:id="@+id/price_per_night_container"
+	  	android:layout_height="wrap_content"
+	  	android:layout_width="wrap_content"
+	  	android:layout_marginLeft="5dp"
+		android:layout_below="@id/location_text_view"
+		android:layout_alignLeft="@id/location_text_view"
+		android:paddingTop="0dp"
+		android:paddingBottom="0dp"
+		android:background="@drawable/widget_price_bg" >
+		
+		<TextView
+			android:id="@+id/price_text_view"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"	
+			android:includeFontPadding="false"
+			android:textColor="#064192"
+			android:textStyle="bold"
+			android:textSize="16sp"/>
+		<TextView
+			android:id="@+id/per_night_text_view"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:paddingRight="3dp"
+			android:text="@string/per_night"
+			android:textColor="@color/light_gray"
+			android:textSize="11sp"/>
+		</LinearLayout>
+		
+		<TextView
+			android:id="@+id/sale_text_view"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:singleLine="true"
+			android:layout_toRightOf="@id/price_per_night_container"
+			android:layout_alignTop="@id/price_per_night_container"
+			android:layout_alignBottom="@id/price_per_night_container"
+			android:paddingLeft="5dp"
+			android:gravity="center_vertical"
+			android:background="@drawable/widget_sale_bg"
+			android:textSize="12sp"
+			style="@style/SaleText" />
+	  
+	  <LinearLayout
+	  	android:id="@+id/navigation_container"
+	  	android:layout_height="fill_parent"
+		android:layout_width="wrap_content"
+		android:layout_alignParentRight="true"
+	 	android:orientation="vertical">
+	  
+		<ImageButton
+			android:id="@+id/prev_hotel_btn"
+		  	android:layout_height="wrap_content"
+		  	android:layout_width="wrap_content"
+		  	android:padding="0dp"
+		  	android:layout_weight="1"
+		  	android:background="@drawable/btn_widget_prev"/>
+	  	<ImageButton
+			android:id="@+id/next_hotel_btn"
+		  	android:layout_height="wrap_content"
+		  	android:layout_width="wrap_content"
+		  	android:layout_weight="1"
+		  	android:padding="0dp"
+		  	android:background="@drawable/btn_widget_next"/>
+	</LinearLayout>
+	  
+  </RelativeLayout>
+</RelativeLayout>
+<ImageView
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_marginRight="3dp"
+	android:layout_toLeftOf="@id/root"
+	android:src="@drawable/widget_bug"/>
+</RelativeLayout>
