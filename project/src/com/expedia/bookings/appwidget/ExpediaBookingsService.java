@@ -47,6 +47,7 @@ import com.mobiata.hotellib.utils.JSONUtils;
 public class ExpediaBookingsService extends Service implements LocationListener{
 	
 	private final static long UPDATE_INTERVAL = 1000 * 60 * 5; // Every 5 minutes
+	private final static long ROTATE_INTERVAL = 1000 * 10; // Every 10 seconds
 	private static final String WIDGET_KEY_SEARCH = "WIDGET_KEY_SEARCH";
 	private static final String WIDGET_SEARCH_RESULTS_FILE = "widgetsavedsearch.dat";
 
@@ -90,11 +91,10 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 				mFreeFormLocation = mSearchParams.getFreeformLocation();
 				mCurrentPosition = 0;
 				broadcastLoadingWidget(mProperties.get(mCurrentPosition));
-			}
-			else {
+			} else if(mProperties == null || mProperties.isEmpty()) {
 				broadcastWidgetError(getString(R.string.progress_search_failed));
 			}
-			
+
 			// schedule the next update
 			scheduleSearch();
 		}
@@ -238,6 +238,7 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 			startSearch();
 		} else if(intent.getAction().equals(CANCEL_UPDATE_ACTION)) {
 			cancelScheduledSearch();
+			cancelRotation();
 		} else if(intent.getAction().equals(ExpediaBookingsWidgetReceiver.NEXT_PROPERTY_ACTION) && mProperties != null) {
 			mCurrentPosition = ((mCurrentPosition + 1) >= mProperties.size()) ? 0 : mCurrentPosition + 1;
 			broadcastLoadingWidget(mProperties.get(mCurrentPosition));
@@ -289,6 +290,25 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 		am.set(AlarmManager.RTC, System.currentTimeMillis() + UPDATE_INTERVAL, operation);
 	}
 
+	private void scheduleRotation() {
+		AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+		PendingIntent operation = getRotatePropertyPendingIntent();
+
+		// Cancel any old updates
+		am.cancel(operation);
+
+		// Schedule update
+		Log.d("Scheduling next hotels search to occur in " + (ROTATE_INTERVAL / 1000) + " seconds.");
+		am.set(AlarmManager.RTC, System.currentTimeMillis() + ROTATE_INTERVAL, operation);
+	}
+
+	private void cancelRotation() {
+		AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+		PendingIntent operation = getRotatePropertyPendingIntent();
+		
+		am.cancel(operation);	
+	}
+	
 	private void cancelScheduledSearch() {
 		AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
 		PendingIntent operation = getUpdatePendingIntent();
@@ -298,6 +318,12 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 	private PendingIntent getUpdatePendingIntent() {
 		Intent i = new Intent(START_SEARCH_ACTION);
 		return PendingIntent.getService(getApplicationContext(), 0, i, 0);
+	}
+	
+	private PendingIntent getRotatePropertyPendingIntent() {
+		Intent i = new Intent(ExpediaBookingsWidgetReceiver.NEXT_PROPERTY_ACTION);
+		PendingIntent operation = PendingIntent.getService(getApplicationContext(), 0, i, 0);
+		return operation;
 	}
 	
 	
@@ -361,7 +387,7 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 	
 	private void startSearchDownloader() {
 
-		if (!NetUtils.isOnline(getApplicationContext())) {
+		if (!NetUtils.isOnline(getApplicationContext()) && (mProperties == null || mProperties.isEmpty())) {
 			broadcastWidgetError(getString(R.string.widget_error_no_internet));
 			return;
 		}
@@ -393,6 +419,7 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 		i.putExtra(Codes.SESSION, mSession.toJson().toString());
 		sendBroadcast(i);
 		loadImageForProperty(property);
+		scheduleRotation();
 	}
 	
 	private void broadcastWidgetError(CharSequence error) {

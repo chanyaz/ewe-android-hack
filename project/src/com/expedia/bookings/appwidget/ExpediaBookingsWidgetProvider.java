@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
@@ -45,6 +46,10 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 		
 		RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
+		RemoteViews widgetContents = new RemoteViews(context.getPackageName(), R.layout.widget_contents);
+		rv.addView(R.id.hotel_info_contents, widgetContents);
+		widgetContents.setViewVisibility(R.id.navigation_container, View.GONE);
+		
 		// Right now, we only support one widget a time - but should someone want to add the same
 		// widget multiple times, we need to update them all the same way
 		for (int appWidgetId : appWidgetIds) {

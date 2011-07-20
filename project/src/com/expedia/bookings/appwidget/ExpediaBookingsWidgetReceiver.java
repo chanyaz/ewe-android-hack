@@ -64,59 +64,68 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private void updateWidgets(final Property property, Intent intent) {
-		final RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget);
+		final RemoteViews widgetContents = new RemoteViews(mContext.getPackageName(), R.layout.widget_contents);
+		RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget);
 		
-		rv.setViewVisibility(R.id.widget_contents_container, View.VISIBLE);
-		rv.setTextViewText(R.id.hotel_name_text_view, property.getName());
-		
-		rv.setTextViewText(R.id.location_text_view, intent.getStringExtra(Codes.PROPERTY_LOCATION));
+		// add contents to the parent view to give the fade-in animation
+		rv.removeAllViews(R.id.hotel_info_contents);
+		rv.addView(R.id.hotel_info_contents, widgetContents);
 
-		rv.setTextViewText(R.id.price_text_view, 
+		widgetContents.setViewVisibility(R.id.widget_contents_container, View.VISIBLE);
+		widgetContents.setViewVisibility(R.id.navigation_container, View.VISIBLE);
+
+		widgetContents.setTextViewText(R.id.hotel_name_text_view, property.getName());
+		widgetContents.setTextViewText(R.id.location_text_view, intent.getStringExtra(Codes.PROPERTY_LOCATION));
+		widgetContents.setTextViewText(R.id.price_text_view, 
 				property.getLowestRate().getDisplayRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
 		
 		if(property.getLowestRate().getSavingsPercent() == 0) {
-			rv.setViewVisibility(R.id.sale_text_view, View.GONE);
-			rv.setInt(R.id.price_per_night_container, "setBackgroundResource", R.drawable.widget_price_bg_no_sale);
+			widgetContents.setViewVisibility(R.id.sale_text_view, View.GONE);
+			widgetContents.setInt(R.id.price_per_night_container, "setBackgroundResource", R.drawable.widget_price_bg_no_sale);
 		} else {
-			rv.setTextViewText(R.id.sale_text_view, mContext.getString(R.string.widget_savings_template, property.getLowestRate().getSavingsPercent() * 100));
-			rv.setInt(R.id.price_per_night_container, "setBackgroundResource", R.drawable.widget_price_bg);
-			rv.setViewVisibility(R.id.sale_text_view, View.VISIBLE);
+			widgetContents.setTextViewText(R.id.sale_text_view, mContext.getString(R.string.widget_savings_template, property.getLowestRate().getSavingsPercent() * 100));
+			widgetContents.setInt(R.id.price_per_night_container, "setBackgroundResource", R.drawable.widget_price_bg);
+			widgetContents.setViewVisibility(R.id.sale_text_view, View.VISIBLE);
 		}
 		
 		Bitmap bitmap = ImageCache.getImage(property.getThumbnail().getUrl());
 		if(bitmap == null) {
-			rv.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
+			widgetContents.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
 		} else {
-			rv.setImageViewBitmap(R.id.hotel_image_view, bitmap);
+			widgetContents.setImageViewBitmap(R.id.hotel_image_view, bitmap);
 		}
 
 		Intent prevIntent = new Intent(PREV_PROPERTY_ACTION);
 		prevIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		Intent nextIntent = new Intent(NEXT_PROPERTY_ACTION);
 		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		rv.setOnClickPendingIntent(R.id.prev_hotel_btn, PendingIntent.getService(mContext, 0, prevIntent, 0));
-		rv.setOnClickPendingIntent(R.id.next_hotel_btn, PendingIntent.getService(mContext, 1, nextIntent, 0));
+		widgetContents.setOnClickPendingIntent(R.id.prev_hotel_btn, PendingIntent.getService(mContext, 0, prevIntent, 0));
+		widgetContents.setOnClickPendingIntent(R.id.next_hotel_btn, PendingIntent.getService(mContext, 1, nextIntent, 0));
 
-		
 		Intent onClickIntent = new Intent(mContext, HotelActivity.class);
 		onClickIntent.fillIn(intent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(mContext, 3, onClickIntent, PendingIntent.FLAG_CANCEL_CURRENT));
 		
-		rv.setViewVisibility(R.id.loading_text_view, View.GONE);
-		rv.setViewVisibility(R.id.loading_text_container, View.GONE);
-		rv.setViewVisibility(R.id.refresh_text_view, View.GONE);
+		widgetContents.setViewVisibility(R.id.loading_text_view, View.GONE);
+		widgetContents.setViewVisibility(R.id.loading_text_container, View.GONE);
+		widgetContents.setViewVisibility(R.id.refresh_text_view, View.GONE);
 		
 		updateWidget(rv);
 	}
 
 	private void updateWidgetWithText(String error, boolean refreshOnClick) {
 		RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget);
+		RemoteViews widgetContents = new RemoteViews(mContext.getPackageName(), R.layout.widget_contents);
 		
-		rv.setTextViewText(R.id.loading_text_view, error);
-		rv.setViewVisibility(R.id.loading_text_view, View.VISIBLE);
-		rv.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
-		rv.setViewVisibility(R.id.widget_contents_container, View.GONE);
-		rv.setViewVisibility(R.id.refresh_text_view, View.GONE);
+		rv.removeAllViews(R.id.hotel_info_contents);
+		rv.addView(R.id.hotel_info_contents, widgetContents);
+		
+		widgetContents.setTextViewText(R.id.loading_text_view, error);
+		widgetContents.setViewVisibility(R.id.loading_text_view, View.VISIBLE);
+		widgetContents.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
+		widgetContents.setViewVisibility(R.id.widget_contents_container, View.GONE);
+		widgetContents.setViewVisibility(R.id.refresh_text_view, View.GONE);
+		rv.setViewVisibility(R.id.navigation_container, View.GONE);
 		
 		if(refreshOnClick) {
 			Intent onClickIntent = new Intent(ExpediaBookingsService.START_CLEAN_SEARCH_ACTION);
@@ -132,9 +141,7 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 		if(image != null) {
 			rv.setImageViewBitmap(R.id.hotel_image_view, image);
 			updateWidget(rv);
-		} else {
-			Log.i("NULL NULL NULL");
-		}
+		} 
 	}
 	
 	private void updateWidget(final RemoteViews rv) {
