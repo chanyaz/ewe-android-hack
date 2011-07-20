@@ -21,7 +21,8 @@
 	  	android:id="@+id/loading_text_view"
 	  	android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="@string/loading_hotels"/>
+		android:text="@string/loading_hotels"
+		style="@style/widgetHotelLocationText"/>
 		
 	  <TextView
 	  	android:id="@+id/refresh_text_view"
@@ -29,6 +30,7 @@
 		android:layout_height="wrap_content"
 		android:layout_below="@id/loading_text_view"
 		android:text="@string/refresh_widget"
+		style="@style/widgetHotelLocationText"
 		android:visibility="gone" />
 </LinearLayout>
 
