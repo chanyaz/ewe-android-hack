@@ -10,12 +10,28 @@
   android:clickable="true"
   android:focusable="true"
   android:background="@drawable/widget_bg">
-  <TextView
-  	android:id="@+id/loading_text_view"
-  	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:text="@string/loading_hotels"
-	android:layout_centerInParent="true" />
+  
+  <LinearLayout
+  	android:id="@+id/loading_text_container"
+  	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:gravity="center"
+	android:orientation="vertical">
+	  <TextView
+	  	android:id="@+id/loading_text_view"
+	  	android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/loading_hotels"/>
+		
+	  <TextView
+	  	android:id="@+id/refresh_text_view"
+	  	android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/loading_text_view"
+		android:text="@string/refresh_widget"
+		android:visibility="gone" />
+</LinearLayout>
+
   <RelativeLayout
   	android:id="@+id/widget_contents_container"
   	android:layout_width="fill_parent"

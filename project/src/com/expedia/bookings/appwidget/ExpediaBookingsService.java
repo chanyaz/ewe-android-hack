@@ -38,6 +38,7 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchParams;
+import com.mobiata.hotellib.data.SearchParams.SearchType;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
@@ -362,7 +363,6 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 
 		if (!NetUtils.isOnline(getApplicationContext())) {
 			broadcastWidgetError(getString(R.string.widget_error_no_internet));
-			scheduleSearch();
 			return;
 		}
 
@@ -388,7 +388,7 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 		Intent i = new Intent(ExpediaBookingsWidgetReceiver.LOAD_PROPERTY_ACTION);
 		i.putExtra(Codes.PROPERTY, property.toJson().toString());
 		i.putExtra(Codes.SEARCH_PARAMS, mSearchParams.toJson().toString());
-		String location = !mUseCurrentLocation ? mFreeFormLocation : property.getDistanceFromUser().formatDistance(this);
+		String location = (!mUseCurrentLocation && (mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? mFreeFormLocation : property.getDistanceFromUser().formatDistance(this);
 		i.putExtra(Codes.PROPERTY_LOCATION, location);
 		i.putExtra(Codes.SESSION, mSession.toJson().toString());
 		sendBroadcast(i);

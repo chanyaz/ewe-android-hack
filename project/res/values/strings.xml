@@ -45,6 +45,7 @@
 	<!-- Widget -->
 	<string name="loading_hotels">Loading hotels...</string>
 	<string name="widget_savings_template">Save %2.0f%%</string>
+	<string name="refresh_widget">Tap to refresh</string>
 	
 	<!-- Sort adverbs, e.g. Sorted "adverb" -->
 	<string name="sort_adverb_distance">by distance</string>

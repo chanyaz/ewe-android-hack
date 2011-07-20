@@ -40,7 +40,7 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 			if(intent.getAction().equals(LOAD_PROPERTY_ACTION)) {
 				String error = intent.getStringExtra(Codes.SEARCH_ERROR);
 				if(error != null) {
-					updateWidgetWithText(error);
+					updateWidgetWithText(error, true);
 					return;
 				}
 				
@@ -52,7 +52,7 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 				property.fromJson(new JSONObject(intent.getStringExtra(Codes.PROPERTY)));
 				updateLoadingImage(property);
 			} else if(intent.getAction().equals(ExpediaBookingsService.START_CLEAN_SEARCH_ACTION)) {
-				updateWidgetWithText(mContext.getString(R.string.loading_hotels));
+				updateWidgetWithText(mContext.getString(R.string.loading_hotels), false);
 			}
 		} catch (JSONException e) {
 			// TODO
@@ -103,23 +103,38 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(mContext, 3, onClickIntent, PendingIntent.FLAG_CANCEL_CURRENT));
 		
 		rv.setViewVisibility(R.id.loading_text_view, View.GONE);
+		rv.setViewVisibility(R.id.loading_text_container, View.GONE);
+		rv.setViewVisibility(R.id.refresh_text_view, View.GONE);
 		
 		updateWidget(rv);
 	}
 
-	private void updateWidgetWithText(String error) {
+	private void updateWidgetWithText(String error, boolean refreshOnClick) {
 		RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget);
 		
 		rv.setTextViewText(R.id.loading_text_view, error);
 		rv.setViewVisibility(R.id.loading_text_view, View.VISIBLE);
+		rv.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
 		rv.setViewVisibility(R.id.widget_contents_container, View.GONE);
+		rv.setViewVisibility(R.id.refresh_text_view, View.GONE);
+		
+		if(refreshOnClick) {
+			Intent onClickIntent = new Intent(ExpediaBookingsService.START_CLEAN_SEARCH_ACTION);
+			rv.setOnClickPendingIntent(R.id.root, PendingIntent.getBroadcast(mContext, 0, onClickIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+			rv.setViewVisibility(R.id.refresh_text_view, View.VISIBLE);
+		}
 		updateWidget(rv);
 	}
 	
 	private void updateLoadingImage(Property property) {
 		RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget);
-		rv.setImageViewBitmap(R.id.hotel_image_view, ImageCache.getImage(property.getThumbnail().getUrl()));
-		updateWidget(rv);
+		Bitmap image =  ImageCache.getImage(property.getThumbnail().getUrl());
+		if(image != null) {
+			rv.setImageViewBitmap(R.id.hotel_image_view, image);
+			updateWidget(rv);
+		} else {
+			Log.i("NULL NULL NULL");
+		}
 	}
 	
 	private void updateWidget(final RemoteViews rv) {

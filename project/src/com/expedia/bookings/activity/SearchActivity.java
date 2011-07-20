@@ -1214,7 +1214,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void startSearchDownloader() {
+		// save params so that a widget can pick up the params 
+		// to show results based on the last search
 		saveParams();
+		
 		// broadcast the change of the search params
 		// only after the params have been setup 
 		// and are ready to be used to query expedia
