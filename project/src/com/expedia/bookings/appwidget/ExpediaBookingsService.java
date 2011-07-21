@@ -90,7 +90,7 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 				mProperties = mSearchResponse.getProperties();
 				mFreeFormLocation = mSearchParams.getFreeformLocation();
 				mCurrentPosition = 0;
-				broadcastLoadingWidget(mProperties.get(mCurrentPosition));
+				loadImageForProperty(mProperties.get(mCurrentPosition));
 			} else if(mProperties == null || mProperties.isEmpty()) {
 				broadcastWidgetError(getString(R.string.progress_search_failed));
 			}
@@ -230,7 +230,7 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 			startSearch();
 		} else if(intent.getAction().equals(START_SEARCH_ACTION)) {
 			if(mProperties != null) {
-				broadcastLoadingWidget(mProperties.get(mCurrentPosition));
+				loadImageForProperty(mProperties.get(mCurrentPosition));
 			}
 			startSearch();
 		} else if(intent.getAction().equals(START_CLEAN_SEARCH_ACTION)) {
@@ -241,11 +241,11 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 			cancelRotation();
 		} else if(intent.getAction().equals(ExpediaBookingsWidgetReceiver.NEXT_PROPERTY_ACTION) && mProperties != null) {
 			mCurrentPosition = ((mCurrentPosition + 1) >= mProperties.size()) ? 0 : mCurrentPosition + 1;
-			broadcastLoadingWidget(mProperties.get(mCurrentPosition));
+			loadImageForProperty(mProperties.get(mCurrentPosition));
 			
 		} else if(intent.getAction().equals(ExpediaBookingsWidgetReceiver.PREV_PROPERTY_ACTION) && mProperties != null) {
 			mCurrentPosition = ((mCurrentPosition - 1) < 0) ? (mProperties.size() - 1) : (mCurrentPosition - 1);
-			broadcastLoadingWidget(mProperties.get(mCurrentPosition));
+			loadImageForProperty(mProperties.get(mCurrentPosition));
 		}
 		
 		return super.onStartCommand(intent, flags, startId);
@@ -418,7 +418,6 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 		i.putExtra(Codes.PROPERTY_LOCATION, location);
 		i.putExtra(Codes.SESSION, mSession.toJson().toString());
 		sendBroadcast(i);
-		loadImageForProperty(property);
 		scheduleRotation();
 	}
 	
@@ -427,20 +426,14 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 		i.putExtra(Codes.SEARCH_ERROR, error);
 		sendBroadcast(i);
 	}
-	
-	private void broadcastImageLoadingComplete(Property property) {
-		Intent i = new Intent(ExpediaBookingsWidgetReceiver.LOAD_IMAGE_FOR_PROPERTY_ACTION);
-		i.putExtra(Codes.PROPERTY, property.toJson().toString());
-		sendBroadcast(i);
-	}
-	
+
 	private void loadImageForProperty(final Property property) {
 		ImageCache.loadImage(property.getThumbnail().getUrl(), new OnImageLoaded() {
 			
 			@Override
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				if(mProperties.get(mCurrentPosition).getThumbnail().getUrl().equals(url)) {
-					broadcastImageLoadingComplete(mProperties.get(mCurrentPosition));
+					broadcastLoadingWidget(mProperties.get(mCurrentPosition));
 				}
 			}
 		});

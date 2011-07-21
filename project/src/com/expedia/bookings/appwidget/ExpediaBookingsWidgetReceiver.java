@@ -26,7 +26,6 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 	public static final String LOAD_PROPERTY_ACTION = "com.expedia.bookings.LOAD_PROPERTY";
 	public static final String NEXT_PROPERTY_ACTION = "com.expedia.bookings.NEXT_PROPERTY";
 	public static final String PREV_PROPERTY_ACTION = "com.expedia.bookings.PREV_PROPERTY";
-	public static final String LOAD_IMAGE_FOR_PROPERTY_ACTION = "com.expedia.bookings.LOAD_IMAGE_FOR_PROPERTY";
 	private static final int MAX_RESULTS = 5;
 
 	private Context mContext;
@@ -47,10 +46,6 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 				Property property = new Property();
 				property.fromJson(new JSONObject(intent.getStringExtra(Codes.PROPERTY)));
 				updateWidgets(property, intent);
-			} else if(intent.getAction().equals(LOAD_IMAGE_FOR_PROPERTY_ACTION)) {
-				Property property = new Property();
-				property.fromJson(new JSONObject(intent.getStringExtra(Codes.PROPERTY)));
-				updateLoadingImage(property);
 			} else if(intent.getAction().equals(ExpediaBookingsService.START_CLEAN_SEARCH_ACTION)) {
 				updateWidgetWithText(mContext.getString(R.string.loading_hotels), false);
 			}
@@ -133,15 +128,6 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 			rv.setViewVisibility(R.id.refresh_text_view, View.VISIBLE);
 		}
 		updateWidget(rv);
-	}
-	
-	private void updateLoadingImage(Property property) {
-		RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget);
-		Bitmap image =  ImageCache.getImage(property.getThumbnail().getUrl());
-		if(image != null) {
-			rv.setImageViewBitmap(R.id.hotel_image_view, image);
-			updateWidget(rv);
-		} 
 	}
 	
 	private void updateWidget(final RemoteViews rv) {
