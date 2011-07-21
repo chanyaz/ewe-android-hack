@@ -1,8 +1,10 @@
 package com.expedia.bookings.appwidget;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Properties;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,6 +52,7 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 	private final static long ROTATE_INTERVAL = 1000 * 10; // Every 10 seconds
 	private static final String WIDGET_KEY_SEARCH = "WIDGET_KEY_SEARCH";
 	private static final String WIDGET_SEARCH_RESULTS_FILE = "widgetsavedsearch.dat";
+	private static final int MAX_RESULTS = 5;
 
 	// Intent actions
 	public static final String START_SEARCH_ACTION = "com.expedia.bookings.START_SEARCH";
@@ -87,7 +90,7 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 
 			if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
 				mSession = mSearchResponse.getSession();
-				mProperties = mSearchResponse.getProperties();
+				determineRelevantProperties();
 				mFreeFormLocation = mSearchParams.getFreeformLocation();
 				mCurrentPosition = 0;
 				loadImageForProperty(mProperties.get(mCurrentPosition));
@@ -438,7 +441,48 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 			}
 		});
 	}
-
+	
+	private void determineRelevantProperties() {
+		List<Property> properties = mSearchResponse.getProperties();
+		List<Property> relevantProperties = new ArrayList<Property>();
+		
+		// first populate the list with hotels that have rooms on sale
+		for(Property property : properties) {
+			if(relevantProperties.size() == MAX_RESULTS) {
+				break;
+			}
+			
+			if(property.getLowestRate().getSavingsPercent() > 0) {
+				relevantProperties.add(property);
+			}
+		}
+		
+		// then populate with highly rated rooms if there aren't enough
+		// hotels with rooms on sale
+		for(Property property : properties) {
+			if(relevantProperties.size() == MAX_RESULTS) {
+				break;
+			}
+			
+			if(property.isHighlyRated() && (property.getLowestRate().getSavingsPercent() == 0)) {
+				relevantProperties.add(property);
+			}
+		}
+		
+		// lastly get enough to fill up the remaining slots
+		for(Property property : properties) {
+			if(relevantProperties.size() == MAX_RESULTS) {
+				break;
+			}
+			
+			if(property.getLowestRate().getSavingsPercent() == 0 && !property.isHighlyRated()) {
+				relevantProperties.add(property);
+			}
+		}
+		
+		mProperties = relevantProperties;
+	}
+	
 	private void cleanSavedResults() {
 		mProperties = null;
 		mFreeFormLocation = null;

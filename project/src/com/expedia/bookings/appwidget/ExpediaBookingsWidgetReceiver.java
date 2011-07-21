@@ -26,7 +26,6 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 	public static final String LOAD_PROPERTY_ACTION = "com.expedia.bookings.LOAD_PROPERTY";
 	public static final String NEXT_PROPERTY_ACTION = "com.expedia.bookings.NEXT_PROPERTY";
 	public static final String PREV_PROPERTY_ACTION = "com.expedia.bookings.PREV_PROPERTY";
-	private static final int MAX_RESULTS = 5;
 
 	private Context mContext;
 

@@ -57,7 +57,7 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 		}
 		
 		Intent intent = new Intent(ExpediaBookingsService.START_CLEAN_SEARCH_ACTION);
-		context.sendBroadcast(intent);
+		context.startService(intent);
 	}
 	
 	
