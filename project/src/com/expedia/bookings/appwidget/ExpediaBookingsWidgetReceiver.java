@@ -77,12 +77,13 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 			widgetContents.setTextViewText(R.id.sale_text_view, mContext.getString(R.string.widget_savings_template, property.getLowestRate().getSavingsPercent() * 100));
 			widgetContents.setInt(R.id.price_per_night_container, "setBackgroundResource", R.drawable.widget_price_bg);
 			widgetContents.setViewVisibility(R.id.sale_text_view, View.VISIBLE);
+			widgetContents.setViewVisibility(R.id.highly_rated_text_view, View.GONE);
 		} else if(property.getLowestRate().getSavingsPercent() == 0 && property.isHighlyRated()) {
-			widgetContents.setTextViewText(R.id.sale_text_view, mContext.getString(R.string.highly_rated));
-			widgetContents.setInt(R.id.sale_text_view, "setBackgroundResource", R.drawable.widget_highly_rated_bg);
-			widgetContents.setViewVisibility(R.id.sale_text_view, View.VISIBLE);
+			widgetContents.setViewVisibility(R.id.sale_text_view, View.GONE);
+			widgetContents.setViewVisibility(R.id.highly_rated_text_view, View.VISIBLE);
 		} else {
 			widgetContents.setViewVisibility(R.id.sale_text_view, View.GONE);
+			widgetContents.setViewVisibility(R.id.highly_rated_text_view, View.GONE);
 			widgetContents.setInt(R.id.price_per_night_container, "setBackgroundResource", R.drawable.widget_price_bg_no_sale);
 		}
 		

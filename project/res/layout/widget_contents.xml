@@ -117,9 +117,27 @@
 			android:layout_alignTop="@id/price_per_night_container"
 			android:layout_alignBottom="@id/price_per_night_container"
 			android:paddingLeft="5dp"
+			android:paddingRight="5dp"
 			android:gravity="center_vertical"
 			android:background="@drawable/widget_sale_bg"
 			android:textSize="12sp"
+			style="@style/SaleText" />
+			
+		<TextView
+			android:id="@+id/highly_rated_text_view"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/highly_rated"
+			android:singleLine="true"
+			android:layout_toRightOf="@id/price_per_night_container"
+			android:layout_alignTop="@id/price_per_night_container"
+			android:layout_alignBottom="@id/price_per_night_container"
+			android:paddingLeft="5dp"
+			android:paddingRight="5dp"
+			android:gravity="center_vertical"
+			android:background="@drawable/widget_highly_rated_bg"
+			android:textSize="12sp"
+			android:visibility="gone"
 			style="@style/SaleText" />
   </RelativeLayout>
   <LinearLayout
