@@ -91,7 +91,8 @@
 		<TextView
 			android:id="@+id/price_text_view"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"	
+			android:layout_height="fill_parent"
+			android:gravity="center_vertical"	
 			android:includeFontPadding="false"
 			android:textColor="#064192"
 			android:textStyle="bold"
@@ -99,7 +100,8 @@
 		<TextView
 			android:id="@+id/per_night_text_view"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
+			android:gravity="center_vertical"	
 			android:paddingRight="3dp"
 			android:text="@string/per_night"
 			android:textColor="@color/light_gray"
