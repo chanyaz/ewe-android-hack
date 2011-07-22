@@ -43,7 +43,6 @@ import android.provider.Settings;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -107,6 +106,7 @@ import com.mobiata.hotellib.data.Filter.SearchRadius;
 import com.mobiata.hotellib.data.Filter.Sort;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.PriceTier;
+import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
 import com.mobiata.hotellib.data.SearchResponse;
@@ -1823,7 +1823,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void setFilterInfoText() {
 		if (mSearchResponse != null) {
-			final int count = mSearchResponse.getFilteredAndSortedProperties().length;
+			Property[] filteredAndSortedProperties = mSearchResponse.getFilteredAndSortedProperties();
+			final int count = (filteredAndSortedProperties == null) ? 0 : filteredAndSortedProperties.length;
 			final String sorted = getString(SORT_ADVERBS.get(mFilter.getSort()));
 			final String text = String.format(getString(R.string.filter_info_template), count, sorted);
 
