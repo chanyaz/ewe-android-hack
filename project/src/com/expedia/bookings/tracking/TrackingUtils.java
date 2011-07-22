@@ -193,7 +193,7 @@ public class TrackingUtils {
 	}
 
 	public static void addHotelRating(AppMeasurement s, Property property) {
-		s.prop38 = property.getUserRating() + "";
+		s.prop38 = property.getAverageExpediaRating() + "";
 	}
 
 	private static Map<Integer, String> mNetworkTypes = null;
