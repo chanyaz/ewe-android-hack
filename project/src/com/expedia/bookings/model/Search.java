@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
+import android.database.DatabaseUtils;
 
 import com.activeandroid.ActiveRecordBase;
 import com.activeandroid.annotation.Column;
@@ -77,8 +78,8 @@ public class Search extends ActiveRecordBase<Search> {
 			return;
 		}
 
-		Search.delete(context, Search.class, "lower(FreeFormLocation) = '"
-				+ searchParams.getFreeformLocation().toLowerCase().trim() + "'");
+		Search.delete(context, Search.class, DatabaseUtils.sqlEscapeString("lower(FreeFormLocation) = '"
+				+ searchParams.getFreeformLocation().toLowerCase().trim() + "'"));
 		new Search(context, searchParams).save();
 	}
 }
