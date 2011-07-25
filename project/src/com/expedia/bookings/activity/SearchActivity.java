@@ -324,6 +324,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				setFilterInfoText();
 
 				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
+				enablePanelHandle();
 			}
 			else if (mSearchResponse != null && mSearchResponse.getLocations() != null
 					&& mSearchResponse.getLocations().size() > 0) {
