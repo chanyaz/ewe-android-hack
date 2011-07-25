@@ -55,7 +55,7 @@
 						android:layout_height="wrap_content"
 						android:textColor="#333333"
 						android:textStyle="bold"
-						android:textSize="12dp"
+						android:textSize="11dp"
 						android:includeFontPadding="false" />
 					<TextView
 						android:id="@+id/price_text_view"
@@ -70,11 +70,11 @@
 					android:id="@+id/promo_description_text_view"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_alignParentBottom="true"
-					android:layout_alignParentLeft="true"
-					android:layout_marginRight="64dp"
+					android:layout_alignParentTop="true"
+					android:layout_alignParentRight="true"
 					android:layout_marginLeft="16dp"
-					android:maxWidth="220dp"
+					android:layout_marginRight="16dp"
+					android:maxWidth="200dp"
 					android:gravity="center"
 					android:paddingTop="2dp"
 					android:paddingBottom="2dp"
@@ -82,6 +82,7 @@
 					android:paddingRight="8dp"
 					android:background="@drawable/bg_promo"
 					android:textStyle="bold"
+					android:textSize="12sp"
 					android:textColor="@android:color/white"
 					android:visibility="gone" />
 			</RelativeLayout>

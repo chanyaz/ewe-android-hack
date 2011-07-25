@@ -159,7 +159,7 @@ public class HotelActivity extends Activity {
 			TextView promoView = (TextView) findViewById(R.id.promo_description_text_view);
 			promoView.setVisibility(View.VISIBLE);
 			promoView.setText(Html.fromHtml(promoDescription));
-			promoView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.expand_bottom));
+			promoView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.expand_promo));
 		}
 
 		ViewGroup priceContainer = (ViewGroup) findViewById(R.id.price_layout);

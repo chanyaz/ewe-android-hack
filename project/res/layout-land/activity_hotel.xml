@@ -72,6 +72,7 @@
 				android:paddingRight="8dp"
 				android:background="@drawable/bg_promo"
 				android:textStyle="bold"
+				android:textSize="11sp"
 				android:textColor="@android:color/white"
 				android:visibility="gone" />
 			<ImageView
