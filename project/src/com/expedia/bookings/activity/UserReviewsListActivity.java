@@ -262,14 +262,14 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 				mReviewsDownloader.startDownload(KEY_REVIEWS_LOWEST, mLowestRatingFirstDownload,
 						mLowestRatingFirstDownloadCallback);
 			}
-			mAdapter = new UserReviewsAdapter(mContext, mProperty);
+			mAdapter = new UserReviewsAdapter(mContext, mProperty, getListView());
 			setListAdapter(mAdapter);
 		}
 		else {
 			extractActivityState(state);
 			configureHeader();
 			if (mReviewsMapWrapped.get(mCurrentReviewSort) != null) {
-				mAdapter = new UserReviewsAdapter(mContext, mProperty);
+				mAdapter = new UserReviewsAdapter(mContext, mProperty, getListView());
 				setListAdapter(mAdapter);
 				mAdapter.addUserReviews(new ArrayList<ReviewWrapper>(mReviewsMapWrapped.get(mCurrentReviewSort)));
 				mAdapter.notifyDataSetChanged();
@@ -287,7 +287,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 					mReviewsDownloader.startDownload(KEY_REVIEWS_LOWEST, mLowestRatingFirstDownload,
 							mLowestRatingFirstDownloadCallback);
 				}
-				mAdapter = new UserReviewsAdapter(mContext, mProperty);
+				mAdapter = new UserReviewsAdapter(mContext, mProperty, getListView());
 				setListAdapter(mAdapter);
 			}
 
@@ -348,7 +348,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 					break;
 				}
 				// A new adapter is set to so that the list scrolls to the top upon switch
-				mAdapter = new UserReviewsAdapter(mContext, mProperty);
+				mAdapter = new UserReviewsAdapter(mContext, mProperty, getListView());
 				setListAdapter(mAdapter);
 				mAdapter.switchUserReviews(mReviewsMapWrapped.get(mCurrentReviewSort));
 				setNoReviewsText();

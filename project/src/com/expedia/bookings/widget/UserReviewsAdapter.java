@@ -2,7 +2,6 @@ package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import android.content.Context;
 import android.text.format.Time;
@@ -12,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -19,7 +19,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.UserReviewsListActivity.ReviewWrapper;
 
 import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.Review;
 import com.mobiata.hotellib.data.ReviewRating;
 
 public class UserReviewsAdapter extends BaseAdapter {
@@ -29,12 +28,14 @@ public class UserReviewsAdapter extends BaseAdapter {
 	// Private members
 	private Context mContext;
 	private LayoutInflater mInflater;
+	private ListView mListView;
 
 	public ArrayList<ReviewWrapper> mLoadedReviews;
 
-	public UserReviewsAdapter(Context context, Property property) {
+	public UserReviewsAdapter(Context context, Property property, ListView lv) {
 		mContext = context;
 		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mListView = lv;
 	}
 
 	@Override
@@ -83,6 +84,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 				viewHolder.body.setText(userReviewLoaded.review.getBody());
 				userReviewLoaded.isDisplayingFull = true;
 				viewHolder.readMore.setVisibility(View.GONE);
+				mListView.setSelection(position + 1); //scroll to item (account for header)
 			}
 		});
 		viewHolder.title.setText(userReviewLoaded.review.getTitle());
