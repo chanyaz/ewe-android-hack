@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -36,6 +37,14 @@ public class HotelMapActivity extends MapActivity {
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
 
+	// save instance variables
+	private static final String CURRENT_ZOOM_LEVEL = "CURRENT_ZOOM_LEVEL";
+		
+	// saved information for map
+	private int mSavedZoomLevel;
+	private MapView mMapView;
+	private HotelItemizedOverlay mOverlay;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,25 +81,31 @@ public class HotelMapActivity extends MapActivity {
 		});
 
 		// Create the map and add it to the layout
-		MapView mapView = MapUtils.createMapView(this);
+		mMapView = MapUtils.createMapView(this);
 		ViewGroup mapContainer = (ViewGroup) findViewById(R.id.map_layout);
-		mapContainer.addView(mapView);
+		mapContainer.addView(mMapView);
 
 		// Configure the map
-		mapView.setBuiltInZoomControls(true);
-		mapView.setSatellite(false);
+		mMapView.setBuiltInZoomControls(true);
+		mMapView.setSatellite(false);
 
 		List<Property> properties = new ArrayList<Property>();
 		properties.add(mProperty);
-		HotelItemizedOverlay hotelOverlay = new HotelItemizedOverlay(this, properties, true, mapView, null);
+		mOverlay = new HotelItemizedOverlay(this, properties, true, mMapView, null);
 
-		List<Overlay> overlays = mapView.getOverlays();
-		overlays.add(hotelOverlay);
+		List<Overlay> overlays = mMapView.getOverlays();
+		overlays.add(mOverlay);
 
-		MapController mc = mapView.getController();
-		mc.setZoom(15);
-
-		hotelOverlay.showBalloon(0, false); // Open the popup initially
+		// Set the center point
+		if(savedInstanceState != null && savedInstanceState.containsKey(CURRENT_ZOOM_LEVEL)) {
+			restoreMapState(savedInstanceState);
+		} else {
+			MapController mc = mMapView.getController();
+			mc.setZoom(16);			
+			mc.setCenter(mOverlay.getCenter());
+		}
+		
+		mOverlay.showBalloon(0, false); // Open the popup initially
 
 		if (savedInstanceState == null) {
 			onPageLoad();
@@ -119,6 +134,12 @@ public class HotelMapActivity extends MapActivity {
 		return false;
 	}
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putInt(CURRENT_ZOOM_LEVEL, mMapView.getZoomLevel());
+		super.onSaveInstanceState(outState);
+	}
+	
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Omniture tracking
 
@@ -140,4 +161,12 @@ public class HotelMapActivity extends MapActivity {
 		// Send the tracking data
 		s.track();
 	}
+	
+	private void restoreMapState(Bundle savedInstanceState) {
+		if(savedInstanceState != null && savedInstanceState.containsKey(CURRENT_ZOOM_LEVEL)) {
+			mSavedZoomLevel = savedInstanceState.getInt(CURRENT_ZOOM_LEVEL);
+			mMapView.getController().setZoom(mSavedZoomLevel);
+		}
+	}
+	
 }
