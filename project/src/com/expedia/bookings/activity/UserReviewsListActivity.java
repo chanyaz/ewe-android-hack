@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -50,6 +51,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 	private static final int FAVORABLE_REVIEW_CUTOFF = 3;
 	private static final int CRITICAL_REVIEW_CUTOFF = 2;
 	private static final int THUMB_CUTOFF_INCLUSIVE = 5;
+	private static final int BODY_LENGTH_CUTOFF = 270;
 
 	// Views
 	private ListView mUserReviewsListView;
@@ -66,7 +68,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 
 	// Review data structures
 	private ReviewSort mCurrentReviewSort = ReviewSort.NEWEST_REVIEW_FIRST;
-	private HashMap<ReviewSort, ArrayList<Review>> mReviewsMap = new HashMap<ReviewSort, ArrayList<Review>>();
+	private HashMap<ReviewSort, ArrayList<ReviewWrapper>> mReviewsMapWrapped = new HashMap<ReviewSort, ArrayList<ReviewWrapper>>();
 	private HashMap<ReviewSort, Boolean> mReviewsAttemptDownloadMap = new HashMap<ReviewSort, Boolean>();
 	public HashMap<ReviewSort, Integer> mPageNumberMap = new HashMap<ReviewSort, Integer>();
 	public boolean moreCriticalPages = true;
@@ -138,20 +140,20 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 			mReviewsAttemptDownloadMap.put(thisReviewSort, true);
 
 			if (response != null && response.getReviewCount() > 0) {
-				ArrayList<Review> previouslyLoadedReviews = mReviewsMap.get(thisReviewSort);
-				ArrayList<Review> newlyLoadedReviews = new ArrayList<Review>(response.getReviews());
-				ArrayList<Review> filteredReviews = new ArrayList<Review>();
+				ArrayList<ReviewWrapper> previouslyLoadedReviewsWrapped = mReviewsMapWrapped.get(thisReviewSort);
+				ArrayList<ReviewWrapper> newlyLoadedReviewsWrapped = reviewWrapperListInit(response.getReviews());
+				ArrayList<ReviewWrapper> filteredReviewsWrapped = new ArrayList<ReviewWrapper>();
 
 				boolean reviewsFiltered = false;
 
-				for (Review review : newlyLoadedReviews) {
-					ReviewRating reviewRating = review.getRating();
+				for (ReviewWrapper review : newlyLoadedReviewsWrapped) {
+					ReviewRating reviewRating = review.review.getRating();
 					if (reviewRating != null) {
 						int ratingNumber = reviewRating.getOverallSatisfaction();
 
 						if (thisReviewSort == ReviewSort.HIGHEST_RATING_FIRST) {
 							if (ratingNumber >= FAVORABLE_REVIEW_CUTOFF) {
-								filteredReviews.add(review);
+								filteredReviewsWrapped.add(review);
 								reviewsFiltered = true;
 							}
 							else {
@@ -160,7 +162,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 						}
 						else if (thisReviewSort == ReviewSort.LOWEST_RATING_FIRST) {
 							if (ratingNumber <= CRITICAL_REVIEW_CUTOFF) {
-								filteredReviews.add(review);
+								filteredReviewsWrapped.add(review);
 								reviewsFiltered = true;
 							}
 							else {
@@ -171,45 +173,46 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 				}
 
 				if (thisReviewSort == ReviewSort.NEWEST_REVIEW_FIRST) {
-					reviewsFiltered = true;
+					reviewsFiltered = true; // no reviews filtered for recent, set flag true
 				}
 
-				if (filteredReviews.size() > 0 && reviewsFiltered) {
-					filteredReviews.trimToSize();
-					newlyLoadedReviews = filteredReviews;
+				if (filteredReviewsWrapped.size() > 0 && reviewsFiltered) {
+					filteredReviewsWrapped.trimToSize();
+					newlyLoadedReviewsWrapped = filteredReviewsWrapped;
 				}
 				else if (!reviewsFiltered) {
-					newlyLoadedReviews = new ArrayList<Review>();
+					newlyLoadedReviewsWrapped = new ArrayList<ReviewWrapper>();
 				}
 
-				if (previouslyLoadedReviews != null) {
+				if (previouslyLoadedReviewsWrapped != null) {
 					//send message to remove loading footer
 					Message msg = new Message();
 					boolean addFooter = false;
 					msg.obj = addFooter;
 					mHandler.sendMessage(msg);
 
-					previouslyLoadedReviews.addAll(newlyLoadedReviews);
+					previouslyLoadedReviewsWrapped.addAll(newlyLoadedReviewsWrapped);
 				}
 				else {
-					previouslyLoadedReviews = newlyLoadedReviews;
+					previouslyLoadedReviewsWrapped = newlyLoadedReviewsWrapped;
 				}
 
-				mReviewsMap.put(thisReviewSort, previouslyLoadedReviews);
+				mReviewsMapWrapped.put(thisReviewSort, previouslyLoadedReviewsWrapped);
 				if (thisReviewSort == mCurrentReviewSort) {
-					mAdapter.switchUserReviews(previouslyLoadedReviews);
+					mAdapter.switchUserReviews(previouslyLoadedReviewsWrapped);
 					setNoReviewsText();
 				}
 
-				if (mReviewsMap.get(ReviewSort.HIGHEST_RATING_FIRST) == null) {
+				// chain the downloads in the callback, if the key/pair is empty make sure to download
+				if (mReviewsMapWrapped.get(ReviewSort.HIGHEST_RATING_FIRST) == null) {
 					mReviewsDownloader.startDownload(KEY_REVIEWS_HIGHEST, mHighestRatingFirstDownload,
 							mHighestRatingFirstDownloadCallback);
 				}
-				else if (mReviewsMap.get(ReviewSort.LOWEST_RATING_FIRST) == null && moreCriticalPages) {
+				else if (mReviewsMapWrapped.get(ReviewSort.LOWEST_RATING_FIRST) == null && moreCriticalPages) {
 					mReviewsDownloader.startDownload(KEY_REVIEWS_LOWEST, mLowestRatingFirstDownload,
 							mLowestRatingFirstDownloadCallback);
 				}
-				else if (mReviewsMap.get(ReviewSort.NEWEST_REVIEW_FIRST) == null) {
+				else if (mReviewsMapWrapped.get(ReviewSort.NEWEST_REVIEW_FIRST) == null) {
 					mReviewsDownloader.startDownload(KEY_REVIEWS_NEWEST, mNewestReviewFirstDownload,
 							mNewestReviewFirstDownloadCallback);
 				}
@@ -265,10 +268,10 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 		else {
 			extractActivityState(state);
 			configureHeader();
-			if (mReviewsMap.get(mCurrentReviewSort) != null) {
+			if (mReviewsMapWrapped.get(mCurrentReviewSort) != null) {
 				mAdapter = new UserReviewsAdapter(mContext, mProperty);
 				setListAdapter(mAdapter);
-				mAdapter.addUserReviews(new ArrayList<Review>(mReviewsMap.get(mCurrentReviewSort)));
+				mAdapter.addUserReviews(new ArrayList<ReviewWrapper>(mReviewsMapWrapped.get(mCurrentReviewSort)));
 				mAdapter.notifyDataSetChanged();
 			}
 			else {
@@ -347,7 +350,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 				// A new adapter is set to so that the list scrolls to the top upon switch
 				mAdapter = new UserReviewsAdapter(mContext, mProperty);
 				setListAdapter(mAdapter);
-				mAdapter.switchUserReviews(mReviewsMap.get(mCurrentReviewSort));
+				mAdapter.switchUserReviews(mReviewsMapWrapped.get(mCurrentReviewSort));
 				setNoReviewsText();
 			}
 		});
@@ -416,7 +419,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
 
-		if (loadMore && mReviewsMap.get(mCurrentReviewSort) != null
+		if (loadMore && mReviewsMapWrapped.get(mCurrentReviewSort) != null
 				&& ExpediaServices.hasMoreReviews(mProperty, mPageNumberMap.get(mCurrentReviewSort))) {
 			if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST && moreFavorablePages) {
 				mReviewsDownloader.startDownload(KEY_REVIEWS_HIGHEST, mHighestRatingFirstDownload,
@@ -437,6 +440,39 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 	}
 
+	// store the read more state in a wrapper class
+	public class ReviewWrapper {
+		public Review review;
+		public boolean bodyWasReduced;
+		public boolean isDisplayingFull;
+		public String bodyReduced;
+	}
+
+	private ArrayList<ReviewWrapper> reviewWrapperListInit(List<Review> reviews) {
+		ArrayList<ReviewWrapper> loadedReviews = new ArrayList<ReviewWrapper>();
+		if (reviews == null) {
+			return null;
+		}
+		for (Review review : reviews) {
+			ReviewWrapper loadedReview = new ReviewWrapper();
+			loadedReview.review = review;
+
+			String body = review.getBody();
+			if (body.length() > BODY_LENGTH_CUTOFF) {
+				loadedReview.bodyReduced = body.substring(0, BODY_LENGTH_CUTOFF);
+				loadedReview.bodyReduced += "...";
+				loadedReview.bodyWasReduced = true;
+			}
+			else {
+				loadedReview.bodyWasReduced = false;
+			}
+
+			loadedReview.isDisplayingFull = false;
+			loadedReviews.add(loadedReview);
+		}
+		return loadedReviews;
+	}
+
 	// Configuration change code
 
 	@Override
@@ -448,7 +484,9 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 	private ActivityState buildActivityState() {
 		ActivityState state = new ActivityState();
 		state.mCurrentReviewSort = mCurrentReviewSort;
-		state.reviewsMap = mReviewsMap;
+		// make sure to save the read more state from the adapter
+		mReviewsMapWrapped.put(mCurrentReviewSort, mAdapter.mLoadedReviews);
+		state.reviewsMapWrapped = mReviewsMapWrapped;
 		state.pageNumberMap = mPageNumberMap;
 		state.moreCriticalPages = moreCriticalPages;
 		state.moreFavorablePages = moreFavorablePages;
@@ -457,7 +495,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 
 	private void extractActivityState(ActivityState state) {
 		mCurrentReviewSort = state.mCurrentReviewSort;
-		mReviewsMap = state.reviewsMap;
+		mReviewsMapWrapped = state.reviewsMapWrapped;
 		mPageNumberMap = state.pageNumberMap;
 		moreCriticalPages = state.moreCriticalPages;
 		moreFavorablePages = state.moreFavorablePages;
@@ -465,7 +503,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 
 	private class ActivityState {
 		public ReviewSort mCurrentReviewSort;
-		public HashMap<ReviewSort, ArrayList<Review>> reviewsMap;
+		public HashMap<ReviewSort, ArrayList<ReviewWrapper>> reviewsMapWrapped;
 		public HashMap<ReviewSort, Integer> pageNumberMap;
 		public boolean moreCriticalPages;
 		public boolean moreFavorablePages;

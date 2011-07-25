@@ -16,6 +16,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.UserReviewsListActivity.ReviewWrapper;
 
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Review;
@@ -24,20 +25,12 @@ import com.mobiata.hotellib.data.ReviewRating;
 public class UserReviewsAdapter extends BaseAdapter {
 
 	// CONSTANTS
-	private static final int BODY_LENGTH_CUTOFF = 270;
 
 	// Private members
 	private Context mContext;
 	private LayoutInflater mInflater;
 
-	private ArrayList<ReviewWrapper> mLoadedReviews;
-
-	private class ReviewWrapper {
-		public Review review;
-		public boolean bodyWasReduced;
-		public boolean isDisplayingFull;
-		public String bodyReduced;
-	}
+	public ArrayList<ReviewWrapper> mLoadedReviews;
 
 	public UserReviewsAdapter(Context context, Property property) {
 		mContext = context;
@@ -161,43 +154,18 @@ public class UserReviewsAdapter extends BaseAdapter {
 		public Button readMore;
 	}
 
-	public void addUserReviews(ArrayList<Review> reviews) {
+	public void addUserReviews(ArrayList<ReviewWrapper> reviews) {
 		if (mLoadedReviews == null) {
-			mLoadedReviews = reviewWrapperListInit(reviews);
+			mLoadedReviews = reviews;
 		}
 		else {
-			mLoadedReviews.addAll(reviewWrapperListInit(reviews));
+			mLoadedReviews.addAll(reviews);
 		}
 		notifyDataSetChanged();
 	}
 
-	public void switchUserReviews(ArrayList<Review> reviews) {
-		mLoadedReviews = reviewWrapperListInit(reviews);
+	public void switchUserReviews(ArrayList<ReviewWrapper> reviews) {
+		mLoadedReviews = reviews;
 		notifyDataSetChanged();
-	}
-
-	private ArrayList<ReviewWrapper> reviewWrapperListInit(List<Review> reviews) {
-		ArrayList<ReviewWrapper> loadedReviews = new ArrayList<ReviewWrapper>();
-		if (reviews == null) {
-			return null;
-		}
-		for (Review review : reviews) {
-			ReviewWrapper loadedReview = new ReviewWrapper();
-			loadedReview.review = review;
-
-			String body = review.getBody();
-			if (body.length() > BODY_LENGTH_CUTOFF) {
-				loadedReview.bodyReduced = body.substring(0, BODY_LENGTH_CUTOFF);
-				loadedReview.bodyReduced += "...";
-				loadedReview.bodyWasReduced = true;
-			}
-			else {
-				loadedReview.bodyWasReduced = false;
-			}
-
-			loadedReview.isDisplayingFull = false;
-			loadedReviews.add(loadedReview);
-		}
-		return loadedReviews;
 	}
 }
