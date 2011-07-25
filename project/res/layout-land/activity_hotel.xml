@@ -74,6 +74,12 @@
 				android:textStyle="bold"
 				android:textColor="@android:color/white"
 				android:visibility="gone" />
+			<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="fill_parent"
+				android:layout_alignParentRight="true"
+				android:scaleType="fitXY"
+				android:src="@drawable/detail_divider_horizontal" />
 		</RelativeLayout>
 
 		<!-- Details about the hotel. This is filled in dynamically based on available 
@@ -88,7 +94,6 @@
 				android:layout_height="fill_parent"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentTop="true"
-				android:paddingLeft="6dp"
 				android:fillViewport="true"
 				android:fadingEdge="none">
 				<LinearLayout
@@ -134,14 +139,6 @@
 					</LinearLayout>
 				</LinearLayout>
 			</ScrollView>
-
-			<ImageView
-				android:layout_width="wrap_content"
-				android:layout_height="fill_parent"
-				android:layout_alignParentLeft="true"
-				android:layout_alignParentTop="true"
-				android:scaleType="fitXY"
-				android:src="@drawable/detail_divider_horizontal" />
 		</RelativeLayout>
 
 		<ImageView

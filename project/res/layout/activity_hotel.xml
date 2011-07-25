@@ -133,7 +133,7 @@
 			<ImageView
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@+id/gallery_layout"
+				android:layout_alignBottom="@id/gallery_layout"
 				android:scaleType="fitXY"
 				android:src="@drawable/detail_divider" />
 		</RelativeLayout>
