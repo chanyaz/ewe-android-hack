@@ -16,5 +16,6 @@
 		android:layout_weight="1"
 		android:textColor="#737880"
 		android:textSize="@dimen/amenity_text_size_large"
-		android:gravity="center" />
+		android:gravity="center"
+		android:includeFontPadding="false" />
 </LinearLayout>

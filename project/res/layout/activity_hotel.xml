@@ -73,7 +73,7 @@
 					android:layout_alignParentTop="true"
 					android:layout_alignParentRight="true"
 					android:layout_marginLeft="16dp"
-					android:layout_marginRight="16dp"
+					android:layout_marginRight="8dp"
 					android:maxWidth="200dp"
 					android:gravity="center"
 					android:paddingTop="2dp"
