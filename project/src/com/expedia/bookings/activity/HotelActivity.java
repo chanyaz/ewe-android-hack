@@ -49,6 +49,8 @@ public class HotelActivity extends Activity {
 
 	// This is the position in the list that the hotel had when the user clicked on it 
 	public static final String EXTRA_POSITION = "EXTRA_POSITION";
+	
+	private static final float MAX_AMENITY_TEXT_WIDTH_IN_DP = 60.0f;
 
 	private Context mContext;
 
@@ -373,12 +375,19 @@ public class HotelActivity extends Activity {
 
 		TextView amenityName = (TextView) amenityLayout.findViewById(R.id.name_text_view);
 		String amenityStr = getString(amenity.getStrId());
-		if (amenityStr.contains(" ")) {
+		
+		// measure the length of the amenity string and determine whether it is short enough
+		// to fit within the acceptable width. If not, reduce the font size in an attempt to 
+		// get it to fit.
+		float acceptableWidth = getResources().getDisplayMetrics().density * MAX_AMENITY_TEXT_WIDTH_IN_DP;
+		float measuredWidthOfStr = amenityName.getPaint().measureText(getString(amenity.getStrId()));
+		
+		if (amenityStr.contains(" ") || measuredWidthOfStr > acceptableWidth) {
 			amenityName.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 					getResources().getDimension(R.dimen.amenity_text_size_small));
 		}
-		amenityName.setText(amenity.getStrId());
-
+		
+		amenityName.setText(amenityStr);
 		amenitiesTable.addView(amenityLayout);
 	}
 
