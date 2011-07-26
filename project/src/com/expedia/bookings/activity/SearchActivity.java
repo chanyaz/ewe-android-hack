@@ -1144,6 +1144,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 							TrackingUtils.trackErrorPage(SearchActivity.this, "LocationNotFound");
 							mSearchProgressBar.setShowProgress(false);
 							mSearchProgressBar.setText(R.string.geolocation_failed);
+							simulateErrorResponse(R.string.geolocation_failed);
+							
 						}
 					}
 				});
