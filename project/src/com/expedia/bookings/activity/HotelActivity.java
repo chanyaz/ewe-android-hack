@@ -1,7 +1,9 @@
 package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONException;
 
@@ -54,8 +56,6 @@ public class HotelActivity extends Activity {
 
 	private Property mProperty;
 
-	private int mImageToLoad;
-
 	private int mNumAmenities;
 
 	private int mMaxAmenities;
@@ -107,90 +107,69 @@ public class HotelActivity extends Activity {
 		Gallery gallery = mGallery = (Gallery) findViewById(R.id.images_gallery);
 		if (property.getMediaCount() > 0) {
 			final List<String> urls = new ArrayList<String>(property.getMediaCount());
+			Set<String> usedUrls = new HashSet<String>();
 			for (Media media : property.getMediaList()) {
-				urls.add(media.getUrl());
+				String url = media.getUrl();
+				if (!usedUrls.contains(url)) {
+					urls.add(url);
+					usedUrls.add(url);
+				}
 			}
 			gallery.setUrls(urls);
 
-			// #8410: For some reason, the trimming code is causing crashes.  For an emergency release of 1.0.2,
-			// I'm limiting the trimming code for only hotels with >30 images (so we can continue fixing #8401).
-			// Otherwise, it'll use the old system (preload ALL images).
-			if (urls.size() <= 30) {
-				Log.d("Using old-style preloading - preloading all images at once.");
-
-				// Start loading images in the background.  Load them one-by-one.
-				mImageToLoad = 0;
-				OnImageLoaded loader = new OnImageLoaded() {
-					@Override
-					public void onImageLoaded(String url, Bitmap bitmap) {
-						if (mImageToLoad < urls.size()) {
-							String nextUrl = urls.get(mImageToLoad++);
-							ImageCache.loadImage(toString() + nextUrl, nextUrl, this);
+			gallery.setOnItemSelectedListener(new OnItemSelectedListener() {
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					// Pre-load images around the currently selected image, until we have MAX_IMAGES_LOADED
+					// loading.  Then cancel downloads on all the rest.
+					int left = position;
+					int right = position;
+					int loaded = 1;
+					int len = urls.size();
+					OnImageLoaded doNothing = new OnImageLoaded() {
+						public void onImageLoaded(String url, Bitmap bitmap) {
+							// Do nothing.  In the future, ImageCache should have 
+							// the ability to simply preload, but this is a fix 
+							// for #8401 for the 1.0.2 release and I don't want to
+							// have to update/branch Utils.
 						}
-					}
-				};
-				loader.onImageLoaded(null, null);
-			}
-			else {
-				Log.d("Using new-style load and trim.");
-
-				gallery.setOnItemSelectedListener(new OnItemSelectedListener() {
-					@Override
-					public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-						// Pre-load images around the currently selected image, until we have MAX_IMAGES_LOADED
-						// loading.  Then cancel downloads on all the rest.
-						int left = position;
-						int right = position;
-						int loaded = 1;
-						int len = urls.size();
-						OnImageLoaded doNothing = new OnImageLoaded() {
-							public void onImageLoaded(String url, Bitmap bitmap) {
-								// Do nothing.  In the future, ImageCache should have 
-								// the ability to simply preload, but this is a fix 
-								// for #8401 for the 1.0.2 release and I don't want to
-								// have to update/branch Utils.
-							}
-						};
-						boolean hasMore = true;
-						while (loaded < MAX_IMAGES_LOADED && hasMore) {
-							hasMore = false;
-							if (left > 0) {
-								left--;
-								ImageCache.loadImage(urls.get(left), doNothing);
-								loaded++;
-								hasMore = true;
-							}
-							if (loaded == MAX_IMAGES_LOADED) {
-								break;
-							}
-							if (right < len - 1) {
-								right++;
-								ImageCache.loadImage(urls.get(right), doNothing);
-								loaded++;
-								hasMore = true;
-							}
-						}
-
-						// Clear images a few to the right/left of the bounds.  Don't need to check all of them,
-						// just enough to ensure we're always below the max images loaded.
-						int removed = 0;
-						while (removed < MAX_IMAGES_LOADED && left > 0) {
+					};
+					boolean hasMore = true;
+					while (loaded < MAX_IMAGES_LOADED && hasMore) {
+						hasMore = false;
+						if (left > 0) {
 							left--;
-							ImageCache.removeImage(urls.get(left), true);
+							ImageCache.loadImage(urls.get(left), doNothing);
+							loaded++;
+							hasMore = true;
 						}
-						removed = 0;
-						while (removed < MAX_IMAGES_LOADED && right < len - 1) {
+						if (loaded == MAX_IMAGES_LOADED) {
+							break;
+						}
+						if (right < len - 1) {
 							right++;
-							ImageCache.removeImage(urls.get(right), true);
+							ImageCache.loadImage(urls.get(right), doNothing);
+							loaded++;
+							hasMore = true;
 						}
 					}
 
-					@Override
-					public void onNothingSelected(AdapterView<?> parent) {
-						// Do nothing
+					// Clear images a few to the right/left of the bounds.
+					while (left > 0) {
+						left--;
+						ImageCache.removeImage(urls.get(left), true);
 					}
-				});
-			}
+					while (right < len - 1) {
+						right++;
+						ImageCache.removeImage(urls.get(right), true);
+					}
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// Do nothing
+				}
+			});
 
 			if (startFlipping) {
 				gallery.startFlipping();
