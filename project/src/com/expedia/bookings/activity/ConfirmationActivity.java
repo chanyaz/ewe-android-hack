@@ -163,7 +163,7 @@ public class ConfirmationActivity extends MapActivity {
 			}
 		}
 
-		mRoomTypeHandler = new RoomTypeHandler(this, mProperty, mRate);
+		mRoomTypeHandler = new RoomTypeHandler(this, getIntent(), mProperty, mRate);
 		mRoomTypeHandler.onCreate();
 
 		//////////////////////////////////////////////////
@@ -302,10 +302,9 @@ public class ConfirmationActivity extends MapActivity {
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
-
-		mRoomTypeHandler.onPause();
+	protected void onDestroy() {
+		mRoomTypeHandler.onDestroy();
+		super.onDestroy();
 	}
 
 	@Override

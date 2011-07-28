@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -30,6 +29,9 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.Gallery;
 import com.expedia.bookings.widget.Gallery.OnScrollListener;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
@@ -40,7 +42,11 @@ import com.mobiata.hotellib.data.Media;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Property.Amenity;
+import com.mobiata.hotellib.data.PropertyInfo;
+import com.mobiata.hotellib.data.PropertyInfoResponse;
 import com.mobiata.hotellib.data.Rate;
+import com.mobiata.hotellib.server.ExpediaServices;
+import com.mobiata.hotellib.server.PropertyInfoResponseHandler;
 import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
 import com.omniture.AppMeasurement;
@@ -60,10 +66,38 @@ public class HotelActivity extends Activity {
 
 	private Property mProperty;
 
+	private PropertyInfo mPropertyInfo;
+	
 	private int mImageToLoad;
-
+	
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
+	
+	private OnDownloadComplete mPropertyInfoCallback = new OnDownloadComplete() {
+		
+		@Override
+		public void onDownload(Object results) {
+			PropertyInfoResponse response = (PropertyInfoResponse) results;
+			if (response == null) {
+				//TODO figure out what to display/do if no response
+			}
+			else if (response.hasErrors()) {
+				//TODO figure out what to do if there are errors
+			}
+			else {
+				mPropertyInfo = response.getPropertyInfo();
+			}
+		}
+	};
+	
+	private Download mPropertyInfoDownloader = new Download() {
+		
+		@Override
+		public Object doDownload() {
+			ExpediaServices services = new ExpediaServices(HotelActivity.this);
+			return services.info(mProperty);
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -107,11 +141,20 @@ public class HotelActivity extends Activity {
 		}
 
 		// Fill in header views
-		LayoutUtils.configureHeader(this, property, new OnClickListener() {
+		OnClickListener onBookNowClick = new OnClickListener() {
 			public void onClick(View v) {
 				startRoomRatesActivity(intent);
 			}
-		});
+		};
+		
+		OnClickListener onReviewsClick = (!property.hasExpediaReviews()) ? null :  new OnClickListener() {
+			public void onClick(View v) {
+				Intent newIntent = new Intent(mContext, UserReviewsListActivity.class);
+				newIntent.fillIn(intent, 0);
+				startActivity(newIntent);
+			}	
+		};
+		LayoutUtils.configureHeader(this, property, onBookNowClick, onReviewsClick);
 
 		// Configure the gallery
 		Gallery gallery = mGallery = (Gallery) findViewById(R.id.images_gallery);
@@ -186,31 +229,6 @@ public class HotelActivity extends Activity {
 
 		TextView priceView = (TextView) findViewById(R.id.price_text_view);
 		priceView.setText(lowestRate.getDisplayRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
-
-		Button mapButton = (Button) findViewById(R.id.map_button);
-		mapButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				Intent newIntent = new Intent(mContext, HotelMapActivity.class);
-				newIntent.fillIn(intent, 0);
-				startActivity(newIntent);
-			}
-		});
-		
-		Button userReviewsButton = (Button) findViewById(R.id.user_reviews_button);
-		if(mProperty.hasExpediaReviews()) {
-			userReviewsButton.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					Intent newIntent = new Intent(mContext, UserReviewsListActivity.class);
-					newIntent.fillIn(intent, 0);
-					startActivity(newIntent);
-				}	
-			});
-		}
-		else {
-			userReviewsButton.setEnabled(false);
-			userReviewsButton.setTextColor(R.color.btn_text_disabled);
-//			userReviewsButton.setShadowLayer((float) 1.0, (float) 1.0, (float) 1.0, R.color.hotel_activity_user_review_disabled_button_shadow);
-		}
 
 		// Amenities
 		// Disable some aspects of the horizontal scrollview so it looks pretty
@@ -314,6 +332,7 @@ public class HotelActivity extends Activity {
 		// Description
 		String description = property.getDescriptionText();
 		if (description != null && description.length() > 0) {
+			Log.i("DESCRIPTION = " + description);
 			TextView descriptionView = (TextView) findViewById(R.id.description_text_view);
 			descriptionView.setText(formatDescription(description));
 		}
@@ -321,6 +340,21 @@ public class HotelActivity extends Activity {
 		// Tracking
 		if (savedInstanceState == null) {
 			onPageLoad(intent);
+		}
+		
+		startPropertyInfoDownload();
+	}
+	
+	private void startPropertyInfoDownload() {
+		BackgroundDownloader downloader = BackgroundDownloader.getInstance();
+		String downloadKey = PropertyInfoResponseHandler.DOWNLOAD_KEY_PREFIX + mProperty.getPropertyId();
+		if((mPropertyInfo == null || !mPropertyInfo.getPropertyId().equals(mProperty.getPropertyId())) 
+				&& !downloader.isDownloading(downloadKey)) {
+			mPropertyInfo = null;
+			downloader.cancelDownload(downloadKey);
+			downloader.startDownload(downloadKey, mPropertyInfoDownloader, mPropertyInfoCallback);
+		} else if(mPropertyInfo == null) {
+			downloader.registerDownloadCallback(downloadKey, mPropertyInfoCallback);
 		}
 	}
 
@@ -347,6 +381,9 @@ public class HotelActivity extends Activity {
 				String imageUrl = image.getUrl();
 				ImageCache.removeImage(imageUrl, true);
 			}
+			
+			BackgroundDownloader.getInstance().unregisterDownloadCallback(
+					PropertyInfoResponseHandler.DOWNLOAD_KEY_PREFIX + mProperty.getPropertyId(), mPropertyInfoCallback);
 		}
 	}
 
@@ -394,6 +431,10 @@ public class HotelActivity extends Activity {
 	public void startRoomRatesActivity(Intent intent) {
 		Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
 		roomsRatesIntent.fillIn(intent, 0);
+		if(mPropertyInfo != null) {
+			Log.i("Putting property info into intent = " + mPropertyInfo);
+			intent.putExtra(Codes.PROPERTY_INFO, mPropertyInfo.toJson().toString());
+		}
 		startActivity(roomsRatesIntent);
 	}
 
@@ -520,4 +561,5 @@ public class HotelActivity extends Activity {
 		// Send the tracking data
 		s.track();
 	}
+
 }

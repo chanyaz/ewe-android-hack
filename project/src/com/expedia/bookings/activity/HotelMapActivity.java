@@ -72,13 +72,21 @@ public class HotelMapActivity extends MapActivity {
 		}
 
 		// Configure header
-		LayoutUtils.configureHeader(this, mProperty, new OnClickListener() {
+		OnClickListener onBookNowClick = new OnClickListener() {
 			public void onClick(View v) {
 				Intent roomsRatesIntent = new Intent(mContext, RoomsAndRatesListActivity.class);
 				roomsRatesIntent.fillIn(getIntent(), 0);
 				startActivity(roomsRatesIntent);
 			}
-		});
+		};
+		OnClickListener onReviewsClick = new OnClickListener() {
+			public void onClick(View v) {
+				Intent roomsRatesIntent = new Intent(mContext, RoomsAndRatesListActivity.class);
+				roomsRatesIntent.fillIn(getIntent(), 0);
+				startActivity(roomsRatesIntent);
+			}
+		};
+		LayoutUtils.configureHeader(this, mProperty, onBookNowClick, onReviewsClick);
 
 		// Create the map and add it to the layout
 		mMapView = MapUtils.createMapView(this);

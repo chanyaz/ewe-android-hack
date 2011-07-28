@@ -14,17 +14,19 @@
 		<LinearLayout
 			android:id="@+id/user_rating_layout"
 			android:layout_width="wrap_content"
-			android:layout_height="fill_parent"
-			android:layout_alignParentRight="true"
-			android:layout_marginLeft="14dp"
+			android:layout_height="wrap_content"
+			android:layout_alignTop="@+id/book_now_button"
+			android:layout_alignBottom="@+id/book_now_button"
+			android:layout_toLeftOf="@+id/book_now_button"
 			android:gravity="center_vertical"
-			android:orientation="vertical">
+			android:background="@drawable/btn_user_reviews">
 			<TextView
 				android:id="@+id/user_rating_text_view"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
-				android:text="@string/user_rating"
+				android:paddingRight="5dp"
 				android:textColor="#E1E1E1"
+				android:textStyle="bold"
 				android:textSize="12sp" />
 			<RatingBar
 				android:id="@+id/user_rating_bar"
@@ -37,34 +39,10 @@
 				style="@style/Widget.RatingBar.Small.UserRating" />
 		</LinearLayout>
 		<LinearLayout
-			android:id="@+id/hotel_rating_layout"
-			android:layout_width="wrap_content"
-			android:layout_height="fill_parent"
-			android:layout_toLeftOf="@+id/user_rating_layout"
-			android:layout_marginLeft="14dp"
-			android:gravity="center_vertical"
-			android:orientation="vertical">
-			<TextView
-				android:id="@+id/hotel_rating_text_view"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:text="@string/star_rating"
-				android:textColor="#E1E1E1"
-				android:textSize="12sp" />
-			<RatingBar
-				android:id="@+id/hotel_rating_bar"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:numStars="5"
-				android:stepSize=".5"
-				android:isIndicator="true" />
-		</LinearLayout>
-		<LinearLayout
 			android:layout_width="wrap_content"
 			android:layout_height="fill_parent"
 			android:layout_alignParentLeft="true"
 			android:layout_alignParentTop="true"
-			android:layout_toLeftOf="@+id/hotel_rating_layout"
 			android:gravity="center_vertical"
 			android:orientation="vertical">
 			<TextView
@@ -85,14 +63,15 @@
 				android:textColor="#E1E1E1"
 				android:textSize="16sp" />
 		</LinearLayout>
+		<Button
+			android:id="@+id/book_now_button"
+			android:layout_width="100dp"
+			android:layout_height="fill_parent"
+			android:layout_alignParentRight="true"
+			android:layout_marginTop="4dp"
+			android:layout_marginLeft="6dp"
+			android:textStyle="bold"
+			android:text="@string/book_now"
+			style="@style/Widget.Button.Orange" />
 	</RelativeLayout>
-	<Button
-		android:id="@+id/book_now_button"
-		android:layout_width="100dp"
-		android:layout_height="fill_parent"
-		android:layout_marginTop="4dp"
-		android:layout_marginLeft="6dp"
-		android:textStyle="bold"
-		android:text="@string/book_now"
-		style="@style/Widget.Button.Orange" />
 </LinearLayout>

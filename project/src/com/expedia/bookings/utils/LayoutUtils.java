@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
+import com.mobiata.hotellib.data.PropertyInfo;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.RateBreakdown;
 import com.mobiata.hotellib.data.SearchParams;
@@ -26,13 +27,11 @@ public class LayoutUtils {
 	public static void configureHeader(Activity activity, Property property, OnClickListener onBookNowClick) {
 		TextView name = (TextView) activity.findViewById(R.id.name_text_view);
 		name.setText(property.getName());
-		RatingBar hotelRating = (RatingBar) activity.findViewById(R.id.hotel_rating_bar);
-		hotelRating.setRating((float) property.getHotelRating());
 		RatingBar userRating = (RatingBar) activity.findViewById(R.id.user_rating_bar);
 		userRating.setRating((float) property.getAverageExpediaRating());
 		TextView location = (TextView) activity.findViewById(R.id.location_text_view);
 		location.setText(StrUtils.formatAddress(property.getLocation(), StrUtils.F_CITY + StrUtils.F_STATE_CODE));
-
+		
 		Button bookButton = (Button) activity.findViewById(R.id.book_now_button);
 		bookButton.setOnClickListener(onBookNowClick);
 	}
@@ -48,7 +47,9 @@ public class LayoutUtils {
 		String end = medDf.format(searchParams.getCheckOutDate().getTime());
 		int numDays = searchParams.getStayDuration();
 		addDetail(context, detailsLayout, R.string.CheckIn, start);
+		addDetail(context, detailsLayout, context.getString(R.string.CheckInTime), "Loading...", 1);
 		addDetail(context, detailsLayout, R.string.CheckOut, end);
+		addDetail(context, detailsLayout, context.getString(R.string.CheckOutTime), "Loading...", 2);
 		addDetail(context, detailsLayout, R.string.stay_duration,
 				context.getResources().getQuantityString(R.plurals.length_of_stay, numDays, numDays));
 
@@ -94,12 +95,18 @@ public class LayoutUtils {
 	}
 
 	public static void addDetail(Context context, ViewGroup parent, String label, String value) {
+		addDetail(context, parent, label, value, -1);
+	}
+	public static void addDetail(Context context, ViewGroup parent, String label, String value, int valueId) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View detailRow = inflater.inflate(R.layout.snippet_booking_detail, parent, false);
 		TextView labelView = (TextView) detailRow.findViewById(R.id.label_text_view);
 		labelView.setText(label);
 		TextView valueView = (TextView) detailRow.findViewById(R.id.value_text_view);
 		valueView.setText(value);
+		if(valueId != -1) {
+			valueView.setId(valueId);
+		}
 		parent.addView(detailRow);
 	}
 }

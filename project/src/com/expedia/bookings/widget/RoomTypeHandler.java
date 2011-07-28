@@ -1,5 +1,8 @@
 package com.expedia.bookings.widget;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +19,7 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.android.widget.TiltedImageView;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
@@ -24,6 +28,7 @@ import com.mobiata.hotellib.data.PropertyInfoResponse;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.ServerError;
 import com.mobiata.hotellib.server.ExpediaServices;
+import com.mobiata.hotellib.server.PropertyInfoResponseHandler;
 import com.mobiata.hotellib.utils.JSONUtils;
 
 /**
@@ -34,23 +39,33 @@ import com.mobiata.hotellib.utils.JSONUtils;
  */
 public class RoomTypeHandler implements Download, OnDownloadComplete {
 
-	private static final String DOWNLOAD_KEY = "com.expedia.bookings.RoomTypeHandler.download";
-
 	private Activity mActivity;
 	private Property mProperty;
 	private Rate mRate;
 	private PropertyInfo mPropertyInfo;
 
 	private View mRoomTypeRow;
+	private View mRoomTypeRowContainer;
 	private TiltedImageView mDisplayArrow;
 	private ViewGroup mRoomDetailsLayout;
 	private ProgressBar mProgressBar;
 	private TextView mRoomDetailsTextView;
 
-	public RoomTypeHandler(Activity activity, Property property, Rate rate) {
+	public RoomTypeHandler(Activity activity, Intent intent, Property property, Rate rate) {
 		mActivity = activity;
 		mProperty = property;
 		mRate = rate;
+		
+		String propertyInfoString = (intent != null) ? intent.getStringExtra(Codes.PROPERTY_INFO) : null;
+		if(propertyInfoString != null) {
+			try {
+				PropertyInfo propertyInfo = new PropertyInfo();
+				propertyInfo.fromJson(new JSONObject(propertyInfoString));
+				mPropertyInfo = propertyInfo;
+			} catch(JSONException e) {
+				Log.i("Unable to get property info object from the previous state", e);
+			}
+		}
 
 		// Inflate the view
 		LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -72,7 +87,7 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 			public void onClick(View v) {
 				if (isExpanded()) {
 					setVisibility(View.GONE);
-					onPause();
+					onDestroy();
 				}
 				else {
 					setVisibility(View.VISIBLE);
@@ -84,20 +99,22 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 
 	public void load(ViewGroup container) {
 		container.addView(mRoomTypeRow);
+		mRoomTypeRowContainer = container;
 	}
 
 	private void loadDetails() {
-		if (mPropertyInfo != null) {
+		if (mPropertyInfo != null && mPropertyInfo.getPropertyId().equals(mProperty.getPropertyId())) {
 			showDetails(mPropertyInfo);
+			showCheckInCheckoutDetails(mPropertyInfo);
 		}
 		else {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-
-			if (bd.isDownloading(DOWNLOAD_KEY)) {
-				bd.registerDownloadCallback(DOWNLOAD_KEY, this);
+			String downloadKey = PropertyInfoResponseHandler.DOWNLOAD_KEY_PREFIX + mProperty.getPropertyId();
+			if (bd.isDownloading(downloadKey)) {
+				bd.registerDownloadCallback(downloadKey, this);
 			}
-			else if (isExpanded()) {
-				bd.startDownload(DOWNLOAD_KEY, this, this);
+			else {
+				bd.startDownload(downloadKey, this, this);
 				TrackingUtils.trackSimpleEvent(mActivity, null, null, "Shopper", "App.Hotels.BD.ExpandRoomDetails");
 			}
 		}
@@ -107,6 +124,13 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 		mRoomDetailsTextView.setText(details);
 		mRoomDetailsTextView.setVisibility(View.VISIBLE);
 		mProgressBar.setVisibility(View.GONE);
+	}
+	
+	private void showCheckInCheckoutDetails(PropertyInfo propertyInfo) {
+		TextView checkInTimeTextView = (TextView) mRoomTypeRowContainer.findViewById(1);
+		checkInTimeTextView.setText(propertyInfo.getCheckInTime());
+		TextView checkOutTimeTextView = (TextView) mRoomTypeRowContainer.findViewById(2);
+		checkOutTimeTextView.setText(propertyInfo.getCheckOutTime());
 	}
 
 	private void showDetails(PropertyInfo propertyInfo) {
@@ -159,7 +183,10 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 		}
 		else {
 			mPropertyInfo = response.getPropertyInfo();
-			showDetails(mPropertyInfo);
+			if(isExpanded()) {
+				showDetails(mPropertyInfo);
+			}
+			showCheckInCheckoutDetails(mPropertyInfo);
 		}
 	}
 
@@ -168,7 +195,8 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 
 	private static final int INSTANCE_PROPERTY_INFO = 101;
 	private static final int INSTANCE_EXPANDED = 102;
-
+	private static final int PROPERTY_ROOM_CONTAINER_ID = 103;
+	
 	@SuppressWarnings("unchecked")
 	public void onCreate() {
 		Intent intent = mActivity.getIntent();
@@ -180,22 +208,21 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 			if (mPropertyInfo == null) {
 				mPropertyInfo = (PropertyInfo) instance.get(INSTANCE_PROPERTY_INFO);
 			}
-
+			
+			mRoomTypeRowContainer =  mActivity.findViewById(((Integer) instance.get(PROPERTY_ROOM_CONTAINER_ID)).intValue());
+			
 			if ((Boolean) instance.get(INSTANCE_EXPANDED)) {
 				setVisibility(View.VISIBLE);
 			}
 		}
 	}
 
-	public void onPause() {
+	public void onDestroy() {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-
-		if (bd.isDownloading(DOWNLOAD_KEY)) {
+		String downloadKey = PropertyInfoResponseHandler.DOWNLOAD_KEY_PREFIX + mProperty.getPropertyId();
+		if (bd.isDownloading(downloadKey)) {
 			if (mActivity.isFinishing()) {
-				bd.cancelDownload(DOWNLOAD_KEY);
-			}
-			else {
-				bd.unregisterDownloadCallback(DOWNLOAD_KEY);
+				bd.unregisterDownloadCallback(downloadKey, this);
 			}
 		}
 	}
@@ -207,6 +234,9 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 	public void onRetainNonConfigurationInstance(SparseArray<Object> instance) {
 		if (mPropertyInfo != null) {
 			instance.put(INSTANCE_PROPERTY_INFO, mPropertyInfo);
+		}
+		if(mRoomTypeRowContainer != null) {
+			instance.put(PROPERTY_ROOM_CONTAINER_ID, new Integer(mRoomTypeRowContainer.getId()));
 		}
 		instance.put(INSTANCE_EXPANDED, isExpanded());
 	}

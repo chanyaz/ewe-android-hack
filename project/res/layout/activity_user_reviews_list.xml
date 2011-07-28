@@ -87,7 +87,8 @@
 			android:layout_centerVertical="true"
 			android:layout_marginLeft="8dp"
 			android:layout_marginRight="4dp"
-			android:textColor="#ffffff" />
+			android:textStyle="bold"
+			android:textColor="@color/user_reviews_text_color" />
 		<RatingBar 
 			android:id="@+id/user_review_rating_bar_bottom"
 			android:layout_height="wrap_content" 

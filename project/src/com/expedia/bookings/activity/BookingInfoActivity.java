@@ -237,7 +237,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		}
 
 		// Configure the room type handler
-		mRoomTypeHandler = new RoomTypeHandler(this, mProperty, mRate);
+		mRoomTypeHandler = new RoomTypeHandler(this, getIntent(), mProperty, mRate);
 		mRoomTypeHandler.onCreate();
 
 		// Retrieve some data we keep using
@@ -279,7 +279,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		configureTicket();
 		configureForm();
 		configureFooter();
-
+		
 		// Retrieve previous instance
 		SparseArray<Object> lastInstance = (SparseArray<Object>) getLastNonConfigurationInstance();
 		if (lastInstance != null) {
@@ -391,11 +391,13 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	@Override
 	protected void onPause() {
 		super.onPause();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		mRoomTypeHandler.onDestroy();
 
-		// If we're downloading, unregister the callback so we can resume it once the user is watching again 
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
-
-		mRoomTypeHandler.onPause();
+		super.onDestroy();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////

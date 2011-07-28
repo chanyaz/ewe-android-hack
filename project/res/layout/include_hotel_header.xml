@@ -24,48 +24,31 @@
 	<RelativeLayout
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:gravity="center_vertical"
-		android:orientation="horizontal">
-		<LinearLayout
-			android:id="@+id/hotel_rating_layout"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
-			<TextView
-				android:id="@+id/hotel_rating_text_view"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:text="@string/star_rating"
-				android:textColor="#E1E1E1"
-				android:textSize="12sp" />
-			<RatingBar
-				android:id="@+id/hotel_rating_bar"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:numStars="5"
-				android:stepSize=".5"
-				android:isIndicator="true" />
-		</LinearLayout>
+		android:gravity="center_vertical">
 		<LinearLayout
 			android:id="@+id/user_rating_layout"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignTop="@id/hotel_rating_layout"
-			android:layout_alignBottom="@id/hotel_rating_layout"
-			android:layout_toRightOf="@id/hotel_rating_layout"
-			android:layout_marginLeft="14dp"
-			android:layout_weight="1"
-			android:orientation="vertical">
+			android:layout_alignTop="@+id/book_now_button"
+			android:layout_alignBottom="@+id/book_now_button"
+			android:layout_alignParentLeft="true"
+			android:layout_marginRight="5dp"
+			android:clickable="true"
+			android:focusable="true"
+			android:gravity="center_vertical"
+			android:background="@drawable/btn_user_reviews">
 			<TextView
 				android:id="@+id/user_rating_text_view"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
-				android:text="@string/user_rating"
+				android:paddingRight="5dp"
+				android:gravity="center_vertical"
+				android:textStyle="bold"
 				android:textColor="#E1E1E1"
-				android:textSize="12sp" />
+				android:textSize="12sp"/>
 			<RatingBar
 				android:id="@+id/user_rating_bar"
-				android:layout_height="fill_parent"
+				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
 				android:gravity="center_vertical"
 				android:layout_marginTop="1dp"
