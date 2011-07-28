@@ -43,6 +43,7 @@
 			android:layout_height="fill_parent"
 			android:layout_alignParentLeft="true"
 			android:layout_alignParentTop="true"
+			android:layout_toLeftOf="@id/user_rating_layout"
 			android:gravity="center_vertical"
 			android:orientation="vertical">
 			<TextView

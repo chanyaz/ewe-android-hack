@@ -24,13 +24,23 @@ import com.mobiata.hotellib.utils.StrUtils;
 
 public class LayoutUtils {
 
-	public static void configureHeader(Activity activity, Property property, OnClickListener onBookNowClick) {
+	public static void configureHeader(Activity activity, Property property, OnClickListener onBookNowClick, OnClickListener onReviewsClick) {
 		TextView name = (TextView) activity.findViewById(R.id.name_text_view);
 		name.setText(property.getName());
 		RatingBar userRating = (RatingBar) activity.findViewById(R.id.user_rating_bar);
 		userRating.setRating((float) property.getAverageExpediaRating());
 		TextView location = (TextView) activity.findViewById(R.id.location_text_view);
 		location.setText(StrUtils.formatAddress(property.getLocation(), StrUtils.F_CITY + StrUtils.F_STATE_CODE));
+		
+		TextView reviewsText = (TextView) activity.findViewById(R.id.user_rating_text_view);
+		reviewsText.setText(activity.getString(R.string.user_review_total_reviews_template, property.getTotalReviews()));
+		
+		View reviewsContainer = activity.findViewById(R.id.user_rating_layout);
+		if(onReviewsClick == null) {
+			reviewsContainer.setEnabled(false);
+		} else {
+			reviewsContainer.setOnClickListener(onReviewsClick);
+		}
 		
 		Button bookButton = (Button) activity.findViewById(R.id.book_now_button);
 		bookButton.setOnClickListener(onBookNowClick);
