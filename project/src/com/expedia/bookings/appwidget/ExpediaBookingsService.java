@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Properties;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +34,7 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.hotellib.data.Codes;
@@ -44,7 +44,6 @@ import com.mobiata.hotellib.data.SearchParams.SearchType;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
-import com.mobiata.hotellib.utils.JSONUtils;
 
 public class ExpediaBookingsService extends Service implements LocationListener{
 	

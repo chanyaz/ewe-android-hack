@@ -41,6 +41,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Location;
@@ -53,7 +54,6 @@ import com.mobiata.hotellib.data.PropertyInfoResponse;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.server.PropertyInfoResponseHandler;
-import com.mobiata.hotellib.utils.JSONUtils;
 import com.mobiata.hotellib.utils.StrUtils;
 import com.omniture.AppMeasurement;
 

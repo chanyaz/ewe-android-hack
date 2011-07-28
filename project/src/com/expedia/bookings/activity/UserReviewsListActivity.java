@@ -32,6 +32,7 @@ import com.expedia.bookings.widget.UserReviewsAdapter;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
@@ -40,7 +41,6 @@ import com.mobiata.hotellib.data.ReviewRating;
 import com.mobiata.hotellib.data.ReviewsResponse;
 import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.server.ExpediaServices.ReviewSort;
-import com.mobiata.hotellib.utils.JSONUtils;
 
 public class UserReviewsListActivity extends ListActivity implements OnScrollListener {
 

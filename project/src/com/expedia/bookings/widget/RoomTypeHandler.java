@@ -20,6 +20,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.widget.TiltedImageView;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
@@ -29,7 +30,6 @@ import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.ServerError;
 import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.server.PropertyInfoResponseHandler;
-import com.mobiata.hotellib.utils.JSONUtils;
 
 /**
  * Adds a room type row anywhere, and sets up its behavior.
