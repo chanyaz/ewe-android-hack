@@ -88,6 +88,7 @@ public class HotelActivity extends Activity {
 			}
 			else {
 				mPropertyInfo = response.getPropertyInfo();
+				showCheckInOutTimes();
 			}
 		}
 	};
@@ -507,7 +508,9 @@ public class HotelActivity extends Activity {
 		if (addressSection > 0) {
 			addAddressSection(descriptionContainer, intent);
 		}
-
+		
+		addPoliciesSection(descriptionContainer);
+		
 	}
 
 	private View addSection(StringBuilder html, String title, String body, ViewGroup detailsContainer) {
@@ -548,7 +551,25 @@ public class HotelActivity extends Activity {
 			});
 		}
 	}
+	
+	private void addPoliciesSection(ViewGroup descriptionContainer) {
+		ViewGroup policiesContainer = (ViewGroup) getLayoutInflater().inflate(R.layout.snippet_policies_section, null);
+		descriptionContainer.addView(policiesContainer);
+		showCheckInOutTimes();
+	}
 
+	private void showCheckInOutTimes() {
+		TextView policiesDescription = (TextView) findViewById(R.id.policies_description);
+		if(mPropertyInfo != null) {
+			String checkInOutTimes;
+			checkInOutTimes = getString(R.string.bullet_point) + " " + getString(R.string.check_in_time_template, mPropertyInfo.getCheckInTime());
+			checkInOutTimes += "\n";
+			checkInOutTimes += getString(R.string.bullet_point) + " " + getString(R.string.check_out_time_template, mPropertyInfo.getCheckOutTime());
+			policiesDescription.setText(checkInOutTimes);
+		} else {
+			policiesDescription.setText(R.string.Loading);
+		}
+	}
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Omniture tracking
 

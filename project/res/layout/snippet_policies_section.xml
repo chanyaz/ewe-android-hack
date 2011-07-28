@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:paddingBottom="20dp">
+	<TextView
+		android:id="@+id/policies_title_text_view"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toLeftOf="@+id/view_button"
+		android:layout_alignParentLeft="true"
+		android:text="@string/policies_title"
+		android:textStyle="bold"
+		android:textColor="@color/hotel_description_text_color"/>
+	
+	<TextView
+		android:id="@+id/policies_description"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:paddingTop="0dp"
+		android:layout_alignParentLeft="true"
+		android:layout_below="@id/policies_title_text_view"
+		android:textColor="@color/hotel_description_text_color"/>
+	
+</RelativeLayout>

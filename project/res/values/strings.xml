@@ -100,7 +100,9 @@
 	<string name="user_reviews">User Reviews</string>
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
-
+	<string name="policies_title">Policies</string>
+	<string name="check_in_time_template">Check in is at %s</string>
+	<string name="check_out_time_template">Check out is at %s</string>
 	<!-- Shortened Amenity strings -->
 	<!-- Internet amenity -->
 	<string name="amenity_internet">Internet</string>
