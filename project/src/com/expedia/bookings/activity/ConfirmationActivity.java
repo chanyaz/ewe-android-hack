@@ -199,9 +199,9 @@ public class ConfirmationActivity extends MapActivity {
 		nameView.setText(mProperty.getName());
 		Location location = mProperty.getLocation();
 		TextView address1View = (TextView) findViewById(R.id.address1_text_view);
-		address1View.setText(StrUtils.formatAddressStreet(location));
+		address1View.setText(Html.fromHtml(StrUtils.formatAddressStreet(location)));
 		TextView address2View = (TextView) findViewById(R.id.address2_text_view);
-		address2View.setText(StrUtils.formatAddressCity(location));
+		address2View.setText(Html.fromHtml(StrUtils.formatAddressCity(location)));
 		RatingBar hotelRating = (RatingBar) findViewById(R.id.hotel_rating_bar);
 		hotelRating.setRating((float) mProperty.getHotelRating());
 		RatingBar userRating = (RatingBar) findViewById(R.id.user_rating_bar);

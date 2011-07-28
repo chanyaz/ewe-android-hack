@@ -17,8 +17,8 @@
     	android:icon="@drawable/icon" 
     	android:label="@string/app_name"
     	android:theme="@style/Theme"
-    	android:name=".activity.ExpediaBookingApp"
-    	android:hardwareAccelerated="true">
+    	android:name="com.expedia.bookings.activity.ExpediaBookingApp"
+    	android:hardwareAccelerated="false">
 
     	<uses-library android:name="com.google.android.maps" />
 		

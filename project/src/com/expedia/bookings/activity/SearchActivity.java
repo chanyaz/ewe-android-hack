@@ -106,7 +106,6 @@ import com.mobiata.hotellib.data.Filter.SearchRadius;
 import com.mobiata.hotellib.data.Filter.Sort;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.PriceTier;
-import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
 import com.mobiata.hotellib.data.SearchResponse;
@@ -2186,11 +2185,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void afterTextChanged(Editable s) {
 		}
-
+	
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 		}
-
+	
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			mFilter.setHotelName(s.toString());

@@ -3,7 +3,9 @@ package com.expedia.bookings.activity;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONException;
 
@@ -29,6 +31,8 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.widget.AdapterView;
+import com.expedia.bookings.widget.AdapterView.OnItemSelectedListener;
 import com.expedia.bookings.widget.Gallery;
 import com.expedia.bookings.widget.Gallery.OnScrollListener;
 import com.mobiata.android.BackgroundDownloader;
@@ -60,6 +64,8 @@ public class HotelActivity extends Activity {
 	
 	private static final float MAX_AMENITY_TEXT_WIDTH_IN_DP = 60.0f;
 
+	private static final int MAX_IMAGES_LOADED = 10;
+
 	private Context mContext;
 
 	private ScrollView mScrollView;
@@ -69,9 +75,7 @@ public class HotelActivity extends Activity {
 	private Property mProperty;
 
 	private PropertyInfo mPropertyInfo;
-	
-	private int mImageToLoad;
-	
+
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
 	
@@ -167,23 +171,69 @@ public class HotelActivity extends Activity {
 		mScrollView = (ScrollView) findViewById(R.id.scroll_view);
 		if (property.getMediaCount() > 0) {
 			final List<String> urls = new ArrayList<String>(property.getMediaCount());
+			Set<String> usedUrls = new HashSet<String>();
 			for (Media media : property.getMediaList()) {
-				urls.add(media.getUrl());
+				String url = media.getUrl();
+				if (!usedUrls.contains(url)) {
+					urls.add(url);
+					usedUrls.add(url);
+				}
 			}
 			gallery.setUrls(urls);
 
-			// Start loading images in the background.  Load them one-by-one.
-			mImageToLoad = 0;
-			OnImageLoaded loader = new OnImageLoaded() {
+			gallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 				@Override
-				public void onImageLoaded(String url, Bitmap bitmap) {
-					if (mImageToLoad < urls.size()) {
-						String nextUrl = urls.get(mImageToLoad++);
-						ImageCache.loadImage(toString() + nextUrl, nextUrl, this);
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					// Pre-load images around the currently selected image, until we have MAX_IMAGES_LOADED
+					// loading.  Then cancel downloads on all the rest.
+					int left = position;
+					int right = position;
+					int loaded = 1;
+					int len = urls.size();
+					OnImageLoaded doNothing = new OnImageLoaded() {
+						public void onImageLoaded(String url, Bitmap bitmap) {
+							// Do nothing.  In the future, ImageCache should have 
+							// the ability to simply preload, but this is a fix 
+							// for #8401 for the 1.0.2 release and I don't want to
+							// have to update/branch Utils.
+						}
+					};
+					boolean hasMore = true;
+					while (loaded < MAX_IMAGES_LOADED && hasMore) {
+						hasMore = false;
+						if (left > 0) {
+							left--;
+							ImageCache.loadImage(urls.get(left), doNothing);
+							loaded++;
+							hasMore = true;
+						}
+						if (loaded == MAX_IMAGES_LOADED) {
+							break;
+						}
+						if (right < len - 1) {
+							right++;
+							ImageCache.loadImage(urls.get(right), doNothing);
+							loaded++;
+							hasMore = true;
+						}
+					}
+
+					// Clear images a few to the right/left of the bounds.
+					while (left > 0) {
+						left--;
+						ImageCache.removeImage(urls.get(left), true);
+					}
+					while (right < len - 1) {
+						right++;
+						ImageCache.removeImage(urls.get(right), true);
 					}
 				}
-			};
-			loader.onImageLoaded(null, null);
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// Do nothing
+				}
+			});
 
 			if (startFlipping) {
 				gallery.startFlipping();
@@ -378,7 +428,7 @@ public class HotelActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 
-		if (isFinishing()) {
+		if (isFinishing() && mProperty.getMediaCount() > 0) {
 			// In order to avoid memory issues, clear the cache of images we might've loaded in this activity
 			Log.d("Clearing out images from property.");
 
