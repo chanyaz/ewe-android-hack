@@ -22,4 +22,5 @@
 	<color name="hotel_activity_user_review_disabled_button_shadow">#4fffffff</color>
 	
 	<color name="user_reviews_text_color">#ffffff</color>
+	<color name="hotel_description_text_color">#333333</color>
 </resources>

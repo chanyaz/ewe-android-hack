@@ -88,6 +88,8 @@
 	<string name="book_now">Book Now</string>
 	<!-- Label for the hotel's star rating -->
 	<string name="star_rating">Star Rating</string>
+	<!--  Title for star rating in hotel description section -->
+	<string name="star_rating_title">Star Rating:</string>
 	<!-- Label for the hotel's trip advisor rating  -->
 	<string name="user_rating">User Rating</string>
 	<!-- Label for the address section of the description  -->

@@ -20,7 +20,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -155,6 +157,9 @@ public class HotelActivity extends Activity {
 			}	
 		};
 		LayoutUtils.configureHeader(this, property, onBookNowClick, onReviewsClick);
+		
+		RatingBar hotelRatingbar = (RatingBar) findViewById(R.id.hotel_rating_bar);
+		hotelRatingbar.setRating((float) property.getHotelRating());
 
 		// Configure the gallery
 		Gallery gallery = mGallery = (Gallery) findViewById(R.id.images_gallery);
@@ -332,11 +337,10 @@ public class HotelActivity extends Activity {
 		// Description
 		String description = property.getDescriptionText();
 		if (description != null && description.length() > 0) {
-			Log.i("DESCRIPTION = " + description);
-			TextView descriptionView = (TextView) findViewById(R.id.description_text_view);
-			descriptionView.setText(formatDescription(description));
+			ViewGroup descriptionContainer = (ViewGroup) findViewById(R.id.description_container);
+			layoutDescription(descriptionContainer, description, intent);
 		}
-
+		
 		// Tracking
 		if (savedInstanceState == null) {
 			onPageLoad(intent);
@@ -438,8 +442,8 @@ public class HotelActivity extends Activity {
 		startActivity(roomsRatesIntent);
 	}
 
-	private CharSequence formatDescription(String description) {
-		StringBuilder html = new StringBuilder();
+	private void layoutDescription(ViewGroup descriptionContainer, String description, Intent intent) {
+		
 
 		// List support
 		description = description.replace("<ul>", "\n\n");
@@ -454,6 +458,7 @@ public class HotelActivity extends Activity {
 		int index = 0;
 		String title = null;
 		while (index < len && index >= 0) {
+			StringBuilder html = new StringBuilder();
 			int nextSection = description.indexOf("<p>", index);
 			int endSection = description.indexOf("</p>", nextSection);
 
@@ -467,14 +472,14 @@ public class HotelActivity extends Activity {
 					String body = Html.fromHtml(description.substring(endTitle + 4, endSection)).toString().trim();
 
 					if (title.length() > 0 && body.length() > 0) {
-						addSection(html, title, body);
+						addSection(html, title, body, descriptionContainer);
 						title = null;
 					}
 				}
 				else {
 					String body = description.substring(nextSection + 3, endSection).trim().replace("\n", "<br />");
 					if (title != null && body.length() > 0) {
-						addSection(html, title, body);
+						addSection(html, title, body, descriptionContainer);
 						title = null;
 					}
 					else {
@@ -488,7 +493,7 @@ public class HotelActivity extends Activity {
 				// Check if we should add address here or not
 				addressSection--;
 				if (addressSection == 0) {
-					addAddressSection(html);
+					addAddressSection(descriptionContainer, intent);
 				}
 			}
 			else {
@@ -500,21 +505,25 @@ public class HotelActivity extends Activity {
 
 		// If we didn't have enough sections before this, add the address now
 		if (addressSection > 0) {
-			addAddressSection(html);
+			addAddressSection(descriptionContainer, intent);
 		}
 
-		return Html.fromHtml(html.toString().trim());
 	}
 
-	private void addSection(StringBuilder html, String title, String body) {
-		html.append("<p><b>");
+	private View addSection(StringBuilder html, String title, String body, ViewGroup detailsContainer) {
+		html.append("<b>");
 		html.append(title);
 		html.append("</b><br />");
 		html.append(body);
-		html.append("</p>");
+		ViewGroup detailsSection = (ViewGroup) getLayoutInflater().inflate(R.layout.snippet_hotel_description_section, null);
+		detailsContainer.addView(detailsSection);
+		TextView detailsTextView = (TextView) detailsSection.findViewById(R.id.description_text_view);
+		detailsTextView.setText(Html.fromHtml(html.toString().trim()));
+		return detailsSection;
 	}
 
-	private void addAddressSection(StringBuilder html) {
+	private void addAddressSection(ViewGroup descriptionContainer, final Intent intent) {
+		StringBuilder html = new StringBuilder();
 		Location location = mProperty.getLocation();
 		if (location != null) {
 			int flags = StrUtils.F_STREET_ADDRESS + StrUtils.F_CITY + StrUtils.F_STATE_CODE + StrUtils.F_POSTAL_CODE;
@@ -525,7 +534,18 @@ public class HotelActivity extends Activity {
 			}
 			String address = mProperty.getName() + "\n" + StrUtils.formatAddress(location, flags);
 
-			addSection(html, getString(R.string.address), address.replace("\n", "<br />"));
+			View addressSection = addSection(html, getString(R.string.address), address.replace("\n", "<br />"), descriptionContainer);
+			ImageButton mapButton = (ImageButton) addressSection.findViewById(R.id.view_button);
+			mapButton.setVisibility(View.VISIBLE);
+			mapButton.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent newIntent = new Intent(mContext, HotelMapActivity.class);
+					newIntent.fillIn(intent, 0);
+					startActivity(newIntent);
+				}
+			});
 		}
 	}
 
