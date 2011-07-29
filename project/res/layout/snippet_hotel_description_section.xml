@@ -5,22 +5,19 @@
 	android:layout_height="wrap_content"
 	android:paddingBottom="20dp">
 	<TextView
-		android:id="@+id/description_text_view"
+		android:id="@+id/title_description_text_view"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:includeFontPadding="false"
+		android:textStyle="bold"
+		android:textColor="@color/hotel_description_text_color"/>
+	<TextView
+		android:id="@+id/body_description_text_view"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:includeFontPadding="false"
 		android:layout_toLeftOf="@+id/view_button"
+		android:layout_below="@id/title_description_text_view"
 		android:layout_alignParentLeft="true"
 		android:textColor="@color/hotel_description_text_color"/>
-	
-	<ImageButton
-		android:id="@id/view_button"
-		android:layout_width="@dimen/action_bar_button_height"
-		android:layout_height="@dimen/action_bar_button_height"
-		android:layout_alignParentRight="true"
-		android:layout_alignParentBottom="true"
-		android:layout_margin="6dp"
-		android:src="@drawable/btn_map"
-		android:visibility="gone"
-		style="@style/Widget.Button.Floating" />
-	
 </RelativeLayout>

@@ -20,6 +20,11 @@
 		<item name="android:progressDrawable">@drawable/star_inset_ratingbar</item>
 	</style>     
 	
+	<style name="Widget.RatingBar.Small.Inset.Gray" parent="@style/Widget.RatingBar.Small.Shadowed">
+		<item name="android:minHeight">12dp</item>
+		<item name="android:progressDrawable">@drawable/star_inset_gray_ratingbar</item>
+	</style>     
+	
 	<style name="Widget.RatingBar.Small.UserRating" parent="@style/Widget.RatingBar.Small.Shadowed">
 		<item name="android:progressDrawable">@drawable/star_user_review_rating_bar_on_black_bg</item>
 	</style>
