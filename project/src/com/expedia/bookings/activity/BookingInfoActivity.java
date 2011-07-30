@@ -237,7 +237,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		}
 
 		// Configure the room type handler
-		mRoomTypeHandler = new RoomTypeHandler(this, getIntent(), mProperty, mRate);
+		mRoomTypeHandler = new RoomTypeHandler(this, getIntent(), mProperty, mSearchParams, mRate);
 		mRoomTypeHandler.onCreate();
 
 		// Retrieve some data we keep using

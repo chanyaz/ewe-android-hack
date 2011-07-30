@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.text.DateFormat;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,6 +29,7 @@ import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.PropertyInfo;
 import com.mobiata.hotellib.data.PropertyInfoResponse;
 import com.mobiata.hotellib.data.Rate;
+import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.ServerError;
 import com.mobiata.hotellib.server.ExpediaServices;
 import com.mobiata.hotellib.server.PropertyInfoResponseHandler;
@@ -43,6 +46,7 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 	private Property mProperty;
 	private Rate mRate;
 	private PropertyInfo mPropertyInfo;
+	private SearchParams mSearchParams;
 
 	private View mRoomTypeRow;
 	private View mRoomTypeRowContainer;
@@ -51,9 +55,10 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 	private ProgressBar mProgressBar;
 	private TextView mRoomDetailsTextView;
 
-	public RoomTypeHandler(Activity activity, Intent intent, Property property, Rate rate) {
+	public RoomTypeHandler(Activity activity, Intent intent, Property property, SearchParams searchParams, Rate rate) {
 		mActivity = activity;
 		mProperty = property;
+		mSearchParams = searchParams;
 		mRate = rate;
 		
 		String propertyInfoString = (intent != null) ? intent.getStringExtra(Codes.PROPERTY_INFO) : null;
@@ -127,10 +132,14 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 	}
 	
 	private void showCheckInCheckoutDetails(PropertyInfo propertyInfo) {
-		TextView checkInTimeTextView = (TextView) mRoomTypeRowContainer.findViewById(1);
-		checkInTimeTextView.setText(propertyInfo.getCheckInTime());
-		TextView checkOutTimeTextView = (TextView) mRoomTypeRowContainer.findViewById(2);
-		checkOutTimeTextView.setText(propertyInfo.getCheckOutTime());
+		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(mActivity);
+		String start = medDf.format(mSearchParams.getCheckInDate().getTime());
+		String end = medDf.format(mSearchParams.getCheckOutDate().getTime());
+
+		TextView checkInTimeTextView = (TextView) mRoomTypeRowContainer.findViewById(R.id.check_in_time);
+		checkInTimeTextView.setText(mActivity.getString(R.string.check_in_out_time_template, propertyInfo.getCheckInTime(), start));
+		TextView checkOutTimeTextView = (TextView) mRoomTypeRowContainer.findViewById(R.id.check_out_time);
+		checkOutTimeTextView.setText(mActivity.getString(R.string.check_in_out_time_template, propertyInfo.getCheckOutTime(), end));
 	}
 
 	private void showDetails(PropertyInfo propertyInfo) {

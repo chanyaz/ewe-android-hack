@@ -163,7 +163,7 @@ public class ConfirmationActivity extends MapActivity {
 			}
 		}
 
-		mRoomTypeHandler = new RoomTypeHandler(this, getIntent(), mProperty, mRate);
+		mRoomTypeHandler = new RoomTypeHandler(this, getIntent(), mProperty, mSearchParams, mRate);
 		mRoomTypeHandler.onCreate();
 
 		//////////////////////////////////////////////////

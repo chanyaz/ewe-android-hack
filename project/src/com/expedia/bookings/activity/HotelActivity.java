@@ -80,33 +80,6 @@ public class HotelActivity extends Activity {
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
-	
-	private OnDownloadComplete mPropertyInfoCallback = new OnDownloadComplete() {
-		
-		@Override
-		public void onDownload(Object results) {
-			PropertyInfoResponse response = (PropertyInfoResponse) results;
-			if (response == null) {
-				//TODO figure out what to display/do if no response
-			}
-			else if (response.hasErrors()) {
-				//TODO figure out what to do if there are errors
-			}
-			else {
-				mPropertyInfo = response.getPropertyInfo();
-				showCheckInOutTimes();
-			}
-		}
-	};
-	
-	private Download mPropertyInfoDownloader = new Download() {
-		
-		@Override
-		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(HotelActivity.this);
-			return services.info(mProperty);
-		}
-	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -396,20 +369,6 @@ public class HotelActivity extends Activity {
 			onPageLoad(intent);
 		}
 		
-		startPropertyInfoDownload();
-	}
-	
-	private void startPropertyInfoDownload() {
-		BackgroundDownloader downloader = BackgroundDownloader.getInstance();
-		String downloadKey = PropertyInfoResponseHandler.DOWNLOAD_KEY_PREFIX + mProperty.getPropertyId();
-		if((mPropertyInfo == null || !mPropertyInfo.getPropertyId().equals(mProperty.getPropertyId())) 
-				&& !downloader.isDownloading(downloadKey)) {
-			mPropertyInfo = null;
-			downloader.cancelDownload(downloadKey);
-			downloader.startDownload(downloadKey, mPropertyInfoDownloader, mPropertyInfoCallback);
-		} else if(mPropertyInfo == null) {
-			downloader.registerDownloadCallback(downloadKey, mPropertyInfoCallback);
-		}
 	}
 
 	@Override
@@ -435,9 +394,6 @@ public class HotelActivity extends Activity {
 				String imageUrl = image.getUrl();
 				ImageCache.removeImage(imageUrl, true);
 			}
-			
-			BackgroundDownloader.getInstance().unregisterDownloadCallback(
-					PropertyInfoResponseHandler.DOWNLOAD_KEY_PREFIX + mProperty.getPropertyId(), mPropertyInfoCallback);
 		}
 	}
 
@@ -485,10 +441,6 @@ public class HotelActivity extends Activity {
 	public void startRoomRatesActivity(Intent intent) {
 		Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
 		roomsRatesIntent.fillIn(intent, 0);
-		if(mPropertyInfo != null) {
-			Log.i("Putting property info into intent = " + mPropertyInfo);
-			intent.putExtra(Codes.PROPERTY_INFO, mPropertyInfo.toJson().toString());
-		}
 		startActivity(roomsRatesIntent);
 	}
 
@@ -560,8 +512,6 @@ public class HotelActivity extends Activity {
 		if (addressSection > 0) {
 			addAddressSection(descriptionContainer, intent);
 		}
-		
-		addPoliciesSection(descriptionContainer);
 		
 	}
 	
@@ -650,25 +600,7 @@ public class HotelActivity extends Activity {
 			addressSection.addView(mapButton, lp);
 		}
 	}
-	
-	private void addPoliciesSection(ViewGroup descriptionContainer) {
-		ViewGroup policiesContainer = (ViewGroup) getLayoutInflater().inflate(R.layout.snippet_policies_section, null);
-		descriptionContainer.addView(policiesContainer);
-		showCheckInOutTimes();
-	}
 
-	private void showCheckInOutTimes() {
-		TextView policiesDescription = (TextView) findViewById(R.id.policies_description);
-		if(mPropertyInfo != null) {
-			String checkInOutTimes;
-			checkInOutTimes = getString(R.string.bullet_point) + " " + getString(R.string.check_in_time_template, mPropertyInfo.getCheckInTime());
-			checkInOutTimes += "\n";
-			checkInOutTimes += getString(R.string.bullet_point) + " " + getString(R.string.check_out_time_template, mPropertyInfo.getCheckOutTime());
-			policiesDescription.setText(checkInOutTimes);
-		} else {
-			policiesDescription.setText(R.string.Loading);
-		}
-	}
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Omniture tracking
 

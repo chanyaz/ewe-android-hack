@@ -57,11 +57,10 @@ public class LayoutUtils {
 		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(context);
 		String start = medDf.format(searchParams.getCheckInDate().getTime());
 		String end = medDf.format(searchParams.getCheckOutDate().getTime());
+		String timeLoader = "--:--";
 		int numDays = searchParams.getStayDuration();
-		addDetail(context, detailsLayout, R.string.CheckIn, start);
-		addDetail(context, detailsLayout, context.getString(R.string.CheckInTime), "Loading...", 1);
-		addDetail(context, detailsLayout, R.string.CheckOut, end);
-		addDetail(context, detailsLayout, context.getString(R.string.CheckOutTime), "Loading...", 2);
+		addDetail(context, detailsLayout, context.getString(R.string.CheckIn), context.getString(R.string.check_in_out_time_template, timeLoader, start), R.id.check_in_time);
+		addDetail(context, detailsLayout, context.getString(R.string.CheckOut), context.getString(R.string.check_in_out_time_template, timeLoader, end), R.id.check_out_time);
 		addDetail(context, detailsLayout, R.string.stay_duration,
 				context.getResources().getQuantityString(R.plurals.length_of_stay, numDays, numDays));
 

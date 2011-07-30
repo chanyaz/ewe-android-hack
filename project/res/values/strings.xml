@@ -258,6 +258,8 @@
 	<string name="error_booking_title">Error</string>
 	<!-- Error message when we couldn't get a response -->
 	<string name="error_booking_null">Could not connect to Expedia servers.  Please check your connection and try again.</string>
+	<!--  Check in/out time + date template  -->
+	<string name="check_in_out_time_template">%1$s on %2$s</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Reservation summary label -->
