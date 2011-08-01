@@ -64,6 +64,7 @@ public class LayoutUtils {
 		addDetail(context, detailsLayout, context.getString(R.string.CheckOut), context.getString(R.string.check_in_out_time_template, timeLoader, end), R.id.check_out_time);
 		addDetail(context, detailsLayout, R.string.stay_duration,
 				context.getResources().getQuantityString(R.plurals.length_of_stay, numDays, numDays));
+		addSpace(context, detailsLayout, 8);
 
 		// If there's a breakdown list, show that; otherwise, show the nightly mRate
 		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(context);
@@ -127,5 +128,12 @@ public class LayoutUtils {
 		DateFormat medDf = android.text.format.DateFormat.getLongDateFormat(context);
 		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_LONG) + ", "
 				+ medDf.format(cal.getTime());
+	}
+
+	public static void addSpace(Context context, ViewGroup parent, int spaceInDp) {
+		int height = (int) context.getResources().getDisplayMetrics().density * spaceInDp;
+		View v = new View(context);
+		v.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, height));
+		parent.addView(v);
 	}
 }
