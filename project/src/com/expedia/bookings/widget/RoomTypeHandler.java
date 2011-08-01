@@ -1,13 +1,12 @@
 package com.expedia.bookings.widget;
 
-import java.text.DateFormat;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -127,7 +126,7 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 	}
 
 	private void showDetails(String details) {
-		mRoomDetailsTextView.setText(details);
+		mRoomDetailsTextView.setText(Html.fromHtml(details));
 		mRoomDetailsTextView.setVisibility(View.VISIBLE);
 		mProgressBar.setVisibility(View.GONE);
 	}
