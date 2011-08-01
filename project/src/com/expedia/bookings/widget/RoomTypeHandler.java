@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -130,11 +131,10 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 		mRoomDetailsTextView.setVisibility(View.VISIBLE);
 		mProgressBar.setVisibility(View.GONE);
 	}
-	
+
 	private void showCheckInCheckoutDetails(PropertyInfo propertyInfo) {
-		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(mActivity);
-		String start = medDf.format(mSearchParams.getCheckInDate().getTime());
-		String end = medDf.format(mSearchParams.getCheckOutDate().getTime());
+		String start = LayoutUtils.formatCheckInOutDate(mActivity, mSearchParams.getCheckInDate());
+		String end = LayoutUtils.formatCheckInOutDate(mActivity, mSearchParams.getCheckOutDate());
 
 		TextView checkInTimeTextView = (TextView) mRoomTypeRowContainer.findViewById(R.id.check_in_time);
 		checkInTimeTextView.setText(mActivity.getString(R.string.check_in_out_time_template, propertyInfo.getCheckInTime(), start));

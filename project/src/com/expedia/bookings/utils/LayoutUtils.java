@@ -1,11 +1,13 @@
 package com.expedia.bookings.utils;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,9 +56,8 @@ public class LayoutUtils {
 
 		addDetail(context, detailsLayout, R.string.GuestsLabel, StrUtils.formatGuests(context, searchParams));
 
-		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(context);
-		String start = medDf.format(searchParams.getCheckInDate().getTime());
-		String end = medDf.format(searchParams.getCheckOutDate().getTime());
+		String start = formatCheckInOutDate(context, searchParams.getCheckInDate());
+		String end = formatCheckInOutDate(context, searchParams.getCheckOutDate());
 		String timeLoader = "--:--";
 		int numDays = searchParams.getStayDuration();
 		addDetail(context, detailsLayout, context.getString(R.string.CheckIn), context.getString(R.string.check_in_out_time_template, timeLoader, start), R.id.check_in_time);
@@ -120,5 +121,11 @@ public class LayoutUtils {
 			valueView.setId(valueId);
 		}
 		parent.addView(detailRow);
+	}
+
+	public static String formatCheckInOutDate(Context context, Calendar cal) {
+		DateFormat medDf = android.text.format.DateFormat.getLongDateFormat(context);
+		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_LONG) + ", "
+				+ medDf.format(cal.getTime());
 	}
 }
