@@ -102,7 +102,7 @@
 			style="@style/Widget.RatingBar.Small.UserReview" />
 		<Button
 			android:id="@+id/book_now_button"
-			android:layout_width="140dp"
+			android:layout_width="100dp"
 			android:layout_height="48dp"
 			android:layout_alignParentRight="true"
 			android:textStyle="bold"
