@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -52,6 +53,7 @@ public class WidgetPreviewHandler {
 	private ImageView mHotelThumbnailView;
 	private ViewGroup mNavigationContainer;
 	private ViewGroup mPricePerNightContainer;
+	private ViewGroup mWidgetContentsContainer;
 	private View mRootView;
 	private EditText mSpecifyLocationEditText;
 
@@ -79,6 +81,11 @@ public class WidgetPreviewHandler {
 		mTimer = new Timer();
 		mTimerTask = getTimerTask();
 
+		ViewGroup widgetContentsRootView = (ViewGroup) mActivity.getLayoutInflater().inflate(R.layout.widget_contents,
+				null);
+		ViewGroup hotelInfoContents = (ViewGroup) mActivity.findViewById(R.id.hotel_info_contents);
+		hotelInfoContents.addView(widgetContentsRootView);
+
 		mNextHotelButton = (ImageButton) mActivity.findViewById(R.id.next_hotel_btn);
 		mPrevHotelButton = (ImageButton) mActivity.findViewById(R.id.prev_hotel_btn);
 		mNavigationContainer = (ViewGroup) mActivity.findViewById(R.id.navigation_container);
@@ -89,6 +96,8 @@ public class WidgetPreviewHandler {
 		mHotelPriceTextView = (TextView) mActivity.findViewById(R.id.price_text_view);
 		mHotelThumbnailView = (ImageView) mActivity.findViewById(R.id.hotel_image_view);
 		mPricePerNightContainer = (ViewGroup) mActivity.findViewById(R.id.price_per_night_container);
+		mWidgetContentsContainer = (ViewGroup) mActivity.findViewById(R.id.widget_contents_container);
+
 		mRootView = mActivity.findViewById(R.id.root_widget_config_view);
 		mSpecifyLocationEditText = (EditText) mActivity.findViewById(R.id.location_option_text_view);
 
@@ -143,8 +152,9 @@ public class WidgetPreviewHandler {
 	}
 
 	private void showProperty(Property property) {
+
 		mNavigationContainer.setVisibility(View.VISIBLE);
-		mActivity.findViewById(R.id.widget_contents_container).setVisibility(View.VISIBLE);
+		mWidgetContentsContainer.setVisibility(View.VISIBLE);
 
 		mHotelNameTextView.setText(property.getName());
 		mHotelLocationTextView.setText(LOCATION);
@@ -173,6 +183,8 @@ public class WidgetPreviewHandler {
 
 		mHotelThumbnailView.setImageResource(R.drawable.widget_thumbnail_background);
 		ImageCache.loadImage(property.getThumbnail().getUrl(), mHotelThumbnailView);
+
+		mWidgetContentsContainer.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.fade_in));
 	}
 
 	private void loadNextProperty() {

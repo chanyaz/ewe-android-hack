@@ -60,7 +60,7 @@
 		android:layout_centerHorizontal="true"
 		android:layout_below="@id/widget_description_text_view">
 		<include
-			layout="@layout/include_widget_preview"/>
+			layout="@layout/widget"/>
 	</FrameLayout>	
 		
 	<TextView
