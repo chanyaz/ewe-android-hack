@@ -1198,6 +1198,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		buildFilter();
 		setSearchEditViews();
 		setDisplayType(DisplayType.NONE);
+		disablePanelHandle();
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
@@ -1526,6 +1527,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void showLoading(int resId) {
 		showLoading(getString(resId));
+		disablePanelHandle();
 	}
 
 	private void showLoading(String text) {
