@@ -22,6 +22,14 @@
 
 	<!-- Search Activity -->
 	<string name="search">Search</string>
+	<!--  The string that appears at the top of the search header.
+	      For example: "Chicago, IL - Aug 24 to Aug 25, 2011"
+	      1$ - The search address
+	      2$ - The check-in month 
+	      3$ - The check-in day of month
+	      4$ - The check-out month 
+	      5$ - The check-out day of month
+	      6$ - The year -->
 	<string name="booking_info_template">%1$s — %2$s %3$d to %4$s %5$s, %6$d</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
 	<string name="tripadvisor_rating_high">Show only highly rated hotels</string>
@@ -38,7 +46,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Loading previous search results...</string>
 	
-	<!-- Price range template -->
+	<!-- Price range template (e.g., "($50 - $100)" or "(50CA - 100CA)"). -->
 	<string name="price_range_template">(%1$s — %2$s)</string>
 	
 	<!-- Progress messages -->	
@@ -55,7 +63,7 @@
 	<string name="from">From</string>
 	<!-- The label indicating that this hotel is highly rated on TripAdvisor -->
 	<string name="highly_rated">Highly Rated</string>
-	<!-- The label for how much hotels cost, with a strikethrough non-sale price -->
+	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
 	<string name="from_template">From &lt;strike&gt;%s&lt;/strike&gt;</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/night</string>
@@ -93,7 +101,7 @@
 	<string name="rooms_left_one">Only 1 room left!</string>
 	<!-- Warning if there are only a few rooms left -->
 	<string name="rooms_left_template">Only %d rooms left!</string>
-	<!-- Savings percentage label -->
+	<!-- Savings percentage label (e.g., "Save 20%") -->
 	<string name="savings_template">Save\n %2.0f%%</string>
 	<!-- Label for free nights -->
 	<string name="free">FREE!</string>
@@ -110,7 +118,7 @@
 		<item quantity="one">1 night</item>
 		<item quantity="other">%d nights</item>
 	</plurals>
-	<!-- Label for room rate on a particular date -->
+	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") -->
 	<string name="room_rate_template">Room Rate %s</string>
 	<!-- Label for total cost of hotel stay -->
 	<string name="total_cost">Total Cost</string>
