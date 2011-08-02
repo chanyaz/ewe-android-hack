@@ -1753,10 +1753,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		Log.d("setDrawerViews().  Current filter: " + mFilter.toJson().toString());
 
-		// Temporarily remove OnCheckedChangeListeners before we start fiddling around with the buttons
+		// Temporarily remove Listeners before we start fiddling around with the filter fields
+		mFilterHotelNameEditText.removeTextChangedListener(mFilterHotelNameTextWatcher);
 		mSortButtonGroup.setOnCheckedChangeListener(null);
 		mRadiusButtonGroup.setOnCheckedChangeListener(null);
 		mPriceButtonGroup.setOnCheckedChangeListener(null);
+
+		// Configure the hotel name filter
+		mFilterHotelNameEditText.setText(mFilter.getHotelName());
 
 		// Configure tripadvisor filter
 		switch (mFilter.getRating()) {
@@ -1834,7 +1838,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setSortTypeText();
 		setRadioButtonShadowLayers();
 
-		// Restore OnCheckedChangeListeners
+		// Restore Listeners
+		mFilterHotelNameEditText.addTextChangedListener(mFilterHotelNameTextWatcher);
 		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
