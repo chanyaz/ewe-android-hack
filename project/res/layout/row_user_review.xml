@@ -22,7 +22,7 @@
 			android:numStars="5" 
 			android:stepSize="1" 
 			android:isIndicator="true"
-			style="@style/Widget.RatingBar.Small.UserReview" />
+			style="@style/RatingBarSmall.Shadowed.UserReview" />
 		<TextView android:id="@+id/user_review_title_text_view"
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content"
