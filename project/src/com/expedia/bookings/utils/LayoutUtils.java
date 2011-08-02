@@ -1,11 +1,13 @@
 package com.expedia.bookings.utils;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,15 +56,15 @@ public class LayoutUtils {
 
 		addDetail(context, detailsLayout, R.string.GuestsLabel, StrUtils.formatGuests(context, searchParams));
 
-		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(context);
-		String start = medDf.format(searchParams.getCheckInDate().getTime());
-		String end = medDf.format(searchParams.getCheckOutDate().getTime());
+		String start = formatCheckInOutDate(context, searchParams.getCheckInDate());
+		String end = formatCheckInOutDate(context, searchParams.getCheckOutDate());
 		String timeLoader = "--:--";
 		int numDays = searchParams.getStayDuration();
 		addDetail(context, detailsLayout, context.getString(R.string.CheckIn), context.getString(R.string.check_in_out_time_template, timeLoader, start), R.id.check_in_time);
 		addDetail(context, detailsLayout, context.getString(R.string.CheckOut), context.getString(R.string.check_in_out_time_template, timeLoader, end), R.id.check_out_time);
 		addDetail(context, detailsLayout, R.string.stay_duration,
 				context.getResources().getQuantityString(R.plurals.length_of_stay, numDays, numDays));
+		addSpace(context, detailsLayout, 8);
 
 		// If there's a breakdown list, show that; otherwise, show the nightly mRate
 		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(context);
@@ -120,5 +122,18 @@ public class LayoutUtils {
 			valueView.setId(valueId);
 		}
 		parent.addView(detailRow);
+	}
+
+	public static String formatCheckInOutDate(Context context, Calendar cal) {
+		DateFormat medDf = android.text.format.DateFormat.getLongDateFormat(context);
+		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_LONG) + ", "
+				+ medDf.format(cal.getTime());
+	}
+
+	public static void addSpace(Context context, ViewGroup parent, int spaceInDp) {
+		int height = (int) context.getResources().getDisplayMetrics().density * spaceInDp;
+		View v = new View(context);
+		v.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, height));
+		parent.addView(v);
 	}
 }

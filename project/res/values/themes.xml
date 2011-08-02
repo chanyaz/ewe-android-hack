@@ -6,7 +6,7 @@
 		<item name="android:editTextStyle">@style/Widget.EditText</item>
 		<item name="android:buttonStyle">@style/Widget.Button</item>
 		<item name="android:imageButtonStyle">@style/Widget.Button</item>
-		<item name="android:ratingBarStyle">@style/Widget.RatingBar.Small.Shadowed</item>
+		<item name="android:ratingBarStyle">@style/RatingBarSmall.Shadowed</item>
 		<item name="android:spinnerStyle">@style/Widget.Spinner</item>
 		<item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
 	</style>

@@ -100,7 +100,7 @@
 			android:stepSize=".5"
 			android:isIndicator="true"
 			android:visibility="invisible"
-			style="@style/Widget.RatingBar.Small.Inset" />
+			style="@style/RatingBarSmall.Shadowed.Inset" />
 		<RatingBar
 			android:id="@+id/user_rating_bar"
 			android:layout_width="wrap_content"
@@ -111,7 +111,7 @@
 			android:stepSize=".5"
 			android:isIndicator="true"
 			android:visibility="invisible"
-			style="@style/Widget.RatingBar.Small.UserReview" />
+			style="@style/RatingBarSmall.Shadowed.UserReview" />
 		<TextView
 			android:id="@+id/distance_text_view"
 			android:layout_width="wrap_content"

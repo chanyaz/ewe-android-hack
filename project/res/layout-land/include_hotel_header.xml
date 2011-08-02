@@ -36,7 +36,7 @@
 				android:numStars="5"
 				android:stepSize=".5"
 				android:isIndicator="true"
-				style="@style/Widget.RatingBar.Small.UserRating" />
+				style="@style/RatingBarSmall.Shadowed.UserRating" />
 		</LinearLayout>
 		<LinearLayout
 			android:layout_width="wrap_content"

@@ -134,7 +134,21 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private enum DisplayType {
-		NONE, KEYBOARD, CALENDAR, GUEST_PICKER, DRAWER
+		NONE(false),
+		KEYBOARD(true),
+		CALENDAR(true),
+		GUEST_PICKER(true),
+		DRAWER(false);
+
+		private boolean mIsSearchDisplay;
+
+		private DisplayType(boolean isSearchDisplay) {
+			mIsSearchDisplay = isSearchDisplay;
+		}
+
+		public boolean isSearchDisplay() {
+			return mIsSearchDisplay;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -1176,6 +1190,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		buildFilter();
 		setSearchEditViews();
 		setDisplayType(DisplayType.NONE);
+		disablePanelHandle();
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
@@ -1396,10 +1411,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void setDisplayType(DisplayType displayType, boolean animate) {
-		if (mDisplayType == DisplayType.NONE && displayType != DisplayType.NONE) {
+		boolean currentIsSearchDisplay = mDisplayType.isSearchDisplay();
+		boolean nextIsSearchDisplay = displayType.isSearchDisplay();
+		if (!currentIsSearchDisplay && nextIsSearchDisplay) {
 			storeSearchParams();
 		}
-		else if (displayType == DisplayType.NONE && mDisplayType != DisplayType.NONE) {
+		else if (currentIsSearchDisplay && !nextIsSearchDisplay) {
 			restoreSearchParams();
 		}
 
@@ -1502,6 +1519,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void showLoading(int resId) {
 		showLoading(getString(resId));
+		disablePanelHandle();
 	}
 
 	private void showLoading(String text) {
@@ -1727,10 +1745,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		Log.d("setDrawerViews().  Current filter: " + mFilter.toJson().toString());
 
-		// Temporarily remove OnCheckedChangeListeners before we start fiddling around with the buttons
+		// Temporarily remove Listeners before we start fiddling around with the filter fields
+		mFilterHotelNameEditText.removeTextChangedListener(mFilterHotelNameTextWatcher);
 		mSortButtonGroup.setOnCheckedChangeListener(null);
 		mRadiusButtonGroup.setOnCheckedChangeListener(null);
 		mPriceButtonGroup.setOnCheckedChangeListener(null);
+
+		// Configure the hotel name filter
+		mFilterHotelNameEditText.setText(mFilter.getHotelName());
 
 		// Configure tripadvisor filter
 		switch (mFilter.getRating()) {
@@ -1808,7 +1830,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setSortTypeText();
 		setRadioButtonShadowLayers();
 
-		// Restore OnCheckedChangeListeners
+		// Restore Listeners
+		mFilterHotelNameEditText.addTextChangedListener(mFilterHotelNameTextWatcher);
 		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);

@@ -465,7 +465,10 @@ public class HotelActivity extends Activity {
 				int endTitle = description.indexOf("</b>", nextTitle);
 
 				if (nextTitle != -1 && endTitle > nextTitle && endTitle < endSection) {
-					title = description.substring(nextTitle + 3, endTitle);
+					title = description.substring(nextTitle + 3, endTitle).trim();
+					if (title.endsWith(".")) {
+						title = title.substring(0, title.length() - 1);
+					}
 
 					String body = Html.fromHtml(description.substring(endTitle + 4, endSection)).toString().trim();
 

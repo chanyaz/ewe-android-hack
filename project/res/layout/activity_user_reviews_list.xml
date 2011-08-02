@@ -99,10 +99,10 @@
 			android:numStars="5" 
 			android:stepSize="1" 
 			android:isIndicator="true"
-			style="@style/Widget.RatingBar.Small.UserReview" />
+			style="@style/RatingBarSmall.Shadowed.UserReview" />
 		<Button
 			android:id="@+id/book_now_button"
-			android:layout_width="140dp"
+			android:layout_width="100dp"
 			android:layout_height="48dp"
 			android:layout_alignParentRight="true"
 			android:textStyle="bold"
