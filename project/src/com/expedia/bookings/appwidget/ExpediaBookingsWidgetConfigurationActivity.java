@@ -25,6 +25,7 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.WidgetPreviewHandler;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.hotellib.data.Codes;
@@ -52,6 +53,7 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 	private String mSelectedOption;
 	private Thread mGeocodeThread;
 	private List<Address> mAddresses;
+	private WidgetPreviewHandler mWidgetPreviewHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,8 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 		mProgressBar = (ProgressBar) findViewById(R.id.location_search_progress_bar);
 		mSpecificLocationTextView = (TextView) findViewById(R.id.location_option_text_view);
 		mErrorTextView = (TextView) findViewById(R.id.error_text_view);
+
+		mWidgetPreviewHandler = new WidgetPreviewHandler(this);
 
 		addWidgetButton.setOnClickListener(new OnClickListener() {
 
@@ -146,6 +150,7 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		setupCheckedState();
+		mWidgetPreviewHandler.loadPreviewHotels();
 	}
 
 	@Override

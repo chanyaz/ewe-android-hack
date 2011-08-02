@@ -24,6 +24,7 @@ import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.data.Filter.Sort;
+import com.mobiata.hotellib.utils.StrUtils;
 
 public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
@@ -58,7 +59,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		}
 
 		mIsSortedByUserRating = (mSearchResponse.getFilter().getSort() == Sort.RATING);
-		
+
 		final List<Property> properties = new ArrayList<Property>();
 		properties.addAll(mSearchResponse.getProperties());
 
@@ -167,10 +168,9 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		Rate lowestRate = property.getLowestRate();
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.getSavingsPercent() > 0) {
-			holder.from
-					.setText(Html.fromHtml(mContext.getString(R.string.from_template, lowestRate.getDisplayBaseRate()
-							.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN)), null,
-							new StrikethroughTagHandler()));
+			holder.from.setText(Html.fromHtml(
+					mContext.getString(R.string.from_template, StrUtils.formatHotelPrice(property)), null,
+					new StrikethroughTagHandler()));
 			holder.saleImage.setVisibility(View.VISIBLE);
 			holder.saleLabel.setVisibility(View.VISIBLE);
 		}
@@ -191,14 +191,15 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		holder.hotelRating.setRating((float) property.getHotelRating());
 		holder.userRating.setRating((float) property.getAverageExpediaRating());
-		if(mIsSortedByUserRating) {
+		if (mIsSortedByUserRating) {
 			holder.hotelRating.setVisibility(View.INVISIBLE);
 			holder.userRating.setVisibility(View.VISIBLE);
-		} else {
+		}
+		else {
 			holder.hotelRating.setVisibility(View.VISIBLE);
 			holder.userRating.setVisibility(View.INVISIBLE);
 		}
-		
+
 		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext));
 		holder.distance.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
 
