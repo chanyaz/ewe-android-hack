@@ -52,9 +52,7 @@
 				android:layout_height="wrap_content"
 				android:singleLine="true"
 				android:ellipsize="end"
-				android:textColor="#E1E1E1"
-				android:textSize="18sp"
-				android:textStyle="bold" />
+				style="@style/headerText"/>
 			<TextView
 				android:id="@+id/location_text_view"
 				android:layout_width="wrap_content"
@@ -66,7 +64,7 @@
 		</LinearLayout>
 		<Button
 			android:id="@+id/book_now_button"
-			android:layout_width="100dp"
+			android:layout_width="@dimen/header_button_width"
 			android:layout_height="fill_parent"
 			android:layout_alignParentRight="true"
 			android:layout_marginTop="4dp"

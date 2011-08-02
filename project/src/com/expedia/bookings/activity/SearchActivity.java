@@ -272,7 +272,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private Thread mGeocodeThread;
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
-	
+
 	private boolean mIsActivityResumed = false;
 
 	// This indicates to mSearchCallback that we just loaded saved search results,
@@ -527,7 +527,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			startSearch();
 			mStartSearchOnResume = false;
 		}
-		else if (mLastSearchTime != -1 && mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
+		else if (mLastSearchTime != -1
+				&& mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
 			Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
 			mSearchParams.ensureValidCheckInDate();
 			startSearch();
@@ -629,22 +630,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchProgressBar.setShowProgress(false);
 			mSearchProgressBar.setText(null);
 
-			final int size = mAddresses.size();
-			final CharSequence[] freeformLocations = new CharSequence[mAddresses.size()];
-			for (int i = 0; i < size; i++) {
-				String formattedAddress = LocationServices.formatAddress(mAddresses.get(i));
-				formattedAddress = formattedAddress.replace(", USA", "");
-				freeformLocations[i] = formattedAddress;
-			}
+			CharSequence[] freeformLocations = StrUtils.formatAddresses(mAddresses);
 
 			AlertDialog.Builder builder = new Builder(this);
 			builder.setTitle(R.string.ChooseLocation);
 			builder.setItems(freeformLocations, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					Address address = mAddresses.get(which);
-					String formattedAddress = LocationServices.formatAddress(address);
-					formattedAddress = formattedAddress.replace(", USA", "");
-
+					String formattedAddress = StrUtils.removeUSAFromAddress(address);
 					mSearchParams.setFreeformLocation(formattedAddress);
 					setSearchEditViews();
 
@@ -1144,7 +1137,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 							mSearchProgressBar.setShowProgress(false);
 							mSearchProgressBar.setText(R.string.geolocation_failed);
 							simulateErrorResponse(R.string.geolocation_failed);
-							
 						}
 					}
 				});
@@ -1219,7 +1211,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		// save params so that a widget can pick up the params 
 		// to show results based on the last search
 		saveParams();
-		
+
 		// broadcast the change of the search params
 		// only after the params have been setup 
 		// and are ready to be used to query expedia
@@ -1320,19 +1312,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		onSearchResultsChanged();
 	}
-	
-	
+
 	private void broadcastSearchParamsChanged() {
 		// Inform all interested parties that search params have changed
 		Intent i2 = new Intent("com.expedia.bookings.SEARCH_PARAMS_CHANGED");
 		i2.putExtra(Codes.SEARCH_PARAMS, mSearchParams.toJson().toString());
 		startService(i2);
 	}
-	
+
 	//----------------------------------
 	// Search results handling
 	//----------------------------------
-	
+
 	private void simulateErrorResponse(int strId) {
 		simulateErrorResponse(getString(strId));
 	}
@@ -1750,7 +1741,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mTripAdvisorOnlyButton.setText(R.string.tripadvisor_rating_all);
 			break;
 		}
-		
+
 		// Configure the sort buttons
 		switch (mFilter.getSort()) {
 		case POPULAR:
@@ -2185,11 +2176,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void afterTextChanged(Editable s) {
 		}
-	
+
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 		}
-	
+
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			mFilter.setHotelName(s.toString());
@@ -2665,7 +2656,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		// Check in/check out date
 		s.eVar5 = s.prop5 = CalendarUtils.getDaysBetween(mSearchParams.getCheckInDate(), Calendar.getInstance()) + "";
 		s.eVar6 = s.prop16 = CalendarUtils.getDaysBetween(mSearchParams.getCheckOutDate(),
-				mSearchParams.getCheckInDate()) + "";
+				mSearchParams.getCheckInDate())
+				+ "";
 
 		// Shopper/Confirmer
 		s.eVar25 = s.prop25 = "Shopper";

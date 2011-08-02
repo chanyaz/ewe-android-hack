@@ -28,4 +28,8 @@
 	
 	<!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
 	<dimen name="gallery_size">200dp</dimen>
+	
+	<!-- Dimensions for book now button or any other button in the header -->
+	<dimen name="header_button_width">100dp</dimen>
+	<dimen name="header_button_height">38dp</dimen>
 </resources>

@@ -52,7 +52,7 @@
 		<activity android:name="com.opinionlab.oo.sdk.android.CommentCardActivity" />
 		
 		<activity android:name="com.expedia.bookings.appwidget.ExpediaBookingsWidgetConfigurationActivity"
-			android:theme="@style/Theme.NoBackground">
+			android:windowSoftInputMode="stateHidden">
 			    <intent-filter>
         			<action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
    		 		</intent-filter>

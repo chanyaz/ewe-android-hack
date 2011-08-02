@@ -45,8 +45,8 @@ import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
 
-public class ExpediaBookingsService extends Service implements LocationListener{
-	
+public class ExpediaBookingsService extends Service implements LocationListener {
+
 	private final static long UPDATE_INTERVAL = 1000 * 60 * 60; // Every 60 minutes
 	private final static long ROTATE_INTERVAL = 1000 * 10; // Every 10 seconds
 	private static final String WIDGET_KEY_SEARCH = "WIDGET_KEY_SEARCH";
@@ -58,7 +58,7 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 	public static final String START_CLEAN_SEARCH_ACTION = "com.expedia.bookings.START_CLEAN_SEARCH";
 	public static final String CANCEL_UPDATE_ACTION = "com.expedia.bookings.CANCEL_UPDATE";
 	private static final String SEARCH_PARAMS_CHANGED_ACTION = "com.expedia.bookings.SEARCH_PARAMS_CHANGED";
-	
+
 	private Session mSession;
 	private SearchResponse mSearchResponse;
 	private SearchParams mSearchParams;
@@ -66,7 +66,7 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 	private String mFreeFormLocation;
 	private int mCurrentPosition = 0;
 	private boolean mUseCurrentLocation;
-	
+
 	//----------------------------------
 	// THREADS/CALLBACKS
 	//----------------------------------
@@ -93,7 +93,8 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 				mFreeFormLocation = mSearchParams.getFreeformLocation();
 				mCurrentPosition = 0;
 				loadImageForProperty(mProperties.get(mCurrentPosition));
-			} else if(mProperties == null || mProperties.isEmpty()) {
+			}
+			else if (mProperties == null || mProperties.isEmpty()) {
 				broadcastWidgetError(getString(R.string.progress_search_failed));
 			}
 
@@ -137,7 +138,7 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		lm.removeUpdates(this);
 	}
-	
+
 	//----------------------------------
 	// LOCATION LISTENER IMPLEMENTATION
 	//----------------------------------
@@ -213,56 +214,62 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 	//----------------------------------
 	// LIFECYLE EVENTS
 	//----------------------------------
-	
+
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		
-		if(intent.getAction().equals(SEARCH_PARAMS_CHANGED_ACTION)) {
+
+		if (intent.getAction().equals(SEARCH_PARAMS_CHANGED_ACTION)) {
 			try {
 				mSearchParams = new SearchParams(new JSONObject(intent.getStringExtra(Codes.SEARCH_PARAMS)));
-			} catch(JSONException e) {
+			}
+			catch (JSONException e) {
 				Log.i("Unable to load search params", e);
 			}
 			startSearch();
-		} else if(intent.getAction().equals(START_SEARCH_ACTION)) {
-			if(mProperties != null) {
+		}
+		else if (intent.getAction().equals(START_SEARCH_ACTION)) {
+			if (mProperties != null) {
 				loadImageForProperty(mProperties.get(mCurrentPosition));
 			}
 			startSearch();
-		} else if(intent.getAction().equals(START_CLEAN_SEARCH_ACTION)) {
+		}
+		else if (intent.getAction().equals(START_CLEAN_SEARCH_ACTION)) {
 			cleanSavedResults();
 			startSearch();
-		} else if(intent.getAction().equals(CANCEL_UPDATE_ACTION)) {
+		}
+		else if (intent.getAction().equals(CANCEL_UPDATE_ACTION)) {
 			cancelScheduledSearch();
 			cancelRotation();
-		} else if(intent.getAction().equals(ExpediaBookingsWidgetReceiver.NEXT_PROPERTY_ACTION) && mProperties != null) {
+		}
+		else if (intent.getAction().equals(ExpediaBookingsWidgetReceiver.NEXT_PROPERTY_ACTION) && mProperties != null) {
 			mCurrentPosition = ((mCurrentPosition + 1) >= mProperties.size()) ? 0 : mCurrentPosition + 1;
 			loadImageForProperty(mProperties.get(mCurrentPosition));
-			
-		} else if(intent.getAction().equals(ExpediaBookingsWidgetReceiver.PREV_PROPERTY_ACTION) && mProperties != null) {
+
+		}
+		else if (intent.getAction().equals(ExpediaBookingsWidgetReceiver.PREV_PROPERTY_ACTION) && mProperties != null) {
 			mCurrentPosition = ((mCurrentPosition - 1) < 0) ? (mProperties.size() - 1) : (mCurrentPosition - 1);
 			loadImageForProperty(mProperties.get(mCurrentPosition));
 		}
-		
+
 		return super.onStartCommand(intent, flags, startId);
 	}
-	
+
 	private BroadcastReceiver mRefreshReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if(intent.getAction().equals(START_CLEAN_SEARCH_ACTION)) {
+			if (intent.getAction().equals(START_CLEAN_SEARCH_ACTION)) {
 				cleanSavedResults();
 				startSearch();
 			}
 		}
 	};
-	
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -307,36 +314,36 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 	private void cancelRotation() {
 		AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
 		PendingIntent operation = getRotatePropertyPendingIntent();
-		
-		am.cancel(operation);	
+
+		am.cancel(operation);
 	}
-	
+
 	private void cancelScheduledSearch() {
 		AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
 		PendingIntent operation = getUpdatePendingIntent();
-		
+
 		am.cancel(operation);
 	}
+
 	private PendingIntent getUpdatePendingIntent() {
 		Intent i = new Intent(START_SEARCH_ACTION);
 		return PendingIntent.getService(getApplicationContext(), 0, i, 0);
 	}
-	
+
 	private PendingIntent getRotatePropertyPendingIntent() {
 		Intent i = new Intent(ExpediaBookingsWidgetReceiver.NEXT_PROPERTY_ACTION);
 		PendingIntent operation = PendingIntent.getService(getApplicationContext(), 0, i, 0);
 		return operation;
 	}
-	
-	
+
 	private void startSearch() {
-		
+
 		Log.i("Starting search");
 		mSearchDownloader.cancelDownload(WIDGET_KEY_SEARCH);
-		
+
 		setupSearchParams();
-		
-		if(mUseCurrentLocation) {
+
+		if (mUseCurrentLocation) {
 			// See if we have a good enough location stored
 			long minTime = Calendar.getInstance().getTimeInMillis() - SearchActivity.MINIMUM_TIME_AGO;
 			Location location = LocationServices.getLastBestLocation(getApplicationContext(), minTime);
@@ -347,7 +354,8 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 			else {
 				startLocationListener();
 			}
-		} else {
+		}
+		else {
 			startSearchDownloader();
 		}
 	}
@@ -355,38 +363,53 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 	private void setSearchParams(double latitude, double longitude) {
 		mSearchParams.setSearchLatLon(latitude, longitude);
 	}
-	
+
 	private void setupSearchParams() {
-		
+
 		// check whether user would like to search for hotels near current location
 		// or based on last search
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean searchHotelsNearYou = prefs.getBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU, true);
-		
+		boolean searchHotelsNearYou = prefs.getBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU, false);
+		boolean searchHotelsBasedOnLastSearch = prefs.getBoolean(Codes.WIDGET_HOTELS_FROM_LAST_SEARCH, false);
+		String specificLocation = prefs.getString(Codes.WIDGET_SPECIFIC_LOCATION, "");
+
 		mUseCurrentLocation = searchHotelsNearYou;
-		
-		if(!searchHotelsNearYou) {
-			String searchParamsString = prefs.getString("searchParams", null);
-			try {
-				if(searchParamsString != null) {
-					mSearchParams = new SearchParams(new JSONObject(searchParamsString));
-				} 
-			} catch(JSONException e) { }				
-		} 
-		
+
+		if (searchHotelsBasedOnLastSearch) {
+			getSearchParamsFromDisk(prefs);
+		}
+		else if (specificLocation != null && !specificLocation.equals("")) {
+			getSearchParamsFromDisk(prefs);
+			float locationLat = prefs.getFloat(Codes.WIDGET_LOCATION_LAT, -1);
+			float locationLong = prefs.getFloat(Codes.WIDGET_LOCATION_LON, -1);
+			setSearchParams(locationLat, locationLong);
+			mSearchParams.setFreeformLocation(specificLocation);
+		}
+
 		// default to searching for hotels around current location
-		if(mSearchParams == null) {
+		if (mSearchParams == null) {
 			mUseCurrentLocation = true;
 			mSearchParams = new SearchParams();
 		}
-		
+
 		// set default stay of 1 night starting today if the current check in date
 		// is past the current time
-		if(mSearchParams.getCheckInDate().getTimeInMillis() < System.currentTimeMillis()) {
+		if (mSearchParams.getCheckInDate().getTimeInMillis() < System.currentTimeMillis()) {
 			mSearchParams.setDefaultStay();
 		}
 	}
-	
+
+	private void getSearchParamsFromDisk(SharedPreferences prefs) {
+		String searchParamsString = prefs.getString("searchParams", null);
+		try {
+			if (searchParamsString != null) {
+				mSearchParams = new SearchParams(new JSONObject(searchParamsString));
+			}
+		}
+		catch (JSONException e) {
+		}
+	}
+
 	private void startSearchDownloader() {
 
 		if (!NetUtils.isOnline(getApplicationContext()) && (mProperties == null || mProperties.isEmpty())) {
@@ -397,7 +420,7 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 		mSearchDownloader.cancelDownload(WIDGET_KEY_SEARCH);
 		mSearchDownloader.startDownload(WIDGET_KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
-	
+
 	private void persistResultsToFile() {
 		try {
 			JSONObject obj = new JSONObject();
@@ -409,20 +432,21 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 		}
 		catch (JSONException e) {
 			Log.w("Couldn't save search results.", e);
-		} 
+		}
 	}
-	
+
 	private void broadcastLoadingWidget(Property property) {
 		Intent i = new Intent(ExpediaBookingsWidgetReceiver.LOAD_PROPERTY_ACTION);
 		i.putExtra(Codes.PROPERTY, property.toJson().toString());
 		i.putExtra(Codes.SEARCH_PARAMS, mSearchParams.toJson().toString());
-		String location = (!mUseCurrentLocation && (mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? mFreeFormLocation : property.getDistanceFromUser().formatDistance(this);
+		String location = (!mUseCurrentLocation && (mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? mFreeFormLocation
+				: property.getDistanceFromUser().formatDistance(this);
 		i.putExtra(Codes.PROPERTY_LOCATION, location);
 		i.putExtra(Codes.SESSION, mSession.toJson().toString());
 		sendBroadcast(i);
 		scheduleRotation();
 	}
-	
+
 	private void broadcastWidgetError(CharSequence error) {
 		Intent i = new Intent(ExpediaBookingsWidgetReceiver.LOAD_PROPERTY_ACTION);
 		i.putExtra(Codes.SEARCH_ERROR, error);
@@ -431,57 +455,57 @@ public class ExpediaBookingsService extends Service implements LocationListener{
 
 	private void loadImageForProperty(final Property property) {
 		ImageCache.loadImage(property.getThumbnail().getUrl(), new OnImageLoaded() {
-			
+
 			@Override
 			public void onImageLoaded(String url, Bitmap bitmap) {
-				if(mProperties.get(mCurrentPosition).getThumbnail().getUrl().equals(url)) {
+				if (mProperties.get(mCurrentPosition).getThumbnail().getUrl().equals(url)) {
 					broadcastLoadingWidget(mProperties.get(mCurrentPosition));
 				}
 			}
 		});
 	}
-	
+
 	private void determineRelevantProperties() {
 		List<Property> properties = mSearchResponse.getProperties();
 		List<Property> relevantProperties = new ArrayList<Property>();
-		
+
 		// first populate the list with hotels that have rooms on sale
-		for(Property property : properties) {
-			if(relevantProperties.size() == MAX_RESULTS) {
+		for (Property property : properties) {
+			if (relevantProperties.size() == MAX_RESULTS) {
 				break;
 			}
-			
-			if(property.getLowestRate().getSavingsPercent() > 0) {
+
+			if (property.getLowestRate().getSavingsPercent() > 0) {
 				relevantProperties.add(property);
 			}
 		}
-		
+
 		// then populate with highly rated rooms if there aren't enough
 		// hotels with rooms on sale
-		for(Property property : properties) {
-			if(relevantProperties.size() == MAX_RESULTS) {
+		for (Property property : properties) {
+			if (relevantProperties.size() == MAX_RESULTS) {
 				break;
 			}
-			
-			if(property.isHighlyRated() && (property.getLowestRate().getSavingsPercent() == 0)) {
+
+			if (property.isHighlyRated() && (property.getLowestRate().getSavingsPercent() == 0)) {
 				relevantProperties.add(property);
 			}
 		}
-		
+
 		// lastly get enough to fill up the remaining slots
-		for(Property property : properties) {
-			if(relevantProperties.size() == MAX_RESULTS) {
+		for (Property property : properties) {
+			if (relevantProperties.size() == MAX_RESULTS) {
 				break;
 			}
-			
-			if(property.getLowestRate().getSavingsPercent() == 0 && !property.isHighlyRated()) {
+
+			if (property.getLowestRate().getSavingsPercent() == 0 && !property.isHighlyRated()) {
 				relevantProperties.add(property);
 			}
 		}
-		
+
 		mProperties = relevantProperties;
 	}
-	
+
 	private void cleanSavedResults() {
 		mProperties = null;
 		mFreeFormLocation = null;

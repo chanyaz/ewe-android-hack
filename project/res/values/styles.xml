@@ -124,6 +124,12 @@
         	<item name="android:textStyle">normal</item>
     </style>
     
+    <style name="headerText">
+    	<item name="android:textColor">#E1E1E1</item>
+    	<item name="android:textSize">18sp</item>
+    	<item name="android:textStyle">bold</item>
+    </style>
+    
     <style name="SaleText">
     	<item name="android:textColor">@android:color/white</item>
     	<item name="android:textStyle">bold</item>

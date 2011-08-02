@@ -23,4 +23,6 @@
 	
 	<color name="user_reviews_text_color">#ffffff</color>
 	<color name="hotel_description_text_color">#333333</color>
+	
+	<color name="dark_gray">#FF555555</color>
 </resources>

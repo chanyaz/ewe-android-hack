@@ -43,9 +43,26 @@
 	<string name="loading_previous">Loading previous search results...</string>
 	
 	<!-- Widget -->
+	<!--  Default Loading message for widget -->
 	<string name="loading_hotels">Loading hotels...</string>
+	<!--  Template for sale element in widget. The parameter is for the sale % -->
 	<string name="widget_savings_template">Save %2.0f%%</string>
+	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Tap to refresh</string>
+	<!--  Title for the widget configuration activity -->
+	<string name="widget_config_title">Hotel Deals Widget</string>
+	<!--  Button text to add widget to home screen from configuration activity -->
+	<string name="add_widget">Add Widget</string>
+	<!--  Widget description in configuration activity -->
+	<string name="widget_description">Add this widget to your device\'s home screen to get up-to-date hotel deals, customzied and selected for you.</string>
+	<!--  Title for configuration options section in the widget config activity -->
+	<string name="config_options_title">Configuration Options</string>
+	<!--  Description for widget config section -->
+	<string name="config_options_description">Show hotel details near:</string>
+	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
+	<string name="last_hotel_search">Last Hotel Search</string>
+	<!--  Widget config option for configuration widget to pick up hotels from a specific location -->
+	<string name="specify_location">Specific Location:</string>
 	
 	<!-- Sort adverbs, e.g. Sorted "adverb" -->
 	<string name="sort_adverb_distance">by distance</string>

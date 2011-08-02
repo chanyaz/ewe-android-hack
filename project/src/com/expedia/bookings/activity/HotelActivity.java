@@ -76,8 +76,6 @@ public class HotelActivity extends Activity {
 
 	private Property mProperty;
 
-	private PropertyInfo mPropertyInfo;
-
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
 

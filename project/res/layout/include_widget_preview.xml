@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+ 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content"
+	android:layout_width="wrap_content">
+<RelativeLayout
+  android:id="@+id/root"
+  android:layout_width="303dp"
+  android:layout_height="87dp"
+  android:clickable="true"
+  android:focusable="true"
+  android:background="@drawable/widget_bg">
+  	<include
+  		android:id="@+id/hotel_info_contents"
+		layout="@layout/widget_contents" />
+</RelativeLayout>
+<ImageView
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_marginRight="3dp"
+	android:layout_toLeftOf="@id/root"
+	android:src="@drawable/widget_bug"/>
+</RelativeLayout>
