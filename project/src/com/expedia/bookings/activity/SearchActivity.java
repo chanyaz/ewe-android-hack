@@ -134,7 +134,21 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private enum DisplayType {
-		NONE, KEYBOARD, CALENDAR, GUEST_PICKER, DRAWER
+		NONE(false),
+		KEYBOARD(true),
+		CALENDAR(true),
+		GUEST_PICKER(true),
+		DRAWER(false);
+
+		private boolean mIsSearchDisplay;
+
+		private DisplayType(boolean isSearchDisplay) {
+			mIsSearchDisplay = isSearchDisplay;
+		}
+
+		public boolean isSearchDisplay() {
+			return mIsSearchDisplay;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -272,7 +286,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private Thread mGeocodeThread;
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
-	
+
 	private boolean mIsActivityResumed = false;
 
 	// This indicates to mSearchCallback that we just loaded saved search results,
@@ -1144,7 +1158,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 							mSearchProgressBar.setShowProgress(false);
 							mSearchProgressBar.setText(R.string.geolocation_failed);
 							simulateErrorResponse(R.string.geolocation_failed);
-							
+
 						}
 					}
 				});
@@ -1219,7 +1233,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		// save params so that a widget can pick up the params 
 		// to show results based on the last search
 		saveParams();
-		
+
 		// broadcast the change of the search params
 		// only after the params have been setup 
 		// and are ready to be used to query expedia
@@ -1320,19 +1334,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		onSearchResultsChanged();
 	}
-	
-	
+
 	private void broadcastSearchParamsChanged() {
 		// Inform all interested parties that search params have changed
 		Intent i2 = new Intent("com.expedia.bookings.SEARCH_PARAMS_CHANGED");
 		i2.putExtra(Codes.SEARCH_PARAMS, mSearchParams.toJson().toString());
 		startService(i2);
 	}
-	
+
 	//----------------------------------
 	// Search results handling
 	//----------------------------------
-	
+
 	private void simulateErrorResponse(int strId) {
 		simulateErrorResponse(getString(strId));
 	}
@@ -1405,10 +1418,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void setDisplayType(DisplayType displayType, boolean animate) {
-		if (mDisplayType == DisplayType.NONE && displayType != DisplayType.NONE) {
+		boolean currentIsSearchDisplay = mDisplayType.isSearchDisplay();
+		boolean nextIsSearchDisplay = displayType.isSearchDisplay();
+		if (!currentIsSearchDisplay && nextIsSearchDisplay) {
 			storeSearchParams();
 		}
-		else if (displayType == DisplayType.NONE && mDisplayType != DisplayType.NONE) {
+		else if (currentIsSearchDisplay && !nextIsSearchDisplay) {
 			restoreSearchParams();
 		}
 
@@ -1750,7 +1765,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mTripAdvisorOnlyButton.setText(R.string.tripadvisor_rating_all);
 			break;
 		}
-		
+
 		// Configure the sort buttons
 		switch (mFilter.getSort()) {
 		case POPULAR:
@@ -2185,11 +2200,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void afterTextChanged(Editable s) {
 		}
-	
+
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 		}
-	
+
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			mFilter.setHotelName(s.toString());
