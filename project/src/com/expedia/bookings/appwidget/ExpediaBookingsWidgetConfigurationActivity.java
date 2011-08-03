@@ -94,7 +94,8 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 					SharedPreferences prefs = PreferenceManager
 							.getDefaultSharedPreferences(ExpediaBookingsWidgetConfigurationActivity.this);
 					Editor editor = prefs.edit();
-					editor.putBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU, mSelectedOption.equals(CURRENT_LOCATION));
+					editor.putBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU_PREFIX,
+							mSelectedOption.equals(CURRENT_LOCATION));
 					editor.commit();
 					installWidget();
 				}
@@ -141,7 +142,7 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 		}
 
 		String specficLocation = PreferenceManager.getDefaultSharedPreferences(this).getString(
-				Codes.WIDGET_SPECIFIC_LOCATION, "");
+				Codes.WIDGET_SPECIFIC_LOCATION_PREFIX, "");
 		mSpecificLocationTextView.setText(specficLocation);
 
 	}
@@ -282,11 +283,11 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(ExpediaBookingsWidgetConfigurationActivity.this);
 		Editor editor = prefs.edit();
-		editor.putBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU, false);
-		editor.putBoolean(Codes.WIDGET_HOTELS_FROM_LAST_SEARCH, false);
-		editor.putString(Codes.WIDGET_SPECIFIC_LOCATION, formattedAddress);
-		editor.putFloat(Codes.WIDGET_LOCATION_LAT, (float) latitude);
-		editor.putFloat(Codes.WIDGET_LOCATION_LON, (float) longitude);
+		editor.putBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU_PREFIX + mAppWidgetId, false);
+		editor.putBoolean(Codes.WIDGET_HOTELS_FROM_LAST_SEARCH_PREFIX + mAppWidgetId, false);
+		editor.putString(Codes.WIDGET_SPECIFIC_LOCATION_PREFIX + mAppWidgetId, formattedAddress);
+		editor.putFloat(Codes.WIDGET_LOCATION_LAT_PREFIX + mAppWidgetId, (float) latitude);
+		editor.putFloat(Codes.WIDGET_LOCATION_LON_PREFIX + mAppWidgetId, (float) longitude);
 		editor.commit();
 	}
 
@@ -294,9 +295,11 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(ExpediaBookingsWidgetConfigurationActivity.this);
 		Editor editor = prefs.edit();
-		editor.putBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU, mSpecifyLocationOption.equals(CURRENT_LOCATION));
-		editor.putBoolean(Codes.WIDGET_HOTELS_FROM_LAST_SEARCH, mSpecifyLocationOption.equals(LAST_SEARCH));
-		editor.putString(Codes.WIDGET_SPECIFIC_LOCATION, null);
+		editor.putBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU_PREFIX + mAppWidgetId,
+				mSpecifyLocationOption.equals(CURRENT_LOCATION));
+		editor.putBoolean(Codes.WIDGET_HOTELS_FROM_LAST_SEARCH_PREFIX + mAppWidgetId,
+				mSpecifyLocationOption.equals(LAST_SEARCH));
+		editor.putString(Codes.WIDGET_SPECIFIC_LOCATION_PREFIX + mAppWidgetId, null);
 		editor.commit();
 	}
 
@@ -309,7 +312,8 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 		resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
 		setResult(RESULT_OK, resultValue);
 		Intent intent = new Intent(ExpediaBookingsService.START_CLEAN_SEARCH_ACTION);
-		sendBroadcast(intent);
+		intent.putExtra(Codes.APP_WIDGET_ID, mAppWidgetId);
+		startService(intent);
 		finish();
 	}
 }

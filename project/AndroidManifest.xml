@@ -66,6 +66,7 @@
 					<action android:name="com.expedia.bookings.LOAD_PROPERTY" />
 					<action android:name="com.expedia.bookings.NEXT_PROPERTY"/>
 					<action android:name="com.expedia.bookings.PREV_PROPERTY"/>
+					<action android:name="com.expedia.bookings.ROTATE_PROPERTY"/>
 					<action android:name="com.expedia.bookings.CANCEL_UPDATE"/>
 			</intent-filter>
 		</service>
