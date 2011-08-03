@@ -291,6 +291,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			cancelRotation();
 
 			mWidgets.remove(appWidgetIdInteger);
+			persistWidgetIdsToDisk();
 
 			if (mWidgets.isEmpty()) {
 				cancelScheduledSearch();
