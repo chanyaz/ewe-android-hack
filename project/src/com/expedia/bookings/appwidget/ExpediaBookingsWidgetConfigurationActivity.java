@@ -28,6 +28,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.widget.WidgetPreviewHandler;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.util.NetUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.utils.StrUtils;
 
@@ -91,12 +92,7 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 					geoCodeLocation();
 				}
 				else {
-					SharedPreferences prefs = PreferenceManager
-							.getDefaultSharedPreferences(ExpediaBookingsWidgetConfigurationActivity.this);
-					Editor editor = prefs.edit();
-					editor.putBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU_PREFIX,
-							mSelectedOption.equals(CURRENT_LOCATION));
-					editor.commit();
+					saveLastSearchOrCurrentLocationOption();
 					installWidget();
 				}
 			}
@@ -281,26 +277,26 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 
 	private void saveSpecificLocation(String formattedAddress, double latitude, double longitude) {
 		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(ExpediaBookingsWidgetConfigurationActivity.this);
+				.getDefaultSharedPreferences(this.getApplicationContext());
 		Editor editor = prefs.edit();
 		editor.putBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU_PREFIX + mAppWidgetId, false);
 		editor.putBoolean(Codes.WIDGET_HOTELS_FROM_LAST_SEARCH_PREFIX + mAppWidgetId, false);
 		editor.putString(Codes.WIDGET_SPECIFIC_LOCATION_PREFIX + mAppWidgetId, formattedAddress);
 		editor.putFloat(Codes.WIDGET_LOCATION_LAT_PREFIX + mAppWidgetId, (float) latitude);
 		editor.putFloat(Codes.WIDGET_LOCATION_LON_PREFIX + mAppWidgetId, (float) longitude);
-		editor.commit();
+		SettingUtils.commitOrApply(editor);
 	}
 
-	public void saveLastSearchOrCurrentLocationOption() {
+	private void saveLastSearchOrCurrentLocationOption() {
 		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(ExpediaBookingsWidgetConfigurationActivity.this);
+				.getDefaultSharedPreferences(this);
 		Editor editor = prefs.edit();
 		editor.putBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU_PREFIX + mAppWidgetId,
-				mSpecifyLocationOption.equals(CURRENT_LOCATION));
+				mSelectedOption.equals(CURRENT_LOCATION));
 		editor.putBoolean(Codes.WIDGET_HOTELS_FROM_LAST_SEARCH_PREFIX + mAppWidgetId,
-				mSpecifyLocationOption.equals(LAST_SEARCH));
+				mSelectedOption.equals(LAST_SEARCH));
 		editor.putString(Codes.WIDGET_SPECIFIC_LOCATION_PREFIX + mAppWidgetId, null);
-		editor.commit();
+		SettingUtils.commitOrApply(editor);
 	}
 
 	private void installWidget() {

@@ -1,5 +1,7 @@
 package com.expedia.bookings.appwidget;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +38,7 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
@@ -49,6 +53,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private final static long UPDATE_INTERVAL = 1000 * 60 * 60; // Every 60 minutes
 	public final static long ROTATE_INTERVAL = 1000 * 10; // Every 10 seconds
 	private static final String WIDGET_KEY_SEARCH_PREFIX = "WIDGET_KEY_SEARCH.";
+	private static final String APP_IDS = "appIds";
+	private static final String APP_IDS_FILE = "appIds.dat";
 	private static final int MAX_RESULTS = 5;
 
 	// Intent actions
@@ -57,7 +63,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	public static final String CANCEL_UPDATE_ACTION = "com.expedia.bookings.CANCEL_UPDATE";
 	private static final String SEARCH_PARAMS_CHANGED_ACTION = "com.expedia.bookings.SEARCH_PARAMS_CHANGED";
 
-	private Map<Integer, WidgetState> mWidgets = new HashMap<Integer, WidgetState>();
+	private Map<Integer, WidgetState> mWidgets;
 	private Queue<WidgetState> mWaitingOnLocationQueue = new LinkedList<ExpediaBookingsService.WidgetState>();
 
 	/*
@@ -65,7 +71,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	 * so that we can support multiple widgets each holding its own
 	 * state
 	 */
-	
+
 	private class WidgetState {
 		Integer appWidgetIdInteger;
 		Session mSession;
@@ -228,6 +234,12 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	//----------------------------------
 
 	@Override
+	public void onDestroy() {
+		persistWidgetIdsToDisk();
+		super.onDestroy();
+	}
+
+	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
 		return null;
@@ -235,6 +247,10 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
+
+		if (mWidgets == null) {
+			loadWidgets();
+		}
 
 		if (intent.getAction().equals(SEARCH_PARAMS_CHANGED_ACTION)) {
 			// when parameters are changed, restart 
@@ -267,6 +283,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			WidgetState widget = new WidgetState();
 			widget.appWidgetIdInteger = appWidgetIdInteger;
 			mWidgets.put(appWidgetIdInteger, widget);
+			persistWidgetIdsToDisk();
 			startSearch(widget);
 		}
 		else if (intent.getAction().equals(CANCEL_UPDATE_ACTION)) {
@@ -382,7 +399,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		// check whether user would like to search for hotels near current location
 		// or based on last search
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 		boolean searchHotelsNearYou = prefs.getBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU_PREFIX
 				+ widget.appWidgetIdInteger, false);
 		boolean searchHotelsBasedOnLastSearch = prefs.getBoolean(Codes.WIDGET_HOTELS_FROM_LAST_SEARCH_PREFIX
@@ -519,14 +536,67 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void loadNextProperty(WidgetState widget) {
-		widget.mCurrentPosition = ((widget.mCurrentPosition + 1) >= widget.mProperties.size()) ? 0
-				: widget.mCurrentPosition + 1;
-		loadImageForProperty(widget);
+		if (widget.mProperties != null) {
+			widget.mCurrentPosition = ((widget.mCurrentPosition + 1) >= widget.mProperties.size()) ? 0
+					: widget.mCurrentPosition + 1;
+			loadImageForProperty(widget);
+		}
 	}
 
 	private void loadPreviousProperty(WidgetState widget) {
-		widget.mCurrentPosition = ((widget.mCurrentPosition - 1) < 0) ? (widget.mProperties.size() - 1)
-				: (widget.mCurrentPosition - 1);
-		loadImageForProperty(widget);
+		if (widget.mProperties != null) {
+
+			widget.mCurrentPosition = ((widget.mCurrentPosition - 1) < 0) ? (widget.mProperties.size() - 1)
+					: (widget.mCurrentPosition - 1);
+			loadImageForProperty(widget);
+		}
+	}
+
+	private void loadWidgets() {
+		try {
+			File appIdFile = getFileStreamPath(APP_IDS_FILE);
+			mWidgets = new HashMap<Integer, ExpediaBookingsService.WidgetState>();
+
+			if (!appIdFile.exists()) {
+				return;
+			}
+
+			String appIdsString = IoUtils.readStringFromFile(APP_IDS_FILE, this);
+			JSONObject obj = new JSONObject(appIdsString);
+			JSONArray appIdsArray = obj.getJSONArray(APP_IDS);
+			for (int i = 0; i < appIdsArray.length(); i++) {
+				String appId = appIdsArray.getString(i);
+				Integer appWidgetIdInteger = new Integer(appId);
+				WidgetState widget = new WidgetState();
+				widget.appWidgetIdInteger = appWidgetIdInteger;
+				mWidgets.put(appWidgetIdInteger, widget);
+				setupSearchParams(widget);
+			}
+		}
+		catch (IOException e) {
+			Log.i("Something went wrong when reading appIds from file", e);
+		}
+		catch (JSONException e) {
+			Log.i("Something wrnt wrong when parsing appIds to create widgets", e);
+		}
+	}
+
+	private void persistWidgetIdsToDisk() {
+		try {
+			JSONArray appIds = new JSONArray();
+			for (WidgetState widget : mWidgets.values()) {
+				appIds.put(widget.appWidgetIdInteger.toString());
+			}
+			JSONObject obj = new JSONObject();
+			obj.put(APP_IDS, appIds);
+			IoUtils.writeStringToFile(APP_IDS_FILE, obj.toString(), this);
+		}
+		catch (JSONException e) {
+			Log.i("Something went wrong when creating appIds array", e);
+		}
+		catch (IOException e) {
+			Log.i("Somthing went wrong when writing appIds to file", e);
+		}
+
 	}
 }

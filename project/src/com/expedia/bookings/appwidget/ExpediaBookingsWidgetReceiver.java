@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
-import android.view.ViewDebug.FlagToString;
 import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
@@ -119,6 +118,7 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 
 		Intent onClickIntent = new Intent(mContext, HotelActivity.class);
 		onClickIntent.fillIn(intent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
 		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(mContext, appWidgetIdInteger.intValue() + 3,
 				onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
@@ -144,9 +144,11 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 		rv.setViewVisibility(R.id.navigation_container, View.GONE);
 
 		if (refreshOnClick) {
+			Integer appWidgetIdInteger = new Integer(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 			Intent onClickIntent = new Intent(ExpediaBookingsService.START_CLEAN_SEARCH_ACTION);
-			rv.setOnClickPendingIntent(R.id.root,
-					PendingIntent.getBroadcast(mContext, 0, onClickIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+			onClickIntent.fillIn(intent, 0);
+			rv.setOnClickPendingIntent(R.id.root, PendingIntent.getBroadcast(mContext,
+					appWidgetIdInteger.intValue() + 4, onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 			rv.setViewVisibility(R.id.refresh_text_view, View.VISIBLE);
 		}
 		updateWidget(intent, rv);

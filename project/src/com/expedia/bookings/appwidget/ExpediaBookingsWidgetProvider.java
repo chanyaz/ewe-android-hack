@@ -1,5 +1,6 @@
 package com.expedia.bookings.appwidget;
 
+import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
@@ -44,4 +45,13 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 
 		super.onDeleted(context, appWidgetIds);
 	}
+
+	@Override
+	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+		Intent intent = new Intent(ExpediaBookingsService.START_SEARCH_ACTION);
+		context.startService(intent);
+		super.onUpdate(context, appWidgetManager, appWidgetIds);
+	}
+	
+	
 }
