@@ -14,6 +14,8 @@ import android.content.SharedPreferences.Editor;
 import android.location.Address;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -137,10 +139,27 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 			}
 		}
 
-		String specficLocation = PreferenceManager.getDefaultSharedPreferences(this).getString(
-				Codes.WIDGET_SPECIFIC_LOCATION_PREFIX, "");
-		mSpecificLocationTextView.setText(specficLocation);
+		TextWatcher watcher = new TextWatcher() {
 
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				mSelectedOption = SPECIFIC_CITY;
+				setupCheckedState();
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+		};
+
+		String specficLocation = PreferenceManager.getDefaultSharedPreferences(this).getString(
+				Codes.WIDGET_LAST_LOCATION, "");
+		mSpecificLocationTextView.setText(specficLocation);
+		mSpecificLocationTextView.addTextChangedListener(watcher);
 	}
 
 	@Override
@@ -276,20 +295,21 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 	}
 
 	private void saveSpecificLocation(String formattedAddress, double latitude, double longitude) {
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this.getApplicationContext());
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 		Editor editor = prefs.edit();
 		editor.putBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU_PREFIX + mAppWidgetId, false);
 		editor.putBoolean(Codes.WIDGET_HOTELS_FROM_LAST_SEARCH_PREFIX + mAppWidgetId, false);
 		editor.putString(Codes.WIDGET_SPECIFIC_LOCATION_PREFIX + mAppWidgetId, formattedAddress);
+		// saving the last specified location to display on the configuration screen
+		// the next time around
+		editor.putString(Codes.WIDGET_LAST_LOCATION, formattedAddress);
 		editor.putFloat(Codes.WIDGET_LOCATION_LAT_PREFIX + mAppWidgetId, (float) latitude);
 		editor.putFloat(Codes.WIDGET_LOCATION_LON_PREFIX + mAppWidgetId, (float) longitude);
 		SettingUtils.commitOrApply(editor);
 	}
 
 	private void saveLastSearchOrCurrentLocationOption() {
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor editor = prefs.edit();
 		editor.putBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU_PREFIX + mAppWidgetId,
 				mSelectedOption.equals(CURRENT_LOCATION));
@@ -303,10 +323,10 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 		AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(ExpediaBookingsWidgetConfigurationActivity.this);
 		RemoteViews views = new RemoteViews(getPackageName(), R.layout.widget);
-		RemoteViews widgetContainer = new RemoteViews(getPackageName(),R.layout.widget_contents);
+		RemoteViews widgetContainer = new RemoteViews(getPackageName(), R.layout.widget_contents);
 		views.addView(R.id.hotel_info_contents, widgetContainer);
-		views.setViewVisibility(R.id.navigation_container, View.GONE);
-		
+		widgetContainer.setViewVisibility(R.id.navigation_container, View.GONE);
+
 		appWidgetManager.updateAppWidget(mAppWidgetId, views);
 		Intent resultValue = new Intent();
 		resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
