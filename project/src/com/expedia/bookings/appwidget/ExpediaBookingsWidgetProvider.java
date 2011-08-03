@@ -6,7 +6,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.view.View;
+import android.widget.RemoteViews;
 
+import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 import com.mobiata.hotellib.data.Codes;
 
@@ -48,6 +51,16 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+		
+		RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
+		RemoteViews widgetContainer = new RemoteViews(context.getPackageName(), R.layout.widget_contents);
+		rv.addView(R.id.hotel_info_contents, widgetContainer);
+		rv.setViewVisibility(R.id.navigation_container, View.GONE);
+		
+		for(int appWidgetId : appWidgetIds) {
+			appWidgetManager.updateAppWidget(appWidgetId, rv);
+		}
+		
 		Intent intent = new Intent(ExpediaBookingsService.START_SEARCH_ACTION);
 		context.startService(intent);
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
