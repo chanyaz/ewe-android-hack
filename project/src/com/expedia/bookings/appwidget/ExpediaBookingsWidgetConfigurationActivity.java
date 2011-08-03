@@ -303,6 +303,10 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 		AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(ExpediaBookingsWidgetConfigurationActivity.this);
 		RemoteViews views = new RemoteViews(getPackageName(), R.layout.widget);
+		RemoteViews widgetContainer = new RemoteViews(getPackageName(),R.layout.widget_contents);
+		views.addView(R.id.hotel_info_contents, widgetContainer);
+		views.setViewVisibility(R.id.navigation_container, View.GONE);
+		
 		appWidgetManager.updateAppWidget(mAppWidgetId, views);
 		Intent resultValue = new Intent();
 		resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
