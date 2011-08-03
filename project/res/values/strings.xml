@@ -46,8 +46,6 @@
 	<!--  Widget description in configuration activity -->
 	<string name="widget_description">Add this widget to your device\'s home screen to get up-to-date hotel deals, customzied and selected for you.</string>
 	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_title">Configuration Options</string>
-	<!--  Description for widget config section -->
 	<string name="config_options_description">Show hotel details near:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">Last Hotel Search</string>

@@ -70,20 +70,10 @@
 		android:layout_below="@id/widget_preview_container"
 		android:paddingTop="10dp"
 		android:paddingLeft="10dp"
-		android:text="@string/config_options_title"
+		android:text="@string/config_options_description"
 		android:textStyle="bold"
 		android:textColor="@color/dark_gray"
 		android:textSize="18sp" />
-		
-	<TextView
-		android:id="@+id/widget_config_options_description"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/widget_config_options_title"
-		android:paddingLeft="10dp"
-		android:paddingTop="5dp"
-		android:textColor="@color/dark_gray"
-		android:text="@string/config_options_description"/>
 		
 	<RelativeLayout 
 		android:id="@+id/widget_config_options"
@@ -92,7 +82,7 @@
 		android:paddingTop="10dp"
 		android:paddingLeft="10dp"
 		android:layout_gravity="center_vertical"
-		android:layout_below="@id/widget_config_options_description">
+		android:layout_below="@id/widget_config_options_title">
 		
 		<View
 			android:id="@+id/dummy_container"
