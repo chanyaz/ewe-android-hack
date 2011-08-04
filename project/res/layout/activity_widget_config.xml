@@ -140,17 +140,25 @@
 			android:layout_toLeftOf="@+id/location_search_progress_bar"
 			android:layout_alignBottom="@id/specify_location_option"
 			android:singleLine="true"
-			android:paddingLeft="10dp"
-			android:layout_marginRight="10dp"/>
-		<ProgressBar 
-			android:id="@+id/location_search_progress_bar"
-			android:layout_width="wrap_content"	
+			android:layout_marginRight="30dp"
+			android:paddingLeft="10dp"/>
+		<FrameLayout
 			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
 			android:layout_alignTop="@id/specify_location_option"
 			android:layout_alignBottom="@id/specify_location_option"
-			android:layout_alignParentRight="true"
-			android:paddingRight="10dp"
-			android:visibility="invisible"/>
+			android:layout_alignParentRight="true">			
+			<ProgressBar 
+				android:id="@+id/location_search_progress_bar"
+				android:layout_width="wrap_content"	
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:indeterminate="true"
+				android:paddingRight="10dp"
+				android:visibility="invisible"
+				style="@android:style/Widget.ProgressBar.Small" />
+		</FrameLayout>
+			
 		<TextView
 			android:id="@+id/error_text_view"
 			android:layout_width="fill_parent"
