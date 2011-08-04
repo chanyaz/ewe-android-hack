@@ -18,12 +18,12 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.mobiata.android.MapUtils;
+import com.mobiata.android.widget.FixedMyLocationOverlay;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Filter.OnFilterChangedListener;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchResponse;
-import com.mobiata.hotellib.widget.FixedMyLocationOverlay;
 import com.mobiata.hotellib.widget.HotelItemizedOverlay;
 import com.mobiata.hotellib.widget.HotelItemizedOverlay.OnBalloonTap;
 
