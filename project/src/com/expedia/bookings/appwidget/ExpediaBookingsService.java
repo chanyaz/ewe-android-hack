@@ -51,7 +51,7 @@ import com.mobiata.hotellib.server.ExpediaServices;
 public class ExpediaBookingsService extends Service implements LocationListener {
 
 	private final static long UPDATE_INTERVAL = 1000 * 60 * 60; // Every 60 minutes
-	public final static long ROTATE_INTERVAL = 1000 * 10; // Every 10 seconds
+	public final static long ROTATE_INTERVAL = 1000 * 5; // Every 5 seconds
 	private static final String WIDGET_KEY_SEARCH_PREFIX = "WIDGET_KEY_SEARCH.";
 	private static final String APP_IDS = "appIds";
 	private static final String APP_IDS_FILE = "appIds.dat";
