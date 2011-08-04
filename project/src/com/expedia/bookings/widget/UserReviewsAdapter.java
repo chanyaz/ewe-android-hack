@@ -83,10 +83,11 @@ public class UserReviewsAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				viewHolder.body.setText(userReviewLoaded.review.getBody());
 				userReviewLoaded.isDisplayingFull = true;
-				viewHolder.readMore.setVisibility(View.GONE);
+				setupFullReviewDisplay(viewHolder);
 				mListView.setSelection(position + 1); //scroll to item (account for header)
 			}
 		});
+		
 		viewHolder.title.setText(userReviewLoaded.review.getTitle());
 
 		ReviewRating rating = userReviewLoaded.review.getRating();
@@ -95,15 +96,15 @@ public class UserReviewsAdapter extends BaseAdapter {
 		}
 
 		if (userReviewLoaded.isDisplayingFull) {
-			viewHolder.readMore.setVisibility(View.GONE);
+			setupFullReviewDisplay(viewHolder);
 			viewHolder.body.setText(userReviewLoaded.review.getBody());
 		}
 		else if (userReviewLoaded.bodyWasReduced) {
-			viewHolder.readMore.setVisibility(View.VISIBLE);
+			setupReducedReviewDisplay(viewHolder);
 			viewHolder.body.setText(userReviewLoaded.bodyReduced);
 		}
 		else {
-			viewHolder.readMore.setVisibility(View.GONE);
+			setupFullReviewDisplay(viewHolder);
 			viewHolder.body.setText(userReviewLoaded.review.getBody());
 		}
 
@@ -132,6 +133,12 @@ public class UserReviewsAdapter extends BaseAdapter {
 		viewHolder.submissionDate.setText(submissionDateText);
 
 		return convertView;
+	}
+
+	private void setupReducedReviewDisplay(final UserReviewHolder viewHolder) {
+		viewHolder.readMore.setVisibility(View.VISIBLE);
+		viewHolder.nameAndLocation.setVisibility(View.GONE);
+		viewHolder.submissionDate.setVisibility(View.GONE);
 	}
 
 	// These two enabled overrides ensure that the ListView can not have focus, 
@@ -170,4 +177,12 @@ public class UserReviewsAdapter extends BaseAdapter {
 		mLoadedReviews = reviews;
 		notifyDataSetChanged();
 	}
+	
+
+	private void setupFullReviewDisplay(final UserReviewHolder viewHolder) {
+		viewHolder.readMore.setVisibility(View.GONE);
+		viewHolder.submissionDate.setVisibility(View.VISIBLE);
+		viewHolder.nameAndLocation.setVisibility(View.VISIBLE);
+	}
+
 }

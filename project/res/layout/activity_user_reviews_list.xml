@@ -102,8 +102,8 @@
 			style="@style/RatingBarSmall.Shadowed.UserReview" />
 		<Button
 			android:id="@+id/book_now_button"
-			android:layout_width="100dp"
-			android:layout_height="48dp"
+			android:layout_width="@dimen/header_button_width"
+			android:layout_height="@dimen/action_bar_button_height"
 			android:layout_alignParentRight="true"
 			android:textStyle="bold"
 			android:text="@string/book_now"
