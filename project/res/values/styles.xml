@@ -34,10 +34,6 @@
 		<item name="android:progressDrawable">@drawable/star_inset_gray_ratingbar</item>
 	</style>     
 
-	<style name="RatingBarSmall.Shadowed.UserRating">
-		<item name="android:progressDrawable">@drawable/star_user_review_rating_bar_on_black_bg</item>
-	</style>
-
 	<style name="RatingBarSmall.Shadowed.UserReview">
 		<item name="android:progressDrawable">@drawable/star_user_review_rating_bar</item>
 	</style>

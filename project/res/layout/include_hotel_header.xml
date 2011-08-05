@@ -25,7 +25,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:gravity="center_vertical">
-		<LinearLayout
+		<RelativeLayout
 			android:id="@+id/user_rating_layout"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -42,7 +42,8 @@
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
 				android:paddingRight="5dp"
-				android:gravity="center_vertical"
+				android:layout_alignTop="@+id/user_rating_bar"
+				android:layout_alignBottom="@+id/user_rating_bar"
 				android:textStyle="bold"
 				android:textColor="#E1E1E1"
 				android:textSize="12sp"/>
@@ -50,13 +51,13 @@
 				android:id="@+id/user_rating_bar"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
-				android:gravity="center_vertical"
-				android:layout_marginTop="1dp"
+				android:layout_toRightOf="@id/user_rating_text_view"
+				android:layout_centerVertical="true"
 				android:numStars="5"
 				android:stepSize=".5"
 				android:isIndicator="true"
-				style="@style/RatingBarSmall.Shadowed.UserRating" />
-		</LinearLayout>
+				style="@style/RatingBarSmall.Shadowed.UserReview" />
+		</RelativeLayout>
 
 		<Button
 			android:id="@+id/book_now_button"

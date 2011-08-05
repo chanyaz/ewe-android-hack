@@ -20,7 +20,7 @@
 			android:layout_alignParentTop="true"
 			android:layout_alignParentRight="true"
 			android:numStars="5" 
-			android:stepSize="1" 
+			android:stepSize="0.5" 
 			android:isIndicator="true"
 			style="@style/RatingBarSmall.Shadowed.UserReview" />
 		<TextView android:id="@+id/user_review_title_text_view"

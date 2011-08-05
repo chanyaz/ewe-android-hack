@@ -156,7 +156,7 @@
 								android:numStars="5"
 								android:stepSize=".5"
 								android:isIndicator="true"
-								style="@style/RatingBarSmall.Shadowed.UserRating" />
+								style="@style/RatingBarSmall.Shadowed.UserReview" />
 						</LinearLayout>
 					</LinearLayout>
 
