@@ -48,6 +48,9 @@
 		<activity android:name=".activity.AboutActivity" />
 		
 		<activity android:name=".activity.ExpediaBookingPreferenceActivity" />
+		
+		<activity android:name=".activity.AppFeedbackActivity" 
+			android:windowSoftInputMode="stateHidden" />
 
 		<activity android:name="com.opinionlab.oo.sdk.android.CommentCardActivity" />
 		

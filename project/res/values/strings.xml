@@ -328,6 +328,14 @@
 	<!-- Copyright information -->
 	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAll rights reserved.</string>
 	
+	
+	<!--  App Feedback Activity -->
+	<string name="send_feedback">Send Feedback</string>
+	<string name="app_feedback">App Feedback</string>
+	<string name="powered_by_opinion_lab">Powered by Opinion Lab</string>
+	<string name="email_address">Email Address</string>
+	<string name="feedback_hint">What could we do better?</string>
+	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
 	<string name="preference_category_general">General</string>

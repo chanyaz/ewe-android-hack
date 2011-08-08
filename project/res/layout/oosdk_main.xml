@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:focusable="true" 
+	android:focusableInTouchMode="true"
+	android:background="@drawable/opinionlab_bg_tiled"
+	android:id="@+id/oosdk_main_layout">
+	
+ 	<RelativeLayout
+ 		android:id="@+id/oosdk_header"
+ 		android:layout_width="fill_parent"
+ 		android:layout_height="wrap_content"
+ 		android:padding="6dp"
+ 		android:background="@drawable/bg_header">
+ 		<TextView
+ 			android:id="@+id/oosdk_feedback_title"
+ 			android:layout_width="wrap_content"
+ 			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:paddingLeft="4dp"
+ 			android:text="@string/app_feedback"
+			style="@style/headerText"/>
+		<Button
+			android:id="@+id/oosdk_submit_button"
+			android:layout_width="wrap_content"
+			android:layout_height="@dimen/header_button_height"
+			android:layout_marginTop="2dp"
+			android:layout_marginLeft="6dp"
+			android:gravity="center_vertical"
+			android:layout_alignParentRight="true"
+			android:textStyle="bold"
+			android:text="@string/send_feedback"
+			style="@style/Widget.Button.Orange"/>
+
+		<!--  keeping this button in here as an invisible item so that
+			comment card activity doesn't barf.  -->
+		<Button android:id="@+id/oosdk_cancel_button"
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" 
+				android:textStyle="bold"
+				android:layout_alignParentLeft="true"
+				android:gravity="center_vertical" 
+				android:textSize="6pt"
+				android:text="@string/oosdk_cancel_label" 
+				android:visibility="gone"/>
+ 	</RelativeLayout>
+ 	
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:paddingLeft="10dp"
+		android:paddingRight="10dp"
+		android:fillViewport="true"
+		android:fadingEdge="none">
+		<LinearLayout 
+			android:id="@+id/oosdk_main_content"
+			android:orientation="vertical"
+			android:layout_width="fill_parent" 
+			android:layout_height="fill_parent">
+		 	<ImageView 
+		 		android:layout_height="wrap_content"
+		 		android:layout_width="wrap_content"
+		 		android:layout_marginTop="5dp"
+				android:background="@drawable/expedia_logo"
+				android:layout_gravity="center_horizontal"/>
+			<LinearLayout 
+				android:id="@+id/oosdk_rating_layout"
+				android:orientation="vertical"
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content">
+				<RelativeLayout android:id="@+id/oosdk_rating_rlayout"
+					android:layout_width="fill_parent" 
+					android:layout_height="wrap_content">
+					<TextView 
+						android:id="@+id/oosdk_rating_overall_header"
+						android:layout_height="wrap_content"
+						android:layout_width="wrap_content"
+						android:layout_alignLeft="@+id/feedback_rating_layout"
+						android:paddingLeft="2dp"
+						android:paddingTop="20dp"
+						android:textSize="16sp"
+						android:textColor="#ffffff"
+						android:includeFontPadding="false"
+						android:textStyle="bold" 
+						android:text="@string/oosdk_rating_overall_header" />
+					<FrameLayout
+						android:id="@+id/feedback_rating_layout"
+						android:layout_height="wrap_content"
+						android:layout_width="fill_parent"
+						android:layout_below="@id/oosdk_rating_overall_header"
+						android:layout_marginTop="5dp"
+						android:layout_marginBottom="5dp"
+						android:background="@drawable/dark_translucent_edit_text">
+						<RatingBar
+							android:id="@+id/feedback_rating"
+							android:layout_height="wrap_content"
+							android:layout_width="wrap_content"
+							android:numStars="5"
+							android:stepSize="1"
+							android:isIndicator="false"
+							android:minHeight="35dp"
+							android:layout_gravity="center"
+							android:progressDrawable="@drawable/ratingbar_large"/>	
+					</FrameLayout>
+					<RadioGroup android:id="@+id/oosdk_rating_overall"
+						android:layout_width="fill_parent" android:layout_height="80dp"
+						android:gravity="center" android:orientation="horizontal"
+						android:visibility="gone">
+						<RadioButton android:id="@+id/oosdk_rating_overall_1"
+							android:tag="1" android:button="@drawable/oosdk_rater_radio_minusminus"
+							android:layout_width="50dp" android:layout_weight="1"
+							android:layout_gravity="center|left" android:layout_height="wrap_content"></RadioButton>
+						<RadioButton android:id="@+id/oosdk_rating_overall_2"
+							android:tag="2" android:button="@drawable/oosdk_rater_radio_minus"
+							android:layout_width="50dp" android:layout_weight="1"
+							android:layout_height="wrap_content"></RadioButton>
+						<RadioButton android:id="@+id/oosdk_rating_overall_3"
+							android:tag="3" android:button="@drawable/oosdk_rater_radio_plusminus"
+							android:layout_width="50dp" android:layout_weight="1"
+							android:layout_height="wrap_content"></RadioButton>
+						<RadioButton android:id="@+id/oosdk_rating_overall_4"
+							android:tag="4" android:button="@drawable/oosdk_rater_radio_plus"
+							android:layout_width="50dp" android:layout_weight="1"
+							android:layout_height="wrap_content"></RadioButton>
+						<RadioButton android:id="@+id/oosdk_rating_overall_5"
+							android:tag="5" android:button="@drawable/oosdk_rater_radio_plusplus"
+							android:layout_width="50dp" android:layout_gravity="center|right"
+							android:layout_height="wrap_content"></RadioButton>
+					</RadioGroup>
+					<TextView 
+						android:id="@+id/oosdk_rating_lo_descrip"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_below="@id/oosdk_rating_overall"
+						android:layout_alignParentLeft="true" 
+						android:text="@string/oosdk_rating_lo_txt"
+						android:visibility="gone"/>
+					<TextView 
+						android:id="@+id/oosdk_rating_hi_descrip"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_below="@id/oosdk_rating_overall"
+						android:layout_alignParentRight="true"
+						android:text="@string/oosdk_rating_hi_txt" 
+						android:visibility="gone"/>
+				</RelativeLayout>
+			</LinearLayout>
+
+			<RelativeLayout 
+				android:id="@+id/oosdk_comments_layout"
+				android:layout_width="fill_parent" 
+				android:layout_height="fill_parent">
+				<TextView 
+					android:id="@+id/oosdk_comments_header"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:visibility="gone"/>
+				<EditText 
+					android:id="@+id/oosdk_comments"
+					android:layout_width="fill_parent" 
+					android:layout_height="fill_parent"
+					android:layout_below="@id/oosdk_comments_header"
+					android:layout_marginTop="4dp" 
+					android:maxLength="1000"
+					android:textColor="#ffffff"
+					android:lines="8"
+					android:hint="@string/feedback_hint"
+					android:gravity="left|top"
+					android:background="@drawable/dark_translucent_edit_text" />
+				<TextView 
+					android:id="@+id/oosdk_remaining" 
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content"
+					android:layout_below="@id/oosdk_comments"
+					android:text="1000 characters remaining"
+					android:layout_gravity="right"
+					android:visibility="gone"/>
+			</RelativeLayout>
+
+			<LinearLayout android:orientation="vertical"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:id="@+id/oosdk_email_layout">
+				<TextView 
+					android:id="@+id/oosdk_email_header"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:visibility="gone"/>
+				<EditText 
+					android:id="@+id/oosdk_email"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:textColor="#ffffff"
+					android:hint="@string/email_address"
+					android:layout_marginTop="4dp"  
+					android:maxLength="900"
+					android:singleLine="true" 
+					android:inputType="textEmailAddress"
+					android:background="@drawable/dark_translucent_edit_text"/>
+			</LinearLayout>
+			<TextView
+				android:id="@+id/powered_by_opinion_lab_text_view"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:paddingTop="5dp"
+				android:text="@string/powered_by_opinion_lab"
+				android:layout_gravity="center_horizontal"
+				android:textColor="#828282"/>
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>
+	

@@ -57,7 +57,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		ViewGroup appSection = addSection();
 		addSimpleRow(appSection, getString(R.string.app_feedback), new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(mContext, CommentCardActivity.class);
+				Intent intent = new Intent(mContext, AppFeedbackActivity.class);
 				intent.putExtra(CommentCardActivity.EXTRA_REFERRAL_URL, "http://expediahotelandroid.expedia.com/"
 						+ AndroidUtils.getAppVersion(mContext));
 				startActivityForResult(intent, REQUEST_CODE_FEEDBACK);
