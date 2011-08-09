@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -175,16 +176,19 @@ public class CustomEditText extends EditText {
 			int defStyle) {
 		super(context, attrs, defStyle);
 		addTextChangedListener(textWatcher);
+		setupTransparentRightDrawable();
 	}
 
 	public CustomEditText(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		addTextChangedListener(textWatcher);
+		setupTransparentRightDrawable();
 	}
 
 	public CustomEditText(Context context) {
 		super(context);
 		addTextChangedListener(textWatcher);
+		setupTransparentRightDrawable();
 	}
 	
 	////////////
@@ -214,7 +218,7 @@ public class CustomEditText extends EditText {
         getDrawable(R.drawable.btn_cancel_normal);
 
         icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
-
+        
 		final Drawable[] dr = getCompoundDrawables();
 		
 		if(dr != null) {
@@ -227,18 +231,16 @@ public class CustomEditText extends EditText {
 	}
 	
 	public void removeClearFieldButton() {
+		
 		// only remove the right drawable 
 		// if the clear field button is 
 		// actually showing
 		if(isClearFieldButtonShowing) {
-			Drawable dr[] = getCompoundDrawables();
-			if(dr != null) {
-				setCompoundDrawables(dr[0], dr[1], null, dr[3]);
-			}
+			setupTransparentRightDrawable();
 			isClearFieldButtonShowing = false;
 		}
 	}
-	
+
 	@Override
 	public void setError(CharSequence error, Drawable icon) {
 		error = TextUtils.stringOrSpannedString(error);
@@ -557,4 +559,23 @@ public class CustomEditText extends EditText {
             }
         }
     }
+    
+    /*
+     * This method is to setup a transparent drawable as a right drawable to the 
+     * text field so as to always occupy room for the cancel-button drawable. This will prevent the 
+     * "jump" that you see if you were to start tpying into an empty edit text, which is to incorporate 
+     * the x button.
+     */
+	private void setupTransparentRightDrawable() {
+		Drawable cancelDrawable = getContext().getResources().getDrawable(R.drawable.btn_cancel_normal);
+		Drawable transparentDrawable = new ColorDrawable(android.R.color.transparent);
+		transparentDrawable.setBounds(0, 0, cancelDrawable.getIntrinsicWidth(), cancelDrawable.getIntrinsicHeight());
+
+		Drawable dr[] = getCompoundDrawables();
+		if(dr != null) {
+			setCompoundDrawables(dr[0], dr[1], transparentDrawable, dr[3]);
+		}
+	}
+	
+
 }
