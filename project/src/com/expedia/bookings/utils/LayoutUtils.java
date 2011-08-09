@@ -125,8 +125,8 @@ public class LayoutUtils {
 	}
 
 	public static String formatCheckInOutDate(Context context, Calendar cal) {
-		DateFormat medDf = android.text.format.DateFormat.getLongDateFormat(context);
-		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_LONG) + ", "
+		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(context);
+		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_MEDIUM) + ", "
 				+ medDf.format(cal.getTime());
 	}
 
