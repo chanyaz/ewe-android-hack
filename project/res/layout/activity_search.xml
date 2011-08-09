@@ -23,7 +23,6 @@
 		android:id="@+id/content_layout"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:layout_marginTop="8dp"
 		android:layout_below="@id/search_bar_layout" />
 
 	<include
@@ -58,6 +57,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/search_bar_layout"
+		android:visibility="gone"
 		mobiata:handle="@+id/drawer_handle"
 		mobiata:content="@+id/drawer_content"
 		mobiata:position="top"
@@ -98,10 +98,16 @@
 		android:divider="@null"
 		android:dividerHeight="0dp" />
 
+	
 	<include
 		android:id="@id/search_bar_layout"
 		layout="@layout/include_search_bar" />
-
+	<ImageView 
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:layout_below="@id/search_bar_layout"
+		android:background="@drawable/actionbar_shadow"/>
+		
 	<include
 		android:id="@+id/refinements_layout"
 		layout="@layout/include_refinements_layout" />
