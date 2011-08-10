@@ -2032,10 +2032,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void setViewButtonImage() {
 		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-			mViewButton.setImageResource(R.drawable.btn_bottombar_map_normal);
+			mViewButton.setImageResource(R.drawable.btn_actionbar_map);
 		}
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-			mViewButton.setImageResource(R.drawable.btn_bottombar_list_normal);
+			mViewButton.setImageResource(R.drawable.btn_actionbar_list);
 		}
 	}
 

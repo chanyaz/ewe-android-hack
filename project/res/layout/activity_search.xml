@@ -139,7 +139,7 @@
 				android:gravity="center"
 				android:clickable="true"
 				android:focusable="true"
-				android:background="@null">
+				android:background="@drawable/btn_left_bottombar">
 				<ImageView
 					android:id="@+id/up_arrow_sort_hotels"
 					android:layout_height="wrap_content"	
@@ -168,7 +168,7 @@
 				android:gravity="center"
 				android:clickable="true"
 				android:focusable="true"
-				android:background="@drawable/btn_actionbar_bg_normal">
+				android:background="@drawable/btn_bottombar">
 			
 				<ImageView
 					android:id="@+id/up_arrow_filter_hotels"
@@ -196,7 +196,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"
-			android:src="@drawable/btn_bottombar_map_normal"
+			android:src="@drawable/btn_actionbar_map"
 			android:background="@null" />
 	</RelativeLayout>		
 
