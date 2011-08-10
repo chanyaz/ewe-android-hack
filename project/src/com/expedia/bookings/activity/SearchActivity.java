@@ -215,7 +215,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// VIEWS
 	//----------------------------------
 
-	private Button mSearchButton;
+	private View mSearchButton;
 	private Button mTripAdvisorOnlyButton;
 	private CalendarDatePicker mDatesCalendarDatePicker;
 	private EditText mFilterHotelNameEditText;
@@ -909,7 +909,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mButtonBarLayout = findViewById(R.id.button_bar_layout);
 		mRefinementInfoTextView = (TextView) findViewById(R.id.refinement_info_text_view);
-		mSearchButton = (Button) findViewById(R.id.search_button);
+		mSearchButton = findViewById(R.id.search_button);
 
 		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
 

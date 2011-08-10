@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@id/search_bar_layout"
-    android:orientation="horizontal"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:padding="6dp"
-    android:background="@drawable/search_bar_bg">
-    
-    <LinearLayout
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
+	android:orientation="vertical">
+	<RelativeLayout
+		android:id="@id/search_bar_layout"
 	    android:orientation="horizontal"
-	    android:layout_width="0dp"
+	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-		android:layout_weight="70">
-    
+	    android:padding="0dp"
+	    android:layout_margin="0dp"
+	    android:background="@drawable/bg_actionbar">
+	    
 	    <TextView
 	    	android:id="@+id/booking_info_text_view"
 	    	android:layout_width="fill_parent"
@@ -22,88 +21,98 @@
 			
 	    <!-- Search box -->
 	    <EditText
-            android:id="@+id/search_edit_text"
-            android:layout_height="fill_parent"
-            android:layout_width="0dip"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:textSize="16sp"
-            android:imeOptions="actionSearch" />
-            
+	           android:id="@+id/search_edit_text"
+	           android:layout_height="wrap_content"
+	           android:layout_width="fill_parent"
+	           android:layout_alignBottom="@+id/guests_button_layout"
+	           android:layout_toLeftOf="@+id/search_button"
+			   android:layout_marginTop="3dp"
+			   android:layout_marginLeft="3dp"
+			   android:layout_marginRight="3dp"
+	           android:gravity="center_vertical"
+	           android:singleLine="true"
+	           android:textSize="16sp"
+	           android:imeOptions="actionSearch" />
+	           
 		<RelativeLayout
-			android:layout_width="@dimen/action_bar_button_height"
-			android:layout_height="@dimen/action_bar_button_height"
-            android:layout_marginLeft="6dip">
-            	
-			<ImageButton
-				android:id="@+id/dates_button"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-	            android:src="@drawable/btn_dates"
-	            style="@style/Widget.Button.SearchBar" />
-	            
-	        <TextView
-				android:id="@+id/dates_text_view"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:gravity="center"
-				android:textSize="12dp"
-				android:textColor="#FF8E8E8E"
-				android:textStyle="bold"
-				android:shadowColor="#88000000"
-				android:shadowDx="0"
-				android:shadowDy="-1"
-				android:shadowRadius="0.1"/>
-        
-        </RelativeLayout>
-        
-        <RelativeLayout
-			android:layout_width="@dimen/action_bar_button_height"
-			android:layout_height="@dimen/action_bar_button_height"
-            android:layout_marginLeft="6dip">
+			android:id="@+id/guests_button_layout"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true">
 			
 			<ImageButton
 				android:id="@+id/guests_button"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-	            android:src="@drawable/btn_guests"
-	            style="@style/Widget.Button.SearchBar" />
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+	            android:src="@drawable/btn_actionbar_guests"
+	            android:background="@null" />
 	            
 			<TextView
 				android:id="@+id/guests_text_view"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignTop="@id/guests_button"
+				android:layout_alignBottom="@id/guests_button"
+				android:layout_alignLeft="@id/guests_button"
+				android:layout_alignRight="@id/guests_button"
 				android:gravity="top|right"
 				android:textSize="12dp"
 				android:paddingTop="3dp"
 				android:paddingRight="10dp"
-				android:textColor="#FF8E8E8E"
+				android:textColor="#5f6a77"
 				android:textStyle="bold"
 				android:shadowColor="#88000000"
 				android:shadowDx="0"
 				android:shadowDy="-1"
 				android:shadowRadius="0.1"/>
-        
-        </RelativeLayout>
-       
-	</LinearLayout>
-       
-       
-	<LinearLayout
-	    android:orientation="horizontal"
-	    android:layout_width="0dp"
-	    android:layout_height="wrap_content"
-		android:layout_weight="30"
-		android:gravity="center|right">
-    
-	    <Button
-	    	android:id="@+id/search_button"
-	    	android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"
-	    	android:text="@string/search"
-            style="@style/Widget.Button.SearchBar.Orange" />
-	    	
-	</LinearLayout>
-        
+	       
+	       </RelativeLayout>  
+	           
+		<RelativeLayout
+			android:id="@+id/dates_button_layout"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+	        android:layout_toLeftOf="@id/guests_button_layout">
+	           	
+			<ImageButton
+				android:id="@+id/dates_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+	            android:src="@drawable/btn_actionbar_calendar"
+	            android:background="@null" />
+	            
+	        <TextView
+				android:id="@+id/dates_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignTop="@id/dates_button"
+				android:layout_alignBottom="@id/dates_button"
+				android:layout_alignRight="@id/dates_button"
+				android:layout_alignLeft="@id/dates_button"
+				android:gravity="center"
+				android:paddingTop="5dp"
+				android:paddingLeft="1dp"
+				android:textSize="12dp"
+				android:textColor="#4a5461"
+				android:textStyle="bold"
+				android:shadowColor="#88000000"
+				android:shadowDx="0"
+				android:shadowDy="-1"
+				android:shadowRadius="0.1"/>
+	       
+	       </RelativeLayout>
+		
+			<ImageButton
+				android:id="@+id/search_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_toLeftOf="@id/dates_button_layout"
+	            android:src="@drawable/btn_actionbar_search"
+	            android:background="@null" />
+	          
+	</RelativeLayout>
+	<View 
+		android:layout_height="2px"
+		android:layout_width="fill_parent"
+		android:background="#b2b5b8"/>
 </LinearLayout>
