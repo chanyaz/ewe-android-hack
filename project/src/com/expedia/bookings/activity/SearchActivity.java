@@ -249,6 +249,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private View mPanelDismissView;
 	private View mRefinementDismissView;
 	private View mSortLayout;
+	private View mBottomBarLayout;
 
 	//----------------------------------
 	// OTHERS
@@ -922,6 +923,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchButton = findViewById(R.id.search_button);
 
 		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
+		
+		mBottomBarLayout = findViewById(R.id.bottom_bar_layout);
 
 		//===================================================================
 		// Properties
@@ -1199,6 +1202,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setSearchEditViews();
 		setDisplayType(DisplayType.NONE);
 		disablePanelHandle();
+		hideBottomBar();
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
@@ -1334,6 +1338,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		onSearchResultsChanged();
+		showBottomBar();
 	}
 
 	private void broadcastSearchParamsChanged() {
@@ -1664,6 +1669,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mPanel.getHandle().setEnabled(true);
 	}
 
+	private void hideBottomBar() {
+		mBottomBarLayout.setVisibility(View.GONE);
+	}
+	
+	private void showBottomBar() {
+		mBottomBarLayout.setVisibility(View.VISIBLE);
+	}
 	//----------------------------------
 	// ACTIVITY GROUP METHODS
 	//----------------------------------

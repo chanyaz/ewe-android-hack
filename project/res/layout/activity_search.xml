@@ -124,7 +124,8 @@
 		android:gravity="bottom"
 		android:layout_alignParentBottom="true"
 		android:orientation="horizontal"
-		android:background="@drawable/bg_actionbar">
+		android:background="@drawable/bg_actionbar"
+		android:visibility="gone">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
