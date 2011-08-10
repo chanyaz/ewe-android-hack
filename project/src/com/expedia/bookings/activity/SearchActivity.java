@@ -52,7 +52,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -247,7 +246,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private View mDatesLayout;
 	private View mFocusLayout;
 	private View mGuestsLayout;
-	private View mMapSearchButton;
 	private View mPanelDismissView;
 	private View mRefinementDismissView;
 	private View mSortLayout;
@@ -546,11 +544,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		now.setToNow();
 		mDatesCalendarDatePicker.setMinDate(now.year, now.month, now.monthDay);
 
-		setMapSearchButtonVisibility(false);
 		setViewButtonImage();
 		setDrawerViews();
 		setSearchEditViews();
-
+		setBottomBarOptions();
+		
 		if (mStartSearchOnResume) {
 			startSearch();
 			mStartSearchOnResume = false;
@@ -887,7 +885,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 		mViewFlipImage = (ImageView) findViewById(R.id.view_flip_image);
 
-		mMapSearchButton = (View) findViewById(R.id.map_search_button);
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
 
 		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
@@ -974,7 +971,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		//===================================================================
 		// Listeners
-		mMapSearchButton.setOnClickListener(mMapSearchButtonClickListener);
 		mViewButton.setOnClickListener(mViewButtonClickListener);
 
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
@@ -1586,8 +1582,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mContent.setVisibility(View.INVISIBLE);
 			setActivity(nextActivityClass);
 			setViewButtonImage();
-			setMapSearchButtonVisibility();
-
+			setBottomBarOptions();
+			
 			nextAnimation.setDuration(ANIMATION_VIEW_FLIP_SPEED);
 			nextAnimation.setFillAfter(true);
 			nextAnimation.setInterpolator(new DecelerateInterpolator());
@@ -1640,7 +1636,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				setActivity(newActivityClass);
 			}
 			setDrawerViews();
-			setMapSearchButtonVisibility();
 			setViewButtonImage();
 		}
 	}
@@ -1872,85 +1867,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	}
 
-	private void setMapSearchButtonVisibility() {
-		setMapSearchButtonVisibility(ANIMATION_VIEW_FLIP_ENABLED);
-	}
-
-	private void setMapSearchButtonVisibility(boolean animate) {
-		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-			if (mMapSearchButton.getVisibility() == View.GONE) {
-				return;
-			}
-
-			mMapSearchButton.setEnabled(false);
-
-			final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
-			animation.setDuration(ANIMATION_VIEW_FLIP_SPEED * 2);
-			animation.setInterpolator(new AccelerateDecelerateInterpolator());
-			animation.setAnimationListener(new AnimationListener() {
-				@Override
-				public void onAnimationStart(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationRepeat(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationEnd(Animation animation) {
-					mHandler.post(new Runnable() {
-						@Override
-						public void run() {
-							mMapSearchButton.setVisibility(View.GONE);
-						}
-					});
-				}
-			});
-
-			if (!animate) {
-				animation.setDuration(0);
-			}
-
-			mMapSearchButton.startAnimation(animation);
-		}
-		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-			if (mMapSearchButton.getVisibility() == View.VISIBLE) {
-				return;
-			}
-
-			mMapSearchButton.setEnabled(true);
-
-			final Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
-			animation.setDuration(ANIMATION_VIEW_FLIP_SPEED * 2);
-			animation.setInterpolator(new AccelerateDecelerateInterpolator());
-			animation.setAnimationListener(new AnimationListener() {
-				@Override
-				public void onAnimationStart(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationRepeat(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationEnd(Animation animation) {
-					mHandler.post(new Runnable() {
-						@Override
-						public void run() {
-							mMapSearchButton.setVisibility(View.VISIBLE);
-						}
-					});
-				}
-			});
-
-			if (!animate) {
-				animation.setDuration(0);
-			}
-
-			mMapSearchButton.startAnimation(animation);
-		}
-	}
-
 	private void setNumberPickerRanges() {
 		Resources res = getResources();
 		String[] adults = new String[4];
@@ -2116,13 +2032,27 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void setViewButtonImage() {
 		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-			mViewButton.setImageResource(R.drawable.btn_map);
+			mViewButton.setImageResource(R.drawable.btn_bottombar_map_normal);
 		}
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-			mViewButton.setImageResource(R.drawable.btn_list);
+			mViewButton.setImageResource(R.drawable.btn_bottombar_list_normal);
 		}
 	}
 
+	private void setBottomBarOptions() {
+		ImageView imageView = (ImageView) findViewById(R.id.up_arrow_sort_hotels);
+		TextView textView = (TextView) findViewById(R.id.sort_text_view);
+
+		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+			imageView.setImageResource(R.drawable.up_arrow);
+			textView.setText(R.string.sort_hotels);
+		}
+		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
+			imageView.setImageResource(R.drawable.ic_search_map);
+			textView.setText(R.string.map_search_button);
+		}
+	}
+	
 	private void switchRatingFilter() {
 		final Rating rating = mFilter.getRating();
 		switch (rating) {

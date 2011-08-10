@@ -28,9 +28,13 @@
 	<!-- Button label for upgrading the app -->
 	<string name="upgrade">Upgrade</string>
 	<!-- Button label for searching the visible map area -->
-	<string name="map_search_button">Search Map Area</string>
+	<string name="map_search_button">Search Map</string>
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Loading previous search results...</string>
+	<!-- Label for sort hotels button in bottom bar -->
+	<string name="sort_hotels">Sort Hotels</string>
+	<!-- Label for filter hotels button in bottom bar -->
+	<string name="filter_hotels">Filter Hotels</string>
 	
 	<!-- Widget -->
 	<!--  Default Loading message for widget -->

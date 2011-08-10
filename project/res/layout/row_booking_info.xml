@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/booking_info_text_view"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:gravity="center"
+	android:background="#dadada"
+	android:shadowDx="0"
+	android:shadowDy="-1"
+	android:shadowRadius="0.1"
+	android:textColor="#394552"
+	android:shadowColor="#ffffff"
+	android:paddingTop="3dp"
+	android:paddingBottom="3dp" />
