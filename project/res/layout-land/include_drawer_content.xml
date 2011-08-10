@@ -8,40 +8,16 @@
 	android:layout_height="wrap_content"
 	android:padding="6dp"
 	android:background="@drawable/search_results_drawer_content_bg">
-	
-	<LinearLayout
-		android:orientation="horizontal"
+		
+	<com.expedia.bookings.widget.CustomEditText
+		android:id="@+id/filter_hotel_name_edit_text"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="6dp">
-		
-		<com.expedia.bookings.widget.CustomEditText
-			android:id="@+id/filter_hotel_name_edit_text"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="7"
-			android:layout_marginRight="6dp"
-			android:gravity="center_vertical"
-			android:singleLine="true"
-			android:textSize="16sp"
-			android:imeOptions="flagNoExtractUi|flagNoFullscreen"
-			android:hint="@string/filter_hotel_name_hint" />
-		
-		<TextView
-	    	android:id="@+id/filter_info_text_view"
-	    	android:layout_width="0dp"
-	    	android:layout_height="fill_parent"
-	    	android:layout_weight="3"
-	    	android:padding="2dp"
-	    	android:gravity="center|right"
-			android:textColor="#FF3D404F"
-			android:shadowColor="#88FFFFFF"
-			android:shadowDx="0"
-			android:shadowDy="1"
-			android:shadowRadius="0.1"
-			android:text="" />
-		
-	</LinearLayout>
+		android:gravity="center_vertical"
+		android:singleLine="true"
+		android:textSize="16sp"
+		android:imeOptions="flagNoExtractUi|flagNoFullscreen"
+		android:hint="@string/filter_hotel_name_hint" />
 	
 	<LinearLayout
 		android:orientation="horizontal"
@@ -297,4 +273,12 @@
 	</RelativeLayout>
 	<!-- HIDDEN -->
 	
+	<!--  This image view exists only to account for (and offset by) the height
+		  of the bottom bar so that the drawer content is not hidden
+		  underneath it -->
+	<ImageView
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:src="@drawable/btn_actionbar_map_normal"/>
+		
 </LinearLayout>

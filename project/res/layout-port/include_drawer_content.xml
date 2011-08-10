@@ -8,22 +8,6 @@
 	android:layout_height="wrap_content"
 	android:background="@drawable/search_results_drawer_content_bg">
 	
-	<TextView
-    	android:id="@+id/filter_info_text_view"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:padding="2dp"
-    	android:gravity="center"
-    	android:singleLine="true"
-		android:textColor="#FF3D404F"
-		android:shadowColor="#88FFFFFF"
-		android:shadowDx="0"
-		android:shadowDy="1"
-		android:shadowRadius="0.1"
-		android:background="#FFE3E3E3"
-		android:text=""
-		android:textSize="12dp" />
-		
 	<View 
     	android:layout_width="fill_parent"
     	android:layout_height="1px"
@@ -352,5 +336,14 @@
 		</LinearLayout>
 		
 	</LinearLayout>
+
+	<!--  This image view exists only to account for (and offset by) the height
+	  of the bottom bar so that the drawer content is not hidden
+	  underneath it -->
+	<ImageView
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:src="@drawable/btn_actionbar_map_normal"/>
+		
 	
 </LinearLayout>

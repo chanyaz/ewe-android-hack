@@ -250,6 +250,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private View mRefinementDismissView;
 	private View mSortLayout;
 	private View mBottomBarLayout;
+	private View mFilterButton;
 
 	//----------------------------------
 	// OTHERS
@@ -925,6 +926,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
 		
 		mBottomBarLayout = findViewById(R.id.bottom_bar_layout);
+		mFilterButton = findViewById(R.id.filter_button_layout);
 
 		//===================================================================
 		// Properties
@@ -998,6 +1000,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mAdultsNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
 		mChildrenNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
 		mSearchButton.setOnClickListener(mSearchButtonClickListener);
+		
+		mFilterButton.setOnClickListener(mFilterButtonPressedListener);
 	}
 
 	//----------------------------------
@@ -1671,10 +1675,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void hideBottomBar() {
 		mBottomBarLayout.setVisibility(View.GONE);
+		mPanel.setVisibility(View.GONE);
 	}
 	
 	private void showBottomBar() {
 		mBottomBarLayout.setVisibility(View.VISIBLE);
+		mPanel.setVisibility(View.VISIBLE);
 	}
 	//----------------------------------
 	// ACTIVITY GROUP METHODS
@@ -2285,8 +2291,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					mPanelDismissView.setVisibility(View.GONE);
 				}
 			});
-			mPanelDismissView.startAnimation(animation);
-
+			mPanelDismissView.setAnimation(animation);
+			
 			onSearchResultsChanged();
 		}
 	};
@@ -2406,6 +2412,19 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 		}
 	};
+	
+	private final View.OnClickListener mFilterButtonPressedListener = new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			if(mPanel.isOpen()) {
+				mPanel.setOpen(false, true);
+			} else {
+				mPanel.setOpen(true, true);
+				mPanel.setVisibility(View.VISIBLE);
+			}	
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// HANDLERS
@@ -2413,7 +2432,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
-
+			
 		}
 	};
 

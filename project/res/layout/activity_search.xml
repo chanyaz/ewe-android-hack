@@ -44,21 +44,31 @@
 		android:id="@+id/drawer_panel"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/search_bar_layout"
+		android:layout_alignParentBottom="true"
 		android:visibility="gone"
-		mobiata:handle="@+id/drawer_handle"
+		mobiata:handle="@+id/filter_info_text_view"
 		mobiata:content="@+id/drawer_content"
-		mobiata:position="top"
+		mobiata:position="bottom"
 		mobiata:openedHandle="@drawable/search_results_drawer_handle"
 		mobiata:closedHandle="@drawable/search_results_drawer_handle"
 		mobiata:animationDuration="300">
 
-		<View
-			android:id="@id/drawer_handle"
-			android:layout_width="fill_parent"
-			android:layout_height="32dp"
-			android:layout_gravity="center" />
-
+		<TextView
+		   	android:id="@+id/filter_info_text_view"
+		   	android:layout_width="fill_parent"
+		   	android:layout_height="32dp"
+		   	android:padding="2dp"
+		   	android:gravity="center"
+		   	android:singleLine="true"
+			android:textColor="#FF3D404F"
+			android:shadowColor="#88FFFFFF"
+			android:shadowDx="0"
+			android:shadowDy="1"
+			android:shadowRadius="0.1"
+			android:text=""
+			android:textSize="12dp" 
+			android:background="@drawable/search_results_drawer_handle"/>
+		
 		<include
 			android:id="@id/drawer_content"
 			layout="@layout/include_drawer_content" />
