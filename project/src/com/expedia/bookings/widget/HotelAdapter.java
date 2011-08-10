@@ -41,12 +41,15 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private boolean mIsMeasuring = false;
 	private boolean mShowDistance = true;
 	private boolean mIsSortedByUserRating = false;
+	
+	private OnDrawBookingInfoTextRowListener mListener;
 
-	public HotelAdapter(Context context, SearchResponse searchResponse) {
+	public HotelAdapter(Context context, SearchResponse searchResponse, OnDrawBookingInfoTextRowListener listener) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		mSearchResponse = searchResponse;
+		mListener = listener;
 		rebuildCache();
 	}
 
@@ -128,15 +131,14 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		HotelViewHolder holder;
-		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.row_hotel, parent, false);
-
-			// If this is the first row, then add extra margin to the top to account for the pulldown
+		
+		if(convertView == null) {
 			if (getItemViewType(position) == TYPE_FIRST) {
-				convertView.setPadding(convertView.getPaddingLeft(),
-						(int) mContext.getResources().getDimension(R.dimen.hotel_row_first_padding),
-						convertView.getPaddingRight(), convertView.getPaddingBottom());
-			}
+				convertView = (TextView) mInflater.inflate(R.layout.row_booking_info, parent, false);
+				mListener.onDrawBookingInfoTextRow((TextView) convertView);
+				return convertView;
+			} 
+			convertView = mInflater.inflate(R.layout.row_hotel, parent, false);
 
 			holder = new HotelViewHolder();
 			holder.thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail_image_view);
@@ -156,6 +158,11 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder = (HotelViewHolder) convertView.getTag();
 		}
 
+		if(getItemViewType(position) == TYPE_FIRST) {
+			mListener.onDrawBookingInfoTextRow((TextView) convertView);
+			return convertView;
+		}
+		
 		// If we're just measuring the height/width of the row, just return the view without doing anything to it.
 		if (mIsMeasuring) {
 			return convertView;
@@ -266,5 +273,9 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	@Override
 	public void onStopMeasure() {
 		mIsMeasuring = false;
+	}
+	
+	public interface OnDrawBookingInfoTextRowListener {
+		public void onDrawBookingInfoTextRow(TextView bookingInfoTextView);
 	}
 }

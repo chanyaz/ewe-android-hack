@@ -42,6 +42,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.Html;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -75,6 +76,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.animation.Rotate3dAnimation;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.widget.HotelAdapter.OnDrawBookingInfoTextRowListener;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.TagProgressBar;
 import com.google.android.maps.GeoPoint;
@@ -235,7 +237,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private SegmentedControlGroup mPriceButtonGroup;
 	private SegmentedControlGroup mSortButtonGroup;
 	private TagProgressBar mSearchProgressBar;
-	private TextView mBookingInfoTextView;
 	private TextView mDatesTextView;
 	private TextView mFilterInfoTextView;
 	private TextView mGuestsTextView;
@@ -292,6 +293,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// This indicates to mSearchCallback that we just loaded saved search results,
 	// and as such should behave a bit differently than if we just did a new search.
 	private boolean mLoadedSavedResults;
+	
 
 	//----------------------------------
 	// THREADS/CALLBACKS
@@ -393,7 +395,19 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 		}
 	};
+	
+	private OnDrawBookingInfoTextRowListener mOnDrawFirstRowListener = new OnDrawBookingInfoTextRowListener() {
+		
+		@Override
+		public void onDrawBookingInfoTextRow(TextView bookingInfoTextView) {
+			setBookingInfoText(bookingInfoTextView);
+		}
+	};
 
+	public OnDrawBookingInfoTextRowListener getOnDrawBookingInfoTextRowListener() {
+		return mOnDrawFirstRowListener;
+	}
+	
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDES
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -876,7 +890,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mMapSearchButton = (View) findViewById(R.id.map_search_button);
 		mViewButton = (ImageButton) findViewById(R.id.view_button);
 
-		mBookingInfoTextView = (TextView) findViewById(R.id.booking_info_text_view);
 		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
 		mDatesButton = (ImageButton) findViewById(R.id.dates_button);
 		mDatesTextView = (TextView) findViewById(R.id.dates_text_view);
@@ -1718,7 +1731,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// VIEW ATTRIBUTE METHODS
 	//----------------------------------
 
-	private void setBookingInfoText() {
+	private void setBookingInfoText(TextView bookingInfoText) {
 		final String location = mSearchEditText.getText().toString();
 		final int startMonth = mDatesCalendarDatePicker.getStartMonth();
 		final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
@@ -1730,12 +1743,21 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		String[] shortMonthNames = getResources().getStringArray(R.array.short_month_names);
 
-		mBookingInfoTextView.setText(getString(R.string.booking_info_template, location, shortMonthNames[startMonth],
-				startDay, shortMonthNames[endMonth], endDay, endYear));
+
+		if(bookingInfoText != null) {
+			Spanned spanned = Html.fromHtml(getString(R.string.booking_info_template, location, shortMonthNames[startMonth],
+					startDay, shortMonthNames[endMonth], endDay, endYear));
+			bookingInfoText.setText(spanned);
+		}
+		
 		mDatesTextView.setText(String.valueOf(startDay));
 		mGuestsTextView.setText(String.valueOf((adults + children)));
 	}
-
+	
+	private void setBookingInfoText() {
+		setBookingInfoText(null);
+	}
+	
 	private void setDrawerViews() {
 		if (mFilter == null) {
 			Log.t("Filter is null");

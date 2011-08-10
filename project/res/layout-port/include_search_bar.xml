@@ -12,22 +12,6 @@
 		android:layout_margin="0dp"
 		android:background="@drawable/bg_actionbar">
 	    
-	    <TextView
-	    	android:id="@+id/booking_info_text_view"
-	    	android:layout_width="fill_parent"
-	    	android:layout_height="wrap_content"
-	    	android:layout_marginBottom="2dp"
-	    	android:gravity="center"
-	    	android:singleLine="true"
-	    	android:ellipsize="end"
-			android:textStyle="bold"
-			android:textColor="#FF666666"
-			android:shadowColor="#88FFFFFF"
-			android:shadowDx="0"
-			android:shadowDy="1"
-			android:shadowRadius="0.1"
-			android:visibility="gone" />
-	    
 	    <!-- Search box -->
 		   <EditText
 	          android:id="@+id/search_edit_text"

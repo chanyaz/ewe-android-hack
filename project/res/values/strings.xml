@@ -12,7 +12,7 @@
 	      4$ - The check-out month 
 	      5$ - The check-out day of month
 	      6$ - The year -->
-	<string name="booking_info_template">%1$s — %2$s %3$d to %4$s %5$s, %6$d</string>
+	<string name="booking_info_template">Results for &lt;b>%1$s&lt;/b> — &lt;b>%2$s %3$d&lt;/b> to &lt;b>%4$s %5$s, %6$d&lt;/b></string>
 	<!-- Label indicating how many hotels are left after filtering -->
 	<string name="filter_info_template">&lt;b>%1$d&lt;/b> matching hotels</string>
 	<!-- Hint for filtering results by hotel name -->
@@ -87,7 +87,7 @@
 	<string name="per_night">/night</string>
 	<!-- Label for red "sale" corner -->
 	<string name="sale_caps">SALE</string>
-
+	
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
 	<string name="book_now">Book Now</string>

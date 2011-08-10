@@ -157,7 +157,7 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		mSearchResponse.getFilter().addOnFilterChangedListener(this);
 
 		mScrollBar.setSearchResponse(mSearchResponse);
-		mAdapter = new HotelAdapter(this, mSearchResponse);
+		mAdapter = new HotelAdapter(this, mSearchResponse, mParent.getOnDrawBookingInfoTextRowListener());
 		mAdapter.setShowDistance(mShowDistance);
 		setListAdapter(mAdapter);
 	}
