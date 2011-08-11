@@ -195,14 +195,10 @@
 					android:layout_width="wrap_content"
 					android:layout_toRightOf="@id/up_arrow_filter_hotels"
 					android:paddingLeft="5dp"
-					android:textColor="#3d4552"
 					android:text="@string/filter_hotels"
 					android:textStyle="bold"
 					android:textSize="14sp"
-					android:shadowColor="#ffffff"
-					android:shadowDx="0"
-					android:shadowDy="-1"
-					android:shadowRadius="0.1"/>
+					style="@style/BottomBarText"/>
 			</RelativeLayout>
 		</LinearLayout>
 		<ImageButton

@@ -250,7 +250,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private View mRefinementDismissView;
 	private View mSortLayout;
 	private View mBottomBarLayout;
+	private View mSortButton;
 	private View mFilterButton;
+	private View mUpArrowFilterHotels;
+	private View mUpArrowSortHotels;
+	
+	
 
 	//----------------------------------
 	// OTHERS
@@ -927,6 +932,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		
 		mBottomBarLayout = findViewById(R.id.bottom_bar_layout);
 		mFilterButton = findViewById(R.id.filter_button_layout);
+		mSortButton = findViewById(R.id.sort_button_layout);
+		mUpArrowFilterHotels = findViewById(R.id.up_arrow_filter_hotels);
+		mUpArrowSortHotels = findViewById(R.id.up_arrow_sort_hotels);
 
 		//===================================================================
 		// Properties
@@ -1002,6 +1010,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchButton.setOnClickListener(mSearchButtonClickListener);
 		
 		mFilterButton.setOnClickListener(mFilterButtonPressedListener);
+		mSortButton.setOnClickListener(mSortButtonPressedListener);
 	}
 
 	//----------------------------------
@@ -1448,7 +1457,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchSuggestionsListView.setVisibility(View.GONE);
 
 			//mPanelDismissView.setVisibility(View.GONE);
-			mPanel.setOpen(false, animate);
+			openPanel(false, animate);
 
 			mRefinementDismissView.setVisibility(View.GONE);
 			mButtonBarLayout.setVisibility(View.GONE);
@@ -1463,7 +1472,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchSuggestionsListView.setVisibility(View.VISIBLE);
 
 			mPanelDismissView.setVisibility(View.GONE);
-			mPanel.setOpen(false, animate);
+			openPanel(false, animate);
 
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
@@ -1479,7 +1488,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchSuggestionsListView.setVisibility(View.GONE);
 
 			mPanelDismissView.setVisibility(View.GONE);
-			mPanel.setOpen(false, animate);
+			openPanel(false, animate);
 
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
@@ -1495,7 +1504,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchSuggestionsListView.setVisibility(View.GONE);
 
 			mPanelDismissView.setVisibility(View.GONE);
-			mPanel.setOpen(false, animate);
+			openPanel(false, animate);
 
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
@@ -1511,7 +1520,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSearchSuggestionsListView.setVisibility(View.GONE);
 
 			mPanelDismissView.setVisibility(View.VISIBLE);
-			mPanel.setOpen(true, animate);
+			openPanel(true, animate);
 
 			mRefinementDismissView.setVisibility(View.GONE);
 			mButtonBarLayout.setVisibility(View.GONE);
@@ -1526,6 +1535,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setRefinementInfo();
 		setBookingInfoText();
 		setFilterInfoText();
+	}
+
+	private void openPanel(boolean toOpen, boolean animate) {
+		mPanel.setOpen(toOpen, animate);
+		
+		int animationId = toOpen ? R.anim.rotate_down : R.anim.rotate_up;
+		Animation rotate = AnimationUtils.loadAnimation(this, animationId);
+		if(!animate) {
+			rotate.setDuration(0);
+		}
+		mUpArrowFilterHotels.startAnimation(rotate);
 	}
 
 	//----------------------------------
@@ -2063,10 +2083,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
 			imageView.setImageResource(R.drawable.up_arrow);
 			textView.setText(R.string.sort_hotels);
+			mSortTypeTextView.setVisibility(View.VISIBLE);
+			mSortButton.setOnClickListener(mSortButtonPressedListener);
 		}
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
 			imageView.setImageResource(R.drawable.ic_search_map);
 			textView.setText(R.string.map_search_button);
+			mSortButton.setOnClickListener(mMapSearchButtonClickListener);
+			mSortTypeTextView.setVisibility(View.GONE);
 		}
 	}
 	
@@ -2418,10 +2442,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		public void onClick(View v) {
 			if(mPanel.isOpen()) {
 				mPanel.setOpen(false, true);
+				mUpArrowFilterHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up));
 			} else {
 				mPanel.setOpen(true, true);
 				mPanel.setVisibility(View.VISIBLE);
+				mUpArrowFilterHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_down));
 			}	
+		}
+	};
+	
+	private final View.OnClickListener mSortButtonPressedListener = new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			
 		}
 	};
 
