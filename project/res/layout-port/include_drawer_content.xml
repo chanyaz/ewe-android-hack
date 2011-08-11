@@ -57,19 +57,7 @@
 			
 		</RelativeLayout>
 		<!-- NOT USED -->
-		
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Distance"
-			android:textStyle="bold"
-			android:textColor="@color/btn_text"
-			android:shadowColor="#88FFFFFF"
-			android:shadowDx="0"
-			android:shadowDy="1"
-			android:shadowRadius="0.1"
-			android:textSize="12dp" />
-		
+
 		<com.mobiata.android.widget.SegmentedControlGroup 
 			android:id="@+id/radius_filter_button_group"
 			android:layout_width="fill_parent"
@@ -114,19 +102,7 @@
 			
 		</com.mobiata.android.widget.SegmentedControlGroup>
 		
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Rating"
-			android:textStyle="bold"
-			android:textColor="@color/btn_text"
-			android:shadowColor="#88FFFFFF"
-			android:shadowDx="0"
-			android:shadowDy="1"
-			android:shadowRadius="0.1"
-			android:textSize="12dp" />
-		
-		<com.mobiata.android.widget.SegmentedControlGroup 
+	<com.mobiata.android.widget.SegmentedControlGroup 
 			android:id="@+id/rating_filter_button_group"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -172,39 +148,6 @@
 				android:checked="true" />
 			
 		</com.mobiata.android.widget.SegmentedControlGroup>
-		
-		<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
-			
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:text="Price"
-				android:textStyle="bold"
-				android:textColor="@color/btn_text"
-				android:shadowColor="#88FFFFFF"
-				android:shadowDx="0"
-				android:shadowDy="1"
-				android:shadowRadius="0.1"
-				android:textSize="12dp" />
-				
-			<TextView
-				android:id="@+id/price_range_text_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:gravity="right"
-				android:textColor="@color/btn_text"
-				android:shadowColor="#88FFFFFF"
-				android:shadowDx="0"
-				android:shadowDy="1"
-				android:shadowRadius="0.1"
-				android:textSize="12dp" />
-			
-		</LinearLayout>
 		
 		<com.mobiata.android.widget.SegmentedControlGroup 
 			android:id="@+id/price_filter_button_group"
@@ -255,25 +198,7 @@
 			android:orientation="vertical"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
-				
-			<LinearLayout
-				android:orientation="horizontal"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content">
-				
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="Sort by"
-					android:textStyle="bold"
-					android:textColor="@color/btn_text"
-					android:shadowColor="#88FFFFFF"
-					android:shadowDx="0"
-					android:shadowDy="1"
-					android:shadowRadius="0.1"
-					android:textSize="12dp" />
-			</LinearLayout>
-			
+
 			<com.mobiata.android.widget.SegmentedControlGroup 
 				android:id="@+id/sort_filter_button_group"
 				android:layout_width="fill_parent"

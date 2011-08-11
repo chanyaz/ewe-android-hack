@@ -105,7 +105,6 @@ import com.mobiata.hotellib.data.Filter.PriceRange;
 import com.mobiata.hotellib.data.Filter.Rating;
 import com.mobiata.hotellib.data.Filter.SearchRadius;
 import com.mobiata.hotellib.data.Filter.Sort;
-import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.PriceTier;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
@@ -239,7 +238,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private TextView mDatesTextView;
 	private TextView mFilterInfoTextView;
 	private TextView mGuestsTextView;
-	private TextView mPriceRangeTextView;
 	private TextView mRefinementInfoTextView;
 	private TextView mSortTypeTextView;
 	private View mButtonBarLayout;
@@ -340,7 +338,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 				buildPriceTierCache();
 				hideLoading();
-				setPriceRangeText();
 				setFilterInfoText();
 
 				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
@@ -912,7 +909,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSortDistanceRadioButtonCenter = (RadioButtonCenter) findViewById(R.id.sort_distance_button);
 		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
 		mRatingButtonGroup = (SegmentedControlGroup) findViewById(R.id.rating_filter_button_group);
-		mPriceRangeTextView = (TextView) findViewById(R.id.price_range_text_view);
 		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
 
 		mRefinementDismissView = findViewById(R.id.refinement_dismiss_view);
@@ -1880,7 +1876,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mSortLayout.setVisibility(View.GONE);
 		}
 
-		setPriceRangeText();
 		setSortTypeText();
 		setRadioButtonShadowLayers();
 
@@ -1926,40 +1921,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mAdultsNumberPicker.setCurrent(numAdults);
 		mChildrenNumberPicker.setCurrent(numChildren);
 	}
-
-	private void setPriceRangeText() {
-		if (mPriceTierCache != null) {
-
-			PriceRange priceRange = PriceRange.ALL;
-			switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
-			case R.id.price_cheap_button: {
-				priceRange = PriceRange.CHEAP;
-				break;
-			}
-			case R.id.price_moderate_button: {
-				priceRange = PriceRange.MODERATE;
-				break;
-			}
-			case R.id.price_expensive_button: {
-				priceRange = PriceRange.EXPENSIVE;
-				break;
-			}
-			}
-
-			PriceTier priceTier = mPriceTierCache.get(priceRange);
-			if (priceTier != null) {
-				Money priceMin = priceTier.getMinRate();
-				Money priceMax = priceTier.getMaxRate();
-				String priceMinStr = priceMin.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN);
-				String priceMaxStr = priceMax.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN);
-				mPriceRangeTextView.setText(getString(R.string.price_range_template, priceMinStr, priceMaxStr));
-			}
-		}
-		else {
-			mPriceRangeTextView.setText(null);
-		}
-	}
-
+	
 	private void setRadioButtonShadowLayers() {
 		List<SegmentedControlGroup> groups = new ArrayList<SegmentedControlGroup>();
 		groups.add(mRadiusButtonGroup);
@@ -2324,7 +2286,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			buildFilter();
-			setPriceRangeText();
 			setSortTypeText();
 			setRadioButtonShadowLayers();
 		}
