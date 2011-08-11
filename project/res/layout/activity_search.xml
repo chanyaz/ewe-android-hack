@@ -107,10 +107,6 @@
 		android:background="@drawable/actionbar_shadow"/>
 		
 	<include
-		android:id="@+id/refinements_layout"
-		layout="@layout/include_refinements_layout" />
-
-	<include
 		android:id="@id/button_bar_layout"
 		layout="@layout/include_button_bar" />
 	
@@ -209,5 +205,10 @@
 			android:src="@drawable/btn_actionbar_map"
 			android:background="@null" />
 	</RelativeLayout>		
+	
+	<include
+		android:id="@+id/refinements_layout"
+		layout="@layout/include_refinements_layout" />
+
 
 </RelativeLayout>
