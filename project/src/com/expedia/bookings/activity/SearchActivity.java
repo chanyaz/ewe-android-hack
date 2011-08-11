@@ -1459,8 +1459,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.GONE);
-			mBottomBarLayout.setVisibility(View.VISIBLE);
-
 			break;
 		}
 		case KEYBOARD: {
@@ -1473,7 +1471,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
-			mBottomBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.GONE);
 
