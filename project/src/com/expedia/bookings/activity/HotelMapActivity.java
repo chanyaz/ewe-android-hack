@@ -80,9 +80,9 @@ public class HotelMapActivity extends MapActivity {
 		};
 		OnClickListener onReviewsClick = new OnClickListener() {
 			public void onClick(View v) {
-				Intent roomsRatesIntent = new Intent(mContext, RoomsAndRatesListActivity.class);
-				roomsRatesIntent.fillIn(getIntent(), 0);
-				startActivity(roomsRatesIntent);
+				Intent userReviewsIntent = new Intent(mContext, UserReviewsListActivity.class);
+				userReviewsIntent.fillIn(getIntent(), 0);
+				startActivity(userReviewsIntent);
 			}
 		};
 		LayoutUtils.configureHeader(this, mProperty, onBookNowClick, onReviewsClick);
