@@ -4,6 +4,8 @@
 	android:id="@+id/booking_info_text_view"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
+	android:paddingRight="2dp"
+	android:paddingLeft="2dp"
 	android:gravity="center"
 	android:background="#dadada"
 	android:shadowDx="0"
@@ -12,4 +14,7 @@
 	android:textColor="#394552"
 	android:shadowColor="#ffffff"
 	android:paddingTop="3dp"
-	android:paddingBottom="3dp" />
+	android:paddingBottom="3dp" 
+	android:textSize="12sp"
+	android:singleLine="true"
+	android:ellipsize="end"/>

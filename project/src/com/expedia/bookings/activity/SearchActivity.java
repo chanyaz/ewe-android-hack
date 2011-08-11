@@ -1415,7 +1415,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 	}
-
+	
 	private void showSoftKeyboard(View view, ResultReceiver resultReceiver) {
 		Configuration config = getResources().getConfiguration();
 		if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {

@@ -88,7 +88,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	@Override
 	public int getCount() {
 		if (mCachedProperties != null) {
-			return mCachedProperties.length;
+			return mCachedProperties.length + 1;
 		}
 
 		return 0;
@@ -168,7 +168,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			return convertView;
 		}
 
-		Property property = (Property) getItem(position);
+		Property property = (Property) getItem(position-1);
 		holder.name.setText(property.getName());
 
 		// We assume we have a lowest rate here; this may not be a safe assumption
