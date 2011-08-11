@@ -2410,7 +2410,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}	
 		}
 	};
-	
+
 	private final View.OnClickListener mSortButtonPressedListener = new View.OnClickListener() {
 		
 		@Override

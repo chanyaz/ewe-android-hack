@@ -47,12 +47,13 @@
 
 	<ImageButton
 		android:id="@id/view_button"
-		android:layout_width="@dimen/action_bar_button_height"
-		android:layout_height="@dimen/action_bar_button_height"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true"
 		android:layout_alignParentRight="true"
 		android:layout_margin="6dp"
 		android:visibility="invisible"
-		style="@style/Widget.Button.Floating" />
+		android:src="@drawable/btn_actionbar_map"
+		android:background="@null" />
 
 </RelativeLayout>
