@@ -16,13 +16,13 @@
 		android:id="@+id/view_flip_image"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:layout_marginTop="8dp"
-		android:layout_below="@+id/search_bar_layout" />
+		android:layout_below="@+id/search_bar_layout"
+		android:layout_above="@+id/bottom_bar_layout" />
 
 	<FrameLayout
 		android:id="@+id/content_layout"
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
+		android:layout_height="wrap_content"
 		android:layout_below="@id/search_bar_layout"
 		android:layout_above="@+id/bottom_bar_layout" />
 
