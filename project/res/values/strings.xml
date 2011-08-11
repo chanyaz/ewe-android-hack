@@ -32,7 +32,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Loading previous search results...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">Sort Hotels</string>
+	<string name="sort_hotels">"Sort: "</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">Filter Hotels</string>
 	

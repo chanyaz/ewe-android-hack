@@ -162,14 +162,17 @@
 					android:layout_width="wrap_content"
 					android:layout_toRightOf="@id/up_arrow_sort_hotels"
 					android:paddingLeft="5dp"
-					android:textColor="#3d4552"
 					android:text="@string/sort_hotels"
 					android:textStyle="bold"
 					android:textSize="14sp"
-					android:shadowColor="#ffffff"
-					android:shadowDx="0"
-					android:shadowDy="-1"
-					android:shadowRadius="0.1"/>
+					style="@style/BottomBarText"/>			
+				<TextView
+					android:id="@+id/sort_type_text_view"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_toRightOf="@id/sort_text_view"
+					android:textSize="14sp" 
+					style="@style/BottomBarText"/>
 			</RelativeLayout>
 			<RelativeLayout
 				android:id="@+id/filter_button_layout"

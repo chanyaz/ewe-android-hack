@@ -7,7 +7,7 @@
 	android:gravity="center"
 	android:background="#dadada"
 	android:shadowDx="0"
-	android:shadowDy="-1"
+	android:shadowDy="1"
 	android:shadowRadius="0.1"
 	android:textColor="#394552"
 	android:shadowColor="#ffffff"

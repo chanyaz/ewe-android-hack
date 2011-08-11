@@ -1874,8 +1874,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private void setFilterInfoText() {
 		if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
 			final int count = mSearchResponse.getFilteredAndSortedProperties().length;
-			final String sorted = getString(SORT_ADVERBS.get(mFilter.getSort()));
-			final String text = String.format(getString(R.string.filter_info_template), count, sorted);
+			final String text = String.format(getString(R.string.filter_info_template), count);
 
 			mFilterInfoTextView.setText(Html.fromHtml(text));
 			mFilterInfoTextView.setVisibility(View.VISIBLE);
