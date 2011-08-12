@@ -540,12 +540,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
 		setNumberPickerRanges();
 
+		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
+		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
+
 		setActivityByTag(mTag);
 		setShowDistance(mShowDistance);
 		setDisplayType(mDisplayType, false);
-
-		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
-		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
 	}
 
 	@Override
