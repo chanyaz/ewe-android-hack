@@ -1754,6 +1754,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			return;
 		}
 		
+		Animation rotateAnimation = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_down);
+		if(!animate) {
+			rotateAnimation.setDuration(0);
+		}
+		mUpArrowSortHotels.startAnimation(rotateAnimation);
+
 		if(!animate) {
 			mSortOptionsLayout.setVisibility(View.VISIBLE);
 			return;
@@ -1789,6 +1795,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			return;
 		}
 		
+		mDisplayType = DisplayType.NONE;
 		Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, android.R.anim.fade_out);
 		animation.setDuration(300);
 		animation.setAnimationListener(new AnimationListener() {
@@ -1805,10 +1812,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				mSortOptionsLayout.setVisibility(View.INVISIBLE);
-				
 			}
 		});
 		mSortOptionsLayout.startAnimation(animation);
+		mUpArrowSortHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up));
 	}
 	
 	private void showFilterOptions() {
