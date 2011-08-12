@@ -72,12 +72,17 @@
 	<string name="price_range_template">(%1$s — %2$s)</string>
 	
 	<!-- Progress messages -->	
+	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">Finding Current Location...</string>
+	<!-- Message displayed when app is searching a location for hotels -->
 	<string name="progress_searching_hotels">Searching for Hotels...</string>
+	<!-- Message displayed when search comes up with zero results -->
 	<string name="progress_search_failed">No Hotels Found</string>
 	
 	<!-- Suggestion adapter -->
+	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
 	<string name="current_location">Current Location</string>
+	<!-- Suggestion to search the currently visible map area on the screen -->
 	<string name="visible_map_area">Visible Map Area</string>
 
 	<!-- Search list adapter -->
