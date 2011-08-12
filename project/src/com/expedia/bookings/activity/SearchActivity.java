@@ -129,6 +129,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// INTERFACES
 	//////////////////////////////////////////////////////////////////////////////////////////
 
+	private static final int SORT_POPUP_ANIMATION_SPEED = 200;
+
 	public interface MapViewListener {
 		public GeoPoint onRequestMapCenter();
 	}
@@ -1766,7 +1768,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.popup);
-		animation.setDuration(300);
+		animation.setDuration(SORT_POPUP_ANIMATION_SPEED);
 		animation.setInterpolator(new AnticipateInterpolator());
 		animation.setAnimationListener(new AnimationListener() {
 			
@@ -1797,7 +1799,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		
 		mDisplayType = DisplayType.NONE;
 		Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, android.R.anim.fade_out);
-		animation.setDuration(300);
+		animation.setDuration(SORT_POPUP_ANIMATION_SPEED);
 		animation.setAnimationListener(new AnimationListener() {
 			
 			@Override
@@ -2526,6 +2528,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			setupSortOptions();
 			buildFilter();
 			setSortTypeText();
+			hideSortOptions();
 		}
 	};
 	
