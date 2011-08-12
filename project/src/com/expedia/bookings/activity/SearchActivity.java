@@ -27,8 +27,11 @@ import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
@@ -278,6 +281,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private Bitmap mViewFlipBitmap;
 	private Canvas mViewFlipCanvas;
 
+	private Bitmap mSortOptionDividerBitmap;
+	private BitmapDrawable mSortOptionDivider;
+	
 	private List<SearchListener> mSearchListeners;
 	private MapViewListener mMapViewListener;
 	private List<SetShowDistanceListener> mSetShowDistanceListeners;
@@ -449,6 +455,16 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setContentView(R.layout.activity_search);
 
 		initializeViews();
+		
+		mSortOptionDividerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sort_option_border);
+		mSortOptionDivider = new BitmapDrawable(mSortOptionDividerBitmap);
+		mSortOptionDivider.setTileModeX(Shader.TileMode.REPEAT);
+
+		addSortOption(R.id.sort_popular_button, R.drawable.ic_sort_popular, R.string.sort_description_popular, false);
+		addSortOption(R.id.sort_price_button, R.drawable.ic_sort_price, R.string.sort_description_price, false);
+		addSortOption(R.id.sort_reviews_button, R.drawable.ic_sort_user_rating, R.string.sort_description_rating, false);
+		addSortOption(R.id.sort_distance_button, R.drawable.ic_sort_distance, R.string.sort_description_distance, true);
+		
 
 		mLocalActivityManager = getLocalActivityManager();
 		setActivity(SearchMapActivity.class);
@@ -939,7 +955,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mUpArrowSortHotels = findViewById(R.id.up_arrow_sort_hotels);
 
 		mSortOptionsLayout = (ViewGroup) findViewById(R.id.sort_options_layout);
-		
 		
 		//===================================================================
 		// Properties
@@ -1805,6 +1820,25 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private void hideFilterOptions(boolean animate) {
 		mPanel.setOpen(false, animate);
 		mUpArrowFilterHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up));
+	}
+	
+	private void addSortOption(int sortOptionId, int sortOptionImageResId, int sortOptionTextResId, boolean noDivider) {
+		View sortOption = getLayoutInflater().inflate(R.layout.snippet_sort_option, null);
+		TextView sortTextView = (TextView) sortOption.findViewById(R.id.sort_option_text);
+		ImageView sortImageView = (ImageView) sortOption.findViewById(R.id.sort_option_image);
+		View sortOptionDivider = sortOption.findViewById(R.id.sort_option_divider);
+		
+		sortOption.setId(sortOptionId);
+		sortTextView.setText(sortOptionTextResId);
+		sortImageView.setImageResource(sortOptionImageResId);
+		
+		if(noDivider) {
+			sortOptionDivider.setVisibility(View.GONE);
+		} else {
+			sortOptionDivider.setBackgroundDrawable(mSortOptionDivider);
+		}
+		
+		mSortOptionsLayout.addView(sortOption);
 	}
 	
 	//----------------------------------

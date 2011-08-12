@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
+	android:orientation="vertical">
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		clickable="true"
+		android:focusable="true"
+		android:focusableInTouchMode="true"
+		android:layout_margin="10dp">
+		<ImageView
+			android:id="@+id/sort_option_image"
+			android:layout_width="30dp"
+			android:layout_height="wrap_content"
+			android:duplicateParentState="true"
+			android:gravity="center"
+			android:src="@drawable/ic_sort_popular"/>
+		<TextView
+			android:id="@+id/sort_option_text"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:duplicateParentState="true"
+			android:paddingLeft="5dp"
+			android:text="Popularity"
+			android:textStyle="bold"
+			android:textSize="14sp"
+			android:textColor="#3d404e" 
+			android:shadowColor="#ffffff"
+			android:shadowRadius="0.1"
+			android:shadowDx="0"
+			android:shadowDy="1"/>
+	</LinearLayout>
+	<View
+		android:id="@+id/sort_option_divider"
+		android:layout_height="2px"
+		android:layout_width="fill_parent"/>
+</LinearLayout>
+	
