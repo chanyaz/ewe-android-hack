@@ -171,64 +171,6 @@
 			
 		</com.mobiata.android.widget.SegmentedControlGroup>
 		
-		<View
-			android:layout_width="6dp"
-			android:layout_height="fill_parent" />
-	
-		<LinearLayout
-			android:id="@+id/sort_layout"
-			android:orientation="vertical"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1">
-			
-			<com.mobiata.android.widget.SegmentedControlGroup 
-				android:id="@+id/sort_filter_button_group"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:gravity="center"
-				mobiata:textColor="@color/segmented_button_text">
-				
-				<com.mobiata.android.widget.RadioButtonCenter
-					android:id="@+id/sort_popular_button"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:textStyle="bold"
-					android:checked="true"
-					android:button="@drawable/btn_sort_popularity" />
-			
-				<com.mobiata.android.widget.RadioButtonCenter
-					android:id="@+id/sort_price_button"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:textStyle="bold"
-					android:button="@drawable/btn_sort_price" />
-					
-			
-				<com.mobiata.android.widget.RadioButtonCenter
-					android:id="@+id/sort_reviews_button"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:textStyle="bold"
-					android:button="@drawable/btn_sort_reviews" />
-				
-			
-				<com.mobiata.android.widget.RadioButtonCenter
-					android:id="@+id/sort_distance_button"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:textStyle="bold"
-					android:button="@drawable/btn_sort_distance" />
-			
-			</com.mobiata.android.widget.SegmentedControlGroup>			
-		
-		</LinearLayout>
-	
 	</LinearLayout>
 		
 	<!-- HIDDEN -->

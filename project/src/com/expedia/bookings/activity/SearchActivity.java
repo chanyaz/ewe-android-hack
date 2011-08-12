@@ -238,11 +238,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
 	private Panel mPanel;
-	private RadioButtonCenter mSortDistanceRadioButtonCenter;
 	private SegmentedControlGroup mRadiusButtonGroup;
 	private SegmentedControlGroup mRatingButtonGroup;
 	private SegmentedControlGroup mPriceButtonGroup;
-	private SegmentedControlGroup mSortButtonGroup;
 	private TagProgressBar mSearchProgressBar;
 	private TextView mDatesTextView;
 	private TextView mFilterInfoTextView;
@@ -255,13 +253,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private View mGuestsLayout;
 	private View mPanelDismissView;
 	private View mRefinementDismissView;
-	private View mSortLayout;
 	private View mBottomBarLayout;
 	private View mSortButton;
 	private View mFilterButton;
 	private View mUpArrowFilterHotels;
 	private View mUpArrowSortHotels;
 	private ViewGroup mSortOptionsLayout;
+	
+	private View mSortPriceButton;
+	private View mSortDistanceButton;
+	private View mSortUserRatingButton;
+	private View mSortPopularityButton;
 	
 
 	//----------------------------------
@@ -283,6 +285,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private Bitmap mSortOptionDividerBitmap;
 	private BitmapDrawable mSortOptionDivider;
+	private int mSortOptionSelectedId;
 	
 	private List<SearchListener> mSearchListeners;
 	private MapViewListener mMapViewListener;
@@ -460,11 +463,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSortOptionDivider = new BitmapDrawable(mSortOptionDividerBitmap);
 		mSortOptionDivider.setTileModeX(Shader.TileMode.REPEAT);
 
-		addSortOption(R.id.sort_popular_button, R.drawable.ic_sort_popular, R.string.sort_description_popular, false);
-		addSortOption(R.id.sort_price_button, R.drawable.ic_sort_price, R.string.sort_description_price, false);
-		addSortOption(R.id.sort_reviews_button, R.drawable.ic_sort_user_rating, R.string.sort_description_rating, false);
-		addSortOption(R.id.sort_distance_button, R.drawable.ic_sort_distance, R.string.sort_description_distance, true);
+		mSortPopularityButton = addSortOption(R.id.sort_popular_button, R.drawable.ic_sort_popular, R.string.sort_description_popular, true);
+		mSortPriceButton = addSortOption(R.id.sort_price_button, R.drawable.ic_sort_price, R.string.sort_description_price, false);
+		mSortUserRatingButton = addSortOption(R.id.sort_reviews_button, R.drawable.ic_sort_user_rating, R.string.sort_description_rating, false);
+		mSortDistanceButton = addSortOption(R.id.sort_distance_button, R.drawable.ic_sort_distance, R.string.sort_description_distance, false);
 		
+		mSortPriceButton.setOnClickListener(mSortOptionChangedListener);
+		mSortPopularityButton.setOnClickListener(mSortOptionChangedListener);
+		mSortDistanceButton.setOnClickListener(mSortOptionChangedListener);
+		mSortUserRatingButton.setOnClickListener(mSortOptionChangedListener);
 
 		mLocalActivityManager = getLocalActivityManager();
 		setActivity(SearchMapActivity.class);
@@ -923,12 +930,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mPanel = (Panel) findViewById(R.id.drawer_panel);
 
 		mFilterInfoTextView = (TextView) findViewById(R.id.filter_info_text_view);
-		mSortLayout = findViewById(R.id.sort_layout);
 		mTripAdvisorOnlyButton = (Button) findViewById(R.id.tripadvisor_only_button);
 		mFilterHotelNameEditText = (EditText) findViewById(R.id.filter_hotel_name_edit_text);
-		mSortButtonGroup = (SegmentedControlGroup) findViewById(R.id.sort_filter_button_group);
 		mSortTypeTextView = (TextView) findViewById(R.id.sort_type_text_view);
-		mSortDistanceRadioButtonCenter = (RadioButtonCenter) findViewById(R.id.sort_distance_button);
 		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
 		mRatingButtonGroup = (SegmentedControlGroup) findViewById(R.id.rating_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
@@ -1019,7 +1023,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mRatingButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
-		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 
 		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
 		mSearchSuggestionsListView.setOnItemClickListener(mSearchSuggestionsItemClickListner);
@@ -1031,6 +1034,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		
 		mFilterButton.setOnClickListener(mFilterButtonPressedListener);
 		mSortButton.setOnClickListener(mSortButtonPressedListener);
+		
 	}
 
 	//----------------------------------
@@ -1112,7 +1116,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		// Sort
-		switch (mSortButtonGroup.getCheckedRadioButtonId()) {
+		switch (mSortOptionSelectedId) {
 		case R.id.sort_popular_button: {
 			mFilter.setSort(Sort.POPULAR);
 			break;
@@ -1493,6 +1497,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mPanelDismissView.setVisibility(View.GONE);
 			openPanel(false, animate);
 
+			hideSortOptions();
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			mDatesLayout.setVisibility(View.GONE);
@@ -1822,7 +1827,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mUpArrowFilterHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up));
 	}
 	
-	private void addSortOption(int sortOptionId, int sortOptionImageResId, int sortOptionTextResId, boolean noDivider) {
+	private View addSortOption(int sortOptionId, int sortOptionImageResId, int sortOptionTextResId, boolean noDivider) {
 		View sortOption = getLayoutInflater().inflate(R.layout.snippet_sort_option, null);
 		TextView sortTextView = (TextView) sortOption.findViewById(R.id.sort_option_text);
 		ImageView sortImageView = (ImageView) sortOption.findViewById(R.id.sort_option_image);
@@ -1839,6 +1844,82 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 		
 		mSortOptionsLayout.addView(sortOption);
+		return sortOption;
+	}
+	
+	private void setupSortOptions() {
+		
+		
+		switch(mSortOptionSelectedId) {
+		case R.id.sort_popular_button:{
+			mSortPopularityButton.setSelected(true);
+			mSortPriceButton.setSelected(false);
+			mSortDistanceButton.setSelected(false);
+			mSortUserRatingButton.setSelected(false);
+			
+			mSortPopularityButton.setEnabled(false);
+			mSortPriceButton.setEnabled(true);
+			mSortDistanceButton.setEnabled(true);
+			mSortUserRatingButton.setEnabled(true);
+			
+			break;
+		}
+		case R.id.sort_reviews_button: {
+			mSortPopularityButton.setSelected(false);
+			mSortPriceButton.setSelected(false);
+			mSortDistanceButton.setSelected(false);
+			mSortUserRatingButton.setSelected(true);
+			
+			mSortPopularityButton.setEnabled(true);
+			mSortPriceButton.setEnabled(true);
+			mSortDistanceButton.setEnabled(true);
+			mSortUserRatingButton.setEnabled(false);
+			
+			break;
+
+		}
+ 		case R.id.sort_distance_button: {
+			mSortPopularityButton.setSelected(false);
+			mSortPriceButton.setSelected(false);
+			mSortDistanceButton.setSelected(true);
+			mSortUserRatingButton.setSelected(false);
+			
+			mSortPopularityButton.setEnabled(true);
+			mSortPriceButton.setEnabled(true);
+			mSortDistanceButton.setEnabled(false);
+			mSortUserRatingButton.setEnabled(true);
+			
+			break;
+
+ 		}
+		case R.id.sort_price_button: {
+			mSortPopularityButton.setSelected(false);
+			mSortPriceButton.setSelected(true);
+			mSortDistanceButton.setSelected(false);
+			mSortUserRatingButton.setSelected(false);
+			
+			mSortPopularityButton.setEnabled(true);
+			mSortPriceButton.setEnabled(false);
+			mSortDistanceButton.setEnabled(true);
+			mSortUserRatingButton.setEnabled(true);
+			
+			break;
+
+		}
+		default: {
+			mSortPopularityButton.setSelected(false);
+			mSortPriceButton.setSelected(false);
+			mSortDistanceButton.setSelected(false);
+			mSortUserRatingButton.setSelected(false);
+			
+			mSortPopularityButton.setEnabled(true);
+			mSortPriceButton.setEnabled(true);
+			mSortDistanceButton.setEnabled(true);
+			mSortUserRatingButton.setEnabled(true);
+			
+			break;
+		}
+		}
 	}
 	
 	//----------------------------------
@@ -1940,7 +2021,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		// Temporarily remove Listeners before we start fiddling around with the filter fields
 		mFilterHotelNameEditText.removeTextChangedListener(mFilterHotelNameTextWatcher);
-		mSortButtonGroup.setOnCheckedChangeListener(null);
 		mRadiusButtonGroup.setOnCheckedChangeListener(null);
 		mPriceButtonGroup.setOnCheckedChangeListener(null);
 
@@ -1960,19 +2040,23 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		// Configure the sort buttons
 		switch (mFilter.getSort()) {
 		case POPULAR:
-			mSortButtonGroup.check(R.id.sort_popular_button);
+			mSortOptionSelectedId = R.id.sort_popular_button;
+			setupSortOptions();
 			break;
 		case PRICE:
-			mSortButtonGroup.check(R.id.sort_price_button);
+			mSortOptionSelectedId = R.id.sort_price_button;
+			setupSortOptions();
 			break;
 		case RATING:
-			mSortButtonGroup.check(R.id.sort_reviews_button);
+			mSortOptionSelectedId = R.id.sort_reviews_button;
+			setupSortOptions();
 			break;
 		case DISTANCE:
-			mSortButtonGroup.check(R.id.sort_distance_button);
+			mSortOptionSelectedId = R.id.sort_distance_button;
+			setupSortOptions();
 			break;
 		default:
-			mSortButtonGroup.check(DEFAULT_SORT_RADIO_GROUP_CHILD);
+			break;
 		}
 
 		// Configure the search radius buttons
@@ -2012,19 +2096,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 
 		// Flip to user's preferred view
-		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-			mSortLayout.setVisibility(View.VISIBLE);
-		}
-		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-			mSortLayout.setVisibility(View.GONE);
-		}
-
+		setBottomBarOptions();
+		
 		setSortTypeText();
 		setRadioButtonShadowLayers();
 
 		// Restore Listeners
 		mFilterHotelNameEditText.addTextChangedListener(mFilterHotelNameTextWatcher);
-		mSortButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 	}
@@ -2070,7 +2148,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		groups.add(mRadiusButtonGroup);
 		groups.add(mRatingButtonGroup);
 		groups.add(mPriceButtonGroup);
-		groups.add(mSortButtonGroup);
 
 		for (SegmentedControlGroup group : groups) {
 			final int size = group.getChildCount();
@@ -2158,8 +2235,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void setShowDistance(boolean showDistance) {
 		mShowDistance = showDistance;
-		mSortDistanceRadioButtonCenter.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
-		mSortButtonGroup.invalidate();
+		mSortDistanceButton.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
+		mSortDistanceButton.findViewById(R.id.sort_option_divider).setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
 
 		if (mSetShowDistanceListeners != null) {
 			for (SetShowDistanceListener showDistanceListener : mSetShowDistanceListeners) {
@@ -2434,6 +2511,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
+	private final View.OnClickListener mSortOptionChangedListener = new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			mSortOptionSelectedId = v.getId();
+			setupSortOptions();
+			buildFilter();
+			setSortTypeText();
+		}
+	};
+	
 	private final TextView.OnEditorActionListener mSearchEditorActionListener = new TextView.OnEditorActionListener() {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
