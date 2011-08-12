@@ -28,4 +28,7 @@
 	
 	<color name="calendar_actionbar_text_color">#4a5461</color>
 	<color name="guests_actionbar_text_color">#4a5461</color>
+	
+	<color name="sort_option_text_color_selected">#004194</color>
+	<color name="sort_option_text_color_normal">#3d404e</color>
 </resources>

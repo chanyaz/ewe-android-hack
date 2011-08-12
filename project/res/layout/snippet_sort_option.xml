@@ -14,14 +14,14 @@
 		clickable="true"
 		android:focusable="true"
 		android:focusableInTouchMode="true"
+		android:gravity="center_vertical"
 		android:layout_margin="10dp">
 		<ImageView
 			android:id="@+id/sort_option_image"
 			android:layout_width="30dp"
 			android:layout_height="wrap_content"
 			android:duplicateParentState="true"
-			android:gravity="center"
-			android:src="@drawable/ic_sort_popular"/>
+			android:gravity="center"/>
 		<TextView
 			android:id="@+id/sort_option_text"
 			android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
 			android:text="Popularity"
 			android:textStyle="bold"
 			android:textSize="14sp"
-			android:textColor="#3d404e" 
+			android:textColor="@color/sort_option_text_color" 
 			android:shadowColor="#ffffff"
 			android:shadowRadius="0.1"
 			android:shadowDx="0"
