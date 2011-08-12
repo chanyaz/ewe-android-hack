@@ -1789,7 +1789,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 		});
 		mSortOptionsLayout.startAnimation(animation);
-		hideFilterOptions(animate);
+		hideFilterOptions();
 	}
 	
 	private void hideSortOptions() {
@@ -1832,6 +1832,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 	
 	private void hideFilterOptions(boolean animate) {
+		if(!mPanel.isOpen()) {
+			return;
+		}
+		
 		mPanel.setOpen(false, animate);
 		mUpArrowFilterHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up));
 	}
