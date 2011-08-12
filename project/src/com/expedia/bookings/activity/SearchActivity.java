@@ -44,16 +44,20 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.TouchDelegate;
 import android.view.View;
+import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
+import android.view.animation.AnticipateInterpolator;
+import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
@@ -67,6 +71,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -138,7 +143,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		KEYBOARD(true),
 		CALENDAR(true),
 		GUEST_PICKER(true),
-		DRAWER(false);
+		DRAWER(false),
+		SORT_POPUP(false);
 
 		private boolean mIsSearchDisplay;
 
@@ -252,7 +258,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private View mFilterButton;
 	private View mUpArrowFilterHotels;
 	private View mUpArrowSortHotels;
-	
+	private ViewGroup mSortOptionsLayout;
 	
 
 	//----------------------------------
@@ -932,6 +938,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mUpArrowFilterHotels = findViewById(R.id.up_arrow_filter_hotels);
 		mUpArrowSortHotels = findViewById(R.id.up_arrow_sort_hotels);
 
+		mSortOptionsLayout = (ViewGroup) findViewById(R.id.sort_options_layout);
+		
+		
 		//===================================================================
 		// Properties
 
@@ -1523,6 +1532,24 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			mGuestsLayout.setVisibility(View.GONE);
 
 			break;
+		} 
+		case SORT_POPUP: {
+			mSearchEditText.clearFocus();
+
+			hideSoftKeyboard(mSearchEditText);
+			mSearchSuggestionsListView.setVisibility(View.GONE);
+
+			mPanelDismissView.setVisibility(View.GONE);
+			openPanel(false, animate);
+			showSortOptions(animate);
+			
+			mRefinementDismissView.setVisibility(View.GONE);
+			mButtonBarLayout.setVisibility(View.GONE);
+			mDatesLayout.setVisibility(View.GONE);
+			mGuestsLayout.setVisibility(View.GONE);
+
+			break;
+
 		}
 		}
 
@@ -1697,6 +1724,89 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mBottomBarLayout.setVisibility(View.VISIBLE);
 		mPanel.setVisibility(View.VISIBLE);
 	}
+	
+	private void showSortOptions() {
+		showSortOptions(true);
+	}
+	
+	private void showSortOptions(boolean animate) {
+		if(mSortOptionsLayout.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		
+		if(!animate) {
+			mSortOptionsLayout.setVisibility(View.VISIBLE);
+			return;
+		}
+
+		Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.popup);
+		animation.setDuration(300);
+		animation.setInterpolator(new AnticipateInterpolator());
+		animation.setAnimationListener(new AnimationListener() {
+			
+			@Override
+			public void onAnimationStart(Animation animation) {	
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				mSortOptionsLayout.setVisibility(View.VISIBLE);
+				mDisplayType = DisplayType.SORT_POPUP;
+			}
+		});
+		mSortOptionsLayout.startAnimation(animation);
+		hideFilterOptions(animate);
+	}
+	
+	private void hideSortOptions() {
+		if(mSortOptionsLayout.getVisibility() == View.INVISIBLE) {
+			return;
+		}
+		
+		Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, android.R.anim.fade_out);
+		animation.setDuration(300);
+		animation.setAnimationListener(new AnimationListener() {
+			
+			@Override
+			public void onAnimationStart(Animation animation) {}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				mSortOptionsLayout.setVisibility(View.INVISIBLE);
+				
+			}
+		});
+		mSortOptionsLayout.startAnimation(animation);
+	}
+	
+	private void showFilterOptions() {
+		mPanel.setOpen(true, true);
+		mPanel.setVisibility(View.VISIBLE);
+		mUpArrowFilterHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_down));
+		hideSortOptions();
+	}
+
+	private void hideFilterOptions() {
+		hideFilterOptions(true);
+	}
+	
+	private void hideFilterOptions(boolean animate) {
+		mPanel.setOpen(false, animate);
+		mUpArrowFilterHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up));
+	}
+	
 	//----------------------------------
 	// ACTIVITY GROUP METHODS
 	//----------------------------------
@@ -2401,12 +2511,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		@Override
 		public void onClick(View v) {
 			if(mPanel.isOpen()) {
-				mPanel.setOpen(false, true);
-				mUpArrowFilterHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up));
+				hideFilterOptions();
 			} else {
-				mPanel.setOpen(true, true);
-				mPanel.setVisibility(View.VISIBLE);
-				mUpArrowFilterHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_down));
+				showFilterOptions();
 			}	
 		}
 	};
@@ -2415,7 +2522,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		
 		@Override
 		public void onClick(View v) {
-			
+			if(mSortOptionsLayout.getVisibility() == View.VISIBLE) {
+				hideSortOptions();
+			} else {
+				showSortOptions();
+			}
 		}
 	};
 

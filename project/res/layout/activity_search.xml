@@ -102,7 +102,21 @@
 		android:layout_width="fill_parent"
 		android:layout_above="@+id/bottom_bar_layout"
 		android:background="#b2b5b8"/>
-			
+	
+	<FrameLayout
+			android:id="@+id/sort_options_layout"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignLeft="@+id/bottom_bar_layout"
+			android:layout_toLeftOf="@+id/view_button"
+			android:layout_above="@+id/bottom_bar_layout"
+			android:visibility="invisible"
+			android:layout_centerHorizontal="true">
+			<include 
+				layout="@layout/sort_options"/>
+	</FrameLayout>	
+		
+	
 	<RelativeLayout
 		android:id="@+id/bottom_bar_layout"
 		android:layout_width="fill_parent"
@@ -112,7 +126,9 @@
 		android:orientation="horizontal"
 		android:background="@drawable/bg_actionbar"
 		android:visibility="gone">
+		
 		<LinearLayout
+			android:id="@+id/filter_sort_buttons_layout"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
 			android:layout_alignTop="@+id/view_button"
@@ -207,6 +223,5 @@
 	<include
 		android:id="@+id/refinements_layout"
 		layout="@layout/include_refinements_layout" />
-
-
+		
 </RelativeLayout>
