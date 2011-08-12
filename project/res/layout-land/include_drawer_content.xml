@@ -32,6 +32,7 @@
 			android:layout_weight="1"
 			android:orientation="horizontal"
 			android:gravity="center"
+			android:paddingTop="5dp"
 			mobiata:textColor="@color/segmented_button_text">
 		
 			<RadioButton
@@ -80,6 +81,7 @@
 			android:layout_weight="1"
 			android:orientation="horizontal"
 			android:gravity="center"
+			android:paddingTop="5dp"
 			mobiata:textColor="@color/segmented_button_text">
 			 
 			<RadioButton
@@ -134,6 +136,7 @@
 			android:layout_weight="1"
 			android:orientation="horizontal"
 			android:gravity="center"
+			android:paddingTop="5dp"
 			mobiata:textColor="@color/segmented_button_text">
 		
 			<RadioButton
