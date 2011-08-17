@@ -55,7 +55,9 @@
 	<string name="last_hotel_search">Last Hotel Search</string>
 	<!--  Widget config option for configuration widget to pick up hotels from a specific location -->
 	<string name="specify_location">Specific Location:</string>
-	
+	<!--  Error string for widget when internet connection is unavailable -->
+	<string name="widget_error_no_internet">Error: No Internet Connection</string>
+
 	<!-- Sort adverbs, e.g. Sorted "adverb" -->
 	<string name="sort_adverb_distance">by distance</string>
 	<string name="sort_adverb_popular">by popularity</string>
