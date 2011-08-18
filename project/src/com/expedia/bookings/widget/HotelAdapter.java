@@ -41,7 +41,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private boolean mIsMeasuring = false;
 	private boolean mShowDistance = true;
 	private boolean mIsSortedByUserRating = false;
-	
+
 	private OnDrawBookingInfoTextRowListener mListener;
 
 	public HotelAdapter(Context context, SearchResponse searchResponse, OnDrawBookingInfoTextRowListener listener) {
@@ -96,12 +96,12 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	@Override
 	public Object getItem(int position) {
-		
-		if(position == 0) {
+
+		if (position == 0) {
 			return TYPE_FIRST;
 		}
 
-		return mCachedProperties[position-1];
+		return mCachedProperties[position - 1];
 	}
 
 	@Override
@@ -181,7 +181,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.getSavingsPercent() > 0) {
 			holder.from.setText(Html.fromHtml(
-					mContext.getString(R.string.from_template, StrUtils.formatHotelPrice(property)), null,
+					mContext.getString(R.string.from_template, lowestRate.getDisplayBaseRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN)), null,
 					new StrikethroughTagHandler()));
 			holder.saleImage.setVisibility(View.VISIBLE);
 			holder.saleLabel.setVisibility(View.VISIBLE);
@@ -279,7 +279,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	public void onStopMeasure() {
 		mIsMeasuring = false;
 	}
-	
+
 	public interface OnDrawBookingInfoTextRowListener {
 		public void onDrawBookingInfoTextRow(TextView bookingInfoTextView);
 	}
