@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
 import com.expedia.bookings.widget.gl.GLTagProgressBarRenderer.OnDrawStartedListener;
+import com.mobiata.android.util.AndroidUtils;
 
 public class TagProgressBar extends ViewGroup implements OnDrawStartedListener {
 	private final static int TEXTVIEW_PADDING = 16;
@@ -161,7 +162,14 @@ public class TagProgressBar extends ViewGroup implements OnDrawStartedListener {
 			mTagHiderView.post(new Runnable() {
 				@Override
 				public void run() {
-					mGLTagProgressBar.setVisibility(visibility);
+					if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
+						// If we're running an emulator, we should disable the GL tag
+						// so that searches can finish sometime in this lifetime.
+						mGLTagProgressBar.setVisibility(View.GONE);
+					}
+					else {
+						mGLTagProgressBar.setVisibility(visibility);
+					}
 				}
 			});
 		}
