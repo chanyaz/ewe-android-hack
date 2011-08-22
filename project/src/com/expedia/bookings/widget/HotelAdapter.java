@@ -181,8 +181,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.getSavingsPercent() > 0) {
 			holder.from.setText(Html.fromHtml(
-					mContext.getString(R.string.from_template, lowestRate.getDisplayBaseRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN)), null,
-					new StrikethroughTagHandler()));
+				mContext.getString(R.string.from_template, StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
+				new StrikethroughTagHandler()));
 			holder.saleImage.setVisibility(View.VISIBLE);
 			holder.saleLabel.setVisibility(View.VISIBLE);
 		}
@@ -192,7 +192,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.saleLabel.setVisibility(View.GONE);
 		}
 
-		holder.price.setText(lowestRate.getDisplayRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
+		holder.price.setText(StrUtils.formatHotelPrice(lowestRate.getDisplayRate()));
 
 		if (Rate.showInclusivePrices()) {
 			holder.perNight.setVisibility(View.GONE);

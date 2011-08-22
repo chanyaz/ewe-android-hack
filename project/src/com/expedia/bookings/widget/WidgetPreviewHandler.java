@@ -158,7 +158,7 @@ public class WidgetPreviewHandler {
 
 		mHotelNameTextView.setText(property.getName());
 		mHotelLocationTextView.setText(LOCATION);
-		mHotelPriceTextView.setText(StrUtils.formatHotelPrice(property));
+		mHotelPriceTextView.setText(StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
 
 		if (property.getLowestRate().getSavingsPercent() > 0) {
 			mSaleTextView.setText(mActivity.getString(R.string.widget_savings_template, property.getLowestRate()

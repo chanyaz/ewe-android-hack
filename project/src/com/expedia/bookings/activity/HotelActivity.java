@@ -245,8 +245,7 @@ public class HotelActivity extends Activity {
 		if (lowestRate.getSavingsPercent() > 0) {
 			Money baseRate = lowestRate.getDisplayBaseRate();
 			fromView.setText(Html.fromHtml(
-					getString(R.string.from_template,
-							baseRate.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN)), null,
+					getString(R.string.from_template, StrUtils.formatHotelPrice(baseRate)), null,
 					new StrikethroughTagHandler()));
 		}
 		else {
@@ -254,7 +253,7 @@ public class HotelActivity extends Activity {
 		}
 
 		TextView priceView = (TextView) findViewById(R.id.price_text_view);
-		priceView.setText(lowestRate.getDisplayRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
+		priceView.setText(StrUtils.formatHotelPrice(lowestRate.getDisplayRate()));
 
 		// Amenities
 		// Disable some aspects of the horizontal scrollview so it looks pretty

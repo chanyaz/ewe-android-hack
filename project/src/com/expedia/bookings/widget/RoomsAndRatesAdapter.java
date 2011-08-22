@@ -20,6 +20,7 @@ import com.mobiata.hotellib.data.AvailabilityResponse;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.RateBreakdown;
+import com.mobiata.hotellib.utils.StrUtils;
 
 public class RoomsAndRatesAdapter extends BaseAdapter {
 
@@ -109,7 +110,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		Rate rate = (Rate) getItem(position);
 
 		holder.description.setText(Html.fromHtml(rate.getRoomDescription()));
-		holder.price.setText(rate.getDisplayRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN));
+		holder.price.setText(StrUtils.formatHotelPrice(rate.getDisplayRate()));
 
 		String explanation = "";
 
@@ -117,7 +118,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		double savings = rate.getSavingsPercent();
 		if (savings > 0) {
 			explanation += "<strike>"
-					+ rate.getDisplayBaseRate().getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN)
+					+ StrUtils.formatHotelPrice(rate.getDisplayBaseRate())
 					+ "</strike> ";
 
 			holder.saleLabel.setText(mContext.getString(R.string.savings_template, savings * 100));
