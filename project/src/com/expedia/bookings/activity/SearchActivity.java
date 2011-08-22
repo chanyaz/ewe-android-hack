@@ -1353,6 +1353,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void saveParams() {
+		
+		// its possible for the searchParams and filter to be null
+		// specifically when the user is directed to the confirmation screen
+		// from the search activity after a booking was previously completed
+		if(mSearchParams == null && mFilter == null) {
+			Log.d("Null search params and filter. Not saving anything.");
+			return;
+		}
+		
 		Log.d("Saving search parameters, filter and tag...");
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor editor = prefs.edit();
