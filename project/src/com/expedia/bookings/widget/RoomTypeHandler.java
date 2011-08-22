@@ -84,7 +84,7 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 
 		// Initial configuration of the views
 		TextView valueView = (TextView) roomTypeRow.findViewById(R.id.value_text_view);
-		valueView.setText(rate.getRoomDescription());
+		valueView.setText(Html.fromHtml(rate.getRoomDescription()));
 
 		// Configure behavior
 		ViewGroup roomTypeLayout = (ViewGroup) roomTypeRow.findViewById(R.id.room_type_layout);

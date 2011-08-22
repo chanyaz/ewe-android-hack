@@ -52,8 +52,6 @@ public class LayoutUtils {
 			Property property, Rate rate) {
 		addDetail(context, detailsLayout, R.string.bed_type, rate.getRatePlanName());
 
-		addDetail(context, detailsLayout, R.string.room_type, Html.fromHtml(rate.getRoomDescription()));
-
 		addDetail(context, detailsLayout, R.string.GuestsLabel, StrUtils.formatGuests(context, searchParams));
 
 		String start = formatCheckInOutDate(context, searchParams.getCheckInDate());
