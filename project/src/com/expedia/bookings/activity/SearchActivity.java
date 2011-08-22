@@ -1987,7 +1987,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	//----------------------------------
 
 	public CharSequence getBookingInfoHeaderText() {
-		String location = mSearchEditText.getText().toString();
+		String location = getSearchText();
 		int startYear = mDatesCalendarDatePicker.getStartYear();
 		int endYear = mDatesCalendarDatePicker.getEndYear();
 
@@ -2188,6 +2188,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setBookingInfoText();
 	}
 
+	private String getSearchText() {
+		switch (mSearchParams.getSearchType()) {
+		case FREEFORM:
+			return mSearchParams.getFreeformLocation();
+		case MY_LOCATION:
+			return getString(R.string.current_location);
+
+		case PROXIMITY:
+			return getString(R.string.visible_map_area);
+		}
+
+		return null;
+	}
+
 	private void setSearchEditViews() {
 		if (mSearchParams == null) {
 			mSearchParams = new SearchParams();
@@ -2195,23 +2209,22 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
-			mSearchEditText.setText(mSearchParams.getFreeformLocation());
 			mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
 			break;
 		}
 		case MY_LOCATION: {
-			mSearchEditText.setText(R.string.current_location);
 			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
 			break;
 		}
 		case PROXIMITY: {
 			stopLocationListener();
 
-			mSearchEditText.setText(R.string.visible_map_area);
 			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
 			break;
 		}
 		}
+		
+		mSearchEditText.setText(getSearchText());
 
 		Calendar checkIn = mSearchParams.getCheckInDate();
 		mDatesCalendarDatePicker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
