@@ -476,7 +476,7 @@
 					</LinearLayout>
 					<com.expedia.bookings.widget.CustomEditText
 						android:id="@+id/security_code_edit_text"
-						android:layout_width="65dp"
+						android:layout_width="90dp"
 						android:layout_height="wrap_content"
 						android:nextFocusUp="@+id/expiration_year_edit_text"
 						android:nextFocusLeft="@+id/expiration_year_edit_text"
