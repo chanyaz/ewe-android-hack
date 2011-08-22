@@ -9,7 +9,6 @@
 		android:layout_width="wrap_content"	
 		android:layout_height="wrap_content"
 		android:paddingRight="5dp"
-		android:includeFontPadding="false"
 		android:text="@string/star_rating_title"
 		android:textColor="@color/hotel_description_text_color"/>
 	<RatingBar
