@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -214,6 +213,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	public static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
+
+	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
+	public static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -548,6 +550,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setActivityByTag(mTag);
 		setShowDistance(mShowDistance);
 		setDisplayType(mDisplayType, false);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+
+		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
+			mStartSearchOnResume = true;
+		}
 	}
 
 	@Override
@@ -1357,7 +1368,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void saveParams() {
-		
+
 		Log.d("Saving search parameters, filter and tag...");
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor editor = prefs.edit();

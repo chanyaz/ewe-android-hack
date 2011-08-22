@@ -275,7 +275,8 @@ public class ConfirmationActivity extends MapActivity {
 				deleteSavedConfirmationData(mContext);
 
 				Intent intent = new Intent(mContext, SearchActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				intent.putExtra(SearchActivity.EXTRA_NEW_SEARCH, true);
 				startActivity(intent);
 				finish();
 			}
