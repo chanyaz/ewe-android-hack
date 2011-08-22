@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="contact_expedia_items">
-    	<item>@string/contact_expedia_phone</item>
-    	<item>@string/contact_expedia_website</item>
-    	<item>@string/contact_expedia_email</item>    	
-    </string-array>
-    
+<resources>    
     <string-array name="user_review_sort_options">
     	<item>@string/user_review_sort_button_recent</item>
     	<item>@string/user_review_sort_button_favorable</item>

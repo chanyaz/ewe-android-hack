@@ -43,6 +43,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.hotellib.data.BillingInfo;
 import com.mobiata.hotellib.data.BookingResponse;
@@ -229,17 +230,23 @@ public class ConfirmationActivity extends MapActivity {
 
 		// Reservation support contact info
 		TextView contactView = (TextView) findViewById(R.id.contact_text_view);
-		if (Locale.getDefault().getCountry().toUpperCase().equals("CN")) {
-			// Special case for China
-			mContactText = getString(R.string.contact_phone_china_template, "10-800712-2608", "10-800120-2608");
-		}
-		else if (SupportUtils.hasConfSupportNumber()) {
-			mContactText = getString(R.string.contact_phone_template, SupportUtils.getConfSupportNumber());
+		if (AndroidUtils.hasTelephonyFeature(this)) {
+			if (Locale.getDefault().getCountry().toUpperCase().equals("CN")) {
+				// Special case for China
+				mContactText = getString(R.string.contact_phone_china_template, "10-800712-2608", "10-800120-2608");
+			}
+			else if (SupportUtils.hasConfSupportNumber()) {
+				mContactText = getString(R.string.contact_phone_template, SupportUtils.getConfSupportNumber());
+			}
+			else {
+				mContactText = getString(R.string.contact_phone_default_template, "1-800-780-5733",
+						"00-800-11-20-11-40");
+			}
+			contactView.setText(mContactText);
 		}
 		else {
-			mContactText = getString(R.string.contact_phone_default_template, "1-800-780-5733", "00-800-11-20-11-40");
+			contactView.setVisibility(View.GONE);
 		}
-		contactView.setText(mContactText);
 
 		//////////////////////////////////////////////////
 		// Button bar configuration
