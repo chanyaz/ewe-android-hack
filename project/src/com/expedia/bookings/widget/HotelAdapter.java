@@ -31,6 +31,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private static final int TYPE_FIRST = 0;
 	private static final int TYPE_NOTFIRST = 1;
 
+	public static final int ID_BOOKING_INFO = -2;
+
 	private Context mContext;
 	private LayoutInflater mInflater;
 
@@ -111,13 +113,18 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	@Override
 	public long getItemId(int position) {
+
 		if (position >= mCachedProperties.length) {
 			Log.w("Adapter may be trying to store instance state of hotels in list that have been filtered out while map is visible (See #7118).");
 			Log.w("If you didn't just click a hotel after filtering on the Map tab in Android 2.2 or lower, this means there's a more serious problem.");
 			return -1;
 		}
 
-		return Integer.valueOf(mCachedProperties[position].getPropertyId());
+		if (position == 0) {
+			return ID_BOOKING_INFO;
+		}
+
+		return Integer.valueOf(mCachedProperties[position - 1].getPropertyId());
 	}
 
 	@Override
@@ -136,13 +143,13 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		HotelViewHolder holder;
-		
-		if(convertView == null) {
+
+		if (convertView == null) {
 			if (getItemViewType(position) == TYPE_FIRST) {
 				convertView = (TextView) mInflater.inflate(R.layout.row_booking_info, parent, false);
 				mListener.onDrawBookingInfoTextRow((TextView) convertView);
 				return convertView;
-			} 
+			}
 			convertView = mInflater.inflate(R.layout.row_hotel, parent, false);
 
 			holder = new HotelViewHolder();
@@ -163,11 +170,11 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder = (HotelViewHolder) convertView.getTag();
 		}
 
-		if(getItemViewType(position) == TYPE_FIRST) {
+		if (getItemViewType(position) == TYPE_FIRST) {
 			mListener.onDrawBookingInfoTextRow((TextView) convertView);
 			return convertView;
 		}
-		
+
 		// If we're just measuring the height/width of the row, just return the view without doing anything to it.
 		if (mIsMeasuring) {
 			return convertView;
@@ -181,8 +188,9 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.getSavingsPercent() > 0) {
 			holder.from.setText(Html.fromHtml(
-				mContext.getString(R.string.from_template, StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
-				new StrikethroughTagHandler()));
+					mContext.getString(R.string.from_template,
+							StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
+					new StrikethroughTagHandler()));
 			holder.saleImage.setVisibility(View.VISIBLE);
 			holder.saleLabel.setVisibility(View.VISIBLE);
 		}

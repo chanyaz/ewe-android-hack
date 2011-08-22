@@ -54,7 +54,7 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		mScrollBar.setOnScrollListener(this);
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
-		if (state != null) {			
+		if (state != null) {
 			mSearchResponse = state.searchResponse;
 			mSearchResponse.getFilter().addOnFilterChangedListener(this);
 
@@ -76,6 +76,12 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
+
+		// nothing to do here since the first item 
+		// always represents the booking info
+		if (id == HotelAdapter.ID_BOOKING_INFO) {
+			return;
+		}
 
 		Property property = (Property) mAdapter.getItem(position);
 
