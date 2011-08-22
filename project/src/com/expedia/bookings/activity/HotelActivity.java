@@ -225,16 +225,12 @@ public class HotelActivity extends Activity {
 			TextView promoView = (TextView) findViewById(R.id.promo_description_text_view);
 			promoView.setVisibility(View.VISIBLE);
 			promoView.setText(Html.fromHtml(promoDescription));
+			promoView.setOnClickListener(onBookNowClick);
 			promoView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.expand_promo));
 		}
 
 		ViewGroup priceContainer = (ViewGroup) findViewById(R.id.price_layout);
-		priceContainer.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				startRoomRatesActivity();
-			}
-		});
+		priceContainer.setOnClickListener(onBookNowClick);
 		priceContainer.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_left));
 		TextView fromView = (TextView) findViewById(R.id.from_text_view);
 		if (lowestRate.getSavingsPercent() > 0) {
