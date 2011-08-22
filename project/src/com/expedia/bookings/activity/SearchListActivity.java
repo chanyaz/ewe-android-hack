@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity.SetShowDistanceListener;
@@ -33,6 +34,7 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	private SearchResponse mSearchResponse;
 
 	private ListViewScrollBar mScrollBar;
+	private TextView mBookingInfoHeader;
 
 	private boolean mShowDistance = true;
 
@@ -52,6 +54,9 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 		mScrollBar.setListView(getListView());
 		mScrollBar.setOnScrollListener(this);
+
+		mBookingInfoHeader = (TextView) getLayoutInflater().inflate(R.layout.row_booking_info, null);
+		getListView().addHeaderView(mBookingInfoHeader);
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state != null) {
@@ -77,13 +82,7 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		// nothing to do here since the first item 
-		// always represents the booking info
-		if (id == HotelAdapter.ID_BOOKING_INFO) {
-			return;
-		}
-
-		Property property = (Property) mAdapter.getItem(position);
+		Property property = (Property) l.getAdapter().getItem(position);
 
 		Intent intent = new Intent(this, HotelActivity.class);
 		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
@@ -163,8 +162,9 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		mSearchResponse.getFilter().addOnFilterChangedListener(this);
 
 		mScrollBar.setSearchResponse(mSearchResponse);
-		mAdapter = new HotelAdapter(this, mSearchResponse, mParent.getOnDrawBookingInfoTextRowListener());
+		mAdapter = new HotelAdapter(this, mSearchResponse);
 		mAdapter.setShowDistance(mShowDistance);
+		mBookingInfoHeader.setText(mParent.getBookingInfoHeaderText());
 		setListAdapter(mAdapter);
 	}
 

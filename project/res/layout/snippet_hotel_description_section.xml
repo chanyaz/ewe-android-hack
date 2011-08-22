@@ -8,14 +8,12 @@
 		android:id="@+id/title_description_text_view"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:includeFontPadding="false"
 		android:textStyle="bold"
 		android:textColor="@color/hotel_description_text_color"/>
 	<TextView
 		android:id="@+id/body_description_text_view"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:includeFontPadding="false"
 		android:layout_toLeftOf="@+id/view_button"
 		android:layout_below="@id/title_description_text_view"
 		android:layout_alignParentLeft="true"

@@ -1,6 +1,8 @@
 package com.expedia.bookings.activity;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -145,27 +147,45 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		case DIALOG_CONTACT_EXPEDIA: {
 			AlertDialog.Builder builder = new Builder(this);
 			builder.setTitle(R.string.contact_expedia_via);
-			builder.setItems(R.array.contact_expedia_items, new DialogInterface.OnClickListener() {
+
+			// Figure out which items to display to the user
+			List<String> items = new ArrayList<String>();
+			final List<Runnable> actions = new ArrayList<Runnable>();
+
+			// Only add phone option if device can make calls
+			if (AndroidUtils.hasTelephonyFeature(mContext)) {
+				items.add(getString(R.string.contact_expedia_phone));
+				actions.add(new Runnable() {
+					public void run() {
+						onCallSupport();
+						SocialUtils.call(mContext, SupportUtils.getInfoSupportNumber());
+					}
+				});
+			}
+
+			// Always show website option
+			items.add(getString(R.string.contact_expedia_website));
+			actions.add(new Runnable() {
+				public void run() {
+					SocialUtils.openSite(mContext, SupportUtils.getSupportUrl());
+				}
+			});
+
+			// Always show email option
+			items.add(getString(R.string.contact_expedia_email));
+			actions.add(new Runnable() {
+				public void run() {
+					onEmailSupport();
+					SocialUtils.email(mContext, "support@expedia.com",
+							getString(R.string.contact_expedia_email_subject), null);
+				}
+			});
+
+			builder.setItems(items.toArray(new String[0]), new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					removeDialog(DIALOG_CONTACT_EXPEDIA);
 
-					switch (which) {
-					case 0:
-						// Phone
-						onCallSupport();
-						SocialUtils.call(mContext, SupportUtils.getInfoSupportNumber());
-						break;
-					case 1:
-						// Website
-						SocialUtils.openSite(mContext, SupportUtils.getSupportUrl());
-						break;
-					case 2:
-						// Email
-						onEmailSupport();
-						SocialUtils.email(mContext, "support@expedia.com",
-								getString(R.string.contact_expedia_email_subject), null);
-						break;
-					}
+					actions.get(which).run();
 				}
 			});
 			builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {

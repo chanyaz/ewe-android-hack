@@ -18,20 +18,14 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.mobiata.hotellib.data.Filter.Sort;
 import com.mobiata.hotellib.data.Media;
-import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.SearchResponse;
-import com.mobiata.hotellib.data.Filter.Sort;
 import com.mobiata.hotellib.utils.StrUtils;
 
 public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
-
-	private static final int TYPE_FIRST = 0;
-	private static final int TYPE_NOTFIRST = 1;
-
-	public static final int ID_BOOKING_INFO = -2;
 
 	private Context mContext;
 	private LayoutInflater mInflater;
@@ -44,14 +38,11 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private boolean mShowDistance = true;
 	private boolean mIsSortedByUserRating = false;
 
-	private OnDrawBookingInfoTextRowListener mListener;
-
-	public HotelAdapter(Context context, SearchResponse searchResponse, OnDrawBookingInfoTextRowListener listener) {
+	public HotelAdapter(Context context, SearchResponse searchResponse) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		mSearchResponse = searchResponse;
-		mListener = listener;
 		rebuildCache();
 	}
 
@@ -90,7 +81,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	@Override
 	public int getCount() {
 		if (mCachedProperties != null) {
-			return mCachedProperties.length + 1;
+			return mCachedProperties.length;
 		}
 
 		return 0;
@@ -98,12 +89,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	@Override
 	public Object getItem(int position) {
-
-		if (position == 0) {
-			return TYPE_FIRST;
-		}
-
-		return mCachedProperties[position - 1];
+		return mCachedProperties[position];
 	}
 
 	@Override
@@ -113,31 +99,13 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	@Override
 	public long getItemId(int position) {
-
 		if (position >= mCachedProperties.length) {
 			Log.w("Adapter may be trying to store instance state of hotels in list that have been filtered out while map is visible (See #7118).");
 			Log.w("If you didn't just click a hotel after filtering on the Map tab in Android 2.2 or lower, this means there's a more serious problem.");
 			return -1;
 		}
 
-		if (position == 0) {
-			return ID_BOOKING_INFO;
-		}
-
-		return Integer.valueOf(mCachedProperties[position - 1].getPropertyId());
-	}
-
-	@Override
-	public int getItemViewType(int position) {
-		if (position == 0) {
-			return TYPE_FIRST;
-		}
-		return TYPE_NOTFIRST;
-	}
-
-	@Override
-	public int getViewTypeCount() {
-		return 2;
+		return Integer.valueOf(mCachedProperties[position].getPropertyId());
 	}
 
 	@Override
@@ -145,11 +113,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		HotelViewHolder holder;
 
 		if (convertView == null) {
-			if (getItemViewType(position) == TYPE_FIRST) {
-				convertView = (TextView) mInflater.inflate(R.layout.row_booking_info, parent, false);
-				mListener.onDrawBookingInfoTextRow((TextView) convertView);
-				return convertView;
-			}
 			convertView = mInflater.inflate(R.layout.row_hotel, parent, false);
 
 			holder = new HotelViewHolder();
@@ -168,11 +131,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		}
 		else {
 			holder = (HotelViewHolder) convertView.getTag();
-		}
-
-		if (getItemViewType(position) == TYPE_FIRST) {
-			mListener.onDrawBookingInfoTextRow((TextView) convertView);
-			return convertView;
 		}
 
 		// If we're just measuring the height/width of the row, just return the view without doing anything to it.
@@ -286,9 +244,5 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	@Override
 	public void onStopMeasure() {
 		mIsMeasuring = false;
-	}
-
-	public interface OnDrawBookingInfoTextRowListener {
-		public void onDrawBookingInfoTextRow(TextView bookingInfoTextView);
 	}
 }

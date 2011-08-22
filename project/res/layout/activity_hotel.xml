@@ -28,7 +28,7 @@
 			<RelativeLayout
 				android:id="@+id/gallery_layout"
 				android:layout_width="fill_parent"
-				android:layout_height="200dp"
+				android:layout_height="@dimen/gallery_size"
 				android:background="@drawable/bg_gallery">
 				<com.expedia.bookings.widget.Gallery
 					android:id="@+id/images_gallery"

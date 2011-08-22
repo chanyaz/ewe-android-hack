@@ -369,7 +369,7 @@
 						android:entries="@array/country_names" />
 					<com.expedia.bookings.widget.CustomEditText
 						android:id="@+id/postal_code_edit_text"
-						android:layout_width="120dp"
+						android:layout_width="140dp"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="1dp"
 						android:nextFocusUp="@+id/state_edit_text"
@@ -476,7 +476,7 @@
 					</LinearLayout>
 					<com.expedia.bookings.widget.CustomEditText
 						android:id="@+id/security_code_edit_text"
-						android:layout_width="65dp"
+						android:layout_width="90dp"
 						android:layout_height="wrap_content"
 						android:nextFocusUp="@+id/expiration_year_edit_text"
 						android:nextFocusLeft="@+id/expiration_year_edit_text"
@@ -576,7 +576,7 @@
 			android:textSize="13sp" />
 		<Button
 			android:id="@+id/confirm_book_button"
-			android:layout_width="140dp"
+			android:layout_width="144dp"
 			android:layout_height="48dp"
 			android:nextFocusUp="@+id/security_code_edit_text"
 			android:text="@string/EnterBookingInfo"

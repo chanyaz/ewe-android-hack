@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,6 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.Html;
-import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -79,7 +79,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.animation.Rotate3dAnimation;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.widget.HotelAdapter.OnDrawBookingInfoTextRowListener;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.TagProgressBar;
 import com.google.android.maps.GeoPoint;
@@ -161,17 +160,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final HashMap<Sort, Integer> SORT_ADVERBS = new HashMap<Sort, Integer>() {
-		private static final long serialVersionUID = 1L;
-
-		{
-			put(Sort.DISTANCE, R.string.sort_adverb_distance);
-			put(Sort.POPULAR, R.string.sort_adverb_popular);
-			put(Sort.PRICE, R.string.sort_adverb_price);
-			put(Sort.RATING, R.string.sort_adverb_rating);
-		}
-	};
-
 	private static final HashMap<Sort, Integer> SORT_DESCRIPTIONS = new HashMap<Sort, Integer>() {
 		private static final long serialVersionUID = 1L;
 
@@ -206,12 +194,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final int MAX_GUESTS_TOTAL = 5;
 	private static final int MAX_GUEST_NUM = 4;
 
-	private static final int DEFAULT_SORT_RADIO_GROUP_CHILD = R.id.sort_price_button;
 	private static final int DEFAULT_RADIUS_RADIO_GROUP_CHILD = R.id.radius_large_button;
 	private static final int DEFAULT_PRICE_RADIO_GROUP_CHILD = R.id.price_all_button;
 
 	public static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
+
+	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
+	public static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -408,18 +398,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		}
 	};
 
-	private OnDrawBookingInfoTextRowListener mOnDrawFirstRowListener = new OnDrawBookingInfoTextRowListener() {
-
-		@Override
-		public void onDrawBookingInfoTextRow(TextView bookingInfoTextView) {
-			setBookingInfoText(bookingInfoTextView);
-		}
-	};
-
-	public OnDrawBookingInfoTextRowListener getOnDrawBookingInfoTextRowListener() {
-		return mOnDrawFirstRowListener;
-	}
-
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDES
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -546,6 +524,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setActivityByTag(mTag);
 		setShowDistance(mShowDistance);
 		setDisplayType(mDisplayType, false);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+
+		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
+			mStartSearchOnResume = true;
+		}
 	}
 
 	@Override
@@ -1355,7 +1342,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void saveParams() {
-		
+
 		Log.d("Saving search parameters, filter and tag...");
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor editor = prefs.edit();
@@ -1999,31 +1986,33 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// VIEW ATTRIBUTE METHODS
 	//----------------------------------
 
-	private void setBookingInfoText(TextView bookingInfoText) {
-		final String location = mSearchEditText.getText().toString();
-		final int startMonth = mDatesCalendarDatePicker.getStartMonth();
-		final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
-		final int endYear = mDatesCalendarDatePicker.getEndYear();
-		final int endMonth = mDatesCalendarDatePicker.getEndMonth();
-		final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
-		final int adults = mSearchParams.getNumAdults();
-		final int children = mSearchParams.getNumChildren();
+	public CharSequence getBookingInfoHeaderText() {
+		String location = getSearchText();
+		int startYear = mDatesCalendarDatePicker.getStartYear();
+		int endYear = mDatesCalendarDatePicker.getEndYear();
 
-		String[] shortMonthNames = getResources().getStringArray(R.array.short_month_names);
+		Calendar start = new GregorianCalendar(startYear, mDatesCalendarDatePicker.getStartMonth(),
+				mDatesCalendarDatePicker.getStartDayOfMonth());
+		Calendar end = new GregorianCalendar(endYear, mDatesCalendarDatePicker.getEndMonth(),
+				mDatesCalendarDatePicker.getEndDayOfMonth());
 
-		if (bookingInfoText != null) {
-			Spanned spanned = Html.fromHtml(getString(R.string.booking_info_template, location,
-					shortMonthNames[startMonth],
-					startDay, shortMonthNames[endMonth], endDay, endYear));
-			bookingInfoText.setText(spanned);
+		String format = "MMM d";
+		if (startYear != endYear) {
+			format += ", yyyy";
 		}
 
-		mDatesTextView.setText(String.valueOf(startDay));
-		mGuestsTextView.setText(String.valueOf((adults + children)));
+		return Html.fromHtml(getString(R.string.booking_info_template, location,
+				android.text.format.DateFormat.format(format, start),
+				android.text.format.DateFormat.format(format, end)));
 	}
 
 	private void setBookingInfoText() {
-		setBookingInfoText(null);
+		int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
+		int adults = mSearchParams.getNumAdults();
+		int children = mSearchParams.getNumChildren();
+
+		mDatesTextView.setText(String.valueOf(startDay));
+		mGuestsTextView.setText(String.valueOf((adults + children)));
 	}
 
 	private void setDrawerViews() {
@@ -2199,6 +2188,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setBookingInfoText();
 	}
 
+	private String getSearchText() {
+		switch (mSearchParams.getSearchType()) {
+		case FREEFORM:
+			return mSearchParams.getFreeformLocation();
+		case MY_LOCATION:
+			return getString(R.string.current_location);
+
+		case PROXIMITY:
+			return getString(R.string.visible_map_area);
+		}
+
+		return null;
+	}
+
 	private void setSearchEditViews() {
 		if (mSearchParams == null) {
 			mSearchParams = new SearchParams();
@@ -2206,23 +2209,22 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
-			mSearchEditText.setText(mSearchParams.getFreeformLocation());
 			mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
 			break;
 		}
 		case MY_LOCATION: {
-			mSearchEditText.setText(R.string.current_location);
 			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
 			break;
 		}
 		case PROXIMITY: {
 			stopLocationListener();
 
-			mSearchEditText.setText(R.string.visible_map_area);
 			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
 			break;
 		}
 		}
+		
+		mSearchEditText.setText(getSearchText());
 
 		Calendar checkIn = mSearchParams.getCheckInDate();
 		mDatesCalendarDatePicker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
@@ -2574,7 +2576,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				mSearchParams.setDestinationId(null);
 				mSearchParams.setSearchType(SearchType.PROXIMITY);
 
-				setSearchParams(MapUtils.getLatitiude(center), MapUtils.getLongitiude(center));
+				setSearchParams(MapUtils.getLatitude(center), MapUtils.getLongitude(center));
 				startSearch();
 			}
 		}
