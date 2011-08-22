@@ -618,7 +618,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	protected void onDestroy() {
 		super.onDestroy();
 
-		if (isFinishing()) {
+		// do not attempt to save parameters if the user was short circuited to the
+		// confirmation screen when the search activity started
+		if (isFinishing() && !ConfirmationActivity.hasSavedConfirmationData(this)) {
 			saveParams();
 
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
@@ -1353,14 +1355,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void saveParams() {
-		
-		// its possible for the searchParams and filter to be null
-		// specifically when the user is directed to the confirmation screen
-		// from the search activity after a booking was previously completed
-		if(mSearchParams == null && mFilter == null) {
-			Log.d("Null search params and filter. Not saving anything.");
-			return;
-		}
 		
 		Log.d("Saving search parameters, filter and tag...");
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
