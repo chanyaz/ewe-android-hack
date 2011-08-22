@@ -46,7 +46,6 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.Html;
-import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -80,7 +79,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.animation.Rotate3dAnimation;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.widget.HotelAdapter.OnDrawBookingInfoTextRowListener;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.TagProgressBar;
 import com.google.android.maps.GeoPoint;
@@ -399,18 +397,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			}
 		}
 	};
-
-	private OnDrawBookingInfoTextRowListener mOnDrawFirstRowListener = new OnDrawBookingInfoTextRowListener() {
-
-		@Override
-		public void onDrawBookingInfoTextRow(TextView bookingInfoTextView) {
-			setBookingInfoText(bookingInfoTextView);
-		}
-	};
-
-	public OnDrawBookingInfoTextRowListener getOnDrawBookingInfoTextRowListener() {
-		return mOnDrawFirstRowListener;
-	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDES
@@ -2000,15 +1986,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// VIEW ATTRIBUTE METHODS
 	//----------------------------------
 
-	private void setBookingInfoText(TextView bookingInfoText) {
-		final String location = mSearchEditText.getText().toString();
-		final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
-		final int startYear = mDatesCalendarDatePicker.getStartYear();
-		final int endYear = mDatesCalendarDatePicker.getEndYear();
-		final int adults = mSearchParams.getNumAdults();
-		final int children = mSearchParams.getNumChildren();
+	public CharSequence getBookingInfoHeaderText() {
+		String location = mSearchEditText.getText().toString();
+		int startYear = mDatesCalendarDatePicker.getStartYear();
+		int endYear = mDatesCalendarDatePicker.getEndYear();
 
-		Calendar start = new GregorianCalendar(startYear, mDatesCalendarDatePicker.getStartMonth(), startDay);
+		Calendar start = new GregorianCalendar(startYear, mDatesCalendarDatePicker.getStartMonth(),
+				mDatesCalendarDatePicker.getStartDayOfMonth());
 		Calendar end = new GregorianCalendar(endYear, mDatesCalendarDatePicker.getEndMonth(),
 				mDatesCalendarDatePicker.getEndDayOfMonth());
 
@@ -2017,19 +2001,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			format += ", yyyy";
 		}
 
-		if (bookingInfoText != null) {
-			Spanned spanned = Html.fromHtml(getString(R.string.booking_info_template, location,
-					android.text.format.DateFormat.format(format, start),
-					android.text.format.DateFormat.format(format, end)));
-			bookingInfoText.setText(spanned);
-		}
-
-		mDatesTextView.setText(String.valueOf(startDay));
-		mGuestsTextView.setText(String.valueOf((adults + children)));
+		return Html.fromHtml(getString(R.string.booking_info_template, location,
+				android.text.format.DateFormat.format(format, start),
+				android.text.format.DateFormat.format(format, end)));
 	}
 
 	private void setBookingInfoText() {
-		setBookingInfoText(null);
+		int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
+		int adults = mSearchParams.getNumAdults();
+		int children = mSearchParams.getNumChildren();
+
+		mDatesTextView.setText(String.valueOf(startDay));
+		mGuestsTextView.setText(String.valueOf((adults + children)));
 	}
 
 	private void setDrawerViews() {
