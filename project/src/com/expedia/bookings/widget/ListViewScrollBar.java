@@ -89,6 +89,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	private double mMarkerLeft;
 	private double mMarkerRight;
 
+	private int mHeaderHeight;
 	private double mRowHeight;
 	private double mAdjustedTotalHeight;
 
@@ -127,8 +128,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		}
 
 		if (mListView != null && mListView.getCount() > 0) {
-			final View firstChild = mListView.getChildAt(0);
-			mRowHeight = firstChild.getHeight() + HEIGHT_ROW_DIVIDER;
+			mRowHeight = getRowHeight();
 			mVisibleItemCount = mListViewHeight / mRowHeight;
 		}
 
@@ -179,7 +179,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		mListViewIsScrolling = !(scrollState == SCROLL_STATE_IDLE);
-		
+
 		// Bubble this event
 		if (mOnScrollListener != null) {
 			mOnScrollListener.onScrollStateChanged(view, scrollState);
@@ -241,8 +241,8 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 		final int offset = (int) ((mTouchPercent * mRowHeight * (mTotalItemCount - mVisibleItemCount)) - (position * mRowHeight));
 
-		if(mListViewIsScrolling) {
-			
+		if (mListViewIsScrolling) {
+
 		}
 		((ListView) mListView).setSelectionFromTop(position, -offset);
 
@@ -284,6 +284,37 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		mCachedMarkerPositions = propertyPositions.toArray(new Integer[0]);
 	}
 
+	private double getRowHeight() {
+		int firstVisible = mListView.getFirstVisiblePosition();
+		int numHeaders = mListView.getHeaderViewsCount();
+		int targetRow = 0;
+		if (firstVisible < numHeaders) {
+			targetRow = numHeaders;
+		}
+		double totalHeight = (mTotalItemCount - numHeaders) * mListView.getChildAt(targetRow).getHeight()
+				+ getHeaderHeight() + (HEIGHT_ROW_DIVIDER * (mTotalItemCount - 1));
+		return totalHeight / mTotalItemCount;
+	}
+
+	private int getHeaderHeight() {
+		int numHeaders = mListView.getHeaderViewsCount();
+		if (numHeaders == 0) {
+			return 0;
+		}
+
+		int firstVisible = mListView.getFirstVisiblePosition();
+		if (firstVisible == 0) {
+			// Calculate the height of each header
+			mHeaderHeight = 0;
+			for (int a = 0; a < numHeaders; a++) {
+				mHeaderHeight += mListView.getChildAt(a).getHeight() + HEIGHT_ROW_DIVIDER;
+			}
+		}
+
+		// If the first header isn't visible, trust we calculated this correctly before.
+		return mHeaderHeight;
+	}
+
 	private void drawBar(Canvas canvas) {
 		mBarDrawable.setBounds(mBarRect);
 		mBarDrawable.draw(canvas);
@@ -294,7 +325,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		final View firstChild = mListView.getChildAt(0);
 		final double rowOffset = firstChild.getTop();
 
-		mRowHeight = firstChild.getHeight() + HEIGHT_ROW_DIVIDER;
+		mRowHeight = getRowHeight();
 		mAdjustedTotalHeight = (mTotalItemCount - mVisibleItemCount) * mRowHeight;
 
 		// Calculate this here to get an actual double for smooth scrolling
