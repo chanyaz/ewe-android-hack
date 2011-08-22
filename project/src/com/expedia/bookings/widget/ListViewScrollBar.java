@@ -292,6 +292,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	private void drawIndicator(Canvas canvas) {
 		// SCROLL OFFSET
 		final View firstChild = mListView.getChildAt(0);
+
 		final double rowOffset = firstChild.getTop();
 
 		mRowHeight = firstChild.getHeight() + HEIGHT_ROW_DIVIDER;

@@ -46,8 +46,10 @@
 				android:visibility="gone"/>
  	</RelativeLayout>
  	
-	<ScrollView android:layout_width="fill_parent"
-		android:layout_height="wrap_content" 
+	<ScrollView 
+		android:id="@+id/contents_scroll_view"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" 
 		android:paddingLeft="10dp"
 		android:paddingRight="10dp"
 		android:fillViewport="true"
@@ -146,65 +148,71 @@
 				</RelativeLayout>
 			</LinearLayout>
 
-			<RelativeLayout 
+			<TextView 
+				android:id="@+id/oosdk_comments_header"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:visibility="gone"/>
+			<EditText 
+				android:id="@+id/oosdk_comments"
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:layout_below="@id/oosdk_comments_header"
+				android:layout_marginTop="4dp" 
+				android:maxLength="1000"
+				android:textColor="#ffffff"
+				android:lines="6"
+				android:hint="@string/feedback_hint"
+				android:gravity="left|top"
+				android:background="@drawable/dark_translucent_edit_text" />
+			<EditText 
+				android:id="@+id/oosdk_email"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:textColor="#ffffff"
+				android:hint="@string/email_address"
+				android:layout_marginTop="4dp"  
+				android:maxLength="900"
+				android:singleLine="true" 
+				android:inputType="textEmailAddress"
+				android:background="@drawable/dark_translucent_edit_text"/>
+			<TextView
+				android:id="@+id/powered_by_opinion_lab_text_view"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:paddingTop="10dp"
+				android:paddingBottom="10dp"
+				android:text="@string/powered_by_opinion_lab"
+				android:layout_gravity="center_horizontal"
+				android:textColor="#828282"/>
+		
+			<LinearLayout 
 				android:id="@+id/oosdk_comments_layout"
 				android:layout_width="fill_parent" 
-				android:layout_height="fill_parent">
-				<TextView 
-					android:id="@+id/oosdk_comments_header"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:visibility="gone"/>
-				<EditText 
-					android:id="@+id/oosdk_comments"
-					android:layout_width="fill_parent" 
-					android:layout_height="fill_parent"
-					android:layout_below="@id/oosdk_comments_header"
-					android:layout_marginTop="4dp" 
-					android:maxLength="1000"
-					android:textColor="#ffffff"
-					android:lines="8"
-					android:hint="@string/feedback_hint"
-					android:gravity="left|top"
-					android:background="@drawable/dark_translucent_edit_text" />
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:visibility="gone">
 				<TextView 
 					android:id="@+id/oosdk_remaining" 
 					android:layout_width="wrap_content" 
 					android:layout_height="wrap_content"
-					android:layout_below="@id/oosdk_comments"
 					android:text="1000 characters remaining"
 					android:layout_gravity="right"
 					android:visibility="gone"/>
-			</RelativeLayout>
+			</LinearLayout>
 
 			<LinearLayout android:orientation="vertical"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:id="@+id/oosdk_email_layout">
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content"
+				android:id="@+id/oosdk_email_layout"
+				android:visibility="gone">
 				<TextView 
 					android:id="@+id/oosdk_email_header"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:visibility="gone"/>
-				<EditText 
-					android:id="@+id/oosdk_email"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:textColor="#ffffff"
-					android:hint="@string/email_address"
-					android:layout_marginTop="4dp"  
-					android:maxLength="900"
-					android:singleLine="true" 
-					android:inputType="textEmailAddress"
-					android:background="@drawable/dark_translucent_edit_text"/>
 			</LinearLayout>
-			<TextView
-				android:id="@+id/powered_by_opinion_lab_text_view"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:paddingTop="5dp"
-				android:text="@string/powered_by_opinion_lab"
-				android:layout_gravity="center_horizontal"
-				android:textColor="#828282"/>
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>

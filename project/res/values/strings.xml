@@ -342,10 +342,16 @@
 	
 	
 	<!--  App Feedback Activity -->
+	
+	<!-- Text within submit button in header -->
 	<string name="send_feedback">Send Feedback</string>
+	<!-- Header title -->
 	<string name="app_feedback">App Feedback</string>
-	<string name="powered_by_opinion_lab">Powered by Opinion Lab</string>
+	<!-- Footer for the view -->
+	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privacy Policy</a></string>
+	<!-- Hint to type in email address -->
 	<string name="email_address">Email Address</string>
+	<!-- Hint to type in comments -->
 	<string name="feedback_hint">What could we do better?</string>
 	
 	<!-- Preferences -->
