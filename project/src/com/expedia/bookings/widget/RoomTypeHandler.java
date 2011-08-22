@@ -55,6 +55,8 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 	private ProgressBar mProgressBar;
 	private TextView mRoomDetailsTextView;
 
+	private OnClickListener mOnRowClickListener;
+
 	public RoomTypeHandler(Activity activity, Intent intent, Property property, SearchParams searchParams, Rate rate) {
 		mActivity = activity;
 		mProperty = property;
@@ -88,7 +90,7 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 
 		// Configure behavior
 		ViewGroup roomTypeLayout = (ViewGroup) roomTypeRow.findViewById(R.id.room_type_layout);
-		roomTypeLayout.setOnClickListener(new OnClickListener() {
+		mOnRowClickListener = new OnClickListener() {
 			public void onClick(View v) {
 				if (isExpanded()) {
 					setVisibility(View.GONE);
@@ -99,7 +101,15 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 					onResume();
 				}
 			}
-		});
+		};
+		addClickableView(roomTypeLayout);
+		addClickableView(mRoomDetailsLayout);
+	}
+
+	// We may want to add clickable rows outside of the handler, to expand the tap area; this allows
+	// you to do that.  Warning, destroys existing OnClickListener (if were any on the View).
+	public void addClickableView(View view) {
+		view.setOnClickListener(mOnRowClickListener);
 	}
 
 	public void load(ViewGroup container) {

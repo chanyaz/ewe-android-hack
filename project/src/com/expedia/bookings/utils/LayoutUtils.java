@@ -17,6 +17,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.RoomTypeHandler;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
@@ -49,8 +50,11 @@ public class LayoutUtils {
 	}
 
 	public static void addRateDetails(Context context, ViewGroup detailsLayout, SearchParams searchParams,
-			Property property, Rate rate) {
-		addDetail(context, detailsLayout, R.string.bed_type, rate.getRatePlanName());
+			Property property, Rate rate, RoomTypeHandler roomTypeHandler) {
+		View bedTypeRow = addDetail(context, detailsLayout, R.string.bed_type, rate.getRatePlanName());
+		if (roomTypeHandler != null) {
+			roomTypeHandler.addClickableView(bedTypeRow);
+		}
 
 		addDetail(context, detailsLayout, R.string.GuestsLabel, StrUtils.formatGuests(context, searchParams));
 
@@ -101,15 +105,15 @@ public class LayoutUtils {
 		}
 	}
 
-	public static void addDetail(Context context, ViewGroup parent, int labelStrId, CharSequence value) {
-		addDetail(context, parent, context.getString(labelStrId), value, -1);
+	public static View addDetail(Context context, ViewGroup parent, int labelStrId, CharSequence value) {
+		return addDetail(context, parent, context.getString(labelStrId), value, -1);
 	}
 
-	public static void addDetail(Context context, ViewGroup parent, CharSequence label, CharSequence value) {
-		addDetail(context, parent, label, value, -1);
+	public static View addDetail(Context context, ViewGroup parent, CharSequence label, CharSequence value) {
+		return addDetail(context, parent, label, value, -1);
 	}
 
-	public static void addDetail(Context context, ViewGroup parent, CharSequence label, CharSequence value, int valueId) {
+	public static View addDetail(Context context, ViewGroup parent, CharSequence label, CharSequence value, int valueId) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View detailRow = inflater.inflate(R.layout.snippet_booking_detail, parent, false);
 		TextView labelView = (TextView) detailRow.findViewById(R.id.label_text_view);
@@ -120,6 +124,8 @@ public class LayoutUtils {
 			valueView.setId(valueId);
 		}
 		parent.addView(detailRow);
+
+		return detailRow;
 	}
 
 	public static String formatCheckInOutDate(Context context, Calendar cal) {

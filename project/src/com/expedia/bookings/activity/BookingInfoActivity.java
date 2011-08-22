@@ -560,7 +560,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		// Configure the details
 		ViewGroup detailsLayout = (ViewGroup) findViewById(R.id.details_layout);
 		mRoomTypeHandler.load(detailsLayout);
-		com.expedia.bookings.utils.LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate);
+		com.expedia.bookings.utils.LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate,
+				mRoomTypeHandler);
 
 		// Configure the total cost
 		Money totalAmountAfterTax = mRate.getTotalAmountAfterTax();

@@ -213,7 +213,7 @@ public class ConfirmationActivity extends MapActivity {
 		LayoutUtils.addDetail(this, detailsLayout, R.string.itinerary_number, mBookingResponse.getItineraryId());
 		LayoutUtils.addDetail(this, detailsLayout, R.string.confirmation_email, mBillingInfo.getEmail());
 		mRoomTypeHandler.load(detailsLayout);
-		LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate);
+		LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate, mRoomTypeHandler);
 
 		// Total cost / cancellation policy at the bottom
 		TextView totalCostView = (TextView) findViewById(R.id.total_cost_text_view);
