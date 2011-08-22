@@ -37,9 +37,6 @@ import com.expedia.bookings.widget.AdapterView;
 import com.expedia.bookings.widget.AdapterView.OnItemSelectedListener;
 import com.expedia.bookings.widget.Gallery;
 import com.expedia.bookings.widget.Gallery.OnScrollListener;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
@@ -51,11 +48,7 @@ import com.mobiata.hotellib.data.Media;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Property.Amenity;
-import com.mobiata.hotellib.data.PropertyInfo;
-import com.mobiata.hotellib.data.PropertyInfoResponse;
 import com.mobiata.hotellib.data.Rate;
-import com.mobiata.hotellib.server.ExpediaServices;
-import com.mobiata.hotellib.server.PropertyInfoResponseHandler;
 import com.mobiata.hotellib.utils.StrUtils;
 import com.omniture.AppMeasurement;
 
@@ -82,17 +75,19 @@ public class HotelActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setupHotelActivity(savedInstanceState, getIntent());
+		setupHotelActivity(savedInstanceState);
 	}
 	
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
-		setupHotelActivity(null, intent);
+		setIntent(intent);
+		setupHotelActivity(null);
 	}
 
-	private void setupHotelActivity(Bundle savedInstanceState, final Intent intent) {
+	private void setupHotelActivity(Bundle savedInstanceState) {
 		mContext = this;
+		final Intent intent = getIntent();
 
 		setContentView(R.layout.activity_hotel);
 
@@ -123,7 +118,7 @@ public class HotelActivity extends Activity {
 		// Fill in header views
 		OnClickListener onBookNowClick = new OnClickListener() {
 			public void onClick(View v) {
-				startRoomRatesActivity(intent);
+				startRoomRatesActivity();
 			}
 		};
 		
@@ -237,7 +232,7 @@ public class HotelActivity extends Activity {
 		priceContainer.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startRoomRatesActivity(intent);
+				startRoomRatesActivity();
 			}
 		});
 		priceContainer.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_left));
@@ -358,12 +353,12 @@ public class HotelActivity extends Activity {
 		String description = property.getDescriptionText();
 		if (description != null && description.length() > 0) {
 			ViewGroup descriptionContainer = (ViewGroup) findViewById(R.id.description_container);
-			layoutDescription(descriptionContainer, description, intent);
+			layoutDescription(descriptionContainer, description);
 		}
 		
 		// Tracking
 		if (savedInstanceState == null) {
-			onPageLoad(intent);
+			onPageLoad();
 		}
 		
 	}
@@ -406,7 +401,7 @@ public class HotelActivity extends Activity {
 		super.onStart();
 
 		if (mWasStopped) {
-			onPageLoad(getIntent());
+			onPageLoad();
 			mWasStopped = false;
 		}
 	}
@@ -435,13 +430,13 @@ public class HotelActivity extends Activity {
 		amenitiesTable.addView(amenityLayout);
 	}
 
-	public void startRoomRatesActivity(Intent intent) {
+	public void startRoomRatesActivity() {
 		Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
-		roomsRatesIntent.fillIn(intent, 0);
+		roomsRatesIntent.fillIn(getIntent(), 0);
 		startActivity(roomsRatesIntent);
 	}
 
-	private void layoutDescription(ViewGroup descriptionContainer, String description, Intent intent) {
+	private void layoutDescription(ViewGroup descriptionContainer, String description) {
 		
 		// List support
 		description = description.replace("<ul>", "\n\n");
@@ -490,7 +485,7 @@ public class HotelActivity extends Activity {
 				// Check if we should add address here or not
 				addressSection--;
 				if (addressSection == 0) {
-					addAddressSection(descriptionContainer, intent);
+					addAddressSection(descriptionContainer);
 				}
 			}
 			else {
@@ -510,7 +505,7 @@ public class HotelActivity extends Activity {
 
 		// If we didn't have enough sections before this, add the address now
 		if (addressSection > 0) {
-			addAddressSection(descriptionContainer, intent);
+			addAddressSection(descriptionContainer);
 		}
 		
 	}
@@ -566,7 +561,7 @@ public class HotelActivity extends Activity {
 		detailsSection.addView(starRatingContainer, lp);
 	}
 
-	private void addAddressSection(ViewGroup descriptionContainer, final Intent intent) {
+	private void addAddressSection(ViewGroup descriptionContainer) {
 		Location location = mProperty.getLocation();
 		if (location != null) {
 			int flags = StrUtils.F_STREET_ADDRESS + StrUtils.F_CITY + StrUtils.F_STATE_CODE + StrUtils.F_POSTAL_CODE;
@@ -585,7 +580,7 @@ public class HotelActivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					Intent newIntent = new Intent(mContext, HotelMapActivity.class);
-					newIntent.fillIn(intent, 0);
+					newIntent.fillIn(getIntent(), 0);
 					startActivity(newIntent);
 				}
 			});
@@ -604,7 +599,7 @@ public class HotelActivity extends Activity {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Omniture tracking
 
-	public void onPageLoad(Intent intent) {
+	public void onPageLoad() {
 		Log.d("Tracking \"App.Hotels.Infosite\" pageLoad");
 
 		AppMeasurement s = new AppMeasurement(getApplication());
@@ -625,7 +620,7 @@ public class HotelActivity extends Activity {
 		TrackingUtils.addProducts(s, mProperty);
 
 		// Position, if opened from list
-		int position = intent.getIntExtra(EXTRA_POSITION, -1);
+		int position = getIntent().getIntExtra(EXTRA_POSITION, -1);
 		if (position != -1) {
 			s.eVar39 = position + "";
 		}
