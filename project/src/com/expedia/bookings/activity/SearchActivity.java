@@ -2,9 +2,11 @@ package com.expedia.bookings.activity;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -2001,20 +2003,27 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void setBookingInfoText(TextView bookingInfoText) {
 		final String location = mSearchEditText.getText().toString();
-		final int startMonth = mDatesCalendarDatePicker.getStartMonth();
 		final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
+		final int startYear = mDatesCalendarDatePicker.getStartYear();
 		final int endYear = mDatesCalendarDatePicker.getEndYear();
-		final int endMonth = mDatesCalendarDatePicker.getEndMonth();
-		final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
 		final int adults = mSearchParams.getNumAdults();
 		final int children = mSearchParams.getNumChildren();
+
+		Calendar start = new GregorianCalendar(startYear, mDatesCalendarDatePicker.getStartMonth(), startDay);
+		Calendar end = new GregorianCalendar(endYear, mDatesCalendarDatePicker.getEndMonth(),
+				mDatesCalendarDatePicker.getEndDayOfMonth());
+
+		String format = "MMM d";
+		if (startYear != endYear) {
+			format += ", yyyy";
+		}
 
 		String[] shortMonthNames = getResources().getStringArray(R.array.short_month_names);
 
 		if (bookingInfoText != null) {
 			Spanned spanned = Html.fromHtml(getString(R.string.booking_info_template, location,
-					shortMonthNames[startMonth],
-					startDay, shortMonthNames[endMonth], endDay, endYear));
+					android.text.format.DateFormat.format(format, start),
+					android.text.format.DateFormat.format(format, end)));
 			bookingInfoText.setText(spanned);
 		}
 

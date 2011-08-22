@@ -4,15 +4,18 @@
 
 	<!-- Search Activity -->
 	<string name="search">Search</string>
-	<!--  The string that appears at the top of the search header.
-	      For example: "Chicago, IL - Aug 24 to Aug 25, 2011"
-	      1$ - The search address
-	      2$ - The check-in month 
-	      3$ - The check-in day of month
-	      4$ - The check-out month 
-	      5$ - The check-out day of month
-	      6$ - The year -->
-	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — &lt;b>%2$s %3$d&lt;/b> to &lt;b>%4$s %5$s, %6$d&lt;/b></string>
+	<!--  
+		The string that appears at the top of the search header.
+	    
+	    Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
+	    
+	    1$ - The search address
+	    2$ - The check-in date
+	    3$ - The check-out date
+	      
+	    The dates may include year, if we cross a year boundary 
+	-->
+	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — &lt;b>%2$s&lt;/b> to &lt;b>%3$s&lt;/b></string>
 	<!-- Label indicating how many hotels are left after filtering -->
 	<string name="filter_info_template">&lt;b>%1$d&lt;/b> matching hotels</string>
 	<!-- Hint for filtering results by hotel name -->
