@@ -162,17 +162,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final HashMap<Sort, Integer> SORT_ADVERBS = new HashMap<Sort, Integer>() {
-		private static final long serialVersionUID = 1L;
-
-		{
-			put(Sort.DISTANCE, R.string.sort_adverb_distance);
-			put(Sort.POPULAR, R.string.sort_adverb_popular);
-			put(Sort.PRICE, R.string.sort_adverb_price);
-			put(Sort.RATING, R.string.sort_adverb_rating);
-		}
-	};
-
 	private static final HashMap<Sort, Integer> SORT_DESCRIPTIONS = new HashMap<Sort, Integer>() {
 		private static final long serialVersionUID = 1L;
 
@@ -207,7 +196,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private static final int MAX_GUESTS_TOTAL = 5;
 	private static final int MAX_GUEST_NUM = 4;
 
-	private static final int DEFAULT_SORT_RADIO_GROUP_CHILD = R.id.sort_price_button;
 	private static final int DEFAULT_RADIUS_RADIO_GROUP_CHILD = R.id.radius_large_button;
 	private static final int DEFAULT_PRICE_RADIO_GROUP_CHILD = R.id.price_all_button;
 
@@ -2029,8 +2017,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			format += ", yyyy";
 		}
 
-		String[] shortMonthNames = getResources().getStringArray(R.array.short_month_names);
-
 		if (bookingInfoText != null) {
 			Spanned spanned = Html.fromHtml(getString(R.string.booking_info_template, location,
 					android.text.format.DateFormat.format(format, start),
@@ -2594,7 +2580,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 				mSearchParams.setDestinationId(null);
 				mSearchParams.setSearchType(SearchType.PROXIMITY);
 
-				setSearchParams(MapUtils.getLatitiude(center), MapUtils.getLongitiude(center));
+				setSearchParams(MapUtils.getLatitude(center), MapUtils.getLongitude(center));
 				startSearch();
 			}
 		}
