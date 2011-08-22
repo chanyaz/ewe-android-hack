@@ -56,6 +56,8 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 	private TextView mRoomDetailsTextView;
 
 	private OnClickListener mOnRowClickListener;
+	
+	private OnCheckInOutTimesDownloadedListener mOnCheckInOutTimesDownloadedListener;
 
 	public RoomTypeHandler(Activity activity, Intent intent, Property property, SearchParams searchParams, Rate rate) {
 		mActivity = activity;
@@ -104,6 +106,10 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 		};
 		addClickableView(roomTypeLayout);
 		addClickableView(mRoomDetailsLayout);
+	}
+	
+	public void setOnCheckInOutTimesDownloadedListener(OnCheckInOutTimesDownloadedListener listener) {
+		mOnCheckInOutTimesDownloadedListener = listener;
 	}
 
 	// We may want to add clickable rows outside of the handler, to expand the tap area; this allows
@@ -205,6 +211,11 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 				showDetails(mPropertyInfo);
 			}
 			showCheckInCheckoutDetails(mPropertyInfo);
+			
+			if(mOnCheckInOutTimesDownloadedListener != null) {
+				mOnCheckInOutTimesDownloadedListener.onCheckInOutTimeDownloaded(mPropertyInfo.getCheckInTime(), mPropertyInfo.getCheckOutTime());
+			}
+			
 		}
 	}
 
@@ -264,5 +275,9 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 		if (mPropertyInfo != null) {
 			intent.putExtra(Codes.PROPERTY_INFO, mPropertyInfo.toJson().toString());
 		}
+	}
+	
+	public interface OnCheckInOutTimesDownloadedListener {
+		public void onCheckInOutTimeDownloaded(String checkInTime, String checkOutTime);
 	}
 }

@@ -1,7 +1,10 @@
 package com.expedia.bookings.activity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +56,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.widget.RoomTypeHandler;
+import com.expedia.bookings.widget.RoomTypeHandler.OnCheckInOutTimesDownloadedListener;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -97,6 +101,14 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private static final int DIALOG_BOOKING_NULL = 2;
 	private static final int DIALOG_BOOKING_ERROR = 3;
 	private static final int DIALOG_CLEAR_PRIVATE_DATA = 4;
+
+	/*
+	 * Constants for determining "standard" check in/out times
+	 */
+	private static final String START_CHECK_IN_TIME_RANGE = "1:59 PM";
+	private static final String END_CHECK_IN_TIME_RANGE = "3:01 PM";
+	private static final String START_CHECK_OUT_TIME_RANGE = "10:59 AM";
+	private static final String END_CHECK_OUT_TIME_RANGE = "1:01 PM";
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
@@ -173,6 +185,36 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private boolean mBillingCompleted;
 	private boolean mCardCompleted;
 
+	// Listeners
+	private OnCheckInOutTimesDownloadedListener mListener = new OnCheckInOutTimesDownloadedListener() {
+
+		@Override
+		public void onCheckInOutTimeDownloaded(String checkInTime, String checkOutTime) {
+			SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
+			try {
+
+				Date checkInDate = df.parse(checkInTime);
+				Date checkInStart = df.parse(START_CHECK_IN_TIME_RANGE);
+				Date checkInEnd = df.parse(END_CHECK_IN_TIME_RANGE);
+				
+				Date checkOutDate = df.parse(checkOutTime);
+				Date checkOutStart = df.parse(START_CHECK_OUT_TIME_RANGE);
+				Date checkOutEnd = df.parse(END_CHECK_OUT_TIME_RANGE);
+
+				// check if the check in and check out times are outside the range considered "standard"
+				// If so, notify the user via a toast.
+				if (!isDateWithinRange(checkInDate, checkInStart, checkInEnd) || 
+						!isDateWithinRange(checkOutDate, checkOutStart, checkOutEnd)) {
+					Toast.makeText(BookingInfoActivity.this, getString(R.string.check_in_out_time_note),
+							Toast.LENGTH_LONG).show();
+				}
+			}
+			catch (ParseException e) {
+				Log.i("Unable to parse check in/out time information", e);
+			}
+		}
+	};
+
 	// This is a tracking variable to solve a nasty problem.  The problem is that Spinner.onItemSelectedListener()
 	// fires wildly when you set the Spinner's position manually (sometimes twice at a time).  We only want to track
 	// when a user *explicitly* clicks on a new country.  What this does is keep track of what the system thinks
@@ -238,6 +280,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// Configure the room type handler
 		mRoomTypeHandler = new RoomTypeHandler(this, getIntent(), mProperty, mSearchParams, mRate);
+		mRoomTypeHandler.setOnCheckInOutTimesDownloadedListener(mListener);
 		mRoomTypeHandler.onCreate();
 
 		// Retrieve some data we keep using
@@ -279,7 +322,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		configureTicket();
 		configureForm();
 		configureFooter();
-		
+
 		// Retrieve previous instance
 		SparseArray<Object> lastInstance = (SparseArray<Object>) getLastNonConfigurationInstance();
 		if (lastInstance != null) {
@@ -392,7 +435,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	protected void onPause() {
 		super.onPause();
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		mRoomTypeHandler.onDestroy();
@@ -656,16 +699,16 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				// If there is text, don't show the lock icon
 				int lockIcon = (s == null || s.length() == 0) ? R.drawable.credit_card_lock : 0;
 				Drawable dr[] = mCardNumberEditText.getCompoundDrawables();
-				if(dr != null) {
+				if (dr != null) {
 					Drawable lockIconDrawable = lockIcon == 0 ? null : getResources().getDrawable(lockIcon);
 					mCardNumberEditText.setCompoundDrawablesWithIntrinsicBounds(lockIconDrawable, dr[1], dr[2], dr[3]);
-				} else {
+				}
+				else {
 					mCardNumberEditText.setCompoundDrawablesWithIntrinsicBounds(lockIcon, 0, 0, 0);
 				}
 			}
 		});
 
-		
 		mCardNumberEditText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.credit_card_lock, 0, 0, 0);
 		mCardNumberEditText.setCompoundDrawablePadding(Math.round(6 * getResources().getDisplayMetrics().density));
 
@@ -1101,6 +1144,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		}
 
 		return false;
+	}
+	
+	private boolean isDateWithinRange(Date date, Date start, Date end) {
+		return (date.after(start) && date.before(end));
 	}
 
 	public void checkSectionsCompleted(boolean trackCompletion) {
