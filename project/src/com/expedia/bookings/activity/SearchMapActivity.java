@@ -44,18 +44,18 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	// enable the MyLocationOverlay.
 	private boolean mIsActive;
 	private boolean mShowDistance = true;
-	
+
 	// save instance variables
 	private static final String CURRENT_CENTER_LAT = "CURRENT_CENTER_LAT";
 	private static final String CURRENT_CENTER_LON = "CURRENT_CENTER_LON";
 	private static final String CURRENT_ZOOM_LEVEL = "CURRENT_ZOOM_LEVEL";
 	private static final String CURRENT_TAPPED_ITEM_PROPERTY_ID = "CURRENT_TAPPED_ITEM_PROPERTY_ID";
-	
+
 	// saved information for map
 	private GeoPoint mSavedCenter;
 	private int mSavedZoomLevel;
 	private String mTappedPropertyId;
-	
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
 
@@ -80,20 +80,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 		restoreMapState(savedInstanceState);
 
-		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
-		if (state != null) {
-			mSearchResponse = state.searchResponse;
-
-			if (mSearchResponse != null) {
-				onSearchCompleted(mSearchResponse);
-			}
-		}
-		else {
-
-		}
-
 		mIsActive = false;
-		
 	}
 
 	@Override
@@ -123,21 +110,13 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		outState.putInt(CURRENT_CENTER_LAT, mMapView.getMapCenter().getLatitudeE6());
 		outState.putInt(CURRENT_CENTER_LON, mMapView.getMapCenter().getLongitudeE6());
 		outState.putInt(CURRENT_ZOOM_LEVEL, mMapView.getZoomLevel());
-		
+
 		String tappedPropertyId = (mHotelItemizedOverlay == null) ? null : mHotelItemizedOverlay.getTappedPropertyId();
-		if(tappedPropertyId != null) {
+		if (tappedPropertyId != null) {
 			outState.putString(CURRENT_TAPPED_ITEM_PROPERTY_ID, tappedPropertyId);
 		}
-		
+
 		super.onSaveInstanceState(outState);
-	}
-
-	@Override
-	public Object onRetainNonConfigurationInstance() {
-		ActivityState state = new ActivityState();
-		state.searchResponse = mSearchResponse;
-
-		return state;
 	}
 
 	@Override
@@ -221,7 +200,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	@Override
 	public void onSetShowDistance(boolean showDistance) {
 		mShowDistance = showDistance;
-		if(mHotelItemizedOverlay != null) {
+		if (mHotelItemizedOverlay != null) {
 			mHotelItemizedOverlay.setShowDistance(showDistance);
 		}
 	}
@@ -247,20 +226,20 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mSavedCenter = mMapView.getMapCenter();
 		mSavedZoomLevel = mMapView.getZoomLevel();
 		mTappedPropertyId = mHotelItemizedOverlay.getTappedPropertyId();
-		
-		mHotelItemizedOverlay.setProperties(Arrays.asList(mSearchResponse.getFilteredAndSortedProperties()), 
-					mSearchResponse.getProperties());
+
+		mHotelItemizedOverlay.setProperties(Arrays.asList(mSearchResponse.getFilteredAndSortedProperties()),
+				mSearchResponse.getProperties());
 		mMapView.invalidate();
 		Boolean areHotelsVisible = mHotelItemizedOverlay.areHotelsVisible();
-	
+
 		/*
 		 * Only restore the current map state across a filtering if there
 		 * are hotels in the current visible area of the map
 		 */
-		if(areHotelsVisible != null && !areHotelsVisible.booleanValue()) {
+		if (areHotelsVisible != null && !areHotelsVisible.booleanValue()) {
 			clearSavedMapInfo();
 		}
-		
+
 		// Animate to a new center point
 		focusOnProperties();
 	}
@@ -277,50 +256,42 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	public void focusOnProperties() {
 
 		MapController mc = mMapView.getController();
-		
+
 		/*
 		 * restore map state
 		 */
-		if(mSavedCenter != null) {
+		if (mSavedCenter != null) {
 			mc.setCenter(mSavedCenter);
 			mc.setZoom(mSavedZoomLevel);
-			if(mTappedPropertyId != null) {
+			if (mTappedPropertyId != null) {
 				mHotelItemizedOverlay.showBalloon(mTappedPropertyId);
 			}
-		} else {
+		}
+		else {
 			mc.animateTo(mHotelItemizedOverlay.getCenter());
 			mc.zoomToSpan(mHotelItemizedOverlay.getLatSpanE6(), mHotelItemizedOverlay.getLonSpanE6());
 			mSavedCenter = mHotelItemizedOverlay.getCenter();
 			mSavedZoomLevel = mMapView.getZoomLevel();
 		}
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Private methods
-	
+
 	private void restoreMapState(Bundle savedInstanceState) {
-		if(savedInstanceState != null && savedInstanceState.containsKey(CURRENT_ZOOM_LEVEL)) {
+		if (savedInstanceState != null && savedInstanceState.containsKey(CURRENT_ZOOM_LEVEL)) {
 			int latE6 = savedInstanceState.getInt(CURRENT_CENTER_LAT);
 			int lonE6 = savedInstanceState.getInt(CURRENT_CENTER_LON);
-			
+
 			mSavedCenter = new GeoPoint(latE6, lonE6);
 			mSavedZoomLevel = savedInstanceState.getInt(CURRENT_ZOOM_LEVEL);
-			
+
 			mTappedPropertyId = savedInstanceState.getString(CURRENT_TAPPED_ITEM_PROPERTY_ID);
 		}
 	}
-	
+
 	private void clearSavedMapInfo() {
 		mSavedCenter = null;
 		mSavedZoomLevel = -1;
-	}
-	
-
-	
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// Private classes
-
-	private class ActivityState {
-		public SearchResponse searchResponse;
 	}
 }

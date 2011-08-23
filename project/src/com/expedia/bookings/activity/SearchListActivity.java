@@ -57,25 +57,6 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 		mBookingInfoHeader = (TextView) getLayoutInflater().inflate(R.layout.row_booking_info, null);
 		getListView().addHeaderView(mBookingInfoHeader);
-
-		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
-		if (state != null) {
-			mSearchResponse = state.searchResponse;
-			mSearchResponse.getFilter().addOnFilterChangedListener(this);
-
-			mScrollBar.setSearchResponse(mSearchResponse);
-			mAdapter = state.adapter;
-			setListAdapter(mAdapter);
-		}
-	}
-
-	@Override
-	public Object onRetainNonConfigurationInstance() {
-		ActivityState state = new ActivityState();
-		state.searchResponse = mSearchResponse;
-		state.adapter = mAdapter;
-
-		return state;
 	}
 
 	@Override
@@ -185,13 +166,5 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	public void clearResults() {
 		setListAdapter(null);
 		mAdapter = null;
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// Private classes
-
-	private class ActivityState {
-		public SearchResponse searchResponse;
-		public HotelAdapter adapter;
 	}
 }
