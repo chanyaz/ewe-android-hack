@@ -386,9 +386,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 		recommendText.setText(styledText);
 
 		TextView totalReviews = (TextView) findViewById(R.id.user_review_total_reviews);
-		String totalReviewsText = String.format(getString(R.string.user_review_total_reviews), numberTotal);
-		CharSequence styledTotalText = Html.fromHtml(totalReviewsText);
-		totalReviews.setText(styledTotalText);
+		totalReviews.setText(getResources().getQuantityString(R.plurals.number_of_reviews, numberTotal, numberTotal));
 
 		RatingBar bottomRatingBar = (RatingBar) findViewById(R.id.user_review_rating_bar_bottom);
 		bottomRatingBar.setRating((float) mProperty.getAverageExpediaRating());

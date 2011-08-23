@@ -6,7 +6,6 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,10 +33,12 @@ public class LayoutUtils {
 		userRating.setRating((float) property.getAverageExpediaRating());
 		TextView location = (TextView) activity.findViewById(R.id.location_text_view);
 		location.setText(StrUtils.formatAddress(property.getLocation(), StrUtils.F_CITY + StrUtils.F_STATE_CODE));
-		
+
 		TextView reviewsText = (TextView) activity.findViewById(R.id.user_rating_text_view);
-		reviewsText.setText(activity.getString(R.string.user_review_total_reviews_template, property.getTotalReviews()));
-		
+		int numReviews = property.getTotalReviews();
+		reviewsText.setText(activity.getResources().getQuantityString(R.plurals.number_of_reviews, numReviews,
+				numReviews));
+
 		View reviewsContainer = activity.findViewById(R.id.user_rating_layout);
 		if(onReviewsClick == null) {
 			reviewsContainer.setEnabled(false);

@@ -131,12 +131,6 @@
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Loading user reviews...</string>
-	<plurals name="user_reviews_x_total_reviews">
-		<item quantity="one">user review</item>
-		<item quantity="other">total reviews</item>
-	</plurals>
-	<!-- The x total reviews text all -->
-	<string name="user_review_total_reviews_tag">&lt;b>%1$d&lt;/b> %2$s</string>
 	<!-- The 'out of 5' text for the big rating -->
 	<string name="user_review_rating_out_of">out of 5</string>
 	<!-- Sort button prompt title -->
@@ -153,9 +147,14 @@
 	<string name="user_review_read_more">Read more</string>
 	<!-- User review recommendation text -->
 	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> out of &lt;b>%2$d&lt;/b> guests recommend this hotel.</string>
-	<!-- X total reviews -->
-	<string name="user_review_total_reviews">&lt;b>%1$d Reviews&lt;/b></string>
-	<string name="user_review_total_reviews_template">%1$d Reviews</string>
+	<!-- A number of reviews -->
+	<plurals name="number_of_reviews">
+		<item quantity="zero">%d Reviews</item>
+		<item quantity="one">%d Review</item>
+		<item quantity="two">%d Reviews</item>
+		<item quantity="many">%d Reviews</item>
+		<item quantity="other">%d Reviews</item>
+	</plurals>
 	<!-- User review name and place review signature -->
 	<string name="user_review_name_and_location_signature">%1$s from %2$s</string>
 	<!-- User review no critical reviews -->
