@@ -215,7 +215,7 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 			mLastDrawTime = -1;
 		}
 
-		if (!mDrawingStarted && !mIsPaused) {
+		if (!mDrawingStarted && !mIsPaused && mOnDrawStartedListners != null) {
 			for (OnDrawStartedListener onDrawStartedListener : mOnDrawStartedListners) {
 				onDrawStartedListener.onDrawStarted();
 			}
