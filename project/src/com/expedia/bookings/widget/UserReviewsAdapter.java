@@ -84,7 +84,6 @@ public class UserReviewsAdapter extends BaseAdapter {
 				viewHolder.body.setText(userReviewLoaded.review.getBody());
 				userReviewLoaded.isDisplayingFull = true;
 				setupFullReviewDisplay(viewHolder);
-				mListView.setSelection(position + 1); //scroll to item (account for header)
 			}
 		});
 		
