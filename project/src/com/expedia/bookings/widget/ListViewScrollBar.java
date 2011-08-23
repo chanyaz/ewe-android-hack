@@ -291,6 +291,9 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		if (firstVisible < numHeaders) {
 			targetRow = numHeaders;
 		}
+		if (mListView.getChildCount() <= targetRow) {
+			return getHeaderHeight() / (double) numHeaders;
+		}
 		double totalHeight = (mTotalItemCount - numHeaders) * mListView.getChildAt(targetRow).getHeight()
 				+ getHeaderHeight() + (HEIGHT_ROW_DIVIDER * (mTotalItemCount - 1));
 		return totalHeight / mTotalItemCount;
