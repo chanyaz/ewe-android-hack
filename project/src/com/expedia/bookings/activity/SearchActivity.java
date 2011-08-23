@@ -526,7 +526,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setShowDistance(mShowDistance);
 		setDisplayType(mDisplayType, false);
 		
-		// 9028: only broadcast search completed once all 
+		// 9028:t only broadcast search completed once all 
 		// elements have been setup
 		if(toBroadcastSearchCompleted) {
 			broadcastSearchCompleted(mSearchResponse);

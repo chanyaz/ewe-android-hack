@@ -11,4 +11,11 @@
         <!-- The rate at which we flip through images, in ms. -->
         <attr name="android:flipInterval" />
     </declare-styleable>
+    
+	<declare-styleable name="CustomEditText">
+		<!--  Flag to indicate whether or not to use the 
+		clear field functionality set up as a right drawable -->
+    	<attr name="useClearFieldDrawable" format="boolean"/>
+    </declare-styleable>
+    
 </resources>

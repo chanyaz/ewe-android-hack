@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -52,6 +53,8 @@ public class CustomEditText extends EditText {
 	// the clear field button based on intent
 	private boolean isClearFieldButtonShowing;
 	
+	private boolean mUseClearFieldDrawable = true;
+	
 	/*
 	 * This textwatcher is responsible for 
 	 * dismissing the error when the user starts 
@@ -75,10 +78,10 @@ public class CustomEditText extends EditText {
 				// and there is no error to be shown,
 				// show the clear field drawable 
 				// for the user to easily clear the text
-				if(isFocused() && mCustomError == null) {
+				if(isFocused() && mCustomError == null && mUseClearFieldDrawable) {
 					setClearFieldButton();
 				}
-			} else {
+			} else if(mUseClearFieldDrawable){
 				removeClearFieldButton();
 			}
 		}
@@ -98,6 +101,7 @@ public class CustomEditText extends EditText {
     public static class SavedState extends BaseSavedState {
         CharSequence error;
         boolean isClearFieldButtonShowing;
+        boolean mUseClearFieldDrawable;
 
         SavedState(Parcelable superState) {
             super(superState);
@@ -110,7 +114,16 @@ public class CustomEditText extends EditText {
             if (error == null) {
                 out.writeInt(0);
             } else {
-            	if(isClearFieldButtonShowing) {
+            	if(!mUseClearFieldDrawable) {
+            		// use the 3 to indicate that 
+            		// the clear field drawable is not 
+            		// to be used in this case. Having 
+            		// this flag set to false and 
+            		// is ClearFieldButtonShowing set to true makes
+            		// no sense. Hence, that case is not 
+            		// considered.
+            		out.writeInt(3);
+            	} else if(isClearFieldButtonShowing) {
             		// use the 2 to indicate that 
             		// the clear field button is showing
             		// even when there is an error
@@ -156,6 +169,8 @@ public class CustomEditText extends EditText {
             		isClearFieldButtonShowing = false;
             	} else if(in.readInt() == 2) {
             		isClearFieldButtonShowing = true;
+            	} else if (in.readInt() == 3) {
+            		mUseClearFieldDrawable = false;
             	}
             	
             	// set the integer to 1 so as to pick up the
@@ -172,15 +187,10 @@ public class CustomEditText extends EditText {
 	// Constructors
 	///////////
 	
-	public CustomEditText(Context context, AttributeSet attrs,
-			int defStyle) {
-		super(context, attrs, defStyle);
-		addTextChangedListener(textWatcher);
-		setupTransparentRightDrawable();
-	}
-
 	public CustomEditText(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomEditText);
+		mUseClearFieldDrawable = a.getBoolean(R.styleable.CustomEditText_useClearFieldDrawable, true);
 		addTextChangedListener(textWatcher);
 		setupTransparentRightDrawable();
 	}
@@ -231,6 +241,9 @@ public class CustomEditText extends EditText {
 	}
 	
 	public void removeClearFieldButton() {
+		if(!mUseClearFieldDrawable) {
+			return;
+		}
 		
 		// only remove the right drawable 
 		// if the clear field button is 
@@ -333,13 +346,13 @@ public class CustomEditText extends EditText {
     		// before giving the user the ability to clear text
     		if(mCustomError != null) {
     			showError();
-    		} else if(getText().length() > 0) {
+    		} else if(getText().length() > 0 && mUseClearFieldDrawable) {
         			setClearFieldButton();
     		}
     	} else {
             if (mCustomError != null) {
                 hideError();
-            } else {
+            } else if(mUseClearFieldDrawable){
             	// remove the right drawable only if we know
             	// that its not the error icon 
                 removeClearFieldButton();
@@ -405,7 +418,7 @@ public class CustomEditText extends EditText {
     		});
     	}
     	
-    	if(ss.isClearFieldButtonShowing) {
+    	if(ss.isClearFieldButtonShowing && mUseClearFieldDrawable) {
     		setClearFieldButton();
     	}
     }
@@ -567,6 +580,10 @@ public class CustomEditText extends EditText {
      * the x button.
      */
 	private void setupTransparentRightDrawable() {
+		if(!mUseClearFieldDrawable) {
+			return;
+		}
+		
 		Drawable cancelDrawable = getContext().getResources().getDrawable(R.drawable.btn_cancel_normal);
 		Drawable transparentDrawable = new ColorDrawable(android.R.color.transparent);
 		transparentDrawable.setBounds(0, 0, cancelDrawable.getIntrinsicWidth(), cancelDrawable.getIntrinsicHeight());
