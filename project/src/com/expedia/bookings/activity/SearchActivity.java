@@ -455,6 +455,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setActivity(SearchListActivity.class);
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
+		boolean toBroadcastSearchCompleted = false;
 		if (state != null) {
 			extractActivityState(state);
 
@@ -466,7 +467,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					if (mFilter != null) {
 						mSearchResponse.setFilter(mFilter);
 					}
-					broadcastSearchCompleted(mSearchResponse);
+					toBroadcastSearchCompleted = true;
 				}
 			}
 		}
@@ -524,6 +525,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setActivityByTag(mTag);
 		setShowDistance(mShowDistance);
 		setDisplayType(mDisplayType, false);
+		
+		// 9028: only broadcast search completed once all 
+		// elements have been setup
+		if(toBroadcastSearchCompleted) {
+			broadcastSearchCompleted(mSearchResponse);
+		}
 	}
 
 	@Override
