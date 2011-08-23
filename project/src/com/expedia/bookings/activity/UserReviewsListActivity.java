@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -69,6 +70,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 	// Review data structures
 	private ReviewSort mCurrentReviewSort = ReviewSort.NEWEST_REVIEW_FIRST;
 	private HashMap<ReviewSort, ArrayList<ReviewWrapper>> mReviewsMapWrapped = new HashMap<ReviewSort, ArrayList<ReviewWrapper>>();
+	private HashMap<ReviewSort, Integer> mFirstVisibleItemPositionForReviewsMap = new HashMap<ReviewSort, Integer>();
 	private HashMap<ReviewSort, Boolean> mReviewsAttemptDownloadMap = new HashMap<ReviewSort, Boolean>();
 	public HashMap<ReviewSort, Integer> mPageNumberMap = new HashMap<ReviewSort, Integer>();
 	public boolean moreCriticalPages = true;
@@ -273,6 +275,15 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 				setListAdapter(mAdapter);
 				mAdapter.addUserReviews(new ArrayList<ReviewWrapper>(mReviewsMapWrapped.get(mCurrentReviewSort)));
 				mAdapter.notifyDataSetChanged();
+				mAdapter.registerDataSetObserver(new DataSetObserver() {
+
+					@Override
+					public void onChanged() {
+						super.onChanged();
+						setupListScrollPosition();
+						mAdapter.unregisterDataSetObserver(this);
+					}
+				});
 			}
 			else {
 				if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST) {
@@ -351,8 +362,10 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 				mAdapter = new UserReviewsAdapter(mContext, mProperty);
 				setListAdapter(mAdapter);
 				mAdapter.switchUserReviews(mReviewsMapWrapped.get(mCurrentReviewSort));
+				setupListScrollPosition();
 				setNoReviewsText();
 			}
+
 		});
 
 		RadioButton btn;
@@ -391,6 +404,14 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 		RatingBar bottomRatingBar = (RatingBar) findViewById(R.id.user_review_rating_bar_bottom);
 		bottomRatingBar.setRating((float) mProperty.getAverageExpediaRating());
 	}
+	
+	private void setupListScrollPosition() {
+		Integer firstVisibleItemPosition = mFirstVisibleItemPositionForReviewsMap.get(mCurrentReviewSort);
+		if(firstVisibleItemPosition == null) {
+			firstVisibleItemPosition = new Integer(0);
+		}
+		setSelection(firstVisibleItemPosition.intValue());
+	}
 
 	public void setNoReviewsText() {
 		if (mAdapter.getCount() == 0 && mReviewsAttemptDownloadMap.get(mCurrentReviewSort)) {
@@ -415,6 +436,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		mFirstVisibleItemPositionForReviewsMap.put(mCurrentReviewSort, new Integer(firstVisibleItem));
 		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
 
 		if (loadMore && mReviewsMapWrapped.get(mCurrentReviewSort) != null
@@ -485,6 +507,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 		// make sure to save the read more state from the adapter
 		mReviewsMapWrapped.put(mCurrentReviewSort, mAdapter.mLoadedReviews);
 		state.reviewsMapWrapped = mReviewsMapWrapped;
+		state.firstVisibleItemPositionForReviewsMap = mFirstVisibleItemPositionForReviewsMap;
 		state.pageNumberMap = mPageNumberMap;
 		state.moreCriticalPages = moreCriticalPages;
 		state.moreFavorablePages = moreFavorablePages;
@@ -494,6 +517,7 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 	private void extractActivityState(ActivityState state) {
 		mCurrentReviewSort = state.mCurrentReviewSort;
 		mReviewsMapWrapped = state.reviewsMapWrapped;
+		mFirstVisibleItemPositionForReviewsMap = state.firstVisibleItemPositionForReviewsMap;
 		mPageNumberMap = state.pageNumberMap;
 		moreCriticalPages = state.moreCriticalPages;
 		moreFavorablePages = state.moreFavorablePages;
@@ -503,7 +527,10 @@ public class UserReviewsListActivity extends ListActivity implements OnScrollLis
 		public ReviewSort mCurrentReviewSort;
 		public HashMap<ReviewSort, ArrayList<ReviewWrapper>> reviewsMapWrapped;
 		public HashMap<ReviewSort, Integer> pageNumberMap;
+		public HashMap<ReviewSort, Integer> firstVisibleItemPositionForReviewsMap;
 		public boolean moreCriticalPages;
 		public boolean moreFavorablePages;
 	}
+	
+	
 }
