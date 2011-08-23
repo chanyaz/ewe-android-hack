@@ -11,13 +11,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.UserReviewsListActivity.ReviewWrapper;
-
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.ReviewRating;
 
@@ -28,14 +26,12 @@ public class UserReviewsAdapter extends BaseAdapter {
 	// Private members
 	private Context mContext;
 	private LayoutInflater mInflater;
-	private ListView mListView;
 
 	public ArrayList<ReviewWrapper> mLoadedReviews;
 
-	public UserReviewsAdapter(Context context, Property property, ListView lv) {
+	public UserReviewsAdapter(Context context, Property property) {
 		mContext = context;
 		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mListView = lv;
 	}
 
 	@Override
