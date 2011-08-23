@@ -26,6 +26,8 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 	private static final int MAX_THUMBNAILS = 100;
 
+	private static final String STATE_POSITION = "STATE_POSITION";
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
@@ -37,6 +39,9 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	private TextView mBookingInfoHeader;
 
 	private boolean mShowDistance = true;
+
+	// The selected position from the last instance; cleared once used
+	private int mSelectedPosition = -1;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
@@ -57,6 +62,16 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 		mBookingInfoHeader = (TextView) getLayoutInflater().inflate(R.layout.row_booking_info, null);
 		getListView().addHeaderView(mBookingInfoHeader);
+
+		if (savedInstanceState != null) {
+			mSelectedPosition = savedInstanceState.getInt(STATE_POSITION, -1);
+		}
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt(STATE_POSITION, mSelectedPosition);
 	}
 
 	@Override
@@ -79,6 +94,8 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		mSelectedPosition = firstVisibleItem;
+
 		// Trim the ends (recycle images)
 		if (totalItemCount > MAX_THUMBNAILS) {
 			final int center = firstVisibleItem + (visibleItemCount / 2);
@@ -147,6 +164,10 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		mAdapter.setShowDistance(mShowDistance);
 		mBookingInfoHeader.setText(mParent.getBookingInfoHeaderText());
 		setListAdapter(mAdapter);
+
+		if (mSelectedPosition != -1) {
+			setSelection(mSelectedPosition);
+		}
 	}
 
 	@Override

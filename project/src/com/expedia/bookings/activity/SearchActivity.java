@@ -1007,7 +1007,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		mPanelDismissView.setOnClickListener(mPanelDismissViewClickListener);
 		mTripAdvisorOnlyButton.setOnClickListener(mTripAdvisorOnlyButtonClickListener);
-		mFilterHotelNameEditText.addTextChangedListener(mFilterHotelNameTextWatcher);
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mRatingButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
