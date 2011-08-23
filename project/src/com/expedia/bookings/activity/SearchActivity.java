@@ -529,6 +529,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
+		hideSortOptions();
+		hideFilterOptions();
 
 		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
 			mStartSearchOnResume = true;
