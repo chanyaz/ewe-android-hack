@@ -25,6 +25,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.util.SparseArray;
@@ -656,6 +657,17 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
 		mCountrySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				// Adjust the postal code textview.  Do this regardless of how the country spinner changed selection
+				if (mCountryCodes[mCountrySpinner.getSelectedItemPosition()].equals("US")) {
+					mPostalCodeEditText.setInputType(InputType.TYPE_CLASS_NUMBER
+							| InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+				}
+				else {
+					mPostalCodeEditText.setInputType(InputType.TYPE_CLASS_TEXT
+							| InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS
+							| InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+				}
+
 				// See description of mSelectedCountryPosition to understand why we're doing this
 				if (mSelectedCountryPosition != position) {
 					if (mFormHasBeenFocused) {
