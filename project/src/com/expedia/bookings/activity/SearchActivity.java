@@ -1985,6 +1985,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	// VIEW ATTRIBUTE METHODS
 	//----------------------------------
 
+	private static final String FORMAT_HEADER = "MMM d";
+	private static final String FORMAT_HEADER_WITH_YEAR = "MMM d, yyyy";
+
 	public CharSequence getBookingInfoHeaderText() {
 		String location = getSearchText();
 		int startYear = mDatesCalendarDatePicker.getStartYear();
@@ -1995,14 +1998,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		Calendar end = new GregorianCalendar(endYear, mDatesCalendarDatePicker.getEndMonth(),
 				mDatesCalendarDatePicker.getEndDayOfMonth());
 
-		String format = "MMM d";
+		String startFormatter = FORMAT_HEADER;
+		String endFormatter = FORMAT_HEADER;
 		if (startYear != endYear) {
-			format += ", yyyy";
+			// Start year differs from end year - specify year on both dates
+			startFormatter = endFormatter = FORMAT_HEADER_WITH_YEAR;
+		}
+		else if (Calendar.getInstance().get(Calendar.YEAR) != startYear) {
+			// The entire selection is in a different year from now - specify year on the end date
+			endFormatter = FORMAT_HEADER_WITH_YEAR;
 		}
 
 		return Html.fromHtml(getString(R.string.booking_info_template, location,
-				android.text.format.DateFormat.format(format, start),
-				android.text.format.DateFormat.format(format, end)));
+				android.text.format.DateFormat.format(startFormatter, start),
+				android.text.format.DateFormat.format(endFormatter, end)));
 	}
 
 	private void setBookingInfoText() {
@@ -2222,7 +2231,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			break;
 		}
 		}
-		
+
 		mSearchEditText.setText(getSearchText());
 
 		Calendar checkIn = mSearchParams.getCheckInDate();
