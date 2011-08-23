@@ -50,6 +50,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -80,7 +82,8 @@ import com.expedia.bookings.animation.Rotate3dAnimation;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
-import com.expedia.bookings.widget.TagProgressBar;
+import com.expedia.bookings.widget.gl.GLTagProgressBar;
+import com.expedia.bookings.widget.gl.GLTagProgressBarRenderer.OnDrawStartedListener;
 import com.google.android.maps.GeoPoint;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -118,7 +121,7 @@ import com.mobiata.hotellib.utils.CalendarUtils;
 import com.mobiata.hotellib.utils.StrUtils;
 import com.omniture.AppMeasurement;
 
-public class SearchActivity extends ActivityGroup implements LocationListener {
+public class SearchActivity extends ActivityGroup implements LocationListener, OnDrawStartedListener {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// INTERFACES
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -228,7 +231,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private SegmentedControlGroup mRadiusButtonGroup;
 	private SegmentedControlGroup mRatingButtonGroup;
 	private SegmentedControlGroup mPriceButtonGroup;
-	private TagProgressBar mSearchProgressBar;
 	private TextView mDatesTextView;
 	private TextView mFilterInfoTextView;
 	private TextView mGuestsTextView;
@@ -251,6 +253,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	private View mSortDistanceButton;
 	private View mSortUserRatingButton;
 	private View mSortPopularityButton;
+
+	// Progress bar stuff
+	private ViewGroup mProgressBarLayout;
+	private View mProgressBarHider;
+	private GLTagProgressBar mProgressBar;
+	private TextView mProgressText;
 
 	//----------------------------------
 	// OTHERS
@@ -508,7 +516,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			// Attempt to load saved search results; if we fail, start a new search
 			BackgroundDownloader.getInstance().startDownload(KEY_LOADING_PREVIOUS, mLoadSavedResults,
 					mLoadSavedResultsCallback);
-			showLoading(R.string.loading_previous);
+			showLoading(true, R.string.loading_previous);
 		}
 
 		mAdultsNumberPicker.setTextEnabled(false);
@@ -525,10 +533,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setActivityByTag(mTag);
 		setShowDistance(mShowDistance);
 		setDisplayType(mDisplayType, false);
-		
+
 		// 9028:t only broadcast search completed once all 
 		// elements have been setup
-		if(toBroadcastSearchCompleted) {
+		if (toBroadcastSearchCompleted) {
 			broadcastSearchCompleted(mSearchResponse);
 		}
 	}
@@ -549,7 +557,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		super.onPause();
 		mIsActivityResumed = false;
 
-		mSearchProgressBar.onPause();
+		mProgressBar.onPause();
 		stopLocationListener();
 
 		if (!isFinishing()) {
@@ -566,7 +574,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	protected void onResume() {
 		super.onResume();
 
-		mSearchProgressBar.onResume();
+		mProgressBar.onResume();
 
 		Time now = new Time();
 		now.setToNow();
@@ -592,12 +600,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			if (downloader.isDownloading(KEY_LOADING_PREVIOUS)) {
 				Log.d("Already loading previous search results, resuming the load...");
 				downloader.registerDownloadCallback(KEY_LOADING_PREVIOUS, mLoadSavedResultsCallback);
-				showLoading(R.string.loading_previous);
+				showLoading(true, R.string.loading_previous);
 			}
 			else if (downloader.isDownloading(KEY_SEARCH)) {
 				Log.d("Already searching, resuming the search...");
 				downloader.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
-				showLoading(R.string.progress_searching_hotels);
+				showLoading(true, R.string.progress_searching_hotels);
 			}
 		}
 
@@ -682,9 +690,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		switch (id) {
 		case DIALOG_LOCATION_SUGGESTIONS: {
 			// If we're displaying this, show an empty progress bar
-			mSearchProgressBar.setVisibility(View.VISIBLE);
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(null);
+			showLoading(false, null);
 
 			CharSequence[] freeformLocations = StrUtils.formatAddresses(mAddresses);
 
@@ -947,7 +953,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mRefinementInfoTextView = (TextView) findViewById(R.id.refinement_info_text_view);
 		mSearchButton = findViewById(R.id.search_button);
 
-		mSearchProgressBar = (TagProgressBar) findViewById(R.id.search_progress_bar);
+		mProgressBarLayout = (ViewGroup) findViewById(R.id.search_progress_layout);
+		mProgressBar = (GLTagProgressBar) findViewById(R.id.search_progress_bar);
+		mProgressText = (TextView) findViewById(R.id.search_progress_text_view);
+		mProgressBarHider = findViewById(R.id.search_progress_hider);
 
 		mBottomBarLayout = findViewById(R.id.bottom_bar_layout);
 		mFilterButton = findViewById(R.id.filter_button_layout);
@@ -977,8 +986,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchSuggestionsListView.addFooterView(footer, null, false);
 		//-------------------------------------------------------------------
 
-		mSearchProgressBar.setVisibility(View.GONE);
-
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mPanel.setOnPanelListener(mPanelListener);
 
@@ -999,9 +1006,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mDatesCalendarDatePicker.setMinDate(now.year, now.month, now.monthDay);
 		mDatesCalendarDatePicker.setMaxRange(29);
 
-		// Segmented button drawables
+		// Progress bar 
 
-		//((RadioButton) mSortButtonGroup.getChildAt(0)).setButtonDrawable(R.drawable.sort_popularity);
+		mProgressBar.addOnDrawStartedListener(this);
+
+		// mProgressText is positioned differently based on orientation
+		// Could do this in XML, but more difficult due to include rules
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mProgressText.getLayoutParams();
+		int orientation = getWindowManager().getDefaultDisplay().getOrientation();
+		if (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180) {
+			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		}
+		else {
+			params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+		}
 
 		//===================================================================
 		// Listeners
@@ -1155,13 +1173,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	}
 
 	private void setSearchParamsForFreeform() {
-		showLoading(R.string.progress_searching_hotels);
+		showLoading(true, R.string.progress_searching_hotels);
 
 		mSearchParams.setUserFreeformLocation(mSearchParams.getFreeformLocation());
 
 		if (!NetUtils.isOnline(this)) {
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.error_no_internet);
+			showLoading(false, R.string.error_no_internet);
 			return;
 		}
 
@@ -1176,8 +1193,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 					@Override
 					public void run() {
 						if (mAddresses != null && mAddresses.size() > 1) {
-							mSearchProgressBar.setShowProgress(false);
-							mSearchProgressBar.setText(null);
+							showLoading(false, null);
+
 							showDialog(DIALOG_LOCATION_SUGGESTIONS);
 						}
 						else if (mAddresses != null && mAddresses.size() > 0) {
@@ -1193,8 +1210,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 						}
 						else {
 							TrackingUtils.trackErrorPage(SearchActivity.this, "LocationNotFound");
-							mSearchProgressBar.setShowProgress(false);
-							mSearchProgressBar.setText(R.string.geolocation_failed);
 							simulateErrorResponse(R.string.geolocation_failed);
 						}
 					}
@@ -1279,11 +1294,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		// services for relevant hotels
 		broadcastSearchParamsChanged();
 
-		showLoading(R.string.progress_searching_hotels);
+		showLoading(true, R.string.progress_searching_hotels);
 
 		if (!NetUtils.isOnline(this)) {
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.error_no_internet);
+			simulateErrorResponse(R.string.error_no_internet);
 			return;
 		}
 
@@ -1412,22 +1426,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 				TrackingUtils.trackErrorPage(SearchActivity.this, "OutdatedVersion");
 
-				mSearchProgressBar.setShowProgress(false);
-				mSearchProgressBar.setText(errorOne.getExtra("message"));
+				showLoading(false, errorOne.getExtra("message"));
 			}
 			else {
-				mSearchProgressBar.setShowProgress(false);
-				mSearchProgressBar.setText(errorOne.getPresentableMessage(SearchActivity.this));
+				showLoading(false, errorOne.getPresentableMessage(SearchActivity.this));
 			}
 			handledError = true;
 		}
 
 		if (!handledError) {
 			TrackingUtils.trackErrorPage(SearchActivity.this, "HotelListRequestFailed");
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.progress_search_failed);
+			showLoading(false, R.string.progress_search_failed);
 		}
-		mSearchProgressBar.setVisibility(View.VISIBLE);
 
 		// Ensure that users cannot open the handle if there's an error up
 		disablePanelHandle();
@@ -1588,23 +1598,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mUpArrowFilterHotels.startAnimation(rotate);
 	}
 
-	//----------------------------------
-
-	private void hideLoading() {
-		mSearchProgressBar.setVisibility(View.GONE);
-	}
-
-	private void showLoading(int resId) {
-		showLoading(getString(resId));
-		disablePanelHandle();
-	}
-
-	private void showLoading(String text) {
-		mSearchProgressBar.setVisibility(View.VISIBLE);
-		mSearchProgressBar.setShowProgress(true);
-		mSearchProgressBar.setText(text);
-	}
-
 	private void switchResultsView() {
 		mViewButton.setEnabled(false);
 
@@ -1707,6 +1700,42 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			setDrawerViews();
 			setViewButtonImage();
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Progress bar tag
+
+	private void hideLoading() {
+		mProgressBarLayout.setVisibility(View.GONE);
+
+		// Here, we post it so that we have a few precious frames more of the progress bar before
+		// it's covered up by search results (or a lack thereof).  This keeps a black screen from
+		// showing up for a split second for reason I'm not entirely sure of.  ~dlew
+		mProgressBar.post(new Runnable() {
+			public void run() {
+				mProgressBar.setVisibility(View.GONE);
+			}
+		});
+	}
+
+	private void showLoading(boolean showProgress, int resId) {
+		showLoading(showProgress, getString(resId));
+	}
+
+	private void showLoading(boolean showProgress, String text) {
+		mProgressBarLayout.setVisibility(View.VISIBLE);
+		mProgressBar.setVisibility(View.VISIBLE);
+		mProgressBar.setShowProgress(showProgress);
+		mProgressText.setText(text);
+	}
+
+	@Override
+	public void onDrawStarted() {
+		mProgressBarHider.post(new Runnable() {
+			public void run() {
+				mProgressBarHider.setVisibility(View.GONE);
+			}
+		});
 	}
 
 	//----------------------------------
@@ -2334,7 +2363,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 	//----------------------------------
 
 	private void startLocationListener() {
-		showLoading(R.string.progress_finding_location);
+		showLoading(true, R.string.progress_finding_location);
 
 		if (!NetUtils.isOnline(this)) {
 			simulateErrorResponse(R.string.error_no_internet);
@@ -2353,8 +2382,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 		if (provider == null) {
 			Log.w("Could not find a location provider, informing user of error...");
-			mSearchProgressBar.setShowProgress(false);
-			mSearchProgressBar.setText(R.string.ProviderDisabled);
+			showLoading(false, R.string.ProviderDisabled);
 			showDialog(DIALOG_ENABLE_LOCATIONS);
 		}
 		else {
