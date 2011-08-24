@@ -30,6 +30,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
@@ -245,8 +246,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private View mBottomBarLayout;
 	private View mSortButton;
 	private View mFilterButton;
-	private View mUpArrowFilterHotels;
-	private View mUpArrowSortHotels;
+	private ImageView mUpArrowFilterHotels;
+	private ImageView mUpArrowSortHotels;
 	private ViewGroup mSortOptionsLayout;
 
 	private View mSortPriceButton;
@@ -280,7 +281,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private Bitmap mSortOptionDividerBitmap;
 	private BitmapDrawable mSortOptionDivider;
 	private int mSortOptionSelectedId;
-
+	private boolean mFilterButtonArrowUp = true;
+	
 	private List<SearchListener> mSearchListeners;
 	private MapViewListener mMapViewListener;
 	private List<SetShowDistanceListener> mSetShowDistanceListeners;
@@ -545,7 +547,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		hideSortOptions();
-		hideFilterOptions();
+		hideFilterOptions(false);
 
 		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
 			mStartSearchOnResume = true;
@@ -961,8 +963,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mBottomBarLayout = findViewById(R.id.bottom_bar_layout);
 		mFilterButton = findViewById(R.id.filter_button_layout);
 		mSortButton = findViewById(R.id.sort_button_layout);
-		mUpArrowFilterHotels = findViewById(R.id.up_arrow_filter_hotels);
-		mUpArrowSortHotels = findViewById(R.id.up_arrow_sort_hotels);
+		mUpArrowFilterHotels = (ImageView) findViewById(R.id.up_arrow_filter_hotels);
+		mUpArrowSortHotels = (ImageView) findViewById(R.id.up_arrow_sort_hotels);
 
 		mSortOptionsLayout = (ViewGroup) findViewById(R.id.sort_options_layout);
 
@@ -1590,12 +1592,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private void openPanel(boolean toOpen, boolean animate) {
 		mPanel.setOpen(toOpen, animate);
 
-		int animationId = toOpen ? R.anim.rotate_down : R.anim.rotate_up;
-		Animation rotate = AnimationUtils.loadAnimation(this, animationId);
-		if (!animate) {
-			rotate.setDuration(0);
+		if(toOpen) {
+			rotateFilterArrowDown(animate);
+		} else {
+			rotateFilterArrowUp(animate);
 		}
-		mUpArrowFilterHotels.startAnimation(rotate);
 	}
 
 	private void switchResultsView() {
@@ -1850,8 +1851,21 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private void showFilterOptions() {
 		mPanel.setOpen(true, true);
 		mPanel.setVisibility(View.VISIBLE);
-		mUpArrowFilterHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_down));
+		rotateFilterArrowDown();
 		hideSortOptions();
+	}
+
+	private void rotateFilterArrowDown(boolean animate) {
+		mFilterButtonArrowUp = false;
+		Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_down);
+		if(!animate) {
+			animation.setDuration(0);
+		}
+		mUpArrowFilterHotels.startAnimation(animation);
+	}
+	
+	private void rotateFilterArrowDown() {
+		rotateFilterArrowDown(true);
 	}
 
 	private void hideFilterOptions() {
@@ -1864,7 +1878,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 
 		mPanel.setOpen(false, animate);
-		mUpArrowFilterHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up));
+		rotateFilterArrowUp(animate);
+	}
+
+	private void rotateFilterArrowUp(boolean animate) {
+		if(mFilterButtonArrowUp) {
+			return;
+		}
+		
+		mFilterButtonArrowUp = true;
+		Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up);
+		if(!animate) {
+			animation.setDuration(0);
+		}
+		mUpArrowFilterHotels.startAnimation(animation);
 	}
 
 	private View addSortOption(int sortOptionId, int sortOptionImageResId, int sortOptionTextResId, boolean noDivider) {
@@ -2543,6 +2570,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			if (mPanelDismissView.getVisibility() == View.GONE) {
 				return;
 			}
+			mDisplayType = DisplayType.NONE;
+			
 			final Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, android.R.anim.fade_out);
 			animation.setDuration(ANIMATION_PANEL_DISMISS_SPEED);
 			animation.setAnimationListener(new AnimationListener() {
@@ -2563,6 +2592,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			mPanelDismissView.setAnimation(animation);
 
 			onSearchResultsChanged();
+			if(!mFilterButtonArrowUp) {
+				rotateFilterArrowUp(false);
+			}
 		}
 	};
 
