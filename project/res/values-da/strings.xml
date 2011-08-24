@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<string name="app_name">Expedia</string>
+	
+	<!-- Strings used a lot of places -->
+	<!-- A number of adults -->
+	<plurals name="number_of_adults">
+		<item quantity="zero">%d Voksne</item>
+		<item quantity="one">%d Voksen</item>
+		<item quantity="two">%d Voksne</item>
+		<item quantity="many">%d Voksne</item>
+		<item quantity="other">%d Voksne</item>
+	</plurals>
+	<!-- A number of children -->
+	<plurals name="number_of_children">
+		<item quantity="zero">%d Børn</item>
+		<item quantity="one">%d Barn</item>
+		<item quantity="two">%d Børn</item>
+		<item quantity="many">%d Børn</item>
+		<item quantity="other">%d Børn</item>
+	</plurals>
+
+	<!-- Search Activity -->
+	<string name="search">Søg</string>
+	<!--  The string that appears at the top of the search header.
+	      For example: "Chicago, IL - Aug 24 to Aug 25, 2011"
+	      1$ - The search address
+	      2$ - The check-in month 
+	      3$ - The check-in day of month
+	      4$ - The check-out month 
+	      5$ - The check-out day of month
+	      6$ - The year -->
+	<string name="booking_info_template">%1$s — %2$s %3$d til %4$s %5$s, %6$d</string>
+	<!-- Label to show only hotels highly rated by TripAdvisor -->
+	<string name="tripadvisor_rating_high">Vis kun hoteller med høje vurderinger</string>
+	<!-- Label to show hotels with any TripAdvisor rating -->
+	<string name="tripadvisor_rating_all">Vis alle hoteller</string>
+	<!-- Label indicating that there are no results matching their current filter -->
+	<string name="no_filter_results">Vi beklager, der er ingen hoteller der passer til dine nuværende søgekriterier</string>
+	<!-- Label indicating that geolocation failed -->
+	<string name="geolocation_failed">Ude af stand til at bestemme søgested</string>
+	<!-- Button label for upgrading the app -->
+	<string name="upgrade">Opgarder</string>
+	<!-- Button label for searching the visible map area -->
+	<string name="map_search_button">Søg på kortområde</string>
+	<!-- Message when app is loading saved search results -->
+	<string name="loading_previous">Henter tidligere søgeresultater...</string>
+	
+	<!-- Price range template (e.g., "($50 - $100)" or "(50CA - 100CA)"). -->
+	<string name="price_range_template">(%1$s — %2$s)</string>
+	
+	<!-- Progress messages -->	
+	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
+	<string name="progress_finding_location">Finder nuværende placering...</string>
+	<!-- Message displayed when app is searching a location for hotels -->
+	<string name="progress_searching_hotels">Søger efter hoteller...</string>
+	<!-- Message displayed when search comes up with zero results -->
+	<string name="progress_search_failed">Ingen hoteller fundet</string>
+	
+	<!-- Suggestion adapter -->
+	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+	<string name="current_location">Nuværende placering</string>
+	<!-- Suggestion to search the currently visible map area on the screen -->
+	<string name="visible_map_area">Synligt kortområde</string>
+
+	<!-- Search list adapter -->
+	<!-- The label for how much hotels cost - "from $120/night", for example -->
+	<string name="from">Fra</string>
+	<!-- The label indicating that this hotel is highly rated on TripAdvisor -->
+	<string name="highly_rated">Højt vurderet</string>
+	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
+	<string name="from_template">Fra<strike>%</strike></string>
+	<!-- The label for price per night - "from $120/night", for example -->
+	<string name="per_night">/nat</string>
+	<!-- Label for red "sale" corner -->
+	<string name="sale_caps">TILBUD</string>
+
+	<!-- Hotel Activity -->
+	<!-- Label for button to book the hotel -->
+	<string name="book_now">Reserver nu</string>
+	<!-- Label for the hotel's star rating -->
+	<string name="star_rating">Stjernevurdering</string>
+	<!-- Label for the hotel's trip advisor rating  -->
+	<string name="trip_advisor">TripAdvisor</string>
+	<!-- Label for the address section of the description  -->
+	<string name="address">Adresse</string>
+	<!-- Bullet point for list items  -->
+	<string name="bullet_point">•</string>
+
+	<!-- Shortened Amenity strings -->
+	<!-- Internet amenity -->
+	<string name="amenity_internet">Internet</string>
+	<!-- Pets allowed amenity -->
+	<string name="amenity_pets">Kæledyr</string>
+
+	<!-- Room and rates list -->
+	<!-- Loading message for rooms & rates -->
+	<string name="room_rates_loading">Finder ledige værelser...</string>
+	<!-- Error message (no response) -->
+	<string name="error_no_response_room_rates">Kunne ikke hente værelses- og prisoplysninger. Check venligst din forbindelse, og prøv igen.</string>
+	<!-- Rate price displayed "per night" -->
+	<string name="rate_per_night">per nat</string>
+	<!-- Rate price displayed "average per night" -->
+	<string name="rate_avg_per_night">gns/nat</string>
+	<!-- Warning if there is only one room left -->
+	<string name="rooms_left_one">Kun 1 værelse tilbage!</string>
+	<!-- Warning if there are only a few rooms left -->
+	<string name="rooms_left_template">Kun %d værelser tilbage!</string>
+	<!-- Savings percentage label (e.g., "Save 20%") -->
+	<string name="savings_template">Spar\n %2.0f%%</string>
+	<!-- Label for free nights -->
+	<string name="free">GRATIS!</string>
+
+	<!-- Booking info -->
+	<!-- edit label -->
+	<string name="edit">Rediger</string>
+	<!-- Label for room type -->
+	<string name="room_type">Værelsestype</string>
+	<!-- Label for length of stay -->
+	<string name="stay_duration">Varighed af ophold</string>
+	<!-- Quantity for the length of stay -->
+	<plurals name="length_of_stay">
+		<item quantity="one">1 nat</item>
+		<item quantity="other">%d nætter</item>
+	</plurals>
+	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") -->
+	<string name="room_rate_template">Værelsespris %s</string>
+	<!-- Label for total cost of hotel stay -->
+	<string name="total_cost">Totalpris</string>
+	<!-- Label for "guest info" form field section -->
+	<string name="guest_info">Gæsteoplysninger</string>
+	<!-- Label for "billing info" form field section -->
+	<string name="billing_info">Betalingsoplysninger</string>
+	<!-- Address line 1 form field hint -->
+	<string name="hint_address1">Adresse 1</string>
+	<!-- Address line 2 form field hint -->
+	<string name="hint_address2">Adresse 2 (valgfri)</string>
+	<!-- State code hint -->
+	<string name="hint_state_code">Stat</string>
+	<!-- Label for "credit card info" form field section -->
+	<string name="credit_card_info">Kortoplysninger</string>
+	<!-- Card number form field hint -->
+	<string name="hint_card_number">Kortnummer</string>
+	<!-- Card expiration month form field hint -->
+	<string name="hint_expiration_month">m</string>
+	<!-- Card expiration year form field hint -->
+	<string name="hint_expiration_year">år</string>
+	<!-- Security code label -->
+	<string name="security_code">Sikkerhedskode</string>
+	<!-- Security code tip (if code is on unknown side of card) -->
+	<string name="security_code_tip_front_back">Se for- eller bagside på dit kort</string>
+	<!-- Security code tip (if code is on front of card) -->
+	<string name="security_code_tip_front">Se kortets forside</string>
+	<!-- Security code tip (if code is on front of card) -->
+	<string name="security_code_tip_back">Se kortets bagside</string>
+	<!-- Rules & restrictions section header -->
+	<string name="rules_restrictions">Regler og restriktioner</string>
+	<!-- Disclaimer about how to earn expedia points -->
+	<string name="disclaimer_expedia_points">Har du en Expedia Rewardskonto, reserver da venligst med samme mailadresse, så dine point automatisk vil blive tilføjet, efter dit ophold. Bemærk venligst at der kan gå op til 30 dage, før dine point fremgår. </string>
+	<!-- Message at the bottom of the booking screen with how much you will be charged -->
+	<string name="charge_details_template">Der vil blive trukket %s fra dit kreditkort. </string>
+	<!-- Button label for confirming your booking -->
+	<string name="confirm_book">Bekræft og reserver</string>
+	<!-- Error message if field was required but not entered -->
+	<string name="required_field">Udfyld venligst dette felt</string>
+	<!-- Error message if field had data entered but was invalid -->
+	<string name="invalid_field">Udfyld venligst dette felt med en korrekt værdi</string>
+	<!-- Error if an invalid card number was entered -->
+	<string name="invalid_card_number">Du har indtastet et ugyldigt kortnummer. Prøv venligst igen.</string>
+	<!-- Error if an invalid credit card type was entered -->
+	<string name="invalid_card_type">Vi kunne ikke finde din korttype - indtast venligt et gyldigt kortnummer. </string>
+	<!-- Error if an invalid month (not 1-12) was entered -->
+	<string name="invalid_month">Indtast venligst en værdi mellem 1 og 12</string>
+	<!-- Error if an invalid year was entered -->
+	<string name="invalid_expiration_year">Indtast venligst et årstal, der endnu ikke er passeret</string>
+	<!-- Error if an invalid security code was entered -->
+	<string name="invalid_security_code">Indtast venligst en tre- eller firecifret sikkerhedskode</string>
+	<!-- Error if an invalid currency code is being used with American Express -->
+	<string name="invalid_currency_for_amex">Vi beklager, men betaling i denne valuta, understøttes ikke af American Express. Brug venligst et andet kreditkort.</string>
+	<!-- Error if user agreement needs to be checked but is not -->
+	<string name="error_no_user_agreement">Du skal acceptere disse betingelser, for at reservere.</string>
+	<!-- Message to display to user while booking is in progress -->
+	<string name="booking_loading">Reserverer..</string>
+	<!-- Title for error dialog when booking fails -->
+	<string name="error_booking_title">Fejl</string>
+	<!-- Error message when we couldn't get a response -->
+	<string name="error_booking_null">Kunne ikke opnå forbindelse til Expedias servere. Check venligst din forbindelse, og prøv igen.</string>
+	
+	<!-- Confirmation activity -->
+	<!-- Reservation summary label -->
+	<string name="reservation_summary">Opsummering af reservation</string>
+	<!-- Confirmation number label -->
+	<string name="confirmation_number">Bekræftelse #</string>
+	<!-- Itinerary number label -->
+	<string name="itinerary_number">Rejseplan #</string>
+	<!-- Confirmation email label -->
+	<string name="confirmation_email">Bekræftelsesmail</string>
+	<!-- Label for starting a new search -->
+	<string name="new_search">Ny søgning</string>
+	<!-- Contact info for a country with a known support line -->
+	<string name="contact_phone_template">Hvis du har spørgsmål til din reservation, så ring venligst til Expedia på %s.</string>
+	<!-- Contact info for China -->
+	<string name="contact_phone_china_template">Hvis du har spørgsmål til din reservation, så ring venligst til Expedia på  %1$s (CN NetCom) eller %2$s (CN Telecom).</string>
+	<!-- Contact info, unknown country -->
+	<string name="contact_phone_default_template">Hvis du har spørgsmål til din reservation, så ring venligst til Expedia på  %1$s i USA/Canada, eller %2$s i Europa.</string>
+
+	<!-- Sharing bookings via email -->
+	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the date ranges (e.g., 3/21 - 3/24) -->
+	<string name="share_subject_template">Expedia rejseplan - %1$s (%2$s - %3$s)</string>
+	<!-- Preset at the top of the share body message -->
+	<string name="share_body_start">Her er mine reservationsoplysninger:</string>
+	<!-- Name of user -->
+	<string name="name">Navn</string>
+	<!-- Subtotal label -->
+	<string name="subtotal">Totalpris</string>
+	<!-- Cancellation policy label -->
+	<string name="cancellation_policy">Afbestillingspolitik</string>
+	
+	<!-- About activity -->
+	<!-- Label for "contact Expedia" button in info page -->
+	<string name="contact_expedia">Kontakt Expedia</string>
+	<!-- Contact Expedia via... -->
+	<string name="contact_expedia_via">Kontakt Expedia via...</string>
+	<!-- Contact Expedia via phone -->
+	<string name="contact_expedia_phone">Telefon</string>
+	<!-- Contact Expedia via email -->
+	<string name="contact_expedia_email">Mail</string>
+	<!-- Contact Expedia via email subject -->
+	<string name="contact_expedia_email_subject">Expedia reservationssupport</string>
+	<!-- Contact Expedia via website -->
+	<string name="contact_expedia_website">Website</string>
+	<!-- Label for "Expedia website" button in info page -->
+	<string name="expedia_website">Expedia Website</string>
+	<!-- Label for "app feedback" button in info page -->
+	<string name="app_feedback">App Feedback</string>
+	<!-- Label for "app support" button in info page -->
+	<string name="app_support">App Support</string>
+	<!-- Section header for other apps by Mobiata -->
+	<string name="travel_smart">Travel Smart.</string>
+	<!-- Subject line for "tell a friend" feature -->
+	<string name="tell_a_friend_subject">Expedia Hoteller</string>
+	<!-- Message body for "tell a friend" feature -->
+	<string name="tell_a_friend_body">Hej \n\n, check Expedia Hotels til Android, iPhone og iPod Touch. Det er gratis, og lader dig søge efter, og reservere værelser på over 100.000 hoteller, verden over.\n\nhttp://www.expedia.com/app</string>
+	<!-- Copyright information -->
+	<string name="copyright">© Copyright 2011 Expedia, Inc.\n Alle rettigheder forbeholdes.</string>
+	
+	<!-- Preferences -->
+	<!-- Category name for general preferences -->
+	<string name="preference_category_general">Generelt</string>
+	<!-- Title for currency setting -->
+	<string name="preference_currency_title">Valuta</string>
+	<!-- Summary for currency setting.  E.g., "US Dollars (USD)" -->
+	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
+	<!-- Template for default currency -->
+	<string name="default_currency_template">Standard (%s)</string>
+</resources>

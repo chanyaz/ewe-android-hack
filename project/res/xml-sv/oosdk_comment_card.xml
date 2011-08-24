@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<comment_card>
+    <commentCardId>30168</commentCardId>
+    <complianceMode>true</complianceMode>
+    <showCommentQuestion>true</showCommentQuestion>
+    <showEmailQuestion>true</showEmailQuestion>
+    <showRatingQuestion>true</showRatingQuestion>
+    <requireRating>false</requireRating>
+    
+    <!-- NOTE: ONLY translate the strings below -->
+    <!-- Title for feedback screen -->
+    <headerText>Feedback</headerText>
+    <!-- Section header for rating (1-5 stars) -->
+    <ratingQuestion>Ge oss en gradering</ratingQuestion>
+    <!-- Label for negative side of rating -->
+    <lowRatingDescription>Ogillar</lowRatingDescription>
+    <!-- Label for positive side of rating -->
+    <highRatingDescription>Gillar</highRatingDescription>
+    <!-- Section header for open-ended question box -->
+    <commentLabel>Vad kan vi förbättra?</commentLabel>
+    <!-- User's email address -->
+    <emailQuestion>E-postadress</emailQuestion>
+    <!-- Thank you note after submitting the feedback -->
+    <thankYouText>Tack för att du skickar din åsikt. Vi uppskattar våra kunders feedback.</thankYouText>
+</comment_card>

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<string name="app_name">Expedia</string>
+	
+	<!-- Strings used a lot of places -->
+	<!-- A number of adults -->
+	<plurals name="number_of_adults">
+		<item quantity="zero">%d 位成人</item>
+		<item quantity="one">%d 位成人</item>
+		<item quantity="two">%d 位成人</item>
+		<item quantity="many">%d 位成人</item>
+		<item quantity="other">%d 位成人</item>
+	</plurals>
+	<!-- A number of children -->
+	<plurals name="number_of_children">
+		<item quantity="zero">%d 位儿童</item>
+		<item quantity="one">%d 位儿童</item>
+		<item quantity="two">%d 位儿童</item>
+		<item quantity="many">%d 位儿童</item>
+		<item quantity="other">%d 位儿童</item>
+	</plurals>
+
+	<!-- Search Activity -->
+	<string name="search">搜索</string>
+	<!--  The string that appears at the top of the search header.
+	      For example: "Chicago, IL - Aug 24 to Aug 25, 2011"
+	      1$ - The search address
+	      2$ - The check-in month 
+	      3$ - The check-in day of month
+	      4$ - The check-out month 
+	      5$ - The check-out day of month
+	      6$ - The year -->
+	<string name="booking_info_template">%1$s — %6$d 年 %2$s 月 %3$d 日至 %4$s 月 %5$s 日 </string>
+	<!-- Label to show only hotels highly rated by TripAdvisor -->
+	<string name="tripadvisor_rating_high">仅显示高评级的酒店</string>
+	<!-- Label to show hotels with any TripAdvisor rating -->
+	<string name="tripadvisor_rating_all">显示所有酒店</string>
+	<!-- Label indicating that there are no results matching their current filter -->
+	<string name="no_filter_results">抱歉，没有酒店符合您当前的筛选条件。</string>
+	<!-- Label indicating that geolocation failed -->
+	<string name="geolocation_failed">无法确定搜索位置。</string>
+	<!-- Button label for upgrading the app -->
+	<string name="upgrade">升级</string>
+	<!-- Button label for searching the visible map area -->
+	<string name="map_search_button">搜索地图区域</string>
+	<!-- Message when app is loading saved search results -->
+	<string name="loading_previous">正在加载之前的搜索结果...</string>
+	
+	<!-- Price range template (e.g., "($50 - $100)" or "(50CA - 100CA)"). -->
+	<string name="price_range_template">(%1$s — %2$s)</string>
+	
+	<!-- Progress messages -->	
+	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
+	<string name="progress_finding_location">正在查找当前位置...</string>
+	<!-- Message displayed when app is searching a location for hotels -->
+	<string name="progress_searching_hotels">正在搜索酒店...</string>
+	<!-- Message displayed when search comes up with zero results -->
+	<string name="progress_search_failed">找不到任何酒店</string>
+	
+	<!-- Suggestion adapter -->
+	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+	<string name="current_location">当前位置</string>
+	<!-- Suggestion to search the currently visible map area on the screen -->
+	<string name="visible_map_area">可见地图区域</string>
+
+	<!-- Search list adapter -->
+	<!-- The label for how much hotels cost - "from $120/night", for example -->
+	<string name="from">起</string>
+	<!-- The label indicating that this hotel is highly rated on TripAdvisor -->
+	<string name="highly_rated">高评级</string>
+	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
+	<string name="from_template"><strike>%s</strike> 起</string>
+	<!-- The label for price per night - "from $120/night", for example -->
+	<string name="per_night">/晚</string>
+	<!-- Label for red "sale" corner -->
+	<string name="sale_caps">促销</string>
+
+	<!-- Hotel Activity -->
+	<!-- Label for button to book the hotel -->
+	<string name="book_now">马上预订</string>
+	<!-- Label for the hotel's star rating -->
+	<string name="star_rating">星级</string>
+	<!-- Label for the hotel's trip advisor rating  -->
+	<string name="trip_advisor">TripAdvisor</string>
+	<!-- Label for the address section of the description  -->
+	<string name="address">地址</string>
+	<!-- Bullet point for list items  -->
+	<string name="bullet_point">•</string>
+
+	<!-- Shortened Amenity strings -->
+	<!-- Internet amenity -->
+	<string name="amenity_internet">互联网</string>
+	<!-- Pets allowed amenity -->
+	<string name="amenity_pets">宠物</string>
+
+	<!-- Room and rates list -->
+	<!-- Loading message for rooms & rates -->
+	<string name="room_rates_loading">正在查找空房...</string>
+	<!-- Error message (no response) -->
+	<string name="error_no_response_room_rates">无法下载客房与价格信息。请检查您的连接情况并重试。</string>
+	<!-- Rate price displayed "per night" -->
+	<string name="rate_per_night">每晚</string>
+	<!-- Rate price displayed "average per night" -->
+	<string name="rate_avg_per_night">每晚平均价</string>
+	<!-- Warning if there is only one room left -->
+	<string name="rooms_left_one">只剩 1 间房了！</string>
+	<!-- Warning if there are only a few rooms left -->
+	<string name="rooms_left_template">只剩 %d 间房了！</string>
+	<!-- Savings percentage label (e.g., "Save 20%") -->
+	<string name="savings_template">节省\n %2.0f%%</string>
+	<!-- Label for free nights -->
+	<string name="free">免费！</string>
+
+	<!-- Booking info -->
+	<!-- edit label -->
+	<string name="edit">编辑</string>
+	<!-- Label for room type -->
+	<string name="room_type">客房类型</string>
+	<!-- Label for length of stay -->
+	<string name="stay_duration">住宿天数</string>
+	<!-- Quantity for the length of stay -->
+	<plurals name="length_of_stay">
+		<item quantity="one">1 晚</item>
+		<item quantity="other">%d 晚</item>
+	</plurals>
+	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") -->
+	<string name="room_rate_template">%s 的客房价格 </string>
+	<!-- Label for total cost of hotel stay -->
+	<string name="total_cost">总额</string>
+	<!-- Label for "guest info" form field section -->
+	<string name="guest_info">宾客信息</string>
+	<!-- Label for "billing info" form field section -->
+	<string name="billing_info">帐单信息</string>
+	<!-- Address line 1 form field hint -->
+	<string name="hint_address1">地址 1</string>
+	<!-- Address line 2 form field hint -->
+	<string name="hint_address2">地址 2（可选）</string>
+	<!-- State code hint -->
+	<string name="hint_state_code">省</string>
+	<!-- Label for "credit card info" form field section -->
+	<string name="credit_card_info">信用卡信息</string>
+	<!-- Card number form field hint -->
+	<string name="hint_card_number">卡号</string>
+	<!-- Card expiration month form field hint -->
+	<string name="hint_expiration_month">m</string>
+	<!-- Card expiration year form field hint -->
+	<string name="hint_expiration_year">yy</string>
+	<!-- Security code label -->
+	<string name="security_code">安全验证码</string>
+	<!-- Security code tip (if code is on unknown side of card) -->
+	<string name="security_code_tip_front_back">请查看信用卡前面或背面</string>
+	<!-- Security code tip (if code is on front of card) -->
+	<string name="security_code_tip_front">请查看信用卡前面</string>
+	<!-- Security code tip (if code is on front of card) -->
+	<string name="security_code_tip_back">请查看信用卡背面</string>
+	<!-- Rules & restrictions section header -->
+	<string name="rules_restrictions">规则与限制</string>
+	<!-- Disclaimer about how to earn expedia points -->
+	<string name="disclaimer_expedia_points">如果您具有 Expedia Rewards 帐户，请使用相同的电子邮件预订，在您住宿后，您的积分将自动过帐。请注意，您的积分可能需要最多 30 天来显示。</string>
+	<!-- Message at the bottom of the booking screen with how much you will be charged -->
+	<string name="charge_details_template">您的信用卡将被支取 %s</string>
+	<!-- Button label for confirming your booking -->
+	<string name="confirm_book">确认并预订</string>
+	<!-- Error message if field was required but not entered -->
+	<string name="required_field">请在此字段中输入一个值。</string>
+	<!-- Error message if field had data entered but was invalid -->
+	<string name="invalid_field">请在此字段中输入一个有效值。</string>
+	<!-- Error if an invalid card number was entered -->
+	<string name="invalid_card_number">您输入的信用卡号无效，请重试。</string>
+	<!-- Error if an invalid credit card type was entered -->
+	<string name="invalid_card_type">我们无法检测到您的信用卡类型，请输入有效的信用卡。</string>
+	<!-- Error if an invalid month (not 1-12) was entered -->
+	<string name="invalid_month">请输入 1 至 12 之间的值</string>
+	<!-- Error if an invalid year was entered -->
+	<string name="invalid_expiration_year">请输入尚未过去的年份</string>
+	<!-- Error if an invalid security code was entered -->
+	<string name="invalid_security_code">请输入 3 位数或 4 位数的安全验证码</string>
+	<!-- Error if an invalid currency code is being used with American Express -->
+	<string name="invalid_currency_for_amex">抱歉，American Express 不支持使用此货币（%s）的付费。请使用不同的信用卡。</string>
+	<!-- Error if user agreement needs to be checked but is not -->
+	<string name="error_no_user_agreement">您必须接受预订条款</string>
+	<!-- Message to display to user while booking is in progress -->
+	<string name="booking_loading">正在预订...</string>
+	<!-- Title for error dialog when booking fails -->
+	<string name="error_booking_title">错误</string>
+	<!-- Error message when we couldn't get a response -->
+	<string name="error_booking_null">无法连接到 Expedia 服务器。请检查您的连接情况并重试。</string>
+	
+	<!-- Confirmation activity -->
+	<!-- Reservation summary label -->
+	<string name="reservation_summary">预订概要</string>
+	<!-- Confirmation number label -->
+	<string name="confirmation_number">确认 #</string>
+	<!-- Itinerary number label -->
+	<string name="itinerary_number">行程 #</string>
+	<!-- Confirmation email label -->
+	<string name="confirmation_email">确认电子邮件</string>
+	<!-- Label for starting a new search -->
+	<string name="new_search">新的搜索</string>
+	<!-- Contact info for a country with a known support line -->
+	<string name="contact_phone_template">如果您对您的预订程序有任何问题，请拨电 %s 联系 Expedia.com 。</string>
+	<!-- Contact info for China -->
+	<string name="contact_phone_china_template">如果您对您的预订程序有任何问题，请拨电 %1$s (CN NetCom) 或 %2$s (CN Telecom) 联系 Expedia.com 。</string>
+	<!-- Contact info, unknown country -->
+	<string name="contact_phone_default_template">如果您对您的预订程序有任何问题，请拨电 %1$s (美国/加拿大) 或 %2$s (欧洲) 联系 Expedia.com 。</string>
+
+	<!-- Sharing bookings via email -->
+	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the date ranges (e.g., 3/21 - 3/24) -->
+	<string name="share_subject_template">Expedia 行程 - %1$s (%2$s - %3$s)</string>
+	<!-- Preset at the top of the share body message -->
+	<string name="share_body_start">这是我的酒店预订信息：</string>
+	<!-- Name of user -->
+	<string name="name">名称</string>
+	<!-- Subtotal label -->
+	<string name="subtotal">部分合计</string>
+	<!-- Cancellation policy label -->
+	<string name="cancellation_policy">取消政策</string>
+	
+	<!-- About activity -->
+	<!-- Label for "contact Expedia" button in info page -->
+	<string name="contact_expedia">联系 Expedia</string>
+	<!-- Contact Expedia via... -->
+	<string name="contact_expedia_via">通过以下方式联系 Expedia...</string>
+	<!-- Contact Expedia via phone -->
+	<string name="contact_expedia_phone">电话</string>
+	<!-- Contact Expedia via email -->
+	<string name="contact_expedia_email">电子邮件</string>
+	<!-- Contact Expedia via email subject -->
+	<string name="contact_expedia_email_subject">Expedia 预订支持</string>
+	<!-- Contact Expedia via website -->
+	<string name="contact_expedia_website">网站</string>
+	<!-- Label for "Expedia website" button in info page -->
+	<string name="expedia_website">Expedia 网站</string>
+	<!-- Label for "app feedback" button in info page -->
+	<string name="app_feedback">应用反馈</string>
+	<!-- Label for "app support" button in info page -->
+	<string name="app_support">应用支持</string>
+	<!-- Section header for other apps by Mobiata -->
+	<string name="travel_smart">精明旅游。</string>
+	<!-- Subject line for "tell a friend" feature -->
+	<string name="tell_a_friend_subject">Expedia Hotels</string>
+	<!-- Message body for "tell a friend" feature -->
+	<string name="tell_a_friend_body">您好！\n\n请试试适用于 Android、iPhone 和 iPod Touch 的 Expedia Hotels 应用程序。 这是免费的！您可通过它搜索并预订全世界超过 100000 家酒店的客房。\n\nhttp://www.expedia.com/app</string>
+	<!-- Copyright information -->
+	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAll rights reserved.</string>
+	
+	<!-- Preferences -->
+	<!-- Category name for general preferences -->
+	<string name="preference_category_general">一般信息</string>
+	<!-- Title for currency setting -->
+	<string name="preference_currency_title">货币</string>
+	<!-- Summary for currency setting.  E.g., "US Dollars (USD)" -->
+	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
+	<!-- Template for default currency -->
+	<string name="default_currency_template">默认 (%s)</string>
+</resources>

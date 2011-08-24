@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<comment_card>
+    <commentCardId>30168</commentCardId>
+    <complianceMode>true</complianceMode>
+    <showCommentQuestion>true</showCommentQuestion>
+    <showEmailQuestion>true</showEmailQuestion>
+    <showRatingQuestion>true</showRatingQuestion>
+    <requireRating>false</requireRating>
+    
+    <!-- NOTE: ONLY translate the strings below -->
+    <!-- Title for feedback screen -->
+    <headerText>Maklum balas</headerText>
+    <!-- Section header for rating (1-5 stars) -->
+    <ratingQuestion>Sila Berikan Kami Penarafan</ratingQuestion>
+    <!-- Label for negative side of rating -->
+    <lowRatingDescription>Tidak Suka</lowRatingDescription>
+    <!-- Label for positive side of rating -->
+    <highRatingDescription>Suka</highRatingDescription>
+    <!-- Section header for open-ended question box -->
+    <commentLabel>Apa yang boleh kami lakukan dengan lebih baik?</commentLabel>
+    <!-- User's email address -->
+    <emailQuestion>Alamat E-mel</emailQuestion>
+    <!-- Thank you note after submitting the feedback -->
+    <thankYouText>Terima kasih kerana menyerahkan pandangan anda. Kami menghargai maklum balas pelanggan kami.</thankYouText>
+</comment_card>
