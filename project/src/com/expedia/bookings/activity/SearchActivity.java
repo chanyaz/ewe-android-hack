@@ -1842,6 +1842,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				mSortOptionsLayout.setVisibility(View.INVISIBLE);
 			}
 		});
+		animation.setStartOffset(100L);
 		mSortOptionsLayout.startAnimation(animation);
 		mUpArrowSortHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up));
 	}
@@ -2579,8 +2580,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		@Override
 		public void onClick(View v) {
 			mSortOptionSelectedId = v.getId();
-			setupSortOptions();
 			buildFilter();
+			setupSortOptions();
 			setSortTypeText();
 			hideSortOptions();
 		}

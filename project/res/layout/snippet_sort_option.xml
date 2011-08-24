@@ -3,7 +3,9 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="wrap_content"
 	android:layout_width="fill_parent"
-	android:orientation="vertical">
+	android:focusable="true"
+	android:orientation="vertical"
+	android:background="@drawable/bg_sort_option_row">
 	<View
 		android:id="@+id/sort_option_divider"
 		android:layout_height="2px"
@@ -11,9 +13,6 @@
 	<LinearLayout
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		clickable="true"
-		android:focusable="true"
-		android:focusableInTouchMode="true"
 		android:gravity="center_vertical"
 		android:layout_margin="10dp">
 		<FrameLayout
@@ -23,7 +22,6 @@
 				android:id="@+id/sort_option_image"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:duplicateParentState="true"
 				android:layout_gravity="center"/>
 		</FrameLayout>
 		<TextView
@@ -32,7 +30,6 @@
 			android:layout_width="wrap_content"
 			android:gravity="center_vertical"
 			android:includeFontPadding="false"
-			android:duplicateParentState="true"
 			android:paddingLeft="5dp"
 			android:text="Popularity"
 			android:textStyle="bold"
