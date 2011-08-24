@@ -32,46 +32,14 @@
 			android:layout_weight="1"
 			android:text="@string/user_review_sort_button_critical" />
 	</com.mobiata.android.widget.SegmentedControlGroup>
-	<ListView
-		android:id="@android:id/list"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/user_review_sort_group"
-		android:layout_alignParentBottom="true"
-		android:paddingBottom="@dimen/bottom_bar_height"
-		android:smoothScrollbar="false"
-		android:dividerHeight="0dp"
-		android:cacheColorHint="@android:color/transparent" />
-	<LinearLayout
-		android:id="@android:id/empty"
+	<FrameLayout
+		android:id="@+id/lists_container"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:layout_below="@+id/header_layout"
-		android:layout_alignParentBottom="true"
-		android:gravity="center"
-		android:orientation="vertical">
-		<ProgressBar
-			android:id="@+id/progress_bar"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:indeterminate="true"
-			style="@android:style/Widget.ProgressBar.Large.Inverse" />
-		<TextView
-			android:id="@+id/empty_text_view"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:gravity="center"
-			android:padding="24dp"
-			android:textSize="18sp"
-			android:textStyle="bold"
-			android:textColor="#FF666666"
-			android:shadowColor="#88FFFFFF"
-			android:shadowDx="0"
-			android:shadowDy="-1"
-			android:shadowRadius="0.1"
-			android:text="@string/user_review_loading_text" />
-	</LinearLayout>
-
+		android:layout_below="@id/user_review_sort_group"
+		android:paddingBottom="@dimen/bottom_bar_height"
+		android:layout_alignParentBottom="true">
+	</FrameLayout>
 	<!-- Bottom button bar -->
 	<RelativeLayout
 		android:layout_width="fill_parent"

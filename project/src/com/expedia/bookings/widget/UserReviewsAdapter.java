@@ -41,6 +41,11 @@ public class UserReviewsAdapter extends BaseAdapter {
 		}
 		return mLoadedReviews.size();
 	}
+	
+	@Override
+	public boolean isEmpty() {
+		return (mLoadedReviews == null || mLoadedReviews.isEmpty());
+	}
 
 	@Override
 	public ReviewWrapper getItem(int position) {
