@@ -28,6 +28,7 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
@@ -79,7 +80,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		SearchParams mSearchParams;
 		List<Property> mProperties;
 		String mFreeFormLocation;
-		int mCurrentPosition = 0;
+		int mCurrentPosition = -1;
+		double savings;
 		boolean mUseCurrentLocation;
 
 		Download mSearchDownload = new Download() {
@@ -100,7 +102,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 					mSession = mSearchResponse.getSession();
 					determineRelevantProperties(WidgetState.this);
 					mFreeFormLocation = mSearchParams.getFreeformLocation();
-					mCurrentPosition = 0;
+					mCurrentPosition = -1;
 					loadImageForProperty(WidgetState.this);
 				}
 				else if (mProperties == null || mProperties.isEmpty()) {
@@ -483,6 +485,25 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void loadImageForProperty(final WidgetState widget) {
+		if(widget.mCurrentPosition == -1) {
+			Intent i = new Intent(ExpediaBookingsWidgetReceiver.LOAD_BRANDING_ACTION);
+			i.putExtra(Codes.BRANDING_SAVINGS, new Integer((int) Math.floor(widget.savings)).toString());
+			
+			if(DateUtils.isToday(widget.mSearchParams.getCheckInDate().getTimeInMillis())) {
+				i.putExtra(Codes.BRANDING_TITLE, getString(R.string.tonight_top_deals));
+			} else {
+				i.putExtra(Codes.BRANDING_TITLE, getString(R.string.top_deals));
+			}
+			
+			String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mFreeFormLocation
+					: "Current Location";
+			i.putExtra(Codes.PROPERTY_LOCATION_PREFIX + widget.appWidgetIdInteger, location);
+			i.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger.intValue());
+			sendBroadcast(i);
+			scheduleRotation();
+			return;
+		}
+		
 		final Property property = widget.mProperties.get(widget.mCurrentPosition);
 		ImageCache.loadImage(property.getThumbnail().getUrl(), new OnImageLoaded() {
 
@@ -498,7 +519,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private void determineRelevantProperties(WidgetState widget) {
 		List<Property> properties = widget.mSearchResponse.getProperties();
 		List<Property> relevantProperties = new ArrayList<Property>();
-
+		
 		// first populate the list with hotels that have rooms on sale
 		for (Property property : properties) {
 			if (relevantProperties.size() == MAX_RESULTS) {
@@ -506,6 +527,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			}
 
 			if (property.getLowestRate().getSavingsPercent() > 0) {
+				trackMaximumSavingsForWidget(widget, property);
 				relevantProperties.add(property);
 			}
 		}
@@ -536,9 +558,17 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		widget.mProperties = relevantProperties;
 	}
 
+	private void trackMaximumSavingsForWidget(WidgetState widget, Property property) {
+		double savings = property.getLowestRate().getDisplayBaseRate().getAmount() 
+							- property.getLowestRate().getDisplayRate().getAmount();
+		if(savings > widget.savings) {
+			widget.savings = savings;
+		}
+	}
+
 	private void loadNextProperty(WidgetState widget) {
 		if (widget.mProperties != null) {
-			widget.mCurrentPosition = ((widget.mCurrentPosition + 1) >= widget.mProperties.size()) ? 0
+			widget.mCurrentPosition = ((widget.mCurrentPosition + 1) >= widget.mProperties.size()) ? -1
 					: widget.mCurrentPosition + 1;
 			loadImageForProperty(widget);
 		}
@@ -547,7 +577,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private void loadPreviousProperty(WidgetState widget) {
 		if (widget.mProperties != null) {
 
-			widget.mCurrentPosition = ((widget.mCurrentPosition - 1) < 0) ? (widget.mProperties.size() - 1)
+			widget.mCurrentPosition = ((widget.mCurrentPosition - 1) < -1) ? (widget.mProperties.size() - 1)
 					: (widget.mCurrentPosition - 1);
 			loadImageForProperty(widget);
 		}

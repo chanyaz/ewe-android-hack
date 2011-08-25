@@ -60,6 +60,12 @@
 	<string name="specify_location">Specific Location:</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">Error: No Internet Connection</string>
+	<!--  Widget branding for when the deals shown are for the curret night -->
+	<string name="tonight_top_deals">Tonight\'s Top Deals</string>
+	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
+	<string name="top_deals">Top Deals</string>
+	<!--  Widget branding for max savings based on deals being shown-->
+	<string name="save_upto_template">Save up to $%s</string>
 
 	<!-- Sort adverbs, e.g. Sorted "adverb" -->
 	<string name="sort_adverb_distance">by distance</string>

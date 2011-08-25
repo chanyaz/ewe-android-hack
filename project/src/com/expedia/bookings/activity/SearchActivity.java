@@ -30,7 +30,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
