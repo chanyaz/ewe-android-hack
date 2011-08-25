@@ -11,11 +11,11 @@
     <!-- Title for feedback screen -->
     <headerText>Commentaires</headerText>
     <!-- Section header for rating (1-5 stars) -->
-    <ratingQuestion>Veuillez nous attribuer un nombre d\'étoiles</ratingQuestion>
+    <ratingQuestion>Veuillez nous attribuer un nombre d'étoiles</ratingQuestion>
     <!-- Label for negative side of rating -->
-    <lowRatingDescription>Je n\'aime pas</lowRatingDescription>
+    <lowRatingDescription>Je n'aime pas</lowRatingDescription>
     <!-- Label for positive side of rating -->
-    <highRatingDescription>J\'aime</highRatingDescription>
+    <highRatingDescription>J'aime</highRatingDescription>
     <!-- Section header for open-ended question box -->
     <commentLabel>Que pouvons-nous améliorer?</commentLabel>
     <!-- User's email address -->
