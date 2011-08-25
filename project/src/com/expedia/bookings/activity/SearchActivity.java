@@ -1193,6 +1193,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 
 	private void showGuestsLayout() {
 		resetFocus();
+		setNumberPickerRanges();
 		mGuestsLayout.setVisibility(View.VISIBLE);
 		mAdultsNumberPicker.requestFocus();
 		showDismissView();
