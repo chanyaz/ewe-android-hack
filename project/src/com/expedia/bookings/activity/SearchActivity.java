@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +79,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.Rotate3dAnimation;
 import com.expedia.bookings.model.Search;
+import com.expedia.bookings.tracking.MillennialTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
@@ -2855,6 +2855,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			// Determine if this is a new install, an upgrade, or just a regular launch
 			String trackVersion = SettingUtils.get(this, TRACK_VERSION, null);
 			String currentVersion = AndroidUtils.getAppVersion(this);
+
+			// Start a thread to possibly do Millennial tracking
+			new Thread(new Runnable() {
+				public void run() {
+					if (!MillennialTracking.hasTrackedMillennial(mContext) && NetUtils.isOnline(mContext)) {
+						MillennialTracking.trackConversion(mContext);
+					}
+				}
+			}).start();
 
 			boolean save = false;
 			if (trackVersion == null) {
