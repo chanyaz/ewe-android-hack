@@ -141,12 +141,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private enum DisplayType {
-		NONE(false),
-		KEYBOARD(true),
-		CALENDAR(true),
-		GUEST_PICKER(true),
-		DRAWER(false),
-		SORT_POPUP(false);
+		NONE(false), KEYBOARD(true), CALENDAR(true), GUEST_PICKER(true), DRAWER(false), SORT_POPUP(false);
 
 		private boolean mIsSearchDisplay;
 
@@ -281,7 +276,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private BitmapDrawable mSortOptionDivider;
 	private int mSortOptionSelectedId;
 	private boolean mFilterButtonArrowUp = true;
-	
+
 	private List<SearchListener> mSearchListeners;
 	private MapViewListener mMapViewListener;
 	private List<SetShowDistanceListener> mSetShowDistanceListeners;
@@ -1591,9 +1586,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private void openPanel(boolean toOpen, boolean animate) {
 		mPanel.setOpen(toOpen, animate);
 
-		if(toOpen) {
+		if (toOpen) {
 			rotateFilterArrowDown(animate);
-		} else {
+		}
+		else {
 			rotateFilterArrowUp(animate);
 		}
 	}
@@ -1857,12 +1853,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private void rotateFilterArrowDown(boolean animate) {
 		mFilterButtonArrowUp = false;
 		Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_down);
-		if(!animate) {
+		if (!animate) {
 			animation.setDuration(0);
 		}
 		mUpArrowFilterHotels.startAnimation(animation);
 	}
-	
+
 	private void rotateFilterArrowDown() {
 		rotateFilterArrowDown(true);
 	}
@@ -1881,13 +1877,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	}
 
 	private void rotateFilterArrowUp(boolean animate) {
-		if(mFilterButtonArrowUp) {
+		if (mFilterButtonArrowUp) {
 			return;
 		}
-		
+
 		mFilterButtonArrowUp = true;
 		Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up);
-		if(!animate) {
+		if (!animate) {
 			animation.setDuration(0);
 		}
 		mUpArrowFilterHotels.startAnimation(animation);
@@ -2570,7 +2566,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				return;
 			}
 			mDisplayType = DisplayType.NONE;
-			
+
 			final Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, android.R.anim.fade_out);
 			animation.setDuration(ANIMATION_PANEL_DISMISS_SPEED);
 			animation.setAnimationListener(new AnimationListener() {
@@ -2591,7 +2587,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			mPanelDismissView.setAnimation(animation);
 
 			onSearchResultsChanged();
-			if(!mFilterButtonArrowUp) {
+			if (!mFilterButtonArrowUp) {
 				rotateFilterArrowUp(false);
 			}
 		}
