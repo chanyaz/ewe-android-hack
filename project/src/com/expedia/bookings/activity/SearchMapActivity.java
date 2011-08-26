@@ -9,6 +9,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
@@ -24,6 +28,7 @@ import com.google.android.maps.Overlay;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.util.SettingUtils;
+import com.mobiata.android.widget.DoubleTapToZoomListenerOverlay;
 import com.mobiata.android.widget.ExactLocationItemizedOverlay;
 import com.mobiata.android.widget.FixedMyLocationOverlay;
 import com.mobiata.hotellib.app.SearchListener;
@@ -47,6 +52,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	private HotelItemizedOverlay mHotelItemizedOverlay;
 	private MyLocationOverlay mMyLocationOverlay;
 	private ExactLocationItemizedOverlay mExactLocationItemizedOverlay;
+	private DoubleTapToZoomListenerOverlay mDoubleTapToZoomListenerOverlay;
 
 	// Keeps track of whether this Activity is being actively displayed.  If not, do not
 	// enable the MyLocationOverlay.
@@ -86,10 +92,11 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mMapView = MapUtils.createMapView(this);
 		ViewGroup mapContainer = (ViewGroup) findViewById(R.id.map_layout);
 		mapContainer.addView(mMapView);
-
+		
 		// Configure the map
 		mMapView.setBuiltInZoomControls(true);
 		mMapView.setSatellite(false);
+
 
 		final SearchActivity parent = (SearchActivity) getParent();
 		parent.addSearchListener(this);
@@ -164,6 +171,8 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
+	
+	
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// SearchListener implementation
@@ -249,7 +258,12 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		if (mIsActive) {
 			mMyLocationOverlay.enableMyLocation();
 		}
-
+		
+		if(mDoubleTapToZoomListenerOverlay == null) {
+			mDoubleTapToZoomListenerOverlay = new DoubleTapToZoomListenerOverlay(this, mMapView);
+		}
+		overlays.add(mDoubleTapToZoomListenerOverlay);
+		
 		// Set the center point
 		focusOnProperties();
 	}
@@ -287,6 +301,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mHotelItemizedOverlay.setProperties(Arrays.asList(mSearchResponse.getFilteredAndSortedProperties()),
 				mSearchResponse.getProperties());
 		mMapView.invalidate();
+		
 		Boolean areHotelsVisible = mHotelItemizedOverlay.areHotelsVisible();
 
 		/*
@@ -301,6 +316,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		focusOnProperties();
 	}
 
+	
 	@Override
 	public GeoPoint onRequestMapCenter() {
 		if (mMapView != null) {
