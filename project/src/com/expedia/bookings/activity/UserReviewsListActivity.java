@@ -74,7 +74,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			}
 		}
 	};
- 
+
 	// Member variables
 	private Context mContext;
 	private Property mProperty;
@@ -82,27 +82,27 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	// Review data structures
 	private ReviewSort mCurrentReviewSort = ReviewSort.NEWEST_REVIEW_FIRST;
 	private HashMap<ReviewSort, ArrayList<ReviewWrapper>> mReviewsMapWrapped = new HashMap<ReviewSort, ArrayList<ReviewWrapper>>();
-	
+
 	/* 
 	 * keeps a mapping of the different containers holding the list views (and empty views) for each review sort type
 	 * 8605: keeping different list views (backed by corresponding adapter) helps preserve list position across orientation changes
 	 */
 	private HashMap<ReviewSort, ViewGroup> mListViewContainersMap = new HashMap<ReviewSort, ViewGroup>();
-	
+
 	/* 
 	 * keeps a mapping of the different adapters maintaining data for each of their corresponding list views.
 	 * when a user navigates from one sort type to the next, the appropriate list view is made visible.
 	 * the adapters are updated with data in the background to ensure that each list maintaints its own data
 	 */
 	private HashMap<ReviewSort, UserReviewsAdapter> mListAdaptersMap = new HashMap<ReviewSort, UserReviewsAdapter>();
-	
+
 	/*
 	 * keeps track of whether an attempt has been made to start the download of a particular 
 	 * review type. This helps to know whether or not to start a download (in a chained manner)
 	 * for a particular review sort type
 	 */
 	private HashMap<ReviewSort, Boolean> mReviewSortDownloadAttemptedMap = new HashMap<ReviewSort, Boolean>();
-	
+
 	public HashMap<ReviewSort, Integer> mPageNumberMap = new HashMap<ReviewSort, Integer>();
 	public boolean moreCriticalPages = true;
 	public boolean moreFavorablePages = true;
@@ -151,7 +151,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			else {
 				mPageNumberMap.put(mReviewSort, new Integer(1 + pageNumber));
 			}
-			
+
 			return services.reviews(mProperty, pageNumber, mReviewSort);
 		}
 	}
@@ -235,12 +235,12 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				//send message to remove loading footer
 				mHandler.sendMessage(prepareMessage(false, thisReviewSort));
 			}
-			
+
 			if (thisReviewSort == mCurrentReviewSort) {
 				bringContainerToFront(listViewContainer);
-			} 
+			}
 			showListOrEmptyView(listViewContainer, adapter);
-			
+
 			// chain the downloads in the callback, if the download has not been attempted, make sure to start the download
 			if (!mReviewSortDownloadAttemptedMap.get(ReviewSort.HIGHEST_RATING_FIRST)) {
 				mReviewsDownloader.startDownload(KEY_REVIEWS_HIGHEST, mHighestRatingFirstDownload,
@@ -273,10 +273,13 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		 * so that we can easily preserve the scroll position across tab clicks and orientation
 		 * changes. 
 		 */
-		ViewGroup recentReviewsListViewContainer = (ViewGroup) getLayoutInflater().inflate(R.layout.include_review_list_container, null);
-		ViewGroup criticalReviewsListViewContainer = (ViewGroup) getLayoutInflater().inflate(R.layout.include_review_list_container, null);
-		ViewGroup favorableReviewsListViewContainer = (ViewGroup) getLayoutInflater().inflate(R.layout.include_review_list_container, null);
-		
+		ViewGroup recentReviewsListViewContainer = (ViewGroup) getLayoutInflater().inflate(
+				R.layout.include_review_list_container, null);
+		ViewGroup criticalReviewsListViewContainer = (ViewGroup) getLayoutInflater().inflate(
+				R.layout.include_review_list_container, null);
+		ViewGroup favorableReviewsListViewContainer = (ViewGroup) getLayoutInflater().inflate(
+				R.layout.include_review_list_container, null);
+
 		listsContainer.addView(criticalReviewsListViewContainer);
 		listsContainer.addView(favorableReviewsListViewContainer);
 		listsContainer.addView(recentReviewsListViewContainer);
@@ -284,7 +287,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		UserReviewsAdapter recentReviewsAdapter = new UserReviewsAdapter(this, mProperty);
 		UserReviewsAdapter criticalReviewsAdapter = new UserReviewsAdapter(this, mProperty);
 		UserReviewsAdapter favorableReviewsAdapter = new UserReviewsAdapter(this, mProperty);
-		
+
 		mListViewContainersMap.put(ReviewSort.HIGHEST_RATING_FIRST, favorableReviewsListViewContainer);
 		mListViewContainersMap.put(ReviewSort.LOWEST_RATING_FIRST, criticalReviewsListViewContainer);
 		mListViewContainersMap.put(ReviewSort.NEWEST_REVIEW_FIRST, recentReviewsListViewContainer);
@@ -292,7 +295,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		mListAdaptersMap.put(ReviewSort.HIGHEST_RATING_FIRST, favorableReviewsAdapter);
 		mListAdaptersMap.put(ReviewSort.LOWEST_RATING_FIRST, criticalReviewsAdapter);
 		mListAdaptersMap.put(ReviewSort.NEWEST_REVIEW_FIRST, recentReviewsAdapter);
-		
+
 		// Retrieve data to build this with
 		final Intent intent = getIntent();
 		mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
@@ -347,20 +350,21 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			}
 
 		}
-		
+
 		ListView recentReviewsListView = getListView(recentReviewsListViewContainer);
 		ListView criticalReviewsListView = getListView(criticalReviewsListViewContainer);
 		ListView favorableReviewsListView = getListView(favorableReviewsListViewContainer);
-		
+
 		recentReviewsListView.setAdapter(recentReviewsAdapter);
 		criticalReviewsListView.setAdapter(criticalReviewsAdapter);
 		favorableReviewsListView.setAdapter(favorableReviewsAdapter);
-		
+
 		recentReviewsListView.setOnScrollListener(this);
 		criticalReviewsListView.setOnScrollListener(this);
 		favorableReviewsListView.setOnScrollListener(this);
-		
-		mFooterLoadingMore = (ViewGroup) mLayoutInflater.inflate(R.layout.footer_user_reviews_list_loading_more, null, false);
+
+		mFooterLoadingMore = (ViewGroup) mLayoutInflater.inflate(R.layout.footer_user_reviews_list_loading_more, null,
+				false);
 
 		// Configure the book now button
 		Button bookNowButton = (Button) findViewById(R.id.book_now_button);
@@ -372,17 +376,18 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			}
 		});
 	}
-	
+
 	private ListView getListView(ViewGroup listViewContainer) {
 		return (ListView) listViewContainer.findViewById(R.id.user_reviews_list);
 	}
 
 	private void bringContainerToFront(ViewGroup listViewContainer) {
 		listViewContainer.bringToFront();
-		for(ViewGroup viewContainer : mListViewContainersMap.values()) {
-			if(!viewContainer.equals(listViewContainer)) {
+		for (ViewGroup viewContainer : mListViewContainersMap.values()) {
+			if (!viewContainer.equals(listViewContainer)) {
 				viewContainer.setVisibility(View.GONE);
-			} else {
+			}
+			else {
 				viewContainer.setVisibility(View.VISIBLE);
 			}
 		}
@@ -394,7 +399,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		}
 
 		ViewGroup header = (ViewGroup) mLayoutInflater.inflate(R.layout.header_user_reviews_list, null, false);
-		for(ViewGroup viewContainer : mListViewContainersMap.values()) {
+		for (ViewGroup viewContainer : mListViewContainersMap.values()) {
 			getListView(viewContainer).addHeaderView(header);
 		}
 
@@ -414,7 +419,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 					mCurrentReviewSort = ReviewSort.LOWEST_RATING_FIRST;
 					break;
 				}
-				
+
 				ViewGroup listViewContainer = mListViewContainersMap.get(mCurrentReviewSort);
 				UserReviewsAdapter adapter = mListAdaptersMap.get(mCurrentReviewSort);
 				adapter.switchUserReviews(mReviewsMapWrapped.get(mCurrentReviewSort));
@@ -531,7 +536,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	private ActivityState buildActivityState() {
 		ActivityState state = new ActivityState();
 		state.mCurrentReviewSort = mCurrentReviewSort;
-		
+
 		UserReviewsAdapter adapter = mListAdaptersMap.get(mCurrentReviewSort);
 		// make sure to save the read more state from the adapter
 		mReviewsMapWrapped.put(mCurrentReviewSort, adapter.mLoadedReviews);
@@ -551,7 +556,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		moreCriticalPages = state.moreCriticalPages;
 		moreFavorablePages = state.moreFavorablePages;
 	}
-	
+
 	private Message prepareMessage(boolean addFooter, ReviewSort reviewSort) {
 		Object[] data = new Object[2];
 		Message msg = new Message();
@@ -577,12 +582,13 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				text = getString(R.string.user_review_no_recent_reviews);
 			}
 			emptyTextView.setText(text);
-		} else if(mReviewSortDownloadAttemptedMap.get(mCurrentReviewSort)) {
+		}
+		else if (mReviewSortDownloadAttemptedMap.get(mCurrentReviewSort)) {
 			getListView(listViewContainer).setVisibility(View.VISIBLE);
 			listViewContainer.findViewById(R.id.user_reviews_list_empty_view).setVisibility(View.GONE);
 		}
 	}
-	
+
 	private class ActivityState {
 		public ReviewSort mCurrentReviewSort;
 		public HashMap<ReviewSort, ArrayList<ReviewWrapper>> reviewsMapWrapped;
@@ -591,6 +597,5 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		public boolean moreCriticalPages;
 		public boolean moreFavorablePages;
 	}
-	
-	
+
 }
