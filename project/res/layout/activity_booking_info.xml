@@ -562,7 +562,7 @@
 			android:layout_gravity="center_vertical"
 			android:layout_marginLeft="4dp"
 			android:src="@drawable/btn_padlock_normal"
-			android:visibility="gone" />
+			android:visibility="invisible" />
 		<TextView
 			android:id="@+id/charge_details_text_view"
 			android:layout_width="wrap_content"
@@ -570,6 +570,7 @@
 			android:layout_weight="1"
 			android:layout_gravity="center_vertical"
 			android:layout_marginLeft="6dp"
+			android:layout_marginRight="2dp"
 			android:textColor="@android:color/white"
 			android:textSize="13sp" />
 		<Button
