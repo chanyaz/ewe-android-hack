@@ -10,8 +10,9 @@
 	android:orientation="vertical">
 	  <TextView
 	  	android:id="@+id/loading_text_view"
-	  	android:layout_width="wrap_content"
+	  	android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
+		android:gravity="center_horizontal"
 		android:text="@string/loading_hotels"
 		style="@style/widgetHotelLocationText"/>
 		
@@ -106,8 +107,6 @@
 		  	android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:includeFontPadding="false"
-			android:singleLine="true"
-			android:ellipsize="end"
 			style="@style/widgetHotelNameText"/>
 			
 		  <TextView
@@ -130,6 +129,13 @@
 			android:background="@drawable/branding_savings_bg"
 			android:textSize="12sp"
 			style="@style/SaleText" />
+		 <TextView
+		 	android:id="@+id/branding_error_message_text_view"
+			android:layout_height="wrap_content"
+		  	android:layout_width="wrap_content"
+		  	android:paddingRight="5dp"
+		  	android:visibility="gone"
+			style="@style/widgetHotelLocationText" />
 	</LinearLayout>
 			
 	  <LinearLayout

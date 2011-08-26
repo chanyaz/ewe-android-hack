@@ -41,7 +41,7 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 			} else if (intent.getAction().equals(LOAD_PROPERTY_ACTION)) {
 				String error = intent.getStringExtra(Codes.SEARCH_ERROR);
 				if (error != null) {
-					updateWidgetWithText(intent, error, true);
+					updateWidgetWithText(intent, error, false, intent.getBooleanExtra(Codes.SHOW_BRANDING, false));
 					return;
 				}
 
@@ -91,19 +91,14 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		nextIntent.fillIn(intent, 0);
 
-		// clear out the on-click intent on the widget by updating the widget
-		// with an empty intent that goes into ether.
-		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(mContext, appWidgetIdInteger.intValue() + 3,
-				new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
-
+		clearWidgetOnClickIntent(rv);
+		
 		widgetContents.setOnClickPendingIntent(R.id.prev_hotel_btn, PendingIntent.getService(mContext,
 				appWidgetIdInteger.intValue() + 0, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 		widgetContents.setOnClickPendingIntent(R.id.next_hotel_btn, PendingIntent.getService(mContext,
 				appWidgetIdInteger.intValue() + 1, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
-		widgetContents.setViewVisibility(R.id.loading_text_view, View.GONE);
-		widgetContents.setViewVisibility(R.id.loading_text_container, View.GONE);
-		widgetContents.setViewVisibility(R.id.refresh_text_view, View.GONE);
+		setWidgetLoadingTextVisibility(widgetContents, View.GONE);
 
 		updateWidget(intent, rv);
 	}
@@ -174,45 +169,72 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(mContext, appWidgetIdInteger.intValue() + 3,
 				onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
-		widgetContents.setViewVisibility(R.id.loading_text_view, View.GONE);
-		widgetContents.setViewVisibility(R.id.loading_text_container, View.GONE);
-		widgetContents.setViewVisibility(R.id.refresh_text_view, View.GONE);
+		setWidgetLoadingTextVisibility(widgetContents, View.GONE);
 
 		updateWidget(intent, rv);
 	}
-
-	private void updateWidgetWithText(Intent intent, String error, boolean refreshOnClick) {
+	
+	public void updateWidgetWithText(Intent intent, String error, boolean refreshOnClick) {
+		updateWidgetWithText(intent, error, refreshOnClick, false);
+	}
+	private void updateWidgetWithText(Intent intent, String error, boolean refreshOnClick, boolean showBranding) {
 		RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget);
 		RemoteViews widgetContents = new RemoteViews(mContext.getPackageName(), R.layout.widget_contents);
 
 		rv.removeAllViews(R.id.hotel_info_contents);
 		rv.addView(R.id.hotel_info_contents, widgetContents);
 		
-		setWidgetContentsVisibility(widgetContents, View.GONE);
+		setWidgetPropertyViewVisibility(widgetContents, View.GONE);
+		
+		if(showBranding) {
+			widgetContents.setViewVisibility(R.id.widget_contents_container, View.VISIBLE);
+			widgetContents.setViewVisibility(R.id.navigation_container, View.GONE);
 
-		widgetContents.setTextViewText(R.id.loading_text_view, error);
-		widgetContents.setViewVisibility(R.id.loading_text_view, View.VISIBLE);
-		widgetContents.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
-		widgetContents.setViewVisibility(R.id.widget_contents_container, View.GONE);
+			widgetContents.setViewVisibility(R.id.branding_text_container, View.VISIBLE);
+			widgetContents.setViewVisibility(R.id.expedia_logo_image_view, View.VISIBLE);
+			widgetContents.setViewVisibility(R.id.branding_title_text_view, View.GONE);
+			widgetContents.setViewVisibility(R.id.branding_location_text_view, View.GONE);
+			widgetContents.setViewVisibility(R.id.branding_savings_container, View.GONE);
+			widgetContents.setViewVisibility(R.id.branding_error_message_text_view, View.VISIBLE);
+			
+			widgetContents.setViewVisibility(R.id.loading_text_view, View.GONE);
+			widgetContents.setViewVisibility(R.id.loading_text_container, View.GONE);
+			
+			widgetContents.setTextViewText(R.id.branding_error_message_text_view, error);
+		} else {
+			setWidgetContentsVisibility(widgetContents, View.GONE);
+			widgetContents.setTextViewText(R.id.loading_text_view, error);
+			widgetContents.setViewVisibility(R.id.loading_text_view, View.VISIBLE);
+			widgetContents.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
+		}
+		
 		widgetContents.setViewVisibility(R.id.refresh_text_view, View.GONE);
-		rv.setViewVisibility(R.id.navigation_container, View.GONE);
 
-		if (refreshOnClick) {
+		if (refreshOnClick && !showBranding) {
 			Integer appWidgetIdInteger = new Integer(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 			Intent onClickIntent = new Intent(ExpediaBookingsService.START_CLEAN_SEARCH_ACTION);
 			onClickIntent.fillIn(intent, 0);
 			rv.setOnClickPendingIntent(R.id.root, PendingIntent.getBroadcast(mContext,
 					appWidgetIdInteger.intValue() + 4, onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 			rv.setViewVisibility(R.id.refresh_text_view, View.VISIBLE);
+		} else {
+			clearWidgetOnClickIntent(rv);
 		}
+		
 		updateWidget(intent, rv);
+	}
+	
+	// clear out the on-click intent on the widget by updating the widget
+	// with an empty intent that goes into ether.
+	private void clearWidgetOnClickIntent(RemoteViews rv) {
+		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(mContext, 0,
+				new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
 	}
 
 	private void updateWidget(Intent intent, final RemoteViews rv) {
 		AppWidgetManager gm = AppWidgetManager.getInstance(mContext);
 		gm.updateAppWidget(intent.getIntExtra(Codes.APP_WIDGET_ID, -1), rv);
 	}
-	
 
 	private void setWidgetPropertyViewVisibility(final RemoteViews widgetContents, int visibility) {
 		widgetContents.setViewVisibility(R.id.price_per_night_container, visibility);
@@ -233,4 +255,11 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 		widgetContents.setViewVisibility(R.id.widget_contents_container, visibility);
 		widgetContents.setViewVisibility(R.id.navigation_container, visibility);
 	}
+	
+	private void setWidgetLoadingTextVisibility(final RemoteViews widgetContents, int visibility) {
+		widgetContents.setViewVisibility(R.id.loading_text_view, visibility);
+		widgetContents.setViewVisibility(R.id.loading_text_container, visibility);
+		widgetContents.setViewVisibility(R.id.refresh_text_view, visibility);
+	}
+
 }

@@ -66,6 +66,8 @@
 	<string name="top_deals">Top Deals</string>
 	<!--  Widget branding for max savings based on deals being shown-->
 	<string name="save_upto_template">Save up to $%s</string>
+	<!--  Widget error for search that is considered "in the past" due to time differences -->
+	<string name="error_search_in_past">We\'re out of deals for today. Check in for top deals tomorrow.</string>
 
 	<!-- Sort adverbs, e.g. Sorted "adverb" -->
 	<string name="sort_adverb_distance">by distance</string>
@@ -284,7 +286,6 @@
 	<string name="error_booking_null">Could not connect to Expedia servers.  Please check your connection and try again.</string>
 	<!--  Check in/out time + date template  -->
 	<string name="check_in_out_time_template">%1$s on %2$s</string>
-	<string name="check_in_out_time_note">Note the check-in and check-out times for this hotel as they seem non-standard.</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Reservation summary label -->
@@ -305,7 +306,7 @@
 	<string name="contact_phone_default_template">If you have questions about your reservation, please call Expedia.com at %1$s in the US/Canada or %2$s in Europe.</string>
 
 	<!-- Sharing bookings via email -->
-	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the date ranges (e.g., 3/21 - 3/24) -->
+	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
 	<string name="share_subject_template">Expedia Itinerary - %1$s (%2$s - %3$s)</string>
 	<!-- Preset at the top of the share body message -->
 	<string name="share_body_start">Here is my hotel reservation info:</string>

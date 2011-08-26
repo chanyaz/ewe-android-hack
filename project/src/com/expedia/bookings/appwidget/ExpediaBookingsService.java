@@ -44,6 +44,7 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchParams;
+import com.mobiata.hotellib.data.ServerError;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
 import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.data.Session;
@@ -74,6 +75,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	 */
 
 	private class WidgetState {
+		private static final String SEARCH_IN_PAST = "Specified arrival date is prior to today's date.";
 		Integer appWidgetIdInteger;
 		Session mSession;
 		SearchResponse mSearchResponse;
@@ -104,8 +106,22 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 					mFreeFormLocation = mSearchParams.getFreeformLocation();
 					mCurrentPosition = -1;
 					loadImageForProperty(WidgetState.this);
+				} else if(mSearchResponse != null && mSearchResponse.hasErrors()){
+					ServerError error = mSearchResponse.getErrors().get(0);
+					/*
+					 * NOTE: We have to check for an error based on its description
+					 * as there is no unique error code for every error. This is 
+					 * obviously prone to error if the message ever changes, but I 
+					 * don't see any other way of looking for this particular 
+					 * error without server side changes to pass a unique id 
+					 * for every error. 
+					 */
+					if(error.getPresentableMessage(ExpediaBookingsService.this).contains(SEARCH_IN_PAST)) {
+						broadcastWidgetError(WidgetState.this, getString(R.string.error_search_in_past), true);
+					}
 				}
-				else if (mProperties == null || mProperties.isEmpty()) {
+				
+				if (mProperties == null || mProperties.isEmpty()) {
 					broadcastWidgetError(WidgetState.this, getString(R.string.progress_search_failed));
 				}
 
@@ -478,9 +494,14 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void broadcastWidgetError(WidgetState widget, CharSequence error) {
+		broadcastWidgetError(widget, error, false);
+	}
+	
+	private void broadcastWidgetError(WidgetState widget, CharSequence error, boolean showBranding) {
 		Intent i = new Intent(ExpediaBookingsWidgetReceiver.LOAD_PROPERTY_ACTION);
 		i.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger.intValue());
 		i.putExtra(Codes.SEARCH_ERROR, error);
+		i.putExtra(Codes.SHOW_BRANDING, showBranding);
 		sendBroadcast(i);
 	}
 
