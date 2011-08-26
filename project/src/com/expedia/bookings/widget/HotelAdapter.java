@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.text.Html;
-import android.text.Layout.Alignment;
-import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +19,7 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.mobiata.android.util.ViewUtils;
 import com.mobiata.hotellib.data.Filter.Sort;
 import com.mobiata.hotellib.data.Media;
 import com.mobiata.hotellib.data.Property;
@@ -52,7 +50,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		rebuildCache();
 
 		// Calculate the size of the sale text size
-		mSaleTextSize = getTextSize();
+		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(context, 1, 11, context.getString(R.string.sale_caps),
+				new TextPaint(), (int) context.getResources().getDisplayMetrics().density * 25);
 	}
 
 	public void rebuildCache() {
@@ -243,35 +242,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		public RatingBar hotelRating;
 		public RatingBar userRating;
 		public TextView distance;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Sale font size fixing 
-	// 
-	// Dynamically resizes sale font size until it fits.
-
-	private static final Canvas sTextResizeCanvas = new Canvas();
-
-	public float getTextSize() {
-		TextPaint tp = new TextPaint();
-		String source = mContext.getString(R.string.sale_caps);
-		int width = (int) mContext.getResources().getDisplayMetrics().density * 25;
-
-		for (float textSize = 11; textSize > 0; textSize -= .5) {
-			if (getLineCount(source, tp, textSize, width) == 1) {
-				return textSize;
-			}
-		}
-
-		// Shouldn't ever get here...
-		return 1;
-	}
-
-	public int getLineCount(CharSequence source, TextPaint textPaint, float textSize, int width) {
-		textPaint.setTextSize(textSize);
-		StaticLayout layout = new StaticLayout(source, textPaint, width, Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
-		layout.draw(sTextResizeCanvas);
-		return layout.getLineCount();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
