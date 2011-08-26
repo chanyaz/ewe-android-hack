@@ -62,6 +62,7 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.DialogUtils;
+import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
 import com.mobiata.android.validation.RequiredValidator;
@@ -291,7 +292,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			this.mCardCompleted = (Boolean) lastInstance.get(INSTANCE_CARD_COMPLETED);
 			this.mErrors = (List<ServerError>) lastInstance.get(INSTANCE_ERRORS);
 
-			if (this.mFormHasBeenFocused) {
+			if ((Boolean) lastInstance.get(INSTANCE_FORM_HAS_BEEN_FOCUSED)) {
 				onFormFieldFocus();
 			}
 
@@ -791,6 +792,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// Configure the bottom of the page form stuff
 		final BookingInfoActivity activity = this;
+		float newTextSize = ViewUtils.getTextSizeForMaxLines(this, 1, 16, getString(R.string.EnterBookingInfo),
+				mConfirmationButton.getPaint(), (int) getResources().getDisplayMetrics().density * 135);
+		mConfirmationButton.setTextSize(newTextSize);
 		mConfirmationButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				syncBillingInfo();
@@ -904,17 +908,30 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	}
 
 	private void onFormFieldFocus() {
+		if (!mFormHasBeenFocused) {
+			// Change the button text
+			mConfirmationButton.setText(R.string.confirm_book);
+			int width = mConfirmationButton.getWidth() - mConfirmationButton.getPaddingRight()
+					- mConfirmationButton.getPaddingLeft();
+			float newTextSize = ViewUtils.getTextSizeForMaxLines(this, 1, 16, getString(R.string.confirm_book),
+					mConfirmationButton.getPaint(), width);
+
+			mConfirmationButton.setTextSize(newTextSize);
+
+			// Reveal the charge lock icon
+			mChargeDetailsImageView.setVisibility(View.VISIBLE);
+
+			// Add the charge details text
+			CharSequence text = getString(R.string.charge_details_template, mRate.getTotalAmountAfterTax()
+					.getFormattedMoney());
+			mChargeDetailsTextView.setText(text);
+			width = mChargeDetailsTextView.getWidth() - mChargeDetailsTextView.getPaddingLeft()
+					- mChargeDetailsTextView.getPaddingRight();
+			newTextSize = ViewUtils.getTextSizeForMaxLines(this, 2, 16, text, mChargeDetailsTextView.getPaint(), width);
+			mChargeDetailsTextView.setTextSize(newTextSize);
+		}
+
 		mFormHasBeenFocused = true;
-
-		// Change the button text
-		mConfirmationButton.setText(R.string.confirm_book);
-
-		// Reveal the charge lock icon
-		mChargeDetailsImageView.setVisibility(View.VISIBLE);
-
-		// Add the charge details text
-		mChargeDetailsTextView.setText(getString(R.string.charge_details_template, mRate.getTotalAmountAfterTax()
-				.getFormattedMoney()));
 	}
 
 	// Interactivity when expanding saved billing info
