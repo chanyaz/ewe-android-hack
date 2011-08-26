@@ -135,6 +135,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	public interface SetShowDistanceListener {
 		public void onSetShowDistance(boolean showDistance);
 	}
+	
+	// Listener for when the user specifies an 
+	// exact location or landmark to search for hotels
+	// around (eg. "Golden Gate Bridge", "825 Victors Way, Ann Arbor, MI") 
+	public interface ExactSearchLocationSearchedListener {
+		public void onExactSearchLocationSpecified(double latitude, double longitude, String address); 
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// ENUMS
@@ -197,6 +204,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 	public static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
+	private static final String IS_EXACT_LOCATION_SPECIFIED = "IS_EXACT_LOCATION_SPECIFIED";
 
 	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
 	public static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
@@ -280,6 +288,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private List<SearchListener> mSearchListeners;
 	private MapViewListener mMapViewListener;
 	private List<SetShowDistanceListener> mSetShowDistanceListeners;
+	private List<ExactSearchLocationSearchedListener> mExactLocationSearchedListeners;
 
 	private List<Address> mAddresses;
 	private SearchParams mSearchParams;
@@ -701,7 +710,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 					setSearchParams(address.getLatitude(), address.getLongitude());
 					setShowDistance(address.getSubThoroughfare() != null);
-
+					determineWhetherExactLocationSpecified(address);
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearchDownloader();
 				}
@@ -890,6 +899,16 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 	}
 
+	public void addExactLocationSearchedListener(ExactSearchLocationSearchedListener specificLocationSearchedListener) {
+		if(mExactLocationSearchedListeners == null) {
+			mExactLocationSearchedListeners = new ArrayList<ExactSearchLocationSearchedListener>();
+		}
+		
+		if(!mExactLocationSearchedListeners.contains(specificLocationSearchedListener)) {
+			mExactLocationSearchedListeners.add(specificLocationSearchedListener);
+		}
+	}
+	
 	public SearchParams getSearchParams() {
 		return mSearchParams;
 	}
@@ -1202,6 +1221,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 							setSearchEditViews();
 							setSearchParams(address.getLatitude(), address.getLongitude());
 							setShowDistance(address.getSubThoroughfare() != null);
+							determineWhetherExactLocationSpecified(address);
 							startSearchDownloader();
 						}
 						else {
@@ -1223,6 +1243,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mSearchParams.setSearchLatLon(latitde, longitude);
 
 		setShowDistance(true);
+		determineWhetherExactLocationSpecified(null);
 	}
 
 	private void setSearchParams(SearchParams searchParams) {
@@ -2328,6 +2349,24 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		if (mSetShowDistanceListeners != null) {
 			for (SetShowDistanceListener showDistanceListener : mSetShowDistanceListeners) {
 				showDistanceListener.onSetShowDistance(showDistance);
+			}
+		}
+	}
+	
+	private void determineWhetherExactLocationSpecified(Address location) {
+		double latitude = 0.0;
+		double longitude = 0.0;
+		String address = null;
+		
+		if(location != null && location.getThoroughfare() != null) {
+			latitude = location.getLatitude();
+			longitude = location.getLongitude();
+			address = StrUtils.removeUSAFromAddress(location);
+		}
+		
+		if(mExactLocationSearchedListeners != null) {
+			for(ExactSearchLocationSearchedListener exactLocationSpecifiedListener : mExactLocationSearchedListeners) {
+				exactLocationSpecifiedListener.onExactSearchLocationSpecified(latitude, longitude, address);
 			}
 		}
 	}
