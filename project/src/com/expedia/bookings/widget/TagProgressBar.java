@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
 import com.expedia.bookings.widget.gl.GLTagProgressBarRenderer.OnDrawStartedListener;
+import com.mobiata.android.util.AndroidUtils;
 
 public class TagProgressBar extends ViewGroup implements OnDrawStartedListener {
 	private final static int TEXTVIEW_PADDING = 16;
@@ -161,7 +162,12 @@ public class TagProgressBar extends ViewGroup implements OnDrawStartedListener {
 			mTagHiderView.post(new Runnable() {
 				@Override
 				public void run() {
-					mGLTagProgressBar.setVisibility(visibility);
+					if (!AndroidUtils.isRelease(mContext)) {
+						mGLTagProgressBar.setVisibility(View.GONE);
+					}
+					else {
+						mGLTagProgressBar.setVisibility(visibility);
+					}
 				}
 			});
 		}
@@ -169,11 +175,13 @@ public class TagProgressBar extends ViewGroup implements OnDrawStartedListener {
 
 	@Override
 	public void onDrawStarted() {
-		post(new Runnable() {
-			@Override
-			public void run() {
-				mTagHiderView.setVisibility(View.GONE);
-			}
-		});
+		if (AndroidUtils.isRelease(mContext)) {
+			post(new Runnable() {
+				@Override
+				public void run() {
+					mTagHiderView.setVisibility(View.GONE);
+				}
+			});
+		}
 	}
 }
