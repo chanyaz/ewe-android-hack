@@ -15,6 +15,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.util.ViewUtils;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.Rate;
@@ -36,6 +37,10 @@ public class LayoutUtils {
 
 		Button bookButton = (Button) activity.findViewById(R.id.book_now_button);
 		bookButton.setOnClickListener(onBookNowClick);
+
+		// Resize the book button text
+		float textSize = ViewUtils.getTextSizeForMaxLines(bookButton.getText(), 1, 20, bookButton);
+		bookButton.setTextSize(textSize);
 	}
 
 	public static void addRateDetails(Context context, ViewGroup detailsLayout, SearchParams searchParams,

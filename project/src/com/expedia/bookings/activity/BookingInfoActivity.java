@@ -15,7 +15,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
