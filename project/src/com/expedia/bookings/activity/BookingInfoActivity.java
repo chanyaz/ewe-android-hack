@@ -792,8 +792,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// Configure the bottom of the page form stuff
 		final BookingInfoActivity activity = this;
-		float newTextSize = ViewUtils.getTextSizeForMaxLines(this, 1, 16, getString(R.string.EnterBookingInfo),
-				mConfirmationButton.getPaint(), (int) getResources().getDisplayMetrics().density * 135);
+		float newTextSize = ViewUtils.getTextSizeForMaxLines(getString(R.string.EnterBookingInfo), 1, 16,
+				mConfirmationButton);
 		mConfirmationButton.setTextSize(newTextSize);
 		mConfirmationButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -911,11 +911,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		if (!mFormHasBeenFocused) {
 			// Change the button text
 			mConfirmationButton.setText(R.string.confirm_book);
-			int width = mConfirmationButton.getWidth() - mConfirmationButton.getPaddingRight()
-					- mConfirmationButton.getPaddingLeft();
-			float newTextSize = ViewUtils.getTextSizeForMaxLines(this, 1, 16, getString(R.string.confirm_book),
-					mConfirmationButton.getPaint(), width);
-
+			float newTextSize = ViewUtils.getTextSizeForMaxLines(getString(R.string.confirm_book), 1, 16,
+					mConfirmationButton);
 			mConfirmationButton.setTextSize(newTextSize);
 
 			// Reveal the charge lock icon
@@ -925,9 +922,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			CharSequence text = getString(R.string.charge_details_template, mRate.getTotalAmountAfterTax()
 					.getFormattedMoney());
 			mChargeDetailsTextView.setText(text);
-			width = mChargeDetailsTextView.getWidth() - mChargeDetailsTextView.getPaddingLeft()
-					- mChargeDetailsTextView.getPaddingRight();
-			newTextSize = ViewUtils.getTextSizeForMaxLines(this, 2, 16, text, mChargeDetailsTextView.getPaint(), width);
+			newTextSize = ViewUtils.getTextSizeForMaxLines(text, 2, 16, mChargeDetailsTextView);
 			mChargeDetailsTextView.setTextSize(newTextSize);
 		}
 
