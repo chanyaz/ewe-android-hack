@@ -77,9 +77,14 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-
 		Property property = (Property) l.getAdapter().getItem(position);
 
+		// nothing to do here as the view does not contain a 
+		// property
+		if(property == null) {
+			return;
+		}
+		
 		Intent intent = new Intent(this, HotelActivity.class);
 		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
 		intent.putExtra(Codes.SEARCH_PARAMS, mParent.getSearchParams().toString());
