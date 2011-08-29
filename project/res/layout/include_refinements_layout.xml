@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+	android:id="@+id/refinements_layout"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="#FF999999"
+    android:gravity="center">
+    
+    <LinearLayout
+    	android:id="@+id/dates_layout"
+    	android:orientation="horizontal"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:visibility="gone">
+    	
+    	<com.mobiata.android.widget.CalendarDatePicker
+    		android:id="@+id/dates_date_picker"
+    		android:layout_width="fill_parent"
+    		android:layout_height="300dp"
+    		mobiata:popupBackground="@drawable/calendar_date_picker_popup"
+    		mobiata:headerBackground="@color/calendar_header"
+    		mobiata:cellBackground="@drawable/bg_calendar_cell"
+    		mobiata:todayCellBackground="@drawable/bg_calendar_cell_today"
+    		mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell"
+    		mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
+    		mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
+    		mobiata:cellTextColor="@color/cell_text"
+    		mobiata:otherMonthCellTextColor="@color/cell_text_other_month"
+    		mobiata:drawGridLines="false" />
+    	
+    </LinearLayout>
+    
+    <LinearLayout
+    	android:id="@+id/guests_layout"
+    	android:orientation="horizontal"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:visibility="gone">
+	    
+	    <com.mobiata.android.widget.NumberPicker
+			android:id="@+id/adults_number_picker"
+	    	android:layout_width="0dp"
+	    	android:layout_height="wrap_content"
+	    	android:layout_weight="1"
+	    	android:textSize="14dp" />
+	    	
+	    <com.mobiata.android.widget.NumberPicker
+			android:id="@+id/children_number_picker"
+	    	android:layout_width="0dp"
+	    	android:layout_height="wrap_content"
+	    	android:layout_weight="1"
+	    	android:textSize="14dp" />
+    
+    </LinearLayout>
+    
+</LinearLayout>
