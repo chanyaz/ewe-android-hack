@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.model.WidgetConfigurationState;
 import com.mobiata.android.Log;
 import com.mobiata.hotellib.data.Codes;
 
@@ -45,26 +46,26 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 		Intent intent = new Intent(ExpediaBookingsService.CANCEL_UPDATE_ACTION);
 		intent.putExtra(Codes.APP_WIDGET_ID, appWidgetIds[0]);
 		context.startService(intent);
-
+		WidgetConfigurationState.deleteWidgetConfigState(context, appWidgetIds[0]);
 		super.onDeleted(context, appWidgetIds);
 	}
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		
+		int[] existingAppWidgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(
+				new ComponentName(context, ExpediaBookingsWidgetProvider.class));
+		WidgetConfigurationState.reoncileWidgetConfigurationStates(context, existingAppWidgetIds);
 		RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
 		RemoteViews widgetContainer = new RemoteViews(context.getPackageName(), R.layout.widget_contents);
 		rv.addView(R.id.hotel_info_contents, widgetContainer);
 		widgetContainer.setViewVisibility(R.id.navigation_container, View.GONE);
-		
-		for(int appWidgetId : appWidgetIds) {
+
+		for (int appWidgetId : appWidgetIds) {
 			appWidgetManager.updateAppWidget(appWidgetId, rv);
 		}
-		
+
 		Intent intent = new Intent(ExpediaBookingsService.START_SEARCH_ACTION);
 		context.startService(intent);
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 	}
-	
-	
 }

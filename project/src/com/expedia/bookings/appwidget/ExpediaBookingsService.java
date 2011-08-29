@@ -1,7 +1,5 @@
 package com.expedia.bookings.appwidget;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -10,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +29,7 @@ import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.model.WidgetConfigurationState;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -39,14 +37,13 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchParams;
-import com.mobiata.hotellib.data.ServerError;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
 import com.mobiata.hotellib.data.SearchResponse;
+import com.mobiata.hotellib.data.ServerError;
 import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
 
@@ -254,7 +251,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	@Override
 	public void onDestroy() {
-		persistWidgetIdsToDisk();
 		super.onDestroy();
 	}
 
@@ -302,7 +298,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			WidgetState widget = new WidgetState();
 			widget.appWidgetIdInteger = appWidgetIdInteger;
 			mWidgets.put(appWidgetIdInteger, widget);
-			persistWidgetIdsToDisk();
 			startSearch(widget);
 		}
 		else if (intent.getAction().equals(CANCEL_UPDATE_ACTION)) {
@@ -310,7 +305,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			cancelRotation();
 
 			mWidgets.remove(appWidgetIdInteger);
-			persistWidgetIdsToDisk();
 
 			if (mWidgets.isEmpty()) {
 				cancelScheduledSearch();
@@ -416,26 +410,24 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void setupSearchParams(WidgetState widget) {
+		WidgetConfigurationState cs = WidgetConfigurationState.getWidgetConfiguration(this,
+				widget.appWidgetIdInteger.intValue());
 
 		// check whether user would like to search for hotels near current location
 		// or based on last search
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-		boolean searchHotelsNearYou = prefs.getBoolean(Codes.WIDGET_SHOW_HOTELS_NEAR_YOU_PREFIX
-				+ widget.appWidgetIdInteger, false);
-		boolean searchHotelsBasedOnLastSearch = prefs.getBoolean(Codes.WIDGET_HOTELS_FROM_LAST_SEARCH_PREFIX
-				+ widget.appWidgetIdInteger, false);
-		String specificLocation = prefs
-				.getString(Codes.WIDGET_SPECIFIC_LOCATION_PREFIX + widget.appWidgetIdInteger, "");
+		boolean searchHotelsNearYou = cs.showHotelsNearCurrentLocation();
+		boolean searchHotelsBasedOnLastSearch = cs.showHotelsBasedOnLastSearch();
+		String specificLocation = cs.getExactSearchLocation();
 
 		widget.mUseCurrentLocation = searchHotelsNearYou;
 
 		if (searchHotelsBasedOnLastSearch) {
-			getSearchParamsFromDisk(widget, prefs);
+			getSearchParamsFromDisk(widget);
 		}
 		else if (specificLocation != null && !specificLocation.equals("")) {
-			getSearchParamsFromDisk(widget, prefs);
-			float locationLat = prefs.getFloat(Codes.WIDGET_LOCATION_LAT_PREFIX + widget.appWidgetIdInteger, -1);
-			float locationLong = prefs.getFloat(Codes.WIDGET_LOCATION_LON_PREFIX + widget.appWidgetIdInteger, -1);
+			getSearchParamsFromDisk(widget);
+			double locationLat = cs.getExactSearchLocationLat();
+			double locationLong = cs.getExactSearchLocationLon();
 			widget.mSearchParams.setSearchLatLon(locationLat, locationLong);
 			widget.mSearchParams.setFreeformLocation(specificLocation);
 			widget.mSearchParams.setSearchType(SearchType.KEYWORD);
@@ -454,7 +446,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		}
 	}
 
-	private void getSearchParamsFromDisk(WidgetState widget, SharedPreferences prefs) {
+	private void getSearchParamsFromDisk(WidgetState widget) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String searchParamsString = prefs.getString("searchParams", null);
 		try {
 			if (searchParamsString != null) {
@@ -607,50 +600,16 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void loadWidgets() {
-		try {
-			File appIdFile = getFileStreamPath(APP_IDS_FILE);
-			mWidgets = new HashMap<Integer, ExpediaBookingsService.WidgetState>();
+		mWidgets = new HashMap<Integer, ExpediaBookingsService.WidgetState>();
 
-			if (!appIdFile.exists()) {
-				return;
-			}
-
-			String appIdsString = IoUtils.readStringFromFile(APP_IDS_FILE, this);
-			JSONObject obj = new JSONObject(appIdsString);
-			JSONArray appIdsArray = obj.getJSONArray(APP_IDS);
-			for (int i = 0; i < appIdsArray.length(); i++) {
-				String appId = appIdsArray.getString(i);
-				Integer appWidgetIdInteger = new Integer(appId);
-				WidgetState widget = new WidgetState();
-				widget.appWidgetIdInteger = appWidgetIdInteger;
-				mWidgets.put(appWidgetIdInteger, widget);
-				setupSearchParams(widget);
-			}
+		ArrayList<Object> widgetConfigs = WidgetConfigurationState.getAll(this);
+		for (Object config : widgetConfigs) {
+			WidgetConfigurationState cs = (WidgetConfigurationState) config;
+			Integer appWidgetIdInteger = new Integer(cs.getAppWidgetId());
+			WidgetState widget = new WidgetState();
+			widget.appWidgetIdInteger = appWidgetIdInteger;
+			mWidgets.put(appWidgetIdInteger, widget);
+			setupSearchParams(widget);
 		}
-		catch (IOException e) {
-			Log.i("Something went wrong when reading appIds from file", e);
-		}
-		catch (JSONException e) {
-			Log.i("Something wrnt wrong when parsing appIds to create widgets", e);
-		}
-	}
-
-	private void persistWidgetIdsToDisk() {
-		try {
-			JSONArray appIds = new JSONArray();
-			for (WidgetState widget : mWidgets.values()) {
-				appIds.put(widget.appWidgetIdInteger.toString());
-			}
-			JSONObject obj = new JSONObject();
-			obj.put(APP_IDS, appIds);
-			IoUtils.writeStringToFile(APP_IDS_FILE, obj.toString(), this);
-		}
-		catch (JSONException e) {
-			Log.i("Something went wrong when creating appIds array", e);
-		}
-		catch (IOException e) {
-			Log.i("Somthing went wrong when writing appIds to file", e);
-		}
-
 	}
 }
