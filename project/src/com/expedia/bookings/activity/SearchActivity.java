@@ -445,6 +445,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchProgressBar.onPause();
 		stopLocationListener();
 
+		mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
+
 		if (!isFinishing()) {
 			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
 			downloader.unregisterDownloadCallback(KEY_LOADING_PREVIOUS);
@@ -469,6 +471,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setViewButtonImage();
 		setDrawerViews();
 		setSearchEditViews();
+
+		// #9103: Must add this after onResume(); otherwise it gets called when mSearchEditText
+		// automagically restores its previous state.
+		mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
 
 		if (mLastSearchTime != -1 && mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
 			Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
@@ -1320,7 +1326,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
-		mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
 		mDatesButton.setOnClickListener(mDatesButtonClickListener);
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
 
