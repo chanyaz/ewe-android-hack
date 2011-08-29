@@ -20,7 +20,7 @@
 	          android:layout_toLeftOf="@+id/calendar_button_container"
 	          android:layout_alignBottom="@+id/calendar_button_container"
 			  android:layout_centerVertical="true"
-			  android:layout_marginTop="3dp"
+			  android:layout_marginTop="5dp"
 			  android:layout_marginLeft="3dp"
 			  android:layout_marginRight="3dp"
 	          android:singleLine="true"
