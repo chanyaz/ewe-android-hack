@@ -50,8 +50,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		rebuildCache();
 
 		// Calculate the size of the sale text size
-		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(context, 1, 11, context.getString(R.string.sale_caps),
-				new TextPaint(), (int) context.getResources().getDisplayMetrics().density * 25);
+		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(context.getString(R.string.sale_caps), 1, 11,
+				new TextPaint(), 25);
 	}
 
 	public void rebuildCache() {
