@@ -3,6 +3,7 @@
 	<string name="app_name">Expedia</string>
 
 	<!-- Search Activity -->
+	<!-- Label for "start search" button -->
 	<string name="search">Search</string>
 	<!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
 	    1$ - The search address
@@ -35,9 +36,13 @@
 	<string name="filter_hotels">Filter Hotels</string>
 
 	<!-- Sort descriptions, e.g. Sorted by "description" -->
+	<!-- Sort by distance label -->
 	<string name="sort_description_distance">Distance</string>
+	<!-- Sort by popularity label -->
 	<string name="sort_description_popular">Popularity</string>
+	<!-- Sort by price label -->
 	<string name="sort_description_price">Price</string>
+	<!-- Sort by user rating label -->
 	<string name="sort_description_rating">User Rating</string>
 	
 	<!-- Progress messages -->	
@@ -151,7 +156,9 @@
 		<item quantity="many">%d Reviews</item>
 		<item quantity="other">%d Reviews</item>
 	</plurals>
-	<!-- User review name and place review signature eg (John from San Diego, CA)-->
+	<!-- User review name and place review signature eg (John from San Diego, CA)
+		1$ is the user name
+		2$ is the place they are from -->
 	<string name="user_review_name_and_location_signature">%1$s from %2$s</string>
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">There are no critical reviews of this hotel</string>
@@ -272,7 +279,7 @@
 	<string name="error_booking_title">Error</string>
 	<!-- Error message when we couldn't get a response -->
 	<string name="error_booking_null">Could not connect to Expedia servers.  Please check your connection and try again.</string>
-	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date-->
+	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$s on %2$s</string>
 	
 	<!-- Confirmation activity -->
