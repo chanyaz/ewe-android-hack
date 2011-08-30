@@ -176,10 +176,14 @@
 	<string name="rate_per_night">per night</string>
 	<!-- Rate price displayed "average per night" -->
 	<string name="rate_avg_per_night">avg/night</string>
-	<!-- Warning if there is only one room left -->
-	<string name="rooms_left_one">Only 1 room left!</string>
 	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
-	<string name="rooms_left_template">Only %d rooms left!</string>
+	<plurals name="number_of_rooms_left">
+		<item quantity="zero">No rooms left!</item>
+		<item quantity="one">Only 1 room left!</item>
+		<item quantity="two">Only %d rooms left!</item>
+		<item quantity="many">Only %d rooms left!</item>
+		<item quantity="other">Only %d rooms left!</item>
+	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
 	<string name="savings_template">Save\n %2.0f%%</string>
 	<!-- Label for free nights -->

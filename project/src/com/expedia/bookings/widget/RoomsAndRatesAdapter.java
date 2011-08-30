@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 	private static final int ROOMS_LEFT_CUTOFF = 5;
 
 	private Context mContext;
+	private Resources mResources;
 
 	private LayoutInflater mInflater;
 
@@ -37,6 +39,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 	public RoomsAndRatesAdapter(Context context, AvailabilityResponse response) {
 		mContext = context;
+		mResources = context.getResources();
 
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -165,13 +168,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		// If there are < ROOMS_LEFT_CUTOFF rooms left, show a warning to the user
 		int numRoomsLeft = rate.getNumRoomsLeft();
 		if (numRoomsLeft > 0 && numRoomsLeft <= ROOMS_LEFT_CUTOFF) {
-			bedText += "\n";
-			if (numRoomsLeft == 1) {
-				bedText += mContext.getString(R.string.rooms_left_one);
-			}
-			else {
-				bedText += mContext.getString(R.string.rooms_left_template, numRoomsLeft);
-			}
+			bedText += "\n" + mResources.getQuantityString(R.plurals.number_of_rooms_left, numRoomsLeft, numRoomsLeft);
 		}
 
 		// If there are value adds, setup the alternate view
