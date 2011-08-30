@@ -566,6 +566,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mProgressBar.onPause();
 		stopLocationListener();
 
+		mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
+
 		if (!isFinishing()) {
 			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
 			downloader.unregisterDownloadCallback(KEY_LOADING_PREVIOUS);
@@ -590,6 +592,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		setDrawerViews();
 		setSearchEditViews();
 		setBottomBarOptions();
+
+		// #9103: Must add this after onResume(); otherwise it gets called when mSearchEditText
+		// automagically restores its previous state.
+		mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
 
 		if (mStartSearchOnResume) {
 			startSearch();
@@ -1044,7 +1050,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
-		mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
 		mDatesButton.setOnClickListener(mDatesButtonClickListener);
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
 
