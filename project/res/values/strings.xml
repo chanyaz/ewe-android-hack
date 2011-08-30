@@ -33,13 +33,7 @@
 	<string name="sort_hotels">"Sort: "</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">Filter Hotels</string>
-	
-	<!-- Sort adverbs, e.g. Sorted "adverb" -->
-	<string name="sort_adverb_distance">by distance</string>
-	<string name="sort_adverb_popular">by popularity</string>
-	<string name="sort_adverb_price">by price</string>
-	<string name="sort_adverb_rating">by rating</string>
-	
+
 	<!-- Sort descriptions, e.g. Sorted by "description" -->
 	<string name="sort_description_distance">Distance</string>
 	<string name="sort_description_popular">Popularity</string>
