@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -137,12 +138,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	public interface SetShowDistanceListener {
 		public void onSetShowDistance(boolean showDistance);
 	}
-	
+
 	// Listener for when the user specifies an 
 	// exact location or landmark to search for hotels
 	// around (eg. "Golden Gate Bridge", "825 Victors Way, Ann Arbor, MI") 
 	public interface ExactSearchLocationSearchedListener {
-		public void onExactSearchLocationSpecified(double latitude, double longitude, String address); 
+		public void onExactSearchLocationSpecified(double latitude, double longitude, String address);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -584,9 +585,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		mProgressBar.onResume();
 
-		Time now = new Time();
-		now.setToNow();
-		mDatesCalendarDatePicker.setMinDate(now.year, now.month, now.monthDay);
+		initializeCalendarDatePicker();
 
 		setViewButtonImage();
 		setDrawerViews();
@@ -907,15 +906,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	}
 
 	public void addExactLocationSearchedListener(ExactSearchLocationSearchedListener specificLocationSearchedListener) {
-		if(mExactLocationSearchedListeners == null) {
+		if (mExactLocationSearchedListeners == null) {
 			mExactLocationSearchedListeners = new ArrayList<ExactSearchLocationSearchedListener>();
 		}
-		
-		if(!mExactLocationSearchedListeners.contains(specificLocationSearchedListener)) {
+
+		if (!mExactLocationSearchedListeners.contains(specificLocationSearchedListener)) {
 			mExactLocationSearchedListeners.add(specificLocationSearchedListener);
 		}
 	}
-	
+
 	public SearchParams getSearchParams() {
 		return mSearchParams;
 	}
@@ -1022,11 +1021,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				parent.setTouchDelegate(new TouchDelegate(r, delegate));
 			}
 		});
-		Time now = new Time();
-		now.setToNow();
-		mDatesCalendarDatePicker.setSelectionMode(SelectionMode.RANGE);
-		mDatesCalendarDatePicker.setMinDate(now.year, now.month, now.monthDay);
-		mDatesCalendarDatePicker.setMaxRange(29);
+		initializeCalendarDatePicker();
 
 		// Progress bar 
 
@@ -1070,6 +1065,22 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mFilterButton.setOnClickListener(mFilterButtonPressedListener);
 		mSortButton.setOnClickListener(mSortButtonPressedListener);
 
+	}
+
+	private void initializeCalendarDatePicker() {
+		/*
+		 * 7880: initializing the date on the calendar to 1 day prior to
+		 * the current date so that the date is selectable by the user
+		 * for searches in other timezones where its still a day behind
+		 */
+		Calendar yesterday = new GregorianCalendar();
+		yesterday.add(Calendar.DAY_OF_MONTH, -1);
+
+		Time yesterdayTime = new Time();
+		yesterdayTime.set(yesterday.getTimeInMillis());
+		mDatesCalendarDatePicker.setMinDate(yesterdayTime.year, yesterdayTime.month, yesterdayTime.monthDay);
+		mDatesCalendarDatePicker.setSelectionMode(SelectionMode.RANGE);
+		mDatesCalendarDatePicker.setMaxRange(29);
 	}
 
 	//----------------------------------
@@ -2358,20 +2369,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			}
 		}
 	}
-	
+
 	private void determineWhetherExactLocationSpecified(Address location) {
 		double latitude = 0.0;
 		double longitude = 0.0;
 		String address = null;
-		
-		if(location != null && location.getThoroughfare() != null) {
+
+		if (location != null && location.getThoroughfare() != null) {
 			latitude = location.getLatitude();
 			longitude = location.getLongitude();
 			address = StrUtils.removeUSAFromAddress(location);
 		}
-		
-		if(mExactLocationSearchedListeners != null) {
-			for(ExactSearchLocationSearchedListener exactLocationSpecifiedListener : mExactLocationSearchedListeners) {
+
+		if (mExactLocationSearchedListeners != null) {
+			for (ExactSearchLocationSearchedListener exactLocationSpecifiedListener : mExactLocationSearchedListeners) {
 				exactLocationSpecifiedListener.onExactSearchLocationSpecified(latitude, longitude, address);
 			}
 		}
