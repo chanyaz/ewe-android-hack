@@ -4,19 +4,14 @@
 
 	<!-- Search Activity -->
 	<string name="search">Search</string>
-	<!--  
-		The string that appears at the top of the search header.
-	    
-	    Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
-	    
+	<!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
 	    1$ - The search address
 	    2$ - The check-in date
 	    3$ - The check-out date
-	      
 	    The dates may include year, if we cross a year boundary 
 	-->
 	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — &lt;b>%2$s&lt;/b> to &lt;b>%3$s&lt;/b></string>
-	<!-- Label indicating how many hotels are left after filtering -->
+	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
 	<string name="filter_info_template">&lt;b>%1$d&lt;/b> matching hotels</string>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filter by hotel name</string>
@@ -39,36 +34,6 @@
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">Filter Hotels</string>
 	
-	<!-- Widget -->
-	<!--  Default Loading message for widget -->
-	<string name="loading_hotels">Loading hotels...</string>
-	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">Save %2.0f%%</string>
-	<!--  Indicator to user to tap the widget to cause it to refresh -->
-	<string name="refresh_widget">Tap to refresh</string>
-	<!--  Title for the widget configuration activity -->
-	<string name="widget_config_title">Hotel Deals Widget</string>
-	<!--  Button text to add widget to home screen from configuration activity -->
-	<string name="add_widget">Add Widget</string>
-	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Add this widget to your device\'s home screen to get up-to-date hotel deals, customzied and selected for you.</string>
-	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description">Show hotel details near:</string>
-	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
-	<string name="last_hotel_search">Last Hotel Search</string>
-	<!--  Widget config option for configuration widget to pick up hotels from a specific location -->
-	<string name="specify_location">Specific Location:</string>
-	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">Error: No Internet Connection</string>
-	<!--  Widget branding for when the deals shown are for the curret night -->
-	<string name="tonight_top_deals">Tonight\'s Top Deals</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
-	<string name="top_deals">Top Deals</string>
-	<!--  Widget branding for max savings based on deals being shown-->
-	<string name="save_upto_template">Save up to $%s</string>
-	<!--  Widget error for search that is considered "in the past" due to time differences -->
-	<string name="error_search_in_past">We\'re out of deals for today. Check in for top deals tomorrow.</string>
-
 	<!-- Sort adverbs, e.g. Sorted "adverb" -->
 	<string name="sort_adverb_distance">by distance</string>
 	<string name="sort_adverb_popular">by popularity</string>
@@ -80,9 +45,6 @@
 	<string name="sort_description_popular">Popularity</string>
 	<string name="sort_description_price">Price</string>
 	<string name="sort_description_rating">User Rating</string>
-	
-	<!-- Price range template (e.g., "($50 - $100)" or "(50CA - 100CA)"). -->
-	<string name="price_range_template">(%1$s — %2$s)</string>
 	
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
@@ -101,7 +63,7 @@
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
 	<string name="from">From</string>
-	<!-- The label indicating that this hotel is highly rated on TripAdvisor -->
+	<!-- The label indicating that this hotel is highly rated by users -->
 	<string name="highly_rated">Highly Rated</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
 	<string name="from_template">From &lt;strike&gt;%s&lt;/strike&gt;</string>
@@ -109,6 +71,36 @@
 	<string name="per_night">/night</string>
 	<!-- Label for red "sale" corner -->
 	<string name="sale_caps">SALE</string>
+	
+	<!-- Widget -->
+	<!--  Default Loading message for widget -->
+	<string name="loading_hotels">Loading hotels...</string>
+	<!--  Template for sale element in widget. The parameter is for the sale % -->
+	<string name="widget_savings_template">Save %2.0f%%</string>
+	<!--  Indicator to user to tap the widget to cause it to refresh -->
+	<string name="refresh_widget">Tap to refresh</string>
+	<!--  Title for the widget configuration activity -->
+	<string name="widget_config_title">Hotel Deals Widget</string>
+	<!--  Label for button to add widget to home screen from configuration activity -->
+	<string name="add_widget">Add Widget</string>
+	<!--  Widget description in configuration activity -->
+	<string name="widget_description">Add this widget to your device\'s home screen to get up-to-date hotel deals, customized and selected for you.</string>
+	<!--  Title for configuration options section in the widget config activity -->
+	<string name="config_options_description">Show hotel details near:</string>
+	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
+	<string name="last_hotel_search">Last Hotel Search</string>
+	<!--  Widget config option for configuration widget to pick up hotels from a specific location -->
+	<string name="specify_location">Specific Location:</string>
+	<!--  Error string for widget when internet connection is unavailable -->
+	<string name="widget_error_no_internet">Error: No Internet Connection</string>
+	<!--  Widget branding for when the deals shown are for the current night -->
+	<string name="tonight_top_deals">Tonight\'s Top Deals</string>
+	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
+	<string name="top_deals">Top Deals</string>
+	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
+	<string name="save_upto_template">Save up to $%s</string>
+	<!--  Widget error for search that is considered "in the past" due to time differences -->
+	<string name="error_search_in_past">We\'re out of deals for today. Check in for top deals tomorrow.</string>
 	
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
@@ -127,9 +119,9 @@
 	<string name="user_reviews">User Reviews</string>
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
+	<!-- Label for policies section of the description -->
 	<string name="policies_title">Policies</string>
-	<string name="check_in_time_template">Check in is at %s</string>
-	<string name="check_out_time_template">Check out is at %s</string>
+	
 	<!-- Shortened Amenity strings -->
 	<!-- Internet amenity -->
 	<string name="amenity_internet">Internet</string>
@@ -153,7 +145,9 @@
 	<string name="user_review_loading_more_reviews">Loading more reviews...</string>
 	<!-- Read more of the review -->
 	<string name="user_review_read_more">Read more</string>
-	<!-- User review recommendation text -->
+	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
+		1$ represents the number of guests that recommend this hotel
+		2$ represents the total number of guests  -->
 	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> out of &lt;b>%2$d&lt;/b> guests recommend this hotel.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
@@ -163,7 +157,7 @@
 		<item quantity="many">%d Reviews</item>
 		<item quantity="other">%d Reviews</item>
 	</plurals>
-	<!-- User review name and place review signature -->
+	<!-- User review name and place review signature eg (John from San Diego, CA)-->
 	<string name="user_review_name_and_location_signature">%1$s from %2$s</string>
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">There are no critical reviews of this hotel</string>
@@ -175,7 +169,7 @@
 	<!-- Room and rates list -->
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Finding available rooms...</string>
-	<!-- Error message (no response) -->
+	<!-- Error message (no response) for not being able to download room and rates information -->
 	<string name="error_no_response_room_rates">Could not download rooms &amp; rates information.  Please check your connection and try again.</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">per night</string>
@@ -183,15 +177,15 @@
 	<string name="rate_avg_per_night">avg/night</string>
 	<!-- Warning if there is only one room left -->
 	<string name="rooms_left_one">Only 1 room left!</string>
-	<!-- Warning if there are only a few rooms left -->
+	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
 	<string name="rooms_left_template">Only %d rooms left!</string>
-	<!-- Savings percentage label (e.g., "Save 20%") -->
+	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
 	<string name="savings_template">Save\n %2.0f%%</string>
 	<!-- Label for free nights -->
 	<string name="free">FREE!</string>
-	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") -->
+	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
 	<string name="value_add_template">Includes %s</string>
-	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") -->
+	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
 	<string name="common_value_add_template">All rooms include %s</string>
 
 	<!-- Booking info -->
@@ -212,7 +206,7 @@
 		<item quantity="one">1 night</item>
 		<item quantity="other">%d nights</item>
 	</plurals>
-	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") -->
+	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
 	<string name="room_rate_template">Room Rate %s</string>
 	<!-- Label for the extra guest charge -->
 	<string name="extra_guest_charge">Extra Guest Charge</string>
@@ -284,7 +278,7 @@
 	<string name="error_booking_title">Error</string>
 	<!-- Error message when we couldn't get a response -->
 	<string name="error_booking_null">Could not connect to Expedia servers.  Please check your connection and try again.</string>
-	<!--  Check in/out time + date template  -->
+	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date-->
 	<string name="check_in_out_time_template">%1$s on %2$s</string>
 	
 	<!-- Confirmation activity -->
@@ -298,11 +292,11 @@
 	<string name="confirmation_email">Confirmation Email</string>
 	<!-- Label for starting a new search -->
 	<string name="new_search">New Search</string>
-	<!-- Contact info for a country with a known support line -->
+	<!-- Contact info for a country with a known support line where %s represents the phone number -->
 	<string name="contact_phone_template">If you have questions about your reservation, please call Expedia.com at %s.</string>
-	<!-- Contact info for China -->
+	<!-- Contact info for China  where 1$ represents the number by CN NetCom and 2$ represents the number from CN Telecom-->
 	<string name="contact_phone_china_template">If you have questions about your reservation, please call Expedia.com at %1$s (CN NetCom) or %2$s (CN Telecom).</string>
-	<!-- Contact info, unknown country -->
+	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
 	<string name="contact_phone_default_template">If you have questions about your reservation, please call Expedia.com at %1$s in the US/Canada or %2$s in Europe.</string>
 
 	<!-- Sharing bookings via email -->
@@ -324,7 +318,7 @@
 	<!-- About activity -->
 	<!-- Label for "contact Expedia" button in info page -->
 	<string name="contact_expedia">Contact Expedia</string>
-	<!-- Contact Expedia via... -->
+	<!-- Title for different ways to connect to Expedia -->
 	<string name="contact_expedia_via">Contact Expedia Via...</string>
 	<!-- Contact Expedia via phone -->
 	<string name="contact_expedia_phone">Phone</string>
