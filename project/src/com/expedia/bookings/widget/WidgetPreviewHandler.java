@@ -137,6 +137,7 @@ public class WidgetPreviewHandler {
 		mNavigationContainer.setVisibility(View.INVISIBLE);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void loadPreviewHotels() {
 		mCurrentPosition = 0;
 

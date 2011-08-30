@@ -2,10 +2,8 @@ package com.expedia.bookings.activity;
 
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
-import android.view.View.OnTouchListener;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;

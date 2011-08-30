@@ -153,7 +153,6 @@ public class CustomEditText extends EditText {
 			return str + "}";
 		}
 
-		@SuppressWarnings("hiding")
 		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
 			public SavedState createFromParcel(Parcel in) {
 				return new SavedState(in);

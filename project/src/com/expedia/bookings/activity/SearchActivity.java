@@ -206,7 +206,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 	public static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
-	private static final String IS_EXACT_LOCATION_SPECIFIED = "IS_EXACT_LOCATION_SPECIFIED";
 
 	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
 	public static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
