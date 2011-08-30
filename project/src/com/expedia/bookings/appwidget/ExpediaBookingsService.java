@@ -52,8 +52,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private final static long UPDATE_INTERVAL = 1000 * 60 * 60; // Every 60 minutes
 	public final static long ROTATE_INTERVAL = 1000 * 5; // Every 5 seconds
 	private static final String WIDGET_KEY_SEARCH_PREFIX = "WIDGET_KEY_SEARCH.";
-	private static final String APP_IDS = "appIds";
-	private static final String APP_IDS_FILE = "appIds.dat";
 	private static final int MAX_RESULTS = 5;
 
 	// Intent actions
@@ -81,6 +79,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		String mFreeFormLocation;
 		int mCurrentPosition = -1;
 		double savings;
+		Property savingsForProperty;
 		boolean mUseCurrentLocation;
 
 		Download mSearchDownload = new Download() {
@@ -504,6 +503,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			Intent i = new Intent(ExpediaBookingsWidgetReceiver.LOAD_BRANDING_ACTION);
 			i.putExtra(Codes.BRANDING_SAVINGS, new Integer((int) Math.floor(widget.savings)).toString());
 
+			if (widget.mUseCurrentLocation && widget.savingsForProperty != null) {
+				i.putExtra(Codes.DISTANCE_OF_MAX_SAVINGS, widget.savingsForProperty.getDistanceFromUser()
+						.formatDistance(this));
+			}
+
 			if (DateUtils.isToday(widget.mSearchParams.getCheckInDate().getTimeInMillis())) {
 				i.putExtra(Codes.BRANDING_TITLE, getString(R.string.tonight_top_deals));
 			}
@@ -579,6 +583,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				- property.getLowestRate().getDisplayRate().getAmount();
 		if (savings > widget.savings) {
 			widget.savings = savings;
+			widget.savingsForProperty = property;
 		}
 	}
 

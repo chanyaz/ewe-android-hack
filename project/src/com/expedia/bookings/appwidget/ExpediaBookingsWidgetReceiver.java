@@ -36,12 +36,14 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 		mContext = context;
 
 		try {
-			if(intent.getAction().equals(LOAD_BRANDING_ACTION)) {
+			if (intent.getAction().equals(LOAD_BRANDING_ACTION)) {
 				updateWidgetBranding(intent);
-			} else if (intent.getAction().equals(LOAD_PROPERTY_ACTION)) {
+			}
+			else if (intent.getAction().equals(LOAD_PROPERTY_ACTION)) {
 				String error = intent.getStringExtra(Codes.SEARCH_ERROR);
 				if (error != null) {
-					updateWidgetWithText(intent, error, false, intent.getBooleanExtra(Codes.SHOW_BRANDING, false));
+					boolean showBranding = intent.getBooleanExtra(Codes.SHOW_BRANDING, false);
+					updateWidgetWithText(intent, error, true, showBranding);
 					return;
 				}
 
@@ -61,26 +63,42 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	private void updateWidgetBranding(Intent intent) {
 		final RemoteViews widgetContents = new RemoteViews(mContext.getPackageName(), R.layout.widget_contents);
 		RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget);
 		Integer appWidgetIntegerId = new Integer(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
-		
+
 		// add contents to the parent view to give the fade-in animation
 		rv.removeAllViews(R.id.hotel_info_contents);
 		rv.addView(R.id.hotel_info_contents, widgetContents);
-		
+
 		setWidgetContentsVisibility(widgetContents, View.VISIBLE);
 
 		setWidgetPropertyViewVisibility(widgetContents, View.GONE);
-		
+
 		setBrandingViewVisibility(widgetContents, View.VISIBLE);
 
-		widgetContents.setTextViewText(R.id.branding_savings_container, mContext.getString(R.string.save_upto_template, intent.getStringExtra(Codes.BRANDING_SAVINGS)));
+		String brandingSavings = intent.getStringExtra(Codes.BRANDING_SAVINGS);
+		if (Integer.parseInt(brandingSavings) == 0) {
+			widgetContents.setViewVisibility(R.id.branding_savings_container, View.GONE);
+		}
+		else {
+			widgetContents.setViewVisibility(R.id.branding_savings_container, View.VISIBLE);
+			widgetContents.setTextViewText(R.id.branding_savings_container,
+					mContext.getString(R.string.save_upto_template, intent.getStringExtra(Codes.BRANDING_SAVINGS)));
+		}
+
+		String distanceOfMaxSavingsFromUser = intent.getStringExtra(Codes.DISTANCE_OF_MAX_SAVINGS);
+		if (distanceOfMaxSavingsFromUser != null) {
+			widgetContents.setTextViewText(R.id.branding_location_text_view, distanceOfMaxSavingsFromUser);
+		}
+		else {
+			widgetContents.setTextViewText(R.id.branding_location_text_view,
+					intent.getStringExtra(Codes.PROPERTY_LOCATION_PREFIX + appWidgetIntegerId));
+		}
+
 		widgetContents.setTextViewText(R.id.branding_title_text_view, intent.getStringExtra(Codes.BRANDING_TITLE));
-		widgetContents.setTextViewText(R.id.branding_location_text_view, 
-				intent.getStringExtra(Codes.PROPERTY_LOCATION_PREFIX + appWidgetIntegerId));
 
 		Integer appWidgetIdInteger = new Integer(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 		Intent prevIntent = new Intent(PREV_PROPERTY_ACTION);
@@ -92,7 +110,7 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 		nextIntent.fillIn(intent, 0);
 
 		clearWidgetOnClickIntent(rv);
-		
+
 		widgetContents.setOnClickPendingIntent(R.id.prev_hotel_btn, PendingIntent.getService(mContext,
 				appWidgetIdInteger.intValue() + 0, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 		widgetContents.setOnClickPendingIntent(R.id.next_hotel_btn, PendingIntent.getService(mContext,
@@ -113,15 +131,16 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 		rv.addView(R.id.hotel_info_contents, widgetContents);
 
 		setWidgetContentsVisibility(widgetContents, View.VISIBLE);
-		
+
 		setBrandingViewVisibility(widgetContents, View.GONE);
-		
+
 		setWidgetPropertyViewVisibility(widgetContents, View.VISIBLE);
-		
+
 		widgetContents.setTextViewText(R.id.hotel_name_text_view, property.getName());
 		widgetContents.setTextViewText(R.id.location_text_view,
 				intent.getStringExtra(Codes.PROPERTY_LOCATION_PREFIX + appWidgetIntegerId));
-		widgetContents.setTextViewText(R.id.price_text_view, StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
+		widgetContents.setTextViewText(R.id.price_text_view,
+				StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
 
 		if (property.getLowestRate().getSavingsPercent() > 0) {
 			widgetContents.setTextViewText(R.id.sale_text_view, mContext.getString(R.string.widget_savings_template,
@@ -173,20 +192,21 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 
 		updateWidget(intent, rv);
 	}
-	
+
 	public void updateWidgetWithText(Intent intent, String error, boolean refreshOnClick) {
 		updateWidgetWithText(intent, error, refreshOnClick, false);
 	}
+
 	private void updateWidgetWithText(Intent intent, String error, boolean refreshOnClick, boolean showBranding) {
 		RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget);
 		RemoteViews widgetContents = new RemoteViews(mContext.getPackageName(), R.layout.widget_contents);
 
 		rv.removeAllViews(R.id.hotel_info_contents);
 		rv.addView(R.id.hotel_info_contents, widgetContents);
-		
+
 		setWidgetPropertyViewVisibility(widgetContents, View.GONE);
-		
-		if(showBranding) {
+
+		if (showBranding) {
 			widgetContents.setViewVisibility(R.id.widget_contents_container, View.VISIBLE);
 			widgetContents.setViewVisibility(R.id.navigation_container, View.GONE);
 
@@ -196,18 +216,19 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 			widgetContents.setViewVisibility(R.id.branding_location_text_view, View.GONE);
 			widgetContents.setViewVisibility(R.id.branding_savings_container, View.GONE);
 			widgetContents.setViewVisibility(R.id.branding_error_message_text_view, View.VISIBLE);
-			
+
 			widgetContents.setViewVisibility(R.id.loading_text_view, View.GONE);
 			widgetContents.setViewVisibility(R.id.loading_text_container, View.GONE);
-			
+
 			widgetContents.setTextViewText(R.id.branding_error_message_text_view, error);
-		} else {
+		}
+		else {
 			setWidgetContentsVisibility(widgetContents, View.GONE);
 			widgetContents.setTextViewText(R.id.loading_text_view, error);
 			widgetContents.setViewVisibility(R.id.loading_text_view, View.VISIBLE);
 			widgetContents.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
 		}
-		
+
 		widgetContents.setViewVisibility(R.id.refresh_text_view, View.GONE);
 
 		if (refreshOnClick && !showBranding) {
@@ -217,18 +238,19 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 			rv.setOnClickPendingIntent(R.id.root, PendingIntent.getBroadcast(mContext,
 					appWidgetIdInteger.intValue() + 4, onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 			rv.setViewVisibility(R.id.refresh_text_view, View.VISIBLE);
-		} else {
+		}
+		else {
 			clearWidgetOnClickIntent(rv);
 		}
-		
+
 		updateWidget(intent, rv);
 	}
-	
+
 	// clear out the on-click intent on the widget by updating the widget
 	// with an empty intent that goes into ether.
 	private void clearWidgetOnClickIntent(RemoteViews rv) {
-		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(mContext, 0,
-				new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
+		rv.setOnClickPendingIntent(R.id.root,
+				PendingIntent.getActivity(mContext, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
 	}
 
 	private void updateWidget(Intent intent, final RemoteViews rv) {
@@ -255,7 +277,7 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 		widgetContents.setViewVisibility(R.id.widget_contents_container, visibility);
 		widgetContents.setViewVisibility(R.id.navigation_container, visibility);
 	}
-	
+
 	private void setWidgetLoadingTextVisibility(final RemoteViews widgetContents, int visibility) {
 		widgetContents.setViewVisibility(R.id.loading_text_view, visibility);
 		widgetContents.setViewVisibility(R.id.loading_text_container, visibility);
