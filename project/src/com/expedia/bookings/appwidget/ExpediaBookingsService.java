@@ -39,6 +39,7 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.hotellib.data.Codes;
+import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Property;
 import com.mobiata.hotellib.data.SearchParams;
 import com.mobiata.hotellib.data.SearchParams.SearchType;
@@ -46,6 +47,7 @@ import com.mobiata.hotellib.data.SearchResponse;
 import com.mobiata.hotellib.data.ServerError;
 import com.mobiata.hotellib.data.Session;
 import com.mobiata.hotellib.server.ExpediaServices;
+import com.mobiata.hotellib.utils.StrUtils;
 
 public class ExpediaBookingsService extends Service implements LocationListener {
 
@@ -78,7 +80,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		List<Property> mProperties;
 		String mFreeFormLocation;
 		int mCurrentPosition = -1;
-		double savings;
+		Money savings;
 		Property savingsForProperty;
 		boolean mUseCurrentLocation;
 
@@ -501,8 +503,10 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private void loadImageForProperty(final WidgetState widget) {
 		if (widget.mCurrentPosition == -1) {
 			Intent i = new Intent(ExpediaBookingsWidgetReceiver.LOAD_BRANDING_ACTION);
-			i.putExtra(Codes.BRANDING_SAVINGS, new Integer((int) Math.floor(widget.savings)).toString());
-
+			if(widget.savings != null) {
+				i.putExtra(Codes.BRANDING_SAVINGS, StrUtils.formatHotelPrice(widget.savings));
+			}
+			
 			if (widget.mUseCurrentLocation && widget.savingsForProperty != null) {
 				i.putExtra(Codes.DISTANCE_OF_MAX_SAVINGS, widget.savingsForProperty.getDistanceFromUser()
 						.formatDistance(this));
@@ -581,8 +585,10 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private void trackMaximumSavingsForWidget(WidgetState widget, Property property) {
 		double savings = property.getLowestRate().getDisplayBaseRate().getAmount()
 				- property.getLowestRate().getDisplayRate().getAmount();
-		if (savings > widget.savings) {
-			widget.savings = savings;
+		Money propertySavings = property.getLowRate().copy();
+		propertySavings.setAmount(savings);
+		if(widget.savings == null || widget.savings.getAmount() < propertySavings.getAmount()) {
+			widget.savings = propertySavings;
 			widget.savingsForProperty = property;
 		}
 	}

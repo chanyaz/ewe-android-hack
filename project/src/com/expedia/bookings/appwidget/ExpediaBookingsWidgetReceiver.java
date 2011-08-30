@@ -80,7 +80,7 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 		setBrandingViewVisibility(widgetContents, View.VISIBLE);
 
 		String brandingSavings = intent.getStringExtra(Codes.BRANDING_SAVINGS);
-		if (Integer.parseInt(brandingSavings) == 0) {
+		if (brandingSavings == null) {
 			widgetContents.setViewVisibility(R.id.branding_savings_container, View.GONE);
 		}
 		else {
