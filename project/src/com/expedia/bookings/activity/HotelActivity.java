@@ -428,6 +428,11 @@ public class HotelActivity extends AsyncLoadActivity {
 			// Use short description (if available)
 			description = mProperty.getDescriptionText();
 		}
+		else if (response.hasErrors()) {
+			// TODO: At a later junction, remove the error display and
+			// just show the short description.
+			description = response.getErrors().get(0).getPresentableMessage(this);
+		}
 		else {
 			Property property = response.getProperty();
 
