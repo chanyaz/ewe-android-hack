@@ -1758,8 +1758,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 	private void showLoading(boolean showProgress, String text) {
 		mProgressBarLayout.setVisibility(View.VISIBLE);
-		mProgressBar.setVisibility(View.VISIBLE);
-		mProgressBar.setShowProgress(showProgress);
+		
+		// In the case that the user is an emulator and this isn't a release build,
+		// disable the hanging tag for speed purposes
+		if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
+			mProgressBar.setVisibility(View.GONE);
+		}
+		else {
+			mProgressBar.setVisibility(View.VISIBLE);
+			mProgressBar.setShowProgress(showProgress);
+		}
+		
 		mProgressText.setText(text);
 	}
 
