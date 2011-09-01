@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -870,6 +871,12 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	}
 
 	private void configureFooter() {
+		// 9226: Only display the Expedia Points disclaimer if the user is in the US.
+		// (This may change in the future as more countries support points.)
+		int visibility = ("us".equals(Locale.getDefault().getCountry().toLowerCase())) ? View.VISIBLE : View.GONE;
+		TextView pointsDisclaimerView = (TextView) findViewById(R.id.expedia_points_disclaimer_text_view);
+		pointsDisclaimerView.setVisibility(visibility);
+
 		// Configure the cancellation policy
 		TextView cancellationPolicyView = (TextView) findViewById(R.id.cancellation_policy_text_view);
 		Policy cancellationPolicy = mRate.getRateRules().getPolicy(Policy.TYPE_CANCEL);

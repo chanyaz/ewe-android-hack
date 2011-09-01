@@ -517,6 +517,7 @@
 
 			<!-- Disclaimer notices at the bottom of the screen -->
 			<TextView
+				android:id="@+id/expedia_points_disclaimer_text_view"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="6dp"
