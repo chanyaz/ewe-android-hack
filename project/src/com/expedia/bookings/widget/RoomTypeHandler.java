@@ -56,20 +56,21 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 	private TextView mRoomDetailsTextView;
 
 	private OnClickListener mOnRowClickListener;
-	
+
 	public RoomTypeHandler(Activity activity, Intent intent, Property property, SearchParams searchParams, Rate rate) {
 		mActivity = activity;
 		mProperty = property;
 		mSearchParams = searchParams;
 		mRate = rate;
-		
+
 		String propertyInfoString = (intent != null) ? intent.getStringExtra(Codes.PROPERTY_INFO) : null;
-		if(propertyInfoString != null) {
+		if (propertyInfoString != null) {
 			try {
 				PropertyInfo propertyInfo = new PropertyInfo();
 				propertyInfo.fromJson(new JSONObject(propertyInfoString));
 				mPropertyInfo = propertyInfo;
-			} catch(JSONException e) {
+			}
+			catch (JSONException e) {
 				Log.i("Unable to get property info object from the previous state", e);
 			}
 		}
@@ -144,11 +145,21 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 	private void showCheckInCheckoutDetails(PropertyInfo propertyInfo) {
 		String start = LayoutUtils.formatCheckInOutDate(mActivity, mSearchParams.getCheckInDate());
 		String end = LayoutUtils.formatCheckInOutDate(mActivity, mSearchParams.getCheckOutDate());
-
 		TextView checkInTimeTextView = (TextView) mRoomTypeRowContainer.findViewById(R.id.check_in_time);
-		checkInTimeTextView.setText(mActivity.getString(R.string.check_in_out_time_template, propertyInfo.getCheckInTime(), start));
 		TextView checkOutTimeTextView = (TextView) mRoomTypeRowContainer.findViewById(R.id.check_out_time);
-		checkOutTimeTextView.setText(mActivity.getString(R.string.check_in_out_time_template, propertyInfo.getCheckOutTime(), end));
+
+		if (propertyInfo == null) {
+			checkInTimeTextView.setText(start);
+			checkOutTimeTextView.setText(end);
+		}
+		else {
+			String checkInText = (propertyInfo.getCheckInTime() == null) ? start : mActivity.getString(
+					R.string.check_in_out_time_template, propertyInfo.getCheckInTime(), start);
+			String checkOutText = (propertyInfo.getCheckOutTime() == null) ? end : mActivity.getString(
+					R.string.check_in_out_time_template, propertyInfo.getCheckOutTime(), end);
+			checkInTimeTextView.setText(checkInText);
+			checkOutTimeTextView.setText(checkOutText);
+		}
 	}
 
 	private void showDetails(PropertyInfo propertyInfo) {
@@ -190,6 +201,7 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 		PropertyInfoResponse response = (PropertyInfoResponse) results;
 		if (response == null) {
 			showDetails(mActivity.getString(R.string.error_room_type_load));
+			showCheckInCheckoutDetails(null);
 		}
 		else if (response.hasErrors()) {
 			StringBuilder sb = new StringBuilder();
@@ -198,10 +210,11 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 				sb.append("\n");
 			}
 			showDetails(sb.toString().trim());
+			showCheckInCheckoutDetails(null);
 		}
 		else {
 			mPropertyInfo = response.getPropertyInfo();
-			if(isExpanded()) {
+			if (isExpanded()) {
 				showDetails(mPropertyInfo);
 			}
 			showCheckInCheckoutDetails(mPropertyInfo);
@@ -214,7 +227,7 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 	private static final int INSTANCE_PROPERTY_INFO = 101;
 	private static final int INSTANCE_EXPANDED = 102;
 	private static final int PROPERTY_ROOM_CONTAINER_ID = 103;
-	
+
 	@SuppressWarnings("unchecked")
 	public void onCreate() {
 		Intent intent = mActivity.getIntent();
@@ -226,9 +239,10 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 			if (mPropertyInfo == null) {
 				mPropertyInfo = (PropertyInfo) instance.get(INSTANCE_PROPERTY_INFO);
 			}
-			
-			mRoomTypeRowContainer =  mActivity.findViewById(((Integer) instance.get(PROPERTY_ROOM_CONTAINER_ID)).intValue());
-			
+
+			mRoomTypeRowContainer = mActivity.findViewById(((Integer) instance.get(PROPERTY_ROOM_CONTAINER_ID))
+					.intValue());
+
 			if ((Boolean) instance.get(INSTANCE_EXPANDED)) {
 				setVisibility(View.VISIBLE);
 			}
@@ -253,7 +267,7 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 		if (mPropertyInfo != null) {
 			instance.put(INSTANCE_PROPERTY_INFO, mPropertyInfo);
 		}
-		if(mRoomTypeRowContainer != null) {
+		if (mRoomTypeRowContainer != null) {
 			instance.put(PROPERTY_ROOM_CONTAINER_ID, new Integer(mRoomTypeRowContainer.getId()));
 		}
 		instance.put(INSTANCE_EXPANDED, isExpanded());
@@ -265,5 +279,5 @@ public class RoomTypeHandler implements Download, OnDownloadComplete {
 			intent.putExtra(Codes.PROPERTY_INFO, mPropertyInfo.toJson().toString());
 		}
 	}
-	
+
 }
