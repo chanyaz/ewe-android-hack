@@ -2,7 +2,9 @@ package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,6 +21,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -108,6 +111,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	public HashMap<ReviewSort, Integer> mPageNumberMap = new HashMap<ReviewSort, Integer>();
 	public boolean moreCriticalPages = true;
 	public boolean moreFavorablePages = true;
+
+	// Tracking data structures
+	private Set<String> mViewedReviews;
 
 	// Downloading tasks and callbacks
 	private BackgroundDownloader mReviewsDownloader = BackgroundDownloader.getInstance();
@@ -324,6 +330,8 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				mReviewsDownloader.startDownload(KEY_REVIEWS_LOWEST, mLowestRatingFirstDownload,
 						mLowestRatingFirstDownloadCallback);
 			}
+
+			mViewedReviews = new HashSet<String>();
 		}
 		else {
 			extractActivityState(state);
@@ -377,6 +385,18 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				startActivity(newIntent);
 			}
 		});
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (isFinishing()) {
+			int numReviewsSeen = mViewedReviews.size();
+			Log.d("Tracking # of reviews seen: " + numReviewsSeen);
+			String referrerId = "App.Hotels.Reviews." + numReviewsSeen + "ReviewsViewed";
+			TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", referrerId);
+		}
 	}
 
 	private ListView getListView(ViewGroup listViewContainer) {
@@ -495,6 +515,15 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 						mNewestReviewFirstDownloadCallback);
 			}
 		}
+
+		// Track which reviews are visible, add them to the list
+		ListAdapter adapter = view.getAdapter();
+		for (int a = 0; a < visibleItemCount; a++) {
+			Object item = adapter.getItem(firstVisibleItem + a);
+			if (item instanceof ReviewWrapper) {
+				mViewedReviews.add(((ReviewWrapper) item).review.getReviewId());
+			}
+		}
 	}
 
 	@Override
@@ -554,6 +583,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		state.pageNumberMap = mPageNumberMap;
 		state.moreCriticalPages = moreCriticalPages;
 		state.moreFavorablePages = moreFavorablePages;
+		state.viewedReviews = mViewedReviews;
 		return state;
 	}
 
@@ -564,6 +594,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		mPageNumberMap = state.pageNumberMap;
 		moreCriticalPages = state.moreCriticalPages;
 		moreFavorablePages = state.moreFavorablePages;
+		mViewedReviews = state.viewedReviews;
 	}
 
 	private Message prepareMessage(boolean addFooter, ReviewSort reviewSort) {
@@ -605,6 +636,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		public HashMap<ReviewSort, Integer> pageNumberMap;
 		public boolean moreCriticalPages;
 		public boolean moreFavorablePages;
+		public Set<String> viewedReviews;
 	}
 
 }
