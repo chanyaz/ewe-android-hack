@@ -147,7 +147,6 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 				intent.getStringExtra(Codes.PROPERTY_LOCATION_PREFIX + appWidgetIntegerId));
 		widgetContents.setTextViewText(R.id.price_text_view,
 				StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
-		widgetContents.setTextViewText(R.id.hidden_property_id_text_view, property.getPropertyId());
 
 		if (property.getLowestRate().getSavingsPercent() > 0) {
 			widgetContents.setTextViewText(R.id.sale_text_view, mContext.getString(R.string.widget_savings_template,

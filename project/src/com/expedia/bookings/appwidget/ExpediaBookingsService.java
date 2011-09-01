@@ -61,7 +61,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	public static final String START_CLEAN_SEARCH_ACTION = "com.expedia.bookings.START_CLEAN_SEARCH";
 	public static final String CANCEL_UPDATE_ACTION = "com.expedia.bookings.CANCEL_UPDATE";
 	private static final String SEARCH_PARAMS_CHANGED_ACTION = "com.expedia.bookings.SEARCH_PARAMS_CHANGED";
-	private static final String WIDGET_THUMBNAIL_KEY = "WIDGET_THUMBNAIL_KEY";
+	private static final String WIDGET_THUMBNAIL_KEY_PREFIX = "WIDGET_THUMBNAIL_KEY.";
 
 	private Map<Integer, WidgetState> mWidgets;
 	private Queue<WidgetState> mWaitingOnLocationQueue = new LinkedList<ExpediaBookingsService.WidgetState>();
@@ -512,7 +512,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		// if the bitmap doesn't exist in the cache, asynchronously load the image while
 		// updating the widget remote view with the rest of the information
 		if (bitmap == null) {
-			ImageCache.loadImage(WIDGET_THUMBNAIL_KEY, property.getThumbnail().getUrl(), new OnImageLoaded() {
+			ImageCache.loadImage(WIDGET_THUMBNAIL_KEY_PREFIX + widget.appWidgetIdInteger, property.getThumbnail().getUrl(), new OnImageLoaded() {
 
 				@Override
 				public void onImageLoaded(String url, Bitmap bitmap) {
