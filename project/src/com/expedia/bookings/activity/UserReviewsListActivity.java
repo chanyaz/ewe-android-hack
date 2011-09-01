@@ -28,10 +28,12 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.widget.UserReviewsAdapter;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.mobiata.hotellib.data.Codes;
@@ -408,17 +410,24 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				String referrerId = null;
 				switch (checkedId) {
 				case R.id.user_review_button_recent:
 					mCurrentReviewSort = ReviewSort.NEWEST_REVIEW_FIRST;
+					referrerId = "App.Hotels.Reviews.Sort.Recent";
 					break;
 				case R.id.user_review_button_favorable:
 					mCurrentReviewSort = ReviewSort.HIGHEST_RATING_FIRST;
+					referrerId = "App.Hotels.Reviews.Sort.Favorable";
 					break;
 				case R.id.user_review_button_critical:
 					mCurrentReviewSort = ReviewSort.LOWEST_RATING_FIRST;
+					referrerId = "App.Hotels.Reviews.Sort.Critical";
 					break;
 				}
+
+				Log.d("Tracking \"App.Hotels.Reviews\" pageLoad");
+				TrackingUtils.trackSimpleEvent(mContext, "App.Hotels.Reviews", null, "Shopper", referrerId);
 
 				ViewGroup listViewContainer = mListViewContainersMap.get(mCurrentReviewSort);
 				UserReviewsAdapter adapter = mListAdaptersMap.get(mCurrentReviewSort);
