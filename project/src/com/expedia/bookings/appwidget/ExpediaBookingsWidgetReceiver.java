@@ -23,6 +23,7 @@ import com.mobiata.hotellib.utils.StrUtils;
 public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 
 	public static final String LOAD_PROPERTY_ACTION = "com.expedia.bookings.LOAD_PROPERTY";
+	public static final String LOAD_IMAGE_FOR_PROPERTY_ACTION = "com.expedia.bookings.LOAD_IMAGE_PROPERTY";
 	public static final String NEXT_PROPERTY_ACTION = "com.expedia.bookings.NEXT_PROPERTY";
 	public static final String ROTATE_PROPERTY_ACTION = "com.expedia.bookings.ROTATE_PROPERTY";
 	public static final String PREV_PROPERTY_ACTION = "com.expedia.bookings.PREV_PROPERTY";
@@ -50,6 +51,11 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 				Property property = new Property();
 				property.fromJson(new JSONObject(intent.getStringExtra(Codes.PROPERTY)));
 				updateWidgets(property, intent);
+			}
+			else if (intent.getAction().equals(LOAD_IMAGE_FOR_PROPERTY_ACTION)) {
+				Property property = new Property();
+				property.fromJson(new JSONObject(intent.getStringExtra(Codes.PROPERTY)));
+				updateWidgetWithImage(intent, property);
 			}
 			else if (intent.getAction().equals(ExpediaBookingsService.START_CLEAN_SEARCH_ACTION)) {
 				updateWidgetWithText(intent, mContext.getString(R.string.loading_hotels), false);
@@ -141,6 +147,7 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 				intent.getStringExtra(Codes.PROPERTY_LOCATION_PREFIX + appWidgetIntegerId));
 		widgetContents.setTextViewText(R.id.price_text_view,
 				StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
+		widgetContents.setTextViewText(R.id.hidden_property_id_text_view, property.getPropertyId());
 
 		if (property.getLowestRate().getSavingsPercent() > 0) {
 			widgetContents.setTextViewText(R.id.sale_text_view, mContext.getString(R.string.widget_savings_template,
@@ -243,6 +250,23 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 			clearWidgetOnClickIntent(rv);
 		}
 
+		updateWidget(intent, rv);
+	}
+
+	/*
+	 * This method only updates the image in the remote view
+	 * when its asynchronously downloaded by the ExpediaBookingsService
+	 */
+	private void updateWidgetWithImage(Intent intent, Property property) {
+		RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget);
+
+		Bitmap bitmap = ImageCache.getImage(property.getThumbnail().getUrl());
+		if (bitmap == null) {
+			rv.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
+		}
+		else {
+			rv.setImageViewBitmap(R.id.hotel_image_view, bitmap);
+		}
 		updateWidget(intent, rv);
 	}
 

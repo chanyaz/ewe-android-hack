@@ -61,6 +61,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	public static final String START_CLEAN_SEARCH_ACTION = "com.expedia.bookings.START_CLEAN_SEARCH";
 	public static final String CANCEL_UPDATE_ACTION = "com.expedia.bookings.CANCEL_UPDATE";
 	private static final String SEARCH_PARAMS_CHANGED_ACTION = "com.expedia.bookings.SEARCH_PARAMS_CHANGED";
+	private static final String WIDGET_THUMBNAIL_KEY = "WIDGET_THUMBNAIL_KEY";
 
 	private Map<Integer, WidgetState> mWidgets;
 	private Queue<WidgetState> mWaitingOnLocationQueue = new LinkedList<ExpediaBookingsService.WidgetState>();
@@ -502,42 +503,66 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	private void loadImageForProperty(final WidgetState widget) {
 		if (widget.mCurrentPosition == -1) {
-			Intent i = new Intent(ExpediaBookingsWidgetReceiver.LOAD_BRANDING_ACTION);
-			if(widget.savings != null) {
-				i.putExtra(Codes.BRANDING_SAVINGS, StrUtils.formatHotelPrice(widget.savings));
-			}
-			
-			if (widget.mUseCurrentLocation && widget.savingsForProperty != null) {
-				i.putExtra(Codes.DISTANCE_OF_MAX_SAVINGS, widget.savingsForProperty.getDistanceFromUser()
-						.formatDistance(this));
-			}
-
-			if (DateUtils.isToday(widget.mSearchParams.getCheckInDate().getTimeInMillis())) {
-				i.putExtra(Codes.BRANDING_TITLE, getString(R.string.tonight_top_deals));
-			}
-			else {
-				i.putExtra(Codes.BRANDING_TITLE, getString(R.string.top_deals));
-			}
-
-			String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mFreeFormLocation
-					: "Current Location";
-			i.putExtra(Codes.PROPERTY_LOCATION_PREFIX + widget.appWidgetIdInteger, location);
-			i.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger.intValue());
-			sendBroadcast(i);
-			scheduleRotation();
+			broadcastWidgetBranding(widget);
 			return;
 		}
 
 		final Property property = widget.mProperties.get(widget.mCurrentPosition);
-		ImageCache.loadImage(property.getThumbnail().getUrl(), new OnImageLoaded() {
+		Bitmap bitmap = ImageCache.getImage(property.getThumbnail().getUrl());
+		// if the bitmap doesn't exist in the cache, asynchronously load the image while
+		// updating the widget remote view with the rest of the information
+		if (bitmap == null) {
+			ImageCache.loadImage(WIDGET_THUMBNAIL_KEY, property.getThumbnail().getUrl(), new OnImageLoaded() {
 
-			@Override
-			public void onImageLoaded(String url, Bitmap bitmap) {
-				if (widget.mProperties.get(widget.mCurrentPosition).getThumbnail().getUrl().equals(url)) {
-					broadcastLoadingWidget(widget);
+				@Override
+				public void onImageLoaded(String url, Bitmap bitmap) {
+					// once the image loads, update the remote view of the widget with the image, 
+					// making sure that the image actually belongs to the current property loaded 
+					// in the remote view
+					if (widget.mCurrentPosition != -1
+							&& widget.mProperties.get(widget.mCurrentPosition).getThumbnail().getUrl().equals(url)) {
+						broadcastLoadedImage(widget);
+					}
 				}
-			}
-		});
+			});
+		}
+		broadcastLoadingWidget(widget);
+	}
+
+	private void broadcastWidgetBranding(final WidgetState widget) {
+		Intent i = new Intent(ExpediaBookingsWidgetReceiver.LOAD_BRANDING_ACTION);
+		if (widget.savings != null) {
+			i.putExtra(Codes.BRANDING_SAVINGS, StrUtils.formatHotelPrice(widget.savings));
+		}
+
+		if (widget.mUseCurrentLocation && widget.savingsForProperty != null) {
+			i.putExtra(Codes.DISTANCE_OF_MAX_SAVINGS,
+					widget.savingsForProperty.getDistanceFromUser().formatDistance(this));
+		}
+
+		if (DateUtils.isToday(widget.mSearchParams.getCheckInDate().getTimeInMillis())) {
+			i.putExtra(Codes.BRANDING_TITLE, getString(R.string.tonight_top_deals));
+		}
+		else {
+			i.putExtra(Codes.BRANDING_TITLE, getString(R.string.top_deals));
+		}
+
+		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mFreeFormLocation
+				: "Current Location";
+		i.putExtra(Codes.PROPERTY_LOCATION_PREFIX + widget.appWidgetIdInteger, location);
+		i.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger.intValue());
+		sendBroadcast(i);
+		scheduleRotation();
+		return;
+	}
+
+	private void broadcastLoadedImage(WidgetState widget) {
+		Property property = widget.mProperties.get(widget.mCurrentPosition);
+		Intent i = new Intent(ExpediaBookingsWidgetReceiver.LOAD_IMAGE_FOR_PROPERTY_ACTION);
+		i.putExtra(Codes.PROPERTY, property.toJson().toString());
+		i.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger.intValue());
+		sendBroadcast(i);
+		scheduleRotation();
 	}
 
 	private void determineRelevantProperties(WidgetState widget) {
@@ -587,7 +612,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				- property.getLowestRate().getDisplayRate().getAmount();
 		Money propertySavings = property.getLowRate().copy();
 		propertySavings.setAmount(savings);
-		if(widget.savings == null || widget.savings.getAmount() < propertySavings.getAmount()) {
+		if (widget.savings == null || widget.savings.getAmount() < propertySavings.getAmount()) {
 			widget.savings = propertySavings;
 			widget.savingsForProperty = property;
 		}

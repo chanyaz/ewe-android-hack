@@ -88,6 +88,7 @@
 			android:enabled="false">
 			<intent-filter>
 				<action android:name="com.expedia.bookings.LOAD_PROPERTY" />
+				<action android:name="com.expedia.bookings.LOAD_IMAGE_PROPERTY" />
 				<action android:name="com.expedia.bookings.START_CLEAN_SEARCH" />
 				<action android:name="com.expedia.bookings.LOAD_BRANDING" />
 				
