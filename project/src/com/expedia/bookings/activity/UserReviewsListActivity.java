@@ -273,7 +273,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_reviews_list);
 
-		mContext = this;
+		mContext = getApplicationContext();
 		ViewGroup listsContainer = (ViewGroup) findViewById(R.id.lists_container);
 
 		/*
@@ -292,9 +292,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		listsContainer.addView(favorableReviewsListViewContainer);
 		listsContainer.addView(recentReviewsListViewContainer);
 
-		UserReviewsAdapter recentReviewsAdapter = new UserReviewsAdapter(this, mProperty);
-		UserReviewsAdapter criticalReviewsAdapter = new UserReviewsAdapter(this, mProperty);
-		UserReviewsAdapter favorableReviewsAdapter = new UserReviewsAdapter(this, mProperty);
+		UserReviewsAdapter recentReviewsAdapter = new UserReviewsAdapter(mContext, mProperty);
+		UserReviewsAdapter criticalReviewsAdapter = new UserReviewsAdapter(mContext, mProperty);
+		UserReviewsAdapter favorableReviewsAdapter = new UserReviewsAdapter(mContext, mProperty);
 
 		mListViewContainersMap.put(ReviewSort.HIGHEST_RATING_FIRST, favorableReviewsListViewContainer);
 		mListViewContainersMap.put(ReviewSort.LOWEST_RATING_FIRST, criticalReviewsListViewContainer);
@@ -385,6 +385,15 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				startActivity(newIntent);
 			}
 		});
+	}
+
+	@Override
+	protected void onPause() {
+		mReviewsDownloader.unregisterDownloadCallback(KEY_REVIEWS_HIGHEST);
+		mReviewsDownloader.unregisterDownloadCallback(KEY_REVIEWS_LOWEST);
+		mReviewsDownloader.unregisterDownloadCallback(KEY_REVIEWS_NEWEST);
+		
+		super.onPause();
 	}
 
 	@Override
