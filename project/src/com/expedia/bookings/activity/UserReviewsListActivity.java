@@ -391,16 +391,19 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	protected void onResume() {
 		super.onResume();
 		
-		if(mReviewsMapWrapped.get(mCurrentReviewSort) == null) {
+		if (mReviewsMapWrapped.get(mCurrentReviewSort) == null
+				&& !mReviewSortDownloadAttemptedMap.get(mCurrentReviewSort)) {
 			if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST) {
 				mReviewsDownloader.startDownload(KEY_REVIEWS_HIGHEST, mHighestRatingFirstDownload,
 						mHighestRatingFirstDownloadCallback);
 			}
-			else if (mCurrentReviewSort == ReviewSort.NEWEST_REVIEW_FIRST) {
+			else if (mCurrentReviewSort == ReviewSort.NEWEST_REVIEW_FIRST
+					&& !mReviewSortDownloadAttemptedMap.get(mCurrentReviewSort)) {
 				mReviewsDownloader.startDownload(KEY_REVIEWS_NEWEST, mNewestReviewFirstDownload,
 						mNewestReviewFirstDownloadCallback);
 			}
-			else if (mCurrentReviewSort == ReviewSort.LOWEST_RATING_FIRST && moreCriticalPages) {
+			else if (mCurrentReviewSort == ReviewSort.LOWEST_RATING_FIRST && moreCriticalPages
+					&& !mReviewSortDownloadAttemptedMap.get(mCurrentReviewSort)) {
 				mReviewsDownloader.startDownload(KEY_REVIEWS_LOWEST, mLowestRatingFirstDownload,
 						mLowestRatingFirstDownloadCallback);
 			}
