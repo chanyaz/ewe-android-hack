@@ -420,6 +420,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		widget.mUseCurrentLocation = searchHotelsNearYou;
 
+		boolean searchForHotelsTonight = false;
+		
+		if(searchHotelsNearYou) {
+			searchForHotelsTonight = true;
+		}
 		if (searchHotelsBasedOnLastSearch) {
 			getSearchParamsFromDisk(widget);
 		}
@@ -430,6 +435,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			widget.mSearchParams.setSearchLatLon(locationLat, locationLong);
 			widget.mSearchParams.setFreeformLocation(specificLocation);
 			widget.mSearchParams.setSearchType(SearchType.KEYWORD);
+			searchForHotelsTonight = true;
 		}
 
 		// default to searching for hotels around current location
@@ -439,8 +445,10 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		}
 
 		// set default stay of 1 night starting today if the current check in date
-		// is past the current time
-		if (widget.mSearchParams.getCheckInDate().getTimeInMillis() < System.currentTimeMillis()) {
+		// is past the current time OR if the widget is configured to be searched
+		// based on current location or exact search location
+		if (searchForHotelsTonight
+				|| (widget.mSearchParams.getCheckInDate().getTimeInMillis() < System.currentTimeMillis())) {
 			widget.mSearchParams.setDefaultStay();
 		}
 	}
