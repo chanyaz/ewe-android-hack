@@ -76,7 +76,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		private static final String SEARCH_IN_PAST = "Specified arrival date is prior to today's date.";
 		Integer appWidgetIdInteger;
 		Session mSession;
-		SearchResponse mSearchResponse;
 		SearchParams mSearchParams;
 		List<Property> mProperties;
 		String mFreeFormLocation;
@@ -97,17 +96,17 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
 			@Override
 			public void onDownload(Object results) {
-				mSearchResponse = (SearchResponse) results;
+				SearchResponse searchResponse = (SearchResponse) results;
 
-				if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
-					mSession = mSearchResponse.getSession();
-					determineRelevantProperties(WidgetState.this);
+				if (searchResponse != null && !searchResponse.hasErrors()) {
+					mSession = searchResponse.getSession();
+					determineRelevantProperties(WidgetState.this, searchResponse);
 					mFreeFormLocation = mSearchParams.getFreeformLocation();
 					mCurrentPosition = -1;
 					loadImageForProperty(WidgetState.this);
 				}
-				else if (mSearchResponse != null && mSearchResponse.hasErrors()) {
-					ServerError error = mSearchResponse.getErrors().get(0);
+				else if (searchResponse != null && searchResponse.hasErrors()) {
+					ServerError error = searchResponse.getErrors().get(0);
 					/*
 					 * NOTE: We have to check for an error based on its description
 					 * as there is no unique error code for every error. This is 
@@ -124,7 +123,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				if (mProperties == null || mProperties.isEmpty()) {
 					broadcastWidgetError(WidgetState.this, getString(R.string.progress_search_failed));
 				}
-
+				
 				// schedule the next update
 				scheduleSearch();
 			}
@@ -565,8 +564,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		scheduleRotation();
 	}
 
-	private void determineRelevantProperties(WidgetState widget) {
-		List<Property> properties = widget.mSearchResponse.getProperties();
+	private void determineRelevantProperties(WidgetState widget, SearchResponse searchResponse) {
+		List<Property> properties = searchResponse.getProperties();
 		List<Property> relevantProperties = new ArrayList<Property>();
 
 		// first populate the list with hotels that have rooms on sale
