@@ -14,7 +14,6 @@ import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelActivity;
-import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.hotellib.data.Codes;
 import com.mobiata.hotellib.data.Property;
@@ -166,7 +165,7 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 					R.drawable.widget_price_bg_no_sale);
 		}
 
-		Bitmap bitmap = ImageCache.getImage(property.getThumbnail().getUrl());
+		Bitmap bitmap = ExpediaBookingsService.thumbnailCache.get(property.getThumbnail().getUrl());
 		if (bitmap == null) {
 			widgetContents.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
 		}
@@ -259,7 +258,7 @@ public class ExpediaBookingsWidgetReceiver extends BroadcastReceiver {
 	private void updateWidgetWithImage(Intent intent, Property property) {
 		RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget);
 
-		Bitmap bitmap = ImageCache.getImage(property.getThumbnail().getUrl());
+		Bitmap bitmap = ExpediaBookingsService.thumbnailCache.get(property.getThumbnail().getUrl());
 		if (bitmap == null) {
 			rv.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
 		}

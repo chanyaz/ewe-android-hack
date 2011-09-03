@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +56,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	public final static long ROTATE_INTERVAL = 1000 * 5; // Every 5 seconds
 	private static final String WIDGET_KEY_SEARCH_PREFIX = "WIDGET_KEY_SEARCH.";
 	private static final int MAX_RESULTS = 5;
+	// maintain a bounded cache for the thumbnails to prevent OOM errors
+	private static final int MAX_IMAGE_CACHE_SIZE = 30;
 
 	// Intent actions
 	public static final String START_SEARCH_ACTION = "com.expedia.bookings.START_SEARCH";
@@ -65,6 +68,12 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	private Map<Integer, WidgetState> mWidgets;
 	private Queue<WidgetState> mWaitingOnLocationQueue = new LinkedList<ExpediaBookingsService.WidgetState>();
+
+	/*
+	 * Maintain local image cache to avoid bitmaps from being garbage collected from underneath,
+	 * by the SearchActivity or another other component using it
+	 */
+	public static ConcurrentHashMap<String, Bitmap> thumbnailCache = new ConcurrentHashMap<String, Bitmap>();
 
 	/*
 	 * This object holds all state persisting to the widget 
@@ -421,8 +430,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		widget.mUseCurrentLocation = searchHotelsNearYou;
 
 		boolean searchForHotelsTonight = false;
-		
-		if(searchHotelsNearYou) {
+
+		if (searchHotelsNearYou) {
 			searchForHotelsTonight = true;
 		}
 		if (searchHotelsBasedOnLastSearch) {
@@ -513,7 +522,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		}
 
 		final Property property = widget.mProperties.get(widget.mCurrentPosition);
-		Bitmap bitmap = ImageCache.getImage(property.getThumbnail().getUrl());
+		Bitmap bitmap = thumbnailCache.get(property.getThumbnail().getUrl());
 		// if the bitmap doesn't exist in the cache, asynchronously load the image while
 		// updating the widget remote view with the rest of the information
 		if (bitmap == null) {
@@ -522,11 +531,22 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 				@Override
 				public void onImageLoaded(String url, Bitmap bitmap) {
-					// once the image loads, update the remote view of the widget with the image, 
+
 					// making sure that the image actually belongs to the current property loaded 
 					// in the remote view
 					if (widget.mCurrentPosition != -1
 							&& widget.mProperties.get(widget.mCurrentPosition).getThumbnail().getUrl().equals(url)) {
+
+						if (thumbnailCache.size() >= MAX_IMAGE_CACHE_SIZE) {
+							// clear out the cache if it ever reaches its max size
+							thumbnailCache.clear();
+						}
+						thumbnailCache.put(url, bitmap);
+						// remove the image from the global image cache without 
+						// causing the bitmap to get recycled as we maintain our own copy
+						// of the bitmap to prevent interference from the main thread
+						// attempting to recycle the bitmap
+						ImageCache.removeImage(url, false);
 						broadcastLoadedImage(widget);
 					}
 				}
