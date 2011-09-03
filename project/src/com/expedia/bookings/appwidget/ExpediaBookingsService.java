@@ -78,7 +78,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		Session mSession;
 		SearchParams mSearchParams;
 		List<Property> mProperties;
-		String mFreeFormLocation;
 		int mCurrentPosition = -1;
 		Money savings;
 		Property savingsForProperty;
@@ -101,7 +100,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				if (searchResponse != null && !searchResponse.hasErrors()) {
 					mSession = searchResponse.getSession();
 					determineRelevantProperties(WidgetState.this, searchResponse);
-					mFreeFormLocation = mSearchParams.getFreeformLocation();
 					mCurrentPosition = -1;
 					loadImageForProperty(WidgetState.this);
 				}
@@ -123,7 +121,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				if (mProperties == null || mProperties.isEmpty()) {
 					broadcastWidgetError(WidgetState.this, getString(R.string.progress_search_failed));
 				}
-				
+
 				// schedule the next update
 				scheduleSearch();
 			}
@@ -479,8 +477,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		Intent i = new Intent(ExpediaBookingsWidgetReceiver.LOAD_PROPERTY_ACTION);
 		i.putExtra(Codes.PROPERTY, property.toJson().toString());
 		i.putExtra(Codes.SEARCH_PARAMS, widget.mSearchParams.toJson().toString());
-		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mFreeFormLocation
-				: property.getDistanceFromUser().formatDistance(this);
+		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams
+				.getFreeformLocation() : property.getDistanceFromUser().formatDistance(this);
 		i.putExtra(Codes.PROPERTY_LOCATION_PREFIX + widget.appWidgetIdInteger, location);
 		i.putExtra(Codes.SESSION, widget.mSession.toJson().toString());
 		i.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger.intValue());
@@ -511,7 +509,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		// if the bitmap doesn't exist in the cache, asynchronously load the image while
 		// updating the widget remote view with the rest of the information
 		if (bitmap == null) {
-			ImageCache.loadImage(WIDGET_THUMBNAIL_KEY_PREFIX + widget.appWidgetIdInteger, property.getThumbnail().getUrl(), new OnImageLoaded() {
+			ImageCache.loadImage(WIDGET_THUMBNAIL_KEY_PREFIX + widget.appWidgetIdInteger, property.getThumbnail()
+					.getUrl(), new OnImageLoaded() {
 
 				@Override
 				public void onImageLoaded(String url, Bitmap bitmap) {
@@ -546,8 +545,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			i.putExtra(Codes.BRANDING_TITLE, getString(R.string.top_deals));
 		}
 
-		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mFreeFormLocation
-				: "Current Location";
+		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams
+				.getFreeformLocation() : "Current Location";
 		i.putExtra(Codes.PROPERTY_LOCATION_PREFIX + widget.appWidgetIdInteger, location);
 		i.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger.intValue());
 		sendBroadcast(i);
