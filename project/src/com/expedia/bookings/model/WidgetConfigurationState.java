@@ -116,7 +116,7 @@ public class WidgetConfigurationState extends ActiveRecordBase<WidgetConfigurati
 	 * Any widgetConfigState that exists that is not in the list of existingAppWidgetIds is
 	 * deleted.
 	 */
-	public static void reoncileWidgetConfigurationStates(Context context, int[] existingAppWidgetIds) {
+	public static void reconcileWidgetConfigurationStates(Context context, int[] existingAppWidgetIds) {
 		String appWidgetIds = " (";
 		for (int i = 0; i < (existingAppWidgetIds.length - 1); i++) {
 			appWidgetIds += existingAppWidgetIds[i] + ", ";
@@ -127,7 +127,7 @@ public class WidgetConfigurationState extends ActiveRecordBase<WidgetConfigurati
 
 		ArrayList<Object> orphanedConfigStates = WidgetConfigurationState.query(context,
 				WidgetConfigurationState.class, null, AppWidgetId + " not in " + appWidgetIds);
-		
+
 		// delete all the widget configurations that are orphaned
 		for (Object config : orphanedConfigStates) {
 			WidgetConfigurationState cs = (WidgetConfigurationState) config;

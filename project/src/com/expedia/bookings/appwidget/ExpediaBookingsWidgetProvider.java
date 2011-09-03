@@ -54,7 +54,7 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		int[] existingAppWidgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(
 				new ComponentName(context, ExpediaBookingsWidgetProvider.class));
-		WidgetConfigurationState.reoncileWidgetConfigurationStates(context, existingAppWidgetIds);
+		WidgetConfigurationState.reconcileWidgetConfigurationStates(context, existingAppWidgetIds);
 		RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
 		RemoteViews widgetContainer = new RemoteViews(context.getPackageName(), R.layout.widget_contents);
 		rv.addView(R.id.hotel_info_contents, widgetContainer);
