@@ -25,7 +25,7 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 		// Enable receiver for updates to search parameters
 		// and location as well
 		PackageManager pm = context.getPackageManager();
-		pm.setComponentEnabledSetting(new ComponentName(context, ExpediaBookingsWidgetReceiver.class),
+		pm.setComponentEnabledSetting(new ComponentName(context, ExpediaBookingsService.class),
 				PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
 	}
 
@@ -35,7 +35,7 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 
 		// Disable receiver updates
 		PackageManager pm = context.getPackageManager();
-		pm.setComponentEnabledSetting(new ComponentName(context, ExpediaBookingsWidgetReceiver.class),
+		pm.setComponentEnabledSetting(new ComponentName(context, ExpediaBookingsService.class),
 				PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, PackageManager.DONT_KILL_APP);
 
 	}

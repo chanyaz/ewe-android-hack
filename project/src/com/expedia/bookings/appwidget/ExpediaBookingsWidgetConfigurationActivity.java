@@ -58,7 +58,7 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 	private Thread mGeocodeThread;
 	private List<Address> mAddresses;
 	private WidgetPreviewHandler mWidgetPreviewHandler;
-	
+
 	private boolean mAddWidgetButtonPressed;
 
 	@Override
@@ -95,12 +95,12 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 			public void onClick(View v) {
 				// dont do anything if the 
 				// add widget button was already pressed once
-				if(mAddWidgetButtonPressed) {
+				if (mAddWidgetButtonPressed) {
 					return;
 				}
-				
+
 				mAddWidgetButtonPressed = true;
-				
+
 				if (mSelectedOption.equals(SPECIFIC_CITY)) {
 					geoCodeLocation();
 				}
