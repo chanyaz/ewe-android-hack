@@ -158,7 +158,7 @@
 	<!-- Disclaimer about how to earn expedia points -->
 	<string name="disclaimer_expedia_points">Jika anda mempunyai akaun Expedia Rewards, sila tempah menggunakan alamat e-mel yang sama dan mata anda akan dimasukkan secara automatik selepas penginapan anda. Sila maklum bahawa ia mungkin mengambil sehingga 30 hari untuk mata anda muncul dalam akaun.</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
-	<string name="charge_details_template">Kad kredit anda akan dicaj %@</string>
+	<string name="charge_details_template">Kad kredit anda akan dicaj %s</string>
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">Sahkan &amp; Tempah</string>
 	<!-- Error message if field was required but not entered -->
