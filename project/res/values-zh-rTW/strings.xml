@@ -198,7 +198,7 @@
 	<!-- Label for starting a new search -->
 	<string name="new_search">新的搜尋</string>
 	<!-- Contact info for a country with a known support line -->
-	<string name="contact_phone_template">如果您對訂房有任何疑問，請致電 % 與 Expedia.com 聯絡。</string>
+	<string name="contact_phone_template">如果您對訂房有任何疑問，請致電 %s 與 Expedia.com 聯絡。</string>
 	<!-- Contact info for China -->
 	<string name="contact_phone_china_template">如果您對訂房有任何疑問，請電洽 Expedia.com。CN NetCom 用戶請撥打：%1$s，CN Telecom 用戶請撥打 %2$s。</string>
 	<!-- Contact info, unknown country -->
