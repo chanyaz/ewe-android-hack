@@ -47,7 +47,7 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="6dp"
-			android:text="Sort"
+			android:text="@string/sort"
 			android:textStyle="bold"
 			android:textColor="@color/btn_text"
 			android:shadowColor="#88FFFFFF"
@@ -68,7 +68,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="Popular"
+				android:text="@string/popular"
 				android:textStyle="bold"
 				android:checked="true" />
 		
@@ -77,7 +77,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="Price"
+				android:text="@string/price"
 				android:textStyle="bold" />
 		
 		</com.mobiata.android.widget.SegmentedControlGroup>			
@@ -88,7 +88,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="6dp"
-		android:text="Distance"
+		android:text="@string/Distance"
 		android:textStyle="bold"
 		android:textColor="@color/btn_text"
 		android:shadowColor="#88FFFFFF"
@@ -109,7 +109,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="2 mi"
+			android:text="@string/filter_2miles"
 			android:textStyle="bold" />
 			
 		<RadioButton
@@ -117,7 +117,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="5 mi"
+			android:text="@string/filter_5miles"
 			android:textStyle="bold" />
 			
 		<RadioButton
@@ -125,7 +125,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="10 mi"
+			android:text="@string/filter_10miles"
 			android:textStyle="bold"
 			android:checked="true" />
 			
@@ -134,7 +134,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="All"
+			android:text="@string/all"
 			android:textStyle="bold" />
 		
 	</com.mobiata.android.widget.SegmentedControlGroup>
@@ -149,7 +149,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:layout_marginBottom="6dp"
-			android:text="Price"
+			android:text="@string/price"
 			android:textStyle="bold"
 			android:textColor="@color/btn_text"
 			android:shadowColor="#88FFFFFF"
@@ -208,7 +208,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="All"
+			android:text="@string/all"
 			android:textStyle="bold"
 			android:checked="true" />
 		
