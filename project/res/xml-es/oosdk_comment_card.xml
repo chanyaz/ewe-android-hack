@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <comment_card>
     <commentCardId>30168</commentCardId>
     <complianceMode>true</complianceMode>
@@ -19,7 +19,7 @@
     <!-- Section header for open-ended question box -->
     <commentLabel>¿En qué podemos mejorar?</commentLabel>
     <!-- User's email address -->
-    <emailQuestion>Dirección de correo electrónico</emailQuestion>
+    <emailQuestion>Dirección de email</emailQuestion>
     <!-- Thank you note after submitting the feedback -->
     <thankYouText>Gracias por enviar tu opinión. Tenemos en cuenta la valoración de nuestros clientes.</thankYouText>
 </comment_card>

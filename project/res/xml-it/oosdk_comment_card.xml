@@ -19,7 +19,7 @@
     <!-- Section header for open-ended question box -->
     <commentLabel>In cosa possiamo migliorare?</commentLabel>
     <!-- User's email address -->
-    <emailQuestion>Indirizzo email</emailQuestion>
+    <emailQuestion>Indirizzo e-mail</emailQuestion>
     <!-- Thank you note after submitting the feedback -->
     <thankYouText>Grazie del tuo commento. Per noi la tua opinione è importante!</thankYouText>
 </comment_card>

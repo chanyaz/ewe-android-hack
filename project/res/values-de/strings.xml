@@ -42,7 +42,7 @@
 	<!-- Button label for upgrading the app -->
 	<string name="upgrade">Upgrade</string>
 	<!-- Button label for searching the visible map area -->
-	<string name="map_search_button">Im Kartenausschnitt suchen</string>
+	<string name="map_search_button">Auf der Karte suchen</string>
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Vorherige Suchergebnisse werden geladen ...</string>
 	
@@ -51,9 +51,9 @@
 	
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">Suche nach dem Standort ...</string>
+	<string name="progress_finding_location">Suche nach dem Standort erfolgt...</string>
 	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">Suche nach Hotels ...</string>
+	<string name="progress_searching_hotels">Suche nach Hotels erfolgt...</string>
 	<!-- Message displayed when search comes up with zero results -->
 	<string name="progress_search_failed">Keine Hotels gefunden.</string>
 	
@@ -61,7 +61,7 @@
 	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
 	<string name="current_location">Aktueller Standort</string>
 	<!-- Suggestion to search the currently visible map area on the screen -->
-	<string name="visible_map_area">Sichtbarer Kartenausschnitt</string>
+	<string name="visible_map_area">Karte</string>
 
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
@@ -77,7 +77,7 @@
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
-	<string name="book_now">Jetzt buchen</string>
+	<string name="book_now">Buchen</string>
 	<!-- Label for the hotel's star rating -->
 	<string name="star_rating">Sternebewertung</string>
 	<!-- Label for the hotel's trip advisor rating  -->
@@ -160,7 +160,7 @@
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">Ihre Kreditkarte wird mit %s belastet. </string>
 	<!-- Button label for confirming your booking -->
-	<string name="confirm_book">Bestätigung &amp; Buchung</string>
+	<string name="confirm_book">Bestätigen &amp; buchen</string>
 	<!-- Error message if field was required but not entered -->
 	<string name="required_field">Bitte geben Sie in dieses Feld einen Wert ein. </string>
 	<!-- Error message if field had data entered but was invalid -->
@@ -190,7 +190,7 @@
 	<!-- Reservation summary label -->
 	<string name="reservation_summary">Zusammenfassung der Buchung</string>
 	<!-- Confirmation number label -->
-	<string name="confirmation_number">Bestätigung #</string>
+	<string name="confirmation_number">Bestätigungsnummer #</string>
 	<!-- Itinerary number label -->
 	<string name="itinerary_number">Reservierungsnummer #</string>
 	<!-- Confirmation email label -->
@@ -246,7 +246,7 @@
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
-	<string name="preference_category_general">Generelles</string>
+	<string name="preference_category_general">Allgemein</string>
 	<!-- Title for currency setting -->
 	<string name="preference_currency_title">Währung</string>
 	<!-- Summary for currency setting.  E.g., "US Dollars (USD)" -->

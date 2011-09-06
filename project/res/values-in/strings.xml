@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 	
@@ -32,9 +32,9 @@
 	      6$ - The year -->
 	<string name="booking_info_template">%1$s — %2$s %3$d hingga %4$s %5$s, %6$d</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
-	<string name="tripadvisor_rating_high">Tampilkan hanya hotel berperingkat tinggi</string>
+	<string name="tripadvisor_rating_high">Hanya hotel peringkat tinggi</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
-	<string name="tripadvisor_rating_all">Tampilkan semua hotel</string>
+	<string name="tripadvisor_rating_all">Semua hotel</string>
 	<!-- Label indicating that there are no results matching their current filter -->
 	<string name="no_filter_results">Maaf, tidak ada hotel yang sesuai dengan filter Anda saat ini.</string>
 	<!-- Label indicating that geolocation failed -->
@@ -51,7 +51,7 @@
 	
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">Mencari Lokasi Terkini...</string>
+	<string name="progress_finding_location">Mencari Lokasi Saat Ini...</string>
 	<!-- Message displayed when app is searching a location for hotels -->
 	<string name="progress_searching_hotels">Mencari Hotel...</string>
 	<!-- Message displayed when search comes up with zero results -->
@@ -59,13 +59,13 @@
 	
 	<!-- Suggestion adapter -->
 	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
-	<string name="current_location">Lokasi Terkini</string>
+	<string name="current_location">Lokasi Saat Ini</string>
 	<!-- Suggestion to search the currently visible map area on the screen -->
-	<string name="visible_map_area">Area Peta yang Terlihat</string>
+	<string name="visible_map_area">Area Tampilan Peta</string>
 
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
-	<string name="from">Dari</string>
+	<string name="from">Mulai</string>
 	<!-- The label indicating that this hotel is highly rated on TripAdvisor -->
 	<string name="highly_rated">Peringkat Tinggi</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
@@ -91,7 +91,7 @@
 	<!-- Internet amenity -->
 	<string name="amenity_internet">Internet</string>
 	<!-- Pets allowed amenity -->
-	<string name="amenity_pets">Hewan peliharaan</string>
+	<string name="amenity_pets">Hewan piaraan</string>
 
 	<!-- Room and rates list -->
 	<!-- Loading message for rooms & rates -->
@@ -160,11 +160,11 @@
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">Kartu kredit Anda akan dikenakan %s</string>
 	<!-- Button label for confirming your booking -->
-	<string name="confirm_book">Konfirmasi &amp; Pesan</string>
+	<string name="confirm_book">Konfirmasikan &amp; Pesan</string>
 	<!-- Error message if field was required but not entered -->
-	<string name="required_field">Masukkan nilai untuk kolom ini.</string>
+	<string name="required_field">Isi kolom ini.</string>
 	<!-- Error message if field had data entered but was invalid -->
-	<string name="invalid_field">Masukkan nilai yang valid untuk kolom ini.</string>
+	<string name="invalid_field">Isi kolom ini dengan nilai yang valid.</string>
 	<!-- Error if an invalid card number was entered -->
 	<string name="invalid_card_number">Nomor kartu kredit yang Anda masukkan tidak valid, coba lagi.</string>
 	<!-- Error if an invalid credit card type was entered -->
@@ -208,7 +208,7 @@
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the date ranges (e.g., 3/21 - 3/24) -->
 	<string name="share_subject_template">Rencana Perjalanan Expedia - %1$s (%2$s - %3$s)</string>
 	<!-- Preset at the top of the share body message -->
-	<string name="share_body_start">Ini adalah informasi reservasi hotel saya:</string>
+	<string name="share_body_start">Berikut adalah informasi reservasi hotel saya:</string>
 	<!-- Name of user -->
 	<string name="name">Nama</string>
 	<!-- Subtotal label -->
@@ -240,7 +240,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hai,\n\nLihat Hotel Expedia untuk Android, iPhone, dan iPod Touch. Ini gratis dan Anda dapat mencari serta memesan kamar di lebih dari 100.000 hotel di seluruh dunia.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hai,\n\nLihat Hotel Expedia untuk Android, iPhone, dan iPod Touch. Aplikasi ini gratis dan Anda dapat mencari serta memesan kamar di lebih dari 100.000 hotel di seluruh dunia.\n\nhttp://www.expedia.com/app</string>
 	<!-- Copyright information -->
 	<string name="copyright">© Hak cipta 2011 Expedia, Inc.\nSemua hak dilindungi undang-undang.</string>
 	
@@ -252,5 +252,5 @@
 	<!-- Summary for currency setting.  E.g., "US Dollars (USD)" -->
 	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
 	<!-- Template for default currency -->
-	<string name="default_currency_template">Default (%s)</string>
+	<string name="default_currency_template">Standar (%s)</string>
 </resources>

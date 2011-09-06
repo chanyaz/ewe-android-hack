@@ -190,9 +190,9 @@
 	<!-- Reservation summary label -->
 	<string name="reservation_summary">Reservation Summary</string>
 	<!-- Confirmation number label -->
-	<string name="confirmation_number">Confirmation #</string>
+	<string name="confirmation_number">Confirmation No.</string>
 	<!-- Itinerary number label -->
-	<string name="itinerary_number">Itinerary #</string>
+	<string name="itinerary_number">Itinerary No.</string>
 	<!-- Confirmation email label -->
 	<string name="confirmation_email">Confirmation Email</string>
 	<!-- Label for starting a new search -->

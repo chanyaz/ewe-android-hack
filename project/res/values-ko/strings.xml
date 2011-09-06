@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 	
@@ -71,7 +71,7 @@
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
 	<string name="from_template"><strike>%s</strike>부터</string>
 	<!-- The label for price per night - "from $120/night", for example -->
-	<string name="per_night">/1박 당</string>
+	<string name="per_night">/1박당</string>
 	<!-- Label for red "sale" corner -->
 	<string name="sale_caps">세일</string>
 
@@ -99,9 +99,9 @@
 	<!-- Error message (no response) -->
 	<string name="error_no_response_room_rates">객실 및 요금 정보를 다운로드할 수 없습니다. 연결 상태를 확인하고 다시 시도해주세요.</string>
 	<!-- Rate price displayed "per night" -->
-	<string name="rate_per_night">1박 당</string>
+	<string name="rate_per_night">1박당</string>
 	<!-- Rate price displayed "average per night" -->
-	<string name="rate_avg_per_night">1박 당 평균 요금</string>
+	<string name="rate_avg_per_night">1박당 평균 요금</string>
 	<!-- Warning if there is only one room left -->
 	<string name="rooms_left_one">1개 객실만 남았습니다!</string>
 	<!-- Warning if there are only a few rooms left -->
@@ -130,7 +130,7 @@
 	<!-- Label for "guest info" form field section -->
 	<string name="guest_info">손님 정보</string>
 	<!-- Label for "billing info" form field section -->
-	<string name="billing_info">요금 정보</string>
+	<string name="billing_info">청구서 정보</string>
 	<!-- Address line 1 form field hint -->
 	<string name="hint_address1">주소1</string>
 	<!-- Address line 2 form field hint -->
@@ -190,9 +190,9 @@
 	<!-- Reservation summary label -->
 	<string name="reservation_summary">예약 내용</string>
 	<!-- Confirmation number label -->
-	<string name="confirmation_number">확인#</string>
+	<string name="confirmation_number">확인번호</string>
 	<!-- Itinerary number label -->
-	<string name="itinerary_number">일정#</string>
+	<string name="itinerary_number">일정번호</string>
 	<!-- Confirmation email label -->
 	<string name="confirmation_email">확인 이메일</string>
 	<!-- Label for starting a new search -->

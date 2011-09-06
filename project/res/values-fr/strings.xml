@@ -21,7 +21,7 @@
 	</plurals>
 
 	<!-- Search Activity -->
-	<string name="search">Recherche</string>
+	<string name="search">Recherchez</string>
 	<!--  The string that appears at the top of the search header.
 	      For example: "Chicago, IL - Aug 24 to Aug 25, 2011"
 	      1$ - The search address
@@ -36,13 +36,13 @@
 	<!-- Label to show hotels with any TripAdvisor rating -->
 	<string name="tripadvisor_rating_all">Afficher tous les hôtels </string>
 	<!-- Label indicating that there are no results matching their current filter -->
-	<string name="no_filter_results">Désolé, aucun hôtel ne correspond aux critères demandés.</string>
+	<string name="no_filter_results">Aucun hôtel sur Expedia ne correspond aux critères demandés.</string>
 	<!-- Label indicating that geolocation failed -->
 	<string name="geolocation_failed">Impossible de déterminer la position de recherche.</string>
 	<!-- Button label for upgrading the app -->
 	<string name="upgrade">Mettre à jour</string>
 	<!-- Button label for searching the visible map area -->
-	<string name="map_search_button">Cherchez sur la carte de la région</string>
+	<string name="map_search_button">Chercher sur la carte</string>
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Chargement des résultats de la recherche précédente...</string>
 	
@@ -53,23 +53,23 @@
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">Recherche de la position actuelle...</string>
 	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">Recherche d\'hôtels...</string>
+	<string name="progress_searching_hotels">Recherche d\'hôtels en cours...</string>
 	<!-- Message displayed when search comes up with zero results -->
-	<string name="progress_search_failed">Aucun hôtel trouvé</string>
+	<string name="progress_search_failed">Aucun hôtel trouvé sur Expedia</string>
 	
 	<!-- Suggestion adapter -->
 	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
 	<string name="current_location">Position actuelle</string>
 	<!-- Suggestion to search the currently visible map area on the screen -->
-	<string name="visible_map_area">Carte visible de la région </string>
+	<string name="visible_map_area">Carte</string>
 
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
-	<string name="from">De</string>
+	<string name="from">Dès</string>
 	<!-- The label indicating that this hotel is highly rated on TripAdvisor -->
-	<string name="highly_rated">Mieux notés</string>
+	<string name="highly_rated">Recommandé</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">De <strike>%s</strike></string>
+	<string name="from_template">Dès <strike>%s</strike></string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/nuit</string>
 	<!-- Label for red "sale" corner -->
@@ -77,7 +77,7 @@
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
-	<string name="book_now">Réservez dès maintenant</string>
+	<string name="book_now">Réservez</string>
 	<!-- Label for the hotel's star rating -->
 	<string name="star_rating">Nombre d\'étoiles</string>
 	<!-- Label for the hotel's trip advisor rating  -->
@@ -103,9 +103,9 @@
 	<!-- Rate price displayed "average per night" -->
 	<string name="rate_avg_per_night">moyen/nuit</string>
 	<!-- Warning if there is only one room left -->
-	<string name="rooms_left_one">Il reste 1 chambre disponible !</string>
+	<string name="rooms_left_one">Il reste 1 chambre disponible sur Expedia !</string>
 	<!-- Warning if there are only a few rooms left -->
-	<string name="rooms_left_template">Il reste %d chambres disponibles !</string>
+	<string name="rooms_left_template">Il reste %d chambres disponibles sur Expedia!</string>
 	<!-- Savings percentage label (e.g., "Save 20%") -->
 	<string name="savings_template">Économisez \n %2.0f%%</string>
 	<!-- Label for free nights -->
@@ -136,7 +136,7 @@
 	<!-- Address line 2 form field hint -->
 	<string name="hint_address2">Adresse 2 (facultatif)</string>
 	<!-- State code hint -->
-	<string name="hint_state_code">État</string>
+	<string name="hint_state_code">Région</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Information de la carte de paiement</string>
 	<!-- Card number form field hint -->
@@ -190,11 +190,11 @@
 	<!-- Reservation summary label -->
 	<string name="reservation_summary">Récapitulatif de la réservation</string>
 	<!-- Confirmation number label -->
-	<string name="confirmation_number">Confirmation #</string>
+	<string name="confirmation_number">Numéro de confirmation</string>
 	<!-- Itinerary number label -->
-	<string name="itinerary_number">Voyage #</string>
+	<string name="itinerary_number">Numéro de voyage</string>
 	<!-- Confirmation email label -->
-	<string name="confirmation_email">Email de confirmation</string>
+	<string name="confirmation_email">Adresse email</string>
 	<!-- Label for starting a new search -->
 	<string name="new_search">Nouvelle recherche</string>
 	<!-- Contact info for a country with a known support line -->
@@ -236,7 +236,7 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Assistance pour l\'App</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Voyagez malin.</string>
+	<string name="travel_smart">Travel smart.</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->

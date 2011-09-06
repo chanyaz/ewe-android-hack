@@ -11,9 +11,9 @@
     <!-- Title for feedback screen -->
     <headerText>Tanggapan </headerText>
     <!-- Section header for rating (1-5 stars) -->
-    <ratingQuestion>Cantumkan Rating Kami</ratingQuestion>
+    <ratingQuestion>Cantumkan Peringkat Kami</ratingQuestion>
     <!-- Label for negative side of rating -->
-    <lowRatingDescription>Tida suka</lowRatingDescription>
+    <lowRatingDescription>Tidak suka</lowRatingDescription>
     <!-- Label for positive side of rating -->
     <highRatingDescription>Suka</highRatingDescription>
     <!-- Section header for open-ended question box -->

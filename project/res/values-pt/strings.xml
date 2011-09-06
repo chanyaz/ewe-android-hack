@@ -32,7 +32,7 @@
 	      6$ - The year -->
 	<string name="booking_info_template">%1$s — de %3$d %2$s a %5$s %4$s, %6$d</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
-	<string name="tripadvisor_rating_high">Exibir apenas os hotéis mais bem avaliados</string>
+	<string name="tripadvisor_rating_high">Exibir apenas os hotéis bem votados</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
 	<string name="tripadvisor_rating_all">Exibir todos os hotéis</string>
 	<!-- Label indicating that there are no results matching their current filter -->
@@ -67,19 +67,19 @@
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
 	<string name="from">A partir de</string>
 	<!-- The label indicating that this hotel is highly rated on TripAdvisor -->
-	<string name="highly_rated">Mais Bem Avaliado</string>
+	<string name="highly_rated">Bem Votado</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
 	<string name="from_template">A partir de <strike>%s</strike></string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/noite</string>
 	<!-- Label for red "sale" corner -->
-	<string name="sale_caps">PROMOÇÃO</string>
+	<string name="sale_caps">SALE</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
 	<string name="book_now">Reserve!</string>
 	<!-- Label for the hotel's star rating -->
-	<string name="star_rating">Classificação por Estrelas</string>
+	<string name="star_rating">Estrelas</string>
 	<!-- Label for the hotel's trip advisor rating  -->
 	<string name="trip_advisor">TripAdvisor</string>
 	<!-- Label for the address section of the description  -->
@@ -107,7 +107,7 @@
 	<!-- Warning if there are only a few rooms left -->
 	<string name="rooms_left_template">Restam apenas %d quartos!</string>
 	<!-- Savings percentage label (e.g., "Save 20%") -->
-	<string name="savings_template">Economize\n %2.0f%%</string>
+	<string name="savings_template">Poupe\n %2.0f%%</string>
 	<!-- Label for free nights -->
 	<string name="free">GRÁTIS!</string>
 

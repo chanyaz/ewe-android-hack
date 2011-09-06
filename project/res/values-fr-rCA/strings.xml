@@ -236,13 +236,13 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Soutien pour l\'appli</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Voyager intelligemment.</string>
+	<string name="travel_smart">Voyagez intelligemment.</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
 	<string name="tell_a_friend_body">Bonjour, \n\n Jetez un coup d’œil à l\'application Expedia Hotels pour téléphones iPhone et Andoid. Elle est gratuite et vous permet de chercher et réserver facilement des chambres dans plus de 100 000 hôtels dans le monde.\n\nhttp://www.expedia.com/app</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011 Expedia, Inc.\nTous droits réservés.</string>
+	<string name="copyright">© 2011 Expedia, Inc.\nTous droits réservés.</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->

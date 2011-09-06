@@ -91,7 +91,7 @@
 	<!-- Internet amenity -->
 	<string name="amenity_internet">Internet</string>
 	<!-- Pets allowed amenity -->
-	<string name="amenity_pets">Mga Alagang Hayop</string>
+	<string name="amenity_pets">Mga Alaga</string>
 
 	<!-- Room and rates list -->
 	<!-- Loading message for rooms & rates -->
@@ -220,7 +220,7 @@
 	<!-- Label for "contact Expedia" button in info page -->
 	<string name="contact_expedia">Makipag-ugnay sa Expedia</string>
 	<!-- Contact Expedia via... -->
-	<string name="contact_expedia_via">Makipag-ugnay sa Expedia Sa Pamamagitan ng...</string>
+	<string name="contact_expedia_via">Makipag-ugnay sa Expedia Sa...</string>
 	<!-- Contact Expedia via phone -->
 	<string name="contact_expedia_phone">Telepono</string>
 	<!-- Contact Expedia via email -->

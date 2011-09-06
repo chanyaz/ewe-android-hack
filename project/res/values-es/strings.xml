@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 	
@@ -124,11 +124,11 @@
 		<item quantity="other">%d noches</item>
 	</plurals>
 	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") -->
-	<string name="room_rate_template">Precio de la habitación %s</string>
+	<string name="room_rate_template">Precio habitación %s</string>
 	<!-- Label for total cost of hotel stay -->
 	<string name="total_cost">Importe total</string>
 	<!-- Label for "guest info" form field section -->
-	<string name="guest_info">Datos de los huéspedes</string>
+	<string name="guest_info">Datos huéspedes</string>
 	<!-- Label for "billing info" form field section -->
 	<string name="billing_info">Datos de facturación</string>
 	<!-- Address line 1 form field hint -->
@@ -156,7 +156,7 @@
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">Normas y restricciones</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">Si dispones de una cuenta Expedia Rewards, haz la reserva con la misma dirección de correo electrónico, y recibirás automáticamente los puntos después de tu estancia. Los puntos pueden tardar hasta 30 días en aparecer.</string>
+	<string name="disclaimer_expedia_points">Si dispones de una cuenta Expedia Rewards, haz la reserva con la misma dirección de email, y recibirás automáticamente los puntos después de tu estancia. Los puntos pueden tardar hasta 30 días en aparecer.</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">Se cargarán %s en la tarjeta de crédito </string>
 	<!-- Button label for confirming your booking -->
@@ -224,7 +224,7 @@
 	<!-- Contact Expedia via phone -->
 	<string name="contact_expedia_phone">Teléfono</string>
 	<!-- Contact Expedia via email -->
-	<string name="contact_expedia_email">Correo electrónico</string>
+	<string name="contact_expedia_email">Email</string>
 	<!-- Contact Expedia via email subject -->
 	<string name="contact_expedia_email_subject">Asistencia de reservas Expedia</string>
 	<!-- Contact Expedia via website -->
@@ -232,9 +232,9 @@
 	<!-- Label for "Expedia website" button in info page -->
 	<string name="expedia_website">Web de Expedia</string>
 	<!-- Label for "app feedback" button in info page -->
-	<string name="app_feedback">Comentarios sobre la aplicación</string>
+	<string name="app_feedback">Comentarios</string>
 	<!-- Label for "app support" button in info page -->
-	<string name="app_support">Asistencia de la aplicación</string>
+	<string name="app_support">Asistencia</string>
 	<!-- Section header for other apps by Mobiata -->
 	<string name="travel_smart">Travel Smart.</string>
 	<!-- Subject line for "tell a friend" feature -->
