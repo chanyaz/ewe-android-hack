@@ -761,7 +761,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			Intent onClickIntent = new Intent(ExpediaBookingsService.START_CLEAN_SEARCH_ACTION);
 			onClickIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
 
-			rv.setOnClickPendingIntent(R.id.root, PendingIntent.getBroadcast(this,
+			rv.setOnClickPendingIntent(R.id.root, PendingIntent.getService(this,
 					widget.appWidgetIdInteger.intValue() + 4, onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 			rv.setViewVisibility(R.id.refresh_text_view, View.VISIBLE);
 		}
