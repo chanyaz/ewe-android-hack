@@ -42,6 +42,7 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 
 	private static final String SELECTED_OPTION = "SELECTED_OPTION";
 	private static final String PROGRESS_BAR_SHOWING = "PROGRESS_BAR_SHOWING";
+	private static final String ADD_WIDGET_BUTTON_PRESSED = "ADD_WIDGET_BUTTON_PRESSED";
 
 	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
 
@@ -57,6 +58,8 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 	private Thread mGeocodeThread;
 	private List<Address> mAddresses;
 	private WidgetPreviewHandler mWidgetPreviewHandler;
+	
+	private boolean mAddWidgetButtonPressed;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,14 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				// dont do anything if the 
+				// add widget button was already pressed once
+				if(mAddWidgetButtonPressed) {
+					return;
+				}
+				
+				mAddWidgetButtonPressed = true;
+				
 				if (mSelectedOption.equals(SPECIFIC_CITY)) {
 					geoCodeLocation();
 				}
@@ -137,6 +148,7 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 			if (savedInstanceState.getBoolean(PROGRESS_BAR_SHOWING, false)) {
 				mProgressBar.setVisibility(View.VISIBLE);
 			}
+			mAddWidgetButtonPressed = savedInstanceState.getBoolean(ADD_WIDGET_BUTTON_PRESSED, false);
 		}
 
 		TextWatcher watcher = new TextWatcher() {
@@ -174,6 +186,7 @@ public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 		super.onSaveInstanceState(outState);
 		outState.putString(SELECTED_OPTION, mSelectedOption);
 		outState.putBoolean(PROGRESS_BAR_SHOWING, (mProgressBar.getVisibility() == View.VISIBLE));
+		outState.putBoolean(ADD_WIDGET_BUTTON_PRESSED, mAddWidgetButtonPressed);
 	}
 
 	@Override
