@@ -97,7 +97,7 @@
 	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
 	<string name="top_deals">Top Deals</string>
 	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
-	<string name="save_upto_template">Save up to %s</string>
+	<string name="save_upto_template">Save up to %s%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">We\'re out of deals for today. Check in for top deals tomorrow.</string>
 	
