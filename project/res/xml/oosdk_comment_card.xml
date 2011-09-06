@@ -6,20 +6,4 @@
     <showEmailQuestion>true</showEmailQuestion>
     <showRatingQuestion>true</showRatingQuestion>
     <requireRating>false</requireRating>
-    
-    <!-- NOTE: ONLY translate the strings below -->
-    <!-- Title for feedback screen -->
-    <headerText>Feedback</headerText>
-    <!-- Section header for rating (1-5 stars) -->
-    <ratingQuestion>Please Give Us A Rating</ratingQuestion>
-    <!-- Label for negative side of rating -->
-    <lowRatingDescription>Dislike</lowRatingDescription>
-    <!-- Label for positive side of rating -->
-    <highRatingDescription>Like</highRatingDescription>
-    <!-- Section header for open-ended question box -->
-    <commentLabel>What could we do better?</commentLabel>
-    <!-- User's email address -->
-    <emailQuestion>Email Address</emailQuestion>
-    <!-- Thank you note after submitting the feedback -->
-    <thankYouText>Thank you for submitting your opinion. We value our customers' feedback.</thankYouText>
 </comment_card>
