@@ -916,6 +916,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	private void onFormFieldFocus() {
 		if (!mFormHasBeenFocused) {
+			mFormHasBeenFocused = true;
+
 			// Change the button text
 			mConfirmationButton.setText(R.string.confirm_book);
 			float newTextSize = ViewUtils.getTextSizeForMaxLines(getString(R.string.confirm_book), 1, 16,
@@ -929,11 +931,18 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			CharSequence text = getString(R.string.charge_details_template, mRate.getTotalAmountAfterTax()
 					.getFormattedMoney());
 			mChargeDetailsTextView.setText(text);
-			newTextSize = ViewUtils.getTextSizeForMaxLines(text, 2, 16, mChargeDetailsTextView);
-			mChargeDetailsTextView.setTextSize(newTextSize);
-		}
 
-		mFormHasBeenFocused = true;
+			// #9324: This is a band-aid fix that will keep things from crashing and burning on rotation.
+			// A better fix should be in the works.
+			if (mChargeDetailsTextView.getWidth() != 0) {
+				newTextSize = ViewUtils.getTextSizeForMaxLines(text, 2, 16, mChargeDetailsTextView);
+				mChargeDetailsTextView.setTextSize(newTextSize);
+			}
+			else {
+				// If we didn't properly set everything up, allow it to shift on the next run
+				mFormHasBeenFocused = false;
+			}
+		}
 	}
 
 	// Interactivity when expanding saved billing info
