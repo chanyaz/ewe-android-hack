@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
 import android.text.Html;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.mobiata.android.util.ViewUtils;
 import com.mobiata.hotellib.data.AvailabilityResponse;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.RateBreakdown;
@@ -35,6 +37,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 	private List<Rate> mRates;
 
 	private List<String> mValueAdds;
+	
+	private float mSaleTextSize;
 
 	public RoomsAndRatesAdapter(Context context, AvailabilityResponse response) {
 		mContext = context;
@@ -61,6 +65,10 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 				mValueAdds.add(null);
 			}
 		}
+
+		// Calculate the size of the sale text size
+		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(context.getString(R.string.savings_template, 50.0), 2, 11,
+				new TextPaint(), 28);
 	}
 
 	@Override
@@ -95,6 +103,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			holder.valueAddsLayout = (ViewGroup) convertView.findViewById(R.id.value_adds_layout);
 			holder.valueAdds = (TextView) convertView.findViewById(R.id.value_adds_text_view);
 			holder.valueAddsBeds = (TextView) convertView.findViewById(R.id.value_adds_beds_text_view);
+
+			holder.saleLabel.setTextSize(mSaleTextSize);
 
 			// #6966: Fix specifically for Android 2.1 and below.  Since RelativeLayout can't properly align
 			// bottom on a ListView, I'm just going to add extra margin
