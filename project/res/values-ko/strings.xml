@@ -69,7 +69,7 @@
 	<!-- The label indicating that this hotel is highly rated on TripAdvisor -->
 	<string name="highly_rated">최고 평점</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template"><strike>%s</strike>부터</string>
+	<string name="from_template">&lt;strike&gt;%s&lt;/strike&gt;부터</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/1박당</string>
 	<!-- Label for red "sale" corner -->
