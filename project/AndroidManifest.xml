@@ -48,6 +48,13 @@
 
 		<activity android:name="com.opinionlab.oo.sdk.android.CommentCardActivity" />
 
+		<!-- Boot stuff -->
+		<receiver android:name=".activity.LocaleChangeReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.LOCALE_CHANGED" />
+			</intent-filter>
+		</receiver>
+
     </application>
     
 </manifest>

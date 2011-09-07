@@ -359,8 +359,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 		setActivity(SearchMapActivity.class);
 		setActivity(SearchListActivity.class);
 
+		boolean localeChanged = SettingUtils.get(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
+
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
-		if (state != null) {
+		if (state != null && !localeChanged) {
 			extractActivityState(state);
 
 			if (mSearchResponse != null) {
@@ -427,15 +429,25 @@ public class SearchActivity extends ActivityGroup implements LocationListener {
 			setNumberPickerRanges();
 
 			// Attempt to load saved search results; if we fail, start a new search
-			BackgroundDownloader.getInstance().startDownload(KEY_LOADING_PREVIOUS, mLoadSavedResults,
-					mLoadSavedResultsCallback);
-			showLoading(R.string.loading_previous);
+			if (!localeChanged) {
+				BackgroundDownloader.getInstance().startDownload(KEY_LOADING_PREVIOUS, mLoadSavedResults,
+						mLoadSavedResultsCallback);
+				showLoading(R.string.loading_previous);
+			}
+			else {
+				startSearch();
+			}
 		}
 
 		setActivityByTag(mTag);
 
 		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
+
+		if (localeChanged) {
+			// Mark that we've read the change
+			SettingUtils.save(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
+		}
 	}
 
 	@Override
