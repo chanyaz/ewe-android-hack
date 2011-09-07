@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 	
@@ -21,7 +21,7 @@
 	</plurals>
 
 	<!-- Search Activity -->
-	<string name="search">Recherchez</string>
+	<string name="search">Rechercher</string>
 	<!--  The string that appears at the top of the search header.
 	      For example: "Chicago, IL - Aug 24 to Aug 25, 2011"
 	      1$ - The search address
@@ -32,11 +32,11 @@
 	      6$ - The year -->
 	<string name="booking_info_template">%1$s — du %3$d %2$s au %5$s %4$s %6$d</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
-	<string name="tripadvisor_rating_high">Afficher uniquement les hôtels les mieux notés</string>
+	<string name="tripadvisor_rating_high">Afficher les hôtels les mieux notés</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
 	<string name="tripadvisor_rating_all">Afficher tous les hôtels </string>
 	<!-- Label indicating that there are no results matching their current filter -->
-	<string name="no_filter_results">Aucun hôtel sur Expedia ne correspond aux critères demandés.</string>
+	<string name="no_filter_results">Aucun hôtel disponibile sur Expedia</string>
 	<!-- Label indicating that geolocation failed -->
 	<string name="geolocation_failed">Impossible de déterminer la position de recherche.</string>
 	<!-- Button label for upgrading the app -->
@@ -48,6 +48,22 @@
 	
 	<!-- Price range template (e.g., "($50 - $100)" or "(50CA - 100CA)"). -->
 	<string name="price_range_template">(%1$s — %2$s)</string>
+	
+	<!-- Search pulldown -->
+	<!-- Filter hotels within 2 miles away -->
+	<string name="filter_2miles">2 mi</string>
+	<!-- Filter hotels within 5 miles away -->
+	<string name="filter_5miles">5 mi</string>
+	<!-- Filter hotels within 10 miles away -->
+	<string name="filter_10miles">10 mi</string>
+	<!-- Filter setting to show all for that filter setting (e.g., "show all hotels in range") -->
+	<string name="all">Tout</string>
+	<!-- Sort hotels label -->
+	<string name="sort">Trier</string>
+	<!-- Sort hotels by popular (the order that Expedia thinks is best) -->
+	<string name="popular">Popularité</string>
+	<!-- Sort hotels by price - also label for "filter by price" section -->
+	<string name="price">Prix</string>
 	
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
@@ -69,11 +85,11 @@
 	<!-- The label indicating that this hotel is highly rated on TripAdvisor -->
 	<string name="highly_rated">Recommandé</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">Dès <strike>%s</strike></string>
+	<string name="from_template">Dès &lt;strike&gt;%s&lt;/strike&gt;</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/nuit</string>
 	<!-- Label for red "sale" corner -->
-	<string name="sale_caps">OFFRE</string>
+	<string name="sale_caps">PROMO</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
@@ -94,12 +110,12 @@
 	<string name="amenity_pets">Animaux</string>
 
 	<!-- Room and rates list -->
-	<!-- Loading message for rooms &amp; rates -->
+	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Recherche de chambres disponibles...</string>
 	<!-- Error message (no response) -->
 	<string name="error_no_response_room_rates">Impossible de télécharger les informations sur les chambres et les tarifs. Veuillez vérifier votre connexion et réessayer plus tard.</string>
 	<!-- Rate price displayed "per night" -->
-	<string name="rate_per_night">la nuit</string>
+	<string name="rate_per_night">par nuit</string>
 	<!-- Rate price displayed "average per night" -->
 	<string name="rate_avg_per_night">moyen/nuit</string>
 	<!-- Warning if there is only one room left -->
@@ -115,7 +131,7 @@
 	<!-- edit label -->
 	<string name="edit">Modifier</string>
 	<!-- Label for room type -->
-	<string name="room_type">Catégorie de chambre</string>
+	<string name="room_type">Type de chambre</string>
 	<!-- Label for length of stay -->
 	<string name="stay_duration">Durée du séjour</string>
 	<!-- Quantity for the length of stay -->
@@ -148,12 +164,12 @@
 	<!-- Security code label -->
 	<string name="security_code">Code de sécurité</string>
 	<!-- Security code tip (if code is on unknown side of card) -->
-	<string name="security_code_tip_front_back">Voir au recto ou au verso de la carte de paiement</string>
+	<string name="security_code_tip_front_back">Voir au recto ou au verso de la carte</string>
 	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_front">Voir au recto de la carte de paiement</string>
+	<string name="security_code_tip_front">Voir au recto de la carte</string>
 	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_back">Voir au verso de la carte de paiement</string>
-	<!-- Rules &amp; restrictions section header -->
+	<string name="security_code_tip_back">Voir au verso de la carte</string>
+	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">Règles et restrictions</string>
 	<!-- Disclaimer about how to earn expedia points -->
 	<string name="disclaimer_expedia_points">Si vous disposez d\'un compte Expedia Rewards, veuillez réserver avec la même adresse email et vos points seront automatiquement crédités après votre séjour. Veuillez noter que vos points apparaîtront dans un délai de 30 jours.</string>
@@ -168,7 +184,7 @@
 	<!-- Error if an invalid card number was entered -->
 	<string name="invalid_card_number">Le numéro de carte de paiement que vous avez saisi n\'est pas valide, veuillez réessayer.</string>
 	<!-- Error if an invalid credit card type was entered -->
-	<string name="invalid_card_type">Nous n\'avons pas pu identifier le type de carte de paiement, veuillez entrer une carte de paiement valide.</string>
+	<string name="invalid_card_type">Nous ne sommes pas en mesure d\'identifier le type de carte de paiement, veuillez entrer une carte de paiement valide.</string>
 	<!-- Error if an invalid month (not 1-12) was entered -->
 	<string name="invalid_month">Veuillez saisir une valeur entre 1 et 12</string>
 	<!-- Error if an invalid year was entered -->
@@ -176,9 +192,9 @@
 	<!-- Error if an invalid security code was entered -->
 	<string name="invalid_security_code">Veuillez saisir un code de sécurité de 3 ou 4 chiffres</string>
 	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">Désolé, les paiements dans cette monnaie (%s) ne sont pas supportés par American Express. Veuillez utiliser une carte de paiement différente.</string>
+	<string name="invalid_currency_for_amex">Les paiements dans cette monnaie (%s) ne sont pas supportés par American Express. Veuillez utiliser une carte de paiement différente.</string>
 	<!-- Error if user agreement needs to be checked but is not -->
-	<string name="error_no_user_agreement">Vous devez accepter les termes pour pouvoir réserver</string>
+	<string name="error_no_user_agreement">Vous devez accepter les conditions pour pouvoir réserver</string>
 	<!-- Message to display to user while booking is in progress -->
 	<string name="booking_loading">Réservation...</string>
 	<!-- Title for error dialog when booking fails -->
@@ -198,17 +214,17 @@
 	<!-- Label for starting a new search -->
 	<string name="new_search">Nouvelle recherche</string>
 	<!-- Contact info for a country with a known support line -->
-	<string name="contact_phone_template">Si vous avez des questions sur votre réservation, veuillez contacter Expedia.com au %s.</string>
+	<string name="contact_phone_template">Si vous avez des questions sur votre réservation, veuillez contacter Expedia au %s.</string>
 	<!-- Contact info for China -->
-	<string name="contact_phone_china_template">Si vous avez des questions sur votre réservation, veuillez contacter Expedia.com au %1$s (CN NetCom) ou %2$s (CN Telecom).</string>
+	<string name="contact_phone_china_template">Si vous avez des questions sur votre réservation, veuillez contacter Expedia au %1$s (CN NetCom) ou %2$s (CN Telecom).</string>
 	<!-- Contact info, unknown country -->
-	<string name="contact_phone_default_template">Si vous avez des questions sur votre réservation, veuillez contacter Expedia.com au %1$s pour les États-Unis et le Canada ou %2$s en Europe.</string>
+	<string name="contact_phone_default_template">Si vous avez des questions sur votre réservation, veuillez contacter Expedia au %1$s pour les États-Unis et le Canada ou %2$s en Europe.</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the date ranges (e.g., 3/21 - 3/24) -->
 	<string name="share_subject_template">Voyage Expedia - %1$s (%2$s - %3$s)</string>
 	<!-- Preset at the top of the share body message -->
-	<string name="share_body_start">Ci-après les informations de réservation de mon hôtel :</string>
+	<string name="share_body_start">Ci-après les informations de mas réservation d\'hôtel :</string>
 	<!-- Name of user -->
 	<string name="name">Nom</string>
 	<!-- Subtotal label -->
@@ -232,15 +248,15 @@
 	<!-- Label for "Expedia website" button in info page -->
 	<string name="expedia_website">Site Internet Expedia</string>
 	<!-- Label for "app feedback" button in info page -->
-	<string name="app_feedback">Feedback sur l\'App</string>
+	<string name="app_feedback">Avis sur l\'App</string>
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Assistance pour l\'App</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Travel smart.</string>
+	<string name="travel_smart">Travel Smart.</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Bonjour,\n\nVenez jeter un oeil à Expedia Hotels pour Android, iPhone et iPod Touch ! Cette application est gratuite et vous permettra de rechercher et de réserver vos chambres dans plus de 100 000 hôtels dans le monde entier.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Bonjour,\n\nViens jeter un oeil à Expedia Hotels pour Android, iPhone et iPod Touch ! Cette application est gratuite et te permettra de rechercher et de réserver vos chambres dans plus de 100 000 hôtels dans le monde entier.\n\nhttp://www.expedia.com/app</string>
 	<!-- Copyright information -->
 	<string name="copyright">© Copyright 2011 Expedia, Inc.\nTous droits réservés.</string>
 	
@@ -253,4 +269,32 @@
 	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
 	<!-- Template for default currency -->
 	<string name="default_currency_template">Par défaut (%s)</string>
+
+	<!-- OpinionLab Strings -->
+	<!-- Title for feedback screen -->
+	<string name="oosdk_card_title">Avis</string>
+	<!-- Section header for rating (1-5 stars) -->
+	<string name="oosdk_rating_overall_header">Donnez-nous une note</string>
+	<!-- Label for negative side of rating -->
+	<string name="oosdk_rating_lo_txt">Je n\'aime pas</string>
+	<!-- Label for positive side of rating -->
+	<string name="oosdk_rating_hi_txt">J\'aime</string>
+	<!-- Section header for open-ended question box -->
+	<string name="oosdk_comments_header">En quoi pouvons nous améliorer ?</string>
+	<!-- User's email address -->
+	<string name="oosdk_email_txt">Adresse email</string>
+	<!-- Cancel button at the top of the feedback screen -->
+	<string name="oosdk_cancel_label">Annuler</string>
+	<!-- Submit button at the top of the feedback screen -->
+	<string name="oosdk_submit_label">Envoyer</string>
+	<!-- Thank you note after submitting the feedback -->
+	<string name="oosdk_thanks_txt">Merci d\'avoir envoyé votre avis. L\'opinion de nos clients nous intéresse.</string>
+	<!-- The number of characters remaining in the comment box -->
+	<plurals name="number_of_chars_remaining">
+		<item quantity="zero">%d caractères encore disponibles</item>
+		<item quantity="one">%d caractère encore disponible</item>
+		<item quantity="two">%d caractères encore disponibles</item>
+		<item quantity="many">%d caractères encore disponibles</item>
+		<item quantity="other">%d caractères encore disponibles</item>
+	</plurals>
 </resources>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 	
@@ -49,6 +49,22 @@
 	<!-- Price range template (e.g., "($50 - $100)" or "(50CA - 100CA)"). -->
 	<string name="price_range_template">(%1$s — %2$s)</string>
 	
+	<!-- Search pulldown -->
+	<!-- Filter hotels within 2 miles away -->
+	<string name="filter_2miles">2 mi</string>
+	<!-- Filter hotels within 5 miles away -->
+	<string name="filter_5miles">5 mi</string>
+	<!-- Filter hotels within 10 miles away -->
+	<string name="filter_10miles">10 mi</string>
+	<!-- Filter setting to show all for that filter setting (e.g., "show all hotels in range") -->
+	<string name="all">Todos</string>
+	<!-- Sort hotels label -->
+	<string name="sort">Organizar</string>
+	<!-- Sort hotels by popular (the order that Expedia thinks is best) -->
+	<string name="popular">Popular</string>
+	<!-- Sort hotels by price - also label for "filter by price" section -->
+	<string name="price">Preço</string>
+	
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">Procurando a Posição Atual...</string>
@@ -69,7 +85,7 @@
 	<!-- The label indicating that this hotel is highly rated on TripAdvisor -->
 	<string name="highly_rated">Bem Votado</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">A partir de <strike>%s</strike></string>
+	<string name="from_template">A partir de &lt;strike&gt;%s&lt;/strike&gt;</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/noite</string>
 	<!-- Label for red "sale" corner -->
@@ -142,7 +158,7 @@
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">Número do Cartão</string>
 	<!-- Card expiration month form field hint -->
-	<string name="hint_expiration_month">mm</string>
+	<string name="hint_expiration_month">m</string>
 	<!-- Card expiration year form field hint -->
 	<string name="hint_expiration_year">aa</string>
 	<!-- Security code label -->
@@ -218,9 +234,9 @@
 	
 	<!-- About activity -->
 	<!-- Label for "contact Expedia" button in info page -->
-	<string name="contact_expedia">Entre em contato com a Expedia</string>
+	<string name="contact_expedia">Entre em contato com Expedia</string>
 	<!-- Contact Expedia via... -->
-	<string name="contact_expedia_via">Entre em contato com a Expedia Via...</string>
+	<string name="contact_expedia_via">Entre em contato com Expedia Via...</string>
 	<!-- Contact Expedia via phone -->
 	<string name="contact_expedia_phone">Telefone</string>
 	<!-- Contact Expedia via email -->
@@ -253,4 +269,32 @@
 	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
 	<!-- Template for default currency -->
 	<string name="default_currency_template">Default (%s)</string>
+
+	<!-- OpinionLab Strings -->
+	<!-- Title for feedback screen -->
+	<string name="oosdk_card_title">Feedback</string>
+	<!-- Section header for rating (1-5 stars) -->
+	<string name="oosdk_rating_overall_header">Avalie nosso App!</string>
+	<!-- Label for negative side of rating -->
+	<string name="oosdk_rating_lo_txt">Não Gosto</string>
+	<!-- Label for positive side of rating -->
+	<string name="oosdk_rating_hi_txt">Gosto</string>
+	<!-- Section header for open-ended question box -->
+	<string name="oosdk_comments_header">Onde poderíamos melhorar?</string>
+	<!-- User's email address -->
+	<string name="oosdk_email_txt">Endereço de E-mail</string>
+	<!-- Cancel button at the top of the feedback screen -->
+	<string name="oosdk_cancel_label">Cancelar</string>
+	<!-- Submit button at the top of the feedback screen -->
+	<string name="oosdk_submit_label">Enviar</string>
+	<!-- Thank you note after submitting the feedback -->
+	<string name="oosdk_thanks_txt">Obrigado por enviar sua opinião! Consideramos o feedback dos nossos clientes.</string>
+	<!-- The number of characters remaining in the comment box -->
+	<plurals name="number_of_chars_remaining">
+		<item quantity="zero">%d caractere restante</item>
+		<item quantity="one">%d caractere restante</item>
+		<item quantity="two">%d caracteres restantes</item>
+		<item quantity="many">%d caracteres restantes</item>
+		<item quantity="other">%d caracteres restantes</item>
+	</plurals>
 </resources>

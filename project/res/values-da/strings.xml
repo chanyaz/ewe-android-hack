@@ -49,6 +49,22 @@
 	<!-- Price range template (e.g., "($50 - $100)" or "(50CA - 100CA)"). -->
 	<string name="price_range_template">(%1$s — %2$s)</string>
 	
+	<!-- Search pulldown -->
+	<!-- Filter hotels within 2 miles away -->
+	<string name="filter_2miles">2 mi</string>
+	<!-- Filter hotels within 5 miles away -->
+	<string name="filter_5miles">5 mi</string>
+	<!-- Filter hotels within 10 miles away -->
+	<string name="filter_10miles">10 mi</string>
+	<!-- Filter setting to show all for that filter setting (e.g., "show all hotels in range") -->
+	<string name="all">Alle</string>
+	<!-- Sort hotels label -->
+	<string name="sort">Sorter</string>
+	<!-- Sort hotels by popular (the order that Expedia thinks is best) -->
+	<string name="popular">Populær</string>
+	<!-- Sort hotels by price - also label for "filter by price" section -->
+	<string name="price">Pris</string>
+	
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">Finder nuværende placering...</string>
@@ -69,7 +85,7 @@
 	<!-- The label indicating that this hotel is highly rated on TripAdvisor -->
 	<string name="highly_rated">Højt vurderet</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">Fra<strike>%s</strike></string>
+	<string name="from_template">Fra <strike>%s</strike></string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/nat</string>
 	<!-- Label for red "sale" corner -->
@@ -253,4 +269,32 @@
 	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
 	<!-- Template for default currency -->
 	<string name="default_currency_template">Standard (%s)</string>
+
+	<!-- OpinionLab Strings -->
+	<!-- Title for feedback screen -->
+	<string name="oosdk_card_title">Feedback</string>
+	<!-- Section header for rating (1-5 stars) -->
+	<string name="oosdk_rating_overall_header">Giv os en bedømmelse</string>
+	<!-- Label for negative side of rating -->
+	<string name="oosdk_rating_lo_txt">Synes ikke om</string>
+	<!-- Label for positive side of rating -->
+	<string name="oosdk_rating_hi_txt">Synes godt om</string>
+	<!-- Section header for open-ended question box -->
+	<string name="oosdk_comments_header">Hvad kan vi gøre bedre?</string>
+	<!-- User's email address -->
+	<string name="oosdk_email_txt">E-mail-adresse</string>
+	<!-- Cancel button at the top of the feedback screen -->
+	<string name="oosdk_cancel_label">Annuller</string>
+	<!-- Submit button at the top of the feedback screen -->
+	<string name="oosdk_submit_label">Send</string>
+	<!-- Thank you note after submitting the feedback -->
+	<string name="oosdk_thanks_txt">Tak, fordi du sendte din mening. Vi værdsætter vores kunders feedback.</string>
+	<!-- The number of characters remaining in the comment box -->
+	<plurals name="number_of_chars_remaining">
+		<item quantity="zero">%d tegn tilbage</item>
+		<item quantity="one">%d tegn tilbage</item>
+		<item quantity="two">%d tegn tilbage</item>
+		<item quantity="many">%d tegn tilbage</item>
+		<item quantity="other">%d tegn tilbage</item>
+	</plurals>
 </resources>

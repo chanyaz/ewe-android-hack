@@ -49,6 +49,22 @@
 	<!-- Price range template (e.g., "($50 - $100)" or "(50CA - 100CA)"). -->
 	<string name="price_range_template">(%1$s — %2$s)</string>
 	
+	<!-- Search pulldown -->
+	<!-- Filter hotels within 2 miles away -->
+	<string name="filter_2miles">2 mi</string>
+	<!-- Filter hotels within 5 miles away -->
+	<string name="filter_5miles">5 mi</string>
+	<!-- Filter hotels within 10 miles away -->
+	<string name="filter_10miles">10 mi</string>
+	<!-- Filter setting to show all for that filter setting (e.g., "show all hotels in range") -->
+	<string name="all">Lahat</string>
+	<!-- Sort hotels label -->
+	<string name="sort">Pag-uri-uriin</string>
+	<!-- Sort hotels by popular (the order that Expedia thinks is best) -->
+	<string name="popular">Patok</string>
+	<!-- Sort hotels by price - also label for "filter by price" section -->
+	<string name="price">Presyo</string>
+	
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">Hinahanap ang Kasalukuyang Lokasyon...</string>
@@ -253,4 +269,32 @@
 	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
 	<!-- Template for default currency -->
 	<string name="default_currency_template">Default (%s)</string>
+
+	<!-- OpinionLab Strings -->
+	<!-- Title for feedback screen -->
+	<string name="oosdk_card_title">Feedback</string>
+	<!-- Section header for rating (1-5 stars) -->
+	<string name="oosdk_rating_overall_header">Mangyaring Bigyan Kami Ng Rating</string>
+	<!-- Label for negative side of rating -->
+	<string name="oosdk_rating_lo_txt">Hindi Gustuhin</string>
+	<!-- Label for positive side of rating -->
+	<string name="oosdk_rating_hi_txt">Gustuhin</string>
+	<!-- Section header for open-ended question box -->
+	<string name="oosdk_comments_header">Ano ang magagawa namin nang mas mahusay?</string>
+	<!-- User's email address -->
+	<string name="oosdk_email_txt">Email Address</string>
+	<!-- Cancel button at the top of the feedback screen -->
+	<string name="oosdk_cancel_label">Kanselahin</string>
+	<!-- Submit button at the top of the feedback screen -->
+	<string name="oosdk_submit_label">Isumite</string>
+	<!-- Thank you note after submitting the feedback -->
+	<string name="oosdk_thanks_txt">Salamat sa pagsusumite ng inyong opinyon. Pinahahalagahan namin ang feedback ng aming mga customer\.</string>
+	<!-- The number of characters remaining in the comment box -->
+	<plurals name="number_of_chars_remaining">
+		<item quantity="zero">%d (na) character ang natitira</item>
+		<item quantity="one">%d character ang natitira</item>
+		<item quantity="two">%d (na) character ang natitira</item>
+		<item quantity="many">%d (na) character ang natitira</item>
+		<item quantity="other">%d (na) character ang natitira</item>
+	</plurals>
 </resources>

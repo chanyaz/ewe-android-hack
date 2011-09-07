@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 	
@@ -49,6 +49,22 @@
 	<!-- Price range template (e.g., "($50 - $100)" or "(50CA - 100CA)"). -->
 	<string name="price_range_template">(%1$s — %2$s)</string>
 	
+	<!-- Search pulldown -->
+	<!-- Filter hotels within 2 miles away -->
+	<string name="filter_2miles">2 mi</string>
+	<!-- Filter hotels within 5 miles away -->
+	<string name="filter_5miles">5 mi</string>
+	<!-- Filter hotels within 10 miles away -->
+	<string name="filter_10miles">10 mi</string>
+	<!-- Filter setting to show all for that filter setting (e.g., "show all hotels in range") -->
+	<string name="all">Tutti</string>
+	<!-- Sort hotels label -->
+	<string name="sort">Ordina</string>
+	<!-- Sort hotels by popular (the order that Expedia thinks is best) -->
+	<string name="popular">Popolarità</string>
+	<!-- Sort hotels by price - also label for "filter by price" section -->
+	<string name="price">Prezzo</string>
+	
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">Ricerca posizione attuale in corso...</string>
@@ -69,7 +85,7 @@
 	<!-- The label indicating that this hotel is highly rated on TripAdvisor -->
 	<string name="highly_rated">Voto alto</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">Da <strike>%s</strike></string>
+	<string name="from_template">Da &lt;strike&gt;%s&lt;/strike&gt;</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/notte</string>
 	<!-- Label for red "sale" corner -->
@@ -240,7 +256,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">\'Salve,\n\nScarica Expedia Hotels per Androidè, iPhone e iPod Touch! L\'applicazione è gratuita e ti permette di prenotare facilmente più di 100.000 hotel in tutto il mondo.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Ciao,\n\nScarica Expedia Hotels per Android, iPhone e iPod Touch! L\'applicazione è gratuita e ti permette di prenotare facilmente più di 100.000 hotel in tutto il mondo.\n\nhttp://www.expedia.com/app</string>
 	<!-- Copyright information -->
 	<string name="copyright">© Copyright 2011 Expedia, Inc.\nTutti i diritti riservati.</string>
 	
@@ -253,4 +269,32 @@
 	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
 	<!-- Template for default currency -->
 	<string name="default_currency_template">Default (%s)</string>
+
+	<!-- OpinionLab Strings -->
+	<!-- Title for feedback screen -->
+	<string name="oosdk_card_title">Recensioni</string>
+	<!-- Section header for rating (1-5 stars) -->
+	<string name="oosdk_rating_overall_header">Dacci un voto</string>
+	<!-- Label for negative side of rating -->
+	<string name="oosdk_rating_lo_txt">Non mi piace</string>
+	<!-- Label for positive side of rating -->
+	<string name="oosdk_rating_hi_txt">Mi piace</string>
+	<!-- Section header for open-ended question box -->
+	<string name="oosdk_comments_header">In che cosa possiamo migliorare?</string>
+	<!-- User's email address -->
+	<string name="oosdk_email_txt">Indirizzo e-mail</string>
+	<!-- Cancel button at the top of the feedback screen -->
+	<string name="oosdk_cancel_label">Annulla</string>
+	<!-- Submit button at the top of the feedback screen -->
+	<string name="oosdk_submit_label">Invia</string>
+	<!-- Thank you note after submitting the feedback -->
+	<string name="oosdk_thanks_txt">Grazie per averci inviato la tua recensione. La tua opinione è importante.</string>
+	<!-- The number of characters remaining in the comment box -->
+	<plurals name="number_of_chars_remaining">
+		<item quantity="zero">%d caratteri rimasti</item>
+		<item quantity="one">%d caratteri rimasti</item>
+		<item quantity="two">%d caratteri rimasti</item>
+		<item quantity="many">%d caratteri rimasti</item>
+		<item quantity="other">%d caratteri rimasti</item>
+	</plurals>
 </resources>

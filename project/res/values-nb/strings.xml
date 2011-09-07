@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 	
@@ -47,7 +47,23 @@
 	<string name="loading_previous">Laster inn tidligere søkeresultater ...</string>
 	
 	<!-- Price range template (e.g., "($50 - $100)" or "(50CA - 100CA)"). -->
-	<string name="price_range_template">(%1$s – %2$s)</string>
+	<string name="price_range_template">(%1$s — %2$s)</string>
+	
+	<!-- Search pulldown -->
+	<!-- Filter hotels within 2 miles away -->
+	<string name="filter_2miles">2 mi</string>
+	<!-- Filter hotels within 5 miles away -->
+	<string name="filter_5miles">5 mi</string>
+	<!-- Filter hotels within 10 miles away -->
+	<string name="filter_10miles">10 mi</string>
+	<!-- Filter setting to show all for that filter setting (e.g., "show all hotels in range") -->
+	<string name="all">Alle</string>
+	<!-- Sort hotels label -->
+	<string name="sort">Sorter</string>
+	<!-- Sort hotels by popular (the order that Expedia thinks is best) -->
+	<string name="popular">Populære</string>
+	<!-- Sort hotels by price - also label for "filter by price" section -->
+	<string name="price">Pris</string>
 	
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
@@ -61,7 +77,7 @@
 	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
 	<string name="current_location">Nåværende posisjon</string>
 	<!-- Suggestion to search the currently visible map area on the screen -->
-	<string name="visible_map_area">Synlig kartområde</string>
+	<string name="visible_map_area">Kartområde</string>
 
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
@@ -69,7 +85,7 @@
 	<!-- The label indicating that this hotel is highly rated on TripAdvisor -->
 	<string name="highly_rated">Høyt rangert</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">Fra <strike>%s</strike></string>
+	<string name="from_template">Fra &lt;strike&gt;%s&lt;/strike&gt;</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night"> per natt</string>
 	<!-- Label for red "sale" corner -->
@@ -101,7 +117,7 @@
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">per natt</string>
 	<!-- Rate price displayed "average per night" -->
-	<string name="rate_avg_per_night">i gjennomsnitt per natt</string>
+	<string name="rate_avg_per_night">i snitt per natt</string>
 	<!-- Warning if there is only one room left -->
 	<string name="rooms_left_one">Kun ett rom igjen!</string>
 	<!-- Warning if there are only a few rooms left -->
@@ -136,7 +152,7 @@
 	<!-- Address line 2 form field hint -->
 	<string name="hint_address2">Adresselinje 2 (valgfritt)</string>
 	<!-- State code hint -->
-	<string name="hint_state_code">Stat</string>
+	<string name="hint_state_code">Fylke</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Kredittkortopplysninger</string>
 	<!-- Card number form field hint -->
@@ -156,7 +172,7 @@
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">Regler og begrensninger</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">Dersom du har en Expedia Rewards-konto, må du bestille med den samme e-postadressen, slik at poengene dine automatisk vil bli lagt til etter endt opphold. Vær oppmerksom på at det kan ta opptil 30 dager før poengene dine vises.</string>
+	<string name="disclaimer_expedia_points">ersom du har en Expedia Rewards-konto, må du bestille med den samme e-postadressen, slik at poengene dine automatisk vil bli lagt til etter endt opphold. Vær oppmerksom på at det kan ta opptil 30 dager før poengene dine vises.</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">Kredittkortet ditt vil bli belastet med %s</string>
 	<!-- Button label for confirming your booking -->
@@ -170,7 +186,7 @@
 	<!-- Error if an invalid credit card type was entered -->
 	<string name="invalid_card_type">Vi kan ikke se at du har oppgitt en gyldig kredittkorttype. Vennligst oppgi et gyldig kredittkort.</string>
 	<!-- Error if an invalid month (not 1-12) was entered -->
-	<string name="invalid_month">Oppgi en verdi på mellom 1 og 12</string>
+	<string name="invalid_month">Oppgi e tall på mellom 1 og 12</string>
 	<!-- Error if an invalid year was entered -->
 	<string name="invalid_expiration_year">Oppgi et år som ikke allerede er passert</string>
 	<!-- Error if an invalid security code was entered -->
@@ -184,7 +200,7 @@
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Feil</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">Kunne ikke koble til Expedia-serverne. Kontroller internettilkoblingen og prøv på nytt.</string>
+	<string name="error_booking_null">Kunne ikke koble til Expedias servere. Kontroller internettilkoblingen og prøv på nytt.</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Reservation summary label -->
@@ -252,5 +268,33 @@
 	<!-- Summary for currency setting.  E.g., "US Dollars (USD)" -->
 	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
 	<!-- Template for default currency -->
-	<string name="default_currency_template">Forhåndsinnstilling (%s)</string>
+	<string name="default_currency_template">Standard (%s)</string>
+
+	<!-- OpinionLab Strings -->
+	<!-- Title for feedback screen -->
+	<string name="oosdk_card_title">Tilbakemeldinger</string>
+	<!-- Section header for rating (1-5 stars) -->
+	<string name="oosdk_rating_overall_header">Ranger oss</string>
+	<!-- Label for negative side of rating -->
+	<string name="oosdk_rating_lo_txt">Misliker</string>
+	<!-- Label for positive side of rating -->
+	<string name="oosdk_rating_hi_txt">Liker</string>
+	<!-- Section header for open-ended question box -->
+	<string name="oosdk_comments_header">Hva kan vi forbedre?</string>
+	<!-- User's email address -->
+	<string name="oosdk_email_txt">E-postadresse</string>
+	<!-- Cancel button at the top of the feedback screen -->
+	<string name="oosdk_cancel_label">Avbryt</string>
+	<!-- Submit button at the top of the feedback screen -->
+	<string name="oosdk_submit_label">Send</string>
+	<!-- Thank you note after submitting the feedback -->
+	<string name="oosdk_thanks_txt">Takk for tilbakemeldingen. Vi setter pris på våre kunders meninger.</string>
+	<!-- The number of characters remaining in the comment box -->
+	<plurals name="number_of_chars_remaining">
+		<item quantity="zero">%d tegn gjenstår</item>
+		<item quantity="one">%d tegn gjenstår</item>
+		<item quantity="two">%d tegn gjenstår</item>
+		<item quantity="many">%d tegn gjenstår</item>
+		<item quantity="other">%d tegn gjenstår</item>
+	</plurals>
 </resources>

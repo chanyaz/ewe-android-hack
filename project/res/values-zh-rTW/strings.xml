@@ -49,6 +49,22 @@
 	<!-- Price range template (e.g., "($50 - $100)" or "(50CA - 100CA)"). -->
 	<string name="price_range_template">(%1$s 元 — %2$s 元)</string>
 	
+	<!-- Search pulldown -->
+	<!-- Filter hotels within 2 miles away -->
+	<string name="filter_2miles">2 哩</string>
+	<!-- Filter hotels within 5 miles away -->
+	<string name="filter_5miles">5 哩</string>
+	<!-- Filter hotels within 10 miles away -->
+	<string name="filter_10miles">10 哩</string>
+	<!-- Filter setting to show all for that filter setting (e.g., "show all hotels in range") -->
+	<string name="all">全部</string>
+	<!-- Sort hotels label -->
+	<string name="sort">排序</string>
+	<!-- Sort hotels by popular (the order that Expedia thinks is best) -->
+	<string name="popular">熱門</string>
+	<!-- Sort hotels by price - also label for "filter by price" section -->
+	<string name="price">價格</string>
+	
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">正在尋找目前地點…</string>
@@ -253,4 +269,32 @@
 	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
 	<!-- Template for default currency -->
 	<string name="default_currency_template">預設 (%s)</string>
+
+	<!-- OpinionLab Strings -->
+	<!-- Title for feedback screen -->
+	<string name="oosdk_card_title">意見回饋</string>
+	<!-- Section header for rating (1-5 stars) -->
+	<string name="oosdk_rating_overall_header">請為我們打個分數</string>
+	<!-- Label for negative side of rating -->
+	<string name="oosdk_rating_lo_txt">不喜歡</string>
+	<!-- Label for positive side of rating -->
+	<string name="oosdk_rating_hi_txt">喜歡</string>
+	<!-- Section header for open-ended question box -->
+	<string name="oosdk_comments_header">請建議我們哪些地方可以做得更好？</string>
+	<!-- User's email address -->
+	<string name="oosdk_email_txt">電子郵件地址</string>
+	<!-- Cancel button at the top of the feedback screen -->
+	<string name="oosdk_cancel_label">取消</string>
+	<!-- Submit button at the top of the feedback screen -->
+	<string name="oosdk_submit_label">提交</string>
+	<!-- Thank you note after submitting the feedback -->
+	<string name="oosdk_thanks_txt">感謝您提交寶貴意見。我們十分重視客戶的意見回饋。</string>
+	<!-- The number of characters remaining in the comment box -->
+	<plurals name="number_of_chars_remaining">
+		<item quantity="zero">還剩 %d 個字元</item>
+		<item quantity="one">還剩 %d 個字元</item>
+		<item quantity="two">還剩 %d 個字元</item>
+		<item quantity="many">還剩 %d 個字元</item>
+		<item quantity="other">還剩 %d 個字元</item>
+	</plurals>
 </resources>
