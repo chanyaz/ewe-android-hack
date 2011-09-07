@@ -51,7 +51,8 @@ public class LayoutUtils {
 		bookButton.setOnClickListener(onBookNowClick);
 
 		// Resize the book button text
-		float textSize = ViewUtils.getTextSizeForMaxLines(bookButton.getText(), 1, 20, bookButton);
+		int maxFontSize = Math.round(activity.getResources().getDisplayMetrics().density * 10); 
+		float textSize = ViewUtils.getTextSizeForMaxLines(bookButton.getText(), 1, maxFontSize, bookButton);
 		bookButton.setTextSize(textSize);
 	}
 
