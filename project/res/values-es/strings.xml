@@ -176,7 +176,7 @@
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">Se cargarán %s en la tarjeta de crédito </string>
 	<!-- Button label for confirming your booking -->
-	<string name="confirm_book">Confirmar y reservar</string>
+	<string name="confirm_book">Reservar</string>
 	<!-- Error message if field was required but not entered -->
 	<string name="required_field">Introduce un valor en este campo</string>
 	<!-- Error message if field had data entered but was invalid -->
