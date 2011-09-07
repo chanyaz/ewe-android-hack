@@ -469,9 +469,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		setActivity(SearchMapActivity.class);
 		setActivity(SearchListActivity.class);
 
+		boolean localeChanged = SettingUtils.get(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
+
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		boolean toBroadcastSearchCompleted = false;
-		if (state != null) {
+		if (state != null && !localeChanged) {
 			extractActivityState(state);
 
 			if (mSearchResponse != null) {
@@ -521,9 +523,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			}
 
 			// Attempt to load saved search results; if we fail, start a new search
-			BackgroundDownloader.getInstance().startDownload(KEY_LOADING_PREVIOUS, mLoadSavedResults,
-					mLoadSavedResultsCallback);
-			showLoading(true, R.string.loading_previous);
+			if (!localeChanged) {
+				BackgroundDownloader.getInstance().startDownload(KEY_LOADING_PREVIOUS, mLoadSavedResults,
+						mLoadSavedResultsCallback);
+				showLoading(true, R.string.loading_previous);
+			}
+			else {
+				startSearch();
+			}
 		}
 
 		mAdultsNumberPicker.setTextEnabled(false);
@@ -545,6 +552,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		// elements have been setup
 		if (toBroadcastSearchCompleted) {
 			broadcastSearchCompleted(mSearchResponse);
+		}
+		
+		if (localeChanged) {
+			// Mark that we've read the change
+			SettingUtils.save(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
 		}
 	}
 
