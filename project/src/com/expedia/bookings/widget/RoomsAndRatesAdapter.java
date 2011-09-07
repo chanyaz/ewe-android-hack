@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.os.Build;
 import android.text.Html;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.mobiata.android.util.ViewUtils;
 import com.mobiata.hotellib.data.Money;
 import com.mobiata.hotellib.data.Rate;
 import com.mobiata.hotellib.data.RateBreakdown;
@@ -29,12 +31,18 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 	private List<Rate> mRates;
 
+	private float mSaleTextSize;
+
 	public RoomsAndRatesAdapter(Context context, List<Rate> rates) {
 		mContext = context;
 
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		mRates = rates;
+
+		// Calculate the size of the sale text size
+		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(context.getString(R.string.savings_template, 50.0), 2, 11,
+				new TextPaint(), 28);
 	}
 
 	@Override
@@ -66,6 +74,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			holder.beds = (TextView) convertView.findViewById(R.id.beds_text_view);
 			holder.saleImage = (ImageView) convertView.findViewById(R.id.sale_image_view);
 			holder.saleLabel = (TextView) convertView.findViewById(R.id.sale_text_view);
+
+			holder.saleLabel.setTextSize(mSaleTextSize);
 
 			// #6966: Fix specifically for Android 2.1 and below.  Since RelativeLayout can't properly align
 			// bottom on a ListView, I'm just going to add extra margin
