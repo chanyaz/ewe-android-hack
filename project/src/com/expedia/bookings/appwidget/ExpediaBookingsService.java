@@ -81,7 +81,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	public static final String PREV_PROPERTY_ACTION = "com.expedia.bookings.PREV_PROPERTY";
 
 	private static final String WIDGET_THUMBNAIL_KEY_PREFIX = "WIDGET_THUMBNAIL_KEY.";
-	
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// BOOKKEEPING DATA STRUCTURES
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +126,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			@Override
 			public void onDownload(Object results) {
 				SearchResponse searchResponse = (SearchResponse) results;
-				
+
 				if (searchResponse != null && !searchResponse.hasErrors()) {
 					mSession = searchResponse.getSession();
 					Property[] properties = searchResponse.getProperties().toArray(new Property[0]).clone();
@@ -287,11 +287,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		
+
 		if (mWidgets == null) {
 			loadWidgets();
 		}
-		
+
 		/*
 		 * Start search for all the widgets
 		 * if there are widgets installed and the
@@ -299,7 +299,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		 * (which means that, in all probability,
 		 * it was restarted after a force close)
 		 */
-		if(intent == null && !mWidgets.isEmpty()) {
+		if (intent == null && !mWidgets.isEmpty()) {
 			intent = new Intent(START_SEARCH_ACTION);
 		}
 
@@ -319,26 +319,28 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			mWidgets.put(appWidgetIdInteger, widget);
 			startSearch(widget);
 			updateWidgetWithText(widget, getString(R.string.loading_hotels), false);
-		} else {
-			
+		}
+		else {
+
 			/*
 			 * kill the widget if there are no widgets installed
 			 */
-			if(mWidgets.isEmpty()) {
+			if (mWidgets.isEmpty()) {
 				stopSelf();
 			}
-			
+
 			if (intent.getAction().equals(SEARCH_PARAMS_CHANGED_ACTION)) {
 				startSearchForWidgets();
 			}
 			else if (intent.getAction().equals(START_SEARCH_ACTION)) {
 				startSearchForWidgets();
-			} else if (intent.getAction().equals(CANCEL_UPDATE_ACTION)) {
+			}
+			else if (intent.getAction().equals(CANCEL_UPDATE_ACTION)) {
 				Integer appWidgetIdInteger = new Integer(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 				cancelRotation();
-	
+
 				mWidgets.remove(appWidgetIdInteger);
-	
+
 				if (mWidgets.isEmpty()) {
 					cancelScheduledSearch();
 					// if all widgets have been deleted, kill
@@ -350,13 +352,13 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				Integer appWidgetIdInteger = new Integer(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 				WidgetState widget = mWidgets.get(appWidgetIdInteger);
 				loadNextProperty(widget);
-	
+
 			}
 			else if (intent.getAction().equals(PREV_PROPERTY_ACTION)) {
 				Integer appWidgetIdInteger = new Integer(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 				WidgetState widget = mWidgets.get(appWidgetIdInteger);
 				loadPreviousProperty(widget);
-	
+
 			}
 			else if (intent.getAction().equals(ROTATE_PROPERTY_ACTION)) {
 				for (WidgetState widget : mWidgets.values()) {
@@ -364,12 +366,17 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				}
 			}
 		}
-		
+
 		return Service.START_STICKY;
 	}
-	
-	
 
+	/*
+	 * The following thread recommended to 
+	 * call the necessary methods in the onCreate
+	 * method as the onStartCommand method is not called
+	 * if there are no pending intents:
+	 * (http://groups.google.com/group/android-developers/browse_thread/thread/d87fb390c13d141d/52f7154ab49f229?hl=en&q=dianne+hackborn+onstartcommand+bug&pli=1) 
+	 */
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -649,10 +656,10 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void startSearchForWidgets() {
-		if(mWidgets == null) {
+		if (mWidgets == null) {
 			loadWidgets();
 		}
-		
+
 		// updated all widgets around the same time instead of
 		// having a different update cycle for each widget 
 		// that is added to the home screen
@@ -660,7 +667,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			startSearch(state);
 		}
 	}
-	
+
 	/*
 	 * This method only updates the image in the remote view
 	 * when its asynchronously downloaded by the ExpediaBookingsService
@@ -747,7 +754,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		onClickIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
 		onClickIntent.putExtra(Codes.SEARCH_PARAMS, widget.mSearchParams.toJson().toString());
 		onClickIntent.putExtra(Codes.OPENED_FROM_WIDGET, true);
-		
+
 		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(this, widget.appWidgetIdInteger.intValue() + 3,
 				onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
