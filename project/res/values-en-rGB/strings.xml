@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 	
@@ -49,6 +49,22 @@
 	<!-- Price range template (e.g., "($50 - $100)" or "(50CA - 100CA)"). -->
 	<string name="price_range_template">(%1$s — %2$s)</string>
 	
+	<!-- Search pulldown -->
+	<!-- Filter hotels within 2 miles away -->
+	<string name="filter_2miles">2 mi</string>
+	<!-- Filter hotels within 5 miles away -->
+	<string name="filter_5miles">5 mi</string>
+	<!-- Filter hotels within 10 miles away -->
+	<string name="filter_10miles">10 mi</string>
+	<!-- Filter setting to show all for that filter setting (e.g., "show all hotels in range") -->
+	<string name="all">All</string>
+	<!-- Sort hotels label -->
+	<string name="sort">Sort</string>
+	<!-- Sort hotels by popular (the order that Expedia thinks is best) -->
+	<string name="popular">Popular</string>
+	<!-- Sort hotels by price - also label for "filter by price" section -->
+	<string name="price">Price</string>
+	
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">Finding Current Location...</string>
@@ -97,7 +113,7 @@
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Finding available rooms...</string>
 	<!-- Error message (no response) -->
-	<string name="error_no_response_room_rates">Could not download rooms &amp; rates information. Please check your connection and try again.</string>
+	<string name="error_no_response_room_rates">Could not download rooms &amp; rates information.  Please check your connection and try again.</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">per night</string>
 	<!-- Rate price displayed "average per night" -->
@@ -156,7 +172,7 @@
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">Rules &amp; Restrictions</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">If you have an Expedia Rewards account, please book with the same email address and your points will be posted automatically after your stay. Please note that it may take up to 30 days for your points to appear.</string>
+	<string name="disclaimer_expedia_points">If you have an Expedia Rewards account, please book with the same email address and your points will automatically post after your stay. Please note that it may take up to 30 days for your points to appear.</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">Your credit card will be charged %s</string>
 	<!-- Button label for confirming your booking -->
@@ -184,15 +200,15 @@
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Error</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">Could not connect to Expedia servers. Please check your connection and try again.</string>
+	<string name="error_booking_null">Could not connect to Expedia servers.  Please check your connection and try again.</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Reservation summary label -->
 	<string name="reservation_summary">Reservation Summary</string>
 	<!-- Confirmation number label -->
-	<string name="confirmation_number">Confirmation No.</string>
+	<string name="confirmation_number">Confirmation no.</string>
 	<!-- Itinerary number label -->
-	<string name="itinerary_number">Itinerary No.</string>
+	<string name="itinerary_number">Itinerary no.</string>
 	<!-- Confirmation email label -->
 	<string name="confirmation_email">Confirmation Email</string>
 	<!-- Label for starting a new search -->
@@ -240,7 +256,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hi there,\n\nTake a look at Expedia Hotels for Android, iPhone, and iPod Touch. It\'s free and lets you search and book rooms from over 100,000 hotels all over the world.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hi there,\n\nCheck out Expedia Hotels for Android, iPhone and iPod Touch. It\'s free and lets you search and book rooms from over 100,000 hotels all over the world.\n\nhttp://www.expedia.com/app</string>
 	<!-- Copyright information -->
 	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAll rights reserved.</string>
 	
@@ -253,4 +269,32 @@
 	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
 	<!-- Template for default currency -->
 	<string name="default_currency_template">Default (%s)</string>
+
+	<!-- OpinionLab Strings -->
+	<!-- Title for feedback screen -->
+	<string name="oosdk_card_title">Feedback</string>
+	<!-- Section header for rating (1-5 stars) -->
+	<string name="oosdk_rating_overall_header">Please Give Us A Rating</string>
+	<!-- Label for negative side of rating -->
+	<string name="oosdk_rating_lo_txt">Dislike</string>
+	<!-- Label for positive side of rating -->
+	<string name="oosdk_rating_hi_txt">Like</string>
+	<!-- Section header for open-ended question box -->
+	<string name="oosdk_comments_header">What could we do better?</string>
+	<!-- User's email address -->
+	<string name="oosdk_email_txt">Email Address</string>
+	<!-- Cancel button at the top of the feedback screen -->
+	<string name="oosdk_cancel_label">Cancel</string>
+	<!-- Submit button at the top of the feedback screen -->
+	<string name="oosdk_submit_label">Submit</string>
+	<!-- Thank you note after submitting the feedback -->
+	<string name="oosdk_thanks_txt">Thank you for submitting your opinion. We value our customers\' feedback.</string>
+	<!-- The number of characters remaining in the comment box -->
+	<plurals name="number_of_chars_remaining">
+		<item quantity="zero">%d characters remaining</item>
+		<item quantity="one">%d character remaining</item>
+		<item quantity="two">%d characters remaining</item>
+		<item quantity="many">%d characters remaining</item>
+		<item quantity="other">%d characters remaining</item>
+	</plurals>
 </resources>

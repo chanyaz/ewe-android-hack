@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 	
@@ -30,7 +30,7 @@
 	      4$ - The check-out month 
 	      5$ - The check-out day of month
 	      6$ - The year -->
-	<string name="booking_info_template">%1$s — %6$d년 %3$d월 %2$s일  ~  %5$s월 %4$s일 </string>
+	<string name="booking_info_template">%1$s — %6$d년 %3$d월 %2$s일  ~  %5$s월 %4$s일</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
 	<string name="tripadvisor_rating_high">최고 평점 호텔만 보기</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
@@ -47,13 +47,29 @@
 	<string name="loading_previous">이전 검색 결과 로딩중...</string>
 	
 	<!-- Price range template (e.g., "($50 - $100)" or "(50CA - 100CA)"). -->
-	<string name="price_range_template">(%1$s ~ %2$s)</string>
+	<string name="price_range_template">(%1$s — %2$s)</string>
+	
+	<!-- Search pulldown -->
+	<!-- Filter hotels within 2 miles away -->
+	<string name="filter_2miles">2마일</string>
+	<!-- Filter hotels within 5 miles away -->
+	<string name="filter_5miles">5마일</string>
+	<!-- Filter hotels within 10 miles away -->
+	<string name="filter_10miles">10마일</string>
+	<!-- Filter setting to show all for that filter setting (e.g., "show all hotels in range") -->
+	<string name="all">모두</string>
+	<!-- Sort hotels label -->
+	<string name="sort">분류</string>
+	<!-- Sort hotels by popular (the order that Expedia thinks is best) -->
+	<string name="popular">인기</string>
+	<!-- Sort hotels by price - also label for "filter by price" section -->
+	<string name="price">요금</string>
 	
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">현재 위치 검색중...</string>
 	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">호텔 검색중...</string>
+	<string name="progress_searching_hotels">호텔 검색중... </string>
 	<!-- Message displayed when search comes up with zero results -->
 	<string name="progress_search_failed">검색된 호텔 없음</string>
 	
@@ -61,7 +77,7 @@
 	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
 	<string name="current_location">현재 위치</string>
 	<!-- Suggestion to search the currently visible map area on the screen -->
-	<string name="visible_map_area">지도 가시 영역 </string>
+	<string name="visible_map_area">지도 가시 영역</string>
 
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
@@ -107,8 +123,8 @@
 	<!-- Warning if there are only a few rooms left -->
 	<string name="rooms_left_template">%d개 객실만 남았습니다!</string>
 	<!-- Savings percentage label (e.g., "Save 20%") -->
-	<string name="savings_template">\n %2.0f%%할인</string>
-	<!-- Label for free nights -->
+	<string name="savings_template"> n %2.0f%%할인</string>
+	<!-- Label for free nights -->	
 	<string name="free">무료!</string>
 
 	<!-- Booking info -->
@@ -124,7 +140,7 @@
 		<item quantity="other">%d박</item>
 	</plurals>
 	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") -->
-	<string name="room_rate_template">객실 요금 %s</string>
+	<string name="room_rate_template">객실 요금 %s </string>
 	<!-- Label for total cost of hotel stay -->
 	<string name="total_cost">총요금</string>
 	<!-- Label for "guest info" form field section -->
@@ -146,7 +162,7 @@
 	<!-- Card expiration year form field hint -->
 	<string name="hint_expiration_year">yy</string>
 	<!-- Security code label -->
-	<string name="security_code">CVC 번호</string>
+	<string name="security_code"> CVC 번호</string>
 	<!-- Security code tip (if code is on unknown side of card) -->
 	<string name="security_code_tip_front_back">신용카드의 앞면 또는 뒷면을 보세요</string>
 	<!-- Security code tip (if code is on front of card) -->
@@ -156,9 +172,9 @@
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">규칙 및 제한사항</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">Expedia Rewards 계정을 갖고 계시면,  예약 시 같은 이메일을 이용해주세요. 고객님의 포인트가 숙박 후 자동으로 적립됩니다. 포인트 확인은 최고 30일까지 소요될 수 있습니다.</string>
+	<string name="disclaimer_expedia_points"> Expedia Rewards 계정을 갖고 계시면,  예약 시 같은 이메일을 이용해주세요. 고객님의 포인트가 숙박 후 자동으로 적립됩니다. 포인트 확인은 최고 30일까지 소요될 수 있습니다.</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
-	<string name="charge_details_template">고객님의 신용카드로 %s이 청구될 예정입니다</string>
+	<string name="charge_details_template">고객님의 신용카드로 %s이 청구될 예정입니다.</string>
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">확인 및 예약</string>
 	<!-- Error message if field was required but not entered -->
@@ -174,7 +190,7 @@
 	<!-- Error if an invalid year was entered -->
 	<string name="invalid_expiration_year">지나지 않은 년도를 입력해주세요.</string>
 	<!-- Error if an invalid security code was entered -->
-	<string name="invalid_security_code">3~4자리의 CVC 번호를 입력해주세요.</string>
+	<string name="invalid_security_code">3~4자리의 CVC 번호를 입력해주세요</string>
 	<!-- Error if an invalid currency code is being used with American Express -->
 	<string name="invalid_currency_for_amex">죄송합니다, 현재 통화로의 지불은 American Express에서 지원하지 않습니다. 다른 신용카드를 이용해주세요.</string>
 	<!-- Error if user agreement needs to be checked but is not -->
@@ -184,7 +200,7 @@
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">에러</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">Expedia 서버에 연결할 수 없습니다. 연결 상태를 확인하고 다시 시도해주세요.</string>
+	<string name="error_booking_null"> Expedia 서버에 연결할 수 없습니다. 연결 상태를 확인하고 다시 시도해주세요.</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Reservation summary label -->
@@ -206,7 +222,7 @@
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the date ranges (e.g., 3/21 - 3/24) -->
-	<string name="share_subject_template">Expedia 일정 - %1$s (%2$s ~ %3$s)</string>
+	<string name="share_subject_template"> Expedia 일정 - %1$s (%2$s ~ %3$s)</string>
 	<!-- Preset at the top of the share body message -->
 	<string name="share_body_start">나의 호텔 예약 정보:</string>
 	<!-- Name of user -->
@@ -218,29 +234,29 @@
 	
 	<!-- About activity -->
 	<!-- Label for "contact Expedia" button in info page -->
-	<string name="contact_expedia">Expedia 고객센터</string>
+	<string name="contact_expedia"> Expedia 고객센터</string>
 	<!-- Contact Expedia via... -->
-	<string name="contact_expedia_via">Expedia 고객센터 연결...</string>
+	<string name="contact_expedia_via"> Expedia 고객센터 연결...</string>
 	<!-- Contact Expedia via phone -->
 	<string name="contact_expedia_phone">전화</string>
 	<!-- Contact Expedia via email -->
 	<string name="contact_expedia_email">이메일</string>
 	<!-- Contact Expedia via email subject -->
-	<string name="contact_expedia_email_subject">Expedia 예약 지원</string>
+	<string name="contact_expedia_email_subject"> Expedia 예약 지원</string>
 	<!-- Contact Expedia via website -->
 	<string name="contact_expedia_website">웹사이트</string>
 	<!-- Label for "Expedia website" button in info page -->
-	<string name="expedia_website">Expedia 웹사이트</string>
+	<string name="expedia_website"> Expedia 웹사이트</string>
 	<!-- Label for "app feedback" button in info page -->
-	<string name="app_feedback">App 고객의견</string>
+	<string name="app_feedback"> App 고객의견</string>
 	<!-- Label for "app support" button in info page -->
-	<string name="app_support">App 지원</string>
+	<string name="app_support"> App 지원</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Travel Smart</string>
+	<string name="travel_smart">Travel Smart.</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">안녕하세요,\n\n Android, iPhone, iPod Touch를 위한 Expedia Hotels를 확인해 보세요. 무료로 전세계 100,000여 개가 넘는 호텔을 검색하고 예약할 수 있습니다.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">안녕하세요,\n\n Android, iPhone, iPod Touch를 위한 Expedia Hotels를 확인해 보세요. 무료로 전세계 100,000여 개가 넘는 호텔을 검색하고 예약할 수 있습니다.\n\nhttp://www.expedia.com/app </string>
 	<!-- Copyright information -->
 	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAll rights reserved.</string>
 	
@@ -253,4 +269,33 @@
 	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
 	<!-- Template for default currency -->
 	<string name="default_currency_template">기본 설정(%s)</string>
+
+	<!-- OpinionLab Strings -->
+	<!-- Title for feedback screen -->
+	<string name="oosdk_card_title">고객의견</string>
+	<!-- Section header for rating (1-5 stars) -->
+	<string name="oosdk_rating_overall_header">우리에게 평점을 남겨주세요</string>
+	<!-- Label for negative side of rating -->
+	<string name="oosdk_rating_lo_txt">싫어함</string>
+	<!-- Label for positive side of rating -->
+	<string name="oosdk_rating_hi_txt">좋아함</string>
+	<!-- Section header for open-ended question box -->
+	<string name="oosdk_comments_header">어떻게 개선하면 좋을까요?</string>
+	<!-- User's email address -->
+	<string name="oosdk_email_txt">이메일 주소</string>
+	<!-- Cancel button at the top of the feedback screen -->
+	<string name="oosdk_cancel_label">취소</string>
+	<!-- Submit button at the top of the feedback screen -->
+	<string name="oosdk_submit_label">등록</string>
+	<!-- Thank you note after submitting the feedback -->
+	<string name="oosdk_thanks_txt">의견을 남겨주셔서 감사합니다 우리는 고객님의 의견을 소중히 여깁니다.</string>
+	<!-- The number of characters remaining in the comment box -->
+	<plurals name="number_of_chars_remaining">
+		<item quantity="zero">%d글자 남았습니다</item>
+		<item quantity="one">%d글자 남았습니다</item>
+		<item quantity="two">%d글자 남았습니다</item>
+		<item quantity="many">%d글자 남았습니다</item>
+		<item quantity="other">%d글자 남았습니다</item>
+	</plurals>
 </resources>
+

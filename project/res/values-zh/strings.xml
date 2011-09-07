@@ -1,27 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 	
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-		<item quantity="zero">%d 位成人</item>
-		<item quantity="one">%d 位成人</item>
-		<item quantity="two">%d 位成人</item>
-		<item quantity="many">%d 位成人</item>
-		<item quantity="other">%d 位成人</item>
+		<item quantity="zero">어른 %d명</item>
+		<item quantity="one">어른 %d명</item>
+		<item quantity="two">어른 %d명</item>
+		<item quantity="many">어른 %d명</item>
+		<item quantity="other">어른 %d명</item>
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-		<item quantity="zero">%d 位儿童</item>
-		<item quantity="one">%d 位儿童</item>
-		<item quantity="two">%d 位儿童</item>
-		<item quantity="many">%d 位儿童</item>
-		<item quantity="other">%d 位儿童</item>
+		<item quantity="zero">어린이 %d명</item>
+		<item quantity="one">어린이 %d명</item>
+		<item quantity="two">어린이 %d명</item>
+		<item quantity="many">어린이 %d명</item>
+		<item quantity="other">어린이 %d명</item>
 	</plurals>
 
 	<!-- Search Activity -->
-	<string name="search">搜索</string>
+	<string name="search">검색</string>
 	<!--  The string that appears at the top of the search header.
 	      For example: "Chicago, IL - Aug 24 to Aug 25, 2011"
 	      1$ - The search address
@@ -30,227 +30,272 @@
 	      4$ - The check-out month 
 	      5$ - The check-out day of month
 	      6$ - The year -->
-	<string name="booking_info_template">%1$s — %6$d 年 %2$s 月 %3$d 日至 %4$s 月 %5$s 日 </string>
+	<string name="booking_info_template">%1$s — %6$d년 %3$d월 %2$s일  ~  %5$s월 %4$s일</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
-	<string name="tripadvisor_rating_high">仅显示高评级的酒店</string>
+	<string name="tripadvisor_rating_high">최고 평점 호텔만 보기</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
-	<string name="tripadvisor_rating_all">显示所有酒店</string>
+	<string name="tripadvisor_rating_all">모든 호텔 보기</string>
 	<!-- Label indicating that there are no results matching their current filter -->
-	<string name="no_filter_results">抱歉，没有酒店符合您当前的筛选条件。</string>
+	<string name="no_filter_results">죄송합니다, 검색 조건에 맞는 호텔이 없습니다.</string>
 	<!-- Label indicating that geolocation failed -->
-	<string name="geolocation_failed">无法确定搜索位置。</string>
+	<string name="geolocation_failed">검색 위치를 찾을 수 없습니다.</string>
 	<!-- Button label for upgrading the app -->
-	<string name="upgrade">升级</string>
+	<string name="upgrade">업그레이드</string>
 	<!-- Button label for searching the visible map area -->
-	<string name="map_search_button">搜索地图区域</string>
+	<string name="map_search_button">지도 영역 검색</string>
 	<!-- Message when app is loading saved search results -->
-	<string name="loading_previous">正在加载之前的搜索结果...</string>
+	<string name="loading_previous">이전 검색 결과 로딩중...</string>
 	
 	<!-- Price range template (e.g., "($50 - $100)" or "(50CA - 100CA)"). -->
 	<string name="price_range_template">(%1$s — %2$s)</string>
 	
+	<!-- Search pulldown -->
+	<!-- Filter hotels within 2 miles away -->
+	<string name="filter_2miles">2마일</string>
+	<!-- Filter hotels within 5 miles away -->
+	<string name="filter_5miles">5마일</string>
+	<!-- Filter hotels within 10 miles away -->
+	<string name="filter_10miles">10마일</string>
+	<!-- Filter setting to show all for that filter setting (e.g., "show all hotels in range") -->
+	<string name="all">모두</string>
+	<!-- Sort hotels label -->
+	<string name="sort">분류</string>
+	<!-- Sort hotels by popular (the order that Expedia thinks is best) -->
+	<string name="popular">인기</string>
+	<!-- Sort hotels by price - also label for "filter by price" section -->
+	<string name="price">요금</string>
+	
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">正在查找当前位置...</string>
+	<string name="progress_finding_location">현재 위치 검색중...</string>
 	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">正在搜索酒店...</string>
+	<string name="progress_searching_hotels">호텔 검색중... </string>
 	<!-- Message displayed when search comes up with zero results -->
-	<string name="progress_search_failed">找不到任何酒店</string>
+	<string name="progress_search_failed">검색된 호텔 없음</string>
 	
 	<!-- Suggestion adapter -->
 	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
-	<string name="current_location">当前位置</string>
+	<string name="current_location">현재 위치</string>
 	<!-- Suggestion to search the currently visible map area on the screen -->
-	<string name="visible_map_area">可见地图区域</string>
+	<string name="visible_map_area">지도 가시 영역</string>
 
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
-	<string name="from">起</string>
+	<string name="from">부터</string>
 	<!-- The label indicating that this hotel is highly rated on TripAdvisor -->
-	<string name="highly_rated">高评级</string>
+	<string name="highly_rated">최고 평점</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">&lt;strike&gt;%s&lt;/strike&gt; 起</string>
+	<string name="from_template">&lt;strike&gt;%s&lt;/strike&gt;부터</string>
 	<!-- The label for price per night - "from $120/night", for example -->
-	<string name="per_night">/晚</string>
+	<string name="per_night">/1박당</string>
 	<!-- Label for red "sale" corner -->
-	<string name="sale_caps">促销</string>
+	<string name="sale_caps">세일</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
-	<string name="book_now">马上预订</string>
+	<string name="book_now">지금 예약</string>
 	<!-- Label for the hotel's star rating -->
-	<string name="star_rating">星级</string>
+	<string name="star_rating">호텔 등급</string>
 	<!-- Label for the hotel's trip advisor rating  -->
 	<string name="trip_advisor">TripAdvisor</string>
 	<!-- Label for the address section of the description  -->
-	<string name="address">地址</string>
+	<string name="address">주소</string>
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
 
 	<!-- Shortened Amenity strings -->
 	<!-- Internet amenity -->
-	<string name="amenity_internet">互联网</string>
+	<string name="amenity_internet">인터넷</string>
 	<!-- Pets allowed amenity -->
-	<string name="amenity_pets">宠物</string>
+	<string name="amenity_pets">애완동물</string>
 
 	<!-- Room and rates list -->
 	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">正在查找空房...</string>
+	<string name="room_rates_loading">가능 객실 검색중...</string>
 	<!-- Error message (no response) -->
-	<string name="error_no_response_room_rates">无法下载客房与价格信息。请检查您的连接情况并重试。</string>
+	<string name="error_no_response_room_rates">객실 및 요금 정보를 다운로드할 수 없습니다. 연결 상태를 확인하고 다시 시도해주세요.</string>
 	<!-- Rate price displayed "per night" -->
-	<string name="rate_per_night">每晚</string>
+	<string name="rate_per_night">1박당</string>
 	<!-- Rate price displayed "average per night" -->
-	<string name="rate_avg_per_night">每晚平均价</string>
+	<string name="rate_avg_per_night">1박당 평균 요금</string>
 	<!-- Warning if there is only one room left -->
-	<string name="rooms_left_one">只剩 1 间房了！</string>
+	<string name="rooms_left_one">1개 객실만 남았습니다!</string>
 	<!-- Warning if there are only a few rooms left -->
-	<string name="rooms_left_template">只剩 %d 间房了！</string>
+	<string name="rooms_left_template">%d개 객실만 남았습니다!</string>
 	<!-- Savings percentage label (e.g., "Save 20%") -->
-	<string name="savings_template">节省\n %2.0f%%</string>
-	<!-- Label for free nights -->
-	<string name="free">免费！</string>
+	<string name="savings_template"> n %2.0f%%할인</string>
+	<!-- Label for free nights -->	
+	<string name="free">무료!</string>
 
 	<!-- Booking info -->
 	<!-- edit label -->
-	<string name="edit">编辑</string>
+	<string name="edit">수정</string>
 	<!-- Label for room type -->
-	<string name="room_type">客房类型</string>
+	<string name="room_type">객실 종류</string>
 	<!-- Label for length of stay -->
-	<string name="stay_duration">住宿天数</string>
+	<string name="stay_duration">숙박일 수</string>
 	<!-- Quantity for the length of stay -->
 	<plurals name="length_of_stay">
-		<item quantity="one">1 晚</item>
-		<item quantity="other">%d 晚</item>
+		<item quantity="one">1박</item>
+		<item quantity="other">%d박</item>
 	</plurals>
 	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") -->
-	<string name="room_rate_template">%s 的客房价格 </string>
+	<string name="room_rate_template">객실 요금 %s </string>
 	<!-- Label for total cost of hotel stay -->
-	<string name="total_cost">总额</string>
+	<string name="total_cost">총요금</string>
 	<!-- Label for "guest info" form field section -->
-	<string name="guest_info">宾客信息</string>
+	<string name="guest_info">손님 정보</string>
 	<!-- Label for "billing info" form field section -->
-	<string name="billing_info">帐单信息</string>
+	<string name="billing_info">청구서 정보</string>
 	<!-- Address line 1 form field hint -->
-	<string name="hint_address1">地址 1</string>
+	<string name="hint_address1">주소1</string>
 	<!-- Address line 2 form field hint -->
-	<string name="hint_address2">地址 2（可选）</string>
+	<string name="hint_address2">주소2(선택사항)</string>
 	<!-- State code hint -->
-	<string name="hint_state_code">省</string>
+	<string name="hint_state_code">도시(도)</string>
 	<!-- Label for "credit card info" form field section -->
-	<string name="credit_card_info">信用卡信息</string>
+	<string name="credit_card_info">신용카드 정보</string>
 	<!-- Card number form field hint -->
-	<string name="hint_card_number">卡号</string>
+	<string name="hint_card_number">카드 번호</string>
 	<!-- Card expiration month form field hint -->
 	<string name="hint_expiration_month">m</string>
 	<!-- Card expiration year form field hint -->
 	<string name="hint_expiration_year">yy</string>
 	<!-- Security code label -->
-	<string name="security_code">安全验证码</string>
+	<string name="security_code"> CVC 번호</string>
 	<!-- Security code tip (if code is on unknown side of card) -->
-	<string name="security_code_tip_front_back">请查看信用卡前面或背面</string>
+	<string name="security_code_tip_front_back">신용카드의 앞면 또는 뒷면을 보세요</string>
 	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_front">请查看信用卡前面</string>
+	<string name="security_code_tip_front">신용카드의 앞면을 보세요</string>
 	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_back">请查看信用卡背面</string>
+	<string name="security_code_tip_back">신용카드의 뒷면을 보세요</string>
 	<!-- Rules & restrictions section header -->
-	<string name="rules_restrictions">规则与限制</string>
+	<string name="rules_restrictions">규칙 및 제한사항</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">如果您具有 Expedia Rewards 帐户，请使用相同的电子邮件预订，在您住宿后，您的积分将自动过帐。请注意，您的积分可能需要最多 30 天来显示。</string>
+	<string name="disclaimer_expedia_points"> Expedia Rewards 계정을 갖고 계시면,  예약 시 같은 이메일을 이용해주세요. 고객님의 포인트가 숙박 후 자동으로 적립됩니다. 포인트 확인은 최고 30일까지 소요될 수 있습니다.</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
-	<string name="charge_details_template">您的信用卡将被支取 %s</string>
+	<string name="charge_details_template">고객님의 신용카드로 %s이 청구될 예정입니다.</string>
 	<!-- Button label for confirming your booking -->
-	<string name="confirm_book">确认并预订</string>
+	<string name="confirm_book">확인 및 예약</string>
 	<!-- Error message if field was required but not entered -->
-	<string name="required_field">请在此字段中输入一个值。</string>
+	<string name="required_field">이 항목을 입력해주세요.</string>
 	<!-- Error message if field had data entered but was invalid -->
-	<string name="invalid_field">请在此字段中输入一个有效值。</string>
+	<string name="invalid_field">이 항목을 올바르게 입력해주세요.</string>
 	<!-- Error if an invalid card number was entered -->
-	<string name="invalid_card_number">您输入的信用卡号无效，请重试。</string>
+	<string name="invalid_card_number">기입하신 신용카드 번호가 올바르지 않습니다. 다시 시도해주세요.</string>
 	<!-- Error if an invalid credit card type was entered -->
-	<string name="invalid_card_type">我们无法检测到您的信用卡类型，请输入有效的信用卡。</string>
+	<string name="invalid_card_type">고객님의 신용카드를 찾을 수 없습니다. 올바른 신용카드 정보를 입력해주세요.</string>
 	<!-- Error if an invalid month (not 1-12) was entered -->
-	<string name="invalid_month">请输入 1 至 12 之间的值</string>
+	<string name="invalid_month">1~12자 사이로 입력해주세요.</string>
 	<!-- Error if an invalid year was entered -->
-	<string name="invalid_expiration_year">请输入尚未过去的年份</string>
+	<string name="invalid_expiration_year">지나지 않은 년도를 입력해주세요.</string>
 	<!-- Error if an invalid security code was entered -->
-	<string name="invalid_security_code">请输入 3 位数或 4 位数的安全验证码</string>
+	<string name="invalid_security_code">3~4자리의 CVC 번호를 입력해주세요</string>
 	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">抱歉，American Express 不支持使用此货币（%s）的付费。请使用不同的信用卡。</string>
+	<string name="invalid_currency_for_amex">죄송합니다, 현재 통화로의 지불은 American Express에서 지원하지 않습니다. 다른 신용카드를 이용해주세요.</string>
 	<!-- Error if user agreement needs to be checked but is not -->
-	<string name="error_no_user_agreement">您必须接受预订条款</string>
+	<string name="error_no_user_agreement">예약을 위해 약관에 동의해주세요.</string>
 	<!-- Message to display to user while booking is in progress -->
-	<string name="booking_loading">正在预订...</string>
+	<string name="booking_loading">예약중...</string>
 	<!-- Title for error dialog when booking fails -->
-	<string name="error_booking_title">错误</string>
+	<string name="error_booking_title">에러</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">无法连接到 Expedia 服务器。请检查您的连接情况并重试。</string>
+	<string name="error_booking_null"> Expedia 서버에 연결할 수 없습니다. 연결 상태를 확인하고 다시 시도해주세요.</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Reservation summary label -->
-	<string name="reservation_summary">预订概要</string>
+	<string name="reservation_summary">예약 내용</string>
 	<!-- Confirmation number label -->
-	<string name="confirmation_number">确认 #</string>
+	<string name="confirmation_number">확인번호</string>
 	<!-- Itinerary number label -->
-	<string name="itinerary_number">行程 #</string>
+	<string name="itinerary_number">일정번호</string>
 	<!-- Confirmation email label -->
-	<string name="confirmation_email">确认电子邮件</string>
+	<string name="confirmation_email">확인 이메일</string>
 	<!-- Label for starting a new search -->
-	<string name="new_search">新的搜索</string>
+	<string name="new_search">새로 검색</string>
 	<!-- Contact info for a country with a known support line -->
-	<string name="contact_phone_template">如果您对您的预订程序有任何问题，请拨电 %s 联系 Expedia.com 。</string>
+	<string name="contact_phone_template">예약에 대한 문의사항이 있으면, %s로 Expedia.com에 연락해주세요.</string>
 	<!-- Contact info for China -->
-	<string name="contact_phone_china_template">如果您对您的预订程序有任何问题，请拨电 %1$s (CN NetCom) 或 %2$s (CN Telecom) 联系 Expedia.com 。</string>
+	<string name="contact_phone_china_template">예약에 대한 문의사항이 있으면, %1$s(CN NetCom) 또는 %2$s(CN Telecom)로 Expedia.com에 연락해주세요.</string>
 	<!-- Contact info, unknown country -->
-	<string name="contact_phone_default_template">如果您对您的预订程序有任何问题，请拨电 %1$s (美国/加拿大) 或 %2$s (欧洲) 联系 Expedia.com 。</string>
+	<string name="contact_phone_default_template">예약에 대한 문의사항이 있으면, %1$s(미국/캐나다) 또는 %2$s(유럽)로 Expedia.com에 연락해주세요.</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the date ranges (e.g., 3/21 - 3/24) -->
-	<string name="share_subject_template">Expedia 行程 - %1$s (%2$s - %3$s)</string>
+	<string name="share_subject_template"> Expedia 일정 - %1$s (%2$s ~ %3$s)</string>
 	<!-- Preset at the top of the share body message -->
-	<string name="share_body_start">这是我的酒店预订信息：</string>
+	<string name="share_body_start">나의 호텔 예약 정보:</string>
 	<!-- Name of user -->
-	<string name="name">名称</string>
+	<string name="name">이름</string>
 	<!-- Subtotal label -->
-	<string name="subtotal">部分合计</string>
+	<string name="subtotal">총합계</string>
 	<!-- Cancellation policy label -->
-	<string name="cancellation_policy">取消政策</string>
+	<string name="cancellation_policy">취소 정책</string>
 	
 	<!-- About activity -->
 	<!-- Label for "contact Expedia" button in info page -->
-	<string name="contact_expedia">联系 Expedia</string>
+	<string name="contact_expedia"> Expedia 고객센터</string>
 	<!-- Contact Expedia via... -->
-	<string name="contact_expedia_via">通过以下方式联系 Expedia...</string>
+	<string name="contact_expedia_via"> Expedia 고객센터 연결...</string>
 	<!-- Contact Expedia via phone -->
-	<string name="contact_expedia_phone">电话</string>
+	<string name="contact_expedia_phone">전화</string>
 	<!-- Contact Expedia via email -->
-	<string name="contact_expedia_email">电子邮件</string>
+	<string name="contact_expedia_email">이메일</string>
 	<!-- Contact Expedia via email subject -->
-	<string name="contact_expedia_email_subject">Expedia 预订支持</string>
+	<string name="contact_expedia_email_subject"> Expedia 예약 지원</string>
 	<!-- Contact Expedia via website -->
-	<string name="contact_expedia_website">网站</string>
+	<string name="contact_expedia_website">웹사이트</string>
 	<!-- Label for "Expedia website" button in info page -->
-	<string name="expedia_website">Expedia 网站</string>
+	<string name="expedia_website"> Expedia 웹사이트</string>
 	<!-- Label for "app feedback" button in info page -->
-	<string name="app_feedback">应用反馈</string>
+	<string name="app_feedback"> App 고객의견</string>
 	<!-- Label for "app support" button in info page -->
-	<string name="app_support">应用支持</string>
+	<string name="app_support"> App 지원</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">精明旅游。</string>
+	<string name="travel_smart">Travel Smart.</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">您好！\n\n请试试适用于 Android、iPhone 和 iPod Touch 的 Expedia Hotels 应用程序。 这是免费的！您可通过它搜索并预订全世界超过 100000 家酒店的客房。\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">안녕하세요,\n\n Android, iPhone, iPod Touch를 위한 Expedia Hotels를 확인해 보세요. 무료로 전세계 100,000여 개가 넘는 호텔을 검색하고 예약할 수 있습니다.\n\nhttp://www.expedia.com/app </string>
 	<!-- Copyright information -->
 	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAll rights reserved.</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
-	<string name="preference_category_general">一般信息</string>
+	<string name="preference_category_general">일반</string>
 	<!-- Title for currency setting -->
-	<string name="preference_currency_title">货币</string>
+	<string name="preference_currency_title">통화</string>
 	<!-- Summary for currency setting.  E.g., "US Dollars (USD)" -->
 	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
 	<!-- Template for default currency -->
-	<string name="default_currency_template">默认 (%s)</string>
+	<string name="default_currency_template">기본 설정(%s)</string>
+
+	<!-- OpinionLab Strings -->
+	<!-- Title for feedback screen -->
+	<string name="oosdk_card_title">고객의견</string>
+	<!-- Section header for rating (1-5 stars) -->
+	<string name="oosdk_rating_overall_header">우리에게 평점을 남겨주세요</string>
+	<!-- Label for negative side of rating -->
+	<string name="oosdk_rating_lo_txt">싫어함</string>
+	<!-- Label for positive side of rating -->
+	<string name="oosdk_rating_hi_txt">좋아함</string>
+	<!-- Section header for open-ended question box -->
+	<string name="oosdk_comments_header">어떻게 개선하면 좋을까요?</string>
+	<!-- User's email address -->
+	<string name="oosdk_email_txt">이메일 주소</string>
+	<!-- Cancel button at the top of the feedback screen -->
+	<string name="oosdk_cancel_label">취소</string>
+	<!-- Submit button at the top of the feedback screen -->
+	<string name="oosdk_submit_label">등록</string>
+	<!-- Thank you note after submitting the feedback -->
+	<string name="oosdk_thanks_txt">의견을 남겨주셔서 감사합니다 우리는 고객님의 의견을 소중히 여깁니다.</string>
+	<!-- The number of characters remaining in the comment box -->
+	<plurals name="number_of_chars_remaining">
+		<item quantity="zero">%d글자 남았습니다</item>
+		<item quantity="one">%d글자 남았습니다</item>
+		<item quantity="two">%d글자 남았습니다</item>
+		<item quantity="many">%d글자 남았습니다</item>
+		<item quantity="other">%d글자 남았습니다</item>
+	</plurals>
 </resources>
+
