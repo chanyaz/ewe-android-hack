@@ -367,6 +367,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			}
 		}
 
+		/*
+		 * returning this value helps to ensure to restart 
+		 * the service if the application crashes for 
+		 * an unexpected reason
+		 */
 		return Service.START_STICKY;
 	}
 
