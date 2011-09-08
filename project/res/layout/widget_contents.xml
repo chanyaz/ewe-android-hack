@@ -138,7 +138,39 @@
 		  	android:visibility="gone"
 			style="@style/widgetHotelLocationText" />
 	</LinearLayout>
-			
+	
+	<LinearLayout
+	  	android:id="@+id/price_per_night_with_no_sale_container"
+	  	android:layout_height="wrap_content"
+	  	android:layout_width="wrap_content"
+	  	android:layout_marginLeft="5dp"
+	  	android:layout_marginTop="2dp"
+		android:layout_below="@id/location_text_view"
+		android:layout_alignLeft="@id/location_text_view"
+		android:paddingTop="0dp"
+		android:paddingBottom="0dp"
+		android:background="@drawable/widget_price_bg_no_sale" >
+		
+		<TextView
+			android:id="@+id/price_text_with_no_sale_view"
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:gravity="center_vertical"	
+			android:includeFontPadding="false"
+			android:textColor="#064192"
+			android:textStyle="bold"
+			android:textSize="16sp"/>
+		<TextView
+			android:id="@+id/per_night_text_with_no_sale_view"
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:gravity="center_vertical"	
+			android:paddingRight="3dp"
+			android:text="@string/per_night"
+			android:textColor="@color/light_gray"
+			android:textSize="11sp"/>
+	</LinearLayout>
+
 	  <LinearLayout
 	  	android:id="@+id/price_per_night_container"
 	  	android:layout_height="wrap_content"
@@ -169,7 +201,7 @@
 			android:text="@string/per_night"
 			android:textColor="@color/light_gray"
 			android:textSize="11sp"/>
-		</LinearLayout>
+	</LinearLayout>
 		
 		<TextView
 			android:id="@+id/sale_text_view"

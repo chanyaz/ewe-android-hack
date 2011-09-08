@@ -33,6 +33,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.HotelActivity;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.mobiata.android.BackgroundDownloader;
@@ -68,6 +69,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private static final int MAX_RESULTS = 5;
 	// maintain a bounded cache for the thumbnails to prevent OOM errors
 	private static final int MAX_IMAGE_CACHE_SIZE = 30;
+	private static final int MIN_DISTANCE_BEFORE_UPDATE = 5 * 1000; // 5 km
+	private static final int MIN_TIME_BETWEEN_CHECKS_IN_MILLIS = 1000 * 60 * 15; // 15 minutes
 
 	// download key prefix to have 1 download key per widget installed
 	private static final String WIDGET_KEY_SEARCH_PREFIX = "WIDGET_KEY_SEARCH.";
@@ -89,6 +92,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private BackgroundDownloader mSearchDownloader = BackgroundDownloader.getInstance();
 
 	private Map<Integer, WidgetState> mWidgets;
+	private List<WidgetState> mCurrentLocationWidgets = new ArrayList<WidgetState>();
+
 	private Queue<WidgetState> mWaitingOnLocationQueue = new LinkedList<ExpediaBookingsService.WidgetState>();
 
 	/*
@@ -113,6 +118,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		double maxPercentSavings;
 		Property savingsForProperty;
 		boolean mUseCurrentLocation;
+		long lastUpdatedTimeInMillis;
 
 		Download mSearchDownload = new Download() {
 			@Override
@@ -135,6 +141,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 					determineRelevantProperties(WidgetState.this, properties);
 					mCurrentPosition = -1;
 					loadPropertyIntoWidget(WidgetState.this, ROTATE_INTERVAL);
+					lastUpdatedTimeInMillis = System.currentTimeMillis();
 				}
 				else if (searchResponse != null && searchResponse.hasErrors()) {
 					ServerError error = searchResponse.getErrors().get(0);
@@ -197,9 +204,148 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		lm.removeUpdates(this);
 	}
 
+	private void startLocationListenerForCurrentLocationWidgets() {
+		Log.i("Starting location listener for current location widgets.");
+		if (!NetUtils.isOnline(getApplicationContext())) {
+			return;
+		}
+
+		/*
+		 * Use the passive provider as a way of getting updates without actually
+		 * requesting a GPS fix. Ignore if the provider is not available on the current 
+		 * device (either due to being disabled or unavailable completely),.
+		 */
+		LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+		String passiveProvider = null;
+		try {
+			if (lm.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)) {
+				passiveProvider = LocationManager.PASSIVE_PROVIDER;
+			}
+		}
+		catch (SecurityException e) {
+			Log.i("This exception is expected for api version < 8 since PASSIVE_PROVIDER only exists for API Levels >= 8");
+		}
+
+		String provider = null;
+		if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			provider = LocationManager.NETWORK_PROVIDER;
+		}
+		else if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			provider = LocationManager.GPS_PROVIDER;
+		}
+
+		/*
+		 * Setup the Network/GPS provider to update with a location only if
+		 * the location has changed beyond the specified threshold. Also, check for location 
+		 * updates only after the minimum time interval specified. This will help with 
+		 * conserving battery life.
+		 */
+		if (provider != null) {
+			lm.requestLocationUpdates(provider, MIN_TIME_BETWEEN_CHECKS_IN_MILLIS, MIN_DISTANCE_BEFORE_UPDATE,
+					mListenerForCurrentLocationWidgets);
+		}
+
+		/*
+		 * Setup the passive provider to update with a location whenever another application
+		 * gets a location fix. This is okay sine the location update is user/app-intended.
+		 * Use this location to determine whether or not to re-download data.	
+		 */
+		if (passiveProvider != null) {
+			lm.requestLocationUpdates(passiveProvider, 0, 0, mListenerForCurrentLocationWidgets);
+		}
+	}
+
+	private void stopLocationListenerforCurrentLocationWidgets() {
+		Log.i("Stopping location listener for current location widgets.");
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		lm.removeUpdates(mListenerForCurrentLocationWidgets);
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// LOCATION LISTENER IMPLEMENTATION
 	//////////////////////////////////////////////////////////////////////////////////////////
+
+	private LocationListener mListenerForCurrentLocationWidgets = new LocationListener() {
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+			LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+			// Use the network provider as it provides faster location updates
+			if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
+				lm.removeUpdates(mListenerForCurrentLocationWidgets);
+				lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BETWEEN_CHECKS_IN_MILLIS,
+						MIN_DISTANCE_BEFORE_UPDATE, mListenerForCurrentLocationWidgets);
+				lm.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0, mListenerForCurrentLocationWidgets);
+			}
+
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+			boolean stillWorking = true;
+
+			if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
+				if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+					lm.removeUpdates(mListenerForCurrentLocationWidgets);
+					lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BETWEEN_CHECKS_IN_MILLIS,
+							MIN_DISTANCE_BEFORE_UPDATE, mListenerForCurrentLocationWidgets);
+					lm.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0,
+							mListenerForCurrentLocationWidgets);
+				}
+				else {
+					stillWorking = false;
+				}
+			}
+			else if (provider.equals(LocationManager.GPS_PROVIDER)
+					&& !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+				stillWorking = false;
+			}
+
+			if (!stillWorking) {
+				lm.removeUpdates(mListenerForCurrentLocationWidgets);
+			}
+		}
+
+		@Override
+		public void onLocationChanged(Location location) {
+			Log.i("location changed for current location widgets listener");
+
+			long lastSearchedTimeInMillis = System.currentTimeMillis();
+
+			Location lastSearchedLocation = new Location(location);
+
+			/*
+			 * Get the last searched/downloaded time for the current location widgets 
+			 * as well as the last searched location
+			 */
+			if (!mCurrentLocationWidgets.isEmpty()) {
+				WidgetState widget = mCurrentLocationWidgets.get(0);
+				lastSearchedTimeInMillis = widget.lastUpdatedTimeInMillis;
+				lastSearchedLocation.setLatitude(widget.mSearchParams.getSearchLatitude());
+				lastSearchedLocation.setLongitude(widget.mSearchParams.getSearchLongitude());
+			}
+
+			/*
+			 * If the time elapsed is at least the minimum time required and the distance moved is beyond
+			 * the specified threshold, cause all widgets to redownload their data to get an accurate
+			 * view of deals around the current location.
+			 */
+			if ((System.currentTimeMillis() - lastSearchedTimeInMillis > MIN_TIME_BETWEEN_CHECKS_IN_MILLIS)
+					&& (location.distanceTo(lastSearchedLocation) >= MIN_DISTANCE_BEFORE_UPDATE)) {
+				Log.i("Starting download for current location widgets since location has changed");
+				for (WidgetState widget : mCurrentLocationWidgets) {
+					widget.mSearchParams.setSearchLatLon(location.getLatitude(), location.getLongitude());
+					startSearchDownloader(widget);
+				}
+			}
+		}
+	};
 
 	@Override
 	public void onLocationChanged(Location location) {
@@ -320,6 +466,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			mWidgets.put(appWidgetIdInteger, widget);
 			startSearch(widget);
 			updateWidgetWithText(widget, getString(R.string.loading_hotels), false);
+			keepTrackOfCurrentLocationWidgets(widget);
 		}
 		else {
 
@@ -340,13 +487,17 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				Integer appWidgetIdInteger = new Integer(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 				cancelRotation();
 
-				mWidgets.remove(appWidgetIdInteger);
+				WidgetState widgetRemoved = mWidgets.remove(appWidgetIdInteger);
+				if (widgetRemoved.mUseCurrentLocation) {
+					mCurrentLocationWidgets.remove(widgetRemoved);
+				}
 
 				if (mWidgets.isEmpty()) {
 					cancelScheduledSearch();
 					// if all widgets have been deleted, kill
 					// the widget
 					stopSelf();
+					stopLocationListenerforCurrentLocationWidgets();
 				}
 			}
 			else if (intent.getAction().equals(NEXT_PROPERTY_ACTION)) {
@@ -658,6 +809,19 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			widget.appWidgetIdInteger = appWidgetIdInteger;
 			mWidgets.put(appWidgetIdInteger, widget);
 			setupSearchParams(widget);
+			keepTrackOfCurrentLocationWidgets(widget);
+		}
+	}
+
+	private void keepTrackOfCurrentLocationWidgets(WidgetState widget) {
+		if (widget.mUseCurrentLocation && !mCurrentLocationWidgets.contains(widget)) {
+			boolean startListener = mCurrentLocationWidgets.isEmpty();
+			mCurrentLocationWidgets.add(widget);
+			// start the listener for keeping track of
+			// current location more aggressively
+			if (startListener) {
+				startLocationListenerForCurrentLocationWidgets();
+			}
 		}
 	}
 
@@ -709,25 +873,34 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams
 				.getFreeformLocation() : property.getDistanceFromUser().formatDistance(this);
 		widgetContents.setTextViewText(R.id.location_text_view, location);
-		widgetContents.setTextViewText(R.id.price_text_view,
-				StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
 
 		if (property.getLowestRate().getSavingsPercent() > 0) {
 			widgetContents.setTextViewText(R.id.sale_text_view,
 					getString(R.string.widget_savings_template, property.getLowestRate().getSavingsPercent() * 100));
-			widgetContents.setInt(R.id.price_per_night_container, "setBackgroundResource", R.drawable.widget_price_bg);
+
+			widgetContents.setTextViewText(R.id.price_text_view,
+					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
+
 			widgetContents.setViewVisibility(R.id.sale_text_view, View.VISIBLE);
 			widgetContents.setViewVisibility(R.id.highly_rated_text_view, View.GONE);
+			widgetContents.setViewVisibility(R.id.price_per_night_with_no_sale_container, View.GONE);
 		}
 		else if (property.getLowestRate().getSavingsPercent() == 0 && property.isHighlyRated()) {
 			widgetContents.setViewVisibility(R.id.sale_text_view, View.GONE);
 			widgetContents.setViewVisibility(R.id.highly_rated_text_view, View.VISIBLE);
+			widgetContents.setViewVisibility(R.id.price_per_night_with_no_sale_container, View.GONE);
+			widgetContents.setViewVisibility(R.id.price_per_night_container, View.VISIBLE);
+			widgetContents.setTextViewText(R.id.price_text_view,
+					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
+
 		}
 		else {
 			widgetContents.setViewVisibility(R.id.sale_text_view, View.GONE);
 			widgetContents.setViewVisibility(R.id.highly_rated_text_view, View.GONE);
-			widgetContents.setInt(R.id.price_per_night_container, "setBackgroundResource",
-					R.drawable.widget_price_bg_no_sale);
+			widgetContents.setViewVisibility(R.id.price_per_night_with_no_sale_container, View.VISIBLE);
+			widgetContents.setViewVisibility(R.id.price_per_night_container, View.GONE);
+			widgetContents.setTextViewText(R.id.price_text_with_no_sale_view,
+					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
 		}
 
 		Bitmap bitmap = ExpediaBookingsService.thumbnailCache.get(property.getThumbnail().getUrl());
@@ -753,7 +926,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		widgetContents.setOnClickPendingIntent(R.id.next_hotel_btn, PendingIntent.getService(this,
 				widget.appWidgetIdInteger.intValue() + 1, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
-		Intent onClickIntent = new Intent(this, SearchActivity.class);
+		Intent onClickIntent = new Intent(this, HotelActivity.class);
 		onClickIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 		onClickIntent.putExtra(Codes.PROPERTY, property.toJson().toString());
 		onClickIntent.putExtra(Codes.SESSION, widget.mSession.toJson().toString());
@@ -902,6 +1075,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	private void setWidgetPropertyViewVisibility(final RemoteViews widgetContents, int visibility) {
 		widgetContents.setViewVisibility(R.id.price_per_night_container, visibility);
+		widgetContents.setViewVisibility(R.id.price_per_night_with_no_sale_container, visibility);
 		widgetContents.setViewVisibility(R.id.hotel_image_view_wrapper, visibility);
 		widgetContents.setViewVisibility(R.id.hotel_image_view, visibility);
 		widgetContents.setViewVisibility(R.id.location_text_view, visibility);
