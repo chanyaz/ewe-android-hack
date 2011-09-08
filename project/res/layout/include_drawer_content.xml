@@ -98,7 +98,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="All"
+				android:text="@string/all"
 				android:textStyle="bold" />
 			
 		</com.mobiata.android.widget.SegmentedControlGroup>
@@ -119,7 +119,7 @@
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:drawableBottom="@drawable/btn_filter_rating_low"
-				android:text="3+"
+				android:text="@string/filter_stars_three"
 				android:textStyle="bold" />
 			 
 			<RadioButton
@@ -128,7 +128,7 @@
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:drawableBottom="@drawable/btn_filter_rating_medium"
-				android:text="4+"
+				android:text="@string/filter_stars_four"
 				android:textStyle="bold" />
 			 
 			<RadioButton
@@ -137,7 +137,7 @@
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:drawableBottom="@drawable/btn_filter_rating_high"
-				android:text="5"
+				android:text="@string/filter_stars_five"
 				android:textStyle="bold" />
 				
 			<RadioButton
@@ -145,7 +145,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="All"
+				android:text="@string/all"
 				android:textStyle="bold"
 				android:checked="true" />
 			
@@ -166,7 +166,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="$"
+				android:text="@string/filter_price_cheap"
 				android:textStyle="bold"/>
 				
 			<RadioButton
@@ -174,7 +174,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="$$"
+				android:text="@string/filter_price_moderate"
 				android:textStyle="bold" />
 				
 			<RadioButton
@@ -182,7 +182,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="$$$"
+				android:text="@string/filter_price_expensive"
 				android:textStyle="bold" />
 				
 			<RadioButton
@@ -190,7 +190,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="All"
+				android:text="@string/all"
 				android:textStyle="bold"
 				android:checked="true" />
 			
