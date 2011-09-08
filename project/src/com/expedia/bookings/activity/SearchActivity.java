@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.json.JSONException;
@@ -108,6 +109,7 @@ import com.mobiata.android.widget.Panel;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.mobiata.hotellib.app.SearchListener;
 import com.mobiata.hotellib.data.Codes;
+import com.mobiata.hotellib.data.Distance.DistanceUnit;
 import com.mobiata.hotellib.data.Filter;
 import com.mobiata.hotellib.data.Filter.PriceRange;
 import com.mobiata.hotellib.data.Filter.Rating;
@@ -553,7 +555,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		if (toBroadcastSearchCompleted) {
 			broadcastSearchCompleted(mSearchResponse);
 		}
-		
+
 		if (localeChanged) {
 			// Mark that we've read the change
 			SettingUtils.save(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
@@ -1049,6 +1051,22 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		else {
 			params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 		}
+
+		// The radius filter buttons depend on whether the user's locale leans
+		// towards miles or kilometers.  For now, we just use US == miles,
+		// everything else == kilometers (pending a better way to determine this).
+		DistanceUnit distanceUnit = (mFilter != null) ? mFilter.getDistanceUnit() : DistanceUnit
+				.getDefaultDistanceUnit();
+		int distanceStrId = (distanceUnit == DistanceUnit.MILES) ? R.string.filter_distance_miles_template
+				: R.string.filter_distance_kilometers_template;
+
+		DecimalFormat df = new DecimalFormat("#.#");
+		((RadioButton) findViewById(R.id.radius_small_button)).setText(getString(distanceStrId,
+				df.format(SearchRadius.SMALL.getRadius(distanceUnit))));
+		((RadioButton) findViewById(R.id.radius_medium_button)).setText(getString(distanceStrId,
+				df.format(SearchRadius.MEDIUM.getRadius(distanceUnit))));
+		((RadioButton) findViewById(R.id.radius_large_button)).setText(getString(distanceStrId,
+				df.format(SearchRadius.LARGE.getRadius(distanceUnit))));
 
 		//===================================================================
 		// Listeners
@@ -1770,7 +1788,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 	private void showLoading(boolean showProgress, String text) {
 		mProgressBarLayout.setVisibility(View.VISIBLE);
-		
+
 		// In the case that the user is an emulator and this isn't a release build,
 		// disable the hanging tag for speed purposes
 		if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
@@ -1780,7 +1798,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			mProgressBar.setVisibility(View.VISIBLE);
 			mProgressBar.setShowProgress(showProgress);
 		}
-		
+
 		mProgressText.setText(text);
 	}
 

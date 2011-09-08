@@ -20,6 +20,7 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.ViewUtils;
+import com.mobiata.hotellib.data.Distance.DistanceUnit;
 import com.mobiata.hotellib.data.Filter.Sort;
 import com.mobiata.hotellib.data.Media;
 import com.mobiata.hotellib.data.Property;
@@ -42,6 +43,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private float mSaleTextSize;
 
+	private DistanceUnit mDistanceUnit;
+
 	public HotelAdapter(Context context, SearchResponse searchResponse) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -63,6 +66,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		}
 
 		mIsSortedByUserRating = (mSearchResponse.getFilter().getSort() == Sort.RATING);
+
+		mDistanceUnit = mSearchResponse.getFilter().getDistanceUnit();
 
 		final List<Property> properties = new ArrayList<Property>();
 		properties.addAll(mSearchResponse.getProperties());
@@ -189,7 +194,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.userRating.setVisibility(View.INVISIBLE);
 		}
 
-		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext));
+		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit));
 		holder.distance.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
 
 		// See if there's a first image; if there is, use that as the thumbnail

@@ -59,6 +59,10 @@
 	<string name="filter_stars_four">4+</string>
 	<!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
 	<string name="filter_stars_five">5</string>
+	<!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
+	<string name="filter_distance_miles_template">%s mi</string>
+	<!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
+	<string name="filter_distance_kilometers_template">%s km</string>
 
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
