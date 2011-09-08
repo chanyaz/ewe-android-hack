@@ -208,10 +208,6 @@
 		<item>@string/info_label_privacy_policy</item><item>@string/privacy_policy_url_jp</item>
 	</string-array>
 
-	<!-- The info screen labels for rows -->
-	<string name="info_label_terms_conditions">Terms and Conditions</string>
-	<string name="info_label_privacy_policy">Privacy Policy</string>
-
 	<!-- This is the raw data for URLs and text  -->
 	<string name="terms_conditions_url_us">http://www.expedia.com/daily/service/legal.asp</string>
 	<string name="terms_conditions_url_gb">http://www.expedia.co.uk/daily/service/legal.asp</string>
