@@ -1,208 +1,209 @@
- <RelativeLayout
- 	xmlns:android="http://schemas.android.com/apk/res/android"
- 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent" >
-  <LinearLayout
-  	android:id="@+id/loading_text_container"
-  	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:gravity="center"
-	android:orientation="vertical">
-	  <TextView
-	  	android:id="@+id/loading_text_view"
-	  	android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center_horizontal"
-		android:text="@string/loading_hotels"
-		style="@style/widgetHotelLocationText"/>
-		
-	  <TextView
-	  	android:id="@+id/refresh_text_view"
-	  	android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/loading_text_view"
-		android:text="@string/refresh_widget"
-		style="@style/widgetHotelLocationText"
-		android:visibility="gone" />
-</LinearLayout>
 
-  <RelativeLayout
-  	android:id="@+id/widget_contents_container"
-  	android:layout_width="fill_parent"
-  	android:layout_height="fill_parent"
-  	android:layout_toLeftOf="@+id/navigation_container"
-  	android:layoutAnimation="@anim/layout_fade_in"
-  	android:visibility="gone">
-  		
-	  <ImageView
-	  	android:id="@+id/hotel_image_view"
-	  	android:layout_height="60dp"
-		android:layout_width="60dp"
-		android:layout_marginLeft="5dp"
-		android:layout_marginBottom="5dp"
-		android:layout_marginTop="5dp"
-		android:layout_centerVertical="true"
-		android:layout_alignParentLeft="true"
- 		android:scaleType="centerCrop"
-		android:src="@drawable/widget_thumbnail_background" />
-	
-	<ImageView
-	  	android:id="@+id/expedia_logo_image_view"
-	  	android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_marginLeft="5dp"
-		android:layout_marginBottom="5dp"
-		android:layout_marginTop="5dp"
-		android:layout_centerVertical="true"
-		android:layout_alignParentLeft="true"
-		android:src="@drawable/widget_expedia_logo"
-		android:visibility="gone" />
-	
-	  <ImageView
-	  	android:id="@+id/hotel_image_view_wrapper"
-	  	android:layout_height="wrap_content"
-	  	android:layout_width="wrap_content"
-	  	android:layout_alignTop="@id/hotel_image_view"
-	  	android:layout_alignBottom="@id/hotel_image_view"
-	  	android:layout_alignRight="@id/hotel_image_view"
-	  	android:layout_alignLeft="@id/hotel_image_view"
-	  	android:background="@drawable/widget_rounded_pic_corners" />
-	  
-	  <TextView
-	  	android:id="@+id/hotel_name_text_view"
-	  	android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_toLeftOf="@+id/navigation_container"
-		android:layout_toRightOf="@id/hotel_image_view"
-		android:layout_alignTop="@id/hotel_image_view"
-		android:includeFontPadding="false"
-		android:paddingLeft="5dp"
-		android:paddingRight="5dp"
-		android:singleLine="true"
-		android:ellipsize="end"
-		style="@style/widgetHotelNameText"/>
-		
-	  <TextView
-	  	android:id="@+id/location_text_view"
-	  	android:layout_height="wrap_content"
-	  	android:layout_width="wrap_content"
-	  	android:singleLine="true"
-	  	android:paddingLeft="5dp"
-	  	android:layout_below="@id/hotel_name_text_view"
-	  	android:layout_alignLeft="@id/hotel_name_text_view"
-	  	style="@style/widgetHotelLocationText"/>
-	  	
-	  <LinearLayout
-	  	android:id="@+id/branding_text_container"
-	  	android:layout_height="wrap_content"
-	  	android:layout_width="wrap_content"
-	  	android:layout_toLeftOf="@+id/navigation_container"
-	  	android:layout_toRightOf="@id/expedia_logo_image_view"
-	  	android:layout_centerVertical="true"
-		android:paddingLeft="10dp"
-		android:orientation="vertical"
-		android:visibility="gone">
-	  	
-		  <TextView
-		  	android:id="@+id/branding_title_text_view"
-		  	android:layout_height="wrap_content"
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<LinearLayout
+		android:id="@+id/loading_text_container"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:gravity="center"
+		android:orientation="vertical">
+		<TextView
+			android:id="@+id/loading_text_view"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_horizontal"
+			android:text="@string/loading_hotels"
+			style="@style/widgetHotelLocationText" />
+
+		<TextView
+			android:id="@+id/refresh_text_view"
 			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/loading_text_view"
+			android:text="@string/refresh_widget"
+			style="@style/widgetHotelLocationText"
+			android:visibility="gone" />
+	</LinearLayout>
+
+	<RelativeLayout
+		android:id="@+id/widget_contents_container"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_toLeftOf="@+id/navigation_container"
+		android:layoutAnimation="@anim/layout_fade_in"
+		android:visibility="gone">
+
+		<ImageView
+			android:id="@+id/hotel_image_view"
+			android:layout_height="60dp"
+			android:layout_width="60dp"
+			android:layout_marginLeft="5dp"
+			android:layout_marginBottom="5dp"
+			android:layout_marginTop="5dp"
+			android:layout_centerVertical="true"
+			android:layout_alignParentLeft="true"
+			android:scaleType="centerCrop"
+			android:src="@drawable/widget_thumbnail_background" />
+
+		<ImageView
+			android:id="@+id/expedia_logo_image_view"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_marginLeft="5dp"
+			android:layout_marginBottom="5dp"
+			android:layout_marginTop="5dp"
+			android:layout_centerVertical="true"
+			android:layout_alignParentLeft="true"
+			android:src="@drawable/widget_expedia_logo"
+			android:visibility="gone" />
+
+		<ImageView
+			android:id="@+id/hotel_image_view_wrapper"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignTop="@id/hotel_image_view"
+			android:layout_alignBottom="@id/hotel_image_view"
+			android:layout_alignRight="@id/hotel_image_view"
+			android:layout_alignLeft="@id/hotel_image_view"
+			android:background="@drawable/widget_rounded_pic_corners" />
+
+		<TextView
+			android:id="@+id/hotel_name_text_view"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_toLeftOf="@+id/navigation_container"
+			android:layout_toRightOf="@id/hotel_image_view"
+			android:layout_alignTop="@id/hotel_image_view"
 			android:includeFontPadding="false"
-			style="@style/widgetHotelNameText"/>
-			
-		  <TextView
-		  	android:id="@+id/branding_location_text_view"
-		  	android:layout_height="wrap_content"
-		  	android:layout_width="wrap_content"
-		  	android:singleLine="true"
-		  	style="@style/widgetHotelLocationText"/>	  	
-		  	
-		 <TextView
-		  	android:id="@+id/branding_savings_container"
-		  	android:layout_height="wrap_content"
-		  	android:layout_width="wrap_content"
-		  	android:layout_marginTop="2dp"
-			android:paddingTop="0dp"
-			android:paddingBottom="0dp"
 			android:paddingLeft="5dp"
 			android:paddingRight="5dp"
-			android:gravity="center_vertical"
-			android:background="@drawable/branding_savings_bg"
-			android:textSize="12sp"
-			style="@style/SaleText" />
-		 <TextView
-		 	android:id="@+id/branding_error_message_text_view"
-			android:layout_height="wrap_content"
-		  	android:layout_width="wrap_content"
-		  	android:paddingRight="5dp"
-		  	android:visibility="gone"
-			style="@style/widgetHotelLocationText" />
-	</LinearLayout>
-	
-	<LinearLayout
-	  	android:id="@+id/price_per_night_with_no_sale_container"
-	  	android:layout_height="wrap_content"
-	  	android:layout_width="wrap_content"
-	  	android:layout_marginLeft="5dp"
-	  	android:layout_marginTop="2dp"
-		android:layout_below="@id/location_text_view"
-		android:layout_alignLeft="@id/location_text_view"
-		android:paddingTop="0dp"
-		android:paddingBottom="0dp"
-		android:background="@drawable/widget_price_bg_no_sale" >
-		
-		<TextView
-			android:id="@+id/price_text_with_no_sale_view"
-			android:layout_width="wrap_content"
-			android:layout_height="fill_parent"
-			android:gravity="center_vertical"	
-			android:includeFontPadding="false"
-			android:textColor="#064192"
-			android:textStyle="bold"
-			android:textSize="16sp"/>
-		<TextView
-			android:id="@+id/per_night_text_with_no_sale_view"
-			android:layout_width="wrap_content"
-			android:layout_height="fill_parent"
-			android:gravity="center_vertical"	
-			android:paddingRight="3dp"
-			android:text="@string/per_night"
-			android:textColor="@color/light_gray"
-			android:textSize="11sp"/>
-	</LinearLayout>
+			android:singleLine="true"
+			android:ellipsize="end"
+			style="@style/widgetHotelNameText" />
 
-	  <LinearLayout
-	  	android:id="@+id/price_per_night_container"
-	  	android:layout_height="wrap_content"
-	  	android:layout_width="wrap_content"
-	  	android:layout_marginLeft="5dp"
-	  	android:layout_marginTop="2dp"
-		android:layout_below="@id/location_text_view"
-		android:layout_alignLeft="@id/location_text_view"
-		android:paddingTop="0dp"
-		android:paddingBottom="0dp"
-		android:background="@drawable/widget_price_bg" >
-		
 		<TextView
-			android:id="@+id/price_text_view"
+			android:id="@+id/location_text_view"
+			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
-			android:layout_height="fill_parent"
-			android:gravity="center_vertical"	
-			android:includeFontPadding="false"
-			android:textColor="#064192"
-			android:textStyle="bold"
-			android:textSize="16sp"/>
-		<TextView
-			android:id="@+id/per_night_text_view"
+			android:singleLine="true"
+			android:paddingLeft="5dp"
+			android:layout_below="@id/hotel_name_text_view"
+			android:layout_alignLeft="@id/hotel_name_text_view"
+			style="@style/widgetHotelLocationText" />
+
+		<LinearLayout
+			android:id="@+id/branding_text_container"
+			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
-			android:layout_height="fill_parent"
-			android:gravity="center_vertical"	
-			android:paddingRight="3dp"
-			android:text="@string/per_night"
-			android:textColor="@color/light_gray"
-			android:textSize="11sp"/>
-	</LinearLayout>
-		
+			android:layout_toLeftOf="@+id/navigation_container"
+			android:layout_toRightOf="@id/expedia_logo_image_view"
+			android:layout_centerVertical="true"
+			android:paddingLeft="10dp"
+			android:orientation="vertical"
+			android:visibility="gone">
+
+			<TextView
+				android:id="@+id/branding_title_text_view"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:includeFontPadding="false"
+				style="@style/widgetHotelNameText" />
+
+			<TextView
+				android:id="@+id/branding_location_text_view"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:singleLine="true"
+				style="@style/widgetHotelLocationText" />
+
+			<TextView
+				android:id="@+id/branding_savings_container"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_marginTop="2dp"
+				android:paddingTop="0dp"
+				android:paddingBottom="0dp"
+				android:paddingLeft="5dp"
+				android:paddingRight="5dp"
+				android:gravity="center_vertical"
+				android:background="@drawable/branding_savings_bg"
+				android:textSize="12sp"
+				style="@style/SaleText" />
+			<TextView
+				android:id="@+id/branding_error_message_text_view"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:paddingRight="5dp"
+				android:visibility="gone"
+				style="@style/widgetHotelLocationText" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/price_per_night_with_no_sale_container"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_marginLeft="5dp"
+			android:layout_marginTop="2dp"
+			android:layout_below="@id/location_text_view"
+			android:layout_alignLeft="@id/location_text_view"
+			android:paddingTop="0dp"
+			android:paddingBottom="0dp"
+			android:background="@drawable/widget_price_bg_no_sale">
+
+			<TextView
+				android:id="@+id/price_text_with_no_sale_view"
+				android:layout_width="wrap_content"
+				android:layout_height="fill_parent"
+				android:gravity="center_vertical"
+				android:includeFontPadding="false"
+				android:textColor="#064192"
+				android:textStyle="bold"
+				android:textSize="16sp" />
+			<TextView
+				android:id="@+id/per_night_text_with_no_sale_view"
+				android:layout_width="wrap_content"
+				android:layout_height="fill_parent"
+				android:gravity="center_vertical"
+				android:paddingRight="3dp"
+				android:text="@string/per_night"
+				android:textColor="@color/light_gray"
+				android:textSize="11sp" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/price_per_night_container"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_marginLeft="5dp"
+			android:layout_marginTop="2dp"
+			android:layout_below="@id/location_text_view"
+			android:layout_alignLeft="@id/location_text_view"
+			android:paddingTop="0dp"
+			android:paddingBottom="0dp"
+			android:background="@drawable/widget_price_bg">
+
+			<TextView
+				android:id="@+id/price_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="fill_parent"
+				android:gravity="center_vertical"
+				android:includeFontPadding="false"
+				android:textColor="#064192"
+				android:textStyle="bold"
+				android:textSize="16sp" />
+			<TextView
+				android:id="@+id/per_night_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="fill_parent"
+				android:gravity="center_vertical"
+				android:paddingRight="3dp"
+				android:text="@string/per_night"
+				android:textColor="@color/light_gray"
+				android:textSize="11sp" />
+		</LinearLayout>
+
 		<TextView
 			android:id="@+id/sale_text_view"
 			android:layout_width="wrap_content"
@@ -217,7 +218,7 @@
 			android:background="@drawable/widget_sale_bg"
 			android:textSize="12sp"
 			style="@style/SaleText" />
-			
+
 		<TextView
 			android:id="@+id/highly_rated_text_view"
 			android:layout_width="wrap_content"
@@ -234,27 +235,27 @@
 			android:textSize="12sp"
 			android:visibility="gone"
 			style="@style/SaleText" />
-  </RelativeLayout>
-  <LinearLayout
-	  	android:id="@+id/navigation_container"
-	  	android:layout_height="fill_parent"
+	</RelativeLayout>
+	<LinearLayout
+		android:id="@+id/navigation_container"
+		android:layout_height="fill_parent"
 		android:layout_width="wrap_content"
 		android:layout_alignParentRight="true"
-	 	android:orientation="vertical">
-	  
+		android:orientation="vertical">
+
 		<ImageButton
 			android:id="@+id/prev_hotel_btn"
-		  	android:layout_height="wrap_content"
-		  	android:layout_width="wrap_content"
-		  	android:padding="0dp"
-		  	android:layout_weight="1"
-		  	android:background="@drawable/btn_widget_prev"/>
-	  	<ImageButton
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:padding="0dp"
+			android:layout_weight="1"
+			android:background="@drawable/btn_widget_prev" />
+		<ImageButton
 			android:id="@+id/next_hotel_btn"
-		  	android:layout_height="wrap_content"
-		  	android:layout_width="wrap_content"
-		  	android:layout_weight="1"
-		  	android:padding="0dp"
-		  	android:background="@drawable/btn_widget_next"/>
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:background="@drawable/btn_widget_next" />
 	</LinearLayout>
- </RelativeLayout>
+</RelativeLayout>
