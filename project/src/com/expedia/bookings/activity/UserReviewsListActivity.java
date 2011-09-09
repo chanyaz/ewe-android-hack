@@ -107,8 +107,20 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	 * for a particular review sort type
 	 */
 	private HashMap<ReviewSort, Boolean> mReviewSortDownloadAttemptedMap = new HashMap<ReviewSort, Boolean>();
+	
+	/*
+	 * keeps track of whether the loading indicator is showing as the footer in the list view.
+	 * This bookkeeping is not preserved across orientation change so as to re-show the loading
+	 * indicator on orientation change if there are more reviews to display
+	 */
+	private HashMap<ReviewSort, Boolean> isLoadingIndicatorShowingForReviewSort = new HashMap<ReviewSort, Boolean>();
+	
+	/*
+	 * keeps track of the current pageNumber the list pertaining to each review sort type is on.
+	 * This helps to understand whether or not to load more reviews.
+	 */
+	private HashMap<ReviewSort, Integer> mPageNumberMap = new HashMap<ReviewSort, Integer>();
 
-	public HashMap<ReviewSort, Integer> mPageNumberMap = new HashMap<ReviewSort, Integer>();
 	public boolean moreCriticalPages = true;
 	public boolean moreFavorablePages = true;
 
@@ -148,16 +160,11 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			ExpediaServices services = new ExpediaServices(mContext);
 			mReviewsDownloader.addDownloadListener(KEY_REVIEWS_HIGHEST, services);
 			int pageNumber = 1;
-
-			if (mPageNumberMap.containsKey(mReviewSort)) {
-				//send message to put loading footer
-				mHandler.sendMessage(prepareMessage(true, mReviewSort));
-
+			
+			if(mPageNumberMap.get(mReviewSort) != null) {
 				pageNumber = mPageNumberMap.get(mReviewSort).intValue();
-				mPageNumberMap.put(mReviewSort, new Integer(1 + pageNumber));
-			}
-			else {
-				mPageNumberMap.put(mReviewSort, new Integer(1 + pageNumber));
+			} else {
+				mPageNumberMap.put(mReviewSort, new Integer(1));
 			}
 
 			return services.reviews(mProperty, pageNumber, mReviewSort);
@@ -185,6 +192,17 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				ArrayList<ReviewWrapper> newlyLoadedReviewsWrapped = reviewWrapperListInit(response.getReviews());
 				ArrayList<ReviewWrapper> filteredReviewsWrapped = new ArrayList<ReviewWrapper>();
 
+				// increment the page count once we have downloaded a new 
+				// set of reviews. The reason to increment it on download
+				// and not when the download starts is to ensure that we
+				// know when and when not to show the loading indicator
+				// in the footer of the list view. If a screen rotation takes place
+				// and the download is still in progress, the pageNumber is what
+				// indicates if we need to re-register the callback for the 
+				// download and thereby show the loading indicator
+				int pageNumber = mPageNumberMap.get(thisReviewSort).intValue();
+				mPageNumberMap.put(thisReviewSort, new Integer(pageNumber + 1));
+				
 				boolean reviewsFiltered = false;
 
 				for (ReviewWrapper review : newlyLoadedReviewsWrapped) {
@@ -390,7 +408,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
 		if (mReviewsMapWrapped.get(mCurrentReviewSort) == null
 				&& !mReviewSortDownloadAttemptedMap.get(mCurrentReviewSort)) {
 			if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST) {
@@ -409,14 +427,13 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			}
 		}
 	}
-	
-	
+
 	@Override
 	protected void onPause() {
 		mReviewsDownloader.unregisterDownloadCallback(KEY_REVIEWS_HIGHEST);
 		mReviewsDownloader.unregisterDownloadCallback(KEY_REVIEWS_LOWEST);
 		mReviewsDownloader.unregisterDownloadCallback(KEY_REVIEWS_NEWEST);
-		
+
 		super.onPause();
 	}
 
@@ -532,21 +549,40 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
-
-		if (loadMore && mReviewsMapWrapped.get(mCurrentReviewSort) != null
-				&& ExpediaServices.hasMoreReviews(mProperty, mPageNumberMap.get(mCurrentReviewSort))) {
+		boolean showLoadingIndicator = false;
+		
+		List<ReviewWrapper> reviews = mReviewsMapWrapped.get(mCurrentReviewSort);
+		if (loadMore && reviews != null && ExpediaServices.hasMoreReviews(mProperty, mPageNumberMap.get(mCurrentReviewSort).intValue())) {
 			if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST && moreFavorablePages) {
 				mReviewsDownloader.startDownload(KEY_REVIEWS_HIGHEST, mHighestRatingFirstDownload,
 						mHighestRatingFirstDownloadCallback);
+				showLoadingIndicator = true;
 			}
 			else if (mCurrentReviewSort == ReviewSort.LOWEST_RATING_FIRST && moreCriticalPages) {
 				mReviewsDownloader.startDownload(KEY_REVIEWS_LOWEST, mLowestRatingFirstDownload,
 						mLowestRatingFirstDownloadCallback);
+				showLoadingIndicator = true;
 			}
 			else if (mCurrentReviewSort == ReviewSort.NEWEST_REVIEW_FIRST) {
 				mReviewsDownloader.startDownload(KEY_REVIEWS_NEWEST, mNewestReviewFirstDownload,
 						mNewestReviewFirstDownloadCallback);
+				showLoadingIndicator = true;
 			}
+
+			// only show the loading indicator if its not as yet shown. 
+			// Note that we keep track of whether or not the loading indicator is shown 
+			// independently of starting a download as doDownload is only called
+			// if a new download needs to be started, not when re-registerng the callback 
+			// for a download thats in progress. Consequently, on orientation change,
+			// we need to be able to re-show the loading indicator in the footer of the list view
+			// while a download does not need to be restarted; instead a callback can just be 
+			// re-registered
+			if (showLoadingIndicator && !isLoadingIndicatorShowingForReviewSort.containsKey(mCurrentReviewSort)) {
+				//send message to put loading footer
+				mHandler.sendMessage(prepareMessage(true, mCurrentReviewSort));
+				isLoadingIndicatorShowingForReviewSort.put(mCurrentReviewSort, true);
+			}
+
 		}
 
 		// Track which reviews are visible, add them to the list
@@ -632,7 +668,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 	private Message prepareMessage(boolean addFooter, ReviewSort reviewSort) {
 		Object[] data = new Object[2];
-		Message msg = new Message();
+		Message msg = Message.obtain(mHandler);
 		data[0] = addFooter;
 		data[1] = reviewSort.toString();
 		msg.obj = data;
@@ -663,7 +699,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	}
 
 	private class ActivityState {
-		public ReviewSort mCurrentReviewSort;
+		public ReviewSort mCurrentReviewSort;  
 		public HashMap<ReviewSort, ArrayList<ReviewWrapper>> reviewsMapWrapped;
 		public HashMap<ReviewSort, Boolean> reviewsAttemptDownloadMap;
 		public HashMap<ReviewSort, Integer> pageNumberMap;
