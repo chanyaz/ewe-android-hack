@@ -67,8 +67,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
 				SearchParams.class);
 
-		// TODO: Delete this once done testing
-		// This code allows us to test the HotelActivity standalone, for layout purposes.
+		// This code allows us to test the RoomsAndRatesListActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
 		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
 			try {

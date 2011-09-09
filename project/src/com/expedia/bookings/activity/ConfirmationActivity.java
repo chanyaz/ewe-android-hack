@@ -138,7 +138,6 @@ public class ConfirmationActivity extends MapActivity {
 			}).start();
 		}
 
-		// TODO: Delete this once done testing
 		// This code allows us to test the ConfirmationActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
 		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
@@ -151,13 +150,8 @@ public class ConfirmationActivity extends MapActivity {
 				mRate.fillWithTestData();
 				mBookingResponse = new BookingResponse();
 				mBookingResponse.fillWithTestData();
-
 				mBillingInfo = new BillingInfo();
-				mBillingInfo.setEmail("dan@mobiata.com");
-				Location location = new Location();
-				location.setCountryCode("US");
-				location.setPostalCode("55408");
-				mBillingInfo.setLocation(location);
+				mBillingInfo.fillWithTestData();
 			}
 			catch (JSONException e) {
 				Log.e("Couldn't create dummy data!", e);

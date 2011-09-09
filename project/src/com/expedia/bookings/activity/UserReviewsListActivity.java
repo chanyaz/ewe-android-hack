@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -325,6 +327,18 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		// Retrieve data to build this with
 		final Intent intent = getIntent();
 		mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
+
+		// This code allows us to test the UserReviewsListActivity standalone, for layout purposes.
+		// Just point the default launcher activity towards this instead of SearchActivity
+		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
+			try {
+				mProperty = new Property();
+				mProperty.fillWithTestData();
+			}
+			catch (JSONException e) {
+				Log.e("Couldn't create dummy data!", e);
+			}
+		}
 
 		// Load the three different lists as the adapter is being constructed
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();

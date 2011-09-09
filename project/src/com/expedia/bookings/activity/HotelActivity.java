@@ -56,7 +56,7 @@ public class HotelActivity extends Activity {
 
 	// This is the position in the list that the hotel had when the user clicked on it 
 	public static final String EXTRA_POSITION = "EXTRA_POSITION";
-	
+
 	private static final float MAX_AMENITY_TEXT_WIDTH_IN_DP = 60.0f;
 
 	private static final int MAX_IMAGES_LOADED = 10;
@@ -77,7 +77,7 @@ public class HotelActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setupHotelActivity(savedInstanceState);
 	}
-	
+
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
@@ -102,7 +102,6 @@ public class HotelActivity extends Activity {
 			startFlipping = instance.mGalleryFlipping;
 		}
 
-		// TODO: Delete this once done testing
 		// This code allows us to test the HotelActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
 		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
@@ -351,12 +350,12 @@ public class HotelActivity extends Activity {
 			ViewGroup descriptionContainer = (ViewGroup) findViewById(R.id.description_container);
 			layoutDescription(descriptionContainer, description);
 		}
-		
+
 		// Tracking
 		if (savedInstanceState == null) {
 			onPageLoad();
 		}
-		
+
 	}
 
 	@Override
@@ -410,18 +409,18 @@ public class HotelActivity extends Activity {
 
 		TextView amenityName = (TextView) amenityLayout.findViewById(R.id.name_text_view);
 		String amenityStr = getString(amenity.getStrId());
-		
+
 		// measure the length of the amenity string and determine whether it is short enough
 		// to fit within the acceptable width. If not, reduce the font size in an attempt to 
 		// get it to fit.
 		float acceptableWidth = getResources().getDisplayMetrics().density * MAX_AMENITY_TEXT_WIDTH_IN_DP;
 		float measuredWidthOfStr = amenityName.getPaint().measureText(getString(amenity.getStrId()));
-		
+
 		if (amenityStr.contains(" ") || measuredWidthOfStr > acceptableWidth) {
 			amenityName.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 					getResources().getDimension(R.dimen.amenity_text_size_small));
 		}
-		
+
 		amenityName.setText(amenityStr);
 		amenitiesTable.addView(amenityLayout);
 	}
@@ -433,7 +432,7 @@ public class HotelActivity extends Activity {
 	}
 
 	private void layoutDescription(ViewGroup descriptionContainer, String description) {
-		
+
 		// List support
 		description = description.replace("<ul>", "\n\n");
 		description = description.replace("</ul>", "\n");
@@ -580,12 +579,12 @@ public class HotelActivity extends Activity {
 					startActivity(newIntent);
 				}
 			});
-			
+
 			float dimension = getResources().getDimension(R.dimen.action_bar_button_height);
 			RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) dimension, (int) dimension);
 			lp.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.body_description_text_view);
 			lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-			
+
 			View body = addressSection.findViewById(R.id.body_description_text_view);
 			((RelativeLayout.LayoutParams) body.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, R.id.view_button);
 			addressSection.addView(mapButton, lp);

@@ -222,8 +222,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				SearchParams.class);
 		mRate = (Rate) JSONUtils.parseJSONableFromIntent(intent, Codes.RATE, Rate.class);
 
-		// TODO: Delete this once done testing
-		// This code allows us to test the ConfirmationActivity standalone, for layout purposes.
+		// This code allows us to test the BookingInfoActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
 		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
 			try {
@@ -1142,7 +1141,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		return false;
 	}
-	
+
 	public void checkSectionsCompleted(boolean trackCompletion) {
 		boolean guestsCompleted = true;
 		boolean billingCompleted = true;
