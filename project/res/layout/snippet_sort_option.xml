@@ -9,7 +9,7 @@
 	<View
 		android:id="@+id/sort_option_divider"
 		android:layout_height="2px"
-		android:layout_width="fill_parent"/>
+		android:layout_width="fill_parent" />
 	<LinearLayout
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
 				android:id="@+id/sort_option_image"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_gravity="center"/>
+				android:layout_gravity="center" />
 		</FrameLayout>
 		<TextView
 			android:id="@+id/sort_option_text"
@@ -31,14 +31,13 @@
 			android:gravity="center_vertical"
 			android:includeFontPadding="false"
 			android:paddingLeft="5dp"
-			android:text="Popularity"
 			android:textStyle="bold"
-			android:textSize="16sp"
-			android:textColor="@color/sort_option_text_color" 
+			android:textSize="14sp"
+			android:textColor="@color/sort_option_text_color"
 			android:shadowColor="#ffffff"
 			android:shadowRadius="0.1"
 			android:shadowDx="0"
-			android:shadowDy="1"/>
+			android:shadowDy="1" />
 	</LinearLayout>
 </LinearLayout>
 	

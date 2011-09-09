@@ -161,4 +161,10 @@
 		<item name="android:paddingBottom">5dp</item>
 		<item name="android:background">@drawable/bg_booking_section</item>
     </style>
+    
+        <style name="Animation.Popup" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/popup</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+    
 </resources>
