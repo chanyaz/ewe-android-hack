@@ -10,16 +10,16 @@ LANGUAGES = {
     1031: "de",
     1036: "fr",
     1040: "it",
-    1041: "jp",
+    1041: "ja",
     1042: "ko",
-    1044: "no",
+    1044: "nb",
     1046: "pt",
     1053: "sv",
     1057: "in",
     1086: "ms",
     1124: "tl",
     2052: "zh",
-    2057: "en-rUK",
+    2057: "en-rGB",
     3076: "zh-rHK",
     3082: "es",
     3084: "fr-rCA",
@@ -146,9 +146,9 @@ def move_files(in_dir, out_dir):
                 filepath = os.path.join(dir_path, filename)
                 if filename == "strings.xml":
                     new_dir = None
-                    if "ExpediaBookings" in dir_path:
+                    if "ExpediaBookings" in dir_path or "project" in dir_path:
                         new_dir = os.path.join(expedia_dir, "values-%s" % postfix)
-                    elif "AndroidUtils" in dir_path:
+                    elif "AndroidUtils" in dir_path or "Utils" in dir_path:
                         new_dir = os.path.join(utils_dir, "values-%s" % postfix)
                     elif "HotelLib" in dir_path:
                         new_dir = os.path.join(hotellib_dir, "values-%s" % postfix)
