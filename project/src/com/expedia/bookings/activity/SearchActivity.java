@@ -77,6 +77,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.Rotate3dAnimation;
@@ -1068,6 +1069,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				df.format(SearchRadius.MEDIUM.getRadius(distanceUnit))));
 		((RadioButton) findViewById(R.id.radius_large_button)).setText(getString(distanceStrId,
 				df.format(SearchRadius.LARGE.getRadius(distanceUnit))));
+
+		// 8781: Clear focus on hotel name edit text when user clicks "done".  Otherwise, we retain
+		// focus and some keyboards keep up parts of themselves (like the "suggestion" bar)
+		mFilterHotelNameEditText.setOnEditorActionListener(new OnEditorActionListener() {
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					v.clearFocus();
+				}
+				return false;
+			}
+		});
 
 		//===================================================================
 		// Listeners
