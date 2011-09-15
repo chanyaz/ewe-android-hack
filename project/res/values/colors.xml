@@ -17,12 +17,6 @@
 
 	<color name="MyLocationBlue">#178BBD</color>
 
-	<!-- Color for a disabled user reviews button, text -->
-	<color name="hotel_activity_user_review_disabled_text_color">#616161</color>
-	
-	<!-- Shadow color of a disabled review button -->
-	<color name="hotel_activity_user_review_disabled_button_shadow">#4fffffff</color>
-	
 	<color name="user_reviews_text_color">#ffffff</color>
 	<color name="hotel_description_text_color">#333333</color>
 	

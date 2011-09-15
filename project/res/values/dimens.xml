@@ -2,11 +2,6 @@
 <resources>
 	<dimen name="action_bar_button_height">48dp</dimen>
 	<dimen name="row_search_suggestion_footer_height">48dp</dimen>
-
-	<!-- This is the padding the first item in the SearchListActivity should get,
-		to account for the pull-down drawer -->
-	<!-- <dimen name="hotel_row_first_padding">24dp</dimen> -->
-	<dimen name="hotel_row_first_padding">0dp</dimen>
 	
 	<!-- This is the amount of padding the bottom of the booking info activity needs
 		to account for the see-through bar -->
@@ -15,12 +10,6 @@
 	<!-- These are slight differences between hdpi and mpdi positioning -->
 	<dimen name="sale_text_margin_top">2dp</dimen>
 	<dimen name="sale_text_margin_left">0dp</dimen>
-
-	<!-- Dimensions for the placeholder progress bar throbber -->
-	<dimen name="placeholder_throbber_size">76dp</dimen>
-
-	<!-- Offset for placeholder tag -->
-	<dimen name="placeholder_tag_margin_top">15dp</dimen>
 
 	<!-- Text sizes for amenities -->
 	<dimen name="amenity_text_size_large">12sp</dimen>

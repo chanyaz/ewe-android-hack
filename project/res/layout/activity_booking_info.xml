@@ -391,7 +391,6 @@
 				android:text="@string/credit_card_info"
 				style="@style/formSectionHeaderText" />
 			<LinearLayout
-				android:id="@+id/credit_card_info_layout"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical">
@@ -543,7 +542,6 @@
 				down via physical keyboard to the very bottom despite the RelativeLayout 
 				trickery. -->
 			<View
-				android:id="@+id/focus_view"
 				android:layout_width="fill_parent"
 				android:layout_height="0dp"
 				android:focusable="true"

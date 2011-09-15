@@ -76,7 +76,6 @@
 		android:textSize="18sp" />
 		
 	<RelativeLayout 
-		android:id="@+id/widget_config_options"
 		android:layout_height="fill_parent"
 		android:layout_width="fill_parent"
 		android:paddingTop="10dp"
@@ -85,7 +84,6 @@
 		android:layout_below="@id/widget_config_options_title">
 		
 		<View
-			android:id="@+id/dummy_container"
 		  	android:layout_width="fill_parent"
 		  	android:layout_height="fill_parent"
 		  	android:focusable="true" 

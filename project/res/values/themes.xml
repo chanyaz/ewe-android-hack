@@ -10,14 +10,4 @@
 		<item name="android:spinnerStyle">@style/Widget.Spinner</item>
 		<item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
 	</style>
-	
-	<style name="Theme.NoBackground" parent="@style/Theme">
-		<item name="android:windowBackground">@android:color/transparent</item>
-		<item name="android:windowFrame">@null</item>
-		<item name="android:windowFullscreen">true</item>
-		<item name="android:windowContentOverlay">@null</item>
-		<item name="android:windowIsFloating">true</item>
-		<item name="android:backgroundDimEnabled">true</item>		
-	</style>
-	
 </resources>

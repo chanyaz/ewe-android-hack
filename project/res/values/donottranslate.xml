@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="map_snippet_template">%1$s · %2$s</string>
-	<string name="amenity_template">• %s</string>
 
 	<!-- Preference keys -->
 	<string name="preference_clear_private_data_key">CLEAR_PRIVATE_DATA</string>

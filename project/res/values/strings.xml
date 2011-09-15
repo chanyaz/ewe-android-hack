@@ -124,8 +124,6 @@
 	<string name="config_options_description">Show hotel details near:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">Last Hotel Search</string>
-	<!--  Widget config option for configuration widget to pick up hotels from a specific location -->
-	<string name="specify_location">Specific Location:</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">Error: No Internet Connection</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
@@ -148,15 +146,9 @@
 	<string name="user_rating">User Rating</string>
 	<!-- Label for the address section of the description  -->
 	<string name="address">Address</string>
-	<!-- Label for button to open map view -->
-	<string name="show_on_map">Show On Map</string>
-	<!-- Label for button to show user reviews -->
-	<string name="user_reviews">User Reviews</string>
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
-	<!-- Label for policies section of the description -->
-	<string name="policies_title">Policies</string>
-	
+
 	<!-- Amenity strings -->
 	<!-- Business center amenity -->
 	<string name="AmenityBusinessCenter">Business Center</string>
@@ -214,18 +206,10 @@
 	<string name="AmenityExtendedParking">Extended Parking</string>
 	<!-- Free parking amenity -->
 	<string name="AmenityFreeParking">Free Parking</string>
-	<!-- Internet amenity -->
-	<string name="amenity_internet">Internet</string>
-	<!-- Pets allowed amenity -->
-	<string name="amenity_pets">Pets</string>
-	
+
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Loading user reviews...</string>
-	<!-- The 'out of 5' text for the big rating -->
-	<string name="user_review_rating_out_of">out of 5</string>
-	<!-- Sort button prompt title -->
-	<string name="user_review_sort_prompt_title">Sort by</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Recent</string>
 	<!-- The text for the sort button, recent -->
@@ -341,8 +325,6 @@
 	<string name="hint_expiration_year">yy</string>
 	<!-- Security code label -->
 	<string name="security_code">Security Code</string>
-	<!-- Security code tip (if code is on unknown side of card) -->
-	<string name="security_code_tip_front_back">See front or back of credit card</string>
 	<!-- Security code tip (if code is on front of card) -->
 	<string name="security_code_tip_front">See front of credit card</string>
 	<!-- Security code tip (if code is on front of card) -->
@@ -423,10 +405,8 @@
 	<string name="Total">Total</string>
 	<!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
 	<string name="CheckIn">Check In</string>
-	<string name="CheckInTime">Check In Time</string>
 	<!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
 	<string name="CheckOut">Check Out</string>
-	<string name="CheckOutTime">Check Out Time</string>
 
 	<!-- Expedia policy strings -->
 	<!-- Policy displayed to user when an immediate charge is required -->
@@ -545,10 +525,6 @@
 	<string name="Settings">Settings</string>
 	<!-- Label for "about this app" menu item. -->
 	<string name="About">About</string>
-
-	<!-- General utility -->
-	<!-- Error message when we could not connect to the server. -->
-	<string name="ServerError">Could not contact server, please try again in a few minutes.</string>
 
 	<!-- Preferences strings -->
 	<!-- String for default preference setting (for any given preference) -->

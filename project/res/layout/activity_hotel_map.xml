@@ -23,7 +23,6 @@
 		<ImageView
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_below="@+id/separator_view"
 			android:scaleType="fitXY"
 			android:src="@drawable/shadow" />
 	</RelativeLayout>

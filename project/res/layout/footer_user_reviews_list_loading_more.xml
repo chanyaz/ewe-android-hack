@@ -8,7 +8,6 @@
 	android:paddingRight="6dp"
 	android:background="@android:color/transparent">
 	<RelativeLayout
-		android:id="@+id/user_reviews_list_loading_more_container"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:gravity="center_horizontal"
@@ -25,7 +24,6 @@
 			android:textSize="16dp"
 			android:text="@string/user_review_loading_more_reviews" />
 		<ProgressBar
-			android:id="@+id/user_review_loading_more_progress_spinner"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_toLeftOf="@id/user_review_loading_more_text"
