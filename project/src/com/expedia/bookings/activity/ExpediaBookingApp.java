@@ -22,7 +22,7 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 
 		boolean isRelease = AndroidUtils.isRelease(this);
 		boolean isLogEnablerInstalled = DebugUtils.isLogEnablerInstalled(this);
-		Log.configureLogging("ExpediaBookings", isRelease || isLogEnablerInstalled);
+		Log.configureLogging("ExpediaBookings", !isRelease || isLogEnablerInstalled);
 
 		// Setup Omniture logging for crashes
 		mOriginalUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
