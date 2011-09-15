@@ -495,6 +495,8 @@
 	<string name="send_feedback">Send Feedback</string>
 	<!-- Header title -->
 	<string name="app_feedback">App Feedback</string>
+	<!-- Section header for rating (1-5 stars) -->
+	<string name="oosdk_rating_overall_header">Please Give Us A Rating</string>
 	<!-- Footer for the view -->
 	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privacy Policy</a></string>
 	<!-- Hint to type in email address -->
@@ -511,34 +513,6 @@
 	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
 	<!-- Template for default currency -->
 	<string name="default_currency_template">Default (%s)</string>
-
-	<!-- OpinionLab Strings -->
-	<!-- Title for feedback screen -->
-	<string name="oosdk_card_title">Feedback</string>
-	<!-- Section header for rating (1-5 stars) -->
-	<string name="oosdk_rating_overall_header">Please Give Us A Rating</string>
-	<!-- Label for negative side of rating -->
-	<string name="oosdk_rating_lo_txt">Dislike</string>
-	<!-- Label for positive side of rating -->
-	<string name="oosdk_rating_hi_txt">Like</string>
-	<!-- Section header for open-ended question box -->
-	<string name="oosdk_comments_header">What could we do better?</string>
-	<!-- User's email address -->
-	<string name="oosdk_email_txt">Email Address</string>
-	<!-- Cancel button at the top of the feedback screen -->
-	<string name="oosdk_cancel_label">Cancel</string>
-	<!-- Submit button at the top of the feedback screen -->
-	<string name="oosdk_submit_label">Submit</string>
-	<!-- Thank you note after submitting the feedback -->
-	<string name="oosdk_thanks_txt">Thank you for submitting your opinion. We value our customers\' feedback.</string>
-	<!-- The number of characters remaining in the comment box -->
-	<plurals name="number_of_chars_remaining">
-		<item quantity="zero">%d characters remaining</item>
-		<item quantity="one">%d character remaining</item>
-		<item quantity="two">%d characters remaining</item>
-		<item quantity="many">%d characters remaining</item>
-		<item quantity="other">%d characters remaining</item>
-	</plurals>
 
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
