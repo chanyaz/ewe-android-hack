@@ -118,7 +118,16 @@
 						android:layout_marginLeft="12dp"
 						android:layout_marginRight="12dp"
 						android:layout_marginBottom="10dp"
-						android:orientation="vertical" />
+						android:layout_weight="1"
+						android:orientation="vertical">
+						<ProgressBar
+							android:id="@+id/progress_bar"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_horizontal"
+							android:indeterminate="true"
+							style="@android:style/Widget.ProgressBar.Large.Inverse" />
+					</LinearLayout>
 				</LinearLayout>
 			</ScrollView>
 		</RelativeLayout>

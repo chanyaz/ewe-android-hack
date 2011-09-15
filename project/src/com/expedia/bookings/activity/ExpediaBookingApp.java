@@ -50,6 +50,8 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 		ex.printStackTrace(printWriter);
 		s.prop36 = ex.getMessage() + "|" + writer.toString();
 
+		Log.i("prop36: " + s.prop36);
+
 		TrackingUtils.trackOnClick(s);
 
 		// Call the original exception handler
