@@ -12,6 +12,7 @@ import com.mobiata.android.json.JSONUtils;
 
 public class AvailabilityResponse extends Response {
 	private List<Rate> mRates;
+	private Property mProperty;
 
 	private SummarizedRoomRates mSummarizedRoomRates;
 
@@ -47,6 +48,14 @@ public class AvailabilityResponse extends Response {
 		}
 
 		return mSummarizedRoomRates;
+	}
+
+	public void setProperty(Property property) {
+		mProperty = property;
+	}
+
+	public Property getProperty() {
+		return mProperty;
 	}
 
 	/**

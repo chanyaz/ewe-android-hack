@@ -77,7 +77,6 @@ public class Property implements JSONable {
 	private int mAmenityMask;
 	private String mSupplierType; // E == merchant, S or W == GDS
 	private Rate mLowestRate;
-	private int mExpediaPropertyId = 0; // Used for review service.
 
 	// Hotel rating ranges from 0-5, in .5 intervals
 	private double mHotelRating;
@@ -103,12 +102,10 @@ public class Property implements JSONable {
 		this.mPropertyId = propertyId;
 	}
 
-	public int getExpediaPropertyId() {
-		return mExpediaPropertyId;
-	}
-
-	public void setExpediaPropertyId(int expediaPropertyId) {
-		mExpediaPropertyId = expediaPropertyId;
+	@Deprecated
+	public String getExpediaPropertyId() {
+		// In the E3 API, the property id is the same as the review property id
+		return mPropertyId;
 	}
 
 	public Location getLocation() {
@@ -225,7 +222,7 @@ public class Property implements JSONable {
 	}
 
 	public boolean hasExpediaReviews() {
-		return mExpediaPropertyId != 0 && mTotalReviews != 0;
+		return mPropertyId != null && mTotalReviews != 0;
 	}
 
 	public void setLowestRate(Rate rate) {
@@ -238,7 +235,7 @@ public class Property implements JSONable {
 
 	// Only valid for Expedia
 	public boolean isMerchant() {
-		return mSupplierType != null && mSupplierType.equals("E");
+		return mSupplierType != null && (mSupplierType.equals("E") || mSupplierType.equals("MERCHANT"));
 	}
 
 	public boolean isHighlyRated() {
@@ -250,7 +247,6 @@ public class Property implements JSONable {
 			JSONObject obj = new JSONObject();
 			obj.putOpt("name", mName);
 			obj.putOpt("propertyId", mPropertyId);
-			obj.putOpt("expediaPropertyId", mExpediaPropertyId);
 			JSONUtils.putJSONable(obj, "location", mLocation);
 			obj.putOpt("description", mDescriptionText);
 			JSONUtils.putJSONable(obj, "thumbnail", mThumbnail);
@@ -278,7 +274,6 @@ public class Property implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mName = obj.optString("name", null);
 		mPropertyId = obj.optString("propertyId", null);
-		mExpediaPropertyId = obj.optInt("expediaPropertyId", 0);
 		mLocation = (Location) JSONUtils.getJSONable(obj, "location", Location.class);
 		mDescriptionText = obj.optString("description", null);
 		mThumbnail = (Media) JSONUtils.getJSONable(obj, "thumbnail", Media.class);

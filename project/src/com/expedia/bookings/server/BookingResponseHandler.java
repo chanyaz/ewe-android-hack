@@ -1,5 +1,7 @@
 package com.expedia.bookings.server;
 
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,33 +25,26 @@ public class BookingResponseHandler extends JsonResponseHandler<BookingResponse>
 	public BookingResponse handleJson(JSONObject response) {
 		BookingResponse bookingResponse = new BookingResponse();
 		try {
-			// Check for HP server errors
-			if (ParserUtils.parseServerErrors(mContext, response, bookingResponse)) {
-				return bookingResponse;
-			}
-
-			JSONObject jsonResponse = response.getJSONObject("body").getJSONObject("HotelRoomReservationResponse");
-
-			String sessionId = jsonResponse.optString("customerSessionId", null);
-			if (sessionId != null && sessionId.length() > 0) {
-				bookingResponse.setSession(new Session(sessionId));
-			}
+			// TODO: REMOVE THIS ONCE FULLY SWITCHED TO NEW API
+			// ALL THIS DOES IS COVER FOR THE APP EXPECTING A SESSION. ~dlew
+			bookingResponse.setSession(new Session("DUMMY_SESSION"));
 
 			// Check for errors, return if found
-			ServerError serverError = ParserUtils.parseEanError(mContext, jsonResponse);
-			if (serverError != null) {
-				bookingResponse.addError(serverError);
+			List<ServerError> errors = ParserUtils.parseErrors(mContext, response);
+			if (errors != null) {
+				for (ServerError error : errors) {
+					bookingResponse.addError(error);
+				}
 				return bookingResponse;
 			}
 
-			bookingResponse.setConfNumber(jsonResponse.getString("confirmationNumbers"));
-			bookingResponse.setItineraryId(jsonResponse.getString("itineraryId"));
+			bookingResponse.setConfNumber(response.optString("hotelConfirmationNumber", null));
+			bookingResponse.setItineraryId(response.optString("itineraryNumber", null));
 		}
 		catch (JSONException e) {
 			Log.e("Could not parse JSON reservation response.", e);
 			return null;
 		}
 		return bookingResponse;
-
 	}
 }

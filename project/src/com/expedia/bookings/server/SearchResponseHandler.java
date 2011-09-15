@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -18,7 +16,6 @@ import android.content.Context;
 import android.text.Html;
 
 import com.expedia.bookings.data.Distance;
-import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
@@ -28,17 +25,32 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Session;
 import com.mobiata.android.Log;
+import com.mobiata.android.Params;
 import com.mobiata.android.net.AndroidHttpClient;
 
 public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 
+	public static final int F_EXPEDIA_BOOKINGS = 1;
+
 	private Context mContext;
 
-	// Variables used for parsing
+	// This variable reduces some of the parsing done so that we're limited to just the data EB needs.
+	// This should theoretically speed up the parse time.
+	private boolean mExpediaBookings;
+
 	private int mNumNights = 1;
 
 	public SearchResponseHandler(Context context) {
+		this(context, 0);
+	}
+
+	public SearchResponseHandler(Context context, int flags) {
 		mContext = context;
+		mExpediaBookings = (flags & F_EXPEDIA_BOOKINGS) != 0;
+	}
+
+	public void setNumNights(int numNights) {
+		mNumNights = numNights;
 	}
 
 	@Override
@@ -55,6 +67,10 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		Log.d("Starting to read streaming search response...");
 
 		SearchResponse searchResponse = readSearchResponse(parser);
+
+		// TODO: REMOVE THIS ONCE FULLY SWITCHED TO NEW API
+		// ALL THIS DOES IS COVER FOR THE APP EXPECTING A SESSION. ~dlew
+		searchResponse.setSession(new Session("DUMMY_SESSION"));
 
 		parser.close();
 
@@ -92,21 +108,19 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			name = parser.getCurrentName();
 			token = parser.nextToken();
 
-			if (name.equals("error") || name.equals("errors")) {
-				readServerErrors(parser, searchResponse);
+			if (name.equals("errors")) {
+				while (parser.nextToken() != JsonToken.END_ARRAY) {
+					readServerError(parser, searchResponse);
+				}
 			}
-			else if (name.equals("body")) {
-				if (token != JsonToken.START_OBJECT) {
-					throw new IOException("Expected body to start with an Object, started with "
+			else if (name.equals("hotelList")) {
+				if (token != JsonToken.START_ARRAY) {
+					throw new IOException("Expected hotelList to start with an Array, started with "
 							+ parser.getCurrentToken() + " instead.");
 				}
-				while (parser.nextToken() != JsonToken.END_OBJECT) {
-					if (parser.getCurrentName().equals("HotelListResponse")) {
-						readHotelListResponse(parser, searchResponse);
-					}
-					else {
-						parser.skipChildren();
-					}
+
+				while (parser.nextToken() != JsonToken.END_ARRAY) {
+					readHotelSummary(parser, searchResponse);
 				}
 			}
 			else {
@@ -119,83 +133,6 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		return searchResponse;
 	}
 
-	private void readHotelListResponse(JsonParser parser, SearchResponse searchResponse) throws IOException {
-		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
-			throw new IOException("Expected readHotelListResponse() to start with an Object, started with "
-					+ parser.getCurrentToken() + " instead.");
-		}
-
-		String name;
-		JsonToken token;
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			name = parser.getCurrentName();
-			token = parser.nextToken();
-
-			if (name.equals("EanWsError")) {
-				readEanError(parser, searchResponse);
-			}
-			else if (name.equals("LocationInfos")) {
-				if (token != JsonToken.START_OBJECT) {
-					throw new IOException("Expected LocationInfos to start with an Object, started with "
-							+ parser.getCurrentToken() + " instead.");
-				}
-				while (parser.nextToken() != JsonToken.END_OBJECT) {
-					if (parser.getCurrentName().equals("LocationInfo")) {
-						readLocations(parser, searchResponse);
-					}
-					else {
-						parser.skipChildren();
-					}
-				}
-			}
-			else if (name.equals("cacheKey")) {
-				searchResponse.setCacheKey(parser.getText());
-			}
-			else if (name.equals("cacheLocation")) {
-				searchResponse.setCacheLocation(parser.getText());
-			}
-			else if (name.equals("numberOfNights")) {
-				mNumNights = parser.getValueAsInt();
-
-				// In case we parse "numberOfNights" after "HotelList", we need to go back
-				// and adjust things if the value has changed from 1 (the default).
-				if (searchResponse.getPropertiesCount() > 0 && mNumNights > 1) {
-					for (Property property : searchResponse.getProperties()) {
-						Rate lowestRate = property.getLowestRate();
-						if (lowestRate != null) {
-							lowestRate.setNumberOfNights(mNumNights);
-						}
-					}
-				}
-			}
-			else if (name.equals("HotelList")) {
-				if (token != JsonToken.START_OBJECT) {
-					throw new IOException("Expected HotelList to start with an Object, started with "
-							+ parser.getCurrentToken() + " instead.");
-				}
-
-				while (parser.nextToken() != JsonToken.END_OBJECT) {
-					if (parser.getCurrentName().equals("HotelSummary")) {
-						if (parser.nextToken() == JsonToken.START_OBJECT) {
-							readHotelSummary(parser, searchResponse);
-						}
-						else {
-							while (parser.nextToken() != JsonToken.END_ARRAY) {
-								readHotelSummary(parser, searchResponse);
-							}
-						}
-					}
-				}
-			}
-			else if (name.equals("customerSessionId")) {
-				searchResponse.setSession(new Session(parser.getText()));
-			}
-			else {
-				parser.skipChildren();
-			}
-		}
-	}
-
 	private void readHotelSummary(JsonParser parser, SearchResponse searchResponse) throws IOException {
 		Property property = new Property();
 		property.setAvailable(true);
@@ -204,26 +141,15 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		property.setLocation(location);
 
 		// These are some variables that are stored between fields that are parsed
-		String rateCurrencyCode = null;
-		Double proximityDistance = null;
-		String proximityUnit = null;
-		String address1 = null;
-		String address2 = null;
-		String address3 = null;
-		Double averageRate = null;
-		Double averageBaseRate = null;
-		Rate lowestRate = null;
-		String description = null;
-		String shortDescription = null;
-		Double surcharges = null;
+		String promoDesc = null;
 
 		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
 			throw new IOException("Expected readHotelSummary() to start with an Object, started with "
 					+ parser.getCurrentToken() + " instead.");
 		}
 
-		String name, reviewName, mediaName;
-		JsonToken token, mediaToken;
+		String name, amenityName;
+		JsonToken token, amenityToken;
 		while (parser.nextToken() != JsonToken.END_OBJECT) {
 			name = parser.getCurrentName();
 			token = parser.nextToken();
@@ -238,18 +164,10 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			else if (name.equals("hotelId")) {
 				property.setPropertyId(parser.getText());
 			}
-			else if (name.equals("expediaPropertyId")) {
-				property.setExpediaPropertyId(parser.getValueAsInt());
-			}
-			else if (name.equals("description")) {
-				description = parser.getText();
-			}
 			else if (name.equals("shortDescription")) {
-				// We don't want to use short description if a long description was found already, 
-				// so only capture if we haven't found a long description yet.
-				shortDescription = parser.getText();
+				property.setDescriptionText(parser.getText());
 			}
-			else if (name.equals("thumbNailUrl")) {
+			else if (name.equals("largeThumbnailUrl")) {
 				// The thumbnail url can sometimes assume a prefix
 				String url = parser.getText();
 				if (!url.startsWith("http://")) {
@@ -257,58 +175,28 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 				}
 				property.setThumbnail(new Media(Media.TYPE_STILL_IMAGE, url));
 			}
-			else if (name.equals("amenityMask")) {
-				// Convert the amenity mask to a string
-				int amenityMask = parser.getValueAsInt();
-				property.setAmenityMask(amenityMask);
-			}
 			else if (name.equals("supplierType")) {
 				property.setSupplierType(parser.getText());
 			}
-			else if (name.equals("rateCurrencyCode")) {
-				rateCurrencyCode = parser.getText();
-			}
-			else if (name.equals("hotelRating")) {
+			else if (name.equals("hotelStarRating")) {
 				property.setHotelRating(parser.getValueAsDouble());
 			}
-			else if (name.equals("reviewScoreSummary")) {
-				if (token != JsonToken.START_OBJECT) {
-					throw new IOException("Expected reviewScoreSummary to start with an Object, started with " + token
-							+ " instead.");
-				}
-
-				while (parser.nextToken() != JsonToken.END_OBJECT) {
-					reviewName = parser.getCurrentName();
-					parser.nextToken();
-
-					if (reviewName.equals("TotalRecommendations")) {
-						property.setTotalRecommendations(parser.getValueAsInt());
-					}
-					else if (reviewName.equals("TotalReviews")) {
-						property.setTotalReviews(parser.getValueAsInt());
-					}
-					else if (reviewName.equals("AverageOverallSatisfaction")) {
-						property.setAverageExpediaRating(parser.getValueAsDouble());
-					}
-					else {
-						parser.skipChildren();
-					}
-				}
+			else if (name.equals("totalRecommendations")) {
+				property.setTotalRecommendations(parser.getValueAsInt());
 			}
-			else if (name.equals("proximityDistance")) {
-				proximityDistance = parser.getValueAsDouble();
+			else if (name.equals("totalReviews")) {
+				property.setTotalReviews(parser.getValueAsInt());
 			}
-			else if (name.equals("proximityUnit")) {
-				proximityUnit = parser.getText();
+			else if (name.equals("hotelGuestRating")) {
+				property.setAverageExpediaRating(parser.getValueAsDouble());
 			}
-			else if (name.equals("address1")) {
-				address1 = parser.getText();
+			else if (name.equals("proximityDistanceInMiles")) {
+				property.setDistanceFromUser(new Distance(parser.getValueAsDouble(), Distance.DistanceUnit.MILES));
 			}
-			else if (name.equals("address2")) {
-				address2 = parser.getText();
-			}
-			else if (name.equals("address3")) {
-				address3 = parser.getText();
+			else if (name.equals("address")) {
+				List<String> streetAddress = new ArrayList<String>();
+				streetAddress.add(parser.getText());
+				location.setStreetAddress(streetAddress);
 			}
 			else if (name.equals("city")) {
 				location.setCity(parser.getText());
@@ -328,202 +216,100 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			else if (name.equals("longitude")) {
 				location.setLongitude(parser.getValueAsDouble());
 			}
-			else if (name.equals("media")) {
+			else if (name.equals("discountMessage")) {
+				promoDesc = parser.getText();
+			}
+			else if (name.equals("lowRateInfo")) {
+				Rate lowestRate = readLowRateInfo(parser);
+				lowestRate.setNumberOfNights(mNumNights);
+				property.setLowestRate(lowestRate);
+			}
+			else if (name.equals("amenities")) {
+				// TODO: REMOVE THIS IF amenityMask COMES BACK
+
+				// This assumes that the ids between EAN and E3 are the same.  If they are not,
+				// then this is very buggy code!
 				if (token != JsonToken.START_ARRAY) {
-					throw new IOException("Expected media to start with an Array, started with "
-							+ parser.getCurrentToken() + " instead.");
+					throw new IOException("Expected amenities to start with an Array, started with " + token
+							+ " instead.");
 				}
 
+				int mask = 0;
 				while (parser.nextToken() != JsonToken.END_ARRAY) {
 					if (parser.getCurrentToken() != JsonToken.START_OBJECT) {
-						throw new IOException("Expected media item to start with an Object, started with "
+						throw new IOException("Expected amenity item to start with an Object, started with "
 								+ parser.getCurrentToken() + " instead.");
 					}
 
 					while (parser.nextToken() != JsonToken.END_OBJECT) {
-						mediaName = parser.getCurrentName();
-						mediaToken = parser.nextToken();
-						if (mediaName.equals("url") && mediaToken != JsonToken.VALUE_NULL) {
-							property.addMedia(new Media(Media.TYPE_STILL_IMAGE, parser.getText()));
+						amenityName = parser.getCurrentName();
+						amenityToken = parser.nextToken();
+
+						if (amenityName.equals("id") && amenityToken != JsonToken.VALUE_NULL) {
+							mask += parser.getValueAsInt();
+						}
+						else {
+							parser.skipChildren();
 						}
 					}
 				}
 
-			}
-			else if (name.equals("promoDescription")) {
-				if (lowestRate == null) {
-					lowestRate = new Rate();
-				}
-				lowestRate.setPromoDescription(parser.getText());
-			}
-			else if (name.equals("averageRate")) {
-				averageRate = parser.getValueAsDouble();
-				if (lowestRate == null) {
-					lowestRate = new Rate();
-				}
-			}
-			else if (name.equals("averageBaseRate")) {
-				averageBaseRate = parser.getValueAsDouble();
-				if (lowestRate == null) {
-					lowestRate = new Rate();
-				}
-			}
-			else if (name.equals("Surcharges")) {
-				surcharges = readSurcharges(parser);
+				property.setAmenityMask(mask);
 			}
 			else {
 				parser.skipChildren();
 			}
 		}
 
-		// Handle any fields which needed stored data
-		if (proximityDistance != null && proximityUnit != null) {
-			DistanceUnit unit = (proximityUnit.equals("MI")) ? DistanceUnit.MILES : DistanceUnit.KILOMETERS;
-			property.setDistanceFromUser(new Distance(proximityDistance, unit));
-		}
-
-		List<String> streetAddress = new ArrayList<String>();
-		if (address1 != null) {
-			streetAddress.add(address1);
-		}
-		if (address2 != null) {
-			streetAddress.add(address2);
-		}
-		if (address3 != null) {
-			streetAddress.add(address3);
-		}
-		location.setStreetAddress(streetAddress);
-
-		if (lowestRate != null) {
-			if (averageBaseRate != null) {
-				lowestRate.setAverageBaseRate(ParserUtils.createMoney(averageBaseRate, rateCurrencyCode));
-			}
-			if (averageRate != null) {
-				lowestRate.setAverageRate(ParserUtils.createMoney(averageRate, rateCurrencyCode));
-			}
-
-			if (surcharges != null) {
-				lowestRate.setSurcharge(ParserUtils.createMoney(surcharges, rateCurrencyCode));
-			}
-
-			lowestRate.setNumberOfNights(mNumNights);
-
-			property.setLowestRate(lowestRate);
-		}
-
-		if (description == null && shortDescription != null) {
-			description = Html.fromHtml(shortDescription).toString();
-		}
-
-		if (description != null && description.length() > 0) {
-			property.setDescriptionText(fixDescription(description));
+		if (promoDesc != null && property.getLowestRate() != null) {
+			property.getLowestRate().setPromoDescription(promoDesc);
 		}
 
 		searchResponse.addProperty(property);
 	}
 
-	private double readSurcharges(JsonParser parser) throws IOException {
-		if (parser.getCurrentToken() != JsonToken.START_OBJECT) {
-			throw new IOException("Expected Surcharges to start with an Object, started with "
-					+ parser.getCurrentToken() + " instead.");
-		}
-
-		double total = 0;
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			String name = parser.getCurrentName();
-			JsonToken token = parser.nextToken();
-			if (name.equals("Surcharge")) {
-				if (token == JsonToken.START_OBJECT) {
-					total += readSurcharge(parser);
-				}
-				else {
-					while (parser.nextToken() != JsonToken.END_ARRAY) {
-						total += readSurcharge(parser);
-					}
-				}
-			}
-			else {
-				parser.skipChildren();
-			}
-		}
-		return total;
-	}
-
-	private double readSurcharge(JsonParser parser) throws IOException {
+	private Rate readLowRateInfo(JsonParser parser) throws IOException {
 		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
-			throw new IOException("Expected readSurcharge() to start with an Object, started with "
+			throw new IOException("Expected readLowRateInfo() to start with an Object, started with "
 					+ parser.getCurrentToken() + " instead.");
 		}
 
-		double amount = 0;
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			String name = parser.getCurrentName();
-			parser.nextToken();
+		String currencyCode = null;
+		double averageRate = 0;
+		double averageBaseRate = 0;
+		double surcharge = 0;
 
-			if (name.equals("@amount")) {
-				amount += parser.getValueAsDouble();
+		String name;
+		JsonToken token;
+		while (parser.nextToken() != JsonToken.END_OBJECT) {
+			name = parser.getCurrentName();
+			token = parser.nextToken();
+
+			if (token == JsonToken.VALUE_NULL) {
+				// Skip null values
+			}
+			else if (name.equals("averageRate")) {
+				averageRate = parser.getValueAsDouble();
+			}
+			else if (name.equals("averageBaseRate")) {
+				averageBaseRate = parser.getValueAsDouble();
+			}
+			else if (name.equals("surchargeTotal")) {
+				surcharge = parser.getValueAsDouble();
+			}
+			else if (name.equals("currencyCode")) {
+				currencyCode = parser.getText();
 			}
 			else {
 				parser.skipChildren();
 			}
 		}
-		return amount;
-	}
 
-	private void readLocations(JsonParser parser, SearchResponse searchResponse) throws IOException {
-		List<Location> locations = new ArrayList<Location>();
-
-		if (parser.getCurrentToken() != JsonToken.START_ARRAY && parser.nextToken() != JsonToken.START_ARRAY) {
-			throw new IOException("Expected readLocations() to start with an Array, started with "
-					+ parser.getCurrentToken() + " instead.");
-		}
-
-		while (parser.nextToken() != JsonToken.END_ARRAY) {
-			Location location = new Location();
-
-			if (parser.getCurrentToken() != JsonToken.START_OBJECT) {
-				throw new IOException("Expected location to start with an Object, started with "
-						+ parser.getCurrentToken() + " instead.");
-			}
-
-			while (parser.nextToken() != JsonToken.END_OBJECT) {
-				String name = parser.getCurrentName();
-				parser.nextToken();
-
-				if (name.equals("city")) {
-					location.setCity(parser.getText());
-				}
-				else if (name.equals("countryCode")) {
-					location.setCountryCode(parser.getText());
-				}
-				else if (name.equals("stateProvinceCode")) {
-					location.setStateCode(parser.getText());
-				}
-				else if (name.equals("destinationId")) {
-					location.setDestinationId(parser.getText());
-				}
-				else {
-					parser.skipChildren();
-				}
-			}
-
-			locations.add(location);
-		}
-
-		if (locations.size() > 0) {
-			searchResponse.setLocations(locations);
-		}
-	}
-
-	private void readServerErrors(JsonParser parser, Response response) throws IOException {
-		if (parser.getCurrentToken() == JsonToken.START_OBJECT) {
-			readServerError(parser, response);
-		}
-		else {
-			while (parser.nextToken() != JsonToken.END_ARRAY) {
-				readServerError(parser, response);
-			}
-		}
+		Rate rate = new Rate();
+		rate.setAverageRate(ParserUtils.createMoney(averageRate, currencyCode));
+		rate.setAverageBaseRate(ParserUtils.createMoney(averageBaseRate, currencyCode));
+		rate.setSurcharge(ParserUtils.createMoney(surcharge, currencyCode));
+		return rate;
 	}
 
 	private void readServerError(JsonParser parser, Response response) throws IOException {
@@ -534,29 +320,28 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 					+ parser.getCurrentToken() + " instead.");
 		}
 
+		// TODO: FIGURE OUT MESSAGE TO DISPLAY TO USER ON ERROR
+
 		while (parser.nextToken() != JsonToken.END_OBJECT) {
 			String name = parser.getCurrentName();
 			JsonToken token = parser.nextToken();
 
-			if (name.equals("msg")) {
-				serverError.setMessage(parser.getText());
-			}
-			else if (name.equals("code")) {
+			if (name.equals("errorCode")) {
 				serverError.setCode(parser.getText());
 			}
-			else if (name.equals("extras")) {
+			else if (name.equals("errorInfo")) {
 				if (token != JsonToken.START_OBJECT) {
-					throw new IOException("Expected data to start with an Object, started with "
+					throw new IOException("Expected errorInfo to start with an Object, started with "
 							+ parser.getCurrentToken() + " instead.");
 				}
 				while (parser.nextToken() != JsonToken.END_OBJECT) {
 					String name2 = parser.getCurrentName();
 					parser.nextToken();
-					if (name2.equals("url")) {
-						serverError.addExtra("url", parser.getText());
+					if (name2.equals("field")) {
+						serverError.addExtra("field", parser.getText());
 					}
-					else if (name2.equals("message")) {
-						serverError.addExtra("message", parser.getText());
+					else if (name2.equals("summary")) {
+						serverError.addExtra("summary", parser.getText());
 					}
 				}
 			}
@@ -566,75 +351,5 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		}
 
 		response.addError(serverError);
-	}
-
-	// Expects parser to have read the START_OBJECT token before passing in
-	private void readEanError(JsonParser parser, Response response) throws IOException {
-		ServerError serverError = new ServerError();
-		serverError.setCode("-1");
-
-		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
-			throw new IOException("Expected readEanError() to start with an Object, started with "
-					+ parser.getCurrentToken() + " instead.");
-		}
-
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			String name = parser.getCurrentName();
-			parser.nextToken();
-
-			if (name.equals("verboseMessage")) {
-				String errMsg = parser.getText();
-				serverError.setVerboseMessage(errMsg);
-
-				// For backwards compatibility with old versions of HP
-				if (ServerError.ERRORS.containsKey(errMsg)) {
-					errMsg = mContext.getString(ServerError.ERRORS.get(errMsg));
-				}
-				serverError.setMessage(errMsg);
-			}
-			else if (name.equals("presentationMessage")) {
-				String errMsg = parser.getText();
-				serverError.setPresentationMessage(errMsg);
-			}
-			else if (name.equals("category")) {
-				serverError.setCategory(parser.getText());
-			}
-			else if (name.equals("handling")) {
-				serverError.setHandling(parser.getText());
-			}
-			else {
-				parser.skipChildren();
-			}
-		}
-
-		response.addError(serverError);
-	}
-
-	private final static Pattern PATTERN_HEADER = Pattern.compile("<strong>(.+?)[\\.:]</strong>");
-
-	/**
-	 * Fixes the description field, which is often a little wonky.
-	 * 
-	 * A lot of the HTML we get has repeated, pointless things.
-	 * e.g. <p></p>, or <br /><br />.  This deduplicates breaks and
-	 * gets rid of empty paragraphs.
-	 */
-	private String fixDescription(String source) {
-		if (source == null) {
-			return null;
-		}
-
-		// Remove pointless markup
-		source = source.replaceAll("<p></p>", "").replaceAll("<br /><br />", "<br />").replaceAll("<ul> </ul>", "");
-
-		// Replace <strong> with <b>, remove pointless punctuation
-		Matcher m = PATTERN_HEADER.matcher(source);
-		StringBuffer sb = new StringBuffer();
-		while (m.find()) {
-			m.appendReplacement(sb, "<b>" + m.group(1) + "</b>");
-		}
-		m.appendTail(sb);
-
-		return sb.toString();
 	}
 }

@@ -13,6 +13,7 @@ import android.content.Context;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Date;
+import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Property;
@@ -25,7 +26,6 @@ import com.expedia.bookings.data.Session;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.Log;
-import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.net.JsonResponseHandler;
 
 public class AvailabilityResponseHandler extends JsonResponseHandler<AvailabilityResponse> {
@@ -44,55 +44,63 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 	public AvailabilityResponse handleJson(JSONObject response) {
 		AvailabilityResponse availResponse = new AvailabilityResponse();
 		try {
-			// Check for HP server errors
-			if (ParserUtils.parseServerErrors(mContext, response, availResponse)) {
-				return availResponse;
-			}
-
-			JSONObject jsonResponse = response.getJSONObject("body").getJSONObject("HotelRoomAvailabilityResponse");
-
 			// Check for errors, return if found
-			ServerError serverError = ParserUtils.parseEanError(mContext, jsonResponse);
-			if (serverError != null) {
-				availResponse.addError(serverError);
+			List<ServerError> errors = ParserUtils.parseErrors(mContext, response);
+			if (errors != null) {
+				for (ServerError error : errors) {
+					availResponse.addError(error);
+				}
 				return availResponse;
 			}
 
-			int numberOfNights = jsonResponse.getInt("numberOfNights");
-
-			// The same rateKey is used for all rooms
-			// This value is only returned for merchant hotels
-			String rateKey = jsonResponse.optString("rateKey", null);
-
-			String sessionId = jsonResponse.optString("customerSessionId", null);
-			if (sessionId != null && sessionId.length() > 0) {
-				availResponse.setSession(new Session(sessionId));
+			// Parse property info
+			Property property = new Property();
+			availResponse.setProperty(property);
+			property.setDescriptionText(response.optString("longDescription", null));
+			JSONArray photos = response.optJSONArray("photos");
+			if (photos != null) {
+				int len = photos.length();
+				for (int a = 0; a < len; a++) {
+					JSONObject photo = photos.optJSONObject(a);
+					String url = photo.optString("url");
+					if (!url.startsWith("http://")) {
+						url = "http://images.travelnow.com" + url;
+					}
+					Media media = new Media(Media.TYPE_STILL_IMAGE, url);
+					property.addMedia(media);
+				}
 			}
 
-			// If it exists, the same checkInInstructions is used for all rooms
+			int numberOfNights = response.optInt("numberOfNights");
+
+			// TODO: REMOVE THIS ONCE FULLY SWITCHED TO NEW API
+			// ALL THIS DOES IS COVER FOR THE APP EXPECTING A SESSION. ~dlew
+			availResponse.setSession(new Session("DUMMY_SESSION"));
+
 			Policy checkInPolicy = null;
-			String checkInInstructions = jsonResponse.optString("checkInInstructions", null);
+			String checkInInstructions = response.optString("checkInInstructions", null);
 			if (checkInInstructions != null && checkInInstructions.length() > 0) {
 				checkInPolicy = new Policy();
 				checkInPolicy.setType(Policy.TYPE_CHECK_IN);
 				checkInPolicy.setDescription(checkInInstructions);
 			}
 
-			JSONArray roomRates = JSONUtils.getOrWrapJSONArray(jsonResponse, "HotelRoomResponse");
-			for (int a = 0; a < roomRates.length(); a++) {
+			JSONArray roomRates = response.getJSONArray("hotelRoomResponse");
+			int len = roomRates.length();
+			for (int a = 0; a < len; a++) {
 				Rate rate = new Rate();
 				RateRules rateRules = new RateRules();
 				rate.setRateRules(rateRules);
 
 				JSONObject jsonRate = roomRates.getJSONObject(a);
-				JSONObject rateInfo = jsonRate.getJSONObject("RateInfo");
-				JSONObject chargeableRateInfo = rateInfo.optJSONObject("ChargeableRateInfo");
+				JSONObject rateInfo = jsonRate.getJSONObject("rateInfo");
+				JSONObject chargeableRateInfo = rateInfo.optJSONObject("chargeableRateInfo");
 
-				rate.setRateKey(rateKey);
-				rate.setRatePlanCode(jsonRate.getString("rateCode"));
-				rate.setRoomTypeCode(jsonRate.getString("roomTypeCode"));
+				rate.setRateKey(jsonRate.getString("productKey"));
+				rate.setRatePlanCode(jsonRate.optString("rateCode", null));
+				rate.setRoomTypeCode(jsonRate.optString("roomTypeCode", null));
 				rate.setRoomDescription(jsonRate.getString("roomTypeDescription"));
-				rate.setRateChange(rateInfo.optBoolean("@rateChange", false));
+				rate.setRateChange(rateInfo.optBoolean("rateChange", false));
 				rate.setNumRoomsLeft(jsonRate.optInt("currentAllotment", 0));
 				rate.setNumberOfNights(numberOfNights);
 
@@ -100,55 +108,53 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 					rate.setRatePlanName(jsonRate.getString("rateDescription"));
 				}
 
-				String currencyCode = chargeableRateInfo.getString("@currencyCode");
+				String currencyCode = chargeableRateInfo.getString("currencyCode");
 
 				// The rate info passed to merchant vs. agent hotels is very different, so
 				// handle the parsing separately here
 				if (mProperty.isMerchant()) {
-					Money averageRate = ParserUtils.createMoney(chargeableRateInfo.getString("@averageRate"),
+					Money averageRate = ParserUtils.createMoney(chargeableRateInfo.getString("averageRate"),
 							currencyCode);
 					rate.setDailyAmountBeforeTax(averageRate);
 					rate.setAverageRate(averageRate);
-					rate.setAverageBaseRate(ParserUtils.createMoney(chargeableRateInfo.getString("@averageBaseRate"),
+					rate.setAverageBaseRate(ParserUtils.createMoney(chargeableRateInfo.getString("averageBaseRate"),
 							currencyCode));
-					rate.setTotalAmountBeforeTax(ParserUtils.createMoney(
-							chargeableRateInfo.getString("@nightlyRateTotal"), currencyCode));
-					rate.setTotalAmountAfterTax(ParserUtils.createMoney(chargeableRateInfo.getString("@total"),
-							currencyCode));
+
+					Money surchargeTotal = ParserUtils.createMoney(
+							chargeableRateInfo.optString("surchargeTotal", "0.0"),
+							currencyCode);
+					Money total = ParserUtils.createMoney(chargeableRateInfo.getString("total"), currencyCode);
+					Money totalBeforeTax = total.copy();
+					totalBeforeTax.subtract(surchargeTotal);
+
+					rate.setTotalAmountBeforeTax(totalBeforeTax);
+					rate.setTotalAmountAfterTax(total);
+					rate.setSurcharge(surchargeTotal);
+
 					if (jsonRate.has("taxRate")) {
 						rate.setTaxesAndFeesPerRoom(ParserUtils.createMoney(jsonRate.getDouble("taxRate"), currencyCode));
 					}
 
-					JSONObject nightlyRatesPerRoom = chargeableRateInfo.optJSONObject("NightlyRatesPerRoom");
-					if (nightlyRatesPerRoom == null) {
-						// TODO: Schema changes Jan. 27, 2011; after that, this code can be removed.
-						nightlyRatesPerRoom = chargeableRateInfo.getJSONObject("nightlyRatesPerRoom");
-					}
-					JSONArray nightlyRates = JSONUtils.getOrWrapJSONArray(nightlyRatesPerRoom, "NightlyRate");
+					JSONArray nightlyRates = chargeableRateInfo.optJSONArray("nightlyRatesPerRoom");
 					for (int b = 0; b < nightlyRates.length(); b++) {
 						Calendar cal = (Calendar) mSearchParams.getCheckInDate().clone();
 						cal.add(Calendar.DAY_OF_YEAR, b);
 
 						JSONObject nightlyRate = nightlyRates.getJSONObject(b);
 						RateBreakdown rateBreakdown = new RateBreakdown();
-						rateBreakdown.setAmount(ParserUtils.createMoney(nightlyRate.getString("@rate"), currencyCode));
+						rateBreakdown.setAmount(ParserUtils.createMoney(nightlyRate.getString("rate"), currencyCode));
 						rateBreakdown.setDate(new Date(cal));
 
 						rate.addRateBreakdown(rateBreakdown);
 					}
 
 					// Surcharges
-					if (chargeableRateInfo.has("@surchargeTotal")) {
-						rate.setSurcharge(ParserUtils.createMoney(chargeableRateInfo.getDouble("@surchargeTotal"),
-								currencyCode));
-					}
-					JSONArray surcharges = JSONUtils.getOrWrapJSONArray(chargeableRateInfo.optJSONObject("Surcharges"),
-							"Surcharge");
+					JSONArray surcharges = chargeableRateInfo.optJSONArray("surcharges");
 					if (surcharges != null) {
 						for (int b = 0; b < surcharges.length(); b++) {
 							JSONObject surcharge = surcharges.getJSONObject(b);
-							if (surcharge.optString("@type").equals("ExtraPersonFee")) {
-								rate.setExtraGuestFee(ParserUtils.createMoney(surcharge.getDouble("@amount"),
+							if (surcharge.optString("type").equals("EXTRA")) {
+								rate.setExtraGuestFee(ParserUtils.createMoney(surcharge.getDouble("amount"),
 										currencyCode));
 							}
 						}
@@ -156,7 +162,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 				}
 				else {
 					rate.setDailyAmountBeforeTax(ParserUtils.createMoney(
-							chargeableRateInfo.getString("@maxNightlyRate"), currencyCode));
+							chargeableRateInfo.getString("maxNightlyRate"), currencyCode));
 
 					// Taxes here is a policy info rather than a money
 					Policy policy = new Policy();
@@ -231,21 +237,19 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 				rateRules.addPolicy(policy);
 
 				// Value adds
-				if (jsonRate.has("ValueAdds")) {
-					JSONArray valueAdds = JSONUtils.getOrWrapJSONArray(jsonRate.getJSONObject("ValueAdds"), "ValueAdd");
-					int len = valueAdds.length();
-					for (int b = 0; b < len; b++) {
+				if (jsonRate.has("valueAdds")) {
+					JSONArray valueAdds = jsonRate.getJSONArray("valueAdds");
+					for (int b = 0; b < valueAdds.length(); b++) {
 						JSONObject valueAdd = valueAdds.getJSONObject(b);
 						rate.addValueAdd(valueAdd.getString("description"));
 					}
 				}
 
-				if (jsonRate.has("BedTypes")) {
+				if (jsonRate.has("bedTypes")) {
 					// #6852: If there are multiple bed types, we just "or" them together now
-					JSONArray bedTypes = JSONUtils.getOrWrapJSONArray(jsonRate.getJSONObject("BedTypes"), "bedType");
-					int len = bedTypes.length();
+					JSONArray bedTypes = jsonRate.getJSONArray("bedTypes");
 					List<String> bedTypeElements = new ArrayList<String>();
-					for (int b = 0; b < len; b++) {
+					for (int b = 0; b < bedTypes.length(); b++) {
 						JSONObject bedType = bedTypes.getJSONObject(b);
 						String bedTypeDescription = bedType.getString("description");
 						bedTypeElements.add(bedTypeDescription);

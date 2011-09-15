@@ -103,7 +103,12 @@ public class ServerError {
 			if (message == null) {
 				message = mMessage;
 				if (message == null) {
-					return null;
+					if (mExtras != null && mExtras.containsKey("summary")) {
+						message = mExtras.get("summary");
+					}
+					else {
+						return null;
+					}
 				}
 			}
 		}
@@ -113,9 +118,6 @@ public class ServerError {
 		}
 		else if (ERRORS.containsKey(message)) {
 			message = context.getString(ERRORS.get(message));
-		}
-		else if (message.contains("TravelNow")) {
-			message = message.replace("TravelNow", "Expedia");
 		}
 
 		return message;
