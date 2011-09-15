@@ -29,9 +29,21 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Policy;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.RateBreakdown;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SupportUtils;
+import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.expedia.bookings.widget.RoomTypeHandler;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -45,18 +57,6 @@ import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
-import com.mobiata.hotellib.data.BillingInfo;
-import com.mobiata.hotellib.data.BookingResponse;
-import com.mobiata.hotellib.data.Codes;
-import com.mobiata.hotellib.data.Location;
-import com.mobiata.hotellib.data.Money;
-import com.mobiata.hotellib.data.Policy;
-import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.Rate;
-import com.mobiata.hotellib.data.RateBreakdown;
-import com.mobiata.hotellib.data.SearchParams;
-import com.mobiata.hotellib.utils.StrUtils;
-import com.mobiata.hotellib.widget.HotelItemizedOverlay;
 import com.omniture.AppMeasurement;
 
 public class ConfirmationActivity extends MapActivity {
@@ -257,8 +257,7 @@ public class ConfirmationActivity extends MapActivity {
 			@Override
 			public void onClick(View v) {
 				Intent newIntent = new Intent(Intent.ACTION_VIEW);
-				String queryAddress = com.mobiata.hotellib.utils.StrUtils.formatAddress(mProperty.getLocation())
-						.replace("\n", " ");
+				String queryAddress = StrUtils.formatAddress(mProperty.getLocation()).replace("\n", " ");
 				newIntent.setData(Uri.parse("geo:0,0?q=" + queryAddress));
 				startActivity(newIntent);
 			}

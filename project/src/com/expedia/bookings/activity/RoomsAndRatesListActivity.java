@@ -15,7 +15,17 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.Session;
+import com.expedia.bookings.server.AvailabilityResponseHandler;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.FormatUtils.Conjunction;
@@ -23,16 +33,6 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.AsyncLoadListActivity;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.hotellib.data.AvailabilityResponse;
-import com.mobiata.hotellib.data.Codes;
-import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.Rate;
-import com.mobiata.hotellib.data.SearchParams;
-import com.mobiata.hotellib.data.ServerError;
-import com.mobiata.hotellib.data.Session;
-import com.mobiata.hotellib.server.AvailabilityResponseHandler;
-import com.mobiata.hotellib.server.ExpediaServices;
-import com.mobiata.hotellib.utils.StrUtils;
 import com.omniture.AppMeasurement;
 
 public class RoomsAndRatesListActivity extends AsyncLoadListActivity {

@@ -19,12 +19,12 @@ import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.Property;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
-import com.mobiata.hotellib.data.BillingInfo;
-import com.mobiata.hotellib.data.Property;
 import com.omniture.AppMeasurement;
 
 public class TrackingUtils {

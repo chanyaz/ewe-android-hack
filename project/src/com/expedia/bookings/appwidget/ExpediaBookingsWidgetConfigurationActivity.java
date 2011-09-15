@@ -26,13 +26,13 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.model.WidgetConfigurationState;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.WidgetPreviewHandler;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
-import com.mobiata.hotellib.data.Codes;
-import com.mobiata.hotellib.utils.StrUtils;
 
 public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 

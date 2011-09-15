@@ -33,6 +33,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Review;
+import com.expedia.bookings.data.ReviewRating;
+import com.expedia.bookings.data.ReviewsResponse;
+import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.widget.UserReviewsAdapter;
 import com.mobiata.android.BackgroundDownloader;
@@ -41,13 +48,6 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.widget.SegmentedControlGroup;
-import com.mobiata.hotellib.data.Codes;
-import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.Review;
-import com.mobiata.hotellib.data.ReviewRating;
-import com.mobiata.hotellib.data.ReviewsResponse;
-import com.mobiata.hotellib.server.ExpediaServices;
-import com.mobiata.hotellib.server.ExpediaServices.ReviewSort;
 
 public class UserReviewsListActivity extends Activity implements OnScrollListener {
 

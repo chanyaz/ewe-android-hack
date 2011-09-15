@@ -31,8 +31,16 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Property.Amenity;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AdapterView;
 import com.expedia.bookings.widget.AdapterView.OnItemSelectedListener;
 import com.expedia.bookings.widget.Gallery;
@@ -42,14 +50,6 @@ import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
-import com.mobiata.hotellib.data.Codes;
-import com.mobiata.hotellib.data.Location;
-import com.mobiata.hotellib.data.Media;
-import com.mobiata.hotellib.data.Money;
-import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.Property.Amenity;
-import com.mobiata.hotellib.data.Rate;
-import com.mobiata.hotellib.utils.StrUtils;
 import com.omniture.AppMeasurement;
 
 public class HotelActivity extends Activity {

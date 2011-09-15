@@ -16,14 +16,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.RateBreakdown;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.widget.RoomTypeHandler;
 import com.mobiata.android.util.ViewUtils;
-import com.mobiata.hotellib.data.Money;
-import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.Rate;
-import com.mobiata.hotellib.data.RateBreakdown;
-import com.mobiata.hotellib.data.SearchParams;
-import com.mobiata.hotellib.utils.StrUtils;
 
 public class LayoutUtils {
 

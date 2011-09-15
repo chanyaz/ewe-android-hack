@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.model.Search;
-import com.mobiata.hotellib.R;
-import com.mobiata.hotellib.data.SearchParams;
 
 public class SearchSuggestionAdapter extends BaseAdapter {
 	private static final int TYPE_CURRENT_LOCATION = 0;

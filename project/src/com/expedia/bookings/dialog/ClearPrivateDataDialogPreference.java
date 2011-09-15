@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.mobiata.hotellib.data.BillingInfo;
+import com.expedia.bookings.data.BillingInfo;
 
 public class ClearPrivateDataDialogPreference extends DialogPreference {
 

@@ -11,13 +11,12 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity.SetShowDistanceListener;
+import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Filter.OnFilterChangedListener;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.ListViewScrollBar;
-import com.mobiata.hotellib.app.SearchListener;
-import com.mobiata.hotellib.data.Codes;
-import com.mobiata.hotellib.data.Filter.OnFilterChangedListener;
-import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.SearchResponse;
 
 public class SearchListActivity extends ListActivity implements SearchListener, OnScrollListener,
 		OnFilterChangedListener, SetShowDistanceListener {

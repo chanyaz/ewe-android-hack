@@ -16,13 +16,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.RateBreakdown;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.ViewUtils;
-import com.mobiata.hotellib.data.AvailabilityResponse;
-import com.mobiata.hotellib.data.Rate;
-import com.mobiata.hotellib.data.RateBreakdown;
-import com.mobiata.hotellib.utils.StrUtils;
 
 public class RoomsAndRatesAdapter extends BaseAdapter {
 

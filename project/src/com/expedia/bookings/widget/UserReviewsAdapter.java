@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.UserReviewsListActivity.ReviewWrapper;
-import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.ReviewRating;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.ReviewRating;
 
 public class UserReviewsAdapter extends BaseAdapter {
 

@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 
 import com.expedia.bookings.R;
-import com.mobiata.hotellib.utils.CurrencyUtils;
+import com.expedia.bookings.utils.CurrencyUtils;
 
 public class ExpediaBookingPreferenceActivity extends PreferenceActivity {
 

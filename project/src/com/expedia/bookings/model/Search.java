@@ -9,8 +9,8 @@ import android.content.Context;
 import com.activeandroid.ActiveRecordBase;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.mobiata.hotellib.data.SearchParams;
-import com.mobiata.hotellib.data.SearchParams.SearchType;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchParams.SearchType;
 
 @Table(name = "Searches")
 public class Search extends ActiveRecordBase<Search> {

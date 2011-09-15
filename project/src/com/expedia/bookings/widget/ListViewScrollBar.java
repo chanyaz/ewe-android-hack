@@ -21,9 +21,9 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
-import com.mobiata.hotellib.data.Filter;
-import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.SearchResponse;
+import com.expedia.bookings.data.Filter;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchResponse;
 
 public class ListViewScrollBar extends View implements OnScrollListener, OnTouchListener {
 	//////////////////////////////////////////////////////////////////////////////////

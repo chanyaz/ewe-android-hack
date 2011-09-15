@@ -15,6 +15,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity.ExactSearchLocationSearchedListener;
 import com.expedia.bookings.activity.SearchActivity.MapViewListener;
 import com.expedia.bookings.activity.SearchActivity.SetShowDistanceListener;
+import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Filter.OnFilterChangedListener;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.widget.HotelItemizedOverlay;
+import com.expedia.bookings.widget.HotelItemizedOverlay.OnBalloonTap;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -27,13 +33,6 @@ import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.widget.DoubleTapToZoomListenerOverlay;
 import com.mobiata.android.widget.ExactLocationItemizedOverlay;
 import com.mobiata.android.widget.FixedMyLocationOverlay;
-import com.mobiata.hotellib.app.SearchListener;
-import com.mobiata.hotellib.data.Codes;
-import com.mobiata.hotellib.data.Filter.OnFilterChangedListener;
-import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.SearchResponse;
-import com.mobiata.hotellib.widget.HotelItemizedOverlay;
-import com.mobiata.hotellib.widget.HotelItemizedOverlay.OnBalloonTap;
 
 public class SearchMapActivity extends MapActivity implements SearchListener, OnFilterChangedListener, MapViewListener,
 		SetShowDistanceListener, ExactSearchLocationSearchedListener {

@@ -16,6 +16,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.PropertyInfo;
+import com.expedia.bookings.data.PropertyInfoResponse;
+import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.server.PropertyInfoResponseHandler;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.BackgroundDownloader;
@@ -24,15 +33,6 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.widget.TiltedImageView;
-import com.mobiata.hotellib.data.Codes;
-import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.PropertyInfo;
-import com.mobiata.hotellib.data.PropertyInfoResponse;
-import com.mobiata.hotellib.data.Rate;
-import com.mobiata.hotellib.data.SearchParams;
-import com.mobiata.hotellib.data.ServerError;
-import com.mobiata.hotellib.server.ExpediaServices;
-import com.mobiata.hotellib.server.PropertyInfoResponseHandler;
 
 /**
  * Adds a room type row anywhere, and sets up its behavior.

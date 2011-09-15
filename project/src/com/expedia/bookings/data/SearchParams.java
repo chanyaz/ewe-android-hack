@@ -1,0 +1,385 @@
+package com.expedia.bookings.data;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TimeZone;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.location.Address;
+
+import com.expedia.bookings.utils.CalendarUtils;
+import com.mobiata.android.LocationServices;
+import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONable;
+
+public class SearchParams implements JSONable {
+
+	public static enum SearchType {
+		FREEFORM, KEYWORD, MY_LOCATION, PROXIMITY, PROPERTY
+	}
+
+	private SearchType mSearchType = SearchType.MY_LOCATION;
+	private String mFreeformLocation;
+	private Calendar mCheckInDate;
+	private Calendar mCheckOutDate;
+	private int mNumAdults;
+	private int mNumChildren;
+	private int mNumResults;
+	private Set<String> mPropertyIds;
+
+	// These may be out of sync with freeform location; make sure to sync before
+	// using.
+	private double mSearchLatitude;
+	private double mSearchLongitude;
+	private boolean mSearchLatLonUpToDate;
+
+	private double mUserLatitude;
+	private double mUserLongitude;
+	private boolean mUserLatLonUpToDate;
+
+	// This is used in our geocoding disambiguation; it prevents infinite disambiguation
+	private String mDestinationId;
+
+	// The variables below are just for analytics
+	// mUserFreeformLocation is what the user entered for a freeform location.  We may disambiguate or
+	// figure out a better string when we ultimately do a search.
+	private String mUserFreeformLocation;
+
+	public SearchParams() {
+		mSearchLatLonUpToDate = false;
+
+		setDefaultStay();
+
+		// Setup default adults/children 
+		mNumAdults = 2;
+		mNumChildren = 0;
+
+		// Setup default number of results
+		mNumResults = -1;
+		mFreeformLocation = null;
+		mPropertyIds = new HashSet<String>();
+	}
+
+	public void setDefaultStay() {
+		// Setup default calendar dates
+		// Note that here we're setting the default calendar time to America/Chicago,
+		// because Travelocity vomits on us if we try to search on a time zone further
+		// west.
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/Chicago"));
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+		mCheckInDate = new GregorianCalendar(year, month, dayOfMonth);
+		mCheckOutDate = new GregorianCalendar(year, month, dayOfMonth + 1);
+	}
+
+	public SearchParams(JSONObject obj) {
+		if (obj != null) {
+			fromJson(obj);
+		}
+	}
+
+	public SearchParams copy() {
+		return new SearchParams(toJson());
+	}
+
+	public SearchType getSearchType() {
+		return mSearchType;
+	}
+
+	public void setSearchType(SearchType searchType) {
+		mSearchType = searchType;
+	}
+
+	public void setFreeformLocation(String freeformLocation) {
+		mFreeformLocation = freeformLocation;
+		mSearchLatLonUpToDate = false;
+	}
+
+	public void setFreeformLocation(Address address) {
+		setFreeformLocation(LocationServices.formatAddress(address));
+	}
+
+	public String getFreeformLocation() {
+		return mFreeformLocation;
+	}
+
+	public void setUserFreeformLocation(String userFreeformLocation) {
+		mUserFreeformLocation = userFreeformLocation;
+	}
+
+	public String getUserFreeformLocation() {
+		return mUserFreeformLocation;
+	}
+
+	public boolean hasFreeformLocation() {
+		return mFreeformLocation != null && mFreeformLocation.length() > 0;
+	}
+
+	public void setDestinationId(String destinationId) {
+		mDestinationId = destinationId;
+	}
+
+	public String getDestinationId() {
+		return mDestinationId;
+	}
+
+	public boolean hasDestinationId() {
+		return mDestinationId != null && mDestinationId.length() > 0;
+	}
+
+	public void addPropertyId(String propertyId) {
+		mPropertyIds.add(propertyId);
+	}
+
+	public Set<String> getPropertyIds() {
+		return mPropertyIds;
+	}
+
+	public boolean hasPropertyIds() {
+		return mPropertyIds != null && mPropertyIds.size() > 0;
+	}
+
+	public void clearPropertyIds() {
+		mPropertyIds.clear();
+	}
+
+	public void ensureValidCheckInDate() {
+		Calendar now = Calendar.getInstance();
+		if (getCheckInDate().before(now)) {
+			Log.d("Search params had a checkin date previous to today, setting it to today's date.");
+			setCheckInDate(now);
+		}
+	}
+
+	/**
+	 * Ensures that the check in date is not AFTER the check out date. Keeps the
+	 * duration of the stay the same.
+	 * 
+	 * @param cal
+	 */
+	public void setCheckInDate(Calendar cal) {
+		if (mCheckInDate != null && mCheckOutDate != null && (cal.after(mCheckOutDate) || cal.equals(mCheckOutDate))) {
+			int stayDuration = getStayDuration();
+			mCheckOutDate = (Calendar) cal.clone();
+			mCheckOutDate.add(Calendar.DAY_OF_MONTH, stayDuration);
+		}
+
+		mCheckInDate = cal;
+	}
+
+	public Calendar getCheckInDate() {
+		return mCheckInDate;
+	}
+
+	/**
+	 * Ensures that the check out date is not BEFORE the check in date. Keeps
+	 * the duration of the stay the same.
+	 * 
+	 * @param cal
+	 */
+	public void setCheckOutDate(Calendar cal) {
+		if (mCheckInDate != null && mCheckOutDate != null && (cal.before(mCheckInDate) || cal.equals(mCheckInDate))) {
+			int stayDuration = getStayDuration();
+			mCheckInDate = (Calendar) cal.clone();
+			mCheckInDate.add(Calendar.DAY_OF_MONTH, -stayDuration);
+		}
+
+		mCheckOutDate = cal;
+	}
+
+	/**
+	 * @return the current stay duration in days; 0 if check in or check out not
+	 *         specified yet.
+	 */
+	public int getStayDuration() {
+		if (mCheckInDate == null || mCheckOutDate == null) {
+			return 0;
+		}
+
+		return (int) CalendarUtils.getDaysBetween(mCheckInDate, mCheckOutDate);
+	}
+
+	public Calendar getCheckOutDate() {
+		return mCheckOutDate;
+	}
+
+	public void setNumAdults(int numAdults) {
+		// We don't allow someone to set zero adults.
+		if (numAdults < 1) {
+			numAdults = 1;
+		}
+		mNumAdults = numAdults;
+	}
+
+	public int getNumAdults() {
+		return mNumAdults;
+	}
+
+	public void setNumChildren(int numChildren) {
+		if (numChildren < 0) {
+			numChildren = 0;
+		}
+		mNumChildren = numChildren;
+	}
+
+	public int getNumChildren() {
+		return mNumChildren;
+	}
+
+	public void setSearchLatLon(double latitude, double longitude) {
+		this.mSearchLatitude = latitude;
+		this.mSearchLongitude = longitude;
+		mSearchLatLonUpToDate = true;
+	}
+
+	public double getSearchLatitude() {
+		return mSearchLatitude;
+	}
+
+	public double getSearchLongitude() {
+		return mSearchLongitude;
+	}
+
+	public boolean hasSearchLatLon() {
+		return mSearchLatLonUpToDate;
+	}
+
+	public void setUserLatLon(double latitude, double longitude) {
+		this.mUserLatitude = latitude;
+		this.mUserLongitude = longitude;
+		mUserLatLonUpToDate = true;
+	}
+
+	public double getUserLatitude() {
+		return mUserLatitude;
+	}
+
+	public double getUserLongitude() {
+		return mUserLongitude;
+	}
+
+	public boolean hasUserLatLon() {
+		return mUserLatLonUpToDate;
+	}
+
+	public boolean fromJson(JSONObject obj) {
+		mFreeformLocation = obj.optString("freeformLocation", null);
+		mSearchLatitude = obj.optDouble("latitude");
+		mSearchLongitude = obj.optDouble("longitude");
+		mSearchLatLonUpToDate = obj.optBoolean("hasLatLon", false);
+
+		long checkinMillis = obj.optLong("checkinDate", -1);
+		if (checkinMillis != -1) {
+			mCheckInDate = Calendar.getInstance();
+			mCheckInDate.setTimeInMillis(checkinMillis);
+		}
+		long checkoutMillis = obj.optLong("checkoutDate", -1);
+		if (checkoutMillis != -1) {
+			mCheckOutDate = Calendar.getInstance();
+			mCheckOutDate.setTimeInMillis(checkoutMillis);
+		}
+
+		mNumAdults = obj.optInt("numAdults", 0);
+		mNumChildren = obj.optInt("numChildren", 0);
+		mSearchType = SearchType.valueOf(obj.optString("searchType"));
+
+		mDestinationId = obj.optString("destinationId", null);
+
+		mUserFreeformLocation = obj.optString("userFreeformLocation", null);
+
+		try {
+			mPropertyIds = new HashSet<String>();
+
+			JSONArray arr;
+			arr = obj.getJSONArray("propertyIds");
+			for (int i = 0; i < arr.length(); i++) {
+				mPropertyIds.add(arr.getString(i));
+			}
+		}
+		catch (JSONException e) {
+			Log.w("Could not read search params JSON.", e);
+			return false;
+		}
+
+		return true;
+	}
+
+	public JSONObject toJson() {
+		JSONObject obj = new JSONObject();
+		try {
+			obj.put("freeformLocation", mFreeformLocation);
+			obj.put("latitude", mSearchLatitude);
+			obj.put("longitude", mSearchLongitude);
+			obj.put("hasLatLon", mSearchLatLonUpToDate);
+			if (mCheckInDate != null) {
+				obj.put("checkinDate", mCheckInDate.getTimeInMillis());
+			}
+			if (mCheckOutDate != null) {
+				obj.put("checkoutDate", mCheckOutDate.getTimeInMillis());
+			}
+			obj.put("numAdults", mNumAdults);
+			obj.put("numChildren", mNumChildren);
+			obj.put("searchType", mSearchType);
+
+			JSONArray arr = new JSONArray();
+			for (String propertyId : mPropertyIds) {
+				arr.put(propertyId);
+			}
+			obj.put("propertyIds", arr);
+
+			obj.put("destinationId", mDestinationId);
+
+			obj.put("userFreeformLocation", mUserFreeformLocation);
+		}
+		catch (JSONException e) {
+			Log.w("Could not write search params JSON.", e);
+		}
+		return obj;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof SearchParams) {
+			SearchParams other = (SearchParams) o;
+
+			// Note that "equals" doesn't mean strictly equals.  In this situation, it means that
+			// the two SearchParams objects will result in the equivalent search results.  It does not
+			// compare some state variables (such as lat/lon, which are retrieved from the freeform location
+
+			return this.getSearchType().equals(other.getSearchType())
+					&& (mFreeformLocation != null ? this.mFreeformLocation.equals(other.getFreeformLocation()) : true) // mFreeformLocation may be null
+					&& this.mSearchLatitude == other.getSearchLatitude()
+					&& this.mSearchLongitude == other.getSearchLongitude()
+					&& this.mPropertyIds.equals(other.getPropertyIds())
+					&& this.mCheckInDate.equals(other.getCheckInDate())
+					&& this.mCheckOutDate.equals(other.getCheckOutDate())
+					&& this.mNumAdults == other.getNumAdults()
+					&& this.mNumChildren == other.getNumChildren();
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		JSONObject obj = toJson();
+		try {
+			return obj.toString(2);
+		}
+		catch (JSONException e) {
+			return obj.toString();
+		}
+	}
+
+	// **WARNING: USE FOR TESTING PURPOSES ONLY**
+	public void fillWithTestData() throws JSONException {
+		String data = "{\"hasLatLon\":true,\"userFreeformLocation\":\"Minneapolis, MN\",\"numChildren\":1,\"longitude\":-93.2638361,\"freeformLocation\":\"Minneapolis, MN\",\"searchType\":\"FREEFORM\",\"checkinDate\":1325224800000,\"latitude\":44.9799654,\"propertyIds\":[],\"numAdults\":2,\"checkoutDate\":1325570400000}";
+		JSONObject obj = new JSONObject(data);
+		fromJson(obj);
+	}
+}

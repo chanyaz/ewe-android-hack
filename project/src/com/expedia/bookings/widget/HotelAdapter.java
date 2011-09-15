@@ -15,18 +15,18 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.Filter.Sort;
+import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.ViewUtils;
-import com.mobiata.hotellib.data.Distance.DistanceUnit;
-import com.mobiata.hotellib.data.Filter.Sort;
-import com.mobiata.hotellib.data.Media;
-import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.Rate;
-import com.mobiata.hotellib.data.SearchResponse;
-import com.mobiata.hotellib.utils.StrUtils;
 
 public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 

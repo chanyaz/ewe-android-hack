@@ -35,7 +35,16 @@ import android.widget.RemoteViews;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelActivity;
 import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.Session;
 import com.expedia.bookings.model.WidgetConfigurationState;
+import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -44,15 +53,6 @@ import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
-import com.mobiata.hotellib.data.Codes;
-import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.data.SearchParams;
-import com.mobiata.hotellib.data.SearchParams.SearchType;
-import com.mobiata.hotellib.data.SearchResponse;
-import com.mobiata.hotellib.data.ServerError;
-import com.mobiata.hotellib.data.Session;
-import com.mobiata.hotellib.server.ExpediaServices;
-import com.mobiata.hotellib.utils.StrUtils;
 
 public class ExpediaBookingsService extends Service implements LocationListener {
 

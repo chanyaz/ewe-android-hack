@@ -21,11 +21,11 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsService;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.hotellib.data.Property;
-import com.mobiata.hotellib.utils.StrUtils;
 
 /**
  * This class is responsible for managing the 

@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.mobiata.android.Log;
-import com.mobiata.hotellib.data.Codes;
 
 public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 
