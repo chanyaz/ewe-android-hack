@@ -17,43 +17,29 @@ import org.codehaus.jackson.JsonToken;
 import android.content.Context;
 import android.text.Html;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Property.Amenity;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Session;
 import com.mobiata.android.Log;
-import com.mobiata.android.Params;
 import com.mobiata.android.net.AndroidHttpClient;
 import com.mobiata.android.util.AndroidUtils;
 
 public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 
-	public static final int F_EXPEDIA_BOOKINGS = 1;
-
 	private Context mContext;
-
-	// This variable reduces some of the parsing done so that we're limited to just the data EB needs.
-	// This should theoretically speed up the parse time.
-	private boolean mExpediaBookings;
 
 	// Variables used for parsing
 	private int mNumNights = 1;
 
 	public SearchResponseHandler(Context context) {
-		this(context, 0);
-	}
-
-	public SearchResponseHandler(Context context, int flags) {
 		mContext = context;
-		mExpediaBookings = (flags & F_EXPEDIA_BOOKINGS) != 0;
 	}
 
 	@Override
@@ -219,7 +205,6 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		property.setLocation(location);
 
 		// These are some variables that are stored between fields that are parsed
-		Double lowRate = null;
 		String rateCurrencyCode = null;
 		Double proximityDistance = null;
 		String proximityUnit = null;
@@ -277,36 +262,6 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 				// Convert the amenity mask to a string
 				int amenityMask = parser.getValueAsInt();
 				property.setAmenityMask(amenityMask);
-
-				if (!mExpediaBookings) {
-					StringBuilder sb = new StringBuilder();
-
-					// Parse the amenities text
-					for (Amenity amenity : Amenity.values()) {
-						if (amenity != Amenity.PARKING && amenity != Amenity.POOL && amenity.inMask(amenityMask)) {
-							sb.append(mContext.getString(R.string.amenity_template,
-									mContext.getString(amenity.getStrId())));
-							sb.append("\n");
-						}
-					}
-
-					// Handle parking and pools separately, because they may have more specific amenity descriptions
-					if (!Amenity.FREE_PARKING.inMask(amenityMask) && !Amenity.EXTENDED_PARKING.inMask(amenityMask)
-							&& Amenity.PARKING.inMask(amenityMask)) {
-						sb.append(mContext.getString(R.string.amenity_template,
-								mContext.getString(Amenity.PARKING.getStrId())));
-						sb.append("\n");
-					}
-
-					if (!Amenity.POOL_INDOOR.inMask(amenityMask) && !Amenity.POOL_OUTDOOR.inMask(amenityMask)
-							&& Amenity.POOL.inMask(amenityMask)) {
-						sb.append(mContext.getString(R.string.amenity_template,
-								mContext.getString(Amenity.POOL.getStrId())));
-						sb.append("\n");
-					}
-
-					property.setAmenitiesText(sb.toString().trim());
-				}
 			}
 			else if (name.equals("supplierType")) {
 				property.setSupplierType(parser.getText());
@@ -314,9 +269,6 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 				if (!AndroidUtils.isRelease(mContext) && !property.isMerchant()) {
 					property.setOverviewText("DEBUG MESSAGE: This is an agent hotel!");
 				}
-			}
-			else if (name.equals("lowRate") && !mExpediaBookings) {
-				lowRate = parser.getValueAsDouble();
 			}
 			else if (name.equals("rateCurrencyCode")) {
 				rateCurrencyCode = parser.getText();
@@ -430,10 +382,6 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		}
 
 		// Handle any fields which needed stored data
-		if (lowRate != null && rateCurrencyCode != null) {
-			property.setLowRate(ParserUtils.createMoney(lowRate, rateCurrencyCode));
-		}
-
 		if (proximityDistance != null && proximityUnit != null) {
 			DistanceUnit unit = (proximityUnit.equals("MI")) ? DistanceUnit.MILES : DistanceUnit.KILOMETERS;
 			property.setDistanceFromUser(new Distance(proximityDistance, unit));

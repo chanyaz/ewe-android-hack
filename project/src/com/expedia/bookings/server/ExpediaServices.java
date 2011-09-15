@@ -155,9 +155,7 @@ public class ExpediaServices implements DownloadListener {
 			return null;
 		}
 
-		int flags = SearchResponseHandler.F_EXPEDIA_BOOKINGS;
-
-		return (SearchResponse) doRequest(request, new SearchResponseHandler(mContext, flags), 0);
+		return (SearchResponse) doRequest(request, new SearchResponseHandler(mContext), 0);
 	}
 
 	public SearchResponse search(SearchResponse lastResponse) {
@@ -180,9 +178,7 @@ public class ExpediaServices implements DownloadListener {
 			return null;
 		}
 
-		int flags = SearchResponseHandler.F_EXPEDIA_BOOKINGS;
-
-		return (SearchResponse) doRequest(request, new SearchResponseHandler(mContext, flags), 0);
+		return (SearchResponse) doRequest(request, new SearchResponseHandler(mContext), 0);
 	}
 
 	public static boolean hasMoreReviews(Property property, int page) {
