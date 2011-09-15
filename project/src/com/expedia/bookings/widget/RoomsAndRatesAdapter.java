@@ -37,7 +37,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 	private List<Rate> mRates;
 
 	private List<String> mValueAdds;
-	
+
 	private float mSaleTextSize;
 
 	public RoomsAndRatesAdapter(Context context, AvailabilityResponse response) {
@@ -59,7 +59,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			}
 			if (unique.size() > 0) {
 				mValueAdds.add(context.getString(R.string.value_add_template,
-							FormatUtils.series(context, unique, ",", null)));
+						FormatUtils.series(context, unique, ",", null)));
 			}
 			else {
 				mValueAdds.add(null);

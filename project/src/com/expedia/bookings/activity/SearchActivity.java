@@ -207,7 +207,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 	public static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
-	
+
 	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
 	public static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
 
@@ -461,9 +461,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mSortDistanceButton = addSortOption(R.id.sort_distance_button, R.drawable.ic_sort_distance,
 				R.string.sort_description_distance, false);
 		mSortOptionsLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-		mSortPopup = new PopupWindow(mSortOptionsLayout, mSortOptionsLayout.getMeasuredWidth(), mSortOptionsLayout.getMeasuredHeight());
+		mSortPopup = new PopupWindow(mSortOptionsLayout, mSortOptionsLayout.getMeasuredWidth(),
+				mSortOptionsLayout.getMeasuredHeight());
 		mSortPopup.setAnimationStyle(R.style.Animation_Popup);
-		
+
 		mSortPriceButton.setOnClickListener(mSortOptionChangedListener);
 		mSortPopularityButton.setOnClickListener(mSortOptionChangedListener);
 		mSortDistanceButton.setOnClickListener(mSortOptionChangedListener);
@@ -1002,7 +1003,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mUpArrowSortHotels = (ImageView) findViewById(R.id.up_arrow_sort_hotels);
 
 		mSortOptionsLayout = (ViewGroup) getLayoutInflater().inflate(R.layout.include_sort_popup, null);
-		
+
 		//===================================================================
 		// Properties
 
@@ -1855,7 +1856,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 		mUpArrowSortHotels.startAnimation(rotateAnimation);
 
-		mSortPopup.showAsDropDown(mSortButton, ((mSortButton.getWidth() - mSortOptionsLayout.getMeasuredWidth())/2), 0);
+		mSortPopup.showAsDropDown(mSortButton, ((mSortButton.getWidth() - mSortOptionsLayout.getMeasuredWidth()) / 2),
+				0);
 		hideFilterOptions();
 	}
 
@@ -1996,17 +1998,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 		default: {
 			mSortPopularityButton.setSelected(false);
-			mSortPriceButton.setSelected(false
-					
-			
-			
-			
-			
-			
-			
-			
-			
-			);
+			mSortPriceButton.setSelected(false);
 			mSortDistanceButton.setSelected(false);
 			mSortUserRatingButton.setSelected(false);
 
@@ -2019,8 +2011,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 		}
 	}
-	
- 
+
 	//----------------------------------
 	// ACTIVITY GROUP METHODS
 	//----------------------------------
@@ -2361,7 +2352,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mSortDistanceButton.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
 		mSortDistanceButton.findViewById(R.id.sort_option_divider).setVisibility(
 				mShowDistance ? View.VISIBLE : View.GONE);
-		
+
 		if (mSetShowDistanceListeners != null) {
 			for (SetShowDistanceListener showDistanceListener : mSetShowDistanceListeners) {
 				showDistanceListener.onSetShowDistance(showDistance);

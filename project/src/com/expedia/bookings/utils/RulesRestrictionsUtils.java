@@ -18,7 +18,7 @@ public class RulesRestrictionsUtils {
 	public static boolean requiresRulesRestrictionsCheckbox() {
 		String countryCode = Locale.getDefault().getCountry().toLowerCase();
 		return countryCode.equals("fr") || countryCode.equals("it") || countryCode.equals("es")
-						|| countryCode.equals("no");
+				|| countryCode.equals("no");
 	}
 
 	/**

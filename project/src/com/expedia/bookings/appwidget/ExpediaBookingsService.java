@@ -871,7 +871,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		widgetContents.setTextViewText(R.id.hotel_name_text_view, property.getName());
 		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams
-				.getFreeformLocation() : property.getDistanceFromUser().formatDistance(this);
+				.getFreeformLocation()
+				: property.getDistanceFromUser().formatDistance(this);
 		widgetContents.setTextViewText(R.id.location_text_view, location);
 
 		if (property.getLowestRate().getSavingsPercent() > 0) {
@@ -1020,13 +1021,15 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		}
 
 		String distanceOfMaxSavingsFromUser = (widget.mUseCurrentLocation && widget.savingsForProperty != null) ? widget.savingsForProperty
-				.getDistanceFromUser().formatDistance(this) : null;
+				.getDistanceFromUser().formatDistance(this)
+				: null;
 		if (distanceOfMaxSavingsFromUser != null) {
 			widgetContents.setTextViewText(R.id.branding_location_text_view, distanceOfMaxSavingsFromUser);
 		}
 		else {
 			String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams
-					.getFreeformLocation() : "Current Location";
+					.getFreeformLocation()
+					: "Current Location";
 
 			widgetContents.setTextViewText(R.id.branding_location_text_view, location);
 		}

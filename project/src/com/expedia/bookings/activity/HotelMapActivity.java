@@ -38,12 +38,12 @@ public class HotelMapActivity extends MapActivity {
 
 	// save instance variables
 	private static final String CURRENT_ZOOM_LEVEL = "CURRENT_ZOOM_LEVEL";
-		
+
 	// saved information for map
 	private int mSavedZoomLevel;
 	private MapView mMapView;
 	private HotelItemizedOverlay mOverlay;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -103,14 +103,15 @@ public class HotelMapActivity extends MapActivity {
 		overlays.add(mOverlay);
 
 		// Set the center point
-		if(savedInstanceState != null && savedInstanceState.containsKey(CURRENT_ZOOM_LEVEL)) {
+		if (savedInstanceState != null && savedInstanceState.containsKey(CURRENT_ZOOM_LEVEL)) {
 			restoreMapState(savedInstanceState);
-		} else {
+		}
+		else {
 			MapController mc = mMapView.getController();
-			mc.setZoom(16);			
+			mc.setZoom(16);
 			mc.setCenter(mOverlay.getCenter());
 		}
-		
+
 		mOverlay.showBalloon(0, false); // Open the popup initially
 
 		if (savedInstanceState == null) {
@@ -145,7 +146,7 @@ public class HotelMapActivity extends MapActivity {
 		outState.putInt(CURRENT_ZOOM_LEVEL, mMapView.getZoomLevel());
 		super.onSaveInstanceState(outState);
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Omniture tracking
 
@@ -167,12 +168,12 @@ public class HotelMapActivity extends MapActivity {
 		// Send the tracking data
 		s.track();
 	}
-	
+
 	private void restoreMapState(Bundle savedInstanceState) {
-		if(savedInstanceState != null && savedInstanceState.containsKey(CURRENT_ZOOM_LEVEL)) {
+		if (savedInstanceState != null && savedInstanceState.containsKey(CURRENT_ZOOM_LEVEL)) {
 			mSavedZoomLevel = savedInstanceState.getInt(CURRENT_ZOOM_LEVEL);
 			mMapView.getController().setZoom(mSavedZoomLevel);
 		}
 	}
-	
+
 }

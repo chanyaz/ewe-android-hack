@@ -109,14 +109,14 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	 * for a particular review sort type
 	 */
 	private HashMap<ReviewSort, Boolean> mReviewSortDownloadAttemptedMap = new HashMap<ReviewSort, Boolean>();
-	
+
 	/*
 	 * keeps track of whether the loading indicator is showing as the footer in the list view.
 	 * This bookkeeping is not preserved across orientation change so as to re-show the loading
 	 * indicator on orientation change if there are more reviews to display
 	 */
 	private HashMap<ReviewSort, Boolean> isLoadingIndicatorShowingForReviewSort = new HashMap<ReviewSort, Boolean>();
-	
+
 	/*
 	 * keeps track of the current pageNumber the list pertaining to each review sort type is on.
 	 * This helps to understand whether or not to load more reviews.
@@ -162,10 +162,11 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			ExpediaServices services = new ExpediaServices(mContext);
 			mReviewsDownloader.addDownloadListener(KEY_REVIEWS_HIGHEST, services);
 			int pageNumber = 1;
-			
-			if(mPageNumberMap.get(mReviewSort) != null) {
+
+			if (mPageNumberMap.get(mReviewSort) != null) {
 				pageNumber = mPageNumberMap.get(mReviewSort).intValue();
-			} else {
+			}
+			else {
 				mPageNumberMap.put(mReviewSort, new Integer(1));
 			}
 
@@ -204,7 +205,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				// download and thereby show the loading indicator
 				int pageNumber = mPageNumberMap.get(thisReviewSort).intValue();
 				mPageNumberMap.put(thisReviewSort, new Integer(pageNumber + 1));
-				
+
 				boolean reviewsFiltered = false;
 
 				for (ReviewWrapper review : newlyLoadedReviewsWrapped) {
@@ -564,9 +565,10 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
 		boolean showLoadingIndicator = false;
-		
+
 		List<ReviewWrapper> reviews = mReviewsMapWrapped.get(mCurrentReviewSort);
-		if (loadMore && reviews != null && ExpediaServices.hasMoreReviews(mProperty, mPageNumberMap.get(mCurrentReviewSort).intValue())) {
+		if (loadMore && reviews != null
+				&& ExpediaServices.hasMoreReviews(mProperty, mPageNumberMap.get(mCurrentReviewSort).intValue())) {
 			if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST && moreFavorablePages) {
 				mReviewsDownloader.startDownload(KEY_REVIEWS_HIGHEST, mHighestRatingFirstDownload,
 						mHighestRatingFirstDownloadCallback);
@@ -713,7 +715,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	}
 
 	private class ActivityState {
-		public ReviewSort mCurrentReviewSort;  
+		public ReviewSort mCurrentReviewSort;
 		public HashMap<ReviewSort, ArrayList<ReviewWrapper>> reviewsMapWrapped;
 		public HashMap<ReviewSort, Boolean> reviewsAttemptDownloadMap;
 		public HashMap<ReviewSort, Integer> pageNumberMap;

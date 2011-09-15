@@ -27,7 +27,8 @@ import com.mobiata.hotellib.utils.StrUtils;
 
 public class LayoutUtils {
 
-	public static void configureHeader(Activity activity, Property property, OnClickListener onBookNowClick, OnClickListener onReviewsClick) {
+	public static void configureHeader(Activity activity, Property property, OnClickListener onBookNowClick,
+			OnClickListener onReviewsClick) {
 		TextView name = (TextView) activity.findViewById(R.id.name_text_view);
 		name.setText(property.getName());
 		RatingBar userRating = (RatingBar) activity.findViewById(R.id.user_rating_bar);
@@ -41,17 +42,18 @@ public class LayoutUtils {
 				numReviews));
 
 		View reviewsContainer = activity.findViewById(R.id.user_rating_layout);
-		if(onReviewsClick == null) {
+		if (onReviewsClick == null) {
 			reviewsContainer.setEnabled(false);
-		} else {
+		}
+		else {
 			reviewsContainer.setOnClickListener(onReviewsClick);
 		}
-		
+
 		Button bookButton = (Button) activity.findViewById(R.id.book_now_button);
 		bookButton.setOnClickListener(onBookNowClick);
 
 		// Resize the book button text
-		int maxFontSize = Math.round(activity.getResources().getDisplayMetrics().density * 10); 
+		int maxFontSize = Math.round(activity.getResources().getDisplayMetrics().density * 10);
 		float textSize = ViewUtils.getTextSizeForMaxLines(bookButton.getText(), 1, maxFontSize, bookButton);
 		bookButton.setTextSize(textSize);
 	}
@@ -69,8 +71,10 @@ public class LayoutUtils {
 		String end = formatCheckInOutDate(context, searchParams.getCheckOutDate());
 		String timeLoader = "--:--";
 		int numDays = searchParams.getStayDuration();
-		addDetail(context, detailsLayout, context.getString(R.string.CheckIn), context.getString(R.string.check_in_out_time_template, timeLoader, start), R.id.check_in_time);
-		addDetail(context, detailsLayout, context.getString(R.string.CheckOut), context.getString(R.string.check_in_out_time_template, timeLoader, end), R.id.check_out_time);
+		addDetail(context, detailsLayout, context.getString(R.string.CheckIn),
+				context.getString(R.string.check_in_out_time_template, timeLoader, start), R.id.check_in_time);
+		addDetail(context, detailsLayout, context.getString(R.string.CheckOut),
+				context.getString(R.string.check_in_out_time_template, timeLoader, end), R.id.check_out_time);
 		addDetail(context, detailsLayout, R.string.stay_duration,
 				context.getResources().getQuantityString(R.plurals.length_of_stay, numDays, numDays));
 		addSpace(context, detailsLayout, 8);

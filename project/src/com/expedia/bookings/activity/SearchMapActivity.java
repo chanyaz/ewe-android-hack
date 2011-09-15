@@ -68,8 +68,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	private static final String EXACT_SEARCH_LOCATION_LAT = "EXACT_LOCATION_LAT";
 	private static final String EXACT_SEARCH_LOCATION_LON = "EXACT_LOCATION_LON";
 	private static final String EXACT_SEARCH_LOCATION_ADDRESS = "EXACT_LOCATION_ADDRESS";
-	
-	
+
 	// saved information for map
 	private GeoPoint mSavedCenter;
 	private int mSavedZoomLevel;
@@ -88,11 +87,10 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mMapView = MapUtils.createMapView(this);
 		ViewGroup mapContainer = (ViewGroup) findViewById(R.id.map_layout);
 		mapContainer.addView(mMapView);
-		
+
 		// Configure the map
 		mMapView.setBuiltInZoomControls(true);
 		mMapView.setSatellite(false);
-
 
 		final SearchActivity parent = (SearchActivity) getParent();
 		parent.addSearchListener(this);
@@ -103,7 +101,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		restoreMapState(savedInstanceState);
 
 		mIsActive = false;
-		
+
 		restoreSavedExactSearchLocation();
 	}
 
@@ -117,10 +115,10 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			mMyLocationOverlay.disableMyLocation();
 		}
 	}
-	
+
 	@Override
 	protected void onDestroy() {
-		if(isFinishing() && mExactLocationAddress != null) {
+		if (isFinishing() && mExactLocationAddress != null) {
 			persistExactLocationToDisk();
 		}
 		super.onDestroy();
@@ -142,19 +140,18 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		outState.putInt(CURRENT_CENTER_LAT, mMapView.getMapCenter().getLatitudeE6());
 		outState.putInt(CURRENT_CENTER_LON, mMapView.getMapCenter().getLongitudeE6());
 		outState.putInt(CURRENT_ZOOM_LEVEL, mMapView.getZoomLevel());
-		
-		if(mExactLocationAddress != null) {
+
+		if (mExactLocationAddress != null) {
 			outState.putDouble(EXACT_SEARCH_LOCATION_LAT, mExactLocationLatitude);
 			outState.putDouble(EXACT_SEARCH_LOCATION_LON, mExactLocationLongitude);
 			outState.putString(EXACT_SEARCH_LOCATION_ADDRESS, mExactLocationAddress);
-			
+
 		}
-		
-		if(mExactLocationItemizedOverlay != null) {
+
+		if (mExactLocationItemizedOverlay != null) {
 			outState.putBoolean(IS_EXACT_SEARCH_LOCATION_TAPPED, mExactLocationItemizedOverlay.isExactLocationTapped());
 		}
-		
-		
+
 		String tappedPropertyId = (mHotelItemizedOverlay == null) ? null : mHotelItemizedOverlay.getTappedPropertyId();
 		if (tappedPropertyId != null) {
 			outState.putString(CURRENT_TAPPED_ITEM_PROPERTY_ID, tappedPropertyId);
@@ -167,8 +164,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-	
-	
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// SearchListener implementation
@@ -235,31 +230,32 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			mMyLocationOverlay = new FixedMyLocationOverlay(this, mMapView);
 			overlays.add(mMyLocationOverlay);
 		}
-		
-		if(mExactLocationItemizedOverlay == null) {
+
+		if (mExactLocationItemizedOverlay == null) {
 			mExactLocationItemizedOverlay = new ExactLocationItemizedOverlay(this, mMapView);
 		}
-		
-		mExactLocationItemizedOverlay.setExactLocation(mExactLocationLatitude, mExactLocationLongitude, mExactLocationAddress);
-		if(mExactLocationAddress != null) {
+
+		mExactLocationItemizedOverlay.setExactLocation(mExactLocationLatitude, mExactLocationLongitude,
+				mExactLocationAddress);
+		if (mExactLocationAddress != null) {
 			overlays.add(mExactLocationItemizedOverlay);
 			// restore the map to show the balloon for the
 			// user specified location in the search
-			if(mIsExactLocationTapped) {
+			if (mIsExactLocationTapped) {
 				mExactLocationItemizedOverlay.showBalloon(0, false);
 				mIsExactLocationTapped = false;
 			}
-		} 
-		
+		}
+
 		if (mIsActive) {
 			mMyLocationOverlay.enableMyLocation();
 		}
-		
-		if(mDoubleTapToZoomListenerOverlay == null) {
+
+		if (mDoubleTapToZoomListenerOverlay == null) {
 			mDoubleTapToZoomListenerOverlay = new DoubleTapToZoomListenerOverlay(this, mMapView);
 		}
 		overlays.add(mDoubleTapToZoomListenerOverlay);
-		
+
 		// Set the center point
 		focusOnProperties();
 	}
@@ -297,7 +293,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mHotelItemizedOverlay.setProperties(Arrays.asList(mSearchResponse.getFilteredAndSortedProperties()),
 				mSearchResponse.getProperties());
 		mMapView.invalidate();
-		
+
 		Boolean areHotelsVisible = mHotelItemizedOverlay.areHotelsVisible();
 
 		/*
@@ -312,7 +308,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		focusOnProperties();
 	}
 
-	
 	@Override
 	public GeoPoint onRequestMapCenter() {
 		if (mMapView != null) {
@@ -321,16 +316,17 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 		return null;
 	}
-	
+
 	@Override
 	public void onExactSearchLocationSpecified(double latitude, double longitude, String address) {
-			mExactLocationLatitude = latitude;
-			mExactLocationLongitude = longitude;
-			mExactLocationAddress = address;
-			if(mExactLocationItemizedOverlay != null) {
-				mExactLocationItemizedOverlay.setExactLocation(mExactLocationLatitude, mExactLocationLongitude, mExactLocationAddress);
-			}
-			persistExactLocationToDisk();
+		mExactLocationLatitude = latitude;
+		mExactLocationLongitude = longitude;
+		mExactLocationAddress = address;
+		if (mExactLocationItemizedOverlay != null) {
+			mExactLocationItemizedOverlay.setExactLocation(mExactLocationLatitude, mExactLocationLongitude,
+					mExactLocationAddress);
+		}
+		persistExactLocationToDisk();
 	}
 
 	public void focusOnProperties() {
@@ -367,7 +363,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			mSavedZoomLevel = savedInstanceState.getInt(CURRENT_ZOOM_LEVEL);
 
 			mTappedPropertyId = savedInstanceState.getString(CURRENT_TAPPED_ITEM_PROPERTY_ID);
-			
+
 			mExactLocationAddress = savedInstanceState.getString(EXACT_SEARCH_LOCATION_ADDRESS);
 			mExactLocationLatitude = savedInstanceState.getDouble(EXACT_SEARCH_LOCATION_LAT, 0.0);
 			mExactLocationLatitude = savedInstanceState.getDouble(EXACT_SEARCH_LOCATION_LON, 0.0);
@@ -386,22 +382,24 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mExactLocationLongitude = prefs.getFloat(EXACT_SEARCH_LOCATION_LON, 0.0f);
 		mExactLocationAddress = prefs.getString(EXACT_SEARCH_LOCATION_ADDRESS, null);
 	}
-	
+
 	private void persistExactLocationToDisk() {
 		try {
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 			Editor editor = prefs.edit();
-			if(mExactLocationAddress != null) {
+			if (mExactLocationAddress != null) {
 				editor.putFloat(EXACT_SEARCH_LOCATION_LAT, (float) mExactLocationLatitude);
 				editor.putFloat(EXACT_SEARCH_LOCATION_LON, (float) mExactLocationLongitude);
 				editor.putString(EXACT_SEARCH_LOCATION_ADDRESS, mExactLocationAddress);
-			} else {
+			}
+			else {
 				editor.remove(EXACT_SEARCH_LOCATION_LAT);
 				editor.remove(EXACT_SEARCH_LOCATION_LON);
 				editor.remove(EXACT_SEARCH_LOCATION_ADDRESS);
 			}
 			SettingUtils.commitOrApply(editor);
-		}  catch (OutOfMemoryError e) {
+		}
+		catch (OutOfMemoryError e) {
 			Log.w("Ran out of memory while trying to save exact location", e);
 		}
 	}

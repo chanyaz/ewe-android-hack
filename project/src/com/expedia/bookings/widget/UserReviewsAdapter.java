@@ -41,7 +41,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 		}
 		return mLoadedReviews.size();
 	}
-	
+
 	@Override
 	public boolean isEmpty() {
 		return (mLoadedReviews == null || mLoadedReviews.isEmpty());
@@ -87,7 +87,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 				setupFullReviewDisplay(viewHolder);
 			}
 		});
-		
+
 		viewHolder.title.setText(userReviewLoaded.review.getTitle());
 
 		ReviewRating rating = userReviewLoaded.review.getRating();
@@ -177,7 +177,6 @@ public class UserReviewsAdapter extends BaseAdapter {
 		mLoadedReviews = reviews;
 		notifyDataSetChanged();
 	}
-	
 
 	private void setupFullReviewDisplay(final UserReviewHolder viewHolder) {
 		viewHolder.readMore.setVisibility(View.GONE);

@@ -781,7 +781,7 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	public void pause() {
 		mIsPaused = true;
 	}
-	
+
 	public void resume() {
 		mIsPaused = false;
 	}

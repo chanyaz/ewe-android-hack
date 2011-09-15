@@ -120,16 +120,16 @@ public class HotelActivity extends Activity {
 				startRoomRatesActivity();
 			}
 		};
-		
-		OnClickListener onReviewsClick = (!property.hasExpediaReviews()) ? null :  new OnClickListener() {
+
+		OnClickListener onReviewsClick = (!property.hasExpediaReviews()) ? null : new OnClickListener() {
 			public void onClick(View v) {
 				Intent newIntent = new Intent(mContext, UserReviewsListActivity.class);
 				newIntent.fillIn(intent, 0);
 				startActivity(newIntent);
-			}	
+			}
 		};
 		LayoutUtils.configureHeader(this, property, onBookNowClick, onReviewsClick);
-		
+
 		// Configure the gallery
 		Gallery gallery = mGallery = (Gallery) findViewById(R.id.images_gallery);
 		mScrollView = (ScrollView) findViewById(R.id.scroll_view);
@@ -486,13 +486,13 @@ public class HotelActivity extends Activity {
 			else {
 				// If there's something mysteriously at the end we can't parse, just append it
 				String body = description.substring(index);
-				
+
 				// ensure not to add a string that is blank to the hote desription. This is possible
 				// if the end of the description is padded with whitespaces
-				if(isBlank(body)) {
+				if (isBlank(body)) {
 					break;
 				}
-				
+
 				addSection(null, body, descriptionContainer);
 				break;
 			}
@@ -502,17 +502,17 @@ public class HotelActivity extends Activity {
 		if (addressSection > 0) {
 			addAddressSection(descriptionContainer);
 		}
-		
+
 	}
-	
+
 	/*
 	 * This method returns true if the string is blank.
 	 * Ideally, I'd use the StringUtils.isBlank method but didnt want 
 	 * to pull in the commons jar just for this. 
 	 */
 	private boolean isBlank(String str) {
-		for(char a : str.toCharArray()) {
-			if(a != ' ' && a != '\n') {
+		for (char a : str.toCharArray()) {
+			if (a != ' ' && a != '\n') {
 				return false;
 			}
 		}
@@ -520,39 +520,42 @@ public class HotelActivity extends Activity {
 	}
 
 	private View addSection(String title, String body, ViewGroup detailsContainer) {
-		
-		RelativeLayout detailsSection = (RelativeLayout) getLayoutInflater().inflate(R.layout.snippet_hotel_description_section, null);
-		
+
+		RelativeLayout detailsSection = (RelativeLayout) getLayoutInflater().inflate(
+				R.layout.snippet_hotel_description_section, null);
+
 		TextView titleTextView = (TextView) detailsSection.findViewById(R.id.title_description_text_view);
-		if(title != null) {
+		if (title != null) {
 			titleTextView.setText(Html.fromHtml(title.trim()));
-		
+
 			// add the hotel rating to the hotel features section
-			if(title.contains("Features")) {
+			if (title.contains("Features")) {
 				addHotelRating(detailsSection);
 			}
-			
-		} else {
+
+		}
+		else {
 			titleTextView.setVisibility(View.GONE);
 		}
-		
+
 		TextView bodyTextView = (TextView) detailsSection.findViewById(R.id.body_description_text_view);
 		bodyTextView.setText(Html.fromHtml(body.trim()));
-		
+
 		detailsContainer.addView(detailsSection);
 
 		return detailsSection;
 	}
-	
+
 	private void addHotelRating(RelativeLayout detailsSection) {
 		// add the star rating section below the body of this section
 		View starRatingContainer = getLayoutInflater().inflate(R.layout.snippet_hotel_star_rating, null);
-		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
 		lp.addRule(RelativeLayout.BELOW, R.id.body_description_text_view);
-		
+
 		RatingBar hotelStarRating = (RatingBar) starRatingContainer.findViewById(R.id.hotel_rating_bar);
 		hotelStarRating.setRating((float) mProperty.getHotelRating());
-	
+
 		detailsSection.addView(starRatingContainer, lp);
 	}
 
@@ -566,12 +569,13 @@ public class HotelActivity extends Activity {
 				flags += StrUtils.F_COUNTRY_CODE;
 			}
 			String address = mProperty.getName() + "\n" + StrUtils.formatAddress(location, flags);
-			RelativeLayout addressSection = (RelativeLayout) addSection(getString(R.string.address), address.replace("\n", "<br />"), descriptionContainer);
+			RelativeLayout addressSection = (RelativeLayout) addSection(getString(R.string.address),
+					address.replace("\n", "<br />"), descriptionContainer);
 
 			// add the map button to the right of the address section
 			ImageButton mapButton = (ImageButton) getLayoutInflater().inflate(R.layout.snippet_map_button, null);
 			mapButton.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					Intent newIntent = new Intent(mContext, HotelMapActivity.class);

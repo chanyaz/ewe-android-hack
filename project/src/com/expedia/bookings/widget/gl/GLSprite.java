@@ -70,7 +70,7 @@ public class GLSprite extends Renderable {
 			gl.glRotatef((float) rotation, 0, 0, 1);
 			gl.glTranslatef(-rotationX, -rotationY, 0);
 		}
-		
+
 		mGrid.draw(gl, true, false);
 
 		gl.glPopMatrix();
