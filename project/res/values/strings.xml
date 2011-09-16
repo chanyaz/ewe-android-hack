@@ -137,6 +137,17 @@
 	<!--  Widget upsell within app in the form of a dialog -->
 	<string name="widget_upsell">Did you know you can add an Expedia Hotels Deals widget to your home screen? Install the widget and get hotel deals near you or your next vacation spot!</string>
 	
+	<!--  Hotel names for widget preview -->
+	<string name="preview_hotel_hard_rock">Hard Rock Hotel and Casino featuring HRH Tower Suites</string>
+	<string name="preview_hotel_bellagio">Bellagio</string>
+	<string name="preview_hotel_flamingo">Flamingo Las Vegas</string>
+	<string name="preview_hotel_venetian">The Venetian Resort Hotel &amp; Casino</string>
+	<string name="preview_hotel_harrahs">Harrah\'s Hotel &amp; Casino Las Vegas</string>
+	
+	<!--  Location of all hotels in widget preview -->
+	<string name="preview_hotel_location">Las Vegas, NV</string>
+	
+	
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
 	<string name="book_now">Book Now</string>
