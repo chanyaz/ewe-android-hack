@@ -131,11 +131,9 @@ def move_files(in_dir, out_dir):
 
     expedia_dir = os.path.join(out_dir, "project", "res")
     utils_dir = os.path.join(out_dir, "lib", "Utils", "res")
-    hotellib_dir = os.path.join(out_dir, "lib", "HotelLib", "res")
 
     os.makedirs(expedia_dir)
     os.makedirs(utils_dir)
-    os.makedirs(hotellib_dir)
 
     # Start moving files
     for lang_id in folders:
@@ -150,24 +148,12 @@ def move_files(in_dir, out_dir):
                         new_dir = os.path.join(expedia_dir, "values-%s" % postfix)
                     elif "AndroidUtils" in dir_path or "Utils" in dir_path:
                         new_dir = os.path.join(utils_dir, "values-%s" % postfix)
-                    elif "HotelLib" in dir_path:
-                        new_dir = os.path.join(hotellib_dir, "values-%s" % postfix)
                     else:
                         print("Not sure where this file should go: %s" % filepath)
 
                     if new_dir is not None:
                         os.mkdir(new_dir)
                         shutil.copy(filepath, os.path.join(new_dir, "strings.xml"))
-                elif filename == "oosdk_comment_card.xml":
-                    new_dir = None
-                    if "ExpediaBookings" in dir_path:
-                        new_dir = os.path.join(expedia_dir, "xml-%s" % postfix)
-                    else:
-                        print("Not sure where this file should go: %s" % filepath)
-
-                    if new_dir is not None:
-                        os.mkdir(new_dir)
-                        shutil.copy(filepath, os.path.join(new_dir, "oosdk_comment_card.xml"))
                 elif filename == ".DS_Store":
                     # Ignore this annoying file
                     pass
