@@ -135,9 +135,13 @@
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">We\'re out of deals for today. Check in for top deals tomorrow.</string>
 	<!--  Widget upsell within app in screen that opens up if the user clicks on the notification -->
-	<string name="widget_upsell">Did you know you can add an Expedia Hotels Deals widget to your home screen? Add the widget and get hotel deals near you or your next vacation spot!</string>
+	<string name="widget_upsell">Get the latest hotel deals near you or your next vacation spot!</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short">&lt;b>Add the widget&lt;/b> to get the latest hotel deals.</string>
+	<!--  Widget upsell title for the dialog/view that opens up when the user clicks the notification -->
+	<string name="widget_upsell_dialog_title">Hotel Deals Widget</string>
+	<!--  Instruction for the user on how to add this awesome hotel deals widget to the home screen -->
+	<string name="widget_upsell_add_instruction">To add this widget, press and hold on your device\'s home screen</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
