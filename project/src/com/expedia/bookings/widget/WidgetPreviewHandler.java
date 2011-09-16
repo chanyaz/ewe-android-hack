@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsService;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
@@ -150,17 +151,19 @@ public class WidgetPreviewHandler {
 
 		String[] hotelNames = mActivity.getResources().getStringArray(R.array.preview_hotels);
 		int i = 0;
-		for(String hotelName : hotelNames) {
-			if(i > (mProperties.size() -1)) {
+		for (String hotelName : hotelNames) {
+			if (i > (mProperties.size() - 1)) {
 				Property newProperty = new Property();
 				newProperty.fromJson(mProperties.get(0).toJson());
 				newProperty.setName(hotelName);
 				mProperties.add(newProperty);
-			} else {
+			}
+			else {
 				mProperties.get(i).setName(hotelName);
 			}
 			i++;
 		}
+
 		showProperty(mProperties.get(mCurrentPosition));
 	}
 
@@ -171,7 +174,8 @@ public class WidgetPreviewHandler {
 
 		mHotelNameTextView.setText(property.getName());
 		mHotelLocationTextView.setText(mActivity.getString(R.string.preview_hotel_location));
-		mHotelPriceTextView.setText(StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
+		String currencyCode = CurrencyUtils.getCurrencyCode(mActivity);
+		mHotelPriceTextView.setText(StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate(), currencyCode));
 
 		if (property.getLowestRate().getSavingsPercent() > 0) {
 			mSaleTextView.setText(mActivity.getString(R.string.widget_savings_template, property.getLowestRate()

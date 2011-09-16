@@ -70,6 +70,15 @@ public class Money implements JSONable {
 		}
 	}
 
+	public String getFormattedMoney(int flags, String currencyCode) {
+		if (mFormattedMoney != null) {
+			return mFormattedMoney;
+		}
+		else {
+			return formatRate(mAmount, currencyCode, flags);
+		}
+	}
+
 	/**
 	 * Adds one Money to this one.
 	 * 
@@ -138,8 +147,7 @@ public class Money implements JSONable {
 		}
 		else if (mCurrency != null && money.getCurrency() != null && !mCurrency.equals(money.getCurrency())) {
 			Log.w("Could not add/subtract Moneys together; they have differnet currencies. this=" + mCurrency
-					+ " other="
-					+ money.getCurrency());
+					+ " other=" + money.getCurrency());
 			return false;
 		}
 
