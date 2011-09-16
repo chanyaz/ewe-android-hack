@@ -91,6 +91,108 @@ public class SupportUtils {
 		return "http://m.expedia.com/mt/support.expedia.com/app/home/p/532/?rfrr=app.android";
 	}
 
+	public static String getContactExpediaUrl() {
+		Locale locale = Locale.getDefault();
+		String countryCode = locale.getCountry().toUpperCase();
+		String languageCode = locale.getLanguage().toUpperCase();
+
+		if (countryCode.equals("FR")) {
+			return "http://www.expedia.fr/?rfrr=app.android";
+		}
+		else if (countryCode.equals("ES")) {
+			return "http://www.expedia.es/?rfrr=app.android";
+		}
+		else if (countryCode.equals("SE")) {
+			return "http://www.expedia.se/?rfrr=app.android";
+		}
+		else if (countryCode.equals("DE")) {
+			return "http://www.expedia.de/?rfrr=app.android";
+		}
+		else if (countryCode.equals("IT")) {
+			return "http://www..expedia.it/?rfrr=app.android";
+		}
+		else if (countryCode.equals("BR") && languageCode.equals("PT")) {
+			return "http://www.expedia.com.br/?rfrr=app.android";
+		}
+		else if (countryCode.equals("NO")) {
+			return "http://www.expedia.no/?rfrr=app.android";
+		}
+		else if (countryCode.equals("GB")) {
+			return "http://www.expedia.co.uk/?rfrr=app.android";
+		}
+		else if (countryCode.equals("IE")) {
+			return "http://www.expedia.ie/?rfrr=app.android";
+		}
+		else if (countryCode.equals("AU")) {
+			return "http://www.expedia.com.au/?rfrr=app.android";
+		}
+		else if (countryCode.equals("AT")) {
+			return "http://www.expedia.at/?rfrr=app.android";
+		}
+		else if (countryCode.equals("BE")) {
+			if (languageCode.equals("FR")) {
+				return "http://www.expedia.be/?langid=1036&rfrr=app.android";
+			}
+			else {
+				return "http://www.expedia.be/?langid=1043&rfrr=app.android";
+			}
+		}
+		else if (countryCode.equals("CA")) {
+			if (languageCode.equals("FR")) {
+				return "http://www.expedia.ca/pub/agent.dll?qscr=chlg&lang=3084&ovrd=3&rurl=%2F&lnkcid=FRC&rfrr=app.android";
+			}
+			else {
+				return "http://www.expedia.ca/pub/agent.dll?qscr=chlg&lang=4105&ovrd=3&rurl=%2F&lnkcid=ENC&rfrr=app.android";
+			}
+		}
+		else if (countryCode.equals("DK")) {
+			return "http://www.expedia.dk/?rfrr=app.android";
+		}
+		else if (countryCode.equals("IN")) {
+			return "http://www.expedia.co.in/?rfrr=app.android";
+		}
+		else if (countryCode.equals("JP")) {
+			return "http://www.expedia.co.jp/?rfrr=app.android";
+		}
+		else if (countryCode.equals("MY")) {
+			if (languageCode.equals("MS")) {
+				return "http://myfaq.expedia.com.my/?rfrr=app.android";
+			}
+			else {
+				return "http://www.expedia.com.my/?rfrr=app.android";
+			}
+		}
+		else if (countryCode.equals("MX")) {
+			return "http://www.expedia.com.mx/?rfrr=app.android";
+		}
+		else if (countryCode.equals("NL")) {
+			return "http://www.expedia.nl/?rfrr=app.android";
+		}
+		else if (countryCode.equals("NZ")) {
+			return "http://www.expedia.co.nz/?rfrr=app.android";
+		}
+		else if (countryCode.equals("SG")) {
+			return "http://www.expedia.com.sg/?rfrr=app.android";
+		}
+		else if (countryCode.equals("KR")) {
+			return "http://faq.expedia.co.kr/?rfrr=app.android";
+		}
+		else if (countryCode.equals("ID")) {
+			return "http://faq.expedia.co.id/?rfrr=app.android";
+		}
+		else if (countryCode.equals("PH")) {
+			if (languageCode.equals("TL")) {
+				return "http://phfaq.expedia.com.ph/?rfrr=app.android";
+			}
+			else {
+				return "http://faq.expedia.com.ph/?rfrr=app.android";
+			}
+		}
+
+		// Default to US version
+		return "http://m.expedia.com/?rfrr=app.android";
+	}
+
 	public static String getInfoSupportNumber() {
 		String countryCode = Locale.getDefault().getCountry().toUpperCase();
 		if (SUPPORT_NUMBERS_INFO.containsKey(countryCode)) {

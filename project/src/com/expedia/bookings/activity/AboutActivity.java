@@ -167,7 +167,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 			items.add(getString(R.string.contact_expedia_website));
 			actions.add(new Runnable() {
 				public void run() {
-					SocialUtils.openSite(mContext, SupportUtils.getSupportUrl());
+					SocialUtils.openSite(mContext, SupportUtils.getContactExpediaUrl());
 				}
 			});
 
