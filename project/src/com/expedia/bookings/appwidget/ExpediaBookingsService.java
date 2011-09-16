@@ -774,6 +774,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void trackMaximumSavingsForWidget(WidgetState widget, Property property) {
+		widget.maxPercentSavings = 0;
 		double savingsPercent = property.getLowestRate().getSavingsPercent();
 		if (widget.maxPercentSavings == 0 || widget.maxPercentSavings < savingsPercent) {
 			widget.maxPercentSavings = savingsPercent;
