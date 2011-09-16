@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsService;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -98,6 +99,10 @@ public class WidgetPreviewHandler {
 			return Collections.unmodifiableMap(result);
 		}
 	}
+
+	private static final double STARTING_PRICE = 50.0;
+	private static final double PRICE_INCREMENT = 25.0;
+	private static final double STARTING_SAVING_PERCENT = 10.0;
 
 	public WidgetPreviewHandler(Activity activity) {
 		mActivity = activity;
@@ -204,25 +209,17 @@ public class WidgetPreviewHandler {
 
 		mHotelNameTextView.setText(property.getName());
 		mHotelLocationTextView.setText(mActivity.getString(R.string.preview_hotel_location));
+
 		String currencyCode = CurrencyUtils.getCurrencyCode(mActivity);
+		Money money = property.getLowestRate().getDisplayRate();
+		money.setAmount(STARTING_PRICE + mCurrentPosition*PRICE_INCREMENT);
 		mHotelPriceTextView.setText(StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate(), currencyCode));
 
-		if (property.getLowestRate().getSavingsPercent() > 0) {
-			mSaleTextView.setText(mActivity.getString(R.string.widget_savings_template, property.getLowestRate()
-					.getSavingsPercent() * 100));
-			mPricePerNightContainer.setBackgroundResource(R.drawable.widget_price_bg);
-			mSaleTextView.setVisibility(View.VISIBLE);
-			mHighlyRatedTextView.setVisibility(View.GONE);
-		}
-		else if (property.getLowestRate().getSavingsPercent() == 0 && property.isHighlyRated()) {
-			mSaleTextView.setVisibility(View.GONE);
-			mHighlyRatedTextView.setVisibility(View.VISIBLE);
-		}
-		else {
-			mSaleTextView.setVisibility(View.GONE);
-			mHighlyRatedTextView.setVisibility(View.GONE);
-			mPricePerNightContainer.setBackgroundResource(R.drawable.widget_price_bg_no_sale);
-		}
+		mSaleTextView.setText(mActivity.getString(R.string.widget_savings_template,
+				(STARTING_SAVING_PERCENT * (1 + mCurrentPosition))));
+		mPricePerNightContainer.setBackgroundResource(R.drawable.widget_price_bg);
+		mSaleTextView.setVisibility(View.VISIBLE);
+		mHighlyRatedTextView.setVisibility(View.GONE);
 
 		mActivity.findViewById(R.id.loading_text_container).setVisibility(View.GONE);
 		mActivity.findViewById(R.id.loading_text_view).setVisibility(View.GONE);
@@ -242,6 +239,7 @@ public class WidgetPreviewHandler {
 	private void loadPrevProperty() {
 		mCurrentPosition = ((mCurrentPosition - 1) < 0) ? (mProperties.size() - 1) : (mCurrentPosition - 1);
 		showProperty(mProperties.get(mCurrentPosition));
+		scheduleRotation();
 	}
 
 	private void scheduleRotation() {
