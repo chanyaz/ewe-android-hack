@@ -2351,7 +2351,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mSortDistanceButton.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
 		mSortDistanceButton.findViewById(R.id.sort_option_divider).setVisibility(
 				mShowDistance ? View.VISIBLE : View.GONE);
-
+		mSortOptionsLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+		mSortPopup.setWidth(mSortOptionsLayout.getMeasuredWidth());
+		mSortPopup.setHeight(mSortOptionsLayout.getMeasuredHeight());
 		if (mSetShowDistanceListeners != null) {
 			for (SetShowDistanceListener showDistanceListener : mSetShowDistanceListeners) {
 				showDistanceListener.onSetShowDistance(showDistance);
