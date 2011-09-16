@@ -1,6 +1,9 @@
 package com.expedia.bookings.widget;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.graphics.BitmapFactory;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -75,6 +79,25 @@ public class WidgetPreviewHandler {
 	 * that is not permanently cached for this widget.
 	 */
 	private static final String PROPERTIES_IN_JSON = "{\"properties\":[{\"lowestRate\":{\"numberOfNights\":1,\"rateType\":0,\"averageRate\":{\"amount\":71.99,\"currency\":\"USD\"},\"rateChange\":false,\"averageBaseRate\":{\"amount\":79.99,\"currency\":\"USD\"},\"surcharge\":{\"amount\":8.32,\"currency\":\"USD\"},\"valueAdds\":[],\"numRoomsLeft\":0,\"promoDescription\":\"Sale! Save 10% on this Stay.\"},\"location\":{\"countryCode\":\"US\",\"streetAddress\":[\"16838 International Boulevard\"],\"stateCode\":\"WA\",\"longitude\":-122.29576,\"latitude\":47.45145,\"postalCode\":\"98188\",\"city\":\"SeaTac\"},\"averageExpediaRating\":3.9,\"totalReviews\":248,\"available\":true,\"supplierType\":\"E\",\"distanceFromUser\":{\"unit\":\"MILES\",\"distance\":13.055667},\"lowRate\":{\"amount\":71.99,\"currency\":\"USD\"},\"thumbnail\":{\"url\":\"http://media.expedia.com/mobiata/hotels/153008_180.jpg\",\"width\":0,\"height\":0},\"propertyId\":\"153008\",\"totalRecommendations\":211,\"description\":\"<p><b>Location. </b> <br />Located in SeaTac, Red Roof Inn Seattle Airport is near the airport and close to Westfield Southcenter, Hydroplane and Raceboat Museum, and Starfire Sports Complex. Other regional attractions include Pike Place Market and Space Needle. </p><p><b>Hotel Features. </b><br />Recreational amenities include a fitness facility. Complimentary wireless Internet access is available in public areas. The property has an airport shuttle, which is complimentary. Guest parking is complimentary. Additional property amenities include laundry facilities. Extended parking privileges may be offered to guests after check out (surcharge). A total renovation of this property was completed in 2001. </p><p><b>Guestrooms. </b> <br /> There are 152 guestrooms at Red Roof Inn Seattle Airport. Bathrooms feature shower/tub combinations and hair dryers. Wireless Internet access is complimentary. In addition to complimentary newspapers and in room safes, guestrooms offer speakerphones with voice mail as well as complimentary local calls (restrictions may apply). Televisions have premium cable channels, first run movies, and free movie channels. Rooms also include blackout drapes/curtains, electronic/magnetic keys, irons/ironing boards, and clock radios. Guests may request extra towels/bedding and wake up calls. Housekeeping is available daily. Cribs (infant beds) are available on request. </p> <br /> <p><b>Notifications and Fees</b><br /></p><p>The following fees and deposits are charged by the property at time of service, check in, or check out.  <ul><li>Safe: US$ 1.50 per night</li> </ul></p><p>The above list may not be comprehensive. Fees and deposits may not include tax and are subject to change. </p>\",\"name\":\"Red Roof Inn Seattle Airport\",\"expediaPropertyId\":14917,\"hotelRating\":2,\"media\":[{\"url\":\"http://media.expedia.com/hotels/1000000/20000/15000/14917/14917_29_b.jpg\",\"width\":0,\"height\":0},{\"url\":\"http://media.expedia.com/hotels/1000000/20000/15000/14917/14917_28_b.jpg\",\"width\":0,\"height\":0},{\"url\":\"http://media.expedia.com/hotels/1000000/20000/15000/14917/14917_30_b.jpg\",\"width\":0,\"height\":0},{\"url\":\"http://media.expedia.com/hotels/1000000/20000/15000/14917/14917_31_b.jpg\",\"width\":0,\"height\":0},{\"url\":\"http://media.expedia.com/hotels/1000000/20000/15000/14917/14917_32_b.jpg\",\"width\":0,\"height\":0},{\"url\":\"http://media.expedia.com/hotels/1000000/20000/15000/14917/14917_33_b.jpg\",\"width\":0,\"height\":0},{\"url\":\"http://media.expedia.com/hotels/1000000/20000/15000/14917/14917_34_b.jpg\",\"width\":0,\"height\":0}],\"amenityMask\":150945866}]}";
+
+	/*
+	 * Static mapping of hotel name to the drawable resource id
+	 * This helps to load the thumbnails into the widget preview
+	 * without depending on an internet connection to do so
+	 */
+	public static class Thumbnails {
+		private static final Map<Integer, Integer> MAP = createMap();
+
+		private static Map<Integer, Integer> createMap() {
+			Map<Integer, Integer> result = new HashMap<Integer, Integer>();
+			result.put(R.string.preview_hotel_bellagio, R.drawable.hotel_thumbnail_bellagio);
+			result.put(R.string.preview_hotel_flamingo, R.drawable.hotel_thumbnail_flamingo);
+			result.put(R.string.preview_hotel_hard_rock, R.drawable.hotel_thumbnail_hard_rock);
+			result.put(R.string.preview_hotel_harrahs, R.drawable.hotel_thumbnail_harrahs);
+			result.put(R.string.preview_hotel_venetian, R.drawable.hotel_thumbnail_venetian);
+			return Collections.unmodifiableMap(result);
+		}
+	}
 
 	public WidgetPreviewHandler(Activity activity) {
 		mActivity = activity;
@@ -164,6 +187,13 @@ public class WidgetPreviewHandler {
 			i++;
 		}
 
+		// load the thumbnails into the cache where the property name is used as a 
+		// key into the image cache.
+		for (Integer stringId : Thumbnails.MAP.keySet()) {
+			ImageCache.addImage(mActivity.getString(stringId.intValue()),
+					BitmapFactory.decodeResource(mActivity.getResources(), Thumbnails.MAP.get(stringId)));
+		}
+
 		showProperty(mProperties.get(mCurrentPosition));
 	}
 
@@ -198,8 +228,7 @@ public class WidgetPreviewHandler {
 		mActivity.findViewById(R.id.loading_text_view).setVisibility(View.GONE);
 		mActivity.findViewById(R.id.refresh_text_view).setVisibility(View.GONE);
 
-		mHotelThumbnailView.setImageResource(R.drawable.widget_thumbnail_background);
-		ImageCache.loadImage(property.getThumbnail().getUrl(), mHotelThumbnailView);
+		mHotelThumbnailView.setImageBitmap(ImageCache.getImage(property.getName()));
 
 		mWidgetContentsContainer.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.fade_in));
 	}
