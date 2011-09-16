@@ -134,20 +134,22 @@
 	<string name="save_upto_template">Save up to %s%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">We\'re out of deals for today. Check in for top deals tomorrow.</string>
-	<!--  Widget upsell within app in the form of a dialog -->
-	<string name="widget_upsell">Did you know you can add an Expedia Hotels Deals widget to your home screen? Install the widget and get hotel deals near you or your next vacation spot!</string>
+	<!--  Widget upsell within app in screen that opens up if the user clicks on the notification -->
+	<string name="widget_upsell">Did you know you can add an Expedia Hotels Deals widget to your home screen? Add the widget and get hotel deals near you or your next vacation spot!</string>
+	<!--  Widget upsell within app as a notification in the top bar -->
+	<string name="widget_upsell_short">&lt;b>Add the widget&lt;/b> to get the latest hotel deals.</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_hard_rock">Hard Rock Hotel and Casino featuring HRH Tower Suites</string>
+	<string name="preview_hotel_wynn">Wynn Las Vegas</string>
 	<!-- Name of Bellagio hotel in Las Vegas (for widget preview) -->
 	<string name="preview_hotel_bellagio">Bellagio</string>
 	<!-- Name of Flamingo Las Vegas hotel in Las Vegas (for widget preview) -->
 	<string name="preview_hotel_flamingo">Flamingo Las Vegas</string>
 	<!-- Name of Venetian Resort Hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_venetian">The Venetian Resort Hotel &amp; Casino</string>
+	<string name="preview_hotel_caesers_palace">Caesars Palace</string>
 	<!-- Name of Harrah's hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_harrahs">Harrah\'s Hotel &amp; Casino Las Vegas</string>
+	<string name="preview_hotel_paris">Paris Las Vegas</string>
 	
 	<!--  Location of all hotels in widget preview -->
 	<string name="preview_hotel_location">Las Vegas, NV</string>

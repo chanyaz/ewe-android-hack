@@ -551,10 +551,10 @@
 	</string-array>
 	
 	<string-array name="preview_hotels">
-		<item>@string/preview_hotel_harrahs</item>
+		<item>@string/preview_hotel_wynn</item>
 		<item>@string/preview_hotel_flamingo</item>
-		<item>@string/preview_hotel_venetian</item>
-		<item>@string/preview_hotel_hard_rock</item>
+		<item>@string/preview_hotel_paris</item>
+		<item>@string/preview_hotel_caesers_palace</item>
 		<item>@string/preview_hotel_bellagio</item>
 	</string-array>
 </resources>

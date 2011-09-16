@@ -93,9 +93,9 @@ public class WidgetPreviewHandler {
 			Map<Integer, Integer> result = new HashMap<Integer, Integer>();
 			result.put(R.string.preview_hotel_bellagio, R.drawable.hotel_thumbnail_bellagio);
 			result.put(R.string.preview_hotel_flamingo, R.drawable.hotel_thumbnail_flamingo);
-			result.put(R.string.preview_hotel_hard_rock, R.drawable.hotel_thumbnail_hard_rock);
-			result.put(R.string.preview_hotel_harrahs, R.drawable.hotel_thumbnail_harrahs);
-			result.put(R.string.preview_hotel_venetian, R.drawable.hotel_thumbnail_venetian);
+			result.put(R.string.preview_hotel_caesers_palace, R.drawable.hotel_thumbnail_caesers);
+			result.put(R.string.preview_hotel_wynn, R.drawable.hotel_thumbnail_wynn);
+			result.put(R.string.preview_hotel_paris, R.drawable.hotel_thumbnail_paris);
 			return Collections.unmodifiableMap(result);
 		}
 	}
