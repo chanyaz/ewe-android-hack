@@ -73,6 +73,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -286,6 +287,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private BitmapDrawable mSortOptionDivider;
 	private int mSortOptionSelectedId;
 	private boolean mFilterButtonArrowUp = true;
+	private boolean mSortButtonArrowUp = true;
 
 	private List<SearchListener> mSearchListeners;
 	private MapViewListener mMapViewListener;
@@ -463,7 +465,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mSortPopup = new PopupWindow(mSortOptionsLayout, mSortOptionsLayout.getMeasuredWidth(),
 				mSortOptionsLayout.getMeasuredHeight());
 		mSortPopup.setAnimationStyle(R.style.Animation_Popup);
-
+		mSortPopup.setBackgroundDrawable(new BitmapDrawable());
+		mSortPopup.setOutsideTouchable(true);
+		mSortPopup.setOnDismissListener(new OnDismissListener() {
+			
+			@Override
+			public void onDismiss() {
+				if(!mSortButtonArrowUp) {
+					Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up);
+					animation.setDuration(0);
+					mUpArrowSortHotels.startAnimation(animation);
+				}
+			}
+		});
+		
 		mSortPriceButton.setOnClickListener(mSortOptionChangedListener);
 		mSortPopularityButton.setOnClickListener(mSortOptionChangedListener);
 		mSortDistanceButton.setOnClickListener(mSortOptionChangedListener);
@@ -1854,7 +1869,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			rotateAnimation.setDuration(0);
 		}
 		mUpArrowSortHotels.startAnimation(rotateAnimation);
-
+		mSortButtonArrowUp = false;
+		
 		mSortPopup.showAsDropDown(mSortButton, ((mSortButton.getWidth() - mSortOptionsLayout.getMeasuredWidth()) / 2),
 				0);
 		hideFilterOptions();
@@ -1868,6 +1884,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mDisplayType = DisplayType.NONE;
 		mSortPopup.dismiss();
 		mUpArrowSortHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up));
+		mSortButtonArrowUp = true;
 	}
 
 	private void showFilterOptions() {
