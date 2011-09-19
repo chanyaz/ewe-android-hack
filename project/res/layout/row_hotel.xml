@@ -48,7 +48,7 @@
 			android:id="@+id/name_text_view"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:paddingRight="30dp"
+			android:paddingRight="@dimen/right_padding_for_scroll_bar"
 			android:ellipsize="end"
 			android:singleLine="true"
 			android:textColor="#3D4552"
@@ -118,7 +118,7 @@
 			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"
 			android:layout_alignBottom="@id/hotel_rating_bar"
-			android:paddingRight="30dp"
+			android:paddingRight="@dimen/right_padding_for_scroll_bar"
 			android:textColor="@color/light_gray"
 			android:textSize="11sp" />
 	</RelativeLayout>

@@ -21,4 +21,6 @@
 	<!-- Dimensions for book now button or any other button in the header -->
 	<dimen name="header_button_width">100dp</dimen>
 	<dimen name="header_button_height">38dp</dimen>
+	
+	<dimen name="right_padding_for_scroll_bar">30dp</dimen>
 </resources>
