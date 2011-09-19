@@ -74,7 +74,7 @@
 		mobiata:position="bottom"
 		mobiata:openedHandle="@drawable/search_results_drawer_handle"
 		mobiata:closedHandle="@drawable/search_results_drawer_handle"
-		mobiata:animationDuration="300">
+		mobiata:animationDuration="@integer/sort_filter_animation_duration">
 
 		<TextView
 		   	android:id="@+id/filter_info_text_view"

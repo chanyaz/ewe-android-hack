@@ -8,4 +8,4 @@
     android:pivotY="50%"
     android:fillEnabled="true"
     android:fillAfter="true"
-    android:duration="350" />
+    android:duration="@integer/sort_filter_animation_duration" />
