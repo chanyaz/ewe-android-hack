@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.UserReviewsListActivity.ReviewWrapper;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ReviewRating;
+import com.mobiata.android.util.AndroidUtils;
 
 public class UserReviewsAdapter extends BaseAdapter {
 
@@ -29,9 +31,12 @@ public class UserReviewsAdapter extends BaseAdapter {
 
 	public ArrayList<ReviewWrapper> mLoadedReviews;
 
-	public UserReviewsAdapter(Context context, Property property) {
+	private ListView mListView;
+
+	public UserReviewsAdapter(Context context, Property property, ListView listView) {
 		mContext = context;
 		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mListView = listView;
 	}
 
 	@Override
@@ -85,6 +90,13 @@ public class UserReviewsAdapter extends BaseAdapter {
 				viewHolder.body.setText(userReviewLoaded.review.getBody());
 				userReviewLoaded.isDisplayingFull = true;
 				setupFullReviewDisplay(viewHolder);
+
+				// #8783: If the review would be off the screen, scroll it into view.
+				// Since smoothScrollToPosition() was only added in api 8, we only do
+				// this on newer versions.  "Jumping" would be too sudden for this.
+				if (AndroidUtils.getSdkVersion() >= 8) {
+					mListView.smoothScrollToPosition(position + 1); //scroll to item (account for header)
+				}
 			}
 		});
 

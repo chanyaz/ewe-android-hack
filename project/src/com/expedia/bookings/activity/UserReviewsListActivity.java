@@ -313,9 +313,12 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		listsContainer.addView(favorableReviewsListViewContainer);
 		listsContainer.addView(recentReviewsListViewContainer);
 
-		UserReviewsAdapter recentReviewsAdapter = new UserReviewsAdapter(mContext, mProperty);
-		UserReviewsAdapter criticalReviewsAdapter = new UserReviewsAdapter(mContext, mProperty);
-		UserReviewsAdapter favorableReviewsAdapter = new UserReviewsAdapter(mContext, mProperty);
+		UserReviewsAdapter recentReviewsAdapter = new UserReviewsAdapter(mContext, mProperty,
+				getListView(recentReviewsListViewContainer));
+		UserReviewsAdapter criticalReviewsAdapter = new UserReviewsAdapter(mContext, mProperty,
+				getListView(criticalReviewsListViewContainer));
+		UserReviewsAdapter favorableReviewsAdapter = new UserReviewsAdapter(mContext, mProperty,
+				getListView(favorableReviewsListViewContainer));
 
 		mListViewContainersMap.put(ReviewSort.HIGHEST_RATING_FIRST, favorableReviewsListViewContainer);
 		mListViewContainersMap.put(ReviewSort.LOWEST_RATING_FIRST, criticalReviewsListViewContainer);
