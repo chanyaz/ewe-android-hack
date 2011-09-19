@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -39,6 +40,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 	private List<String> mValueAdds;
 
 	private float mSaleTextSize;
+
+	private int mBedRightMargin;
 
 	public RoomsAndRatesAdapter(Context context, AvailabilityResponse response) {
 		mContext = context;
@@ -69,6 +72,21 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		// Calculate the size of the sale text size
 		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(context.getString(R.string.savings_template, 50.0), 2, 11,
 				new TextPaint(), 28);
+
+		// Here we determine the margin for all rows' bed description.
+		// We pre-calculate this so that everything is aligned. How
+		// this is calculated:
+		//
+		// 1. If there are no sales tags, align to the right.
+		// 2. If there are sales tags but none of the bed descriptions exceed one line, do same as #1.
+		// 3. If there are sales tags and one exceeds one line, align all a bit more to the left.
+		mBedRightMargin = Math.round(mResources.getDisplayMetrics().density * -52);
+		for (Rate rate : mRates) {
+			if (rate.getSavingsPercent() > 0 && showRoomsLeft(rate)) {
+				mBedRightMargin = Math.round(mResources.getDisplayMetrics().density * -30);
+				break;
+			}
+		}
 	}
 
 	@Override
@@ -106,6 +124,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 			holder.saleLabel.setTextSize(mSaleTextSize);
 
+			((RelativeLayout.LayoutParams) holder.beds.getLayoutParams()).rightMargin = mBedRightMargin;
+
 			// #6966: Fix specifically for Android 2.1 and below.  Since RelativeLayout can't properly align
 			// bottom on a ListView, I'm just going to add extra margin
 			if (Build.VERSION.SDK_INT <= 7) {
@@ -138,8 +158,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			holder.saleLabel.setVisibility(View.VISIBLE);
 		}
 		else {
-			holder.saleImage.setVisibility(View.GONE);
-			holder.saleLabel.setVisibility(View.GONE);
+			holder.saleImage.setVisibility(View.INVISIBLE);
+			holder.saleLabel.setVisibility(View.INVISIBLE);
 		}
 
 		// Determine whether to show rate, rate per night, or avg rate per night for explanation
@@ -175,8 +195,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		String bedText = rate.getRatePlanName();
 
 		// If there are < ROOMS_LEFT_CUTOFF rooms left, show a warning to the user
-		int numRoomsLeft = rate.getNumRoomsLeft();
-		if (numRoomsLeft > 0 && numRoomsLeft <= ROOMS_LEFT_CUTOFF) {
+		if (showRoomsLeft(rate)) {
+			int numRoomsLeft = rate.getNumRoomsLeft();
 			bedText += "\n" + mResources.getQuantityString(R.plurals.number_of_rooms_left, numRoomsLeft, numRoomsLeft);
 		}
 
@@ -197,6 +217,11 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		}
 
 		return convertView;
+	}
+
+	private boolean showRoomsLeft(Rate rate) {
+		int numRoomsLeft = rate.getNumRoomsLeft();
+		return numRoomsLeft > 0 && numRoomsLeft <= ROOMS_LEFT_CUTOFF;
 	}
 
 	private static class RoomAndRateHolder {
