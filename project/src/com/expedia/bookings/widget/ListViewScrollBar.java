@@ -3,14 +3,14 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -62,9 +62,8 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 	private double mWidth;
 	private double mHeight;
-	private double mScreenHeight;
-	private double mTop;
 	private double mListViewHeight;
+	private double mTotalHeight;
 	private double mScrollHeight;
 
 	private double mBarMinimumWidth;
@@ -89,8 +88,8 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	private double mMarkerLeft;
 	private double mMarkerRight;
 
-	private int mHeaderHeight;
 	private double mRowHeight;
+	private double mHeaderHeight;
 	private double mAdjustedTotalHeight;
 
 	private double mPaddingLeft;
@@ -104,17 +103,11 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	public ListViewScrollBar(Context context) {
 		super(context);
 		init();
-
-		Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
-		mScreenHeight = display.getHeight();
 	}
 
 	public ListViewScrollBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
-
-		Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
-		mScreenHeight = display.getHeight();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +122,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 		if (mListView != null && mListView.getCount() > 0) {
 			mRowHeight = getRowHeight();
-			mVisibleItemCount = mListViewHeight / mRowHeight;
+			mVisibleItemCount = getVisibleItemCount();
 		}
 
 		if (mTotalItemCount < mVisibleItemCount) {
@@ -193,9 +186,13 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 		final int[] location = new int[2];
 		mListView.getLocationOnScreen(location);
-		mTop = location[1];
-
-		mListViewHeight = mScreenHeight - mTop;
+		
+		// NOTE: considering the height of the list view to be the same as that
+		// of the scroll bar (ignoring padding) since both attempt to fill
+		// up the available space.
+		// This assumption is key in calculating (directly or indirectly) 
+		// the number of visible items, scroll size and position
+		mListViewHeight = mHeight;
 
 		setOnTouchListener(this);
 
@@ -249,6 +246,78 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		return true;
 	}
 
+	/**
+	 * Save and restore the total height as well as the height of a header item
+	 * so that we can use these in calculating the scroll size/position on resume
+	 * even when the header is not showing
+	 */
+	@Override
+	protected Parcelable onSaveInstanceState() {
+		Parcelable state = super.onSaveInstanceState();
+
+		SavedState ss = new SavedState(state);
+		ss.headerHeight = mHeaderHeight;
+		ss.totalHeight = mTotalHeight;
+		return ss;
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Parcelable state) {
+		if (!(state instanceof SavedState)) {
+			super.onRestoreInstanceState(state);
+			return;
+		}
+
+		SavedState ss = (SavedState) state;
+		super.onRestoreInstanceState(ss.getSuperState());
+
+		mHeaderHeight = ss.headerHeight;
+		mTotalHeight = ss.totalHeight;
+	}
+
+	public static class SavedState extends BaseSavedState {
+		double headerHeight;
+		double totalHeight;
+		
+		SavedState(Parcelable superState) {
+			super(superState);
+		}
+
+		@Override
+		public void writeToParcel(Parcel out, int flags) {
+			super.writeToParcel(out, flags);
+			double values[] = new double[2];
+			values[0] = headerHeight;
+			values[1] = totalHeight;
+			
+			out.writeDoubleArray(values);
+		}
+
+		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+
+			@Override
+			public SavedState createFromParcel(Parcel source) {
+				return new SavedState(source);
+			}
+
+			@Override
+			public SavedState[] newArray(int size) {
+				return new SavedState[size];
+			}
+		};
+
+		private SavedState(Parcel in) {
+			super(in);
+			
+			double values[] = new double[2];
+			in.readDoubleArray(values);
+			
+			headerHeight = values[0];
+			totalHeight = values[1];
+		}
+
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Public methods
 
@@ -269,55 +338,6 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private methods
 
-	public void checkCachedMarkers() {
-		List<Integer> propertyPositions = new ArrayList<Integer>();
-		int i = 0;
-
-		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
-		for (Property property : mCachedProperties) {
-			if (property.getAverageExpediaRating() >= Filter.HIGH_USER_RATING) {
-				propertyPositions.add(i);
-			}
-			i++;
-		}
-
-		mCachedMarkerPositions = propertyPositions.toArray(new Integer[0]);
-	}
-
-	private double getRowHeight() {
-		int firstVisible = mListView.getFirstVisiblePosition();
-		int numHeaders = mListView.getHeaderViewsCount();
-		int targetRow = 0;
-		if (firstVisible < numHeaders) {
-			targetRow = numHeaders;
-		}
-		if (mListView.getChildCount() <= targetRow) {
-			return getHeaderHeight() / (double) numHeaders;
-		}
-		double totalHeight = (mTotalItemCount - numHeaders) * mListView.getChildAt(targetRow).getHeight()
-				+ getHeaderHeight() + (HEIGHT_ROW_DIVIDER * (mTotalItemCount - 1));
-		return totalHeight / mTotalItemCount;
-	}
-
-	private int getHeaderHeight() {
-		int numHeaders = mListView.getHeaderViewsCount();
-		if (numHeaders == 0) {
-			return 0;
-		}
-
-		int firstVisible = mListView.getFirstVisiblePosition();
-		if (firstVisible == 0) {
-			// Calculate the height of each header
-			mHeaderHeight = 0;
-			for (int a = 0; a < numHeaders; a++) {
-				mHeaderHeight += mListView.getChildAt(a).getHeight() + HEIGHT_ROW_DIVIDER;
-			}
-		}
-
-		// If the first header isn't visible, trust we calculated this correctly before.
-		return mHeaderHeight;
-	}
-
 	private void drawBar(Canvas canvas) {
 		mBarDrawable.setBounds(mBarRect);
 		mBarDrawable.draw(canvas);
@@ -330,21 +350,51 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		final double rowOffset = firstChild.getTop();
 
 		mRowHeight = getRowHeight();
-		mAdjustedTotalHeight = (mTotalItemCount - mVisibleItemCount) * mRowHeight;
 
 		// Calculate this here to get an actual double for smooth scrolling
-		mVisibleItemCount = mListViewHeight / mRowHeight;
+		mVisibleItemCount = getVisibleItemCount();
+
+		
+		// calculate the total height which takes into account 
+		// the height of the headers and all the row dividers. 
+		// Note that its only possible to calculate total height 
+		// when the header views are visible. 
+		// ASSUMPTIONS:
+		// a) The header views don't occupy more space than the total number of visible items 
+		// b) The height of each row is the same.
+		if (mListView.getFirstVisiblePosition() == 0) {
+			mTotalHeight = getTotalHeight();
+		}
+
+		// total height is calculated by manually calculating the height of all headers
+		// and then adding up the heights occupied by the remaining rows. 
+		// Note that the row divider is taken into account when calculating the row height
+		// When the total height has not been calculated, we assume that all rows (including 
+		// the headers) have the same height as every row and approximate the adjustedTotalHeight.
+		mAdjustedTotalHeight = (mTotalHeight != 0) ? (mTotalHeight - mListViewHeight)
+				: (mTotalItemCount - mVisibleItemCount) * mRowHeight;
 
 		// INDICATOR HEIGHT
-		mIndicatorHeight = (mHeight - mIndicatorPaddingTop - mIndicatorPaddingBottom)
-				* (mVisibleItemCount / mTotalItemCount);
+		// NOTE : When calculating the indicator height, we take into account
+		// every visible row except for the variable-height header rows.
+		// The reason for this is so that the indicator height does not change
+		// as the header view is brought into the visible section of the list view and 
+		// thus stays constant throughout
+		// ASSUMPTIONS: 
+		// a) height of each row is the same
+		// b) height of each header row is the same
+		mIndicatorHeight = (mHeight - mIndicatorPaddingTop - mIndicatorPaddingBottom - mPaddingTop - mPaddingBottom)
+				* (getVisibleItemCountWithoutHeader() / (mTotalItemCount - mListView.getHeaderViewsCount()));
 		mIndicatorHeight = mIndicatorHeight < mMinIndicatorHeight ? mMinIndicatorHeight : mIndicatorHeight;
 
 		// TOTAL SCROLL HEIGHT
 		mScrollHeight = mHeight - mIndicatorHeight - mIndicatorPaddingTop - mIndicatorPaddingBottom - mPaddingTop
 				- mPaddingBottom;
 
-		final double adjustedPosition = (mFirstVisibleItem * mRowHeight) - rowOffset;
+		// adjustedPosition variable indicates the total height of list view that is above the visible 
+		// fold, to  proportionately position the indicator in the scroll view. We add the offset
+		// to take into account the portion of the first visible item thats above the visible fold
+		final double adjustedPosition = getTotalHeightUptoPosition((int) mFirstVisibleItem) + Math.abs(rowOffset);
 		final double scrollPercent = adjustedPosition / mAdjustedTotalHeight;
 
 		final double top = (mScrollHeight * scrollPercent) + mIndicatorPaddingTop + mPaddingTop;
@@ -447,4 +497,139 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 			return onSingleTapUp(e);
 		}
 	});
+	
+	public void checkCachedMarkers() {
+		List<Integer> propertyPositions = new ArrayList<Integer>();
+		int i = 0;
+
+		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
+		for (Property property : mCachedProperties) {
+			if (property.getAverageExpediaRating() >= Filter.HIGH_USER_RATING) {
+				propertyPositions.add(i);
+			}
+			i++;
+		}
+
+		mCachedMarkerPositions = propertyPositions.toArray(new Integer[0]);
+	}
+
+	/**
+	 * This helper method returns the approximate row height
+	 * after taking into account all headers and row dividers between 
+	 * each row in the list view. 
+	 * 
+	 * The assumption here is that the row height is the same
+	 * for every row except the header rows.
+	 */
+	private double getRowHeight() {
+		int firstVisible = mListView.getFirstVisiblePosition();
+		int numHeaders = mListView.getHeaderViewsCount();
+		int targetRow = 0;
+		
+		if (firstVisible < numHeaders) {
+			targetRow = numHeaders;
+		}
+		
+		// there are only headers in the list view. Therefore
+		// treat the row height to be the same as the header height
+		if (mListView.getChildCount() <= targetRow) {
+			return getHeaderHeight(firstVisible) / (double) numHeaders;
+		}
+
+		// once again, assuming here that the height of every header is the same 
+		// when attempting to calculate the height occupied by each header view
+		double totalHeightWithoutHeaderViews = (mTotalItemCount - numHeaders) * mListView.getChildAt(targetRow).getHeight()
+				+ (HEIGHT_ROW_DIVIDER * (mTotalItemCount - numHeaders - 1));
+
+		return (totalHeightWithoutHeaderViews / (mTotalItemCount - numHeaders));
+	}
+
+	/**
+	 * This method returns the total height occupied by all headers starting at
+	 * the position specified
+	 * 
+	 * The method returns 0 if the startingPosition is greater than the
+	 * number of headers.
+	 */
+	private double getHeaderHeight(int startingPosition) {
+		int numHeaders = mListView.getHeaderViewsCount();
+		if (numHeaders == 0) {
+			return 0;
+		}
+
+		// Calculate the height of each header
+		double headerHeight = 0;
+		
+		// assuming that the total height occupied by headers is only asked for
+		// when some part of the header is showing
+		for (int a = startingPosition; a < numHeaders; a++) {
+			headerHeight += mListView.getChildAt(a).getHeight() + HEIGHT_ROW_DIVIDER;
+			mHeaderHeight = mListView.getChildAt(a).getHeight() + HEIGHT_ROW_DIVIDER;
+		}
+
+		// If the first header isn't visible, trust we calculated this correctly before.
+		return headerHeight;
+	}
+
+	/**
+	 * This method returns the total height by taking into account row dividers 
+	 * as well as header views 
+	 */
+	private double getTotalHeight() {
+		return getHeaderHeight(0) + (mTotalItemCount - mListView.getHeaderViewsCount()) * mRowHeight;
+	}
+
+	/**
+	 * This method returns the number of visible items taking into 
+	 * account the fact that there might be headers of variable height
+	 * that are visible.
+	 */
+	private double getVisibleItemCount() {
+		int firstVisibleItemPosition = mListView.getFirstVisiblePosition();
+
+		// get the height occupied by the headers in the list view
+		double headerHeight = getHeaderHeight(firstVisibleItemPosition);
+
+		// get the number of header items that are visible based on the first
+		// visible item in the listview
+		double headerItems = (headerHeight == 0) ? 0 : (headerHeight / mHeaderHeight);
+
+		// the height remaining to be occupied by fixed width rows is then determined
+		// based on the space occupied by the header (including the row dividers)
+		double remainingHeight = mListViewHeight - headerHeight;
+
+		// if the total header height is greater than the list view height,
+		// then the number of 
+		if (headerHeight > mListViewHeight) {
+			return headerItems;
+		}
+
+		return headerItems + (remainingHeight / mRowHeight);
+	}
+
+	/**
+	 *  This method returns the number of items (and fractions)
+	 *  visible other than the header views themselves
+	 */
+	private double getVisibleItemCountWithoutHeader() {
+		return (mListViewHeight - (mHeaderHeight * mListView.getHeaderViewsCount())) / mRowHeight;
+	}
+	
+	/**
+	 * This method returns the total height of the list 
+	 * that has already been scrolled up above the visible fold
+	 */
+	private double getTotalHeightUptoPosition(int position) {
+		if (mFirstVisibleItem <= 0) {
+			return 0;
+		}
+
+		if (mFirstVisibleItem < mListView.getHeaderViewsCount()) {
+			return (mFirstVisibleItem * mListView.getChildAt(0).getHeight());
+		}
+		else {
+			return (mListView.getHeaderViewsCount() * mHeaderHeight + (mFirstVisibleItem - mListView
+					.getHeaderViewsCount()) * mRowHeight);
+		}
+	}
 }
