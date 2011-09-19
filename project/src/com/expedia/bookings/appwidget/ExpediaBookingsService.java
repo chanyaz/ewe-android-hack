@@ -116,7 +116,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		List<Property> mProperties;
 		int mCurrentPosition = -1;
 		double maxPercentSavings;
-		Property savingsForProperty;
 		boolean mUseCurrentLocation;
 		long lastUpdatedTimeInMillis;
 
@@ -778,7 +777,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		double savingsPercent = property.getLowestRate().getSavingsPercent();
 		if (widget.maxPercentSavings == 0 || widget.maxPercentSavings < savingsPercent) {
 			widget.maxPercentSavings = savingsPercent;
-			widget.savingsForProperty = property;
 		}
 	}
 
@@ -1021,19 +1019,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 					getString(R.string.save_upto_template, brandingSavings));
 		}
 
-		String distanceOfMaxSavingsFromUser = (widget.mUseCurrentLocation && widget.savingsForProperty != null) ? widget.savingsForProperty
-				.getDistanceFromUser().formatDistance(this)
-				: null;
-		if (distanceOfMaxSavingsFromUser != null) {
-			widgetContents.setTextViewText(R.id.branding_location_text_view, distanceOfMaxSavingsFromUser);
-		}
-		else {
-			String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams
-					.getFreeformLocation()
-					: "Current Location";
+		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams
+				.getFreeformLocation()
+				: "Current Location";
 
-			widgetContents.setTextViewText(R.id.branding_location_text_view, location);
-		}
+		widgetContents.setTextViewText(R.id.branding_location_text_view, location);
 
 		String brandingTitle = null;
 		if (DateUtils.isToday(widget.mSearchParams.getCheckInDate().getTimeInMillis())) {
