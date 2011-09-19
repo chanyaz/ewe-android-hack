@@ -2322,6 +2322,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		mSearchEditText.setText(getSearchText());
 
+		// Temporarily remove the OnDateChangedListener so that it is not fired
+		// while we manually update the start/end dates
+		mDatesCalendarDatePicker.setOnDateChangedListener(null);
+
 		Calendar checkIn = mSearchParams.getCheckInDate();
 		mDatesCalendarDatePicker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
 				checkIn.get(Calendar.DAY_OF_MONTH));
@@ -2329,6 +2333,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		Calendar checkOut = mSearchParams.getCheckOutDate();
 		mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
 				checkOut.get(Calendar.DAY_OF_MONTH));
+
+		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 
 		mAdultsNumberPicker.post(new Runnable() {
 			@Override
