@@ -609,7 +609,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 	/**
 	 *  This method returns the number of items (and fractions)
-	 *  visible other than the header views themselves
+	 *  in the list without the header views
 	 */
 	private double getItemCountWithoutHeaderViews() {
 		return (mListViewHeight - (mHeaderHeight * mListView.getHeaderViewsCount())) / mRowHeight;
