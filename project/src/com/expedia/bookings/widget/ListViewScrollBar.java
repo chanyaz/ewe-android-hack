@@ -384,7 +384,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		// a) height of each row is the same
 		// b) height of each header row is the same
 		mIndicatorHeight = (mHeight - mIndicatorPaddingTop - mIndicatorPaddingBottom - mPaddingTop - mPaddingBottom)
-				* (getVisibleItemCountWithoutHeader() / (mTotalItemCount - mListView.getHeaderViewsCount()));
+				* (getItemCountWithoutHeaderViews() / (mTotalItemCount - mListView.getHeaderViewsCount()));
 		mIndicatorHeight = mIndicatorHeight < mMinIndicatorHeight ? mMinIndicatorHeight : mIndicatorHeight;
 
 		// TOTAL SCROLL HEIGHT
@@ -611,7 +611,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	 *  This method returns the number of items (and fractions)
 	 *  visible other than the header views themselves
 	 */
-	private double getVisibleItemCountWithoutHeader() {
+	private double getItemCountWithoutHeaderViews() {
 		return (mListViewHeight - (mHeaderHeight * mListView.getHeaderViewsCount())) / mRowHeight;
 	}
 	
