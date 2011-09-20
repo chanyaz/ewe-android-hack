@@ -585,6 +585,36 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		hideSortOptions();
 		hideFilterOptions(false);
 
+		/**
+		 * If the activity was requested to be started by the widget,
+		 * ensure to update the search parameters to match that of the widget's.
+		 */
+		if(intent.getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
+			String searchParamsJson = intent.getStringExtra(Codes.SEARCH_PARAMS);
+			try {
+				JSONObject object = new JSONObject(searchParamsJson);
+				setSearchParams(new SearchParams(object));
+				// get the session from the widget for tracking purposes
+				mSession = new Session();
+				mSession.fromJson(new JSONObject(intent.getStringExtra(Codes.SESSION)));
+				
+				mStartSearchOnResume = true;
+				
+				/*
+				 * Only redirect the user to the hotel details screen
+				 * if there is a property in the intent of which to 
+				 * show the details
+				 */
+				if(intent.getStringExtra(Codes.PROPERTY) != null) {
+					Intent detailsIntent = new Intent(this, HotelActivity.class);
+					detailsIntent.fillIn(intent, 0);
+					startActivity(detailsIntent);
+				}
+			} catch(JSONException e) {
+				Log.i("Unable to load search parameters", e);
+			}
+		}
+		
 		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
 			mStartSearchOnResume = true;
 		}

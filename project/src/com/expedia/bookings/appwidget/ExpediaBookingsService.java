@@ -33,7 +33,6 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.HotelActivity;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
@@ -643,7 +642,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			double locationLong = cs.getExactSearchLocationLon();
 			widget.mSearchParams.setSearchLatLon(locationLat, locationLong);
 			widget.mSearchParams.setFreeformLocation(specificLocation);
-			widget.mSearchParams.setSearchType(SearchType.KEYWORD);
+			widget.mSearchParams.setSearchType(SearchType.FREEFORM);
 			searchForHotelsTonight = true;
 		}
 
@@ -716,6 +715,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 							// clear out the cache if it ever reaches its max size
 							thumbnailCache.clear();
 						}
+						
+						if(bitmap == null) {
+							return;
+						}
+
 						thumbnailCache.put(url, bitmap);
 						// remove the image from the global image cache without 
 						// causing the bitmap to get recycled as we maintain our own copy
@@ -869,8 +873,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		setWidgetPropertyViewVisibility(widgetContents, View.VISIBLE);
 
 		widgetContents.setTextViewText(R.id.hotel_name_text_view, property.getName());
-		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams
-				.getFreeformLocation()
+		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams.getFreeformLocation()
 				: property.getDistanceFromUser().formatDistance(this);
 		widgetContents.setTextViewText(R.id.location_text_view, location);
 
@@ -926,16 +929,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		widgetContents.setOnClickPendingIntent(R.id.next_hotel_btn, PendingIntent.getService(this,
 				widget.appWidgetIdInteger.intValue() + 1, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
-		Intent onClickIntent = new Intent(this, HotelActivity.class);
-		onClickIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-		onClickIntent.putExtra(Codes.PROPERTY, property.toJson().toString());
-		onClickIntent.putExtra(Codes.SESSION, widget.mSession.toJson().toString());
-		onClickIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
-		onClickIntent.putExtra(Codes.SEARCH_PARAMS, widget.mSearchParams.toJson().toString());
-
-		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(this, widget.appWidgetIdInteger.intValue() + 3,
-				onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
-
+		setupOnClickIntentForWidget(widget, property, rv);
+		
 		setWidgetLoadingTextVisibility(widgetContents, View.GONE);
 
 		updateWidget(widget, rv);
@@ -1019,8 +1014,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 					getString(R.string.save_upto_template, brandingSavings));
 		}
 
-		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams
-				.getFreeformLocation()
+		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? 
+				widget.mSearchParams.getFreeformLocation()
 				: "Current Location";
 
 		widgetContents.setTextViewText(R.id.branding_location_text_view, location);
@@ -1043,16 +1038,31 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		nextIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
 
-		clearWidgetOnClickIntent(rv);
-
 		widgetContents.setOnClickPendingIntent(R.id.prev_hotel_btn, PendingIntent.getService(this,
 				widget.appWidgetIdInteger.intValue() + 0, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 		widgetContents.setOnClickPendingIntent(R.id.next_hotel_btn, PendingIntent.getService(this,
 				widget.appWidgetIdInteger.intValue() + 1, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
+		setupOnClickIntentForWidget(widget, null, rv);
+
 		setWidgetLoadingTextVisibility(widgetContents, View.GONE);
 
 		updateWidget(widget, rv);
+	}
+
+	private void setupOnClickIntentForWidget(WidgetState widget, Property property, RemoteViews rv) {
+		Intent onClickIntent = new Intent(this, SearchActivity.class);
+		onClickIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+		onClickIntent.putExtra(Codes.SESSION, widget.mSession.toJson().toString());
+		onClickIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
+		onClickIntent.putExtra(Codes.SEARCH_PARAMS, widget.mSearchParams.toJson().toString());
+		onClickIntent.putExtra(Codes.OPENED_FROM_WIDGET, true);
+		if(property != null) {
+			onClickIntent.putExtra(Codes.PROPERTY, property.toJson().toString());
+		}
+		
+		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(this, widget.appWidgetIdInteger.intValue() + 3,
+				onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 	}
 
 	private void updateWidget(WidgetState widget, final RemoteViews rv) {

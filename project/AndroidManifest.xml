@@ -22,7 +22,8 @@
 
     	<uses-library android:name="com.google.android.maps" />
 		
-		<activity android:name=".activity.SearchActivity">
+		<activity android:name=".activity.SearchActivity"
+			android:launchMode="singleTask">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -33,8 +34,7 @@
 		<activity android:name=".activity.SearchListActivity" />
 		<activity android:name=".activity.SearchMapActivity" />
 
-		<activity android:name=".activity.HotelActivity"
-			android:launchMode="singleTask"/>
+		<activity android:name=".activity.HotelActivity"/>
 		<activity android:name=".activity.HotelMapActivity" />
 		
 		<activity android:name=".activity.UserReviewsListActivity" />
