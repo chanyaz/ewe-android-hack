@@ -119,11 +119,11 @@
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Add Widget</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Add the widget to your home screen and get up-to-date hotel deals, customized and selected for you.</string>
+	<string name="widget_description">Add this widget to your home screen to get the latest hotel deals near you or your next vacation spot!</string>
 	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description">Show hotel details near:</string>
+	<string name="config_options_description">Show hotel deals near:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
-	<string name="last_hotel_search">Last Hotel Search</string>
+	<string name="last_hotel_search">Last App Search</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">Error: No Internet Connection</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
