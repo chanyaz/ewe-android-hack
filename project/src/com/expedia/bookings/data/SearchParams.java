@@ -29,7 +29,6 @@ public class SearchParams implements JSONable {
 	private Calendar mCheckOutDate;
 	private int mNumAdults;
 	private int mNumChildren;
-	private int mNumResults;
 	private Set<String> mPropertyIds;
 
 	// These may be out of sync with freeform location; make sure to sync before
@@ -60,7 +59,6 @@ public class SearchParams implements JSONable {
 		mNumChildren = 0;
 
 		// Setup default number of results
-		mNumResults = -1;
 		mFreeformLocation = null;
 		mPropertyIds = new HashSet<String>();
 	}
@@ -97,6 +95,11 @@ public class SearchParams implements JSONable {
 	}
 
 	public void setFreeformLocation(String freeformLocation) {
+		if (mFreeformLocation != null && mFreeformLocation.equals(freeformLocation)) {
+			Log.v("Not resetting freeform location; already searching this spot: " + freeformLocation);
+			return;
+		}
+
 		mFreeformLocation = freeformLocation;
 		mSearchLatLonUpToDate = false;
 	}

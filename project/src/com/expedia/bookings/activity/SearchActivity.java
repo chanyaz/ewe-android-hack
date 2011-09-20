@@ -182,6 +182,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private static final String ACTIVITY_SEARCH_LIST = SearchListActivity.class.getCanonicalName();
 	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
 
+	private static final String KEY_GEOCODE = "KEY_GEOCODE";
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_LOADING_PREVIOUS = "KEY_LOADING_PREVIOUS";
 
@@ -306,7 +307,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	public boolean mStartSearchOnResume;
 	private long mLastSearchTime = -1;
 
-	private Thread mGeocodeThread;
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
 
 	private boolean mIsActivityResumed = false;
@@ -319,17 +319,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	// THREADS/CALLBACKS
 	//----------------------------------
 
-	private BackgroundDownloader mSearchDownloader = BackgroundDownloader.getInstance();
-
 	private Download mSearchDownload = new Download() {
 		@Override
 		public Object doDownload() {
-			// ensure to nullify the search response to avoid
-			// saving the response on rotation when its stale by the fact
-			// that a new download has started
-			mSearchResponse = null;
 			ExpediaServices services = new ExpediaServices(SearchActivity.this, mSession);
-			mSearchDownloader.addDownloadListener(KEY_SEARCH, services);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
 			return services.search(mSearchParams, 0);
 		}
 	};
@@ -636,6 +630,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		if (!isFinishing()) {
 			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
+			downloader.unregisterDownloadCallback(KEY_GEOCODE);
 			downloader.unregisterDownloadCallback(KEY_LOADING_PREVIOUS);
 			downloader.unregisterDownloadCallback(KEY_SEARCH);
 		}
@@ -677,6 +672,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				Log.d("Already loading previous search results, resuming the load...");
 				downloader.registerDownloadCallback(KEY_LOADING_PREVIOUS, mLoadSavedResultsCallback);
 				showLoading(true, R.string.loading_previous);
+			}
+			else if (downloader.isDownloading(KEY_GEOCODE)) {
+				Log.d("Already geocoding, resuming the search...");
+				downloader.registerDownloadCallback(KEY_GEOCODE, mGeocodeCallback);
+				showLoading(true, R.string.progress_searching_hotels);
 			}
 			else if (downloader.isDownloading(KEY_SEARCH)) {
 				Log.d("Already searching, resuming the search...");
@@ -1296,54 +1296,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		buildFilter();
 	}
 
-	private void setSearchParamsForFreeform() {
-		showLoading(true, R.string.progress_searching_hotels);
-
-		mSearchParams.setUserFreeformLocation(mSearchParams.getFreeformLocation());
-
-		if (!NetUtils.isOnline(this)) {
-			showLoading(false, R.string.error_no_internet);
-			return;
-		}
-
-		if (mGeocodeThread != null) {
-			mGeocodeThread.interrupt();
-		}
-		mGeocodeThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				mAddresses = LocationServices.geocode(SearchActivity.this, mSearchParams.getFreeformLocation());
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						if (mAddresses != null && mAddresses.size() > 1) {
-							showLoading(false, null);
-
-							showDialog(DIALOG_LOCATION_SUGGESTIONS);
-						}
-						else if (mAddresses != null && mAddresses.size() > 0) {
-							Address address = mAddresses.get(0);
-							String formattedAddress = LocationServices.formatAddress(address);
-							formattedAddress = formattedAddress.replace(", USA", "");
-
-							mSearchParams.setFreeformLocation(formattedAddress);
-							setSearchEditViews();
-							setSearchParams(address.getLatitude(), address.getLongitude());
-							setShowDistance(address.getSubThoroughfare() != null);
-							determineWhetherExactLocationSpecified(address);
-							startSearchDownloader();
-						}
-						else {
-							TrackingUtils.trackErrorPage(SearchActivity.this, "LocationNotFound");
-							simulateErrorResponse(R.string.geolocation_failed);
-						}
-					}
-				});
-			}
-		});
-		mGeocodeThread.start();
-	}
-
 	private void setSearchParams(Double latitde, Double longitude) {
 		if (mSearchParams == null) {
 			mSearchParams = new SearchParams();
@@ -1364,7 +1316,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		Log.i("Starting a new search...");
 
 		mOriginalSearchParams = null;
-		mSearchDownloader.cancelDownload(KEY_SEARCH);
+		mSearchResponse = null;
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.cancelDownload(KEY_GEOCODE);
+		bd.cancelDownload(KEY_SEARCH);
 
 		// Delete the currently saved search results
 		File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
@@ -1374,7 +1330,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 
 		buildFilter();
-		setSearchEditViews();
 		setDisplayType(DisplayType.NONE);
 		disablePanelHandle();
 		hideBottomBar();
@@ -1382,7 +1337,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
 			stopLocationListener();
-			setSearchParamsForFreeform();
+			startGeocode();
 
 			break;
 		}
@@ -1409,6 +1364,66 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 	}
 
+	private void startGeocode() {
+		showLoading(true, R.string.progress_searching_hotels);
+
+		Log.d("Geocoding: " + mSearchParams.getFreeformLocation());
+
+		// Determine if the freeform location has changed; if it has not, then we can
+		// skip the geocoding and go straight to the download
+		if (mSearchParams.hasSearchLatLon()) {
+			Log.d("User already has search lat/lng for freeform location, skipping geocoding.");
+			startSearchDownloader();
+			return;
+		}
+
+		mSearchParams.setUserFreeformLocation(mSearchParams.getFreeformLocation());
+
+		if (!NetUtils.isOnline(this)) {
+			simulateErrorResponse(R.string.error_no_internet);
+			return;
+		}
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.cancelDownload(KEY_GEOCODE);
+		bd.startDownload(KEY_GEOCODE, mGeocodeDownload, mGeocodeCallback);
+	}
+
+	private Download mGeocodeDownload = new Download() {
+		public Object doDownload() {
+			return LocationServices.geocode(mContext, mSearchParams.getFreeformLocation());
+		}
+	};
+
+	private OnDownloadComplete mGeocodeCallback = new OnDownloadComplete() {
+		@SuppressWarnings("unchecked")
+		public void onDownload(Object results) {
+			mAddresses = (List<Address>) results;
+
+			if (mAddresses != null && mAddresses.size() > 1) {
+				showLoading(false, null);
+
+				showDialog(DIALOG_LOCATION_SUGGESTIONS);
+			}
+			else if (mAddresses != null && mAddresses.size() > 0) {
+				Address address = mAddresses.get(0);
+				String formattedAddress = LocationServices.formatAddress(address);
+				formattedAddress = formattedAddress.replace(", USA", "");
+
+				mSearchParams.setFreeformLocation(formattedAddress);
+				setSearchEditViews();
+				setSearchParams(address.getLatitude(), address.getLongitude());
+				setShowDistance(address.getSubThoroughfare() != null);
+				determineWhetherExactLocationSpecified(address);
+				startSearchDownloader();
+			}
+			else {
+				TrackingUtils.trackErrorPage(SearchActivity.this, "LocationNotFound");
+				simulateErrorResponse(R.string.geolocation_failed);
+			}
+		}
+	};
+
 	private void startSearchDownloader() {
 		// save params so that a widget can pick up the params 
 		// to show results based on the last search
@@ -1434,8 +1449,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		resetFilter();
 
-		mSearchDownloader.cancelDownload(KEY_SEARCH);
-		mSearchDownloader.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.cancelDownload(KEY_SEARCH);
+		bd.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
 
 	//----------------------------------
@@ -2109,8 +2125,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		if (mOriginalSearchParams != null) {
 			mSearchParams = mOriginalSearchParams.copy();
 			mOriginalSearchParams = null;
-
-			setSearchEditViews();
 		}
 	}
 
