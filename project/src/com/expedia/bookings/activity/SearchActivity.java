@@ -324,6 +324,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private Download mSearchDownload = new Download() {
 		@Override
 		public Object doDownload() {
+			// ensure to nullify the search response to avoid
+			// saving the response on rotation when its stale by the fact
+			// that a new download has started
+			mSearchResponse = null;
 			ExpediaServices services = new ExpediaServices(SearchActivity.this, mSession);
 			mSearchDownloader.addDownloadListener(KEY_SEARCH, services);
 			return services.search(mSearchParams, 0);
