@@ -715,8 +715,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 							// clear out the cache if it ever reaches its max size
 							thumbnailCache.clear();
 						}
-						
-						if(bitmap == null) {
+
+						if (bitmap == null) {
 							return;
 						}
 
@@ -873,8 +873,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		setWidgetPropertyViewVisibility(widgetContents, View.VISIBLE);
 
 		widgetContents.setTextViewText(R.id.hotel_name_text_view, property.getName());
-		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams.getFreeformLocation()
-				: property.getDistanceFromUser().formatDistance(this);
+		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams
+				.getFreeformLocation() : property.getDistanceFromUser().formatDistance(this);
 		widgetContents.setTextViewText(R.id.location_text_view, location);
 
 		if (property.getLowestRate().getSavingsPercent() > 0) {
@@ -930,7 +930,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				widget.appWidgetIdInteger.intValue() + 1, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
 		setupOnClickIntentForWidget(widget, property, rv);
-		
+
 		setWidgetLoadingTextVisibility(widgetContents, View.GONE);
 
 		updateWidget(widget, rv);
@@ -989,6 +989,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		updateWidget(widget, rv);
 	}
 
+	private static final String FORMAT_HEADER = "MMM d";
+
 	private void updateWidgetBranding(WidgetState widget) {
 		final RemoteViews widgetContents = new RemoteViews(getPackageName(), R.layout.widget_contents);
 		RemoteViews rv = new RemoteViews(getPackageName(), R.layout.widget);
@@ -1014,9 +1016,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 					getString(R.string.save_upto_template, brandingSavings));
 		}
 
-		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? 
-				widget.mSearchParams.getFreeformLocation()
-				: "Current Location";
+		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams
+				.getFreeformLocation() : "Current Location";
 
 		widgetContents.setTextViewText(R.id.branding_location_text_view, location);
 
@@ -1025,7 +1026,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			brandingTitle = getString(R.string.tonight_top_deals);
 		}
 		else {
-			brandingTitle = getString(R.string.top_deals);
+			brandingTitle = getString(R.string.top_deals_template,
+					android.text.format.DateFormat.format(FORMAT_HEADER, widget.mSearchParams.getCheckInDate()));
 		}
 
 		widgetContents.setTextViewText(R.id.branding_title_text_view, brandingTitle);
@@ -1057,10 +1059,10 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		onClickIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
 		onClickIntent.putExtra(Codes.SEARCH_PARAMS, widget.mSearchParams.toJson().toString());
 		onClickIntent.putExtra(Codes.OPENED_FROM_WIDGET, true);
-		if(property != null) {
+		if (property != null) {
 			onClickIntent.putExtra(Codes.PROPERTY, property.toJson().toString());
 		}
-		
+
 		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(this, widget.appWidgetIdInteger.intValue() + 3,
 				onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 	}
