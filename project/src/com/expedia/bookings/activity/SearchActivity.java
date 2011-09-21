@@ -151,7 +151,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private enum DisplayType {
-		NONE(false), KEYBOARD(true), CALENDAR(true), GUEST_PICKER(true), DRAWER(false);
+		NONE(false), KEYBOARD(true), CALENDAR(true), GUEST_PICKER(true), DRAWER(false), SORT_POPUP(false);
 
 		private boolean mIsSearchDisplay;
 
@@ -247,9 +247,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private View mFocusLayout;
 	private View mGuestsLayout;
 	private View mPanelDismissView;
+	private View mSortPopupDismissView;
 	private View mRefinementDismissView;
 	private View mBottomBarLayout;
 	private View mSortButton;
+	private View mSearchMapButton;
 	private View mFilterButton;
 	private ImageView mUpArrowFilterHotels;
 	private ImageView mUpArrowSortHotels;
@@ -288,7 +290,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private BitmapDrawable mSortOptionDivider;
 	private int mSortOptionSelectedId;
 	private boolean mFilterButtonArrowUp = true;
-	private boolean mSortButtonArrowUp = true;
 
 	private List<SearchListener> mSearchListeners;
 	private MapViewListener mMapViewListener;
@@ -463,17 +464,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mSortPopup = new PopupWindow(mSortOptionsLayout, mSortOptionsLayout.getMeasuredWidth(),
 				mSortOptionsLayout.getMeasuredHeight());
 		mSortPopup.setAnimationStyle(R.style.Animation_Popup);
-		mSortPopup.setBackgroundDrawable(new BitmapDrawable());
-		mSortPopup.setOutsideTouchable(true);
 		mSortPopup.setOnDismissListener(new OnDismissListener() {
 			
 			@Override
 			public void onDismiss() {
-				if(!mSortButtonArrowUp) {
-					Animation animation = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up);
-					animation.setDuration(0);
-					mUpArrowSortHotels.startAnimation(animation);
-				}
+				mSortPopupDismissView.setVisibility(View.GONE);
 			}
 		});
 		
@@ -1047,11 +1042,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mBottomBarLayout = findViewById(R.id.bottom_bar_layout);
 		mFilterButton = findViewById(R.id.filter_button_layout);
 		mSortButton = findViewById(R.id.sort_button_layout);
+		mSearchMapButton = findViewById(R.id.search_map_button_layout);
 		mUpArrowFilterHotels = (ImageView) findViewById(R.id.up_arrow_filter_hotels);
 		mUpArrowSortHotels = (ImageView) findViewById(R.id.up_arrow_sort_hotels);
 
 		mSortOptionsLayout = (ViewGroup) getLayoutInflater().inflate(R.layout.include_sort_popup, null);
-
+		mSortPopupDismissView = findViewById(R.id.sort_popup_dismiss_view);
+		
 		//===================================================================
 		// Properties
 
@@ -1156,6 +1153,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		mFilterButton.setOnClickListener(mFilterButtonPressedListener);
 		mSortButton.setOnClickListener(mSortButtonPressedListener);
+		mSearchMapButton.setOnClickListener(mMapSearchButtonClickListener);
+		mSortPopupDismissView.setOnClickListener(mSortPopupDismissViewClickListener);
 
 	}
 
@@ -1633,6 +1632,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			//mPanelDismissView.setVisibility(View.GONE);
 			openPanel(false, animate);
 
+			hideSortOptions();
+			
 			mRefinementDismissView.setVisibility(View.GONE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
@@ -1664,6 +1665,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			mPanelDismissView.setVisibility(View.GONE);
 			openPanel(false, animate);
 
+			hideSortOptions();
+			
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			mDatesLayout.setVisibility(View.VISIBLE);
@@ -1680,6 +1683,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			mPanelDismissView.setVisibility(View.GONE);
 			openPanel(false, animate);
 
+			hideSortOptions();
+			
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			mDatesLayout.setVisibility(View.GONE);
@@ -1695,6 +1700,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 			mPanelDismissView.setVisibility(View.VISIBLE);
 			openPanel(true, animate);
+			
+			hideSortOptions();
 
 			mRefinementDismissView.setVisibility(View.GONE);
 			mButtonBarLayout.setVisibility(View.GONE);
@@ -1703,6 +1710,25 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 			break;
 		}
+		case SORT_POPUP: {
+			mSearchEditText.clearFocus();
+
+			hideSoftKeyboard(mSearchEditText);
+			mSearchSuggestionsListView.setVisibility(View.GONE);
+
+			mPanelDismissView.setVisibility(View.GONE);
+			openPanel(false, animate);
+			
+			showSortOptions();
+
+			mRefinementDismissView.setVisibility(View.GONE);
+			mButtonBarLayout.setVisibility(View.GONE);
+			mDatesLayout.setVisibility(View.GONE);
+			mGuestsLayout.setVisibility(View.GONE);
+
+			break;
+		}
+			
 		}
 
 		setSearchEditViews();
@@ -1723,6 +1749,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	}
 
 	private void switchResultsView() {
+		setDisplayType(DisplayType.NONE);
 		mViewButton.setEnabled(false);
 
 		Class<?> newActivityClass = null;
@@ -1906,23 +1933,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	}
 
 	private void showSortOptions() {
-		showSortOptions(true);
-	}
 
-	private void showSortOptions(boolean animate) {
 		if (mSortPopup.isShowing()) {
 			return;
 		}
 
 		Animation rotateAnimation = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_down);
-		if (!animate) {
-			rotateAnimation.setDuration(0);
-		}
 		mUpArrowSortHotels.startAnimation(rotateAnimation);
-		mSortButtonArrowUp = false;
 		
 		mSortPopup.showAsDropDown(mSortButton, ((mSortButton.getWidth() - mSortOptionsLayout.getMeasuredWidth()) / 2),
 				0);
+		mSortPopupDismissView.setVisibility(View.VISIBLE);
 		hideFilterOptions();
 	}
 
@@ -1934,7 +1955,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mDisplayType = DisplayType.NONE;
 		mSortPopup.dismiss();
 		mUpArrowSortHotels.startAnimation(AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_up));
-		mSortButtonArrowUp = true;
 	}
 
 	private void showFilterOptions() {
@@ -2464,20 +2484,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	}
 
 	private void setBottomBarOptions() {
-		ImageView imageView = (ImageView) findViewById(R.id.up_arrow_sort_hotels);
-		TextView textView = (TextView) findViewById(R.id.sort_text_view);
-
 		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-			imageView.setImageResource(R.drawable.up_arrow);
-			textView.setText(R.string.sort_hotels);
-			mSortTypeTextView.setVisibility(View.VISIBLE);
-			mSortButton.setOnClickListener(mSortButtonPressedListener);
+			mSortButton.setVisibility(View.VISIBLE);
+			mSearchMapButton.setVisibility(View.GONE);
+			
 		}
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-			imageView.setImageResource(R.drawable.ic_search_map);
-			textView.setText(R.string.map_search_button);
-			mSortButton.setOnClickListener(mMapSearchButtonClickListener);
-			mSortTypeTextView.setVisibility(View.GONE);
+			mSortButton.setVisibility(View.GONE);
+			mSearchMapButton.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -2787,6 +2801,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 	};
 
+	private final View.OnClickListener mSortPopupDismissViewClickListener = new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			hideSortOptions();
+		}
+	};
+	
 	private final View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -2856,10 +2878,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		@Override
 		public void onClick(View v) {
 			if (mSortPopup.isShowing()) {
-				hideSortOptions();
+				setDisplayType(DisplayType.NONE);
 			}
 			else {
-				showSortOptions();
+				setDisplayType(DisplayType.SORT_POPUP);
 			}
 		}
 	};

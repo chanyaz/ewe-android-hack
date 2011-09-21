@@ -14,7 +14,10 @@
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:gravity="center_vertical"
-		android:layout_margin="10dp">
+		android:layout_marginTop="15dp"
+		android:layout_marginBottom="15dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="30dp">
 		<FrameLayout
 			android:layout_width="25dp"
 			android:layout_height="fill_parent">
@@ -32,7 +35,7 @@
 			android:includeFontPadding="false"
 			android:paddingLeft="5dp"
 			android:textStyle="bold"
-			android:textSize="14sp"
+			android:textSize="18sp"
 			android:textColor="@color/sort_option_text_color"
 			android:shadowColor="#ffffff"
 			android:shadowRadius="0.1"

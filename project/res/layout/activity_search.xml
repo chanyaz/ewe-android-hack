@@ -63,6 +63,14 @@
 		android:visibility="gone"
 		android:background="@color/dismiss" />
 
+
+	<View
+		android:id="@+id/sort_popup_dismiss_view"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:visibility="gone"
+		android:background="@android:color/transparent" />
+
 	<com.mobiata.android.widget.Panel
 		android:id="@+id/drawer_panel"
 		android:layout_width="fill_parent"
@@ -77,21 +85,21 @@
 		mobiata:animationDuration="@integer/sort_filter_animation_duration">
 
 		<TextView
-		   	android:id="@+id/filter_info_text_view"
-		   	android:layout_width="fill_parent"
-		   	android:layout_height="32dp"
-		   	android:padding="2dp"
-		   	android:gravity="center"
-		   	android:singleLine="true"
+			android:id="@+id/filter_info_text_view"
+			android:layout_width="fill_parent"
+			android:layout_height="32dp"
+			android:padding="2dp"
+			android:gravity="center"
+			android:singleLine="true"
 			android:textColor="#FF3D404F"
 			android:shadowColor="#88FFFFFF"
 			android:shadowDx="0"
 			android:shadowDy="1"
 			android:shadowRadius="0.1"
 			android:text=""
-			android:textSize="12dp" 
-			android:background="@drawable/search_results_drawer_handle"/>
-		
+			android:textSize="12dp"
+			android:background="@drawable/search_results_drawer_handle" />
+
 		<include
 			android:id="@id/drawer_content"
 			layout="@layout/include_drawer_content" />
@@ -108,24 +116,24 @@
 	<include
 		android:id="@id/search_bar_layout"
 		layout="@layout/include_search_bar" />
-	<ImageView 
+	<ImageView
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:layout_below="@id/search_bar_layout"
-		android:background="@drawable/actionbar_shadow"/>
-	<ImageView 
+		android:background="@drawable/actionbar_shadow" />
+	<ImageView
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:layout_above="@+id/bottombar_divider"
-		android:background="@drawable/bottombar_shadow"/>
-		
+		android:background="@drawable/bottombar_shadow" />
+
 	<View
 		android:id="@+id/bottombar_divider"
 		android:layout_height="2px"
 		android:layout_width="fill_parent"
 		android:layout_above="@+id/bottom_bar_layout"
-		android:background="#b2b5b8"/>
-	
+		android:background="#b2b5b8" />
+
 	<RelativeLayout
 		android:id="@+id/bottom_bar_layout"
 		android:layout_width="fill_parent"
@@ -135,7 +143,7 @@
 		android:orientation="horizontal"
 		android:background="@drawable/bg_actionbar"
 		android:visibility="gone">
-		
+
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
@@ -153,10 +161,10 @@
 				android:background="@drawable/btn_left_bottombar">
 				<ImageView
 					android:id="@+id/up_arrow_sort_hotels"
-					android:layout_height="wrap_content"	
+					android:layout_height="wrap_content"
 					android:layout_width="wrap_content"
 					android:layout_centerVertical="true"
-					android:src="@drawable/up_arrow"/>
+					android:src="@drawable/up_arrow" />
 				<TextView
 					android:id="@+id/sort_text_view"
 					android:layout_height="wrap_content"
@@ -168,7 +176,7 @@
 					android:text="@string/sort_hotels"
 					android:textStyle="bold"
 					android:textSize="14sp"
-					style="@style/BottomBarText"/>			
+					style="@style/BottomBarText" />
 				<TextView
 					android:id="@+id/sort_type_text_view"
 					android:layout_width="wrap_content"
@@ -176,8 +184,37 @@
 					android:includeFontPadding="false"
 					android:layout_centerVertical="true"
 					android:layout_toRightOf="@id/sort_text_view"
-					android:textSize="14sp" 
-					style="@style/BottomBarText"/>
+					android:textSize="14sp"
+					style="@style/BottomBarText" />
+			</RelativeLayout>
+			<RelativeLayout
+				android:id="@+id/search_map_button_layout"
+				android:layout_height="fill_parent"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:gravity="center"
+				android:clickable="true"
+				android:focusable="true"
+				android:visibility="gone"
+				android:background="@drawable/btn_left_bottombar">
+				<ImageView
+					android:id="@+id/search_map_image_view"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:layout_centerVertical="true"
+					android:src="@drawable/ic_search_map" />
+				<TextView
+					android:id="@+id/search_map_text_view"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:layout_toRightOf="@+id/search_map_image_view"
+					android:layout_centerVertical="true"
+					android:includeFontPadding="false"
+					android:paddingLeft="5dp"
+					android:text="@string/map_search_button"
+					android:textStyle="bold"
+					android:textSize="14sp"
+					style="@style/BottomBarText" />
 			</RelativeLayout>
 			<RelativeLayout
 				android:id="@+id/filter_button_layout"
@@ -188,13 +225,13 @@
 				android:clickable="true"
 				android:focusable="true"
 				android:background="@drawable/btn_bottombar">
-			
+
 				<ImageView
 					android:id="@+id/up_arrow_filter_hotels"
-					android:layout_height="wrap_content"	
+					android:layout_height="wrap_content"
 					android:layout_width="wrap_content"
 					android:layout_centerVertical="true"
-					android:src="@drawable/up_arrow"/>
+					android:src="@drawable/up_arrow" />
 				<TextView
 					android:layout_height="wrap_content"
 					android:layout_width="wrap_content"
@@ -205,7 +242,7 @@
 					android:text="@string/filter_hotels"
 					android:textStyle="bold"
 					android:textSize="14sp"
-					style="@style/BottomBarText"/>
+					style="@style/BottomBarText" />
 			</RelativeLayout>
 		</LinearLayout>
 		<ImageButton
@@ -215,8 +252,8 @@
 			android:layout_alignParentRight="true"
 			android:src="@drawable/btn_actionbar_map"
 			android:background="@null" />
-	</RelativeLayout>		
-	
+	</RelativeLayout>
+
 	<ListView
 		android:id="@+id/search_suggestions_list_view"
 		android:layout_width="fill_parent"
@@ -230,13 +267,13 @@
 		android:listSelector="@null"
 		android:divider="@null"
 		android:dividerHeight="0dp" />
-		
+
 	<include
 		android:id="@id/button_bar_layout"
 		layout="@layout/include_button_bar" />
-	
+
 	<include
 		android:id="@+id/refinements_layout"
 		layout="@layout/include_refinements_layout" />
-		
+
 </RelativeLayout>
