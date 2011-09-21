@@ -29,6 +29,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.widget.WidgetPreviewHandler.StaticMappings.PriceAndSavings;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -86,10 +87,10 @@ public class WidgetPreviewHandler {
 	 * This helps to load the thumbnails into the widget preview
 	 * without depending on an internet connection to do so
 	 */
-	public static class Thumbnails {
-		private static final Map<Integer, Integer> MAP = createMap();
+	public static class StaticMappings {
+		private static final Map<Integer, Integer> THUMBNAILS = createThumbnailsMap();
 
-		private static Map<Integer, Integer> createMap() {
+		private static Map<Integer, Integer> createThumbnailsMap() {
 			Map<Integer, Integer> result = new HashMap<Integer, Integer>();
 			result.put(R.string.preview_hotel_bellagio, R.drawable.hotel_thumbnail_bellagio);
 			result.put(R.string.preview_hotel_flamingo, R.drawable.hotel_thumbnail_flamingo);
@@ -98,11 +99,32 @@ public class WidgetPreviewHandler {
 			result.put(R.string.preview_hotel_paris, R.drawable.hotel_thumbnail_paris);
 			return Collections.unmodifiableMap(result);
 		}
+
+		static class PriceAndSavings {
+			double amount;
+			double savingsPercent;
+
+			private PriceAndSavings(double amount, double savingsPercent) {
+				this.amount = amount;
+				this.savingsPercent = savingsPercent;
+			}
+		}
+
+		private static Map<Integer, PriceAndSavings> PRICES = createPricesMap();
+
+		private static Map<Integer, PriceAndSavings> createPricesMap() {
+			Map<Integer, PriceAndSavings> result = new HashMap<Integer, PriceAndSavings>();
+			result.put(R.string.preview_hotel_bellagio, new PriceAndSavings(120, 20));
+			result.put(R.string.preview_hotel_caesers_palace, new PriceAndSavings(105, 25));
+			result.put(R.string.preview_hotel_flamingo, new PriceAndSavings(44, 20));
+			result.put(R.string.preview_hotel_wynn, new PriceAndSavings(118, 30));
+			result.put(R.string.preview_hotel_paris, new PriceAndSavings(72, 20));
+			return result;
+		}
+
 	}
 
-	private static final double STARTING_PRICE = 50.0;
-	private static final double PRICE_INCREMENT = 25.0;
-	private static final double STARTING_SAVING_PERCENT = 10.0;
+	private Map<String, Integer> stringToResIdMapping = new HashMap<String, Integer>();
 
 	public WidgetPreviewHandler(Activity activity) {
 		mActivity = activity;
@@ -194,9 +216,12 @@ public class WidgetPreviewHandler {
 
 		// load the thumbnails into the cache where the property name is used as a 
 		// key into the image cache.
-		for (Integer stringId : Thumbnails.MAP.keySet()) {
-			ImageCache.addImage(mActivity.getString(stringId.intValue()),
-					BitmapFactory.decodeResource(mActivity.getResources(), Thumbnails.MAP.get(stringId)));
+		for (Integer stringId : StaticMappings.THUMBNAILS.keySet()) {
+			String hotelName = mActivity.getString(stringId.intValue());
+			ImageCache.addImage(hotelName,
+					BitmapFactory.decodeResource(mActivity.getResources(), StaticMappings.THUMBNAILS.get(stringId)));
+			// also store the mapping of the hotelName to its resource id for future usage
+			stringToResIdMapping.put(hotelName, stringId.intValue());
 		}
 
 		showProperty(mProperties.get(mCurrentPosition));
@@ -212,11 +237,11 @@ public class WidgetPreviewHandler {
 
 		String currencyCode = CurrencyUtils.getCurrencyCode(mActivity);
 		Money money = property.getLowestRate().getDisplayRate();
-		money.setAmount(STARTING_PRICE + mCurrentPosition*PRICE_INCREMENT);
-		mHotelPriceTextView.setText(StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate(), currencyCode));
+		PriceAndSavings priceAndSavings = StaticMappings.PRICES.get(stringToResIdMapping.get(property.getName()));
+		money.setAmount(priceAndSavings.amount);
+		mHotelPriceTextView.setText(StrUtils.formatHotelPrice(money, currencyCode));
 
-		mSaleTextView.setText(mActivity.getString(R.string.widget_savings_template,
-				(STARTING_SAVING_PERCENT * (1 + mCurrentPosition))));
+		mSaleTextView.setText(mActivity.getString(R.string.widget_savings_template, priceAndSavings.savingsPercent));
 		mPricePerNightContainer.setBackgroundResource(R.drawable.widget_price_bg);
 		mSaleTextView.setVisibility(View.VISIBLE);
 		mHighlyRatedTextView.setVisibility(View.GONE);
