@@ -567,7 +567,7 @@
 			android:layout_marginLeft="4dp"
 			android:src="@drawable/ic_padlock"
 			android:visibility="invisible" />
-		<TextView
+		<com.mobiata.android.widget.AutoResizeTextView
 			android:id="@+id/charge_details_text_view"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -575,13 +575,15 @@
 			android:layout_gravity="center_vertical"
 			android:layout_marginLeft="6dp"
 			android:layout_marginRight="2dp"
+			android:maxLines="2"
 			android:textColor="@android:color/white"
 			android:textSize="13sp" />
-		<Button
+		<com.mobiata.android.widget.AutoResizeTextView
 			android:id="@+id/confirm_book_button"
 			android:layout_width="144dp"
 			android:layout_height="48dp"
 			android:nextFocusUp="@+id/security_code_edit_text"
+			android:maxLines="1"
 			android:text="@string/EnterBookingInfo"
 			style="@style/Widget.Button.Orange" />
 	</LinearLayout>

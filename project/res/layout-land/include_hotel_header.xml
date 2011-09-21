@@ -66,13 +66,14 @@
 				android:textColor="#E1E1E1"
 				android:textSize="16sp" />
 		</LinearLayout>
-		<Button
+		<com.mobiata.android.widget.AutoResizeTextView
 			android:id="@+id/book_now_button"
 			android:layout_width="@dimen/header_button_width"
 			android:layout_height="fill_parent"
 			android:layout_alignParentRight="true"
 			android:layout_marginTop="4dp"
 			android:layout_marginLeft="6dp"
+			android:maxLines="1"
 			android:textStyle="bold"
 			android:text="@string/book_now"
 			style="@style/Widget.Button.Orange" />

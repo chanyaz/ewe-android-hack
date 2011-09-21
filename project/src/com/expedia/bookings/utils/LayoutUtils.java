@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -22,7 +21,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.widget.RoomTypeHandler;
-import com.mobiata.android.util.ViewUtils;
 
 public class LayoutUtils {
 
@@ -48,13 +46,8 @@ public class LayoutUtils {
 			reviewsContainer.setOnClickListener(onReviewsClick);
 		}
 
-		Button bookButton = (Button) activity.findViewById(R.id.book_now_button);
+		TextView bookButton = (TextView) activity.findViewById(R.id.book_now_button);
 		bookButton.setOnClickListener(onBookNowClick);
-
-		// Resize the book button text
-		int maxFontSize = Math.round(activity.getResources().getDisplayMetrics().density * 10);
-		float textSize = ViewUtils.getTextSizeForMaxLines(bookButton.getText(), 1, maxFontSize, bookButton);
-		bookButton.setTextSize(textSize);
 	}
 
 	public static void addRateDetails(Context context, ViewGroup detailsLayout, SearchParams searchParams,

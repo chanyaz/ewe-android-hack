@@ -38,7 +38,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -78,7 +77,6 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.DialogUtils;
-import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
 import com.mobiata.android.validation.RequiredValidator;
@@ -148,7 +146,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private EditText mExpirationMonthEditText;
 	private EditText mExpirationYearEditText;
 	private EditText mSecurityCodeEditText;
-	private Button mConfirmationButton;
+	private TextView mConfirmationButton;
 	private CheckBox mRulesRestrictionsCheckbox;
 
 	// Cached views (non-interactive)
@@ -265,7 +263,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mExpirationMonthEditText = (EditText) findViewById(R.id.expiration_month_edit_text);
 		mExpirationYearEditText = (EditText) findViewById(R.id.expiration_year_edit_text);
 		mSecurityCodeEditText = (EditText) findViewById(R.id.security_code_edit_text);
-		mConfirmationButton = (Button) findViewById(R.id.confirm_book_button);
+		mConfirmationButton = (TextView) findViewById(R.id.confirm_book_button);
 		mRulesRestrictionsCheckbox = (CheckBox) findViewById(R.id.rules_restrictions_checkbox);
 
 		// Other cached views
@@ -792,9 +790,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// Configure the bottom of the page form stuff
 		final BookingInfoActivity activity = this;
-		float newTextSize = ViewUtils.getTextSizeForMaxLines(getString(R.string.EnterBookingInfo), 1, 16,
-				mConfirmationButton);
-		mConfirmationButton.setTextSize(newTextSize);
 		mConfirmationButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				syncBillingInfo();
@@ -919,9 +914,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 			// Change the button text
 			mConfirmationButton.setText(R.string.confirm_book);
-			float newTextSize = ViewUtils.getTextSizeForMaxLines(getString(R.string.confirm_book), 1, 16,
-					mConfirmationButton);
-			mConfirmationButton.setTextSize(newTextSize);
 
 			// Reveal the charge lock icon
 			mChargeDetailsImageView.setVisibility(View.VISIBLE);
@@ -931,16 +923,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 					.getFormattedMoney());
 			mChargeDetailsTextView.setText(text);
 
-			// #9324: This is a band-aid fix that will keep things from crashing and burning on rotation.
-			// A better fix should be in the works.
-			if (mChargeDetailsTextView.getWidth() != 0) {
-				newTextSize = ViewUtils.getTextSizeForMaxLines(text, 2, 16, mChargeDetailsTextView);
-				mChargeDetailsTextView.setTextSize(newTextSize);
-			}
-			else {
-				// If we didn't properly set everything up, allow it to shift on the next run
-				mFormHasBeenFocused = false;
-			}
+			mFormHasBeenFocused = false;
 		}
 	}
 
