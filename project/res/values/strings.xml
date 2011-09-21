@@ -128,7 +128,7 @@
 	<string name="widget_error_no_internet">Error: No Internet Connection</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
 	<string name="tonight_top_deals">Tonight\'s Top Deals</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
+	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
 	<string name="top_deals_template">Top Deals for %s</string>
 	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
 	<string name="save_upto_template">Save up to %s%%</string>
