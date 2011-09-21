@@ -136,7 +136,7 @@
 								android:numStars="5"
 								android:stepSize=".5"
 								android:isIndicator="true"
-								style="@style/RatingBarSmall.Shadowed" />
+								style="@style/RatingBarSmall.Shadowed.Star.Light" />
 							<TextView
 								android:id="@+id/user_rating_text_view"
 								android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
 								android:numStars="5"
 								android:stepSize=".5"
 								android:isIndicator="true"
-								style="@style/RatingBarSmall.Shadowed.UserReview" />
+								style="@style/RatingBarSmall.Shadowed.UserReview.Light" />
 						</LinearLayout>
 					</LinearLayout>
 

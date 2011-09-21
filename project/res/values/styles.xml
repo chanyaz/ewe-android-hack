@@ -19,23 +19,34 @@
 	</style>
 	
 	<style name="RatingBarSmall.Shadowed">
+		<item name="android:minHeight">16dip</item>
+		<item name="android:maxHeight">16dip</item>
 		<item name="android:background">@null</item>
-		<item name="android:progressDrawable">@drawable/star_shadowed_ratingbar</item>
-		<item name="android:minHeight">16dp</item>
-		<item name="android:maxHeight">16dp</item>
-	</style>     
-
-	<style name="RatingBarSmall.Shadowed.Inset">
-		<item name="android:progressDrawable">@drawable/star_inset_ratingbar</item>
 	</style>
 	
-	<style name="RatingBarSmall.Shadowed.InsetGray">
+	<style name="RatingBarSmall.Shadowed.Star">
+		<item name="android:progressDrawable">@drawable/star_rating_light</item>
+	</style>
+	
+	<style name="RatingBarSmall.Shadowed.Star.Light"/>
+
+	<style name="RatingBarSmall.Shadowed.Star.Dark">
+		<item name="android:progressDrawable">@drawable/star_rating_dark</item>
+	</style>
+	
+	<style name="RatingBarSmall.Shadowed.Star.InsetGray">
 		<item name="android:minHeight">12dp</item>
 		<item name="android:progressDrawable">@drawable/star_inset_gray_ratingbar</item>
 	</style>     
 
 	<style name="RatingBarSmall.Shadowed.UserReview">
-		<item name="android:progressDrawable">@drawable/star_user_review_rating_bar</item>
+		<item name="android:progressDrawable">@drawable/user_rating_light</item>
+	</style>
+
+	<style name="RatingBarSmall.Shadowed.UserReview.Light"/>
+	
+	<style name="RatingBarSmall.Shadowed.UserReview.Dark">
+		<item name="android:progressDrawable">@drawable/user_rating_dark</item>
 	</style>
 
     <style name="Widget.EditText" parent="@android:style/Widget.EditText">

@@ -56,7 +56,7 @@
 				android:numStars="5"
 				android:stepSize=".5"
 				android:isIndicator="true"
-				style="@style/RatingBarSmall.Shadowed.UserReview" />
+				style="@style/RatingBarSmall.Shadowed.UserReview.Dark" />
 		</RelativeLayout>
 
 		<com.mobiata.android.widget.AutoResizeTextView

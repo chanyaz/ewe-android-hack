@@ -60,7 +60,8 @@
 				android:layout_width="wrap_content"
 				android:numStars="5"
 				android:stepSize=".5"
-				android:isIndicator="true" />
+				android:isIndicator="true" 
+				style="@style/RatingBarSmall.Shadowed.Star.Dark"/>
 		</LinearLayout>
 		<TextView
 			android:id="@+id/location_text_view"

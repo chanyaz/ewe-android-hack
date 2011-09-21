@@ -63,11 +63,10 @@
 			android:layout_width="wrap_content"
 			android:layout_toRightOf="@id/user_review_total_reviews"
 			android:layout_centerVertical="true"
-			android:paddingBottom="4dp"
 			android:numStars="5" 
 			android:stepSize="0.5" 
 			android:isIndicator="true"
-			style="@style/RatingBarSmall.Shadowed.UserReview" />
+			style="@style/RatingBarSmall.Shadowed.UserReview.Dark" />
 		<Button
 			android:id="@+id/book_now_button"
 			android:layout_width="@dimen/header_button_width"
