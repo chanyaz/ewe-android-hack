@@ -160,16 +160,33 @@
 				android:focusable="true"
 				android:background="@drawable/btn_left_bottombar">
 				<ImageView
-					android:id="@+id/up_arrow_sort_hotels"
+					android:id="@+id/sort_button_circle"
 					android:layout_height="wrap_content"
 					android:layout_width="wrap_content"
 					android:layout_centerVertical="true"
-					android:src="@drawable/up_arrow" />
+					android:src="@drawable/triangle_button_circle" />
+				<FrameLayout
+					android:id="@+id/up_arrow_sort_hotels_container"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignTop="@id/sort_button_circle"
+					android:layout_alignBottom="@id/sort_button_circle"
+					android:layout_alignLeft="@id/sort_button_circle"
+					android:layout_alignRight="@id/sort_button_circle"
+					android:layout_centerVertical="true">
+					<ImageView
+						android:id="@+id/up_arrow_sort_hotels"
+						android:layout_height="wrap_content"
+						android:layout_width="wrap_content"
+						android:layout_gravity="center"
+						android:paddingBottom="1px"
+						android:src="@drawable/triangle_button_triangle" />
+				</FrameLayout>
 				<TextView
 					android:id="@+id/sort_text_view"
 					android:layout_height="wrap_content"
 					android:layout_width="wrap_content"
-					android:layout_toRightOf="@id/up_arrow_sort_hotels"
+					android:layout_toRightOf="@+id/up_arrow_sort_hotels_container"
 					android:layout_centerVertical="true"
 					android:includeFontPadding="false"
 					android:paddingLeft="5dp"
@@ -225,18 +242,34 @@
 				android:clickable="true"
 				android:focusable="true"
 				android:background="@drawable/btn_bottombar">
-
 				<ImageView
-					android:id="@+id/up_arrow_filter_hotels"
+					android:id="@+id/filter_button_circle"
 					android:layout_height="wrap_content"
 					android:layout_width="wrap_content"
 					android:layout_centerVertical="true"
-					android:src="@drawable/up_arrow" />
+					android:src="@drawable/triangle_button_circle" />
+				<FrameLayout
+					android:id="@+id/up_arrow_filter_hotels_container"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignTop="@id/filter_button_circle"
+					android:layout_alignBottom="@id/filter_button_circle"
+					android:layout_alignLeft="@id/filter_button_circle"
+					android:layout_alignRight="@id/filter_button_circle"
+					android:layout_centerVertical="true">
+					<ImageView
+						android:id="@+id/up_arrow_filter_hotels"
+						android:layout_height="wrap_content"
+						android:layout_width="wrap_content"
+						android:layout_gravity="center"
+						android:paddingBottom="1px"
+						android:src="@drawable/triangle_button_triangle" />
+				</FrameLayout>
 				<TextView
 					android:layout_height="wrap_content"
 					android:layout_width="wrap_content"
 					android:includeFontPadding="false"
-					android:layout_toRightOf="@id/up_arrow_filter_hotels"
+					android:layout_toRightOf="@+id/up_arrow_filter_hotels_container"
 					android:layout_centerVertical="true"
 					android:paddingLeft="5dp"
 					android:text="@string/filter_hotels"
