@@ -119,7 +119,7 @@
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Add Widget</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Add this widget to your home screen to get the latest hotel deals near you or your next vacation spot!</string>
+	<string name="widget_description">Add our widget to your home screen to discover the latest hotel deals near you or your next destination!</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">Show hotel deals near:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
