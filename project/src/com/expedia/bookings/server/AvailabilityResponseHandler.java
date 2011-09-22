@@ -64,7 +64,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 					JSONObject photo = photos.optJSONObject(a);
 					String url = photo.optString("url");
 					if (!url.startsWith("http://")) {
-						url = "http://images.travelnow.com" + url;
+						url = "http://media.expedia.com" + url;
 					}
 					Media media = new Media(Media.TYPE_STILL_IMAGE, url);
 					property.addMedia(media);

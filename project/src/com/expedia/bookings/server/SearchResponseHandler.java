@@ -158,7 +158,7 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 				// The thumbnail url can sometimes assume a prefix
 				String url = parser.getText();
 				if (!url.startsWith("http://")) {
-					url = "http://images.travelnow.com" + url;
+					url = "http://media.expedia.com" + url;
 				}
 				property.setThumbnail(new Media(Media.TYPE_STILL_IMAGE, url));
 			}
