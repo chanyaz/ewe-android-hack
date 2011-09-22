@@ -232,7 +232,7 @@ public class ExpediaServices implements DownloadListener {
 
 			body.put("sort", sort.getKey());
 			body.put("count", REVIEWS_PER_PAGE);
-			body.put("propertyId", property.getExpediaPropertyId() + "");
+			body.put("propertyId", property.getPropertyId() + "");
 			body.put("index", index);
 		}
 		catch (JSONException e) {

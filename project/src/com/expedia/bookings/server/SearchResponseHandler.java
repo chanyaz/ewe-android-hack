@@ -25,28 +25,15 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Session;
 import com.mobiata.android.Log;
-import com.mobiata.android.Params;
 import com.mobiata.android.net.AndroidHttpClient;
 
 public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 
-	public static final int F_EXPEDIA_BOOKINGS = 1;
-
-	private Context mContext;
-
-	// This variable reduces some of the parsing done so that we're limited to just the data EB needs.
-	// This should theoretically speed up the parse time.
-	private boolean mExpediaBookings;
-
 	private int mNumNights = 1;
 
 	public SearchResponseHandler(Context context) {
-		this(context, 0);
-	}
-
-	public SearchResponseHandler(Context context, int flags) {
-		mContext = context;
-		mExpediaBookings = (flags & F_EXPEDIA_BOOKINGS) != 0;
+		// Purposefully leaving this constructor, because I can definitely
+		// foresee us wanting the context in this handler someday.
 	}
 
 	public void setNumNights(int numNights) {

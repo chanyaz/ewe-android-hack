@@ -102,12 +102,6 @@ public class Property implements JSONable {
 		this.mPropertyId = propertyId;
 	}
 
-	@Deprecated
-	public String getExpediaPropertyId() {
-		// In the E3 API, the property id is the same as the review property id
-		return mPropertyId;
-	}
-
 	public Location getLocation() {
 		return mLocation;
 	}
