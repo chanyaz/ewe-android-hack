@@ -400,6 +400,8 @@
 	<string name="FirstName">First Name</string>
 	<!-- The "last name" booking info field.  -->
 	<string name="LastName">Last Name</string>
+	<!-- Hint for "telephone country code" field (e.g., "+44") -->
+	<string name="hint_telephone_country_code">##</string>
 	<!-- The "telephone" booking info field.  -->
 	<string name="Telephone">Phone</string>
 	<!-- The "email for booking confirmation" booking info field.  -->

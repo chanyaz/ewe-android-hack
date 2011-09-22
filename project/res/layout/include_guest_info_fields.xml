@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:id="@+id/guest_info_layout"
     android:layout_width="fill_parent"
@@ -44,19 +43,40 @@
             android:textColorHint="@color/hint_color" />
     </LinearLayout>
 
-    <com.expedia.bookings.widget.CustomEditText
-        android:id="@+id/telephone_edit_text"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        mobiata:errorTextColor="@android:color/black"
-        android:hint="@string/Telephone"
-        android:imeOptions="flagNoExtractUi"
-        android:inputType="phone"
-        android:nextFocusDown="@+id/email_edit_text"
-        android:nextFocusLeft="@+id/last_name_edit_text"
-        android:nextFocusRight="@+id/email_edit_text"
-        android:nextFocusUp="@+id/first_name_edit_text"
-        android:textColorHint="@color/hint_color" />
+        android:orientation="horizontal" >
+
+        <com.expedia.bookings.widget.CustomEditText
+            android:id="@+id/telephone_country_code_edit_text"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_telephone_country_code"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="phone"
+            android:maxLength="2"
+            android:nextFocusDown="@+id/email_edit_text"
+            android:nextFocusLeft="@+id/last_name_edit_text"
+            android:nextFocusRight="@+id/telephone_edit_text"
+            android:nextFocusUp="@+id/first_name_edit_text"
+            android:textColorHint="@color/hint_color"
+            mobiata:useClearFieldDrawable="false" />
+
+        <com.expedia.bookings.widget.CustomEditText
+            android:id="@+id/telephone_edit_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            mobiata:errorTextColor="@android:color/black"
+            android:hint="@string/Telephone"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="phone"
+            android:nextFocusDown="@+id/email_edit_text"
+            android:nextFocusLeft="@+id/last_name_edit_text"
+            android:nextFocusRight="@+id/email_edit_text"
+            android:nextFocusUp="@+id/first_name_edit_text"
+            android:textColorHint="@color/hint_color" />
+    </LinearLayout>
 
     <com.expedia.bookings.widget.CustomEditText
         android:id="@+id/email_edit_text"

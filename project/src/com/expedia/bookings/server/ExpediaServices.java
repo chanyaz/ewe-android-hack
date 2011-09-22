@@ -121,16 +121,7 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("city", params.getFreeformLocation()));
 		}
 
-		query.add(new BasicNameValuePair("checkInDate", ISO_FORMAT.format(params.getCheckInDate().getTime())));
-		query.add(new BasicNameValuePair("checkOutDate", ISO_FORMAT.format(params.getCheckOutDate().getTime())));
-
-		StringBuilder guests = new StringBuilder();
-		guests.append(params.getNumAdults());
-		for (int a = 0; a < params.getNumChildren(); a++) {
-			guests.append(",12");
-		}
-
-		query.add(new BasicNameValuePair("room1", guests.toString()));
+		addBasicParams(query, params);
 
 		// These values are always the same (for now)
 		query.add(new BasicNameValuePair("resultsPerPage", "25"));
@@ -151,17 +142,11 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 
-		query.add(new BasicNameValuePair("checkInDate", ISO_FORMAT.format(params.getCheckInDate().getTime())));
-		query.add(new BasicNameValuePair("checkOutDate", ISO_FORMAT.format(params.getCheckOutDate().getTime())));
-
-		query.add(new BasicNameValuePair("occupants", (params.getNumAdults() + params.getNumChildren()) + ""));
+		addBasicParams(query, params);
 
 		if ((flags & F_EXPENSIVE) != 0) {
 			query.add(new BasicNameValuePair("makeExpensiveRealtimeCall", "true"));
 		}
-
-		// These values are always the same (for now)
-		query.add(new BasicNameValuePair("roomCount", "1"));
 
 		return (AvailabilityResponse) doRequest("/MobileHotel/Webapp/HotelOffers", query,
 				new AvailabilityResponseHandler(mContext, params, property), 0);
@@ -172,11 +157,11 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
 
-		query.add(new BasicNameValuePair("checkInDate", ISO_FORMAT.format(params.getCheckInDate().getTime())));
-		query.add(new BasicNameValuePair("checkOutDate", ISO_FORMAT.format(params.getCheckOutDate().getTime())));
+		addBasicParams(query, params);
 
 		query.add(new BasicNameValuePair("firstName", billingInfo.getFirstName()));
 		query.add(new BasicNameValuePair("lastName", billingInfo.getLastName()));
+		query.add(new BasicNameValuePair("phoneCountryCode", billingInfo.getTelephoneCountryCode()));
 		query.add(new BasicNameValuePair("phone", billingInfo.getTelephone()));
 		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
 
@@ -194,11 +179,21 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
 				.getTime())));
 
-		// TODO: Input phone country code
-		query.add(new BasicNameValuePair("phoneCountryCode", "44"));
-
 		return (BookingResponse) doRequest("/MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(
 				mContext), F_SECURE_REQUEST);
+	}
+
+	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {
+		query.add(new BasicNameValuePair("checkInDate", ISO_FORMAT.format(params.getCheckInDate().getTime())));
+		query.add(new BasicNameValuePair("checkOutDate", ISO_FORMAT.format(params.getCheckOutDate().getTime())));
+
+		StringBuilder guests = new StringBuilder();
+		guests.append(params.getNumAdults());
+		for (int a = 0; a < params.getNumChildren(); a++) {
+			guests.append(",12");
+		}
+
+		query.add(new BasicNameValuePair("room1", guests.toString()));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
