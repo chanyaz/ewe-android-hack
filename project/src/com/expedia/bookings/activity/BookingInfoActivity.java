@@ -284,7 +284,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		SparseArray<Object> lastInstance = (SparseArray<Object>) getLastNonConfigurationInstance();
 		if (lastInstance != null) {
 			this.mBillingInfo = (BillingInfo) lastInstance.get(INSTANCE_BILLING_INFO);
-			this.mFormHasBeenFocused = (Boolean) lastInstance.get(INSTANCE_FORM_HAS_BEEN_FOCUSED);
 			this.mGuestsCompleted = (Boolean) lastInstance.get(INSTANCE_GUESTS_COMPLETED);
 			this.mBillingCompleted = (Boolean) lastInstance.get(INSTANCE_BILLING_COMPLETED);
 			this.mCardCompleted = (Boolean) lastInstance.get(INSTANCE_CARD_COMPLETED);
