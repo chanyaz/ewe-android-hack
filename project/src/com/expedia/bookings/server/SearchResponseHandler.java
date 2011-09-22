@@ -135,8 +135,8 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 					+ parser.getCurrentToken() + " instead.");
 		}
 
-		String name, amenityName;
-		JsonToken token, amenityToken;
+		String name;
+		JsonToken token;
 		while (parser.nextToken() != JsonToken.END_OBJECT) {
 			name = parser.getCurrentName();
 			token = parser.nextToken();
@@ -210,38 +210,6 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 				Rate lowestRate = readLowRateInfo(parser);
 				lowestRate.setNumberOfNights(mNumNights);
 				property.setLowestRate(lowestRate);
-			}
-			else if (name.equals("amenities")) {
-				// TODO: REMOVE THIS IF amenityMask COMES BACK
-
-				// This assumes that the ids between EAN and E3 are the same.  If they are not,
-				// then this is very buggy code!
-				if (token != JsonToken.START_ARRAY) {
-					throw new IOException("Expected amenities to start with an Array, started with " + token
-							+ " instead.");
-				}
-
-				int mask = 0;
-				while (parser.nextToken() != JsonToken.END_ARRAY) {
-					if (parser.getCurrentToken() != JsonToken.START_OBJECT) {
-						throw new IOException("Expected amenity item to start with an Object, started with "
-								+ parser.getCurrentToken() + " instead.");
-					}
-
-					while (parser.nextToken() != JsonToken.END_OBJECT) {
-						amenityName = parser.getCurrentName();
-						amenityToken = parser.nextToken();
-
-						if (amenityName.equals("id") && amenityToken != JsonToken.VALUE_NULL) {
-							mask += parser.getValueAsInt();
-						}
-						else {
-							parser.skipChildren();
-						}
-					}
-				}
-
-				property.setAmenityMask(mask);
 			}
 			else {
 				parser.skipChildren();
