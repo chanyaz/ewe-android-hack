@@ -77,7 +77,7 @@ public class HotelMapActivity extends MapActivity {
 				startActivity(roomsRatesIntent);
 			}
 		};
-		OnClickListener onReviewsClick = new OnClickListener() {
+		OnClickListener onReviewsClick = (!mProperty.hasExpediaReviews()) ? null : new OnClickListener() {
 			public void onClick(View v) {
 				Intent userReviewsIntent = new Intent(mContext, UserReviewsListActivity.class);
 				userReviewsIntent.fillIn(getIntent(), 0);
