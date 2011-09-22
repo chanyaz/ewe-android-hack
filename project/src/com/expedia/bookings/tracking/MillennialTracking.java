@@ -66,6 +66,9 @@ public class MillennialTracking {
 			catch (IOException e) {
 				Log.w("Error trying to contact Millennial conversion tracking.", e);
 			}
+			finally {
+				client.close();
+			}
 		}
 	}
 
