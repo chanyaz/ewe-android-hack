@@ -910,8 +910,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	private void onFormFieldFocus() {
 		if (!mFormHasBeenFocused) {
-			mFormHasBeenFocused = true;
-
 			// Change the button text
 			mConfirmationButton.setText(R.string.confirm_book);
 
@@ -923,7 +921,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 					.getFormattedMoney());
 			mChargeDetailsTextView.setText(text);
 
-			mFormHasBeenFocused = false;
+			mFormHasBeenFocused = true;
 		}
 	}
 
