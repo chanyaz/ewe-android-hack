@@ -265,10 +265,6 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			}
 			else if (name.equals("supplierType")) {
 				property.setSupplierType(parser.getText());
-
-				if (!AndroidUtils.isRelease(mContext) && !property.isMerchant()) {
-					property.setOverviewText("DEBUG MESSAGE: This is an agent hotel!");
-				}
 			}
 			else if (name.equals("rateCurrencyCode")) {
 				rateCurrencyCode = parser.getText();
@@ -402,11 +398,9 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		if (lowestRate != null) {
 			if (averageBaseRate != null) {
 				lowestRate.setAverageBaseRate(ParserUtils.createMoney(averageBaseRate, rateCurrencyCode));
-				property.setLowRate(lowestRate.getAverageBaseRate());
 			}
 			if (averageRate != null) {
 				lowestRate.setAverageRate(ParserUtils.createMoney(averageRate, rateCurrencyCode));
-				property.setLowRate(lowestRate.getAverageRate());
 			}
 
 			if (surcharges != null) {

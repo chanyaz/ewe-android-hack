@@ -114,8 +114,8 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 		String snippet = "";
 
 		Distance distanceFromuser = property.getDistanceFromUser();
-		if (property.getLowRate() != null) {
-			String formattedMoney = StrUtils.formatHotelPrice(property.getLowRate());
+		if (property.getLowestRate() != null) {
+			String formattedMoney = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
 			String money = mContext.getString(R.string.map_snippet_price_template, formattedMoney);
 			if (mShowDistance && distanceFromuser != null) {
 				snippet = mContext.getString(R.string.map_snippet_template,

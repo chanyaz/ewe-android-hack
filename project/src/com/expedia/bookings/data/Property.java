@@ -65,18 +65,12 @@ public class Property implements JSONable {
 	private String mName;
 	private String mPropertyId;
 	private Location mLocation;
-	private String mPhone;
-	private String mOverviewText;
 	private String mDescriptionText;
 	private Media mThumbnail;
-	private String mAmenitiesText;
-	private List<String> mCategories;
 	private List<Media> mMedia;
 
 	// These change based on when the user requests data
 	private boolean mAvailable;
-	private Money mLowRate;
-	private Money mHighRate;
 	private Distance mDistanceFromUser;
 
 	// Expedia specific detail
@@ -125,22 +119,6 @@ public class Property implements JSONable {
 		this.mLocation = location;
 	}
 
-	public String getPhone() {
-		return mPhone;
-	}
-
-	public void setPhone(String phone) {
-		this.mPhone = phone;
-	}
-
-	public String getOverviewText() {
-		return mOverviewText;
-	}
-
-	public void setOverviewText(String overviewText) {
-		this.mOverviewText = overviewText;
-	}
-
 	public String getDescriptionText() {
 		return mDescriptionText;
 	}
@@ -157,31 +135,12 @@ public class Property implements JSONable {
 		this.mThumbnail = thumbnail;
 	}
 
-	public String getAmenitiesText() {
-		return mAmenitiesText;
-	}
-
-	public void setAmenitiesText(String amenitiesText) {
-		this.mAmenitiesText = amenitiesText;
-	}
-
 	public void setAmenityMask(int amenityMask) {
 		mAmenityMask = amenityMask;
 	}
 
 	public boolean hasAmenity(Amenity amenity) {
 		return amenity.inMask(mAmenityMask);
-	}
-
-	public void addCategory(String category) {
-		if (mCategories == null) {
-			mCategories = new ArrayList<String>();
-		}
-		mCategories.add(category);
-	}
-
-	public List<String> getCategories() {
-		return mCategories;
 	}
 
 	public void addMedia(Media media) {
@@ -215,22 +174,6 @@ public class Property implements JSONable {
 
 	public void setAvailable(boolean available) {
 		this.mAvailable = available;
-	}
-
-	public Money getLowRate() {
-		return mLowRate;
-	}
-
-	public void setLowRate(Money lowRate) {
-		this.mLowRate = lowRate;
-	}
-
-	public Money getHighRate() {
-		return mHighRate;
-	}
-
-	public void setHighRate(Money highRate) {
-		this.mHighRate = highRate;
 	}
 
 	public Distance getDistanceFromUser() {
@@ -309,16 +252,10 @@ public class Property implements JSONable {
 			obj.putOpt("propertyId", mPropertyId);
 			obj.putOpt("expediaPropertyId", mExpediaPropertyId);
 			JSONUtils.putJSONable(obj, "location", mLocation);
-			obj.putOpt("phone", mPhone);
-			obj.putOpt("overview", mOverviewText);
 			obj.putOpt("description", mDescriptionText);
 			JSONUtils.putJSONable(obj, "thumbnail", mThumbnail);
-			obj.putOpt("amenities", mAmenitiesText);
-			JSONUtils.putStringList(obj, "categories", mCategories);
 			JSONUtils.putJSONableList(obj, "media", mMedia);
 			obj.putOpt("available", mAvailable);
-			JSONUtils.putJSONable(obj, "lowRate", mLowRate);
-			JSONUtils.putJSONable(obj, "highRate", mHighRate);
 			JSONUtils.putJSONable(obj, "distanceFromUser", mDistanceFromUser);
 			obj.putOpt("supplierType", mSupplierType);
 			obj.putOpt("amenityMask", mAmenityMask);
@@ -343,16 +280,10 @@ public class Property implements JSONable {
 		mPropertyId = obj.optString("propertyId", null);
 		mExpediaPropertyId = obj.optInt("expediaPropertyId", 0);
 		mLocation = (Location) JSONUtils.getJSONable(obj, "location", Location.class);
-		mPhone = obj.optString("phone", null);
-		mOverviewText = obj.optString("overview", null);
 		mDescriptionText = obj.optString("description", null);
 		mThumbnail = (Media) JSONUtils.getJSONable(obj, "thumbnail", Media.class);
-		mAmenitiesText = obj.optString("amenities", null);
-		mCategories = JSONUtils.getStringList(obj, "categories");
 		mMedia = (List<Media>) JSONUtils.getJSONableList(obj, "media", Media.class);
 		mAvailable = obj.optBoolean("available", false);
-		mLowRate = (Money) JSONUtils.getJSONable(obj, "lowRate", Money.class);
-		mHighRate = (Money) JSONUtils.getJSONable(obj, "highRate", Money.class);
 		mDistanceFromUser = (Distance) JSONUtils.getJSONable(obj, "distanceFromUser", Distance.class);
 		mSupplierType = obj.optString("supplierType", null);
 		mHotelRating = obj.optDouble("hotelRating");
@@ -388,13 +319,6 @@ public class Property implements JSONable {
 
 			Money lowRate1 = lowestRate1.getDisplayRate();
 			Money lowRate2 = lowestRate2.getDisplayRate();
-
-			if (lowRate1 == null) {
-				lowRate1 = property1.getLowRate();
-			}
-			if (lowRate2 == null) {
-				lowRate2 = property2.getLowRate();
-			}
 
 			// Check that we have rates to compare first
 			if (lowRate1 == null && lowRate2 == null) {
