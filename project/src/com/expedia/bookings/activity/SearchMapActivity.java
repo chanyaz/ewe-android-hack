@@ -215,7 +215,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			mHotelItemizedOverlay = new HotelItemizedOverlay(this, properties, true, mMapView, onTap);
 			mHotelItemizedOverlay.setShowDistance(mShowDistance);
 			mHotelItemizedOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
-			overlays.add(mHotelItemizedOverlay);
 		}
 		else {
 			// clear the map info to determine center based on new search
@@ -223,11 +222,10 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			mHotelItemizedOverlay.setProperties(properties, mSearchResponse.getProperties());
 			mHotelItemizedOverlay.setShowDistance(mShowDistance);
 		}
-
+		
 		// Add an overlay for my location
 		if (mMyLocationOverlay == null) {
 			mMyLocationOverlay = new FixedMyLocationOverlay(this, mMapView);
-			overlays.add(mMyLocationOverlay);
 		}
 
 		if (mExactLocationItemizedOverlay == null) {
@@ -237,7 +235,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mExactLocationItemizedOverlay.setExactLocation(mExactLocationLatitude, mExactLocationLongitude,
 				mExactLocationAddress);
 		if (mExactLocationAddress != null) {
-			overlays.add(mExactLocationItemizedOverlay);
 			// restore the map to show the balloon for the
 			// user specified location in the search
 			if (mIsExactLocationTapped) {
@@ -253,8 +250,23 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		if (mDoubleTapToZoomListenerOverlay == null) {
 			mDoubleTapToZoomListenerOverlay = new DoubleTapToZoomListenerOverlay(this, mMapView);
 		}
-		overlays.add(mDoubleTapToZoomListenerOverlay);
-
+		
+		if(!overlays.contains(mDoubleTapToZoomListenerOverlay)) {
+			overlays.add(mDoubleTapToZoomListenerOverlay);
+		}
+		
+		if(!overlays.contains(mHotelItemizedOverlay)) {
+			overlays.add(mHotelItemizedOverlay);
+		}
+		
+		if(!overlays.contains(mMyLocationOverlay)) {
+			overlays.add(mMyLocationOverlay);
+		}
+		
+		if(!overlays.contains(mExactLocationItemizedOverlay)) {
+			overlays.add(mExactLocationItemizedOverlay);
+		}
+		
 		// Set the center point
 		focusOnProperties();
 	}
@@ -275,11 +287,18 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	@Override
 	public void clearResults() {
 		mSearchResponse = null;
-
+		mSavedCenter = null;
+		mTappedPropertyId = null;
+		mIsExactLocationTapped = false;
+		
 		mMapView.getOverlays().clear();
 
 		if (mMyLocationOverlay != null) {
 			mMyLocationOverlay.disableMyLocation();
+		}
+		
+		if(mExactLocationItemizedOverlay != null) {
+			mExactLocationItemizedOverlay.hideBalloon();
 		}
 	}
 

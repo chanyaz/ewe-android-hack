@@ -1316,6 +1316,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		mOriginalSearchParams = null;
 		mSearchResponse = null;
+		
+		broadcastSearchStarted();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_GEOCODE);
@@ -1531,6 +1533,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		showBottomBar();
 	}
 
+	private void broadcastSearchStarted() {
+		if(mSearchListeners != null) {
+			for (SearchListener searchListener : mSearchListeners) {
+				searchListener.onSearchStarted();
+			}
+		}
+	}
+	
 	private void broadcastSearchParamsChanged() {
 		// Inform all interested parties that search params have changed
 		Intent i2 = new Intent("com.expedia.bookings.SEARCH_PARAMS_CHANGED");

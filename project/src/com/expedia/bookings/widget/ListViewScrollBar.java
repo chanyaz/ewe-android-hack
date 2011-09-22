@@ -116,7 +116,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	@Override
 	protected void onDraw(Canvas canvas) {
 		// Check if we need to show
-		if (mTotalItemCount < 1) {
+		if (mTotalItemCount < 1 || mSearchResponse == null) {
 			return;
 		}
 
@@ -499,9 +499,12 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	});
 	
 	public void checkCachedMarkers() {
+		if(mSearchResponse == null) {
+			return;
+		}
+		
 		List<Integer> propertyPositions = new ArrayList<Integer>();
 		int i = 0;
-
 		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
 		for (Property property : mCachedProperties) {
 			if (property.getAverageExpediaRating() >= Filter.HIGH_USER_RATING) {

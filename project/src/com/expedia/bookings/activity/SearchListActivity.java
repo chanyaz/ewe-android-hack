@@ -191,5 +191,7 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	public void clearResults() {
 		setListAdapter(null);
 		mAdapter = null;
+		mSelectedPosition = -1;
+		mScrollBar.setSearchResponse(null);
 	}
 }
