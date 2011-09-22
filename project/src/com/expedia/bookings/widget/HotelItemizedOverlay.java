@@ -11,7 +11,6 @@ import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.utils.StrUtils;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -38,15 +37,6 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 	private String mTappedPropertyId;
 
 	private DistanceUnit mDistanceUnit;
-
-	public HotelItemizedOverlay(Context context, SearchResponse searchResponse, boolean enableOnClick, MapView mapView,
-			OnBalloonTap onTap) {
-		this(context, searchResponse.getProperties(), enableOnClick, mapView, onTap);
-
-		if (searchResponse.getFilter() != null) {
-			mDistanceUnit = searchResponse.getFilter().getDistanceUnit();
-		}
-	}
 
 	public HotelItemizedOverlay(Context context, List<Property> properties, boolean enableOnClick, MapView mapView,
 			OnBalloonTap onTap) {

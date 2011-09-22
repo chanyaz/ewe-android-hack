@@ -102,6 +102,26 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mIsActive = false;
 
 		restoreSavedExactSearchLocation();
+		
+		OnBalloonTap onTap = new OnBalloonTap() {
+			@Override
+			public void onBalloonTap(Property property) {
+				final SearchActivity parent = (SearchActivity) getParent();
+
+				Intent intent = new Intent(SearchMapActivity.this, HotelActivity.class);
+				intent.putExtra(Codes.PROPERTY, property.toJson().toString());
+				intent.putExtra(Codes.SEARCH_PARAMS, parent.getSearchParams().toString());
+				intent.putExtra(Codes.SESSION, parent.getSession().toJson().toString());
+				SearchMapActivity.this.startActivity(intent);
+			}
+		};
+		mHotelItemizedOverlay = new HotelItemizedOverlay(this, null, true, mMapView, onTap);
+		mHotelItemizedOverlay.setShowDistance(mShowDistance);
+		mHotelItemizedOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
+
+		mMyLocationOverlay = new FixedMyLocationOverlay(this, mMapView);
+		mExactLocationItemizedOverlay = new ExactLocationItemizedOverlay(this, mMapView);
+		mDoubleTapToZoomListenerOverlay = new DoubleTapToZoomListenerOverlay(this, mMapView);
 	}
 
 	@Override
@@ -132,6 +152,8 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		if (mMyLocationOverlay != null) {
 			mMyLocationOverlay.enableMyLocation();
 		}
+		
+		focusOnProperties();
 	}
 
 	@Override
@@ -199,38 +221,10 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		List<Property> properties = new ArrayList<Property>();
 
 		properties = propertyArray != null ? Arrays.asList(propertyArray) : null;
-		if (mHotelItemizedOverlay == null) {
-			OnBalloonTap onTap = new OnBalloonTap() {
-				@Override
-				public void onBalloonTap(Property property) {
-					final SearchActivity parent = (SearchActivity) getParent();
-
-					Intent intent = new Intent(SearchMapActivity.this, HotelActivity.class);
-					intent.putExtra(Codes.PROPERTY, property.toJson().toString());
-					intent.putExtra(Codes.SEARCH_PARAMS, parent.getSearchParams().toString());
-					intent.putExtra(Codes.SESSION, parent.getSession().toJson().toString());
-					SearchMapActivity.this.startActivity(intent);
-				}
-			};
-			mHotelItemizedOverlay = new HotelItemizedOverlay(this, properties, true, mMapView, onTap);
-			mHotelItemizedOverlay.setShowDistance(mShowDistance);
-			mHotelItemizedOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
-		}
-		else {
-			// clear the map info to determine center based on new search
-			clearSavedMapInfo();
-			mHotelItemizedOverlay.setProperties(properties, mSearchResponse.getProperties());
-			mHotelItemizedOverlay.setShowDistance(mShowDistance);
-		}
-		
-		// Add an overlay for my location
-		if (mMyLocationOverlay == null) {
-			mMyLocationOverlay = new FixedMyLocationOverlay(this, mMapView);
-		}
-
-		if (mExactLocationItemizedOverlay == null) {
-			mExactLocationItemizedOverlay = new ExactLocationItemizedOverlay(this, mMapView);
-		}
+		// clear the map info to determine center based on new search
+		clearSavedMapInfo();
+		mHotelItemizedOverlay.setProperties(properties, mSearchResponse.getProperties());
+		mHotelItemizedOverlay.setShowDistance(mShowDistance);
 
 		mExactLocationItemizedOverlay.setExactLocation(mExactLocationLatitude, mExactLocationLongitude,
 				mExactLocationAddress);
@@ -247,10 +241,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			mMyLocationOverlay.enableMyLocation();
 		}
 
-		if (mDoubleTapToZoomListenerOverlay == null) {
-			mDoubleTapToZoomListenerOverlay = new DoubleTapToZoomListenerOverlay(this, mMapView);
-		}
-		
 		if(!overlays.contains(mDoubleTapToZoomListenerOverlay)) {
 			overlays.add(mDoubleTapToZoomListenerOverlay);
 		}
