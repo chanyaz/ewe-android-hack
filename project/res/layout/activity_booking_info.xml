@@ -577,7 +577,7 @@
 			android:layout_marginRight="2dp"
 			android:maxLines="2"
 			android:textColor="@android:color/white"
-			android:textSize="13sp" />
+			mobiata:maxTextSize="10dp" />
 		<com.mobiata.android.widget.AutoResizeTextView
 			android:id="@+id/confirm_book_button"
 			android:layout_width="144dp"
