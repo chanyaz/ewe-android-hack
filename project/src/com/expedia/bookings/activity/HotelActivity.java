@@ -324,7 +324,6 @@ public class HotelActivity extends AsyncLoadActivity {
 	}
 
 	private View addSection(String title, String body, ViewGroup detailsContainer) {
-
 		RelativeLayout detailsSection = (RelativeLayout) getLayoutInflater().inflate(
 				R.layout.snippet_hotel_description_section, null);
 
@@ -423,7 +422,7 @@ public class HotelActivity extends AsyncLoadActivity {
 		mProgressBar.setVisibility(View.GONE);
 
 		AvailabilityResponse response = (AvailabilityResponse) results;
-		String description = mProperty.getDescriptionText();
+		String description;
 		if (response == null) {
 			// Use short description (if available)
 			description = mProperty.getDescriptionText();

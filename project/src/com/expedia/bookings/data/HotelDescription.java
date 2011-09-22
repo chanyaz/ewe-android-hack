@@ -33,6 +33,9 @@ public class HotelDescription {
 		description = description.replace("</ul>", "\n");
 		description = description.replace("<li>", mContext.getString(R.string.bullet_point) + " ");
 		description = description.replace("</li>", "\n");
+		description = description.replace("<strong><strong>", "<strong>");
+		description = description.replace("</strong>:</strong>", "</strong>");
+		description = description.replace("<p></p>", "");
 
 		int len = description.length();
 		int index = 0;
@@ -42,16 +45,24 @@ public class HotelDescription {
 			int endSection = description.indexOf("</p>", nextSection);
 
 			if (nextSection != -1 && endSection > nextSection) {
-				int nextTitle = description.indexOf("<b>", index);
-				int endTitle = description.indexOf("</b>", nextTitle);
+				int nextTitle = description.indexOf("<strong>", index);
+				int endTitle = description.indexOf("</strong>", nextTitle);
 
 				if (nextTitle != -1 && endTitle > nextTitle && endTitle < endSection) {
-					title = description.substring(nextTitle + 3, endTitle).trim();
+					title = description.substring(nextTitle + 8, endTitle).trim();
 					if (title.endsWith(".")) {
 						title = title.substring(0, title.length() - 1);
 					}
 
-					String body = Html.fromHtml(description.substring(endTitle + 4, endSection)).toString().trim();
+					// Crazy hacks for the description.  Should be rewritten someday
+					String body = description.substring(endTitle + 9, endSection).trim().replace("\n", "<br />");
+					if (body.startsWith("<br>")) {
+						body = body.substring(4);
+					}
+					if (body.startsWith("<br /><br />")) {
+						body = body.substring(12);
+					}
+					body = body.replace("<p>", "<br />");
 
 					if (title.length() > 0 && body.length() > 0) {
 						mSections.add(new DescriptionSection(title, body));
