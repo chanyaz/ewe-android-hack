@@ -21,7 +21,6 @@ import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -54,6 +53,7 @@ import android.view.Surface;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.View.MeasureSpec;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -133,8 +133,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	// INTERFACES
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final String WIDGET_NOTIFICATION_SHOWN = "widgetNotificationShown";
-
 	public interface MapViewListener {
 		public GeoPoint onRequestMapCenter();
 	}
@@ -206,6 +204,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 	private static final int MAX_GUESTS_TOTAL = 5;
 	private static final int MAX_GUEST_NUM = 4;
+	
+	// the offset is to ensure that the list loads before the animation
+	// is played to make it flow smoother and also to grab the user's attention.
+	private static final long WIDGET_NOTIFICATION_BAR_ANIMATION_DELAY = 2000L;
+	private static final long WIDGET_NOTIFICATION_BAR_ANIMATION_DURATION = 1000L;
 
 	private static final int DEFAULT_RADIUS_RADIO_GROUP_CHILD = R.id.radius_large_button;
 	private static final int DEFAULT_PRICE_RADIO_GROUP_CHILD = R.id.price_all_button;
@@ -278,6 +281,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	//----------------------------------
 
 	private Context mContext;
+	private ExpediaBookingApp mApp;
 
 	private LocalActivityManager mLocalActivityManager;
 	private String mTag = ACTIVITY_SEARCH_LIST;
@@ -311,7 +315,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private Filter mOldFilter;
 	public boolean mStartSearchOnResume;
 	private long mLastSearchTime = -1;
-
+	private boolean mIsWidgetNotificationShowing;
+	
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
 
 	private boolean mIsActivityResumed = false;
@@ -448,6 +453,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		checkIfOpenedFromWidget(getIntent());
 
 		mContext = this;
+		
+		mApp = (ExpediaBookingApp) this.getApplication();
 
 		onPageLoad();
 		setContentView(R.layout.activity_search);
@@ -507,6 +514,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			}
 		}
 		else {
+			mApp.incrementLaunches();
+
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 			String searchParamsJson = prefs.getString("searchParams", null);
 			String filterJson = prefs.getString("filter", null);
@@ -588,6 +597,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
 			mStartSearchOnResume = true;
+		}
+		
+		if(intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
+			mApp.incrementLaunches();
 		}
 	}
 
@@ -1091,6 +1104,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			@Override
 			public void onClick(View v) {
 				findViewById(R.id.widget_notification_bar_layout).setVisibility(View.GONE);
+				mIsWidgetNotificationShowing = false;
 			}
 		});
 
@@ -1501,6 +1515,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		state.startSearchOnResume = mStartSearchOnResume;
 		state.lastSearchTime = mLastSearchTime;
 		state.addresses = mAddresses;
+		state.isWidgetNotificationShowing = mIsWidgetNotificationShowing;
 
 		if (state.searchResponse != null) {
 			if (state.searchResponse.getFilter() != null) {
@@ -1530,6 +1545,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mStartSearchOnResume = state.startSearchOnResume;
 		mLastSearchTime = state.lastSearchTime;
 		mAddresses = state.addresses;
+		mIsWidgetNotificationShowing = state.isWidgetNotificationShowing;
 	}
 
 	private void saveParams() {
@@ -1560,14 +1576,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		final View widgetNotificationBarLayout = findViewById(R.id.widget_notification_bar_layout);
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-		boolean widgetNotificationShown = prefs.getBoolean(WIDGET_NOTIFICATION_SHOWN, false);
-
 		// only show the notification if its never been shown before
-		if (!widgetNotificationShown) {
+		// or if it were showing before orientation change
+		if(mIsWidgetNotificationShowing) {
+			widgetNotificationBarLayout.setVisibility(View.VISIBLE);
+		} else if (mApp.toShowWidgetNotification()) {
 			animateWidgetNotification(widgetNotificationBarLayout);
 		}
-
 	}
 
 	
@@ -1583,7 +1598,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
 				Animation.RELATIVE_TO_SELF, 0.0f, Animation.ABSOLUTE, -searchBarLayout.getMeasuredHeight(),
 				Animation.ABSOLUTE, 0.0f);
-		animation.setDuration(1000L);
+		animation.setDuration(WIDGET_NOTIFICATION_BAR_ANIMATION_DURATION);
+		animation.setStartOffset(WIDGET_NOTIFICATION_BAR_ANIMATION_DELAY);
 		animation.setAnimationListener(new AnimationListener() {
 
 			@Override
@@ -1602,15 +1618,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				widgetNotificationBarLayout.setVisibility(View.VISIBLE);
 				// set it in stone that the notification was shown so that
 				// its never shown again to the user
-				Editor editor = PreferenceManager.getDefaultSharedPreferences(
-						SearchActivity.this.getApplicationContext()).edit();
-				editor.putBoolean(WIDGET_NOTIFICATION_SHOWN, true);
-				SettingUtils.commitOrApply(editor);
+				mApp.markWidgetNotificationAsShown();
+				mIsWidgetNotificationShowing = true;
 			}
 		});
 		widgetNotificationBarLayout.startAnimation(animation);
 	}
 
+	
 	private void broadcastSearchStarted() {
 		if (mSearchListeners != null) {
 			for (SearchListener searchListener : mSearchListeners) {
@@ -2998,6 +3013,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		public SearchParams oldSearchParams;
 		public SearchParams originalSearchParams;
 		public boolean startSearchOnResume;
+		public boolean isWidgetNotificationShowing;
 
 		public DisplayType displayType;
 		public long lastSearchTime;
