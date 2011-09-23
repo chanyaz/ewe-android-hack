@@ -18,7 +18,6 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.LocalActivityManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -83,6 +82,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.Rotate3dAnimation;
+import com.expedia.bookings.appwidget.ExpediaBookingsService;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter;
@@ -1551,11 +1551,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	
 	private void broadcastSearchParamsChanged() {
 		// Inform all interested parties that search params have changed
-		Intent i2 = new Intent("com.expedia.bookings.SEARCH_PARAMS_CHANGED");
+		Intent i2 = new Intent(ExpediaBookingsService.SEARCH_PARAMS_CHANGED_ACTION);
 		i2.putExtra(Codes.SEARCH_PARAMS, mSearchParams.toJson().toString());
 		startService(i2);
 	}
-
+	
 	//----------------------------------
 	// Search results handling
 	//----------------------------------
@@ -2590,12 +2590,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			if (s.toString().equals(getString(R.string.current_location))) {
 				mSearchParams.setSearchType(SearchType.MY_LOCATION);
-				mSearchParams.setFreeformLocation("");
+				mSearchParams.setFreeformLocation(getString(R.string.current_location));
 				mSearchParams.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
 			}
 			else if (s.toString().equals(getString(R.string.visible_map_area))) {
 				mSearchParams.setSearchType(SearchType.PROXIMITY);
-				mSearchParams.setFreeformLocation("");
 				mSearchParams.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
 			}
 			else if (count > 0) {
@@ -2795,7 +2794,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		public void onClick(View v) {
 			if (mMapViewListener != null) {
 				GeoPoint center = mMapViewListener.onRequestMapCenter();
-				mSearchParams.setFreeformLocation("");
 				mSearchParams.setDestinationId(null);
 				mSearchParams.setSearchType(SearchType.PROXIMITY);
 

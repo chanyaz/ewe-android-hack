@@ -79,7 +79,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	public static final String START_SEARCH_ACTION = "com.expedia.bookings.START_SEARCH";
 	public static final String START_CLEAN_SEARCH_ACTION = "com.expedia.bookings.START_CLEAN_SEARCH";
 	public static final String CANCEL_UPDATE_ACTION = "com.expedia.bookings.CANCEL_UPDATE";
-	private static final String SEARCH_PARAMS_CHANGED_ACTION = "com.expedia.bookings.SEARCH_PARAMS_CHANGED";
+	public static final String SEARCH_PARAMS_CHANGED_ACTION = "com.expedia.bookings.SEARCH_PARAMS_CHANGED";
 	public static final String NEXT_PROPERTY_ACTION = "com.expedia.bookings.NEXT_PROPERTY";
 	public static final String ROTATE_PROPERTY_ACTION = "com.expedia.bookings.ROTATE_PROPERTY";
 	public static final String PREV_PROPERTY_ACTION = "com.expedia.bookings.PREV_PROPERTY";
@@ -874,8 +874,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		setWidgetPropertyViewVisibility(widgetContents, View.VISIBLE);
 
 		widgetContents.setTextViewText(R.id.hotel_name_text_view, property.getName());
-		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams
-				.getFreeformLocation() : property.getDistanceFromUser().formatDistance(this);
+		String location = isWidgetSearchFreeForm(widget) ? widget.mSearchParams.getFreeformLocation() : property
+				.getDistanceFromUser().formatDistance(this);
 		widgetContents.setTextViewText(R.id.location_text_view, location);
 
 		if (property.getLowestRate().getSavingsPercent() > 0) {
@@ -1015,10 +1015,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 					getString(R.string.save_upto_template, widget.maxPercentSavings * 100));
 		}
 
-		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams
-				.getFreeformLocation() : "Current Location";
-
-		widgetContents.setTextViewText(R.id.branding_location_text_view, location);
+		widgetContents.setTextViewText(R.id.branding_location_text_view, widget.mSearchParams.getFreeformLocation());
 
 		String brandingTitle = null;
 		if (DateUtils.isToday(widget.mSearchParams.getCheckInDate().getTimeInMillis())) {
@@ -1045,10 +1042,15 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				widget.appWidgetIdInteger.intValue() + 1, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
 		clearWidgetOnClickIntent(rv);
-		
+
 		setWidgetLoadingTextVisibility(widgetContents, View.GONE);
 
 		updateWidget(widget, rv);
+	}
+
+	private boolean isWidgetSearchFreeForm(WidgetState widget) {
+		return (!widget.mUseCurrentLocation && widget.mSearchParams.getFreeformLocation() != null && !widget.mSearchParams
+				.getFreeformLocation().equals(getString(R.string.current_location)));
 	}
 
 	private void setupOnClickIntentForWidget(WidgetState widget, Property property, RemoteViews rv) {
@@ -1060,9 +1062,9 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		if (property != null) {
 			onClickIntent.putExtra(Codes.PROPERTY, property.toJson().toString());
 		}
-		
-		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(this.getApplicationContext(), widget.appWidgetIdInteger.intValue() + 3,
-				onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+
+		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(this.getApplicationContext(),
+				widget.appWidgetIdInteger.intValue() + 3, onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 	}
 
 	private void updateWidget(WidgetState widget, final RemoteViews rv) {
