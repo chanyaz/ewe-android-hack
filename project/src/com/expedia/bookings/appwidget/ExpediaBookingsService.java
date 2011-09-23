@@ -42,7 +42,6 @@ import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Session;
-import com.expedia.bookings.model.Search;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.StrUtils;
@@ -739,7 +738,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	private void determineRelevantProperties(WidgetState widget, Property[] properties) {
 		List<Property> relevantProperties = new ArrayList<Property>();
-
+		// initialize the maximum savings so that they can be re-determined
+		widget.maxPercentSavings = 0.0;
 		// first populate the list with hotels that have rooms on sale
 		for (Property property : properties) {
 			if (relevantProperties.size() == MAX_RESULTS) {
@@ -779,7 +779,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void trackMaximumSavingsForWidget(WidgetState widget, Property property) {
-		widget.maxPercentSavings = 0;
 		double savingsPercent = property.getLowestRate().getSavingsPercent();
 		if (widget.maxPercentSavings == 0 || widget.maxPercentSavings < savingsPercent) {
 			widget.maxPercentSavings = savingsPercent;
@@ -1007,15 +1006,13 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		setBrandingViewVisibility(widgetContents, View.VISIBLE);
 
-		String brandingSavings = widget.maxPercentSavings > 0 ? Integer
-				.toString((int) (widget.maxPercentSavings * 100)) : null;
-		if (brandingSavings == null) {
+		if (widget.maxPercentSavings == 0.0) {
 			widgetContents.setViewVisibility(R.id.branding_savings_container, View.GONE);
 		}
 		else {
 			widgetContents.setViewVisibility(R.id.branding_savings_container, View.VISIBLE);
 			widgetContents.setTextViewText(R.id.branding_savings_container,
-					getString(R.string.save_upto_template, brandingSavings));
+					getString(R.string.save_upto_template, widget.maxPercentSavings * 100));
 		}
 
 		String location = (!widget.mUseCurrentLocation && (widget.mSearchParams.getSearchType() != SearchType.MY_LOCATION)) ? widget.mSearchParams
