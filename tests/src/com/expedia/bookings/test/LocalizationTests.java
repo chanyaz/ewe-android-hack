@@ -9,6 +9,7 @@ import java.util.UnknownFormatConversionException;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.content.res.Resources.NotFoundException;
 import android.test.AndroidTestCase;
 import android.util.DisplayMetrics;
 
@@ -16,124 +17,132 @@ import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 
 public class LocalizationTests extends AndroidTestCase {
-    
+
 	private Locale[] TEST_LOCALES = new Locale[] {
-    new Locale("en", "US"),
-    new Locale("zh", "TW"),
-    new Locale("da"),
-    new Locale("de"),
-    new Locale("fr"),
-    new Locale("it"),
-    new Locale("jp"),
-    new Locale("ko"),
-    new Locale("no"),
-    new Locale("pt"),
-    new Locale("sv"),
-    new Locale("in"),
-    new Locale("ms"),
-    new Locale("tl"),
-    new Locale("zh"),
-    new Locale("en", "UK"),
-    new Locale("zh", "HK"),
-    new Locale("es"),
-    new Locale("fr", "CA"),
+			new Locale("en", "US"),
+			new Locale("zh", "TW"),
+			new Locale("da"),
+			new Locale("de"),
+			new Locale("fr"),
+			new Locale("it"),
+			new Locale("jp"),
+			new Locale("ko"),
+			new Locale("no"),
+			new Locale("pt"),
+			new Locale("sv"),
+			new Locale("in"),
+			new Locale("ms"),
+			new Locale("tl"),
+			new Locale("zh"),
+			new Locale("en", "UK"),
+			new Locale("zh", "HK"),
+			new Locale("es"),
+			new Locale("fr", "CA"),
 	};
-    
+
 	private Resources r;
 	DisplayMetrics metrics;
 	private boolean mFailed;
-    
+
 	public LocalizationTests() {
 		// Default constructor
 	}
-    
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-        
+
 		Log.configureLogging("ExpediaBookings", true);
-        
+
 		r = getContext().getResources();
 		metrics = r.getDisplayMetrics();
 	}
-    
+
 	//////////////////////////////////////////////////////////////////////////
 	// Tools
-    
+
 	private void setLocale(Locale locale) {
 		Configuration config = r.getConfiguration();
 		config.locale = locale;
 		r.updateConfiguration(config, metrics);
 	}
-    
+
 	//////////////////////////////////////////////////////////////////////////
 	// Tests
-    
+
 	public void testStringLength() {
 		// Load a table of the strings in English (for comparison)
 		setLocale(new Locale("en", "US"));
-        
+
 		Map<String, String> base = new HashMap<String, String>();
 		Class<?> res = R.string.class;
-		try {
-			for (Field f : res.getFields()) {
-				String name = f.getName();
-				String val = r.getString(f.getInt(null));
+
+		String name = null;
+		String val = null;
+		for (Field f : res.getFields()) {
+			try {
+				name = f.getName();
+				val = r.getString(f.getInt(null));
 				base.put(name, val);
 			}
+			catch (NotFoundException e) {
+				Log.w("Could not find id in English: " + name);
+			}
+			catch (Exception e) {
+				Log.e("Something really bad happened in testStringLength()", e);
+				fail("Sadness: " + e.getMessage());
+			}
 		}
-		catch (Exception e) {
-			fail("Something wonky happened: " + e.getMessage());
-		}
-        
+
 		Log.i("Number of strings: " + base.size());
-        
+
 		mFailed = false;
 		for (Locale locale : TEST_LOCALES) {
 			setLocale(locale);
-            
+
 			String format = "\"%1$s\" in %2$s is %3$.2fx base length.  (\"%4$s\" to \"%5$s\")";
-			try {
-				for (Field f : res.getFields()) {
-					String name = f.getName();
-					String val = r.getString(f.getInt(null));
-                    
-					if (base.containsKey(name)) {
-						String baseStr = base.get(name);
-						double percent = val.length() / (double) baseStr.length();
-                        
-						if (percent > 3) {
-							Log.e("EXTREME: " + String.format(format, name, locale.toString(), percent, baseStr, val));
-							mFailed = true;
-						}
-						else if (percent > 2) {
-							Log.w("LONG: " + String.format(format, name, locale.toString(), percent, baseStr, val));
-						}
-						else if (percent > 1.5) {
-							Log.i("MED: " + String.format(format, name, locale.toString(), percent, baseStr, val));
-						}
-					}
-					else {
-						Log.w("Locale " + locale.toString() + " contains key not in base set: " + name);
+			for (Field f : res.getFields()) {
+				name = f.getName();
+				try {
+					val = r.getString(f.getInt(null));
+				}
+				catch (Exception e) {
+					Log.v("Could not get \"" + name + "\" in " + locale.toString());
+					continue;
+				}
+
+				if (base.containsKey(name)) {
+					String baseStr = base.get(name);
+					double percent = val.length() / (double) baseStr.length();
+
+					if (percent > 3) {
+						Log.e("EXTREME: " + String.format(format, name, locale.toString(), percent, baseStr, val));
 						mFailed = true;
 					}
+					else if (percent > 2) {
+						Log.w("LONG: " + String.format(format, name, locale.toString(), percent, baseStr, val));
+					}
+					else if (percent > 1.5) {
+						Log.i("MED: " + String.format(format, name, locale.toString(), percent, baseStr, val));
+					}
+				}
+				else {
+					Log.v("Locale " + locale.toString() + " contains key not in base set: " + name);
+					mFailed = true;
 				}
 			}
-			catch (Exception e) {
-				fail("Something wonky happened: " + e.getMessage());
-			}
 		}
-        
+
 		if (mFailed) {
 			fail("Some strings failed the test.");
 		}
 	}
-    
+
 	public void testStringFormatting() {
 		mFailed = false;
 		for (Locale locale : TEST_LOCALES) {
 			setLocale(locale);
-            
+
 			// ExpediaBookings
 			testString("booking_info_template", "Chicago, IL", "Aug 24", "Aug 25, 2011");
 			testString("filter_info_template", 5);
@@ -166,7 +175,7 @@ public class LocalizationTests extends AndroidTestCase {
 			testPlural("number_of_adults");
 			testPlural("number_of_children");
 			testString("distance_template", "5", "miles");
-            
+
 			// AndroidUtils
 			testString("MailChimpFailureReasonTemplate", "Failure reason");
 			testString("ts_minutes", 5);
@@ -175,12 +184,12 @@ public class LocalizationTests extends AndroidTestCase {
 			testString("ts_months", 5);
 			testString("ts_years", 5);
 		}
-        
+
 		if (mFailed) {
 			fail("Some strings failed the test.");
 		}
 	}
-    
+
 	private void testString(String stringName, Object... args) {
 		try {
 			Class<?> res = R.string.class;
@@ -200,7 +209,7 @@ public class LocalizationTests extends AndroidTestCase {
 			fail("Something wonky happened: " + e.getMessage());
 		}
 	}
-    
+
 	private void testPlural(String pluralName) {
 		int a = -1;
 		try {
