@@ -36,6 +36,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelActivity;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
@@ -113,6 +114,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		Integer appWidgetIdInteger;
 		Session mSession;
 		SearchParams mSearchParams;
+		Filter filter;
 		List<Property> mProperties;
 		int mCurrentPosition = -1;
 		double maxPercentSavings;
@@ -135,9 +137,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 				if (searchResponse != null && !searchResponse.hasErrors()) {
 					mSession = searchResponse.getSession();
-					Property[] properties = searchResponse.getProperties().toArray(new Property[0]).clone();
-					Arrays.sort(properties, Property.PRICE_COMPARATOR);
-					determineRelevantProperties(WidgetState.this, properties);
+					determineRelevantProperties(WidgetState.this, searchResponse);
 					mCurrentPosition = -1;
 					loadPropertyIntoWidget(WidgetState.this, ROTATE_INTERVAL);
 					lastUpdatedTimeInMillis = System.currentTimeMillis();
@@ -476,10 +476,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				stopSelf();
 			}
 
-			if (intent.getAction().equals(SEARCH_PARAMS_CHANGED_ACTION)) {
-				startSearchForWidgets();
-			}
-			else if (intent.getAction().equals(START_SEARCH_ACTION)) {
+			if (intent.getAction().equals(SEARCH_PARAMS_CHANGED_ACTION)
+					|| intent.getAction().equals(START_SEARCH_ACTION)) {
 				startSearchForWidgets();
 			}
 			else if (intent.getAction().equals(CANCEL_UPDATE_ACTION)) {
@@ -665,12 +663,21 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private void getSearchParamsFromDisk(WidgetState widget) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String searchParamsString = prefs.getString("searchParams", null);
+		String filterString = prefs.getString("filter", null);
+
 		try {
 			if (searchParamsString != null) {
 				widget.mSearchParams = new SearchParams(new JSONObject(searchParamsString));
 			}
 			else {
 				widget.mSearchParams = new SearchParams();
+			}
+
+			if (filterString != null) {
+				widget.filter = new Filter(new JSONObject(filterString));
+			}
+			else {
+				widget.filter = new Filter();
 			}
 		}
 		catch (JSONException e) {
@@ -736,22 +743,65 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		scheduleRotation(rotateInterval);
 	}
 
-	private void determineRelevantProperties(WidgetState widget, Property[] properties) {
+	private void determineRelevantProperties(WidgetState widget, SearchResponse response) {
 		List<Property> relevantProperties = new ArrayList<Property>();
+
 		// initialize the maximum savings so that they can be re-determined
 		widget.maxPercentSavings = 0.0;
+
+		response.setFilter(widget.filter);
+
 		// first populate the list with hotels that have rooms on sale
+		// from the list of user-filtered properties
+		Property[] filteredProperties = response.getFilteredAndSortedProperties();
+		Arrays.sort(filteredProperties, Property.PRICE_COMPARATOR);
+
+		trackDeals(widget, relevantProperties, filteredProperties);
+
+		// if that isn't enough, look through the global list of properties
+		// to fill in the slots
+		if (relevantProperties.size() < MAX_RESULTS) {
+			Property[] properties = response.getProperties().toArray(new Property[1]);
+			Arrays.sort(properties, Property.PRICE_COMPARATOR);
+		
+			trackDeals(widget, relevantProperties, properties);
+	
+			trackHighlyRatedHotels(relevantProperties, properties);
+	
+			fillMaxSlotsIfAnyLeft(relevantProperties, properties);
+		}
+	
+		widget.mProperties = relevantProperties;
+	}
+
+	/**
+	 * This method looks through the list of properties 
+	 * to find those that are neither highly rated
+	 * nor are on sale. The goal here is to find hotels to
+	 * fill in the remaining slots in the widget since there
+	 * aren't enough hotels that are highly rated or on sale.
+	 */
+	private void fillMaxSlotsIfAnyLeft(List<Property> relevantProperties, Property[] properties) {
 		for (Property property : properties) {
 			if (relevantProperties.size() == MAX_RESULTS) {
 				break;
 			}
 
-			if (property.getLowestRate().getSavingsPercent() > 0) {
-				trackMaximumSavingsForWidget(widget, property);
+			if (!relevantProperties.contains(property) && property.getLowestRate().getSavingsPercent() == 0
+					&& !property.isHighlyRated()) {
 				relevantProperties.add(property);
 			}
 		}
+	}
 
+	/**
+	 * This method looks through the list of properties to find those
+	 * that are highly rated and not on sale. The goal here is to 
+	 * fill in the slots with the second-optimal solution of highly 
+	 * rated hotels if there aren't enough deals defined as hotels
+	 * on sale.
+	 */
+	private void trackHighlyRatedHotels(List<Property> relevantProperties, Property[] properties) {
 		// then populate with highly rated rooms if there aren't enough
 		// hotels with rooms on sale
 		for (Property property : properties) {
@@ -759,23 +809,33 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				break;
 			}
 
-			if (property.isHighlyRated() && (property.getLowestRate().getSavingsPercent() == 0)) {
+			if (!relevantProperties.contains(property) && property.isHighlyRated()
+					&& (property.getLowestRate().getSavingsPercent() == 0)) {
 				relevantProperties.add(property);
 			}
 		}
+	}
 
-		// lastly get enough to fill up the remaining slots
+	/**
+	 * This method looks through the list of properties to find those that
+	 * are on sale. It also calculates the hotel with the maximum savings
+	 * from the list of chosen hotels (the maximum from the first 5 hotels on sale, 
+	 * sorted by price).
+	 */
+	private void trackDeals(WidgetState widget, List<Property> relevantProperties, Property[] properties) {
 		for (Property property : properties) {
+
 			if (relevantProperties.size() == MAX_RESULTS) {
 				break;
 			}
 
-			if (property.getLowestRate().getSavingsPercent() == 0 && !property.isHighlyRated()) {
-				relevantProperties.add(property);
+			if (!relevantProperties.contains(property)) {
+				if (property.getLowestRate().getSavingsPercent() > 0) {
+					trackMaximumSavingsForWidget(widget, property);
+					relevantProperties.add(property);
+				}
 			}
 		}
-
-		widget.mProperties = relevantProperties;
 	}
 
 	private void trackMaximumSavingsForWidget(WidgetState widget, Property property) {
@@ -1049,8 +1109,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private boolean isWidgetSearchFreeForm(WidgetState widget) {
-		return (!widget.mUseCurrentLocation && widget.mSearchParams.getFreeformLocation() != null && !widget.mSearchParams
-				.getFreeformLocation().equals(getString(R.string.current_location)));
+		return (!widget.mUseCurrentLocation && widget.mSearchParams.getFreeformLocation() != null && 
+				!widget.mSearchParams.getFreeformLocation().equals(getString(R.string.current_location)));
 	}
 
 	private void setupOnClickIntentForWidget(WidgetState widget, Property property, RemoteViews rv) {

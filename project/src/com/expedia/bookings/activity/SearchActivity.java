@@ -2746,6 +2746,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			buildFilter();
+			saveParams();
+			broadcastSearchParamsChanged();
 			setSortTypeText();
 			setRadioButtonShadowLayers();
 		}
