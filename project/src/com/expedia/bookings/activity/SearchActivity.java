@@ -133,8 +133,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	// INTERFACES
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final String WIDGET_NOTIFICATION_CLOSED = "widgetNotificationClosed";
-
 	private static final String WIDGET_NOTIFICATION_SHOWN = "widgetNotificationShown";
 
 	public interface MapViewListener {
@@ -1093,10 +1091,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			@Override
 			public void onClick(View v) {
 				findViewById(R.id.widget_notification_bar_layout).setVisibility(View.GONE);
-				Editor editor = PreferenceManager.getDefaultSharedPreferences(
-						SearchActivity.this.getApplicationContext()).edit();
-				editor.putBoolean(WIDGET_NOTIFICATION_CLOSED, true);
-				SettingUtils.commitOrApply(editor);
 			}
 		});
 
@@ -1568,17 +1562,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 		boolean widgetNotificationShown = prefs.getBoolean(WIDGET_NOTIFICATION_SHOWN, false);
-		boolean widgetNotificationClosed = prefs.getBoolean(WIDGET_NOTIFICATION_CLOSED, false);
 
 		// only show the notification if its never been shown before
-		if (widgetNotificationShown) {
-			// if the notification has been shown, ensure to continue to show it
-			// until the user closes it.
-			if (!widgetNotificationClosed) {
-				widgetNotificationBarLayout.setVisibility(View.VISIBLE);
-			}
-		}
-		else {
+		if (!widgetNotificationShown) {
 			animateWidgetNotification(widgetNotificationBarLayout);
 		}
 
