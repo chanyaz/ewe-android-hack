@@ -33,6 +33,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.HotelActivity;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
@@ -41,6 +42,7 @@ import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Session;
+import com.expedia.bookings.model.Search;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.StrUtils;
@@ -1045,16 +1047,15 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		widgetContents.setOnClickPendingIntent(R.id.next_hotel_btn, PendingIntent.getService(this,
 				widget.appWidgetIdInteger.intValue() + 1, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
-		setupOnClickIntentForWidget(widget, null, rv);
-
+		clearWidgetOnClickIntent(rv);
+		
 		setWidgetLoadingTextVisibility(widgetContents, View.GONE);
 
 		updateWidget(widget, rv);
 	}
 
 	private void setupOnClickIntentForWidget(WidgetState widget, Property property, RemoteViews rv) {
-		Intent onClickIntent = new Intent(this, SearchActivity.class);
-		onClickIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+		Intent onClickIntent = new Intent(this.getApplicationContext(), HotelActivity.class);
 		onClickIntent.putExtra(Codes.SESSION, widget.mSession.toJson().toString());
 		onClickIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
 		onClickIntent.putExtra(Codes.SEARCH_PARAMS, widget.mSearchParams.toJson().toString());
@@ -1062,8 +1063,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		if (property != null) {
 			onClickIntent.putExtra(Codes.PROPERTY, property.toJson().toString());
 		}
-
-		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(this, widget.appWidgetIdInteger.intValue() + 3,
+		
+		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(this.getApplicationContext(), widget.appWidgetIdInteger.intValue() + 3,
 				onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 	}
 

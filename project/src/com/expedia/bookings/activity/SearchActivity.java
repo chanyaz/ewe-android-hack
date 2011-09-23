@@ -18,6 +18,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.LocalActivityManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -440,6 +441,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			finish();
 			return;
 		}
+		
+		checkIfOpenedFromWidget(getIntent());
 
 		mContext = this;
 
@@ -578,6 +581,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		hideSortOptions();
 		hideFilterOptions(false);
 
+		checkIfOpenedFromWidget(intent);
+		
+		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
+			mStartSearchOnResume = true;
+		}
+	}
+
+	private void checkIfOpenedFromWidget(Intent intent) {
 		/**
 		 * If the activity was requested to be started by the widget,
 		 * ensure to update the search parameters to match that of the widget's.
@@ -608,9 +619,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			}
 		}
 		
-		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
-			mStartSearchOnResume = true;
-		}
 	}
 
 	@Override
