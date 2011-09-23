@@ -62,6 +62,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -131,6 +132,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// INTERFACES
 	//////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String WIDGET_NOTIFICATION_CLOSED = "widgetNotificationClosed";
+
+	private static final String WIDGET_NOTIFICATION_SHOWN = "widgetNotificationShown";
 
 	public interface MapViewListener {
 		public GeoPoint onRequestMapCenter();
@@ -441,7 +446,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			finish();
 			return;
 		}
-		
+
 		checkIfOpenedFromWidget(getIntent());
 
 		mContext = this;
@@ -468,13 +473,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				mSortOptionsLayout.getMeasuredHeight());
 		mSortPopup.setAnimationStyle(R.style.Animation_Popup);
 		mSortPopup.setOnDismissListener(new OnDismissListener() {
-			
+
 			@Override
 			public void onDismiss() {
 				mSortPopupDismissView.setVisibility(View.GONE);
 			}
 		});
-		
+
 		mSortPriceButton.setOnClickListener(mSortOptionChangedListener);
 		mSortPopularityButton.setOnClickListener(mSortOptionChangedListener);
 		mSortDistanceButton.setOnClickListener(mSortOptionChangedListener);
@@ -582,7 +587,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		hideFilterOptions(false);
 
 		checkIfOpenedFromWidget(intent);
-		
+
 		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
 			mStartSearchOnResume = true;
 		}
@@ -593,7 +598,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		 * If the activity was requested to be started by the widget,
 		 * ensure to update the search parameters to match that of the widget's.
 		 */
-		if(intent.getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
+		if (intent.getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
 			String searchParamsJson = intent.getStringExtra(Codes.SEARCH_PARAMS);
 			try {
 				JSONObject object = new JSONObject(searchParamsJson);
@@ -601,24 +606,25 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				// get the session from the widget for tracking purposes
 				mSession = new Session();
 				mSession.fromJson(new JSONObject(intent.getStringExtra(Codes.SESSION)));
-				
+
 				mStartSearchOnResume = true;
-				
+
 				/*
 				 * Only redirect the user to the hotel details screen
 				 * if there is a property in the intent of which to 
 				 * show the details
 				 */
-				if(intent.getStringExtra(Codes.PROPERTY) != null) {
+				if (intent.getStringExtra(Codes.PROPERTY) != null) {
 					Intent detailsIntent = new Intent(this, HotelActivity.class);
 					detailsIntent.fillIn(intent, 0);
 					startActivity(detailsIntent);
 				}
-			} catch(JSONException e) {
+			}
+			catch (JSONException e) {
 				Log.i("Unable to load search parameters", e);
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -1056,7 +1062,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		mSortOptionsLayout = (ViewGroup) getLayoutInflater().inflate(R.layout.include_sort_popup, null);
 		mSortPopupDismissView = findViewById(R.id.sort_popup_dismiss_view);
-		
+
 		//===================================================================
 		// Properties
 
@@ -1076,6 +1082,24 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		mSearchSuggestionsListView.addFooterView(footer, null, false);
 		//-------------------------------------------------------------------
+
+		
+		TextView widgetNotificationTextView = (TextView) findViewById(R.id.widget_notification_text_view);
+		widgetNotificationTextView.setText(Html.fromHtml(getString(R.string.widget_upsell_short)));
+		
+		View widgetNotificationCloseButton = findViewById(R.id.widget_notification_close_btn);
+		widgetNotificationCloseButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				findViewById(R.id.widget_notification_bar_layout).setVisibility(View.GONE);
+				Editor editor = PreferenceManager.getDefaultSharedPreferences(
+						SearchActivity.this.getApplicationContext()).edit();
+				editor.putBoolean(WIDGET_NOTIFICATION_CLOSED, true);
+				SettingUtils.commitOrApply(editor);
+			}
+		});
+
 
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mPanel.setOnPanelListener(mPanelListener);
@@ -1324,7 +1348,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		mOriginalSearchParams = null;
 		mSearchResponse = null;
-		
+
 		broadcastSearchStarted();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -1539,23 +1563,83 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		onSearchResultsChanged();
 		showBottomBar();
+
+		final View widgetNotificationBarLayout = findViewById(R.id.widget_notification_bar_layout);
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+		boolean widgetNotificationShown = prefs.getBoolean(WIDGET_NOTIFICATION_SHOWN, false);
+		boolean widgetNotificationClosed = prefs.getBoolean(WIDGET_NOTIFICATION_CLOSED, false);
+
+		// only show the notification if its never been shown before
+		if (widgetNotificationShown) {
+			// if the notification has been shown, ensure to continue to show it
+			// until the user closes it.
+			if (!widgetNotificationClosed) {
+				widgetNotificationBarLayout.setVisibility(View.VISIBLE);
+			}
+		}
+		else {
+			animateWidgetNotification(widgetNotificationBarLayout);
+		}
+
+	}
+
+	
+	private void animateWidgetNotification(final View widgetNotificationBarLayout) {
+		View searchBarLayout = findViewById(R.id.search_bar_layout);
+		searchBarLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+
+		// animate the notification bar from above the search bar into its place
+		// NOTE: If the animation moves the layout or if we intend to set FillAfterEnabled,
+		// the layout parameters of the button will have to be updated to reflect where
+		// the clickabe region is as the animation only redraws the view without 
+		// actually moving the button
+		TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+				Animation.RELATIVE_TO_SELF, 0.0f, Animation.ABSOLUTE, -searchBarLayout.getMeasuredHeight(),
+				Animation.ABSOLUTE, 0.0f);
+		animation.setDuration(1000L);
+		animation.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+				widgetNotificationBarLayout.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				widgetNotificationBarLayout.setVisibility(View.VISIBLE);
+				// set it in stone that the notification was shown so that
+				// its never shown again to the user
+				Editor editor = PreferenceManager.getDefaultSharedPreferences(
+						SearchActivity.this.getApplicationContext()).edit();
+				editor.putBoolean(WIDGET_NOTIFICATION_SHOWN, true);
+				SettingUtils.commitOrApply(editor);
+			}
+		});
+		widgetNotificationBarLayout.startAnimation(animation);
 	}
 
 	private void broadcastSearchStarted() {
-		if(mSearchListeners != null) {
+		if (mSearchListeners != null) {
 			for (SearchListener searchListener : mSearchListeners) {
 				searchListener.onSearchStarted();
 			}
 		}
 	}
-	
+
 	private void broadcastSearchParamsChanged() {
 		// Inform all interested parties that search params have changed
 		Intent i2 = new Intent(ExpediaBookingsService.SEARCH_PARAMS_CHANGED_ACTION);
 		i2.putExtra(Codes.SEARCH_PARAMS, mSearchParams.toJson().toString());
 		startService(i2);
 	}
-	
+
 	//----------------------------------
 	// Search results handling
 	//----------------------------------
@@ -1651,7 +1735,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			openPanel(false, animate);
 
 			hideSortOptions();
-			
+
 			mRefinementDismissView.setVisibility(View.GONE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
@@ -1684,7 +1768,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			openPanel(false, animate);
 
 			hideSortOptions();
-			
+
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			mDatesLayout.setVisibility(View.VISIBLE);
@@ -1702,7 +1786,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			openPanel(false, animate);
 
 			hideSortOptions();
-			
+
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			mDatesLayout.setVisibility(View.GONE);
@@ -1718,7 +1802,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 			mPanelDismissView.setVisibility(View.VISIBLE);
 			openPanel(true, animate);
-			
+
 			hideSortOptions();
 
 			mRefinementDismissView.setVisibility(View.GONE);
@@ -1736,7 +1820,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 			mPanelDismissView.setVisibility(View.GONE);
 			openPanel(false, animate);
-			
+
 			showSortOptions();
 
 			mRefinementDismissView.setVisibility(View.GONE);
@@ -1746,7 +1830,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 			break;
 		}
-			
+
 		}
 
 		setSearchEditViews();
@@ -1958,7 +2042,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		Animation rotateAnimation = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.rotate_down);
 		mUpArrowSortHotels.startAnimation(rotateAnimation);
-		
+
 		mSortPopup.showAsDropDown(mSortButton, ((mSortButton.getWidth() - mSortOptionsLayout.getMeasuredWidth()) / 2),
 				0);
 		mSortPopupDismissView.setVisibility(View.VISIBLE);
@@ -2505,7 +2589,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
 			mSortButton.setVisibility(View.VISIBLE);
 			mSearchMapButton.setVisibility(View.GONE);
-			
+
 		}
 		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
 			mSortButton.setVisibility(View.GONE);
@@ -2820,13 +2904,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	};
 
 	private final View.OnClickListener mSortPopupDismissViewClickListener = new View.OnClickListener() {
-		
+
 		@Override
 		public void onClick(View v) {
 			hideSortOptions();
 		}
 	};
-	
+
 	private final View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
