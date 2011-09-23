@@ -21,6 +21,7 @@ import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -53,7 +54,6 @@ import android.view.Surface;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.View.MeasureSpec;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -419,6 +419,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				mLoadedSavedResults = true;
 				mSearchCallback.onDownload(results);
 				mLoadedSavedResults = false;
+				showWidgetNotificationIfApplicable();
 			}
 		}
 	};
@@ -1574,6 +1575,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		onSearchResultsChanged();
 		showBottomBar();
 
+		showWidgetNotificationIfApplicable();
+	}
+
+	private void showWidgetNotificationIfApplicable() {
 		final View widgetNotificationBarLayout = findViewById(R.id.widget_notification_bar_layout);
 
 		// only show the notification if its never been shown before
