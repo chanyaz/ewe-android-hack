@@ -204,7 +204,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 	private static final int MAX_GUESTS_TOTAL = 5;
 	private static final int MAX_GUEST_NUM = 4;
-	
+
 	// the offset is to ensure that the list loads before the animation
 	// is played to make it flow smoother and also to grab the user's attention.
 	private static final long WIDGET_NOTIFICATION_BAR_ANIMATION_DELAY = 2000L;
@@ -316,7 +316,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	public boolean mStartSearchOnResume;
 	private long mLastSearchTime = -1;
 	private boolean mIsWidgetNotificationShowing;
-	
+
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
 
 	private boolean mIsActivityResumed = false;
@@ -454,7 +454,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		checkIfOpenedFromWidget(getIntent());
 
 		mContext = this;
-		
+
 		mApp = (ExpediaBookingApp) this.getApplication();
 
 		onPageLoad();
@@ -1095,10 +1095,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mSearchSuggestionsListView.addFooterView(footer, null, false);
 		//-------------------------------------------------------------------
 
-		
 		TextView widgetNotificationTextView = (TextView) findViewById(R.id.widget_notification_text_view);
 		widgetNotificationTextView.setText(Html.fromHtml(getString(R.string.widget_upsell_short)));
-		
+
 		View widgetNotificationCloseButton = findViewById(R.id.widget_notification_close_btn);
 		widgetNotificationCloseButton.setOnClickListener(new View.OnClickListener() {
 
@@ -1108,7 +1107,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				mIsWidgetNotificationShowing = false;
 			}
 		});
-
 
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mPanel.setOnPanelListener(mPanelListener);
@@ -1512,11 +1510,19 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		state.filter = mFilter;
 		state.oldFilter = mOldFilter;
 		state.showDistance = mShowDistance;
-		state.displayType = mDisplayType;
 		state.startSearchOnResume = mStartSearchOnResume;
 		state.lastSearchTime = mLastSearchTime;
 		state.addresses = mAddresses;
 		state.isWidgetNotificationShowing = mIsWidgetNotificationShowing;
+
+		// #9733: You cannot keep displaying a PopupWindow on rotation.  Since it's not essential the popup
+		// stay visible, it's easier here just to hide it between activity shifts.
+		if (mDisplayType == DisplayType.SORT_POPUP) {
+			state.displayType = DisplayType.NONE;
+		}
+		else {
+			state.displayType = mDisplayType;
+		}
 
 		if (state.searchResponse != null) {
 			if (state.searchResponse.getFilter() != null) {
@@ -1630,7 +1636,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		widgetNotificationBarLayout.startAnimation(animation);
 	}
 
-	
 	private void broadcastSearchStarted() {
 		if (mSearchListeners != null) {
 			for (SearchListener searchListener : mSearchListeners) {
