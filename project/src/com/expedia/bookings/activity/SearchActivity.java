@@ -3100,11 +3100,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 			// Sort change
 			if (mOldFilter.getSort() != mFilter.getSort()) {
-				if (mFilter.getSort() == Sort.POPULAR) {
+				Sort sort = mFilter.getSort();
+				if (sort == Sort.POPULAR) {
 					refinements.add("App.Hotels.Search.Sort.Popular");
 				}
-				else {
+				else if (sort == Sort.PRICE) {
 					refinements.add("App.Hotels.Search.Sort.Price");
+				}
+				else if (sort == Sort.DISTANCE) {
+					refinements.add("App.Hotels.Search.Sort.Distance");
+				}
+				else if (sort == Sort.RATING) {
+					refinements.add("App.Hotels.Search.Sort.Rating");
 				}
 			}
 
@@ -3147,15 +3154,21 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			}
 
 			// Star rating change
-			if (mFilter.getMinimumStarRating() != mOldFilter.getMinimumStarRating()) {
-				refinements.add("App.Hotels.Search.Refine.StarRating");
+			double minStarRating = mFilter.getMinimumStarRating();
+			if (minStarRating != mOldFilter.getMinimumStarRating()) {
+				if (minStarRating == 5) {
+					refinements.add("App.Hotels.Search.Refine.AllStars");
+				}
+				else {
+					refinements.add("App.Hotels.Search.Refine." + minStarRating + "Stars");
+				}
 			}
 
 			boolean hasHotelFilter = mFilter.getHotelName() != null;
 			boolean oldHasHotelFilter = mOldFilter.getHotelName() != null;
 			if (hasHotelFilter != oldHasHotelFilter
 					|| (hasHotelFilter && !mFilter.getHotelName().equals(mOldFilter.getHotelName()))) {
-				refinements.add("App.Hotels.Search.Refine.HotelName");
+				refinements.add("App.Hotels.Search.Refine.Name");
 			}
 
 			// Rating filter change
