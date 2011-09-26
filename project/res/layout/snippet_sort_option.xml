@@ -14,24 +14,20 @@
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:gravity="center_vertical"
+		android:orientation="horizontal"
 		android:layout_marginTop="15dp"
 		android:layout_marginBottom="15dp"
 		android:layout_marginLeft="10dp"
 		android:layout_marginRight="30dp">
-		<FrameLayout
+		<ImageView
+			android:id="@+id/sort_option_image"
 			android:layout_width="25dp"
-			android:layout_height="fill_parent">
-			<ImageView
-				android:id="@+id/sort_option_image"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center" />
-		</FrameLayout>
+			android:layout_height="wrap_content"
+			android:scaleType="center" />
 		<TextView
 			android:id="@+id/sort_option_text"
-			android:layout_height="fill_parent"
+			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
-			android:gravity="center_vertical"
 			android:includeFontPadding="false"
 			android:paddingLeft="5dp"
 			android:textStyle="bold"
