@@ -460,6 +460,12 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		super.onDestroy();
 
 		if (isFinishing()) {
+			// Cancel all current review downloads
+			mReviewsDownloader.cancelDownload(KEY_REVIEWS_HIGHEST);
+			mReviewsDownloader.cancelDownload(KEY_REVIEWS_LOWEST);
+			mReviewsDownloader.cancelDownload(KEY_REVIEWS_NEWEST);
+
+			// Track # of reviews seen
 			int numReviewsSeen = mViewedReviews.size();
 			Log.d("Tracking # of reviews seen: " + numReviewsSeen);
 			String referrerId = "App.Hotels.Reviews." + numReviewsSeen + "ReviewsViewed";
