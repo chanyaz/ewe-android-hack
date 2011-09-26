@@ -606,8 +606,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
 			mStartSearchOnResume = true;
 		}
-		
-		if(intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
+
+		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
 			mApp.incrementLaunches();
 		}
 	}
@@ -1596,14 +1596,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		// only show the notification if its never been shown before
 		// or if it were showing before orientation change
-		if(mIsWidgetNotificationShowing) {
+		if (mIsWidgetNotificationShowing) {
 			widgetNotificationBarLayout.setVisibility(View.VISIBLE);
-		} else if (mApp.toShowWidgetNotification()) {
+		}
+		else if (mApp.toShowWidgetNotification()) {
 			animateWidgetNotification(widgetNotificationBarLayout);
 		}
 	}
 
-	
 	private void animateWidgetNotification(final View widgetNotificationBarLayout) {
 		View searchBarLayout = findViewById(R.id.search_bar_layout);
 		searchBarLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
