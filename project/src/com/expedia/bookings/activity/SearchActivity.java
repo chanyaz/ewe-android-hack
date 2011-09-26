@@ -98,6 +98,7 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Session;
 import com.expedia.bookings.model.Search;
+import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.GreystripeTracking;
 import com.expedia.bookings.tracking.MillennialTracking;
@@ -286,7 +287,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	//----------------------------------
 
 	private Context mContext;
-	private ExpediaBookingApp mApp;
 
 	private LocalActivityManager mLocalActivityManager;
 	private String mTag = ACTIVITY_SEARCH_LIST;
@@ -351,6 +351,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			mSearchResponse = (SearchResponse) results;
 
 			if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
+				incrementNumSearches();
+
 				mSearchResponse.setFilter(mFilter);
 				mSearchResponse.setSearchType(mSearchParams.getSearchType());
 				mSearchResponse.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
@@ -362,7 +364,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 					mRadiusButtonGroup.check(R.id.radius_all_button);
 					mSearchResponse.clearCache();
 				}
-
 				ImageCache.recycleCache(true);
 				broadcastSearchCompleted(mSearchResponse);
 
@@ -424,7 +425,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				mLoadedSavedResults = true;
 				mSearchCallback.onDownload(results);
 				mLoadedSavedResults = false;
-				showWidgetNotificationIfApplicable();
 			}
 		}
 	};
@@ -459,8 +459,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		checkIfOpenedFromWidget(getIntent());
 
 		mContext = this;
-
-		mApp = (ExpediaBookingApp) this.getApplication();
 
 		onPageLoad();
 		setContentView(R.layout.activity_search);
@@ -526,8 +524,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			}
 		}
 		else {
-			mApp.incrementLaunches();
-
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 			String searchParamsJson = prefs.getString("searchParams", null);
 			String filterJson = prefs.getString("filter", null);
@@ -609,10 +605,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
 			mStartSearchOnResume = true;
-		}
-
-		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
-			mApp.incrementLaunches();
 		}
 	}
 
@@ -1603,7 +1595,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		if (mIsWidgetNotificationShowing) {
 			widgetNotificationBarLayout.setVisibility(View.VISIBLE);
 		}
-		else if (mApp.toShowWidgetNotification()) {
+		else if (toShowWidgetNotification()) {
 			animateWidgetNotification(widgetNotificationBarLayout);
 		}
 	}
@@ -1640,7 +1632,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				widgetNotificationBarLayout.setVisibility(View.VISIBLE);
 				// set it in stone that the notification was shown so that
 				// its never shown again to the user
-				mApp.markWidgetNotificationAsShown();
+				markWidgetNotificationAsShown();
 				mIsWidgetNotificationShowing = true;
 			}
 		});
@@ -1662,6 +1654,64 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		startService(i2);
 	}
 
+
+	//--------------------------------------------
+	// Widget notification related private methods
+	//--------------------------------------------
+	
+	
+	private static final String NUM_SEARCHES = "NUM_SEARCHES";
+	private static final String APP_VERSION = "APP_VERSION";
+	private static final String WIDGET_NOTIFICATION_SHOWN = "WIDGET_NOTIFICATION_SHOWN";
+	private static final int THRESHOLD_LAUNCHES = 2;
+
+	private boolean toShowWidgetNotification() {
+		
+		// wait for 2 launches before deciding to show the widget
+		if(getNumSearches() > THRESHOLD_LAUNCHES) {
+			return !wasWidgetNotificationShown() && !areWidgetsInstalled();
+		}
+		
+		return false; 
+	}
+	
+	private void markWidgetNotificationAsShown() {
+		SettingUtils.save(this, WIDGET_NOTIFICATION_SHOWN, true);
+	}
+	
+	private void incrementNumSearches() {
+		// reset bookkeeping if the app was upgraded
+		// so that the widget can be shown again
+		if(wasAppUpgraded()) {
+			SettingUtils.save(this, NUM_SEARCHES, 1);
+			SettingUtils.save(this, WIDGET_NOTIFICATION_SHOWN, false);
+		} else {
+			int numLaunches = SettingUtils.get(this, NUM_SEARCHES, 0);
+			SettingUtils.save(this, NUM_SEARCHES, ++numLaunches);
+		}
+	}
+	
+	private int getNumSearches() {
+		int numLaunches = SettingUtils.get(this, NUM_SEARCHES, 0); 
+		return numLaunches;
+	}
+	
+	private boolean wasAppUpgraded() {
+		String currentVersionNumber = AndroidUtils.getAppVersion(this);
+		String savedVersionNumber = SettingUtils.get(this, APP_VERSION, null);
+		SettingUtils.save(this, APP_VERSION, currentVersionNumber);
+		return !currentVersionNumber.equals(savedVersionNumber);
+	}
+	
+	private boolean wasWidgetNotificationShown() {
+		return SettingUtils.get(this,WIDGET_NOTIFICATION_SHOWN, false);
+	}
+	
+	private boolean areWidgetsInstalled() {
+		ArrayList<Object> widgetConfigs = WidgetConfigurationState.getAll(this);
+		return !widgetConfigs.isEmpty();
+	}
+	
 	//----------------------------------
 	// Search results handling
 	//----------------------------------
