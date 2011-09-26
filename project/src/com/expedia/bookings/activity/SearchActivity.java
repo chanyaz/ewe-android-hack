@@ -219,6 +219,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
 	public static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
 
+	private static final int F_NO_DIVIDERS = 1;
+	private static final int F_FIRST = 2;
+	private static final int F_LAST = 4;
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -468,13 +472,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mSortOptionDivider.setTileModeX(Shader.TileMode.REPEAT);
 
 		mSortPopularityButton = addSortOption(R.id.sort_popular_button, R.drawable.ic_sort_popular,
-				R.string.sort_description_popular, true);
+				R.string.sort_description_popular, F_NO_DIVIDERS + F_FIRST);
 		mSortPriceButton = addSortOption(R.id.sort_price_button, R.drawable.ic_sort_price,
-				R.string.sort_description_price, false);
+				R.string.sort_description_price, 0);
 		mSortUserRatingButton = addSortOption(R.id.sort_reviews_button, R.drawable.ic_sort_user_rating,
-				R.string.sort_description_rating, false);
+				R.string.sort_description_rating, 0);
 		mSortDistanceButton = addSortOption(R.id.sort_distance_button, R.drawable.ic_sort_distance,
-				R.string.sort_description_distance, false);
+				R.string.sort_description_distance, F_LAST);
 		mSortOptionsLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 		mSortPopup = new PopupWindow(mSortOptionsLayout, mSortOptionsLayout.getMeasuredWidth(),
 				mSortOptionsLayout.getMeasuredHeight());
@@ -2123,7 +2127,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mUpArrowFilterHotels.startAnimation(animation);
 	}
 
-	private View addSortOption(int sortOptionId, int sortOptionImageResId, int sortOptionTextResId, boolean noDivider) {
+	private View addSortOption(int sortOptionId, int sortOptionImageResId, int sortOptionTextResId, int flags) {
 		View sortOption = getLayoutInflater().inflate(R.layout.snippet_sort_option, null);
 		TextView sortTextView = (TextView) sortOption.findViewById(R.id.sort_option_text);
 		ImageView sortImageView = (ImageView) sortOption.findViewById(R.id.sort_option_image);
@@ -2133,11 +2137,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		sortTextView.setText(sortOptionTextResId);
 		sortImageView.setImageResource(sortOptionImageResId);
 
-		if (noDivider) {
+		if ((flags & F_NO_DIVIDERS) != 0) {
 			sortOptionDivider.setVisibility(View.GONE);
 		}
 		else {
 			sortOptionDivider.setBackgroundDrawable(mSortOptionDivider);
+		}
+
+		if ((flags & F_FIRST) != 0) {
+			sortOption.setBackgroundResource(R.drawable.bg_sort_option_row_first);
+		}
+		else if ((flags & F_LAST) != 0) {
+			sortOption.setBackgroundResource(R.drawable.bg_sort_option_row_last);
 		}
 
 		mSortOptionsLayout.addView(sortOption);
