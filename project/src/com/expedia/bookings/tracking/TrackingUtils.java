@@ -32,8 +32,17 @@ public class TrackingUtils {
 	private static final String EMAIL_HASH_KEY = "email_hash";
 	private static final String NO_EMAIL = "NO EMAIL PROVIDED";
 
-	// Most tracking events are pretty simple and can be captured by these few fields.  Just enter them
-	// and we'll handle the rest
+	/**
+	 * Most tracking events are pretty simple and can be captured by these few fields.  This method handles
+	 * both onClick and pageLoad events (depending on whether pageName is supplied).
+	 * 
+	 * @param context the context
+	 * @param pageName the page name if this is a pageLoad event; for onClick, this should be null
+	 * @param events The "events" variable, if one needs to be set.  Can be null.
+	 * @param shopperConfirmer Either "Shopper" or "Confirmer".  Typically should be "Shopper" (to indicate someone 
+	 *                         is shopping currently for hotels), can also be null.
+	 * @param referrerId The "referrer" for an event.  Typically this is the name of the onClick event.
+	 */
 	public static void trackSimpleEvent(Context context, String pageName, String events, String shopperConfirmer,
 			String referrerId) {
 		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
