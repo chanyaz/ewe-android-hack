@@ -265,6 +265,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private ViewGroup mSortOptionsLayout;
 	private PopupWindow mSortPopup;
 
+	private List<View> mSortButtons;
 	private View mSortPriceButton;
 	private View mSortDistanceButton;
 	private View mSortUserRatingButton;
@@ -490,6 +491,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mSortPopularityButton.setOnClickListener(mSortOptionChangedListener);
 		mSortDistanceButton.setOnClickListener(mSortOptionChangedListener);
 		mSortUserRatingButton.setOnClickListener(mSortOptionChangedListener);
+
+		mSortButtons = new ArrayList<View>();
+		mSortButtons.add(mSortPriceButton);
+		mSortButtons.add(mSortPopularityButton);
+		mSortButtons.add(mSortDistanceButton);
+		mSortButtons.add(mSortUserRatingButton);
 
 		mLocalActivityManager = getLocalActivityManager();
 		setActivity(SearchMapActivity.class);
@@ -2138,76 +2145,36 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	}
 
 	private void setupSortOptions() {
+		// Set all buttons to default state
+		for (View v : mSortButtons) {
+			v.setSelected(false);
+			v.setEnabled(true);
+		}
 
+		// Setup current sort as selected and disabled
+		View selected = null;
 		switch (mSortOptionSelectedId) {
 		case R.id.sort_popular_button: {
-			mSortPopularityButton.setSelected(true);
-			mSortPriceButton.setSelected(false);
-			mSortDistanceButton.setSelected(false);
-			mSortUserRatingButton.setSelected(false);
-
-			mSortPopularityButton.setEnabled(false);
-			mSortPriceButton.setEnabled(true);
-			mSortDistanceButton.setEnabled(true);
-			mSortUserRatingButton.setEnabled(true);
-
+			selected = mSortPopularityButton;
 			break;
 		}
 		case R.id.sort_reviews_button: {
-			mSortPopularityButton.setSelected(false);
-			mSortPriceButton.setSelected(false);
-			mSortDistanceButton.setSelected(false);
-			mSortUserRatingButton.setSelected(true);
-
-			mSortPopularityButton.setEnabled(true);
-			mSortPriceButton.setEnabled(true);
-			mSortDistanceButton.setEnabled(true);
-			mSortUserRatingButton.setEnabled(false);
-
+			selected = mSortUserRatingButton;
 			break;
-
 		}
 		case R.id.sort_distance_button: {
-			mSortPopularityButton.setSelected(false);
-			mSortPriceButton.setSelected(false);
-			mSortDistanceButton.setSelected(true);
-			mSortUserRatingButton.setSelected(false);
-
-			mSortPopularityButton.setEnabled(true);
-			mSortPriceButton.setEnabled(true);
-			mSortDistanceButton.setEnabled(false);
-			mSortUserRatingButton.setEnabled(true);
-
+			selected = mSortDistanceButton;
 			break;
-
 		}
 		case R.id.sort_price_button: {
-			mSortPopularityButton.setSelected(false);
-			mSortPriceButton.setSelected(true);
-			mSortDistanceButton.setSelected(false);
-			mSortUserRatingButton.setSelected(false);
-
-			mSortPopularityButton.setEnabled(true);
-			mSortPriceButton.setEnabled(false);
-			mSortDistanceButton.setEnabled(true);
-			mSortUserRatingButton.setEnabled(true);
-
-			break;
-
-		}
-		default: {
-			mSortPopularityButton.setSelected(false);
-			mSortPriceButton.setSelected(false);
-			mSortDistanceButton.setSelected(false);
-			mSortUserRatingButton.setSelected(false);
-
-			mSortPopularityButton.setEnabled(true);
-			mSortPriceButton.setEnabled(true);
-			mSortDistanceButton.setEnabled(true);
-			mSortUserRatingButton.setEnabled(true);
-
+			selected = mSortPriceButton;
 			break;
 		}
+		}
+
+		if (selected != null) {
+			selected.setSelected(true);
+			selected.setEnabled(false);
 		}
 	}
 
