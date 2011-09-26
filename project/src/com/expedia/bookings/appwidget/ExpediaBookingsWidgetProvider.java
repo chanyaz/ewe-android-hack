@@ -12,6 +12,7 @@ import android.widget.RemoteViews;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.model.WidgetConfigurationState;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.Log;
 
 public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
@@ -27,6 +28,9 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 		PackageManager pm = context.getPackageManager();
 		pm.setComponentEnabledSetting(new ComponentName(context, ExpediaBookingsService.class),
 				PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
+		// Track that the widget has been installed
+		TrackingUtils.trackSimpleEvent(context, null, null, null, "App.Widget.Install");
 	}
 
 	@Override
@@ -38,6 +42,8 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 		pm.setComponentEnabledSetting(new ComponentName(context, ExpediaBookingsService.class),
 				PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, PackageManager.DONT_KILL_APP);
 
+		// Track that the widget has been uninstalled
+		TrackingUtils.trackSimpleEvent(context, null, null, null, "App.Widget.Remove");
 	}
 
 	@Override
