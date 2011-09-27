@@ -36,6 +36,7 @@ public class WidgetDeals implements JSONable {
 	private Session mSession;
 	private SearchParams mSearchParams;
 	private Filter mFilter;
+	private boolean toSpecifyDistanceFromUser;
 
 	private static WidgetDeals singleton;
 
@@ -81,6 +82,14 @@ public class WidgetDeals implements JSONable {
 	public void setSearchParmas(SearchParams searchParams) {
 		mSearchParams = new SearchParams();
 		mSearchParams.fromJson(searchParams.toJson());
+	}
+	
+	public void specifyDistanceFromUser(boolean toSpecify) {
+		toSpecifyDistanceFromUser = toSpecify;
+	}
+	
+	public boolean toSpecifyDistanceFromUser() {
+		return toSpecifyDistanceFromUser;
 	}
 
 	public void determineRelevantProperties(SearchResponse response) {

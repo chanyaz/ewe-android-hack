@@ -2596,6 +2596,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			latitude = location.getLatitude();
 			longitude = location.getLongitude();
 			address = StrUtils.removeUSAFromAddress(location);
+			mApp.widgetDeals.specifyDistanceFromUser(true);
 		}
 
 		if (mExactLocationSearchedListeners != null) {
@@ -2709,14 +2710,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				mSearchParams.setSearchType(SearchType.MY_LOCATION);
 				mSearchParams.setFreeformLocation(getString(R.string.current_location));
 				mSearchParams.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
+				mApp.widgetDeals.specifyDistanceFromUser(true);
 			}
 			else if (s.toString().equals(getString(R.string.visible_map_area))) {
 				mSearchParams.setSearchType(SearchType.PROXIMITY);
 				mSearchParams.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
+				mApp.widgetDeals.specifyDistanceFromUser(true);
 			}
 			else if (count > 0) {
 				mSearchParams.setSearchType(SearchType.FREEFORM);
 				mSearchParams.setFreeformLocation(s.toString());
+				mApp.widgetDeals.specifyDistanceFromUser(false);
 			}
 		}
 	};

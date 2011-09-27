@@ -482,8 +482,7 @@ public class ExpediaBookingsService extends Service {
 		setWidgetPropertyViewVisibility(widgetContents, View.VISIBLE);
 
 		widgetContents.setTextViewText(R.id.hotel_name_text_view, property.getName());
-		String location = isWidgetSearchFreeForm(widget) ? mApp.widgetDeals.getSearchParams().getFreeformLocation()
-				: property.getDistanceFromUser().formatDistance(this);
+		String location = mApp.widgetDeals.toSpecifyDistanceFromUser() ? property.getDistanceFromUser().formatDistance(this) : mApp.widgetDeals.getSearchParams().getFreeformLocation();
 		widgetContents.setTextViewText(R.id.location_text_view, location);
 
 		if (property.getLowestRate().getSavingsPercent() > 0) {
@@ -663,11 +662,6 @@ public class ExpediaBookingsService extends Service {
 		private static final String SEARCH_IN_PAST = "Specified arrival date is prior to today's date.";
 		Integer appWidgetIdInteger;
 		int mCurrentPosition = -1;
-	}
-
-	private boolean isWidgetSearchFreeForm(WidgetState widget) {
-		return (mApp.widgetDeals.getSearchParams().getFreeformLocation() != null && !mApp.widgetDeals.getSearchParams()
-				.getFreeformLocation().equals(getString(R.string.current_location)));
 	}
 
 	private void setupOnClickIntentForWidget(WidgetState widget, Property property, RemoteViews rv) {
