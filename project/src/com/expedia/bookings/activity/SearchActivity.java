@@ -24,7 +24,6 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -186,7 +185,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
 
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
-	private static final String KEY_SEARCH = "KEY_SEARCH";
+	public static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_LOADING_PREVIOUS = "KEY_LOADING_PREVIOUS";
 
 	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
@@ -287,7 +286,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	//----------------------------------
 
 	private Context mContext;
-
+	private ExpediaBookingApp mApp;
+	
 	private LocalActivityManager mLocalActivityManager;
 	private String mTag = ACTIVITY_SEARCH_LIST;
 	private Intent mIntent;
@@ -381,6 +381,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			else {
 				handleError();
 			}
+			
+			// only update search parameters when the properties 
+			// are updated
+			mApp.widgetDeals.setSearchParmas(mSearchParams);
+			mApp.widgetDeals.determineRelevantProperties(mSearchResponse);
+			mApp.widgetDeals.deleteFromDisk();
 		}
 	};
 
@@ -459,6 +465,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		checkIfOpenedFromWidget(getIntent());
 
 		mContext = this;
+		mApp = (ExpediaBookingApp) getApplication();
 
 		onPageLoad();
 		setContentView(R.layout.activity_search);
@@ -658,8 +665,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			downloader.unregisterDownloadCallback(KEY_LOADING_PREVIOUS);
 			downloader.unregisterDownloadCallback(KEY_SEARCH);
 		}
-		else {
-			saveParams();
+		
+		if(areWidgetsInstalled()) {
+			Intent resumeWidgetsIntent = new Intent(ExpediaBookingsService.RESUME_WIDGETS_ACTION);
+			startService(resumeWidgetsIntent);
 		}
 	}
 
@@ -716,6 +725,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		mDatesCalendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
 		mIsActivityResumed = true;
+		
+		Intent pauseWidgetsIntent = new Intent(ExpediaBookingsService.PAUSE_WIDGETS_ACTION);
+		startService(pauseWidgetsIntent);
 	}
 
 	@Override
@@ -735,8 +747,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		// do not attempt to save parameters if the user was short circuited to the
 		// confirmation screen when the search activity started
 		if (isFinishing() && !ConfirmationActivity.hasSavedConfirmationData(this)) {
-			saveParams();
-
+			mApp.widgetDeals.persistToDisk();
+			
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
 
 			// Cancel any currently downloading searches
@@ -749,6 +761,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				Log.d("Cancelling loading previous results because activity is ending.");
 				downloader.cancelDownload(KEY_LOADING_PREVIOUS);
 			}
+			
 			// Save a search response as long as:
 			// 1. We weren't currently searching
 			// 2. The search response exists and has no errors.
@@ -1478,16 +1491,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	};
 
 	private void startSearchDownloader() {
-		// save params so that a widget can pick up the params 
-		// to show results based on the last search
-		saveParams();
-
-		// broadcast the change of the search params
-		// only after the params have been setup 
-		// and are ready to be used to query expedia
-		// services for relevant hotels
-		broadcastSearchParamsChanged();
-
 		showLoading(true, R.string.progress_searching_hotels);
 
 		if (!NetUtils.isOnline(this)) {
@@ -1568,17 +1571,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mIsWidgetNotificationShowing = state.isWidgetNotificationShowing;
 	}
 
-	private void saveParams() {
-
-		Log.d("Saving search parameters, filter and tag...");
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		Editor editor = prefs.edit();
-		editor.putString("searchParams", mSearchParams.toJson().toString());
-		editor.putString("filter", mFilter.toJson().toString());
-		editor.putString("tag", mTag);
-		SettingUtils.commitOrApply(editor);
-	}
-
 	//----------------------------------
 	// BROADCAST METHODS
 	//----------------------------------
@@ -1656,14 +1648,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			}
 		}
 	}
-
-	private void broadcastSearchParamsChanged() {
-		// Inform all interested parties that search params have changed
-		Intent i2 = new Intent(ExpediaBookingsService.SEARCH_PARAMS_CHANGED_ACTION);
-		i2.putExtra(Codes.SEARCH_PARAMS, mSearchParams.toJson().toString());
-		startService(i2);
-	}
-
 
 	//--------------------------------------------
 	// Widget notification related private methods
@@ -2879,8 +2863,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			buildFilter();
-			saveParams();
-			broadcastSearchParamsChanged();
+			// update deals based on the changes made to the filter
+			mApp.widgetDeals.determineRelevantProperties(mSearchResponse);
 			setSortTypeText();
 			setRadioButtonShadowLayers();
 		}

@@ -29,7 +29,6 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Session;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.AndroidHttpClient;
-import com.mobiata.android.util.AndroidUtils;
 
 public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 

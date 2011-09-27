@@ -63,7 +63,6 @@
 		
 		<service android:name="com.expedia.bookings.appwidget.ExpediaBookingsService" >
 			<intent-filter>
-					<action android:name="com.expedia.bookings.SEARCH_PARAMS_CHANGED" />
 					<action android:name="com.expedia.bookings.START_SEARCH" />
 					<action android:name="com.expedia.bookings.START_CLEAN_SEARCH" />
 					<action android:name="com.expedia.bookings.LOAD_PROPERTY" />
@@ -71,6 +70,8 @@
 					<action android:name="com.expedia.bookings.PREV_PROPERTY"/>
 					<action android:name="com.expedia.bookings.ROTATE_PROPERTY"/>
 					<action android:name="com.expedia.bookings.CANCEL_UPDATE"/>
+					<action android:name="com.expedia.bookings.PAUSE_WIDGETS"/>
+					<action android:name="com.expedia.bookings.RESUME_WIDGETS"/>
 			</intent-filter>
 		</service>
 		
