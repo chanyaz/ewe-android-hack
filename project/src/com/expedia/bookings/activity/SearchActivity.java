@@ -722,6 +722,16 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	protected void onDestroy() {
 		super.onDestroy();
 
+		// #9018: There was an insidious memory leak happening on rotation.  There might be a number of 
+		// ListView rows that were trying to load images.  The callbacks for these loads involved an ImageView
+		// which (in turn) held onto the Activity.  On rotation, these callbacks would be retained until the
+		// image loaded.
+		//
+		// Now we clear all callbacks (since no one else should be loading images via ImageCache at this time)
+		// upon rotation.  Any images that were loading will continue in the background, but they will not
+		// load onto an image until explicitly requested.
+		ImageCache.clearAllCallbacks();
+
 		// do not attempt to save parameters if the user was short circuited to the
 		// confirmation screen when the search activity started
 		if (isFinishing() && !ConfirmationActivity.hasSavedConfirmationData(this)) {
