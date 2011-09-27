@@ -225,10 +225,11 @@ public class ExpediaBookingsService extends Service {
 		@Override
 		public void onDownload(Object results) {
 			SearchResponse searchResponse = (SearchResponse) results;
-
+			boolean toPersistDeals = false;
 			if (searchResponse != null && !searchResponse.hasErrors()) {
 				searchResponse.setFilter(mApp.widgetDeals.getFilter());
 				loadPropertyIntoWidgets(ROTATE_INTERVAL);
+				toPersistDeals = true;
 			}
 			else if (searchResponse != null && searchResponse.hasErrors()) {
 				ServerError error = searchResponse.getErrors().get(0);
@@ -244,15 +245,16 @@ public class ExpediaBookingsService extends Service {
 					updateWidgetsWithText(getString(R.string.error_search_in_past), true);
 				}
 			}
+			mApp.widgetDeals.determineRelevantProperties(searchResponse);
 
 			if (mApp.widgetDeals.getDeals() == null || mApp.widgetDeals.getDeals().isEmpty()) {
 				updateWidgetsWithText(getString(R.string.progress_search_failed), true);
 			}
 
-			mApp.widgetDeals.determineRelevantProperties(searchResponse);
-			mApp.widgetDeals.deleteFromDisk();
-			mApp.widgetDeals.persistToDisk();
-
+			if (toPersistDeals) {
+				mApp.widgetDeals.deleteFromDisk();
+				mApp.widgetDeals.persistToDisk();
+			}
 			// schedule the next update
 			scheduleSearch();
 		}
@@ -482,7 +484,8 @@ public class ExpediaBookingsService extends Service {
 		setWidgetPropertyViewVisibility(widgetContents, View.VISIBLE);
 
 		widgetContents.setTextViewText(R.id.hotel_name_text_view, property.getName());
-		String location = mApp.widgetDeals.toSpecifyDistanceFromUser() ? property.getDistanceFromUser().formatDistance(this) : mApp.widgetDeals.getSearchParams().getFreeformLocation();
+		String location = mApp.widgetDeals.toSpecifyDistanceFromUser() ? property.getDistanceFromUser().formatDistance(
+				this) : mApp.widgetDeals.getSearchParams().getFreeformLocation();
 		widgetContents.setTextViewText(R.id.location_text_view, location);
 
 		if (property.getLowestRate().getSavingsPercent() > 0) {

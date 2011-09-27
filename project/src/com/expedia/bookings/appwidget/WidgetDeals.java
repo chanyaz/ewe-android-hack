@@ -141,6 +141,7 @@ public class WidgetDeals implements JSONable {
 				obj.put("searchParams", mSearchParams.toJson());
 				obj.put("filter", mFilter.toJson());
 				obj.put("maxPercentSavings", mMaxPercentSavings);
+				obj.put("toSpecifyDistanceFromUser", toSpecifyDistanceFromUser);
 			}
 		}
 		catch (JSONException e) {
@@ -163,6 +164,7 @@ public class WidgetDeals implements JSONable {
 		mSession.fromJson(obj.optJSONObject("session"));
 		mSearchParams = new SearchParams(obj.optJSONObject("searchParams"));
 		mFilter = new Filter(obj.optJSONObject("filter"));
+		toSpecifyDistanceFromUser = obj.optBoolean("toSpecifyDistanceFromUser");
 		return true;
 	}
 

@@ -21,12 +21,6 @@ public class WidgetConfigurationState extends ActiveRecordBase<WidgetConfigurati
 	@Column(name = "AppWidgetId")
 	private int appWidgetId;
 
-	@Column(name = "ShowHotelsNearYou")
-	private boolean mShowHotelsNearYou;
-
-	@Column(name = "ShowHotelsBasedOnLastSearch")
-	private boolean mShowHotelsBasedOnLastSearch;
-
 	@Column(name = "ExactSearchLocation")
 	private String mExactSearchLocation;
 
@@ -42,22 +36,6 @@ public class WidgetConfigurationState extends ActiveRecordBase<WidgetConfigurati
 
 	public void setAppWidgetId(int appWidgetId) {
 		this.appWidgetId = appWidgetId;
-	}
-
-	public boolean showHotelsNearCurrentLocation() {
-		return mShowHotelsNearYou;
-	}
-
-	public void setShowHotelsNearCurrentLocation(boolean mShowHotelsNearYou) {
-		this.mShowHotelsNearYou = mShowHotelsNearYou;
-	}
-
-	public boolean showHotelsBasedOnLastSearch() {
-		return mShowHotelsBasedOnLastSearch;
-	}
-
-	public void setShowHotelsBasedOnLastSearch(boolean mShowHotelsBasedOnLastSearch) {
-		this.mShowHotelsBasedOnLastSearch = mShowHotelsBasedOnLastSearch;
 	}
 
 	public String getExactSearchLocation() {
