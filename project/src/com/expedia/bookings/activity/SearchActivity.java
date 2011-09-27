@@ -2046,11 +2046,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		// Here, we post it so that we have a few precious frames more of the progress bar before
 		// it's covered up by search results (or a lack thereof).  This keeps a black screen from
 		// showing up for a split second for reason I'm not entirely sure of.  ~dlew
-		mProgressBar.post(new Runnable() {
+		mProgressBar.postDelayed(new Runnable() {
 			public void run() {
 				mProgressBar.setVisibility(View.GONE);
 			}
-		});
+		}, 500);
 	}
 
 	private void showLoading(boolean showProgress, int resId) {
@@ -2075,11 +2075,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 	@Override
 	public void onDrawStarted() {
-		mProgressBarHider.post(new Runnable() {
+		mProgressBarHider.postDelayed(new Runnable() {
 			public void run() {
 				mProgressBarHider.setVisibility(View.GONE);
 			}
-		});
+		}, 50);
 	}
 
 	//----------------------------------
