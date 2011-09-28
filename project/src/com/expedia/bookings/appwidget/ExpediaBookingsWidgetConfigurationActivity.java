@@ -11,6 +11,20 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.model.WidgetConfigurationState;
 
+/**
+ * This activity, while having no interaction
+ * with the user, helps to clearly identify 
+ * when a widget is being added to the home screen
+ * instead of having to go by what onUpdate method 
+ * reports as the number of widgets installed. 
+ * 
+ * The reason for keeping this around is so that
+ * no stale widget config records are added due to
+ * onUpdate method in ExpediaBookingsWidgetProvider
+ * providing appWidgetIds for widgets that don't exist.
+ * 
+ *
+ */
 public class ExpediaBookingsWidgetConfigurationActivity extends Activity {
 
 	private int mAppWidgetId;
