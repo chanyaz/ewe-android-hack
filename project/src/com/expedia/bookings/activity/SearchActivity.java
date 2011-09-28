@@ -510,10 +510,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mSortUserRatingButton.setOnClickListener(mSortOptionChangedListener);
 
 		mSortButtons = new ArrayList<View>();
-		mSortButtons.add(mSortPriceButton);
 		mSortButtons.add(mSortPopularityButton);
-		mSortButtons.add(mSortDistanceButton);
+		mSortButtons.add(mSortPriceButton);
 		mSortButtons.add(mSortUserRatingButton);
+		mSortButtons.add(mSortDistanceButton);
 
 		mLocalActivityManager = getLocalActivityManager();
 		setActivity(SearchMapActivity.class);
@@ -2638,6 +2638,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mShowDistance = showDistance;
 
 		int visibility = mShowDistance ? View.VISIBLE : View.GONE;
+
+		// #9585: Need to adjust the drawable for the bottom popup item
+		int numSortButtons = mSortButtons.size();
+		View lastSortButton = mSortButtons.get(numSortButtons - 1);
+		if (lastSortButton == mSortDistanceButton) {
+			int secondToLastDrawable = mShowDistance ? R.drawable.bg_sort_option_row
+					: R.drawable.bg_sort_option_row_last;
+			mSortButtons.get(numSortButtons - 2).setBackgroundResource(secondToLastDrawable);
+		}
 
 		// Hide/reveal the sort-by-distance popup option
 		mSortDistanceButton.setVisibility(visibility);
