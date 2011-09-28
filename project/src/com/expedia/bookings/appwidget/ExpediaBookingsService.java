@@ -254,7 +254,7 @@ public class ExpediaBookingsService extends Service {
 			scheduleSearch();
 		}
 	};
-	
+
 	private void pauseWidgetActivity() {
 		cancelRotation();
 		cancelScheduledSearch();
@@ -359,6 +359,9 @@ public class ExpediaBookingsService extends Service {
 		}
 
 		for (WidgetState widget : mWidgets.values()) {
+			// restart all widgets to load from branding since the deals
+			// have been updated
+			widget.mCurrentPosition = -1;
 			loadPropertyIntoWidget(widget);
 		}
 
