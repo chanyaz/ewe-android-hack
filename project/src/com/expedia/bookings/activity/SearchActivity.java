@@ -1374,6 +1374,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		editor.putString("searchParams", mSearchParams.toJson().toString());
 		editor.putString("filter", mFilter.toJson().toString());
 		editor.putString("tag", mTag);
+		editor.putBoolean("showDistance", mShowDistance);
 		SettingUtils.commitOrApply(editor);
 	}
 
