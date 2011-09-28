@@ -24,6 +24,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -664,6 +665,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			downloader.unregisterDownloadCallback(KEY_GEOCODE);
 			downloader.unregisterDownloadCallback(KEY_LOADING_PREVIOUS);
 			downloader.unregisterDownloadCallback(KEY_SEARCH);
+		} else {
+			saveParams();
 		}
 		
 		if(areWidgetsInstalled()) {
@@ -748,6 +751,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		// confirmation screen when the search activity started
 		if (isFinishing() && !ConfirmationActivity.hasSavedConfirmationData(this)) {
 			mApp.widgetDeals.persistToDisk();
+			saveParams();
 			
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
 
@@ -1349,7 +1353,17 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		setFilterInfoText();
 	}
-
+	
+	private void saveParams() {
+		Log.d("Saving search parameters, filter and tag...");
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor editor = prefs.edit();
+		editor.putString("searchParams", mSearchParams.toJson().toString());
+		editor.putString("filter", mFilter.toJson().toString());
+		editor.putString("tag", mTag);
+		SettingUtils.commitOrApply(editor);
+	}
+	
 	private void resetFilter() {
 		Log.d("Resetting filter...");
 
