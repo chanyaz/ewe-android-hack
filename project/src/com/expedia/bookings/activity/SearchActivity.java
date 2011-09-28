@@ -668,6 +668,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		} else {
 			saveParams();
 		}
+
+		mApp.widgetDeals.persistToDisk();
 		
 		if(areWidgetsInstalled()) {
 			Intent resumeWidgetsIntent = new Intent(ExpediaBookingsService.RESUME_WIDGETS_ACTION);
@@ -750,9 +752,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		// do not attempt to save parameters if the user was short circuited to the
 		// confirmation screen when the search activity started
 		if (isFinishing() && !ConfirmationActivity.hasSavedConfirmationData(this)) {
-			mApp.widgetDeals.persistToDisk();
 			saveParams();
-			
+			mApp.widgetDeals.persistToDisk();
+
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
 
 			// Cancel any currently downloading searches
