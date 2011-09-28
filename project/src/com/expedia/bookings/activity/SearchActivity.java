@@ -41,6 +41,7 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Process;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -654,6 +655,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 	}
 
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -673,9 +675,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		else {
 			saveParams();
 		}
-
-		mApp.widgetDeals.persistToDisk();
-
+		
 		if (areWidgetsInstalled()) {
 			Intent resumeWidgetsIntent = new Intent(ExpediaBookingsService.RESUME_WIDGETS_ACTION);
 			startService(resumeWidgetsIntent);
@@ -758,8 +758,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		// confirmation screen when the search activity started
 		if (isFinishing() && !ConfirmationActivity.hasSavedConfirmationData(this)) {
 			saveParams();
-			mApp.widgetDeals.persistToDisk();
-
+			
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
 
 			// Cancel any currently downloading searches
@@ -793,6 +792,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 					Log.w("Ran out of memory while trying to save search results file", e);
 				}
 			}
+			
+			// as a last item on the todo list, persist deals to disk
+			mApp.widgetDeals.persistToDisk();
 		}
 	}
 
