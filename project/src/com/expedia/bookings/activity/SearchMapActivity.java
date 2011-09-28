@@ -325,18 +325,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		return null;
 	}
 
-	@Override
-	public void onExactSearchLocationSpecified(double latitude, double longitude, String address) {
-		mExactLocationLatitude = latitude;
-		mExactLocationLongitude = longitude;
-		mExactLocationAddress = address;
-		if (mExactLocationItemizedOverlay != null) {
-			mExactLocationItemizedOverlay.setExactLocation(mExactLocationLatitude, mExactLocationLongitude,
-					mExactLocationAddress);
-		}
-		persistExactLocationToDisk();
-	}
-
 	public void focusOnProperties() {
 
 		MapController mc = mMapView.getController();
@@ -357,6 +345,26 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			mSavedCenter = mHotelItemizedOverlay.getCenter();
 			mSavedZoomLevel = mMapView.getZoomLevel();
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// ExactSearchLocationSearchedListener implementation
+
+	@Override
+	public void onExactSearchLocationSpecified(double latitude, double longitude, String address) {
+		mExactLocationLatitude = latitude;
+		mExactLocationLongitude = longitude;
+		mExactLocationAddress = address;
+		if (mExactLocationItemizedOverlay != null) {
+			mExactLocationItemizedOverlay.setExactLocation(mExactLocationLatitude, mExactLocationLongitude,
+					mExactLocationAddress);
+		}
+		persistExactLocationToDisk();
+	}
+
+	@Override
+	public void onNoExactSearchLocationSpecified() {
+		onExactSearchLocationSpecified(0, 0, null);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

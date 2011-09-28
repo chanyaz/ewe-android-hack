@@ -147,6 +147,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	// around (eg. "Golden Gate Bridge", "825 Victors Way, Ann Arbor, MI") 
 	public interface ExactSearchLocationSearchedListener {
 		public void onExactSearchLocationSpecified(double latitude, double longitude, String address);
+
+		public void onNoExactSearchLocationSpecified();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -834,7 +836,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 					setSearchEditViews();
 
 					setSearchParams(address.getLatitude(), address.getLongitude());
-					setShowDistance(address.getSubThoroughfare() != null);
 					determineWhetherExactLocationSpecified(address);
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearchDownloader();
@@ -937,6 +938,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		Log.d("onLocationChanged(): " + location.toString());
 
 		setSearchParams(location.getLatitude(), location.getLongitude());
+		setShowDistance(true);
+		dontShowExactLocation();
 		startSearchDownloader();
 
 		stopLocationListener();
@@ -1383,9 +1386,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 
 		mSearchParams.setSearchLatLon(latitde, longitude);
-
-		setShowDistance(true);
-		determineWhetherExactLocationSpecified(null);
 	}
 
 	private void setSearchParams(SearchParams searchParams) {
@@ -1436,6 +1436,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			Location location = LocationServices.getLastBestLocation(this, minTime);
 			if (location != null) {
 				setSearchParams(location.getLatitude(), location.getLongitude());
+				setShowDistance(true);
+				dontShowExactLocation();
 				startSearchDownloader();
 			}
 			else {
@@ -1496,7 +1498,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				mSearchParams.setFreeformLocation(formattedAddress);
 				setSearchEditViews();
 				setSearchParams(address.getLatitude(), address.getLongitude());
-				setShowDistance(address.getSubThoroughfare() != null);
 				determineWhetherExactLocationSpecified(address);
 				startSearchDownloader();
 			}
@@ -2589,6 +2590,37 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		setBookingInfoText();
 	}
 
+	private void determineWhetherExactLocationSpecified(Address location) {
+		Log.d("determineWhetherExactLocationSpecified(): " + location);
+
+		if (location != null && location.getThoroughfare() != null) {
+			setShowDistance(true);
+
+			showExactLocation(location.getLatitude(), location.getLongitude(), StrUtils.removeUSAFromAddress(location));
+		}
+		else {
+			setShowDistance(false);
+
+			dontShowExactLocation();
+		}
+	}
+
+	private void showExactLocation(double latitude, double longitude, String address) {
+		if (mExactLocationSearchedListeners != null) {
+			for (ExactSearchLocationSearchedListener exactLocationSpecifiedListener : mExactLocationSearchedListeners) {
+				exactLocationSpecifiedListener.onExactSearchLocationSpecified(latitude, longitude, address);
+			}
+		}
+	}
+
+	private void dontShowExactLocation() {
+		if (mExactLocationSearchedListeners != null) {
+			for (ExactSearchLocationSearchedListener exactLocationSpecifiedListener : mExactLocationSearchedListeners) {
+				exactLocationSpecifiedListener.onNoExactSearchLocationSpecified();
+			}
+		}
+	}
+
 	private void setShowDistance(boolean showDistance) {
 		mShowDistance = showDistance;
 		mSortDistanceButton.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
@@ -2602,25 +2634,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				showDistanceListener.onSetShowDistance(showDistance);
 			}
 		}
-	}
 
-	private void determineWhetherExactLocationSpecified(Address location) {
-		double latitude = 0.0;
-		double longitude = 0.0;
-		String address = null;
-
-		if (location != null && location.getThoroughfare() != null) {
-			latitude = location.getLatitude();
-			longitude = location.getLongitude();
-			address = StrUtils.removeUSAFromAddress(location);
-			mApp.widgetDeals.specifyDistanceFromUser(true);
-		}
-
-		if (mExactLocationSearchedListeners != null) {
-			for (ExactSearchLocationSearchedListener exactLocationSpecifiedListener : mExactLocationSearchedListeners) {
-				exactLocationSpecifiedListener.onExactSearchLocationSpecified(latitude, longitude, address);
-			}
-		}
+		mApp.widgetDeals.specifyDistanceFromUser(showDistance);
 	}
 
 	private void setSortTypeText() {
@@ -2727,17 +2742,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				mSearchParams.setSearchType(SearchType.MY_LOCATION);
 				mSearchParams.setFreeformLocation(getString(R.string.current_location));
 				mSearchParams.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
-				mApp.widgetDeals.specifyDistanceFromUser(true);
 			}
 			else if (s.toString().equals(getString(R.string.visible_map_area))) {
 				mSearchParams.setSearchType(SearchType.PROXIMITY);
 				mSearchParams.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
-				mApp.widgetDeals.specifyDistanceFromUser(true);
 			}
 			else if (count > 0) {
 				mSearchParams.setSearchType(SearchType.FREEFORM);
 				mSearchParams.setFreeformLocation(s.toString());
-				mApp.widgetDeals.specifyDistanceFromUser(false);
 			}
 		}
 	};
@@ -2937,7 +2949,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				mSearchParams.setDestinationId(null);
 				mSearchParams.setSearchType(SearchType.PROXIMITY);
 
-				setSearchParams(MapUtils.getLatitude(center), MapUtils.getLongitude(center));
+				double lat = MapUtils.getLatitude(center);
+				double lng = MapUtils.getLongitude(center);
+				setSearchParams(lat, lng);
+				setShowDistance(true);
+				showExactLocation(lat, lng, getString(R.string.visible_map_area));
 				startSearch();
 			}
 		}
