@@ -128,7 +128,7 @@ public class WidgetDeals implements JSONable {
 		}
 
 		mDeals = relevantProperties;
-		Log.i("Deals determined. Time taken : " + (System.currentTimeMillis() - start) + " ms");
+		Log.d("Deals determined. Time taken : " + (System.currentTimeMillis() - start) + " ms");
 	}
 
 	@Override

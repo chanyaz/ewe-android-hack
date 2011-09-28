@@ -283,7 +283,7 @@ public class ExpediaBookingsService extends Service {
 		am.cancel(operation);
 
 		// Schedule update
-		Log.d("Scheduling next hotels search to occur in " + (ROTATE_INTERVAL / 1000) + " seconds.");
+		Log.v("Scheduling next hotel rotation to occur in " + (ROTATE_INTERVAL / 1000) + " seconds.");
 		am.set(AlarmManager.RTC, System.currentTimeMillis() + rotateInterval, operation);
 	}
 
