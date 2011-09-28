@@ -1267,26 +1267,24 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 
 		// Distance
-		if (mShowDistance) {
-			switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
-			case R.id.radius_small_button: {
-				mFilter.setSearchRadius(SearchRadius.SMALL);
-				break;
-			}
-			case R.id.radius_medium_button: {
-				mFilter.setSearchRadius(SearchRadius.MEDIUM);
-				break;
-			}
-			case R.id.radius_large_button: {
-				mFilter.setSearchRadius(SearchRadius.LARGE);
-				break;
-			}
-			default:
-			case R.id.radius_all_button: {
-				mFilter.setSearchRadius(SearchRadius.ALL);
-				break;
-			}
-			}
+		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
+		case R.id.radius_small_button: {
+			mFilter.setSearchRadius(SearchRadius.SMALL);
+			break;
+		}
+		case R.id.radius_medium_button: {
+			mFilter.setSearchRadius(SearchRadius.MEDIUM);
+			break;
+		}
+		case R.id.radius_large_button: {
+			mFilter.setSearchRadius(SearchRadius.LARGE);
+			break;
+		}
+		default:
+		case R.id.radius_all_button: {
+			mFilter.setSearchRadius(SearchRadius.ALL);
+			break;
+		}
 		}
 
 		// Rating
@@ -1379,13 +1377,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		Log.d("Resetting filter...");
 
 		mFilter = new Filter();
-		if (mShowDistance) {
-			mFilter.setSearchRadius(Filter.SearchRadius.LARGE);
-		}
-		else {
-			// If we're not showing the distance filter, always show all results (by search radius)
-			mFilter.setSearchRadius(SearchRadius.ALL);
-		}
+		mFilter.setSearchRadius(Filter.SearchRadius.LARGE);
 
 		setDrawerViews();
 		buildFilter();
@@ -2647,9 +2639,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				showDistanceListener.onSetShowDistance(showDistance);
 			}
 		}
-
-		// Hide/reveal distance filters (in filter panel)
-		mRadiusButtonGroup.setVisibility(visibility);
 
 		// Hide/reveal distance in the widget
 		mApp.widgetDeals.specifyDistanceFromUser(showDistance);
