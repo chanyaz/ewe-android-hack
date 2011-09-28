@@ -23,7 +23,12 @@
 				android:textSize="14sp"
 				android:text="@string/loading_hotels"
 				style="@style/widgetHotelLocationText" />
-
+			<ImageView 
+				android:id="@+id/enjoy_your_booking_image_view"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:visibility="gone"
+				android:src="@drawable/widget_enjoy_your_stay"/>
 			<TextView
 				android:id="@+id/widget_error_tip_text_view"
 				android:layout_width="wrap_content"

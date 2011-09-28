@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ConfirmationActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelActivity;
 import com.expedia.bookings.activity.SearchActivity;
@@ -56,6 +57,7 @@ public class ExpediaBookingsService extends Service {
 	public static final String PREV_PROPERTY_ACTION = "com.expedia.bookings.PREV_PROPERTY";
 	public static final String PAUSE_WIDGETS_ACTION = "com.expedia.bookings.PAUSE_WIDGETS";
 	public static final String RESUME_WIDGETS_ACTION = "com.expedia.bookings.RESUME_WIDGETS";
+	public static final String LOAD_CONFIRMATION_ACTION = "com.expedia.bookings.LOAD_CONFIRMATION";
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// BOOKKEEPING DATA STRUCTURES
@@ -105,11 +107,7 @@ public class ExpediaBookingsService extends Service {
 		 * to do a hotel search. 
 		 */
 		if (intent.getAction().equals(PAUSE_WIDGETS_ACTION)) {
-			cancelRotation();
-			cancelScheduledSearch();
-			if (mSearchDownloader.isDownloading(SearchActivity.KEY_SEARCH)) {
-				mSearchDownloader.unregisterDownloadCallback(SearchActivity.KEY_SEARCH, mSearchCallback);
-			}
+			pauseWidgetActivity();
 		}
 		else if (intent.getAction().equals(RESUME_WIDGETS_ACTION)) {
 			loadPropertyIntoWidgets(ROTATE_INTERVAL);
@@ -141,8 +139,13 @@ public class ExpediaBookingsService extends Service {
 				scheduleRotation(ROTATE_INTERVAL);
 			}
 			else {
-				updateWidgetsWithText(getString(R.string.progress_search_failed),
-						getString(R.string.tap_to_start_new_search), getStartNewSearchIntent());
+				if (ConfirmationActivity.hasSavedConfirmationData(this)) {
+					updateWidgetsWithConfirmation();
+				}
+				else {
+					updateWidgetsWithText(getString(R.string.progress_search_failed),
+							getString(R.string.tap_to_start_new_search), getStartNewSearchIntent());
+				}
 			}
 		}
 		else {
@@ -182,6 +185,10 @@ public class ExpediaBookingsService extends Service {
 				for (WidgetState widget : mWidgets.values()) {
 					loadNextProperty(widget, ROTATE_INTERVAL);
 				}
+			}
+			else if (intent.getAction().equals(LOAD_CONFIRMATION_ACTION)) {
+				pauseWidgetActivity();
+				updateWidgetsWithConfirmation();
 			}
 		}
 
@@ -247,6 +254,14 @@ public class ExpediaBookingsService extends Service {
 			scheduleSearch();
 		}
 	};
+	
+	private void pauseWidgetActivity() {
+		cancelRotation();
+		cancelScheduledSearch();
+		if (mSearchDownloader.isDownloading(SearchActivity.KEY_SEARCH)) {
+			mSearchDownloader.unregisterDownloadCallback(SearchActivity.KEY_SEARCH, mSearchCallback);
+		}
+	}
 
 	private void scheduleSearch() {
 		AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
@@ -337,14 +352,14 @@ public class ExpediaBookingsService extends Service {
 			loadWidgets();
 		}
 
+		if (mApp.widgetDeals.getDeals() == null || mApp.widgetDeals.getDeals().isEmpty()) {
+			updateWidgetsWithText(getString(R.string.progress_search_failed),
+					getString(R.string.tap_to_start_new_search), getStartNewSearchIntent());
+			return;
+		}
+
 		for (WidgetState widget : mWidgets.values()) {
-			if (mApp.widgetDeals.getDeals() == null || mApp.widgetDeals.getDeals().isEmpty()) {
-				updateWidgetsWithText(getString(R.string.progress_search_failed),
-						getString(R.string.tap_to_start_new_search), getStartNewSearchIntent());
-			}
-			else {
-				loadPropertyIntoWidget(widget);
-			}
+			loadPropertyIntoWidget(widget);
 		}
 
 		scheduleRotation(rotateInterval);
@@ -438,7 +453,12 @@ public class ExpediaBookingsService extends Service {
 			startSearch();
 		}
 		else {
-			updateWidgetsWithText(getString(R.string.tap_to_start_new_search), null, getStartNewSearchIntent());
+			if (ConfirmationActivity.hasSavedConfirmationData(this)) {
+				updateWidgetsWithConfirmation();
+			}
+			else {
+				updateWidgetsWithText(getString(R.string.tap_to_start_new_search), null, getStartNewSearchIntent());
+			}
 		}
 	}
 
@@ -548,7 +568,7 @@ public class ExpediaBookingsService extends Service {
 		updateWidget(widget, rv);
 	}
 
-	public void updateWidgetsWithText(String error, String tip, PendingIntent onClickIntent) {
+	private void updateWidgetsWithText(String error, String tip, PendingIntent onClickIntent) {
 		for (WidgetState widget : mWidgets.values()) {
 			updateWidgetWithText(widget, error, tip, onClickIntent);
 		}
@@ -582,6 +602,32 @@ public class ExpediaBookingsService extends Service {
 		}
 
 		updateWidget(widget, rv);
+	}
+
+	private void updateWidgetsWithConfirmation() {
+		RemoteViews rv = new RemoteViews(getPackageName(), R.layout.widget);
+		RemoteViews widgetContents = new RemoteViews(getPackageName(), R.layout.widget_contents);
+
+		rv.removeAllViews(R.id.hotel_info_contents);
+		rv.addView(R.id.hotel_info_contents, widgetContents);
+
+		setWidgetPropertyViewVisibility(widgetContents, View.GONE);
+
+		setWidgetContentsVisibility(widgetContents, View.GONE);
+		widgetContents.setViewVisibility(R.id.widget_error_text_view, View.GONE);
+		widgetContents.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
+		widgetContents.setViewVisibility(R.id.enjoy_your_booking_image_view, View.VISIBLE);
+		widgetContents.setTextViewText(R.id.widget_error_tip_text_view, getString(R.string.tap_to_see_booking));
+		widgetContents.setViewVisibility(R.id.widget_error_tip_text_view, View.VISIBLE);
+		widgetContents.setViewVisibility(R.id.loading_expedia_logo_image_view, View.VISIBLE);
+
+		Intent newIntent = new Intent(this, SearchActivity.class);
+		rv.setOnClickPendingIntent(R.id.root,
+				PendingIntent.getActivity(this, 4, newIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+
+		for (WidgetState widget : mWidgets.values()) {
+			updateWidget(widget, rv);
+		}
 	}
 
 	private static final String FORMAT_HEADER = "MMM d";
@@ -699,6 +745,7 @@ public class ExpediaBookingsService extends Service {
 		widgetContents.setViewVisibility(R.id.widget_error_text_view, visibility);
 		widgetContents.setViewVisibility(R.id.loading_text_container, visibility);
 		widgetContents.setViewVisibility(R.id.widget_error_tip_text_view, visibility);
+		widgetContents.setViewVisibility(R.id.enjoy_your_booking_image_view, visibility);
 		widgetContents.setViewVisibility(R.id.loading_expedia_logo_image_view, visibility);
 	}
 

@@ -224,6 +224,13 @@ public class WidgetDeals implements JSONable {
 		}
 		return results;
 	}
+	
+	public void clearOutData() {
+		mDeals = null;
+		mSearchParams = null;
+		mFilter = null;
+		mMaxPercentSavings = 0;
+	}
 
 	/**
 	 * This method looks through the list of properties 
