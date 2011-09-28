@@ -133,8 +133,8 @@ public class ExpediaBookingsService extends Service {
 			 * that there are no search parameters either,
 			 * and hence nothing to load into the widget.
 			 */
-			boolean dealsAvailable = loadWidgetDeals();
-			if (dealsAvailable) {
+			int dealsAvailable = loadWidgetDeals();
+			if (dealsAvailable == WidgetDeals.WIDGET_DEALS_RESTORED) {
 				loadPropertyIntoWidget(widget);
 				scheduleRotation(ROTATE_INTERVAL);
 			}
@@ -142,9 +142,12 @@ public class ExpediaBookingsService extends Service {
 				if (ConfirmationActivity.hasSavedConfirmationData(this)) {
 					updateWidgetsWithConfirmation();
 				}
-				else {
+				else if (dealsAvailable == WidgetDeals.NO_DEALS_EXIST) {
 					updateWidgetsWithText(getString(R.string.progress_search_failed),
 							getString(R.string.tap_to_start_new_search), getStartNewSearchIntent());
+				}
+				else if (dealsAvailable == WidgetDeals.NO_WIDGET_FILE_EXISTS) {
+					updateWidgetsWithText(getString(R.string.tap_to_start_new_search), null, getStartNewSearchIntent());
 				}
 			}
 		}
@@ -313,11 +316,11 @@ public class ExpediaBookingsService extends Service {
 		return operation;
 	}
 
-	private boolean loadWidgetDeals() {
+	private int loadWidgetDeals() {
 		if (mApp.widgetDeals.getDeals() == null) {
 			return mApp.widgetDeals.restoreFromDisk();
 		}
-		return true;
+		return WidgetDeals.WIDGET_DEALS_RESTORED;
 	}
 
 	private void startSearch() {
@@ -443,9 +446,9 @@ public class ExpediaBookingsService extends Service {
 			return;
 		}
 
-		boolean dealsAvailable = loadWidgetDeals();
+		int dealsAvailable = loadWidgetDeals();
 
-		if (dealsAvailable) {
+		if (dealsAvailable == WidgetDeals.WIDGET_DEALS_RESTORED) {
 			// updated all widgets around the same time instead of
 			// having a different update cycle for each widget 
 			// that is added to the home screen
@@ -459,8 +462,12 @@ public class ExpediaBookingsService extends Service {
 			if (ConfirmationActivity.hasSavedConfirmationData(this)) {
 				updateWidgetsWithConfirmation();
 			}
-			else {
+			else if (dealsAvailable == WidgetDeals.NO_WIDGET_FILE_EXISTS) {
 				updateWidgetsWithText(getString(R.string.tap_to_start_new_search), null, getStartNewSearchIntent());
+			}
+			else if (dealsAvailable == WidgetDeals.NO_DEALS_EXIST) {
+				updateWidgetsWithText(getString(R.string.progress_search_failed),
+						getString(R.string.tap_to_start_new_search), getStartNewSearchIntent());
 			}
 		}
 	}

@@ -43,6 +43,10 @@ public class WidgetDeals implements JSONable {
 	public static final String WIDGET_DEALS_FILE = "widgetDeals.dat";
 	private static final int MAX_DEALS = 5;	
 	public static final long WIDGET_DEALS_EXPIRATION = 1000 * 60 * 60; // 1 hour
+	
+	public static final int WIDGET_DEALS_RESTORED = 0;
+	public static final int NO_WIDGET_FILE_EXISTS = -1;
+	public static final int NO_DEALS_EXIST = -2;
 
 	public static WidgetDeals getInstance(Context context) {
 		if (singleton == null) {
@@ -193,8 +197,8 @@ public class WidgetDeals implements JSONable {
 		return results;
 	}
 	
-	public boolean restoreFromDisk() {
-		boolean results = false;
+	public int restoreFromDisk() {
+		int results = 0;
 		File widgetDealsFile = mContext.getFileStreamPath(WIDGET_DEALS_FILE);
 		if(widgetDealsFile.exists()) {
 			if(widgetDealsFile.lastModified() < (System.currentTimeMillis() - WIDGET_DEALS_EXPIRATION)) {
@@ -203,14 +207,18 @@ public class WidgetDeals implements JSONable {
 				try {
 					long start = System.currentTimeMillis();
 					JSONObject obj = new JSONObject(IoUtils.readStringFromFile(WIDGET_DEALS_FILE, mContext));
-					results = fromJson(obj); 
+					if(!fromJson(obj)) {
+						results = NO_DEALS_EXIST;
+					}
 					Log.i("Loaded widget deals, time taken: " + (System.currentTimeMillis() - start) + " ms");
 				} catch(IOException e)  {
 					Log.w("Couldn't load widget deals.", e);
 				} catch(JSONException e) {
 					Log.w("Couldn't load widget deals.", e);
 				}
-			}
+			} 
+		} else {
+			results = NO_WIDGET_FILE_EXISTS;
 		}
 		return results;
 	}
