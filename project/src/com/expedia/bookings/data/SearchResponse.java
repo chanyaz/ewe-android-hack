@@ -13,7 +13,6 @@ import org.json.JSONObject;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Filter.PriceRange;
-import com.expedia.bookings.data.Filter.Rating;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Filter.Sort;
 import com.expedia.bookings.data.SearchParams.SearchType;
@@ -270,7 +269,6 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 			SearchRadius searchRadius = mFilter.getSearchRadius();
 			DistanceUnit distanceUnit = mFilter.getDistanceUnit();
 			PriceRange priceRange = mFilter.getPriceRange();
-			Rating rating = mFilter.getRating();
 			double minStarRating = mFilter.getMinimumStarRating();
 			String hotelName = mFilter.getHotelName();
 
@@ -300,11 +298,6 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 
 				// Filter price range
 				if (priceTier != null && !priceTier.containsProperty(property)) {
-					continue;
-				}
-
-				// Filter TripAdvisor rating
-				if (rating == Rating.HIGHLY_RATED && property.getAverageExpediaRating() < Filter.HIGH_USER_RATING) {
 					continue;
 				}
 

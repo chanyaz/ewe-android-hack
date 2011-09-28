@@ -66,7 +66,6 @@ import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -88,7 +87,6 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.PriceRange;
-import com.expedia.bookings.data.Filter.Rating;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Filter.Sort;
 import com.expedia.bookings.data.PriceTier;
@@ -235,7 +233,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	//----------------------------------
 
 	private View mSearchButton;
-	private Button mTripAdvisorOnlyButton;
 	private CalendarDatePicker mDatesCalendarDatePicker;
 	private EditText mFilterHotelNameEditText;
 	private EditText mSearchEditText;
@@ -1081,7 +1078,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mPanel = (Panel) findViewById(R.id.drawer_panel);
 
 		mFilterInfoTextView = (TextView) findViewById(R.id.filter_info_text_view);
-		mTripAdvisorOnlyButton = (Button) findViewById(R.id.tripadvisor_only_button);
 		mFilterHotelNameEditText = (EditText) findViewById(R.id.filter_hotel_name_edit_text);
 		mSortTypeTextView = (TextView) findViewById(R.id.sort_type_text_view);
 		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
@@ -1218,7 +1214,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
 
 		mPanelDismissView.setOnClickListener(mPanelDismissViewClickListener);
-		mTripAdvisorOnlyButton.setOnClickListener(mTripAdvisorOnlyButtonClickListener);
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mRatingButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
@@ -2379,16 +2374,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		// Configure the hotel name filter
 		mFilterHotelNameEditText.setText(mFilter.getHotelName());
 
-		// Configure tripadvisor filter
-		switch (mFilter.getRating()) {
-		case ALL:
-			mTripAdvisorOnlyButton.setText(R.string.tripadvisor_rating_high);
-			break;
-		case HIGHLY_RATED:
-			mTripAdvisorOnlyButton.setText(R.string.tripadvisor_rating_all);
-			break;
-		}
-
 		// Configure the sort buttons
 		switch (mFilter.getSort()) {
 		case POPULAR:
@@ -2691,24 +2676,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			mSortButton.setVisibility(View.GONE);
 			mSearchMapButton.setVisibility(View.VISIBLE);
 		}
-	}
-
-	private void switchRatingFilter() {
-		final Rating rating = mFilter.getRating();
-		switch (rating) {
-		case ALL: {
-			mFilter.setRatingFilter(Rating.HIGHLY_RATED);
-			break;
-		}
-		case HIGHLY_RATED: {
-			mFilter.setRatingFilter(Rating.ALL);
-			break;
-		}
-		}
-
-		mFilter.notifyFilterChanged();
-
-		setDrawerViews();
 	}
 
 	//----------------------------------
@@ -3025,14 +2992,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 	};
 
-	private final View.OnClickListener mTripAdvisorOnlyButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			switchRatingFilter();
-			setDisplayType(DisplayType.NONE);
-		}
-	};
-
 	private final View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -3280,16 +3239,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			if (hasHotelFilter != oldHasHotelFilter
 					|| (hasHotelFilter && !mFilter.getHotelName().equals(mOldFilter.getHotelName()))) {
 				refinements.add("App.Hotels.Search.Refine.Name");
-			}
-
-			// Rating filter change
-			if (mFilter.getRating() != mOldFilter.getRating()) {
-				if (mFilter.getRating() == Rating.HIGHLY_RATED) {
-					refinements.add("App.Hotels.Search.Refine.ShowHighlyRatedHotels");
-				}
-				else {
-					refinements.add("App.Hotels.Search.Refine.ShowAllHotels");
-				}
 			}
 
 			int numRefinements = refinements.size();

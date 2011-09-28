@@ -40,10 +40,6 @@ public class Filter implements JSONable {
 		CHEAP, MODERATE, EXPENSIVE, ALL
 	}
 
-	public static enum Rating {
-		HIGHLY_RATED, ALL
-	}
-
 	public static enum Sort {
 		POPULAR, PRICE, RATING, DISTANCE
 	}
@@ -58,7 +54,6 @@ public class Filter implements JSONable {
 	private SearchRadius mSearchRadius;
 	private DistanceUnit mDistanceUnit;
 	private PriceRange mPriceRange;
-	private Rating mRating;
 	private double mMinStarRating;
 	private String mHotelName;
 	private Sort mSort;
@@ -70,7 +65,6 @@ public class Filter implements JSONable {
 		mSearchRadius = SearchRadius.ALL;
 		mDistanceUnit = DistanceUnit.getDefaultDistanceUnit();
 		mPriceRange = PriceRange.ALL;
-		mRating = Rating.ALL;
 		mMinStarRating = 0;
 		mHotelName = null;
 		mSort = Sort.POPULAR;
@@ -121,19 +115,6 @@ public class Filter implements JSONable {
 
 	public PriceRange getPriceRange() {
 		return mPriceRange;
-	}
-
-	/**
-	 * IMPORTANT: AFTER CALLING THIS, YOU MUST CALL onFilterChanged()!
-	 * 
-	 * @param rating the rating for the hotel, or null for all ratings
-	 */
-	public void setRatingFilter(Rating rating) {
-		mRating = rating;
-	}
-
-	public Rating getRating() {
-		return mRating;
 	}
 
 	/**
@@ -228,7 +209,6 @@ public class Filter implements JSONable {
 		Filter filter = new Filter();
 		filter.setDistanceUnit(mDistanceUnit);
 		filter.setPriceRange(mPriceRange);
-		filter.setRatingFilter(mRating);
 		filter.setSearchRadius(mSearchRadius);
 		filter.setMinimumStarRating(mMinStarRating);
 		filter.setHotelName(mHotelName);
@@ -242,7 +222,6 @@ public class Filter implements JSONable {
 		try {
 			obj.put("distanceUnit", mDistanceUnit.toString());
 			obj.put("priceRange", mPriceRange.toString());
-			obj.put("ratingFilter", mRating.toString());
 			obj.put("searchRadius", mSearchRadius.toString());
 			obj.put("minStarRating", mMinStarRating);
 			obj.put("hotelName", mHotelName);
@@ -258,7 +237,6 @@ public class Filter implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mDistanceUnit = DistanceUnit.valueOf(obj.optString("distanceUnit", DistanceUnit.MILES.toString()));
 		mPriceRange = PriceRange.valueOf(obj.optString("priceRange", PriceRange.ALL.toString()));
-		mRating = Rating.valueOf(obj.optString("ratingFilter", Rating.ALL.toString()));
 		mSearchRadius = SearchRadius.valueOf(obj.optString("searchRadius", SearchRadius.ALL.toString()));
 		mMinStarRating = obj.optDouble("minStarRating", 0);
 		mHotelName = obj.optString("hotelName", null);
@@ -285,7 +263,7 @@ public class Filter implements JSONable {
 
 		// Check the rest
 		return mSearchRadius == other.getSearchRadius() && mDistanceUnit == other.getDistanceUnit()
-				&& mPriceRange == other.getPriceRange() && mRating == other.getRating()
-				&& mMinStarRating == other.getMinimumStarRating() && mSort == other.getSort();
+				&& mPriceRange == other.getPriceRange() && mMinStarRating == other.getMinimumStarRating()
+				&& mSort == other.getSort();
 	}
 }

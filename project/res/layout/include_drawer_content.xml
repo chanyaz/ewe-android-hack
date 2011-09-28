@@ -27,36 +27,6 @@
 			android:singleLine="true"
 			android:textSize="16sp"
 			android:hint="@string/filter_hotel_name_hint" />
-		
-		<!-- NOT USED -->
-		<RelativeLayout
-			android:layout_width="fill_parent"
-			android:layout_height="50dp"
-			android:visibility="gone">
-		
-			<Button
-				android:id="@+id/tripadvisor_only_button"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:gravity="center|top"
-				android:textStyle="bold"
-				android:textColor="#FF3d404e"
-				android:shadowColor="#88FFFFFF"
-				android:shadowDx="0"
-				android:shadowDy="1"
-				android:shadowRadius="0.1"
-				android:background="@drawable/btn_drawer" />
-				
-			<ImageView
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_alignParentBottom="true"
-				android:padding="9dp"
-				android:gravity="center"
-				android:src="@drawable/btn_tripadvisor_filter" />
-			
-		</RelativeLayout>
-		<!-- NOT USED -->
 
 		<com.mobiata.android.widget.SegmentedControlGroup 
 			android:id="@+id/radius_filter_button_group"
