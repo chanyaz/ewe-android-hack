@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/root"
-  android:layout_width="303dp"
-  android:layout_height="87dp"
-  android:clickable="true"
-  android:focusable="true"
-  android:background="@drawable/widget_bg">
-  
-  	<FrameLayout
-  		android:id="@+id/hotel_info_contents"
-  		android:layout_height="wrap_content"
-  		android:layout_width="wrap_content"/>
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/root"
+	android:layout_width="303dp"
+	android:layout_height="87dp"
+	android:clickable="true"
+	android:focusable="true"
+	android:background="@drawable/widget_bg">
+
+	<RelativeLayout
+		android:id="@+id/hotel_info_contents"
+		android:layout_height="fill_parent"
+		android:layout_width="fill_parent">
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="#214461"
+			android:textStyle="bold"
+			android:textSize="14sp"
+			android:layout_centerInParent="true"
+			android:text="@string/loading_hotels"
+			style="@style/widgetHotelLocationText" />
+		<ImageView
+			android:id="@+id/initial_expedia_logo_image_view"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentBottom="true"
+			android:layout_marginBottom="5dp"
+			android:layout_marginRight="5dp"
+			android:src="@drawable/widget_expedia_logo_horiz" />
+
+	</RelativeLayout>
+
 </RelativeLayout>
