@@ -203,9 +203,8 @@ public class WidgetDeals implements JSONable {
 				try {
 					long start = System.currentTimeMillis();
 					JSONObject obj = new JSONObject(IoUtils.readStringFromFile(WIDGET_DEALS_FILE, mContext));
-					fromJson(obj);
+					results = fromJson(obj); 
 					Log.i("Loaded widget deals, time taken: " + (System.currentTimeMillis() - start) + " ms");
-					results = true;
 				} catch(IOException e)  {
 					Log.w("Couldn't load widget deals.", e);
 				} catch(JSONException e) {
