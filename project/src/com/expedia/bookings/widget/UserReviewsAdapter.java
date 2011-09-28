@@ -73,7 +73,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 			viewHolder.title = (TextView) convertView.findViewById(R.id.user_review_title_text_view);
 			viewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.user_review_rating_bar);
 			viewHolder.body = (TextView) convertView.findViewById(R.id.user_review_body_text_view);
-			viewHolder.readMore = (Button) convertView.findViewById(R.id.user_review_read_more_button);
+			viewHolder.readMore = convertView.findViewById(R.id.read_more_layout);
 			viewHolder.nameAndLocation = (TextView) convertView
 					.findViewById(R.id.user_review_name_and_location_text_view);
 			viewHolder.submissionDate = (TextView) convertView.findViewById(R.id.user_review_date_text_view);
@@ -172,7 +172,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 		public TextView nameAndLocation;
 		public TextView submissionDate;
 		public TextView body;
-		public Button readMore;
+		public View readMore;
 	}
 
 	public void addUserReviews(ArrayList<ReviewWrapper> reviews) {
