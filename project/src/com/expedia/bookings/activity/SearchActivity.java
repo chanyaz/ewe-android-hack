@@ -288,7 +288,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 	private Context mContext;
 	private ExpediaBookingApp mApp;
-	
+
 	private LocalActivityManager mLocalActivityManager;
 	private String mTag = ACTIVITY_SEARCH_LIST;
 	private Intent mIntent;
@@ -382,7 +382,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			else {
 				handleError();
 			}
-			
+
 			// only update search parameters when the properties 
 			// are updated
 			mApp.widgetDeals.setSearchParmas(mSearchParams);
@@ -665,13 +665,14 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			downloader.unregisterDownloadCallback(KEY_GEOCODE);
 			downloader.unregisterDownloadCallback(KEY_LOADING_PREVIOUS);
 			downloader.unregisterDownloadCallback(KEY_SEARCH);
-		} else {
+		}
+		else {
 			saveParams();
 		}
 
 		mApp.widgetDeals.persistToDisk();
-		
-		if(areWidgetsInstalled()) {
+
+		if (areWidgetsInstalled()) {
 			Intent resumeWidgetsIntent = new Intent(ExpediaBookingsService.RESUME_WIDGETS_ACTION);
 			startService(resumeWidgetsIntent);
 		}
@@ -730,7 +731,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		mDatesCalendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
 		mIsActivityResumed = true;
-		
+
 		Intent pauseWidgetsIntent = new Intent(ExpediaBookingsService.PAUSE_WIDGETS_ACTION);
 		startService(pauseWidgetsIntent);
 	}
@@ -767,7 +768,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				Log.d("Cancelling loading previous results because activity is ending.");
 				downloader.cancelDownload(KEY_LOADING_PREVIOUS);
 			}
-			
+
 			// Save a search response as long as:
 			// 1. We weren't currently searching
 			// 2. The search response exists and has no errors.
@@ -1355,7 +1356,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		setFilterInfoText();
 	}
-	
+
 	private void saveParams() {
 		Log.d("Saving search parameters, filter and tag...");
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -1365,7 +1366,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		editor.putString("tag", mTag);
 		SettingUtils.commitOrApply(editor);
 	}
-	
+
 	private void resetFilter() {
 		Log.d("Resetting filter...");
 
@@ -1668,60 +1669,60 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	//--------------------------------------------
 	// Widget notification related private methods
 	//--------------------------------------------
-	
-	
+
 	private static final String NUM_SEARCHES = "NUM_SEARCHES";
 	private static final String APP_VERSION = "APP_VERSION";
 	private static final String WIDGET_NOTIFICATION_SHOWN = "WIDGET_NOTIFICATION_SHOWN";
 	private static final int THRESHOLD_LAUNCHES = 2;
 
 	private boolean toShowWidgetNotification() {
-		
+
 		// wait for 2 launches before deciding to show the widget
-		if(getNumSearches() > THRESHOLD_LAUNCHES) {
+		if (getNumSearches() > THRESHOLD_LAUNCHES) {
 			return !wasWidgetNotificationShown() && !areWidgetsInstalled();
 		}
-		
-		return false; 
+
+		return false;
 	}
-	
+
 	private void markWidgetNotificationAsShown() {
 		SettingUtils.save(this, WIDGET_NOTIFICATION_SHOWN, true);
 	}
-	
+
 	private void incrementNumSearches() {
 		// reset bookkeeping if the app was upgraded
 		// so that the widget can be shown again
-		if(wasAppUpgraded()) {
+		if (wasAppUpgraded()) {
 			SettingUtils.save(this, NUM_SEARCHES, 1);
 			SettingUtils.save(this, WIDGET_NOTIFICATION_SHOWN, false);
-		} else {
+		}
+		else {
 			int numLaunches = SettingUtils.get(this, NUM_SEARCHES, 0);
 			SettingUtils.save(this, NUM_SEARCHES, ++numLaunches);
 		}
 	}
-	
+
 	private int getNumSearches() {
-		int numLaunches = SettingUtils.get(this, NUM_SEARCHES, 0); 
+		int numLaunches = SettingUtils.get(this, NUM_SEARCHES, 0);
 		return numLaunches;
 	}
-	
+
 	private boolean wasAppUpgraded() {
 		String currentVersionNumber = AndroidUtils.getAppVersion(this);
 		String savedVersionNumber = SettingUtils.get(this, APP_VERSION, null);
 		SettingUtils.save(this, APP_VERSION, currentVersionNumber);
 		return !currentVersionNumber.equals(savedVersionNumber);
 	}
-	
+
 	private boolean wasWidgetNotificationShown() {
-		return SettingUtils.get(this,WIDGET_NOTIFICATION_SHOWN, false);
+		return SettingUtils.get(this, WIDGET_NOTIFICATION_SHOWN, false);
 	}
-	
+
 	private boolean areWidgetsInstalled() {
 		ArrayList<Object> widgetConfigs = WidgetConfigurationState.getAll(this);
 		return !widgetConfigs.isEmpty();
 	}
-	
+
 	//----------------------------------
 	// Search results handling
 	//----------------------------------
