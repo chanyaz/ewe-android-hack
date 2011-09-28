@@ -1270,24 +1270,26 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 
 		// Distance
-		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
-		case R.id.radius_small_button: {
-			mFilter.setSearchRadius(SearchRadius.SMALL);
-			break;
-		}
-		case R.id.radius_medium_button: {
-			mFilter.setSearchRadius(SearchRadius.MEDIUM);
-			break;
-		}
-		case R.id.radius_large_button: {
-			mFilter.setSearchRadius(SearchRadius.LARGE);
-			break;
-		}
-		default:
-		case R.id.radius_all_button: {
-			mFilter.setSearchRadius(SearchRadius.ALL);
-			break;
-		}
+		if (mShowDistance) {
+			switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
+			case R.id.radius_small_button: {
+				mFilter.setSearchRadius(SearchRadius.SMALL);
+				break;
+			}
+			case R.id.radius_medium_button: {
+				mFilter.setSearchRadius(SearchRadius.MEDIUM);
+				break;
+			}
+			case R.id.radius_large_button: {
+				mFilter.setSearchRadius(SearchRadius.LARGE);
+				break;
+			}
+			default:
+			case R.id.radius_all_button: {
+				mFilter.setSearchRadius(SearchRadius.ALL);
+				break;
+			}
+			}
 		}
 
 		// Rating
@@ -1379,7 +1381,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		Log.d("Resetting filter...");
 
 		mFilter = new Filter();
-		mFilter.setSearchRadius(Filter.SearchRadius.LARGE);
+		if (mShowDistance) {
+			mFilter.setSearchRadius(Filter.SearchRadius.LARGE);
+		}
+		else {
+			// If we're not showing the distance filter, always show all results (by search radius)
+			mFilter.setSearchRadius(SearchRadius.ALL);
+		}
 
 		setDrawerViews();
 		buildFilter();
@@ -2628,9 +2636,12 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 	private void setShowDistance(boolean showDistance) {
 		mShowDistance = showDistance;
-		mSortDistanceButton.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
-		mSortDistanceButton.findViewById(R.id.sort_option_divider).setVisibility(
-				mShowDistance ? View.VISIBLE : View.GONE);
+
+		int visibility = mShowDistance ? View.VISIBLE : View.GONE;
+
+		// Hide/reveal the sort-by-distance popup option
+		mSortDistanceButton.setVisibility(visibility);
+		mSortDistanceButton.findViewById(R.id.sort_option_divider).setVisibility(visibility);
 		mSortOptionsLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 		mSortPopup.setWidth(mSortOptionsLayout.getMeasuredWidth());
 		mSortPopup.setHeight(mSortOptionsLayout.getMeasuredHeight());
@@ -2640,6 +2651,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			}
 		}
 
+		// Hide/reveal distance filters (in filter panel)
+		mRadiusButtonGroup.setVisibility(visibility);
+
+		// Hide/reveal distance in the widget
 		mApp.widgetDeals.specifyDistanceFromUser(showDistance);
 	}
 
