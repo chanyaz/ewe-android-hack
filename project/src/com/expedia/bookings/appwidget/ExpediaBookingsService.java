@@ -23,7 +23,6 @@ import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.StrUtils;
@@ -142,7 +141,8 @@ public class ExpediaBookingsService extends Service {
 				scheduleRotation(ROTATE_INTERVAL);
 			}
 			else {
-				updateWidgetsWithText(getString(R.string.progress_search_failed), true);
+				updateWidgetsWithText(getString(R.string.progress_search_failed),
+						getString(R.string.tap_to_start_new_search), getStartNewSearchIntent());
 			}
 		}
 		else {
@@ -231,24 +231,12 @@ public class ExpediaBookingsService extends Service {
 				loadPropertyIntoWidgets(ROTATE_INTERVAL);
 				toPersistDeals = true;
 			}
-			else if (searchResponse != null && searchResponse.hasErrors()) {
-				ServerError error = searchResponse.getErrors().get(0);
-				/*
-				 * NOTE: We have to check for an error based on its description
-				 * as there is no unique error code for every error. This is 
-				 * obviously prone to error if the message ever changes, but I 
-				 * don't see any other way of looking for this particular 
-				 * error without server side changes to pass a unique id 
-				 * for every error. 
-				 */
-				if (error.getPresentableMessage(ExpediaBookingsService.this).contains(WidgetState.SEARCH_IN_PAST)) {
-					updateWidgetsWithText(getString(R.string.error_search_in_past), true);
-				}
-			}
+
 			mApp.widgetDeals.determineRelevantProperties(searchResponse);
 
 			if (mApp.widgetDeals.getDeals() == null || mApp.widgetDeals.getDeals().isEmpty()) {
-				updateWidgetsWithText(getString(R.string.progress_search_failed), true);
+				updateWidgetsWithText(getString(R.string.progress_search_failed),
+						getString(R.string.tap_to_start_new_search), getStartNewSearchIntent());
 			}
 
 			if (toPersistDeals) {
@@ -332,11 +320,12 @@ public class ExpediaBookingsService extends Service {
 
 		if (!NetUtils.isOnline(getApplicationContext())
 				&& (mApp.widgetDeals.getDeals() == null || mApp.widgetDeals.getDeals().isEmpty())) {
-			updateWidgetsWithText(getString(R.string.widget_error_no_internet), true);
+			updateWidgetsWithText(getString(R.string.widget_error_no_internet), getString(R.string.refresh_widget),
+					getRefreshIntent());
 			return;
 		}
 		else if (mApp.widgetDeals.getDeals() == null || mApp.widgetDeals.getDeals().isEmpty()) {
-			updateWidgetsWithText(getString(R.string.loading_hotels), true);
+			updateWidgetsWithText(getString(R.string.loading_hotels), null, null);
 		}
 
 		mSearchDownloader.cancelDownload(SearchActivity.KEY_SEARCH);
@@ -350,7 +339,8 @@ public class ExpediaBookingsService extends Service {
 
 		for (WidgetState widget : mWidgets.values()) {
 			if (mApp.widgetDeals.getDeals() == null || mApp.widgetDeals.getDeals().isEmpty()) {
-				updateWidgetsWithText(getString(R.string.progress_search_failed), true);
+				updateWidgetsWithText(getString(R.string.progress_search_failed),
+						getString(R.string.tap_to_start_new_search), getStartNewSearchIntent());
 			}
 			else {
 				loadPropertyIntoWidget(widget);
@@ -448,8 +438,19 @@ public class ExpediaBookingsService extends Service {
 			startSearch();
 		}
 		else {
-			updateWidgetsWithText(getString(R.string.progress_search_failed), true);
+			updateWidgetsWithText(getString(R.string.tap_to_start_new_search), null, getStartNewSearchIntent());
 		}
+	}
+
+	private PendingIntent getStartNewSearchIntent() {
+		Intent newIntent = new Intent(this, SearchActivity.class);
+		newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+		return PendingIntent.getActivity(this, 4, newIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+	}
+
+	private PendingIntent getRefreshIntent() {
+		Intent onClickIntent = new Intent(ExpediaBookingsService.START_SEARCH_ACTION);
+		return PendingIntent.getService(this, 4, onClickIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 	}
 
 	/*
@@ -547,13 +548,13 @@ public class ExpediaBookingsService extends Service {
 		updateWidget(widget, rv);
 	}
 
-	public void updateWidgetsWithText(String error, boolean refreshOnClick) {
+	public void updateWidgetsWithText(String error, String tip, PendingIntent onClickIntent) {
 		for (WidgetState widget : mWidgets.values()) {
-			updateWidgetWithText(widget, error, refreshOnClick, false);
+			updateWidgetWithText(widget, error, tip, onClickIntent);
 		}
 	}
 
-	private void updateWidgetWithText(WidgetState widget, String error, boolean refreshOnClick, boolean showBranding) {
+	private void updateWidgetWithText(WidgetState widget, String error, String tip, PendingIntent onClickIntent) {
 		RemoteViews rv = new RemoteViews(getPackageName(), R.layout.widget);
 		RemoteViews widgetContents = new RemoteViews(getPackageName(), R.layout.widget_contents);
 
@@ -562,38 +563,19 @@ public class ExpediaBookingsService extends Service {
 
 		setWidgetPropertyViewVisibility(widgetContents, View.GONE);
 
-		if (showBranding) {
-			widgetContents.setViewVisibility(R.id.widget_contents_container, View.VISIBLE);
-			widgetContents.setViewVisibility(R.id.navigation_container, View.GONE);
+		setWidgetContentsVisibility(widgetContents, View.GONE);
+		widgetContents.setTextViewText(R.id.widget_error_text_view, error);
+		widgetContents.setViewVisibility(R.id.widget_error_text_view, View.VISIBLE);
+		widgetContents.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
+		widgetContents.setViewVisibility(R.id.loading_expedia_logo_image_view, View.VISIBLE);
 
-			widgetContents.setViewVisibility(R.id.branding_text_container, View.VISIBLE);
-			widgetContents.setViewVisibility(R.id.expedia_logo_image_view, View.VISIBLE);
-			widgetContents.setViewVisibility(R.id.branding_title_text_view, View.GONE);
-			widgetContents.setViewVisibility(R.id.branding_location_text_view, View.GONE);
-			widgetContents.setViewVisibility(R.id.branding_savings_container, View.GONE);
-			widgetContents.setViewVisibility(R.id.branding_error_message_text_view, View.VISIBLE);
-
-			widgetContents.setViewVisibility(R.id.loading_text_view, View.GONE);
-			widgetContents.setViewVisibility(R.id.loading_text_container, View.GONE);
-
-			widgetContents.setTextViewText(R.id.branding_error_message_text_view, error);
-		}
-		else {
-			setWidgetContentsVisibility(widgetContents, View.GONE);
-			widgetContents.setTextViewText(R.id.loading_text_view, error);
-			widgetContents.setViewVisibility(R.id.loading_text_view, View.VISIBLE);
-			widgetContents.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
+		if (tip != null) {
+			widgetContents.setTextViewText(R.id.widget_error_tip_text_view, tip);
+			widgetContents.setViewVisibility(R.id.widget_error_tip_text_view, View.VISIBLE);
 		}
 
-		widgetContents.setViewVisibility(R.id.refresh_text_view, View.GONE);
-
-		if (refreshOnClick && !showBranding) {
-			Intent onClickIntent = new Intent(ExpediaBookingsService.START_CLEAN_SEARCH_ACTION);
-			onClickIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
-
-			rv.setOnClickPendingIntent(R.id.root,
-					PendingIntent.getService(this, 4, onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
-			rv.setViewVisibility(R.id.refresh_text_view, View.VISIBLE);
+		if (onClickIntent != null) {
+			rv.setOnClickPendingIntent(R.id.root, onClickIntent);
 		}
 		else {
 			clearWidgetOnClickIntent(rv);
@@ -662,7 +644,6 @@ public class ExpediaBookingsService extends Service {
 	}
 
 	private class WidgetState {
-		private static final String SEARCH_IN_PAST = "Specified arrival date is prior to today's date.";
 		Integer appWidgetIdInteger;
 		int mCurrentPosition = -1;
 	}
@@ -715,9 +696,10 @@ public class ExpediaBookingsService extends Service {
 	}
 
 	private void setWidgetLoadingTextVisibility(final RemoteViews widgetContents, int visibility) {
-		widgetContents.setViewVisibility(R.id.loading_text_view, visibility);
+		widgetContents.setViewVisibility(R.id.widget_error_text_view, visibility);
 		widgetContents.setViewVisibility(R.id.loading_text_container, visibility);
-		widgetContents.setViewVisibility(R.id.refresh_text_view, visibility);
+		widgetContents.setViewVisibility(R.id.widget_error_tip_text_view, visibility);
+		widgetContents.setViewVisibility(R.id.loading_expedia_logo_image_view, visibility);
 	}
 
 }
