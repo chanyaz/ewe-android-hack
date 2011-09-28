@@ -374,6 +374,11 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				hideLoading();
 				setFilterInfoText();
 
+				// #9773: Show distance sort initially, if user entered street address-level search params
+				if (mShowDistance) {
+					mSortOptionChangedListener.onClick(mSortDistanceButton);
+				}
+
 				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 				enablePanelHandle();
 			}
