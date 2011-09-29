@@ -140,6 +140,8 @@
 	<string name="error_search_in_past">We\'re out of deals for today. Check in for top deals tomorrow.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short">&lt;b>Add the widget&lt;/b> to get the latest hotel deals.</string>
+	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
+	<string name="enjoy_your_stay">Enjoy your stay!</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->

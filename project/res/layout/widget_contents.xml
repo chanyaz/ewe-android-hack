@@ -18,7 +18,7 @@
 				android:id="@+id/widget_error_text_view"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textColor="#214461"
+				android:textColor="@color/widget_text_color"
 				android:textStyle="bold"
 				android:textSize="14sp"
 				android:text="@string/loading_hotels"
@@ -27,13 +27,11 @@
 				android:id="@+id/enjoy_your_booking_image_view"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
-				android:visibility="gone"
-				android:src="@drawable/widget_enjoy_your_stay"/>
+ 				android:visibility="gone"/>
 			<TextView
 				android:id="@+id/widget_error_tip_text_view"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:paddingLeft="10dp"
 				android:textColor="#214461"
 				android:text="@string/refresh_widget"
 				style="@style/widgetHotelLocationText"

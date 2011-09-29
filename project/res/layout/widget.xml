@@ -15,7 +15,7 @@
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textColor="#214461"
+			android:textColor="@color/widget_text_color"
 			android:textStyle="bold"
 			android:textSize="14sp"
 			android:layout_centerInParent="true"

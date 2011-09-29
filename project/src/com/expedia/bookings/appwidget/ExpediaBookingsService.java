@@ -2,6 +2,7 @@ package com.expedia.bookings.appwidget;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import android.app.AlarmManager;
@@ -11,6 +12,14 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Paint.Align;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.IBinder;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -627,6 +636,7 @@ public class ExpediaBookingsService extends Service {
 		widgetContents.setViewVisibility(R.id.widget_error_text_view, View.GONE);
 		widgetContents.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
 		widgetContents.setViewVisibility(R.id.enjoy_your_booking_image_view, View.VISIBLE);
+		widgetContents.setImageViewBitmap(R.id.enjoy_your_booking_image_view, createEnjoyYourStayImage());
 		widgetContents.setTextViewText(R.id.widget_error_tip_text_view, getString(R.string.tap_to_see_booking));
 		widgetContents.setViewVisibility(R.id.widget_error_tip_text_view, View.VISIBLE);
 		widgetContents.setViewVisibility(R.id.loading_expedia_logo_image_view, View.VISIBLE);
@@ -640,7 +650,7 @@ public class ExpediaBookingsService extends Service {
 		}
 	}
 
-	private static final String FORMAT_HEADER = "MMM d";
+		private static final String FORMAT_HEADER = "MMM d";
 
 	private void updateWidgetBranding(WidgetState widget) {
 		final RemoteViews widgetContents = new RemoteViews(getPackageName(), R.layout.widget_contents);
@@ -759,4 +769,43 @@ public class ExpediaBookingsService extends Service {
 		widgetContents.setViewVisibility(R.id.loading_expedia_logo_image_view, visibility);
 	}
 
+	private static final float TEXT_SIZE_IN_DIP = 35.0f;
+	private static final float ROUND_UP = 0.5f;
+	private static final float PADDING = 5.0f;
+	
+	private Bitmap createEnjoyYourStayImage() {
+		
+		// if the user's default language is english, 
+		// display the enjoy your stay drawable as thats optimal
+		if(Locale.getDefault().getLanguage().equals(Locale.ENGLISH.getLanguage())) {
+			return BitmapFactory.decodeResource(getResources(), R.drawable.widget_enjoy_your_stay);
+		}
+
+		Paint paint = new Paint();
+		Rect textBounds = new Rect();
+		float scale = this.getResources().getDisplayMetrics().density;
+		float paddingInPx = scale * PADDING;
+		String enjoyYourStayString = getString(R.string.enjoy_your_stay);
+
+		Typeface customFont = Typeface.createFromAsset(this.getAssets(), "fonts/HoneyScript-SemiBold.ttf");
+		paint.setAntiAlias(true);
+		paint.setSubpixelText(true);
+		paint.setTypeface(customFont);
+		paint.setStyle(Paint.Style.FILL);
+		paint.setColor(R.color.widget_text_color);
+		paint.setTextSize((int) (scale * TEXT_SIZE_IN_DIP + ROUND_UP));
+		paint.setTextAlign(Align.LEFT);
+
+		// get the dimensions of the minimum rectangle required to cover the text
+		paint.getTextBounds(enjoyYourStayString, 0, enjoyYourStayString.length(), textBounds);
+
+		// include a padding around the text to ensure that we're not chopping off the
+		// edges of the text (it still may happen if the text is long enough)
+		Bitmap bitmap = Bitmap.createBitmap((int) (textBounds.width() + 2 * paddingInPx),
+				(int) (textBounds.height() + 2 * paddingInPx), Bitmap.Config.ARGB_8888);
+		Canvas myCanvas = new Canvas(bitmap);
+
+		myCanvas.drawText(enjoyYourStayString, paddingInPx, textBounds.height() - paddingInPx, paint);
+		return bitmap;
+	}
 }
