@@ -41,9 +41,9 @@ public class WidgetDeals implements JSONable {
 	private static WidgetDeals singleton;
 
 	public static final String WIDGET_DEALS_FILE = "widgetDeals.dat";
-	private static final int MAX_DEALS = 5;	
+	private static final int MAX_DEALS = 5;
 	public static final long WIDGET_DEALS_EXPIRATION = 1000 * 60 * 60; // 1 hour
-	
+
 	public static final int WIDGET_DEALS_RESTORED = 0;
 	public static final int NO_WIDGET_FILE_EXISTS = -1;
 	public static final int NO_DEALS_EXIST = -2;
@@ -87,11 +87,11 @@ public class WidgetDeals implements JSONable {
 		mSearchParams = new SearchParams();
 		mSearchParams.fromJson(searchParams.toJson());
 	}
-	
+
 	public void specifyDistanceFromUser(boolean toSpecify) {
 		toSpecifyDistanceFromUser = toSpecify;
 	}
-	
+
 	public boolean toSpecifyDistanceFromUser() {
 		return toSpecifyDistanceFromUser;
 	}
@@ -132,14 +132,15 @@ public class WidgetDeals implements JSONable {
 		}
 
 		mDeals = relevantProperties;
-		Log.d("Deals determined. Time taken : " + (System.currentTimeMillis() - start) + " ms");
+		Log.d("Deals determined: " + relevantProperties.size() + ". Time taken : "
+				+ (System.currentTimeMillis() - start) + " ms");
 	}
 
 	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();
 		try {
-			if(mDeals != null) {
+			if (mDeals != null) {
 				JSONUtils.putJSONableList(obj, "deals", mDeals);
 				obj.put("session", mSession.toJson());
 				obj.put("searchParams", mSearchParams.toJson());
@@ -159,10 +160,10 @@ public class WidgetDeals implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 
 		mDeals = (List<Property>) JSONUtils.getJSONableList(obj, "deals", Property.class);
-		if(mDeals == null) {
+		if (mDeals == null) {
 			return false;
 		}
-		
+
 		mMaxPercentSavings = obj.optDouble("maxPercentSavings");
 		mSession = new Session();
 		mSession.fromJson(obj.optJSONObject("session"));
@@ -196,42 +197,46 @@ public class WidgetDeals implements JSONable {
 		}
 		return results;
 	}
-	
+
 	public int restoreFromDisk() {
 		int results = 0;
 		File widgetDealsFile = mContext.getFileStreamPath(WIDGET_DEALS_FILE);
-		if(widgetDealsFile.exists()) {
-			if(widgetDealsFile.lastModified() < (System.currentTimeMillis() - WIDGET_DEALS_EXPIRATION)) {
+		if (widgetDealsFile.exists()) {
+			if (widgetDealsFile.lastModified() < (System.currentTimeMillis() - WIDGET_DEALS_EXPIRATION)) {
 				Log.d("There are widget deals but they are expired.");
-			} else {
+			}
+			else {
 				try {
 					long start = System.currentTimeMillis();
 					JSONObject obj = new JSONObject(IoUtils.readStringFromFile(WIDGET_DEALS_FILE, mContext));
-					if(!fromJson(obj)) {
+					if (!fromJson(obj)) {
 						results = NO_DEALS_EXIST;
 					}
 					Log.i("Loaded widget deals, time taken: " + (System.currentTimeMillis() - start) + " ms");
-				} catch(IOException e)  {
-					Log.w("Couldn't load widget deals.", e);
-				} catch(JSONException e) {
+				}
+				catch (IOException e) {
 					Log.w("Couldn't load widget deals.", e);
 				}
-			} 
-		} else {
+				catch (JSONException e) {
+					Log.w("Couldn't load widget deals.", e);
+				}
+			}
+		}
+		else {
 			results = NO_WIDGET_FILE_EXISTS;
 		}
 		return results;
 	}
-	
+
 	public boolean deleteFromDisk() {
 		boolean results = false;
 		File widgetDealsFile = mContext.getFileStreamPath(WIDGET_DEALS_FILE);
-		if(widgetDealsFile.exists()) {
+		if (widgetDealsFile.exists()) {
 			results = widgetDealsFile.delete();
 		}
 		return results;
 	}
-	
+
 	public void clearOutData() {
 		mDeals = null;
 		mSearchParams = null;

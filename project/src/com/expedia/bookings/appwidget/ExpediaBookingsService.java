@@ -120,6 +120,7 @@ public class ExpediaBookingsService extends Service {
 		}
 		else if (intent.getAction().equals(RESUME_WIDGETS_ACTION)) {
 			loadPropertyIntoWidgets(ROTATE_INTERVAL);
+			scheduleSearch();
 		}
 		else if (intent.getAction().equals(START_CLEAN_SEARCH_ACTION)) {
 			/*
