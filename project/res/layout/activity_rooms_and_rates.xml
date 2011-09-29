@@ -35,46 +35,33 @@
 			android:layout_alignParentTop="true"
 			android:layout_toRightOf="@+id/thumbnail_image_view"
 			android:layout_marginLeft="8dp"
+			android:layout_marginTop="-2dp"
 			android:singleLine="true"
 			android:ellipsize="end"
 			android:textColor="@android:color/white"
 			android:textStyle="bold"
 			android:textSize="18sp" />
-		<LinearLayout
-			android:id="@+id/rating_layout"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/name_text_view"
-			android:layout_alignParentRight="true"
-			android:layout_marginLeft="8dp"
-			android:orientation="vertical">
-			<TextView
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:text="@string/star_rating"
-				android:textColor="#E1E1E1"
-				android:textSize="12sp" />
-			<RatingBar
-				android:id="@+id/hotel_rating_bar"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:numStars="5"
-				android:stepSize=".5"
-				android:isIndicator="true" 
-				style="@style/RatingBarSmall.Shadowed.Star.Dark"/>
-		</LinearLayout>
 		<TextView
 			android:id="@+id/location_text_view"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignTop="@+id/rating_layout"
-			android:layout_alignBottom="@+id/rating_layout"
-			android:layout_toLeftOf="@+id/rating_layout"
+			android:layout_below="@+id/name_text_view"
 			android:layout_alignLeft="@+id/name_text_view"
-			android:gravity="center_vertical"
+			android:layout_marginTop="-4dp"
 			android:singleLine="true"
 			android:ellipsize="end"
 			android:textColor="@android:color/white" />
+		<RatingBar
+			android:id="@+id/hotel_rating_bar"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_below="@+id/location_text_view"
+			android:layout_alignLeft="@+id/location_text_view"
+			android:layout_marginTop="2dp"
+			android:numStars="5"
+			android:stepSize=".5"
+			android:isIndicator="true"
+			style="@style/RatingBarSmall.Shadowed.Star.Dark" />
 	</RelativeLayout>
 
 	<!-- List of rooms/rates -->
