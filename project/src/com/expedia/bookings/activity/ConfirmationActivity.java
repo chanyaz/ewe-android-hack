@@ -274,9 +274,9 @@ public class ConfirmationActivity extends MapActivity {
 				// Ensure we can't come back here again
 				deleteSavedConfirmationData(mContext);
 
-				Intent intent = new Intent(mContext, SearchActivity.class);
+				Intent intent = new Intent(mContext, PhoneSearchActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				intent.putExtra(SearchActivity.EXTRA_NEW_SEARCH, true);
+				intent.putExtra(PhoneSearchActivity.EXTRA_NEW_SEARCH, true);
 				startActivity(intent);
 				finish();
 			}
@@ -339,7 +339,7 @@ public class ConfirmationActivity extends MapActivity {
 		// to the start, then finish that activity, when the user presses back.
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
 			finish();
-			Intent i = new Intent(mContext, SearchActivity.class);
+			Intent i = new Intent(mContext, PhoneSearchActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			i.putExtra("EXTRA_FINISH", true);
 			startActivity(i);

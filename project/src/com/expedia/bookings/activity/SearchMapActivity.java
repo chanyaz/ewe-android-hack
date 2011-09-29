@@ -12,9 +12,9 @@ import android.preference.PreferenceManager;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity.ExactSearchLocationSearchedListener;
-import com.expedia.bookings.activity.SearchActivity.MapViewListener;
-import com.expedia.bookings.activity.SearchActivity.SetShowDistanceListener;
+import com.expedia.bookings.activity.PhoneSearchActivity.ExactSearchLocationSearchedListener;
+import com.expedia.bookings.activity.PhoneSearchActivity.MapViewListener;
+import com.expedia.bookings.activity.PhoneSearchActivity.SetShowDistanceListener;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Property;
@@ -91,7 +91,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mMapView.setBuiltInZoomControls(true);
 		mMapView.setSatellite(false);
 
-		final SearchActivity parent = (SearchActivity) getParent();
+		final PhoneSearchActivity parent = (PhoneSearchActivity) getParent();
 		parent.addSearchListener(this);
 		parent.setMapViewListener(this);
 		parent.addSetShowDistanceListener(this);
@@ -106,7 +106,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		OnBalloonTap onTap = new OnBalloonTap() {
 			@Override
 			public void onBalloonTap(Property property) {
-				final SearchActivity parent = (SearchActivity) getParent();
+				final PhoneSearchActivity parent = (PhoneSearchActivity) getParent();
 
 				Intent intent = new Intent(SearchMapActivity.this, HotelActivity.class);
 				intent.putExtra(Codes.PROPERTY, property.toJson().toString());
@@ -196,12 +196,12 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 	@Override
 	public void onSearchProgress(int strId) {
-		// Do nothing.  SearchActivity should handle the display of search progress.
+		// Do nothing.  PhoneSearchActivity should handle the display of search progress.
 	}
 
 	@Override
 	public void onSearchFailed(String message) {
-		// Do nothing.  SearchActivity should handle the display of search progress.
+		// Do nothing.  PhoneSearchActivity should handle the display of search progress.
 	}
 
 	@Override

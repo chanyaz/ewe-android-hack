@@ -29,7 +29,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ConfirmationActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelActivity;
-import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
@@ -177,7 +177,7 @@ public class ExpediaBookingsService extends Service {
 
 				if (mWidgets.isEmpty()) {
 					cancelScheduledSearch();
-					mSearchDownloader.cancelDownload(SearchActivity.KEY_SEARCH);
+					mSearchDownloader.cancelDownload(PhoneSearchActivity.KEY_SEARCH);
 					// if all widgets have been deleted, kill the widget
 					stopSelf();
 				}
@@ -236,7 +236,7 @@ public class ExpediaBookingsService extends Service {
 		@Override
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(getApplicationContext(), mApp.widgetDeals.getSession());
-			mSearchDownloader.addDownloadListener(SearchActivity.KEY_SEARCH, services);
+			mSearchDownloader.addDownloadListener(PhoneSearchActivity.KEY_SEARCH, services);
 			return services.search(mApp.widgetDeals.getSearchParams(), 0);
 		}
 	};
@@ -271,8 +271,8 @@ public class ExpediaBookingsService extends Service {
 	private void pauseWidgetActivity() {
 		cancelRotation();
 		cancelScheduledSearch();
-		if (mSearchDownloader.isDownloading(SearchActivity.KEY_SEARCH)) {
-			mSearchDownloader.unregisterDownloadCallback(SearchActivity.KEY_SEARCH, mSearchCallback);
+		if (mSearchDownloader.isDownloading(PhoneSearchActivity.KEY_SEARCH)) {
+			mSearchDownloader.unregisterDownloadCallback(PhoneSearchActivity.KEY_SEARCH, mSearchCallback);
 		}
 	}
 
@@ -356,8 +356,8 @@ public class ExpediaBookingsService extends Service {
 			updateWidgetsWithText(getString(R.string.loading_hotels), null, null);
 		}
 
-		mSearchDownloader.cancelDownload(SearchActivity.KEY_SEARCH);
-		mSearchDownloader.startDownload(SearchActivity.KEY_SEARCH, mSearchDownload, mSearchCallback);
+		mSearchDownloader.cancelDownload(PhoneSearchActivity.KEY_SEARCH);
+		mSearchDownloader.startDownload(PhoneSearchActivity.KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
 
 	private void loadPropertyIntoWidgets(long rotateInterval) {
@@ -483,7 +483,7 @@ public class ExpediaBookingsService extends Service {
 	}
 
 	private PendingIntent getStartNewSearchIntent() {
-		Intent newIntent = new Intent(this, SearchActivity.class);
+		Intent newIntent = new Intent(this, PhoneSearchActivity.class);
 		newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 		return PendingIntent.getActivity(this, 4, newIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 	}
@@ -642,7 +642,7 @@ public class ExpediaBookingsService extends Service {
 		widgetContents.setViewVisibility(R.id.widget_error_tip_text_view, View.VISIBLE);
 		widgetContents.setViewVisibility(R.id.loading_expedia_logo_image_view, View.VISIBLE);
 
-		Intent newIntent = new Intent(this, SearchActivity.class);
+		Intent newIntent = new Intent(this, PhoneSearchActivity.class);
 		rv.setOnClickPendingIntent(R.id.root,
 				PendingIntent.getActivity(this, 4, newIntent, PendingIntent.FLAG_CANCEL_CURRENT));
 

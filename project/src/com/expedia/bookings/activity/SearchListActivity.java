@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity.SetShowDistanceListener;
+import com.expedia.bookings.activity.PhoneSearchActivity.SetShowDistanceListener;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Property;
@@ -30,7 +30,7 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
-	private SearchActivity mParent;
+	private PhoneSearchActivity mParent;
 	private HotelAdapter mAdapter;
 	private SearchResponse mSearchResponse;
 
@@ -50,7 +50,7 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_list);
 
-		mParent = (SearchActivity) getParent();
+		mParent = (PhoneSearchActivity) getParent();
 		mScrollBar = (ListViewScrollBar) findViewById(R.id.scroll_bar);
 
 		mParent.addSearchListener(this);
@@ -145,12 +145,12 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 
 	@Override
 	public void onSearchProgress(int strId) {
-		// Do nothing.  SearchActivity should handle the display of search progress.
+		// Do nothing.  PhoneSearchActivity should handle the display of search progress.
 	}
 
 	@Override
 	public void onSearchFailed(String message) {
-		// Do nothing.  SearchActivity should handle the display of search progress.
+		// Do nothing.  PhoneSearchActivity should handle the display of search progress.
 	}
 
 	@Override
