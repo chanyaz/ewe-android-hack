@@ -585,6 +585,7 @@
 			android:nextFocusUp="@+id/security_code_edit_text"
 			android:maxLines="1"
 			android:text="@string/EnterBookingInfo"
+			mobiata:maxTextSize="10dp"
 			style="@style/Widget.Button.Orange" />
 	</LinearLayout>
 </RelativeLayout>
