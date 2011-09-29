@@ -7,10 +7,12 @@
 	android:background="@color/bg_default">
 
 	<!-- Header -->
-	<RelativeLayout
+	<LinearLayout
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:padding="6dp"
+		android:gravity="center_vertical"
+		android:orientation="horizontal"
 		android:background="@drawable/bg_header">
 		<ImageView
 			android:id="@+id/thumbnail_image_view"
@@ -21,40 +23,69 @@
 			android:scaleType="centerCrop"
 			android:src="@drawable/ic_image_placeholder"
 			android:background="@drawable/thumbnail_border" />
-		<TextView
-			android:id="@+id/name_text_view"
+		<LinearLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignParentTop="true"
-			android:layout_toRightOf="@+id/thumbnail_image_view"
 			android:layout_marginLeft="8dp"
-			android:singleLine="true"
-			android:ellipsize="end"
-			android:textColor="@android:color/white"
-			android:textStyle="bold"
-			android:textSize="18sp" />
-		<TextView
-			android:id="@+id/location_text_view"
+			android:layout_weight="1"
+			android:orientation="vertical">
+			<TextView
+				android:id="@+id/name_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:singleLine="true"
+				android:ellipsize="end"
+				android:textColor="@android:color/white"
+				android:textStyle="bold"
+				android:textSize="18sp" />
+			<TextView
+				android:id="@+id/location_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="-4dp"
+				android:singleLine="true"
+				android:ellipsize="end"
+				android:textColor="@android:color/white" />
+			<RatingBar
+				android:id="@+id/hotel_rating_bar"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_marginTop="2dp"
+				android:numStars="5"
+				android:stepSize=".5"
+				android:isIndicator="true"
+				style="@style/RatingBarSmall.Shadowed.Star.Dark" />
+		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/nights_container"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_below="@+id/name_text_view"
-			android:layout_alignLeft="@+id/name_text_view"
-			android:layout_marginTop="-4dp"
-			android:singleLine="true"
-			android:ellipsize="end"
-			android:textColor="@android:color/white" />
-		<RatingBar
-			android:id="@+id/hotel_rating_bar"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_below="@+id/location_text_view"
-			android:layout_alignLeft="@+id/location_text_view"
-			android:layout_marginTop="2dp"
-			android:numStars="5"
-			android:stepSize=".5"
-			android:isIndicator="true"
-			style="@style/RatingBarSmall.Shadowed.Star.Dark" />
-	</RelativeLayout>
+			android:layout_marginLeft="8dp"
+			android:gravity="right"
+			android:orientation="vertical">
+			<TextView
+				android:id="@+id/nights_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:singleLine="true"
+				android:ellipsize="end"
+				android:textColor="@android:color/white"
+				android:textStyle="bold"
+				android:textSize="15sp"
+
+				android:text="Staying 3 Nights" />
+			<TextView
+				android:id="@+id/dates_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="-4dp"
+				android:singleLine="true"
+				android:ellipsize="end"
+				android:textColor="@android:color/white"
+
+				android:text="12/12 - 12/15" />
+		</LinearLayout>
+	</LinearLayout>
 
 	<!-- List of rooms/rates -->
 	<ListView

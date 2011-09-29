@@ -267,6 +267,14 @@
 	<string name="user_review_no_recent_reviews">There are no recent reviews for this hotel</string>
 	
 	<!-- Room and rates list -->
+	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+	<plurals name="staying_nights">
+		<item quantity="zero">Staying %d nights</item>
+		<item quantity="one">Staying %d night</item>
+		<item quantity="two">Staying %d nights</item>
+		<item quantity="many">Staying %d nights</item>
+		<item quantity="other">Staying %d nights</item>
+	</plurals>
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Finding available rooms...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->

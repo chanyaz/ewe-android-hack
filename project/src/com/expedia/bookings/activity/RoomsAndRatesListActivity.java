@@ -6,7 +6,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -98,6 +100,20 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 		RatingBar hotelRating = (RatingBar) findViewById(R.id.hotel_rating_bar);
 		hotelRating.setRating((float) property.getHotelRating());
+
+		// Only display nights header if orientation landscape
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			TextView nightsView = (TextView) findViewById(R.id.nights_text_view);
+			int numNights = mSearchParams.getStayDuration();
+			nightsView.setText(getResources().getQuantityString(R.plurals.staying_nights, numNights, numNights));
+
+			TextView datesView = (TextView) findViewById(R.id.dates_text_view);
+			datesView.setText(DateUtils.formatDateRange(this, mSearchParams.getCheckInDate().getTimeInMillis(),
+					mSearchParams.getCheckOutDate().getTimeInMillis(), DateUtils.FORMAT_NUMERIC_DATE));
+		}
+		else {
+			findViewById(R.id.nights_container).setVisibility(View.GONE);
+		}
 
 		// Setup the ListView
 		View footer = getLayoutInflater().inflate(R.layout.footer_rooms_and_rates, null);
