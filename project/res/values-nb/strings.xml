@@ -11,9 +11,9 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; til &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — &lt;b>%2$s&lt;/b> til &lt;b>%3$s&lt;/b></string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
-	<string name="filter_info_template">&lt;b&gt;%1$d&lt;/b&gt; passende hoteller</string>
+	<string name="filter_info_template">&lt;b>%1$d&lt;/b> passende hoteller</string>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filtrer etter hotellnavn</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
@@ -114,28 +114,32 @@
 	<string name="widget_savings_template">Spar %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Trykk for å oppdatere</string>
+	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
+	<string name="tap_to_start_new_search">TrykkTrykk for å starte et nytt søk</string>
+	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
+	<string name="tap_to_see_booking">Trykk for å se bestillingen</string>
 	<!--  Title for the widget configuration activity -->
 	<string name="widget_config_title">Miniprogram for hotelltilbud</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Legg til miniprogram</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description"> Legg til miniprogrammet på hjemmeskjermen din for å motta de nyeste hotelltilbudene nær deg eller nær ditt neste reisemål!</string>
+	<string name="widget_description">Legg til miniprogrammet på hjemmeskjermen for å se de nyeste tilbudene for det siste søket ditt.</string>
 	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description"> Vis hotelltilbud nær:</string>
+	<string name="config_options_description">Vis hotelltilbud nær:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">Siste søk i program</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">Feil Ingen internettforbindelse</string>
+	<string name="widget_error_no_internet">Ingen internettforbindelse</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
 	<string name="tonight_top_deals">Kveldens topptilbud</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
+	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
 	<string name="top_deals_template">Topptilbud for %s</string>
-	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
-	<string name="save_upto_template">Spar opptil %s%%</string>
+	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
+	<string name="save_upto_template">Spar opptil %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">Vi har ingen tilbud igjen i dag. Se etter nye topptilbud i morgen.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b&gt;Legg til miniprogrammet&lt;/b&gt; for å motta de nyeste hotelltilbudene.</string>
+	<string name="widget_upsell_short">&lt;b>Legg til miniprogrammet&lt;/b> for å motta de nyeste hotelltilbudene.</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -240,7 +244,7 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; av &lt;b&gt;%2$d&lt;/b&gt; gjester anbefaler dette hotellet.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> av &lt;b>%2$d&lt;/b> gjester anbefaler dette hotellet.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d anmeldelser</item>
@@ -389,7 +393,7 @@
 	<!-- Error message when we couldn't get a response -->
 	<string name="error_booking_null">Kunne ikke koble til Expedias servere.  Kontroller internettforbindelsen og prøv på nytt.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s den %2$s</string>
+	<string name="check_in_out_time_template">%1$s på %2$s</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Format for a first/last name -->
@@ -563,7 +567,7 @@
 	<string name="currency_eur">Euro</string>
 	<string name="currency_hkd">Hong Kong-dollar</string>
 	<string name="currency_inr">Indiske rupi</string>
-	<string name="currency_ils">Israelske shekel </string>
+	<string name="currency_ils">Israelske shekel</string>
 	<string name="currency_jpy">Japanske yen</string>
 	<string name="currency_krw">Koreanske won</string>
 	<string name="currency_mxn">Meksikanske pesos</string>
@@ -816,7 +820,7 @@
 	<string name="country_vn">Vietnam</string>
 	<string name="country_vg">Jomfruøyene (Storbritannia)</string>
 	<string name="country_vi">Jomfruøyene (USA)</string>
-	<string name="country_wf">Wallis- og Futunaøyane</string>
+	<string name="country_wf">Wallis- og Futunaøyene</string>
 	<string name="country_eh">Vest-Sahara</string>
 	<string name="country_ye">Yemen</string>
 	<string name="country_zm">Zambia</string>

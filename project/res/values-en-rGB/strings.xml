@@ -58,11 +58,11 @@
 	<!-- Filter option for "show all" -->
 	<string name="all">All</string>
 	<!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_cheap">$</string>
+	<string name="filter_price_cheap">£</string>
 	<!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_moderate">$$</string>
+	<string name="filter_price_moderate">££</string>
 	<!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_expensive">$$$</string>
+	<string name="filter_price_expensive">£££</string>
 	<!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
 	<string name="filter_stars_three">3+</string>
 	<!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
@@ -106,18 +106,22 @@
 	<string name="widget_savings_template">Save %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Tap to refresh</string>
+	<!--  Indicator to user to tap the widget to start a new search if no hotels are found -->
+	<string name="tap_to_start_new_search">Tap to start a new search</string>
+	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
+	<string name="tap_to_see_booking">Tap to see your booking</string>
 	<!--  Title for the widget configuration activity -->
 	<string name="widget_config_title">Hotel Deals Widget</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Add Widget</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Add our widget to your home screen to discover the latest hotel deals near you or your next destination!</string>
+	<string name="widget_description">Add the widget to your home screen to see the latest deals from your last search.</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">Show hotel deals near:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">Last App Search</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">Error:No Internet Connection</string>
+	<string name="widget_error_no_internet">No Internet Connectivity</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
 	<string name="tonight_top_deals">Tonight\'s Top Deals</string>
 	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->

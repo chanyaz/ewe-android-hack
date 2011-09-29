@@ -11,9 +11,9 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; 到 &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — &lt;b>%2$s&lt;/b> 到 &lt;b>%3$s&lt;/b></string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
-	<string name="filter_info_template">&lt;b&gt;%1$d&lt;/b&gt; 間符合的飯店</string>
+	<string name="filter_info_template">&lt;b>%1$d&lt;/b> 間符合的飯店</string>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">依飯店名稱篩選</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
@@ -42,11 +42,11 @@
 	<!-- Dialog message asking user if they want to enable a location provider. -->
 	<string name="EnableLocationSettings">您必須先到「設定」開啟「地點來源」，才能使用「我的地點」。\n現在就前往「設定」以開啟定位功能？</string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
-	<string name="ProviderDisabled">您的定位功能已停用。 請重新啟用，以根據您的地點進行搜尋。</string>
+	<string name="ProviderDisabled">您的定位功能已停用。請重新啟用，以根據您的地點進行搜尋。</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-	<string name="ProviderOutOfService">您的定位功能無法使用。 請稍後再試一次。</string>
+	<string name="ProviderOutOfService">您的定位功能無法使用。請稍後再試一次。</string>
 	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">您的定位功能暫時無法使用。  請過幾分鐘後再試一次。</string>
+	<string name="ProviderTemporarilyUnavailable">您的定位功能暫時無法使用。請過幾分鐘後再試一次。</string>
 
 	<!-- Sort descriptions, e.g. Sorted by "description" -->
 	<!-- Sort by distance label -->
@@ -114,28 +114,32 @@
 	<string name="widget_savings_template">節省 %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">點一下重新整理</string>
+	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
+	<string name="tap_to_start_new_search">點一下以開始新的搜尋</string>
+	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
+	<string name="tap_to_see_booking">點一下以查看您的預訂</string>
 	<!--  Title for the widget configuration activity -->
 	<string name="widget_config_title">飯店特惠小工具</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">新增小工具</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">新增小工具至主螢幕，探索所在地點附近或下一趟旅程的最新飯店特惠！</string>
+	<string name="widget_description">新增小工具至主螢幕，以查看自上次搜尋後的最新特惠。</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">顯示下列鄰近地點的飯店特惠：</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">上一個 App 搜尋</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">錯誤： 沒有網際網路連線</string>
+	<string name="widget_error_no_internet">沒有網際網路連線</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
 	<string name="tonight_top_deals">今夜熱門特惠</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
+	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
 	<string name="top_deals_template">%s 熱門特惠</string>
-	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
-	<string name="save_upto_template">最多節省 %s%%</string>
+	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
+	<string name="save_upto_template">最多節省 %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
-	<string name="error_search_in_past">今日特惠已發完。 請明天再來查看熱門特惠。</string>
+	<string name="error_search_in_past">今日特惠已發完。請明天再來查看熱門特惠。</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b&gt;新增小工具&lt;/b&gt;以取得最新的飯店特惠。</string>
+	<string name="widget_upsell_short">&lt;b>新增小工具&lt;/b>以取得最新的飯店特惠。</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -240,7 +244,7 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; 位 (共 &lt;b&gt;%2$d&lt;/b&gt; 位) 旅客建議這間飯店。</string>
+	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> 位 (共 &lt;b>%2$d&lt;/b> 位) 旅客建議這間飯店。</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d 則評語</item>
@@ -264,7 +268,7 @@
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">正在尋找空房...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">無法下載客房與價格資訊。  請檢查您的連線狀態，然後再試一次。</string>
+	<string name="error_no_response_room_rates">無法下載客房與價格資訊。請檢查您的連線狀態，然後再試一次。</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">每夜</string>
 	<!-- Rate price displayed "average per night" -->
@@ -292,7 +296,7 @@
 	<!-- Label for room type -->
 	<string name="room_type">客房類型</string>
 	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">很抱歉，我們無法載入客房詳細資料。  請檢查您的網際網路連線狀態，然後再試一次。</string>
+	<string name="error_room_type_load">很抱歉，我們無法載入客房詳細資料。請檢查您的網際網路連線狀態，然後再試一次。</string>
 	<!-- Error if we couldn't find the room type details -->
 	<string name="error_room_type_nonexistant">很抱歉，我們找不到這間客房的額外詳細資料。</string>
 	<!-- Label for bed type -->
@@ -349,7 +353,7 @@
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">規定與限制</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">如果您有 Expedia Rewards 帳戶，請以相同的電子郵件地址預訂，這樣在您住宿後，便會自動授予您積分。 請注意，最多可能需要 30 天才會顯示您的積分。</string>
+	<string name="disclaimer_expedia_points">如果您有 Expedia Rewards 帳戶，請以相同的電子郵件地址預訂，這樣在您住宿後，便會自動授予您積分。請注意，最多可能需要 30 天才會顯示您的積分。</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
 	<string name="EnterBookingInfo">輸入預訂資訊</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -379,7 +383,7 @@
 	<!-- Error if an invalid security code was entered -->
 	<string name="invalid_security_code">請輸入 3 或 4 碼的安全碼</string>
 	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">很抱歉，美國運通不支援以此幣別 (%s) 付款。 請使用另一張信用卡。</string>
+	<string name="invalid_currency_for_amex">很抱歉，美國運通不支援以此幣別 (%s) 付款。請使用另一張信用卡。</string>
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">您必須接受所有條款才能預訂</string>
 	<!-- Message to display to user while booking is in progress -->
@@ -387,7 +391,7 @@
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">錯誤</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">無法連線至 Expedia 伺服器。  請檢查您的連線狀態，然後再試一次。</string>
+	<string name="error_booking_null">無法連線至 Expedia 伺服器。請檢查您的連線狀態，然後再試一次。</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$s 於 %2$s</string>
 	
@@ -429,15 +433,15 @@
 	<!-- Policy displayed to user when an immediate charge is required -->
 	<string name="PolicyImmediateChargeRequired">在預訂時會立即向您的信用卡收取全額訂房費用。</string>
 	<!-- Policy displayed to user when the room is non-refundable -->
-	<string name="PolicyNonRefundable">此物業提供特別優惠價格。 但是，以此價格預訂無法退款。 若您取消訂房，這筆款項將無法退還給您。</string>
+	<string name="PolicyNonRefundable">此物業提供特別優惠價格。但是，以此價格預訂無法退款。若您取消訂房，這筆款項將無法退還給您。</string>
 	<!-- Policy displayed to user when a deposit is required -->
-	<string name="PolicyDepositRequired">我們會向您的信用卡收取一筆訂金。 訂房完成後，會由飯店直接向您的信用卡收費。</string>
+	<string name="PolicyDepositRequired">我們會向您的信用卡收取一筆訂金。訂房完成後，會由飯店直接向您的信用卡收費。</string>
 	<!-- Policy displayed to user when a guarantee is required -->
-	<string name="PolicyGuaranteeRequired">我們需要您的信用卡資訊以保證您的訂房。 在您抵達飯店或超過取消期限之後，我們才會向您的信用卡收費。</string>
+	<string name="PolicyGuaranteeRequired">我們需要您的信用卡資訊以保證您的訂房。在您抵達飯店或超過取消期限之後，我們才會向您的信用卡收費。</string>
 	<!-- Expedia merchant hotel policies -->
-	<string name="PolicyExpediaMerchant">繼續訂房程序即表示您同意所有條款及條件，包括「取消政策」，以及「使用者協議」中所含之所有條款及條件。\n\n您同意支付訂房費用。 若您未支付此款項，導致我們必須透過收款機構、律師或其他法律程序予以追討，您同意支付因此收款程序衍生之所有合理成本或費用，包括律師費用和法院訴訟費用等。</string>
+	<string name="PolicyExpediaMerchant">繼續訂房程序即表示您同意所有條款及條件，包括「取消政策」，以及「使用者協議」中所含之所有條款及條件。\n\n您同意支付訂房費用。若您未支付此款項，導致我們必須透過收款機構、律師或其他法律程序予以追討，您同意支付因此收款程序衍生之所有合理成本或費用，包括律師費用和法院訴訟費用等。</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">您預訂的物業不提供折扣。 除非特別註明，否則所有顯示價格均為雙人房每房每晚價格。 請詳閱客房說明與價格規定，以確定所選客房能容納所有同團成員入住。 部分價格可能有身分限制。 我們的預訂費用、稅金和其他由飯店收取的附加費用不包含在此價格中。 若入住的成人或兒童超出該客房的表定入住人數，物業可自行決定向您收取額外費用。\n\n若要求的入住人數超過 2 人，或超過所選價格規定的人數，此類要求仍會寄送給飯店，但不保證可成功預訂。 如果飯店接受訂房，飯店可自行決定向您收取額外費用。</string>
+	<string name="PolicyExpediaAgent">您預訂的物業不提供折扣。除非特別註明，否則所有顯示價格均為雙人房每房每晚價格。請詳閱客房說明與價格規定，以確定所選客房能容納所有同團成員入住。部分價格可能有身分限制。我們的預訂費用、稅金和其他由飯店收取的附加費用不包含在此價格中。若入住的成人或兒童超出該客房的表定入住人數，物業可自行決定向您收取額外費用。\n\n若要求的入住人數超過 2 人，或超過所選價格規定的人數，此類要求仍會寄送給飯店，但不保證可成功預訂。如果飯店接受訂房，飯店可自行決定向您收取額外費用。</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -479,7 +483,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">好消息！\n\n在 iPhone 和 Android 手機上也能查看 Expedia Hotels 了！ 不僅完全免費，還有全球超過 13 萬間飯店供您搜尋和預訂。 用手機就能訂房，真是再方便不過了！\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">好消息！\n\n在 iPhone 和 Android 手機上也能查看 Expedia Hotels 了！不僅完全免費，還有全球超過 13 萬間飯店供您搜尋和預訂。用手機就能訂房，真是再方便不過了！\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">條款及條件</string>
 	<!-- Label for link to privacy policy -->
@@ -535,7 +539,7 @@
 	<!-- Abbreviated kilometers (used in distance_template) -->
 	<string name="unit_kilometers">公里</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-	<string name="distance_template">%1$s 距離 %2$s %2$s</string>
+	<string name="distance_template">距離 %1$s %2$s</string>
 
 	<!-- Menu strings -->
 	<!-- Label for "settings" menu item. -->
@@ -549,7 +553,7 @@
 	
 	<!-- Error strings - replacements for default EAN errors -->
 	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_no_results">很抱歉，目前無法找到任何有空房的飯店。 請試試不同的日期或其他地點。</string>
+	<string name="ean_error_no_results">很抱歉，目前無法找到任何有空房的飯店。請試試不同的日期或其他地點。</string>
 	<!-- Replaces "result was null" for no result search -->
 	<string name="ean_error_connect_unavailable">無法連線至所選飯店尋找空房。</string>
 
@@ -563,7 +567,7 @@
 	<string name="currency_eur">歐元</string>
 	<string name="currency_hkd">港幣</string>
 	<string name="currency_inr">印度盧比</string>
-	<string name="currency_ils">以色列新謝克爾 </string>
+	<string name="currency_ils">以色列新謝克爾</string>
 	<string name="currency_jpy">日圓</string>
 	<string name="currency_krw">韓圜</string>
 	<string name="currency_mxn">墨西哥披索</string>

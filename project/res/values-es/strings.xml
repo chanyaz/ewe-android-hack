@@ -11,9 +11,9 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; - &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — &lt;b>%2$s&lt;/b> - &lt;b>%3$s&lt;/b></string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
-	<string name="filter_info_template">&lt;b&gt;%1$d&lt;/b&gt; hoteles coinciden con los criterios introducidos</string>
+	<string name="filter_info_template">&lt;b>%1$d&lt;/b> hoteles coinciden con los criterios introducidos</string>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filtrar por nombre</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
@@ -114,28 +114,32 @@
 	<string name="widget_savings_template">Ahorra un %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Actualizar</string>
+	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
+	<string name="tap_to_start_new_search">Nueva búsqueda</string>
+	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
+	<string name="tap_to_see_booking">Ver la reserva</string>
 	<!--  Title for the widget configuration activity -->
 	<string name="widget_config_title">Widget de ofertas de hoteles</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Añadir widget</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description"> Añade nuestro widget a tu pantalla de inicio para descubrir las últimas ofertas de hoteles cerca de ti o de tu próximo destino</string>
+	<string name="widget_description">Añade el widget a tu pantalla de inicio para ver las últimas ofertas a partir de tu última búsqueda.</string>
 	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description"> Mostrar ofertas de hoteles cerca de: </string>
+	<string name="config_options_description">Mostrar ofertas de hoteles cerca de:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">Última búsqueda</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">Error: Sin conexión a Internet</string>
+	<string name="widget_error_no_internet">Sin conexión a Internet</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
-	<string name="tonight_top_deals">Mejores ofertas para esta noche </string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
+	<string name="tonight_top_deals">Mejores ofertas para esta noche</string>
+	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
 	<string name="top_deals_template">Mejores hoteles para el %s</string>
-	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
-	<string name="save_upto_template">Ahorra hasta un %s%%</string>
+	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
+	<string name="save_upto_template">Ahorra hasta un %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">No hay ofertas disponibles para hoy. Vuelve a intentarlo mañana.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b&gt;Añade el widget &lt;/b&gt; para recibir las últimas ofertas de hoteles.</string>
+	<string name="widget_upsell_short">&lt;b>Añade el widget &lt;/b> para recibir las últimas ofertas de hoteles.</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -176,7 +180,7 @@
 	<!-- Internet access amenity -->
 	<string name="AmenityInternet">Internet</string>
 	<!-- Kids' activities amenity -->
-	<string name="AmenityKidsActivities">Actividades infantiles </string>
+	<string name="AmenityKidsActivities">Actividades infantiles</string>
 	<!-- Kitchen/kitchenette amenity -->
 	<string name="AmenityKitchen">Cocina</string>
 	<!-- Pets allowed amenity -->
@@ -212,7 +216,7 @@
 	<!-- Accessibility equipment for the deaf amenity -->
 	<string name="AmenityDeafAccessibilityEquipment">Accesible para personas sordas</string>
 	<!-- Braille or raised signage amenity -->
-	<string name="AmenityBrailleSignage">Señalización en braille </string>
+	<string name="AmenityBrailleSignage">Señalización en braille</string>
 	<!-- Free airport shuttle amenity -->
 	<string name="AmenityFreeAirportShuttle">Servicio de traslado al aeropuerto</string>
 	<!-- Indoor pool amenity -->
@@ -240,7 +244,7 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; de &lt;b&gt;%2$d&lt;/b&gt; personas recomiendan este hotel.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> de &lt;b>%2$d&lt;/b> personas recomiendan este hotel.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d opiniones</item>
@@ -307,15 +311,15 @@
 	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
 	<string name="room_rate_template">Precio para el %s</string>
 	<!-- Label for the extra guest charge -->
-	<string name="extra_guest_charge">Suplemento por persona adicional </string>
+	<string name="extra_guest_charge">Suplemento por persona adicional</string>
 	<!-- Label for total cost of hotel stay -->
 	<string name="total_cost">Importe total</string>
 	<!-- Label for "guest info" form field section -->
 	<string name="guest_info">Huéspedes</string>
 	<!-- The "first name" booking info field.  -->
-	<string name="FirstName">Nombre </string>
+	<string name="FirstName">Nombre</string>
 	<!-- The "last name" booking info field.  -->
-	<string name="LastName">Apellidos </string>
+	<string name="LastName">Apellidos</string>
 	<!-- The "telephone" booking info field.  -->
 	<string name="Telephone">Teléfono</string>
 	<!-- The "email for booking confirmation" booking info field.  -->
@@ -563,7 +567,7 @@
 	<string name="currency_eur">Euro</string>
 	<string name="currency_hkd">Dólar de Hong Kong</string>
 	<string name="currency_inr">Rupia india</string>
-	<string name="currency_ils">Nuevo shéquel israelí </string>
+	<string name="currency_ils">Nuevo shéquel israelí</string>
 	<string name="currency_jpy">Yen japonés</string>
 	<string name="currency_krw">Won coreano</string>
 	<string name="currency_mxn">Peso mexicano</string>

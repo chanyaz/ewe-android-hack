@@ -11,13 +11,13 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; 到 &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — &lt;b>%2$s&lt;/b> 到 &lt;b>%3$s&lt;/b></string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
-	<string name="filter_info_template">&lt;b&gt;%1$d&lt;/b&gt; 家符合搜索条件的酒店</string>
+	<string name="filter_info_template">&lt;b>%1$d&lt;/b> 家酒店符合条件</string>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">按酒店名称筛选</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
-	<string name="tripadvisor_rating_high">仅显示高评级的酒店</string>
+	<string name="tripadvisor_rating_high">仅显示高评价的酒店</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
 	<string name="tripadvisor_rating_all">显示所有酒店</string>
 	<!-- Label indicating that there are no results matching their current filter -->
@@ -35,18 +35,18 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">正在加载之前的搜索结果...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">“排序：”</string>
+	<string name="sort_hotels">排序方式： "</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">筛选酒店</string>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">要使用“我的位置”，您必须先在“设定”中开启“位置”来源。\n是否立即进入“设定”并将其开启？</string>
+	<string name="EnableLocationSettings">要使用“我的位置”，您必须先在“设定”中开启“位置”服务来源。\n是否立即进入“设定”并将其开启？</string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
-	<string name="ProviderDisabled">您的位置服务提供者已被禁用。请将其重新启用以搜索您的位置。</string>
+	<string name="ProviderDisabled">您的位置服务提供商已被禁用。请将其重新启用以搜索您的位置。</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-	<string name="ProviderOutOfService">您的位置服务提供者没有服务。请稍后重试。</string>
+	<string name="ProviderOutOfService">您的位置服务提供商没有服务。请稍后重试。</string>
 	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">您的位置服务提供者暂停服务。请在数分钟后重试。</string>
+	<string name="ProviderTemporarilyUnavailable">您的位置服务提供商暂停服务。请在数分钟后重试。</string>
 
 	<!-- Sort descriptions, e.g. Sorted by "description" -->
 	<!-- Sort by distance label -->
@@ -95,11 +95,11 @@
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
 	<string name="from">起</string>
 	<!-- The label indicating that this hotel is highly rated by users -->
-	<string name="highly_rated">高评级</string>
+	<string name="highly_rated">高评价</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">&lt;strike&gt;%s&lt;/strike&gt;起</string>
+	<string name="from_template">&lt;strike&gt;%s&lt;/strike&gt; 起</string>
 	<!-- The label for price per night - "from $120/night", for example -->
-	<string name="per_night">/晚起</string>
+	<string name="per_night">/晚</string>
 	<!-- Label for red "sale" corner -->
 	<string name="sale_caps">促销</string>
 
@@ -114,28 +114,32 @@
 	<string name="widget_savings_template">节省 %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">点击刷新</string>
+	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
+	<string name="tap_to_start_new_search">点击以开始新的搜索</string>
+	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
+	<string name="tap_to_see_booking">点击以查看您的预订</string>
 	<!--  Title for the widget configuration activity -->
 	<string name="widget_config_title">酒店优惠小工具</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">添加小工具</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description"> 请将小工具添加到您的主屏幕，查找您或您下一个目的地附近的最新酒店优惠！</string>
+	<string name="widget_description">将小工具添加到您的主屏幕中以从您的上次搜索结果中查看最新优惠。</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">显示以下地点附近的酒店优惠：</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">上次搜索</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">错误：无网络连接</string>
+	<string name="widget_error_no_internet">没有网络连接</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
 	<string name="tonight_top_deals">今晚热门优惠</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
+	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
 	<string name="top_deals_template">%s热门优惠</string>
-	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
-	<string name="save_upto_template">节省多达 %s%%</string>
+	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
+	<string name="save_upto_template">节省多达 %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">没有今天的优惠，请搜索明天的热门优惠。</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b&gt;添加小工具&lt;/b&gt;帮您查找最新酒店优惠。</string>
+	<string name="widget_upsell_short">&lt;b>添加小工具&lt;/b>帮您查找最新酒店优惠。</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -196,7 +200,7 @@
 	<!-- Jacuzzi amenity -->
 	<string name="AmenityJacuzzi">按摩浴池</string>
 	<!-- Parking amenity -->
-	<string name="AmenityParking">停车</string>
+	<string name="AmenityParking">停车处</string>
 	<!-- Room service amenity -->
 	<string name="AmenityRoomService">客房服务</string>
 	<!-- Accessible path of travel amenity -->
@@ -214,7 +218,7 @@
 	<!-- Braille or raised signage amenity -->
 	<string name="AmenityBrailleSignage">盲文标志</string>
 	<!-- Free airport shuttle amenity -->
-	<string name="AmenityFreeAirportShuttle">机场班车</string>
+	<string name="AmenityFreeAirportShuttle">机场接送</string>
 	<!-- Indoor pool amenity -->
 	<string name="AmenityPoolIndoor">室内泳池</string>
 	<!-- Outdoor pool amenity -->
@@ -240,7 +244,7 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; 位（共 &lt;b&gt;%2$d&lt;/b&gt; 位）住客推荐此酒店。</string>
+	<string name="user_review_recommendation_tag_text">&lt;b>%2$d&lt;/b> 位住客中有 &lt;b>%1$d&lt;/b> 位推荐此酒店。</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d 条评价</item>
@@ -252,7 +256,7 @@
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
 		2$ is the place they are from -->
-	<string name="user_review_name_and_location_signature">%2$s的%1$s</string>
+	<string name="user_review_name_and_location_signature">%1$s 来自 %2$s</string>
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">没有对此酒店的恶评</string>
 	<!-- User review no favorable reviews -->
@@ -264,7 +268,7 @@
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">正在查找空房...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">无法下载客房与价格信息。请检查您的连接情况并重试。</string>
+	<string name="error_no_response_room_rates">无法下载客房与价格信息。请检查您的网络连接情况并重试。</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">每晚</string>
 	<!-- Rate price displayed "average per night" -->
@@ -387,9 +391,9 @@
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">错误</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">无法连接到 Expedia 服务器。请检查您的连接情况并重试。</string>
+	<string name="error_booking_null">无法连接到 Expedia 服务器。请检查您的网络连接情况并重试。</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%2$s %1$s</string>
+	<string name="check_in_out_time_template">%1$s 日期： %2$s</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Format for a first/last name -->
@@ -447,9 +451,9 @@
 	<!-- Name of user -->
 	<string name="name">姓名</string>
 	<!-- Number of adults label -->
-	<string name="adults"> 位成人</string>
+	<string name="adults">成人人数：</string>
 	<!-- Number of children label -->
-	<string name="children"> 位儿童</string>
+	<string name="children">儿童人数：</string>
 	<!-- Subtotal label -->
 	<string name="subtotal">部分合计</string>
 	<!-- Cancellation policy label -->
@@ -495,7 +499,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">请给予我们评级</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">由 OpinionLab, Inc. <a href="http://mobile.opinionlab.com/static/privacy.html">隐私政策提供支持</a></string>
+	<string name="powered_by_opinion_lab">由 OpinionLab 提供支持 <a href="http://mobile.opinionlab.com/static/privacy.html">隐私政策</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">电子邮件地址</string>
 	<!-- Hint to type in comments -->
@@ -654,7 +658,7 @@
 	<string name="country_tf">法属南部领土</string>
 	<string name="country_ga">加蓬</string>
 	<string name="country_gm">冈比亚</string>
-	<string name="country_ge">佐治亚</string>
+	<string name="country_ge">格鲁吉亚</string>
 	<string name="country_de">德国</string>
 	<string name="country_gh">加纳</string>
 	<string name="country_gi">直布罗陀</string>

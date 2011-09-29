@@ -11,9 +11,9 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; to &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — &lt;b>%2$s&lt;/b> to &lt;b>%3$s&lt;/b></string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
-	<string name="filter_info_template">&lt;b&gt;%1$d&lt;/b&gt; matchende hoteller</string>
+	<string name="filter_info_template">&lt;b>%1$d&lt;/b> matchende hoteller</string>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filtrer efter hotelnavn</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
@@ -114,28 +114,32 @@
 	<string name="widget_savings_template">Spar %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Bank for at opdatere</string>
+	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
+	<string name="tap_to_start_new_search">Bank for at begynde en ny søgning</string>
+	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
+	<string name="tap_to_see_booking">Bank for at se din reservation</string>
 	<!--  Title for the widget configuration activity -->
 	<string name="widget_config_title">Hotel Deals Widget</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Tilføj Widget</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description"> Tilføj vores Widget til din homescreen, for at se de nyeste hoteltilbud, til din næste rejse!</string>
+	<string name="widget_description">Tilføj denne Widget til din home screen, for at se de sidste nye tilbyd, fra din sidste søgning.</string>
 	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description"> Vis hoteltilbud nær:</string>
+	<string name="config_options_description">Vis hoteltilbud nær:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">Sidste app-søgning</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">Fejl: Ingen internetforbindelse </string>
+	<string name="widget_error_no_internet">Ingen internetforbindelse</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
-	<string name="tonight_top_deals">Aftenens Toptilbud</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
+	<string name="tonight_top_deals">Aftenens bedste tilbud</string>
+	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
 	<string name="top_deals_template">Toptilbud på %s</string>
-	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
-	<string name="save_upto_template">Spar op til %s%%</string>
+	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
+	<string name="save_upto_template">Spar op til %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
-	<string name="error_search_in_past">Vi har ikke flere tilbud I dag. Check vores toptilbud, igen i morgen.</string>
+	<string name="error_search_in_past">Vi har ikke flere tilbud I dag. Check vores toptilbud, igen i morgen. Check in for top deals tomorrow.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b&gt;Tilføj denne widget&lt;/b&gt; for at få de bedste hoteltilbud.</string>
+	<string name="widget_upsell_short">&lt;b>Tilføj denne widget&lt;/b> for at få de bedste hoteltilbud.</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -240,21 +244,21 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; ud af &lt;b&gt;%2$d&lt;/b&gt; gæster anbefaler dette hotel.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> ud af &lt;b>%2$d&lt;/b> gæster anbefaler dette hotel.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d Anmeldelser</item>
-		<item quantity="one">%d Anmeldelser </item>
-		<item quantity="two">%d Anmeldelser </item>
-		<item quantity="many">%d Anmeldelser </item>
-		<item quantity="other">%d Anmeldelser </item>
+		<item quantity="one">%d Anmeldelse</item>
+		<item quantity="two">%d Anmeldelser</item>
+		<item quantity="many">%d Anmeldelser</item>
+		<item quantity="other">%d Anmeldelser</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
 		2$ is the place they are from -->
 	<string name="user_review_name_and_location_signature">%1$s fra %2$s</string>
 	<!-- User review no critical reviews -->
-	<string name="user_review_no_critical_reviews">DerDer er ingen kritiske anmeldelser for dette hotel</string>
+	<string name="user_review_no_critical_reviews">Der er ingen kritiske anmeldelser for dette hotel</string>
 	<!-- User review no favorable reviews -->
 	<string name="user_review_no_favorable_reviews">Der er ingen favorable anmeldelser for dette hotel</string>
 	<!-- User review no recent reviews -->
@@ -264,7 +268,7 @@
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Finder ledige værelser...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">Kunne ikke hente værelses- og prisoplysninger. Check venligst din forbindelse, og prøv igen.</string>
+	<string name="error_no_response_room_rates">Kunne ikke hente værelses- og prisoplysninger.  Check venligst din forbindelse, og prøv igen.</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">per nat</string>
 	<!-- Rate price displayed "average per night" -->
@@ -274,8 +278,8 @@
 		<item quantity="zero">Ingen værelser tilbage!</item>
 		<item quantity="one">Kun 1 værelse tilbage!</item>
 		<item quantity="two">Kun %d værelser tilbage!</item>
-		<item quantity="many">Kun %d værelser tilbage!</item>
-		<item quantity="other">Kun %d værelser tilbage!</item>
+		<item quantity="many">%d værelser tilbage!</item>
+		<item quantity="other">%d værelser tilbage!</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
 	<string name="savings_template">Spar\n %2.0f%%</string>
@@ -292,11 +296,11 @@
 	<!-- Label for room type -->
 	<string name="room_type">Værelsestype</string>
 	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">Vi beklager, men vi kunne ikke hente værelsesdetajlerne. Check din internetforbindelse, og prøv igen.</string>
+	<string name="error_room_type_load">Vi beklager, men vi kunne ikke hente værelsesdetajlerne. Check din internetforbindelse, og prøv igen</string>
 	<!-- Error if we couldn't find the room type details -->
-	<string name="error_room_type_nonexistant"> Vi beklager, men vi kunne ikke finde ekstra detaljer om dette værelse.</string>
+	<string name="error_room_type_nonexistant">Vi beklager, men vi kunne ikke finde ekstra detaljer om dette værelse.</string>
 	<!-- Label for bed type -->
-	<string name="bed_type"> Sengetype</string>
+	<string name="bed_type">Sengetype</string>
 	<!-- Label for length of stay -->
 	<string name="stay_duration">Varighed af ophold</string>
 	<!-- Quantity for the length of stay -->
@@ -319,7 +323,7 @@
 	<!-- The "telephone" booking info field.  -->
 	<string name="Telephone">Telefon</string>
 	<!-- The "email for booking confirmation" booking info field.  -->
-	<string name="EmailForConf">Email til bekræftelse</string>
+	<string name="EmailForConf">MMail til bekræftelse</string>
 	<!-- Label for "billing info" form field section -->
 	<string name="billing_info">Betalingsoplysninger</string>
 	<!-- Address line 1 form field hint -->
@@ -357,7 +361,7 @@
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">Bekræft og reserver</string>
 	<!-- Label for clearing private data -->
-	<string name="clear_private_data"> Slet personlige oplysninger</string>
+	<string name="clear_private_data">Slet personlige oplysninger</string>
 	<!-- Title for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_title">Slet personlige oplysninger?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
@@ -387,9 +391,9 @@
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Fejl</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">Kunne ikke opnå forbindelse til Expedias servere. Check venligst din forbindelse, og prøv igen.</string>
+	<string name="error_booking_null">Kunne ikke opnå forbindelse til Expedias servere.  Check venligst din forbindelse, og prøv igen.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s den %2$s</string>
+	<string name="check_in_out_time_template">%1$s , %2$s</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Format for a first/last name -->
@@ -479,7 +483,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hoteller</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hej,\n\nCheck Expedia Hotels til  iPhone and Android telefoner. Det er gratis, og du kan nemt søge efter, og reservere værelser, på over 130,000 hoteller, varden over. Det er den nemmeste måde at reserver hotelværelser med din telefon. \n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hej,\n\nCheck Expedia Hotels til  iPhone and Android telefoner. Det er gratis, og du kan nemt søge efter, og reservere værelser, på over 130,000 hoteller, varden over. Det er den nemmeste måde at reserver hotelværelser med din telefon.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Vilkår og betingelser</string>
 	<!-- Label for link to privacy policy -->
@@ -495,9 +499,9 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Giv os en bedømmelse</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privacy Policy</a></string>
+	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privatlivspolitik</a></string>
 	<!-- Hint to type in email address -->
-	<string name="email_address">E-mail-adresse</string>
+	<string name="email_address">Mail</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">Hvad kan vi gøre bedre?</string>
 	
@@ -554,26 +558,26 @@
 	<string name="ean_error_connect_unavailable">Kunne ikke skabe forbindelse til det valgte hotel, for at søge efter ledige værelser.</string>
 
 	<!-- Currency names -->
-	<string name="currency_aud">Australske Dollar</string>
-	<string name="currency_brl">Brasilianske Real</string>
-	<string name="currency_gbp">Britiske Pund</string>
-	<string name="currency_cad">Canadiske Dollar</string>
-	<string name="currency_cny">Kinesiske Yuan</string>
-	<string name="currency_dkk">Danske Kroner</string>
+	<string name="currency_aud">Australske dollar</string>
+	<string name="currency_brl">Brasilianske real</string>
+	<string name="currency_gbp">Britiske pund</string>
+	<string name="currency_cad">Canadiske dollar</string>
+	<string name="currency_cny">Kinesiske yuan</string>
+	<string name="currency_dkk">Danske kroner</string>
 	<string name="currency_eur">Euro</string>
-	<string name="currency_hkd">Hong Kong Dollar</string>
-	<string name="currency_inr">Indiske Rupee</string>
-	<string name="currency_ils">Israelske shekel </string>
-	<string name="currency_jpy">Japanske Yen</string>
-	<string name="currency_krw">Koreanske Won</string>
-	<string name="currency_mxn">Mexicanske Peso</string>
-	<string name="currency_nzd">New Zealandske Dollars</string>
-	<string name="currency_nok">Norske Kroner</string>
-	<string name="currency_rub">Russiske Rubler</string>
-	<string name="currency_sgd">Singapore dollars</string>
-	<string name="currency_sek">Svenske Kroner</string>
-	<string name="currency_chf">Schweiziske Frank</string>
-	<string name="currency_usd">Amerikanske Dollars</string>
+	<string name="currency_hkd">Hong Kong dollar</string>
+	<string name="currency_inr">Indiske rupee</string>
+	<string name="currency_ils">Israelske shekel</string>
+	<string name="currency_jpy">Japanske yen</string>
+	<string name="currency_krw">Koreanske won</string>
+	<string name="currency_mxn">Mexicanske peso</string>
+	<string name="currency_nzd">New Zealandske dollar</string>
+	<string name="currency_nok">Norske kroner</string>
+	<string name="currency_rub">Russiske rubler</string>
+	<string name="currency_sgd">Singapore dollar</string>
+	<string name="currency_sek">Svenske kroner</string>
+	<string name="currency_chf">Schweiziske frank</string>
+	<string name="currency_usd">Amerikanske dollar</string>
 
 	<!-- Country names -->
 	<string name="country_af">Afghanistan</string>
@@ -589,7 +593,7 @@
 	<string name="country_am">Armenien</string>
 	<string name="country_aw">Aruba</string>
 	<string name="country_au">Australien</string>
-	<string name="country_at">østrig</string>
+	<string name="country_at">Østrig</string>
 	<string name="country_az">Azerbaijan</string>
 	<string name="country_bs">Bahamas</string>
 	<string name="country_bh">Bahrain</string>
@@ -625,7 +629,7 @@
 	<string name="country_co">Colombia</string>
 	<string name="country_km">Comorerne</string>
 	<string name="country_cg">Congo</string>
-	<string name="country_cd">Den Demokratiske Republik Congo</string>
+	<string name="country_cd">Congo</string>
 	<string name="country_ck">Cookøerne</string>
 	<string name="country_cr">Costa Rica</string>
 	<string name="country_hr">Kroatien</string>
@@ -677,7 +681,7 @@
 	<string name="country_is">Island</string>
 	<string name="country_in">Indien</string>
 	<string name="country_id">Indonesien</string>
-	<string name="country_ir">Den islamiske republik Iran</string>
+	<string name="country_ir">Iran</string>
 	<string name="country_iq">Irak</string>
 	<string name="country_ie">Irland</string>
 	<string name="country_im">Isle of Man</string>
@@ -694,7 +698,7 @@
 	<string name="country_kr">Korea</string>
 	<string name="country_kw">Kuwait</string>
 	<string name="country_kg">Kirgisistan</string>
-	<string name="country_la">Den demokratiske folkerepublik Laos</string>
+	<string name="country_la">Laos</string>
 	<string name="country_lv">Letland</string>
 	<string name="country_lb">Libanon</string>
 	<string name="country_ls">Lesotho</string>
@@ -704,7 +708,7 @@
 	<string name="country_lt">Litauen</string>
 	<string name="country_lu">Luxembourg</string>
 	<string name="country_mo">Macao</string>
-	<string name="country_mk">Den tidligere yugoslaviske republik Makedonien</string>
+	<string name="country_mk">Makedonien</string>
 	<string name="country_mg">Madagaskar</string>
 	<string name="country_mw">Malawi</string>
 	<string name="country_my">Malaysia</string>
@@ -755,7 +759,7 @@
 	<string name="country_pr">Puerto Rico</string>
 	<string name="country_qa">Qatar</string>
 	<string name="country_ro">Rumænien</string>
-	<string name="country_ru">Den russiske føderation</string>
+	<string name="country_ru">Rusland</string>
 	<string name="country_rw">Rwanda</string>
 	<string name="country_re">Réunion</string>
 	<string name="country_bl">Saint Barthélemy</string>
@@ -812,7 +816,7 @@
 	<string name="country_uy">Uruguay</string>
 	<string name="country_uz">Uzbekistan</string>
 	<string name="country_vu">Vanuatu</string>
-	<string name="country_ve">Den bolivarianske republik Venezuela</string>
+	<string name="country_ve">Venezuela</string>
 	<string name="country_vn">Viet Nam</string>
 	<string name="country_vg">Jomfruøerne, Storbritannien</string>
 	<string name="country_vi">Jomfruøerne, USA</string>

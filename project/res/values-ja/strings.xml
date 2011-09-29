@@ -11,11 +11,11 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt; ～ &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b>%1$s&lt;/b> - &lt;b>%2$s&lt;/b> ～ &lt;b>%3$s&lt;/b></string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
-	<string name="filter_info_template">&lt;b&gt;%1$d&lt;/b&gt; 件の一致するホテル</string>
+	<string name="filter_info_template">&lt;b>%1$d&lt;/b> 件の一致するホテル</string>
 	<!-- Hint for filtering results by hotel name -->
-	<string name="filter_hotel_name_hint">ホテル名でフィルタ</string>
+	<string name="filter_hotel_name_hint">ホテル名で絞り込む</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
 	<string name="tripadvisor_rating_high">高評価のホテルのみ表示</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
@@ -35,28 +35,28 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">過去の検索結果をロード中…</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"ソート: "</string>
+	<string name="sort_hotels">"並べ替え: "</string>
 	<!-- Label for filter hotels button in bottom bar -->
-	<string name="filter_hotels">ホテルのフィルタ</string>
+	<string name="filter_hotels">ホテルの絞り込み</string>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
 	<string name="EnableLocationSettings">My ロケーションを使うには、まず設定でロケーションソースをオンにしてください。\n今すぐ設定に移動してオンにしますか？</string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
-	<string name="ProviderDisabled">ロケーションプロバイダーが無効になっています。 ロケーション検索をするために有効にしてください。</string>
+	<string name="ProviderDisabled">ロケーションプロバイダーが無効になっています。ロケーション検索をするために有効にしてください。</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-	<string name="ProviderOutOfService">ロケーションプロバイダーが使用できません。 後ほどお試しください。</string>
+	<string name="ProviderOutOfService">ロケーションプロバイダーが使用できません。後ほどお試しください。</string>
 	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">ロケーションプロバイダーが一時利用できなくなっています。  数分後にもう一度お試しください。</string>
+	<string name="ProviderTemporarilyUnavailable">ロケーションプロバイダーが一時利用できなくなっています。数分後にもう一度お試しください。</string>
 
 	<!-- Sort descriptions, e.g. Sorted by "description" -->
 	<!-- Sort by distance label -->
 	<string name="sort_description_distance">距離</string>
 	<!-- Sort by popularity label -->
-	<string name="sort_description_popular">人気度</string>
+	<string name="sort_description_popular">人気</string>
 	<!-- Sort by price label -->
 	<string name="sort_description_price">価格</string>
 	<!-- Sort by user rating label -->
-	<string name="sort_description_rating">ユーザーの評価</string>
+	<string name="sort_description_rating">ユーザー評価</string>
 	
 	<!-- Filter option for "show all" -->
 	<string name="all">全て</string>
@@ -101,7 +101,7 @@
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/泊</string>
 	<!-- Label for red "sale" corner -->
-	<string name="sale_caps">SALE</string>
+	<string name="sale_caps">セール</string>
 
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
@@ -114,28 +114,32 @@
 	<string name="widget_savings_template">%2.0f%% 割引</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">タップして最新の情報に更新</string>
+	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
+	<string name="tap_to_start_new_search">タップして新しく検索</string>
+	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
+	<string name="tap_to_see_booking">タップして予約を表示</string>
 	<!--  Title for the widget configuration activity -->
 	<string name="widget_config_title">お得なホテル情報ウィジェット</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">ウィジェットの追加</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description"> ホーム画面にウィジェットを追加して、現在地や次の目的地付近の最新のお得なホテル情報を探しましょう！</string>
+	<string name="widget_description">ホーム画面にウィジェットを追加しすると、最後の検索結果から最新情報が表示されます.</string>
 	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description"> 次の場所付近のお得なホテル情報を表示:</string>
+	<string name="config_options_description">次の場所付近のお得なホテル情報を表示:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">前回のアプリ検索</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">エラー:  インターネット接続がありません</string>
+	<string name="widget_error_no_internet">インターネットに接続されていません</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
-	<string name="tonight_top_deals">人気の高い今夜のお得な情報</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
-	<string name="top_deals_template">人気の高い %s のお得な情報</string>
-	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
-	<string name="save_upto_template">最大 %s%% 割引</string>
+	<string name="tonight_top_deals">今夜の人気お得情報</string>
+	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
+	<string name="top_deals_template">人気の高い %s のお得情報</string>
+	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
+	<string name="save_upto_template">最大 %2.0f%% 割引</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
-	<string name="error_search_in_past">今日のお得な情報はありません。 人気の高いお得な情報を明日また確認してください。</string>
+	<string name="error_search_in_past">今日のお得情報はありません。人気のお得情報は明日確認してください。</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">最新のお得なホテル情報を取得するため、&lt;b&gt;ウィジェットを追加&lt;/b&gt;します。</string>
+	<string name="widget_upsell_short">最新のお得なホテル情報を取得するため、&lt;b>ウィジェットを追加&lt;/b>します。</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -230,9 +234,9 @@
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">最近</string>
 	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_favorable">好意的</string>
+	<string name="user_review_sort_button_favorable">ポジティブ</string>
 	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_critical">批判的</string>
+	<string name="user_review_sort_button_critical">ネガティブ</string>
 	<!-- Loading more reviews -->
 	<string name="user_review_loading_more_reviews">ユーザー レビューのロード中...</string>
 	<!-- Read more of the review -->
@@ -240,7 +244,7 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; 人 (&lt;b&gt;%2$d&lt;/b&gt; 人中) の宿泊者がこのホテルを推薦しています。</string>
+	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> 人 (&lt;b>%2$d&lt;/b> 人中) の宿泊者がこのホテルを推薦しています。</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d 件のレビュー</item>
@@ -264,7 +268,7 @@
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">空室を検索中…</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">部屋と料金情報をダウンロードできませんでした。  インターネットへの接続を確認して再度お試しください。</string>
+	<string name="error_no_response_room_rates">部屋と料金情報をダウンロードできませんでした。インターネットへの接続を確認して再度お試しください。</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">1 泊あたり</string>
 	<!-- Rate price displayed "average per night" -->
@@ -282,9 +286,9 @@
 	<!-- Label for free nights -->
 	<string name="free">無料！</string>
 	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-	<string name="value_add_template">以下が含まれます: %s</string>
+	<string name="value_add_template">含まれているもの: %s</string>
 	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
-	<string name="common_value_add_template">すべての部屋には以下が含まれます: %s</string>
+	<string name="common_value_add_template">すべての部屋に含まれているもの: %s</string>
 
 	<!-- Booking info -->
 	<!-- edit label -->
@@ -292,7 +296,7 @@
 	<!-- Label for room type -->
 	<string name="room_type">部屋タイプ</string>
 	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">申し訳ありませんが、部屋の詳細を読み込むことができません。  インターネットへの接続を確認して再度お試しください。</string>
+	<string name="error_room_type_load">申し訳ありませんが、部屋の詳細を読み込むことができません。インターネットへの接続を確認して再度お試しください。</string>
 	<!-- Error if we couldn't find the room type details -->
 	<string name="error_room_type_nonexistant">申し訳ありませんが、この部屋の追加詳細情報を読み込むことができません。</string>
 	<!-- Label for bed type -->
@@ -349,11 +353,11 @@
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">規則および制限事項</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">エクスペディア リワード アカウントをお持ちの方は、アカウント登録時に使用した電子メールアドレスで予約を入れると、ご滞在後にポイントが自動的に付与されます。 ポイントが反映されるまでには最長 30 日間かかりますので予めご了承ください。</string>
+	<string name="disclaimer_expedia_points">エクスペディア リワード アカウントをお持ちの方は、アカウント登録時に使用した電子メールアドレスで予約を入れると、ご滞在後にポイントが自動的に付与されます。ポイントが反映されるまでには最長 30 日間かかりますので予めご了承ください。</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
 	<string name="EnterBookingInfo">予約情報を入力</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
-	<string name="charge_details_template">チェックイン時に、クレジットカードに %s 課金されます</string>
+	<string name="charge_details_template">チェックイン時に、クレジットカードに %s が課金されます</string>
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">確認 &amp; 予約</string>
 	<!-- Label for clearing private data -->
@@ -379,7 +383,7 @@
 	<!-- Error if an invalid security code was entered -->
 	<string name="invalid_security_code">3 桁あるいは 4 桁のセキュリティコードを入力してください</string>
 	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">申し訳ありません。 American Express では、ご利用通貨 (%s) でのお支払いには対応しておりません。 別のクレジットカードをご利用ください。</string>
+	<string name="invalid_currency_for_amex">申し訳ありません。 American Express では、ご利用通貨 (%s) でのお支払いには対応しておりません。別のクレジットカードをご利用ください。</string>
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">予約するにはご利用規約に同意していただく必要があります。</string>
 	<!-- Message to display to user while booking is in progress -->
@@ -387,7 +391,7 @@
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">エラー</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">エクスペディアのサーバーに接続できませんでした。  インターネットへの接続を確認して再度お試しください。</string>
+	<string name="error_booking_null">エクスペディアのサーバーに接続できませんでした。インターネットへの接続を確認して再度お試しください。</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$s 、 %2$s</string>
 	
@@ -429,15 +433,15 @@
 	<!-- Policy displayed to user when an immediate charge is required -->
 	<string name="PolicyImmediateChargeRequired">予約時に、宿泊料金全額がご利用のクレジットカードに課金されます。</string>
 	<!-- Policy displayed to user when the room is non-refundable -->
-	<string name="PolicyNonRefundable">エクスペディアではこのホテルを非常にお得な割引価格で提供しています。 このため、こちらの価格は返金不可レートとなっております。 万一予約をキャンセルした場合、返金は一切されません。</string>
+	<string name="PolicyNonRefundable">エクスペディアではこのホテルを非常にお得な割引価格で提供しています。このため、こちらの価格は返金不可レートとなっております。万一予約をキャンセルした場合、返金は一切されません。</string>
 	<!-- Policy displayed to user when a deposit is required -->
-	<string name="PolicyDepositRequired">クレジットカードにデポジットが課金されます。 予約を入れると、ホテルから直接クレジットカードに課金されます。</string>
+	<string name="PolicyDepositRequired">クレジットカードにデポジットが課金されます。予約を入れると、ホテルから直接クレジットカードに課金されます。</string>
 	<!-- Policy displayed to user when a guarantee is required -->
-	<string name="PolicyGuaranteeRequired">予約を保証するためにはクレジットカード情報が必要です。 ホテルへのご到着あるいはキャンセル期限を過ぎるまで、料金はクレジットカードに課金されません。</string>
+	<string name="PolicyGuaranteeRequired">予約を保証するためにはクレジットカード情報が必要です。ホテルへのご到着あるいはキャンセル期限を過ぎるまで、料金はクレジットカードに課金されません。</string>
 	<!-- Expedia merchant hotel policies -->
-	<string name="PolicyExpediaMerchant">予約を確定する前に、キャンセルポリシーおよびユーザー同意書に含まれる全てのご利用規約に同意していただく必要があります。\n\nお客様はご予約の費用全額を支払うことに同意したものとみなされます。 万一支払いがなされなかった場合には、取立代行会社、弁護士、あるいはその他の法的措置を通じて代金を回収するものとします。 その場合、弁護士代金および訴訟費用など、取立に要した全ての適切な費用はお客様が負担するものとします。</string>
+	<string name="PolicyExpediaMerchant">予約を確定する前に、キャンセルポリシーおよびユーザー同意書に含まれる全てのご利用規約に同意していただく必要があります。\n\nお客様はご予約の費用全額を支払うことに同意したものとみなされます。万一支払いがなされなかった場合には、取立代行会社、弁護士、あるいはその他の法的措置を通じて代金を回収するものとします。 その場合、弁護士代金および訴訟費用など、取立に要した全ての適切な費用はお客様が負担するものとします。</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">予約しようとしているホテルは割引価格対象外のホテルです。 表示料金はすべて、別途特定されていない限りは 1 室 1 泊 2 名さまでご利用の場合の料金です。 客室の詳細と料金説明をよくお読みになり、ご希望の部屋にご同伴の方全員が宿泊できることを確認してください。 特別な身分証明が必要となる部屋もあります。 エクスペディアの予約料金、税金、その他ホテルから課金される追加料金などは含まれていません。 表示されている部屋の利用人数を超過する人数の大人または子供のお客様がお泊りになる場合には、各宿泊施設の判断で追加料金が課金される場合があります。\n\n2 人以上、またはご希望の客室料金に含まれている利用人数以上でのご滞在を要望される場合は、ご要望内容がホテルへ直接連絡されますが、保証はされません。 ご要望が受け入れられた場合には、各宿泊施設の判断で追加料金が課金される場合があります。</string>
+	<string name="PolicyExpediaAgent">予約しようとしているホテルは割引価格対象外のホテルです。表示料金はすべて、別途特定されていない限りは 1 室 1 泊 2 名さまでご利用の場合の料金です。客室の詳細と料金説明をよくお読みになり、ご希望の部屋にご同伴の方全員が宿泊できることを確認してください。特別な身分証明が必要となる部屋もあります。エクスペディアの予約料金、税金、その他ホテルから課金される追加料金などは含まれていません。表示されている部屋の利用人数を超過する人数の大人または子供のお客様がお泊りになる場合には、各宿泊施設の判断で追加料金が課金される場合があります。\n\n2 人以上、またはご希望の客室料金に含まれている利用人数以上でのご滞在を要望される場合は、ご要望内容がホテルへ直接連絡されますが、保証はされません。ご要望が受け入れられた場合には、各宿泊施設の判断で追加料金が課金される場合があります。</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -479,11 +483,11 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">こんにちは。\n\n iPhone や Android 用の Expedia Hotels アプリがオススメです。 無料でダウンロードできて、世界中 13 万軒以上ものホテルを検索・予約することができます。 電話でホテルを予約するもっとも簡単な方法です。\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">こんにちは。\n\n iPhone や Android 用の Expedia Hotels アプリがオススメです。無料でダウンロードできて、世界中 13 万軒以上ものホテルを検索・予約することができます。電話でホテルを予約するもっとも簡単な方法です。\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">使用条件</string>
 	<!-- Label for link to privacy policy -->
-	<string name="info_label_privacy_policy">プライバシーに関するポリシー</string>
+	<string name="info_label_privacy_policy">プライバシー ポリシー</string>
 	<!-- Copyright information -->
 	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAll rights reserved.</string>
 	
@@ -495,7 +499,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">評価してください</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">プライバシーに関するポリシー</a></string>
+	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">プライバシー ポリシー</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">メールアドレス</string>
 	<!-- Hint to type in comments -->
@@ -549,7 +553,7 @@
 	
 	<!-- Error strings - replacements for default EAN errors -->
 	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_no_results">申し訳ありません。 ご利用可能なホテルが見つかりませんでした。 異なる日付あるいは別のロケーションをお試しください。</string>
+	<string name="ean_error_no_results">申し訳ありません。 ご利用可能なホテルが見つかりませんでした。異なる日付あるいは別のロケーションをお試しください。</string>
 	<!-- Replaces "result was null" for no result search -->
 	<string name="ean_error_connect_unavailable">ご希望のホテルに接続できないため、空室状況を確認できません。</string>
 
@@ -563,7 +567,7 @@
 	<string name="currency_eur">ユーロ</string>
 	<string name="currency_hkd">香港ドル</string>
 	<string name="currency_inr">インド ルピー</string>
-	<string name="currency_ils">イスラエル 新シェケル </string>
+	<string name="currency_ils">イスラエル 新シェケル</string>
 	<string name="currency_jpy">日本円</string>
 	<string name="currency_krw">韓国ウォン</string>
 	<string name="currency_mxn">メキシコ ペソ</string>

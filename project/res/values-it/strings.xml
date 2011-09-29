@@ -11,9 +11,9 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; al &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — dal &lt;b>%2$s&lt;/b> al &lt;b>%3$s&lt;/b></string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
-	<string name="filter_info_template">&lt;b&gt;%1$d&lt;/b&gt; hotel trovati</string>
+	<string name="filter_info_template">&lt;b>%1$d&lt;/b> hotel trovati</string>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filtra per nome hotel</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
@@ -109,33 +109,37 @@
 
 	<!-- Widget -->
 	<!--  Default Loading message for widget -->
-	<string name="loading_hotels">Loading hotels...</string>
+	<string name="loading_hotels">Caricamento hotel in corso...</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
 	<string name="widget_savings_template">Risparmia il %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Tocca per aggiornare</string>
+	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
+	<string name="tap_to_start_new_search">Tocca per avviare una nuova ricerca</string>
+	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
+	<string name="tap_to_see_booking">Tocca per vedere la tua prenotazione</string>
 	<!--  Title for the widget configuration activity -->
 	<string name="widget_config_title">Widget Offerte Hotel</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Aggiungi Widget</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description"> Aggiungi il nostro widget sulla tua schermata iniziale per scoprire le ultime offerte vicino a te o alla tua prossima destinazione!</string>
+	<string name="widget_description">Aggiungi il widget alla tua schermata iniziale per vedere le offerte più recent relative alla tua ultima ricerca.</string>
 	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description"> Mostra offerte hotel vicino a:</string>
+	<string name="config_options_description">Mostra offerte hotel vicino a:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
-	<string name="last_hotel_search">Ultima ricerca App </string>
+	<string name="last_hotel_search">Ultima ricerca App</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">Errore: Connessione Internet non disponibile</string>
+	<string name="widget_error_no_internet">Connessione Internet assente</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
 	<string name="tonight_top_deals">Le migliori offerte per oggi</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
+	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
 	<string name="top_deals_template">Migliori offerte per %s</string>
-	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
-	<string name="save_upto_template">Risparmia fino al %s%%</string>
+	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
+	<string name="save_upto_template">Risparmia fino al %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">Non abbiamo più offerte per oggi. Cerca altre super offerte domani.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b&gt;Aggiungi il widget&lt;/b&gt; per avere le ultime offerte sugli hotel.</string>
+	<string name="widget_upsell_short">&lt;b>Aggiungi il widget&lt;/b> per avere le ultime offerte sugli hotel.</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -184,7 +188,7 @@
 	<!-- Pool amenity -->
 	<string name="AmenityPool">Piscina</string>
 	<!-- Restaurant on-site amenity -->
-	<string name="AmenityRestaurant">Ristoranti</string>
+	<string name="AmenityRestaurant">Ristorante</string>
 	<!-- Spa on-site amenity -->
 	<string name="AmenitySpa">Spa</string>
 	<!-- Whirlpool bath amenity -->
@@ -212,9 +216,9 @@
 	<!-- Accessibility equipment for the deaf amenity -->
 	<string name="AmenityDeafAccessibilityEquipment">Servizi per non udenti</string>
 	<!-- Braille or raised signage amenity -->
-	<string name="AmenityBrailleSignage">Segnaletica Braille </string>
+	<string name="AmenityBrailleSignage">Segnaletica Braille</string>
 	<!-- Free airport shuttle amenity -->
-	<string name="AmenityFreeAirportShuttle">Navetta da/per l’aeroporto</string>
+	<string name="AmenityFreeAirportShuttle">Navetta aeroporto</string>
 	<!-- Indoor pool amenity -->
 	<string name="AmenityPoolIndoor">Piscina interna</string>
 	<!-- Outdoor pool amenity -->
@@ -240,14 +244,14 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; ospiti su &lt;b&gt;%2$d&lt;/b&gt; consigliano questo hotel.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> ospiti su &lt;b>%2$d&lt;/b> consigliano questo hotel.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
-		<item quantity="zero">%d Recensioni</item>
-		<item quantity="one">%d Recensioni </item>
-		<item quantity="two">%d Recensioni </item>
-		<item quantity="many">%d Recensioni </item>
-		<item quantity="other">%d Recensioni </item>
+		<item quantity="zero">%d recensioni</item>
+		<item quantity="one">%d recensione</item>
+		<item quantity="two">%d recensioni</item>
+		<item quantity="many">%d recensioni</item>
+		<item quantity="other">%d recensioni</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
@@ -258,7 +262,7 @@
 	<!-- User review no favorable reviews -->
 	<string name="user_review_no_favorable_reviews">Nessuna recensione positiva per questo hotel</string>
 	<!-- User review no recent reviews -->
-	<string name="user_review_no_recent_reviews">Nessuna recensione recente su questo hotel </string>
+	<string name="user_review_no_recent_reviews">Nessuna recensione recente su questo hotel</string>
 	
 	<!-- Room and rates list -->
 	<!-- Loading message for rooms & rates -->
@@ -274,8 +278,8 @@
 		<item quantity="zero">Nessuna camera disponibile</item>
 		<item quantity="one">Solo 1 camera rimasta!</item>
 		<item quantity="two">Solo %d camere rimaste!</item>
-		<item quantity="many">Solo %d camere rimaste!</item>
-		<item quantity="other">Solo %d camere rimaste!</item>
+		<item quantity="many">%d camere rimaste!</item>
+		<item quantity="other">%d camere rimaste!</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
 	<string name="savings_template">Risparmia il\n %2.0f%%</string>
@@ -296,7 +300,7 @@
 	<!-- Error if we couldn't find the room type details -->
 	<string name="error_room_type_nonexistant">Impossibile trovare altri dettagli su questa camera.</string>
 	<!-- Label for bed type -->
-	<string name="bed_type">Typo di letto</string>
+	<string name="bed_type">Tipo di letto</string>
 	<!-- Label for length of stay -->
 	<string name="stay_duration">Durata del soggiorno</string>
 	<!-- Quantity for the length of stay -->
@@ -351,7 +355,7 @@
 	<!-- Disclaimer about how to earn expedia points -->
 	<string name="disclaimer_expedia_points">Se disponi di un account Expedia Rewards, prenota usando lo stesso indirizzo email e i tuoi punti verranno aggiunti automaticamente dopo il tuo soggiorno. I punti risulteranno sul tuo account entro i prossimi 30 giorni.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
-	<string name="EnterBookingInfo">Inserisci dettagli prenotazione</string>
+	<string name="EnterBookingInfo">Inserisci dati prenotazione</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">Totale addebitato sulla carta di credito: %s</string>
 	<!-- Button label for confirming your booking -->
@@ -387,9 +391,9 @@
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Errore</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">Non è possibile collegarsi ai server Expedia.  Verifica la tua connessione e riprova.</string>
+	<string name="error_booking_null">Non è possibile collegarsi ai server Expedia. Verifica la tua connessione e riprova.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s on %2$s</string>
+	<string name="check_in_out_time_template">%1$s il %2$s</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Format for a first/last name -->
@@ -483,7 +487,7 @@
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Termini e condizioni</string>
 	<!-- Label for link to privacy policy -->
-	<string name="info_label_privacy_policy">Informativa sulla Privacy </string>
+	<string name="info_label_privacy_policy">Informativa sulla Privacy</string>
 	<!-- Copyright information -->
 	<string name="copyright">© Copyright 2011 Expedia, Inc.\nTutti i diritti riservati.</string>
 	
@@ -495,7 +499,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Dacci un voto</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privacy Policy</a></string>
+	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Informativa sulla Privacy</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">Indirizzo e-mail</string>
 	<!-- Hint to type in comments -->
@@ -563,7 +567,7 @@
 	<string name="currency_eur">Euro</string>
 	<string name="currency_hkd">Dollaro di Hong Kong</string>
 	<string name="currency_inr">Rupia indiana</string>
-	<string name="currency_ils">Shekel israeliano </string>
+	<string name="currency_ils">Shekel israeliano</string>
 	<string name="currency_jpy">Yen giapponese</string>
 	<string name="currency_krw">Won sudcoreano</string>
 	<string name="currency_mxn">Peso messicano</string>

@@ -11,11 +11,11 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; to &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — du &lt;b>%2$s&lt;/b> au &lt;b>%3$s&lt;/b></string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
-	<string name="filter_info_template">&lt;b&gt;%1$d&lt;/b&gt; hôtels trouvés</string>
+	<string name="filter_info_template">&lt;b>%1$d&lt;/b> hôtels trouvés</string>
 	<!-- Hint for filtering results by hotel name -->
-	<string name="filter_hotel_name_hint">Filtrer par nom d’hôtel</string>
+	<string name="filter_hotel_name_hint">Filtrer par nom d\'hôtel</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
 	<string name="tripadvisor_rating_high">Afficher les hôtels les mieux notés</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
@@ -44,9 +44,9 @@
 	<!-- Message displayed when user has disabled finding the device's location. -->
 	<string name="ProviderDisabled">Votre système de positionnement a été désactivé. Veuille l\'activer à nouveau pour recherche votre position.</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-	<string name="ProviderOutOfService">Votre système de positionnement est hors service. Veuillez ressayer plus tard.</string>
+	<string name="ProviderOutOfService">Votre système de positionnement est hors service. Veuillez réessayer plus tard.</string>
 	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">Votre système de positionnement est temporairement indisponible.  Veuillez ressayer dans quelques minutes.</string>
+	<string name="ProviderTemporarilyUnavailable">Votre système de positionnement est temporairement indisponible. Veuillez ressayer dans quelques minutes.</string>
 
 	<!-- Sort descriptions, e.g. Sorted by "description" -->
 	<!-- Sort by distance label -->
@@ -56,7 +56,7 @@
 	<!-- Sort by price label -->
 	<string name="sort_description_price">Prix</string>
 	<!-- Sort by user rating label -->
-	<string name="sort_description_rating">Avis voyageurs</string>
+	<string name="sort_description_rating">Avis</string>
 	
 	<!-- Filter option for "show all" -->
 	<string name="all">Tout</string>
@@ -114,28 +114,32 @@
 	<string name="widget_savings_template">Économisez %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Toucher pour mettre à jour</string>
+	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
+	<string name="tap_to_start_new_search">Toucher pour lancer une nouvelle recherche</string>
+	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
+	<string name="tap_to_see_booking">Toucher pour voir votre réservation</string>
 	<!--  Title for the widget configuration activity -->
 	<string name="widget_config_title">Widget Offres Hôtels</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Ajouter Widget</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description"> Ajoutez notre widget à votre écran d\'accueil pour découvrir les dernières offres sur les hôtels proches de vous ou de votre prochaine destination !</string>
+	<string name="widget_description">Ajouter le widget à votre écran d\’accueil pour voir les nouvelles offres relatives à votre dernière recherche.</string>
 	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description"> Afficher les offres d\'hôtels près de :</string>
+	<string name="config_options_description">Afficher les offres d\'hôtels près de :</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">Dernière recherche app</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">Erreur : connexion Internet absente</string>
+	<string name="widget_error_no_internet">Connexion Internet absente</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
 	<string name="tonight_top_deals">Les meilleures offres d\'aujourd\'hui</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
+	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
 	<string name="top_deals_template">Les meilleures offres pour %s</string>
-	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
-	<string name="save_upto_template">Économisez jusqu\'à %s%%</string>
+	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
+	<string name="save_upto_template">Économisez jusqu\'à %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
-	<string name="error_search_in_past">Plus de promos pour aujourd\'hui. À demain pour d’autres offres exceptionnelles !</string>
+	<string name="error_search_in_past">Plus de promos pour aujourd\'hui. À demain pour d\'autres offres exceptionnelles !</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b&gt;Ajoutez le widget&lt;/b&gt; pour recevoir les dernières offres d\'hôtels.</string>
+	<string name="widget_upsell_short">&lt;b>Ajoutez le widget&lt;/b> pour recevoir les dernières offres d\'hôtels.</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -154,11 +158,11 @@
 	
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
-	<string name="book_now">Réservez</string>
+	<string name="book_now">Réserver</string>
 	<!-- Label for the hotel's star rating -->
 	<string name="star_rating">Nombre d\'étoiles</string>
 	<!--  Title for star rating in hotel description section -->
-	<string name="star_rating_title"> Nombre d\'étoiles :</string>
+	<string name="star_rating_title">Nombre d\'étoiles :</string>
 	<!-- Label for the hotel's trip advisor rating  -->
 	<string name="user_rating">Avis voyageurs</string>
 	<!-- Label for the address section of the description  -->
@@ -200,13 +204,13 @@
 	<!-- Room service amenity -->
 	<string name="AmenityRoomService">Service d\'étage</string>
 	<!-- Accessible path of travel amenity -->
-	<string name="AmenityAccessiblePaths"> Accès mobilité réduite </string>
+	<string name="AmenityAccessiblePaths">Accès mobilité réduite</string>
 	<!-- Accessible bathroom amenity -->
 	<string name="AmenityAccessibleBathroom">Salle de bains mobilité réduite</string>
 	<!-- Roll-in shower amenity -->
 	<string name="AmenityRollInShower">Douche mobilité réduite</string>
 	<!-- Handicapped parking amenity -->
-	<string name="AmenityHandicappedParking">Handicap Parking</string>
+	<string name="AmenityHandicappedParking">Parking mobilité réduite</string>
 	<!-- In-room accessibility amenity -->
 	<string name="AmenityInRoomAccessibility">Chambre accessible mobilité réduite</string>
 	<!-- Accessibility equipment for the deaf amenity -->
@@ -228,11 +232,11 @@
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Chargement avis voyageurs en cours...</string>
 	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_recent">Récent</string>
+	<string name="user_review_sort_button_recent">Récents</string>
 	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_favorable">Positif</string>
+	<string name="user_review_sort_button_favorable">Positifs</string>
 	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_critical">Négatif</string>
+	<string name="user_review_sort_button_critical">Négatifs</string>
 	<!-- Loading more reviews -->
 	<string name="user_review_loading_more_reviews">Plus d’avis...</string>
 	<!-- Read more of the review -->
@@ -240,31 +244,31 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; clients sur &lt;b&gt;%2$d&lt;/b&gt; recommandent cet hôtel.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> clients sur &lt;b>%2$d&lt;/b> recommandent cet hôtel.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
-		<item quantity="zero">%d Avis</item>
-		<item quantity="one">%d Avis</item>
-		<item quantity="two">%d Avis</item>
-		<item quantity="many">%d Avis</item>
-		<item quantity="other">%d Avis</item>
+		<item quantity="zero">%d avis</item>
+		<item quantity="one">%d avis</item>
+		<item quantity="two">%d avis</item>
+		<item quantity="many">%d avis</item>
+		<item quantity="other">%d avis</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
 		2$ is the place they are from -->
 	<string name="user_review_name_and_location_signature">%1$s de %2$s</string>
 	<!-- User review no critical reviews -->
-	<string name="user_review_no_critical_reviews">Aucun avis negative sur cet hôtel</string>
+	<string name="user_review_no_critical_reviews">Aucun avis négatif sur cet hôtel</string>
 	<!-- User review no favorable reviews -->
-	<string name="user_review_no_favorable_reviews">Aucun avis positif sur cet  for hôtel</string>
+	<string name="user_review_no_favorable_reviews">Aucun avis positif sur cet hôtel</string>
 	<!-- User review no recent reviews -->
-	<string name="user_review_no_recent_reviews">Aucun avis recent sur cet hôtel</string>
+	<string name="user_review_no_recent_reviews">Aucun avis récent sur cet hôtel</string>
 	
 	<!-- Room and rates list -->
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Recherche de chambres disponibles...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">Impossible de télécharger les informations sur les chambres et les tarifs.  Veuillez vérifier votre connexion et réessayer plus tard.</string>
+	<string name="error_no_response_room_rates">Impossible de télécharger les informations sur les chambres et les tarifs. Veuillez vérifier votre connexion et réessayer plus tard.</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">par nuit</string>
 	<!-- Rate price displayed "average per night" -->
@@ -389,7 +393,7 @@
 	<!-- Error message when we couldn't get a response -->
 	<string name="error_booking_null">Impossible de se connecter aux serveurs Expedia.  Veuillez vérifier votre connexion et réessayer plus tard.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s on %2$s</string>
+	<string name="check_in_out_time_template">%1$s le %2$s</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Format for a first/last name -->
@@ -479,7 +483,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hôtels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Bonjour,\n\n Viens jeter un oeil à Expedia Hôtels pour Android et iPhone !. Cette application est gratuite et te permettra de rechercher et de réserver tes chambres dans plus de 100 000 hôtels dans le monde entier. C\'est la façon la plus simple de réserver un hôtel avec ton téléphone !\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Bonjour,\n\nViens jeter un oeil à Expedia Hôtels pour Android et iPhone ! Cette application est gratuite et te permettra de rechercher et de réserver plus de 100 000 hôtels dans le monde entier. C\'est la façon la plus simple de réserver un hôtel avec ton téléphone !\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Conditions d’utilisation</string>
 	<!-- Label for link to privacy policy -->
@@ -489,13 +493,13 @@
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
-	<string name="send_feedback">Donnez-nous votre avis0}</string>
+	<string name="send_feedback">Envoyer</string>
 	<!-- Header title -->
 	<string name="app_feedback">Avis sur l\'App</string>
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Donnez-nous une note</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Technologie Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privacy Policy</a></string>
+	<string name="powered_by_opinion_lab">Technologie Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Charte de confidentialité</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">Adresse email</string>
 	<!-- Hint to type in comments -->
@@ -563,7 +567,7 @@
 	<string name="currency_eur">Euro</string>
 	<string name="currency_hkd">Dollar de Hong Kong</string>
 	<string name="currency_inr">Roupie indienne</string>
-	<string name="currency_ils">Shekel israélien </string>
+	<string name="currency_ils">Shekel israélien</string>
 	<string name="currency_jpy">Yen japonais</string>
 	<string name="currency_krw">Won coréen</string>
 	<string name="currency_mxn">Peso mexicain</string>

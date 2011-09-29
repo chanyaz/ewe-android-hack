@@ -11,9 +11,9 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; à &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — &lt;b>%2$s&lt;/b> à &lt;b>%3$s&lt;/b></string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
-	<string name="filter_info_template">&lt;b&gt;%1$d&lt;/b&gt; hôtels correspondants</string>
+	<string name="filter_info_template">&lt;b>%1$d&lt;/b> hôtels correspondants</string>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filtrer par nom d\'hôtel</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
@@ -40,7 +40,7 @@
 	<string name="filter_hotels">Filtrer les hôtels</string>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">Pour utiliser Mon emplacement, vous devez d\’abord activer un emplacement dans les paramètres.\nAller dans les paramètres et l\'activer maintenant?</string>
+	<string name="EnableLocationSettings">Pour utiliser Mon emplacement, vous devez d\'abord activer un emplacement dans les paramètres.\nAller dans les paramètres et l\'activer maintenant?</string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
 	<string name="ProviderDisabled">Votre transmetteur d\'emplacement est désactivé. Veuillez le réactiver pour faire une recherche selon votre emplacement.</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
@@ -114,28 +114,32 @@
 	<string name="widget_savings_template">Économisez %2.0f %%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Tapez pour actualiser</string>
+	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
+	<string name="tap_to_start_new_search">Tapez pour faire une nouvelle recherche</string>
+	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
+	<string name="tap_to_see_booking">Tapez pour voir votre réservation</string>
 	<!--  Title for the widget configuration activity -->
 	<string name="widget_config_title">Gadget des aubaines sur les hôtels</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Ajouter le gadget</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Ajoutez notre gadget à votre écran d\'accueil pour connaître les dernières aubaines sur les hôtels près de vous ou de votre destination!</string>
+	<string name="widget_description">Ajoutez le gadget à votre écran d\'accueil pour voir les aubaines récentes correspondant à votre dernière recherche.</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">Afficher les aubaines sur les hôtels près de :</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">Dernière recherche</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">Erreur : Pas de connexion Internet</string>
+	<string name="widget_error_no_internet">Pas de connexion Internet</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
 	<string name="tonight_top_deals">Meilleures aubaines pour ce soir</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
+	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
 	<string name="top_deals_template">Meilleures aubaines pour %s</string>
-	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
-	<string name="save_upto_template">Économisez jusqu\'à %s %%</string>
+	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
+	<string name="save_upto_template">Économisez jusqu\'à %2.0f %%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">Il ne reste plus d\'aubaines pour aujourd\'hui. Découvrez les nouvelles aubaines demain.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b&gt;Ajouter le gadget&lt;/b&gt; pour recevoir les nouvelles aubaines sur les hôtels.</string>
+	<string name="widget_upsell_short">&lt;b>Ajouter le gadget&lt;/b> pour recevoir les nouvelles aubaines sur les hôtels.</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -168,7 +172,7 @@
 
 	<!-- Amenity strings -->
 	<!-- Business center amenity -->
-	<string name="AmenityBusinessCenter">Centre d\’affaires</string>
+	<string name="AmenityBusinessCenter">Centre d\'affaires</string>
 	<!-- Fitness center amenity -->
 	<string name="AmenityFitnessCenter">Gym</string>
 	<!-- Hot tub on-site amenity -->
@@ -240,7 +244,7 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; client sur &lt;b&gt;%2$d&lt;/b&gt; recommande(nt) cet hôtel.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> client sur &lt;b>%2$d&lt;/b> recommande(nt) cet hôtel.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d commentaires</item>
@@ -252,7 +256,7 @@
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
 		2$ is the place they are from -->
-	<string name="user_review_name_and_location_signature">%1$s de  %2$s</string>
+	<string name="user_review_name_and_location_signature">%1$s de %2$s</string>
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">Il n\'y a aucun commentaire défavorable pour cet hôtel.</string>
 	<!-- User review no favorable reviews -->
@@ -437,7 +441,7 @@
 	<!-- Expedia merchant hotel policies -->
 	<string name="PolicyExpediaMerchant">En effectuant cette réservation, vous acceptez toutes les conditions, dont la politique d\'annulation et les conditions de l\'entente d\'utilisation.\n\nVous acceptez de payer le coût de la réservation. Si vous ne réglez pas cette dette et qu\'elle est recouvrée par une agence de recouvrement ou dans une action en justice, vous acceptez de payer tous les dépens ou honoraires raisonnables, y compris les honoraires d\'avocat et les frais judiciaires engagés pour de telles mesures de recouvrement.</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">Vous effectuez une réservation dans un établissement qui n\'offre pas de remise. Tous les tarifs affichés correspondent à une nuitée dans une chambre pour deux personnes, sauf indication contraire. Lisez attentivement la description des chambres et les règles sur les tarifs afin de vous assurer que la chambre que vous choisissez peut accueillir toutes les personnes prévues. Certains tarifs peuvent exiger une identification particulière. Nos frais de réservation, les taxes et les suppléments facturés par l\'hôtel ne sont pas inclus. Des frais additionnels peuvent être demandés pour tout adulte ou enfant supplémentaire par rapport à l\’occupation indiquée de la chambre, à la discrétion de l\'établissement.\n\nLes demandes pour plus de deux personnes, ou pour plus d\’occupants que ne le permet le tarif sélectionné, seront envoyées à l\’hôtel, mais leur acceptation n\’est pas garantie. Si elles sont acceptées, elles pourraient entraîner des frais additionnels à la discrétion de l\'établissement.</string>
+	<string name="PolicyExpediaAgent">Vous effectuez une réservation dans un établissement qui n\'offre pas de remise. Tous les tarifs affichés correspondent à une nuitée dans une chambre pour deux personnes, sauf indication contraire. Lisez attentivement la description des chambres et les règles sur les tarifs afin de vous assurer que la chambre que vous choisissez peut accueillir toutes les personnes prévues. Certains tarifs peuvent exiger une identification particulière. Nos frais de réservation, les taxes et les suppléments facturés par l\'hôtel ne sont pas inclus. Des frais additionnels peuvent être demandés pour tout adulte ou enfant supplémentaire par rapport à l\'occupation indiquée de la chambre, à la discrétion de l\'établissement.\n\nLes demandes pour plus de deux personnes, ou pour plus d\'occupants que ne le permet le tarif sélectionné, seront envoyées à l\'hôtel, mais leur acceptation n\'est pas garantie. Si elles sont acceptées, elles pourraient entraîner des frais additionnels à la discrétion de l\'établissement.</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -514,7 +518,7 @@
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-		<item quantity="zero">%d adulte</item>
+		<item quantity="zero">%d adultes</item>
 		<item quantity="one">%d adulte</item>
 		<item quantity="two">%d adultes</item>
 		<item quantity="many">%d adultes</item>
@@ -522,7 +526,7 @@
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-		<item quantity="zero">%d enfant</item>
+		<item quantity="zero">%d enfants</item>
 		<item quantity="one">%d enfant</item>
 		<item quantity="two">%d enfants</item>
 		<item quantity="many">%d enfants</item>
@@ -563,7 +567,7 @@
 	<string name="currency_eur">Euro</string>
 	<string name="currency_hkd">Dollar de Hong Kong</string>
 	<string name="currency_inr">Roupie indienne</string>
-	<string name="currency_ils">Nouveau shekel israélien </string>
+	<string name="currency_ils">Nouveau shekel israélien</string>
 	<string name="currency_jpy">Yen japonais</string>
 	<string name="currency_krw">Won coréen</string>
 	<string name="currency_mxn">Peso mexicain</string>

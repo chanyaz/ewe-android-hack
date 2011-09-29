@@ -11,9 +11,9 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; hanggang &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — &lt;b>%2$s&lt;/b> hanggang &lt;b>%3$s&lt;/b></string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
-	<string name="filter_info_template">&lt;b&gt;%1$d&lt;/b&gt; mga tumutugmang hotel</string>
+	<string name="filter_info_template">&lt;b>%1$d&lt;/b> mga tumutugmang hotel</string>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">I-filter ayon sa pangalan ng hotel</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
@@ -114,28 +114,32 @@
 	<string name="widget_savings_template">Makatipid ng %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Tapikin upang i-refresh</string>
+	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
+	<string name="tap_to_start_new_search">I-tap upang magsimula ng bagong paghahanap</string>
+	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
+	<string name="tap_to_see_booking">I-tap upang makita ang iyong booking</string>
 	<!--  Title for the widget configuration activity -->
 	<string name="widget_config_title">Widget ng Mga Kasunduan ng Hotel</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Magdagdag ng Widget</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Idagdag ang aming widget sa inyong home screen upang matuklasan ang mga pinakabagong kasunduan ng hotel na malapit sa inyo o ang inyong susunod na patutunguhan!</string>
+	<string name="widget_description">Idagdag ang widget sa iyong home screen upang makita ang mga pinakabagong deal mula sa iyong huling paghahanap.</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">Magpakita ng mga kasunduan ng hotel na malapit sa:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">Huling Paghahanap ng App</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">Error: Walang Koneksyon sa Internet</string>
+	<string name="widget_error_no_internet">Walang Pagkakakonekta sa Internet</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
 	<string name="tonight_top_deals">Mga Nangungunang Kasunduan Ngayong Gabi</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
+	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
 	<string name="top_deals_template">Mga Nangungunang Kasunduan para sa %s</string>
-	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
-	<string name="save_upto_template">Makatipid ng hanggang sa %s%%</string>
+	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
+	<string name="save_upto_template">Makatipid ng hanggang sa %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">Naubusan na kami ng mga kasunduan para sa araw na ito. Mag-check in bukas para sa mga nangungunang kasunduan.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b&gt;Idagdag ang widget&lt;/b&gt; upang makuha ang pinakabagong mga kasunduan ng hotel.</string>
+	<string name="widget_upsell_short">&lt;b>Idagdag ang widget&lt;/b> upang makuha ang pinakabagong mga kasunduan ng hotel.</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -240,7 +244,7 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; sa kabuuan ng &lt;b&gt;%2$d&lt;/b&gt; (na) bisita ang nagrekumenda sa hotel na ito.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> sa kabuuan ng &lt;b>%2$d&lt;/b> (na) bisita ang nagrekumenda sa hotel na ito.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d (na) Review</item>
@@ -495,7 +499,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Mangyaring Bigyan Kami Ng Rating</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Pinagana ng Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privacy Policy</a></string>
+	<string name="powered_by_opinion_lab">Pinagana ng Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Patakaran sa privacy</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">Email Address</string>
 	<!-- Hint to type in comments -->
@@ -563,7 +567,7 @@
 	<string name="currency_eur">Euro</string>
 	<string name="currency_hkd">Hong Kong Dollar</string>
 	<string name="currency_inr">Indian Rupees</string>
-	<string name="currency_ils">Israel New Sheqel </string>
+	<string name="currency_ils">Israel New Sheqel</string>
 	<string name="currency_jpy">Japanese Yen</string>
 	<string name="currency_krw">Korean Won</string>
 	<string name="currency_mxn">Mexican Peso</string>

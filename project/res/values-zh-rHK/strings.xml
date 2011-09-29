@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><resources>
+﻿<?xml version="1.0" encoding="utf-8"?><resources>
 	<string name="app_name">Expedia</string>
 
 	<!-- Search Activity --><!-- Label for "start search" button -->
@@ -106,18 +106,22 @@
 	<string name="widget_savings_template">可慳 %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">輕按以重新整理</string>
+	<!--  Indicator to user to tap the widget to start a new search if no hotels are found -->
+	<string name="tap_to_start_new_search">輕按以開始新查詢</string>
+	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
+	<string name="tap_to_see_booking">輕按以查看您的訂房紀錄</string>
 	<!--  Title for the widget configuration activity -->
 	<string name="widget_config_title">酒店優惠小工具</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">新增小工具</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">在主畫面新增小工具，以得知我們針對您的個人需求，為您精心挑選的最新酒店優惠消息。</string>
+	<string name="widget_description">在您的主畫面新增 widget，以從最近一次的搜尋中得知最新優惠消息。</string>
 	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description">顯示此地點附近的酒店詳情：</string>
+	<string name="config_options_description">顯示此地點附近的酒店優惠：</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
-	<string name="last_hotel_search">上一次的酒店搜尋記錄</string>
+	<string name="last_hotel_search">上一次的應用程式搜尋記錄</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">錯誤：未連接互聯網</string>
+	<string name="widget_error_no_internet">未連接互聯網</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
 	<string name="tonight_top_deals">今晚的熱門優惠活動</string>
 	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
@@ -126,14 +130,8 @@
 	<string name="save_upto_template">最多可慳 %s%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">本日優惠活動已全部結束。請等到明天再查詢新的熱門優惠活動。</string>
-	<!--  Widget upsell within app in screen that opens up if the user clicks on the notification -->
-	<string name="widget_upsell">取得您所在地點或您下一個度假勝地附近的最新酒店優惠訊息！</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short"><b>新增小工具</b>以取得第一手的酒店優惠訊息。</string>
-	<!--  Widget upsell title for the dialog/view that opens up when the user clicks the notification -->
-	<string name="widget_upsell_dialog_title">酒店優惠小工具</string>
-	<!--  Instruction for the user on how to add this awesome hotel deals widget to the home screen -->
-	<string name="widget_upsell_add_instruction">如要新增這項小工具，請按住您裝置的主畫面</string>
 	
 	<!--  Hotel names for widget preview --><!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
 	<string name="preview_hotel_wynn">Wynn Las Vegas</string>

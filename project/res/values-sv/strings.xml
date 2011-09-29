@@ -11,9 +11,9 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; to &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — &lt;b>%2$s&lt;/b> till &lt;b>%3$s&lt;/b></string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
-	<string name="filter_info_template">&lt;b&gt;%1$d&lt;/b&gt; matchande hotell</string>
+	<string name="filter_info_template">&lt;b>%1$d&lt;/b> matchande hotell</string>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filtrera efter hotellnamn</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
@@ -81,7 +81,7 @@
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">Hittar nuvarande plats</string>
 	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">Letar efter hotell</string>
+	<string name="progress_searching_hotels">Letar efter hotel…</string>
 	<!-- Message displayed when search comes up with zero results -->
 	<string name="progress_search_failed">Inga hotell hittades</string>
 	
@@ -113,29 +113,33 @@
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
 	<string name="widget_savings_template">Spara %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
-	<string name="refresh_widget">knappa för att uppdatera </string>
+	<string name="refresh_widget">Knappa för att uppdatera</string>
+	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
+	<string name="tap_to_start_new_search">Knappa för att göra en ny sökning</string>
+	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
+	<string name="tap_to_see_booking">Knappa för att se din bokning</string>
 	<!--  Title for the widget configuration activity -->
-	<string name="widget_config_title">Skrivbordsprogram med hotellerbjudanden </string>
+	<string name="widget_config_title">Skrivbordsprogram med hotellerbjudanden</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
-	<string name="add_widget">Lägg till Skrivbordsprogram </string>
+	<string name="add_widget">Lägg till Skrivbordsprogram</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description"> Lägg till Skrivbordsprogram till din startskärm för att upptäcka de senaste hotellerbjudandena nära dig eller nära din nästa destination!</string>
+	<string name="widget_description">Lägg till Skrivbordsprogram på din hemskärm för att se de senaste erbjudandena från din sista sökning.</string>
 	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description"> Visa hotellerbjudanden nära:</string>
+	<string name="config_options_description">Visa hotellerbjudanden nära:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
-	<string name="last_hotel_search">Senaste App Sökning</string>
+	<string name="last_hotel_search">Senaste app-sökning</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">Fel:  Ingen Internet-anslutning</string>
+	<string name="widget_error_no_internet">Ingen Internet-anslutning</string>
 	<!--  Widget branding for when the deals shown are for the current night -->
 	<string name="tonight_top_deals">Topperbjudanden ikväll</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
+	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
 	<string name="top_deals_template">Topperbjudanden för %s</string>
-	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
-	<string name="save_upto_template">Spara upp till %s%%</string>
+	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
+	<string name="save_upto_template">Spara upp till %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">Vi har inga erbjudanden idag. Kolla efter topperbjudanden imorgon.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b&gt;Lägg till skrivbordsprogrammet &lt;/b&gt; för att få de senaste hotellerbjudandena.</string>
+	<string name="widget_upsell_short">&lt;b>Lägg till skrivbordsprogrammet &lt;/b> för att få de senaste hotellerbjudandena.</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -226,9 +230,9 @@
 
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
-	<string name="user_review_loading_text"> Laddar användarrecensioner...</string>
+	<string name="user_review_loading_text">Laddar användarrecensioner...</string>
 	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_recent"> Nya</string>
+	<string name="user_review_sort_button_recent">Nya</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_favorable">Fördelaktiga</string>
 	<!-- The text for the sort button, recent -->
@@ -240,14 +244,14 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; av &lt;b&gt;%2$d&lt;/b&gt; gäster rekommenderar det här hotellet.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> av &lt;b>%2$d&lt;/b> gäster rekommenderar det här hotellet.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d Recensioner</item>
-		<item quantity="one">%d Recensioner </item>
-		<item quantity="two">%d Recensioner </item>
-		<item quantity="many">%d Recensioner </item>
-		<item quantity="other">%d Recensioner </item>
+		<item quantity="one">%d Recension</item>
+		<item quantity="two">%d Recensioner</item>
+		<item quantity="many">%d Recensioner</item>
+		<item quantity="other">%d Recensioner</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
@@ -256,13 +260,13 @@
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">Det finns inga kritiska recensioner av det här hotellet</string>
 	<!-- User review no favorable reviews -->
-	<string name="user_review_no_favorable_reviews">Det finns inga fördelaktiga recensioner av det här hotellet </string>
+	<string name="user_review_no_favorable_reviews">Det finns inga fördelaktiga recensioner av det här hotellet</string>
 	<!-- User review no recent reviews -->
-	<string name="user_review_no_recent_reviews">Det finns inga nya recensioner av det här hotellet </string>
+	<string name="user_review_no_recent_reviews">Det finns inga nya recensioner av det här hotellet</string>
 	
 	<!-- Room and rates list -->
 	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">Hittar lediga rum</string>
+	<string name="room_rates_loading">Hittar lediga rum…</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
 	<string name="error_no_response_room_rates">Kunde inte ladda ner rum- och prisinformation.  Kontrollera din anslutning och prova igen.</string>
 	<!-- Rate price displayed "per night" -->
@@ -329,17 +333,17 @@
 	<!-- The "city" booking info field.  -->
 	<string name="City">Stad</string>
 	<!-- The "postal code" booking info field.  -->
-	<string name="PostalCode">Postnummer</string>
+	<string name="PostalCode">Postnr</string>
 	<!-- State code hint -->
-	<string name="hint_state_code">Stat</string>
+	<string name="hint_state_code">Län</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Kreditkortsinformation</string>
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">Kortnummer</string>
 	<!-- Card expiration month form field hint -->
-	<string name="hint_expiration_month">m</string>
+	<string name="hint_expiration_month">mån</string>
 	<!-- Card expiration year form field hint -->
-	<string name="hint_expiration_year">yy</string>
+	<string name="hint_expiration_year">år</string>
 	<!-- Security code label -->
 	<string name="security_code">Säkerhetskod</string>
 	<!-- Security code tip (if code is on front of card) -->
@@ -357,9 +361,9 @@
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">Bekräfta &amp; boka</string>
 	<!-- Label for clearing private data -->
-	<string name="clear_private_data">Rensa Privat Data</string>
+	<string name="clear_private_data">Rensa privat data</string>
 	<!-- Title for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_title">Rensa Privat Data?</string>
+	<string name="dialog_clear_private_data_title">Rensa privat data?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">Det här tar bort alla sparade fakturor och kontaktinformation.</string>
 	<!-- Title for dialog after private data has been cleared -->
@@ -389,7 +393,7 @@
 	<!-- Error message when we couldn't get a response -->
 	<string name="error_booking_null">Kunde inte ansluta till Expedia-servrar.  Kontrollera din anslutning och prova igen.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s on %2$s</string>
+	<string name="check_in_out_time_template">%1$s den %2$s</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Format for a first/last name -->
@@ -475,11 +479,11 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Support för appen</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Res-smart.</string>
+	<string name="travel_smart">Travel Smart.</string>
 	<!-- Subject line for "tell a friend" feature -->
-	<string name="tell_a_friend_subject"> Expedia Hotels </string>
+	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hej,\n\nkolla in Expedia Hotels för iPhone- och Android-telefoner. I Det är gratis och du kan lätt söka och boka rum från mer än 13.000 hotell over hela världen. Det är det lättaste sättet att boka hotell på, på din mobil\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hej,\n\nkolla in Expedia Hotels för iPhone- och Android-telefoner. Det är gratis och du kan lätt söka och boka rum bland mer än 13.000 hotell over hela världen. Det är det lättaste sättet att boka hotell på, via din mobil.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Villkor</string>
 	<!-- Label for link to privacy policy -->
@@ -489,13 +493,13 @@
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
-	<string name="send_feedback">Skicka feedback</string>
+	<string name="send_feedback">Skicka</string>
 	<!-- Header title -->
 	<string name="app_feedback">Feedback om appen</string>
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Sätt ett betyg</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Drivs av Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privacy Policy</a></string>
+	<string name="powered_by_opinion_lab">Drivs av Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privatpolicy</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">E-postadress</string>
 	<!-- Hint to type in comments -->
@@ -514,19 +518,19 @@
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-		<item quantity="zero">%d Vuxna</item>
-		<item quantity="one">%d Vuxna </item>
-		<item quantity="two">%d Vuxna </item>
-		<item quantity="many">%d Vuxna </item>
-		<item quantity="other">%d Vuxna </item>
+		<item quantity="zero">%d vuxna</item>
+		<item quantity="one">%d vuxen</item>
+		<item quantity="two">%d vuxna</item>
+		<item quantity="many">%d vuxna</item>
+		<item quantity="other">%d vuxna</item>
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-		<item quantity="zero">%d Barn</item>
-		<item quantity="one">%d Barn </item>
-		<item quantity="two">%d Barn </item>
-		<item quantity="many">%d Barn </item>
-		<item quantity="other">%d Barn </item>
+		<item quantity="zero">%d barn</item>
+		<item quantity="one">%d barn</item>
+		<item quantity="two">%d barn</item>
+		<item quantity="many">%d barn</item>
+		<item quantity="other">%d barn</item>
 	</plurals>
 
 	<!-- Distance strings -->
@@ -563,7 +567,7 @@
 	<string name="currency_eur">Euro</string>
 	<string name="currency_hkd">Hong Kong dollar</string>
 	<string name="currency_inr">Indiska rupier</string>
-	<string name="currency_ils">Israelisk sheqel </string>
+	<string name="currency_ils">Israelisk sheqel</string>
 	<string name="currency_jpy">Japanska yen</string>
 	<string name="currency_krw">Koreansk won</string>
 	<string name="currency_mxn">Mexikansk peso</string>
@@ -571,7 +575,7 @@
 	<string name="currency_nok">Norska kronor</string>
 	<string name="currency_rub">Ryska rubler</string>
 	<string name="currency_sgd">Singapore dollar</string>
-	<string name="currency_sek">Svensk krona</string>
+	<string name="currency_sek">Svenska kronor</string>
 	<string name="currency_chf">Schweiziska francs</string>
 	<string name="currency_usd">USA dollar</string>
 
@@ -625,7 +629,7 @@
 	<string name="country_co">Colombia</string>
 	<string name="country_km">Komorerna</string>
 	<string name="country_cg">Kongo</string>
-	<string name="country_cd">Demokratiska republiken Kongo</string>
+	<string name="country_cd">Kongo</string>
 	<string name="country_ck">Cooköarna</string>
 	<string name="country_cr">Costa Rica</string>
 	<string name="country_hr">Kroatien</string>
