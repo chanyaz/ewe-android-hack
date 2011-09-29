@@ -10,24 +10,17 @@
 	<RelativeLayout
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:padding="8dp"
+		android:padding="6dp"
 		android:background="@drawable/bg_header">
 		<ImageView
 			android:id="@+id/thumbnail_image_view"
-			android:layout_width="60dp"
-			android:layout_height="60dp"
+			android:layout_width="64dp"
+			android:layout_height="64dp"
 			android:layout_alignParentTop="true"
 			android:layout_alignParentLeft="true"
 			android:scaleType="centerCrop"
-			android:src="@drawable/ic_image_placeholder" />
-		<ImageView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignLeft="@+id/thumbnail_image_view"
-			android:layout_alignTop="@+id/thumbnail_image_view"
-			android:layout_alignRight="@+id/thumbnail_image_view"
-			android:layout_alignBottom="@+id/thumbnail_image_view"
-			android:src="@drawable/room_thumbnail_rounded_corners" />
+			android:src="@drawable/ic_image_placeholder"
+			android:background="@drawable/thumbnail_border" />
 		<TextView
 			android:id="@+id/name_text_view"
 			android:layout_width="wrap_content"
@@ -35,7 +28,6 @@
 			android:layout_alignParentTop="true"
 			android:layout_toRightOf="@+id/thumbnail_image_view"
 			android:layout_marginLeft="8dp"
-			android:layout_marginTop="-2dp"
 			android:singleLine="true"
 			android:ellipsize="end"
 			android:textColor="@android:color/white"
