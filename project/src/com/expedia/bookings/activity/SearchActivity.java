@@ -41,7 +41,6 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Process;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -517,6 +516,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		setActivity(SearchMapActivity.class);
 		setActivity(SearchListActivity.class);
 
+		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
+		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
+
 		boolean localeChanged = SettingUtils.get(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
@@ -589,9 +591,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
 		setNumberPickerRanges();
 
-		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
-		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
-
 		setActivityByTag(mTag);
 		setShowDistance(mShowDistance);
 		setDisplayType(mDisplayType, false);
@@ -655,7 +654,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 	}
 
-
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -675,7 +673,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		else {
 			saveParams();
 		}
-		
+
 		if (areWidgetsInstalled()) {
 			Intent resumeWidgetsIntent = new Intent(ExpediaBookingsService.RESUME_WIDGETS_ACTION);
 			startService(resumeWidgetsIntent);
@@ -758,7 +756,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		// confirmation screen when the search activity started
 		if (isFinishing() && !ConfirmationActivity.hasSavedConfirmationData(this)) {
 			saveParams();
-			
+
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
 
 			// Cancel any currently downloading searches
@@ -792,7 +790,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 					Log.w("Ran out of memory while trying to save search results file", e);
 				}
 			}
-			
+
 			// as a last item on the todo list, persist deals to disk
 			mApp.widgetDeals.persistToDisk();
 		}
