@@ -769,7 +769,7 @@ public class ExpediaBookingsService extends Service {
 		widgetContents.setViewVisibility(R.id.loading_expedia_logo_image_view, visibility);
 	}
 
-	private static final float TEXT_SIZE_IN_DIP = 35.0f;
+	private static final float TEXT_SIZE_IN_DIP = 30.0f;
 	private static final float ROUND_UP = 0.5f;
 	private static final float PADDING = 5.0f;
 	
@@ -792,7 +792,8 @@ public class ExpediaBookingsService extends Service {
 		paint.setSubpixelText(true);
 		paint.setTypeface(customFont);
 		paint.setStyle(Paint.Style.FILL);
-		paint.setColor(R.color.widget_text_color);
+		paint.setColor(getResources().getColor(R.color.widget_text_color));
+		paint.setShadowLayer(0.1f, 0f, 1f, getResources().getColor(android.R.color.white));
 		paint.setTextSize((int) (scale * TEXT_SIZE_IN_DIP + ROUND_UP));
 		paint.setTextAlign(Align.LEFT);
 
