@@ -161,6 +161,7 @@ public class LocalizationTests extends AndroidTestCase {
 			testString("value_add_template", "a new car!");
 			testString("common_value_add_template", "Bees");
 			testPlural("length_of_stay");
+			testPlural("staying_nights");
 			testString("room_rate_template", "10/24/2011");
 			testString("charge_details_template", "$50.12");
 			testString("invalid_currency_for_amex", "USD");
