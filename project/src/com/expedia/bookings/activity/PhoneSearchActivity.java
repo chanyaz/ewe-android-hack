@@ -2277,7 +2277,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private static final String FORMAT_HEADER_WITH_YEAR = "MMM d, yyyy";
 
 	public CharSequence getBookingInfoHeaderText() {
-		String location = getSearchText();
+		String location = mSearchParams.getSearchDisplayText(this);
 		int startYear = mDatesCalendarDatePicker.getStartYear();
 		int endYear = mDatesCalendarDatePicker.getEndYear();
 
@@ -2474,20 +2474,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		setBookingInfoText();
 	}
 
-	private String getSearchText() {
-		switch (mSearchParams.getSearchType()) {
-		case FREEFORM:
-			return mSearchParams.getFreeformLocation();
-		case MY_LOCATION:
-			return getString(R.string.current_location);
-
-		case PROXIMITY:
-			return getString(R.string.visible_map_area);
-		}
-
-		return null;
-	}
-
 	private void setSearchEditViews() {
 		if (mSearchParams == null) {
 			mSearchParams = new SearchParams();
@@ -2510,7 +2496,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 		}
 
-		mSearchEditText.setText(getSearchText());
+		mSearchEditText.setText(mSearchParams.getSearchDisplayText(this));
 
 		// Temporarily remove the OnDateChangedListener so that it is not fired
 		// while we manually update the start/end dates

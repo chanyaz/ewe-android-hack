@@ -10,8 +10,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.location.Address;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
@@ -122,6 +124,22 @@ public class SearchParams implements JSONable {
 
 	public boolean hasFreeformLocation() {
 		return mFreeformLocation != null && mFreeformLocation.length() > 0;
+	}
+
+	/**
+	 * @return the search string to display to user based on current params
+	 */
+	public String getSearchDisplayText(Context context) {
+		switch (mSearchType) {
+		case FREEFORM:
+			return mFreeformLocation;
+		case MY_LOCATION:
+			return context.getString(R.string.current_location);
+		case PROXIMITY:
+			return context.getString(R.string.visible_map_area);
+		default:
+			return null;
+		}
 	}
 
 	public void setDestinationId(String destinationId) {

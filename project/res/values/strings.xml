@@ -103,6 +103,9 @@
 	<!-- Label for red "sale" corner -->
 	<string name="sale_caps">SALE</string>
 
+	<!-- Filter results action bar label -->
+	<string name="filter_results">Filter Results</string>
+
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
 	<string name="map_snippet_price_template">From %s</string>
@@ -541,6 +544,22 @@
 		<item quantity="two">%d Children</item>
 		<item quantity="many">%d Children</item>
 		<item quantity="other">%d Children</item>
+	</plurals>
+	<!-- A number of guests -->
+	<plurals name="number_of_guests">
+		<item quantity="zero">%d Guests</item>
+		<item quantity="one">%d Guest</item>
+		<item quantity="two">%d Guests</item>
+		<item quantity="many">%d Guests</item>
+		<item quantity="other">%d Guests</item>
+	</plurals>
+	<!-- A number of nights (as in stay duration).  Capitalized -->
+	<plurals name="number_of_nights">
+		<item quantity="zero">%d Nights</item>
+		<item quantity="one">%d Night</item>
+		<item quantity="two">%d Nights</item>
+		<item quantity="many">%d Nights</item>
+		<item quantity="other">%d Nights</item>
 	</plurals>
 
 	<!-- Distance strings -->
