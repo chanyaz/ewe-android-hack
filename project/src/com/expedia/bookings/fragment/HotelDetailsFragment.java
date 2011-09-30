@@ -24,9 +24,9 @@ public class HotelDetailsFragment extends Fragment {
 	}
 
 	@Override
-	public void onDestroy() {
+	public void onResume() {
 		// TODO Auto-generated method stub
-		super.onDestroy();
+		super.onResume();
 	}
 
 	@Override
@@ -34,11 +34,11 @@ public class HotelDetailsFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onPause();
 	}
-
+	
 	@Override
-	public void onResume() {
+	public void onDestroy() {
 		// TODO Auto-generated method stub
-		super.onResume();
+		super.onDestroy();
 	}
 
 	@Override
