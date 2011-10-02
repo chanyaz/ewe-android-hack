@@ -14,6 +14,8 @@
 	<!-- Text sizes for amenities -->
 	<dimen name="amenity_text_size_large">12sp</dimen>
 	<dimen name="amenity_text_size_small">10sp</dimen>
+	<dimen name="amenity_layout_width">60dp</dimen>
+	<dimen name="amenity_layout_height">55dp</dimen>
 	
 	<!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
 	<dimen name="gallery_size">200dp</dimen>

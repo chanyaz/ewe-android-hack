@@ -267,83 +267,8 @@ public class HotelActivity extends Activity {
 		}
 
 		ViewGroup amenitiesContainer = (ViewGroup) findViewById(R.id.amenities_table_row);
-
-		// We have to do these manually as multiple amenities can lead to the same icon, also for proper ordering
-		if (property.hasAmenity(Amenity.POOL) || property.hasAmenity(Amenity.POOL_INDOOR)
-				|| property.hasAmenity(Amenity.POOL_OUTDOOR)) {
-			addAmenity(amenitiesContainer, Amenity.POOL, R.drawable.ic_amenity_pool);
-		}
-		if (property.hasAmenity(Amenity.INTERNET)) {
-			addAmenity(amenitiesContainer, Amenity.INTERNET, R.drawable.ic_amenity_internet);
-		}
-		if (property.hasAmenity(Amenity.BREAKFAST)) {
-			addAmenity(amenitiesContainer, Amenity.BREAKFAST, R.drawable.ic_amenity_breakfast);
-		}
-		if (property.hasAmenity(Amenity.PARKING) || property.hasAmenity(Amenity.EXTENDED_PARKING)
-				|| property.hasAmenity(Amenity.FREE_PARKING)) {
-			addAmenity(amenitiesContainer, Amenity.PARKING, R.drawable.ic_amenity_parking);
-		}
-		if (property.hasAmenity(Amenity.PETS_ALLOWED)) {
-			addAmenity(amenitiesContainer, Amenity.PETS_ALLOWED, R.drawable.ic_amenity_pets);
-		}
-		if (property.hasAmenity(Amenity.RESTAURANT)) {
-			addAmenity(amenitiesContainer, Amenity.RESTAURANT, R.drawable.ic_amenity_restaurant);
-		}
-		if (property.hasAmenity(Amenity.FITNESS_CENTER)) {
-			addAmenity(amenitiesContainer, Amenity.FITNESS_CENTER, R.drawable.ic_amenity_fitness_center);
-		}
-		if (property.hasAmenity(Amenity.ROOM_SERVICE)) {
-			addAmenity(amenitiesContainer, Amenity.ROOM_SERVICE, R.drawable.ic_amenity_room_service);
-		}
-		if (property.hasAmenity(Amenity.SPA)) {
-			addAmenity(amenitiesContainer, Amenity.SPA, R.drawable.ic_amenity_spa);
-		}
-		if (property.hasAmenity(Amenity.BUSINESS_CENTER)) {
-			addAmenity(amenitiesContainer, Amenity.BUSINESS_CENTER, R.drawable.ic_amenity_business);
-		}
-		if (property.hasAmenity(Amenity.FREE_AIRPORT_SHUTTLE)) {
-			addAmenity(amenitiesContainer, Amenity.FREE_AIRPORT_SHUTTLE, R.drawable.ic_amenity_airport_shuttle);
-		}
-		if (property.hasAmenity(Amenity.ACCESSIBLE_BATHROOM)) {
-			addAmenity(amenitiesContainer, Amenity.ACCESSIBLE_BATHROOM, R.drawable.ic_amenity_accessible_bathroom);
-		}
-		if (property.hasAmenity(Amenity.HOT_TUB)) {
-			addAmenity(amenitiesContainer, Amenity.HOT_TUB, R.drawable.ic_amenity_hot_tub);
-		}
-		if (property.hasAmenity(Amenity.JACUZZI)) {
-			addAmenity(amenitiesContainer, Amenity.JACUZZI, R.drawable.ic_amenity_jacuzzi);
-		}
-		if (property.hasAmenity(Amenity.WHIRLPOOL_BATH)) {
-			addAmenity(amenitiesContainer, Amenity.WHIRLPOOL_BATH, R.drawable.ic_amenity_whirl_pool);
-		}
-		if (property.hasAmenity(Amenity.KITCHEN)) {
-			addAmenity(amenitiesContainer, Amenity.KITCHEN, R.drawable.ic_amenity_kitchen);
-		}
-		if (property.hasAmenity(Amenity.KIDS_ACTIVITIES)) {
-			addAmenity(amenitiesContainer, Amenity.KIDS_ACTIVITIES, R.drawable.ic_amenity_children_activities);
-		}
-		if (property.hasAmenity(Amenity.BABYSITTING)) {
-			addAmenity(amenitiesContainer, Amenity.BABYSITTING, R.drawable.ic_amenity_baby_sitting);
-		}
-		if (property.hasAmenity(Amenity.ACCESSIBLE_PATHS)) {
-			addAmenity(amenitiesContainer, Amenity.ACCESSIBLE_PATHS, R.drawable.ic_amenity_accessible_ramp);
-		}
-		if (property.hasAmenity(Amenity.ROLL_IN_SHOWER)) {
-			addAmenity(amenitiesContainer, Amenity.ROLL_IN_SHOWER, R.drawable.ic_amenity_accessible_shower);
-		}
-		if (property.hasAmenity(Amenity.HANDICAPPED_PARKING)) {
-			addAmenity(amenitiesContainer, Amenity.HANDICAPPED_PARKING, R.drawable.ic_amenity_handicap_parking);
-		}
-		if (property.hasAmenity(Amenity.IN_ROOM_ACCESSIBILITY)) {
-			addAmenity(amenitiesContainer, Amenity.IN_ROOM_ACCESSIBILITY, R.drawable.ic_amenity_accessible_room);
-		}
-		if (property.hasAmenity(Amenity.DEAF_ACCESSIBILITY_EQUIPMENT)) {
-			addAmenity(amenitiesContainer, Amenity.DEAF_ACCESSIBILITY_EQUIPMENT, R.drawable.ic_amenity_deaf_access);
-		}
-		if (property.hasAmenity(Amenity.BRAILLE_SIGNAGE)) {
-			addAmenity(amenitiesContainer, Amenity.BRAILLE_SIGNAGE, R.drawable.ic_amenity_braille_signs);
-		}
-
+		LayoutUtils.addAmenities(this, property, amenitiesContainer);
+		
 		// Description
 		String description = property.getDescriptionText();
 		if (description != null && description.length() > 0) {
