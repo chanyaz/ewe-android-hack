@@ -12,6 +12,10 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Resources;
 import android.location.Address;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,12 +26,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Session;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
 import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.google.android.maps.MapActivity;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -36,7 +40,7 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 
-public class TabletActivity extends MapActivity {
+public class TabletActivity extends MapActivity implements LocationListener {
 
 	private Context mContext;
 	private Resources mResources;
@@ -45,8 +49,9 @@ public class TabletActivity extends MapActivity {
 	// Constants
 
 	public static final int EVENT_SEARCH_STARTED = 1;
-	public static final int EVENT_SEARCH_COMPLETE = 2;
-	public static final int EVENT_SEARCH_ERROR = 3;
+	public static final int EVENT_SEARCH_PROGRESS = 2;
+	public static final int EVENT_SEARCH_COMPLETE = 3;
+	public static final int EVENT_SEARCH_ERROR = 4;
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
@@ -102,6 +107,9 @@ public class TabletActivity extends MapActivity {
 		FragmentTransaction ft = fragmentManager.beginTransaction();
 		ft.add(R.id.fragment_left, HotelListFragment.newInstance());
 		ft.commit();
+
+		// Start an initial search
+		startSearch();
 	}
 
 	@Override
@@ -285,8 +293,14 @@ public class TabletActivity extends MapActivity {
 			Log.w("PROXIMITY searches not yet supported!");
 			break;
 		case MY_LOCATION:
-			// TODO: Implement MY_LOCATION search
-			Log.w("MY_LOCATION searches not yet supported!");
+			long minTime = Calendar.getInstance().getTimeInMillis() - PhoneSearchActivity.MINIMUM_TIME_AGO;
+			Location location = LocationServices.getLastBestLocation(this, minTime);
+			if (location != null) {
+				onMyLocationFound(location);
+			}
+			else {
+				startLocationListener();
+			}
 			break;
 		}
 	}
@@ -336,6 +350,11 @@ public class TabletActivity extends MapActivity {
 		}
 	};
 
+	public void onMyLocationFound(Location location) {
+		setLatLng(location.getLatitude(), location.getLongitude());
+		startSearchDownloader();
+	}
+
 	public void startSearchDownloader() {
 		Log.i("startSearchDownloader()");
 
@@ -365,6 +384,72 @@ public class TabletActivity extends MapActivity {
 			}
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// Location
+
+	private void startLocationListener() {
+		notifyEventHandlers(EVENT_SEARCH_PROGRESS, getString(R.string.progress_finding_location));
+
+		// Prefer network location (because it's faster).  Otherwise use GPS
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		String provider = null;
+		if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			provider = LocationManager.NETWORK_PROVIDER;
+		}
+		else if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			provider = LocationManager.GPS_PROVIDER;
+		}
+
+		if (provider == null) {
+			Log.w("Could not find a location provider, informing user of error...");
+			notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.ProviderDisabled));
+
+			// TODO: Show user dialog to go to enable location services
+		}
+		else {
+			Log.i("Starting location listener, provider=" + provider);
+			lm.requestLocationUpdates(provider, 0, 0, this);
+		}
+	}
+
+	private void stopLocationListener() {
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		lm.removeUpdates(this);
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {
+		stopLocationListener();
+
+		onMyLocationFound(location);
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO: Worry about providers being disabled midway through search?
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO: Worry about providers being enabled midway through search?
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		Log.w("onStatusChanged(): provider=" + provider + " status=" + status);
+
+		if (status == LocationProvider.OUT_OF_SERVICE) {
+			stopLocationListener();
+			Log.w("Location listener failed: out of service");
+			notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.ProviderOutOfService));
+		}
+		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
+			stopLocationListener();
+			Log.w("Location listener failed: temporarily unavailable");
+			notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.ProviderTemporarilyUnavailable));
+		}
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// MapActivity

@@ -57,6 +57,9 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 			setListAdapter(null);
 			mMessageTextView.setText(R.string.progress_searching_hotels);
 			break;
+		case TabletActivity.EVENT_SEARCH_PROGRESS:
+			mMessageTextView.setText((String) data);
+			break;
 		case TabletActivity.EVENT_SEARCH_COMPLETE:
 			setListAdapter(new HotelAdapter(getActivity(), (SearchResponse) data));
 			break;
