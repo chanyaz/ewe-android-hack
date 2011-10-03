@@ -57,7 +57,10 @@ public class CalendarDialogFragment extends DialogFragment {
 						.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
 				Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
 						.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
-				((TabletActivity) getActivity()).setDates(checkIn, checkOut);
+
+				TabletActivity activity = (TabletActivity) getActivity();
+				activity.setDates(checkIn, checkOut);
+				activity.startSearch();
 			}
 		});
 		builder.setNegativeButton(android.R.string.cancel, null);

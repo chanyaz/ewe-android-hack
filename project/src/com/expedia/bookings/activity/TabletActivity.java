@@ -2,11 +2,14 @@ package com.expedia.bookings.activity;
 
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import android.app.ActionBar;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.res.Resources;
+import android.location.Address;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,19 +19,35 @@ import android.widget.SearchView.OnQueryTextListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.Session;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
+import com.expedia.bookings.server.ExpediaServices;
 import com.google.android.maps.MapActivity;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.NetUtils;
 
 public class TabletActivity extends MapActivity {
 
+	private Context mContext;
 	private Resources mResources;
+
+	//////////////////////////////////////////////////////////////////////////
+	// Constants
+
+	private static final String KEY_SEARCH = "KEY_SEARCH";
+	private static final String KEY_GEOCODE = "KEY_GEOCODE";
 
 	//////////////////////////////////////////////////////////////////////////
 	// Search state variables
 
 	private SearchParams mSearchParams;
+
+	private Session mSession;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Event handling
@@ -60,6 +79,7 @@ public class TabletActivity extends MapActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		mContext = this;
 		mResources = getResources();
 
 		mEventHandlers = new HashSet<EventHandler>();
@@ -117,6 +137,7 @@ public class TabletActivity extends MapActivity {
 			public boolean onQueryTextSubmit(String query) {
 				setFreeformLocation(query);
 				mSearchView.clearFocus();
+				startSearch();
 				return true;
 			}
 
@@ -205,6 +226,116 @@ public class TabletActivity extends MapActivity {
 
 		updateActionBarViews();
 	}
+
+	public void setLatLng(double latitude, double longitude) {
+		Log.d("Setting lat/lng: lat=" + latitude + ", lng=" + longitude);
+
+		mSearchParams.setSearchLatLon(latitude, longitude);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Search
+
+	public void startSearch() {
+		Log.i("startSearch(): " + mSearchParams.toString());
+
+		if (!NetUtils.isOnline(this)) {
+			Log.w("startSearch() - no internet connection.");
+			// TODO: Inform user that they have no internet connection
+			return;
+		}
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+
+		// Cancel existing downloads
+		bd.cancelDownload(KEY_SEARCH);
+		bd.cancelDownload(KEY_GEOCODE);
+
+		// Determine search type, conduct search
+		switch (mSearchParams.getSearchType()) {
+		case FREEFORM:
+			if (mSearchParams.hasSearchLatLon()) {
+				startSearchDownloader();
+			}
+			else {
+				startGeocode();
+			}
+			break;
+		case PROXIMITY:
+			// TODO: Implement PROXIMITY search (once a MapView is available)
+			Log.w("PROXIMITY searches not yet supported!");
+			break;
+		case MY_LOCATION:
+			// TODO: Implement MY_LOCATION search
+			Log.w("MY_LOCATION searches not yet supported!");
+			break;
+		}
+	}
+
+	public void startGeocode() {
+		Log.i("startGeocode(): " + mSearchParams.getFreeformLocation());
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.startDownload(KEY_GEOCODE, mGeocodeDownload, mGeocodeCallback);
+	}
+
+	private Download mGeocodeDownload = new Download() {
+		public Object doDownload() {
+			return LocationServices.geocode(mContext, mSearchParams.getFreeformLocation());
+		}
+	};
+
+	private OnDownloadComplete mGeocodeCallback = new OnDownloadComplete() {
+		@SuppressWarnings("unchecked")
+		public void onDownload(Object results) {
+			List<Address> addresses = (List<Address>) results;
+
+			if (addresses != null) {
+				int size = addresses.size();
+				if (size == 0) {
+					Log.w("Geocode callback - got zero results.");
+					// TODO: Show error message - "could not find location"
+				}
+				else if (size == 1) {
+					Address address = addresses.get(0);
+
+					mSearchParams.setFreeformLocation(address);
+					updateActionBarViews();
+
+					setLatLng(address.getLatitude(), address.getLongitude());
+
+					startSearchDownloader();
+				}
+				else {
+					Log.i("Geocode callback - got multiple results.");
+					// TODO: Show geocode disambiguation dialog
+				}
+			}
+			else {
+				Log.w("Geocode callback - got null results.");
+				// TODO: Show error message - "could not geocode location"
+			}
+		}
+	};
+
+	public void startSearchDownloader() {
+		Log.i("startSearchDownloader()");
+
+		BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
+	}
+
+	private Download mSearchDownload = new Download() {
+		public Object doDownload() {
+			ExpediaServices services = new ExpediaServices(mContext, mSession);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
+			return services.search(mSearchParams, 0);
+		}
+	};
+
+	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
+		public void onDownload(Object results) {
+			Log.i("Received results: " + results);
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// MapActivity
