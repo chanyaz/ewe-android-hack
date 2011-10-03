@@ -26,6 +26,29 @@ public class TabletActivity extends MapActivity {
 	private SearchParams mSearchParams;
 
 	//////////////////////////////////////////////////////////////////////////
+	// Event handling
+
+	private Set<EventHandler> mEventHandlers;
+
+	public interface EventHandler {
+		public void handleEvent(int eventCode, Object data);
+	};
+
+	public boolean registerEventHandler(EventHandler eventHandler) {
+		return mEventHandlers.add(eventHandler);
+	}
+
+	public boolean unregisterEventHandler(EventHandler eventHandler) {
+		return mEventHandlers.remove(eventHandler);
+	}
+
+	public void notifyEventHandlers(int eventCode, Object data) {
+		for (EventHandler eventHandler : mEventHandlers) {
+			eventHandler.handleEvent(eventCode, data);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle events
 
 	@Override
@@ -33,6 +56,8 @@ public class TabletActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 
 		mResources = getResources();
+
+		mEventHandlers = new HashSet<EventHandler>();
 
 		mSearchParams = new SearchParams();
 	}
