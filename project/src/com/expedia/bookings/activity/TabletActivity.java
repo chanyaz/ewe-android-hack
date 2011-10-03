@@ -7,6 +7,8 @@ import java.util.Set;
 
 import android.app.ActionBar;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Resources;
 import android.location.Address;
@@ -19,9 +21,12 @@ import android.widget.SearchView.OnQueryTextListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Session;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
+import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.google.android.maps.MapActivity;
 import com.mobiata.android.BackgroundDownloader;
@@ -38,6 +43,10 @@ public class TabletActivity extends MapActivity {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
+
+	public static final int EVENT_SEARCH_STARTED = 1;
+	public static final int EVENT_SEARCH_COMPLETE = 2;
+	public static final int EVENT_SEARCH_ERROR = 3;
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
@@ -85,6 +94,14 @@ public class TabletActivity extends MapActivity {
 		mEventHandlers = new HashSet<EventHandler>();
 
 		mSearchParams = new SearchParams();
+
+		setContentView(R.layout.activity_tablet);
+
+		// Setup search interface.  This is probably not ultimately where this will go.
+		FragmentManager fragmentManager = getFragmentManager();
+		FragmentTransaction ft = fragmentManager.beginTransaction();
+		ft.add(R.id.fragment_left, HotelListFragment.newInstance());
+		ft.commit();
 	}
 
 	@Override
@@ -239,9 +256,11 @@ public class TabletActivity extends MapActivity {
 	public void startSearch() {
 		Log.i("startSearch(): " + mSearchParams.toString());
 
+		notifyEventHandlers(EVENT_SEARCH_STARTED, null);
+
 		if (!NetUtils.isOnline(this)) {
 			Log.w("startSearch() - no internet connection.");
-			// TODO: Inform user that they have no internet connection
+			notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.error_no_internet));
 			return;
 		}
 
@@ -293,7 +312,7 @@ public class TabletActivity extends MapActivity {
 				int size = addresses.size();
 				if (size == 0) {
 					Log.w("Geocode callback - got zero results.");
-					// TODO: Show error message - "could not find location"
+					notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.geolocation_failed));
 				}
 				else if (size == 1) {
 					Address address = addresses.get(0);
@@ -312,7 +331,7 @@ public class TabletActivity extends MapActivity {
 			}
 			else {
 				Log.w("Geocode callback - got null results.");
-				// TODO: Show error message - "could not geocode location"
+				notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.geolocation_failed));
 			}
 		}
 	};
@@ -333,7 +352,17 @@ public class TabletActivity extends MapActivity {
 
 	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
 		public void onDownload(Object results) {
-			Log.i("Received results: " + results);
+			SearchResponse response = (SearchResponse) results;
+
+			if (response == null) {
+				notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.progress_search_failed));
+			}
+			else if (response.hasErrors()) {
+				notifyEventHandlers(EVENT_SEARCH_ERROR, response.getErrors().get(0).getPresentableMessage(mContext));
+			}
+			else {
+				notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
+			}
 		}
 	};
 
