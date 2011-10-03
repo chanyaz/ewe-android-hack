@@ -18,8 +18,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.IBinder;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -651,7 +649,7 @@ public class ExpediaBookingsService extends Service {
 		}
 	}
 
-		private static final String FORMAT_HEADER = "MMM d";
+	private static final String FORMAT_HEADER = "MMM d";
 
 	private void updateWidgetBranding(WidgetState widget) {
 		final RemoteViews widgetContents = new RemoteViews(getPackageName(), R.layout.widget_contents);
@@ -773,12 +771,12 @@ public class ExpediaBookingsService extends Service {
 	private static final float TEXT_SIZE_IN_DIP = 30.0f;
 	private static final float ROUND_UP = 0.5f;
 	private static final float PADDING = 5.0f;
-	
+
 	private Bitmap createEnjoyYourStayImage() {
-		
+
 		// if the user's default language is english, 
 		// display the enjoy your stay drawable as thats optimal
-		if(Locale.getDefault().getLanguage().equals(Locale.ENGLISH.getLanguage())) {
+		if (Locale.getDefault().getLanguage().equals(Locale.ENGLISH.getLanguage())) {
 			return BitmapFactory.decodeResource(getResources(), R.drawable.widget_enjoy_your_stay);
 		}
 

@@ -32,6 +32,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.HotelDescription;
+import com.expedia.bookings.data.HotelDescription.DescriptionSection;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
@@ -72,6 +74,8 @@ public class HotelActivity extends Activity {
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
 
+	private HotelDescription mDescription;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,6 +98,8 @@ public class HotelActivity extends Activity {
 		// Retrieve data to build this with
 		Property property = mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
 				Property.class);
+
+		mDescription = new HotelDescription(this);
 
 		// Retrieve the last instance
 		boolean startFlipping = true;
@@ -234,9 +240,8 @@ public class HotelActivity extends Activity {
 		TextView fromView = (TextView) findViewById(R.id.from_text_view);
 		if (lowestRate.getSavingsPercent() > 0) {
 			Money baseRate = lowestRate.getDisplayBaseRate();
-			fromView.setText(Html.fromHtml(
-					getString(R.string.from_template, StrUtils.formatHotelPrice(baseRate)), null,
-					new StrikethroughTagHandler()));
+			fromView.setText(Html.fromHtml(getString(R.string.from_template, StrUtils.formatHotelPrice(baseRate)),
+					null, new StrikethroughTagHandler()));
 		}
 		else {
 			fromView.setText(R.string.from);
@@ -268,11 +273,12 @@ public class HotelActivity extends Activity {
 
 		ViewGroup amenitiesContainer = (ViewGroup) findViewById(R.id.amenities_table_row);
 		LayoutUtils.addAmenities(this, property, amenitiesContainer);
-		
+
 		// Description
 		String description = property.getDescriptionText();
 		if (description != null && description.length() > 0) {
 			ViewGroup descriptionContainer = (ViewGroup) findViewById(R.id.description_container);
+			mDescription.parseDescription(description);
 			layoutDescription(descriptionContainer, description);
 		}
 
@@ -363,68 +369,15 @@ public class HotelActivity extends Activity {
 
 	private void layoutDescription(ViewGroup descriptionContainer, String description) {
 
-		// List support
-		description = description.replace("<ul>", "\n\n");
-		description = description.replace("</ul>", "\n");
-		description = description.replace("<li>", getString(R.string.bullet_point) + " ");
-		description = description.replace("</li>", "\n");
-
 		// Try to add the address as the third section
 		int addressSection = 2;
 
-		int len = description.length();
-		int index = 0;
-		String title = null;
-		while (index < len && index >= 0) {
-			int nextSection = description.indexOf("<p>", index);
-			int endSection = description.indexOf("</p>", nextSection);
-
-			if (nextSection != -1 && endSection > nextSection) {
-				int nextTitle = description.indexOf("<b>", index);
-				int endTitle = description.indexOf("</b>", nextTitle);
-
-				if (nextTitle != -1 && endTitle > nextTitle && endTitle < endSection) {
-					title = description.substring(nextTitle + 3, endTitle).trim();
-					if (title.endsWith(".")) {
-						title = title.substring(0, title.length() - 1);
-					}
-
-					String body = Html.fromHtml(description.substring(endTitle + 4, endSection)).toString().trim();
-
-					if (title.length() > 0 && body.length() > 0) {
-						addSection(title, body, descriptionContainer);
-						title = null;
-					}
-				}
-				else {
-					String body = description.substring(nextSection + 3, endSection).trim().replace("\n", "<br />");
-					if (title != null && body.length() > 0) {
-						addSection(title, body, descriptionContainer);
-						title = null;
-					}
-				}
-
-				// Iterate
-				index = endSection + 4;
-
-				// Check if we should add address here or not
-				addressSection--;
-				if (addressSection == 0) {
-					addAddressSection(descriptionContainer);
-				}
-			}
-			else {
-				// If there's something mysteriously at the end we can't parse, just append it
-				String body = description.substring(index);
-
-				// ensure not to add a string that is blank to the hote desription. This is possible
-				// if the end of the description is padded with whitespaces
-				if (isBlank(body)) {
-					break;
-				}
-
-				addSection(null, body, descriptionContainer);
-				break;
+		for (DescriptionSection section : mDescription.getSections()) {
+			addSection(section.title, section.description, descriptionContainer);
+			// Check if we should add address here or not
+			addressSection--;
+			if (addressSection == 0) {
+				addAddressSection(descriptionContainer);
 			}
 		}
 
@@ -432,21 +385,6 @@ public class HotelActivity extends Activity {
 		if (addressSection > 0) {
 			addAddressSection(descriptionContainer);
 		}
-
-	}
-
-	/*
-	 * This method returns true if the string is blank.
-	 * Ideally, I'd use the StringUtils.isBlank method but didnt want 
-	 * to pull in the commons jar just for this. 
-	 */
-	private boolean isBlank(String str) {
-		for (char a : str.toCharArray()) {
-			if (a != ' ' && a != '\n') {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	private View addSection(String title, String body, ViewGroup detailsContainer) {
@@ -455,7 +393,7 @@ public class HotelActivity extends Activity {
 				R.layout.snippet_hotel_description_section, null);
 
 		TextView titleTextView = (TextView) detailsSection.findViewById(R.id.title_description_text_view);
-		if (title != null) {
+		if (title != null && title != "") {
 			titleTextView.setText(Html.fromHtml(title.trim()));
 
 			// add the hotel rating to the hotel features section
