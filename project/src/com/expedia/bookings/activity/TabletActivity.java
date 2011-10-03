@@ -10,11 +10,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
 import com.google.android.maps.MapActivity;
+import com.mobiata.android.Log;
 
 public class TabletActivity extends MapActivity {
 
@@ -106,8 +109,22 @@ public class TabletActivity extends MapActivity {
 		mDatesMenuItem = menu.findItem(R.id.menu_dates);
 
 		mSearchView.setIconifiedByDefault(false);
+		mSearchView.setSubmitButtonEnabled(true);
+		mSearchView.setOnQueryTextListener(new OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				setFreeformLocation(query);
+				mSearchView.clearFocus();
+				return true;
+			}
 
-		updateActionBarViews(mSearchParams);
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				return false;
+			}
+		});
+
+		updateActionBarViews();
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -132,13 +149,13 @@ public class TabletActivity extends MapActivity {
 		}
 	}
 
-	private void updateActionBarViews(SearchParams searchParams) {
-		mSearchView.setQuery(searchParams.getSearchDisplayText(this), false);
+	private void updateActionBarViews() {
+		mSearchView.setQuery(mSearchParams.getSearchDisplayText(this), false);
 
-		int numGuests = searchParams.getNumAdults() + searchParams.getNumChildren();
+		int numGuests = mSearchParams.getNumAdults() + mSearchParams.getNumChildren();
 		mGuestsMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_guests, numGuests, numGuests));
 
-		int numNights = searchParams.getStayDuration();
+		int numNights = mSearchParams.getStayDuration();
 		mDatesMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_nights, numNights, numNights));
 	}
 
@@ -154,11 +171,22 @@ public class TabletActivity extends MapActivity {
 	//////////////////////////////////////////////////////////////////////////
 	// SearchParams management
 
+	public void setFreeformLocation(String freeformLocation) {
+		Log.d("Setting freeform location: " + freeformLocation);
+
+		mSearchParams.setFreeformLocation(freeformLocation);
+		mSearchParams.setSearchType(SearchType.FREEFORM);
+
+		updateActionBarViews();
+	}
+
 	public void setGuests(int numAdults, int numChildren) {
+		Log.d("Setting guests: " + numAdults + " adult(s), " + numChildren + " child(ren)");
+
 		mSearchParams.setNumAdults(numAdults);
 		mSearchParams.setNumChildren(numChildren);
 
-		updateActionBarViews(mSearchParams);
+		updateActionBarViews();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
