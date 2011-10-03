@@ -65,15 +65,116 @@ public class Rate implements JSONable {
 	private Money mInclusiveRate = null;
 
 	
-	public static class BedType {
-		public String bedTypeDescription;
-		public String bedTypeId;
+	/*
+	 * This enum represents the different bed types
+	 * that can be returned from EAN. Note that 
+	 * some bed types have multiple ids pointing to them.
+	 * The mappings were picked up from the following documentation:
+	 * http://developer.ean.com/general_info/BedTypes 
+	 *
+	 */
+	public static enum BedTypeId {
+		ONE_DOUBLE_BED(new String[] {
+				"DD", "2", "13" }),
+				
+		ONE_TWIN_BED(new String[] {
+				"TW", "18" }),
+				
+		ONE_KING_BED(new String[] {
+				"KG", "4", "14" }),
+				
+		ONE_QUEEN_BED(new String[]{
+				"QN", "3", "15" }),
+				
+		TWO_DOUBLE_BEDS(new String[]{
+				"2DD", "6", "21" }),
+				
+		TWO_TWIN_BEDS(new String[] {
+				"2TW", "5", "25" }),
+				
+		TWO_QUEEN_BEDS(new String[] {
+				"2QN", "7", "23" }),
+				
+		TWO_KING_BEDS(new String[] { 
+				"2KG", "22" }),
+				
+		THREE_TWIN_BEDS(new String[] { 
+				"30" }),
+				
+		FOUR_TWIN_BEDS(new String[] { 
+				"34" }),
+				
+		ONE_BED(new String[] {
+				"40" }),
+				
+		TWO_BEDS(new String[] { 
+				"41" }),
+				
+		ONE_SINGLE_BED(new String[] {
+				"42" }),
+				
+		TWO_SINGLE_BEDS(new String[] {
+				"43" }),
+				
+		THREE_SINGLE_BEDS(new String[] {
+				"44" }),
+				
+		FOUR_SINGLE_BEDS(new String[] {
+				"45" }),
+				
+		ONE_FULL_BED(new String[] {
+				"46" }),
+				
+		TWO_FULL_BEDS(new String[] { 
+				"47" }),
+				
+		ONE_TRUNDLE_BED(new String[] {
+				"48" }),
+				
+		ONE_MURPHY_BED(new String[] {
+				"49" }),
+				
+		ONE_BUNK_BED(new String[] {
+				"50" }),
+				
+		ONE_SLEEPER_SOFA(new String[] {
+				"51" }),
+				
+		TWO_SLEEPER_SOFAS(new String[] {
+				"52" }),
+				
+		THREE_SLEEPER_SOFAS(new String[] {
+				"53" });
 		
-		public BedType(String bedTypeId, String bedTypeDescription) {
-			this.bedTypeDescription = bedTypeDescription;
-			this.bedTypeId = bedTypeId;
+		private Set<String> mIds;
+		
+		private BedTypeId(String[] ids) {
+			mIds = new HashSet<String>();
+			for(String id: ids) {
+				mIds.add(id);
+			}
+		}
+		
+		public static BedTypeId fromStringId(String id) {
+			for (BedTypeId bedTypeId : values()) {
+				if(bedTypeId.mIds.contains(id)) {
+					return bedTypeId;
+				}
+			}
+			return null;
 		}
 	}
+	
+	public static class BedType {
+		public BedTypeId bedTypeId;
+		public String bedTypeDescription;
+		
+		public BedType(BedTypeId id, String description) {
+			bedTypeId = id;
+			bedTypeDescription = description;
+		}
+	}
+	
 	
 	private Set<BedType> mBedTypes;
 
@@ -93,7 +194,7 @@ public class Rate implements JSONable {
 		if(mBedTypes == null) {
 			mBedTypes = new HashSet<Rate.BedType>();
 		}
-		mBedTypes.add(new BedType(bedTypeId, bedTypeDescription));
+		mBedTypes.add(new BedType(BedTypeId.fromStringId(bedTypeId), bedTypeDescription));
 	}
 	
 	public List<RateBreakdown> getRateBreakdownList() {
