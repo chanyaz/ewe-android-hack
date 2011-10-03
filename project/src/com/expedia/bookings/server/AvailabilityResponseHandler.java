@@ -247,7 +247,9 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 					List<String> bedTypeElements = new ArrayList<String>();
 					for (int b = 0; b < len; b++) {
 						JSONObject bedType = bedTypes.getJSONObject(b);
-						bedTypeElements.add(bedType.getString("description"));
+						String bedTypeDescription = bedType.getString("description");
+						bedTypeElements.add(bedTypeDescription);
+						rate.addBedType(bedType.getString("@id"), bedTypeDescription);
 					}
 					String ratePlanName = FormatUtils.series(mContext, bedTypeElements, ",", Conjunction.OR);
 					rate.setRatePlanName(ratePlanName);

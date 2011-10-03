@@ -2,8 +2,10 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,6 +64,19 @@ public class Rate implements JSONable {
 	private Money mInclusiveBaseRate = null;
 	private Money mInclusiveRate = null;
 
+	
+	public static class BedType {
+		public String bedTypeDescription;
+		public String bedTypeId;
+		
+		public BedType(String bedTypeId, String bedTypeDescription) {
+			this.bedTypeDescription = bedTypeDescription;
+			this.bedTypeId = bedTypeId;
+		}
+	}
+	
+	private Set<BedType> mBedTypes;
+
 	public String getRatePlanCode() {
 		return mRatePlanCode;
 	}
@@ -69,7 +84,18 @@ public class Rate implements JSONable {
 	public void setRatePlanCode(String ratePlanCode) {
 		this.mRatePlanCode = ratePlanCode;
 	}
+	
+	public Set<BedType> getBedTypes() {
+		return mBedTypes;
+	}
 
+	public void addBedType(String bedTypeId, String bedTypeDescription) {
+		if(mBedTypes == null) {
+			mBedTypes = new HashSet<Rate.BedType>();
+		}
+		mBedTypes.add(new BedType(bedTypeId, bedTypeDescription));
+	}
+	
 	public List<RateBreakdown> getRateBreakdownList() {
 		return mRateBreakdown;
 	}
