@@ -647,7 +647,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		mProgressBar.onResume();
 
-		initializeCalendarDatePicker();
+		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker);
 
 		setViewButtonImage();
 		setDrawerViews();
@@ -687,12 +687,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			}
 		}
 
-		// Set max calendar date
-		Time maxTime = new Time(System.currentTimeMillis());
-		maxTime.monthDay += 330;
-		maxTime.normalize(true);
-
-		mDatesCalendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
 		mIsActivityResumed = true;
 
 		Intent pauseWidgetsIntent = new Intent(ExpediaBookingsService.PAUSE_WIDGETS_ACTION);
@@ -1120,7 +1114,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				parent.setTouchDelegate(new TouchDelegate(r, delegate));
 			}
 		});
-		initializeCalendarDatePicker();
+		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker);
 
 		// Progress bar 
 
@@ -1192,22 +1186,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		mSearchMapButton.setOnClickListener(mMapSearchButtonClickListener);
 		mSortPopupDismissView.setOnClickListener(mSortPopupDismissViewClickListener);
 
-	}
-
-	private void initializeCalendarDatePicker() {
-		/*
-		 * 7880: initializing the date on the calendar to 1 day prior to
-		 * the current date so that the date is selectable by the user
-		 * for searches in other timezones where its still a day behind
-		 */
-		Calendar yesterday = new GregorianCalendar();
-		yesterday.add(Calendar.DAY_OF_MONTH, -1);
-
-		Time yesterdayTime = new Time();
-		yesterdayTime.set(yesterday.getTimeInMillis());
-		mDatesCalendarDatePicker.setMinDate(yesterdayTime.year, yesterdayTime.month, yesterdayTime.monthDay);
-		mDatesCalendarDatePicker.setSelectionMode(SelectionMode.RANGE);
-		mDatesCalendarDatePicker.setMaxRange(29);
 	}
 
 	//----------------------------------

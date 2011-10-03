@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +16,7 @@ import android.widget.SearchView.OnQueryTextListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
 import com.google.android.maps.MapActivity;
 import com.mobiata.android.Log;
@@ -136,7 +138,7 @@ public class TabletActivity extends MapActivity {
 			showGuestsDialog();
 			return true;
 		case R.id.menu_dates:
-			// TODO: Display calendar picker dialog
+			showCalendarDialog();
 			return true;
 		case R.id.menu_filter:
 			// TODO: Display filter options
@@ -168,6 +170,12 @@ public class TabletActivity extends MapActivity {
 		newFragment.show(getFragmentManager(), "GuestsDialog");
 	}
 
+	private void showCalendarDialog() {
+		DialogFragment newFragment = CalendarDialogFragment.newInstance(mSearchParams.getCheckInDate(),
+				mSearchParams.getCheckOutDate());
+		newFragment.show(getFragmentManager(), "CalendarDialog");
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// SearchParams management
 
@@ -185,6 +193,15 @@ public class TabletActivity extends MapActivity {
 
 		mSearchParams.setNumAdults(numAdults);
 		mSearchParams.setNumChildren(numChildren);
+
+		updateActionBarViews();
+	}
+
+	public void setDates(Calendar checkIn, Calendar checkOut) {
+		Log.d("Setting dates: " + checkIn.getTimeInMillis() + " to " + checkOut.getTimeInMillis());
+
+		mSearchParams.setCheckInDate(checkIn);
+		mSearchParams.setCheckOutDate(checkOut);
 
 		updateActionBarViews();
 	}

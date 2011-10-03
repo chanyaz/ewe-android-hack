@@ -31,8 +31,7 @@ public class GuestsDialogFragment extends DialogFragment {
 
 	public static GuestsDialogFragment newInstance(int initialAdults, int initialChildren) {
 		GuestsDialogFragment dialog = new GuestsDialogFragment();
-		dialog.setInitialAdults(initialAdults);
-		dialog.setInitialChildren(initialChildren);
+		dialog.setInitialGuests(initialAdults, initialChildren);
 		return dialog;
 	}
 
@@ -110,11 +109,8 @@ public class GuestsDialogFragment extends DialogFragment {
 		mChildrenNumberPicker.setMaxValue(Math.min(MAX_PER_TYPE, children + remaining));
 	}
 
-	private void setInitialAdults(int initialAdults) {
+	private void setInitialGuests(int initialAdults, int initialChildren) {
 		mInitialAdults = initialAdults;
-	}
-
-	private void setInitialChildren(int initialChildren) {
 		mInitialChildren = initialChildren;
 	}
 }
