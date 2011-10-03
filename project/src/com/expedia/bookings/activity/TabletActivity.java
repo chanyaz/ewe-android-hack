@@ -1,6 +1,10 @@
 package com.expedia.bookings.activity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import android.app.ActionBar;
+import android.app.DialogFragment;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +13,7 @@ import android.widget.SearchView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.fragment.GuestsDialogFragment;
 import com.google.android.maps.MapActivity;
 
 public class TabletActivity extends MapActivity {
@@ -84,7 +89,22 @@ public class TabletActivity extends MapActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		return super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {
+		case R.id.menu_guests:
+			showGuestsDialog();
+			return true;
+		case R.id.menu_dates:
+			// TODO: Display calendar picker dialog
+			return true;
+		case R.id.menu_filter:
+			// TODO: Display filter options
+			return true;
+		case R.id.menu_about:
+			// TODO: Launch About fragment
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	private void updateActionBarViews(SearchParams searchParams) {
@@ -98,11 +118,29 @@ public class TabletActivity extends MapActivity {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Dialogs
+
+	void showGuestsDialog() {
+		DialogFragment newFragment = GuestsDialogFragment.newInstance(mSearchParams.getNumAdults(),
+				mSearchParams.getNumChildren());
+		newFragment.show(getFragmentManager(), "GuestsDialog");
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SearchParams management
+
+	public void setGuests(int numAdults, int numChildren) {
+		mSearchParams.setNumAdults(numAdults);
+		mSearchParams.setNumChildren(numChildren);
+
+		updateActionBarViews(mSearchParams);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// MapActivity
 
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-
 }
