@@ -72,21 +72,6 @@ public class SupportUtils {
 		Arrays.sort(EUROPEAN_COUNTRY_CODES);
 	}
 
-	// Default is the US website
-	private static final String DEFAULT_WEBSITE = "http://www.expedia.com/?rfrr=app.android";
-
-	// Which website to use for which country code (based on locale)
-	@SuppressWarnings("serial")
-	private static final HashMap<String, String> WEBSITE_URLS = new HashMap<String, String>() {
-		{
-			put("AU", "http://www.expedia.com.au/?rfrr=app.android");
-			put("CA", "http://www.expedia.ca/?rfrr=app.android");
-			put("GB", "http://www.expedia.co.uk/?rfrr=app.android");
-			put("NZ", "http://www.expedia.co.nz/?rfrr=app.android");
-			put("US", "http://www.expedia.com/?rfrr=app.android");
-		}
-	};
-
 	public static String getSupportUrl() {
 		Locale locale = Locale.getDefault();
 		String countryCode = locale.getCountry().toUpperCase();
@@ -201,7 +186,7 @@ public class SupportUtils {
 			return "http://www.expedia.de/?rfrr=app.android";
 		}
 		else if (countryCode.equals("IT")) {
-			return "http://www..expedia.it/?rfrr=app.android";
+			return "http://www.expedia.it/?rfrr=app.android";
 		}
 		else if (countryCode.equals("BR") && languageCode.equals("PT")) {
 			return "http://www.expedia.com.br/?rfrr=app.android";
@@ -317,13 +302,104 @@ public class SupportUtils {
 	}
 
 	public static String getWebsiteUrl() {
-		String countryCode = Locale.getDefault().getCountry().toUpperCase();
-		if (WEBSITE_URLS.containsKey(countryCode)) {
-			return WEBSITE_URLS.get(countryCode);
+		Locale locale = Locale.getDefault();
+		String countryCode = locale.getCountry().toUpperCase();
+		String languageCode = locale.getLanguage().toUpperCase();
+
+		if (countryCode.equals("FR")) {
+			return "http://www.expedia.fr/?rfrr=app.android";
 		}
-		else {
-			return DEFAULT_WEBSITE;
+		else if (countryCode.equals("ES")) {
+			return "http://www.expedia.es/?rfrr=app.android";
 		}
+		else if (countryCode.equals("SE")) {
+			return "http://www.expedia.se/?rfrr=app.android";
+		}
+		else if (countryCode.equals("DE")) {
+			return "http://www.expedia.de/?rfrr=app.android";
+		}
+		else if (countryCode.equals("IT")) {
+			return "http://www.expedia.it/?rfrr=app.android";
+		}
+		else if (countryCode.equals("BR") && languageCode.equals("PT")) {
+			return "http://www.expedia.com.br/?rfrr=app.android";
+		}
+		else if (countryCode.equals("NO")) {
+			return "http://www.expedia.no/?rfrr=app.android";
+		}
+		else if (countryCode.equals("GB")) {
+			return "http://www.expedia.co.uk/?rfrr=app.android";
+		}
+		else if (countryCode.equals("AU")) {
+			return "http://www.expedia.co.uk/?rfrr=app.android";
+		}
+		else if (countryCode.equals("AT")) {
+			return "http://www.expedia.at/?rfrr=app.android";
+		}
+		else if (countryCode.equals("BE")) {
+			if (languageCode.equals("FR")) {
+				return "http://www.expedia.be/?langid=1036&rfrr=app.android";
+			}
+			else {
+				return "http://www.expedia.be/?langid=1043&rfrr=app.android";
+			}
+		}
+		else if (countryCode.equals("CA")) {
+			if (languageCode.equals("FR")) {
+				return "http://www.expedia.ca/?langid=3084&rfrr=app.android";
+			}
+			else {
+				return "http://www.expedia.co.uk/?rfrr=app.android";
+			}
+		}
+		else if (countryCode.equals("DK")) {
+			return "http://www.expedia.dk/?rfrr=app.android";
+		}
+		else if (countryCode.equals("IN")) {
+			return "http://www.expedia.co.uk/?rfrr=app.android";
+		}
+		else if (countryCode.equals("JP")) {
+			return "http://www.expedia.co.jp/?rfrr=app.android";
+		}
+		else if (countryCode.equals("MY")) {
+			return "http://www.expedia.com.my/?rfrr=app.android";
+		}
+		else if (countryCode.equals("MX")) {
+			return "http://www.expedia.com.mx/?rfrr=app.android";
+		}
+		else if (countryCode.equals("NL")) {
+			return "http://www.expedia.nl/?rfrr=app.android";
+		}
+		else if (countryCode.equals("NZ")) {
+			return "http://www.expedia.co.uk/?rfrr=app.android";
+		}
+		else if (countryCode.equals("SG")) {
+			return "http://www.expedia.co.uk/?rfrr=app.android";
+		}
+		else if (countryCode.equals("KR")) {
+			return "http://faq.expedia.co.kr/?rfrr=app.android";
+		}
+		else if (countryCode.equals("ID")) {
+			return "http://faq.expedia.co.id/?rfrr=app.android";
+		}
+		else if (countryCode.equals("PH")) {
+			return "http://www.expedia.com.ph/?rfrr=app.android";
+		}
+		else if (countryCode.equals("TH")) {
+			return "http://www.expedia.co.th/?rfrr=app.android";
+		}
+		else if (countryCode.equals("AR")) {
+			return "http://www.expedia.com.ar/?rfrr=app.android";
+		}
+		else if (countryCode.equals("TW")) {
+			return "http://www.expedia.com.tw/?rfrr=app.android";
+		}
+		else if (countryCode.equals("HK")) {
+			return "http://www.expedia.com.hk/?rfrr=app.android";
+		}
+
+		// Default to US version
+		return "http://www.expedia.com/?rfrr=app.android";
 	}
 
 }
