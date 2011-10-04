@@ -424,10 +424,15 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	}
 
 	private double getNearestTATouchPercentByIndicatorPercent(double percent) {
+		// nothing to do if there are no results to show
+		if(mSearchResponse == null) {
+			return 0;
+		}
+		
 		if (mCachedMarkerPositions == null || mCachedProperties == null) {
 			checkCachedMarkers();
 		}
-
+		
 		final double translationRatio = (mScrollHeight / mMarkerRangeHeight);
 
 		// Translate to marker range

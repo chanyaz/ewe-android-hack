@@ -106,7 +106,7 @@ public class ExpediaBookingsService extends Service {
 		 * (which means that, in all probability,
 		 * it was restarted after a force close)
 		 */
-		if (intent == null && !mWidgets.isEmpty()) {
+		if (intent == null || intent.getAction() == null && !mWidgets.isEmpty()) {
 			intent = new Intent(START_SEARCH_ACTION);
 		}
 
