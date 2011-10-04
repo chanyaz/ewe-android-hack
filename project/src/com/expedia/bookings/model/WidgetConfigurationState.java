@@ -95,12 +95,15 @@ public class WidgetConfigurationState extends ActiveRecordBase<WidgetConfigurati
 	 * deleted.
 	 */
 	public static void reconcileWidgetConfigurationStates(Context context, int[] existingAppWidgetIds) {
+		
 		String appWidgetIds = " (";
 		for (int i = 0; i < (existingAppWidgetIds.length - 1); i++) {
 			appWidgetIds += existingAppWidgetIds[i] + ", ";
 		}
 		if (existingAppWidgetIds.length > 0) {
 			appWidgetIds += existingAppWidgetIds[existingAppWidgetIds.length - 1] + " )";
+		} else {
+			appWidgetIds += ")";
 		}
 
 		ArrayList<Object> orphanedConfigStates = WidgetConfigurationState.query(context,
