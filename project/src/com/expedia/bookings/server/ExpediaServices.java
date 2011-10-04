@@ -76,7 +76,6 @@ public class ExpediaServices implements DownloadListener {
 
 	// Flags for doRequest()
 	private static final int F_SECURE_REQUEST = 1;
-	private static final int F_REVIEWS_URL = 2;
 
 	private Context mContext;
 	private Session mSession;
@@ -198,17 +197,22 @@ public class ExpediaServices implements DownloadListener {
 
 		JSONObject request = new JSONObject();
 		try {
-			request.put("sort", sort.getKey());
-			request.put("count", REVIEWS_PER_PAGE);
-			request.put("propertyId", property.getExpediaPropertyId() + "");
-			request.put("index", pageNumber);
+			addStandardRequestFields(request, "reviews_by_page");
+
+			JSONObject body = new JSONObject();
+			request.put("body", body);
+
+			body.put("sort", sort.getKey());
+			body.put("count", REVIEWS_PER_PAGE);
+			body.put("propertyId", property.getExpediaPropertyId() + "");
+			body.put("index", pageNumber);
 		}
 		catch (JSONException e) {
 			Log.e("Could not construct JSON reviews object.", e);
 			return null;
 		}
 
-		return (ReviewsResponse) doRequest(request, new ReviewsResponseHandler(mContext), F_REVIEWS_URL);
+		return (ReviewsResponse) doRequest(request, new ReviewsResponseHandler(mContext), 0);
 	}
 
 	public AvailabilityResponse availability(SearchParams params, Property property) {
@@ -442,10 +446,6 @@ public class ExpediaServices implements DownloadListener {
 		if ((flags & F_SECURE_REQUEST) != 0) {
 			serverUrl = (isRelease) ? "https://hotelpal.mobiata.com/appsupport/ean_api/service"
 					: "https://70.42.224.108/appsupport/ean_api/service";
-		}
-		else if ((flags & F_REVIEWS_URL) != 0) {
-			serverUrl = (isRelease) ? "http://hotelpal.mobiata.com/appsupport/ExpediaTRS/service/reviews_by_page"
-					: "http://70.42.224.108/appsupport/ExpediaTRS/service/reviews_by_page";
 		}
 		else {
 			serverUrl = (isRelease) ? "http://hotelpal.mobiata.com/appsupport/ean_api/service"
