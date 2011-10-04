@@ -18,15 +18,14 @@
 			android:id="@+id/thumbnail_image_view"
 			android:layout_width="64dp"
 			android:layout_height="64dp"
-			android:layout_alignParentTop="true"
-			android:layout_alignParentLeft="true"
 			android:scaleType="centerCrop"
 			android:src="@drawable/ic_image_placeholder"
 			android:background="@drawable/thumbnail_border" />
 		<LinearLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="8dp"
+			android:layout_marginLeft="6dp"
+			android:layout_marginTop="-2dp"
 			android:layout_weight="1"
 			android:orientation="vertical">
 			<TextView
@@ -71,19 +70,14 @@
 				android:ellipsize="end"
 				android:textColor="@android:color/white"
 				android:textStyle="bold"
-				android:textSize="15sp"
-
-				android:text="Staying 3 Nights" />
+				android:textSize="15sp" />
 			<TextView
 				android:id="@+id/dates_text_view"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="-4dp"
 				android:singleLine="true"
 				android:ellipsize="end"
-				android:textColor="@android:color/white"
-
-				android:text="12/12 - 12/15" />
+				android:textColor="@android:color/white" />
 		</LinearLayout>
 	</LinearLayout>
 
