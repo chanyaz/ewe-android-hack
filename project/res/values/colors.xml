@@ -29,4 +29,5 @@
 	<color name="sort_option_text_color_normal">#3d404e</color>
 	
 	<color name="widget_text_color">#214461</color>
+	<color name="hotel_price_text_color">#064192</color>
 </resources>
