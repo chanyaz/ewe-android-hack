@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.text.Html;
@@ -45,6 +46,9 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private DistanceUnit mDistanceUnit;
 
+	private boolean mEnglish;
+	private float mHighlyRatedTextSize;
+
 	public HotelAdapter(Context context, SearchResponse searchResponse) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -55,6 +59,12 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		// Calculate the size of the sale text size
 		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(context.getString(R.string.sale_caps), 1, 11,
 				new TextPaint(), 25);
+
+		Locale locale = Locale.getDefault();
+		mEnglish = (locale != null && locale.getLanguage() != null && Locale.getDefault()
+				.getLanguage().toLowerCase().equals("en"));
+		mHighlyRatedTextSize = ViewUtils.getTextSizeForMaxLines(context.getString(R.string.highly_rated), 1, 10,
+				new TextPaint(), 58);
 	}
 
 	public void rebuildCache() {
@@ -137,11 +147,17 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
 			holder.perNight = (TextView) convertView.findViewById(R.id.per_night_text_view);
 			holder.highlyRatedImage = (ImageView) convertView.findViewById(R.id.highly_rated_image_view);
+			holder.highlyRatedText = (TextView) convertView.findViewById(R.id.highly_rated_text_view);
 			holder.hotelRating = (RatingBar) convertView.findViewById(R.id.hotel_rating_bar);
 			holder.userRating = (RatingBar) convertView.findViewById(R.id.user_rating_bar);
 			holder.distance = (TextView) convertView.findViewById(R.id.distance_text_view);
 
 			holder.saleLabel.setTextSize(mSaleTextSize);
+
+			holder.highlyRatedImage.setImageResource((mEnglish) ? R.drawable.ic_highly_rated_english
+					: R.drawable.ic_highly_rated);
+
+			holder.highlyRatedText.setTextSize(mHighlyRatedTextSize);
 
 			convertView.setTag(holder);
 		}
@@ -211,9 +227,13 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		// See if this property is highly rated via TripAdvisor
 		if (property.isHighlyRated()) {
 			holder.highlyRatedImage.setVisibility(View.VISIBLE);
+			if (!mEnglish) {
+				holder.highlyRatedText.setVisibility(View.VISIBLE);
+			}
 		}
 		else {
 			holder.highlyRatedImage.setVisibility(View.GONE);
+			holder.highlyRatedText.setVisibility(View.GONE);
 		}
 
 		return convertView;
@@ -244,6 +264,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		public TextView price;
 		public TextView perNight;
 		public ImageView highlyRatedImage;
+		public TextView highlyRatedText;
 		public RatingBar hotelRating;
 		public RatingBar userRating;
 		public TextView distance;

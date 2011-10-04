@@ -89,7 +89,23 @@
 			android:layout_centerVertical="true"
 			android:layout_alignParentRight="true"
 			android:paddingTop="2dp"
-			android:src="@drawable/ic_highly_rated"
+			android:src="@drawable/ic_highly_rated_english"
+			android:visibility="gone" />
+		<TextView
+			android:id="@+id/highly_rated_text_view"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:layout_alignParentRight="true"
+			android:layout_alignLeft="@+id/highly_rated_image_view"
+			android:paddingLeft="12dp"
+			android:paddingTop=".5dp"
+			android:text="@string/highly_rated"
+			android:textColor="@android:color/white"
+			android:textSize="10dp"
+			android:textStyle="bold"
+			android:includeFontPadding="false"
+			android:gravity="left"
 			android:visibility="gone" />
 		<RatingBar
 			android:id="@+id/hotel_rating_bar"
