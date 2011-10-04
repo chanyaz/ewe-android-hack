@@ -71,7 +71,7 @@
 			android:maxLines="1"
 			android:textStyle="bold"
 			android:text="@string/book_now"
-			mobiata:maxTextSize="10dp"
+			mobiata:maxTextSize="15dp"
 			style="@style/Widget.Button.Orange" />
 	</RelativeLayout>
 
