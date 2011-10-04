@@ -140,6 +140,8 @@
 	<string name="error_search_in_past">오늘 상품은 종료되었습니다. 내일의 최고 상품을 확인해보세요.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short">&lt;b>위젯을 추가하여&lt;/b> 최신 호텔 상품을 만나보세요.</string>
+	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
+	<string name="enjoy_your_stay">즐거운 여행 되세요!</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -265,6 +267,14 @@
 	<string name="user_review_no_recent_reviews">이 호텔에 대한 최근 리뷰가 없습니다.</string>
 	
 	<!-- Room and rates list -->
+	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+	<plurals name="staying_nights">
+		<item quantity="zero">%d박 숙박</item>
+		<item quantity="one">%d박 숙박</item>
+		<item quantity="two">%d박 숙박</item>
+		<item quantity="many">%d박 숙박</item>
+		<item quantity="other">%d박 숙박</item>
+	</plurals>
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">남은 객실 검색중...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->

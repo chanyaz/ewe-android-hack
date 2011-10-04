@@ -140,6 +140,8 @@
 	<string name="error_search_in_past">Vi har inga erbjudanden idag. Kolla efter topperbjudanden imorgon.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short">&lt;b>Lägg till skrivbordsprogrammet &lt;/b> för att få de senaste hotellerbjudandena.</string>
+	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
+	<string name="enjoy_your_stay">Njut av din vistelse!</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -265,6 +267,14 @@
 	<string name="user_review_no_recent_reviews">Det finns inga nya recensioner av det här hotellet</string>
 	
 	<!-- Room and rates list -->
+	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+	<plurals name="staying_nights">
+		<item quantity="zero">Bor %d nätter</item>
+		<item quantity="one"> Bor %d nätter </item>
+		<item quantity="two"> Bor %d nätter </item>
+		<item quantity="many"> Bor %d nätter s</item>
+		<item quantity="other"> Bor %d nätter s</item>
+	</plurals>
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Hittar lediga rum…</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
@@ -411,7 +421,7 @@
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
 	<string name="contact_phone_template">Om du har frågor om din bokning ringer du Expedia.se på %s.</string>
 	<!-- Contact info for China  where 1$ represents the number by CN NetCom and 2$ represents the number from CN Telecom-->
-	<string name="contact_phone_china_template">Om du har frågor om din boknning ringer du Expedia.se på %1$s (CN NetCom) eller %2$s (CN Telecom).</string>
+	<string name="contact_phone_china_template">Om du har frågor om din bokning ringer du Expedia.se på %1$s (CN NetCom) eller %2$s (CN Telecom).</string>
 	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
 	<string name="contact_phone_default_template">Om du har frågor om din bokning ringer du Expedia.se på %1$s i USA/Kanada eller %2$s i Europa.</string>
 
@@ -479,7 +489,7 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Support för appen</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Travel Smart.</string>
+	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->

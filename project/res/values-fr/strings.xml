@@ -46,7 +46,7 @@
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
 	<string name="ProviderOutOfService">Votre système de positionnement est hors service. Veuillez réessayer plus tard.</string>
 	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">Votre système de positionnement est temporairement indisponible. Veuillez ressayer dans quelques minutes.</string>
+	<string name="ProviderTemporarilyUnavailable">Votre système de positionnement est temporairement indisponible.  Veuillez ressayer dans quelques minutes.</string>
 
 	<!-- Sort descriptions, e.g. Sorted by "description" -->
 	<!-- Sort by distance label -->
@@ -140,6 +140,8 @@
 	<string name="error_search_in_past">Plus de promos pour aujourd\'hui. À demain pour d\'autres offres exceptionnelles !</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short">&lt;b>Ajoutez le widget&lt;/b> pour recevoir les dernières offres d\'hôtels.</string>
+	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
+	<string name="enjoy_your_stay">Bon voyage !</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -238,7 +240,7 @@
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_critical">Négatifs</string>
 	<!-- Loading more reviews -->
-	<string name="user_review_loading_more_reviews">Plus d’avis...</string>
+	<string name="user_review_loading_more_reviews">Plus d\’avis...</string>
 	<!-- Read more of the review -->
 	<string name="user_review_read_more">en savoir plus</string>
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
@@ -265,10 +267,18 @@
 	<string name="user_review_no_recent_reviews">Aucun avis récent sur cet hôtel</string>
 	
 	<!-- Room and rates list -->
+	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+	<plurals name="staying_nights">
+		<item quantity="zero">Séjour de %d nuits</item>
+		<item quantity="one">Séjour d\’%d nuit</item>
+		<item quantity="two">Séjour de %d nuits</item>
+		<item quantity="many">Séjour de %d nuits</item>
+		<item quantity="other">Séjour de %d nuits</item>
+	</plurals>
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Recherche de chambres disponibles...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">Impossible de télécharger les informations sur les chambres et les tarifs. Veuillez vérifier votre connexion et réessayer plus tard.</string>
+	<string name="error_no_response_room_rates">Impossible de télécharger les informations sur les chambres et les tarifs.  Veuillez vérifier votre connexion et réessayer plus tard.</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">par nuit</string>
 	<!-- Rate price displayed "average per night" -->
@@ -298,7 +308,7 @@
 	<!-- Error if we couldn't load the room type details -->
 	<string name="error_room_type_load">Nous ne sommes pas en mesure de charger les details de la chambre.  Veuillez verifier votre connexion Internet et réessayer</string>
 	<!-- Error if we couldn't find the room type details -->
-	<string name="error_room_type_nonexistant">Nous ne sommes pas en mesure de trouver d’autres informations sur cette chambre.</string>
+	<string name="error_room_type_nonexistant">Nous ne sommes pas en mesure de trouver d\’autres informations sur cette chambre.</string>
 	<!-- Label for bed type -->
 	<string name="bed_type">Type de lit</string>
 	<!-- Label for length of stay -->
@@ -479,13 +489,13 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Assistance pour l\'App</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Travel Smart.</string>
+	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hôtels</string>
 	<!-- Message body for "tell a friend" feature -->
 	<string name="tell_a_friend_body">Bonjour,\n\nViens jeter un oeil à Expedia Hôtels pour Android et iPhone ! Cette application est gratuite et te permettra de rechercher et de réserver plus de 100 000 hôtels dans le monde entier. C\'est la façon la plus simple de réserver un hôtel avec ton téléphone !\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
-	<string name="info_label_terms_conditions">Conditions d’utilisation</string>
+	<string name="info_label_terms_conditions">Conditions d\’utilisation</string>
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Charte de confidentialité</string>
 	<!-- Copyright information -->

@@ -132,7 +132,8 @@
 	<string name="error_search_in_past">Kami tidak memiliki tawaran lagi untuk hari ini. Lihat tawaran teratas besok.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short"><b>Tambahkan widget</b> untuk mendapatkan tawaran hotel terbaru.</string>
-		
+	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
+	<string name="enjoy_your_stay">Selamat menginap!</string>	
 	<!--  Hotel names for widget preview --><!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
 	<string name="preview_hotel_wynn">Wynn Las Vegas</string>
 	<!-- Name of Bellagio hotel in Las Vegas (for widget preview) -->
@@ -201,7 +202,7 @@
 	<!-- Handicapped parking amenity -->
 	<string name="AmenityHandicappedParking">Parkir Ketunaan</string>
 	<!-- In-room accessibility amenity -->
-	<string name="AmenityInRoomAccessibility">Kamar Berfasilitas Ketunaan</string>
+	<string name="AmenityInRoomAccessibility">Kamar Ketunaan</string>
 	<!-- Accessibility equipment for the deaf amenity -->
 	<string name="AmenityDeafAccessibilityEquipment">Fasilitas untuk Tunarungu</string>
 	<!-- Braille or raised signage amenity -->
@@ -251,7 +252,14 @@
 	<string name="user_review_no_favorable_reviews">Tidak ada ulasan favorit untuk hotel ini</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">Tidak ada ulasan terbaru untuk hotel ini</string>
-	
+	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+	<plurals name="staying_nights">
+	<item quantity="zero">Menginap %d malam</item>
+	<item quantity="one">Menginap %d malam</item>
+	<item quantity="two">Menginap %d malam</item>
+	<item quantity="many">Menginap %d malam</item>
+	<item quantity="other">Menginap %d malam</item>
+	</plurals>
 	<!-- Room and rates list --><!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Mencari kamar yang tersedia...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
@@ -460,7 +468,7 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Dukungan App</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Travel Smart.</string>
+	<string name="travel_smart">Travel Smart</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->

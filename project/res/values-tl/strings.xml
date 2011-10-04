@@ -17,7 +17,7 @@
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">I-filter ayon sa pangalan ng hotel</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
-	<string name="tripadvisor_rating_high">Ipakita ang mga hotel na mataas na na-rate</string>
+	<string name="tripadvisor_rating_high">Ipakita lamang ang mga hotel na mataas na na-rate</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
 	<string name="tripadvisor_rating_all">Ipakita ang lahat ng hotel</string>
 	<!-- Label indicating that there are no results matching their current filter -->
@@ -140,6 +140,8 @@
 	<string name="error_search_in_past">Naubusan na kami ng mga kasunduan para sa araw na ito. Mag-check in bukas para sa mga nangungunang kasunduan.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short">&lt;b>Idagdag ang widget&lt;/b> upang makuha ang pinakabagong mga kasunduan ng hotel.</string>
+	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
+	<string name="enjoy_your_stay">Mag-enjoy sa inyong pananatili!</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -248,7 +250,7 @@
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d (na) Review</item>
-		<item quantity="one">%d (na) Review</item>
+		<item quantity="one">%d Review</item>
 		<item quantity="two">%d (na) Review</item>
 		<item quantity="many">%d (na) Review</item>
 		<item quantity="other">%d (na) Review</item>
@@ -265,6 +267,14 @@
 	<string name="user_review_no_recent_reviews">Walang mga kamakailang review para sa hotel na ito</string>
 	
 	<!-- Room and rates list -->
+	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+	<plurals name="staying_nights">
+		<item quantity="zero">Pananatili sa %d (na) gabi</item>
+		<item quantity="one">Pananatili sa %d na gabi</item>
+		<item quantity="two">Pananatili sa %d (na) gabi</item>
+		<item quantity="many">Pananatili sa %d (na) gabi</item>
+		<item quantity="other">Pananatili sa %d (na) gabi</item>
+	</plurals>
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Naghahanap ng mga available na kwarto...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
@@ -361,7 +371,7 @@
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">Kumpirmahin &amp; I-book</string>
 	<!-- Label for clearing private data -->
-	<string name="clear_private_data">I-clear ang Pribadong Data</string>
+	<string name="clear_private_data">I-clear Pribadong Data</string>
 	<!-- Title for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_title">I-clear ang Pribadong Data?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
@@ -479,7 +489,7 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Suporta sa App</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Maglakbay nang Mahusay.</string>
+	<string name="travel_smart">Maglakbay nang Mahusay</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Mga Hotel ng Expedia</string>
 	<!-- Message body for "tell a friend" feature -->
@@ -527,7 +537,7 @@
 	<!-- A number of children -->
 	<plurals name="number_of_children">
 		<item quantity="zero">%d (na) Bata</item>
-		<item quantity="one">%d (na) Bata</item>
+		<item quantity="one">%d Bata</item>
 		<item quantity="two">%d (na) Bata</item>
 		<item quantity="many">%d (na) Bata</item>
 		<item quantity="other">%d (na) Bata</item>

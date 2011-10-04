@@ -13,7 +13,7 @@
 	-->
 	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — &lt;b>%2$s&lt;/b> - &lt;b>%3$s&lt;/b></string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
-	<string name="filter_info_template">&lt;b>%1$d&lt;/b> hoteles coinciden con los criterios introducidos</string>
+	<string name="filter_info_template">&lt;b>%1$d&lt;/b> hoteles encontrados</string>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filtrar por nombre</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
@@ -59,7 +59,7 @@
 	<string name="sort_description_rating">Valoración</string>
 	
 	<!-- Filter option for "show all" -->
-	<string name="all">Todo</string>
+	<string name="all">Todos</string>
 	<!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
 	<string name="filter_price_cheap">$</string>
 	<!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
@@ -139,7 +139,9 @@
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">No hay ofertas disponibles para hoy. Vuelve a intentarlo mañana.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b>Añade el widget &lt;/b> para recibir las últimas ofertas de hoteles.</string>
+	<string name="widget_upsell_short">&lt;b>Añade el widget&lt;/b> para recibir las últimas ofertas de hoteles.</string>
+	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
+	<string name="enjoy_your_stay">¡Buen¡Buen viaje!</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -265,6 +267,14 @@
 	<string name="user_review_no_recent_reviews">No hay opiniones recientes sobre este hotel</string>
 	
 	<!-- Room and rates list -->
+	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+	<plurals name="staying_nights">
+		<item quantity="zero">%d noches</item>
+		<item quantity="one">%d noche</item>
+		<item quantity="two">%d noches</item>
+		<item quantity="many">%d noches</item>
+		<item quantity="other">%d noches</item>
+	</plurals>
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Buscando habitaciones disponibles...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
@@ -275,14 +285,14 @@
 	<string name="rate_avg_per_night">precio medio por noche</string>
 	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
 	<plurals name="number_of_rooms_left">
-		<item quantity="zero">No rooms left!</item>
+		<item quantity="zero">¡No quedan habitaciones!</item>
 		<item quantity="one">¡Solo queda 1 habitación!</item>
 		<item quantity="two">¡Solo quedan %d habitaciones!</item>
-		<item quantity="many">¡Solo quedan %d habitaciones!</item>
-		<item quantity="other">¡Solo quedan %d habitaciones!</item>
+		<item quantity="many">¡Quedan %d habitaciones!</item>
+		<item quantity="other">¡Quedan %d habitaciones!</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">\n %2.0f%% de descuento</string>
+	<string name="savings_template">DTO.\n %2.0f%%</string>
 	<!-- Label for free nights -->
 	<string name="free">¡GRATIS!</string>
 	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
@@ -296,7 +306,7 @@
 	<!-- Label for room type -->
 	<string name="room_type">Tipo de habitación</string>
 	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">No se han podido cargar los detalles de la habitación.  Comprueba la conexión a Internet y vuelve a intentarlo.</string>
+	<string name="error_room_type_load">No se han podido cargar los detalles de la habitación. Comprueba la conexión a Internet y vuelve a intentarlo.</string>
 	<!-- Error if we couldn't find the room type details -->
 	<string name="error_room_type_nonexistant">No se han encontrado detalles adicionales para esta habitación.</string>
 	<!-- Label for bed type -->
@@ -405,7 +415,7 @@
 	<!-- Itinerary number label -->
 	<string name="itinerary_number">Número de itinerario</string>
 	<!-- Confirmation email label -->
-	<string name="confirmation_email">Mensaje de confirmación</string>
+	<string name="confirmation_email">Email de confirmación</string>
 	<!-- Label for starting a new search -->
 	<string name="new_search">Nueva búsqueda</string>
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
@@ -479,11 +489,11 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Asistencia</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Travel Smart.</string>
+	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hoteles</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hola:\n\ Descubre Expedia Hoteles para teléfonos iPhone y Android.  Es GRATIS y te permite buscar y reservar habitaciones en más de 130.000 hoteles de todo el mundo.  Es la forma más fácil de reservar hoteles desde el teléfono..\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hola:\n\ Descubre Expedia Hoteles para teléfonos iPhone y Android.  Es GRATIS y te permite buscar y reservar habitaciones en más de 130.000 hoteles de todo el mundo.  Es la forma más fácil de reservar hoteles desde el teléfono.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Términos y condiciones</string>
 	<!-- Label for link to privacy policy -->

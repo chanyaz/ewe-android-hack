@@ -106,10 +106,6 @@
 	<string name="widget_savings_template">Save %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Tap to refresh</string>
-	<!--  Indicator to user to tap the widget to start a new search if no hotels are found -->
-	<string name="tap_to_start_new_search">Tap to start a new search</string>
-	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
-	<string name="tap_to_see_booking">Tap to see your booking</string>
 	<!--  Title for the widget configuration activity -->
 	<string name="widget_config_title">Hotel Deals Widget</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
@@ -132,6 +128,8 @@
 	<string name="error_search_in_past">We\'re out of deals for today.Check in for top deals tomorrow.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short"><b>Add the widget</b> to get the latest hotel deals.</string>
+	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
+	<string name="enjoy_your_stay">Enjoy your stay!</string>
 
 	
 	<!--  Hotel names for widget preview --><!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -252,7 +250,14 @@
 	<string name="user_review_no_favorable_reviews">There are no favourable reviews for this hotel</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">There are no recent reviews for this hotel</string>
-	
+	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+	<plurals name="staying_nights">
+	<item quantity="zero">Staying %d nights</item>
+	<item quantity="one">Staying %d night</item>
+	<item quantity="two">Staying %d nights</item>
+	<item quantity="many">Staying %d nights</item>
+	<item quantity="other">Staying %d nights</item>
+	</plurals>
 	<!-- Room and rates list --><!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Finding available rooms...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
@@ -461,7 +466,7 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">App Support</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Travel Smart.</string>
+	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->

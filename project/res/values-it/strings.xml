@@ -140,6 +140,8 @@
 	<string name="error_search_in_past">Non abbiamo più offerte per oggi. Cerca altre super offerte domani.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short">&lt;b>Aggiungi il widget&lt;/b> per avere le ultime offerte sugli hotel.</string>
+	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
+	<string name="enjoy_your_stay">Buon viaggio!</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -265,10 +267,18 @@
 	<string name="user_review_no_recent_reviews">Nessuna recensione recente su questo hotel</string>
 	
 	<!-- Room and rates list -->
+	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+	<plurals name="staying_nights">
+		<item quantity="zero">Soggiorno di %d notti</item>
+		<item quantity="one">Soggiorno di %d notte</item>
+		<item quantity="two">Soggiorno di %d notti</item>
+		<item quantity="many">Soggiorno di %d notti</item>
+		<item quantity="other">Soggiorno di %d notti</item>
+	</plurals>
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Ricerca camere disponibili in corso...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">Informazioni su camere e tariffe non disponibili.  Verifica la tua connessione e riprova.</string>
+	<string name="error_no_response_room_rates">Informazioni su camere e tariffe non disponibili. Verifica la tua connessione e riprova.</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">a notte</string>
 	<!-- Rate price displayed "average per night" -->
@@ -300,7 +310,7 @@
 	<!-- Error if we couldn't find the room type details -->
 	<string name="error_room_type_nonexistant">Impossibile trovare altri dettagli su questa camera.</string>
 	<!-- Label for bed type -->
-	<string name="bed_type">Tipo di letto</string>
+	<string name="bed_type">Typo di letto</string>
 	<!-- Label for length of stay -->
 	<string name="stay_duration">Durata del soggiorno</string>
 	<!-- Quantity for the length of stay -->
@@ -479,7 +489,7 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Assistenza app</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Travel Smart.</string>
+	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
@@ -493,7 +503,7 @@
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
-	<string name="send_feedback">Valuta l’app</string>
+	<string name="send_feedback">Valuta l\’app</string>
 	<!-- Header title -->
 	<string name="app_feedback">Commenti app</string>
 	<!-- Section header for rating (1-5 stars) -->

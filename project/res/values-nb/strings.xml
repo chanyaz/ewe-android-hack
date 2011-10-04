@@ -140,6 +140,8 @@
 	<string name="error_search_in_past">Vi har ingen tilbud igjen i dag. Se etter nye topptilbud i morgen.</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short">&lt;b>Legg til miniprogrammet&lt;/b> for å motta de nyeste hotelltilbudene.</string>
+	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
+	<string name="enjoy_your_stay">Ha et fint opphold!</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -265,6 +267,14 @@
 	<string name="user_review_no_recent_reviews">Det finnes ingen nylige anmeldelser av dette hotellet</string>
 	
 	<!-- Room and rates list -->
+	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+	<plurals name="staying_nights">
+		<item quantity="zero">For %d netter</item>
+		<item quantity="one">For %d natt</item>
+		<item quantity="two">For %d netter</item>
+		<item quantity="many">For %d netter</item>
+		<item quantity="other">For %d netter</item>
+	</plurals>
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Søker etter ledige rom ...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
@@ -479,7 +489,7 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Programstøtte</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Reis smart.</string>
+	<string name="travel_smart">Reis smart</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->

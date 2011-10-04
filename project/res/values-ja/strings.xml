@@ -140,6 +140,8 @@
 	<string name="error_search_in_past">今日のお得情報はありません。人気のお得情報は明日確認してください。</string>
 	<!--  Widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short">最新のお得なホテル情報を取得するため、&lt;b>ウィジェットを追加&lt;/b>します。</string>
+	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
+	<string name="enjoy_your_stay">素敵なご滞在を！</string>
 	
 	<!--  Hotel names for widget preview -->
 	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -265,6 +267,14 @@
 	<string name="user_review_no_recent_reviews">このホテルの最近のレビューはありません</string>
 	
 	<!-- Room and rates list -->
+	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+	<plurals name="staying_nights">
+		<item quantity="zero">宿泊 %d 泊</item>
+		<item quantity="one">宿泊%d泊</item>
+		<item quantity="two">宿泊%d泊</item>
+		<item quantity="many">宿泊%d泊</item>
+		<item quantity="other">宿泊%d泊</item>
+	</plurals>
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">空室を検索中…</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
@@ -479,7 +489,7 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">アプリ サポート</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">トラベルツール</string>
+	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
