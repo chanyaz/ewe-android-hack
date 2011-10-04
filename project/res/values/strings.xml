@@ -514,6 +514,8 @@
 	<string name="email_address">Email Address</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">What could we do better?</string>
+	<!-- Message displayed to users after they submit feedback -->
+	<string name="oosdk_thanks_txt">Thank you for submitting your opinion. We value our customers\' feedback.</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
