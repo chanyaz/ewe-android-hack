@@ -52,6 +52,9 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
 
+	// #9770: Add an hour of buffer so that the date range is always > the number of days
+	private static final int DATE_RANGE_BUFFER = 1000 * 60 * 60; // 1 hour
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -109,7 +112,8 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 			TextView datesView = (TextView) findViewById(R.id.dates_text_view);
 			datesView.setText(DateUtils.formatDateRange(this, mSearchParams.getCheckInDate().getTimeInMillis(),
-					mSearchParams.getCheckOutDate().getTimeInMillis(), DateUtils.FORMAT_NUMERIC_DATE));
+					mSearchParams.getCheckOutDate().getTimeInMillis() + DATE_RANGE_BUFFER,
+					DateUtils.FORMAT_NUMERIC_DATE));
 		}
 		else {
 			findViewById(R.id.nights_container).setVisibility(View.GONE);
