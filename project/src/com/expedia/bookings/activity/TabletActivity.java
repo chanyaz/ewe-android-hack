@@ -23,15 +23,13 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
-import com.expedia.bookings.data.Session;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
 import com.expedia.bookings.fragment.HotelListFragment;
+import com.expedia.bookings.fragment.InstanceFragment;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.TrackingUtils;
 import com.google.android.maps.MapActivity;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -48,6 +46,8 @@ public class TabletActivity extends MapActivity implements LocationListener {
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
 
+	private static final String TAG_INSTANCE_FRAGMENT = "INSTANCE_FRAGMENT";
+
 	public static final int EVENT_SEARCH_STARTED = 1;
 	public static final int EVENT_SEARCH_PROGRESS = 2;
 	public static final int EVENT_SEARCH_COMPLETE = 3;
@@ -57,11 +57,9 @@ public class TabletActivity extends MapActivity implements LocationListener {
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
 
 	//////////////////////////////////////////////////////////////////////////
-	// Search state variables
+	// Fragments
 
-	private SearchParams mSearchParams;
-
-	private Session mSession;
+	private InstanceFragment mInstance;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Event handling
@@ -96,14 +94,22 @@ public class TabletActivity extends MapActivity implements LocationListener {
 		mContext = this;
 		mResources = getResources();
 
-		mEventHandlers = new HashSet<EventHandler>();
+		// Add (or retrieve an existing) InstanceFragment to hold our state
+		FragmentManager fragmentManager = getFragmentManager();
+		mInstance = (InstanceFragment) fragmentManager.findFragmentByTag(TAG_INSTANCE_FRAGMENT);
+		if (mInstance == null) {
+			mInstance = InstanceFragment.newInstance();
+			FragmentTransaction ft = fragmentManager.beginTransaction();
+			ft.add(mInstance, TAG_INSTANCE_FRAGMENT);
+			ft.commit();
+		}
 
-		mSearchParams = new SearchParams();
+		mEventHandlers = new HashSet<EventHandler>();
 
 		setContentView(R.layout.activity_tablet);
 
 		// Setup search interface.  This is probably not ultimately where this will go.
-		FragmentManager fragmentManager = getFragmentManager();
+		fragmentManager = getFragmentManager();
 		FragmentTransaction ft = fragmentManager.beginTransaction();
 		ft.add(R.id.fragment_left, HotelListFragment.newInstance());
 		ft.commit();
@@ -198,12 +204,12 @@ public class TabletActivity extends MapActivity implements LocationListener {
 	}
 
 	private void updateActionBarViews() {
-		mSearchView.setQuery(mSearchParams.getSearchDisplayText(this), false);
+		mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(this), false);
 
-		int numGuests = mSearchParams.getNumAdults() + mSearchParams.getNumChildren();
+		int numGuests = mInstance.mSearchParams.getNumAdults() + mInstance.mSearchParams.getNumChildren();
 		mGuestsMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_guests, numGuests, numGuests));
 
-		int numNights = mSearchParams.getStayDuration();
+		int numNights = mInstance.mSearchParams.getStayDuration();
 		mDatesMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_nights, numNights, numNights));
 	}
 
@@ -211,14 +217,14 @@ public class TabletActivity extends MapActivity implements LocationListener {
 	// Dialogs
 
 	void showGuestsDialog() {
-		DialogFragment newFragment = GuestsDialogFragment.newInstance(mSearchParams.getNumAdults(),
-				mSearchParams.getNumChildren());
+		DialogFragment newFragment = GuestsDialogFragment.newInstance(mInstance.mSearchParams.getNumAdults(),
+				mInstance.mSearchParams.getNumChildren());
 		newFragment.show(getFragmentManager(), "GuestsDialog");
 	}
 
 	private void showCalendarDialog() {
-		DialogFragment newFragment = CalendarDialogFragment.newInstance(mSearchParams.getCheckInDate(),
-				mSearchParams.getCheckOutDate());
+		DialogFragment newFragment = CalendarDialogFragment.newInstance(mInstance.mSearchParams.getCheckInDate(),
+				mInstance.mSearchParams.getCheckOutDate());
 		newFragment.show(getFragmentManager(), "CalendarDialog");
 	}
 
@@ -228,8 +234,8 @@ public class TabletActivity extends MapActivity implements LocationListener {
 	public void setFreeformLocation(String freeformLocation) {
 		Log.d("Setting freeform location: " + freeformLocation);
 
-		mSearchParams.setFreeformLocation(freeformLocation);
-		mSearchParams.setSearchType(SearchType.FREEFORM);
+		mInstance.mSearchParams.setFreeformLocation(freeformLocation);
+		mInstance.mSearchParams.setSearchType(SearchType.FREEFORM);
 
 		updateActionBarViews();
 	}
@@ -237,8 +243,8 @@ public class TabletActivity extends MapActivity implements LocationListener {
 	public void setGuests(int numAdults, int numChildren) {
 		Log.d("Setting guests: " + numAdults + " adult(s), " + numChildren + " child(ren)");
 
-		mSearchParams.setNumAdults(numAdults);
-		mSearchParams.setNumChildren(numChildren);
+		mInstance.mSearchParams.setNumAdults(numAdults);
+		mInstance.mSearchParams.setNumChildren(numChildren);
 
 		updateActionBarViews();
 	}
@@ -246,8 +252,8 @@ public class TabletActivity extends MapActivity implements LocationListener {
 	public void setDates(Calendar checkIn, Calendar checkOut) {
 		Log.d("Setting dates: " + checkIn.getTimeInMillis() + " to " + checkOut.getTimeInMillis());
 
-		mSearchParams.setCheckInDate(checkIn);
-		mSearchParams.setCheckOutDate(checkOut);
+		mInstance.mSearchParams.setCheckInDate(checkIn);
+		mInstance.mSearchParams.setCheckOutDate(checkOut);
 
 		updateActionBarViews();
 	}
@@ -255,14 +261,14 @@ public class TabletActivity extends MapActivity implements LocationListener {
 	public void setLatLng(double latitude, double longitude) {
 		Log.d("Setting lat/lng: lat=" + latitude + ", lng=" + longitude);
 
-		mSearchParams.setSearchLatLon(latitude, longitude);
+		mInstance.mSearchParams.setSearchLatLon(latitude, longitude);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Search
 
 	public void startSearch() {
-		Log.i("startSearch(): " + mSearchParams.toString());
+		Log.i("startSearch(): " + mInstance.mSearchParams.toString());
 
 		notifyEventHandlers(EVENT_SEARCH_STARTED, null);
 
@@ -279,9 +285,9 @@ public class TabletActivity extends MapActivity implements LocationListener {
 		bd.cancelDownload(KEY_GEOCODE);
 
 		// Determine search type, conduct search
-		switch (mSearchParams.getSearchType()) {
+		switch (mInstance.mSearchParams.getSearchType()) {
 		case FREEFORM:
-			if (mSearchParams.hasSearchLatLon()) {
+			if (mInstance.mSearchParams.hasSearchLatLon()) {
 				startSearchDownloader();
 			}
 			else {
@@ -306,14 +312,14 @@ public class TabletActivity extends MapActivity implements LocationListener {
 	}
 
 	public void startGeocode() {
-		Log.i("startGeocode(): " + mSearchParams.getFreeformLocation());
+		Log.i("startGeocode(): " + mInstance.mSearchParams.getFreeformLocation());
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.startDownload(KEY_GEOCODE, mGeocodeDownload, mGeocodeCallback);
 	}
 
 	private Download mGeocodeDownload = new Download() {
 		public Object doDownload() {
-			return LocationServices.geocode(mContext, mSearchParams.getFreeformLocation());
+			return LocationServices.geocode(mContext, mInstance.mSearchParams.getFreeformLocation());
 		}
 	};
 
@@ -331,7 +337,7 @@ public class TabletActivity extends MapActivity implements LocationListener {
 				else if (size == 1) {
 					Address address = addresses.get(0);
 
-					mSearchParams.setFreeformLocation(address);
+					mInstance.mSearchParams.setFreeformLocation(address);
 					updateActionBarViews();
 
 					setLatLng(address.getLatitude(), address.getLongitude());
@@ -363,9 +369,9 @@ public class TabletActivity extends MapActivity implements LocationListener {
 
 	private Download mSearchDownload = new Download() {
 		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext, mSession);
+			ExpediaServices services = new ExpediaServices(mContext, mInstance.mSession);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
-			return services.search(mSearchParams, 0);
+			return services.search(mInstance.mSearchParams, 0);
 		}
 	};
 
