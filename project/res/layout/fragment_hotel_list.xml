@@ -4,11 +4,29 @@
 	xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
+	android:orientation="vertical"
 	android:gravity="center">
+	<LinearLayout
+		android:id="@+id/header_layout"
+		android:layout_width="fill_parent"
+		android:layout_height="48dp"
+		android:gravity="center_vertical"
+		android:orientation="horizontal"
+		android:background="@color/light_gray"
+		android:visibility="gone">
+		<TextView
+			android:id="@+id/num_hotels_text_view"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="12dp"
+			android:textSize="18sp" />
+	</LinearLayout>
+
 	<ListView
 		android:id="@android:id/list"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent" />
+
 	<TextView
 		android:id="@android:id/empty"
 		android:layout_width="wrap_content"

@@ -38,6 +38,14 @@
 	<string name="sort_hotels">"Sort: "</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">Filter Hotels</string>
+	<!-- A number of results -->
+	<plurals name="number_of_results">
+		<item quantity="zero">&lt;b>%d&lt;/b> Results</item>
+		<item quantity="one">&lt;b>%d&lt;/b> Result</item>
+		<item quantity="two">&lt;b>%d&lt;/b> Results</item>
+		<item quantity="many">&lt;b>%d&lt;/b> Results</item>
+		<item quantity="other">&lt;b>%d&lt;/b> Results</item>
+	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
 	<string name="EnableLocationSettings">To use My Location, you must first turn on a Location source in Settings.\nGo to Settings and turn it on now?</string>
