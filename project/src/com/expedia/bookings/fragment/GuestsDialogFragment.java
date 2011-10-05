@@ -23,6 +23,9 @@ public class GuestsDialogFragment extends DialogFragment {
 	private static final int MAX_PER_TYPE = 4;
 	private static final int MAX_GUESTS = 5;
 
+	private static final String KEY_NUM_ADULTS = "numAdults";
+	private static final String KEY_NUM_CHILDREN = "numChildren";
+
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
 
@@ -65,8 +68,14 @@ public class GuestsDialogFragment extends DialogFragment {
 		updateNumberPickerRanges();
 
 		// Set initial values for pickers
-		mAdultsNumberPicker.setValue(mInitialAdults);
-		mChildrenNumberPicker.setValue(mInitialChildren);
+		if (savedInstanceState == null) {
+			mAdultsNumberPicker.setValue(mInitialAdults);
+			mChildrenNumberPicker.setValue(mInitialChildren);
+		}
+		else {
+			mAdultsNumberPicker.setValue(savedInstanceState.getInt(KEY_NUM_ADULTS));
+			mChildrenNumberPicker.setValue(savedInstanceState.getInt(KEY_NUM_CHILDREN));
+		}
 
 		// Configure number pickers to dynamically change the layout on value changes
 		OnValueChangeListener listener = new OnValueChangeListener() {
@@ -93,6 +102,14 @@ public class GuestsDialogFragment extends DialogFragment {
 		builder.setNegativeButton(android.R.string.cancel, null);
 
 		return builder.create();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putInt(KEY_NUM_ADULTS, mAdultsNumberPicker.getValue());
+		outState.putInt(KEY_NUM_CHILDREN, mChildrenNumberPicker.getValue());
 	}
 
 	public String getTitleText() {

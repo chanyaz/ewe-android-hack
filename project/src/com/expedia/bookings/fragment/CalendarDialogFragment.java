@@ -21,6 +21,13 @@ import com.mobiata.android.widget.CalendarDatePicker;
 
 public class CalendarDialogFragment extends DialogFragment {
 
+	private static final String KEY_START_YEAR = "startYear";
+	private static final String KEY_START_MONTH = "startMonth";
+	private static final String KEY_START_DAY_OF_MONTH = "startDayOfMonth";
+	private static final String KEY_END_YEAR = "endYear";
+	private static final String KEY_END_MONTH = "endMonth";
+	private static final String KEY_END_DAY_OF_MONTH = "endDayOfMonth";
+
 	private CalendarDatePicker mCalendarDatePicker;
 
 	private Calendar mInitialStartDate;
@@ -45,10 +52,18 @@ public class CalendarDialogFragment extends DialogFragment {
 		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker);
 
 		// Set initial dates
-		mCalendarDatePicker.updateStartDate(mInitialStartDate.get(Calendar.YEAR),
-				mInitialStartDate.get(Calendar.MONTH), mInitialStartDate.get(Calendar.DAY_OF_MONTH));
-		mCalendarDatePicker.updateEndDate(mInitialEndDate.get(Calendar.YEAR),
-				mInitialEndDate.get(Calendar.MONTH), mInitialEndDate.get(Calendar.DAY_OF_MONTH));
+		if (savedInstanceState == null) {
+			mCalendarDatePicker.updateStartDate(mInitialStartDate.get(Calendar.YEAR),
+					mInitialStartDate.get(Calendar.MONTH), mInitialStartDate.get(Calendar.DAY_OF_MONTH));
+			mCalendarDatePicker.updateEndDate(mInitialEndDate.get(Calendar.YEAR),
+					mInitialEndDate.get(Calendar.MONTH), mInitialEndDate.get(Calendar.DAY_OF_MONTH));
+		}
+		else {
+			mCalendarDatePicker.updateStartDate(savedInstanceState.getInt(KEY_START_YEAR),
+					savedInstanceState.getInt(KEY_START_MONTH), savedInstanceState.getInt(KEY_START_DAY_OF_MONTH));
+			mCalendarDatePicker.updateEndDate(savedInstanceState.getInt(KEY_END_YEAR),
+					savedInstanceState.getInt(KEY_END_MONTH), savedInstanceState.getInt(KEY_END_DAY_OF_MONTH));
+		}
 
 		// Configure buttons
 		builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
@@ -66,6 +81,18 @@ public class CalendarDialogFragment extends DialogFragment {
 		builder.setNegativeButton(android.R.string.cancel, null);
 
 		return builder.create();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putInt(KEY_START_YEAR, mCalendarDatePicker.getStartYear());
+		outState.putInt(KEY_START_MONTH, mCalendarDatePicker.getStartDayOfMonth());
+		outState.putInt(KEY_START_DAY_OF_MONTH, mCalendarDatePicker.getStartDayOfMonth());
+		outState.putInt(KEY_END_YEAR, mCalendarDatePicker.getEndYear());
+		outState.putInt(KEY_END_MONTH, mCalendarDatePicker.getEndMonth());
+		outState.putInt(KEY_END_DAY_OF_MONTH, mCalendarDatePicker.getEndDayOfMonth());
 	}
 
 	private void setInitialDates(Calendar startDate, Calendar endDate) {
