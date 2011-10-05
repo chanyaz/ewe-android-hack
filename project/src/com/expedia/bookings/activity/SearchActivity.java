@@ -81,6 +81,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.animation.Rotate3dAnimation;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter;
@@ -284,6 +285,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	//----------------------------------
 
 	private Context mContext;
+	private ExpediaBookingApp mApp;
 
 	private LocalActivityManager mLocalActivityManager;
 	private String mTag = ACTIVITY_SEARCH_LIST;
@@ -430,6 +432,15 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			}
 		}
 	};
+	
+	private OnSearchParamsChangedInWidgetListener mSearchpParamsChangedListener = new OnSearchParamsChangedInWidgetListener() {
+		
+		@Override
+		public void onSearchParamsChanged(SearchParams searchParams) {
+			setSearchParams(searchParams);
+			mStartSearchOnResume = true;
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDES
@@ -459,6 +470,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 
 		mContext = this;
+		mApp = (ExpediaBookingApp) getApplicationContext();
 
 		onPageLoad();
 		setContentView(R.layout.activity_search);
@@ -604,6 +616,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
 			mStartSearchOnResume = true;
 		}
+		
 	}
 
 	@Override
@@ -631,7 +644,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		mApp.registerSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
+		
 		mProgressBar.onResume();
 
 		initializeCalendarDatePicker();
@@ -697,6 +711,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		// load onto an image until explicitly requested.
 		ImageCache.clearAllCallbacks();
 
+		mApp.unregisterSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
+		
 		// do not attempt to save parameters if the user was short circuited to the
 		// confirmation screen when the search activity started
 		if (isFinishing() && !ConfirmationActivity.hasSavedConfirmationData(this)) {
@@ -997,7 +1013,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	//----------------------------------
 	// VIEW INITIALIZATION
 	//----------------------------------

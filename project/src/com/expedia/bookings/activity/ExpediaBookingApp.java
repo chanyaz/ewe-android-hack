@@ -4,7 +4,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.ArrayList;
 
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
@@ -53,4 +55,42 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 		// Call the original exception handler
 		mOriginalUncaughtExceptionHandler.uncaughtException(thread, ex);
 	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// LISTENERS FOR WHEN SEARCH PARAMS CHANGE IN THE WIDGET
+	//////////////////////////////////////////////////////////////////////////////////////////
+	/*
+	 *  The app maintains a list of listeners to notify when search params
+	 *  change in the widget. This is so that we can easily propogate through the 
+	 *  the app the need to use searchParams from the widget instead of the ones
+	 *  being driven by user parameters set within the app
+	 */
+	public interface OnSearchParamsChangedInWidgetListener {
+		public void onSearchParamsChanged(SearchParams searchParams);
+	};
+	
+	private ArrayList<OnSearchParamsChangedInWidgetListener> mListeners;
+	
+	public void registerSearchParamsChangedInWidgetListener(OnSearchParamsChangedInWidgetListener listener) {
+		if(mListeners == null) {
+			mListeners = new ArrayList<OnSearchParamsChangedInWidgetListener>();
+		}
+		mListeners.add(listener);
+	}
+	
+	public void unregisterSearchParamsChangedInWidgetListener(OnSearchParamsChangedInWidgetListener listener) {
+		if(mListeners == null) {
+			return;
+		}
+		mListeners.remove(listener);
+	}
+	
+	public void broadcastSearchParamsChangedInWidget(SearchParams searchParams) {
+		if(mListeners != null) {
+			for(OnSearchParamsChangedInWidgetListener listener : mListeners) {
+				listener.onSearchParamsChanged(searchParams);
+			}
+		}
+	}
+	
 }

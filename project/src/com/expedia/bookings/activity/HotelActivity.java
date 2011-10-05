@@ -36,6 +36,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Property.Amenity;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -62,6 +63,7 @@ public class HotelActivity extends Activity {
 	private static final int MAX_IMAGES_LOADED = 10;
 
 	private Context mContext;
+	private ExpediaBookingApp mApp;
 
 	private ScrollView mScrollView;
 
@@ -87,6 +89,7 @@ public class HotelActivity extends Activity {
 
 	private void setupHotelActivity(Bundle savedInstanceState) {
 		mContext = this;
+		mApp = (ExpediaBookingApp) getApplicationContext();
 		final Intent intent = getIntent();
 
 		setContentView(R.layout.activity_hotel);
@@ -234,9 +237,8 @@ public class HotelActivity extends Activity {
 		TextView fromView = (TextView) findViewById(R.id.from_text_view);
 		if (lowestRate.getSavingsPercent() > 0) {
 			Money baseRate = lowestRate.getDisplayBaseRate();
-			fromView.setText(Html.fromHtml(
-					getString(R.string.from_template, StrUtils.formatHotelPrice(baseRate)), null,
-					new StrikethroughTagHandler()));
+			fromView.setText(Html.fromHtml(getString(R.string.from_template, StrUtils.formatHotelPrice(baseRate)),
+					null, new StrikethroughTagHandler()));
 		}
 		else {
 			fromView.setText(R.string.from);
@@ -359,6 +361,8 @@ public class HotelActivity extends Activity {
 			// are "last app search" - if this ever changes, this needs to be updated.
 			if (intent.getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
 				TrackingUtils.trackSimpleEvent(this, null, null, null, "App.Widget.Deal.AppLastSearch");
+				mApp.broadcastSearchParamsChangedInWidget((SearchParams) JSONUtils.parseJSONableFromIntent(intent,
+						Codes.SEARCH_PARAMS, SearchParams.class));
 			}
 		}
 	}

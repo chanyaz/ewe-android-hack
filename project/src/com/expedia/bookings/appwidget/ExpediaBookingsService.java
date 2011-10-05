@@ -702,6 +702,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			int result = mWidgetDeals.restoreFromDisk();
 			if (result == WidgetDeals.WIDGET_DEALS_RESTORED) {
 				loadPropertyIntoAllWidgets(ROTATE_INTERVAL);
+				scheduleSearch();
 			}
 			else {
 				startSearch();
