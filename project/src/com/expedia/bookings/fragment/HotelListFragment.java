@@ -16,6 +16,8 @@ import com.expedia.bookings.widget.HotelAdapter;
 
 public class HotelListFragment extends ListFragment implements EventHandler {
 
+	private HotelAdapter mAdapter;
+
 	private TextView mMessageTextView;
 
 	public static HotelListFragment newInstance() {
@@ -26,19 +28,27 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	// Lifecycle
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		((TabletActivity) activity).registerEventHandler(this);
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		mAdapter = new HotelAdapter(getActivity());
+		setListAdapter(mAdapter);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_list, container, false);
 
 		mMessageTextView = (TextView) view.findViewById(android.R.id.empty);
 
 		return view;
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		((TabletActivity) activity).registerEventHandler(this);
 	}
 
 	@Override
@@ -55,14 +65,14 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
 		case TabletActivity.EVENT_SEARCH_STARTED:
-			setListAdapter(null);
+			mAdapter.setSearchResponse(null);
 			mMessageTextView.setText(R.string.progress_searching_hotels);
 			break;
 		case TabletActivity.EVENT_SEARCH_PROGRESS:
 			mMessageTextView.setText((String) data);
 			break;
 		case TabletActivity.EVENT_SEARCH_COMPLETE:
-			setListAdapter(new HotelAdapter(getActivity(), (SearchResponse) data));
+			mAdapter.setSearchResponse((SearchResponse) data);
 			break;
 		case TabletActivity.EVENT_SEARCH_ERROR:
 			mMessageTextView.setText((String) data);

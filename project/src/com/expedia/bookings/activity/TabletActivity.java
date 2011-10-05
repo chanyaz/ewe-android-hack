@@ -126,13 +126,28 @@ public class TabletActivity extends MapActivity implements LocationListener {
 	protected void onResume() {
 		super.onResume();
 
-		// Start an initial search
-		startSearch();
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(KEY_GEOCODE)) {
+			bd.registerDownloadCallback(KEY_SEARCH, mGeocodeCallback);
+		}
+		else if (bd.isDownloading(KEY_SEARCH)) {
+			bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
+		}
+		else if (mInstance.mSearchResponse != null) {
+			mSearchCallback.onDownload(mInstance.mSearchResponse);
+		}
+		else {
+			startSearch();
+		}
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.unregisterDownloadCallback(KEY_GEOCODE);
+		bd.unregisterDownloadCallback(KEY_SEARCH);
 	}
 
 	@Override
@@ -376,7 +391,7 @@ public class TabletActivity extends MapActivity implements LocationListener {
 
 	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
 		public void onDownload(Object results) {
-			SearchResponse response = (SearchResponse) results;
+			SearchResponse response = mInstance.mSearchResponse = (SearchResponse) results;
 
 			if (response == null) {
 				notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.progress_search_failed));
