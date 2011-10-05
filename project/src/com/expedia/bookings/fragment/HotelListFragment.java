@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,15 +35,15 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
 
-		((TabletActivity) getActivity()).registerEventHandler(this);
+		((TabletActivity) activity).registerEventHandler(this);
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
+	public void onDetach() {
+		super.onDetach();
 
 		((TabletActivity) getActivity()).unregisterEventHandler(this);
 	}

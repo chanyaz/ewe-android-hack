@@ -64,7 +64,7 @@ public class TabletActivity extends MapActivity implements LocationListener {
 	//////////////////////////////////////////////////////////////////////////
 	// Event handling
 
-	private Set<EventHandler> mEventHandlers;
+	private Set<EventHandler> mEventHandlers = new HashSet<EventHandler>();
 
 	public interface EventHandler {
 		public void handleEvent(int eventCode, Object data);
@@ -104,18 +104,14 @@ public class TabletActivity extends MapActivity implements LocationListener {
 			ft.commit();
 		}
 
-		mEventHandlers = new HashSet<EventHandler>();
-
 		setContentView(R.layout.activity_tablet);
 
 		// Setup search interface.  This is probably not ultimately where this will go.
-		fragmentManager = getFragmentManager();
-		FragmentTransaction ft = fragmentManager.beginTransaction();
-		ft.add(R.id.fragment_left, HotelListFragment.newInstance());
-		ft.commit();
-
-		// Start an initial search
-		startSearch();
+		if (fragmentManager.findFragmentById(R.id.fragment_left) == null) {
+			FragmentTransaction ft = fragmentManager.beginTransaction();
+			ft.add(R.id.fragment_left, HotelListFragment.newInstance());
+			ft.commit();
+		}
 	}
 
 	@Override
@@ -129,6 +125,9 @@ public class TabletActivity extends MapActivity implements LocationListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		// Start an initial search
+		startSearch();
 	}
 
 	@Override
