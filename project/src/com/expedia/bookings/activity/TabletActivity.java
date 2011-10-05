@@ -267,7 +267,7 @@ public class TabletActivity extends MapActivity implements LocationListener {
 	// Search
 
 	public void startSearch() {
-		Log.i("startSearch(): " + mInstance.mSearchParams.toString());
+		Log.i("startSearch(): " + mInstance.mSearchParams.toJson().toString());
 
 		notifyEventHandlers(EVENT_SEARCH_STARTED, null);
 
@@ -381,11 +381,17 @@ public class TabletActivity extends MapActivity implements LocationListener {
 			if (response == null) {
 				notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.progress_search_failed));
 			}
-			else if (response.hasErrors()) {
-				notifyEventHandlers(EVENT_SEARCH_ERROR, response.getErrors().get(0).getPresentableMessage(mContext));
-			}
 			else {
-				notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
+				if (response.getSession() != null) {
+					mInstance.mSession = response.getSession();
+				}
+
+				if (response.hasErrors()) {
+					notifyEventHandlers(EVENT_SEARCH_ERROR, response.getErrors().get(0).getPresentableMessage(mContext));
+				}
+				else {
+					notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
+				}
 			}
 		}
 	};
