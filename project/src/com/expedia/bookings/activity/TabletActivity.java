@@ -25,6 +25,7 @@ import android.widget.SearchView.OnQueryTextListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
@@ -310,7 +311,7 @@ public class TabletActivity extends MapActivity implements LocationListener {
 
 		if (!NetUtils.isOnline(this)) {
 			Log.w("startSearch() - no internet connection.");
-			notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.error_no_internet));
+			simulateSearchErrorResponse(R.string.error_no_internet);
 			return;
 		}
 
@@ -389,7 +390,7 @@ public class TabletActivity extends MapActivity implements LocationListener {
 	}
 
 	public void onGeocodeFailure() {
-		notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.geolocation_failed));
+		simulateSearchErrorResponse(R.string.geolocation_failed);
 	}
 
 	public void onMyLocationFound(Location location) {
@@ -433,6 +434,16 @@ public class TabletActivity extends MapActivity implements LocationListener {
 		}
 	};
 
+	private void simulateSearchErrorResponse(int errorMessageResId) {
+		SearchResponse response = new SearchResponse();
+		ServerError error = new ServerError();
+		error.setPresentationMessage(getString(errorMessageResId));
+		error.setCode("SIMULATED");
+		response.addError(error);
+
+		mSearchCallback.onDownload(response);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Location
 
@@ -451,7 +462,7 @@ public class TabletActivity extends MapActivity implements LocationListener {
 
 		if (provider == null) {
 			Log.w("Could not find a location provider, informing user of error...");
-			notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.ProviderDisabled));
+			simulateSearchErrorResponse(R.string.ProviderDisabled);
 
 			// TODO: Show user dialog to go to enable location services
 		}
@@ -490,12 +501,12 @@ public class TabletActivity extends MapActivity implements LocationListener {
 		if (status == LocationProvider.OUT_OF_SERVICE) {
 			stopLocationListener();
 			Log.w("Location listener failed: out of service");
-			notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.ProviderOutOfService));
+			simulateSearchErrorResponse(R.string.ProviderOutOfService);
 		}
 		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
 			stopLocationListener();
 			Log.w("Location listener failed: temporarily unavailable");
-			notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.ProviderTemporarilyUnavailable));
+			simulateSearchErrorResponse(R.string.ProviderTemporarilyUnavailable);
 		}
 	}
 
