@@ -217,13 +217,9 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		List<Overlay> overlays = mMapView.getOverlays();
 
 		// Add hotels overlay
-		Property[] propertyArray = mSearchResponse.getFilteredAndSortedProperties();
-		List<Property> properties = new ArrayList<Property>();
-
-		properties = propertyArray != null ? Arrays.asList(propertyArray) : null;
 		// clear the map info to determine center based on new search
 		clearSavedMapInfo();
-		mHotelItemizedOverlay.setProperties(properties, mSearchResponse.getProperties());
+		mHotelItemizedOverlay.setProperties(mSearchResponse);
 		mHotelItemizedOverlay.setShowDistance(mShowDistance);
 
 		mExactLocationItemizedOverlay.setExactLocation(mExactLocationLatitude, mExactLocationLongitude,
@@ -298,8 +294,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mSavedZoomLevel = mMapView.getZoomLevel();
 		mTappedPropertyId = mHotelItemizedOverlay.getTappedPropertyId();
 
-		mHotelItemizedOverlay.setProperties(Arrays.asList(mSearchResponse.getFilteredAndSortedProperties()),
-				mSearchResponse.getProperties());
+		mHotelItemizedOverlay.setProperties(mSearchResponse);
 		mMapView.invalidate();
 
 		Boolean areHotelsVisible = mHotelItemizedOverlay.areHotelsVisible();

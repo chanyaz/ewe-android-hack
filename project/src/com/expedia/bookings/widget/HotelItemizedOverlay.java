@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
@@ -11,6 +12,7 @@ import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.utils.StrUtils;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -62,10 +64,17 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 		mDistanceUnit = DistanceUnit.getDefaultDistanceUnit();
 	}
 
-	public void setProperties(List<Property> filteredProperties, List<Property> unFilteredProperties) {
+	public void setProperties(SearchResponse searchResponse) {
 		hideBalloon();
-		mProperties = filteredProperties;
-		mUnFilteredProperties = unFilteredProperties;
+		if (searchResponse != null) {
+			Property[] propertyArray = searchResponse.getFilteredAndSortedProperties();
+			mProperties = (propertyArray != null) ? Arrays.asList(propertyArray) : null;
+			mUnFilteredProperties = searchResponse.getProperties();
+		}
+		else {
+			mProperties = null;
+			mUnFilteredProperties = null;
+		}
 		setLastFocusedIndex(-1);
 		populate();
 	}

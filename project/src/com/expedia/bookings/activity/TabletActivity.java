@@ -28,6 +28,7 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
 import com.expedia.bookings.fragment.HotelListFragment;
+import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.InstanceFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.google.android.maps.MapActivity;
@@ -110,6 +111,12 @@ public class TabletActivity extends MapActivity implements LocationListener {
 		if (fragmentManager.findFragmentById(R.id.fragment_left) == null) {
 			FragmentTransaction ft = fragmentManager.beginTransaction();
 			ft.add(R.id.fragment_left, HotelListFragment.newInstance());
+			ft.commit();
+		}
+
+		if (fragmentManager.findFragmentById(R.id.fragment_right) == null) {
+			FragmentTransaction ft = fragmentManager.beginTransaction();
+			ft.add(R.id.fragment_right, HotelMapFragment.newInstance());
 			ft.commit();
 		}
 	}

@@ -9,6 +9,10 @@
 		android:layout_width="0dp"
 		android:layout_height="fill_parent"
 		android:layout_weight="1" />
+	<View
+		android:layout_width="@dimen/one_pixel"
+		android:layout_height="fill_parent"
+		android:background="@color/light_gray" />
 	<LinearLayout
 		android:id="@+id/fragment_right"
 		android:layout_width="0dp"
