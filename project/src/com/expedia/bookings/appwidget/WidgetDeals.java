@@ -11,7 +11,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
-import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
@@ -35,8 +34,6 @@ public class WidgetDeals implements JSONable {
 	private List<Property> mDeals;
 	private Session mSession;
 	private SearchParams mSearchParams;
-	private Filter mFilter;
-	private boolean toSpecifyDistanceFromUser;
 
 	private static WidgetDeals singleton;
 
@@ -71,14 +68,6 @@ public class WidgetDeals implements JSONable {
 		return mSession;
 	}
 
-	public Filter getFilter() {
-		return mFilter;
-	}
-
-	public void setFilter(Filter filter) {
-		mFilter = filter;
-	}
-
 	public SearchParams getSearchParams() {
 		return mSearchParams;
 	}
@@ -86,14 +75,6 @@ public class WidgetDeals implements JSONable {
 	public void setSearchParmas(SearchParams searchParams) {
 		mSearchParams = new SearchParams();
 		mSearchParams.fromJson(searchParams.toJson());
-	}
-
-	public void specifyDistanceFromUser(boolean toSpecify) {
-		toSpecifyDistanceFromUser = toSpecify;
-	}
-
-	public boolean toSpecifyDistanceFromUser() {
-		return toSpecifyDistanceFromUser;
 	}
 
 	public void determineRelevantProperties(SearchResponse response) {
@@ -106,7 +87,6 @@ public class WidgetDeals implements JSONable {
 		}
 
 		mSession = response.getSession();
-		mFilter = response.getFilter();
 
 		// initialize the maximum savings so that they can be re-determined
 		mMaxPercentSavings = 0.0;
@@ -144,9 +124,7 @@ public class WidgetDeals implements JSONable {
 				JSONUtils.putJSONableList(obj, "deals", mDeals);
 				obj.put("session", mSession.toJson());
 				obj.put("searchParams", mSearchParams.toJson());
-				obj.put("filter", mFilter.toJson());
 				obj.put("maxPercentSavings", mMaxPercentSavings);
-				obj.put("toSpecifyDistanceFromUser", toSpecifyDistanceFromUser);
 			}
 		}
 		catch (JSONException e) {
@@ -168,8 +146,6 @@ public class WidgetDeals implements JSONable {
 		mSession = new Session();
 		mSession.fromJson(obj.optJSONObject("session"));
 		mSearchParams = new SearchParams(obj.optJSONObject("searchParams"));
-		mFilter = new Filter(obj.optJSONObject("filter"));
-		toSpecifyDistanceFromUser = obj.optBoolean("toSpecifyDistanceFromUser");
 		return true;
 	}
 
@@ -199,11 +175,13 @@ public class WidgetDeals implements JSONable {
 	}
 
 	public int restoreFromDisk() {
-		int results = 0;
+		int results = WIDGET_DEALS_RESTORED;
 		File widgetDealsFile = mContext.getFileStreamPath(WIDGET_DEALS_FILE);
 		if (widgetDealsFile.exists()) {
 			if (widgetDealsFile.lastModified() < (System.currentTimeMillis() - WIDGET_DEALS_EXPIRATION)) {
 				Log.d("There are widget deals but they are expired.");
+				widgetDealsFile.delete();
+				results = NO_DEALS_EXIST;
 			}
 			else {
 				try {
@@ -240,7 +218,6 @@ public class WidgetDeals implements JSONable {
 	public void clearOutData() {
 		mDeals = null;
 		mSearchParams = null;
-		mFilter = null;
 		mMaxPercentSavings = 0;
 	}
 

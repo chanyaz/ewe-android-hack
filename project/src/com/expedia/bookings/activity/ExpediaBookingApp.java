@@ -5,7 +5,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 
-import com.expedia.bookings.appwidget.WidgetDeals;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
@@ -16,8 +15,6 @@ import com.omniture.AppMeasurement;
 public class ExpediaBookingApp extends com.activeandroid.Application implements UncaughtExceptionHandler {
 
 	private UncaughtExceptionHandler mOriginalUncaughtExceptionHandler;
-	
-	public WidgetDeals widgetDeals = WidgetDeals.getInstance(this);
 
 	@Override
 	public void onCreate() {

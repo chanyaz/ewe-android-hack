@@ -51,7 +51,6 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.appwidget.ExpediaBookingsService;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
@@ -104,7 +103,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	// Private members
 
 	private Context mContext;
-	private ExpediaBookingApp mApp;
 
 	// Room type handler
 
@@ -209,8 +207,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		super.onCreate(savedInstanceState);
 
 		mContext = this;
-		mApp = (ExpediaBookingApp) getApplication();
-		
+
 		mValidationProcessor = new ValidationProcessor();
 
 		setContentView(R.layout.activity_booking_info);
@@ -527,14 +524,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		intent.putExtra(Codes.BILLING_INFO, billingJson.toString());
 
 		startActivity(intent);
-		
-		// also clear out the widget deals and 
-		// inform all widgets (if any) to display
-		// the booking complete view
-		mApp.widgetDeals.deleteFromDisk();
-		mApp.widgetDeals.clearOutData();
-		Intent updateWidgetIntent = new Intent(ExpediaBookingsService.LOAD_CONFIRMATION_ACTION);
-		startService(updateWidgetIntent);
 	}
 
 	@Override
@@ -630,8 +619,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				}
 				else {
 					mPostalCodeEditText.setInputType(InputType.TYPE_CLASS_TEXT
-							| InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS
-							| InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+							| InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 				}
 
 				// See description of mSelectedCountryPosition to understand why we're doing this

@@ -82,8 +82,6 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.Rotate3dAnimation;
-import com.expedia.bookings.appwidget.ExpediaBookingsService;
-import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.PriceRange;
@@ -286,7 +284,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	//----------------------------------
 
 	private Context mContext;
-	private ExpediaBookingApp mApp;
 
 	private LocalActivityManager mLocalActivityManager;
 	private String mTag = ACTIVITY_SEARCH_LIST;
@@ -386,12 +383,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			else {
 				handleError();
 			}
-
-			// only update search parameters when the properties 
-			// are updated
-			mApp.widgetDeals.setSearchParmas(mSearchParams);
-			mApp.widgetDeals.determineRelevantProperties(mSearchResponse);
-			mApp.widgetDeals.deleteFromDisk();
 		}
 	};
 
@@ -468,7 +459,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 
 		mContext = this;
-		mApp = (ExpediaBookingApp) getApplication();
 
 		onPageLoad();
 		setContentView(R.layout.activity_search);
@@ -636,10 +626,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			saveParams();
 		}
 
-		if (areWidgetsInstalled()) {
-			Intent resumeWidgetsIntent = new Intent(ExpediaBookingsService.RESUME_WIDGETS_ACTION);
-			startService(resumeWidgetsIntent);
-		}
 	}
 
 	@Override
@@ -695,9 +681,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		mDatesCalendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
 		mIsActivityResumed = true;
-
-		Intent pauseWidgetsIntent = new Intent(ExpediaBookingsService.PAUSE_WIDGETS_ACTION);
-		startService(pauseWidgetsIntent);
 	}
 
 	@Override
@@ -753,8 +736,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				}
 			}
 
-			// as a last item on the todo list, persist deals to disk
-			mApp.widgetDeals.persistToDisk();
 		}
 	}
 
@@ -2599,9 +2580,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 				showDistanceListener.onSetShowDistance(showDistance);
 			}
 		}
-
-		// Hide/reveal distance in the widget
-		mApp.widgetDeals.specifyDistanceFromUser(showDistance);
 	}
 
 	private void setSortTypeText() {
@@ -2844,8 +2822,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			buildFilter();
-			// update deals based on the changes made to the filter
-			mApp.widgetDeals.determineRelevantProperties(mSearchResponse);
 			setSortTypeText();
 			setRadioButtonShadowLayers();
 		}

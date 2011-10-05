@@ -1,9 +1,10 @@
 package com.expedia.bookings.appwidget;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -12,26 +13,21 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
+import android.os.Bundle;
 import android.os.IBinder;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ConfirmationActivity;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelActivity;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
@@ -41,21 +37,28 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
+import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 
-public class ExpediaBookingsService extends Service {
+public class ExpediaBookingsService extends Service implements LocationListener {
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	/*
-	 * Widget config related constants 
-	 */
+	// Widget config related constants 
 	private final static long UPDATE_INTERVAL = 1000 * 60 * 60; // Every 60 minutes
 	public final static long ROTATE_INTERVAL = 1000 * 5; // Every 5 seconds
 	public final static long INCREASED_ROTATE_INTERVAL = 1000 * 30; // Every 30 seconds
+
+	// maintain a bounded cache for the thumbnails to prevent OOM errors
+	private static final int MAX_IMAGE_CACHE_SIZE = 30;
+	private static final int MIN_DISTANCE_BEFORE_UPDATE = 5 * 1000; // 5 km
+	private static final int MIN_TIME_BETWEEN_CHECKS_IN_MILLIS = 1000 * 60 * 15; // 15 minutes
+
+	// download key for downloading results around current location
+	private static final String WIDGET_KEY_SEARCH = "WIDGET_KEY_SEARCH";
 
 	// Intent actions
 	public static final String START_SEARCH_ACTION = "com.expedia.bookings.START_SEARCH";
@@ -64,18 +67,325 @@ public class ExpediaBookingsService extends Service {
 	public static final String NEXT_PROPERTY_ACTION = "com.expedia.bookings.NEXT_PROPERTY";
 	public static final String ROTATE_PROPERTY_ACTION = "com.expedia.bookings.ROTATE_PROPERTY";
 	public static final String PREV_PROPERTY_ACTION = "com.expedia.bookings.PREV_PROPERTY";
-	public static final String PAUSE_WIDGETS_ACTION = "com.expedia.bookings.PAUSE_WIDGETS";
-	public static final String RESUME_WIDGETS_ACTION = "com.expedia.bookings.RESUME_WIDGETS";
-	public static final String LOAD_CONFIRMATION_ACTION = "com.expedia.bookings.LOAD_CONFIRMATION";
+
+	private static final String WIDGET_THUMBNAIL_KEY_PREFIX = "WIDGET_THUMBNAIL_KEY.";
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// BOOKKEEPING DATA STRUCTURES
 	//////////////////////////////////////////////////////////////////////////////////////////
+
 	private BackgroundDownloader mSearchDownloader = BackgroundDownloader.getInstance();
-
 	private Map<Integer, WidgetState> mWidgets;
+	private WidgetDeals mWidgetDeals = WidgetDeals.getInstance(this);
 
-	private ExpediaBookingApp mApp;
+	/*
+	 * Maintain local image cache to avoid bitmaps from being garbage collected from underneath,
+	 * by the SearchActivity or another other component using it
+	 */
+	public static ConcurrentHashMap<String, Bitmap> thumbnailCache = new ConcurrentHashMap<String, Bitmap>();
+
+	/*
+	 * This object holds all state persisting to the widget 
+	 * so that we can support multiple widgets each holding its own
+	 * state
+	 */
+	private class WidgetState {
+		Integer appWidgetIdInteger;
+		int mCurrentPosition = -1;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// WIDGET DATA DOWNLOADING BOOKKEEPING
+	//////////////////////////////////////////////////////////////////////////////////////////
+	private long mLastUpdatedTimeInMillis;
+	private Download mSearchDownload = new Download() {
+		@Override
+		public Object doDownload() {
+			ExpediaServices services = new ExpediaServices(getApplicationContext(), mWidgetDeals.getSession());
+			mSearchDownloader.addDownloadListener(WIDGET_KEY_SEARCH, services);
+			return services.search(mWidgetDeals.getSearchParams(), 0);
+		}
+	};
+	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
+		@Override
+		public void onDownload(Object results) {
+			SearchResponse searchResponse = (SearchResponse) results;
+
+			if (searchResponse != null && !searchResponse.hasErrors()) {
+				mWidgetDeals.determineRelevantProperties(searchResponse);
+				for (WidgetState widget : mWidgets.values()) {
+					widget.mCurrentPosition = -1;
+					loadPropertyIntoWidget(widget, ROTATE_INTERVAL);
+					mLastUpdatedTimeInMillis = System.currentTimeMillis();
+				}
+				mSaveWidgetDealsThread.start();
+			}
+
+			if (mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty()) {
+				updateAllWidgetsWithText(getString(R.string.progress_search_failed),
+						getString(R.string.refresh_widget), getRefreshIntent());
+			}
+
+			// schedule the next update
+			scheduleSearch();
+		}
+	};
+
+	// This thread is responsible to save the widget deals to disk.
+	// Done on a separate thread to avoid pause in main UI thread
+	// when saving data.
+	private Thread mSaveWidgetDealsThread = new Thread(new Runnable() {
+
+		@Override
+		public void run() {
+			mWidgetDeals.persistToDisk();
+		}
+	});
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// LOCATION METHODS
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	private void startLocationListener() {
+
+		if (!NetUtils.isOnline(getApplicationContext())) {
+			updateAllWidgetsWithText(getString(R.string.progress_finding_location), getString(R.string.refresh_widget),
+					getRefreshIntent());
+			return;
+		}
+
+		// Prefer network location (because it's faster).  Otherwise use GPS
+		LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+		String provider = null;
+		if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			provider = LocationManager.NETWORK_PROVIDER;
+		}
+		else if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			provider = LocationManager.GPS_PROVIDER;
+		}
+
+		if (provider == null) {
+			Log.w("Could not find a location provider, informing user of error...");
+			updateAllWidgetsWithText(getString(R.string.progress_finding_location), getString(R.string.refresh_widget),
+					getRefreshIntent());
+			// TODO Should we inform the user that the reason we're unable to 
+			// determine location is because of the lack of an available provider?
+		}
+		else {
+			Log.i("Starting location listener, provider=" + provider);
+			lm.requestLocationUpdates(provider, 0, 0, this);
+		}
+	}
+
+	private void stopLocationListener() {
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		lm.removeUpdates(this);
+	}
+
+	private void startLocationListenerForCurrentLocationWidgets() {
+		Log.i("Starting location listener for current location widgets.");
+		if (!NetUtils.isOnline(getApplicationContext())) {
+			updateAllWidgetsWithText(getString(R.string.progress_finding_location), getString(R.string.refresh_widget),
+					getRefreshIntent());
+			return;
+		}
+
+		/*
+		 * Use the passive provider as a way of getting updates without actually
+		 * requesting a GPS fix. Ignore if the provider is not available on the current 
+		 * device (either due to being disabled or unavailable completely),.
+		 */
+		LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
+		String provider = null;
+		if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			provider = LocationManager.NETWORK_PROVIDER;
+		}
+		else if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			provider = LocationManager.GPS_PROVIDER;
+		}
+
+		/*
+		 * Setup the Network/GPS provider to update with a location only if
+		 * the location has changed beyond the specified threshold. Also, check for location 
+		 * updates only after the minimum time interval specified. This will help with 
+		 * conserving battery life.
+		 */
+		if (provider != null) {
+			lm.requestLocationUpdates(provider, MIN_TIME_BETWEEN_CHECKS_IN_MILLIS, MIN_DISTANCE_BEFORE_UPDATE,
+					mListenerForCurrentLocationWidgets);
+		}
+		requestLocationUpdatesFromPassiveProvider(lm);
+
+	}
+
+	private void requestLocationUpdatesFromPassiveProvider(LocationManager lm) {
+		/*
+		 * Setup the passive provider to update with a location whenever another application
+		 * gets a location fix. This is okay sine the location update is user/app-intended.
+		 * Use this location to determine whether or not to re-download data.	
+		 */
+		try {
+			if (lm.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)) {
+				lm.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0, mListenerForCurrentLocationWidgets);
+			}
+		}
+		catch (SecurityException e) {
+			Log.i("This exception is expected for api version < 8 since PASSIVE_PROVIDER only exists for API Levels >= 8");
+		}
+	}
+
+	private void stopLocationListenerforCurrentLocationWidgets() {
+		Log.i("Stopping location listener for current location widgets.");
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		lm.removeUpdates(mListenerForCurrentLocationWidgets);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// LOCATION LISTENER IMPLEMENTATION
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	private LocationListener mListenerForCurrentLocationWidgets = new LocationListener() {
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+			LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+			// Use the network provider as it provides faster location updates
+			if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
+				lm.removeUpdates(mListenerForCurrentLocationWidgets);
+				lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BETWEEN_CHECKS_IN_MILLIS,
+						MIN_DISTANCE_BEFORE_UPDATE, mListenerForCurrentLocationWidgets);
+				requestLocationUpdatesFromPassiveProvider(lm);
+			}
+
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+			boolean stillWorking = true;
+
+			if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
+				if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+					lm.removeUpdates(mListenerForCurrentLocationWidgets);
+					lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BETWEEN_CHECKS_IN_MILLIS,
+							MIN_DISTANCE_BEFORE_UPDATE, mListenerForCurrentLocationWidgets);
+					requestLocationUpdatesFromPassiveProvider(lm);
+				}
+				else {
+					stillWorking = false;
+				}
+			}
+			else if (provider.equals(LocationManager.GPS_PROVIDER)
+					&& !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+				stillWorking = false;
+			}
+
+			if (!stillWorking) {
+				lm.removeUpdates(mListenerForCurrentLocationWidgets);
+			}
+		}
+
+		@Override
+		public void onLocationChanged(Location location) {
+			Log.i("location changed for current location widgets listener");
+
+			Location lastSearchedLocation = new Location(location);
+
+			/*
+			 * Get the last searched/downloaded time for the current location widgets 
+			 * as well as the last searched location
+			 */
+			SearchParams searchParams = mWidgetDeals.getSearchParams();
+			lastSearchedLocation.setLatitude(searchParams.getSearchLatitude());
+			lastSearchedLocation.setLongitude(searchParams.getSearchLongitude());
+
+			/*
+			 * If the time elapsed is at least the minimum time required and the distance moved is beyond
+			 * the specified threshold, cause all widgets to redownload their data to get an accurate
+			 * view of deals around the current location.
+			 */
+			if (mLastUpdatedTimeInMillis == 0
+					|| ((System.currentTimeMillis() - mLastUpdatedTimeInMillis > MIN_TIME_BETWEEN_CHECKS_IN_MILLIS) && (location
+							.distanceTo(lastSearchedLocation) >= MIN_DISTANCE_BEFORE_UPDATE))) {
+				Log.i("Starting download for current location widgets since location has changed");
+				searchParams.setSearchLatLon(location.getLatitude(), location.getLongitude());
+				startSearchDownloader();
+			}
+		}
+	};
+
+	@Override
+	public void onLocationChanged(Location location) {
+		Log.d("onLocationChanged(): " + location.toString());
+
+		mWidgetDeals.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
+		startSearchDownloader();
+		stopLocationListener();
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		Log.w("onProviderDisabled(): " + provider);
+
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		boolean stillWorking = true;
+
+		// If the NETWORK provider is disabled, switch to GPS (if available)
+		if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
+			if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+				lm.removeUpdates(this);
+				lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+			}
+			else {
+				stillWorking = false;
+			}
+		}
+		// If the GPS provider is disabled and we were using it, send error
+		else if (provider.equals(LocationManager.GPS_PROVIDER)
+				&& !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			stillWorking = false;
+		}
+
+		if (!stillWorking) {
+			lm.removeUpdates(this);
+			// TODO Give feedback to the user that the location has been disabled
+			// and so the user will no longer receive updates
+		}
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		Log.i("onProviderDisabled(): " + provider);
+
+		// Switch to network if it's now available (because it's much faster)
+		if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
+			LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+			lm.removeUpdates(this);
+			lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+		}
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		Log.w("onStatusChanged(): provider=" + provider + " status=" + status);
+
+		if (status == LocationProvider.OUT_OF_SERVICE) {
+			stopLocationListener();
+			Log.w("Location listener failed: out of service");
+			// TODO
+		}
+		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
+			stopLocationListener();
+			Log.w("Location listener failed: temporarily unavailable");
+			// TODO
+		}
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// LIFECYCLE EVENTS
@@ -99,6 +409,10 @@ public class ExpediaBookingsService extends Service {
 			loadWidgets();
 		}
 
+		if (mWidgetDeals.getDeals() == null) {
+			mWidgetDeals.restoreFromDisk();
+		}
+
 		/*
 		 * Start search for all the widgets
 		 * if there are widgets installed and the
@@ -110,19 +424,7 @@ public class ExpediaBookingsService extends Service {
 			intent = new Intent(START_SEARCH_ACTION);
 		}
 
-		/* 
-		 * The widget is "paused" when the 
-		 * app is opened and the user is interacting with
-		 * to do a hotel search. 
-		 */
-		if (intent.getAction().equals(PAUSE_WIDGETS_ACTION)) {
-			pauseWidgetActivity();
-		}
-		else if (intent.getAction().equals(RESUME_WIDGETS_ACTION)) {
-			loadPropertyIntoWidgets(ROTATE_INTERVAL);
-			scheduleSearch();
-		}
-		else if (intent.getAction().equals(START_CLEAN_SEARCH_ACTION)) {
+		if (intent.getAction().equals(START_CLEAN_SEARCH_ACTION)) {
 			/*
 			 * Note: This action should ONLY take place when a new widget
 			 * is being added to the home screen. This helps ensure that
@@ -135,50 +437,47 @@ public class ExpediaBookingsService extends Service {
 			Integer appWidgetIdInteger = new Integer(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 			WidgetState widget = new WidgetState();
 			widget.appWidgetIdInteger = appWidgetIdInteger;
+			boolean startListener = mWidgets.isEmpty();
 			mWidgets.put(appWidgetIdInteger, widget);
 
-			/*
-			 * Load deals either from memory or disk, if 
-			 * they are available. If not, it implies
-			 * that there are no search parameters either,
-			 * and hence nothing to load into the widget.
-			 */
-			int dealsAvailable = loadWidgetDeals();
-			if (dealsAvailable == WidgetDeals.WIDGET_DEALS_RESTORED) {
-				loadPropertyIntoWidget(widget);
-				scheduleRotation(ROTATE_INTERVAL);
+			if (mWidgetDeals.getDeals() != null && !mWidgetDeals.getDeals().isEmpty()) {
+				loadPropertyIntoWidget(widget, ROTATE_INTERVAL);
 			}
 			else {
-				if (ConfirmationActivity.hasSavedConfirmationData(this)) {
-					updateWidgetsWithConfirmation();
-				}
-				else if (dealsAvailable == WidgetDeals.NO_DEALS_EXIST) {
-					updateWidgetsWithText(getString(R.string.progress_search_failed),
-							getString(R.string.tap_to_start_new_search), getStartNewSearchIntent());
-				}
-				else if (dealsAvailable == WidgetDeals.NO_WIDGET_FILE_EXISTS) {
-					updateWidgetsWithText(getString(R.string.tap_to_start_new_search), null, getStartNewSearchIntent());
-				}
+				startSearch();
+				updateWidgetWithText(widget, getString(R.string.loading_hotels), null, null);
+			}
+
+			// start the listener for keeping track of
+			// current location more aggressively
+			if (startListener) {
+				startLocationListenerForCurrentLocationWidgets();
 			}
 		}
 		else {
 
 			/*
-			 * kill the service if there are no widgets installed
+			 * kill the widget if there are no widgets installed
 			 */
 			if (mWidgets.isEmpty()) {
 				stopSelf();
 			}
-			else if (intent.getAction().equals(START_SEARCH_ACTION)) {
+
+			if (intent.getAction().equals(START_SEARCH_ACTION)) {
 				startSearchForWidgets();
 			}
 			else if (intent.getAction().equals(CANCEL_UPDATE_ACTION)) {
-				cancelRotation();
+				Integer appWidgetIdInteger = new Integer(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
+				mWidgets.remove(appWidgetIdInteger);
 
 				if (mWidgets.isEmpty()) {
+					cancelRotation();
 					cancelScheduledSearch();
-					mSearchDownloader.cancelDownload(SearchActivity.KEY_SEARCH);
-					// if all widgets have been deleted, kill the widget
+					stopLocationListenerforCurrentLocationWidgets();
+					mSearchDownloader.cancelDownload(WIDGET_KEY_SEARCH);
+
+					// if all widgets have been deleted, kill
+					// the widget
 					stopSelf();
 				}
 			}
@@ -198,10 +497,6 @@ public class ExpediaBookingsService extends Service {
 				for (WidgetState widget : mWidgets.values()) {
 					loadNextProperty(widget, ROTATE_INTERVAL);
 				}
-			}
-			else if (intent.getAction().equals(LOAD_CONFIRMATION_ACTION)) {
-				pauseWidgetActivity();
-				updateWidgetsWithConfirmation();
 			}
 		}
 
@@ -223,58 +518,12 @@ public class ExpediaBookingsService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		mApp = (ExpediaBookingApp) getApplication();
-
 		startSearchForWidgets();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////////
-
-	private Download mSearchDownload = new Download() {
-		@Override
-		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(getApplicationContext(), mApp.widgetDeals.getSession());
-			mSearchDownloader.addDownloadListener(SearchActivity.KEY_SEARCH, services);
-			return services.search(mApp.widgetDeals.getSearchParams(), 0);
-		}
-	};
-
-	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
-		@Override
-		public void onDownload(Object results) {
-			SearchResponse searchResponse = (SearchResponse) results;
-			boolean toPersistDeals = false;
-			if (searchResponse != null && !searchResponse.hasErrors()) {
-				searchResponse.setFilter(mApp.widgetDeals.getFilter());
-				loadPropertyIntoWidgets(ROTATE_INTERVAL);
-				toPersistDeals = true;
-			}
-
-			mApp.widgetDeals.determineRelevantProperties(searchResponse);
-
-			if (mApp.widgetDeals.getDeals() == null || mApp.widgetDeals.getDeals().isEmpty()) {
-				updateWidgetsWithText(getString(R.string.progress_search_failed),
-						getString(R.string.tap_to_start_new_search), getStartNewSearchIntent());
-			}
-
-			if (toPersistDeals) {
-				mApp.widgetDeals.deleteFromDisk();
-				mApp.widgetDeals.persistToDisk();
-			}
-			// schedule the next update
-			scheduleSearch();
-		}
-	};
-
-	private void pauseWidgetActivity() {
-		cancelRotation();
-		cancelScheduledSearch();
-		if (mSearchDownloader.isDownloading(SearchActivity.KEY_SEARCH)) {
-			mSearchDownloader.unregisterDownloadCallback(SearchActivity.KEY_SEARCH, mSearchCallback);
-		}
-	}
 
 	private void scheduleSearch() {
 		AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
@@ -296,7 +545,7 @@ public class ExpediaBookingsService extends Service {
 		am.cancel(operation);
 
 		// Schedule update
-		Log.v("Scheduling next hotel rotation to occur in " + (ROTATE_INTERVAL / 1000) + " seconds.");
+		Log.d("Scheduling rotation to occur in " + (ROTATE_INTERVAL / 1000) + " seconds.");
 		am.set(AlarmManager.RTC, System.currentTimeMillis() + rotateInterval, operation);
 	}
 
@@ -326,73 +575,57 @@ public class ExpediaBookingsService extends Service {
 		return operation;
 	}
 
-	private int loadWidgetDeals() {
-		if (mApp.widgetDeals.getDeals() == null) {
-			return mApp.widgetDeals.restoreFromDisk();
-		}
-		return WidgetDeals.WIDGET_DEALS_RESTORED;
-	}
-
 	private void startSearch() {
 		Log.i("Starting search");
+		mSearchDownloader.cancelDownload(WIDGET_KEY_SEARCH);
 
-		// default to searching for hotels around current location
-		if (mApp.widgetDeals.getSearchParams() == null) {
-			return;
+		mWidgetDeals.setSearchParmas(new SearchParams());
+
+		// See if we have a good enough location stored
+		long minTime = Calendar.getInstance().getTimeInMillis() - SearchActivity.MINIMUM_TIME_AGO;
+		Location location = LocationServices.getLastBestLocation(getApplicationContext(), minTime);
+		if (location != null) {
+			mWidgetDeals.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
+			startSearchDownloader();
 		}
-
-		startSearchDownloader();
+		else {
+			startLocationListener();
+		}
 	}
 
 	private void startSearchDownloader() {
 
 		if (!NetUtils.isOnline(getApplicationContext())
-				&& (mApp.widgetDeals.getDeals() == null || mApp.widgetDeals.getDeals().isEmpty())) {
-			updateWidgetsWithText(getString(R.string.widget_error_no_internet), getString(R.string.refresh_widget),
+				&& (mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty())) {
+			updateAllWidgetsWithText(getString(R.string.widget_error_no_internet), getString(R.string.refresh_widget),
 					getRefreshIntent());
 			return;
 		}
-		else if (mApp.widgetDeals.getDeals() == null || mApp.widgetDeals.getDeals().isEmpty()) {
-			updateWidgetsWithText(getString(R.string.loading_hotels), null, null);
-		}
 
-		mSearchDownloader.cancelDownload(SearchActivity.KEY_SEARCH);
-		mSearchDownloader.startDownload(SearchActivity.KEY_SEARCH, mSearchDownload, mSearchCallback);
+		mSearchDownloader.cancelDownload(WIDGET_KEY_SEARCH);
+		mSearchDownloader.startDownload(WIDGET_KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
 
-	private void loadPropertyIntoWidgets(long rotateInterval) {
-		if (mWidgets == null) {
-			loadWidgets();
-		}
-
-		if (mApp.widgetDeals.getDeals() == null || mApp.widgetDeals.getDeals().isEmpty()) {
-			updateWidgetsWithText(getString(R.string.progress_search_failed),
-					getString(R.string.tap_to_start_new_search), getStartNewSearchIntent());
-			return;
-		}
-
+	private void loadPropertyIntoAllWidgets(long rotateInterval) {
 		for (WidgetState widget : mWidgets.values()) {
-			// restart all widgets to load from branding since the deals
-			// have been updated
-			widget.mCurrentPosition = -1;
-			loadPropertyIntoWidget(widget);
+			loadPropertyIntoWidget(widget, rotateInterval);
 		}
-
-		scheduleRotation(rotateInterval);
 	}
 
-	private void loadPropertyIntoWidget(final WidgetState widget) {
+	private void loadPropertyIntoWidget(final WidgetState widget, long rotateInterval) {
 		if (widget.mCurrentPosition == -1) {
 			updateWidgetBranding(widget);
+			scheduleRotation(rotateInterval);
 			return;
 		}
 
-		final Property property = mApp.widgetDeals.getDeals().get(widget.mCurrentPosition);
-		Bitmap bitmap = ImageCache.getImage(property.getThumbnail().getUrl());
+		final Property property = mWidgetDeals.getDeals().get(widget.mCurrentPosition);
+		Bitmap bitmap = thumbnailCache.get(property.getThumbnail().getUrl());
 		// if the bitmap doesn't exist in the cache, asynchronously load the image while
 		// updating the widget remote view with the rest of the information
 		if (bitmap == null) {
-			ImageCache.loadImage(property.getThumbnail().getUrl(), new OnImageLoaded() {
+			ImageCache.loadImage(WIDGET_THUMBNAIL_KEY_PREFIX + widget.appWidgetIdInteger, property.getThumbnail()
+					.getUrl(), new OnImageLoaded() {
 
 				@Override
 				public void onImageLoaded(String url, Bitmap bitmap) {
@@ -400,37 +633,46 @@ public class ExpediaBookingsService extends Service {
 					// making sure that the image actually belongs to the current property loaded 
 					// in the remote view
 					if (widget.mCurrentPosition != -1
-							&& mApp.widgetDeals.getDeals().get(widget.mCurrentPosition).getThumbnail().getUrl()
-									.equals(url)) {
+							&& mWidgetDeals.getDeals().get(widget.mCurrentPosition).getThumbnail().getUrl().equals(url)) {
+
+						if (thumbnailCache.size() >= MAX_IMAGE_CACHE_SIZE) {
+							// clear out the cache if it ever reaches its max size
+							thumbnailCache.clear();
+						}
 
 						if (bitmap == null) {
 							return;
 						}
 
+						thumbnailCache.put(url, bitmap);
+						// remove the image from the global image cache without 
+						// causing the bitmap to get recycled as we maintain our own copy
+						// of the bitmap to prevent interference from the main thread
+						// attempting to recycle the bitmap
+						ImageCache.removeImage(url, false);
 						updateWidgetWithImage(widget, property);
 					}
 				}
 			});
 		}
 		updateWidgetWithProperty(property, widget);
+		scheduleRotation(rotateInterval);
 	}
 
 	private void loadNextProperty(WidgetState widget, long rotateInterval) {
-		if (mApp.widgetDeals.getDeals() != null) {
-			widget.mCurrentPosition = ((widget.mCurrentPosition + 1) >= mApp.widgetDeals.getDeals().size()) ? -1
+		if (mWidgetDeals.getDeals() != null) {
+			widget.mCurrentPosition = ((widget.mCurrentPosition + 1) >= mWidgetDeals.getDeals().size()) ? -1
 					: widget.mCurrentPosition + 1;
-			loadPropertyIntoWidget(widget);
-			scheduleRotation(rotateInterval);
+			loadPropertyIntoWidget(widget, rotateInterval);
 		}
 	}
 
 	private void loadPreviousProperty(WidgetState widget, long rotateInterval) {
-		if (mApp.widgetDeals.getDeals() != null) {
+		if (mWidgetDeals.getDeals() != null) {
 
-			widget.mCurrentPosition = ((widget.mCurrentPosition - 1) < -1) ? (mApp.widgetDeals.getDeals().size() - 1)
+			widget.mCurrentPosition = ((widget.mCurrentPosition - 1) < -1) ? (mWidgetDeals.getDeals().size() - 1)
 					: (widget.mCurrentPosition - 1);
-			loadPropertyIntoWidget(widget);
-			scheduleRotation(rotateInterval);
+			loadPropertyIntoWidget(widget, rotateInterval);
 		}
 	}
 
@@ -445,6 +687,10 @@ public class ExpediaBookingsService extends Service {
 			widget.appWidgetIdInteger = appWidgetIdInteger;
 			mWidgets.put(appWidgetIdInteger, widget);
 		}
+		
+		if(!mWidgets.isEmpty()) {
+			startLocationListenerForCurrentLocationWidgets();
+		}
 	}
 
 	private void startSearchForWidgets() {
@@ -452,45 +698,16 @@ public class ExpediaBookingsService extends Service {
 			loadWidgets();
 		}
 
-		if (mWidgets.isEmpty()) {
-			return;
-		}
-
-		int dealsAvailable = loadWidgetDeals();
-
-		if (dealsAvailable == WidgetDeals.WIDGET_DEALS_RESTORED) {
-			// updated all widgets around the same time instead of
-			// having a different update cycle for each widget 
-			// that is added to the home screen
-			for (WidgetState state : mWidgets.values()) {
-				loadPropertyIntoWidget(state);
+		if (mWidgetDeals.getDeals() == null) {
+			int result = mWidgetDeals.restoreFromDisk();
+			if (result == WidgetDeals.WIDGET_DEALS_RESTORED) {
+				loadPropertyIntoAllWidgets(ROTATE_INTERVAL);
 			}
-			scheduleRotation(ROTATE_INTERVAL);
-			startSearch();
-		}
-		else {
-			if (ConfirmationActivity.hasSavedConfirmationData(this)) {
-				updateWidgetsWithConfirmation();
-			}
-			else if (dealsAvailable == WidgetDeals.NO_WIDGET_FILE_EXISTS) {
-				updateWidgetsWithText(getString(R.string.tap_to_start_new_search), null, getStartNewSearchIntent());
-			}
-			else if (dealsAvailable == WidgetDeals.NO_DEALS_EXIST) {
-				updateWidgetsWithText(getString(R.string.progress_search_failed),
-						getString(R.string.tap_to_start_new_search), getStartNewSearchIntent());
+			else {
+				startSearch();
 			}
 		}
-	}
 
-	private PendingIntent getStartNewSearchIntent() {
-		Intent newIntent = new Intent(this, SearchActivity.class);
-		newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-		return PendingIntent.getActivity(this, 4, newIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-	}
-
-	private PendingIntent getRefreshIntent() {
-		Intent onClickIntent = new Intent(ExpediaBookingsService.START_SEARCH_ACTION);
-		return PendingIntent.getService(this, 4, onClickIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 	}
 
 	/*
@@ -500,7 +717,7 @@ public class ExpediaBookingsService extends Service {
 	private void updateWidgetWithImage(WidgetState widget, Property property) {
 		RemoteViews rv = new RemoteViews(getPackageName(), R.layout.widget);
 
-		Bitmap bitmap = ImageCache.getImage(property.getThumbnail().getUrl());
+		Bitmap bitmap = ExpediaBookingsService.thumbnailCache.get(property.getThumbnail().getUrl());
 		if (bitmap == null) {
 			rv.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
 		}
@@ -525,8 +742,7 @@ public class ExpediaBookingsService extends Service {
 		setWidgetPropertyViewVisibility(widgetContents, View.VISIBLE);
 
 		widgetContents.setTextViewText(R.id.hotel_name_text_view, property.getName());
-		String location = mApp.widgetDeals.toSpecifyDistanceFromUser() ? property.getDistanceFromUser().formatDistance(
-				this) : mApp.widgetDeals.getSearchParams().getFreeformLocation();
+		String location = property.getDistanceFromUser().formatDistance(this);
 		widgetContents.setTextViewText(R.id.location_text_view, location);
 
 		if (property.getLowestRate().getSavingsPercent() > 0) {
@@ -558,7 +774,7 @@ public class ExpediaBookingsService extends Service {
 					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
 		}
 
-		Bitmap bitmap = ImageCache.getImage(property.getThumbnail().getUrl());
+		Bitmap bitmap = ExpediaBookingsService.thumbnailCache.get(property.getThumbnail().getUrl());
 		if (bitmap == null) {
 			widgetContents.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
 		}
@@ -588,7 +804,13 @@ public class ExpediaBookingsService extends Service {
 		updateWidget(widget, rv);
 	}
 
-	private void updateWidgetsWithText(String error, String tip, PendingIntent onClickIntent) {
+	private PendingIntent getRefreshIntent() {
+		Intent newIntent = new Intent(START_SEARCH_ACTION);
+		return PendingIntent.getService(this, 4, newIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+	}
+
+	private void updateAllWidgetsWithText(String error, String tip, PendingIntent onClickIntent) {
 		for (WidgetState widget : mWidgets.values()) {
 			updateWidgetWithText(widget, error, tip, onClickIntent);
 		}
@@ -610,8 +832,8 @@ public class ExpediaBookingsService extends Service {
 		widgetContents.setViewVisibility(R.id.loading_expedia_logo_image_view, View.VISIBLE);
 
 		if (tip != null) {
-			widgetContents.setTextViewText(R.id.widget_error_tip_text_view, tip);
 			widgetContents.setViewVisibility(R.id.widget_error_tip_text_view, View.VISIBLE);
+			widgetContents.setTextViewText(R.id.widget_error_tip_text_view, tip);
 		}
 
 		if (onClickIntent != null) {
@@ -623,35 +845,6 @@ public class ExpediaBookingsService extends Service {
 
 		updateWidget(widget, rv);
 	}
-
-	private void updateWidgetsWithConfirmation() {
-		RemoteViews rv = new RemoteViews(getPackageName(), R.layout.widget);
-		RemoteViews widgetContents = new RemoteViews(getPackageName(), R.layout.widget_contents);
-
-		rv.removeAllViews(R.id.hotel_info_contents);
-		rv.addView(R.id.hotel_info_contents, widgetContents);
-
-		setWidgetPropertyViewVisibility(widgetContents, View.GONE);
-
-		setWidgetContentsVisibility(widgetContents, View.GONE);
-		widgetContents.setViewVisibility(R.id.widget_error_text_view, View.GONE);
-		widgetContents.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
-		widgetContents.setViewVisibility(R.id.enjoy_your_booking_image_view, View.VISIBLE);
-		widgetContents.setImageViewBitmap(R.id.enjoy_your_booking_image_view, createEnjoyYourStayImage());
-		widgetContents.setTextViewText(R.id.widget_error_tip_text_view, getString(R.string.tap_to_see_booking));
-		widgetContents.setViewVisibility(R.id.widget_error_tip_text_view, View.VISIBLE);
-		widgetContents.setViewVisibility(R.id.loading_expedia_logo_image_view, View.VISIBLE);
-
-		Intent newIntent = new Intent(this, SearchActivity.class);
-		rv.setOnClickPendingIntent(R.id.root,
-				PendingIntent.getActivity(this, 4, newIntent, PendingIntent.FLAG_CANCEL_CURRENT));
-
-		for (WidgetState widget : mWidgets.values()) {
-			updateWidget(widget, rv);
-		}
-	}
-
-		private static final String FORMAT_HEADER = "MMM d";
 
 	private void updateWidgetBranding(WidgetState widget) {
 		final RemoteViews widgetContents = new RemoteViews(getPackageName(), R.layout.widget_contents);
@@ -667,28 +860,19 @@ public class ExpediaBookingsService extends Service {
 
 		setBrandingViewVisibility(widgetContents, View.VISIBLE);
 
-		if (mApp.widgetDeals.getMaxPercentSavings() == 0.0) {
+		double maxSavingsInPercent = mWidgetDeals.getMaxPercentSavings();
+		if (maxSavingsInPercent == 0.0) {
 			widgetContents.setViewVisibility(R.id.branding_savings_container, View.GONE);
 		}
 		else {
 			widgetContents.setViewVisibility(R.id.branding_savings_container, View.VISIBLE);
 			widgetContents.setTextViewText(R.id.branding_savings_container,
-					getString(R.string.save_upto_template, mApp.widgetDeals.getMaxPercentSavings() * 100));
+					getString(R.string.save_upto_template, maxSavingsInPercent * 100));
 		}
 
-		widgetContents.setTextViewText(R.id.branding_location_text_view, mApp.widgetDeals.getSearchParams()
-				.getFreeformLocation());
+		widgetContents.setTextViewText(R.id.branding_location_text_view, "Current Location");
 
-		String brandingTitle = null;
-		if (DateUtils.isToday(mApp.widgetDeals.getSearchParams().getCheckInDate().getTimeInMillis())) {
-			brandingTitle = getString(R.string.tonight_top_deals);
-		}
-		else {
-			brandingTitle = getString(R.string.top_deals_template, android.text.format.DateFormat.format(FORMAT_HEADER,
-					mApp.widgetDeals.getSearchParams().getCheckInDate()));
-		}
-
-		widgetContents.setTextViewText(R.id.branding_title_text_view, brandingTitle);
+		widgetContents.setTextViewText(R.id.branding_title_text_view, getString(R.string.tonight_top_deals));
 
 		Intent prevIntent = new Intent(PREV_PROPERTY_ACTION);
 		prevIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -710,16 +894,11 @@ public class ExpediaBookingsService extends Service {
 		updateWidget(widget, rv);
 	}
 
-	private class WidgetState {
-		Integer appWidgetIdInteger;
-		int mCurrentPosition = -1;
-	}
-
 	private void setupOnClickIntentForWidget(WidgetState widget, Property property, RemoteViews rv) {
 		Intent onClickIntent = new Intent(this.getApplicationContext(), HotelActivity.class);
-		onClickIntent.putExtra(Codes.SESSION, mApp.widgetDeals.getSession().toJson().toString());
+		onClickIntent.putExtra(Codes.SESSION, mWidgetDeals.getSession().toJson().toString());
 		onClickIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
-		onClickIntent.putExtra(Codes.SEARCH_PARAMS, mApp.widgetDeals.getSearchParams().toJson().toString());
+		onClickIntent.putExtra(Codes.SEARCH_PARAMS, mWidgetDeals.getSearchParams().toJson().toString());
 		onClickIntent.putExtra(Codes.OPENED_FROM_WIDGET, true);
 		if (property != null) {
 			onClickIntent.putExtra(Codes.PROPERTY, property.toJson().toString());
@@ -764,50 +943,8 @@ public class ExpediaBookingsService extends Service {
 
 	private void setWidgetLoadingTextVisibility(final RemoteViews widgetContents, int visibility) {
 		widgetContents.setViewVisibility(R.id.widget_error_text_view, visibility);
-		widgetContents.setViewVisibility(R.id.loading_text_container, visibility);
 		widgetContents.setViewVisibility(R.id.widget_error_tip_text_view, visibility);
-		widgetContents.setViewVisibility(R.id.enjoy_your_booking_image_view, visibility);
 		widgetContents.setViewVisibility(R.id.loading_expedia_logo_image_view, visibility);
 	}
 
-	private static final float TEXT_SIZE_IN_DIP = 30.0f;
-	private static final float ROUND_UP = 0.5f;
-	private static final float PADDING = 5.0f;
-	
-	private Bitmap createEnjoyYourStayImage() {
-		
-		// if the user's default language is english, 
-		// display the enjoy your stay drawable as thats optimal
-		if(Locale.getDefault().getLanguage().equals(Locale.ENGLISH.getLanguage())) {
-			return BitmapFactory.decodeResource(getResources(), R.drawable.widget_enjoy_your_stay);
-		}
-
-		Paint paint = new Paint();
-		Rect textBounds = new Rect();
-		float scale = this.getResources().getDisplayMetrics().density;
-		float paddingInPx = scale * PADDING;
-		String enjoyYourStayString = getString(R.string.enjoy_your_stay);
-
-		Typeface customFont = Typeface.createFromAsset(this.getAssets(), "fonts/HoneyScript-SemiBold.ttf");
-		paint.setAntiAlias(true);
-		paint.setSubpixelText(true);
-		paint.setTypeface(customFont);
-		paint.setStyle(Paint.Style.FILL);
-		paint.setColor(getResources().getColor(R.color.widget_text_color));
-		paint.setShadowLayer(0.1f, 0f, 1f, getResources().getColor(android.R.color.white));
-		paint.setTextSize((int) (scale * TEXT_SIZE_IN_DIP + ROUND_UP));
-		paint.setTextAlign(Align.LEFT);
-
-		// get the dimensions of the minimum rectangle required to cover the text
-		paint.getTextBounds(enjoyYourStayString, 0, enjoyYourStayString.length(), textBounds);
-
-		// include a padding around the text to ensure that we're not chopping off the
-		// edges of the text (it still may happen if the text is long enough)
-		Bitmap bitmap = Bitmap.createBitmap((int) (textBounds.width() + 2 * paddingInPx),
-				(int) (textBounds.height() + 2 * paddingInPx), Bitmap.Config.ARGB_8888);
-		Canvas myCanvas = new Canvas(bitmap);
-
-		myCanvas.drawText(enjoyYourStayString, paddingInPx, textBounds.height() - paddingInPx, paint);
-		return bitmap;
-	}
 }
