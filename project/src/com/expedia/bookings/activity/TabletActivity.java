@@ -26,6 +26,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
+import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
 import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelMapFragment;
@@ -249,6 +250,11 @@ public class TabletActivity extends MapActivity implements LocationListener {
 		newFragment.show(getFragmentManager(), "CalendarDialog");
 	}
 
+	private void showGeocodeDisambiguationDialog(List<Address> addresses) {
+		DialogFragment newFragment = GeocodeDisambiguationDialogFragment.newInstance(addresses);
+		newFragment.show(getFragmentManager(), "GeocodeDisambiguationDialog");
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// SearchParams management
 
@@ -293,17 +299,20 @@ public class TabletActivity extends MapActivity implements LocationListener {
 
 		notifyEventHandlers(EVENT_SEARCH_STARTED, null);
 
-		if (!NetUtils.isOnline(this)) {
-			Log.w("startSearch() - no internet connection.");
-			notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.error_no_internet));
-			return;
-		}
-
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
 		// Cancel existing downloads
 		bd.cancelDownload(KEY_SEARCH);
 		bd.cancelDownload(KEY_GEOCODE);
+
+		// Remove existing search results
+		mInstance.mSearchResponse = null;
+
+		if (!NetUtils.isOnline(this)) {
+			Log.w("startSearch() - no internet connection.");
+			notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.error_no_internet));
+			return;
+		}
 
 		// Determine search type, conduct search
 		switch (mInstance.mSearchParams.getSearchType()) {
@@ -353,29 +362,35 @@ public class TabletActivity extends MapActivity implements LocationListener {
 				int size = addresses.size();
 				if (size == 0) {
 					Log.w("Geocode callback - got zero results.");
-					notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.geolocation_failed));
+					onGeocodeFailure();
 				}
 				else if (size == 1) {
-					Address address = addresses.get(0);
-
-					mInstance.mSearchParams.setFreeformLocation(address);
-					updateActionBarViews();
-
-					setLatLng(address.getLatitude(), address.getLongitude());
-
-					startSearchDownloader();
+					onGeocodeSuccess(addresses.get(0));
 				}
 				else {
 					Log.i("Geocode callback - got multiple results.");
-					// TODO: Show geocode disambiguation dialog
+					showGeocodeDisambiguationDialog(addresses);
 				}
 			}
 			else {
 				Log.w("Geocode callback - got null results.");
-				notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.geolocation_failed));
+				onGeocodeFailure();
 			}
 		}
 	};
+
+	public void onGeocodeSuccess(Address address) {
+		mInstance.mSearchParams.setFreeformLocation(address);
+		updateActionBarViews();
+
+		setLatLng(address.getLatitude(), address.getLongitude());
+
+		startSearchDownloader();
+	}
+
+	public void onGeocodeFailure() {
+		notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.geolocation_failed));
+	}
 
 	public void onMyLocationFound(Location location) {
 		setLatLng(location.getLatitude(), location.getLongitude());
