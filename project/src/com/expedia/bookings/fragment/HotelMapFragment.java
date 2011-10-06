@@ -13,8 +13,10 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.activity.TabletActivity.EventHandler;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
+import com.expedia.bookings.widget.HotelItemizedOverlay.OnTapListener;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
@@ -53,8 +55,14 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		// Add the initial overlays
 		List<Overlay> overlays = mMapView.getOverlays();
 
-		mHotelOverlay = new HotelItemizedOverlay(context, null, true, mMapView, null);
+		mHotelOverlay = new HotelItemizedOverlay(context, null, false, mMapView, null);
 		mHotelOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
+		mHotelOverlay.setOnTapListener(new OnTapListener() {
+			public boolean onTap(Property property) {
+				((TabletActivity) getActivity()).propertySelected(property);
+				return true;
+			}
+		});
 		overlays.add(mHotelOverlay);
 
 		mMyLocationOverlay = new FixedMyLocationOverlay(context, mMapView);
@@ -95,6 +103,9 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 			break;
 		case TabletActivity.EVENT_SEARCH_COMPLETE:
 			mHotelOverlay.setProperties((SearchResponse) data);
+			break;
+		case TabletActivity.EVENT_PROPERTY_SELECTED:
+			mHotelOverlay.showBalloon(((Property) data).getPropertyId(), true);
 			break;
 		}
 	}
