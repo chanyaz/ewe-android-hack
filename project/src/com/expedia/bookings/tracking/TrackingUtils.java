@@ -133,7 +133,7 @@ public class TrackingUtils {
 		}
 
 		// Unique device id
-		// TODO: Add this once we've figured out what we want the "unique identifier" to be.
+		s.prop12 = Installation.id(context);
 
 		// GMT timestamp
 		s.prop32 = gmt.getTime() + "";
