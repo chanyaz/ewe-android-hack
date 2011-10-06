@@ -21,6 +21,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.mobiata.android.MapUtils;
+import com.mobiata.android.widget.DoubleTapToZoomListenerOverlay;
 import com.mobiata.android.widget.FixedMyLocationOverlay;
 
 public class HotelMapFragment extends Fragment implements EventHandler {
@@ -35,6 +36,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 	private MapView mMapView;
 	private MyLocationOverlay mMyLocationOverlay;
 	private HotelItemizedOverlay mHotelOverlay;
+	private DoubleTapToZoomListenerOverlay mDoubleTapToZoomOverlay;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -67,6 +69,9 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 
 		mMyLocationOverlay = new FixedMyLocationOverlay(context, mMapView);
 		overlays.add(mMyLocationOverlay);
+		
+		mDoubleTapToZoomOverlay = new DoubleTapToZoomListenerOverlay(context, mMapView);
+		overlays.add(mDoubleTapToZoomOverlay);
 
 		return mMapView;
 	}
