@@ -112,13 +112,21 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			SearchResponse searchResponse = (SearchResponse) results;
 
 			if (searchResponse != null && !searchResponse.hasErrors()) {
+				mLastUpdatedTimeInMillis = System.currentTimeMillis();
 				mWidgetDeals.determineRelevantProperties(searchResponse);
 				for (WidgetState widget : mWidgets.values()) {
 					widget.mCurrentPosition = -1;
 					loadPropertyIntoWidget(widget, ROTATE_INTERVAL);
-					mLastUpdatedTimeInMillis = System.currentTimeMillis();
 				}
-				mSaveWidgetDealsThread.start();
+				// start a background thread to save the deals to disk
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						mWidgetDeals.deleteFromDisk();
+						mWidgetDeals.persistToDisk();
+					}
+				});
 			}
 
 			if (mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty()) {
@@ -130,17 +138,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			scheduleSearch();
 		}
 	};
-
-	// This thread is responsible to save the widget deals to disk.
-	// Done on a separate thread to avoid pause in main UI thread
-	// when saving data.
-	private Thread mSaveWidgetDealsThread = new Thread(new Runnable() {
-
-		@Override
-		public void run() {
-			mWidgetDeals.persistToDisk();
-		}
-	});
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// LOCATION METHODS
@@ -577,8 +574,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	private void startSearch() {
 		Log.i("Starting search");
-		mSearchDownloader.cancelDownload(WIDGET_KEY_SEARCH);
-
 		mWidgetDeals.setSearchParmas(new SearchParams());
 
 		// See if we have a good enough location stored
@@ -687,8 +682,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			widget.appWidgetIdInteger = appWidgetIdInteger;
 			mWidgets.put(appWidgetIdInteger, widget);
 		}
-		
-		if(!mWidgets.isEmpty()) {
+
+		if (!mWidgets.isEmpty()) {
 			startLocationListenerForCurrentLocationWidgets();
 		}
 	}
@@ -707,6 +702,9 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			else {
 				startSearch();
 			}
+		}
+		else {
+			startSearch();
 		}
 
 	}
