@@ -118,6 +118,10 @@
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
 	<string name="map_snippet_price_template">From %s</string>
 
+	<!-- Mini-details fragment -->
+	<!-- Label for "see details" button on the mini details fragment -->
+	<string name="see_details">See Details</string>
+
 	<!-- Widget -->
 	<!--  Default Loading message for widget -->
 	<string name="loading_hotels">Loading hotels...</string>

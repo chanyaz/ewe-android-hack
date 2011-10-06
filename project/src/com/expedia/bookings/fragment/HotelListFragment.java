@@ -7,13 +7,15 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.activity.TabletActivity.EventHandler;
-import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.widget.HotelAdapter;
 
 public class HotelListFragment extends ListFragment implements EventHandler, OnFilterChangedListener {
@@ -62,6 +64,16 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 		super.onDetach();
 
 		((TabletActivity) getActivity()).unregisterEventHandler(this);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// ListFragment overrides
+
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+
+		((TabletActivity) getActivity()).propertySelected((Property) mAdapter.getItem(position));
 	}
 
 	//////////////////////////////////////////////////////////////////////////

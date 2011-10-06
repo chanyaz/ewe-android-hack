@@ -25,6 +25,7 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
@@ -34,6 +35,7 @@ import com.expedia.bookings.fragment.GuestsDialogFragment;
 import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.InstanceFragment;
+import com.expedia.bookings.fragment.MiniDetailsFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.google.android.maps.MapActivity;
 import com.mobiata.android.BackgroundDownloader;
@@ -51,12 +53,11 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
 
-	private static final String TAG_INSTANCE_FRAGMENT = "INSTANCE_FRAGMENT";
-
 	public static final int EVENT_SEARCH_STARTED = 1;
 	public static final int EVENT_SEARCH_PROGRESS = 2;
 	public static final int EVENT_SEARCH_COMPLETE = 3;
 	public static final int EVENT_SEARCH_ERROR = 4;
+	public static final int EVENT_PROPERTY_SELECTED = 5;
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
@@ -98,6 +99,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 		mContext = this;
 		mResources = getResources();
+
+		getFragmentManager().addOnBackStackChangedListener(this);
 
 		initializeInstanceFragment();
 
@@ -226,6 +229,11 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	//////////////////////////////////////////////////////////////////////////
 	// Fragment management
 
+	private static final String TAG_INSTANCE_FRAGMENT = "INSTANCE_FRAGMENT";
+	private static final String TAG_HOTEL_LIST = "HOTEL_LIST";
+	private static final String TAG_HOTEL_MAP = "HOTEL_MAP";
+	private static final String TAG_MINI_DETAILS = "MINI_DETAILS";
+
 	private View mLeftFragmentContainer;
 	private View mRightFragmentContainer;
 	private View mBottomRightFragmentContainer;
@@ -252,7 +260,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		FragmentManager fragmentManager = getFragmentManager();
 		if (fragmentManager.findFragmentById(R.id.fragment_left) == null) {
 			FragmentTransaction ft = fragmentManager.beginTransaction();
-			ft.add(R.id.fragment_left, HotelListFragment.newInstance());
+			ft.add(R.id.fragment_left, HotelListFragment.newInstance(), TAG_HOTEL_LIST);
 			ft.commit();
 		}
 	}
@@ -261,9 +269,20 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		FragmentManager fragmentManager = getFragmentManager();
 		if (fragmentManager.findFragmentById(R.id.fragment_right) == null) {
 			FragmentTransaction ft = fragmentManager.beginTransaction();
-			ft.add(R.id.fragment_right, HotelMapFragment.newInstance());
+			ft.add(R.id.fragment_right, HotelMapFragment.newInstance(), TAG_HOTEL_MAP);
 			ft.commit();
 		}
+	}
+
+	public void showMiniDetailsFragment() {
+		MiniDetailsFragment fragment = MiniDetailsFragment.newInstance();
+		registerEventHandler(fragment);
+
+		FragmentManager fragmentManager = getFragmentManager();
+		FragmentTransaction ft = fragmentManager.beginTransaction();
+		ft.add(R.id.fragment_bottom_right, fragment, TAG_MINI_DETAILS);
+		ft.addToBackStack(null);
+		ft.commit();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -284,6 +303,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	@Override
 	public void onBackStackChanged() {
+		Log.v("onBackStackChanged()");
+
 		updateLayout();
 	}
 
@@ -305,6 +326,21 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private void showGeocodeDisambiguationDialog(List<Address> addresses) {
 		DialogFragment newFragment = GeocodeDisambiguationDialogFragment.newInstance(addresses);
 		newFragment.show(getFragmentManager(), "GeocodeDisambiguationDialog");
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Events (called from Fragments)
+
+	public void propertySelected(Property property) {
+		Log.v("propertySelected(): " + property.getName());
+
+		// Ensure that a MiniDetailsFragment is being displayed
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(TAG_MINI_DETAILS) == null) {
+			showMiniDetailsFragment();
+		}
+
+		notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
