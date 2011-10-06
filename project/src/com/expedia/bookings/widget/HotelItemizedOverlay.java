@@ -82,7 +82,7 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 	public void setShowDistance(boolean showDistance) {
 		mShowDistance = showDistance;
 	}
-	
+
 	/**
 	 * This method returns true if hotels are visible
 	 * in the current visible map area, false if not,
@@ -92,28 +92,28 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 	 */
 	public Boolean areHotelsVisible() {
 		int lonSpan = mapView.getLongitudeSpan();
-		int latSpan  = mapView.getLatitudeSpan();
+		int latSpan = mapView.getLatitudeSpan();
 		GeoPoint center = mapView.getMapCenter();
-		
-		if(mProperties == null || mProperties.isEmpty()) {
+
+		if (mProperties == null || mProperties.isEmpty()) {
 			return null;
 		}
-		
-		for(Property property : mProperties) {
+
+		for (Property property : mProperties) {
 			Location location = property.getLocation();
 			GeoPoint point = MapUtils.convertToGeoPoint(location.getLatitude(), location.getLongitude());
-			if(MapUtils.isGeoPointWithinBound(point, center, latSpan, lonSpan)) {
+			if (MapUtils.isGeoPointWithinBound(point, center, latSpan, lonSpan)) {
 				return new Boolean(true);
 			}
 		}
-		
+
 		return new Boolean(false);
 	}
 
 	public String getTappedPropertyId() {
 		return mTappedPropertyId;
 	}
-	
+
 	@Override
 	protected OverlayItem createItem(int i) {
 		BalloonOverlayItem overlayItem;
@@ -192,27 +192,28 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 			return MapUtils.convertToGeoPoint(minLat + ((maxLat - minLat) / 2), minLon + ((maxLon - minLon) / 2));
 		}
 		else {
-			
+
 			// set the map to the center of north america if there are just no
 			// properties (filtered or unfiltered) to display
-			if(mUnFilteredProperties == null ||  mUnFilteredProperties.isEmpty()) {
+			if (mUnFilteredProperties == null || mUnFilteredProperties.isEmpty()) {
 				return MapUtils.convertToGeoPoint(44.674512553304, -103.85272979736);
 			}
 
 			// else, determine the center based on the unfiltered list of properties 
 			List<GeoPoint> points = new ArrayList<GeoPoint>();
-			for(Property property : mUnFilteredProperties) {
-				points.add(MapUtils.convertToGeoPoint(property.getLocation().getLatitude(), property.getLocation().getLongitude()));
+			for (Property property : mUnFilteredProperties) {
+				points.add(MapUtils.convertToGeoPoint(property.getLocation().getLatitude(), property.getLocation()
+						.getLongitude()));
 			}
 
 			return MapUtils.getCenter(points);
 		}
 	}
-	
+
 	@Override
 	public int getLatSpanE6() {
-		
-		if(size() == 0) {
+
+		if (size() == 0) {
 			return DEFAULT_SPAN;
 		}
 		return super.getLatSpanE6();
@@ -222,7 +223,7 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 	public int getLonSpanE6() {
 		// if there are no overlay items, 
 		// zoom the map out to a default value
-		if(size() == 0) {
+		if (size() == 0) {
 			return DEFAULT_SPAN;
 		}
 		return super.getLonSpanE6();
@@ -235,16 +236,16 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 	}
 
 	public boolean showBalloon(String propertyId) {
-		
-		for(int position = 0; mProperties != null && position < mProperties.size(); position++) {
-			if(mProperties.get(position).getPropertyId().equals(propertyId)) {
+
+		for (int position = 0; mProperties != null && position < mProperties.size(); position++) {
+			if (mProperties.get(position).getPropertyId().equals(propertyId)) {
 				return showBalloon(position, false);
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	@Override
 	public void hideBalloon() {
 		mTappedPropertyId = null;
