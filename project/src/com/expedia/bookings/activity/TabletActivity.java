@@ -8,6 +8,7 @@ import java.util.Set;
 import android.app.ActionBar;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.app.FragmentManager.OnBackStackChangedListener;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Resources;
@@ -19,6 +20,7 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
@@ -41,7 +43,7 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 
-public class TabletActivity extends MapActivity implements LocationListener {
+public class TabletActivity extends MapActivity implements LocationListener, OnBackStackChangedListener {
 
 	private Context mContext;
 	private Resources mResources;
@@ -97,30 +99,15 @@ public class TabletActivity extends MapActivity implements LocationListener {
 		mContext = this;
 		mResources = getResources();
 
-		// Add (or retrieve an existing) InstanceFragment to hold our state
-		FragmentManager fragmentManager = getFragmentManager();
-		mInstance = (InstanceFragment) fragmentManager.findFragmentByTag(TAG_INSTANCE_FRAGMENT);
-		if (mInstance == null) {
-			mInstance = InstanceFragment.newInstance();
-			FragmentTransaction ft = fragmentManager.beginTransaction();
-			ft.add(mInstance, TAG_INSTANCE_FRAGMENT);
-			ft.commit();
-		}
+		initializeInstanceFragment();
 
 		setContentView(R.layout.activity_tablet);
 
-		// Setup search interface.  This is probably not ultimately where this will go.
-		if (fragmentManager.findFragmentById(R.id.fragment_left) == null) {
-			FragmentTransaction ft = fragmentManager.beginTransaction();
-			ft.add(R.id.fragment_left, HotelListFragment.newInstance());
-			ft.commit();
-		}
+		initializeFragmentViews();
 
-		if (fragmentManager.findFragmentById(R.id.fragment_right) == null) {
-			FragmentTransaction ft = fragmentManager.beginTransaction();
-			ft.add(R.id.fragment_right, HotelMapFragment.newInstance());
-			ft.commit();
-		}
+		// Setup search interface.  This is probably not ultimately where this will go.
+		showHotelListFragment();
+		showHotelMapFragment();
 	}
 
 	@Override
@@ -234,6 +221,70 @@ public class TabletActivity extends MapActivity implements LocationListener {
 
 		int numNights = mInstance.mSearchParams.getStayDuration();
 		mDatesMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_nights, numNights, numNights));
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Fragment management
+
+	private View mLeftFragmentContainer;
+	private View mRightFragmentContainer;
+	private View mBottomRightFragmentContainer;
+
+	private void initializeInstanceFragment() {
+		// Add (or retrieve an existing) InstanceFragment to hold our state
+		FragmentManager fragmentManager = getFragmentManager();
+		mInstance = (InstanceFragment) fragmentManager.findFragmentByTag(TAG_INSTANCE_FRAGMENT);
+		if (mInstance == null) {
+			mInstance = InstanceFragment.newInstance();
+			FragmentTransaction ft = fragmentManager.beginTransaction();
+			ft.add(mInstance, TAG_INSTANCE_FRAGMENT);
+			ft.commit();
+		}
+	}
+
+	private void initializeFragmentViews() {
+		mLeftFragmentContainer = findViewById(R.id.fragment_left);
+		mRightFragmentContainer = findViewById(R.id.fragment_right);
+		mBottomRightFragmentContainer = findViewById(R.id.fragment_bottom_right);
+	}
+
+	public void showHotelListFragment() {
+		FragmentManager fragmentManager = getFragmentManager();
+		if (fragmentManager.findFragmentById(R.id.fragment_left) == null) {
+			FragmentTransaction ft = fragmentManager.beginTransaction();
+			ft.add(R.id.fragment_left, HotelListFragment.newInstance());
+			ft.commit();
+		}
+	}
+
+	public void showHotelMapFragment() {
+		FragmentManager fragmentManager = getFragmentManager();
+		if (fragmentManager.findFragmentById(R.id.fragment_right) == null) {
+			FragmentTransaction ft = fragmentManager.beginTransaction();
+			ft.add(R.id.fragment_right, HotelMapFragment.newInstance());
+			ft.commit();
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Layout management
+	// 
+	// (includes OnBackStackChangedListener implementation)
+
+	public void updateLayout() {
+		updateContainerVisibility(mLeftFragmentContainer);
+		updateContainerVisibility(mRightFragmentContainer);
+		updateContainerVisibility(mBottomRightFragmentContainer);
+	}
+
+	private void updateContainerVisibility(View container) {
+		container.setVisibility((getFragmentManager().findFragmentById(container.getId()) != null) ? View.VISIBLE
+				: View.GONE);
+	}
+
+	@Override
+	public void onBackStackChanged() {
+		updateLayout();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
