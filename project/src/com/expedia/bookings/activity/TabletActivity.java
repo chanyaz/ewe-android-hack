@@ -244,9 +244,9 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private static final String TAG_HOTEL_DETAILS = "HOTEL_DETAILS";
 	private static final String TAG_MINI_DETAILS = "MINI_DETAILS";
 
-	private ViewGroup mLeftFragmentContainer;
-	private ViewGroup mRightFragmentContainer;
-	private ViewGroup mBottomRightFragmentContainer;
+	private View mLeftFragmentContainer;
+	private View mRightFragmentContainer;
+	private View mBottomRightFragmentContainer;
 
 	private void initializeInstanceFragment() {
 		// Add (or retrieve an existing) InstanceFragment to hold our state
@@ -261,9 +261,9 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	}
 
 	private void initializeFragmentViews() {
-		mLeftFragmentContainer = (ViewGroup) findViewById(R.id.fragment_left);
-		mRightFragmentContainer = (ViewGroup) findViewById(R.id.fragment_right);
-		mBottomRightFragmentContainer = (ViewGroup) findViewById(R.id.fragment_bottom_right);
+		mLeftFragmentContainer = findViewById(R.id.fragment_left);
+		mRightFragmentContainer = findViewById(R.id.fragment_right);
+		mBottomRightFragmentContainer = findViewById(R.id.fragment_bottom_right);
 	}
 
 	public void showHotelListFragment() {
@@ -323,7 +323,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	 * This method makes "gone" the containers that either dont
 	 * have any views at all, or none that are actually visible. 
 	 */
-	private void updateContainerVisibility(ViewGroup container) {
+	private void updateContainerVisibility(View container) {
 		Fragment fragment = getFragmentManager().findFragmentById(container.getId());
 		container.setVisibility((fragment != null && fragment.isVisible()) ? View.VISIBLE : View.GONE);
 	}
