@@ -7,35 +7,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import org.json.JSONException;
-
+import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.TabletActivity.EventHandler;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.BedType;
 import com.expedia.bookings.data.Rate.BedTypeId;
-import com.expedia.bookings.data.ReviewsResponse;
-import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.Session;
-import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.Log;
 
-public class HotelDetailsFragment extends Fragment {
+public class HotelDetailsFragment extends Fragment implements EventHandler {
+
+	public static HotelDetailsFragment newInstance() {
+		HotelDetailsFragment fragment = new HotelDetailsFragment();
+		return fragment;
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -46,70 +44,26 @@ public class HotelDetailsFragment extends Fragment {
 	//----------------------------------
 
 	private static final int MAX_SUMMARIZED_RATE_RESULTS = 3;
-	private static final String KEY_AVAILABILITY = "KEY_AVAILABILITY";
 
 	//----------------------------------
 	// VIEWS
 	//----------------------------------
 
 	private ViewGroup mAvailabilitySummaryContainer;
+	private TextView mEmptyAvailabilitySummaryTextView;
+	private TextView mHotelLocationTextView;
+	private TextView mHotelNameTextView;
+	private RatingBar mHotelRatingBar;
 
 	//----------------------------------
 	// OTHERS
 	//----------------------------------
-
-	private SearchParams mSearchParams;
-	private Property mProperty;
-	private Session mSession;
-	private Context mContext;
+	private TabletActivity mActivity;
 	private LayoutInflater mInflater;
+	private Property mProperty;
+	private boolean mInitialized;
 
-	private BackgroundDownloader mDownloader = BackgroundDownloader.getInstance();
 	private AvailabilityResponse mAvailabilityResponse;
-	private ReviewsResponse mReviewsResponse;
-
-	//----------------------------------
-	// THREADS/CALLBACKS
-	//----------------------------------
-
-	private Download mRoomAvailabilityDownload = new Download() {
-
-		@Override
-		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext, mSession);
-			return services.availability(mSearchParams, mProperty);
-		}
-	};
-
-	private Download mReviewsDownload = new Download() {
-
-		@Override
-		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext, mSession);
-			return services.reviews(mProperty, 1, ReviewSort.HIGHEST_RATING_FIRST);
-		}
-	};
-
-	private OnDownloadComplete mRoomAvailabilityCallback = new OnDownloadComplete() {
-
-		@Override
-		public void onDownload(Object results) {
-			mAvailabilityResponse = (AvailabilityResponse) results;
-
-			if (mAvailabilityResponse == null) {
-				// TODO Need to figure out error handling
-			}
-			else if (mAvailabilityResponse.hasErrors()) {
-				// TODO Need to figure out error handling	
-			}
-			else {
-				createBedTypeToMinRateMapping();
-				clusterByBedType();
-				summarizeRates();
-				layoutAvailabilitySummary();
-			}
-		}
-	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// LIFECYCLE EVENTS
@@ -119,30 +73,26 @@ public class HotelDetailsFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		Bundle arguments = getArguments();
-		//		mSearchParams = (SearchParams) JSONUtils.parseJSONObjectFromBundle(arguments, Codes.SEARCH_PARAMS,
-		//				SearchParams.class);
-		//		mProperty = (Property) JSONUtils.parseJSONObjectFromBundle(arguments, Codes.PROPERTY, Property.class);
-		//		mSession = (Session) JSONUtils.parseJSONObjectFromBundle(arguments, Codes.SESSION, Session.class);
-		try {
-			mProperty = new Property();
-			mProperty.fillWithTestData();
-		}
-		catch (JSONException e) {
-			Log.i("Couldn't read dummy data");
-		}
-
-		mSearchParams = new SearchParams();
-		mContext = getActivity().getApplicationContext();
 		mInflater = getActivity().getLayoutInflater();
-
-		mAvailabilitySummaryContainer = (ViewGroup) getView().findViewById(R.id.availability_summary_container);
-		mDownloader.startDownload(KEY_AVAILABILITY, mRoomAvailabilityDownload, mRoomAvailabilityCallback);
+		mInitialized = true;
+		updateViews();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_hotel_details, container, false);
+		View view = inflater.inflate(R.layout.fragment_hotel_details, container, false);
+
+		mHotelNameTextView = (TextView) view.findViewById(R.id.hotel_name_text_view);
+		mHotelLocationTextView = (TextView) view.findViewById(R.id.hotel_address_text_view);
+		mHotelRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
+		mAvailabilitySummaryContainer = (ViewGroup) view.findViewById(R.id.availability_summary_container);
+		mEmptyAvailabilitySummaryTextView = (TextView) view.findViewById(R.id.empty_summart_container);
+		return view;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -159,8 +109,21 @@ public class HotelDetailsFragment extends Fragment {
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
+		mActivity.registerEventHandler(this);
 		super.onDestroy();
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mActivity = (TabletActivity) activity;
+		mActivity.registerEventHandler(this);
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		mActivity.unregisterEventHandler(this);
 	}
 
 	@Override
@@ -168,10 +131,71 @@ public class HotelDetailsFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onSaveInstanceState(outState);
 	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Views
+
+	public void updateViews() {
+		if (mInitialized) {
+			mHotelNameTextView.setText(mProperty.getName());
+			String hotelAddressWithNewLine = StrUtils.formatAddress(mProperty.getLocation(), StrUtils.F_STREET_ADDRESS
+					+ StrUtils.F_CITY + StrUtils.F_STATE_CODE);
+			mHotelLocationTextView.setText(hotelAddressWithNewLine.replace("\n", ", "));
+			mHotelRatingBar.setRating((float) mProperty.getHotelRating());
+			// might need a better place for this
+			((TabletActivity) getActivity()).startRoomsAndRatesDownload(mProperty);
+		}
+	}
+	
+
+	//////////////////////////////////////////////////////////////////////////
+	// EventHandler implementation
+
+	@Override
+	public void handleEvent(int eventCode, Object data) {
+		switch (eventCode) {
+		case TabletActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
+			mEmptyAvailabilitySummaryTextView.setVisibility(View.VISIBLE);
+			mEmptyAvailabilitySummaryTextView.setText(getString(R.string.room_rates_loading));
+			clearOutData();
+			break;
+		case TabletActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
+			mEmptyAvailabilitySummaryTextView.setText((String) data);
+			break;
+		case TabletActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
+			mAvailabilityResponse = (AvailabilityResponse) data;
+			mEmptyAvailabilitySummaryTextView.setVisibility(View.GONE);
+			createBedTypeToMinRateMapping();
+			clusterByBedType();
+			summarizeRates();
+			layoutAvailabilitySummary();
+			break;
+		case TabletActivity.EVENT_DETAILS_OPENED:
+		case TabletActivity.EVENT_PROPERTY_SELECTED:
+			mProperty = (Property) data;
+			updateViews();
+			break;
+		
+		}
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////////
+	
+	private void clearOutData() {
+		mAvailabilitySummaryContainer.removeAllViews();
+		mBedTypeToMinRateMap.clear();
+		mSummarizedRates.clear();
+		mAvailableDoubleBedTypes.clear();
+		mAvailableFullBedTypes.clear();
+		mAvailableKingBedTypes.clear();
+		mAvailableQueenBedTypes.clear();
+		mAvailableTwinBedTypes.clear();
+		mAvailableSingleBedTypes.clear();
+		mAvailableRemainingBedTypes.clear();
+		mMinimumRateAvailable = null;
+	}
 
 	private void layoutAvailabilitySummary() {
 		for (int i = 0; i < MAX_SUMMARIZED_RATE_RESULTS && i < mSummarizedRates.size(); i++) {
@@ -182,7 +206,8 @@ public class HotelDetailsFragment extends Fragment {
 			Pair<BedTypeId, Rate> pair = mSummarizedRates.get(i);
 			for (BedType bedType : pair.second.getBedTypes()) {
 				if (bedType.bedTypeId == pair.first) {
-					summaryDescription.setText(bedType.bedTypeDescription);
+					summaryDescription.setText(Html.fromHtml(getString(R.string.bed_type_start_value_template,
+							bedType.bedTypeDescription)));
 					break;
 				}
 			}
@@ -304,7 +329,7 @@ public class HotelDetailsFragment extends Fragment {
 	 */
 	private void createBedTypeToMinRateMapping() {
 		mBedTypeToMinRateMap.clear();
-		
+
 		for (Rate rate : mAvailabilityResponse.getRates()) {
 			for (BedType bedType : rate.getBedTypes()) {
 				BedTypeId bedTypeId = bedType.bedTypeId;

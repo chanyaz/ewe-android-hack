@@ -186,6 +186,9 @@
 	<string name="address">Address</string>
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
+	
+	<!--  Hotel Details Fragment -->
+	<string name="bed_type_start_value_template">&lt;b>%s&lt;/b> from</string>
 
 	<!-- Amenity strings -->
 	<!-- Business center amenity -->

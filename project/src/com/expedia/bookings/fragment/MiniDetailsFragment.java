@@ -5,7 +5,9 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	private TextView mNameTextView;
 	private TextView mLocationTextView;
 	private RatingBar mRatingBar;
+	private Button mSeeDetailsButton;
 
 	private Property mProperty;
 
@@ -46,6 +49,15 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		mNameTextView = (TextView) view.findViewById(R.id.name_text_view);
 		mLocationTextView = (TextView) view.findViewById(R.id.location_text_view);
 		mRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
+		mSeeDetailsButton = (Button) view.findViewById(R.id.see_details_button);
+		
+		mSeeDetailsButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				((TabletActivity) getActivity()).moreDetailsForPropertySelected(mProperty); 
+			}
+		});
 
 		mInitialized = true;
 

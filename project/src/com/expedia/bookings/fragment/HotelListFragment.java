@@ -25,7 +25,7 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 	private ViewGroup mHeaderLayout;
 	private TextView mNumHotelsTexView;
 	private TextView mMessageTextView;
-
+	
 	public static HotelListFragment newInstance() {
 		return new HotelListFragment();
 	}
@@ -116,4 +116,17 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 		mNumHotelsTexView.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_results, count,
 				count)));
 	}
+
+//	//////////////////////////////////////////////////////////////////////////
+//	// List implementation
+//
+//	@Override
+//	public void onListItemClick(ListView l, View v, int position, long id) {
+//		Property property = (Property) mAdapter.getItem(position);
+//		Bundle arguments = new Bundle();
+//		arguments.putString(Codes.PROPERTY, property.toJson().toString());
+//		mActivity.showHotelDetails(property);
+//	}
+//	
+	
 }
