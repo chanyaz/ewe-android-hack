@@ -539,6 +539,16 @@
 	<!-- Expedia agent hotel policies -->
 	<string name="PolicyExpediaAgent">You are booking a non-discounted property. All rates displayed are nightly, and based on double occupancy per room unless otherwise specified. Carefully review the room descriptions and rate rules to ensure the room you select can accommodate your entire party. Some rates may require special identification. Our booking fee, taxes, and other surcharges imposed by the hotel are not included. Any extra adults or children above the room\'s listed occupancy may be subject to additional charges at the property\'s discretion.\n\nRequests for more than 2 people, or for more occupants than your selected rate indicates, will be sent to the hotel but are not guaranteed. If accepted, they will be subject to additional charges at the property\'s discretion.</string>
 
+	<!-- Expedia Accounts -->
+	<!-- Label for menu item to log into account -->
+	<string name="log_in">Log Into Expedia</string>
+	<!-- Hint for user to enter password into a field -->
+	<string name="hint_password">Password</string>
+	<!-- Progress dialog text when we are logging the user into Expedia -->
+	<string name="logging_in">Logging in...</string>
+	<!-- Message that tells user they successfully logged in -->
+	<string name="login_success">Success!  You are now logged in.</string>
+
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
 	<string name="share_subject_template">Expedia Itinerary - %1$s (%2$s - %3$s)</string>

@@ -49,6 +49,7 @@ import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.Session;
+import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
@@ -181,6 +182,15 @@ public class ExpediaServices implements DownloadListener {
 
 		return (BookingResponse) doRequest("/MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(
 				mContext), F_SECURE_REQUEST);
+	}
+
+	public SignInResponse signIn(String email, String password) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		query.add(new BasicNameValuePair("email", email));
+		query.add(new BasicNameValuePair("password", password));
+
+		return (SignInResponse) doRequest("/MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext),
+				F_SECURE_REQUEST);
 	}
 
 	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {

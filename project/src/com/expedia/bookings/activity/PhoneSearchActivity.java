@@ -846,6 +846,11 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.log_in: {
+			Intent intent = new Intent(this, SignInActivity.class);
+			startActivity(intent);
+			break;
+		}
 		case R.id.settings: {
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
 			startActivityForResult(intent, REQUEST_CODE_SETTINGS);

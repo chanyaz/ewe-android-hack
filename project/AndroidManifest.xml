@@ -78,6 +78,8 @@
 
 		<activity android:name=".activity.ConfirmationActivity" />
 
+		<activity android:name=".activity.SignInActivity" />
+
 		<activity android:name=".activity.AboutActivity" />
 
 		<activity android:name=".activity.TabletAboutActivity" />
