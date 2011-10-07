@@ -15,6 +15,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.BedType;
 import com.expedia.bookings.data.Rate.BedTypeId;
 import com.expedia.bookings.utils.StrUtils;
+import com.mobiata.android.ImageCache;
 
 public class HotelDetailsFragment extends Fragment implements EventHandler {
 
@@ -54,6 +56,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private TextView mHotelLocationTextView;
 	private TextView mHotelNameTextView;
 	private RatingBar mHotelRatingBar;
+	private ArrayList<ImageView> propertyImages;
 
 	//----------------------------------
 	// OTHERS
@@ -87,6 +90,12 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mHotelRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
 		mAvailabilitySummaryContainer = (ViewGroup) view.findViewById(R.id.availability_summary_container);
 		mEmptyAvailabilitySummaryTextView = (TextView) view.findViewById(R.id.empty_summart_container);
+
+		propertyImages = new ArrayList<ImageView>(4);
+		propertyImages.add((ImageView) view.findViewById(R.id.big_left_property_image_view));
+		propertyImages.add((ImageView) view.findViewById(R.id.top_right_property_image_view));
+		propertyImages.add((ImageView) view.findViewById(R.id.bottom_right_property_image_view_1));
+		propertyImages.add((ImageView) view.findViewById(R.id.bottom_right_property_image_view_2));
 		return view;
 	}
 
@@ -142,6 +151,11 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 					+ StrUtils.F_CITY + StrUtils.F_STATE_CODE);
 			mHotelLocationTextView.setText(hotelAddressWithNewLine.replace("\n", ", "));
 			mHotelRatingBar.setRating((float) mProperty.getHotelRating());
+
+			for (int i = 0; i < mProperty.getMediaCount() && i < propertyImages.size(); i++) {
+				ImageCache.loadImage(mProperty.getMedia(i).getUrl(), propertyImages.get(i));
+			}
+
 			// might need a better place for this
 			((TabletActivity) getActivity()).startRoomsAndRatesDownload(mProperty);
 		}
@@ -156,14 +170,17 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
 			mEmptyAvailabilitySummaryTextView.setVisibility(View.VISIBLE);
 			mEmptyAvailabilitySummaryTextView.setText(getString(R.string.room_rates_loading));
+			mAvailabilitySummaryContainer.setVisibility(View.GONE);
 			clearOutData();
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
 			mEmptyAvailabilitySummaryTextView.setText((String) data);
+			mAvailabilitySummaryContainer.setVisibility(View.GONE);
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
 			mAvailabilityResponse = (AvailabilityResponse) data;
 			mEmptyAvailabilitySummaryTextView.setVisibility(View.GONE);
+			mAvailabilitySummaryContainer.setVisibility(View.VISIBLE);
 			createBedTypeToMinRateMapping();
 			clusterByBedType();
 			summarizeRates();
@@ -194,6 +211,11 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mAvailableSingleBedTypes.clear();
 		mAvailableRemainingBedTypes.clear();
 		mMinimumRateAvailable = null;
+		
+		// set the default thumbnails for all images
+		for(ImageView imageView : propertyImages) {
+			imageView.setImageResource(R.drawable.ic_row_thumb_placeholder);
+		}
 	}
 
 	private void layoutAvailabilitySummary() {
