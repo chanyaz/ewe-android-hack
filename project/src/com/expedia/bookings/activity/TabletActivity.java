@@ -262,7 +262,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	private void initializeFragmentViews() {
 		mLeftFragmentContainer = (ViewGroup) findViewById(R.id.fragment_left);
-		mRightFragmentContainer =  (ViewGroup)findViewById(R.id.fragment_right);
+		mRightFragmentContainer = (ViewGroup) findViewById(R.id.fragment_right);
 		mBottomRightFragmentContainer = (ViewGroup) findViewById(R.id.fragment_bottom_right);
 	}
 
@@ -294,8 +294,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		ft.addToBackStack(null);
 		ft.commit();
 	}
-	
-	
+
 	public void showHotelDetailsFragment() {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_right);
@@ -308,7 +307,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		ft.commit();
 		registerEventHandler(hotelDetailsFragment);
 	}
-
 
 	//////////////////////////////////////////////////////////////////////////
 	// Layout management
@@ -326,8 +324,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	 * have any views at all, or none that are actually visible. 
 	 */
 	private void updateContainerVisibility(ViewGroup container) {
-		container.setVisibility((container.getChildCount() > 0) && (container.getChildAt(0).getVisibility() == View.VISIBLE) ? View.VISIBLE
-				: View.GONE);
+		container.setVisibility((container.getChildCount() > 0)
+				&& (container.getChildAt(0).getVisibility() == View.VISIBLE) ? View.VISIBLE : View.GONE);
 	}
 
 	@Override
@@ -371,12 +369,12 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 		notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
 	}
-	
+
 	public void moreDetailsForPropertySelected(Property property) {
-		
+
 		// Ensure that a HotelDetailsFragment is being displayed
 		FragmentManager fm = getFragmentManager();
-		if(fm.findFragmentByTag(TAG_HOTEL_DETAILS) == null) {
+		if (fm.findFragmentByTag(TAG_HOTEL_DETAILS) == null) {
 			showHotelDetailsFragment();
 		}
 		notifyEventHandlers(EVENT_DETAILS_OPENED, property);
@@ -602,7 +600,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 				notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR, getString(R.string.error_no_response_room_rates));
 			}
 			else if (availabilityResponse.hasErrors()) {
-				notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR, availabilityResponse.getErrors().get(0).getPresentableMessage(mContext));	
+				notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR, availabilityResponse.getErrors().get(0)
+						.getPresentableMessage(mContext));
 			}
 			else {
 				notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
