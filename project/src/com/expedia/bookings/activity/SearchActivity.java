@@ -73,6 +73,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -432,9 +433,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			}
 		}
 	};
-	
+
 	private OnSearchParamsChangedInWidgetListener mSearchpParamsChangedListener = new OnSearchParamsChangedInWidgetListener() {
-		
+
 		@Override
 		public void onSearchParamsChanged(SearchParams searchParams) {
 			setSearchParams(searchParams);
@@ -616,7 +617,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
 			mStartSearchOnResume = true;
 		}
-		
+
 	}
 
 	@Override
@@ -645,7 +646,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	protected void onResume() {
 		super.onResume();
 		mApp.registerSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
-		
+
 		mProgressBar.onResume();
 
 		initializeCalendarDatePicker();
@@ -712,7 +713,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		ImageCache.clearAllCallbacks();
 
 		mApp.unregisterSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
-		
+
 		// do not attempt to save parameters if the user was short circuited to the
 		// confirmation screen when the search activity started
 		if (isFinishing() && !ConfirmationActivity.hasSavedConfirmationData(this)) {
@@ -1013,7 +1014,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	//----------------------------------
 	// VIEW INITIALIZATION
 	//----------------------------------
@@ -1091,8 +1092,20 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mSearchSuggestionsListView.addFooterView(footer, null, false);
 		//-------------------------------------------------------------------
 
-		TextView widgetNotificationTextView = (TextView) findViewById(R.id.widget_notification_text_view);
-		widgetNotificationTextView.setText(Html.fromHtml(getString(R.string.widget_upsell_short)));
+		View widgetNotificationBar = findViewById(R.id.widget_notification_bar_layout);
+		widgetNotificationBar.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(SearchActivity.this, getString(R.string.widget_add_instructions), Toast.LENGTH_SHORT)
+						.show();
+			}
+		});
+
+		TextView widgetNotificationTextView1 = (TextView) findViewById(R.id.widget_notification_text_view_1);
+		TextView widgetNotificationTextView2 = (TextView) findViewById(R.id.widget_notification_text_view_2);
+		widgetNotificationTextView1.setText(Html.fromHtml(getString(R.string.widget_upsell_short_1)));
+		widgetNotificationTextView2.setText(Html.fromHtml(getString(R.string.widget_upsell_short_2)));
 
 		View widgetNotificationCloseButton = findViewById(R.id.widget_notification_close_btn);
 		widgetNotificationCloseButton.setOnClickListener(new View.OnClickListener() {

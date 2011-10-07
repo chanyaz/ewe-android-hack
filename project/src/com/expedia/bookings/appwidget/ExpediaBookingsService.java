@@ -869,9 +869,9 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 					getString(R.string.save_upto_template, maxSavingsInPercent * 100));
 		}
 
-		widgetContents.setTextViewText(R.id.branding_location_text_view, "Current Location");
+		widgetContents.setTextViewText(R.id.branding_location_text_view, getString(R.string.book_a_room_tonight));
 
-		widgetContents.setTextViewText(R.id.branding_title_text_view, getString(R.string.tonight_top_deals));
+		widgetContents.setTextViewText(R.id.branding_title_text_view, getString(R.string.hotel_radar));
 
 		Intent prevIntent = new Intent(PREV_PROPERTY_ACTION);
 		prevIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

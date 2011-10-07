@@ -112,7 +112,7 @@
 		android:layout_height="fill_parent"
 		android:visibility="gone"
 		android:background="@color/dismiss" />
-		
+
 	<RelativeLayout
 		android:id="@+id/widget_notification_bar_layout"
 		android:layout_height="wrap_content"
@@ -122,18 +122,36 @@
 		android:visibility="gone"
 		android:clickable="true"
 		android:background="@drawable/widget_notification_bg">
-		
-		<TextView
-			android:id="@+id/widget_notification_text_view"
+
+		<com.mobiata.android.widget.WorkingViewFlipper
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
+			android:flipInterval="2000"
+			android:autoStart="true"
 			android:layout_centerVertical="true"
 			android:layout_toLeftOf="@+id/widget_notification_close_btn"
-			android:singleLine="true"
-			android:ellipsize="end"
+			android:layout_alignParentLeft="true"
 			android:paddingBottom="10dp"
-			android:text="@string/widget_upsell_short"
-			android:textColor="#333333"/>
+			android:inAnimation="@anim/push_up_in"
+			android:outAnimation="@anim/push_up_out">
+			<TextView
+				android:id="@+id/widget_notification_text_view_1"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:singleLine="true"
+				android:ellipsize="end"
+				android:text="@string/widget_upsell_short_1"
+				android:textColor="#333333" />
+			<TextView
+				android:id="@+id/widget_notification_text_view_2"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:singleLine="true"
+				android:ellipsize="end"
+				android:text="@string/widget_upsell_short_2"
+				android:textColor="#333333" />
+		</com.mobiata.android.widget.WorkingViewFlipper>
+
 		<FrameLayout
 			android:id="@+id/widget_notification_close_btn"
 			android:layout_height="40dp"
@@ -141,12 +159,12 @@
 			android:clickable="true"
 			android:layout_centerVertical="true"
 			android:layout_alignParentRight="true">
-		<ImageView
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_gravity="center"
-			android:paddingBottom="10dp"
-			android:src="@drawable/widget_notification_close_btn"/>	
+			<ImageView
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center"
+				android:paddingBottom="10dp"
+				android:src="@drawable/widget_notification_close_btn" />
 		</FrameLayout>
 	</RelativeLayout>
 	<include
