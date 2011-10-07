@@ -140,8 +140,9 @@
 	<string name="save_upto_template">Save up to %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">We\'re out of deals for today. Check in for top deals tomorrow.</string>
-	<!--  Widget upsell within app as a notification in the top bar -->
+	<!--  First string for widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short_1">&lt;b>Add the Hotel Radar Widget.&lt;/b></string>
+	<!--  Second string for widget upsell within app as a notification in the app bar -->
 	<string name="widget_upsell_short_2">&lt;b>Get nightly deals near you!&lt;/b></string>
 	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
 	<string name="enjoy_your_stay">Enjoy your stay!</string>
