@@ -324,8 +324,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	 * have any views at all, or none that are actually visible. 
 	 */
 	private void updateContainerVisibility(ViewGroup container) {
-		container.setVisibility((container.getChildCount() > 0)
-				&& (container.getChildAt(0).getVisibility() == View.VISIBLE) ? View.VISIBLE : View.GONE);
+		Fragment fragment = getFragmentManager().findFragmentById(container.getId());
+		container.setVisibility((fragment != null && fragment.isVisible()) ? View.VISIBLE : View.GONE);
 	}
 
 	@Override
