@@ -131,7 +131,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		// TODO Auto-generated method stub
 		super.onSaveInstanceState(outState);
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// Views
 
@@ -146,7 +146,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			((TabletActivity) getActivity()).startRoomsAndRatesDownload(mProperty);
 		}
 	}
-	
 
 	//////////////////////////////////////////////////////////////////////////
 	// EventHandler implementation
@@ -175,14 +174,14 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			mProperty = (Property) data;
 			updateViews();
 			break;
-		
+
 		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	private void clearOutData() {
 		mAvailabilitySummaryContainer.removeAllViews();
 		mBedTypeToMinRateMap.clear();
