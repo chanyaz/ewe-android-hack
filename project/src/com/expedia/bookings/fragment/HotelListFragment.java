@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
-import com.expedia.bookings.activity.TabletActivity.EventHandler;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelAdapter;
 
 public class HotelListFragment extends ListFragment implements EventHandler, OnFilterChangedListener {
@@ -25,20 +25,13 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 	private ViewGroup mHeaderLayout;
 	private TextView mNumHotelsTexView;
 	private TextView mMessageTextView;
-	
+
 	public static HotelListFragment newInstance() {
 		return new HotelListFragment();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		((TabletActivity) activity).registerEventHandler(this);
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,9 +53,14 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		((TabletActivity) getActivity()).registerEventHandler(this);
+	}
+
+	@Override
 	public void onDetach() {
 		super.onDetach();
-
 		((TabletActivity) getActivity()).unregisterEventHandler(this);
 	}
 
@@ -116,17 +114,4 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 		mNumHotelsTexView.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_results, count,
 				count)));
 	}
-
-//	//////////////////////////////////////////////////////////////////////////
-//	// List implementation
-//
-//	@Override
-//	public void onListItemClick(ListView l, View v, int position, long id) {
-//		Property property = (Property) mAdapter.getItem(position);
-//		Bundle arguments = new Bundle();
-//		arguments.putString(Codes.PROPERTY, property.toJson().toString());
-//		mActivity.showHotelDetails(property);
-//	}
-//	
-	
 }

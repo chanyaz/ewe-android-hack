@@ -1,16 +1,14 @@
 package com.expedia.bookings.activity;
 
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import android.app.ActionBar;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentManager.OnBackStackChangedListener;
 import android.app.FragmentTransaction;
+import android.app.FragmentManager.OnBackStackChangedListener;
 import android.content.Context;
 import android.content.res.Resources;
 import android.location.Address;
@@ -22,7 +20,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
@@ -33,6 +30,8 @@ import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
+import com.expedia.bookings.fragment.EventManager;
+import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
 import com.expedia.bookings.fragment.HotelDetailsFragment;
@@ -79,24 +78,14 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	//////////////////////////////////////////////////////////////////////////
 	// Event handling
 
-	public interface EventHandler {
-		public void handleEvent(int eventCode, Object data);
-	};
-
-	private Set<EventHandler> mEventHandlers = new HashSet<EventHandler>();
+	private EventManager mEventManager = EventManager.getInstance();
 
 	public boolean registerEventHandler(EventHandler eventHandler) {
-		return mEventHandlers.add(eventHandler);
+		return mEventManager.registerEventHandler(eventHandler);
 	}
 
 	public boolean unregisterEventHandler(EventHandler eventHandler) {
-		return mEventHandlers.remove(eventHandler);
-	}
-
-	public void notifyEventHandlers(int eventCode, Object data) {
-		for (EventHandler eventHandler : mEventHandlers) {
-			eventHandler.handleEvent(eventCode, data);
-		}
+		return mEventManager.unregisterEventHandler(eventHandler);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -109,8 +98,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		mContext = this;
 		mResources = getResources();
 
-		getFragmentManager().addOnBackStackChangedListener(this);
-
 		initializeInstanceFragment();
 
 		setContentView(R.layout.activity_tablet);
@@ -120,6 +107,15 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		// Setup search interface.  This is probably not ultimately where this will go.
 		showHotelListFragment();
 		showHotelMapFragment();
+
+		getFragmentManager().addOnBackStackChangedListener(this);
+
+		// if the device was rotated, update layout 
+		// to ensure that containers with fragments in them
+		// are visible
+		if (savedInstanceState != null) {
+			updateLayout();
+		}
 	}
 
 	@Override
@@ -286,7 +282,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	public void showMiniDetailsFragment() {
 		MiniDetailsFragment fragment = MiniDetailsFragment.newInstance();
-		registerEventHandler(fragment);
 
 		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -300,12 +295,11 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_right);
 		HotelDetailsFragment hotelDetailsFragment = HotelDetailsFragment.newInstance();
 		if (fragment != null) {
-			ft.hide(fragment);
+			ft.remove(fragment);
 		}
 		ft.replace(R.id.fragment_bottom_right, hotelDetailsFragment, TAG_HOTEL_DETAILS);
 		ft.addToBackStack(null);
 		ft.commit();
-		registerEventHandler(hotelDetailsFragment);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -321,11 +315,12 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	/*
 	 * This method makes "gone" the containers that either dont
-	 * have any views at all, or none that are actually visible. 
+	 * have any views at all, or none that are added to the 
+	 * activity
 	 */
 	private void updateContainerVisibility(View container) {
 		Fragment fragment = getFragmentManager().findFragmentById(container.getId());
-		container.setVisibility((fragment != null && fragment.isVisible()) ? View.VISIBLE : View.GONE);
+		container.setVisibility((fragment != null && fragment.isAdded()) ? View.VISIBLE : View.GONE);
 	}
 
 	@Override
@@ -359,6 +354,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	// Events (called from Fragments)
 
 	public void propertySelected(Property property) {
+		mInstance.mProperty = property;
 		Log.v("propertySelected(): " + property.getName());
 
 		// Ensure that a MiniDetailsFragment is being displayed
@@ -366,18 +362,40 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		if (fm.findFragmentByTag(TAG_MINI_DETAILS) == null) {
 			showMiniDetailsFragment();
 		}
+		else {
+			mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
+		}
 
-		notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
+		// start downloading the availability response for this property
+		// ahead of time (from when it might actually be needed) so that 
+		// the results are instantly displayed in the hotel details view to the user
+		startRoomsAndRatesDownload(mInstance.mProperty);
 	}
 
-	public void moreDetailsForPropertySelected(Property property) {
-
+	public void moreDetailsForPropertySelected() {
 		// Ensure that a HotelDetailsFragment is being displayed
 		FragmentManager fm = getFragmentManager();
 		if (fm.findFragmentByTag(TAG_HOTEL_DETAILS) == null) {
 			showHotelDetailsFragment();
 		}
-		notifyEventHandlers(EVENT_DETAILS_OPENED, property);
+		else {
+			mEventManager.notifyEventHandlers(EVENT_DETAILS_OPENED, mInstance.mProperty);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Data access
+
+	public Property getPropertyToDisplay() {
+		return mInstance.mProperty;
+	}
+
+	public SearchResponse getSearchResultsToDisplay() {
+		return mInstance.mSearchResponse;
+	}
+
+	public AvailabilityResponse getRoomsAndRatesAvailability() {
+		return mInstance.mAvailabilityResponse;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -422,7 +440,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public void startSearch() {
 		Log.i("startSearch(): " + mInstance.mSearchParams.toJson().toString());
 
-		notifyEventHandlers(EVENT_SEARCH_STARTED, null);
+		mEventManager.notifyEventHandlers(EVENT_SEARCH_STARTED, null);
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
@@ -541,7 +559,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			SearchResponse response = mInstance.mSearchResponse = (SearchResponse) results;
 
 			if (response == null) {
-				notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.progress_search_failed));
+				mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.progress_search_failed));
 			}
 			else {
 				if (response.getSession() != null) {
@@ -549,10 +567,11 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 				}
 
 				if (response.hasErrors()) {
-					notifyEventHandlers(EVENT_SEARCH_ERROR, response.getErrors().get(0).getPresentableMessage(mContext));
+					mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, response.getErrors().get(0)
+							.getPresentableMessage(mContext));
 				}
 				else {
-					notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
+					mEventManager.notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
 				}
 			}
 		}
@@ -570,15 +589,18 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	//////////////////////////////////////////////////////////////////////////
 	// Hotel Details
-	private Property mProperty;
 
-	public void startRoomsAndRatesDownload(Property property) {
-		mProperty = property;
+	private void startRoomsAndRatesDownload(Property property) {
+		mInstance.mProperty = property;
+
+		// clear out previous results
+		mInstance.mAvailabilityResponse = null;
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
 		bd.cancelDownload(KEY_AVAILABILITY_SEARCH);
 		bd.startDownload(KEY_AVAILABILITY_SEARCH, mRoomAvailabilityDownload, mRoomAvailabilityCallback);
-		notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_STARTED, null);
+		mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_STARTED, null);
 	}
 
 	private Download mRoomAvailabilityDownload = new Download() {
@@ -586,7 +608,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		@Override
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext, mInstance.mSession);
-			return services.availability(mInstance.mSearchParams, mProperty);
+			return services.availability(mInstance.mSearchParams, mInstance.mProperty);
 		}
 	};
 
@@ -594,17 +616,18 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 		@Override
 		public void onDownload(Object results) {
-			AvailabilityResponse availabilityResponse = (AvailabilityResponse) results;
+			AvailabilityResponse availabilityResponse = mInstance.mAvailabilityResponse = (AvailabilityResponse) results;
 
 			if (availabilityResponse == null) {
-				notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR, getString(R.string.error_no_response_room_rates));
+				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR,
+						getString(R.string.error_no_response_room_rates));
 			}
 			else if (availabilityResponse.hasErrors()) {
-				notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR, availabilityResponse.getErrors().get(0)
-						.getPresentableMessage(mContext));
+				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR, availabilityResponse.getErrors()
+						.get(0).getPresentableMessage(mContext));
 			}
 			else {
-				notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
+				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
 			}
 		}
 	};
@@ -613,7 +636,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	// Location
 
 	private void startLocationListener() {
-		notifyEventHandlers(EVENT_SEARCH_PROGRESS, getString(R.string.progress_finding_location));
+		mEventManager.notifyEventHandlers(EVENT_SEARCH_PROGRESS, getString(R.string.progress_finding_location));
 
 		// Prefer network location (because it's faster).  Otherwise use GPS
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

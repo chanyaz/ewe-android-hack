@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
-import com.expedia.bookings.activity.TabletActivity.EventHandler;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.StrUtils;
 
 public class MiniDetailsFragment extends Fragment implements EventHandler {
@@ -28,19 +28,8 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	private RatingBar mRatingBar;
 	private Button mSeeDetailsButton;
 
-	private Property mProperty;
-
-	private boolean mInitialized = false;
-
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		((TabletActivity) activity).registerEventHandler(this);
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,37 +39,50 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		mLocationTextView = (TextView) view.findViewById(R.id.location_text_view);
 		mRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
 		mSeeDetailsButton = (Button) view.findViewById(R.id.see_details_button);
-		
+
 		mSeeDetailsButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				((TabletActivity) getActivity()).moreDetailsForPropertySelected(mProperty); 
+				((TabletActivity) getActivity()).moreDetailsForPropertySelected();
 			}
 		});
-
-		mInitialized = true;
-
-		updateViews();
-
 		return view;
+	}
+
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		updateViews();
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		((TabletActivity) getActivity()).registerEventHandler(this);
 	}
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
-
 		((TabletActivity) getActivity()).unregisterEventHandler(this);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Views
 
-	public void updateViews() {
-		if (mInitialized) {
-			mNameTextView.setText(mProperty.getName());
-			mLocationTextView.setText(StrUtils.formatAddress(mProperty.getLocation()).replace("\n", ", "));
-			mRatingBar.setRating((float) mProperty.getHotelRating());
+	private void updateViews() {
+		updateViews(((TabletActivity) getActivity()).getPropertyToDisplay());
+	}
+
+	private void updateViews(Property property) {
+		// don't update views if there is no
+		// view attached.
+		if(getView() != null) {
+			mNameTextView.setText(property.getName());
+			mLocationTextView.setText(StrUtils.formatAddress(property.getLocation()).replace("\n", ", "));
+			mRatingBar.setRating((float) property.getHotelRating());
 		}
 	}
 
@@ -91,8 +93,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
 		case TabletActivity.EVENT_PROPERTY_SELECTED:
-			mProperty = (Property) data;
-			updateViews();
+			updateViews((Property) data);
 			break;
 		}
 	}

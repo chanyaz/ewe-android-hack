@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
-import com.expedia.bookings.activity.TabletActivity.EventHandler;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.expedia.bookings.widget.HotelItemizedOverlay.OnTapListener;
 import com.google.android.maps.MapView;
@@ -34,23 +34,23 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 	private MapView mMapView;
 	private HotelItemizedOverlay mHotelOverlay;
 	private DoubleTapToZoomListenerOverlay mDoubleTapToZoomOverlay;
-
+	private SearchResponse mSearchResponse;
+	private Property mProperty;
+	
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		((TabletActivity) activity).registerEventHandler(this);
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Context context = getActivity();
-
-		mMapView = MapUtils.createMapView(context);
-
+		// create a new map view belonging to the map activity
+		// if there is no mapView that already exists or if the current hosting
+		// activity of this fragment is different than the activity to which the map
+		// view belongs (in all probability, a pointer to the activity prior to device rotation)
+		if (mMapView == null || mMapView.getContext() != getActivity()) {
+			mMapView = MapUtils.createMapView(context);
+		}
+		
 		// Add the initial overlays
 		List<Overlay> overlays = mMapView.getOverlays();
 
@@ -71,10 +71,24 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		((TabletActivity) getActivity()).registerEventHandler(this);
+	}
+
+	@Override
 	public void onDetach() {
 		super.onDetach();
-
 		((TabletActivity) getActivity()).unregisterEventHandler(this);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mSearchResponse = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
+		mProperty = ((TabletActivity) getActivity()).getPropertyToDisplay();
+		updateView();
+		selectBalloonForProperty();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -87,12 +101,31 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 			mHotelOverlay.setProperties(null);
 			break;
 		case TabletActivity.EVENT_SEARCH_COMPLETE:
-			mHotelOverlay.setProperties((SearchResponse) data);
-			mMapView.invalidate();
+			mSearchResponse = (SearchResponse) data;
+			updateView();
 			break;
 		case TabletActivity.EVENT_PROPERTY_SELECTED:
-			mHotelOverlay.showBalloon(((Property) data).getPropertyId(), true);
+			mProperty = ((Property) data);
+			selectBalloonForProperty();
 			break;
+		}
+	}
+
+	private void updateView() {
+		// only update the view if the map view exists
+		// and if there are overlay items to show on the map
+		if (mHotelOverlay != null && mMapView != null && mSearchResponse != null) {
+			mHotelOverlay.setProperties(mSearchResponse);
+			mMapView.invalidate();
+		}
+	}
+	
+	private void selectBalloonForProperty() {
+		// only select a balloon to be displayed over an overlay
+		// item if there is a property whose overlay to display
+		// and if there is view in which to display
+		if(mHotelOverlay != null && mProperty != null) {
+			mHotelOverlay.showBalloon(mProperty.getPropertyId(), true);
 		}
 	}
 }

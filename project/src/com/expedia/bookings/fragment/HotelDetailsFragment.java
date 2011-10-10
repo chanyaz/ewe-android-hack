@@ -21,12 +21,12 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
-import com.expedia.bookings.activity.TabletActivity.EventHandler;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.BedType;
 import com.expedia.bookings.data.Rate.BedTypeId;
+import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 
@@ -61,29 +61,16 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	//----------------------------------
 	// OTHERS
 	//----------------------------------
-	private TabletActivity mActivity;
 	private LayoutInflater mInflater;
-	private Property mProperty;
-	private boolean mInitialized;
-
-	private AvailabilityResponse mAvailabilityResponse;
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// LIFECYCLE EVENTS
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-
-		mInflater = getActivity().getLayoutInflater();
-		mInitialized = true;
-		updateViews();
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_details, container, false);
+		mInflater = inflater;
 
 		mHotelNameTextView = (TextView) view.findViewById(R.id.hotel_name_text_view);
 		mHotelLocationTextView = (TextView) view.findViewById(R.id.hotel_address_text_view);
@@ -100,65 +87,51 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
-	}
-
-	@Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-	}
-
-	@Override
-	public void onDestroy() {
-		mActivity.registerEventHandler(this);
-		super.onDestroy();
+		updateViews();
 	}
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mActivity = (TabletActivity) activity;
-		mActivity.registerEventHandler(this);
+		((TabletActivity) getActivity()).registerEventHandler(this);
 	}
 
 	@Override
 	public void onDetach() {
+		((TabletActivity) getActivity()).unregisterEventHandler(this);
 		super.onDetach();
-		mActivity.unregisterEventHandler(this);
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		// TODO Auto-generated method stub
-		super.onSaveInstanceState(outState);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Views
 
 	public void updateViews() {
-		if (mInitialized) {
-			mHotelNameTextView.setText(mProperty.getName());
-			String hotelAddressWithNewLine = StrUtils.formatAddress(mProperty.getLocation(), StrUtils.F_STREET_ADDRESS
-					+ StrUtils.F_CITY + StrUtils.F_STATE_CODE);
-			mHotelLocationTextView.setText(hotelAddressWithNewLine.replace("\n", ", "));
-			mHotelRatingBar.setRating((float) mProperty.getHotelRating());
 
-			for (int i = 0; i < mProperty.getMediaCount() && i < propertyImages.size(); i++) {
-				ImageCache.loadImage(mProperty.getMedia(i).getUrl(), propertyImages.get(i));
-			}
+		updateViews(((TabletActivity) getActivity()).getPropertyToDisplay());
+	}
 
-			// might need a better place for this
-			((TabletActivity) getActivity()).startRoomsAndRatesDownload(mProperty);
+	public void updateViews(Property property) {
+		mHotelNameTextView.setText(property.getName());
+		String hotelAddressWithNewLine = StrUtils.formatAddress(property.getLocation(), StrUtils.F_STREET_ADDRESS
+				+ StrUtils.F_CITY + StrUtils.F_STATE_CODE);
+		mHotelLocationTextView.setText(hotelAddressWithNewLine.replace("\n", ", "));
+		mHotelRatingBar.setRating((float) property.getHotelRating());
+
+		// set the default thumbnails for all images
+		for (ImageView imageView : propertyImages) {
+			imageView.setImageResource(R.drawable.ic_row_thumb_placeholder);
 		}
+
+		for (int i = 0; i < property.getMediaCount() && i < propertyImages.size(); i++) {
+			ImageCache.loadImage(property.getMedia(i).getUrl(), propertyImages.get(i));
+		}
+
+		// update the summarized rates if they are available
+		AvailabilityResponse availabilityResponse = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
+		updateSummarizedRates(availabilityResponse);
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -178,18 +151,13 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			mAvailabilitySummaryContainer.setVisibility(View.GONE);
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
-			mAvailabilityResponse = (AvailabilityResponse) data;
 			mEmptyAvailabilitySummaryTextView.setVisibility(View.GONE);
 			mAvailabilitySummaryContainer.setVisibility(View.VISIBLE);
-			createBedTypeToMinRateMapping();
-			clusterByBedType();
-			summarizeRates();
-			layoutAvailabilitySummary();
+			updateSummarizedRates(data);
 			break;
 		case TabletActivity.EVENT_DETAILS_OPENED:
 		case TabletActivity.EVENT_PROPERTY_SELECTED:
-			mProperty = (Property) data;
-			updateViews();
+			updateViews((Property) data);
 			break;
 
 		}
@@ -211,11 +179,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mAvailableSingleBedTypes.clear();
 		mAvailableRemainingBedTypes.clear();
 		mMinimumRateAvailable = null;
-		
-		// set the default thumbnails for all images
-		for(ImageView imageView : propertyImages) {
-			imageView.setImageResource(R.drawable.ic_row_thumb_placeholder);
-		}
 	}
 
 	private void layoutAvailabilitySummary() {
@@ -236,6 +199,13 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 			mAvailabilitySummaryContainer.addView(summaryRow);
 		}
+	}
+	
+	private void updateSummarizedRates(Object data) {
+		createBedTypeToMinRateMapping((AvailabilityResponse) data);
+		clusterByBedType();
+		summarizeRates();
+		layoutAvailabilitySummary();
 	}
 
 	//----------------------------------------------
@@ -348,10 +318,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	 * This method creates a mapping from bed type to the minimum
 	 * rate available for that bed type
 	 */
-	private void createBedTypeToMinRateMapping() {
+	private void createBedTypeToMinRateMapping(AvailabilityResponse response) {
 		mBedTypeToMinRateMap.clear();
 
-		for (Rate rate : mAvailabilityResponse.getRates()) {
+		for (Rate rate : response.getRates()) {
 			for (BedType bedType : rate.getBedTypes()) {
 				BedTypeId bedTypeId = bedType.bedTypeId;
 				/*
