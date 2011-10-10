@@ -377,9 +377,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		if (fm.findFragmentByTag(TAG_MINI_DETAILS) == null) {
 			showMiniDetailsFragment();
 		}
-		else {
-			mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
-		}
+
+		mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
 
 		// start downloading the availability response for this property
 		// ahead of time (from when it might actually be needed) so that 
@@ -393,9 +392,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		if (fm.findFragmentByTag(TAG_HOTEL_DETAILS) == null) {
 			showHotelDetailsFragment();
 		}
-		else {
-			mEventManager.notifyEventHandlers(EVENT_DETAILS_OPENED, mInstance.mProperty);
-		}
+
+		mEventManager.notifyEventHandlers(EVENT_DETAILS_OPENED, mInstance.mProperty);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

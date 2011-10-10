@@ -41,8 +41,6 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		mSeeDetailsButton = (Button) view.findViewById(R.id.see_details_button);
 
 		mSeeDetailsButton.setOnClickListener(new OnClickListener() {
-
-			@Override
 			public void onClick(View v) {
 				((TabletActivity) getActivity()).moreDetailsForPropertySelected();
 			}
@@ -50,13 +48,12 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		return view;
 	}
 
-	
 	@Override
 	public void onResume() {
 		super.onResume();
 		updateViews();
 	}
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -79,7 +76,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	private void updateViews(Property property) {
 		// don't update views if there is no
 		// view attached.
-		if(getView() != null) {
+		if (getView() != null && property != null) {
 			mNameTextView.setText(property.getName());
 			mLocationTextView.setText(StrUtils.formatAddress(property.getLocation()).replace("\n", ", "));
 			mRatingBar.setRating((float) property.getHotelRating());
