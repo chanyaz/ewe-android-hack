@@ -14,6 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.expedia.bookings.widget.HotelItemizedOverlay.OnTapListener;
@@ -22,7 +23,7 @@ import com.google.android.maps.Overlay;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.widget.DoubleTapToZoomListenerOverlay;
 
-public class HotelMapFragment extends Fragment implements EventHandler {
+public class HotelMapFragment extends Fragment implements EventHandler, OnFilterChangedListener {
 
 	public static HotelMapFragment newInstance() {
 		return new HotelMapFragment();
@@ -36,7 +37,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 	private DoubleTapToZoomListenerOverlay mDoubleTapToZoomOverlay;
 	private SearchResponse mSearchResponse;
 	private Property mProperty;
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
@@ -50,7 +51,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		if (mMapView == null || mMapView.getContext() != getActivity()) {
 			mMapView = MapUtils.createMapView(context);
 		}
-		
+
 		// Add the initial overlays
 		List<Overlay> overlays = mMapView.getOverlays();
 
@@ -77,9 +78,13 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 	}
 
 	@Override
-	public void onDetach() {
-		super.onDetach();
-		((TabletActivity) getActivity()).unregisterEventHandler(this);
+	public void onStart() {
+		super.onStart();
+
+		SearchResponse searchResponse = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
+		if (searchResponse != null) {
+			searchResponse.getFilter().addOnFilterChangedListener(this);
+		}
 	}
 
 	@Override
@@ -89,6 +94,22 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		mProperty = ((TabletActivity) getActivity()).getPropertyToDisplay();
 		updateView();
 		selectBalloonForProperty();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		SearchResponse searchResponse = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
+		if (searchResponse != null) {
+			searchResponse.getFilter().removeOnFilterChangedListener(this);
+		}
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		((TabletActivity) getActivity()).unregisterEventHandler(this);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -103,6 +124,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		case TabletActivity.EVENT_SEARCH_COMPLETE:
 			mSearchResponse = (SearchResponse) data;
 			updateView();
+			mSearchResponse.getFilter().addOnFilterChangedListener(this);
 			break;
 		case TabletActivity.EVENT_PROPERTY_SELECTED:
 			mProperty = ((Property) data);
@@ -119,13 +141,22 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 			mMapView.invalidate();
 		}
 	}
-	
+
 	private void selectBalloonForProperty() {
 		// only select a balloon to be displayed over an overlay
 		// item if there is a property whose overlay to display
 		// and if there is view in which to display
-		if(mHotelOverlay != null && mProperty != null) {
+		if (mHotelOverlay != null && mProperty != null) {
 			mHotelOverlay.showBalloon(mProperty.getPropertyId(), true);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnFilterChangedListener implementation
+
+	@Override
+	public void onFilterChanged() {
+		mHotelOverlay.setProperties(((TabletActivity) getActivity()).getSearchResultsToDisplay());
+		mMapView.invalidate();
 	}
 }

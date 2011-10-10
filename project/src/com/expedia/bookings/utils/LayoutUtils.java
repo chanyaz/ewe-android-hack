@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -13,10 +14,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.Filter;
+import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Property.Amenity;
@@ -26,6 +31,24 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.widget.RoomTypeHandler;
 
 public class LayoutUtils {
+
+	public static void configureRadiusFilterLabels(Context context, ViewGroup radiusFilterGroup, Filter filter) {
+		// The radius filter buttons depend on whether the user's locale leans
+		// towards miles or kilometers.  For now, we just use US == miles,
+		// everything else == kilometers (pending a better way to determine this).
+		DistanceUnit distanceUnit = (filter != null) ? filter.getDistanceUnit() : DistanceUnit
+				.getDefaultDistanceUnit();
+		int distanceStrId = (distanceUnit == DistanceUnit.MILES) ? R.string.filter_distance_miles_template
+				: R.string.filter_distance_kilometers_template;
+
+		DecimalFormat df = new DecimalFormat("#.#");
+		((RadioButton) radiusFilterGroup.findViewById(R.id.radius_small_button)).setText(context.getString(
+				distanceStrId, df.format(SearchRadius.SMALL.getRadius(distanceUnit))));
+		((RadioButton) radiusFilterGroup.findViewById(R.id.radius_medium_button)).setText(context.getString(
+				distanceStrId, df.format(SearchRadius.MEDIUM.getRadius(distanceUnit))));
+		((RadioButton) radiusFilterGroup.findViewById(R.id.radius_large_button)).setText(context.getString(
+				distanceStrId, df.format(SearchRadius.LARGE.getRadius(distanceUnit))));
+	}
 
 	public static void configureHeader(Activity activity, Property property, OnClickListener onBookNowClick,
 			OnClickListener onReviewsClick) {

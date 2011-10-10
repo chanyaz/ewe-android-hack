@@ -59,6 +59,26 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+
+		SearchResponse searchResponse = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
+		if (searchResponse != null) {
+			searchResponse.getFilter().addOnFilterChangedListener(this);
+		}
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		SearchResponse searchResponse = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
+		if (searchResponse != null) {
+			searchResponse.getFilter().removeOnFilterChangedListener(this);
+		}
+	}
+
+	@Override
 	public void onDetach() {
 		super.onDetach();
 		((TabletActivity) getActivity()).unregisterEventHandler(this);
@@ -106,6 +126,8 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 
 	@Override
 	public void onFilterChanged() {
+		mAdapter.rebuildCache();
+
 		updateNumHotels();
 	}
 

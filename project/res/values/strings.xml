@@ -12,8 +12,14 @@
 	    The dates may include year, if we cross a year boundary 
 	-->
 	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — &lt;b>%2$s&lt;/b> to &lt;b>%3$s&lt;/b></string>
-	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
-	<string name="filter_info_template">&lt;b>%1$d&lt;/b> matching hotels</string>
+	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
+	<plurals name="number_of_matching_hotels">
+		<item quantity="zero">&lt;b>%d&lt;/b> matching hotels</item>
+		<item quantity="one">&lt;b>%d&lt;/b> matching hotel</item>
+		<item quantity="two">&lt;b>%d&lt;/b> matching hotels</item>
+		<item quantity="many">&lt;b>%d&lt;/b> matching hotels</item>
+		<item quantity="other">&lt;b>%d&lt;/b> matching hotels</item>
+	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filter by hotel name</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->

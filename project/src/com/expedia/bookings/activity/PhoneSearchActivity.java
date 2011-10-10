@@ -101,6 +101,7 @@ import com.expedia.bookings.tracking.GreystripeTracking;
 import com.expedia.bookings.tracking.MillennialTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
@@ -1131,21 +1132,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 		}
 
-		// The radius filter buttons depend on whether the user's locale leans
-		// towards miles or kilometers.  For now, we just use US == miles,
-		// everything else == kilometers (pending a better way to determine this).
-		DistanceUnit distanceUnit = (mFilter != null) ? mFilter.getDistanceUnit() : DistanceUnit
-				.getDefaultDistanceUnit();
-		int distanceStrId = (distanceUnit == DistanceUnit.MILES) ? R.string.filter_distance_miles_template
-				: R.string.filter_distance_kilometers_template;
-
-		DecimalFormat df = new DecimalFormat("#.#");
-		((RadioButton) findViewById(R.id.radius_small_button)).setText(getString(distanceStrId,
-				df.format(SearchRadius.SMALL.getRadius(distanceUnit))));
-		((RadioButton) findViewById(R.id.radius_medium_button)).setText(getString(distanceStrId,
-				df.format(SearchRadius.MEDIUM.getRadius(distanceUnit))));
-		((RadioButton) findViewById(R.id.radius_large_button)).setText(getString(distanceStrId,
-				df.format(SearchRadius.LARGE.getRadius(distanceUnit))));
+		LayoutUtils.configureRadiusFilterLabels(this, mRadiusButtonGroup, mFilter);
 
 		// 8781: Clear focus on hotel name edit text when user clicks "done".  Otherwise, we retain
 		// focus and some keyboards keep up parts of themselves (like the "suggestion" bar)
@@ -2378,7 +2365,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private void setFilterInfoText() {
 		if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
 			final int count = mSearchResponse.getFilteredAndSortedProperties().length;
-			final String text = String.format(getString(R.string.filter_info_template), count);
+			final String text = getResources().getQuantityString(R.plurals.number_of_matching_hotels, count, count);
 
 			mFilterInfoTextView.setText(Html.fromHtml(text));
 			mFilterInfoTextView.setVisibility(View.VISIBLE);

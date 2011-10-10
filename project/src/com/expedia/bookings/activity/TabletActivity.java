@@ -32,6 +32,7 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
+import com.expedia.bookings.fragment.FilterDialogFragment;
 import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
 import com.expedia.bookings.fragment.HotelDetailsFragment;
@@ -170,6 +171,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private SearchView mSearchView;
 	private MenuItem mGuestsMenuItem;
 	private MenuItem mDatesMenuItem;
+	private MenuItem mFilterMenuItem;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -178,6 +180,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
 		mGuestsMenuItem = menu.findItem(R.id.menu_guests);
 		mDatesMenuItem = menu.findItem(R.id.menu_dates);
+		mFilterMenuItem = menu.findItem(R.id.menu_filter);
 
 		mSearchView.setIconifiedByDefault(false);
 		mSearchView.setSubmitButtonEnabled(true);
@@ -211,7 +214,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			showCalendarDialog();
 			return true;
 		case R.id.menu_filter:
-			// TODO: Display filter options
+			showFilterDialog();
 			return true;
 		case R.id.menu_about:
 			// TODO: Launch About fragment
@@ -222,6 +225,11 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	}
 
 	private void updateActionBarViews() {
+		// This may get called before the action bar is initialized - ignore in that circumstance
+		if (mSearchView == null || mGuestsMenuItem == null || mDatesMenuItem == null || mFilterMenuItem == null) {
+			return;
+		}
+
 		mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(this), false);
 
 		int numGuests = mInstance.mSearchParams.getNumAdults() + mInstance.mSearchParams.getNumChildren();
@@ -229,6 +237,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 		int numNights = mInstance.mSearchParams.getStayDuration();
 		mDatesMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_nights, numNights, numNights));
+
+		mFilterMenuItem.setEnabled(mInstance.mSearchResponse != null && !mInstance.mSearchResponse.hasErrors());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -350,6 +360,11 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		newFragment.show(getFragmentManager(), "GeocodeDisambiguationDialog");
 	}
 
+	private void showFilterDialog() {
+		DialogFragment newFragment = FilterDialogFragment.newInstance();
+		newFragment.show(getFragmentManager(), "FilterDialog");
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Events (called from Fragments)
 
@@ -447,6 +462,9 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		// Cancel existing downloads
 		bd.cancelDownload(KEY_SEARCH);
 		bd.cancelDownload(KEY_GEOCODE);
+
+		// Let action bar views react to change in state (downloading)
+		updateActionBarViews();
 
 		// Remove existing search results
 		mInstance.mSearchResponse = null;
@@ -574,6 +592,9 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 					mEventManager.notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
 				}
 			}
+
+			// Update action bar views based on results
+			updateActionBarViews();
 		}
 	};
 
