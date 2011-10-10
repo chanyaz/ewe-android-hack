@@ -200,12 +200,18 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			mAvailabilitySummaryContainer.addView(summaryRow);
 		}
 	}
-	
+
 	private void updateSummarizedRates(Object data) {
-		createBedTypeToMinRateMapping((AvailabilityResponse) data);
-		clusterByBedType();
-		summarizeRates();
-		layoutAvailabilitySummary();
+		if (data != null) {
+			createBedTypeToMinRateMapping((AvailabilityResponse) data);
+			clusterByBedType();
+			summarizeRates();
+			layoutAvailabilitySummary();
+		}
+		else {
+			// TODO: Remove data shown by Views in the case that summarized rates don't exist? 
+			// (Or is this not necessary?)
+		}
 	}
 
 	//----------------------------------------------
