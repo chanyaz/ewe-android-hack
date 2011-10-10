@@ -358,9 +358,9 @@ public class HotelActivity extends Activity {
 			onPageLoad();
 
 			// Track here if user opened app from widget.  Currently assumes that all widget searches
-			// are "last app search" - if this ever changes, this needs to be updated.
+			// are "nearby" - if this ever changes, this needs to be updated.
 			if (intent.getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
-				TrackingUtils.trackSimpleEvent(this, null, null, null, "App.Widget.Deal.AppLastSearch");
+				TrackingUtils.trackSimpleEvent(this, null, null, null, "App.Widget.Deal.Nearby");
 				mApp.broadcastSearchParamsChangedInWidget((SearchParams) JSONUtils.parseJSONableFromIntent(intent,
 						Codes.SEARCH_PARAMS, SearchParams.class));
 			}
