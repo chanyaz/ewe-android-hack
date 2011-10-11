@@ -25,6 +25,7 @@ import android.widget.SearchView.OnQueryTextListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
@@ -50,7 +51,8 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 
-public class TabletActivity extends MapActivity implements LocationListener, OnBackStackChangedListener {
+public class TabletActivity extends MapActivity implements LocationListener, OnBackStackChangedListener,
+		OnFilterChangedListener {
 
 	private Context mContext;
 	private Resources mResources;
@@ -67,6 +69,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public static final int EVENT_AVAILABILITY_SEARCH_COMPLETE = 7;
 	public static final int EVENT_AVAILABILITY_SEARCH_ERROR = 8;
 	public static final int EVENT_DETAILS_OPENED = 9;
+	public static final int EVENT_FILTER_CHANGED = 10;
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_AVAILABILITY_SEARCH = "KEY_AVAILABILITY_SEARCH";
@@ -126,6 +129,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
+
+		mInstance.mFilter.addOnFilterChangedListener(this);
 	}
 
 	@Override
@@ -159,6 +164,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	@Override
 	protected void onStop() {
 		super.onStop();
+
+		mInstance.mFilter.removeOnFilterChangedListener(this);
 	}
 
 	@Override
@@ -467,11 +474,12 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		bd.cancelDownload(KEY_SEARCH);
 		bd.cancelDownload(KEY_GEOCODE);
 
+		// Remove existing search results (and references to it)
+		mInstance.mSearchResponse = null;
+		mInstance.mFilter.setOnDataListener(null);
+
 		// Let action bar views react to change in state (downloading)
 		updateActionBarViews();
-
-		// Remove existing search results
-		mInstance.mSearchResponse = null;
 
 		if (!NetUtils.isOnline(this)) {
 			Log.w("startSearch() - no internet connection.");
@@ -593,6 +601,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 							.getPresentableMessage(mContext));
 				}
 				else {
+					response.setFilter(mInstance.mFilter);
+
 					mEventManager.notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
 				}
 			}
@@ -610,6 +620,14 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		response.addError(error);
 
 		mSearchCallback.onDownload(response);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnFilterChangedListener implementation
+
+	@Override
+	public void onFilterChanged() {
+		mEventManager.notifyEventHandlers(EVENT_FILTER_CHANGED, null);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

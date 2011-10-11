@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import android.app.Fragment;
 
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
@@ -23,6 +24,7 @@ public class InstanceFragment extends Fragment {
 
 		// Initialize the member variables
 		instance.mSearchParams = new SearchParams();
+		instance.mFilter = new Filter();
 
 		return instance;
 	}
@@ -33,6 +35,7 @@ public class InstanceFragment extends Fragment {
 	public SearchParams mSearchParams;
 	public Session mSession;
 	public SearchResponse mSearchResponse;
+	public Filter mFilter;
 	public Property mProperty;
 	public AvailabilityResponse mAvailabilityResponse;
 

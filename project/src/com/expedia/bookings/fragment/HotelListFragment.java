@@ -14,13 +14,12 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
-import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelAdapter;
 
-public class HotelListFragment extends ListFragment implements EventHandler, OnFilterChangedListener {
+public class HotelListFragment extends ListFragment implements EventHandler {
 
 	private HotelAdapter mAdapter;
 
@@ -37,6 +36,12 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		((TabletActivity) getActivity()).registerEventHandler(this);
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -62,32 +67,6 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 		});
 
 		return view;
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((TabletActivity) getActivity()).registerEventHandler(this);
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-
-		SearchResponse searchResponse = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
-		if (searchResponse != null) {
-			searchResponse.getFilter().addOnFilterChangedListener(this);
-		}
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-
-		SearchResponse searchResponse = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
-		if (searchResponse != null) {
-			searchResponse.getFilter().removeOnFilterChangedListener(this);
-		}
 	}
 
 	@Override
@@ -136,7 +115,6 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 		case TabletActivity.EVENT_SEARCH_COMPLETE:
 			SearchResponse searchResponse = (SearchResponse) data;
 			mAdapter.setSearchResponse(searchResponse);
-			searchResponse.getFilter().addOnFilterChangedListener(this);
 			updateNumHotels();
 			updateSortLabel();
 			mHeaderLayout.setVisibility(View.VISIBLE);
@@ -144,19 +122,16 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 		case TabletActivity.EVENT_SEARCH_ERROR:
 			mMessageTextView.setText((String) data);
 			break;
+		case TabletActivity.EVENT_FILTER_CHANGED:
+			mAdapter.rebuildCache();
+			updateNumHotels();
+			updateSortLabel();
+			break;
 		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// OnFilterChangedListener implementation
-
-	@Override
-	public void onFilterChanged() {
-		mAdapter.rebuildCache();
-
-		updateNumHotels();
-		updateSortLabel();
-	}
+	// Header views
 
 	private void updateNumHotels() {
 		int count = mAdapter.getCount();

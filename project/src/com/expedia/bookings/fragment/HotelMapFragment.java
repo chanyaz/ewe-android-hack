@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
-import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
@@ -23,7 +22,7 @@ import com.google.android.maps.Overlay;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.widget.DoubleTapToZoomListenerOverlay;
 
-public class HotelMapFragment extends Fragment implements EventHandler, OnFilterChangedListener {
+public class HotelMapFragment extends Fragment implements EventHandler {
 
 	public static HotelMapFragment newInstance() {
 		return new HotelMapFragment();
@@ -76,30 +75,10 @@ public class HotelMapFragment extends Fragment implements EventHandler, OnFilter
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-
-		SearchResponse searchResponse = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
-		if (searchResponse != null) {
-			searchResponse.getFilter().addOnFilterChangedListener(this);
-		}
-	}
-
-	@Override
 	public void onResume() {
 		super.onResume();
 		updateView();
 		selectBalloonForProperty();
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-
-		SearchResponse searchResponse = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
-		if (searchResponse != null) {
-			searchResponse.getFilter().removeOnFilterChangedListener(this);
-		}
 	}
 
 	@Override
@@ -119,10 +98,13 @@ public class HotelMapFragment extends Fragment implements EventHandler, OnFilter
 			break;
 		case TabletActivity.EVENT_SEARCH_COMPLETE:
 			updateView();
-			((TabletActivity) getActivity()).getSearchResultsToDisplay().getFilter().addOnFilterChangedListener(this);
 			break;
 		case TabletActivity.EVENT_PROPERTY_SELECTED:
 			selectBalloonForProperty();
+			break;
+		case TabletActivity.EVENT_FILTER_CHANGED:
+			mHotelOverlay.setProperties(((TabletActivity) getActivity()).getSearchResultsToDisplay());
+			mMapView.invalidate();
 			break;
 		}
 	}
@@ -145,14 +127,5 @@ public class HotelMapFragment extends Fragment implements EventHandler, OnFilter
 		if (mHotelOverlay != null && property != null) {
 			mHotelOverlay.showBalloon(property.getPropertyId(), true);
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// OnFilterChangedListener implementation
-
-	@Override
-	public void onFilterChanged() {
-		mHotelOverlay.setProperties(((TabletActivity) getActivity()).getSearchResultsToDisplay());
-		mMapView.invalidate();
 	}
 }

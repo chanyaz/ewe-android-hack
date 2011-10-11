@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -18,14 +19,14 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.data.Filter;
-import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.widget.SegmentedControlGroup;
 
-public class FilterDialogFragment extends DialogFragment implements OnFilterChangedListener {
+public class FilterDialogFragment extends DialogFragment implements EventHandler {
 
 	private EditText mHotelNameEditText;;
 	private SegmentedControlGroup mRadiusButtonGroup;
@@ -34,6 +35,12 @@ public class FilterDialogFragment extends DialogFragment implements OnFilterChan
 
 	public static FilterDialogFragment newInstance() {
 		return new FilterDialogFragment();
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		((TabletActivity) getActivity()).registerEventHandler(this);
 	}
 
 	@Override
@@ -130,17 +137,9 @@ public class FilterDialogFragment extends DialogFragment implements OnFilterChan
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-
-		getSearchResponse().getFilter().addOnFilterChangedListener(this);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-
-		getSearchResponse().getFilter().removeOnFilterChangedListener(this);
+	public void onDetach() {
+		super.onDetach();
+		((TabletActivity) getActivity()).unregisterEventHandler(this);
 	}
 
 	public CharSequence getTitle() {
@@ -259,10 +258,14 @@ public class FilterDialogFragment extends DialogFragment implements OnFilterChan
 	};
 
 	//////////////////////////////////////////////////////////////////////////
-	// OnFilterChangedListener implementation
+	// EventHandler implementation
 
 	@Override
-	public void onFilterChanged() {
-		getDialog().setTitle(getTitle());
+	public void handleEvent(int eventCode, Object data) {
+		switch (eventCode) {
+		case TabletActivity.EVENT_FILTER_CHANGED:
+			getDialog().setTitle(getTitle());
+			break;
+		}
 	}
 }
