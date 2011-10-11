@@ -647,17 +647,14 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	}
 
 	private Download mRoomAvailabilityDownload = new Download() {
-
-		@Override
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext, mInstance.mSession);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_AVAILABILITY_SEARCH, services);
 			return services.availability(mInstance.mSearchParams, mInstance.mProperty);
 		}
 	};
 
 	private OnDownloadComplete mRoomAvailabilityCallback = new OnDownloadComplete() {
-
-		@Override
 		public void onDownload(Object results) {
 			AvailabilityResponse availabilityResponse = mInstance.mAvailabilityResponse = (AvailabilityResponse) results;
 
