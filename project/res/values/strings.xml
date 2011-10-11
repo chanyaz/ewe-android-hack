@@ -42,6 +42,8 @@
 	<string name="loading_previous">Loading previous search results...</string>
 	<!-- Label for sort hotels button in bottom bar -->
 	<string name="sort_hotels">"Sort: "</string>
+	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
+	<string name="sort_hotels_template">&lt;b>Sort&lt;/b>: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">Filter Hotels</string>
 	<!-- A number of results -->

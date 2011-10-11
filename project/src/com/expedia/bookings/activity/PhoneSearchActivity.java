@@ -83,7 +83,6 @@ import android.widget.TextView.OnEditorActionListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.Rotate3dAnimation;
 import com.expedia.bookings.appwidget.ExpediaBookingsService;
-import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
@@ -115,13 +114,11 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.text.format.Time;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
-import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
 import com.mobiata.android.widget.NumberPicker;
 import com.mobiata.android.widget.Panel;
 import com.mobiata.android.widget.SegmentedControlGroup;
@@ -170,17 +167,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////////
-
-	private static final HashMap<Sort, Integer> SORT_DESCRIPTIONS = new HashMap<Sort, Integer>() {
-		private static final long serialVersionUID = 1L;
-
-		{
-			put(Sort.DISTANCE, R.string.sort_description_distance);
-			put(Sort.POPULAR, R.string.sort_description_popular);
-			put(Sort.PRICE, R.string.sort_description_price);
-			put(Sort.RATING, R.string.sort_description_rating);
-		}
-	};
 
 	private static final String ACTIVITY_SEARCH_LIST = SearchListActivity.class.getCanonicalName();
 	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
@@ -2555,7 +2541,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	}
 
 	private void setSortTypeText() {
-		mSortTypeTextView.setText(getString(SORT_DESCRIPTIONS.get(mFilter.getSort())));
+		mSortTypeTextView.setText(mFilter.getSort().getDescriptionResId());
 	}
 
 	private void setViewButtonImage() {

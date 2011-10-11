@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -23,8 +25,11 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 	private HotelAdapter mAdapter;
 
 	private ViewGroup mHeaderLayout;
-	private TextView mNumHotelsTexView;
+	private TextView mNumHotelsTextView;
+	private TextView mSortTypeTextView;
 	private TextView mMessageTextView;
+
+	private PopupWindow mSortPopup;
 
 	public static HotelListFragment newInstance() {
 		return new HotelListFragment();
@@ -46,8 +51,15 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 		View view = inflater.inflate(R.layout.fragment_hotel_list, container, false);
 
 		mHeaderLayout = (ViewGroup) view.findViewById(R.id.header_layout);
-		mNumHotelsTexView = (TextView) view.findViewById(R.id.num_hotels_text_view);
+		mNumHotelsTextView = (TextView) view.findViewById(R.id.num_hotels_text_view);
+		mSortTypeTextView = (TextView) view.findViewById(R.id.sort_type_text_view);
 		mMessageTextView = (TextView) view.findViewById(android.R.id.empty);
+
+		mSortTypeTextView.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				((TabletActivity) getActivity()).showSortDialog();
+			}
+		});
 
 		return view;
 	}
@@ -95,6 +107,19 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Sort popup window
+
+	public void showSortPopup() {
+		if (mSortPopup.isShowing()) {
+			return;
+		}
+	}
+
+	public void hideSortPopup() {
+		mSortPopup.dismiss();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// EventHandler implementation
 
 	@Override
@@ -113,6 +138,7 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 			mAdapter.setSearchResponse(searchResponse);
 			searchResponse.getFilter().addOnFilterChangedListener(this);
 			updateNumHotels();
+			updateSortLabel();
 			mHeaderLayout.setVisibility(View.VISIBLE);
 			break;
 		case TabletActivity.EVENT_SEARCH_ERROR:
@@ -129,11 +155,18 @@ public class HotelListFragment extends ListFragment implements EventHandler, OnF
 		mAdapter.rebuildCache();
 
 		updateNumHotels();
+		updateSortLabel();
 	}
 
 	private void updateNumHotels() {
 		int count = mAdapter.getCount();
-		mNumHotelsTexView.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_results, count,
+		mNumHotelsTextView.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_results, count,
 				count)));
+	}
+
+	private void updateSortLabel() {
+		SearchResponse searchResponse = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
+		String sortType = getString(searchResponse.getFilter().getSort().getDescriptionResId());
+		mSortTypeTextView.setText(Html.fromHtml(getString(R.string.sort_hotels_template, sortType)));
 	}
 }

@@ -16,9 +16,16 @@
 		android:visibility="gone">
 		<TextView
 			android:id="@+id/num_hotels_text_view"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:layout_marginLeft="12dp"
+			android:textSize="18sp" />
+		<Button
+			android:id="@+id/sort_type_text_view"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="12dp"
+			android:layout_marginRight="12dp"
 			android:textSize="18sp" />
 	</LinearLayout>
 

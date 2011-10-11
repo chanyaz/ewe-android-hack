@@ -7,8 +7,8 @@ import android.app.ActionBar;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.FragmentManager.OnBackStackChangedListener;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Resources;
 import android.location.Address;
@@ -40,6 +40,7 @@ import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.InstanceFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
+import com.expedia.bookings.fragment.SortDialogFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.google.android.maps.MapActivity;
 import com.mobiata.android.BackgroundDownloader;
@@ -343,7 +344,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	//////////////////////////////////////////////////////////////////////////
 	// Dialogs
 
-	void showGuestsDialog() {
+	private void showGuestsDialog() {
 		DialogFragment newFragment = GuestsDialogFragment.newInstance(mInstance.mSearchParams.getNumAdults(),
 				mInstance.mSearchParams.getNumChildren());
 		newFragment.show(getFragmentManager(), "GuestsDialog");
@@ -363,6 +364,11 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private void showFilterDialog() {
 		DialogFragment newFragment = FilterDialogFragment.newInstance();
 		newFragment.show(getFragmentManager(), "FilterDialog");
+	}
+
+	public void showSortDialog() {
+		DialogFragment newFragment = SortDialogFragment.newInstance();
+		newFragment.show(getFragmentManager(), "SortDialog");
 	}
 
 	//////////////////////////////////////////////////////////////////////////
