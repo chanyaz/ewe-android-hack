@@ -56,7 +56,13 @@ public class SearchFragment extends Fragment implements EventHandler {
 		mLocationEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
-					((TabletActivity) getActivity()).setFreeformLocation(mLocationEditText.getText().toString());
+					String location = mLocationEditText.getText().toString().trim();
+					if (location.length() == 0) {
+						((TabletActivity) getActivity()).setMyLocationSearch();
+					}
+					else {
+						((TabletActivity) getActivity()).setFreeformLocation(mLocationEditText.getText().toString());
+					}
 				}
 			}
 		});

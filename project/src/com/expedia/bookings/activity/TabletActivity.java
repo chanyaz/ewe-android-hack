@@ -457,6 +457,14 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	//////////////////////////////////////////////////////////////////////////
 	// SearchParams management
 
+	public void setMyLocationSearch() {
+		Log.d("Setting search to use 'my location'");
+
+		mInstance.mSearchParams.setSearchType(SearchType.MY_LOCATION);
+
+		invalidateOptionsMenu();
+	}
+
 	public void setFreeformLocation(String freeformLocation) {
 		Log.d("Setting freeform location: " + freeformLocation);
 
