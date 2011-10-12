@@ -230,6 +230,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	}
 
 	private void updateSummarizedRates(Object data) {
+		clearOutData();
+
 		if (data != null) {
 			createBedTypeToMinRateMapping((AvailabilityResponse) data);
 			clusterByBedType();
@@ -240,7 +242,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			// since the data is not yet available,
 			// make sure to clean out any old data and show the loading screen
 			showLoadingForRates();
-			clearOutData();
 		}
 	}
 
