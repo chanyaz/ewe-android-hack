@@ -60,6 +60,7 @@ public class HotelGalleryDialogFragment extends DialogFragment {
 		mAdapter = new ImageAdapter();
 		mAdapter.setUrls(StrUtils.getImageUrls(((TabletActivity) getActivity()).getPropertyToDisplay()));
 		mHotelGallery.setAdapter(mAdapter);
+		mHotelGallery.setCallbackDuringFling(false);
 
 		mHotelGallery.setOnItemClickListener(new OnItemClickListener() {
 
@@ -69,7 +70,7 @@ public class HotelGalleryDialogFragment extends DialogFragment {
 				ImageCache.loadImage(mSelectedImageUrl, mBigImageView);
 			}
 		});
-		
+
 		mHotelGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
