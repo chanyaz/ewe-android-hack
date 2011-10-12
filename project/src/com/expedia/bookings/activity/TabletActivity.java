@@ -41,14 +41,17 @@ import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.InstanceFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
+import com.expedia.bookings.fragment.SearchFragment;
 import com.expedia.bookings.fragment.SortDialogFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
+import com.mobiata.android.MapUtils;
 import com.mobiata.android.util.NetUtils;
 
 public class TabletActivity extends MapActivity implements LocationListener, OnBackStackChangedListener,
@@ -109,11 +112,10 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 		initializeFragmentViews();
 
-		// Setup search interface.  This is probably not ultimately where this will go.
-		showHotelListFragment();
-		showHotelMapFragment();
-
 		getFragmentManager().addOnBackStackChangedListener(this);
+
+		// Show initial search interface
+		showSearchFragment();
 
 		// if the device was rotated, update layout 
 		// to ensure that containers with fragments in them
@@ -146,9 +148,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		}
 		else if (mInstance.mSearchResponse != null) {
 			mSearchCallback.onDownload(mInstance.mSearchResponse);
-		}
-		else {
-			startSearch();
 		}
 	}
 
@@ -212,6 +211,18 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(TAG_HOTEL_LIST) != null) {
+			menu.setGroupVisible(R.id.search_location_group, true);
+			menu.setGroupVisible(R.id.filter_group, true);
+			menu.setGroupVisible(R.id.search_options_group, true);
+		}
+		else {
+			menu.setGroupVisible(R.id.search_location_group, false);
+			menu.setGroupVisible(R.id.filter_group, false);
+			menu.setGroupVisible(R.id.search_options_group, false);
+		}
+
 		mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(this), false);
 
 		int numGuests = mInstance.mSearchParams.getNumAdults() + mInstance.mSearchParams.getNumChildren();
@@ -249,11 +260,14 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	// Fragment management
 
 	private static final String TAG_INSTANCE_FRAGMENT = "INSTANCE_FRAGMENT";
+	private static final String TAG_SEARCH = "SEARCH";
 	private static final String TAG_HOTEL_LIST = "HOTEL_LIST";
 	private static final String TAG_HOTEL_MAP = "HOTEL_MAP";
 	private static final String TAG_HOTEL_DETAILS = "HOTEL_DETAILS";
 	private static final String TAG_MINI_DETAILS = "MINI_DETAILS";
 
+	private View mLauncherFragmentContainer;
+	private View mSearchFragmentsContainer;
 	private View mLeftFragmentContainer;
 	private View mRightFragmentContainer;
 	private View mBottomRightFragmentContainer;
@@ -271,25 +285,29 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	}
 
 	private void initializeFragmentViews() {
+		mLauncherFragmentContainer = findViewById(R.id.fragment_launcher);
+		mSearchFragmentsContainer = findViewById(R.id.fragment_search);
 		mLeftFragmentContainer = findViewById(R.id.fragment_left);
 		mRightFragmentContainer = findViewById(R.id.fragment_right);
 		mBottomRightFragmentContainer = findViewById(R.id.fragment_bottom_right);
 	}
 
-	public void showHotelListFragment() {
-		FragmentManager fragmentManager = getFragmentManager();
-		if (fragmentManager.findFragmentById(R.id.fragment_left) == null) {
-			FragmentTransaction ft = fragmentManager.beginTransaction();
-			ft.add(R.id.fragment_left, HotelListFragment.newInstance(), TAG_HOTEL_LIST);
+	public void showSearchFragment() {
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentById(R.id.fragment_launcher) == null) {
+			FragmentTransaction ft = fm.beginTransaction();
+			ft.add(R.id.fragment_launcher, SearchFragment.newInstance(), TAG_SEARCH);
 			ft.commit();
 		}
 	}
 
-	public void showHotelMapFragment() {
-		FragmentManager fragmentManager = getFragmentManager();
-		if (fragmentManager.findFragmentById(R.id.fragment_right) == null) {
-			FragmentTransaction ft = fragmentManager.beginTransaction();
+	public void showResultsFragments() {
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentById(R.id.fragment_left) == null) {
+			FragmentTransaction ft = fm.beginTransaction();
+			ft.add(R.id.fragment_left, HotelListFragment.newInstance(), TAG_HOTEL_LIST);
 			ft.add(R.id.fragment_right, HotelMapFragment.newInstance(), TAG_HOTEL_MAP);
+			ft.addToBackStack(null);
 			ft.commit();
 		}
 	}
@@ -322,6 +340,16 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	// (includes OnBackStackChangedListener implementation)
 
 	public void updateLayout() {
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(TAG_HOTEL_LIST) != null) {
+			mLauncherFragmentContainer.setVisibility(View.GONE);
+			mSearchFragmentsContainer.setVisibility(View.VISIBLE);
+		}
+		else {
+			mLauncherFragmentContainer.setVisibility(View.VISIBLE);
+			mSearchFragmentsContainer.setVisibility(View.GONE);
+		}
+
 		updateContainerVisibility(mLeftFragmentContainer);
 		updateContainerVisibility(mRightFragmentContainer);
 		updateContainerVisibility(mBottomRightFragmentContainer);
@@ -342,6 +370,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		Log.v("onBackStackChanged()");
 
 		updateLayout();
+
+		invalidateOptionsMenu();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -408,6 +438,10 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
 
+	public String getSearchStatus() {
+		return mInstance.mSearchStatus;
+	}
+
 	public Property getPropertyToDisplay() {
 		return mInstance.mProperty;
 	}
@@ -461,6 +495,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	public void startSearch() {
 		Log.i("startSearch(): " + mInstance.mSearchParams.toJson().toString());
+
+		showResultsFragments();
 
 		mEventManager.notifyEventHandlers(EVENT_SEARCH_STARTED, null);
 
@@ -736,6 +772,19 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	//////////////////////////////////////////////////////////////////////////
 	// MapActivity
+
+	// This is a workaround.  We are only allowed to create a MapView *once* per MapActivity, even if
+	// we delete the Fragment that had the MapView from the backstack (thus clearing the old MapView).
+	// Anytime you need to use a MapView, use this one.
+	private MapView mMapView;
+
+	public MapView getMapView() {
+		if (mMapView == null) {
+			mMapView = MapUtils.createMapView(this);
+		}
+
+		return mMapView;
+	}
 
 	@Override
 	protected boolean isRouteDisplayed() {

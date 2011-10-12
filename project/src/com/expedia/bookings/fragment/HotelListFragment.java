@@ -70,6 +70,13 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+
+		mMessageTextView.setText(((TabletActivity) getActivity()).getSearchStatus());
+	}
+
+	@Override
 	public void onDetach() {
 		super.onDetach();
 		((TabletActivity) getActivity()).unregisterEventHandler(this);

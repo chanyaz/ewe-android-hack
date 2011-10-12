@@ -35,6 +35,7 @@
 		<activity android:name=".activity.PhoneSearchActivity" />
 
 		<activity android:name=".activity.TabletActivity"
+			android:windowSoftInputMode="stateHidden"
 			android:theme="@android:style/Theme.Holo.Light" />
 
 		<activity android:name=".activity.SearchListActivity" />

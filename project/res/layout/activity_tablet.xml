@@ -5,29 +5,40 @@
 	android:layout_height="fill_parent"
 	android:orientation="horizontal">
 	<LinearLayout
-		android:id="@+id/fragment_left"
-		android:layout_width="0dp"
-		android:layout_height="fill_parent"
-		android:layout_weight="1" />
-	<View
-		android:layout_width="@dimen/one_pixel"
-		android:layout_height="fill_parent"
-		android:background="@color/light_gray" />
+		android:id="@+id/fragment_launcher"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" />
+
 	<LinearLayout
-		android:layout_width="0dp"
+		android:id="@+id/fragment_search"
+		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:layout_weight="2"
-		android:orientation="vertical">
+		android:visibility="gone">
 		<LinearLayout
-			android:id="@+id/fragment_right"
-			android:layout_width="fill_parent"
-			android:layout_height="0dp"
-			android:layout_weight="2" />
+			android:id="@+id/fragment_left"
+			android:layout_width="0dp"
+			android:layout_height="fill_parent"
+			android:layout_weight="1" />
+		<View
+			android:layout_width="@dimen/one_pixel"
+			android:layout_height="fill_parent"
+			android:background="@color/light_gray" />
 		<LinearLayout
-			android:id="@+id/fragment_bottom_right"
-			android:layout_width="fill_parent"
-			android:layout_height="0dp"
-			android:layout_weight="1"
-			android:visibility="gone" />
+			android:layout_width="0dp"
+			android:layout_height="fill_parent"
+			android:layout_weight="2"
+			android:orientation="vertical">
+			<LinearLayout
+				android:id="@+id/fragment_right"
+				android:layout_width="fill_parent"
+				android:layout_height="0dp"
+				android:layout_weight="2" />
+			<LinearLayout
+				android:id="@+id/fragment_bottom_right"
+				android:layout_width="fill_parent"
+				android:layout_height="0dp"
+				android:layout_weight="1"
+				android:visibility="gone" />
+		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>
