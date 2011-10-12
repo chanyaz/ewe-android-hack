@@ -6,6 +6,8 @@ import java.util.GregorianCalendar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +20,7 @@ import android.widget.NumberPicker.OnValueChangeListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -53,11 +56,18 @@ public class SearchFragment extends Fragment implements EventHandler {
 		mAdultsNumberPicker = (NumberPicker) view.findViewById(R.id.adults_number_picker);
 		mChildrenNumberPicker = (NumberPicker) view.findViewById(R.id.children_number_picker);
 
+		// Need to set temporary max values for number pickers, or updateViews() won't work (since a picker value
+		// must be within its valid range to be set)
+		mAdultsNumberPicker.setMaxValue(100);
+		mChildrenNumberPicker.setMaxValue(100);
+
+		updateViews();
+
 		// Configure the location EditText
-		mLocationEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (!hasFocus) {
-					String location = mLocationEditText.getText().toString().trim();
+		mLocationEditText.addTextChangedListener(new TextWatcher() {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if (!isHidden()) {
+					String location = s.toString().trim();
 					if (location.length() == 0) {
 						((TabletActivity) getActivity()).setMyLocationSearch();
 					}
@@ -66,18 +76,28 @@ public class SearchFragment extends Fragment implements EventHandler {
 					}
 				}
 			}
+
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				// Do nothing
+			}
+
+			public void afterTextChanged(Editable s) {
+				// Do nothing
+			}
 		});
 
 		// Configure the calendar
 		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker);
 		mCalendarDatePicker.setOnDateChangedListener(new OnDateChangedListener() {
 			public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-				Calendar checkIn = new GregorianCalendar(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
-						.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
-				Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
-						.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
+				if (!isHidden()) {
+					Calendar checkIn = new GregorianCalendar(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
+							.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
+					Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
+							.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
 
-				((TabletActivity) getActivity()).setDates(checkIn, checkOut);
+					((TabletActivity) getActivity()).setDates(checkIn, checkOut);
+				}
 			}
 		});
 
@@ -85,8 +105,10 @@ public class SearchFragment extends Fragment implements EventHandler {
 		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
 		OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
 			public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-				((TabletActivity) getActivity()).setGuests(mAdultsNumberPicker.getValue(),
-						mChildrenNumberPicker.getValue());
+				if (!isHidden()) {
+					((TabletActivity) getActivity()).setGuests(mAdultsNumberPicker.getValue(),
+							mChildrenNumberPicker.getValue());
+				}
 
 				GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
 			}
@@ -98,8 +120,6 @@ public class SearchFragment extends Fragment implements EventHandler {
 		Button button = (Button) view.findViewById(R.id.search_button);
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				mLocationEditText.clearFocus();
-
 				((TabletActivity) getActivity()).startSearch();
 			}
 		});
@@ -114,10 +134,35 @@ public class SearchFragment extends Fragment implements EventHandler {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Views
+
+	public void updateViews() {
+		SearchParams params = ((TabletActivity) getActivity()).getSearchParams();
+
+		mLocationEditText.setText(params.getSearchDisplayText(getActivity()));
+
+		Calendar start = params.getCheckInDate();
+		mCalendarDatePicker.updateStartDate(start.get(Calendar.YEAR), start.get(Calendar.MONTH),
+				start.get(Calendar.DAY_OF_MONTH));
+		Calendar end = params.getCheckOutDate();
+		mCalendarDatePicker.updateEndDate(end.get(Calendar.YEAR), end.get(Calendar.MONTH),
+				end.get(Calendar.DAY_OF_MONTH));
+
+		mAdultsNumberPicker.setValue(params.getNumAdults());
+		mChildrenNumberPicker.setValue(params.getNumChildren());
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// EventHandler implementation
 
 	@Override
 	public void handleEvent(int eventCode, Object data) {
-		// Do nothing (for now)
+		switch (eventCode) {
+		case TabletActivity.EVENT_SEARCH_PARAMS_CHANGED:
+			if (isHidden()) {
+				updateViews();
+			}
+			break;
+		}
 	}
 }

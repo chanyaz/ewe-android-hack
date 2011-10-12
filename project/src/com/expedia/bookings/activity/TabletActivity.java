@@ -28,6 +28,7 @@ import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
@@ -73,6 +74,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public static final int EVENT_AVAILABILITY_SEARCH_ERROR = 8;
 	public static final int EVENT_DETAILS_OPENED = 9;
 	public static final int EVENT_FILTER_CHANGED = 10;
+	public static final int EVENT_SEARCH_PARAMS_CHANGED = 11;
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_AVAILABILITY_SEARCH = "KEY_AVAILABILITY_SEARCH";
@@ -307,6 +309,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			FragmentTransaction ft = fm.beginTransaction();
 			ft.add(R.id.fragment_left, HotelListFragment.newInstance(), TAG_HOTEL_LIST);
 			ft.add(R.id.fragment_right, HotelMapFragment.newInstance(), TAG_HOTEL_MAP);
+			ft.hide(fm.findFragmentById(R.id.fragment_launcher));
 			ft.addToBackStack(null);
 			ft.commit();
 		}
@@ -438,6 +441,10 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
 
+	public SearchParams getSearchParams() {
+		return mInstance.mSearchParams;
+	}
+
 	public String getSearchStatus() {
 		return mInstance.mSearchStatus;
 	}
@@ -463,6 +470,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		mInstance.mSearchParams.setSearchType(SearchType.MY_LOCATION);
 
 		invalidateOptionsMenu();
+
+		mEventManager.notifyEventHandlers(EVENT_SEARCH_PARAMS_CHANGED, null);
 	}
 
 	public void setFreeformLocation(String freeformLocation) {
@@ -472,6 +481,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		mInstance.mSearchParams.setSearchType(SearchType.FREEFORM);
 
 		invalidateOptionsMenu();
+
+		mEventManager.notifyEventHandlers(EVENT_SEARCH_PARAMS_CHANGED, null);
 	}
 
 	public void setGuests(int numAdults, int numChildren) {
@@ -481,6 +492,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		mInstance.mSearchParams.setNumChildren(numChildren);
 
 		invalidateOptionsMenu();
+
+		mEventManager.notifyEventHandlers(EVENT_SEARCH_PARAMS_CHANGED, null);
 	}
 
 	public void setDates(Calendar checkIn, Calendar checkOut) {
@@ -490,6 +503,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		mInstance.mSearchParams.setCheckOutDate(checkOut);
 
 		invalidateOptionsMenu();
+
+		mEventManager.notifyEventHandlers(EVENT_SEARCH_PARAMS_CHANGED, null);
 	}
 
 	public void setLatLng(double latitude, double longitude) {
