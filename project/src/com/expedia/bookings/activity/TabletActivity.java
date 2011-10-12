@@ -207,9 +207,22 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			}
 		});
 
-		updateActionBarViews();
-
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(this), false);
+
+		int numGuests = mInstance.mSearchParams.getNumAdults() + mInstance.mSearchParams.getNumChildren();
+		mGuestsMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_guests, numGuests, numGuests));
+
+		int numNights = mInstance.mSearchParams.getStayDuration();
+		mDatesMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_nights, numNights, numNights));
+
+		mFilterMenuItem.setEnabled(mInstance.mSearchResponse != null && !mInstance.mSearchResponse.hasErrors());
+
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -230,23 +243,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
-
-	private void updateActionBarViews() {
-		// This may get called before the action bar is initialized - ignore in that circumstance
-		if (mSearchView == null || mGuestsMenuItem == null || mDatesMenuItem == null || mFilterMenuItem == null) {
-			return;
-		}
-
-		mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(this), false);
-
-		int numGuests = mInstance.mSearchParams.getNumAdults() + mInstance.mSearchParams.getNumChildren();
-		mGuestsMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_guests, numGuests, numGuests));
-
-		int numNights = mInstance.mSearchParams.getStayDuration();
-		mDatesMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_nights, numNights, numNights));
-
-		mFilterMenuItem.setEnabled(mInstance.mSearchResponse != null && !mInstance.mSearchResponse.hasErrors());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -433,7 +429,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		mInstance.mSearchParams.setFreeformLocation(freeformLocation);
 		mInstance.mSearchParams.setSearchType(SearchType.FREEFORM);
 
-		updateActionBarViews();
+		invalidateOptionsMenu();
 	}
 
 	public void setGuests(int numAdults, int numChildren) {
@@ -442,7 +438,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		mInstance.mSearchParams.setNumAdults(numAdults);
 		mInstance.mSearchParams.setNumChildren(numChildren);
 
-		updateActionBarViews();
+		invalidateOptionsMenu();
 	}
 
 	public void setDates(Calendar checkIn, Calendar checkOut) {
@@ -451,7 +447,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		mInstance.mSearchParams.setCheckInDate(checkIn);
 		mInstance.mSearchParams.setCheckOutDate(checkOut);
 
-		updateActionBarViews();
+		invalidateOptionsMenu();
 	}
 
 	public void setLatLng(double latitude, double longitude) {
@@ -479,7 +475,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		mInstance.mFilter.setOnDataListener(null);
 
 		// Let action bar views react to change in state (downloading)
-		updateActionBarViews();
+		invalidateOptionsMenu();
 
 		if (!NetUtils.isOnline(this)) {
 			Log.w("startSearch() - no internet connection.");
@@ -554,7 +550,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	public void onGeocodeSuccess(Address address) {
 		mInstance.mSearchParams.setFreeformLocation(address);
-		updateActionBarViews();
+		invalidateOptionsMenu();
 
 		setLatLng(address.getLatitude(), address.getLongitude());
 
@@ -608,7 +604,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			}
 
 			// Update action bar views based on results
-			updateActionBarViews();
+			invalidateOptionsMenu();
 		}
 	};
 
