@@ -27,8 +27,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
@@ -38,6 +38,7 @@ import com.expedia.bookings.fragment.FilterDialogFragment;
 import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
 import com.expedia.bookings.fragment.HotelDetailsFragment;
+import com.expedia.bookings.fragment.HotelGalleryDialogFragment;
 import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.InstanceFragment;
@@ -407,6 +408,11 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		newFragment.show(getFragmentManager(), "SortDialog");
 	}
 
+	private void showHotelGalleryDialog(String selectedImageUrl) {
+		DialogFragment newFragment = HotelGalleryDialogFragment.newInstance(selectedImageUrl);
+		newFragment.show(getFragmentManager(), "HotelGalleryDialog");
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Events (called from Fragments)
 
@@ -438,6 +444,11 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		mEventManager.notifyEventHandlers(EVENT_DETAILS_OPENED, mInstance.mProperty);
 	}
 
+	
+	public void showPictureGalleryForHotel(String selectedImageUrl) {
+		showHotelGalleryDialog(selectedImageUrl);		
+	}
+	
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
 

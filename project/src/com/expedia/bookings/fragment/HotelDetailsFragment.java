@@ -14,6 +14,7 @@ import android.text.Html;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -37,15 +38,16 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		return fragment;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// PRIVATE MEMBERS
-	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////
+	// MEMBER VARIABLES
+
 
 	//----------------------------------
 	// CONSTANTS
 	//----------------------------------
 
 	private static final int MAX_SUMMARIZED_RATE_RESULTS = 3;
+	private static final int MAX_NUM_IMAGES = 4;
 
 	//----------------------------------
 	// VIEWS
@@ -57,15 +59,15 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private TextView mHotelNameTextView;
 	private RatingBar mHotelRatingBar;
 	private ArrayList<ImageView> propertyImages;
+	private ArrayList<String> propertyUrls;
 
 	//----------------------------------
 	// OTHERS
 	//----------------------------------
 	private LayoutInflater mInflater;
 
-	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////
 	// LIFECYCLE EVENTS
-	//////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,11 +80,19 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mAvailabilitySummaryContainer = (ViewGroup) view.findViewById(R.id.availability_summary_container);
 		mEmptyAvailabilitySummaryTextView = (TextView) view.findViewById(R.id.empty_summart_container);
 
-		propertyImages = new ArrayList<ImageView>(4);
+		propertyImages = new ArrayList<ImageView>(MAX_NUM_IMAGES);
+		propertyUrls = new ArrayList<String>(MAX_NUM_IMAGES);
 		propertyImages.add((ImageView) view.findViewById(R.id.big_left_property_image_view));
 		propertyImages.add((ImageView) view.findViewById(R.id.top_right_property_image_view));
 		propertyImages.add((ImageView) view.findViewById(R.id.bottom_right_property_image_view_1));
 		propertyImages.add((ImageView) view.findViewById(R.id.bottom_right_property_image_view_2));
+		
+		// clicking on any image in the hotel details should open up
+		// the hotel gallery dialog
+		for(ImageView imageView : propertyImages) {
+			imageView.setOnClickListener(mPictureClickedListener);
+		}
+		
 		return view;
 	}
 
@@ -105,7 +115,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Views
+	// VIEWS
 
 	public void updateViews() {
 
@@ -120,12 +130,14 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mHotelRatingBar.setRating((float) property.getHotelRating());
 
 		// set the default thumbnails for all images
-		for (ImageView imageView : propertyImages) {
-			imageView.setImageResource(R.drawable.ic_row_thumb_placeholder);
+		propertyUrls.clear();
+		for (int i = 0; i < MAX_NUM_IMAGES; i++) {
+			propertyImages.get(i).setImageResource(R.drawable.ic_row_thumb_placeholder);
 		}
 
 		for (int i = 0; i < property.getMediaCount() && i < propertyImages.size(); i++) {
 			ImageCache.loadImage(property.getMedia(i).getUrl(), propertyImages.get(i));
+			propertyUrls.add(property.getMedia(i).getUrl());
 		}
 
 		// update the summarized rates if they are available
@@ -133,9 +145,22 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		updateSummarizedRates(availabilityResponse);
 
 	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	// CALLBACKS
+	
+	private OnClickListener mPictureClickedListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			int index = propertyImages.indexOf(v);
+			((TabletActivity) getActivity()).showPictureGalleryForHotel(propertyUrls.get(index));
+		}
+	};
+	
 
 	//////////////////////////////////////////////////////////////////////////
-	// EventHandler implementation
+	// EVENTHANDLER IMPLEMENTATION
 
 	@Override
 	public void handleEvent(int eventCode, Object data) {
@@ -161,9 +186,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
-	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private void showLoadingForRates() {
 		mEmptyAvailabilitySummaryTextView.setVisibility(View.VISIBLE);
@@ -333,7 +357,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private void createBedTypeToMinRateMapping(AvailabilityResponse response) {
 		mBedTypeToMinRateMap.clear();
 
-		for (Rate rate : response.getRates()) {
+	for (Rate rate : response.getRates()) {
 			for (BedType bedType : rate.getBedTypes()) {
 				BedTypeId bedTypeId = bedType.bedTypeId;
 				/*

@@ -140,15 +140,7 @@ public class HotelActivity extends Activity {
 		Gallery gallery = mGallery = (Gallery) findViewById(R.id.images_gallery);
 		mScrollView = (ScrollView) findViewById(R.id.scroll_view);
 		if (property.getMediaCount() > 0) {
-			final List<String> urls = new ArrayList<String>(property.getMediaCount());
-			Set<String> usedUrls = new HashSet<String>();
-			for (Media media : property.getMediaList()) {
-				String url = media.getUrl();
-				if (!usedUrls.contains(url)) {
-					urls.add(url);
-					usedUrls.add(url);
-				}
-			}
+			final List<String> urls = StrUtils.getImageUrls(property);
 			gallery.setUrls(urls);
 
 			gallery.setOnItemSelectedListener(new OnItemSelectedListener() {
