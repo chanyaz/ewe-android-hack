@@ -216,22 +216,22 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			menu.setGroupVisible(R.id.search_location_group, true);
 			menu.setGroupVisible(R.id.filter_group, true);
 			menu.setGroupVisible(R.id.search_options_group, true);
+
+			mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(this), false);
+
+			int numGuests = mInstance.mSearchParams.getNumAdults() + mInstance.mSearchParams.getNumChildren();
+			mGuestsMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_guests, numGuests, numGuests));
+
+			int numNights = mInstance.mSearchParams.getStayDuration();
+			mDatesMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_nights, numNights, numNights));
+
+			mFilterMenuItem.setEnabled(mInstance.mSearchResponse != null && !mInstance.mSearchResponse.hasErrors());
 		}
 		else {
 			menu.setGroupVisible(R.id.search_location_group, false);
 			menu.setGroupVisible(R.id.filter_group, false);
 			menu.setGroupVisible(R.id.search_options_group, false);
 		}
-
-		mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(this), false);
-
-		int numGuests = mInstance.mSearchParams.getNumAdults() + mInstance.mSearchParams.getNumChildren();
-		mGuestsMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_guests, numGuests, numGuests));
-
-		int numNights = mInstance.mSearchParams.getStayDuration();
-		mDatesMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_nights, numNights, numNights));
-
-		mFilterMenuItem.setEnabled(mInstance.mSearchResponse != null && !mInstance.mSearchResponse.hasErrors());
 
 		return super.onPrepareOptionsMenu(menu);
 	}
