@@ -141,9 +141,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
-			mEmptyAvailabilitySummaryTextView.setVisibility(View.VISIBLE);
-			mEmptyAvailabilitySummaryTextView.setText(getString(R.string.room_rates_loading));
-			mAvailabilitySummaryContainer.setVisibility(View.GONE);
+			showLoadingForRates();
 			clearOutData();
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
@@ -166,6 +164,12 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////////
+
+	private void showLoadingForRates() {
+		mEmptyAvailabilitySummaryTextView.setVisibility(View.VISIBLE);
+		mEmptyAvailabilitySummaryTextView.setText(getString(R.string.room_rates_loading));
+		mAvailabilitySummaryContainer.setVisibility(View.GONE);
+	}
 
 	private void clearOutData() {
 		mAvailabilitySummaryContainer.removeAllViews();
@@ -209,8 +213,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			layoutAvailabilitySummary();
 		}
 		else {
-			// TODO: Remove data shown by Views in the case that summarized rates don't exist? 
-			// (Or is this not necessary?)
+			// since the data is not yet available,
+			// make sure to clean out any old data and show the loading screen
+			showLoadingForRates();
+			clearOutData();
 		}
 	}
 
