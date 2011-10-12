@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
@@ -68,12 +69,26 @@ public class HotelGalleryDialogFragment extends DialogFragment {
 				ImageCache.loadImage(mSelectedImageUrl, mBigImageView);
 			}
 		});
+		
+		mHotelGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+				mSelectedImageUrl = (String) mAdapter.getItem(position);
+				ImageCache.loadImage(mSelectedImageUrl, mBigImageView);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				mSelectedImageUrl = (String) mAdapter.getItem(0);
+				ImageCache.loadImage(mSelectedImageUrl, mBigImageView);
+			}
+		});
 
 		int position = (mSelectedImageUrl == null) ? 0 : mAdapter.getPositionOfImage(mSelectedImageUrl);
 		mSelectedImageUrl = (mSelectedImageUrl == null) ? (String) mAdapter.getItem(0) : mSelectedImageUrl;
 
 		mHotelGallery.setSelection(position);
-		ImageCache.loadImage(mSelectedImageUrl, mBigImageView);
 
 		Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setView(view);
