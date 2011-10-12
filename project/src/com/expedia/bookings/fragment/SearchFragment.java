@@ -20,6 +20,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 
@@ -81,20 +82,17 @@ public class SearchFragment extends Fragment implements EventHandler {
 		});
 
 		// Configure the number pickers
+		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
 		OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
 			public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 				((TabletActivity) getActivity()).setGuests(mAdultsNumberPicker.getValue(),
 						mChildrenNumberPicker.getValue());
+
+				GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
 			}
 		};
 		mAdultsNumberPicker.setOnValueChangedListener(valueChangeListener);
 		mChildrenNumberPicker.setOnValueChangedListener(valueChangeListener);
-
-		// TODO: Configure number pickers the same as we do with the dialog
-		mAdultsNumberPicker.setMinValue(1);
-		mAdultsNumberPicker.setMaxValue(4);
-		mChildrenNumberPicker.setMinValue(0);
-		mChildrenNumberPicker.setMaxValue(4);
 
 		// Configure the search button
 		Button button = (Button) view.findViewById(R.id.search_button);

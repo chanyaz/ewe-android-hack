@@ -7,7 +7,6 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +15,10 @@ import android.widget.NumberPicker.OnValueChangeListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.StrUtils;
 
 public class GuestsDialogFragment extends DialogFragment {
-
-	private static final int MAX_PER_TYPE = 4;
-	private static final int MAX_GUESTS = 5;
 
 	private static final String KEY_NUM_ADULTS = "numAdults";
 	private static final String KEY_NUM_CHILDREN = "numChildren";
@@ -50,22 +47,8 @@ public class GuestsDialogFragment extends DialogFragment {
 		builder.setView(parent);
 
 		// Configure the display values on the pickers
-		Resources r = getResources();
-		String[] adultDisplayedValues = new String[MAX_PER_TYPE];
-		for (int a = 1; a <= MAX_PER_TYPE; a++) {
-			adultDisplayedValues[a - 1] = r.getQuantityString(R.plurals.number_of_adults, a, a);
-		}
-		String[] childDisplayedValues = new String[MAX_PER_TYPE + 1];
-		for (int a = 0; a <= MAX_PER_TYPE; a++) {
-			childDisplayedValues[a] = r.getQuantityString(R.plurals.number_of_children, a, a);
-		}
-		mAdultsNumberPicker.setDisplayedValues(adultDisplayedValues);
-		mChildrenNumberPicker.setDisplayedValues(childDisplayedValues);
-
-		// Configure initial number picker ranges
-		mAdultsNumberPicker.setMinValue(1);
-		mChildrenNumberPicker.setMinValue(0);
-		updateNumberPickerRanges();
+		GuestsPickerUtils.configureDisplayedValues(getActivity(), mAdultsNumberPicker, mChildrenNumberPicker);
+		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
 
 		// Set initial values for pickers
 		if (savedInstanceState == null) {
@@ -81,7 +64,7 @@ public class GuestsDialogFragment extends DialogFragment {
 		OnValueChangeListener listener = new OnValueChangeListener() {
 			public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 				getDialog().setTitle(getTitleText());
-				updateNumberPickerRanges();
+				GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
 			}
 		};
 		mAdultsNumberPicker.setOnValueChangedListener(listener);
@@ -116,16 +99,6 @@ public class GuestsDialogFragment extends DialogFragment {
 		int adults = mAdultsNumberPicker.getValue();
 		int children = mChildrenNumberPicker.getValue();
 		return StrUtils.formatGuests(getActivity(), adults, children);
-	}
-
-	public void updateNumberPickerRanges() {
-		int adults = mAdultsNumberPicker.getValue();
-		int children = mChildrenNumberPicker.getValue();
-		int total = adults + children;
-		int remaining = MAX_GUESTS - total;
-
-		mAdultsNumberPicker.setMaxValue(Math.min(MAX_PER_TYPE, adults + remaining));
-		mChildrenNumberPicker.setMaxValue(Math.min(MAX_PER_TYPE, children + remaining));
 	}
 
 	private void setInitialGuests(int initialAdults, int initialChildren) {
