@@ -46,6 +46,10 @@ public class GuestsDialogFragment extends DialogFragment {
 		mChildrenNumberPicker = (NumberPicker) parent.findViewById(R.id.children_number_picker);
 		builder.setView(parent);
 
+		// Block NumberPickers from being editable
+		mAdultsNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+		mChildrenNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
 		// Configure the display values on the pickers
 		GuestsPickerUtils.configureDisplayedValues(getActivity(), mAdultsNumberPicker, mChildrenNumberPicker);
 		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);

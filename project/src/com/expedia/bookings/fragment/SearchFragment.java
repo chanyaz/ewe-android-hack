@@ -11,7 +11,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -115,6 +114,10 @@ public class SearchFragment extends Fragment implements EventHandler {
 		};
 		mAdultsNumberPicker.setOnValueChangedListener(valueChangeListener);
 		mChildrenNumberPicker.setOnValueChangedListener(valueChangeListener);
+
+		// Block NumberPickers from being editable
+		mAdultsNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+		mChildrenNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
 		// Configure the search button
 		Button button = (Button) view.findViewById(R.id.search_button);
