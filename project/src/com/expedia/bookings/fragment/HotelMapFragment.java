@@ -12,13 +12,16 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.expedia.bookings.widget.HotelItemizedOverlay.OnTapListener;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+import com.mobiata.android.MapUtils;
 import com.mobiata.android.widget.DoubleTapToZoomListenerOverlay;
 
 public class HotelMapFragment extends Fragment implements EventHandler {
@@ -97,6 +100,13 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		switch (eventCode) {
 		case TabletActivity.EVENT_SEARCH_STARTED:
 			mHotelOverlay.setProperties(null);
+			break;
+		case TabletActivity.EVENT_SEARCH_LOCATION_FOUND:
+			SearchParams params = ((TabletActivity) getActivity()).getSearchParams();
+			GeoPoint searchPoint = MapUtils.convertToGeoPoint(params.getSearchLatitude(), params.getSearchLongitude());
+			MapController mc = mMapView.getController();
+			mc.animateTo(searchPoint);
+			mc.setZoom(12);
 			break;
 		case TabletActivity.EVENT_SEARCH_COMPLETE:
 			updateView();

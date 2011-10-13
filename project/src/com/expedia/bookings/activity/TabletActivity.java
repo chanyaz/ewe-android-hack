@@ -76,6 +76,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public static final int EVENT_DETAILS_OPENED = 9;
 	public static final int EVENT_FILTER_CHANGED = 10;
 	public static final int EVENT_SEARCH_PARAMS_CHANGED = 11;
+	public static final int EVENT_SEARCH_LOCATION_FOUND = 12;
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_AVAILABILITY_SEARCH = "KEY_AVAILABILITY_SEARCH";
@@ -444,11 +445,10 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		mEventManager.notifyEventHandlers(EVENT_DETAILS_OPENED, mInstance.mProperty);
 	}
 
-	
 	public void showPictureGalleryForHotel(String selectedImageUrl) {
-		showHotelGalleryDialog(selectedImageUrl);		
+		showHotelGalleryDialog(selectedImageUrl);
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
 
@@ -638,6 +638,10 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	public void startSearchDownloader() {
 		Log.i("startSearchDownloader()");
+
+		// This method essentially signifies that we've found the location to search;
+		// take this opportunity to notify handlers that we know where we're looking.
+		mEventManager.notifyEventHandlers(EVENT_SEARCH_LOCATION_FOUND, null);
 
 		BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
