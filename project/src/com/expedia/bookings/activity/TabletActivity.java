@@ -271,6 +271,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private static final String TAG_HOTEL_DETAILS = "HOTEL_DETAILS";
 	private static final String TAG_MINI_DETAILS = "MINI_DETAILS";
 
+	private static final String BACKSTACK_RESULTS = "RESULTS";
+
 	private View mLauncherFragmentContainer;
 	private View mSearchFragmentsContainer;
 	private View mLeftFragmentContainer;
@@ -313,11 +315,14 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			ft.add(R.id.fragment_left, HotelListFragment.newInstance(), TAG_HOTEL_LIST);
 			ft.add(R.id.fragment_right, HotelMapFragment.newInstance(), TAG_HOTEL_MAP);
 			ft.hide(fm.findFragmentById(R.id.fragment_launcher));
-			ft.addToBackStack(null);
+			ft.addToBackStack(BACKSTACK_RESULTS);
 			ft.commit();
 		}
+		else {
+			fm.popBackStack(BACKSTACK_RESULTS, 0);
+		}
 	}
-
+	
 	public void showMiniDetailsFragment() {
 		MiniDetailsFragment fragment = MiniDetailsFragment.newInstance();
 
