@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 
 public class HotelCollageHandler {
@@ -43,10 +45,12 @@ public class HotelCollageHandler {
 		for (int i = 0; i < MAX_NUM_IMAGES; i++) {
 			mPropertyImageViews.get(i).setImageResource(R.drawable.ic_row_thumb_placeholder);
 		}
-
-		for (int i = 0; i < property.getMediaCount() && i < MAX_NUM_IMAGES; i++) {
-			ImageCache.loadImage(property.getMedia(i).getUrl(), mPropertyImageViews.get(i));
-			mPropertyUrls.add(property.getMedia(i).getUrl());
+		
+		List<String> imageUrls = StrUtils.getImageUrls(property);
+		for (int i = 0; i < imageUrls.size() && i < MAX_NUM_IMAGES; i++) {
+			String imageUrl = imageUrls.get(i);
+			ImageCache.loadImage(imageUrl, mPropertyImageViews.get(i));
+			mPropertyUrls.add(imageUrl);
 		}
 	}
 
@@ -56,7 +60,9 @@ public class HotelCollageHandler {
 		public void onClick(View v) {
 			if (mListener != null) {
 				int index = mPropertyImageViews.indexOf(v);
-				mListener.onImageClicked(mPropertyUrls.get(index));
+				if (index != -1) {
+					mListener.onImageClicked(mPropertyUrls.get(index));
+				}
 			}
 		}
 	};
