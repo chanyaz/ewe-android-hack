@@ -195,6 +195,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 		mSearchView.setIconifiedByDefault(false);
 		mSearchView.setSubmitButtonEnabled(true);
+		mSearchView.setFocusable(false); // Fixes keyboard on submit, somehow!
 		mSearchView.setOnQueryTextListener(new OnQueryTextListener() {
 			@Override
 			public boolean onQueryTextSubmit(String query) {
