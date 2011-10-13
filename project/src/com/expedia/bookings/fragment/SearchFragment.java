@@ -14,8 +14,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
@@ -23,6 +25,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
+import com.mobiata.android.ImageCache;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 
@@ -36,6 +39,9 @@ public class SearchFragment extends Fragment implements EventHandler {
 	private CalendarDatePicker mCalendarDatePicker;
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
+	private ViewGroup mRecentSearchesContainer;
+	private ViewGroup mRecentSearchesLayout;
+	private ViewGroup mFeaturedDestinationsLayout;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -54,6 +60,9 @@ public class SearchFragment extends Fragment implements EventHandler {
 		mCalendarDatePicker = (CalendarDatePicker) view.findViewById(R.id.dates_date_picker);
 		mAdultsNumberPicker = (NumberPicker) view.findViewById(R.id.adults_number_picker);
 		mChildrenNumberPicker = (NumberPicker) view.findViewById(R.id.children_number_picker);
+		mRecentSearchesContainer = (ViewGroup) view.findViewById(R.id.recent_searches_container);
+		mRecentSearchesLayout = (ViewGroup) view.findViewById(R.id.recent_searches_layout);
+		mFeaturedDestinationsLayout = (ViewGroup) view.findViewById(R.id.featured_destinations_layout);
 
 		// Need to set temporary max values for number pickers, or updateViews() won't work (since a picker value
 		// must be within its valid range to be set)
@@ -127,6 +136,16 @@ public class SearchFragment extends Fragment implements EventHandler {
 			}
 		});
 
+		// Add some preset featured destinations
+		addFeaturedDestination("http://www.destination360.com/north-america/us/massachusetts/images/s/boston.jpg",
+				"Boston");
+		addFeaturedDestination("http://sanfranciscoforyou.com/wp-content/uploads/2010/03/sf19.jpg", "San Francisco");
+		addFeaturedDestination("http://www.traveladventures.org/continents/northamerica/images/minneapolis1.jpg",
+				"Minneapolis");
+		addFeaturedDestination(
+				"http://wwp.greenwichmeantime.com/time-zone/usa/new-york/new-york-city/images/new-york-city.jpg",
+				"New York");
+
 		return view;
 	}
 
@@ -153,6 +172,41 @@ public class SearchFragment extends Fragment implements EventHandler {
 
 		mAdultsNumberPicker.setValue(params.getNumAdults());
 		mChildrenNumberPicker.setValue(params.getNumChildren());
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Recent searches/featured destinations
+
+	public void addRecentSearch(String thumbnailUrl, SearchParams searchParams) {
+		mRecentSearchesContainer.setVisibility(View.VISIBLE);
+
+		// TODO: Add recent searches, once we have support for saving recent searches 
+	}
+
+	public void addFeaturedDestination(String thumbnailUrl, final String name) {
+		View destination = addDestination(thumbnailUrl, name);
+		destination.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				TabletActivity activity = (TabletActivity) getActivity();
+				activity.setFreeformLocation(name);
+				activity.startSearch();
+			}
+		});
+
+		mFeaturedDestinationsLayout.addView(destination);
+	}
+
+	public View addDestination(String thumbnailUrl, String name) {
+		LayoutInflater inflater = getActivity().getLayoutInflater();
+		View destination = inflater.inflate(R.layout.snippet_destination, null);
+
+		ImageView thumbnail = (ImageView) destination.findViewById(R.id.thumbnail_image_view);
+		ImageCache.loadImage(thumbnailUrl, thumbnail);
+
+		TextView destinationTextView = (TextView) destination.findViewById(R.id.destination_text_view);
+		destinationTextView.setText(name);
+
+		return destination;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

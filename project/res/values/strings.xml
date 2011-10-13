@@ -5,6 +5,10 @@
 	<!-- Search Fragment -->
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Search Location</string>
+	<!-- Label for recent searches user has made -->
+	<string name="recent_searches">Recent Searches</string>
+	<!-- Label for searches that the user can make that are featured -->
+	<string name="featured_destinations">Featured Destinations</string>
 
 	<!-- Search Activity -->
 	<!-- Label for "start search" button -->
