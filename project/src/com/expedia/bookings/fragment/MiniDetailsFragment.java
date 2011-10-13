@@ -16,6 +16,8 @@ import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.widget.HotelCollageHandler;
+import com.expedia.bookings.widget.HotelCollageHandler.OnCollageImageClickedListener;
 
 public class MiniDetailsFragment extends Fragment implements EventHandler {
 
@@ -27,6 +29,8 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	private TextView mLocationTextView;
 	private RatingBar mRatingBar;
 	private Button mSeeDetailsButton;
+	
+	private HotelCollageHandler mCollageHandler;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -39,6 +43,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		mLocationTextView = (TextView) view.findViewById(R.id.location_text_view);
 		mRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
 		mSeeDetailsButton = (Button) view.findViewById(R.id.see_details_button);
+		mCollageHandler = new HotelCollageHandler(view, mOnImageClickedListener);
 
 		mSeeDetailsButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -65,6 +70,17 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		super.onDetach();
 		((TabletActivity) getActivity()).unregisterEventHandler(this);
 	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Callbacks
+
+	private OnCollageImageClickedListener mOnImageClickedListener = new OnCollageImageClickedListener() {
+		
+		@Override
+		public void onImageClicked(String url) {
+			((TabletActivity) getActivity()).moreDetailsForPropertySelected();
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Views
@@ -80,6 +96,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 			mNameTextView.setText(property.getName());
 			mLocationTextView.setText(StrUtils.formatAddress(property.getLocation()).replace("\n", ", "));
 			mRatingBar.setRating((float) property.getHotelRating());
+			mCollageHandler.updateCollage(property);
 		}
 	}
 
