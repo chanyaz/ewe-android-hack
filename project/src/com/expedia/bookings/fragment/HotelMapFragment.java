@@ -44,7 +44,6 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 
 		// Add the initial overlays
 		List<Overlay> overlays = mMapView.getOverlays();
-		overlays.clear();
 
 		mHotelOverlay = new HotelItemizedOverlay(activity, null, false, mMapView, null);
 		mHotelOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
@@ -73,6 +72,14 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		super.onResume();
 		updateView();
 		selectBalloonForProperty();
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+
+		mMapView.getOverlays().clear();
+		mHotelOverlay.destroyBalloon();
 	}
 
 	@Override
