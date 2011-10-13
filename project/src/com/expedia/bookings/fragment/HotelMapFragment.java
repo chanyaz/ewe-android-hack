@@ -16,6 +16,7 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.expedia.bookings.widget.HotelItemizedOverlay.OnTapListener;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.mobiata.android.widget.DoubleTapToZoomListenerOverlay;
@@ -99,6 +100,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 			break;
 		case TabletActivity.EVENT_SEARCH_COMPLETE:
 			updateView();
+			showAllResults();
 			break;
 		case TabletActivity.EVENT_PROPERTY_SELECTED:
 			selectBalloonForProperty();
@@ -118,6 +120,15 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 			mHotelOverlay.setProperties(searchResponse);
 			mMapView.invalidate();
 		}
+	}
+
+	/**
+	 * Re-zooms/centers the map so that all results are visible
+	 */
+	private void showAllResults() {
+		MapController mc = mMapView.getController();
+		mc.animateTo(mHotelOverlay.getCenter());
+		mc.zoomToSpan(mHotelOverlay.getLatSpanE6(), mHotelOverlay.getLonSpanE6());
 	}
 
 	private void selectBalloonForProperty() {
