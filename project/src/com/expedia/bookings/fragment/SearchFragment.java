@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -23,13 +24,18 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
+import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.services.GoogleServices;
+import com.mobiata.android.services.GoogleServices.MapType;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 
 public class SearchFragment extends Fragment implements EventHandler {
+
+	private static final int MAX_RECENT_SEARCHES = 3;
 
 	public static SearchFragment newInstance() {
 		return new SearchFragment();
@@ -136,6 +142,12 @@ public class SearchFragment extends Fragment implements EventHandler {
 			}
 		});
 
+		// Get recent searches
+		List<SearchParams> searches = Search.getRecentSearches(getActivity(), MAX_RECENT_SEARCHES);
+		for (SearchParams params : searches) {
+			addRecentSearch(params);
+		}
+
 		// Add some preset featured destinations
 		addFeaturedDestination("http://www.destination360.com/north-america/us/massachusetts/images/s/boston.jpg",
 				"Boston");
@@ -177,10 +189,22 @@ public class SearchFragment extends Fragment implements EventHandler {
 	//////////////////////////////////////////////////////////////////////////
 	// Recent searches/featured destinations
 
-	public void addRecentSearch(String thumbnailUrl, SearchParams searchParams) {
+	public void addRecentSearch(final SearchParams searchParams) {
 		mRecentSearchesContainer.setVisibility(View.VISIBLE);
 
-		// TODO: Add recent searches, once we have support for saving recent searches 
+		String location = searchParams.getFreeformLocation();
+		String thumbnailUrl = GoogleServices.getStaticMapUrl(300, 300, 12, MapType.ROADMAP, location);
+
+		View destination = addDestination(thumbnailUrl, location);
+		destination.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				TabletActivity activity = (TabletActivity) getActivity();
+				activity.setSearchParams(searchParams);
+				activity.startSearch();
+			}
+		});
+
+		mRecentSearchesLayout.addView(destination, mRecentSearchesLayout.getChildCount() - 1);
 	}
 
 	public void addFeaturedDestination(String thumbnailUrl, final String name) {

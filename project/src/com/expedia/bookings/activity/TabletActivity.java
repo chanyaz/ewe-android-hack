@@ -46,6 +46,7 @@ import com.expedia.bookings.fragment.InstanceFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
 import com.expedia.bookings.fragment.SearchFragment;
 import com.expedia.bookings.fragment.SortDialogFragment;
+import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.google.android.maps.MapActivity;
@@ -319,7 +320,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			FragmentTransaction ft = fm.beginTransaction();
 			ft.add(R.id.fragment_left, HotelListFragment.newInstance(), TAG_HOTEL_LIST);
 			ft.add(R.id.fragment_right, HotelMapFragment.newInstance(), TAG_HOTEL_MAP);
-			ft.hide(fm.findFragmentById(R.id.fragment_launcher));
+			ft.remove(fm.findFragmentById(R.id.fragment_launcher));
 			ft.addToBackStack(BACKSTACK_RESULTS);
 			ft.commit();
 		}
@@ -327,7 +328,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			fm.popBackStack(BACKSTACK_RESULTS, 0);
 		}
 	}
-	
+
 	public void showMiniDetailsFragment() {
 		MiniDetailsFragment fragment = MiniDetailsFragment.newInstance();
 
@@ -491,6 +492,16 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	//////////////////////////////////////////////////////////////////////////
 	// SearchParams management
+
+	public void setSearchParams(SearchParams searchParams) {
+		Log.d("Setting entirely new set of search params: " + searchParams.toJson().toString());
+
+		mInstance.mSearchParams = searchParams;
+
+		invalidateOptionsMenu();
+
+		mEventManager.notifyEventHandlers(EVENT_SEARCH_PARAMS_CHANGED, null);
+	}
 
 	public void setMyLocationSearch() {
 		Log.d("Setting search to use 'my location'");
@@ -659,6 +670,11 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		// This method essentially signifies that we've found the location to search;
 		// take this opportunity to notify handlers that we know where we're looking.
 		mEventManager.notifyEventHandlers(EVENT_SEARCH_LOCATION_FOUND, null);
+
+		// Save this as a "recent search" if it is a freeform search
+		if (mInstance.mSearchParams.getSearchType() == SearchType.FREEFORM) {
+			Search.add(this, mInstance.mSearchParams);
+		}
 
 		BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
