@@ -9,6 +9,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +28,7 @@ import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.GoogleServices.MapType;
@@ -196,6 +198,13 @@ public class SearchFragment extends Fragment implements EventHandler {
 		String thumbnailUrl = GoogleServices.getStaticMapUrl(300, 300, 12, MapType.ROADMAP, location);
 
 		View destination = addDestination(thumbnailUrl, location);
+
+		TextView paramsTextView = (TextView) destination.findViewById(R.id.params_text_view);
+		String dateRange = DateUtils.formatDateRange(getActivity(), searchParams.getCheckInDate().getTimeInMillis(),
+				searchParams.getCheckOutDate().getTimeInMillis() + 60000, DateUtils.FORMAT_NUMERIC_DATE);
+		String guests = StrUtils.formatGuests(getActivity(), searchParams);
+		paramsTextView.setText(dateRange + ", " + guests);
+
 		destination.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				TabletActivity activity = (TabletActivity) getActivity();

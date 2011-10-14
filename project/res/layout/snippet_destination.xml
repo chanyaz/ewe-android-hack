@@ -14,11 +14,21 @@
 		android:id="@+id/destination_text_view"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_alignTop="@+id/thumbnail"
-		android:layout_alignLeft="@+id/thumbnail"
+		android:layout_alignTop="@+id/thumbnail_image_view"
+		android:layout_alignLeft="@+id/thumbnail_image_view"
 		android:layout_margin="10dp"
 		android:textStyle="bold"
 		android:textSize="20sp"
+		android:singleLine="true"
+		android:ellipsize="end" />
+	<TextView
+		android:id="@+id/params_text_view"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignBottom="@+id/thumbnail_image_view"
+		android:layout_alignLeft="@+id/thumbnail_image_view"
+		android:layout_margin="10dp"
+		android:textSize="18sp"
 		android:singleLine="true"
 		android:ellipsize="end" />
 </RelativeLayout>
