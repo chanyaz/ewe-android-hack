@@ -74,6 +74,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
 			android:layout_marginLeft="10dp"
+			android:layout_marginTop="10dp"
 			android:layout_below="@id/images_and_rates_container"
 			android:orientation="vertical">
 
@@ -81,7 +82,6 @@
 				android:id="@+id/reviews_title_container"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
-				android:layout_marginTop="10dp"
 				android:orientation="horizontal">
 				<TextView
 					android:id="@+id/reviews_title"
@@ -97,14 +97,14 @@
 					android:numStars="5"
 					android:stepSize="0.5"
 					android:isIndicator="true"
-					style="@style/RatingBarSmall.Shadowed.UserReview.Light"/>
+					style="@style/RatingBarSmall.Shadowed.UserReview.Light" />
 			</LinearLayout>
-			<View 
+			<View
 				android:layout_width="fill_parent"
 				android:layout_height="@dimen/two_pixels"
 				android:padding="5dp"
 				android:layout_marginRight="5dp"
-				android:background="@drawable/divider"/>
+				android:background="@drawable/divider" />
 			<include
 				layout="@layout/include_some_reviews" />
 		</LinearLayout>
@@ -113,6 +113,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
 			android:layout_marginLeft="10dp"
+			android:layout_marginTop="10dp"
 			android:layout_below="@id/reviews_section"
 			android:orientation="vertical">
 			<TextView
