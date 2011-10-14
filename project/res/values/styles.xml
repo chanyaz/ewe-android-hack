@@ -170,4 +170,6 @@
     	<item name="android:shadowDx">0</item>
     	<item name="android:shadowDy">1</item>
     </style>
+    
+    <style name="HotelDescriptionTitle"/>
 </resources>

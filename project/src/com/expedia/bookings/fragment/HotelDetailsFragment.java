@@ -23,6 +23,8 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.HotelDescription;
+import com.expedia.bookings.data.HotelDescription.DescriptionSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.BedType;
@@ -50,7 +52,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	//----------------------------------
 
 	private static final int MAX_SUMMARIZED_RATE_RESULTS = 3;
-	private static final int MAX_NUM_ROWS = 2;
+	private static final int MAX_REVIEWS_PER_ROW = 2;
+	private static final int MAX_DESCRIPTION_SECTIONS_PER_ROW = 2;
 
 	//----------------------------------
 	// VIEWS
@@ -65,7 +68,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private ViewGroup mReviewsSection;
 	private ViewGroup mAmenitiesContainer;
 	private RatingBar mUserRating;
-	
+	private ViewGroup mHotelDescriptionContainer;
+
 	//----------------------------------
 	// OTHERS
 	//----------------------------------
@@ -90,6 +94,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mUserRating = (RatingBar) view.findViewById(R.id.user_rating_bar);
 		mReviewsSection = (ViewGroup) view.findViewById(R.id.reviews_container);
 		mAmenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
+		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 
 		return view;
 	}
@@ -130,7 +135,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mReviewsTitle.setText(getString(R.string.reviews_recommended_template, property.getTotalRecommendations(),
 				property.getTotalReviews()));
 		mUserRating.setRating((float) property.getAverageExpediaRating());
-		
+
 		// update the summarized rates if they are available
 		AvailabilityResponse availabilityResponse = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
 		updateSummarizedRates(availabilityResponse);
@@ -139,6 +144,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 		mAmenitiesContainer.removeAllViews();
 		LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
+
+		addHotelDescription(property);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -249,20 +256,20 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			return;
 		}
 
+		int tenDp = (int) Math.ceil(getActivity().getResources().getDisplayMetrics().density * 10);
 		int reviewCount = reviewsResponse.getReviewCount();
 		if (reviewCount > 0) {
-			for (int i = 0; i < MAX_NUM_ROWS && reviewCount > 0; i++) {
+			for (int i = 0; i < MAX_REVIEWS_PER_ROW && reviewCount > 0; i++) {
 				LinearLayout row = new LinearLayout(getActivity());
 				LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, 0);
-				int tenDp = (int) Math.ceil(getActivity().getResources().getDisplayMetrics().density * 10);
 
 				rowParams.weight = 1;
 				row.setOrientation(LinearLayout.HORIZONTAL);
 				row.setLayoutParams(rowParams);
 				row.setPadding(0, tenDp, 0, 0);
 
-				for (int j = 0; j < MAX_NUM_ROWS && reviewCount > 0; j++) {
-					final Review review = reviewsResponse.getReviews().get((i * MAX_NUM_ROWS + j));
+				for (int j = 0; j < MAX_REVIEWS_PER_ROW && reviewCount > 0; j++) {
+					final Review review = reviewsResponse.getReviews().get((i * MAX_REVIEWS_PER_ROW + j));
 					ViewGroup reviewSection = (ViewGroup) mInflater.inflate(R.layout.snippet_review, null);
 
 					LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT);
@@ -274,7 +281,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 					RatingBar reviewRating = (RatingBar) reviewSection.findViewById(R.id.user_review_rating);
 					reviewRating.setRating((float) review.getRating().getOverallSatisfaction());
-					
+
 					final TextView reviewBody = (TextView) reviewSection.findViewById(R.id.review_body);
 					reviewBody.setLines(2);
 					reviewBody.setText(review.getBody());
@@ -286,6 +293,51 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				mReviewsSection.addView(row);
 			}
 		}
+	}
+
+	private void addHotelDescription(Property property) {
+		mHotelDescriptionContainer.removeAllViews();
+		
+		String description = property.getDescriptionText();
+		HotelDescription hotelDescription = new HotelDescription(getActivity());
+
+		if (description != null && description.length() > 0) {
+			hotelDescription.parseDescription(property.getDescriptionText());
+		}
+
+		int sectionCount = hotelDescription.getSections().size();
+		int tenDp = (int) Math.ceil(getActivity().getResources().getDisplayMetrics().density * 10);
+		for (int i = 0; sectionCount > 0; i++) {
+			LinearLayout row = new LinearLayout(getActivity());
+			row.setOrientation(LinearLayout.HORIZONTAL);
+			LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, 0);
+			rowParams.weight = 1;
+			row.setLayoutParams(rowParams);
+			row.setPadding(0, tenDp, 0, 0);
+			row.setWeightSum(2);
+			
+			for (int j = 0; j < MAX_DESCRIPTION_SECTIONS_PER_ROW && sectionCount > 0; j++) {
+				DescriptionSection section = hotelDescription.getSections().get(i * MAX_DESCRIPTION_SECTIONS_PER_ROW + j);
+				ViewGroup descriptionSection = (ViewGroup) mInflater.inflate(
+						R.layout.snippet_hotel_description_section, null);
+
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT);
+				params.weight = 1;
+				descriptionSection.setLayoutParams(params);
+
+				TextView descriptionTitle = (TextView) descriptionSection
+						.findViewById(R.id.title_description_text_view);
+				descriptionTitle.setText(section.title);
+
+				TextView descriptionBody = (TextView) descriptionSection.findViewById(R.id.body_description_text_view);
+				descriptionBody.setText(section.description);
+
+				row.addView(descriptionSection);
+				sectionCount--;
+			}
+			mHotelDescriptionContainer.addView(row);
+		}
+
 	}
 
 	//----------------------------------------------

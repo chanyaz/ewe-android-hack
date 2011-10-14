@@ -125,5 +125,13 @@
 			<include
 				layout="@layout/include_amenities" />
 		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/hotel_description_section"
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent"
+			android:layout_marginTop="10dp"
+			android:layout_marginLeft="10dp"
+			android:layout_below="@id/amenities_section"
+			android:orientation="vertical"/>	
 	</RelativeLayout>
 </ScrollView>
