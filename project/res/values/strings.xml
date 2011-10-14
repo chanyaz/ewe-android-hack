@@ -11,9 +11,9 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b>%1$s&lt;/b> — &lt;b>%2$s&lt;/b> to &lt;b>%3$s&lt;/b></string>
+	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; to &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
-	<string name="filter_info_template">&lt;b>%1$d&lt;/b> matching hotels</string>
+	<string name="filter_info_template">&lt;b&gt;%1$d&lt;/b&gt; matching hotels</string>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filter by hotel name</string>
 	<!-- Label to show only hotels highly rated by TripAdvisor -->
@@ -141,9 +141,9 @@
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">We\'re out of deals for today. Check in for top deals tomorrow.</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">&lt;b>Add the Hotel Radar Widget.&lt;/b></string>
+	<string name="widget_upsell_short_1">&lt;b&gt;Add the Hotel Radar Widget.&lt;/b&gt;</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">&lt;b>Get nightly deals near you!&lt;/b></string>
+	<string name="widget_upsell_short_2">&lt;b&gt;Get nightly deals near you!&lt;/b&gt;</string>
 	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
 	<string name="enjoy_your_stay">Enjoy your stay!</string>
 	
@@ -250,7 +250,7 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> out of &lt;b>%2$d&lt;/b> guests recommend this hotel.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; out of &lt;b&gt;%2$d&lt;/b&gt; guests recommend this hotel.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d Reviews</item>
