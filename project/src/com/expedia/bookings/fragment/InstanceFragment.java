@@ -8,6 +8,7 @@ import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.Session;
@@ -43,6 +44,7 @@ public class InstanceFragment extends Fragment implements EventHandler {
 	public Filter mFilter;
 	public Property mProperty;
 	public AvailabilityResponse mAvailabilityResponse;
+	public ReviewsResponse mReviewsResponse;
 
 	//////////////////////////////////////////////////////////////////////////
 	// EventHandler implementation

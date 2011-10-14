@@ -27,6 +27,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
@@ -46,6 +47,7 @@ import com.expedia.bookings.fragment.MiniDetailsFragment;
 import com.expedia.bookings.fragment.SearchFragment;
 import com.expedia.bookings.fragment.SortDialogFragment;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.mobiata.android.BackgroundDownloader;
@@ -73,14 +75,17 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public static final int EVENT_AVAILABILITY_SEARCH_STARTED = 6;
 	public static final int EVENT_AVAILABILITY_SEARCH_COMPLETE = 7;
 	public static final int EVENT_AVAILABILITY_SEARCH_ERROR = 8;
-	public static final int EVENT_DETAILS_OPENED = 9;
 	public static final int EVENT_FILTER_CHANGED = 10;
 	public static final int EVENT_SEARCH_PARAMS_CHANGED = 11;
-	public static final int EVENT_SEARCH_LOCATION_FOUND = 12;
+	public static final int EVENT_REVIEWS_QUERY_STARTED = 12;
+	public static final int EVENT_REVIEWS_QUERY_COMPLETE = 13;
+	public static final int EVENT_REVIEWS_QUERY_ERROR = 14;
+	public static final int EVENT_SEARCH_LOCATION_FOUND = 15;
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_AVAILABILITY_SEARCH = "KEY_AVAILABILITY_SEARCH";
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
+	private static final String KEY_REVIEWS = "KEY_REVIEWS";
 
 	//////////////////////////////////////////////////////////////////////////
 	// Fragments
@@ -439,6 +444,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		// ahead of time (from when it might actually be needed) so that 
 		// the results are instantly displayed in the hotel details view to the user
 		startRoomsAndRatesDownload(mInstance.mProperty);
+		startReviewsDownload();
+		
 	}
 
 	public void moreDetailsForPropertySelected() {
@@ -448,7 +455,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			showHotelDetailsFragment();
 		}
 
-		mEventManager.notifyEventHandlers(EVENT_DETAILS_OPENED, mInstance.mProperty);
+		mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, mInstance.mProperty);
 	}
 
 	public void showPictureGalleryForHotel(String selectedImageUrl) {
@@ -476,6 +483,10 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	public AvailabilityResponse getRoomsAndRatesAvailability() {
 		return mInstance.mAvailabilityResponse;
+	}
+	
+	public ReviewsResponse getReviewsForProperty() {
+		return mInstance.mReviewsResponse;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -744,6 +755,45 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			}
 			else {
 				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
+			}
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// Hotel Reviews
+
+	private void startReviewsDownload() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.cancelDownload(KEY_REVIEWS);
+		bd.startDownload(KEY_REVIEWS, mReviewsDownload, mReviewsCallback);
+		mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_STARTED, null);
+	}
+
+	private Download mReviewsDownload = new Download() {
+
+		@Override
+		public Object doDownload() {
+			ExpediaServices services = new ExpediaServices(mContext, mInstance.mSession);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_REVIEWS, services);
+			return services.reviews(mInstance.mProperty, 1, ReviewSort.HIGHEST_RATING_FIRST);
+		}
+	};
+
+	private OnDownloadComplete mReviewsCallback = new OnDownloadComplete() {
+
+		@Override
+		public void onDownload(Object results) {
+			mInstance.mReviewsResponse = (ReviewsResponse) results;
+
+			if (results == null) {
+				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, null);
+			}
+			else if (mInstance.mReviewsResponse.hasErrors()) {
+				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, mInstance.mReviewsResponse.getErrors()
+						.get(0).getPresentableMessage(mContext));
+			}
+			else {
+				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_COMPLETE, mInstance.mReviewsResponse);
 			}
 		}
 	};

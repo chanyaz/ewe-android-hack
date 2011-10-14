@@ -15,6 +15,8 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -25,7 +27,10 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.BedType;
 import com.expedia.bookings.data.Rate.BedTypeId;
+import com.expedia.bookings.data.Review;
+import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.HotelCollageHandler;
 import com.expedia.bookings.widget.HotelCollageHandler.OnCollageImageClickedListener;
@@ -40,12 +45,12 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	//////////////////////////////////////////////////////////////////////////
 	// MEMBER VARIABLES
 
-
 	//----------------------------------
 	// CONSTANTS
 	//----------------------------------
 
 	private static final int MAX_SUMMARIZED_RATE_RESULTS = 3;
+	private static final int MAX_NUM_ROWS = 2;
 
 	//----------------------------------
 	// VIEWS
@@ -56,7 +61,11 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private TextView mHotelLocationTextView;
 	private TextView mHotelNameTextView;
 	private RatingBar mHotelRatingBar;
-
+	private TextView mReviewsTitle;
+	private ViewGroup mReviewsSection;
+	private ViewGroup mAmenitiesContainer;
+	private RatingBar mUserRating;
+	
 	//----------------------------------
 	// OTHERS
 	//----------------------------------
@@ -70,14 +79,18 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_details, container, false);
 		mInflater = inflater;
-		
+
 		mHotelNameTextView = (TextView) view.findViewById(R.id.hotel_name_text_view);
 		mHotelLocationTextView = (TextView) view.findViewById(R.id.hotel_address_text_view);
 		mHotelRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
 		mAvailabilitySummaryContainer = (ViewGroup) view.findViewById(R.id.availability_summary_container);
 		mEmptyAvailabilitySummaryTextView = (TextView) view.findViewById(R.id.empty_summart_container);
 		mCollageHandler = new HotelCollageHandler(view, mPictureClickedListener);
-		
+		mReviewsTitle = (TextView) view.findViewById(R.id.reviews_title);
+		mUserRating = (RatingBar) view.findViewById(R.id.user_rating_bar);
+		mReviewsSection = (ViewGroup) view.findViewById(R.id.reviews_container);
+		mAmenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
+
 		return view;
 	}
 
@@ -114,24 +127,30 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mHotelLocationTextView.setText(hotelAddressWithNewLine.replace("\n", ", "));
 		mHotelRatingBar.setRating((float) property.getHotelRating());
 		mCollageHandler.updateCollage(property);
-
+		mReviewsTitle.setText(getString(R.string.reviews_recommended_template, property.getTotalRecommendations(),
+				property.getTotalReviews()));
+		mUserRating.setRating((float) property.getAverageExpediaRating());
+		
 		// update the summarized rates if they are available
 		AvailabilityResponse availabilityResponse = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
 		updateSummarizedRates(availabilityResponse);
 
+		addReviews(((TabletActivity) getActivity()).getReviewsForProperty());
+
+		mAmenitiesContainer.removeAllViews();
+		LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// CALLBACKS
-	
+
 	private OnCollageImageClickedListener mPictureClickedListener = new OnCollageImageClickedListener() {
-		
+
 		@Override
 		public void onImageClicked(String url) {
 			((TabletActivity) getActivity()).showPictureGalleryForHotel(url);
 		}
 	};
-	
 
 	//////////////////////////////////////////////////////////////////////////
 	// EVENTHANDLER IMPLEMENTATION
@@ -150,13 +169,18 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
 			mEmptyAvailabilitySummaryTextView.setVisibility(View.GONE);
 			mAvailabilitySummaryContainer.setVisibility(View.VISIBLE);
-			updateSummarizedRates(data);
+			updateSummarizedRates((AvailabilityResponse) data);
 			break;
-		case TabletActivity.EVENT_DETAILS_OPENED:
 		case TabletActivity.EVENT_PROPERTY_SELECTED:
 			updateViews((Property) data);
 			break;
-
+		case TabletActivity.EVENT_REVIEWS_QUERY_STARTED:
+			mReviewsSection.removeAllViews();
+			break;
+		case TabletActivity.EVENT_REVIEWS_QUERY_COMPLETE:
+			ReviewsResponse reviewsResposne = (ReviewsResponse) data;
+			addReviews(reviewsResposne);
+			break;
 		}
 	}
 
@@ -203,11 +227,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		}
 	}
 
-	private void updateSummarizedRates(Object data) {
+	private void updateSummarizedRates(AvailabilityResponse availabilityResponse) {
 		clearOutData();
-
-		if (data != null) {
-			createBedTypeToMinRateMapping((AvailabilityResponse) data);
+		if (availabilityResponse != null) {
+			createBedTypeToMinRateMapping(availabilityResponse);
 			clusterByBedType();
 			summarizeRates();
 			layoutAvailabilitySummary();
@@ -216,6 +239,52 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			// since the data is not yet available,
 			// make sure to clean out any old data and show the loading screen
 			showLoadingForRates();
+		}
+	}
+
+	private void addReviews(ReviewsResponse reviewsResponse) {
+		mReviewsSection.removeAllViews();
+
+		if (reviewsResponse == null) {
+			return;
+		}
+
+		int reviewCount = reviewsResponse.getReviewCount();
+		if (reviewCount > 0) {
+			for (int i = 0; i < MAX_NUM_ROWS && reviewCount > 0; i++) {
+				LinearLayout row = new LinearLayout(getActivity());
+				LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, 0);
+				int tenDp = (int) Math.ceil(getActivity().getResources().getDisplayMetrics().density * 10);
+
+				rowParams.weight = 1;
+				row.setOrientation(LinearLayout.HORIZONTAL);
+				row.setLayoutParams(rowParams);
+				row.setPadding(0, tenDp, 0, 0);
+
+				for (int j = 0; j < MAX_NUM_ROWS && reviewCount > 0; j++) {
+					final Review review = reviewsResponse.getReviews().get((i * MAX_NUM_ROWS + j));
+					ViewGroup reviewSection = (ViewGroup) mInflater.inflate(R.layout.snippet_review, null);
+
+					LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT);
+					params.weight = 1;
+					reviewSection.setLayoutParams(params);
+
+					TextView reviewTitle = (TextView) reviewSection.findViewById(R.id.review_title);
+					reviewTitle.setText(review.getTitle());
+
+					RatingBar reviewRating = (RatingBar) reviewSection.findViewById(R.id.user_review_rating);
+					reviewRating.setRating((float) review.getRating().getOverallSatisfaction());
+					
+					final TextView reviewBody = (TextView) reviewSection.findViewById(R.id.review_body);
+					reviewBody.setLines(2);
+					reviewBody.setText(review.getBody());
+
+					row.addView(reviewSection);
+
+					reviewCount--;
+				}
+				mReviewsSection.addView(row);
+			}
 		}
 	}
 
@@ -332,7 +401,14 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private void createBedTypeToMinRateMapping(AvailabilityResponse response) {
 		mBedTypeToMinRateMap.clear();
 
-	for (Rate rate : response.getRates()) {
+		if (response.getRates() == null) {
+			return;
+		}
+
+		for (Rate rate : response.getRates()) {
+			if (rate.getBedTypes() == null) {
+				continue;
+			}
 			for (BedType bedType : rate.getBedTypes()) {
 				BedTypeId bedTypeId = bedType.bedTypeId;
 				/*

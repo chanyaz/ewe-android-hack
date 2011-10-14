@@ -205,6 +205,8 @@
 	
 	<!--  Hotel Details Fragment -->
 	<string name="bed_type_start_value_template">&lt;b>%s&lt;/b> from</string>
+	<string name="reviews_recommended_template">Recommended by %1$d of %2$d guests</string>
+	<string name="amenities">Amenities</string>
 
 	<!-- Amenity strings -->
 	<!-- Business center amenity -->
