@@ -7,7 +7,19 @@
 	<LinearLayout
 		android:id="@+id/fragment_launcher"
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent" />
+		android:layout_height="fill_parent"
+		android:orientation="vertical">
+		<LinearLayout
+			android:id="@+id/fragment_search_params"
+			android:layout_width="fill_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1" />
+		<LinearLayout
+			android:id="@+id/fragment_quick_search"
+			android:layout_width="fill_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1" />
+	</LinearLayout>
 
 	<LinearLayout
 		android:id="@+id/fragment_search"

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="horizontal"
+	android:background="#e9e9eb">
+
+	<!-- This is a dummy View to keep the EditText from first grabbing focus -->
+	<View
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:focusable="true"
+		android:focusableInTouchMode="true" />
+
+	<!-- Search location fields -->
+	<LinearLayout
+		android:layout_width="0dp"
+		android:layout_height="fill_parent"
+		android:layout_weight="1"
+		android:layout_margin="30dp"
+		android:orientation="vertical">
+		<EditText
+			android:id="@+id/location_edit_text"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:hint="@string/hint_search_location" />
+	</LinearLayout>
+
+	<!-- Checkin/checkout fields -->
+	<com.mobiata.android.widget.CalendarDatePicker
+		android:id="@+id/dates_date_picker"
+		android:layout_width="0dp"
+		android:layout_height="fill_parent"
+		android:layout_weight="1"
+		android:layout_margin="30dp"
+		mobiata:popupBackground="@drawable/calendar_date_picker_popup"
+		mobiata:headerBackground="@color/calendar_header"
+		mobiata:cellBackground="@drawable/bg_calendar_cell"
+		mobiata:todayCellBackground="@drawable/bg_calendar_cell_today"
+		mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell"
+		mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
+		mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
+		mobiata:cellTextColor="@color/cell_text"
+		mobiata:otherMonthCellTextColor="@color/cell_text_other_month"
+		mobiata:drawGridLines="false" />
+
+	<!-- Number of adults/kids, plus search button -->
+	<LinearLayout
+		android:layout_width="0dp"
+		android:layout_height="fill_parent"
+		android:layout_weight="1"
+		android:layout_margin="30dp"
+		android:gravity="center_horizontal"
+		android:orientation="vertical">
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1"
+			android:orientation="horizontal"
+			android:gravity="center_vertical">
+			<ImageView
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:src="@drawable/ic_image_placeholder" />
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:orientation="vertical"
+				android:gravity="center_horizontal">
+				<NumberPicker
+					android:id="@+id/adults_number_picker"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="14dp" />
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textStyle="bold"
+					android:text="@string/adults" />
+			</LinearLayout>
+
+			<ImageView
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:src="@drawable/ic_image_placeholder" />
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:orientation="vertical"
+				android:gravity="center_horizontal">
+				<NumberPicker
+					android:id="@+id/children_number_picker"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="14dp" />
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textStyle="bold"
+					android:text="@string/children" />
+			</LinearLayout>
+		</LinearLayout>
+
+		<Button
+			android:id="@+id/search_button"
+			android:layout_width="fill_parent"
+			android:layout_height="80dp"
+			android:layout_marginTop="10dp"
+			android:textStyle="bold"
+			android:textSize="24sp"
+			android:text="@string/search"
+			style="@style/Widget.Button.Orange" />
+	</LinearLayout>
+</LinearLayout>

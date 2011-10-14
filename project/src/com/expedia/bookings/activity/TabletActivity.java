@@ -44,7 +44,8 @@ import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.InstanceFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
-import com.expedia.bookings.fragment.SearchFragment;
+import com.expedia.bookings.fragment.QuickSearchFragment;
+import com.expedia.bookings.fragment.SearchParamsFragment;
 import com.expedia.bookings.fragment.SortDialogFragment;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
@@ -271,7 +272,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	// Fragment management
 
 	private static final String TAG_INSTANCE_FRAGMENT = "INSTANCE_FRAGMENT";
-	private static final String TAG_SEARCH = "SEARCH";
+	private static final String TAG_SEARCH_PARAMS = "SEARCH_PARAMS";
+	private static final String TAG_QUICK_SEARCH = "QUICK_SEARCH";
 	private static final String TAG_HOTEL_LIST = "HOTEL_LIST";
 	private static final String TAG_HOTEL_MAP = "HOTEL_MAP";
 	private static final String TAG_HOTEL_DETAILS = "HOTEL_DETAILS";
@@ -307,9 +309,10 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	public void showSearchFragment() {
 		FragmentManager fm = getFragmentManager();
-		if (fm.findFragmentById(R.id.fragment_launcher) == null) {
+		if (fm.findFragmentByTag(TAG_SEARCH_PARAMS) == null) {
 			FragmentTransaction ft = fm.beginTransaction();
-			ft.add(R.id.fragment_launcher, SearchFragment.newInstance(), TAG_SEARCH);
+			ft.add(R.id.fragment_search_params, SearchParamsFragment.newInstance(), TAG_SEARCH_PARAMS);
+			ft.add(R.id.fragment_quick_search, QuickSearchFragment.newInstance(), TAG_QUICK_SEARCH);
 			ft.commit();
 		}
 	}
@@ -320,7 +323,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			FragmentTransaction ft = fm.beginTransaction();
 			ft.add(R.id.fragment_left, HotelListFragment.newInstance(), TAG_HOTEL_LIST);
 			ft.add(R.id.fragment_right, HotelMapFragment.newInstance(), TAG_HOTEL_MAP);
-			ft.remove(fm.findFragmentById(R.id.fragment_launcher));
+			ft.remove(fm.findFragmentByTag(TAG_SEARCH_PARAMS));
+			ft.remove(fm.findFragmentByTag(TAG_QUICK_SEARCH));
 			ft.addToBackStack(BACKSTACK_RESULTS);
 			ft.commit();
 		}
