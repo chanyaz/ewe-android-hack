@@ -123,23 +123,27 @@
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Añadir widget</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Añade el widget a tu pantalla de inicio para ver las últimas ofertas a partir de tu última búsqueda.</string>
+	<string name="widget_description">¡Encuentra las ofertas más cercanas!</string>
+	<!--  Instructions on how to add widget to home screen -->
+	<string name="widget_add_instructions">Mantén pulsada la pantalla de inicio para añadir el widget Hotel Radar.</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">Mostrar ofertas de hoteles cerca de:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">Última búsqueda</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">Sin conexión a Internet</string>
-	<!--  Widget branding for when the deals shown are for the current night -->
-	<string name="tonight_top_deals">Mejores ofertas para esta noche</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
-	<string name="top_deals_template">Mejores hoteles para el %s</string>
+	<!--  Widget Branding title -->
+	<string name="hotel_radar">Hotel Radar</string>
+	<!--  Widget Branding description -->
+	<string name="book_a_room_tonight">Reserva una habitación esta noche.</string>
 	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
 	<string name="save_upto_template">Ahorra hasta un %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">No hay ofertas disponibles para hoy. Vuelve a intentarlo mañana.</string>
-	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b>Añade el widget&lt;/b> para recibir las últimas ofertas de hoteles.</string>
+	<!--  First string for widget upsell within app as a notification in the top bar -->
+	<string name="widget_upsell_short_1">&lt;b>Añade el widget Hotel Radar.&lt;/b></string>
+	<!--  Second string for widget upsell within app as a notification in the app bar -->
+	<string name="widget_upsell_short_2">&lt;b>¡Encuentra las ofertas más cercanas!&lt;/b></string>
 	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
 	<string name="enjoy_your_stay">¡Buen¡Buen viaje!</string>
 	
@@ -287,7 +291,7 @@
 	<plurals name="number_of_rooms_left">
 		<item quantity="zero">¡No quedan habitaciones!</item>
 		<item quantity="one">¡Solo queda 1 habitación!</item>
-		<item quantity="two">¡Solo quedan %d habitaciones!</item>
+		<item quantity="two">¡Quedan %d habitaciones!</item>
 		<item quantity="many">¡Quedan %d habitaciones!</item>
 		<item quantity="other">¡Quedan %d habitaciones!</item>
 	</plurals>
@@ -514,6 +518,8 @@
 	<string name="email_address">Dirección de email</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">¿Qué podemos mejorar?</string>
+	<!-- Message displayed to users after they submit feedback -->
+	<string name="oosdk_thanks_txt">Gracias por darnos tu opinión. Valoramos los comentarios de nuestros clientes.</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->

@@ -123,23 +123,27 @@
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Legg til miniprogram</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Legg til miniprogrammet på hjemmeskjermen for å se de nyeste tilbudene for det siste søket ditt.</string>
+	<string name="widget_description">Motta tilbud nær deg!</string>
+	<!--  Instructions on how to add widget to home screen -->
+	<string name="widget_add_instructions">Trykk og hold på hjemmeskjermen for å legge til miniprogrammet Hotel Radar.</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">Vis hotelltilbud nær:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">Siste søk i program</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">Ingen internettforbindelse</string>
-	<!--  Widget branding for when the deals shown are for the current night -->
-	<string name="tonight_top_deals">Kveldens topptilbud</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
-	<string name="top_deals_template">Topptilbud for %s</string>
+	<!--  Widget Branding title -->
+	<string name="hotel_radar">Hotel Radar</string>
+	<!--  Widget Branding description -->
+	<string name="book_a_room_tonight">Bestill et rom i kveld.</string>
 	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
 	<string name="save_upto_template">Spar opptil %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">Vi har ingen tilbud igjen i dag. Se etter nye topptilbud i morgen.</string>
-	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b>Legg til miniprogrammet&lt;/b> for å motta de nyeste hotelltilbudene.</string>
+	<!--  First string for widget upsell within app as a notification in the top bar -->
+	<string name="widget_upsell_short_1">&lt;b>Legg til miniprogrammet Hotel Radar.&lt;/b></string>
+	<!--  Second string for widget upsell within app as a notification in the app bar -->
+	<string name="widget_upsell_short_2">&lt;b>Motta tilbud nær deg!&lt;/b></string>
 	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
 	<string name="enjoy_your_stay">Ha et fint opphold!</string>
 	
@@ -262,7 +266,7 @@
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">Det finnes ingen negative anmeldelser av dette hotellet</string>
 	<!-- User review no favorable reviews -->
-	<string name="user_review_no_favorable_reviews">Det  finnes ingen positive anmeldelser av dette hotellet</string>
+	<string name="user_review_no_favorable_reviews">Det finnes ingen positive anmeldelser av dette hotellet</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">Det finnes ingen nylige anmeldelser av dette hotellet</string>
 	
@@ -514,6 +518,8 @@
 	<string name="email_address">E-postadresse</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">Hva kan vi forbedre?</string>
+	<!-- Message displayed to users after they submit feedback -->
+	<string name="oosdk_thanks_txt">Takk for tilbakemeldingen. Vi setter pris på våre kunders meninger.</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->

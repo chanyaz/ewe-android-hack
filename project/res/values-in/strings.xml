@@ -115,23 +115,27 @@
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Tambah Widget</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Menambahkan widget ke layar awal untuk mengetahui tawaran terkini dari pencarian terakhir Anda.</string>
+	<string name="widget_description">Dapatkan tawaran tiap malam dekat lokasi Anda!</string>
+	<!--  Instructions on how to add widget to home screen -->
+	<string name="widget_add_instructions">Ketuk dan tahan pada tampilan layar awal untuk menambahkan widget Hotel Radar.</string>
 	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description">Tampilkan tawaran hotel dekat:</string>
+	<string name="config_options_description">Menampilkan tawaran hotel dekat:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">Pencarian App Terakhir</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">Internet Tidak Tersambung</string>
-	<!--  Widget branding for when the deals shown are for the current night -->
-	<string name="tonight_top_deals">Tawaran Teratas Malam Ini</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search -->
-	<string name="top_deals">Tawaran Teratas</string>
+	<!--  Widget Branding title -->
+	<string name="hotel_radar">Hotel Radar</string>
+	<!--  Widget Branding description -->
+	<string name="book_a_room_tonight">Memesan kamar malam ini.</string>
 	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
 	<string name="save_upto_template">Hemat hingga %s%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">Kami tidak memiliki tawaran lagi untuk hari ini. Lihat tawaran teratas besok.</string>
-	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short"><b>Tambahkan widget</b> untuk mendapatkan tawaran hotel terbaru.</string>
+	<!--  First string for widget upsell within app as a notification in the top bar -->
+	<string name="widget_upsell_short_1">&lt;b>Tambahkan Widget Hotel Radar.&lt;/b></string>
+	<!--  Second string for widget upsell within app as a notification in the app bar -->
+	<string name="widget_upsell_short_2">&lt;b>Dapatkan tawaran tiap malam dekat lokasi Anda!&lt;/b></string>
 	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
 	<string name="enjoy_your_stay">Selamat menginap!</string>	
 	<!--  Hotel names for widget preview --><!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
@@ -492,6 +496,8 @@
 	<string name="email_address">Alamat E-mail</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">Apa yang bisa kita lakukan dengan lebih baik?</string>
+	<!-- Message displayed to users after they submit feedback -->
+	<string name="oosdk_thanks_txt">Terima kasih telah mengirimkan pendapat Anda. Kami sangat menghargai umpan balik pelanggan.</string>
 	
 	<!-- Preferences --><!-- Category name for general preferences -->
 	<string name="preference_category_general">Umum</string>

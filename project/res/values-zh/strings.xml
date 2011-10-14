@@ -123,23 +123,27 @@
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">添加小工具</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">将小工具添加到您的主屏幕中以从您的上次搜索结果中查看最新优惠。</string>
+	<string name="widget_description">获取在您附近的酒店每晚优惠信息！</string>
+	<!--  Instructions on how to add widget to home screen -->
+	<string name="widget_add_instructions">点击并按住主屏幕以添加 Hotel Radar 小工具。</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">显示以下地点附近的酒店优惠：</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">上次搜索</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">没有网络连接</string>
-	<!--  Widget branding for when the deals shown are for the current night -->
-	<string name="tonight_top_deals">今晚热门优惠</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
-	<string name="top_deals_template">%s热门优惠</string>
+	<!--  Widget Branding title -->
+	<string name="hotel_radar">Hotel Radar</string>
+	<!--  Widget Branding description -->
+	<string name="book_a_room_tonight">预订今晚的房间。</string>
 	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
 	<string name="save_upto_template">节省多达 %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">没有今天的优惠，请搜索明天的热门优惠。</string>
-	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b>添加小工具&lt;/b>帮您查找最新酒店优惠。</string>
+	<!--  First string for widget upsell within app as a notification in the top bar -->
+	<string name="widget_upsell_short_1">&lt;b>添加 Hotel Radar 小工具。&lt;/b></string>
+	<!--  Second string for widget upsell within app as a notification in the app bar -->
+	<string name="widget_upsell_short_2">&lt;b>获取在您附近的酒店每晚优惠信息！&lt;/b></string>
 	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
 	<string name="enjoy_your_stay">享受您的酒店时光！</string>
 	
@@ -514,6 +518,8 @@
 	<string name="email_address">电子邮件地址</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">我们怎样才能做得更好呢？</string>
+	<!-- Message displayed to users after they submit feedback -->
+	<string name="oosdk_thanks_txt">感谢提交您的意见。我们十分重视客户的反馈。</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->

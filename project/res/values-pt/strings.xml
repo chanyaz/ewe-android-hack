@@ -123,23 +123,27 @@
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Adicionar Widget</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Adicionar widget à sua tela principal para ver as últimas ofertas desde a sua última pesquisa.</string>
+	<string name="widget_description">Receba todas as noites as ofertas perto de você!</string>
+	<!--  Instructions on how to add widget to home screen -->
+	<string name="widget_add_instructions"> Toque e mantenha o dedo na tela inicial para adicionar o widget Hotel Radar.</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">Mostrar ofertas de hotéis perto de:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">Última Pesquisa com o App</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">Sem Conexão à Internet</string>
-	<!--  Widget branding for when the deals shown are for the current night -->
-	<string name="tonight_top_deals">Melhores Ofertas para Hoje a Noite</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
-	<string name="top_deals_template">Melhores Ofertas para %s</string>
+	<!--  Widget Branding title -->
+	<string name="hotel_radar">Hotel Radar</string>
+	<!--  Widget Branding description -->
+	<string name="book_a_room_tonight">Reserve um hotel esta noite.</string>
 	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
 	<string name="save_upto_template">Poupe até %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">Nenhuma oferta para hoje. Confira as melhores ofertas amanhã.</string>
-	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b>Adicione o widget&lt;/b> para receber as últimas ofertas de hotéis.</string>
+	<!--  First string for widget upsell within app as a notification in the top bar -->
+	<string name="widget_upsell_short_1">&lt;b>Adicionar Widget Hotel Radar.&lt;/b></string>
+	<!--  Second string for widget upsell within app as a notification in the app bar -->
+	<string name="widget_upsell_short_2">&lt;b>Receba todas as noites as ofertas perto de você!&lt;/b></string>
 	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
 	<string name="enjoy_your_stay">Aproveite sua estadia!</string>
 	
@@ -250,7 +254,7 @@
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d Comentários</item>
-		<item quantity="one">%d Comentário</item>
+		<item quantity="one">%d Comentário </item>
 		<item quantity="two">%d Comentários</item>
 		<item quantity="many">%d Comentários</item>
 		<item quantity="other">%d Comentários</item>
@@ -306,9 +310,9 @@
 	<!-- Label for room type -->
 	<string name="room_type">Tipo de Quarto</string>
 	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">Desculpe, não foi possível carrehar os detalhes do quarto.  Verifique sua conexão à internet e tente novamente.</string>
+	<string name="error_room_type_load">Desculpe, não foi possível carregar os detalhes do quarto.  Verifique sua conexão à internet e tente novamente.</string>
 	<!-- Error if we couldn't find the room type details -->
-	<string name="error_room_type_nonexistant">Desculpe, não foi possível encontrar detalhes extra neste quarto.</string>
+	<string name="error_room_type_nonexistant">Desculpe, não foi possível encontrar detalhes extras neste quarto.</string>
 	<!-- Label for bed type -->
 	<string name="bed_type">Tipo de Cama</string>
 	<!-- Label for length of stay -->
@@ -357,13 +361,13 @@
 	<!-- Security code label -->
 	<string name="security_code">Código de Segurança</string>
 	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_front">Ver a frente do cartão de crédito</string>
+	<string name="security_code_tip_front">Ver a frente do cartão</string>
 	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_back">Ver o verso do cartão de crédito</string>
+	<string name="security_code_tip_back">Ver o verso do cartão</string>
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">Regras &amp; Restrições</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">Se você possui uma conta Expedia Rewards, faça sua reserva com o mesmo endereço de e-mail e seus pontos serão automaticamente acreditados após sua estadia. Porém, pode levar até mais de 30 dias para que os pontos apareçam em sua conta.</string>
+	<string name="disclaimer_expedia_points">Se você possui uma conta Expedia Rewards, faça sua reserva com o mesmo endereço de e-mail e seus pontos serão automaticamente acreditados após sua estadia. Porém, pode levar até mais de 30 dias para que os pontos apareçam na sua conta.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
 	<string name="EnterBookingInfo">Inserir Informações</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -375,7 +379,7 @@
 	<!-- Title for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_title">Apagar Dados Privados?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_msg">Remove todas as informações salvas relativas à fatura e contato.</string>
+	<string name="dialog_clear_private_data_msg">Remove todas as informações salvas relativas à fatura e ao contato.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Dados Privados Apagados</string>
 	<!-- Error message if field was required but not entered -->
@@ -393,7 +397,7 @@
 	<!-- Error if an invalid security code was entered -->
 	<string name="invalid_security_code">Insira o código de segurança de três ou quatro dígitos</string>
 	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">Desculpe, mas a American Express não aceita pagamentos efetuados nesta moeda (%s). Use um outro cartão de crédito.</string>
+	<string name="invalid_currency_for_amex">Desculpe, mas a American Express não aceita pagamentos efetuados nessa moeda (%s). Use um outro cartão de crédito.</string>
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">Você precisa aceitar os termos para fazer a reserva</string>
 	<!-- Message to display to user while booking is in progress -->
@@ -451,7 +455,7 @@
 	<!-- Expedia merchant hotel policies -->
 	<string name="PolicyExpediaMerchant">Ao prosseguir com esta reserva, você concorda com todos os termos e condições, que incluem a Política de Cancelamento e todos os termos e condições contidos no Acordo do Usuário.\n\nVocê concorda em pagar o custo de sua reserva. Caso não pague esta dívida e ela for cobrada por meio de uma empresa de cobrança, advogado ou através de outros procedimentos legais, você concorda em pagar todos os custos e taxas cabíveis, incluindo os honorários do advogado e os custos judiciais relacionados a essa tentativa de cobrança.</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">Você está reservando um estabelecimento sem desconto. Todas as tarifas exibidas são relativas a uma diária e em base a um número de 2 hóspedes por quarto, a menos que diversamente especificado. Reveja com atenção a descrição do quarto e as regras de tarifa para garantir que o quarto selecionado possa acomodar todo o seu grupo. Algumas tarifas podem exigir identificação especial. Não estão incluídos a nossa taxa de reserva, impostos e outras sobretaxas impostas pelo hotel. Qualquer adulto ou criança extra, que supere o número de hóspedes estabelecido por quarto, pode estar sujeito a cobranças adicionais por parte do estabelecimento.\n\nOs pedidos para mais de 2 pessoas, ou para mais ocupantes do que o indicado pela tarifa selecionada, serão enviados ao hotel sem nenhuma garantia. Se aceitos, estarão sujeitos a cobranças adicionais por parte do estabelecimento.</string>
+	<string name="PolicyExpediaAgent">Você está reservando um estabelecimento sem desconto. Todas as tarifas exibidas são relativas a uma diária e em base a um número de 2 hóspedes por quarto, a menos que diversamente especificado. Reveja com atenção a descrição do quarto e as regras de tarifa para garantir que o quarto selecionado possa acomodar todo o seu grupo. Algumas tarifas podem exigir identificação especial. Não estão incluídas a nossa taxa de reserva, impostos e outras sobretaxas impostas pelo hotel. Qualquer adulto ou criança extra, que supere o número de hóspedes estabelecido por quarto, pode estar sujeito a cobranças adicionais por parte do estabelecimento.\n\nOs pedidos para mais de 2 pessoas, ou para mais ocupantes do que o indicado pela tarifa selecionada, serão enviados ao hotel sem nenhuma garantia. Se aceitos, estarão sujeitos a cobranças adicionais por parte do estabelecimento.</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -509,11 +513,13 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Avalie nosso App!</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Pollítica de Privacidade</a></string>
+	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Política de Privacidade</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">Endereço de E-mail</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">Onde poderíamos melhorar?</string>
+	<!-- Message displayed to users after they submit feedback -->
+	<string name="oosdk_thanks_txt">Obrigado por enviar sua opinião! Consideramos o feedback dos nossos clientes.</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
@@ -607,7 +613,7 @@
 	<string name="country_az">Azerbaijão</string>
 	<string name="country_bs">Bahamas</string>
 	<string name="country_bh">Bahrain</string>
-	<string name="country_bd">Bangladeste</string>
+	<string name="country_bd">Bangladesh</string>
 	<string name="country_bb">Barbados</string>
 	<string name="country_by">Bielorrússia</string>
 	<string name="country_be">Bélgica</string>
@@ -652,7 +658,7 @@
 	<string name="country_dm">Dominica</string>
 	<string name="country_do">República Dominicana</string>
 	<string name="country_ec">Equador</string>
-	<string name="country_eg">Ejito</string>
+	<string name="country_eg">Egito</string>
 	<string name="country_sv">El Salvador</string>
 	<string name="country_gq">Guiné Equatorial</string>
 	<string name="country_er">Eritréia</string>

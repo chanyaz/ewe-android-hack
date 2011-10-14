@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 
@@ -81,7 +81,7 @@
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">Hittar nuvarande plats</string>
 	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">Letar efter hotel…</string>
+	<string name="progress_searching_hotels">Letar efter hotell…</string>
 	<!-- Message displayed when search comes up with zero results -->
 	<string name="progress_search_failed">Inga hotell hittades</string>
 	
@@ -113,7 +113,7 @@
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
 	<string name="widget_savings_template">Spara %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
-	<string name="refresh_widget">Knappa för att uppdatera</string>
+	<string name="refresh_widget">Knappa för att uppdatera </string>
 	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
 	<string name="tap_to_start_new_search">Knappa för att göra en ny sökning</string>
 	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
@@ -123,23 +123,28 @@
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Lägg till Skrivbordsprogram</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Lägg till Skrivbordsprogram på din hemskärm för att se de senaste erbjudandena från din sista sökning.</string>
+	<string name="widget_description">Få erbjudanden varje kväll nära dig!</string>
+	<!--  Instructions on how to add widget to home screen -->
+	<string name="widget_add_instructions">»Knappa och håll på startskärmen 
+ för att lägga till skrivbordsprogrammet med Hotel Radar.«</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">Visa hotellerbjudanden nära:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">Senaste app-sökning</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">Ingen Internet-anslutning</string>
-	<!--  Widget branding for when the deals shown are for the current night -->
-	<string name="tonight_top_deals">Topperbjudanden ikväll</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
-	<string name="top_deals_template">Topperbjudanden för %s</string>
+	<!--  Widget Branding title -->
+	<string name="hotel_radar">Hotel Radar</string>
+	<!--  Widget Branding description -->
+	<string name="book_a_room_tonight">Boka ett rum ikväll.</string>
 	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
 	<string name="save_upto_template">Spara upp till %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">Vi har inga erbjudanden idag. Kolla efter topperbjudanden imorgon.</string>
-	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b>Lägg till skrivbordsprogrammet &lt;/b> för att få de senaste hotellerbjudandena.</string>
+	<!--  First string for widget upsell within app as a notification in the top bar -->
+	<string name="widget_upsell_short_1">&lt;b>Lägg till skrivbordsprogrammet med Hotel Radar Widget.&lt;/b></string>
+	<!--  Second string for widget upsell within app as a notification in the app bar -->
+	<string name="widget_upsell_short_2">&lt;b>Få erbjudanden varje kväll nära dig!&lt;/b></string>
 	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
 	<string name="enjoy_your_stay">Njut av din vistelse!</string>
 	
@@ -232,9 +237,9 @@
 
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
-	<string name="user_review_loading_text">Laddar användarrecensioner...</string>
+	<string name="user_review_loading_text"> Laddar användarrecensioner...</string>
 	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_recent">Nya</string>
+	<string name="user_review_sort_button_recent"> Nya</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_favorable">Fördelaktiga</string>
 	<!-- The text for the sort button, recent -->
@@ -269,9 +274,9 @@
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
 	<plurals name="staying_nights">
-		<item quantity="zero">Bor %d nätter</item>
+		<item quantity="zero"> Bor %d nätter s</item>
 		<item quantity="one"> Bor %d nätter </item>
-		<item quantity="two"> Bor %d nätter </item>
+		<item quantity="two"> Bor %d nätter s</item>
 		<item quantity="many"> Bor %d nätter s</item>
 		<item quantity="other"> Bor %d nätter s</item>
 	</plurals>
@@ -491,9 +496,9 @@
 	<!-- Section header for other apps by Mobiata -->
 	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->
-	<string name="tell_a_friend_subject">Expedia Hotels</string>
+	<string name="tell_a_friend_subject"> Expedia Hotels </string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hej,\n\nkolla in Expedia Hotels för iPhone- och Android-telefoner. Det är gratis och du kan lätt söka och boka rum bland mer än 13.000 hotell over hela världen. Det är det lättaste sättet att boka hotell på, via din mobil.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hej,\n\nkolla in Expedia Hotels för iPhone- och Android-telefoner. Det är gratis och du kan lätt söka och boka rum bland mer än 13.000 hotell över hela världen. Det är det lättaste sättet att boka hotell på, via din mobil.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Villkor</string>
 	<!-- Label for link to privacy policy -->
@@ -509,11 +514,13 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Sätt ett betyg</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Drivs av Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privatpolicy</a></string>
+	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privacy Policy</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">E-postadress</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">Vad kan vi förbättra?</string>
+	<!-- Message displayed to users after they submit feedback -->
+	<string name="oosdk_thanks_txt">Tack för att du skickar in dina synpunkter. Vi uppskattar feedback från kunderna.</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
@@ -577,7 +584,7 @@
 	<string name="currency_eur">Euro</string>
 	<string name="currency_hkd">Hong Kong dollar</string>
 	<string name="currency_inr">Indiska rupier</string>
-	<string name="currency_ils">Israelisk sheqel</string>
+	<string name="currency_ils">Israelisk sheqel </string>
 	<string name="currency_jpy">Japanska yen</string>
 	<string name="currency_krw">Koreansk won</string>
 	<string name="currency_mxn">Mexikansk peso</string>

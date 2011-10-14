@@ -123,23 +123,27 @@
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">ウィジェットの追加</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">ホーム画面にウィジェットを追加しすると、最後の検索結果から最新情報が表示されます.</string>
+	<string name="widget_description">周辺施設の夜間割引を検索できます !</string>
+	<!--  Instructions on how to add widget to home screen -->
+	<string name="widget_add_instructions">ホーム画面をタップ &amp; ホールドし、ホテル レーダー ウィジェットを追加してください。</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">次の場所付近のお得なホテル情報を表示:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">前回のアプリ検索</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">インターネットに接続されていません</string>
-	<!--  Widget branding for when the deals shown are for the current night -->
-	<string name="tonight_top_deals">今夜の人気お得情報</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
-	<string name="top_deals_template">人気の高い %s のお得情報</string>
+	<!--  Widget Branding title -->
+	<string name="hotel_radar">ホテル レーダー</string>
+	<!--  Widget Branding description -->
+	<string name="book_a_room_tonight">今夜宿泊する部屋を予約する。</string>
 	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
 	<string name="save_upto_template">最大 %2.0f%% 割引</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">今日のお得情報はありません。人気のお得情報は明日確認してください。</string>
-	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">最新のお得なホテル情報を取得するため、&lt;b>ウィジェットを追加&lt;/b>します。</string>
+	<!--  First string for widget upsell within app as a notification in the top bar -->
+	<string name="widget_upsell_short_1">&lt;b>ホテル レーダー ウィジェットを追加する。&lt;/b></string>
+	<!--  Second string for widget upsell within app as a notification in the app bar -->
+	<string name="widget_upsell_short_2">&lt;b>周辺施設の夜間割引を検索できます !&lt;/b></string>
 	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
 	<string name="enjoy_your_stay">素敵なご滞在を！</string>
 	
@@ -514,6 +518,8 @@
 	<string name="email_address">メールアドレス</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">改善すべき点は？</string>
+	<!-- Message displayed to users after they submit feedback -->
+	<string name="oosdk_thanks_txt">ご意見をお寄せいただき、ありがとうございました。私たちはお客様のご意見を大切にします。</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->

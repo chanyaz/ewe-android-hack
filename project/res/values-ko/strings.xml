@@ -123,23 +123,27 @@
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">위젯 추가</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">이 위젯을 홈 화면에 추가하시면 고객님이 최근 검색에서 마지막으로 보신 상품들을 보실 수 있습니다.</string>
+	<string name="widget_description">매일밤 인근 지역 가능 상품을 검색하실 수 있어요!</string>
+	<!--  Instructions on how to add widget to home screen -->
+	<string name="widget_add_instructions">홈 화면을 가만히 누르고 계시면 Hotel Radar 위젯을 추가하실 수 있어요.</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">인근의 호텔 상품 보기:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">가장 최근의 앱 검색</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">인터넷 연결 불가</string>
-	<!--  Widget branding for when the deals shown are for the current night -->
-	<string name="tonight_top_deals">오늘밤 최고 상품</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
-	<string name="top_deals_template">%s의 최고 상품</string>
+	<!--  Widget Branding title -->
+	<string name="hotel_radar">Hotel Radar</string>
+	<!--  Widget Branding description -->
+	<string name="book_a_room_tonight">오늘밤 객실 예약이 가능합니다.</string>
 	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
 	<string name="save_upto_template">최대 %2.0f%% 할인</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">오늘 상품은 종료되었습니다. 내일의 최고 상품을 확인해보세요.</string>
-	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b>위젯을 추가하여&lt;/b> 최신 호텔 상품을 만나보세요.</string>
+	<!--  First string for widget upsell within app as a notification in the top bar -->
+	<string name="widget_upsell_short_1">&lt;b>Hotel Radar 위젯을 추가하세요.&lt;/b></string>
+	<!--  Second string for widget upsell within app as a notification in the app bar -->
+	<string name="widget_upsell_short_2">&lt;b>매일밤 인근 지역 가능 상품을 검색하실 수 있어요!&lt;/b></string>
 	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
 	<string name="enjoy_your_stay">즐거운 여행 되세요!</string>
 	
@@ -514,6 +518,8 @@
 	<string name="email_address">이메일 주소</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">어떻게 개선하면 좋을까요?</string>
+	<!-- Message displayed to users after they submit feedback -->
+	<string name="oosdk_thanks_txt">의견을 남겨주셔서 감사합니다. 고객님 의견을 반영하도록 최선을 다하겠습니다.</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->

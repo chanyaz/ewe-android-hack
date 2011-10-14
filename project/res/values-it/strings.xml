@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 
@@ -56,7 +56,7 @@
 	<!-- Sort by price label -->
 	<string name="sort_description_price">Prezzo</string>
 	<!-- Sort by user rating label -->
-	<string name="sort_description_rating">Punteggio</string>
+	<string name="sort_description_rating">Voto</string>
 	
 	<!-- Filter option for "show all" -->
 	<string name="all">Tutti</string>
@@ -111,7 +111,7 @@
 	<!--  Default Loading message for widget -->
 	<string name="loading_hotels">Caricamento hotel in corso...</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">Risparmia il %2.0f%%</string>
+	<string name="widget_savings_template">Sconto %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Tocca per aggiornare</string>
 	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
@@ -123,23 +123,27 @@
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Aggiungi Widget</string>
 	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Aggiungi il widget alla tua schermata iniziale per vedere le offerte più recent relative alla tua ultima ricerca.</string>
+	<string name="widget_description">Trova le migliori offerte vicino a te!</string>
+	<!--  Instructions on how to add widget to home screen -->
+	<string name="widget_add_instructions">Tocca e tieni premuto per aggiungere il widget Hotel Radar.</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">Mostra offerte hotel vicino a:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
-	<string name="last_hotel_search">Ultima ricerca App</string>
+	<string name="last_hotel_search"> </string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">Connessione Internet assente</string>
-	<!--  Widget branding for when the deals shown are for the current night -->
-	<string name="tonight_top_deals">Le migliori offerte per oggi</string>
-	<!--  Widget branding for when the deals shown are for some night in the future based on last hotel search. %s represents the date for which deals are shown (eg. Top Deals for Sep 29) -->
-	<string name="top_deals_template">Migliori offerte per %s</string>
+	<!--  Widget Branding title -->
+	<string name="hotel_radar">Hotel Radar</string>
+	<!--  Widget Branding description -->
+	<string name="book_a_room_tonight">Prenota una camera per questa notte.</string>
 	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
 	<string name="save_upto_template">Risparmia fino al %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">Non abbiamo più offerte per oggi. Cerca altre super offerte domani.</string>
-	<!--  Widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short">&lt;b>Aggiungi il widget&lt;/b> per avere le ultime offerte sugli hotel.</string>
+	<!--  First string for widget upsell within app as a notification in the top bar -->
+	<string name="widget_upsell_short_1">&lt;b>Aggiungi il widget Hotel Radar.&lt;/b></string>
+	<!--  Second string for widget upsell within app as a notification in the app bar -->
+	<string name="widget_upsell_short_2">&lt;b>Trova le migliori offerte vicino a te!&lt;/b></string>
 	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
 	<string name="enjoy_your_stay">Buon viaggio!</string>
 	
@@ -166,7 +170,7 @@
 	<!--  Title for star rating in hotel description section -->
 	<string name="star_rating_title">Numero stelle:</string>
 	<!-- Label for the hotel's trip advisor rating  -->
-	<string name="user_rating">Punteggio</string>
+	<string name="user_rating">Voto</string>
 	<!-- Label for the address section of the description  -->
 	<string name="address">Indirizzo</string>
 	<!-- Bullet point for list items  -->
@@ -260,9 +264,9 @@
 		2$ is the place they are from -->
 	<string name="user_review_name_and_location_signature">%1$s da %2$s</string>
 	<!-- User review no critical reviews -->
-	<string name="user_review_no_critical_reviews">Nessuna recensione negativa per questo hotel</string>
+	<string name="user_review_no_critical_reviews">Nessuna recensione negativa su questo hotel</string>
 	<!-- User review no favorable reviews -->
-	<string name="user_review_no_favorable_reviews">Nessuna recensione positiva per questo hotel</string>
+	<string name="user_review_no_favorable_reviews">Nessuna recensione positiva su questo hotel</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">Nessuna recensione recente su questo hotel</string>
 	
@@ -278,7 +282,7 @@
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Ricerca camere disponibili in corso...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">Informazioni su camere e tariffe non disponibili. Verifica la tua connessione e riprova.</string>
+	<string name="error_no_response_room_rates">Informazioni su camere e tariffe non disponibili.  Verifica la tua connessione e riprova.</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">a notte</string>
 	<!-- Rate price displayed "average per night" -->
@@ -287,12 +291,12 @@
 	<plurals name="number_of_rooms_left">
 		<item quantity="zero">Nessuna camera disponibile</item>
 		<item quantity="one">Solo 1 camera rimasta!</item>
-		<item quantity="two">Solo %d camere rimaste!</item>
+		<item quantity="two">%d camere rimaste!</item>
 		<item quantity="many">%d camere rimaste!</item>
 		<item quantity="other">%d camere rimaste!</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">Risparmia il\n %2.0f%%</string>
+	<string name="savings_template">Sconto\n %2.0f%%</string>
 	<!-- Label for free nights -->
 	<string name="free">GRATIS!</string>
 	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
@@ -306,11 +310,11 @@
 	<!-- Label for room type -->
 	<string name="room_type">Tipologia camera</string>
 	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">Impossibile caricare i dettagli della camera.  Controlla la connessione internet e riprova.</string>
+	<string name="error_room_type_load">Impossibile caricare i dettagli della camera.  la tua connessione e riprova.</string>
 	<!-- Error if we couldn't find the room type details -->
 	<string name="error_room_type_nonexistant">Impossibile trovare altri dettagli su questa camera.</string>
 	<!-- Label for bed type -->
-	<string name="bed_type">Typo di letto</string>
+	<string name="bed_type">Tipo di letto</string>
 	<!-- Label for length of stay -->
 	<string name="stay_duration">Durata del soggiorno</string>
 	<!-- Quantity for the length of stay -->
@@ -391,7 +395,7 @@
 	<!-- Error if an invalid year was entered -->
 	<string name="invalid_expiration_year">Inserisci una data corretta</string>
 	<!-- Error if an invalid security code was entered -->
-	<string name="invalid_security_code">Inserisci un codice di sicurzza di 3 o 4 cifre</string>
+	<string name="invalid_security_code">Inserisci un codice di sicurezza di 3 o 4 cifre</string>
 	<!-- Error if an invalid currency code is being used with American Express -->
 	<string name="invalid_currency_for_amex">American Express non accetta i pagamenti in questa valuta (%s). Usa un\'altra carta di credito.</string>
 	<!-- Error if user agreement needs to be checked but is not -->
@@ -401,7 +405,7 @@
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Errore</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">Non è possibile collegarsi ai server Expedia. Verifica la tua connessione e riprova.</string>
+	<string name="error_booking_null">Non è possibile collegarsi ai server Expedia.  Verifica la tua connessione e riprova.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$s il %2$s</string>
 	
@@ -509,11 +513,13 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Dacci un voto</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Informativa sulla Privacy</a></string>
+	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privacy Policy</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">Indirizzo e-mail</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">In che cosa possiamo migliorare?</string>
+	<!-- Message displayed to users after they submit feedback -->
+	<string name="oosdk_thanks_txt">Grazie per averci inviato la tua recensione. La tua opinione è importante.</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
@@ -577,7 +583,7 @@
 	<string name="currency_eur">Euro</string>
 	<string name="currency_hkd">Dollaro di Hong Kong</string>
 	<string name="currency_inr">Rupia indiana</string>
-	<string name="currency_ils">Shekel israeliano</string>
+	<string name="currency_ils">Shekel israeliano </string>
 	<string name="currency_jpy">Yen giapponese</string>
 	<string name="currency_krw">Won sudcoreano</string>
 	<string name="currency_mxn">Peso messicano</string>
