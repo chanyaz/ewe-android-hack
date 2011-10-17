@@ -9,7 +9,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentManager.OnBackStackChangedListener;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Location;
@@ -137,6 +139,24 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	}
 
 	@Override
+	public void onNewIntent(Intent newIntent) {
+		if (Intent.ACTION_SEARCH.equals(newIntent.getAction())) {
+			String query = newIntent.getStringExtra(SearchManager.QUERY);
+			if (query.equals(getString(R.string.current_location))) {
+				setMyLocationSearch();
+			}
+			else {
+				setFreeformLocation(query);
+			}
+
+			startSearch();
+		}
+		else {
+			super.onNewIntent(newIntent);
+		}
+	}
+
+	@Override
 	protected void onStart() {
 		super.onStart();
 
@@ -217,6 +237,10 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 				return false;
 			}
 		});
+
+		// Register the autocomplete provider
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
 		return super.onCreateOptionsMenu(menu);
 	}

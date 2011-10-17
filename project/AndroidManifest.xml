@@ -36,7 +36,15 @@
 
 		<activity android:name=".activity.TabletActivity"
 			android:windowSoftInputMode="stateHidden"
-			android:theme="@android:style/Theme.Holo.Light" />
+			android:launchMode="singleTop"
+			android:theme="@android:style/Theme.Holo.Light" >
+			<intent-filter>
+				<action android:name="android.intent.action.SEARCH" />
+			</intent-filter>
+			<meta-data
+				android:name="android.app.searchable"
+				android:resource="@xml/searchable" />
+		</activity>
 
 		<activity android:name=".activity.SearchListActivity" />
 		<activity android:name=".activity.SearchMapActivity" />
@@ -93,6 +101,11 @@
 			<meta-data android:name="android.appwidget.provider"
 				android:resource="@xml/eb_appwidget_info" />
 		</receiver>
+
+		<!-- Search stuff -->
+		<provider
+			android:name="com.expedia.bookings.content.AutocompleteProvider"
+			android:authorities="com.expedia.booking.autocomplete" />
 
 		<!-- Boot stuff -->
 		<receiver android:name=".activity.LocaleChangeReceiver">
