@@ -736,7 +736,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		setWidgetContentsVisibility(widgetContents, View.VISIBLE);
 
-		setBrandingViewVisibility(widgetContents, View.GONE);
+		setBrandingViewVisibility(rv, widgetContents, View.GONE);
 
 		setWidgetPropertyViewVisibility(widgetContents, View.VISIBLE);
 
@@ -857,17 +857,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		setWidgetPropertyViewVisibility(widgetContents, View.GONE);
 
-		setBrandingViewVisibility(widgetContents, View.VISIBLE);
-
-		double maxSavingsInPercent = mWidgetDeals.getMaxPercentSavings();
-		if (maxSavingsInPercent == 0.0) {
-			widgetContents.setViewVisibility(R.id.branding_savings_container, View.GONE);
-		}
-		else {
-			widgetContents.setViewVisibility(R.id.branding_savings_container, View.VISIBLE);
-			widgetContents.setTextViewText(R.id.branding_savings_container,
-					getString(R.string.save_upto_template, maxSavingsInPercent * 100));
-		}
+		setBrandingViewVisibility(rv, widgetContents, View.VISIBLE);
 
 		widgetContents.setTextViewText(R.id.branding_location_text_view, getString(R.string.book_a_room_tonight));
 
@@ -930,9 +920,21 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		widgetContents.setViewVisibility(R.id.highly_rated_text_view, visibility);
 	}
 
-	private void setBrandingViewVisibility(final RemoteViews widgetContents, int visibility) {
+	private void setBrandingViewVisibility(RemoteViews rootView, RemoteViews widgetContents, int visibility) {
 		widgetContents.setViewVisibility(R.id.branding_text_container, visibility);
-		widgetContents.setViewVisibility(R.id.expedia_logo_image_view, visibility);
+		widgetContents.setViewVisibility(R.id.hotel_radar_logo_image_view, visibility);
+
+		/*
+		 * Add the hangtag to the to the contianer so that 
+		 * the animation is played with the image view is laid out
+		 * as a nested remote view for the first time
+		 */
+		if(visibility == View.VISIBLE) {
+			RemoteViews hangTagRemoteView = new RemoteViews(getPackageName(), R.layout.widget_hangtag);
+			rootView.addView(R.id.branding_hang_tag_container, hangTagRemoteView);
+		} else {
+			rootView.removeAllViews(R.id.branding_hang_tag_container);
+		}
 	}
 
 	private void setWidgetContentsVisibility(final RemoteViews widgetContents, int visibility) {

@@ -68,7 +68,7 @@
 			android:src="@drawable/widget_thumbnail_background" />
 
 		<ImageView
-			android:id="@+id/expedia_logo_image_view"
+			android:id="@+id/hotel_radar_logo_image_view"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:layout_marginLeft="5dp"
@@ -76,7 +76,7 @@
 			android:layout_marginTop="5dp"
 			android:layout_centerVertical="true"
 			android:layout_alignParentLeft="true"
-			android:src="@drawable/widget_expedia_logo"
+			android:src="@drawable/radar"
 			android:visibility="gone" />
 
 		<ImageView
@@ -119,7 +119,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:layout_toLeftOf="@+id/navigation_container"
-			android:layout_toRightOf="@id/expedia_logo_image_view"
+			android:layout_toRightOf="@+id/hotel_radar_logo_image_view"
 			android:layout_centerVertical="true"
 			android:paddingLeft="10dp"
 			android:orientation="vertical"
@@ -140,19 +140,6 @@
 				android:paddingRight="5dp"
 				style="@style/widgetHotelLocationText" />
 
-			<TextView
-				android:id="@+id/branding_savings_container"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:layout_marginTop="2dp"
-				android:paddingTop="0dp"
-				android:paddingBottom="0dp"
-				android:paddingLeft="5dp"
-				android:paddingRight="5dp"
-				android:gravity="center_vertical"
-				android:background="@drawable/branding_savings_bg"
-				android:textSize="12sp"
-				style="@style/SaleText" />
 			<TextView
 				android:id="@+id/branding_error_message_text_view"
 				android:layout_height="wrap_content"

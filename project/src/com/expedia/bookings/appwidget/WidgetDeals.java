@@ -30,7 +30,6 @@ import com.mobiata.android.util.IoUtils;
 public class WidgetDeals implements JSONable {
 
 	private Context mContext;
-	private double mMaxPercentSavings;
 	private List<Property> mDeals;
 	private Session mSession;
 	private SearchParams mSearchParams;
@@ -60,10 +59,6 @@ public class WidgetDeals implements JSONable {
 		return mDeals;
 	}
 
-	public double getMaxPercentSavings() {
-		return mMaxPercentSavings;
-	}
-
 	public Session getSession() {
 		return mSession;
 	}
@@ -87,9 +82,6 @@ public class WidgetDeals implements JSONable {
 		}
 
 		mSession = response.getSession();
-
-		// initialize the maximum savings so that they can be re-determined
-		mMaxPercentSavings = 0.0;
 
 		// first populate the list with hotels that have rooms on sale
 		// from the list of user-filtered properties
@@ -124,7 +116,6 @@ public class WidgetDeals implements JSONable {
 				JSONUtils.putJSONableList(obj, "deals", mDeals);
 				obj.put("session", mSession.toJson());
 				obj.put("searchParams", mSearchParams.toJson());
-				obj.put("maxPercentSavings", mMaxPercentSavings);
 			}
 		}
 		catch (JSONException e) {
@@ -142,7 +133,6 @@ public class WidgetDeals implements JSONable {
 			return false;
 		}
 
-		mMaxPercentSavings = obj.optDouble("maxPercentSavings");
 		mSession = new Session();
 		mSession.fromJson(obj.optJSONObject("session"));
 		mSearchParams = new SearchParams(obj.optJSONObject("searchParams"));
@@ -218,7 +208,6 @@ public class WidgetDeals implements JSONable {
 	public void clearOutData() {
 		mDeals = null;
 		mSearchParams = null;
-		mMaxPercentSavings = 0;
 	}
 
 	/**
@@ -278,17 +267,9 @@ public class WidgetDeals implements JSONable {
 
 			if (!relevantProperties.contains(property)) {
 				if (property.getLowestRate().getSavingsPercent() > 0) {
-					trackMaximumSavingsForWidget(property);
 					relevantProperties.add(property);
 				}
 			}
-		}
-	}
-
-	private void trackMaximumSavingsForWidget(Property property) {
-		double savingsPercent = property.getLowestRate().getSavingsPercent();
-		if (mMaxPercentSavings == 0 || mMaxPercentSavings < savingsPercent) {
-			mMaxPercentSavings = savingsPercent;
 		}
 	}
 

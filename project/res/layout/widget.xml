@@ -1,36 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/root"
-	android:layout_width="303dp"
-	android:layout_height="87dp"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
 	android:clickable="true"
-	android:focusable="true"
-	android:background="@drawable/widget_bg">
-
+	android:focusable="true">
 	<RelativeLayout
-		android:id="@+id/hotel_info_contents"
-		android:layout_height="fill_parent"
-		android:layout_width="fill_parent">
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textColor="@color/widget_text_color"
-			android:textStyle="bold"
-			android:textSize="14sp"
-			android:layout_centerInParent="true"
-			android:text="@string/loading_hotels"
-			style="@style/widgetHotelLocationText" />
-		<ImageView
-			android:id="@+id/initial_expedia_logo_image_view"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_alignParentBottom="true"
-			android:layout_marginBottom="5dp"
-			android:layout_marginRight="5dp"
-			android:src="@drawable/widget_expedia_logo_horiz" />
+		android:id="@+id/root"
+		android:layout_width="303dp"
+		android:layout_height="87dp"
+		android:layout_marginTop="6dp"
+		android:clickable="true"
+		android:focusable="true"
+		android:background="@drawable/widget_bg">
+
+		<RelativeLayout
+			android:id="@+id/hotel_info_contents"
+			android:layout_height="fill_parent"
+			android:layout_width="fill_parent">
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="@color/widget_text_color"
+				android:textStyle="bold"
+				android:textSize="14sp"
+				android:layout_centerInParent="true"
+				android:text="@string/loading_hotels"
+				style="@style/widgetHotelLocationText" />
+			<ImageView
+				android:id="@+id/initial_expedia_logo_image_view"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_alignParentBottom="true"
+				android:layout_marginBottom="5dp"
+				android:layout_marginRight="5dp"
+				android:src="@drawable/widget_expedia_logo_horiz" />
+
+		</RelativeLayout>
 
 	</RelativeLayout>
 
+	<!-- Dummy container that contains prev/next buttons as they would be laid 
+		out inside the widget contents container. The reason to include the dummy 
+		container here is to be able to place the hangtag to the left of it. -->
+	<LinearLayout
+		android:id="@+id/dummy_navigation_container"
+		android:layout_height="fill_parent"
+		android:layout_width="wrap_content"
+		android:layout_alignRight="@id/root"
+		android:visibility="invisible"
+		android:orientation="vertical">
+
+		<ImageButton
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:padding="0dp"
+			android:layout_weight="1"
+			android:background="@drawable/btn_widget_prev" />
+		<ImageButton
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:background="@drawable/btn_widget_next" />
+	</LinearLayout>
+
+	<!-- Container for the hang tag. The hang tag is added to this view as a 
+		nested remote view to cause the layout animation to be started when the view 
+		is laid out. The reason for adding the hang tag to this container is to be 
+		able to have the animation be played when the view is laid out for the first 
+		time, as a result of creating a new remote view to add as a nested view -->
+	<RelativeLayout
+		android:id="@+id/branding_hang_tag_container"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_toLeftOf="@id/dummy_navigation_container"
+		android:paddingRight="10dp" />
 </RelativeLayout>
