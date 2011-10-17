@@ -121,6 +121,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		}
 
 		mSuggestions = Arrays.asList(getResources().getStringArray(R.array.suggestions));
+		Collections.shuffle(mSuggestions); // Randomly shuffle them for each launch
 		configureSuggestions(null);
 
 		// Configure the calendar
@@ -237,8 +238,6 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			currentLocationRow.mLocation.setText(R.string.current_location);
 			currentLocationRow.mLocation.setTypeface(Typeface.DEFAULT_BOLD);
 
-			// Randomly select from list of hardcoded suggestions
-			Collections.shuffle(mSuggestions);
 			for (int a = 1; a < mSuggestionRows.size(); a++) {
 				configureSuggestionRow(mSuggestionRows.get(a), mSuggestions.get(a));
 			}
