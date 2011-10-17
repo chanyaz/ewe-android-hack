@@ -70,10 +70,9 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-
-		mMessageTextView.setText(((TabletActivity) getActivity()).getSearchStatus());
+	public void onResume() {
+		super.onResume();
+		updateViews();
 	}
 
 	@Override
@@ -112,27 +111,19 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
 		case TabletActivity.EVENT_SEARCH_STARTED:
-			mAdapter.setSearchResponse(null);
-			mMessageTextView.setText(R.string.progress_searching_hotels);
-			mHeaderLayout.setVisibility(View.GONE);
+			displaySearchStatus();
 			break;
 		case TabletActivity.EVENT_SEARCH_PROGRESS:
-			mMessageTextView.setText((String) data);
+			displaySearchStatus();
 			break;
 		case TabletActivity.EVENT_SEARCH_COMPLETE:
-			SearchResponse searchResponse = (SearchResponse) data;
-			mAdapter.setSearchResponse(searchResponse);
-			updateNumHotels();
-			updateSortLabel();
-			mHeaderLayout.setVisibility(View.VISIBLE);
+			updateSearchResults();
 			break;
 		case TabletActivity.EVENT_SEARCH_ERROR:
-			mMessageTextView.setText((String) data);
+			displaySearchError();
 			break;
 		case TabletActivity.EVENT_FILTER_CHANGED:
-			mAdapter.rebuildCache();
-			updateNumHotels();
-			updateSortLabel();
+			updateSearchResults();
 			break;
 		}
 	}
@@ -141,14 +132,61 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	// Header views
 
 	private void updateNumHotels() {
-		int count = mAdapter.getCount();
-		mNumHotelsTextView.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_results, count,
-				count)));
+		// only update if view has been initialized
+		if (mNumHotelsTextView != null) {
+			int count = mAdapter.getCount();
+			mNumHotelsTextView.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_results,
+					count, count)));
+		}
 	}
 
-	private void updateSortLabel() {
-		SearchResponse searchResponse = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
-		String sortType = getString(searchResponse.getFilter().getSort().getDescriptionResId());
-		mSortTypeTextView.setText(Html.fromHtml(getString(R.string.sort_hotels_template, sortType)));
+	private void updateSortLabel(SearchResponse response) {
+		// only update if view has been initialized
+		if (mSortTypeTextView != null) {
+			String sortType = getString(response.getFilter().getSort().getDescriptionResId());
+			mSortTypeTextView.setText(Html.fromHtml(getString(R.string.sort_hotels_template, sortType)));
+		}
+	}
+
+	private void updateViews() {
+		SearchResponse response = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
+		if (response == null) {
+			displaySearchStatus();
+		}
+		else if (response.hasErrors()) {
+			displaySearchError();
+		}
+		else {
+			updateSearchResults();
+		}
+	}
+
+	private void displaySearchStatus() {
+		if (mMessageTextView != null && mAdapter != null) {
+			mMessageTextView.setText(((TabletActivity) getActivity()).getSearchStatus());
+			setHeaderVisibility(View.GONE);
+			mAdapter.setSearchResponse(null);
+		}
+	}
+
+	private void displaySearchError() {
+		SearchResponse response = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
+		mMessageTextView.setText(response.getErrors().get(0).getPresentableMessage(getActivity()));
+		setHeaderVisibility(View.GONE);
+		mAdapter.setSearchResponse(null);
+	}
+
+	private void updateSearchResults() {
+		SearchResponse response = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
+		updateNumHotels();
+		updateSortLabel(response);
+		setHeaderVisibility(View.VISIBLE);
+		mAdapter.setSearchResponse(response);
+	}
+
+	private void setHeaderVisibility(int visibility) {
+		if (mHeaderLayout != null) {
+			mHeaderLayout.setVisibility(visibility);
+		}
 	}
 }

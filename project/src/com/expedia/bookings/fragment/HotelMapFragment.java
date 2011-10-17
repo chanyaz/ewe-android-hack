@@ -102,11 +102,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 			mHotelOverlay.setProperties(null);
 			break;
 		case TabletActivity.EVENT_SEARCH_LOCATION_FOUND:
-			SearchParams params = ((TabletActivity) getActivity()).getSearchParams();
-			GeoPoint searchPoint = MapUtils.convertToGeoPoint(params.getSearchLatitude(), params.getSearchLongitude());
-			MapController mc = mMapView.getController();
-			mc.animateTo(searchPoint);
-			mc.setZoom(12);
+			animateToSearchLocation();
 			break;
 		case TabletActivity.EVENT_SEARCH_COMPLETE:
 			updateView();
@@ -116,8 +112,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 			selectBalloonForProperty();
 			break;
 		case TabletActivity.EVENT_FILTER_CHANGED:
-			mHotelOverlay.setProperties(((TabletActivity) getActivity()).getSearchResultsToDisplay());
-			mMapView.invalidate();
+			updateView();
 			break;
 		}
 	}
@@ -132,13 +127,25 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		}
 	}
 
+	private void animateToSearchLocation() {
+		if (mMapView != null) {
+			SearchParams params = ((TabletActivity) getActivity()).getSearchParams();
+			GeoPoint searchPoint = MapUtils.convertToGeoPoint(params.getSearchLatitude(), params.getSearchLongitude());
+			MapController mc = mMapView.getController();
+			mc.animateTo(searchPoint);
+			mc.setZoom(12);
+		}
+	}
+
 	/**
 	 * Re-zooms/centers the map so that all results are visible
 	 */
 	private void showAllResults() {
-		MapController mc = mMapView.getController();
-		mc.animateTo(mHotelOverlay.getCenter());
-		mc.zoomToSpan(mHotelOverlay.getLatSpanE6(), mHotelOverlay.getLonSpanE6());
+		if (mMapView != null && mHotelOverlay != null) {
+			MapController mc = mMapView.getController();
+			mc.animateTo(mHotelOverlay.getCenter());
+			mc.zoomToSpan(mHotelOverlay.getLatSpanE6(), mHotelOverlay.getLonSpanE6());
+		}
 	}
 
 	private void selectBalloonForProperty() {

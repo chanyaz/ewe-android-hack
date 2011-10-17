@@ -278,6 +278,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private static final String TAG_HOTEL_MAP = "HOTEL_MAP";
 	private static final String TAG_HOTEL_DETAILS = "HOTEL_DETAILS";
 	private static final String TAG_MINI_DETAILS = "MINI_DETAILS";
+	private static final String TAG_AVAILABILITY_LIST = "TAG_AVAILABILITY_LIST";
 
 	private static final String BACKSTACK_RESULTS = "RESULTS";
 
@@ -332,6 +333,15 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			fm.popBackStack(BACKSTACK_RESULTS, 0);
 		}
 	}
+
+//	public void showRoomsAvailabilityFragment() {
+//		FragmentManager fm = getFragmentManager();
+//		FragmentTransaction ft = fm.beginTransaction();
+//		ft.replace(R.id.fragment_left, RoomsAndRatesFragment.newInstance(), TAG_AVAILABILITY_LIST);
+//		ft.addToBackStack(null);
+//		ft.commit();
+//
+//	}
 
 	public void showMiniDetailsFragment() {
 		MiniDetailsFragment fragment = MiniDetailsFragment.newInstance();
@@ -450,7 +460,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		// the results are instantly displayed in the hotel details view to the user
 		startRoomsAndRatesDownload(mInstance.mProperty);
 		startReviewsDownload();
-		
+
 	}
 
 	public void moreDetailsForPropertySelected() {
@@ -466,6 +476,13 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public void showPictureGalleryForHotel(String selectedImageUrl) {
 		showHotelGalleryDialog(selectedImageUrl);
 	}
+
+//	public void bookButtonPressed() {
+//		FragmentManager fm = getFragmentManager();
+//		if (fm.findFragmentByTag(TAG_AVAILABILITY_LIST) == null) {
+//			showRoomsAvailabilityFragment();
+//		}
+//	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
@@ -489,7 +506,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public AvailabilityResponse getRoomsAndRatesAvailability() {
 		return mInstance.mAvailabilityResponse;
 	}
-	
+
 	public ReviewsResponse getReviewsForProperty() {
 		return mInstance.mReviewsResponse;
 	}
@@ -562,8 +579,12 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public void startSearch() {
 		Log.i("startSearch(): " + mInstance.mSearchParams.toJson().toString());
 
-		showResultsFragments();
+		// Remove existing search results (and references to it)
+		mInstance.mSearchResponse = null;
+		mInstance.mFilter.setOnDataListener(null);
 
+		showResultsFragments();
+		mInstance.mSearchStatus = getString(R.string.loading_hotels);
 		mEventManager.notifyEventHandlers(EVENT_SEARCH_STARTED, null);
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -571,10 +592,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		// Cancel existing downloads
 		bd.cancelDownload(KEY_SEARCH);
 		bd.cancelDownload(KEY_GEOCODE);
-
-		// Remove existing search results (and references to it)
-		mInstance.mSearchResponse = null;
-		mInstance.mFilter.setOnDataListener(null);
 
 		// Let action bar views react to change in state (downloading)
 		invalidateOptionsMenu();
@@ -696,7 +713,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			SearchResponse response = mInstance.mSearchResponse = (SearchResponse) results;
 
 			if (response == null) {
-				mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, getString(R.string.progress_search_failed));
+				mInstance.mSearchStatus = getString(R.string.progress_search_failed);
+				mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, null);
 			}
 			else {
 				if (response.getSession() != null) {
@@ -725,7 +743,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		error.setPresentationMessage(getString(errorMessageResId));
 		error.setCode("SIMULATED");
 		response.addError(error);
-
 		mSearchCallback.onDownload(response);
 	}
 
@@ -822,7 +839,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	// Location
 
 	private void startLocationListener() {
-		mEventManager.notifyEventHandlers(EVENT_SEARCH_PROGRESS, getString(R.string.progress_finding_location));
+		mInstance.mSearchStatus = getString(R.string.progress_finding_location);
+		mEventManager.notifyEventHandlers(EVENT_SEARCH_PROGRESS, null);
 
 		// Prefer network location (because it's faster).  Otherwise use GPS
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
