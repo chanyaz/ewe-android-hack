@@ -85,7 +85,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		// Configure the location EditText
 		mLocationEditText.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (!isHidden()) {
+				if (!isHidden() && isAdded()) {
 					String location = s.toString().trim();
 					if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
 						((TabletActivity) getActivity()).setMyLocationSearch();
