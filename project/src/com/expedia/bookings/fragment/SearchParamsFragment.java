@@ -11,6 +11,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -30,12 +32,20 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
+import com.mobiata.android.services.GoogleServices;
+import com.mobiata.android.services.Suggestion;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 
 public class SearchParamsFragment extends Fragment implements EventHandler {
 
 	private static final int NUM_SUGGESTIONS = 5;
+
+	private static final String KEY_AUTOCOMPLETE_DOWNLOAD = "KEY_AUTOCOMPLETE_DOWNLOAD";
 
 	public static SearchParamsFragment newInstance() {
 		return new SearchParamsFragment();
@@ -77,14 +87,13 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (!isHidden()) {
 					String location = s.toString().trim();
-					if (location.length() == 0) {
+					if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
 						((TabletActivity) getActivity()).setMyLocationSearch();
-					}
-					else if (location.equals(getString(R.string.current_location))) {
-						((TabletActivity) getActivity()).setMyLocationSearch();
+						configureSuggestions(null);
 					}
 					else {
-						((TabletActivity) getActivity()).setFreeformLocation(mLocationEditText.getText().toString());
+						((TabletActivity) getActivity()).setFreeformLocation(location);
+						configureSuggestions(location);
 					}
 				}
 			}
@@ -160,6 +169,23 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+
+		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(KEY_AUTOCOMPLETE_DOWNLOAD)) {
+			bd.registerDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD, mAutocompleteCallback);
+		}
+	}
+
+	@Override
 	public void onDetach() {
 		super.onDetach();
 		((TabletActivity) getActivity()).unregisterEventHandler(this);
@@ -195,15 +221,17 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		public TextView mLocation;
 	}
 
-	private void configureSuggestions(String query) {
+	private void configureSuggestions(final String query) {
+		mHandler.removeMessages(WHAT_AUTOCOMPLETE);
+
 		// Show default suggestions in case of null query
-		if (query == null) {
+		if (query == null || query.length() == 0) {
 			// Configure "my location" separately
 			SuggestionRow currentLocationRow = mSuggestionRows.get(0);
 			currentLocationRow.mRow.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					mLocationEditText.setText(R.string.current_location);
-					
+
 				}
 			});
 			currentLocationRow.mLocation.setText(R.string.current_location);
@@ -216,7 +244,13 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			}
 		}
 		else {
-			// If we have a query string, kick off a suggestions request			
+			// If we have a query string, kick off a suggestions request
+			// Do it on a delay though - we don't want to update suggestions every time user is edits a single
+			// char on the text
+			Message msg = new Message();
+			msg.obj = query;
+			msg.what = WHAT_AUTOCOMPLETE;
+			mHandler.sendMessageDelayed(msg, 1000);
 		}
 	}
 
@@ -224,10 +258,65 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		row.mRow.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				mLocationEditText.setText(suggestion);
+				mLocationEditText.clearFocus();
 			}
 		});
 
 		row.mLocation.setText(suggestion);
+	}
+
+	@SuppressWarnings("unchecked")
+	private OnDownloadComplete mAutocompleteCallback = new OnDownloadComplete() {
+		public void onDownload(Object results) {
+			List<Suggestion> suggestions = (List<Suggestion>) results;
+			if (suggestions == null || suggestions.size() == 0) {
+				// TODO: Handle cases of zero suggestions
+			}
+			else {
+				int numSuggestions = suggestions.size();
+				for (int a = 0; a < mSuggestionRows.size(); a++) {
+					if (a < numSuggestions) {
+						configureSuggestionRow(mSuggestionRows.get(a), suggestions.get(a).mSuggestion);
+					}
+					else {
+						mSuggestionRows.get(a).mRow.setVisibility(View.INVISIBLE);
+					}
+				}
+			}
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// Handler implementation
+
+	private static final int WHAT_AUTOCOMPLETE = 1;
+
+	private Handler mHandler = new SearchParamsHandler();
+
+	private class SearchParamsHandler extends Handler {
+
+		@Override
+		public void handleMessage(Message msg) {
+			if (msg.what == WHAT_AUTOCOMPLETE) {
+				final String query = (String) msg.obj;
+
+				Log.d("Querying autocomplete for: " + query);
+
+				final Download download = new Download() {
+					public Object doDownload() {
+						GoogleServices services = new GoogleServices(getActivity());
+						BackgroundDownloader.getInstance().addDownloadListener(KEY_AUTOCOMPLETE_DOWNLOAD,
+								services);
+						return services.getSuggestions(query);
+					}
+				};
+
+				BackgroundDownloader bd = BackgroundDownloader.getInstance();
+				bd.cancelDownload(KEY_AUTOCOMPLETE_DOWNLOAD);
+				bd.startDownload(KEY_AUTOCOMPLETE_DOWNLOAD, download, mAutocompleteCallback);
+			}
+			super.handleMessage(msg);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
