@@ -1,10 +1,15 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,8 +19,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
@@ -28,11 +35,14 @@ import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 
 public class SearchParamsFragment extends Fragment implements EventHandler {
 
+	private static final int NUM_SUGGESTIONS = 5;
+
 	public static SearchParamsFragment newInstance() {
 		return new SearchParamsFragment();
 	}
 
 	private EditText mLocationEditText;
+	private List<SuggestionRow> mSuggestionRows;
 	private CalendarDatePicker mCalendarDatePicker;
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
@@ -70,6 +80,9 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 					if (location.length() == 0) {
 						((TabletActivity) getActivity()).setMyLocationSearch();
 					}
+					else if (location.equals(getString(R.string.current_location))) {
+						((TabletActivity) getActivity()).setMyLocationSearch();
+					}
 					else {
 						((TabletActivity) getActivity()).setFreeformLocation(mLocationEditText.getText().toString());
 					}
@@ -84,6 +97,22 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 				// Do nothing
 			}
 		});
+
+		// Configure suggestions
+		ViewGroup suggestionsContainer = (ViewGroup) view.findViewById(R.id.location_layout);
+		mSuggestionRows = new ArrayList<SuggestionRow>();
+		for (int a = 0; a < NUM_SUGGESTIONS; a++) {
+			ViewGroup suggestionRow = (ViewGroup) inflater.inflate(R.layout.snippet_suggestion, container, false);
+			SuggestionRow row = new SuggestionRow();
+			row.mRow = suggestionRow;
+			row.mIcon = (ImageView) suggestionRow.findViewById(R.id.icon);
+			row.mLocation = (TextView) suggestionRow.findViewById(R.id.location);
+			mSuggestionRows.add(row);
+			suggestionsContainer.addView(suggestionRow);
+		}
+
+		mSuggestions = Arrays.asList(getResources().getStringArray(R.array.suggestions));
+		configureSuggestions(null);
 
 		// Configure the calendar
 		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker);
@@ -153,6 +182,52 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 		mAdultsNumberPicker.setValue(params.getNumAdults());
 		mChildrenNumberPicker.setValue(params.getNumChildren());
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Suggestion/autocomplete stuff
+
+	private List<String> mSuggestions;
+
+	private static class SuggestionRow {
+		public ViewGroup mRow;
+		public ImageView mIcon;
+		public TextView mLocation;
+	}
+
+	private void configureSuggestions(String query) {
+		// Show default suggestions in case of null query
+		if (query == null) {
+			// Configure "my location" separately
+			SuggestionRow currentLocationRow = mSuggestionRows.get(0);
+			currentLocationRow.mRow.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					mLocationEditText.setText(R.string.current_location);
+					
+				}
+			});
+			currentLocationRow.mLocation.setText(R.string.current_location);
+			currentLocationRow.mLocation.setTypeface(Typeface.DEFAULT_BOLD);
+
+			// Randomly select from list of hardcoded suggestions
+			Collections.shuffle(mSuggestions);
+			for (int a = 1; a < mSuggestionRows.size(); a++) {
+				configureSuggestionRow(mSuggestionRows.get(a), mSuggestions.get(a));
+			}
+		}
+		else {
+			// If we have a query string, kick off a suggestions request			
+		}
+	}
+
+	private void configureSuggestionRow(SuggestionRow row, final String suggestion) {
+		row.mRow.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				mLocationEditText.setText(suggestion);
+			}
+		});
+
+		row.mLocation.setText(suggestion);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
