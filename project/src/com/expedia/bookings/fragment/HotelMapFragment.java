@@ -23,6 +23,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.widget.DoubleTapToZoomListenerOverlay;
+import com.mobiata.android.widget.ExactLocationItemizedOverlay;
 
 public class HotelMapFragment extends Fragment implements EventHandler {
 
@@ -36,6 +37,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 	private MapView mMapView;
 	private HotelItemizedOverlay mHotelOverlay;
 	private DoubleTapToZoomListenerOverlay mDoubleTapToZoomOverlay;
+	private ExactLocationItemizedOverlay mExactLocationOverlay;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -48,6 +50,9 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 
 		// Add the initial overlays
 		List<Overlay> overlays = mMapView.getOverlays();
+
+		mExactLocationOverlay = new ExactLocationItemizedOverlay(activity, mMapView);
+		overlays.add(mExactLocationOverlay);
 
 		mHotelOverlay = new HotelItemizedOverlay(activity, null, false, mMapView, null);
 		mHotelOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
@@ -84,6 +89,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 
 		mMapView.getOverlays().clear();
 		mHotelOverlay.destroyBalloon();
+		mExactLocationOverlay.destroyBalloon();
 	}
 
 	@Override
@@ -118,12 +124,21 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 	}
 
 	private void updateView() {
+		TabletActivity activity = (TabletActivity) getActivity();
+
 		// only update the view if the map view exists
 		// and if there are overlay items to show on the map
-		SearchResponse searchResponse = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
+		SearchResponse searchResponse = activity.getSearchResultsToDisplay();
 		if (mHotelOverlay != null && mMapView != null && searchResponse != null) {
 			mHotelOverlay.setProperties(searchResponse);
 			mMapView.invalidate();
+		}
+
+		// Only show exact location overlay if we have a search lat/lng
+		SearchParams params = activity.getSearchParams();
+		if (params.hasSearchLatLon()) {
+			mExactLocationOverlay.setExactLocation(params.getSearchLatitude(), params.getSearchLongitude(),
+					params.getSearchDisplayText(activity));
 		}
 	}
 
@@ -134,6 +149,8 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 			MapController mc = mMapView.getController();
 			mc.animateTo(searchPoint);
 			mc.setZoom(12);
+
+			updateView();
 		}
 	}
 
