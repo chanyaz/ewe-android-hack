@@ -178,10 +178,22 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 
 	private void updateSearchResults() {
 		SearchResponse response = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
-		updateNumHotels();
-		updateSortLabel(response);
-		setHeaderVisibility(View.VISIBLE);
 		mAdapter.setSearchResponse(response);
+
+		if (response.getPropertiesCount() == 0) {
+			setHeaderVisibility(View.GONE);
+			mMessageTextView.setText(R.string.ean_error_no_results);
+		}
+		else if (mAdapter.getCount() == 0) {
+			setHeaderVisibility(View.GONE);
+			mMessageTextView.setText(R.string.no_filter_results);
+		}
+		else {
+			updateNumHotels();
+			updateSortLabel(response);
+			setHeaderVisibility(View.VISIBLE);
+
+		}
 	}
 
 	private void setHeaderVisibility(int visibility) {
