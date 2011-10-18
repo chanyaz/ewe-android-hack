@@ -18,7 +18,7 @@
 				android:id="@+id/widget_error_text_view"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textColor="@color/widget_text_color"
+				android:textColor="@color/widget_message_text_color"
 				android:textStyle="bold"
 				android:textSize="14sp"
 				android:text="@string/loading_hotels"
@@ -27,13 +27,13 @@
 				android:id="@+id/widget_error_tip_text_view"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textColor="#214461"
+				android:textColor="@color/widget_message_text_color"
 				android:text="@string/refresh_widget"
 				style="@style/widgetHotelLocationText"
 				android:visibility="gone" />
 		</LinearLayout>
-		
-		
+
+
 		<ImageView
 			android:id="@+id/loading_expedia_logo_image_view"
 			android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
 			android:layout_marginRight="5dp"
 			android:src="@drawable/widget_expedia_logo_horiz"
 			android:visibility="gone" />
-		
+
 	</RelativeLayout>
 
 	<RelativeLayout
@@ -180,7 +180,7 @@
 				android:textSize="11sp" />
 		</LinearLayout>
 
-		<LinearLayout
+		<RelativeLayout
 			android:id="@+id/price_per_night_container"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
@@ -189,43 +189,48 @@
 			android:layout_below="@id/location_text_view"
 			android:layout_alignLeft="@id/location_text_view"
 			android:paddingTop="0dp"
-			android:paddingBottom="0dp"
-			android:background="@drawable/widget_price_bg">
+			android:paddingBottom="0dp">
 
 			<TextView
 				android:id="@+id/price_text_view"
 				android:layout_width="wrap_content"
-				android:layout_height="fill_parent"
-				android:gravity="center_vertical"
-				android:includeFontPadding="false"
+				android:layout_height="wrap_content"
 				android:textColor="#064192"
 				android:textStyle="bold"
-				android:textSize="16sp" />
+				android:textSize="18sp"/>
 			<TextView
 				android:id="@+id/per_night_text_view"
 				android:layout_width="wrap_content"
-				android:layout_height="fill_parent"
-				android:gravity="center_vertical"
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@id/price_text_view"
+				android:includeFontPadding="false"
 				android:paddingRight="3dp"
 				android:text="@string/per_night"
 				android:textColor="@color/light_gray"
-				android:textSize="11sp" />
-		</LinearLayout>
+				android:textSize="11sp"
+				android:layout_alignBaseline="@id/price_text_view" />
+			<ImageView
+				android:id="@+id/sale_image_view"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:paddingLeft="5dp"
+				android:layout_toRightOf="@id/per_night_text_view"
+				android:layout_alignBottom="@+id/sale_text_view"
+				android:src="@drawable/sale_tag"/>
 
-		<TextView
-			android:id="@+id/sale_text_view"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:singleLine="true"
-			android:layout_toRightOf="@id/price_per_night_container"
-			android:layout_alignTop="@id/price_per_night_container"
-			android:layout_alignBottom="@id/price_per_night_container"
-			android:paddingLeft="5dp"
-			android:paddingRight="5dp"
-			android:gravity="center_vertical"
-			android:background="@drawable/widget_sale_bg"
-			android:textSize="12sp"
-			style="@style/SaleText" />
+			<TextView
+				android:id="@+id/sale_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@id/sale_image_view"
+				android:layout_alignBaseline="@id/price_text_view"
+				android:singleLine="true"
+				android:paddingRight="5dp"
+				android:paddingLeft="2dp"
+				android:textSize="14sp"
+				android:textStyle="bold"
+				android:textColor="@color/widget_text_color"/>
+		</RelativeLayout>
 
 		<TextView
 			android:id="@+id/highly_rated_text_view"

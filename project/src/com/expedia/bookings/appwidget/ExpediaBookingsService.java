@@ -126,7 +126,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 						mWidgetDeals.deleteFromDisk();
 						mWidgetDeals.persistToDisk();
 					}
-				});
+				}).start();
 			}
 
 			if (mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty()) {
@@ -752,11 +752,13 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
 
 			widgetContents.setViewVisibility(R.id.sale_text_view, View.VISIBLE);
+			widgetContents.setViewVisibility(R.id.sale_image_view, View.VISIBLE);
 			widgetContents.setViewVisibility(R.id.highly_rated_text_view, View.GONE);
 			widgetContents.setViewVisibility(R.id.price_per_night_with_no_sale_container, View.GONE);
 		}
 		else if (property.getLowestRate().getSavingsPercent() == 0 && property.isHighlyRated()) {
 			widgetContents.setViewVisibility(R.id.sale_text_view, View.GONE);
+			widgetContents.setViewVisibility(R.id.sale_image_view, View.GONE);
 			widgetContents.setViewVisibility(R.id.highly_rated_text_view, View.VISIBLE);
 			widgetContents.setViewVisibility(R.id.price_per_night_with_no_sale_container, View.GONE);
 			widgetContents.setViewVisibility(R.id.price_per_night_container, View.VISIBLE);
@@ -766,6 +768,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		}
 		else {
 			widgetContents.setViewVisibility(R.id.sale_text_view, View.GONE);
+			widgetContents.setViewVisibility(R.id.sale_image_view, View.GONE);
 			widgetContents.setViewVisibility(R.id.highly_rated_text_view, View.GONE);
 			widgetContents.setViewVisibility(R.id.price_per_night_with_no_sale_container, View.VISIBLE);
 			widgetContents.setViewVisibility(R.id.price_per_night_container, View.GONE);

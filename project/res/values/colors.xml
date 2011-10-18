@@ -28,5 +28,6 @@
 	<color name="sort_option_text_color_selected">#004194</color>
 	<color name="sort_option_text_color_normal">#3d404e</color>
 	
-	<color name="widget_text_color">#214461</color>
+	<color name="widget_message_text_color">#214461</color>
+	<color name="widget_text_color">#3d4552</color>
 </resources>
