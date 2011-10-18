@@ -173,17 +173,17 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	public void onResume() {
 		super.onResume();
 
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD);
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(KEY_AUTOCOMPLETE_DOWNLOAD)) {
+			bd.registerDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD, mAutocompleteCallback);
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_AUTOCOMPLETE_DOWNLOAD)) {
-			bd.registerDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD, mAutocompleteCallback);
-		}
+		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD);
 	}
 
 	@Override
