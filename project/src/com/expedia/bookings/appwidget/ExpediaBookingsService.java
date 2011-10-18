@@ -753,26 +753,12 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 			widgetContents.setViewVisibility(R.id.sale_text_view, View.VISIBLE);
 			widgetContents.setViewVisibility(R.id.sale_image_view, View.VISIBLE);
-			widgetContents.setViewVisibility(R.id.highly_rated_text_view, View.GONE);
-			widgetContents.setViewVisibility(R.id.price_per_night_with_no_sale_container, View.GONE);
-		}
-		else if (property.getLowestRate().getSavingsPercent() == 0 && property.isHighlyRated()) {
-			widgetContents.setViewVisibility(R.id.sale_text_view, View.GONE);
-			widgetContents.setViewVisibility(R.id.sale_image_view, View.GONE);
-			widgetContents.setViewVisibility(R.id.highly_rated_text_view, View.VISIBLE);
-			widgetContents.setViewVisibility(R.id.price_per_night_with_no_sale_container, View.GONE);
-			widgetContents.setViewVisibility(R.id.price_per_night_container, View.VISIBLE);
-			widgetContents.setTextViewText(R.id.price_text_view,
-					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
-
 		}
 		else {
 			widgetContents.setViewVisibility(R.id.sale_text_view, View.GONE);
 			widgetContents.setViewVisibility(R.id.sale_image_view, View.GONE);
-			widgetContents.setViewVisibility(R.id.highly_rated_text_view, View.GONE);
-			widgetContents.setViewVisibility(R.id.price_per_night_with_no_sale_container, View.VISIBLE);
-			widgetContents.setViewVisibility(R.id.price_per_night_container, View.GONE);
-			widgetContents.setTextViewText(R.id.price_text_with_no_sale_view,
+			widgetContents.setViewVisibility(R.id.price_per_night_container, View.VISIBLE);
+			widgetContents.setTextViewText(R.id.price_text_view,
 					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
 		}
 
@@ -914,13 +900,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	private void setWidgetPropertyViewVisibility(final RemoteViews widgetContents, int visibility) {
 		widgetContents.setViewVisibility(R.id.price_per_night_container, visibility);
-		widgetContents.setViewVisibility(R.id.price_per_night_with_no_sale_container, visibility);
 		widgetContents.setViewVisibility(R.id.hotel_image_view_wrapper, visibility);
 		widgetContents.setViewVisibility(R.id.hotel_image_view, visibility);
 		widgetContents.setViewVisibility(R.id.location_text_view, visibility);
 		widgetContents.setViewVisibility(R.id.hotel_name_text_view, visibility);
 		widgetContents.setViewVisibility(R.id.sale_text_view, visibility);
-		widgetContents.setViewVisibility(R.id.highly_rated_text_view, visibility);
 	}
 
 	private void setBrandingViewVisibility(RemoteViews rootView, RemoteViews widgetContents, int visibility) {
