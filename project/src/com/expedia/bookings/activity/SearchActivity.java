@@ -2844,6 +2844,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			if (!mFilterButtonArrowUp) {
 				rotateFilterArrowUp(false);
 			}
+
+			// Get rid of IME if it appeared for the filter
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(mFilterHotelNameEditText.getWindowToken(), 0);
 		}
 	};
 
