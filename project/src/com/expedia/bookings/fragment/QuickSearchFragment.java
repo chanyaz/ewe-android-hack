@@ -83,6 +83,8 @@ public class QuickSearchFragment extends Fragment implements EventHandler {
 	public void addRecentSearch(final SearchParams searchParams) {
 		mRecentSearchesContainer.setVisibility(View.VISIBLE);
 
+		searchParams.ensureValidCheckInDate();
+
 		String location = searchParams.getFreeformLocation();
 		String thumbnailUrl = GoogleServices.getStaticMapUrl(300, 300, 12, MapType.ROADMAP, location);
 
