@@ -159,7 +159,8 @@
 					android:paddingRight="5dp"
 					android:paddingLeft="4dp"
 					android:textSize="12sp"
-					android:textStyle="bold"/>
+					android:textStyle="bold"
+					android:textColor="@color/widget_text_color"/>
 				<ImageView
 					android:id="@+id/sale_image_view"
 					android:layout_height="0dp"
