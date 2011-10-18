@@ -177,6 +177,8 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		if (bd.isDownloading(KEY_AUTOCOMPLETE_DOWNLOAD)) {
 			bd.registerDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD, mAutocompleteCallback);
 		}
+
+		updateViews();
 	}
 
 	@Override
