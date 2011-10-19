@@ -188,6 +188,8 @@ public class ConfirmationActivity extends MapActivity {
 		GeoPoint offsetCenter = new GeoPoint(center.getLatitudeE6() + 1000, center.getLongitudeE6() - 8000);
 		mc.setCenter(offsetCenter);
 		mc.setZoom(15);
+		// disabling the map so that it does not respond to touch events 
+		mapView.setEnabled(false);
 
 		// Overview of hotel
 		TextView nameView = (TextView) findViewById(R.id.name_text_view);
