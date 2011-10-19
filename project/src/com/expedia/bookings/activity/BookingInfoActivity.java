@@ -57,7 +57,6 @@ import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -66,15 +65,15 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Session;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.widget.RoomTypeHandler;
+import com.expedia.bookings.widget.RoomTypeActivityHandler;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
-import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.DialogUtils;
@@ -108,7 +107,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	// Room type handler
 
-	private RoomTypeHandler mRoomTypeHandler;
+	private RoomTypeActivityHandler mRoomTypeHandler;
 
 	// Data pertaining to this booking
 
@@ -150,6 +149,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private EditText mSecurityCodeEditText;
 	private TextView mConfirmationButton;
 	private CheckBox mRulesRestrictionsCheckbox;
+	private View mReceipt;
 
 	// Cached views (non-interactive)
 	private ScrollView mScrollView;
@@ -239,10 +239,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			}
 		}
 
-		// Configure the room type handler
-		mRoomTypeHandler = new RoomTypeHandler(this, getIntent(), mProperty, mSearchParams, mRate);
-		mRoomTypeHandler.onCreate();
-
 		// Retrieve some data we keep using
 		Resources r = getResources();
 		mCountryCodes = r.getStringArray(R.array.country_codes);
@@ -277,11 +273,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mChargeDetailsTextView = (TextView) findViewById(R.id.charge_details_text_view);
 		mRulesRestrictionsTextView = (TextView) findViewById(R.id.rules_restrictions_text_view);
 		mRulesRestrictionsLayout = (ViewGroup) findViewById(R.id.rules_restrictions_layout);
-
-		// Configure the layout
-		configureTicket();
-		configureForm();
-		configureFooter();
+		mReceipt = findViewById(R.id.receipt);
 
 		// Retrieve previous instance
 		SparseArray<Object> lastInstance = (SparseArray<Object>) getLastNonConfigurationInstance();
@@ -333,6 +325,14 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 			onPageLoad();
 		}
+		// Configure the room type handler
+		mRoomTypeHandler = new RoomTypeActivityHandler(this, getIntent(), mProperty, mSearchParams, mRate);
+		mRoomTypeHandler.onCreate(null);
+		
+		// Configure the layout
+		BookingReceiptUtils.configureTicket(this, mReceipt, mProperty, mSearchParams, mRate, mRoomTypeHandler);
+		configureForm();
+		configureFooter();
 	}
 
 	@Override
@@ -547,43 +547,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	// Private methods
 
 	// Activity configuration
-
-	private void configureTicket() {
-		// Configure the booking summary at the top of the page
-		ImageView thumbnailView = (ImageView) findViewById(R.id.thumbnail_image_view);
-		if (mProperty.getThumbnail() != null) {
-			ImageCache.loadImage(mProperty.getThumbnail().getUrl(), thumbnailView);
-		}
-		else {
-			thumbnailView.setVisibility(View.GONE);
-		}
-
-		TextView nameView = (TextView) findViewById(R.id.name_text_view);
-		nameView.setText(mProperty.getName());
-
-		Location location = mProperty.getLocation();
-		TextView address1View = (TextView) findViewById(R.id.address1_text_view);
-		address1View.setText(Html.fromHtml(StrUtils.formatAddressStreet(location)));
-		TextView address2View = (TextView) findViewById(R.id.address2_text_view);
-		address2View.setText(Html.fromHtml(StrUtils.formatAddressCity(location)));
-
-		// Configure the details
-		ViewGroup detailsLayout = (ViewGroup) findViewById(R.id.details_layout);
-		mRoomTypeHandler.load(detailsLayout);
-		com.expedia.bookings.utils.LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate,
-				mRoomTypeHandler);
-
-		// Configure the total cost
-		Money totalAmountAfterTax = mRate.getTotalAmountAfterTax();
-		TextView totalView = (TextView) findViewById(R.id.total_cost_text_view);
-		if (totalAmountAfterTax != null && totalAmountAfterTax.getFormattedMoney() != null
-				&& totalAmountAfterTax.getFormattedMoney().length() > 0) {
-			totalView.setText(totalAmountAfterTax.getFormattedMoney());
-		}
-		else {
-			totalView.setText("Dan didn't account for no total info, tell him");
-		}
-	}
 
 	private void configureForm() {
 		mGuestSavedLayout.setOnClickListener(new OnClickListener() {

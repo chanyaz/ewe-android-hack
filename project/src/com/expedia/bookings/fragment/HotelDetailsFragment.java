@@ -14,6 +14,7 @@ import android.text.Html;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
@@ -69,6 +70,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private ViewGroup mAmenitiesContainer;
 	private RatingBar mUserRating;
 	private ViewGroup mHotelDescriptionContainer;
+	private View mBookNowButton;
 
 	//----------------------------------
 	// OTHERS
@@ -95,6 +97,17 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mReviewsSection = (ViewGroup) view.findViewById(R.id.reviews_container);
 		mAmenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
+		mBookNowButton = view.findViewById(R.id.book_now_button);
+		
+		mBookNowButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// if the user just presses the book now button,
+				// default to giving the user the minimum rate available
+				((TabletActivity) getActivity()).bookRoom(mMinimumRateAvailable);
+			}
+		});
 
 		return view;
 	}
@@ -168,15 +181,18 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
 			showLoadingForRates();
 			clearOutData();
+			mBookNowButton.setEnabled(false);
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
 			mEmptyAvailabilitySummaryTextView.setText((String) data);
 			mAvailabilitySummaryContainer.setVisibility(View.GONE);
+			mBookNowButton.setEnabled(false);
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
 			mEmptyAvailabilitySummaryTextView.setVisibility(View.GONE);
 			mAvailabilitySummaryContainer.setVisibility(View.VISIBLE);
 			updateSummarizedRates((AvailabilityResponse) data);
+			mBookNowButton.setEnabled(true);
 			break;
 		case TabletActivity.EVENT_PROPERTY_SELECTED:
 			updateViews((Property) data);

@@ -136,7 +136,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 
 		// Only show exact location overlay if we have a search lat/lng
 		SearchParams params = activity.getSearchParams();
-		if (params.hasSearchLatLon()) {
+		if (params.hasSearchLatLon() && mExactLocationOverlay != null) {
 			mExactLocationOverlay.setExactLocation(params.getSearchLatitude(), params.getSearchLongitude(),
 					params.getSearchDisplayText(activity));
 		}

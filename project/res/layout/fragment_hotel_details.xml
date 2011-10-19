@@ -43,6 +43,18 @@
 			android:layout_below="@id/hotel_details_title_container"
 			android:textSize="16sp"
 			style="@style/widgetHotelLocationText" />
+		
+		<com.mobiata.android.widget.AutoResizeTextView
+			android:id="@+id/book_now_button"
+			android:layout_width="@dimen/header_button_width"
+			android:layout_height="@dimen/header_button_height"
+			android:layout_alignParentRight="true"
+			android:layout_alignTop="@id/hotel_details_title_container"
+			android:text="@string/book_now"
+			android:textStyle="bold"
+			android:layout_gravity="center_vertical|right"
+			android:maxLines="1"
+			style="@style/Widget.Button.Orange"/>
 
 		<LinearLayout
 			android:id="@+id/images_and_rates_container"

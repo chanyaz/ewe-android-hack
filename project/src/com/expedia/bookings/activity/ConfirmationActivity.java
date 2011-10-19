@@ -40,11 +40,11 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SupportUtils;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
-import com.expedia.bookings.widget.RoomTypeHandler;
+import com.expedia.bookings.widget.RoomTypeActivityHandler;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -73,7 +73,7 @@ public class ConfirmationActivity extends MapActivity {
 
 	private Context mContext;
 
-	private RoomTypeHandler mRoomTypeHandler;
+	private RoomTypeActivityHandler mRoomTypeHandler;
 
 	private SearchParams mSearchParams;
 	private Property mProperty;
@@ -158,8 +158,8 @@ public class ConfirmationActivity extends MapActivity {
 			}
 		}
 
-		mRoomTypeHandler = new RoomTypeHandler(this, getIntent(), mProperty, mSearchParams, mRate);
-		mRoomTypeHandler.onCreate();
+		mRoomTypeHandler = new RoomTypeActivityHandler(this, getIntent(), mProperty, mSearchParams, mRate);
+		mRoomTypeHandler.onCreate(null);
 
 		//////////////////////////////////////////////////
 		// Screen configuration
@@ -204,11 +204,11 @@ public class ConfirmationActivity extends MapActivity {
 
 		// Reservation summary
 		ViewGroup detailsLayout = (ViewGroup) findViewById(R.id.details_layout);
-		LayoutUtils.addDetail(this, detailsLayout, R.string.confirmation_number, mBookingResponse.getConfNumber());
-		LayoutUtils.addDetail(this, detailsLayout, R.string.itinerary_number, mBookingResponse.getItineraryId());
-		LayoutUtils.addDetail(this, detailsLayout, R.string.confirmation_email, mBillingInfo.getEmail());
+		BookingReceiptUtils.addDetail(this, detailsLayout, R.string.confirmation_number, mBookingResponse.getConfNumber());
+		BookingReceiptUtils.addDetail(this, detailsLayout, R.string.itinerary_number, mBookingResponse.getItineraryId());
+		BookingReceiptUtils.addDetail(this, detailsLayout, R.string.confirmation_email, mBillingInfo.getEmail());
 		mRoomTypeHandler.load(detailsLayout);
-		LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate, mRoomTypeHandler);
+		BookingReceiptUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate, mRoomTypeHandler);
 
 		// Total cost / cancellation policy at the bottom
 		TextView totalCostView = (TextView) findViewById(R.id.total_cost_text_view);

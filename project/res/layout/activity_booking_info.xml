@@ -22,6 +22,7 @@
 
 			<!-- Ticket stub summary at top of page -->
 			<LinearLayout
+				android:id="@+id/receipt"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:background="@drawable/bg_ticket_shadow">

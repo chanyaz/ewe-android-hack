@@ -29,11 +29,14 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.PropertyInfoResponse;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.fragment.BookingReceiptFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
@@ -47,6 +50,7 @@ import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.InstanceFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
 import com.expedia.bookings.fragment.QuickSearchFragment;
+import com.expedia.bookings.fragment.RoomsAndRatesFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment;
 import com.expedia.bookings.fragment.SortDialogFragment;
 import com.expedia.bookings.model.Search;
@@ -85,11 +89,16 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public static final int EVENT_REVIEWS_QUERY_COMPLETE = 13;
 	public static final int EVENT_REVIEWS_QUERY_ERROR = 14;
 	public static final int EVENT_SEARCH_LOCATION_FOUND = 15;
+	public static final int EVENT_PROPERTY_INFO_QUERY_STARTED = 16;
+	public static final int EVENT_PROPERTY_INFO_QUERY_COMPLETE = 17;
+	public static final int EVENT_PROPERTY_INFO_QUERY_ERROR = 18;
+	public static final int EVENT_RATE_SELECTED = 19;
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_AVAILABILITY_SEARCH = "KEY_AVAILABILITY_SEARCH";
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
 	private static final String KEY_REVIEWS = "KEY_REVIEWS";
+	private static final String KEY_PROPERTY_INFO = "KEY_PROPERTY_INFO";
 
 	//////////////////////////////////////////////////////////////////////////
 	// Fragments
@@ -303,6 +312,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private static final String TAG_HOTEL_DETAILS = "HOTEL_DETAILS";
 	private static final String TAG_MINI_DETAILS = "MINI_DETAILS";
 	private static final String TAG_AVAILABILITY_LIST = "TAG_AVAILABILITY_LIST";
+	private static final String TAG_BOOKING_RECEIPT = "TAG_BOOKING_RECEIPT";
 
 	private static final String BACKSTACK_RESULTS = "RESULTS";
 
@@ -358,15 +368,16 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		}
 	}
 
-//	public void showRoomsAvailabilityFragment() {
-//		FragmentManager fm = getFragmentManager();
-//		FragmentTransaction ft = fm.beginTransaction();
-//		ft.replace(R.id.fragment_left, RoomsAndRatesFragment.newInstance(), TAG_AVAILABILITY_LIST);
-//		ft.addToBackStack(null);
-//		ft.commit();
-//
-//	}
+	public void setupBookingInfoExperience() {
+		FragmentManager fm = getFragmentManager();
+		FragmentTransaction ft = fm.beginTransaction();
+		ft.replace(R.id.fragment_left, RoomsAndRatesFragment.newInstance(), TAG_AVAILABILITY_LIST);
+		ft.replace(R.id.fragment_bottom_right, BookingReceiptFragment.newInstance(), TAG_BOOKING_RECEIPT);
+		ft.addToBackStack(null);
+		ft.commit();
 
+	}
+	
 	public void showMiniDetailsFragment() {
 		MiniDetailsFragment fragment = MiniDetailsFragment.newInstance();
 
@@ -484,7 +495,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		// the results are instantly displayed in the hotel details view to the user
 		startRoomsAndRatesDownload(mInstance.mProperty);
 		startReviewsDownload();
-
+		startPropertyInfoDownload(mInstance.mProperty);
 	}
 
 	public void moreDetailsForPropertySelected() {
@@ -501,12 +512,21 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		showHotelGalleryDialog(selectedImageUrl);
 	}
 
-//	public void bookButtonPressed() {
-//		FragmentManager fm = getFragmentManager();
-//		if (fm.findFragmentByTag(TAG_AVAILABILITY_LIST) == null) {
-//			showRoomsAvailabilityFragment();
-//		}
-//	}
+	public void bookRoom(Rate rate) {
+		mInstance.mRate = rate;
+		
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(TAG_AVAILABILITY_LIST) == null) {
+			setupBookingInfoExperience();
+		}
+	}
+	
+	public void rateSelected(Rate rate) {
+		mInstance.mRate = rate;
+		
+		mEventManager.notifyEventHandlers(EVENT_RATE_SELECTED, null);
+		
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
@@ -534,7 +554,19 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public ReviewsResponse getReviewsForProperty() {
 		return mInstance.mReviewsResponse;
 	}
-
+	
+	public PropertyInfoResponse getInfoForProperty() {
+		return mInstance.mPropertyInfoResponse;
+	}
+	
+	public String getPropertyInfoQueryStatus() {
+		return mInstance.mPropertyInfoStatus;
+	}
+	
+	public Rate getRoomRateForBooking() {
+		return mInstance.mRate;
+	}
+	
 	//////////////////////////////////////////////////////////////////////////
 	// SearchParams management
 
@@ -820,6 +852,45 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		}
 	};
 
+	//////////////////////////////////////////////////////////////////////////
+	// Hotel Info
+	
+	private void startPropertyInfoDownload(Property property) {
+		//clear out previous results
+		mInstance.mPropertyInfoResponse = null;
+		mInstance.mPropertyInfoStatus = null;
+		
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		
+		bd.cancelDownload(KEY_PROPERTY_INFO);
+		bd.startDownload(KEY_PROPERTY_INFO, mPropertyInfoDownload, mPropertyInfoCallback);
+	}
+
+	private Download mPropertyInfoDownload = new Download() {
+		
+		@Override
+		public Object doDownload() {
+			ExpediaServices services = new ExpediaServices(mContext);
+			return services.info(mInstance.mProperty);
+		}
+	};
+	
+	private OnDownloadComplete mPropertyInfoCallback = new OnDownloadComplete() {
+		
+		@Override
+		public void onDownload(Object results) {
+			mInstance.mPropertyInfoResponse = (PropertyInfoResponse) results;
+			mInstance.mPropertyInfoStatus = null;
+			
+			if(mInstance.mPropertyInfoResponse == null) {
+				mInstance.mPropertyInfoStatus = getString(R.string.error_room_type_load);
+				mEventManager.notifyEventHandlers(EVENT_PROPERTY_INFO_QUERY_ERROR, null); 
+			} else {
+				mEventManager.notifyEventHandlers(EVENT_PROPERTY_INFO_QUERY_COMPLETE, null); 
+			}
+		}
+	};
+	
 	//////////////////////////////////////////////////////////////////////////
 	// Hotel Reviews
 

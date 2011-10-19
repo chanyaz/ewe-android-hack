@@ -5,6 +5,8 @@ import android.app.Fragment;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.PropertyInfoResponse;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
@@ -39,7 +41,9 @@ public class InstanceFragment extends Fragment {
 	public SearchResponse mSearchResponse;
 	public Filter mFilter;
 	public Property mProperty;
+	public Rate mRate;
+	public String mPropertyInfoStatus;
+	public PropertyInfoResponse mPropertyInfoResponse;
 	public AvailabilityResponse mAvailabilityResponse;
 	public ReviewsResponse mReviewsResponse;
-
 }
