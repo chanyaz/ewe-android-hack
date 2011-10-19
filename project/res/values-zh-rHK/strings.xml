@@ -455,8 +455,6 @@
 	<string name="contact_expedia_website">網站</string>
 	<!-- Label for "Expedia website" button in info page -->
 	<string name="expedia_website">Expedia 網站</string>
-	<!-- Label for "app feedback" button in info page -->
-	<string name="app_feedback">應用程式相關意見</string>
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">應用程式支援</string>
 	<!-- Section header for other apps by Mobiata -->

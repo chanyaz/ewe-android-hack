@@ -474,8 +474,6 @@
 	<string name="contact_expedia_website">Site Web</string>
 	<!-- Label for "Expedia website" button in info page -->
 	<string name="expedia_website">Site Web d\'Expedia</string>
-	<!-- Label for "app feedback" button in info page -->
-	<string name="app_feedback">Commentaires sur l\'appli</string>
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Soutien pour l\'appli</string>
 	<!-- Section header for other apps by Mobiata -->
