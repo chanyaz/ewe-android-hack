@@ -467,8 +467,6 @@
 	<string name="contact_expedia_website">Situs Web</string>
 	<!-- Label for "Expedia website" button in info page -->
 	<string name="expedia_website">Situs Web Expedia</string>
-	<!-- Label for "app feedback" button in info page -->
-	<string name="app_feedback">Umpan Balik App</string>
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Dukungan App</string>
 	<!-- Section header for other apps by Mobiata -->

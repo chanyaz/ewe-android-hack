@@ -488,8 +488,6 @@
 	<string name="contact_expedia_website">Site Internet</string>
 	<!-- Label for "Expedia website" button in info page -->
 	<string name="expedia_website">Site Internet Expedia</string>
-	<!-- Label for "app feedback" button in info page -->
-	<string name="app_feedback">Avis sur l\'App</string>
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Assistance pour l\'App</string>
 	<!-- Section header for other apps by Mobiata -->
