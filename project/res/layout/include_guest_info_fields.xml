@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/guest_info_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="gone" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <com.expedia.bookings.widget.CustomEditText
+            android:id="@+id/first_name_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/FirstName"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="textPersonName|textCapWords"
+            android:nextFocusDown="@+id/last_name_edit_text"
+            android:nextFocusLeft="@+id/first_name_edit_text"
+            android:nextFocusRight="@+id/last_name_edit_text"
+            android:nextFocusUp="@+id/first_name_edit_text"
+            android:textColorHint="@color/hint_color" />
+
+        <com.expedia.bookings.widget.CustomEditText
+            android:id="@+id/last_name_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/LastName"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="textPersonName|textCapWords"
+            android:nextFocusDown="@+id/telephone_edit_text"
+            android:nextFocusLeft="@+id/first_name_edit_text"
+            android:nextFocusRight="@+id/telephone_edit_text"
+            android:nextFocusUp="@+id/first_name_edit_text"
+            android:textColorHint="@color/hint_color" />
+    </LinearLayout>
+
+    <com.expedia.bookings.widget.CustomEditText
+        android:id="@+id/telephone_edit_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/Telephone"
+        android:imeOptions="flagNoExtractUi"
+        android:inputType="phone"
+        android:nextFocusDown="@+id/email_edit_text"
+        android:nextFocusLeft="@+id/last_name_edit_text"
+        android:nextFocusRight="@+id/email_edit_text"
+        android:nextFocusUp="@+id/first_name_edit_text"
+        android:textColorHint="@color/hint_color" />
+
+    <com.expedia.bookings.widget.CustomEditText
+        android:id="@+id/email_edit_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/EmailForConf"
+        android:imeOptions="flagNoExtractUi"
+        android:inputType="textEmailAddress"
+        android:nextFocusDown="@+id/address1_edit_text"
+        android:nextFocusLeft="@+id/telephone_edit_text"
+        android:nextFocusRight="@+id/address1_edit_text"
+        android:nextFocusUp="@+id/telephone_edit_text"
+        android:textColorHint="@color/hint_color" />
+
+</LinearLayout>

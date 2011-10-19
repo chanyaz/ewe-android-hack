@@ -54,6 +54,7 @@
 			android:textStyle="bold"
 			android:layout_gravity="center_vertical|right"
 			android:maxLines="1"
+			android:enabled="false"
 			style="@style/Widget.Button.Orange"/>
 
 		<LinearLayout
