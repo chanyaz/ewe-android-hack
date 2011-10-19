@@ -118,6 +118,7 @@
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:paddingLeft="10dp"
+		android:paddingTop="3dp"
 		android:layout_below="@+id/search_bar_layout"
 		android:visibility="gone"
 		android:clickable="true"
@@ -152,20 +153,15 @@
 				android:textColor="#333333" />
 		</com.mobiata.android.widget.WorkingViewFlipper>
 
-		<FrameLayout
-			android:id="@+id/widget_notification_close_btn"
-			android:layout_height="40dp"
-			android:layout_width="40dp"
-			android:clickable="true"
-			android:layout_centerVertical="true"
-			android:layout_alignParentRight="true">
 			<ImageView
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:layout_gravity="center"
+			    android:id="@+id/widget_notification_close_btn"
+				android:layout_height="40dp"
+				android:layout_width="40dp"
+				android:scaleType="center"
+				android:layout_centerVertical="true"
+				android:layout_alignParentRight="true"
 				android:paddingBottom="10dp"
 				android:src="@drawable/widget_notification_close_btn" />
-		</FrameLayout>
 	</RelativeLayout>
 	<include
 		android:id="@id/search_bar_layout"
