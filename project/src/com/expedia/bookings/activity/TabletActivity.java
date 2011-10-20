@@ -364,10 +364,16 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction ft = fragmentManager.beginTransaction();
-		ft.setCustomAnimations(R.animator.fragment_mini_details_slide_enter,
-				R.animator.fragment_mini_details_slide_exit,
-				R.animator.fragment_mini_details_slide_enter,
-				R.animator.fragment_mini_details_slide_exit);
+		if (AndroidUtils.getSdkVersion() >= 13) {
+			ft.setCustomAnimations(R.animator.fragment_mini_details_slide_enter,
+					R.animator.fragment_mini_details_slide_exit,
+					R.animator.fragment_mini_details_slide_enter,
+					R.animator.fragment_mini_details_slide_exit);
+		}
+		else {
+			ft.setCustomAnimations(R.animator.fragment_mini_details_slide_enter,
+					R.animator.fragment_mini_details_slide_exit);
+		}
 		ft.add(R.id.fragment_mini_details, fragment, TAG_MINI_DETAILS);
 		ft.addToBackStack(null);
 		ft.commit();
