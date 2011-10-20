@@ -34,8 +34,7 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="2"
-            android:orientation="vertical" >
+            android:layout_weight="2" >
 
             <LinearLayout
                 android:id="@+id/fragment_hotel_map"
@@ -43,10 +42,15 @@
                 android:layout_height="fill_parent" />
 
             <LinearLayout
+                android:id="@+id/fragment_mini_details"
+                android:layout_width="fill_parent"
+                android:layout_height="250dp"
+                android:layout_gravity="bottom" />
+
+            <LinearLayout
                 android:id="@+id/fragment_details"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom" />
+                android:layout_height="fill_parent" />
         </FrameLayout>
     </LinearLayout>
 

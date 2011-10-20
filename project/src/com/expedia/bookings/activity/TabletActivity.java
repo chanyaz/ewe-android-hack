@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentManager.OnBackStackChangedListener;
 import android.app.FragmentTransaction;
@@ -365,19 +364,22 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction ft = fragmentManager.beginTransaction();
-		ft.add(R.id.fragment_details, fragment, TAG_MINI_DETAILS);
+		ft.setCustomAnimations(R.animator.fragment_mini_details_slide_enter,
+				R.animator.fragment_mini_details_slide_exit,
+				R.animator.fragment_mini_details_slide_enter,
+				R.animator.fragment_mini_details_slide_exit);
+		ft.add(R.id.fragment_mini_details, fragment, TAG_MINI_DETAILS);
 		ft.addToBackStack(null);
 		ft.commit();
 	}
 
 	public void showHotelDetailsFragment() {
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_hotel_map);
-		HotelDetailsFragment hotelDetailsFragment = HotelDetailsFragment.newInstance();
-		if (fragment != null) {
-			ft.remove(fragment);
-		}
-		ft.replace(R.id.fragment_details, hotelDetailsFragment, TAG_HOTEL_DETAILS);
+		FragmentManager fm = getFragmentManager();
+		FragmentTransaction ft = fm.beginTransaction();
+		addStandardAnimation(ft);
+		ft.remove(fm.findFragmentByTag(TAG_HOTEL_MAP));
+		ft.remove(fm.findFragmentByTag(TAG_MINI_DETAILS));
+		ft.add(R.id.fragment_details, HotelDetailsFragment.newInstance(), TAG_HOTEL_DETAILS);
 		ft.addToBackStack(null);
 		ft.commit();
 	}
