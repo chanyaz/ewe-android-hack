@@ -73,13 +73,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
@@ -286,7 +286,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	//----------------------------------
 
 	private Context mContext;
-	private ExpediaBookingApp mApp;
 
 	private LocalActivityManager mLocalActivityManager;
 	private String mTag = ACTIVITY_SEARCH_LIST;
@@ -471,7 +470,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 
 		mContext = this;
-		mApp = (ExpediaBookingApp) getApplicationContext();
 
 		onPageLoad();
 		setContentView(R.layout.activity_search);
@@ -645,7 +643,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mApp.registerSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
+		((ExpediaBookingApp) getApplicationContext()).registerSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
 
 		mProgressBar.onResume();
 
@@ -712,7 +710,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		// load onto an image until explicitly requested.
 		ImageCache.clearAllCallbacks();
 
-		mApp.unregisterSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
+		((ExpediaBookingApp) getApplicationContext()).unregisterSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
 
 		// do not attempt to save parameters if the user was short circuited to the
 		// confirmation screen when the search activity started
