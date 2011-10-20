@@ -63,6 +63,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 
 public class TabletActivity extends MapActivity implements LocationListener, OnBackStackChangedListener,
@@ -382,10 +383,17 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	}
 
 	private void addStandardAnimation(FragmentTransaction ft) {
-		ft.setCustomAnimations(R.animator.fragment_slide_left_enter,
-				R.animator.fragment_slide_left_exit,
-				R.animator.fragment_slide_right_enter,
-				R.animator.fragment_slide_right_exit);
+		// Only API lvl 13+ supports custom popEnter/popExit animations
+		if (AndroidUtils.getSdkVersion() >= 13) {
+			ft.setCustomAnimations(R.animator.fragment_slide_left_enter,
+					R.animator.fragment_slide_left_exit,
+					R.animator.fragment_slide_right_enter,
+					R.animator.fragment_slide_right_exit);
+		}
+		else {
+			ft.setCustomAnimations(R.animator.fragment_slide_left_enter,
+					R.animator.fragment_slide_left_exit);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
