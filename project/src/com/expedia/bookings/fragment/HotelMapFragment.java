@@ -57,6 +57,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 
 		mHotelOverlay = new HotelItemizedOverlay(activity, null, false, mMapView, null);
 		mHotelOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
+		mHotelOverlay.setShowChevron(false);
 		mHotelOverlay.setOnTapListener(new OnTapListener() {
 			public boolean onTap(Property property) {
 				((TabletActivity) getActivity()).propertySelected(property);

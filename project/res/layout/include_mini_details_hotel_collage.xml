@@ -10,8 +10,7 @@
 		android:layout_height="fill_parent"
 		android:layout_width="0dp"
 		android:layout_weight="1"
-		android:scaleType="centerCrop"
-		android:src="@drawable/ic_row_thumb_placeholder" />
+		android:scaleType="centerCrop" />
 	<LinearLayout
 		android:layout_height="fill_parent"
 		android:layout_width="0dp"
@@ -24,8 +23,7 @@
 			android:layout_height="fill_parent"
 			android:layout_width="0dp"
 			android:layout_weight="1"
-			android:scaleType="centerCrop"
-			android:src="@drawable/ic_row_thumb_placeholder" />
+			android:scaleType="centerCrop" />
 		<LinearLayout
 			android:layout_height="fill_parent"
 			android:layout_width="0dp"
@@ -37,8 +35,7 @@
 				android:layout_height="0dp"
 				android:layout_width="fill_parent"
 				android:layout_weight="1"
-				android:scaleType="centerCrop"
-				android:src="@drawable/ic_row_thumb_placeholder" />
+				android:scaleType="centerCrop" />
 			<View
 				android:layout_height="5dp"
 				android:layout_width="fill_parent"
@@ -48,8 +45,7 @@
 				android:layout_height="0dp"
 				android:layout_width="fill_parent"
 				android:layout_weight="1"
-				android:scaleType="centerCrop"
-				android:src="@drawable/ic_row_thumb_placeholder" />
+				android:scaleType="centerCrop" />
 		</LinearLayout>
 	</LinearLayout>
 

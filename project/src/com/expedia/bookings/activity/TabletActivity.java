@@ -480,8 +480,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		if (fm.findFragmentByTag(TAG_HOTEL_DETAILS) == null) {
 			showHotelDetailsFragment();
 		}
-
-		mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, mInstance.mProperty);
 	}
 
 	public void showPictureGalleryForHotel(String selectedImageUrl) {

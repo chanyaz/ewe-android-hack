@@ -35,8 +35,8 @@ import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.widget.HotelCollageHandler;
-import com.expedia.bookings.widget.HotelCollageHandler.OnCollageImageClickedListener;
+import com.expedia.bookings.widget.HotelCollage;
+import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
 
 public class HotelDetailsFragment extends Fragment implements EventHandler {
 
@@ -76,7 +76,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	// OTHERS
 	//----------------------------------
 	private LayoutInflater mInflater;
-	private HotelCollageHandler mCollageHandler;
+	private HotelCollage mCollageHandler;
 
 	//////////////////////////////////////////////////////////////////////////
 	// LIFECYCLE EVENTS
@@ -91,7 +91,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mHotelRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
 		mAvailabilitySummaryContainer = (ViewGroup) view.findViewById(R.id.availability_summary_container);
 		mEmptyAvailabilitySummaryTextView = (TextView) view.findViewById(R.id.empty_summart_container);
-		mCollageHandler = new HotelCollageHandler(view, mPictureClickedListener);
+		mCollageHandler = new HotelCollage(view, mPictureClickedListener);
 		mReviewsTitle = (TextView) view.findViewById(R.id.reviews_title);
 		mUserRating = (RatingBar) view.findViewById(R.id.user_rating_bar);
 		mReviewsSection = (ViewGroup) view.findViewById(R.id.reviews_container);

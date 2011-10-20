@@ -3,6 +3,13 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -11,8 +18,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.ImageCache.OnImageLoaded;
 
-public class HotelCollageHandler {
+public class HotelCollage {
 
 	private static final int MAX_NUM_IMAGES = 4;
 
@@ -21,7 +29,9 @@ public class HotelCollageHandler {
 
 	private OnCollageImageClickedListener mListener;
 
-	public HotelCollageHandler(View view, OnCollageImageClickedListener listener) {
+	private int mCurrentIndex;
+
+	public HotelCollage(View view, OnCollageImageClickedListener listener) {
 		mListener = listener;
 
 		mPropertyImageViews = new ArrayList<ImageView>(MAX_NUM_IMAGES);
@@ -31,6 +41,11 @@ public class HotelCollageHandler {
 		mPropertyImageViews.add((ImageView) view.findViewById(R.id.property_image_view_2));
 		mPropertyImageViews.add((ImageView) view.findViewById(R.id.property_image_view_3));
 		mPropertyImageViews.add((ImageView) view.findViewById(R.id.property_image_view_4));
+
+		// Setup the background images
+		for (int i = 0; i < MAX_NUM_IMAGES; i++) {
+			mPropertyImageViews.get(i).setBackgroundResource(R.drawable.blank_placeholder);
+		}
 
 		// clicking on any image in the hotel details should open up
 		// the hotel gallery dialog
@@ -43,15 +58,20 @@ public class HotelCollageHandler {
 		// set the default thumbnails for all images
 		mPropertyUrls.clear();
 		for (int i = 0; i < MAX_NUM_IMAGES; i++) {
-			mPropertyImageViews.get(i).setImageResource(R.drawable.ic_row_thumb_placeholder);
+			mPropertyImageViews.get(i).setImageDrawable(null);
 		}
-		
+
+		mCurrentIndex = 0;
+
+		// Load the property urls
 		List<String> imageUrls = StrUtils.getImageUrls(property);
 		for (int i = 0; i < imageUrls.size() && i < MAX_NUM_IMAGES; i++) {
 			String imageUrl = imageUrls.get(i);
-			ImageCache.loadImage(imageUrl, mPropertyImageViews.get(i));
 			mPropertyUrls.add(imageUrl);
 		}
+
+		// Start the cascade of loading images
+		ImageCache.loadImage(mPropertyUrls.get(mCurrentIndex), mOnImageLoaded);
 	}
 
 	private OnClickListener mCollageImageClickedListener = new OnClickListener() {
@@ -71,4 +91,31 @@ public class HotelCollageHandler {
 		public void onImageClicked(String url);
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Fades images in
+
+	private static final int FADE_TIME = 500;
+	private static final int FADE_PAUSE = 100;
+
+	private final OnImageLoaded mOnImageLoaded = new OnImageLoaded() {
+		public void onImageLoaded(String url, Bitmap bitmap) {
+			Drawable[] layers = new Drawable[2];
+			layers[0] = new ColorDrawable(Color.TRANSPARENT);
+			layers[1] = new BitmapDrawable(bitmap);
+			TransitionDrawable drawable = new TransitionDrawable(layers);
+			mPropertyImageViews.get(mCurrentIndex).setImageDrawable(drawable);
+			drawable.startTransition(FADE_TIME);
+
+			mCurrentIndex++;
+			if (mCurrentIndex < mPropertyImageViews.size()) {
+				mHandler.postDelayed(new Runnable() {
+					public void run() {
+						ImageCache.loadImage(mPropertyUrls.get(mCurrentIndex), mOnImageLoaded);
+					}
+				}, FADE_PAUSE);
+			}
+		}
+	};
+
+	private Handler mHandler = new Handler();
 }

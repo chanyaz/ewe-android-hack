@@ -16,8 +16,8 @@ import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.widget.HotelCollageHandler;
-import com.expedia.bookings.widget.HotelCollageHandler.OnCollageImageClickedListener;
+import com.expedia.bookings.widget.HotelCollage;
+import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
 
 public class MiniDetailsFragment extends Fragment implements EventHandler {
 
@@ -29,11 +29,17 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	private TextView mLocationTextView;
 	private RatingBar mRatingBar;
 	private Button mSeeDetailsButton;
-	
-	private HotelCollageHandler mCollageHandler;
+
+	private HotelCollage mCollageHandler;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		((TabletActivity) getActivity()).registerEventHandler(this);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,7 +49,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		mLocationTextView = (TextView) view.findViewById(R.id.location_text_view);
 		mRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
 		mSeeDetailsButton = (Button) view.findViewById(R.id.see_details_button);
-		mCollageHandler = new HotelCollageHandler(view, mOnImageClickedListener);
+		mCollageHandler = new HotelCollage(view, mOnImageClickedListener);
 
 		mSeeDetailsButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -60,23 +66,15 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((TabletActivity) getActivity()).registerEventHandler(this);
-	}
-
-	@Override
 	public void onDetach() {
 		super.onDetach();
 		((TabletActivity) getActivity()).unregisterEventHandler(this);
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// Callbacks
 
 	private OnCollageImageClickedListener mOnImageClickedListener = new OnCollageImageClickedListener() {
-		
-		@Override
 		public void onImageClicked(String url) {
 			((TabletActivity) getActivity()).moreDetailsForPropertySelected();
 		}
