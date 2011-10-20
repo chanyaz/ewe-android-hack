@@ -21,7 +21,6 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
@@ -132,19 +131,10 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 		setContentView(R.layout.activity_tablet);
 
-		initializeFragmentViews();
-
 		getFragmentManager().addOnBackStackChangedListener(this);
 
 		// Show initial search interface
 		showSearchFragment();
-
-		// if the device was rotated, update layout 
-		// to ensure that containers with fragments in them
-		// are visible
-		if (savedInstanceState != null) {
-			updateLayout();
-		}
 	}
 
 	@Override
@@ -316,12 +306,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	private static final String BACKSTACK_RESULTS = "RESULTS";
 
-	private View mLauncherFragmentContainer;
-	private View mSearchFragmentsContainer;
-	private View mLeftFragmentContainer;
-	private View mRightFragmentContainer;
-	private View mBottomRightFragmentContainer;
-
 	private void initializeInstanceFragment() {
 		// Add (or retrieve an existing) InstanceFragment to hold our state
 		FragmentManager fragmentManager = getFragmentManager();
@@ -334,30 +318,25 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		}
 	}
 
-	private void initializeFragmentViews() {
-		mLauncherFragmentContainer = findViewById(R.id.fragment_launcher);
-		mSearchFragmentsContainer = findViewById(R.id.fragment_search);
-		mLeftFragmentContainer = findViewById(R.id.fragment_left);
-		mRightFragmentContainer = findViewById(R.id.fragment_right);
-		mBottomRightFragmentContainer = findViewById(R.id.fragment_bottom_right);
-	}
-
 	public void showSearchFragment() {
 		FragmentManager fm = getFragmentManager();
 		if (fm.findFragmentByTag(TAG_SEARCH_PARAMS) == null) {
 			FragmentTransaction ft = fm.beginTransaction();
+			addStandardAnimation(ft);
 			ft.add(R.id.fragment_search_params, SearchParamsFragment.newInstance(), TAG_SEARCH_PARAMS);
 			ft.add(R.id.fragment_quick_search, QuickSearchFragment.newInstance(), TAG_QUICK_SEARCH);
+
 			ft.commit();
 		}
 	}
 
 	public void showResultsFragments() {
 		FragmentManager fm = getFragmentManager();
-		if (fm.findFragmentById(R.id.fragment_left) == null) {
+		if (fm.findFragmentById(R.id.fragment_hotel_list) == null) {
 			FragmentTransaction ft = fm.beginTransaction();
-			ft.add(R.id.fragment_left, HotelListFragment.newInstance(), TAG_HOTEL_LIST);
-			ft.add(R.id.fragment_right, HotelMapFragment.newInstance(), TAG_HOTEL_MAP);
+			addStandardAnimation(ft);
+			ft.add(R.id.fragment_hotel_list, HotelListFragment.newInstance(), TAG_HOTEL_LIST);
+			ft.add(R.id.fragment_hotel_map, HotelMapFragment.newInstance(), TAG_HOTEL_MAP);
 			ft.remove(fm.findFragmentByTag(TAG_SEARCH_PARAMS));
 			ft.remove(fm.findFragmentByTag(TAG_QUICK_SEARCH));
 			ft.addToBackStack(BACKSTACK_RESULTS);
@@ -371,33 +350,42 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public void setupBookingInfoExperience() {
 		FragmentManager fm = getFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
-		ft.replace(R.id.fragment_left, RoomsAndRatesFragment.newInstance(), TAG_AVAILABILITY_LIST);
-		ft.replace(R.id.fragment_bottom_right, BookingReceiptFragment.newInstance(), TAG_BOOKING_RECEIPT);
+		addStandardAnimation(ft);
+		ft.add(R.id.fragment_rooms, RoomsAndRatesFragment.newInstance(), TAG_AVAILABILITY_LIST);
+		ft.add(R.id.fragment_receipt, BookingReceiptFragment.newInstance(), TAG_BOOKING_RECEIPT);
+		ft.remove(fm.findFragmentByTag(TAG_HOTEL_LIST));
+		ft.remove(fm.findFragmentByTag(TAG_HOTEL_DETAILS));
 		ft.addToBackStack(null);
 		ft.commit();
-
 	}
-	
+
 	public void showMiniDetailsFragment() {
 		MiniDetailsFragment fragment = MiniDetailsFragment.newInstance();
 
 		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction ft = fragmentManager.beginTransaction();
-		ft.add(R.id.fragment_bottom_right, fragment, TAG_MINI_DETAILS);
+		ft.add(R.id.fragment_details, fragment, TAG_MINI_DETAILS);
 		ft.addToBackStack(null);
 		ft.commit();
 	}
 
 	public void showHotelDetailsFragment() {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_right);
+		Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_hotel_map);
 		HotelDetailsFragment hotelDetailsFragment = HotelDetailsFragment.newInstance();
 		if (fragment != null) {
 			ft.remove(fragment);
 		}
-		ft.replace(R.id.fragment_bottom_right, hotelDetailsFragment, TAG_HOTEL_DETAILS);
+		ft.replace(R.id.fragment_details, hotelDetailsFragment, TAG_HOTEL_DETAILS);
 		ft.addToBackStack(null);
 		ft.commit();
+	}
+
+	private void addStandardAnimation(FragmentTransaction ft) {
+		ft.setCustomAnimations(R.animator.fragment_slide_left_enter,
+				R.animator.fragment_slide_left_exit,
+				R.animator.fragment_slide_right_enter,
+				R.animator.fragment_slide_right_exit);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -405,37 +393,9 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	// 
 	// (includes OnBackStackChangedListener implementation)
 
-	public void updateLayout() {
-		FragmentManager fm = getFragmentManager();
-		if (fm.findFragmentByTag(TAG_HOTEL_LIST) != null) {
-			mLauncherFragmentContainer.setVisibility(View.GONE);
-			mSearchFragmentsContainer.setVisibility(View.VISIBLE);
-		}
-		else {
-			mLauncherFragmentContainer.setVisibility(View.VISIBLE);
-			mSearchFragmentsContainer.setVisibility(View.GONE);
-		}
-
-		updateContainerVisibility(mLeftFragmentContainer);
-		updateContainerVisibility(mRightFragmentContainer);
-		updateContainerVisibility(mBottomRightFragmentContainer);
-	}
-
-	/*
-	 * This method makes "gone" the containers that either dont
-	 * have any views at all, or none that are added to the 
-	 * activity
-	 */
-	private void updateContainerVisibility(View container) {
-		Fragment fragment = getFragmentManager().findFragmentById(container.getId());
-		container.setVisibility((fragment != null && fragment.isAdded()) ? View.VISIBLE : View.GONE);
-	}
-
 	@Override
 	public void onBackStackChanged() {
 		Log.v("onBackStackChanged()");
-
-		updateLayout();
 
 		invalidateOptionsMenu();
 	}
@@ -514,18 +474,18 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	public void bookRoom(Rate rate) {
 		mInstance.mRate = rate;
-		
+
 		FragmentManager fm = getFragmentManager();
 		if (fm.findFragmentByTag(TAG_AVAILABILITY_LIST) == null) {
 			setupBookingInfoExperience();
 		}
 	}
-	
+
 	public void rateSelected(Rate rate) {
 		mInstance.mRate = rate;
-		
+
 		mEventManager.notifyEventHandlers(EVENT_RATE_SELECTED, null);
-		
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -554,19 +514,19 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public ReviewsResponse getReviewsForProperty() {
 		return mInstance.mReviewsResponse;
 	}
-	
+
 	public PropertyInfoResponse getInfoForProperty() {
 		return mInstance.mPropertyInfoResponse;
 	}
-	
+
 	public String getPropertyInfoQueryStatus() {
 		return mInstance.mPropertyInfoStatus;
 	}
-	
+
 	public Rate getRoomRateForBooking() {
 		return mInstance.mRate;
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// SearchParams management
 
@@ -854,43 +814,44 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	//////////////////////////////////////////////////////////////////////////
 	// Hotel Info
-	
+
 	private void startPropertyInfoDownload(Property property) {
 		//clear out previous results
 		mInstance.mPropertyInfoResponse = null;
 		mInstance.mPropertyInfoStatus = null;
-		
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		
+
 		bd.cancelDownload(KEY_PROPERTY_INFO);
 		bd.startDownload(KEY_PROPERTY_INFO, mPropertyInfoDownload, mPropertyInfoCallback);
 	}
 
 	private Download mPropertyInfoDownload = new Download() {
-		
+
 		@Override
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			return services.info(mInstance.mProperty);
 		}
 	};
-	
+
 	private OnDownloadComplete mPropertyInfoCallback = new OnDownloadComplete() {
-		
+
 		@Override
 		public void onDownload(Object results) {
 			mInstance.mPropertyInfoResponse = (PropertyInfoResponse) results;
 			mInstance.mPropertyInfoStatus = null;
-			
-			if(mInstance.mPropertyInfoResponse == null) {
+
+			if (mInstance.mPropertyInfoResponse == null) {
 				mInstance.mPropertyInfoStatus = getString(R.string.error_room_type_load);
-				mEventManager.notifyEventHandlers(EVENT_PROPERTY_INFO_QUERY_ERROR, null); 
-			} else {
-				mEventManager.notifyEventHandlers(EVENT_PROPERTY_INFO_QUERY_COMPLETE, null); 
+				mEventManager.notifyEventHandlers(EVENT_PROPERTY_INFO_QUERY_ERROR, null);
+			}
+			else {
+				mEventManager.notifyEventHandlers(EVENT_PROPERTY_INFO_QUERY_COMPLETE, null);
 			}
 		}
 	};
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// Hotel Reviews
 

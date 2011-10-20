@@ -47,6 +47,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		TabletActivity activity = (TabletActivity) getActivity();
 
 		mMapView = activity.getMapView();
+		mMapView.setClickable(true);
 
 		// Add the initial overlays
 		List<Overlay> overlays = mMapView.getOverlays();

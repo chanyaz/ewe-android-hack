@@ -1,56 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:orientation="horizontal">
-	<LinearLayout
-		android:id="@+id/fragment_launcher"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:orientation="vertical">
-		<LinearLayout
-			android:id="@+id/fragment_search_params"
-			android:layout_width="fill_parent"
-			android:layout_height="0dp"
-			android:layout_weight="1" />
-		<LinearLayout
-			android:id="@+id/fragment_quick_search"
-			android:layout_width="fill_parent"
-			android:layout_height="0dp"
-			android:layout_weight="1" />
-	</LinearLayout>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-	<LinearLayout
-		android:id="@+id/fragment_search"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:visibility="gone">
-		<LinearLayout
-			android:id="@+id/fragment_left"
-			android:layout_width="0dp"
-			android:layout_height="fill_parent"
-			android:layout_weight="1" />
-		<View
-			android:layout_width="@dimen/one_pixel"
-			android:layout_height="fill_parent"
-			android:background="@color/light_gray" />
-		<LinearLayout
-			android:layout_width="0dp"
-			android:layout_height="fill_parent"
-			android:layout_weight="2"
-			android:orientation="vertical">
-			<LinearLayout
-				android:id="@+id/fragment_right"
-				android:layout_width="fill_parent"
-				android:layout_height="0dp"
-				android:layout_weight="2" />
-			<LinearLayout
-				android:id="@+id/fragment_bottom_right"
-				android:layout_width="fill_parent"
-				android:layout_height="0dp"
-				android:layout_weight="1"
-				android:visibility="gone" />
-		</LinearLayout>
-	</LinearLayout>
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/fragment_search_params"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/fragment_quick_search"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:id="@+id/fragment_hotel_list"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/fragment_hotel_map"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+
+            <LinearLayout
+                android:id="@+id/fragment_details"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:id="@+id/fragment_rooms"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/fragment_receipt"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+</FrameLayout>
