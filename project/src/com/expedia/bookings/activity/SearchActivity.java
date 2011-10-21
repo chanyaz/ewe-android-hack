@@ -588,7 +588,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mChildrenNumberPicker.setRange(0, 4);
 		mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
 		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
-		setNumberPickerRanges();
 
 		setActivityByTag(mTag);
 		setShowDistance(mShowDistance);
@@ -653,6 +652,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		setDrawerViews();
 		setSearchEditViews();
 		setBottomBarOptions();
+		setNumberPickerRanges();
 
 		// #9103: Must add this after onResume(); otherwise it gets called when mSearchEditText
 		// automagically restores its previous state.
