@@ -122,8 +122,6 @@
 	<string name="widget_config_title">Hotel Deals Widget</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Tilføj Widget</string>
-	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Få lokale tilbud, hver aften</string>
 	<!--  Instructions on how to add widget to home screen -->
 	<string name="widget_add_instructions">Bank, og hold på din homescreen, for at tilføje din Hotel Radar widget.</string>
 	<!--  Title for configuration options section in the widget config activity -->
@@ -143,7 +141,7 @@
 	<!--  First string for widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short_1">&lt;b>Tilføj din Hotel Radar Widget.&lt;/b></string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">&lt;b>Get nightly deals near you!&lt;/b></string>
+	<string name="widget_upsell_short_2">&lt;b>Få lokale tilbud, hver aften!&lt;/b></string>
 	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
 	<string name="enjoy_your_stay">Nyd dit ophold!</string>
 	

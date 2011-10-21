@@ -114,8 +114,6 @@
 	<string name="widget_config_title">Widget Tawaran Hotel</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Tambah Widget</string>
-	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Dapatkan tawaran tiap malam dekat lokasi Anda!</string>
 	<!--  Instructions on how to add widget to home screen -->
 	<string name="widget_add_instructions">Ketuk dan tahan pada tampilan layar awal untuk menambahkan widget Hotel Radar.</string>
 	<!--  Title for configuration options section in the widget config activity -->

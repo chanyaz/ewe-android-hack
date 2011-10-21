@@ -122,8 +122,6 @@
 	<string name="widget_config_title">Widget ng Mga Kasunduan ng Hotel</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Magdagdag ng Widget</string>
-	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Makakuha ng mga deal gabi-gabi malapit sa iyo! </string>
 	<!--  Instructions on how to add widget to home screen -->
 	<string name="widget_add_instructions">Tapikin at pumindot nang matagal sa iyong home screen upang idagdag ang widget ng Hotel Radar.</string>
 	<!--  Title for configuration options section in the widget config activity -->

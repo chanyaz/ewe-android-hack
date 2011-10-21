@@ -122,8 +122,6 @@
 	<string name="widget_config_title">Miniprogram for hotelltilbud</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Legg til miniprogram</string>
-	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Motta tilbud nær deg!</string>
 	<!--  Instructions on how to add widget to home screen -->
 	<string name="widget_add_instructions">Trykk og hold på hjemmeskjermen for å legge til miniprogrammet Hotel Radar.</string>
 	<!--  Title for configuration options section in the widget config activity -->

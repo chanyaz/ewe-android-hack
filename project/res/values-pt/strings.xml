@@ -122,8 +122,6 @@
 	<string name="widget_config_title">Widget com Ofertas de Hotéis</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Adicionar Widget</string>
-	<!--  Widget description in configuration activity -->
-	<string name="widget_description">Receba todas as noites as ofertas perto de você!</string>
 	<!--  Instructions on how to add widget to home screen -->
 	<string name="widget_add_instructions"> Toque e mantenha o dedo na tela inicial para adicionar o widget Hotel Radar.</string>
 	<!--  Title for configuration options section in the widget config activity -->
