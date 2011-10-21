@@ -192,7 +192,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			mEmptyAvailabilitySummaryTextView.setVisibility(View.GONE);
 			mAvailabilitySummaryContainer.setVisibility(View.VISIBLE);
 			updateSummarizedRates((AvailabilityResponse) data);
-			mBookNowButton.setEnabled(true);
 			break;
 		case TabletActivity.EVENT_PROPERTY_SELECTED:
 			updateViews((Property) data);
@@ -257,6 +256,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			clusterByBedType();
 			summarizeRates();
 			layoutAvailabilitySummary();
+			mBookNowButton.setEnabled(true);
 		}
 		else {
 			// since the data is not yet available,
