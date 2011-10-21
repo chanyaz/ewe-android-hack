@@ -251,6 +251,8 @@
 					android:includeFontPadding="false"
 					android:layout_centerVertical="true"
 					android:layout_toRightOf="@id/sort_text_view"
+					android:singleLine="true"
+					android:ellipsize="end"
 					android:textSize="14sp"
 					style="@style/BottomBarText" />
 			</RelativeLayout>
