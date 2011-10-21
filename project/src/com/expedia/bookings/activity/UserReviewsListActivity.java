@@ -413,7 +413,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				false);
 
 		// Configure the book now button
-		Button bookNowButton = (Button) findViewById(R.id.book_now_button);
+		TextView bookNowButton = (TextView) findViewById(R.id.book_now_button);
 		bookNowButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent newIntent = new Intent(mContext, RoomsAndRatesListActivity.class);
