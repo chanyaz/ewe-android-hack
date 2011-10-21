@@ -182,8 +182,11 @@ public class BookingInfoFragment extends DialogFragment {
 			expandBillingForm(false);
 		}
 		mFormHasBeenFocused = false;
+		
+		Dialog dialog = builder.create();
+		dialog.setCanceledOnTouchOutside(false);
 
-		return builder.create();
+		return dialog;
 	}
 
 	@Override
@@ -727,6 +730,7 @@ public class BookingInfoFragment extends DialogFragment {
 			ProgressDialog pd = new ProgressDialog(getActivity());
 			pd.setMessage(getString(R.string.booking_loading));
 			pd.setCancelable(false);
+			pd.setCanceledOnTouchOutside(false);
 			return pd;
 		}
 		
