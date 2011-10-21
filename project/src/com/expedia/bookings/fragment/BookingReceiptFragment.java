@@ -5,7 +5,9 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
@@ -51,6 +53,16 @@ public class BookingReceiptFragment extends Fragment implements EventHandler {
 
 		mRoomTypeFragmentHandler = new RoomTypeFragmentHandler(((TabletActivity) getActivity()), receipt, property,
 				searchParams, rate);
+		Button completeBookingInfo = (Button) receipt.findViewById(R.id.complete_booking_info);
+		completeBookingInfo.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				((TabletActivity) getActivity()).completeBookingInfo();
+				
+			}
+		});
+		
 		mRoomTypeFragmentHandler.onCreate(savedInstanceState);
 		return receipt;
 	}

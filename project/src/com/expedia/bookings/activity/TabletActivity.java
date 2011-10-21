@@ -3,6 +3,8 @@ package com.expedia.bookings.activity;
 import java.util.Calendar;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import android.app.ActionBar;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
@@ -25,6 +27,9 @@ import android.widget.SearchView.OnQueryTextListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.PropertyInfoResponse;
@@ -34,6 +39,11 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.fragment.BookingInfoFragment;
+import com.expedia.bookings.fragment.BookingInfoFragment.BookingInProgressDialogFragment;
+import com.expedia.bookings.fragment.BookingInfoFragment.ErrorBookingDialogFragment;
+import com.expedia.bookings.fragment.BookingInfoFragment.NullBookingDialogFragment;
+import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.fragment.BookingReceiptFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.EventManager;
@@ -54,6 +64,7 @@ import com.expedia.bookings.fragment.SortDialogFragment;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.mobiata.android.BackgroundDownloader;
@@ -92,12 +103,14 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public static final int EVENT_PROPERTY_INFO_QUERY_COMPLETE = 17;
 	public static final int EVENT_PROPERTY_INFO_QUERY_ERROR = 18;
 	public static final int EVENT_RATE_SELECTED = 19;
+	public static final int EVENT_NEXT_FROM_SECURITY_CODE = 20;
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_AVAILABILITY_SEARCH = "KEY_AVAILABILITY_SEARCH";
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
 	private static final String KEY_REVIEWS = "KEY_REVIEWS";
 	private static final String KEY_PROPERTY_INFO = "KEY_PROPERTY_INFO";
+	private static final String KEY_BOOKING = "KEY_BOOKING";
 
 	//////////////////////////////////////////////////////////////////////////
 	// Fragments
@@ -303,6 +316,10 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private static final String TAG_MINI_DETAILS = "MINI_DETAILS";
 	private static final String TAG_AVAILABILITY_LIST = "TAG_AVAILABILITY_LIST";
 	private static final String TAG_BOOKING_RECEIPT = "TAG_BOOKING_RECEIPT";
+	private static final String TAG_BOOKING_INFO = "TAG_BOOKING_INFO";
+	private static final String TAG_DIALOG_NULL_BOOKING = "TAG_DIALOG_NULL_BOOKING";
+	private static final String TAG_DIALOG_BOOKING_ERROR = "TAG_DIALOG_BOOKING_ERROR";
+	private static final String TAG_DIALOG_BOOKING_PROGRESS = "TAG_DIALOG_BOOKING_PROGRESS";
 
 	private static final String BACKSTACK_RESULTS = "RESULTS";
 
@@ -493,12 +510,30 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		if (fm.findFragmentByTag(TAG_AVAILABILITY_LIST) == null) {
 			setupBookingInfoExperience();
 		}
+
+	}
+
+	public void completeBookingInfo() {
+		BookingInfoFragment.newInstance().show(getFragmentManager(), TAG_BOOKING_INFO);
 	}
 
 	public void rateSelected(Rate rate) {
 		mInstance.mRate = rate;
 
 		mEventManager.notifyEventHandlers(EVENT_RATE_SELECTED, null);
+
+	}
+
+	public void focusOnRulesAndRestrictions() {
+		// TODO
+	}
+
+	public void bookingCompleted(BillingInfo billingInfo) {
+		mInstance.mBillingInfo = billingInfo;
+		BookingInProgressDialogFragment.newInstance().show(getFragmentManager(), TAG_DIALOG_BOOKING_PROGRESS);
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.cancelDownload(KEY_BOOKING);
+		bd.startDownload(KEY_BOOKING, mBookingDownload, mBookingCallback);
 
 	}
 
@@ -539,6 +574,33 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	public Rate getRoomRateForBooking() {
 		return mInstance.mRate;
+	}
+
+	public BookingInfoValidation getBookingInfoValidation() {
+		if (mInstance.mBookingInfoValidation == null) {
+			mInstance.mBookingInfoValidation = new BookingInfoValidation();
+		}
+		return mInstance.mBookingInfoValidation;
+	}
+
+	public BillingInfo getBillingInfo() {
+		return mInstance.mBillingInfo;
+	}
+
+	public BookingResponse getBookingResponse() {
+		return mInstance.mBookingResponse;
+	}
+
+	public boolean loadBillingInfo() {
+		// load the billing info
+		BillingInfo tmpInfo = new BillingInfo();
+		if (tmpInfo.load(this)) {
+			mInstance.mBillingInfo = tmpInfo;
+			return true;
+		}
+
+		mInstance.mBillingInfo = new BillingInfo();
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -902,6 +964,55 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			else {
 				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_COMPLETE, mInstance.mReviewsResponse);
 			}
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// Hotel Booking
+
+	private OnDownloadComplete mBookingCallback = new OnDownloadComplete() {
+
+		@Override
+		public void onDownload(Object results) {
+			((BookingInProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_DIALOG_BOOKING_PROGRESS))
+					.dismiss();
+			if (results == null) {
+				NullBookingDialogFragment.newInstance().show(getFragmentManager(), TAG_DIALOG_NULL_BOOKING);
+				TrackingUtils.trackErrorPage(TabletActivity.this, "ReservationRequestFailed");
+				return;
+			}
+
+			BookingResponse response = (BookingResponse) results;
+			if (response.hasErrors()) {
+				ErrorBookingDialogFragment.newInstance().show(getFragmentManager(), TAG_DIALOG_BOOKING_ERROR);
+				TrackingUtils.trackErrorPage(TabletActivity.this, "ReservationRequestFailed");
+				return;
+			}
+
+			mInstance.mSession = response.getSession();
+
+			Intent intent = new Intent(TabletActivity.this, ConfirmationActivity.class);
+			intent.fillIn(getIntent(), 0);
+			intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
+			intent.putExtra(Codes.SESSION, mInstance.mSession.toJson().toString());
+			intent.putExtra(Codes.PROPERTY_INFO, mInstance.mPropertyInfoResponse.getPropertyInfo().toJson().toString());
+
+			// Create a BillingInfo that lacks the user's security code (for safety)
+			JSONObject billingJson = mInstance.mBillingInfo.toJson();
+			billingJson.remove("securityCode");
+			intent.putExtra(Codes.BILLING_INFO, billingJson.toString());
+
+			startActivity(intent);
+		}
+	};
+
+	private Download mBookingDownload = new Download() {
+
+		@Override
+		public Object doDownload() {
+			ExpediaServices services = new ExpediaServices(TabletActivity.this, mInstance.mSession);
+			return services.reservation(mInstance.mSearchParams, mInstance.mProperty, mInstance.mRate,
+					mInstance.mBillingInfo);
 		}
 	};
 

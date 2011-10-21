@@ -3,6 +3,9 @@ package com.expedia.bookings.fragment;
 import android.app.Fragment;
 
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.PropertyInfoResponse;
@@ -46,4 +49,10 @@ public class InstanceFragment extends Fragment {
 	public PropertyInfoResponse mPropertyInfoResponse;
 	public AvailabilityResponse mAvailabilityResponse;
 	public ReviewsResponse mReviewsResponse;
+	public BookingResponse mBookingResponse;
+	
+	// The data that the user has entered for billing info
+	public BillingInfo mBillingInfo;
+	public CreditCardType mCreditCardType;
+	public BookingInfoValidation mBookingInfoValidation;
 }
