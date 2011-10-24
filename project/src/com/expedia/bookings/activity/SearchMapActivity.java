@@ -25,14 +25,12 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.widget.DoubleTapToZoomListenerOverlay;
 import com.mobiata.android.widget.ExactLocationItemizedOverlay;
-import com.mobiata.android.widget.FixedMyLocationOverlay;
 
 public class SearchMapActivity extends MapActivity implements SearchListener, OnFilterChangedListener, MapViewListener,
 		SetShowDistanceListener, ExactSearchLocationSearchedListener {
@@ -45,13 +43,9 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	private MapView mMapView;
 	private SearchResponse mSearchResponse;
 	private HotelItemizedOverlay mHotelItemizedOverlay;
-	private MyLocationOverlay mMyLocationOverlay;
 	private ExactLocationItemizedOverlay mExactLocationItemizedOverlay;
 	private DoubleTapToZoomListenerOverlay mDoubleTapToZoomListenerOverlay;
 
-	// Keeps track of whether this Activity is being actively displayed.  If not, do not
-	// enable the MyLocationOverlay.
-	private boolean mIsActive;
 	private boolean mShowDistance = true;
 	private double mExactLocationLatitude;
 	private double mExactLocationLongitude;
@@ -99,10 +93,8 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 		restoreMapState(savedInstanceState);
 
-		mIsActive = false;
-
 		restoreSavedExactSearchLocation();
-		
+
 		OnBalloonTap onTap = new OnBalloonTap() {
 			@Override
 			public void onBalloonTap(Property property) {
@@ -119,20 +111,8 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mHotelItemizedOverlay.setShowDistance(mShowDistance);
 		mHotelItemizedOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
 
-		mMyLocationOverlay = new FixedMyLocationOverlay(this, mMapView);
 		mExactLocationItemizedOverlay = new ExactLocationItemizedOverlay(this, mMapView);
 		mDoubleTapToZoomListenerOverlay = new DoubleTapToZoomListenerOverlay(this, mMapView);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-
-		mIsActive = false;
-
-		if (mMyLocationOverlay != null) {
-			mMyLocationOverlay.disableMyLocation();
-		}
 	}
 
 	@Override
@@ -147,12 +127,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	protected void onResume() {
 		super.onResume();
 
-		mIsActive = true;
-
-		if (mMyLocationOverlay != null) {
-			mMyLocationOverlay.enableMyLocation();
-		}
-		
 		focusOnProperties();
 	}
 
@@ -237,26 +211,18 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			}
 		}
 
-		if (mIsActive) {
-			mMyLocationOverlay.enableMyLocation();
-		}
-
-		if(!overlays.contains(mDoubleTapToZoomListenerOverlay)) {
+		if (!overlays.contains(mDoubleTapToZoomListenerOverlay)) {
 			overlays.add(mDoubleTapToZoomListenerOverlay);
 		}
-		
-		if(!overlays.contains(mHotelItemizedOverlay)) {
+
+		if (!overlays.contains(mHotelItemizedOverlay)) {
 			overlays.add(mHotelItemizedOverlay);
 		}
-		
-		if(!overlays.contains(mMyLocationOverlay)) {
-			overlays.add(mMyLocationOverlay);
-		}
-		
-		if(!overlays.contains(mExactLocationItemizedOverlay)) {
+
+		if (!overlays.contains(mExactLocationItemizedOverlay)) {
 			overlays.add(mExactLocationItemizedOverlay);
 		}
-		
+
 		// Set the center point
 		focusOnProperties();
 	}
@@ -280,14 +246,10 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mSavedCenter = null;
 		mTappedPropertyId = null;
 		mIsExactLocationTapped = false;
-		
+
 		mMapView.getOverlays().clear();
 
-		if (mMyLocationOverlay != null) {
-			mMyLocationOverlay.disableMyLocation();
-		}
-		
-		if(mExactLocationItemizedOverlay != null) {
+		if (mExactLocationItemizedOverlay != null) {
 			mExactLocationItemizedOverlay.hideBalloon();
 		}
 	}

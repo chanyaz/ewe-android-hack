@@ -897,10 +897,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	public void onLocationChanged(Location location) {
 		Log.d("onLocationChanged(): " + location.toString());
 
-		setSearchParams(location.getLatitude(), location.getLongitude());
-		setShowDistance(true);
-		dontShowExactLocation();
-		startSearchDownloader();
+		onLocationFound(location);
 
 		stopLocationListener();
 	}
@@ -1405,10 +1402,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
 			Location location = LocationServices.getLastBestLocation(this, minTime);
 			if (location != null) {
-				setSearchParams(location.getLatitude(), location.getLongitude());
-				setShowDistance(true);
-				dontShowExactLocation();
-				startSearchDownloader();
+				onLocationChanged(location);
 			}
 			else {
 				startLocationListener();
@@ -1477,6 +1471,13 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			}
 		}
 	};
+
+	private void onLocationFound(Location location) {
+		setSearchParams(location.getLatitude(), location.getLongitude());
+		setShowDistance(true);
+		showExactLocation(location.getLatitude(), location.getLongitude(), getString(R.string.current_location));
+		startSearchDownloader();
+	}
 
 	private void startSearchDownloader() {
 		showLoading(true, R.string.progress_searching_hotels);
