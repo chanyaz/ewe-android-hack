@@ -1348,7 +1348,6 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mFilter.setSearchRadius(Filter.SearchRadius.LARGE);
 
 		setDrawerViews();
-		buildFilter();
 	}
 
 	private void setSearchParams(Double latitde, Double longitude) {
@@ -2356,6 +2355,21 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			break;
 		default:
 			break;
+		}
+
+		// Configure the rating buttons
+		double minStarRating = mFilter.getMinimumStarRating();
+		if (minStarRating >= 5) {
+			mRatingButtonGroup.check(R.id.rating_high_button);
+		}
+		else if (minStarRating >= 4) {
+			mRatingButtonGroup.check(R.id.rating_medium_button);
+		}
+		else if (minStarRating >= 3) {
+			mRatingButtonGroup.check(R.id.rating_low_button);
+		}
+		else {
+			mRatingButtonGroup.check(R.id.rating_all_button);
 		}
 
 		// Configure the search radius buttons
