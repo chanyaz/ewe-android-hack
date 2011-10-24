@@ -2691,16 +2691,18 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			if (s.toString().equals(getString(R.string.current_location))) {
+			String str = s.toString();
+			int len = s.length();
+			if (str.equals(getString(R.string.current_location)) || len == 0) {
 				mSearchParams.setSearchType(SearchType.MY_LOCATION);
 				mSearchParams.setFreeformLocation(getString(R.string.current_location));
 				mSearchParams.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
 			}
-			else if (s.toString().equals(getString(R.string.visible_map_area))) {
+			else if (str.equals(getString(R.string.visible_map_area))) {
 				mSearchParams.setSearchType(SearchType.PROXIMITY);
 				mSearchParams.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
 			}
-			else if (count > 0) {
+			else if (len > 0) {
 				mSearchParams.setSearchType(SearchType.FREEFORM);
 				mSearchParams.setFreeformLocation(s.toString());
 			}
