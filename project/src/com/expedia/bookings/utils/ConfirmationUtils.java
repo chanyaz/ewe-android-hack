@@ -9,7 +9,9 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.text.Html;
 
 import com.expedia.bookings.R;
@@ -19,13 +21,11 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.PropertyInfoResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.IoUtils;
 
 public class ConfirmationUtils {
@@ -175,6 +175,15 @@ public class ConfirmationUtils {
 		File savedConfResults = context.getFileStreamPath(ConfirmationUtils.CONFIRMATION_DATA_FILE);
 		return savedConfResults.delete();
 	}
+	
+	public static Intent generateIntentToShowPropertyOnMap(Property property) {
+		Intent newIntent = new Intent(Intent.ACTION_VIEW);
+		String queryAddress = StrUtils.formatAddress(property.getLocation()).replace("\n", " ");
+		newIntent.setData(Uri.parse("geo:0,0?q=" + queryAddress));
+		return newIntent;
+	}
+
+	
 
 	private static void appendLabelValue(Context context, StringBuilder sb, int labelStrId, String value) {
 		appendLabelValue(sb, context.getString(labelStrId), value);

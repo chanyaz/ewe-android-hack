@@ -254,10 +254,7 @@ public class ConfirmationActivity extends MapActivity {
 		mapButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent newIntent = new Intent(Intent.ACTION_VIEW);
-				String queryAddress = StrUtils.formatAddress(mProperty.getLocation()).replace("\n", " ");
-				newIntent.setData(Uri.parse("geo:0,0?q=" + queryAddress));
-				startActivity(newIntent);
+				startActivity(ConfirmationUtils.generateIntentToShowPropertyOnMap(mProperty));
 			}
 		});
 

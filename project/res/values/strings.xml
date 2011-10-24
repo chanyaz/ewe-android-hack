@@ -477,6 +477,7 @@
 	<!--  Confirmation Fragment -->
 	<string name="share_booking_info">Share Booking Info</string>
 	<string name="start_new_search">Start a New Search</string>
+	<string name="show_on_map">Show on Map</string>
 	
 	<!-- Rate template strings -->
 	<!-- Label for the number of guests the booking is for. -->

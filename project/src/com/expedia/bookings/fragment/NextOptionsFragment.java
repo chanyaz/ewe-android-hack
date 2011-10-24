@@ -32,7 +32,7 @@ public class NextOptionsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_next_options, container, false);
 
-		Button shareBookingButton = (Button) view.findViewById(R.id.share_booking_info_button);
+		View shareBookingButton =  view.findViewById(R.id.share_booking_info_button);
 		shareBookingButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -63,8 +63,18 @@ public class NextOptionsFragment extends Fragment {
 						contactText);
 			}
 		});
+		
+		View showOnMapButton = view.findViewById(R.id.show_on_map_button);
+		showOnMapButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
+				startActivity(ConfirmationUtils.generateIntentToShowPropertyOnMap(property));
+			}
+		});
 
-		Button nextSearchButton = (Button) view.findViewById(R.id.start_new_search_button);
+		View nextSearchButton = view.findViewById(R.id.start_new_search_button);
 		nextSearchButton.setOnClickListener(new OnClickListener() {
 
 			@Override
