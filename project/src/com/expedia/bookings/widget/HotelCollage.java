@@ -107,7 +107,7 @@ public class HotelCollage {
 			drawable.startTransition(FADE_TIME);
 
 			mCurrentIndex++;
-			if (mCurrentIndex < mPropertyImageViews.size()) {
+			if (mCurrentIndex < mPropertyUrls.size() && mCurrentIndex < mPropertyImageViews.size()) {
 				mHandler.postDelayed(new Runnable() {
 					public void run() {
 						ImageCache.loadImage(mPropertyUrls.get(mCurrentIndex), mOnImageLoaded);
