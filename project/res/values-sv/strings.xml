@@ -123,7 +123,7 @@
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Lägg till Skrivbordsprogram</string>
 	<!--  Instructions on how to add widget to home screen -->
-	<string name="widget_add_instructions">»Knappa och håll på startskärmen för att lägga till skrivbordsprogrammet med Hotel Radar.«</string>
+	<string name="widget_add_instructions">Knappa och håll på startskärmen för att lägga till skrivbordsprogrammet med Hotel Radar.</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">Visa hotellerbjudanden nära:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->

@@ -61,11 +61,11 @@
 	<!-- Filter option for "show all" -->
 	<string name="all">Alle</string>
 	<!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_cheap">€</string>
+	<string name="filter_price_cheap">$</string>
 	<!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_moderate">€€</string>
+	<string name="filter_price_moderate">$$</string>
 	<!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_expensive">€€€</string>
+	<string name="filter_price_expensive">$$$</string>
 	<!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
 	<string name="filter_stars_three">3+</string>
 	<!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
@@ -133,7 +133,7 @@
 	<!--  Widget Branding title -->
 	<string name="hotel_radar">Hotel Radar</string>
 	<!--  Widget Branding description -->
-	<string name="book_a_room_tonight">Buchen Sie ein Zimmer für heute Abend.</string>
+	<string name="book_a_room_tonight">Buchen Sie ein Zimmer!</string>
 	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
 	<string name="save_upto_template">Sparen Sie bis zu %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
@@ -509,7 +509,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Bitte bewerten Sie uns!</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Unterstützt von Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Datenschutzrichtlinie</a></string>
+	<string name="powered_by_opinion_lab">Unterstützt von Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Datenschutz</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">Email-Addresse</string>
 	<!-- Hint to type in comments -->

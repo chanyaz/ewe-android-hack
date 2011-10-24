@@ -489,7 +489,7 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Programstøtte</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Reis smart</string>
+	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->

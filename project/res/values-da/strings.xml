@@ -289,7 +289,7 @@
 	<plurals name="number_of_rooms_left">
 		<item quantity="zero">Ingen værelser tilbage!</item>
 		<item quantity="one">Kun 1 værelse tilbage!</item>
-		<item quantity="two">Kun %d værelser tilbage!</item>
+		<item quantity="two"> %d værelser tilbage!</item>
 		<item quantity="many">%d værelser tilbage!</item>
 		<item quantity="other">%d værelser tilbage!</item>
 	</plurals>
@@ -493,7 +493,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hoteller</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hej,\n\nCheck Expedia Hotels til  iPhone and Android telefoner. Det er gratis, og du kan nemt søge efter, og reservere værelser, på over 130,000 hoteller, varden over. Det er den nemmeste måde at reserver hotelværelser med din telefon.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hej,\n\nCheck Expedia Hotels til iPhone and Android telefoner. Det er gratis, og du kan nemt søge efter, og reservere værelser, på over 130,000 hoteller, varden over. Det er den nemmeste måde at reserver hotelværelser med din telefon.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Vilkår og betingelser</string>
 	<!-- Label for link to privacy policy -->

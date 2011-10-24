@@ -46,7 +46,7 @@
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
 	<string name="ProviderOutOfService">Votre système de positionnement est hors service. Veuillez réessayer plus tard.</string>
 	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">Votre système de positionnement est temporairement indisponible.  Veuillez ressayer dans quelques minutes.</string>
+	<string name="ProviderTemporarilyUnavailable">Votre système de positionnement est temporairement indisponible. Veuillez réessayer dans quelques minutes.</string>
 
 	<!-- Sort descriptions, e.g. Sorted by "description" -->
 	<!-- Sort by distance label -->
@@ -56,7 +56,7 @@
 	<!-- Sort by price label -->
 	<string name="sort_description_price">Prix</string>
 	<!-- Sort by user rating label -->
-	<string name="sort_description_rating">Avis voyageurs</string>
+	<string name="sort_description_rating">Avis</string>
 	
 	<!-- Filter option for "show all" -->
 	<string name="all">Tout</string>
@@ -111,7 +111,7 @@
 	<!--  Default Loading message for widget -->
 	<string name="loading_hotels">Chargement en cours...</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">Économisez %2.0f%%</string>
+	<string name="widget_savings_template">- %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Toucher pour mettre à jour</string>
 	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
@@ -133,7 +133,7 @@
 	<!--  Widget Branding title -->
 	<string name="hotel_radar">Hotel Radar</string>
 	<!--  Widget Branding description -->
-	<string name="book_a_room_tonight">Réserver une chambre pour la nuit.</string>
+	<string name="book_a_room_tonight">Réservez une chambre !</string>
 	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
 	<string name="save_upto_template">Économisez jusqu\'à %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
@@ -192,7 +192,7 @@
 	<!-- Pool amenity -->
 	<string name="AmenityPool">Piscine</string>
 	<!-- Restaurant on-site amenity -->
-	<string name="AmenityRestaurant">Restauration</string>
+	<string name="AmenityRestaurant">Restaurant</string>
 	<!-- Spa on-site amenity -->
 	<string name="AmenitySpa">Spa</string>
 	<!-- Whirlpool bath amenity -->
@@ -248,7 +248,7 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> clients sur &lt;b>%2$d&lt;/b> recommandent cet hôtel.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b>%1$d&lt;/b> clients sur &lt;b>%2$d&lt;/b> recommandent cet hôtel</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d avis</item>
@@ -294,7 +294,7 @@
 		<item quantity="other">Il reste %d chambres disponibles sur Expedia!</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">Économisez \n %2.0f%%</string>
+	<string name="savings_template">Remise\n %2.0f%%</string>
 	<!-- Label for free nights -->
 	<string name="free">GRATUIT !</string>
 	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
@@ -308,7 +308,7 @@
 	<!-- Label for room type -->
 	<string name="room_type">Type de chambre</string>
 	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">Nous ne sommes pas en mesure de charger les details de la chambre.  Veuillez verifier votre connexion Internet et réessayer</string>
+	<string name="error_room_type_load">Nous ne sommes pas en mesure de charger les détails de la chambre.  Veuillez verifier votre connexion Internet et réessayer</string>
 	<!-- Error if we couldn't find the room type details -->
 	<string name="error_room_type_nonexistant">Nous ne sommes pas en mesure de trouver d\’autres informations sur cette chambre.</string>
 	<!-- Label for bed type -->
@@ -373,7 +373,7 @@
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">Confirmez &amp; Réservez</string>
 	<!-- Label for clearing private data -->
-	<string name="clear_private_data">Supprimer vos données personnelles</string>
+	<string name="clear_private_data">Supprimer vos données</string>
 	<!-- Title for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_title">Supprimer les donnes personnelles ?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
@@ -495,7 +495,7 @@
 	<!-- Message body for "tell a friend" feature -->
 	<string name="tell_a_friend_body">Bonjour,\n\nViens jeter un oeil à Expedia Hôtels pour Android et iPhone ! Cette application est gratuite et te permettra de rechercher et de réserver plus de 100 000 hôtels dans le monde entier. C\'est la façon la plus simple de réserver un hôtel avec ton téléphone !\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
-	<string name="info_label_terms_conditions">Conditions d\’utilisation</string>
+	<string name="info_label_terms_conditions">Conditions d\'utilisation</string>
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Charte de confidentialité</string>
 	<!-- Copyright information -->

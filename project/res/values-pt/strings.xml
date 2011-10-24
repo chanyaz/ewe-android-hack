@@ -56,7 +56,7 @@
 	<!-- Sort by price label -->
 	<string name="sort_description_price">Preço</string>
 	<!-- Sort by user rating label -->
-	<string name="sort_description_rating">Avaliação</string>
+	<string name="sort_description_rating">Avaliação do Usuário</string>
 	
 	<!-- Filter option for "show all" -->
 	<string name="all">Todos</string>

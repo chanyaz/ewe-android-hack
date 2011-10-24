@@ -111,7 +111,7 @@
 	<!--  Default Loading message for widget -->
 	<string name="loading_hotels">Cargando hoteles...</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">Ahorra un %2.0f%%</string>
+	<string name="widget_savings_template">- %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Actualizar</string>
 	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
@@ -133,7 +133,7 @@
 	<!--  Widget Branding title -->
 	<string name="hotel_radar">Hotel Radar</string>
 	<!--  Widget Branding description -->
-	<string name="book_a_room_tonight">Reserva una habitación esta noche.</string>
+	<string name="book_a_room_tonight">¡Reserva una habitación ya!</string>
 	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
 	<string name="save_upto_template">Ahorra hasta un %2.0f%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
@@ -509,7 +509,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">¿Cómo lo clasificarías?</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Desarrollado por Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Política de privacidad</a></string>
+	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Política de privacidad</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">Dirección de email</string>
 	<!-- Hint to type in comments -->
