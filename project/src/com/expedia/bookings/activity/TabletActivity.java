@@ -39,6 +39,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.fragment.BookingConfirmationFragment;
 import com.expedia.bookings.fragment.BookingInfoFragment;
 import com.expedia.bookings.fragment.BookingInfoFragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.BookingInfoFragment.ErrorBookingDialogFragment;
@@ -46,6 +47,7 @@ import com.expedia.bookings.fragment.BookingInfoFragment.NullBookingDialogFragme
 import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.fragment.BookingReceiptFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
+import com.expedia.bookings.fragment.CompleteBookingInfoFragment;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.fragment.FilterDialogFragment;
@@ -57,6 +59,7 @@ import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.InstanceFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
+import com.expedia.bookings.fragment.NextOptionsFragment;
 import com.expedia.bookings.fragment.QuickSearchFragment;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment;
@@ -316,10 +319,14 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private static final String TAG_MINI_DETAILS = "MINI_DETAILS";
 	private static final String TAG_AVAILABILITY_LIST = "TAG_AVAILABILITY_LIST";
 	private static final String TAG_BOOKING_RECEIPT = "TAG_BOOKING_RECEIPT";
+	private static final String TAG_BOOKING_RECEIPT_CONFIRMATION = "TAG_BOOKING_RECEIPT_CONFIRMATION";
 	private static final String TAG_BOOKING_INFO = "TAG_BOOKING_INFO";
 	private static final String TAG_DIALOG_NULL_BOOKING = "TAG_DIALOG_NULL_BOOKING";
 	private static final String TAG_DIALOG_BOOKING_ERROR = "TAG_DIALOG_BOOKING_ERROR";
 	private static final String TAG_DIALOG_BOOKING_PROGRESS = "TAG_DIALOG_BOOKING_PROGRESS";
+	private static final String TAG_CONFIRMATION = "TAG_CONFIRMATION";
+	private static final String TAG_COMPLETE_BOOKING_INFO = "TAG_COMPLETE_BOOKING_INFO";
+	private static final String TAG_NEXT_OPTIONS = "TAG_NEXT_OPTIONS";
 
 	private static final String BACKSTACK_RESULTS = "RESULTS";
 
@@ -342,7 +349,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			addStandardAnimation(ft);
 			ft.add(R.id.fragment_search_params, SearchParamsFragment.newInstance(), TAG_SEARCH_PARAMS);
 			ft.add(R.id.fragment_quick_search, QuickSearchFragment.newInstance(), TAG_QUICK_SEARCH);
-
+			ft.addToBackStack(null);
 			ft.commit();
 		}
 	}
@@ -370,9 +377,20 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		addStandardAnimation(ft);
 		ft.add(R.id.fragment_rooms, RoomsAndRatesFragment.newInstance(), TAG_AVAILABILITY_LIST);
 		ft.add(R.id.fragment_receipt, BookingReceiptFragment.newInstance(), TAG_BOOKING_RECEIPT);
+		ft.add(R.id.fragment_complete_booking, CompleteBookingInfoFragment.newInstance(), TAG_COMPLETE_BOOKING_INFO);
 		ft.remove(fm.findFragmentByTag(TAG_HOTEL_LIST));
 		ft.remove(fm.findFragmentByTag(TAG_HOTEL_DETAILS));
 		ft.addToBackStack(null);
+		ft.commit();
+	}
+
+	public void showBookingReceiptFragment(boolean includeConfirmationInfo) {
+		getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		ft.add(R.id.fragment_confirmation_receipt, BookingReceiptFragment.newInstance(includeConfirmationInfo),
+				TAG_BOOKING_RECEIPT_CONFIRMATION);
+		ft.add(R.id.fragment_confirmation_map, BookingConfirmationFragment.newInstance(), TAG_CONFIRMATION);
+		ft.add(R.id.fragment_next_options, NextOptionsFragment.newInstance(), TAG_NEXT_OPTIONS);
 		ft.commit();
 	}
 
@@ -383,8 +401,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		FragmentTransaction ft = fragmentManager.beginTransaction();
 		if (AndroidUtils.getSdkVersion() >= 13) {
 			ft.setCustomAnimations(R.animator.fragment_mini_details_slide_enter,
-					R.animator.fragment_mini_details_slide_exit,
-					R.animator.fragment_mini_details_slide_enter,
+					R.animator.fragment_mini_details_slide_exit, R.animator.fragment_mini_details_slide_enter,
 					R.animator.fragment_mini_details_slide_exit);
 		}
 		else {
@@ -410,14 +427,11 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private void addStandardAnimation(FragmentTransaction ft) {
 		// Only API lvl 13+ supports custom popEnter/popExit animations
 		if (AndroidUtils.getSdkVersion() >= 13) {
-			ft.setCustomAnimations(R.animator.fragment_slide_left_enter,
-					R.animator.fragment_slide_left_exit,
-					R.animator.fragment_slide_right_enter,
-					R.animator.fragment_slide_right_exit);
+			ft.setCustomAnimations(R.animator.fragment_slide_left_enter, R.animator.fragment_slide_left_exit,
+					R.animator.fragment_slide_right_enter, R.animator.fragment_slide_right_exit);
 		}
 		else {
-			ft.setCustomAnimations(R.animator.fragment_slide_left_enter,
-					R.animator.fragment_slide_left_exit);
+			ft.setCustomAnimations(R.animator.fragment_slide_left_enter, R.animator.fragment_slide_left_exit);
 		}
 	}
 
@@ -524,12 +538,22 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	}
 
+	public void startNewSearchFromConfirmation() {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		ft.remove(getFragmentManager().findFragmentByTag(TAG_BOOKING_RECEIPT_CONFIRMATION));
+		ft.remove(getFragmentManager().findFragmentByTag(TAG_NEXT_OPTIONS));
+		ft.remove(getFragmentManager().findFragmentByTag(TAG_CONFIRMATION));
+		ft.commit();
+		showSearchFragment();
+		
+	}
 	public void focusOnRulesAndRestrictions() {
 		// TODO
 	}
 
 	public void bookingCompleted(BillingInfo billingInfo) {
 		mInstance.mBillingInfo = billingInfo;
+		mInstance.mBookingResponse = null;
 		BookingInProgressDialogFragment.newInstance().show(getFragmentManager(), TAG_DIALOG_BOOKING_PROGRESS);
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_BOOKING);
@@ -976,13 +1000,14 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		public void onDownload(Object results) {
 			((BookingInProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_DIALOG_BOOKING_PROGRESS))
 					.dismiss();
+
 			if (results == null) {
 				NullBookingDialogFragment.newInstance().show(getFragmentManager(), TAG_DIALOG_NULL_BOOKING);
 				TrackingUtils.trackErrorPage(TabletActivity.this, "ReservationRequestFailed");
 				return;
 			}
 
-			BookingResponse response = (BookingResponse) results;
+			BookingResponse response = mInstance.mBookingResponse = (BookingResponse) results;
 			if (response.hasErrors()) {
 				ErrorBookingDialogFragment.newInstance().show(getFragmentManager(), TAG_DIALOG_BOOKING_ERROR);
 				TrackingUtils.trackErrorPage(TabletActivity.this, "ReservationRequestFailed");
@@ -995,14 +1020,15 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			intent.fillIn(getIntent(), 0);
 			intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
 			intent.putExtra(Codes.SESSION, mInstance.mSession.toJson().toString());
-			intent.putExtra(Codes.PROPERTY_INFO, mInstance.mPropertyInfoResponse.getPropertyInfo().toJson().toString());
-
+			if (mInstance.mPropertyInfoResponse != null) {
+				intent.putExtra(Codes.PROPERTY_INFO, mInstance.mPropertyInfoResponse.getPropertyInfo().toJson()
+						.toString());
+			}
 			// Create a BillingInfo that lacks the user's security code (for safety)
 			JSONObject billingJson = mInstance.mBillingInfo.toJson();
 			billingJson.remove("securityCode");
 			intent.putExtra(Codes.BILLING_INFO, billingJson.toString());
-
-			startActivity(intent);
+			showBookingReceiptFragment(true);
 		}
 	};
 

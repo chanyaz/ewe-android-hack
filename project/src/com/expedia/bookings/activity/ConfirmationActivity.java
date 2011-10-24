@@ -4,7 +4,6 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,7 +12,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
@@ -33,14 +31,13 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingReceiptUtils;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SupportUtils;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
@@ -53,7 +50,6 @@ import com.google.android.maps.Overlay;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
-import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
@@ -204,8 +200,10 @@ public class ConfirmationActivity extends MapActivity {
 
 		// Reservation summary
 		ViewGroup detailsLayout = (ViewGroup) findViewById(R.id.details_layout);
-		BookingReceiptUtils.addDetail(this, detailsLayout, R.string.confirmation_number, mBookingResponse.getConfNumber());
-		BookingReceiptUtils.addDetail(this, detailsLayout, R.string.itinerary_number, mBookingResponse.getItineraryId());
+		BookingReceiptUtils.addDetail(this, detailsLayout, R.string.confirmation_number,
+				mBookingResponse.getConfNumber());
+		BookingReceiptUtils
+				.addDetail(this, detailsLayout, R.string.itinerary_number, mBookingResponse.getItineraryId());
 		BookingReceiptUtils.addDetail(this, detailsLayout, R.string.confirmation_email, mBillingInfo.getEmail());
 		mRoomTypeHandler.load(detailsLayout);
 		BookingReceiptUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate, mRoomTypeHandler);
@@ -248,7 +246,8 @@ public class ConfirmationActivity extends MapActivity {
 		shareButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				share();
+				ConfirmationUtils.share(ConfirmationActivity.this, mSearchParams, mProperty, mBookingResponse, mBillingInfo, mRate,
+						mContactText);
 			}
 		});
 
@@ -346,123 +345,6 @@ public class ConfirmationActivity extends MapActivity {
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
-	}
-
-	public void share() {
-		Resources res = getResources();
-
-		DateFormat dateFormatter = new SimpleDateFormat("MM/dd");
-		DateFormat fullDateFormatter = android.text.format.DateFormat.getMediumDateFormat(this);
-		DateFormat dayFormatter = new SimpleDateFormat("EEE");
-
-		Date checkIn = mSearchParams.getCheckInDate().getTime();
-		Date checkOut = mSearchParams.getCheckOutDate().getTime();
-
-		// Create the subject
-		String dateStart = dateFormatter.format(checkIn);
-		String dateEnd = dateFormatter.format(checkOut);
-		String subject = getString(R.string.share_subject_template, mProperty.getName(), dateStart, dateEnd);
-
-		// Create the body 
-		StringBuilder body = new StringBuilder();
-		body.append(getString(R.string.share_body_start));
-		body.append("\n\n");
-
-		body.append(mProperty.getName());
-		body.append("\n");
-		body.append(StrUtils.formatAddress(mProperty.getLocation()));
-		body.append("\n\n");
-
-		appendLabelValue(body, R.string.confirmation_number, mBookingResponse.getConfNumber());
-		body.append("\n");
-		appendLabelValue(body, R.string.itinerary_number, mBookingResponse.getItineraryId());
-		body.append("\n\n");
-
-		appendLabelValue(body, R.string.name,
-				getString(R.string.name_template, mBillingInfo.getFirstName(), mBillingInfo.getLastName()));
-		body.append("\n");
-		appendLabelValue(body, R.string.CheckIn,
-				dayFormatter.format(checkIn) + ", " + fullDateFormatter.format(checkIn));
-		body.append("\n");
-		appendLabelValue(body, R.string.CheckOut,
-				dayFormatter.format(checkOut) + ", " + fullDateFormatter.format(checkOut));
-		body.append("\n");
-		int numDays = mSearchParams.getStayDuration();
-		appendLabelValue(body, R.string.stay_duration,
-				res.getQuantityString(R.plurals.length_of_stay, numDays, numDays));
-		body.append("\n\n");
-
-		appendLabelValue(body, R.string.room_type, Html.fromHtml(mRate.getRoomDescription()).toString());
-		body.append("\n");
-		appendLabelValue(body, R.string.bed_type, mRate.getRatePlanName());
-		body.append("\n");
-		appendLabelValue(body, R.string.adults, mSearchParams.getNumAdults() + "");
-		body.append("\n");
-		appendLabelValue(body, R.string.children, mSearchParams.getNumChildren() + "");
-		body.append("\n\n");
-
-		if (mRate.getRateBreakdownList() != null) {
-			for (RateBreakdown breakdown : mRate.getRateBreakdownList()) {
-				Date date = breakdown.getDate().getCalendar().getTime();
-				String dateStr = dayFormatter.format(date) + ", " + fullDateFormatter.format(date);
-				Money amount = breakdown.getAmount();
-				if (amount.getAmount() == 0) {
-					appendLabelValue(body, getString(R.string.room_rate_template, dateStr), getString(R.string.free));
-				}
-				else {
-					appendLabelValue(body, getString(R.string.room_rate_template, dateStr), amount.getFormattedMoney());
-				}
-				body.append("\n");
-			}
-			body.append("\n\n");
-		}
-
-		if (mRate.getTotalAmountBeforeTax() != null) {
-			appendLabelValue(body, R.string.subtotal, mRate.getTotalAmountBeforeTax().getFormattedMoney());
-			body.append("\n");
-		}
-
-		Money surcharge = mRate.getSurcharge();
-		Money extraGuestFee = mRate.getExtraGuestFee();
-		if (extraGuestFee != null) {
-			appendLabelValue(body, R.string.extra_guest_charge, extraGuestFee.getFormattedMoney());
-			if (surcharge != null) {
-				surcharge = surcharge.copy();
-				surcharge.subtract(extraGuestFee);
-			}
-		}
-		if (surcharge != null) {
-			appendLabelValue(body, R.string.TaxesAndFees, surcharge.getFormattedMoney());
-			body.append("\n");
-		}
-
-		if (mRate.getTotalAmountAfterTax() != null) {
-			body.append("\n");
-			appendLabelValue(body, R.string.Total, mRate.getTotalAmountAfterTax().getFormattedMoney());
-		}
-
-		Policy cancellationPolicy = mRate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
-		if (cancellationPolicy != null) {
-			body.append("\n\n");
-			body.append(getString(R.string.cancellation_policy));
-			body.append("\n");
-			body.append(Html.fromHtml(cancellationPolicy.getDescription()));
-		}
-
-		body.append("\n\n");
-		body.append(mContactText);
-
-		SocialUtils.email(this, subject, body.toString());
-	}
-
-	private void appendLabelValue(StringBuilder sb, int labelStrId, String value) {
-		appendLabelValue(sb, getString(labelStrId), value);
-	}
-
-	private void appendLabelValue(StringBuilder sb, String label, String value) {
-		sb.append(label);
-		sb.append(": ");
-		sb.append(value);
 	}
 
 	@Override

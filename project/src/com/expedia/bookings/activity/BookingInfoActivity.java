@@ -49,7 +49,6 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.appwidget.ExpediaBookingsService;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;

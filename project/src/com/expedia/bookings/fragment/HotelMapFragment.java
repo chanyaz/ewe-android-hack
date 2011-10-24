@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
@@ -45,10 +47,15 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		TabletActivity activity = (TabletActivity) getActivity();
-
+		
+		LinearLayout mapLayout = new LinearLayout(getActivity());
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+		mapLayout.setLayoutParams(params);
+		
 		mMapView = activity.getMapView();
 		mMapView.setClickable(true);
-
+		mapLayout.addView(mMapView);
+		
 		// Add the initial overlays
 		List<Overlay> overlays = mMapView.getOverlays();
 
@@ -69,7 +76,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		mDoubleTapToZoomOverlay = new DoubleTapToZoomListenerOverlay(activity, mMapView);
 		overlays.add(mDoubleTapToZoomOverlay);
 
-		return mMapView;
+		return mapLayout;
 	}
 
 	@Override
@@ -87,8 +94,10 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 
 	@Override
 	public void onDestroyView() {
+		// remove the map view from the container so that its
+		// view is not destroyed by the os to enable re-use
+		((LinearLayout) getView()).removeAllViews();
 		super.onDestroyView();
-
 		mMapView.getOverlays().clear();
 		mHotelOverlay.destroyBalloon();
 		mExactLocationOverlay.destroyBalloon();

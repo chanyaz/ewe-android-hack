@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
@@ -27,7 +29,7 @@ import com.mobiata.android.ImageCache;
 public class BookingReceiptUtils {
 
 	public static void configureTicket(Activity activity, View receipt, Property property, SearchParams searchParams,
-			Rate rate, RoomTypeHandler roomTypeHandler) {
+			Rate rate, RoomTypeHandler roomTypeHandler, BookingResponse bookingResponse, BillingInfo billingInfo) {
 		// Configure the booking summary at the top of the page
 		ImageView thumbnailView = (ImageView) receipt.findViewById(R.id.thumbnail_image_view);
 		if (property.getThumbnail() != null) {
@@ -46,8 +48,14 @@ public class BookingReceiptUtils {
 		TextView address2View = (TextView) receipt.findViewById(R.id.address2_text_view);
 		address2View.setText(Html.fromHtml(StrUtils.formatAddressCity(location)));
 
+		
 		// Configure the details
 		ViewGroup detailsLayout = (ViewGroup) receipt.findViewById(R.id.details_layout);
+		if(billingInfo != null && bookingResponse != null) {
+			BookingReceiptUtils.addDetail(activity, detailsLayout, R.string.confirmation_number, bookingResponse.getConfNumber());
+			BookingReceiptUtils.addDetail(activity, detailsLayout, R.string.itinerary_number, bookingResponse.getItineraryId());
+			BookingReceiptUtils.addDetail(activity, detailsLayout, R.string.confirmation_email, billingInfo.getEmail());
+		}
 		roomTypeHandler.load(detailsLayout);
 		addRateDetails(activity.getApplicationContext(), detailsLayout,
 				searchParams, property, rate, roomTypeHandler);
@@ -63,7 +71,12 @@ public class BookingReceiptUtils {
 			totalView.setText("Dan didn't account for no total info, tell him");
 		}
 	}
-
+	
+	public static void configureTicket(Activity activity, View receipt, Property property, SearchParams searchParams,
+			Rate rate, RoomTypeHandler roomTypeHandler) {
+		configureTicket(activity, receipt, property, searchParams, rate, roomTypeHandler, null, null);
+	}
+	
 	public static void addRateDetails(Context context, ViewGroup detailsLayout, SearchParams searchParams,
 			Property property, Rate rate, RoomTypeHandler roomTypeHandler) {
 		View bedTypeRow = BookingReceiptUtils.addDetail(context, detailsLayout, R.string.bed_type,

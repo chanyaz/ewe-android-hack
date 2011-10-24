@@ -5,12 +5,13 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
@@ -24,6 +25,14 @@ public class BookingReceiptFragment extends Fragment implements EventHandler {
 
 	public static BookingReceiptFragment newInstance() {
 		BookingReceiptFragment fragment = new BookingReceiptFragment();
+		return fragment;
+	}
+
+	public static BookingReceiptFragment newInstance(boolean includeConfirmationInfo) {
+		BookingReceiptFragment fragment = new BookingReceiptFragment();
+		Bundle arguments = new Bundle();
+		arguments.putBoolean(Codes.INCLUDE_CONFIRMATION_INFO, includeConfirmationInfo);
+		fragment.setArguments(arguments);
 		return fragment;
 	}
 
@@ -53,16 +62,7 @@ public class BookingReceiptFragment extends Fragment implements EventHandler {
 
 		mRoomTypeFragmentHandler = new RoomTypeFragmentHandler(((TabletActivity) getActivity()), receipt, property,
 				searchParams, rate);
-		Button completeBookingInfo = (Button) receipt.findViewById(R.id.complete_booking_info);
-		completeBookingInfo.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				((TabletActivity) getActivity()).completeBookingInfo();
-				
-			}
-		});
-		
+
 		mRoomTypeFragmentHandler.onCreate(savedInstanceState);
 		return receipt;
 	}
@@ -101,16 +101,24 @@ public class BookingReceiptFragment extends Fragment implements EventHandler {
 			break;
 		}
 	}
-	
+
 	private void configureTicket(View receipt) {
 		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
 		SearchParams searchParams = ((TabletActivity) getActivity()).getSearchParams();
 		Rate rate = ((TabletActivity) getActivity()).getRoomRateForBooking();
+		BookingResponse bookingResponse = ((TabletActivity) getActivity()).getBookingResponse();
+		BillingInfo billingInfo = ((TabletActivity) getActivity()).getBillingInfo();
 
 		ViewGroup detailsLayout = (ViewGroup) receipt.findViewById(R.id.details_layout);
 		detailsLayout.removeAllViews();
-		
-		BookingReceiptUtils.configureTicket(getActivity(), receipt, property, searchParams, rate,
-				mRoomTypeFragmentHandler);
+		if (getArguments() != null && getArguments().getBoolean(Codes.INCLUDE_CONFIRMATION_INFO, false)) {
+			BookingReceiptUtils.configureTicket(getActivity(), receipt, property, searchParams, rate,
+					mRoomTypeFragmentHandler, bookingResponse, billingInfo);
+		}
+		else {
+			BookingReceiptUtils.configureTicket(getActivity(), receipt, property, searchParams, rate,
+					mRoomTypeFragmentHandler);
+		}
+
 	}
 }
