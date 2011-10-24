@@ -366,7 +366,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			addStandardAnimation(ft);
 			ft.add(R.id.fragment_search_params, SearchParamsFragment.newInstance(), TAG_SEARCH_PARAMS);
 			ft.add(R.id.fragment_quick_search, QuickSearchFragment.newInstance(), TAG_QUICK_SEARCH);
-			ft.addToBackStack(null);
 			ft.commit();
 		}
 	}
@@ -406,6 +405,13 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		if (fm.findFragmentByTag(TAG_BOOKING_RECEIPT_CONFIRMATION) == null) {
 			getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			
+			// remove the search fragments if they exist. We have to manually
+			// remove them since they were not added to the backstack in the first place
+			if (fm.findFragmentByTag(TAG_SEARCH_PARAMS) != null) {
+				ft.remove(fm.findFragmentByTag(TAG_SEARCH_PARAMS));
+				ft.remove(fm.findFragmentByTag(TAG_QUICK_SEARCH));
+			}
 			ft.add(R.id.fragment_confirmation_receipt, BookingReceiptFragment.newInstance(true),
 					TAG_BOOKING_RECEIPT_CONFIRMATION);
 			ft.add(R.id.fragment_confirmation_map, BookingConfirmationFragment.newInstance(), TAG_CONFIRMATION);

@@ -12,18 +12,17 @@
         android:layout_height="fill_parent"
         android:layout_margin="10dp"
         android:layout_weight="1"
-        android:layout_gravity="center_vertical"
         android:background="@drawable/thumbnail_border" />
 
     <com.mobiata.android.widget.TiltedImageView
         android:id="@+id/thumbnail_image_view"
         android:layout_width="300dp"
         android:layout_height="200dp"
-        android:layout_margin="10dp"
         android:layout_weight="1"
-		android:gravity="center_vertical"
+		android:layout_centerVertical="true"
         android:background="@drawable/receipt_photo_frame"
         mobiata:rotation="-5"
+        android:layout_marginLeft="30dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_image_placeholder" />
 
@@ -32,8 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/map_layout"
         android:layout_alignTop="@id/map_layout"
-        android:paddingRight="50dp"
-        android:paddingTop="50dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
         android:src="@drawable/enjoy_your_stay" />
 
 </RelativeLayout>
