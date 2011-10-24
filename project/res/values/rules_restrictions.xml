@@ -222,7 +222,7 @@
 	<string name="terms_conditions_url_in">http://www.expedia.co.in/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_sg">http://www.expedia.com.sg/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_ca">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
-	<string name="terms_conditions_url_ca_fr">http://www.expedia.ca/daily/frc3084/service/legal.asp</string>
+	<string name="terms_conditions_url_ca_fr">http://m.expedia.ca/mt/www.expedia.ca/daily/enc4105/service/legal.asp?un_jtt_redirect</string>
 	<string name="terms_conditions_url_mx">http://www.expedia.com.mx/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_nl">http://www.expedia.nl/daily/service/websiteterms.aspx</string>
 	<string name="terms_conditions_url_be_fr">http://www.expedia.be/daily/content/termsConditions/general/default.aspx</string>
@@ -244,7 +244,7 @@
 	<string name="privacy_policy_url_in">http://www.expedia.co.in/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_sg">http://www.expedia.com.sg/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_ca">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
-	<string name="privacy_policy_url_ca_fr">http://www.expedia.ca/daily/frc3084/service/privacy.asp</string>
+	<string name="privacy_policy_url_ca_fr">http://m.expedia.ca/mt/www.expedia.ca/daily/enc4105/service/privacy.asp</string>
 	<string name="privacy_policy_url_mx">http://www.expedia.com.mx/politica-de-privacidad.aspx</string>
 	<string name="privacy_policy_url_nl">https://www.expedia.nl/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_be_fr">https://www.expedia.be/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
