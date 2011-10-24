@@ -106,7 +106,7 @@
 		android:layout_marginRight="8dp"
 		android:maxWidth="200dp"
 		android:paddingTop="2dp"
-		android:paddingBottom="2dp"
+		android:paddingBottom="6dp"
 		android:paddingLeft="8dp"
 		android:paddingRight="8dp"
 		android:background="@drawable/bg_promo"

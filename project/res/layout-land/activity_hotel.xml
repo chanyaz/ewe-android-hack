@@ -67,7 +67,7 @@
 				android:maxWidth="220dp"
 				android:gravity="center"
 				android:paddingTop="2dp"
-				android:paddingBottom="2dp"
+				android:paddingBottom="4dp"
 				android:paddingLeft="8dp"
 				android:paddingRight="8dp"
 				android:background="@drawable/bg_promo"
