@@ -68,6 +68,7 @@ import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.mobiata.android.BackgroundDownloader;
@@ -76,7 +77,9 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 
 public class TabletActivity extends MapActivity implements LocationListener, OnBackStackChangedListener,
@@ -149,8 +152,22 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 		getFragmentManager().addOnBackStackChangedListener(this);
 
-		// Show initial search interface
-		showSearchFragment();
+		if (ConfirmationUtils.hasSavedConfirmationData(this)) {
+			if (loadSavedConfirmationData()) {
+				// get the property info since that is not saved as part of the
+				// confirmation data
+				startPropertyInfoDownload(mInstance.mProperty);
+				setupBookingConfirmationExperience();
+			}
+			else {
+				ConfirmationUtils.deleteSavedConfirmationData(this);
+			}
+		}
+		else {
+			// Show initial search interface
+			showSearchFragment();
+		}
+
 	}
 
 	@Override
@@ -384,14 +401,30 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		ft.commit();
 	}
 
-	public void showBookingReceiptFragment(boolean includeConfirmationInfo) {
-		getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.add(R.id.fragment_confirmation_receipt, BookingReceiptFragment.newInstance(includeConfirmationInfo),
-				TAG_BOOKING_RECEIPT_CONFIRMATION);
-		ft.add(R.id.fragment_confirmation_map, BookingConfirmationFragment.newInstance(), TAG_CONFIRMATION);
-		ft.add(R.id.fragment_next_options, NextOptionsFragment.newInstance(), TAG_NEXT_OPTIONS);
-		ft.commit();
+	public void setupBookingConfirmationExperience() {
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(TAG_BOOKING_RECEIPT_CONFIRMATION) == null) {
+			getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			ft.add(R.id.fragment_confirmation_receipt, BookingReceiptFragment.newInstance(true),
+					TAG_BOOKING_RECEIPT_CONFIRMATION);
+			ft.add(R.id.fragment_confirmation_map, BookingConfirmationFragment.newInstance(), TAG_CONFIRMATION);
+			ft.add(R.id.fragment_next_options, NextOptionsFragment.newInstance(), TAG_NEXT_OPTIONS);
+			ft.commit();
+			// Start a background thread to save this data to the disk
+			new Thread(new Runnable() {
+				public void run() {
+					try {
+						ConfirmationUtils.saveConfirmationData(TabletActivity.this, mInstance.mSearchParams,
+								mInstance.mProperty, mInstance.mRate, mInstance.mBillingInfo,
+								mInstance.mBookingResponse);
+					}
+					catch (Exception e) {
+						Log.e("Could not save Confirmation state", e);
+					}
+				}
+			}).start();
+		}
 	}
 
 	public void showMiniDetailsFragment() {
@@ -539,14 +572,18 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	}
 
 	public void startNewSearchFromConfirmation() {
+		// delete the confirmation data so that we dont
+		// direct the user to it again
+		ConfirmationUtils.deleteSavedConfirmationData(this);
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		ft.remove(getFragmentManager().findFragmentByTag(TAG_BOOKING_RECEIPT_CONFIRMATION));
 		ft.remove(getFragmentManager().findFragmentByTag(TAG_NEXT_OPTIONS));
 		ft.remove(getFragmentManager().findFragmentByTag(TAG_CONFIRMATION));
 		ft.commit();
 		showSearchFragment();
-		
+
 	}
+
 	public void focusOnRulesAndRestrictions() {
 		// TODO
 	}
@@ -1028,7 +1065,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			JSONObject billingJson = mInstance.mBillingInfo.toJson();
 			billingJson.remove("securityCode");
 			intent.putExtra(Codes.BILLING_INFO, billingJson.toString());
-			showBookingReceiptFragment(true);
+			setupBookingConfirmationExperience();
 		}
 	};
 
@@ -1123,6 +1160,28 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		}
 
 		return mMapView;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Confirmation data
+
+	public boolean loadSavedConfirmationData() {
+		Log.i("Loading saved confirmation data...");
+		try {
+			JSONObject data = new JSONObject(IoUtils.readStringFromFile(ConfirmationUtils.CONFIRMATION_DATA_FILE, this));
+			mInstance.mSearchParams = (SearchParams) JSONUtils.getJSONable(data, Codes.SEARCH_PARAMS,
+					SearchParams.class);
+			mInstance.mProperty = (Property) JSONUtils.getJSONable(data, Codes.PROPERTY, Property.class);
+			mInstance.mRate = (Rate) JSONUtils.getJSONable(data, Codes.RATE, Rate.class);
+			mInstance.mBillingInfo = (BillingInfo) JSONUtils.getJSONable(data, Codes.BILLING_INFO, BillingInfo.class);
+			mInstance.mBookingResponse = (BookingResponse) JSONUtils.getJSONable(data, Codes.BOOKING_RESPONSE,
+					BookingResponse.class);
+			return true;
+		}
+		catch (Exception e) {
+			Log.e("Could not load ConfirmationActivity state.", e);
+			return false;
+		}
 	}
 
 	@Override

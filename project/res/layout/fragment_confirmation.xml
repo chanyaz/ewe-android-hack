@@ -12,27 +12,20 @@
         android:layout_height="fill_parent"
         android:layout_margin="10dp"
         android:layout_weight="1"
+        android:layout_gravity="center_vertical"
         android:background="@drawable/thumbnail_border" />
 
-    <LinearLayout
-        android:id="@+id/tilted_image_container"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal"
-        android:weightSum="2" >
-
-        <com.mobiata.android.widget.TiltedImageView
-            android:id="@+id/thumbnail_image_view"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_margin="40dp"
-            android:layout_weight="1"
-            android:background="@drawable/receipt_photo_frame"
-            mobiata:rotation="-5"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_image_placeholder" />
-
-    </LinearLayout>
+    <com.mobiata.android.widget.TiltedImageView
+        android:id="@+id/thumbnail_image_view"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+		android:gravity="center_vertical"
+        android:background="@drawable/receipt_photo_frame"
+        mobiata:rotation="-5"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_image_placeholder" />
 
     <ImageView
         android:layout_width="wrap_content"

@@ -100,6 +100,7 @@ import com.expedia.bookings.tracking.GreystripeTracking;
 import com.expedia.bookings.tracking.MillennialTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
@@ -446,7 +447,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		// #7090: First, check to see if the user last confirmed a booking.  If that is the case,
 		//        then we should forward the user to the ConfirmationActivity
-		if (ConfirmationActivity.hasSavedConfirmationData(this)) {
+		if (ConfirmationUtils.hasSavedConfirmationData(this)) {
 			Intent intent = new Intent(this, ConfirmationActivity.class);
 			startActivity(intent);
 			finish();
@@ -696,7 +697,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		// do not attempt to save parameters if the user was short circuited to the
 		// confirmation screen when the search activity started
-		if (isFinishing() && !ConfirmationActivity.hasSavedConfirmationData(this)) {
+		if (isFinishing() && !ConfirmationUtils.hasSavedConfirmationData(this)) {
 			saveParams();
 
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);

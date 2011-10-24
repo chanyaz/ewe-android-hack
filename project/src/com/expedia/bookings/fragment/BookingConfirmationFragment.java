@@ -21,6 +21,7 @@ import com.google.android.maps.Overlay;
 import com.mobiata.android.ImageCache;
 
 public class BookingConfirmationFragment extends Fragment {
+	private MapView mMapView;
 	
 	public static BookingConfirmationFragment newInstance() {
 		BookingConfirmationFragment fragment = new BookingConfirmationFragment();
@@ -30,19 +31,19 @@ public class BookingConfirmationFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_confirmation, container, false);
-		MapView mapView = ((TabletActivity) getActivity()).getMapView();
-		mapView.setClickable(true);
+		mMapView = ((TabletActivity) getActivity()).getMapView();
+		mMapView.setClickable(true);
 		ViewGroup mapViewLayout = (ViewGroup) view.findViewById(R.id.map_layout);
-		mapViewLayout.addView(mapView);
-		mapView.setEnabled(false);
+		mapViewLayout.addView(mMapView);
+		mMapView.setEnabled(false);
 		
 		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
 		List<Property> properties = new ArrayList<Property>(1);
 		properties.add(property);
-		List<Overlay> overlays = mapView.getOverlays();
-		HotelItemizedOverlay overlay = new HotelItemizedOverlay(getActivity(), properties, false, mapView, null);
+		List<Overlay> overlays = mMapView.getOverlays();
+		HotelItemizedOverlay overlay = new HotelItemizedOverlay(getActivity(), properties, false, mMapView, null);
 		overlays.add(overlay);
-		MapController mc = mapView.getController();
+		MapController mc = mMapView.getController();
 		GeoPoint center = overlay.getCenter();
 		mc.setCenter(center);
 		mc.setZoom(15);
@@ -61,8 +62,11 @@ public class BookingConfirmationFragment extends Fragment {
 
 	@Override
 	public void onDestroyView() {
+		
 		ViewGroup mapViewLayout = (ViewGroup) getView().findViewById(R.id.map_layout);
-		mapViewLayout.removeAllViews();
+		mapViewLayout.removeView(mMapView);
+		mMapView.setEnabled(true);
+		mMapView.getOverlays().clear();
 		super.onDestroyView();
 	}
 	

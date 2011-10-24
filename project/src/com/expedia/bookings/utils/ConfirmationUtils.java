@@ -1,9 +1,13 @@
 package com.expedia.bookings.utils;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.json.JSONObject;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Html;
@@ -11,15 +15,21 @@ import android.text.Html;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.PropertyInfoResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
+import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.IoUtils;
 
 public class ConfirmationUtils {
+	public static final String CONFIRMATION_DATA_FILE = "confirmation.dat";
 
 	public static void share(Context context, SearchParams searchParams, Property property,
 			BookingResponse bookingResponse, BillingInfo billingInfo, Rate rate, String contactText) {
@@ -129,6 +139,41 @@ public class ConfirmationUtils {
 		body.append(contactText);
 
 		SocialUtils.email(context, subject, body.toString());
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Breadcrumb (reloading activity)
+
+	public static boolean saveConfirmationData(Activity activity, SearchParams searchParams, Property property, 
+			Rate rate, BillingInfo billingInfo, BookingResponse bookingResponse) {
+		Log.i("Saving confirmation data...");
+		try {
+			JSONObject data = new JSONObject();
+			data.put(Codes.SEARCH_PARAMS, searchParams.toJson());
+			data.put(Codes.PROPERTY, property.toJson());
+			data.put(Codes.RATE, rate.toJson());
+			data.put(Codes.BILLING_INFO, billingInfo.toJson());
+			data.put(Codes.BOOKING_RESPONSE, bookingResponse.toJson());
+
+			IoUtils.writeStringToFile(CONFIRMATION_DATA_FILE, data.toString(0), activity);
+
+			return true;
+		}
+		catch (Exception e) {
+			Log.e("Could not save ConfirmationActivity state.", e);
+			return false;
+		}
+	}
+
+	public static boolean hasSavedConfirmationData(Context context) {
+		File savedConfResults = context.getFileStreamPath(ConfirmationUtils.CONFIRMATION_DATA_FILE);
+		return savedConfResults.exists();
+	}
+
+	public static boolean deleteSavedConfirmationData(Context context) {
+		Log.i("Deleting saved confirmation data.");
+		File savedConfResults = context.getFileStreamPath(ConfirmationUtils.CONFIRMATION_DATA_FILE);
+		return savedConfResults.delete();
 	}
 
 	private static void appendLabelValue(Context context, StringBuilder sb, int labelStrId, String value) {

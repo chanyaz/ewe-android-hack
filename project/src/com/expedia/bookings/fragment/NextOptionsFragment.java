@@ -38,7 +38,7 @@ public class NextOptionsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				String contactText = "";
-
+ 
 				if (AndroidUtils.hasTelephonyFeature(getActivity())) {
 					if (Locale.getDefault().getCountry().toUpperCase().equals("CN")) {
 						// Special case for China

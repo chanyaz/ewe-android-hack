@@ -59,8 +59,6 @@ public class ConfirmationActivity extends MapActivity {
 
 	public static final String EXTRA_FINISH = "EXTRA_FINISH";
 
-	private static final String CONFIRMATION_DATA_FILE = "confirmation.dat";
-
 	private static final int INSTANCE_PROPERTY = 1;
 	private static final int INSTANCE_SEARCH_PARAMS = 2;
 	private static final int INSTANCE_RATE = 3;
@@ -102,7 +100,7 @@ public class ConfirmationActivity extends MapActivity {
 			mBookingResponse = (BookingResponse) instance.get(INSTANCE_BOOKING_RESPONSE);
 			loadedData = true;
 		}
-		else if (hasSavedConfirmationData(this)) {
+		else if (ConfirmationUtils.hasSavedConfirmationData(this)) {
 			if (loadSavedConfirmationData()) {
 				loadedData = true;
 			}
@@ -110,7 +108,7 @@ public class ConfirmationActivity extends MapActivity {
 				// If we failed to load the saved confirmation data, we should
 				// delete the file and go back (since we are only here if we were called
 				// directly from a startup).
-				deleteSavedConfirmationData(this);
+				ConfirmationUtils.deleteSavedConfirmationData(this);
 				finish();
 			}
 		}
@@ -129,7 +127,8 @@ public class ConfirmationActivity extends MapActivity {
 			// Start a background thread to save this data to the disk
 			new Thread(new Runnable() {
 				public void run() {
-					saveConfirmationData();
+					ConfirmationUtils.saveConfirmationData(ConfirmationActivity.this, mSearchParams, mProperty, mRate,
+							mBillingInfo, mBookingResponse);
 				}
 			}).start();
 		}
@@ -246,8 +245,8 @@ public class ConfirmationActivity extends MapActivity {
 		shareButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				ConfirmationUtils.share(ConfirmationActivity.this, mSearchParams, mProperty, mBookingResponse, mBillingInfo, mRate,
-						mContactText);
+				ConfirmationUtils.share(ConfirmationActivity.this, mSearchParams, mProperty, mBookingResponse,
+						mBillingInfo, mRate, mContactText);
 			}
 		});
 
@@ -271,7 +270,7 @@ public class ConfirmationActivity extends MapActivity {
 				onClickNewSearch();
 
 				// Ensure we can't come back here again
-				deleteSavedConfirmationData(mContext);
+				ConfirmationUtils.deleteSavedConfirmationData(mContext);
 
 				Intent intent = new Intent(mContext, PhoneSearchActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -355,21 +354,10 @@ public class ConfirmationActivity extends MapActivity {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Breadcrumb (reloading activity)
 
-	public static boolean hasSavedConfirmationData(Context context) {
-		File savedConfResults = context.getFileStreamPath(CONFIRMATION_DATA_FILE);
-		return savedConfResults.exists();
-	}
-
-	public static boolean deleteSavedConfirmationData(Context context) {
-		Log.i("Deleting saved confirmation data.");
-		File savedConfResults = context.getFileStreamPath(CONFIRMATION_DATA_FILE);
-		return savedConfResults.delete();
-	}
-
 	public boolean loadSavedConfirmationData() {
 		Log.i("Loading saved confirmation data...");
 		try {
-			JSONObject data = new JSONObject(IoUtils.readStringFromFile(CONFIRMATION_DATA_FILE, this));
+			JSONObject data = new JSONObject(IoUtils.readStringFromFile(ConfirmationUtils.CONFIRMATION_DATA_FILE, this));
 			mSearchParams = (SearchParams) JSONUtils.getJSONable(data, Codes.SEARCH_PARAMS, SearchParams.class);
 			mProperty = (Property) JSONUtils.getJSONable(data, Codes.PROPERTY, Property.class);
 			mRate = (Rate) JSONUtils.getJSONable(data, Codes.RATE, Rate.class);
@@ -380,26 +368,6 @@ public class ConfirmationActivity extends MapActivity {
 		}
 		catch (Exception e) {
 			Log.e("Could not load ConfirmationActivity state.", e);
-			return false;
-		}
-	}
-
-	public boolean saveConfirmationData() {
-		Log.i("Saving confirmation data...");
-		try {
-			JSONObject data = new JSONObject();
-			data.put(Codes.SEARCH_PARAMS, mSearchParams.toJson());
-			data.put(Codes.PROPERTY, mProperty.toJson());
-			data.put(Codes.RATE, mRate.toJson());
-			data.put(Codes.BILLING_INFO, mBillingInfo.toJson());
-			data.put(Codes.BOOKING_RESPONSE, mBookingResponse.toJson());
-
-			IoUtils.writeStringToFile(CONFIRMATION_DATA_FILE, data.toString(0), this);
-
-			return true;
-		}
-		catch (Exception e) {
-			Log.e("Could not save ConfirmationActivity state.", e);
 			return false;
 		}
 	}

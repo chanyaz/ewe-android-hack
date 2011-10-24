@@ -24,7 +24,6 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ConfirmationActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
@@ -33,6 +32,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -147,7 +147,7 @@ public class ExpediaBookingsService extends Service {
 				scheduleRotation(ROTATE_INTERVAL);
 			}
 			else {
-				if (ConfirmationActivity.hasSavedConfirmationData(this)) {
+				if (ConfirmationUtils.hasSavedConfirmationData(this)) {
 					updateWidgetsWithConfirmation();
 				}
 				else if (dealsAvailable == WidgetDeals.NO_DEALS_EXIST) {
@@ -467,7 +467,7 @@ public class ExpediaBookingsService extends Service {
 			startSearch();
 		}
 		else {
-			if (ConfirmationActivity.hasSavedConfirmationData(this)) {
+			if (ConfirmationUtils.hasSavedConfirmationData(this)) {
 				updateWidgetsWithConfirmation();
 			}
 			else if (dealsAvailable == WidgetDeals.NO_WIDGET_FILE_EXISTS) {
