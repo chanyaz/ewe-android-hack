@@ -189,12 +189,20 @@ public class ConfirmationUtils {
 
 	public static void determineCancellationPolicy(Rate rate, View view) {
 		TextView cancellationPolicyView = (TextView) view.findViewById(R.id.cancellation_policy_text_view);
+		TextView rulesRestrictionsTitle = (TextView) view.findViewById(R.id.rules_and_restrictions_title_text_view);
 		Policy cancellationPolicy = rate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
 		if (cancellationPolicy != null) {
+			if (rulesRestrictionsTitle != null) {
+				rulesRestrictionsTitle.setVisibility(View.VISIBLE);
+			}
+
 			cancellationPolicyView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
 		}
 		else {
 			cancellationPolicyView.setVisibility(View.GONE);
+			if (rulesRestrictionsTitle != null) {
+				rulesRestrictionsTitle.setVisibility(View.GONE);
+			}
 		}
 	}
 
@@ -202,6 +210,7 @@ public class ConfirmationUtils {
 		String contactText = null;
 		TextView contactView = (TextView) view.findViewById(R.id.contact_text_view);
 		if (AndroidUtils.hasTelephonyFeature(activity)) {
+			contactView.setVisibility(View.VISIBLE);
 			if (Locale.getDefault().getCountry().toUpperCase().equals("CN")) {
 				// Special case for China
 				contactText = activity.getString(R.string.contact_phone_china_template, "10-800712-2608",

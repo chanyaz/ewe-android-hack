@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,7 +20,6 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
@@ -54,7 +52,6 @@ import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
@@ -65,6 +62,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.BookingReceiptUtils;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -821,21 +819,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	}
 
 	private void configureFooter() {
-		// 9226: Only display the Expedia Points disclaimer if the user is in the US.
-		// (This may change in the future as more countries support points.)
-		int visibility = ("us".equals(Locale.getDefault().getCountry().toLowerCase())) ? View.VISIBLE : View.GONE;
-		TextView pointsDisclaimerView = (TextView) findViewById(R.id.expedia_points_disclaimer_text_view);
-		pointsDisclaimerView.setVisibility(visibility);
-
+		BookingInfoUtils.determineExpediaPointsDisclaimer(mScrollView);
+		
 		// Configure the cancellation policy
-		TextView cancellationPolicyView = (TextView) findViewById(R.id.cancellation_policy_text_view);
-		Policy cancellationPolicy = mRate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
-		if (cancellationPolicy != null) {
-			cancellationPolicyView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
-		}
-		else {
-			cancellationPolicyView.setVisibility(View.GONE);
-		}
+		ConfirmationUtils.determineCancellationPolicy(mRate, mScrollView);
 	}
 
 	private void setSpinnerSelection(Spinner spinner, String target) {

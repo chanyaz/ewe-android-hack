@@ -340,6 +340,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private static final String TAG_BOOKING_RECEIPT = "TAG_BOOKING_RECEIPT";
 	private static final String TAG_BOOKING_RECEIPT_CONFIRMATION = "TAG_BOOKING_RECEIPT_CONFIRMATION";
 	private static final String TAG_BOOKING_INFO = "TAG_BOOKING_INFO";
+	private static final String TAG_BOOKING_CANCELLATION_POLICY = "TAG_BOOKING_CANCELLATION_POLICY";
 	private static final String TAG_DIALOG_NULL_BOOKING = "TAG_DIALOG_NULL_BOOKING";
 	private static final String TAG_DIALOG_BOOKING_ERROR = "TAG_DIALOG_BOOKING_ERROR";
 	private static final String TAG_DIALOG_BOOKING_PROGRESS = "TAG_DIALOG_BOOKING_PROGRESS";
@@ -397,6 +398,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		ft.add(R.id.fragment_rooms, RoomsAndRatesFragment.newInstance(), TAG_AVAILABILITY_LIST);
 		ft.add(R.id.fragment_receipt, BookingReceiptFragment.newInstance(), TAG_BOOKING_RECEIPT);
 		ft.add(R.id.fragment_complete_booking, CompleteBookingInfoFragment.newInstance(), TAG_COMPLETE_BOOKING_INFO);
+		ft.add(R.id.fragment_booking_cancellation_policy, BookingCancellationPolicyFragment.newInstance(),
+				TAG_BOOKING_CANCELLATION_POLICY);
 		ft.remove(fm.findFragmentByTag(TAG_HOTEL_LIST));
 		ft.remove(fm.findFragmentByTag(TAG_HOTEL_DETAILS));
 		ft.addToBackStack(null);

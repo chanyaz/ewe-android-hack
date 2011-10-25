@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/bg_default" >
+    android:background="@color/bg_default"
+    android:orientation="vertical" >
 
-    <!-- Rules & Restrictions section -->
+    <!-- Terms and conditions -->
 
     <RelativeLayout
         android:id="@+id/rules_restrictions_layout"
@@ -34,7 +33,7 @@
             android:textSize="15sp" />
     </RelativeLayout>
 
-    <!-- Disclaimer notices at the bottom of the screen -->
+    <!-- Expedia points disclaimer -->
 
     <TextView
         android:id="@+id/expedia_points_disclaimer_text_view"
@@ -42,21 +41,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:text="@string/disclaimer_expedia_points"
-        android:textColor="#6A6D71" />
-
-    <TextView
-        style="@style/formSectionHeaderText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="6dp"
-        android:text="@string/rules_restrictions" />
-
-    <TextView
-        android:id="@+id/cancellation_policy_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textColor="#6A6D71" />
 
 </LinearLayout>
