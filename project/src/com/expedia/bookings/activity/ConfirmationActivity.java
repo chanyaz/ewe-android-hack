@@ -17,6 +17,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.util.Linkify;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
@@ -226,23 +227,26 @@ public class ConfirmationActivity extends MapActivity {
 
 		// Reservation support contact info
 		TextView contactView = (TextView) findViewById(R.id.contact_text_view);
-		if (AndroidUtils.hasTelephonyFeature(this)) {
-			if (Locale.getDefault().getCountry().toUpperCase().equals("CN")) {
-				// Special case for China
-				mContactText = getString(R.string.contact_phone_china_template, "10-800712-2608", "10-800120-2608");
-			}
-			else if (SupportUtils.hasConfSupportNumber()) {
-				mContactText = getString(R.string.contact_phone_template, SupportUtils.getConfSupportNumber());
-			}
-			else {
-				mContactText = getString(R.string.contact_phone_default_template, "1-800-780-5733",
-						"00-800-11-20-11-40");
-			}
-			contactView.setText(mContactText);
+
+		if (!AndroidUtils.hasTelephonyFeature(this)) {
+			contactView.setAutoLinkMask(0);
 		}
 		else {
-			contactView.setVisibility(View.GONE);
+			contactView.setAutoLinkMask(Linkify.PHONE_NUMBERS);
 		}
+
+		if (Locale.getDefault().getCountry().toUpperCase().equals("CN")) {
+			// Special case for China
+			mContactText = getString(R.string.contact_phone_china_template, "10-800712-2608", "10-800120-2608");
+		}
+		else if (SupportUtils.hasConfSupportNumber()) {
+			mContactText = getString(R.string.contact_phone_template, SupportUtils.getConfSupportNumber());
+		}
+		else {
+			mContactText = getString(R.string.contact_phone_default_template, "1-800-780-5733",
+					"00-800-11-20-11-40");
+		}
+		contactView.setText(mContactText);
 
 		//////////////////////////////////////////////////
 		// Button bar configuration
