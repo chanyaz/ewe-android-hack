@@ -210,34 +210,11 @@ public class ConfirmationActivity extends MapActivity {
 		// Total cost / cancellation policy at the bottom
 		TextView totalCostView = (TextView) findViewById(R.id.total_cost_text_view);
 		totalCostView.setText(mRate.getTotalAmountAfterTax().getFormattedMoney());
-		TextView cancellationPolicyView = (TextView) findViewById(R.id.cancellation_policy_text_view);
-		Policy cancellationPolicy = mRate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
-		if (cancellationPolicy != null) {
-			cancellationPolicyView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
-		}
-		else {
-			cancellationPolicyView.setVisibility(View.GONE);
-		}
+		View confirmationContainer = findViewById(R.id.confirmation_content_container);
+		ConfirmationUtils.determineCancellationPolicy(mRate, confirmationContainer);
 
 		// Reservation support contact info
-		TextView contactView = (TextView) findViewById(R.id.contact_text_view);
-		if (AndroidUtils.hasTelephonyFeature(this)) {
-			if (Locale.getDefault().getCountry().toUpperCase().equals("CN")) {
-				// Special case for China
-				mContactText = getString(R.string.contact_phone_china_template, "10-800712-2608", "10-800120-2608");
-			}
-			else if (SupportUtils.hasConfSupportNumber()) {
-				mContactText = getString(R.string.contact_phone_template, SupportUtils.getConfSupportNumber());
-			}
-			else {
-				mContactText = getString(R.string.contact_phone_default_template, "1-800-780-5733",
-						"00-800-11-20-11-40");
-			}
-			contactView.setText(mContactText);
-		}
-		else {
-			contactView.setVisibility(View.GONE);
-		}
+		mContactText = ConfirmationUtils.determineContactText(this, confirmationContainer);
 
 		//////////////////////////////////////////////////
 		// Button bar configuration

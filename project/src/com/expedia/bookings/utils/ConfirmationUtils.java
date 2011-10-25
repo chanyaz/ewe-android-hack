@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.json.JSONObject;
 
@@ -13,6 +14,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.text.Html;
+import android.view.View;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -26,6 +29,7 @@ import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 
 public class ConfirmationUtils {
@@ -144,7 +148,7 @@ public class ConfirmationUtils {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Breadcrumb (reloading activity)
 
-	public static boolean saveConfirmationData(Activity activity, SearchParams searchParams, Property property, 
+	public static boolean saveConfirmationData(Activity activity, SearchParams searchParams, Property property,
 			Rate rate, BillingInfo billingInfo, BookingResponse bookingResponse) {
 		Log.i("Saving confirmation data...");
 		try {
@@ -175,7 +179,7 @@ public class ConfirmationUtils {
 		File savedConfResults = context.getFileStreamPath(ConfirmationUtils.CONFIRMATION_DATA_FILE);
 		return savedConfResults.delete();
 	}
-	
+
 	public static Intent generateIntentToShowPropertyOnMap(Property property) {
 		Intent newIntent = new Intent(Intent.ACTION_VIEW);
 		String queryAddress = StrUtils.formatAddress(property.getLocation()).replace("\n", " ");
@@ -183,7 +187,41 @@ public class ConfirmationUtils {
 		return newIntent;
 	}
 
-	
+	public static void determineCancellationPolicy(Rate rate, View view) {
+		TextView cancellationPolicyView = (TextView) view.findViewById(R.id.cancellation_policy_text_view);
+		Policy cancellationPolicy = rate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
+		if (cancellationPolicy != null) {
+			cancellationPolicyView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
+		}
+		else {
+			cancellationPolicyView.setVisibility(View.GONE);
+		}
+	}
+
+	public static String determineContactText(Activity activity, View view) {
+		String contactText = null;
+		TextView contactView = (TextView) view.findViewById(R.id.contact_text_view);
+		if (AndroidUtils.hasTelephonyFeature(activity)) {
+			if (Locale.getDefault().getCountry().toUpperCase().equals("CN")) {
+				// Special case for China
+				contactText = activity.getString(R.string.contact_phone_china_template, "10-800712-2608",
+						"10-800120-2608");
+			}
+			else if (SupportUtils.hasConfSupportNumber()) {
+				contactText = activity.getString(R.string.contact_phone_template, SupportUtils.getConfSupportNumber());
+			}
+			else {
+				contactText = activity.getString(R.string.contact_phone_default_template, "1-800-780-5733",
+						"00-800-11-20-11-40");
+			}
+			contactView.setText(contactText);
+		}
+		else {
+			contactView.setVisibility(View.GONE);
+		}
+		return contactText;
+
+	}
 
 	private static void appendLabelValue(Context context, StringBuilder sb, int labelStrId, String value) {
 		appendLabelValue(sb, context.getString(labelStrId), value);

@@ -50,6 +50,7 @@ import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.CompleteBookingInfoFragment;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
+import com.expedia.bookings.fragment.BookingCancellationPolicyFragment;
 import com.expedia.bookings.fragment.FilterDialogFragment;
 import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
@@ -342,6 +343,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private static final String TAG_DIALOG_BOOKING_ERROR = "TAG_DIALOG_BOOKING_ERROR";
 	private static final String TAG_DIALOG_BOOKING_PROGRESS = "TAG_DIALOG_BOOKING_PROGRESS";
 	private static final String TAG_CONFIRMATION = "TAG_CONFIRMATION";
+	private static final String TAG_CONFIRMATION_CANCELLATION_POLICY = "TAG_CONFIRMATION_CANCELLATION_POLICY";
 	private static final String TAG_COMPLETE_BOOKING_INFO = "TAG_COMPLETE_BOOKING_INFO";
 	private static final String TAG_NEXT_OPTIONS = "TAG_NEXT_OPTIONS";
 
@@ -405,7 +407,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		if (fm.findFragmentByTag(TAG_BOOKING_RECEIPT_CONFIRMATION) == null) {
 			getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			
+
 			// remove the search fragments if they exist. We have to manually
 			// remove them since they were not added to the backstack in the first place
 			if (fm.findFragmentByTag(TAG_SEARCH_PARAMS) != null) {
@@ -414,9 +416,12 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			}
 			ft.add(R.id.fragment_confirmation_receipt, BookingReceiptFragment.newInstance(true),
 					TAG_BOOKING_RECEIPT_CONFIRMATION);
+			ft.add(R.id.fragment_confirmation_cancellation_policy, BookingCancellationPolicyFragment.newInstance(),
+					TAG_CONFIRMATION_CANCELLATION_POLICY);
 			ft.add(R.id.fragment_confirmation_map, BookingConfirmationFragment.newInstance(), TAG_CONFIRMATION);
 			ft.add(R.id.fragment_next_options, NextOptionsFragment.newInstance(), TAG_NEXT_OPTIONS);
 			ft.commit();
+
 			// Start a background thread to save this data to the disk
 			new Thread(new Runnable() {
 				public void run() {
@@ -585,6 +590,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		ft.remove(getFragmentManager().findFragmentByTag(TAG_BOOKING_RECEIPT_CONFIRMATION));
 		ft.remove(getFragmentManager().findFragmentByTag(TAG_NEXT_OPTIONS));
 		ft.remove(getFragmentManager().findFragmentByTag(TAG_CONFIRMATION));
+		ft.remove(getFragmentManager().findFragmentByTag(TAG_CONFIRMATION_CANCELLATION_POLICY));
 		ft.commit();
 		showSearchFragment();
 
