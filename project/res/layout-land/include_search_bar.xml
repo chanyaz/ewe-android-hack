@@ -23,17 +23,25 @@
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:layout_marginTop="3dp"
-            android:layout_toLeftOf="@+id/search_button"
+            android:layout_toLeftOf="@+id/dates_button_layout"
             android:gravity="center_vertical"
             android:imeOptions="actionSearch"
             android:singleLine="true"
             android:textSize="16sp" />
 
+        <ImageButton
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:src="@drawable/btn_actionbar_search" />
+
         <RelativeLayout
             android:id="@+id/guests_button_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true" >
+            android:layout_toLeftOf="@+id/search_button" >
 
             <ImageButton
                 android:id="@+id/guests_button"
@@ -93,14 +101,6 @@
                 android:textSize="11dp"
                 android:textStyle="bold" />
         </RelativeLayout>
-
-        <ImageButton
-            android:id="@+id/search_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/dates_button_layout"
-            android:background="@null"
-            android:src="@drawable/btn_actionbar_search" />
     </RelativeLayout>
 
     <View
