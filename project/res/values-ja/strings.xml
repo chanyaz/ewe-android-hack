@@ -294,7 +294,7 @@
 		<item quantity="other">残り %d 室です！</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">\n %2.0f%% 割引</string>
+	<string name="savings_template">%2.0f%% 割引</string>
 	<!-- Label for free nights -->
 	<string name="free">無料！</string>
 	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
