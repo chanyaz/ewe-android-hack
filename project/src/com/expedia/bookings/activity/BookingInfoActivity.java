@@ -1078,7 +1078,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		boolean isBillingCompleted = mBookingInfoValidation.isBillingSectionCompleted();
 		boolean isCardCompleted = mBookingInfoValidation.isCardSectionCompleted();
 
-		checkSectionsCompleted(true);
+		mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
 
 		if (trackCompletion) {
 			if (isGuestsCompleted && mBookingInfoValidation.isGuestsSectionCompleted()) {
