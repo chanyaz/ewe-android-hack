@@ -203,7 +203,12 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		holder.userRating.setRating((float) property.getAverageExpediaRating());
 		if (mIsSortedByUserRating) {
 			holder.hotelRating.setVisibility(View.INVISIBLE);
-			holder.userRating.setVisibility(View.VISIBLE);
+			if (holder.userRating.getRating() == 0) {
+				holder.userRating.setVisibility(View.INVISIBLE);
+			}
+			else {
+				holder.userRating.setVisibility(View.VISIBLE);
+			}
 		}
 		else {
 			holder.hotelRating.setVisibility(View.VISIBLE);
