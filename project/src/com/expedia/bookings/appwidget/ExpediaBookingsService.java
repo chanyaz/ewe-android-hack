@@ -69,7 +69,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	public static final String PREV_PROPERTY_ACTION = "com.expedia.bookings.PREV_PROPERTY";
 
 	private static final String WIDGET_THUMBNAIL_KEY_PREFIX = "WIDGET_THUMBNAIL_KEY.";
-
+	
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// BOOKKEEPING DATA STRUCTURES
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -114,6 +114,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			if (searchResponse != null && !searchResponse.hasErrors()) {
 				mLastUpdatedTimeInMillis = System.currentTimeMillis();
 				mWidgetDeals.determineRelevantProperties(searchResponse);
+
 				for (WidgetState widget : mWidgets.values()) {
 					widget.mCurrentPosition = -1;
 					loadPropertyIntoWidget(widget, ROTATE_INTERVAL);
@@ -707,6 +708,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			startSearch();
 		}
 
+		if (mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty()) {
+			for (WidgetState widget : mWidgets.values()) {
+				updateWidgetWithText(widget, getString(R.string.loading_hotels), null, null);
+			}
+		}
 	}
 
 	/*
@@ -916,10 +922,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		 * the animation is played with the image view is laid out
 		 * as a nested remote view for the first time
 		 */
-		if(visibility == View.VISIBLE) {
+		if (visibility == View.VISIBLE) {
 			RemoteViews hangTagRemoteView = new RemoteViews(getPackageName(), R.layout.widget_hangtag);
 			rootView.addView(R.id.branding_hang_tag_container, hangTagRemoteView);
-		} else {
+		}
+		else {
 			rootView.removeAllViews(R.id.branding_hang_tag_container);
 		}
 	}
