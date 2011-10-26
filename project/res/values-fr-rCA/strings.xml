@@ -367,7 +367,7 @@
 	<!-- Disclaimer about how to earn expedia points -->
 	<string name="disclaimer_expedia_points">Si vous avez un compte Expedia Rewards, veuillez réserver en utilisant la même adresse courriel et vos points seront enregistrés automatiquement après votre séjour. Veuillez noter que l\’enregistrement de vos points peut prendre jusqu\’à 30 jours.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
-	<string name="EnterBookingInfo">Entrez les renseignements pour effectuer la réservation</string>
+	<string name="EnterBookingInfo">Insérez les informations</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">Une somme de %s sera portée à votre carte de crédit.</string>
 	<!-- Button label for confirming your booking -->
