@@ -21,7 +21,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -115,7 +114,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	 * This bookkeeping is not preserved across orientation change so as to re-show the loading
 	 * indicator on orientation change if there are more reviews to display
 	 */
-	private HashMap<ReviewSort, Boolean> isLoadingIndicatorShowingForReviewSort = new HashMap<ReviewSort, Boolean>();
+	private HashSet<ReviewSort> isLoadingIndicatorShowingForReviewSort = new HashSet<ReviewSort>();
 
 	/*
 	 * keeps track of the current pageNumber the list pertaining to each review sort type is on.
@@ -264,6 +263,8 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				//send message to remove loading footer
 				mHandler.sendMessage(prepareMessage(false, thisReviewSort));
 			}
+
+			isLoadingIndicatorShowingForReviewSort.remove(thisReviewSort);
 
 			if (thisReviewSort == mCurrentReviewSort) {
 				bringContainerToFront(listViewContainer);
@@ -602,10 +603,10 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			// we need to be able to re-show the loading indicator in the footer of the list view
 			// while a download does not need to be restarted; instead a callback can just be 
 			// re-registered
-			if (showLoadingIndicator && !isLoadingIndicatorShowingForReviewSort.containsKey(mCurrentReviewSort)) {
+			if (showLoadingIndicator && !isLoadingIndicatorShowingForReviewSort.contains(mCurrentReviewSort)) {
 				//send message to put loading footer
 				mHandler.sendMessage(prepareMessage(true, mCurrentReviewSort));
-				isLoadingIndicatorShowingForReviewSort.put(mCurrentReviewSort, true);
+				isLoadingIndicatorShowingForReviewSort.add(mCurrentReviewSort);
 			}
 
 		}
