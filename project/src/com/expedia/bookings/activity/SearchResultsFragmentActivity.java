@@ -382,7 +382,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		public Property mProperty;
 		public Filter mFilter = new Filter();
 		public Map<String, AvailabilityResponse> mAvailabilityResponses = new HashMap<String, AvailabilityResponse>();
-		public Map<Integer, ReviewsResponse> mReviewsResponses = new HashMap<Integer, ReviewsResponse>();
+		public Map<String, ReviewsResponse> mReviewsResponses = new HashMap<String, ReviewsResponse>();
 		public Session mSession;
 	}
 
@@ -391,7 +391,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	}
 
 	public ReviewsResponse getReviewsForProperty() {
-		return mInstance.mReviewsResponses.get(mInstance.mProperty.getExpediaPropertyId());
+		return mInstance.mReviewsResponses.get(mInstance.mProperty.getPropertyId());
 	}
 
 	public SummarizedRoomRates getSummarizedRoomRates() {
@@ -856,7 +856,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		@Override
 		public void onDownload(Object results) {
 			ReviewsResponse reviewResponse = (ReviewsResponse) results;
-			mInstance.mReviewsResponses.put(mInstance.mProperty.getExpediaPropertyId(), reviewResponse);
+			mInstance.mReviewsResponses.put(mInstance.mProperty.getPropertyId(), reviewResponse);
 
 			if (results == null) {
 				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, null);

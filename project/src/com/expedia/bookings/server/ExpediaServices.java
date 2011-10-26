@@ -23,6 +23,7 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
@@ -30,6 +31,8 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,6 +61,8 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 
 public class ExpediaServices implements DownloadListener {
+
+	private static final String COOKIES_FILE = "cookies.dat";
 
 	public static final int REVIEWS_PER_PAGE = 25;
 
@@ -311,6 +316,12 @@ public class ExpediaServices implements DownloadListener {
 		HttpParams httpParameters = client.getParams();
 		HttpConnectionParams.setSoTimeout(httpParameters, 100000);
 
+		// TODO: Find some way to keep this easily in memory so we're not saving/loading after each request.
+		PersistantCookieStore cookieStore = new PersistantCookieStore();
+		cookieStore.load(mContext, COOKIES_FILE);
+		HttpContext httpContext = new BasicHttpContext();
+		httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
+
 		// When not a release build, allow SSL from all connections
 		if ((flags & F_SECURE_REQUEST) != 0 && !AndroidUtils.isRelease(mContext)) {
 			try {
@@ -334,7 +345,7 @@ public class ExpediaServices implements DownloadListener {
 		long start = System.currentTimeMillis();
 		mCancellingDownload = false;
 		try {
-			return client.execute(mRequest, responseHandler);
+			return client.execute(mRequest, responseHandler, httpContext);
 		}
 		catch (IOException e) {
 			if (mCancellingDownload) {
@@ -347,6 +358,8 @@ public class ExpediaServices implements DownloadListener {
 		finally {
 			client.close();
 			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
+
+			cookieStore.save(mContext, COOKIES_FILE);
 		}
 
 		return null;
