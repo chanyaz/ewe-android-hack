@@ -329,6 +329,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	// and as such should behave a bit differently than if we just did a new search.
 	private boolean mLoadedSavedResults;
 
+	// The last selection for the search EditText.  Used to maintain between rotations
+	private int mSearchTextSelectionStart = -1;
+	private int mSearchTextSelectionEnd = -1;
+
 	//----------------------------------
 	// THREADS/CALLBACKS
 	//----------------------------------
@@ -1519,6 +1523,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		state.lastSearchTime = mLastSearchTime;
 		state.addresses = mAddresses;
 		state.isWidgetNotificationShowing = mIsWidgetNotificationShowing;
+		state.searchTextSelectionStart = mSearchEditText.getSelectionStart();
+		state.searchTextSelectionEnd = mSearchEditText.getSelectionEnd();
 
 		// #9733: You cannot keep displaying a PopupWindow on rotation.  Since it's not essential the popup
 		// stay visible, it's easier here just to hide it between activity shifts.
@@ -1558,6 +1564,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mLastSearchTime = state.lastSearchTime;
 		mAddresses = state.addresses;
 		mIsWidgetNotificationShowing = state.isWidgetNotificationShowing;
+		mSearchTextSelectionStart = state.searchTextSelectionStart;
+		mSearchTextSelectionEnd = state.searchTextSelectionEnd;
 	}
 
 	//----------------------------------
@@ -2540,6 +2548,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 
 		mSearchEditText.setText(getSearchText(mSearchParams));
+		if (mSearchTextSelectionStart != -1 && mSearchTextSelectionEnd != -1) {
+			mSearchEditText.setSelection(mSearchTextSelectionStart, mSearchTextSelectionEnd);
+		}
 
 		// Temporarily remove the OnDateChangedListener so that it is not fired
 		// while we manually update the start/end dates
@@ -2707,6 +2718,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			mSearchTextSelectionStart = mSearchTextSelectionEnd = -1;
 		}
 
 		@Override
@@ -3056,6 +3068,9 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		public DisplayType displayType;
 		public long lastSearchTime;
 		public List<Address> addresses; // For geocoding disambiguation
+
+		public int searchTextSelectionStart;
+		public int searchTextSelectionEnd;
 
 		// Questionable
 		public SearchResponse searchResponse;
