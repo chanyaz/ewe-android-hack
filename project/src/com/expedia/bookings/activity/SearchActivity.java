@@ -579,6 +579,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 			if (!localeChanged) {
 				BackgroundDownloader.getInstance().startDownload(KEY_LOADING_PREVIOUS, mLoadSavedResults,
 						mLoadSavedResultsCallback);
+				broadcastSearchStarted();
 				showLoading(true, R.string.loading_previous);
 			}
 			else {
