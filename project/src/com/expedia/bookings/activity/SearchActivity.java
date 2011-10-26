@@ -2286,14 +2286,19 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 	private static final String FORMAT_HEADER_WITH_YEAR = "MMM d, yyyy";
 
 	public CharSequence getBookingInfoHeaderText() {
-		String location = getSearchText();
-		int startYear = mDatesCalendarDatePicker.getStartYear();
-		int endYear = mDatesCalendarDatePicker.getEndYear();
+		SearchParams currentParams = (mOriginalSearchParams != null) ? mOriginalSearchParams : mSearchParams;
+		String location = getSearchText(currentParams);
 
-		Calendar start = new GregorianCalendar(startYear, mDatesCalendarDatePicker.getStartMonth(),
-				mDatesCalendarDatePicker.getStartDayOfMonth());
-		Calendar end = new GregorianCalendar(endYear, mDatesCalendarDatePicker.getEndMonth(),
-				mDatesCalendarDatePicker.getEndDayOfMonth());
+		Calendar checkIn = currentParams.getCheckInDate();
+		Calendar checkOut = currentParams.getCheckOutDate();
+
+		int startYear = checkIn.get(Calendar.YEAR);
+		int endYear = checkOut.get(Calendar.YEAR);
+
+		Calendar start = new GregorianCalendar(startYear, checkIn.get(Calendar.MONTH),
+				checkIn.get(Calendar.DAY_OF_MONTH));
+		Calendar end = new GregorianCalendar(endYear, checkOut.get(Calendar.MONTH),
+				checkOut.get(Calendar.DAY_OF_MONTH));
 
 		String startFormatter = FORMAT_HEADER;
 		String endFormatter = FORMAT_HEADER;
@@ -2498,10 +2503,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		setBookingInfoText();
 	}
 
-	private String getSearchText() {
-		switch (mSearchParams.getSearchType()) {
+	private String getSearchText(SearchParams searchParams) {
+		switch (searchParams.getSearchType()) {
 		case FREEFORM:
-			return mSearchParams.getFreeformLocation();
+			return searchParams.getFreeformLocation();
 		case MY_LOCATION:
 			return getString(R.string.current_location);
 
@@ -2534,7 +2539,7 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		}
 		}
 
-		mSearchEditText.setText(getSearchText());
+		mSearchEditText.setText(getSearchText(mSearchParams));
 
 		// Temporarily remove the OnDateChangedListener so that it is not fired
 		// while we manually update the start/end dates
