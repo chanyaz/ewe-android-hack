@@ -818,6 +818,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		rv.addView(R.id.hotel_info_contents, widgetContents);
 
 		setWidgetPropertyViewVisibility(widgetContents, View.GONE);
+		setBrandingViewVisibility(rv, widgetContents, View.GONE);
 
 		setWidgetContentsVisibility(widgetContents, View.GONE);
 		widgetContents.setTextViewText(R.id.widget_error_text_view, error);

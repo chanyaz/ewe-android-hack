@@ -19,7 +19,9 @@
     	android:theme="@style/Theme"
     	android:name="com.expedia.bookings.activity.ExpediaBookingApp"
     	android:hardwareAccelerated="false">
-
+		
+		<meta-data android:name="AA_DB_VERSION" android:value="2" />
+        
     	<uses-library android:name="com.google.android.maps" />
 		
 		<activity android:name=".activity.SearchActivity">
