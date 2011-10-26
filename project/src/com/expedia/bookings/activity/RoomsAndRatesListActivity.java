@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -220,8 +221,8 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 		List<String> commonValueAdds = response.getCommonValueAdds();
 		if (commonValueAdds != null) {
-			mFooterTextView.setText(getString(R.string.common_value_add_template,
-					FormatUtils.series(this, commonValueAdds, ",", Conjunction.AND)));
+			mFooterTextView.setText(Html.fromHtml(getString(R.string.common_value_add_template,
+					FormatUtils.series(this, commonValueAdds, ",", Conjunction.AND))));
 			mFooterTextView.setVisibility(View.VISIBLE);
 		}
 

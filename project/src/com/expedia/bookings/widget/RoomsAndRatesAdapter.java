@@ -37,7 +37,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 	private List<Rate> mRates;
 
-	private List<String> mValueAdds;
+	private List<CharSequence> mValueAdds;
 
 	private float mSaleTextSize;
 
@@ -53,7 +53,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 		// Calculate the individual value-adds for each row, based on the common value-adds
 		List<String> common = response.getCommonValueAdds();
-		mValueAdds = new ArrayList<String>(mRates.size());
+		mValueAdds = new ArrayList<CharSequence>(mRates.size());
 		for (int a = 0; a < mRates.size(); a++) {
 			Rate rate = mRates.get(a);
 			List<String> unique = new ArrayList<String>(rate.getValueAdds());
@@ -61,8 +61,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 				unique.removeAll(common);
 			}
 			if (unique.size() > 0) {
-				mValueAdds.add(context.getString(R.string.value_add_template,
-						FormatUtils.series(context, unique, ",", null)));
+				mValueAdds.add(Html.fromHtml(context.getString(R.string.value_add_template,
+						FormatUtils.series(context, unique, ",", null))));
 			}
 			else {
 				mValueAdds.add(null);
@@ -201,7 +201,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		}
 
 		// If there are value adds, setup the alternate view
-		String valueAdds = mValueAdds.get(position);
+		CharSequence valueAdds = mValueAdds.get(position);
 		if (valueAdds == null) {
 			holder.beds.setVisibility(View.VISIBLE);
 			holder.valueAddsLayout.setVisibility(View.GONE);
