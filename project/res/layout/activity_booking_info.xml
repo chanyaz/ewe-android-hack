@@ -209,7 +209,8 @@
 						android:inputType="textPersonName|textCapWords"
 						android:imeOptions="flagNoExtractUi"
 						android:hint="@string/FirstName"
-						android:textColorHint="@color/hint_color" />
+						android:textColorHint="@color/hint_color"
+						android:ellipsize="end" />
 					<com.expedia.bookings.widget.CustomEditText
 						android:id="@+id/last_name_edit_text"
 						android:layout_width="wrap_content"
@@ -222,7 +223,8 @@
 						android:inputType="textPersonName|textCapWords"
 						android:imeOptions="flagNoExtractUi"
 						android:hint="@string/LastName"
-						android:textColorHint="@color/hint_color" />
+						android:textColorHint="@color/hint_color"
+						android:ellipsize="end" />
 				</LinearLayout>
 				<com.expedia.bookings.widget.CustomEditText
 					android:id="@+id/telephone_edit_text"
@@ -338,7 +340,8 @@
 						android:inputType="textPostalAddress|textCapWords"
 						android:imeOptions="flagNoExtractUi"
 						android:hint="@string/City"
-						android:textColorHint="@color/hint_color" />
+						android:textColorHint="@color/hint_color"
+						android:ellipsize="end" />
 					<com.expedia.bookings.widget.CustomEditText
 						android:id="@+id/state_edit_text"
 						android:layout_width="100dp"
@@ -351,7 +354,8 @@
 						android:imeOptions="flagNoExtractUi"
 						android:maxLength="3"
 						android:hint="@string/hint_state_code"
-						android:textColorHint="@color/hint_color" />
+						android:textColorHint="@color/hint_color"
+						android:ellipsize="end" />
 				</LinearLayout>
 				<LinearLayout
 					android:layout_width="fill_parent"
@@ -380,7 +384,8 @@
 						android:inputType="textPostalAddress|textCapCharacters"
 						android:imeOptions="flagNoExtractUi"
 						android:hint="@string/PostalCode"
-						android:textColorHint="@color/hint_color" />
+						android:textColorHint="@color/hint_color"
+						android:ellipsize="end" />
 				</LinearLayout>
 			</LinearLayout>
 
@@ -411,7 +416,8 @@
 						android:imeOptions="flagNoExtractUi"
 						android:maxLength="20"
 						android:hint="@string/hint_card_number"
-						android:textColorHint="@color/hint_color" />
+						android:textColorHint="@color/hint_color"
+						android:ellipsize="end" />
 					<com.expedia.bookings.widget.CustomEditText
 						android:id="@+id/expiration_month_edit_text"
 						android:layout_width="60dp"
