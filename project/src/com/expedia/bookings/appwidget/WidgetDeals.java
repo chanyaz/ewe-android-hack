@@ -67,7 +67,7 @@ public class WidgetDeals implements JSONable {
 		return mSearchParams;
 	}
 
-	public void setSearchParmas(SearchParams searchParams) {
+	public void setSearchParams(SearchParams searchParams) {
 		mSearchParams = new SearchParams();
 		mSearchParams.fromJson(searchParams.toJson());
 	}

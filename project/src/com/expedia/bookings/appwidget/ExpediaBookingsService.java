@@ -18,7 +18,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -57,6 +59,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private static final int MIN_DISTANCE_BEFORE_UPDATE = 5 * 1000; // 5 km
 	private static final int MIN_TIME_BETWEEN_CHECKS_IN_MILLIS = 1000 * 60 * 15; // 15 minutes
 
+	private static final int POST_NO_CONNECTIVITY_MSG_PAUSE = 1000;
+
 	// download key for downloading results around current location
 	private static final String WIDGET_KEY_SEARCH = "WIDGET_KEY_SEARCH";
 
@@ -69,7 +73,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	public static final String PREV_PROPERTY_ACTION = "com.expedia.bookings.PREV_PROPERTY";
 
 	private static final String WIDGET_THUMBNAIL_KEY_PREFIX = "WIDGET_THUMBNAIL_KEY.";
-	
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// BOOKKEEPING DATA STRUCTURES
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -146,10 +150,14 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	private void startLocationListener() {
 
-		if (!NetUtils.isOnline(getApplicationContext())) {
-			updateAllWidgetsWithText(getString(R.string.progress_finding_location), getString(R.string.refresh_widget),
-					getRefreshIntent());
+		if (!NetUtils.isOnline(getApplicationContext())
+				&& (mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty())) {
+			mHandler.sendMessageDelayed(Message.obtain(mHandler, NO_INTERNET_CONNECTIVITY),
+					POST_NO_CONNECTIVITY_MSG_PAUSE);
 			return;
+		}
+		else if ((mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty())) {
+			updateAllWidgetsWithText(getString(R.string.loading_hotels), null, null);
 		}
 
 		// Prefer network location (because it's faster).  Otherwise use GPS
@@ -188,11 +196,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			return;
 		}
 
-		/*
-		 * Use the passive provider as a way of getting updates without actually
-		 * requesting a GPS fix. Ignore if the provider is not available on the current 
-		 * device (either due to being disabled or unavailable completely),.
-		 */
 		LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
 		String provider = null;
@@ -213,6 +216,12 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			lm.requestLocationUpdates(provider, MIN_TIME_BETWEEN_CHECKS_IN_MILLIS, MIN_DISTANCE_BEFORE_UPDATE,
 					mListenerForCurrentLocationWidgets);
 		}
+
+		/*
+		 * Use the passive provider as a way of getting updates without actually
+		 * requesting a GPS fix. Ignore if the provider is not available on the current 
+		 * device (either due to being disabled or unavailable completely),.
+		 */
 		requestLocationUpdatesFromPassiveProvider(lm);
 
 	}
@@ -300,8 +309,12 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			 * as well as the last searched location
 			 */
 			SearchParams searchParams = mWidgetDeals.getSearchParams();
-			lastSearchedLocation.setLatitude(searchParams.getSearchLatitude());
-			lastSearchedLocation.setLongitude(searchParams.getSearchLongitude());
+			if (searchParams != null) {
+				lastSearchedLocation.setLatitude(searchParams.getSearchLatitude());
+				lastSearchedLocation.setLongitude(searchParams.getSearchLongitude());
+			} else {
+				mWidgetDeals.setSearchParams(new SearchParams());
+			}
 
 			/*
 			 * If the time elapsed is at least the minimum time required and the distance moved is beyond
@@ -321,7 +334,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	@Override
 	public void onLocationChanged(Location location) {
 		Log.d("onLocationChanged(): " + location.toString());
-
+		mWidgetDeals.setSearchParams(new SearchParams());
 		mWidgetDeals.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
 		startSearchDownloader();
 		stopLocationListener();
@@ -443,7 +456,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			}
 			else {
 				startSearch();
-				updateWidgetWithText(widget, getString(R.string.loading_hotels), null, null);
 			}
 
 			// start the listener for keeping track of
@@ -523,6 +535,24 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////////
 
+	private static final int NO_INTERNET_CONNECTIVITY = -1;
+	private Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+
+			switch (msg.what) {
+			case NO_INTERNET_CONNECTIVITY:
+				updateAllWidgetsWithText(getString(R.string.widget_error_no_internet),
+						getString(R.string.refresh_widget), getRefreshIntent());
+				break;
+			}
+
+			super.handleMessage(msg);
+		}
+
+	};
+
 	private void scheduleSearch() {
 		AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
 		PendingIntent operation = getUpdatePendingIntent();
@@ -575,12 +605,12 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	private void startSearch() {
 		Log.i("Starting search");
-		mWidgetDeals.setSearchParmas(new SearchParams());
 
 		// See if we have a good enough location stored
 		long minTime = Calendar.getInstance().getTimeInMillis() - SearchActivity.MINIMUM_TIME_AGO;
 		Location location = LocationServices.getLastBestLocation(getApplicationContext(), minTime);
 		if (location != null) {
+			mWidgetDeals.setSearchParams(new SearchParams());
 			mWidgetDeals.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
 			startSearchDownloader();
 		}
@@ -593,9 +623,12 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		if (!NetUtils.isOnline(getApplicationContext())
 				&& (mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty())) {
-			updateAllWidgetsWithText(getString(R.string.widget_error_no_internet), getString(R.string.refresh_widget),
-					getRefreshIntent());
+			mHandler.sendMessageDelayed(Message.obtain(mHandler, NO_INTERNET_CONNECTIVITY),
+					POST_NO_CONNECTIVITY_MSG_PAUSE);
 			return;
+		}
+		else if (mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty()) {
+			updateAllWidgetsWithText(getString(R.string.loading_hotels), null, null);
 		}
 
 		mSearchDownloader.cancelDownload(WIDGET_KEY_SEARCH);
@@ -694,25 +727,23 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			loadWidgets();
 		}
 
+		boolean toStartSearch = true;
 		if (mWidgetDeals.getDeals() == null) {
 			int result = mWidgetDeals.restoreFromDisk();
 			if (result == WidgetDeals.WIDGET_DEALS_RESTORED) {
 				loadPropertyIntoAllWidgets(ROTATE_INTERVAL);
 				scheduleSearch();
+				toStartSearch = false;
 			}
-			else {
+		}
+
+		if (toStartSearch) {
+			if (mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty()) {
+				updateAllWidgetsWithText(getString(R.string.loading_hotels), null, null);
 				startSearch();
 			}
 		}
-		else {
-			startSearch();
-		}
 
-		if (mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty()) {
-			for (WidgetState widget : mWidgets.values()) {
-				updateWidgetWithText(widget, getString(R.string.loading_hotels), null, null);
-			}
-		}
 	}
 
 	/*
