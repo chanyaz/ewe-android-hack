@@ -9,6 +9,8 @@
 	<string name="recent_searches">Recent Searches</string>
 	<!-- Label for searches that the user can make that are featured -->
 	<string name="featured_destinations">Featured Destinations</string>
+	<!-- Label for button that starts search -->
+	<string name="search_for_hotels">Search For Hotels</string>
 	
 	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
 	<!-- Suggestion to search Times Square -->

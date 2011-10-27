@@ -108,7 +108,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		});
 
 		// Configure suggestions
-		ViewGroup suggestionsContainer = (ViewGroup) view.findViewById(R.id.location_layout);
+		ViewGroup suggestionsContainer = (ViewGroup) view.findViewById(R.id.suggestions_layout);
 		mSuggestionRows = new ArrayList<SuggestionRow>();
 		for (int a = 0; a < NUM_SUGGESTIONS; a++) {
 			ViewGroup suggestionRow = (ViewGroup) inflater.inflate(R.layout.snippet_suggestion, container, false);
@@ -118,6 +118,10 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			row.mLocation = (TextView) suggestionRow.findViewById(R.id.location);
 			mSuggestionRows.add(row);
 			suggestionsContainer.addView(suggestionRow);
+
+			if (a + 1 < NUM_SUGGESTIONS) {
+				suggestionsContainer.addView(inflater.inflate(R.layout.snippet_autocomplete_divider, container, false));
+			}
 		}
 
 		mSuggestions = Arrays.asList(getResources().getStringArray(R.array.suggestions));
@@ -239,6 +243,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			});
 			currentLocationRow.mLocation.setText(R.string.current_location);
 			currentLocationRow.mLocation.setTypeface(Typeface.DEFAULT_BOLD);
+			currentLocationRow.mIcon.setImageResource(R.drawable.autocomplete_location);
 
 			for (int a = 1; a < mSuggestionRows.size(); a++) {
 				configureSuggestionRow(mSuggestionRows.get(a), mSuggestions.get(a));
@@ -264,6 +269,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		});
 
 		row.mLocation.setText(suggestion);
+		row.mIcon.setImageResource(R.drawable.autocomplete_pin);
 	}
 
 	@SuppressWarnings("unchecked")

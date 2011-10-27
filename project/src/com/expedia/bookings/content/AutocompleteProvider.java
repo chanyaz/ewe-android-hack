@@ -50,7 +50,7 @@ public class AutocompleteProvider extends ContentProvider {
 			if (suggestions != null && suggestions.size() > 0) {
 				for (Suggestion suggestion : suggestions) {
 					Object[] row = { id, suggestion.mSuggestion, suggestion.mSuggestion,
-							R.drawable.ic_image_placeholder };
+							R.drawable.autocomplete_pin };
 					cursor.addRow(row);
 					id++;
 				}
@@ -60,7 +60,7 @@ public class AutocompleteProvider extends ContentProvider {
 		}
 		else {
 			// If there is nothing to query, suggest "current location"
-			Object[] row = { id, currentLocation, currentLocation, R.drawable.ic_image_placeholder };
+			Object[] row = { id, currentLocation, currentLocation, R.drawable.autocomplete_location };
 			cursor.addRow(row);
 			id++;
 		}
