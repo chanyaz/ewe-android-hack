@@ -35,7 +35,7 @@
 		<activity android:name=".activity.PhoneSearchActivity" />
 
 		<activity android:name=".activity.TabletActivity"
-			android:windowSoftInputMode="stateHidden"
+			android:windowSoftInputMode="stateHidden|adjustPan"
 			android:launchMode="singleTop"
 			android:theme="@android:style/Theme.Holo.Light" >
 			<intent-filter>
