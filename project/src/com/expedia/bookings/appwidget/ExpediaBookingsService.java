@@ -312,8 +312,10 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			if (searchParams != null) {
 				lastSearchedLocation.setLatitude(searchParams.getSearchLatitude());
 				lastSearchedLocation.setLongitude(searchParams.getSearchLongitude());
-			} else {
-				mWidgetDeals.setSearchParams(new SearchParams());
+			}
+			else {
+				searchParams = new SearchParams();
+				mWidgetDeals.setSearchParams(searchParams);
 			}
 
 			/*
