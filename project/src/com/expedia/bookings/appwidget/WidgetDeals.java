@@ -33,6 +33,8 @@ public class WidgetDeals implements JSONable {
 	private List<Property> mDeals;
 	private Session mSession;
 	private SearchParams mSearchParams;
+	
+	private int refreshCount = 0;
 
 	private static WidgetDeals singleton;
 
@@ -77,6 +79,7 @@ public class WidgetDeals implements JSONable {
 
 		if (response == null || response.hasErrors()) {
 			mDeals = null;
+			refreshCount++;
 			return;
 		}
 
@@ -85,7 +88,7 @@ public class WidgetDeals implements JSONable {
 		// first populate the list with hotels that have rooms on sale
 		// from the list of user-filtered properties
 		Property[] filteredProperties = response.getFilteredAndSortedProperties();
-		Arrays.sort(filteredProperties, Property.PRICE_COMPARATOR);
+		sortProperties(filteredProperties);
 
 		trackDeals(relevantProperties, filteredProperties);
 
@@ -93,7 +96,7 @@ public class WidgetDeals implements JSONable {
 		// to fill in the slots
 		if (relevantProperties.size() < MAX_DEALS) {
 			Property[] properties = response.getProperties().toArray(new Property[1]);
-			Arrays.sort(properties, Property.PRICE_COMPARATOR);
+			sortProperties(properties);
 
 			trackDeals(relevantProperties, properties);
 
@@ -105,6 +108,33 @@ public class WidgetDeals implements JSONable {
 		mDeals = relevantProperties;
 		Log.d("Deals determined: " + relevantProperties.size() + ". Time taken : "
 				+ (System.currentTimeMillis() - start) + " ms");
+		refreshCount++;
+	}
+	
+	/*
+	 * Rotating thru three different sorts to ensure to surface different kinds of deals
+	 * to the user and learn what users like best. The goal is to track which deals users
+	 * book to undertand which sort makes most sense.
+	 */
+	private void sortProperties(Property[] properties) {
+		switch(refreshCount) {
+		case 0: 
+			// POPULARITY SORT is the default sort applied to search results
+			Log.d("Sorting by popularity");
+			break;
+		case 1:
+			Arrays.sort(properties, Property.DISTANCE_COMPARATOR);
+			Log.d("Sorting by distance");
+			break;
+		case 2:
+			Arrays.sort(properties, Property.PRICE_COMPARATOR);
+			Log.d("Sorting by price");
+			break;
+		case 3:
+			refreshCount = -1;
+			Log.d("Refreshing count");
+			break;
+		}
 	}
 
 	@Override
