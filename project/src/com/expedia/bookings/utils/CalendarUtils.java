@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 public class CalendarUtils {
 	/**
@@ -29,5 +30,13 @@ public class CalendarUtils {
 		}
 
 		return (reverse) ? -daysBetween : daysBetween;
+	}
+
+	public static TimeZone getFormatTimeZone() {
+		TimeZone tz = TimeZone.getTimeZone("UTC");
+		if (tz == null) {
+			return TimeZone.getDefault();
+		}
+		return tz;
 	}
 }

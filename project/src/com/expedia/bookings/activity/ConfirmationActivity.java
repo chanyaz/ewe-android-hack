@@ -41,6 +41,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SupportUtils;
@@ -359,6 +360,8 @@ public class ConfirmationActivity extends MapActivity {
 
 		DateFormat dateFormatter = new SimpleDateFormat("MM/dd");
 		DateFormat fullDateFormatter = android.text.format.DateFormat.getMediumDateFormat(this);
+		fullDateFormatter.setTimeZone(CalendarUtils.getFormatTimeZone());
+		DateFormat fullDateFormatter2 = android.text.format.DateFormat.getMediumDateFormat(this);
 		DateFormat dayFormatter = new SimpleDateFormat("EEE");
 
 		Date checkIn = mSearchParams.getCheckInDate().getTime();
@@ -410,7 +413,7 @@ public class ConfirmationActivity extends MapActivity {
 		if (mRate.getRateBreakdownList() != null) {
 			for (RateBreakdown breakdown : mRate.getRateBreakdownList()) {
 				Date date = breakdown.getDate().getCalendar().getTime();
-				String dateStr = dayFormatter.format(date) + ", " + fullDateFormatter.format(date);
+				String dateStr = dayFormatter.format(date) + ", " + fullDateFormatter2.format(date);
 				Money amount = breakdown.getAmount();
 				if (amount.getAmount() == 0) {
 					appendLabelValue(body, getString(R.string.room_rate_template, dateStr), getString(R.string.free));

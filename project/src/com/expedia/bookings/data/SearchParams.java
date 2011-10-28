@@ -181,6 +181,8 @@ public class SearchParams implements JSONable {
 	}
 
 	public Calendar getCheckInDate() {
+		// To be safe, make sure that we're always dealing with UTC
+		mCheckInDate.setTimeZone(CalendarUtils.getFormatTimeZone());
 		return mCheckInDate;
 	}
 
@@ -217,6 +219,8 @@ public class SearchParams implements JSONable {
 	}
 
 	public Calendar getCheckOutDate() {
+		// To be safe, make sure that we're always dealing with GMT
+		mCheckOutDate.setTimeZone(CalendarUtils.getFormatTimeZone());
 		return mCheckOutDate;
 	}
 

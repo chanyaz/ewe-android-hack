@@ -3,6 +3,7 @@ package com.expedia.bookings.utils;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import android.app.Activity;
 import android.content.Context;
@@ -133,6 +134,7 @@ public class LayoutUtils {
 
 	public static String formatCheckInOutDate(Context context, Calendar cal) {
 		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(context);
+		medDf.setTimeZone(TimeZone.getTimeZone("UTC"));
 		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_MEDIUM) + ", "
 				+ medDf.format(cal.getTime());
 	}
