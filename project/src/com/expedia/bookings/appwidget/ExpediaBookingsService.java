@@ -162,7 +162,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		// Prefer network location (because it's faster).  Otherwise use GPS
 		LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-		String provider = null;
+		String provider = null; 
 		if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			provider = LocationManager.NETWORK_PROVIDER;
 		}
@@ -323,9 +323,14 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			 * the specified threshold, cause all widgets to redownload their data to get an accurate
 			 * view of deals around the current location.
 			 */
+			long timeBetweenChecks = System.currentTimeMillis() - mLastUpdatedTimeInMillis;
+			float distanceFromLastSearchedLocation = location.distanceTo(lastSearchedLocation);
+		
+			Log.i("Time between checks = " +  timeBetweenChecks);
+			Log.i("Distance from location last searched = " + distanceFromLastSearchedLocation);
+			Log.i("Provider = " + location.getProvider());
 			if (mLastUpdatedTimeInMillis == 0
-					|| ((System.currentTimeMillis() - mLastUpdatedTimeInMillis > MIN_TIME_BETWEEN_CHECKS_IN_MILLIS) && (location
-							.distanceTo(lastSearchedLocation) >= MIN_DISTANCE_BEFORE_UPDATE))) {
+					|| ((timeBetweenChecks > MIN_TIME_BETWEEN_CHECKS_IN_MILLIS) && (distanceFromLastSearchedLocation >= MIN_DISTANCE_BEFORE_UPDATE))) {
 				Log.i("Starting download for current location widgets since location has changed");
 				searchParams.setSearchLatLon(location.getLatitude(), location.getLongitude());
 				startSearchDownloader();
