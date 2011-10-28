@@ -50,7 +50,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	// Widget config related constants 
-	private final static long UPDATE_INTERVAL = 1000 * 60 * 60; // Every 60 minutes
+	private final static long UPDATE_INTERVAL = 1000 * 60 * 60; // 1 hour
 	public final static long ROTATE_INTERVAL = 1000 * 5; // Every 5 seconds
 	public final static long INCREASED_ROTATE_INTERVAL = 1000 * 30; // Every 30 seconds
 
@@ -58,6 +58,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private static final int MAX_IMAGE_CACHE_SIZE = 30;
 	private static final int MIN_DISTANCE_BEFORE_UPDATE = 5 * 1000; // 5 km
 	private static final int MIN_TIME_BETWEEN_CHECKS_IN_MILLIS = 1000 * 60 * 15; // 15 minutes
+	private static final int TIME_THRESHOLD_FOR_DISTANCE_TRAVELLED = 1000 * 60 * 10; // 10 minutes
 
 	private static final int POST_NO_CONNECTIVITY_MSG_PAUSE = 1000;
 
@@ -114,33 +115,37 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		@Override
 		public void onDownload(Object results) {
 			SearchResponse searchResponse = (SearchResponse) results;
+			mLastUpdatedTimeInMillis = System.currentTimeMillis();
+			// schedule the next update
+			scheduleSearch();
+
+			// determine the widget deals regardless of whether the search has results
+			// to nullify existing deals if no results were returned on the download
+			mWidgetDeals.determineRelevantProperties(searchResponse);
+
+			// start a background thread to save the deals to disk
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					mWidgetDeals.deleteFromDisk();
+					mWidgetDeals.persistToDisk();
+				}
+			}).start();
 
 			if (searchResponse != null && !searchResponse.hasErrors()) {
-				mLastUpdatedTimeInMillis = System.currentTimeMillis();
-				mWidgetDeals.determineRelevantProperties(searchResponse);
 
 				for (WidgetState widget : mWidgets.values()) {
 					widget.mCurrentPosition = -1;
 					loadPropertyIntoWidget(widget, ROTATE_INTERVAL);
 				}
-				// start a background thread to save the deals to disk
-				new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-						mWidgetDeals.deleteFromDisk();
-						mWidgetDeals.persistToDisk();
-					}
-				}).start();
 			}
-
-			if (mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty()) {
+			else {
+				// if there are errors in the search results or if no results are returned
+				// update the widget to accurately reflect the hotels around the current location
 				updateAllWidgetsWithText(getString(R.string.progress_search_failed),
 						getString(R.string.refresh_widget), getRefreshIntent());
 			}
-
-			// schedule the next update
-			scheduleSearch();
 		}
 	};
 
@@ -162,7 +167,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		// Prefer network location (because it's faster).  Otherwise use GPS
 		LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-		String provider = null; 
+		String provider = null;
 		if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			provider = LocationManager.NETWORK_PROVIDER;
 		}
@@ -325,14 +330,14 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			 */
 			long timeBetweenChecks = System.currentTimeMillis() - mLastUpdatedTimeInMillis;
 			float distanceFromLastSearchedLocation = location.distanceTo(lastSearchedLocation);
-		
-			Log.i("Time between checks = " +  timeBetweenChecks);
+
+			Log.i("Time between checks = " + timeBetweenChecks);
 			Log.i("Distance from location last searched = " + distanceFromLastSearchedLocation);
 			Log.i("Provider = " + location.getProvider());
 			if (mLastUpdatedTimeInMillis == 0
-					|| ((timeBetweenChecks > MIN_TIME_BETWEEN_CHECKS_IN_MILLIS) && (distanceFromLastSearchedLocation >= MIN_DISTANCE_BEFORE_UPDATE))) {
+					|| ((timeBetweenChecks > TIME_THRESHOLD_FOR_DISTANCE_TRAVELLED) && (distanceFromLastSearchedLocation >= MIN_DISTANCE_BEFORE_UPDATE))) {
 				Log.i("Starting download for current location widgets since location has changed");
-				searchParams.setSearchLatLon(location.getLatitude(), location.getLongitude());
+				mWidgetDeals.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
 				startSearchDownloader();
 			}
 		}
@@ -477,6 +482,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			 * kill the widget if there are no widgets installed
 			 */
 			if (mWidgets.isEmpty()) {
+				Log.i("Stopping self, Action = " + intent.getAction());
 				stopSelf();
 			}
 
@@ -495,6 +501,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 					// if all widgets have been deleted, kill
 					// the widget
+					Log.i("Stopping self, Action = " + intent.getAction());
 					stopSelf();
 				}
 			}
@@ -565,6 +572,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		PendingIntent operation = getUpdatePendingIntent();
 
 		// Cancel any old updates
+		Log.i("Cancelling search");
 		am.cancel(operation);
 
 		// Schedule update
@@ -592,6 +600,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void cancelScheduledSearch() {
+		Log.i("Cancelling search");
+
 		AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
 		PendingIntent operation = getUpdatePendingIntent();
 
@@ -600,7 +610,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	private PendingIntent getUpdatePendingIntent() {
 		Intent i = new Intent(START_SEARCH_ACTION);
-		return PendingIntent.getService(getApplicationContext(), 0, i, 0);
+		return PendingIntent.getService(getApplicationContext(), 2, i, PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 
 	private PendingIntent getRotatePropertyPendingIntent() {
@@ -747,8 +757,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		if (toStartSearch) {
 			if (mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty()) {
 				updateAllWidgetsWithText(getString(R.string.loading_hotels), null, null);
-				startSearch();
 			}
+			startSearch();
 		}
 
 	}
