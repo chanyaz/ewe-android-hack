@@ -180,11 +180,11 @@
 			<TextView
 				android:id="@+id/powered_by_opinion_lab_text_view"
 				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
+				android:layout_width="fill_parent"
 				android:paddingTop="10dp"
 				android:paddingBottom="10dp"
 				android:text="@string/powered_by_opinion_lab"
-				android:layout_gravity="center_horizontal"
+				android:gravity="center"
 				android:textColor="#828282"/>
 		
 			<LinearLayout 
