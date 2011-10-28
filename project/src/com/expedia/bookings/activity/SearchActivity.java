@@ -2781,8 +2781,8 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		@Override
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
 			if (mOriginalSearchParams != null) {
-				Calendar startCalendar = Calendar.getInstance();
-				Calendar endCalendar = Calendar.getInstance();
+				Calendar startCalendar = Calendar.getInstance(CalendarUtils.getFormatTimeZone());
+				Calendar endCalendar = Calendar.getInstance(CalendarUtils.getFormatTimeZone());
 
 				final int startYear = mDatesCalendarDatePicker.getStartYear();
 				final int startMonth = mDatesCalendarDatePicker.getStartMonth();
