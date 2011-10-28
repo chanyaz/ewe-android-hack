@@ -637,7 +637,9 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void startSearchDownloader() {
-
+		// search for 1 guest by default
+		mWidgetDeals.getSearchParams().setNumAdults(1);
+		
 		if (!NetUtils.isOnline(getApplicationContext())
 				&& (mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty())) {
 			mHandler.sendMessageDelayed(Message.obtain(mHandler, NO_INTERNET_CONNECTIVITY),
