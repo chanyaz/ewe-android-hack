@@ -64,11 +64,7 @@ public class SearchParams implements JSONable {
 	}
 
 	public void setDefaultStay() {
-		// Setup default calendar dates
-		// Note that here we're setting the default calendar time to America/Chicago,
-		// because Travelocity vomits on us if we try to search on a time zone further
-		// west.
-		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/Chicago"));
+		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH);
 		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
