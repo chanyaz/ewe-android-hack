@@ -16,7 +16,7 @@
             android:id="@+id/header_layout"
             android:layout_width="fill_parent"
             android:layout_height="48dp"
-            android:background="@color/light_gray"
+            android:background="@drawable/bg_list_header"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:visibility="gone" >
@@ -33,7 +33,11 @@
                 android:id="@+id/sort_type_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="12dp"
+                android:background="@drawable/btn_sort"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/sort_arrow"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -49,6 +53,7 @@
     </LinearLayout>
 
     <!-- Divider -->
+
     <View
         android:layout_width="@dimen/one_pixel"
         android:layout_height="fill_parent"
