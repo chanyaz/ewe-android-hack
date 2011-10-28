@@ -85,25 +85,14 @@ public class WidgetDeals implements JSONable {
 
 		mSession = response.getSession();
 
-		// first populate the list with hotels that have rooms on sale
-		// from the list of user-filtered properties
-		Property[] filteredProperties = response.getFilteredAndSortedProperties();
-		sortProperties(filteredProperties);
+		Property[] properties = response.getProperties().toArray(new Property[1]);
+		sortProperties(properties);
 
-		trackDeals(relevantProperties, filteredProperties);
+		trackDeals(relevantProperties, properties);
 
-		// if that isn't enough, look through the global list of properties
-		// to fill in the slots
-		if (relevantProperties.size() < MAX_DEALS) {
-			Property[] properties = response.getProperties().toArray(new Property[1]);
-			sortProperties(properties);
+		trackHighlyRatedHotels(relevantProperties, properties);
 
-			trackDeals(relevantProperties, properties);
-
-			trackHighlyRatedHotels(relevantProperties, properties);
-
-			fillMaxSlotsIfAnyLeft(relevantProperties, properties);
-		}
+		fillMaxSlotsIfAnyLeft(relevantProperties, properties);
 
 		mDeals = relevantProperties;
 		Log.d("Deals determined: " + relevantProperties.size() + ". Time taken : "
