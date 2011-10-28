@@ -2565,6 +2565,10 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
 				checkOut.get(Calendar.DAY_OF_MONTH));
 
+		// Ensure that our checkin/checkout dates match the calendar date picker (the calendar stay may have
+		// changed due to enforcing min/max dates).
+		syncDatesFromPicker();
+
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 
 		mAdultsNumberPicker.post(new Runnable() {
@@ -2781,30 +2785,34 @@ public class SearchActivity extends ActivityGroup implements LocationListener, O
 		@Override
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
 			if (mOriginalSearchParams != null) {
-				Calendar startCalendar = Calendar.getInstance(CalendarUtils.getFormatTimeZone());
-				Calendar endCalendar = Calendar.getInstance(CalendarUtils.getFormatTimeZone());
-
-				final int startYear = mDatesCalendarDatePicker.getStartYear();
-				final int startMonth = mDatesCalendarDatePicker.getStartMonth();
-				final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
-
-				final int endYear = mDatesCalendarDatePicker.getEndYear();
-				final int endMonth = mDatesCalendarDatePicker.getEndMonth();
-				final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
-
-				startCalendar.set(startYear, startMonth, startDay, 0, 0, 0);
-				endCalendar.set(endYear, endMonth, endDay, 0, 0, 0);
-
-				startCalendar.set(Calendar.MILLISECOND, 0);
-				endCalendar.set(Calendar.MILLISECOND, 0);
-
-				mSearchParams.setCheckInDate(startCalendar);
-				mSearchParams.setCheckOutDate(endCalendar);
+				syncDatesFromPicker();
 			}
 
 			setRefinementInfo();
 		}
 	};
+
+	private void syncDatesFromPicker() {
+		Calendar startCalendar = Calendar.getInstance(CalendarUtils.getFormatTimeZone());
+		Calendar endCalendar = Calendar.getInstance(CalendarUtils.getFormatTimeZone());
+
+		final int startYear = mDatesCalendarDatePicker.getStartYear();
+		final int startMonth = mDatesCalendarDatePicker.getStartMonth();
+		final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
+
+		final int endYear = mDatesCalendarDatePicker.getEndYear();
+		final int endMonth = mDatesCalendarDatePicker.getEndMonth();
+		final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
+
+		startCalendar.set(startYear, startMonth, startDay, 0, 0, 0);
+		endCalendar.set(endYear, endMonth, endDay, 0, 0, 0);
+
+		startCalendar.set(Calendar.MILLISECOND, 0);
+		endCalendar.set(Calendar.MILLISECOND, 0);
+
+		mSearchParams.setCheckInDate(startCalendar);
+		mSearchParams.setCheckOutDate(endCalendar);
+	}
 
 	private final NumberPicker.OnChangedListener mNumberPickerChangedListener = new NumberPicker.OnChangedListener() {
 		@Override
