@@ -2,12 +2,14 @@
 <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#d2d2d4" >
+    android:background="@drawable/bg_quick_search" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp" >
 
         <!-- Recent searches -->
 
@@ -22,7 +24,13 @@
                 android:id="@+id/recent_searches_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:shadowColor="#88FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.1"
                 android:text="@string/recent_searches"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -40,10 +48,10 @@
 
                 <View
                     android:id="@+id/separator"
-                    android:layout_width="@dimen/two_pixels"
+                    android:layout_width="@dimen/one_pixel"
                     android:layout_height="fill_parent"
                     android:layout_margin="10dp"
-                    android:background="@color/light_gray" />
+                    android:background="#a4a4a5" />
             </LinearLayout>
         </LinearLayout>
 
@@ -58,7 +66,13 @@
                 android:id="@+id/featured_destinations_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:shadowColor="#88FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.1"
                 android:text="@string/featured_destinations"
                 android:textSize="24sp"
                 android:textStyle="bold" />
