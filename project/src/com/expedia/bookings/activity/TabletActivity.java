@@ -195,6 +195,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
 
 		mInstance.mFilter.addOnFilterChangedListener(this);
 	}
