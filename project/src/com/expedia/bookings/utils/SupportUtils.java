@@ -392,7 +392,8 @@ public class SupportUtils {
 			return "http://www.expedia.com.ar/?rfrr=app.android";
 		}
 		else if (countryCode.equals("TW")) {
-			return "http://www.expedia.com.tw/?rfrr=app.android";
+			// Goes to HK site because TW site is not live yet
+			return "http://www.expedia.com.hk/?rfrr=app.android";
 		}
 		else if (countryCode.equals("HK")) {
 			return "http://www.expedia.com.hk/?rfrr=app.android";
