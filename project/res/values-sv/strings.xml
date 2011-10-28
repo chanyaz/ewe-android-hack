@@ -509,7 +509,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Sätt ett betyg</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privacy Policy</a></string>
+	<string name="powered_by_opinion_lab">Drivs av Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privatpolicy</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">E-postadress</string>
 	<!-- Hint to type in comments -->
