@@ -351,7 +351,9 @@
 	<string name="value_add_template">Includes %s</string>
 	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
 	<string name="common_value_add_template">All rooms include %s</string>
-
+	<!--  Instruction as the header of the list to select a room from the list -->
+	<string name="select_a_room_instruction">Select a Room</string>
+	    
 	<!-- Booking info -->
 	<!-- edit label -->
 	<string name="edit">Edit</string>
@@ -456,6 +458,8 @@
 	<string name="error_booking_null">Could not connect to Expedia servers.  Please check your connection and try again.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$s on %2$s</string>
+	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
+	<string name="enter_booking_info">Enter Booking Info</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Format for a first/last name -->
