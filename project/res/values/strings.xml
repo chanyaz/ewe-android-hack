@@ -486,9 +486,9 @@
 	<string name="contact_phone_default_template">If you have questions about your reservation, please call Expedia.com at %1$s in the US/Canada or %2$s in Europe.</string>
 
 	<!--  Confirmation Fragment -->
-	<string name="share_booking_info">Share Booking Info</string>
+	<string name="share_booking_info">Share Stay Info</string>
 	<string name="start_new_search">Start a New Search</string>
-	<string name="show_on_map">Show on Map</string>
+	<string name="show_on_map">View Hotel on Map</string>
 	
 	<!-- Rate template strings -->
 	<!-- Label for the number of guests the booking is for. -->
