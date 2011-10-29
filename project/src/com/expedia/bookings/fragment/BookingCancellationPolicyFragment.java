@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
@@ -23,7 +24,11 @@ public class BookingCancellationPolicyFragment extends Fragment {
 
 		Rate rate = ((TabletActivity) getActivity()).getRoomRateForBooking();
 		ConfirmationUtils.determineCancellationPolicy(rate, view);
-		ConfirmationUtils.determineContactText(getActivity(), view);
+
+		TextView contactView = (TextView) view.findViewById(R.id.contact_text_view);
+		String contactText = ConfirmationUtils.determineContactText(getActivity());
+		ConfirmationUtils.configureContactView(getActivity(), contactView, contactText);
+
 		return view;
 	}
 }

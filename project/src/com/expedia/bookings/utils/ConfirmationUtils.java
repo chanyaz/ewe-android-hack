@@ -207,32 +207,29 @@ public class ConfirmationUtils {
 		}
 	}
 
-	public static String determineContactText(Activity activity, View view) {
-		String contactText = null;
-		TextView contactView = (TextView) view.findViewById(R.id.contact_text_view);
+	public static String determineContactText(Context context) {
+		if (Locale.getDefault().getCountry().toUpperCase().equals("CN")) {
+			// Special case for China
+			return context.getString(R.string.contact_phone_china_template, "10-800712-2608", "10-800120-2608");
+		}
+		else if (SupportUtils.hasConfSupportNumber()) {
+			return context.getString(R.string.contact_phone_template, SupportUtils.getConfSupportNumber());
+		}
+		else {
+			return context.getString(R.string.contact_phone_default_template, "1-800-780-5733",
+					"00-800-11-20-11-40");
+		}
+	}
 
-		if (!AndroidUtils.hasTelephonyFeature(activity)) {
+	public static void configureContactView(Context context, TextView contactView, String contactText) {
+		if (!AndroidUtils.hasTelephonyFeature(context)) {
 			contactView.setAutoLinkMask(0);
 		}
 		else {
 			contactView.setAutoLinkMask(Linkify.PHONE_NUMBERS);
 		}
 
-		if (Locale.getDefault().getCountry().toUpperCase().equals("CN")) {
-			// Special case for China
-			contactText = activity.getString(R.string.contact_phone_china_template, "10-800712-2608", "10-800120-2608");
-		}
-		else if (SupportUtils.hasConfSupportNumber()) {
-			contactText = activity.getString(R.string.contact_phone_template, SupportUtils.getConfSupportNumber());
-		}
-		else {
-			contactText = activity.getString(R.string.contact_phone_default_template, "1-800-780-5733",
-					"00-800-11-20-11-40");
-		}
 		contactView.setText(contactText);
-
-		return contactText;
-
 	}
 
 	private static void appendLabelValue(Context context, StringBuilder sb, int labelStrId, String value) {

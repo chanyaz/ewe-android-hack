@@ -210,7 +210,9 @@ public class ConfirmationActivity extends MapActivity {
 		ConfirmationUtils.determineCancellationPolicy(mRate, confirmationContainer);
 
 		// Reservation support contact info
-		mContactText = ConfirmationUtils.determineContactText(this, confirmationContainer);
+		TextView contactView = (TextView) findViewById(R.id.contact_text_view);
+		mContactText = ConfirmationUtils.determineContactText(this);
+		ConfirmationUtils.configureContactView(this, contactView, mContactText);
 
 		//////////////////////////////////////////////////
 		// Button bar configuration
