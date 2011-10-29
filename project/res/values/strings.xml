@@ -37,11 +37,11 @@
 	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; to &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
-		<item quantity="zero">&lt;b>%d&lt;/b> matching hotels</item>
-		<item quantity="one">&lt;b>%d&lt;/b> matching hotel</item>
-		<item quantity="two">&lt;b>%d&lt;/b> matching hotels</item>
-		<item quantity="many">&lt;b>%d&lt;/b> matching hotels</item>
-		<item quantity="other">&lt;b>%d&lt;/b> matching hotels</item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; matching hotels</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; matching hotel</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; matching hotels</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; matching hotels</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; matching hotels</item>
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filter by hotel name</string>
@@ -66,16 +66,16 @@
 	<!-- Label for sort hotels button in bottom bar -->
 	<string name="sort_hotels">"Sort: "</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-	<string name="sort_hotels_template">&lt;b>Sort&lt;/b>: %s</string>
+	<string name="sort_hotels_template">&lt;b&gt;Sort&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">Filter Hotels</string>
 	<!-- A number of results -->
 	<plurals name="number_of_results">
-		<item quantity="zero">&lt;b>%d&lt;/b> Results</item>
-		<item quantity="one">&lt;b>%d&lt;/b> Result</item>
-		<item quantity="two">&lt;b>%d&lt;/b> Results</item>
-		<item quantity="many">&lt;b>%d&lt;/b> Results</item>
-		<item quantity="other">&lt;b>%d&lt;/b> Results</item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; Results</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; Result</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; Results</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; Results</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; Results</item>
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
@@ -222,7 +222,7 @@
 	
 	<!--  Hotel Details Fragment -->
 	<string name="min_room_price_template">From %s</string>
-	<string name="bed_type_start_value_template">&lt;b>%s&lt;/b> from</string>
+	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; from</string>
 	<string name="reviews_recommended_template">Recommended by %1$d of %2$d guests</string>
 	<string name="amenities">Amenities</string>
 
