@@ -219,6 +219,7 @@
 	<string name="bullet_point">•</string>
 	
 	<!--  Hotel Details Fragment -->
+	<string name="min_room_price_template">From %s</string>
 	<string name="bed_type_start_value_template">&lt;b>%s&lt;/b> from</string>
 	<string name="reviews_recommended_template">Recommended by %1$d of %2$d guests</string>
 	<string name="amenities">Amenities</string>

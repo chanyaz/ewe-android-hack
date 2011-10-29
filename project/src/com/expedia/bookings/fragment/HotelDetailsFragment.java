@@ -9,8 +9,12 @@ import java.util.PriorityQueue;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,9 +102,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mAmenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 		mBookNowButton = view.findViewById(R.id.book_now_button);
-		
+
 		mBookNowButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// if the user just presses the book now button,
@@ -230,6 +234,28 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	}
 
 	private void layoutAvailabilitySummary() {
+
+		if (mSummarizedRates.size() > 0) {
+			View minPriceRow = mInflater.inflate(R.layout.snippet_min_room_price_summary, null);
+			
+			TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
+			StyleSpan span = new StyleSpan(Typeface.BOLD);
+			String minPriceString = getString(R.string.min_room_price_template,
+					StrUtils.formatHotelPrice(mMinimumRateAvailable.getDisplayRate()));
+			Spannable str = new SpannableString(minPriceString);
+			str.setSpan(span, 0, minPriceString.length(), 0);
+			minPrice.setText(str);
+			
+			TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
+			if (Rate.showInclusivePrices()) {
+				perNighTextView.setVisibility(View.GONE);
+			}
+			else {
+				perNighTextView.setVisibility(View.VISIBLE);
+			}
+			mAvailabilitySummaryContainer.addView(minPriceRow);
+		}
+
 		for (int i = 0; i < MAX_SUMMARIZED_RATE_RESULTS && i < mSummarizedRates.size(); i++) {
 			View summaryRow = mInflater.inflate(R.layout.snippet_availability_summary_row, null);
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
@@ -313,7 +339,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 	private void addHotelDescription(Property property) {
 		mHotelDescriptionContainer.removeAllViews();
-		
+
 		String description = property.getDescriptionText();
 		HotelDescription hotelDescription = new HotelDescription(getActivity());
 
@@ -331,9 +357,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			row.setLayoutParams(rowParams);
 			row.setPadding(0, tenDp, 0, 0);
 			row.setWeightSum(2);
-			
+
 			for (int j = 0; j < MAX_DESCRIPTION_SECTIONS_PER_ROW && sectionCount > 0; j++) {
-				DescriptionSection section = hotelDescription.getSections().get(i * MAX_DESCRIPTION_SECTIONS_PER_ROW + j);
+				DescriptionSection section = hotelDescription.getSections().get(
+						i * MAX_DESCRIPTION_SECTIONS_PER_ROW + j);
 				ViewGroup descriptionSection = (ViewGroup) mInflater.inflate(
 						R.layout.snippet_hotel_description_section, null);
 
