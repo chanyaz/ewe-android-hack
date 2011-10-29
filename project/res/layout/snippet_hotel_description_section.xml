@@ -9,7 +9,8 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textStyle="bold"
-		android:textColor="@color/hotel_description_text_color"/>
+		android:textColor="@color/hotel_description_text_color"
+		style="@style/HotelDescriptionTitle"/>
 	<TextView
 		android:id="@+id/body_description_text_view"
 		android:layout_width="wrap_content"
@@ -17,5 +18,6 @@
 		android:layout_toLeftOf="@+id/view_button"
 		android:layout_below="@id/title_description_text_view"
 		android:layout_alignParentLeft="true"
-		android:textColor="@color/hotel_description_text_color"/>
+		android:textColor="@color/hotel_description_text_color"
+		android:textSize="@dimen/hotel_description_body_text_size"/>
 </RelativeLayout>

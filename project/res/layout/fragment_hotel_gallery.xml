@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content"
+	android:layout_width="wrap_content"
+	android:padding="0dp"
+	android:orientation="vertical">
+	<ImageView 
+		android:id="@+id/big_image_view"
+		android:layout_gravity="center_horizontal"
+		android:layout_height="500dp"
+		android:layout_width="500dp"
+		android:scaleType="center"/>
+	<View
+		android:layout_height="2px"
+		android:layout_width="fill_parent"
+		android:background="@color/light_gray"/>
+	<Gallery
+		android:id="@+id/hotel_gallery"
+		android:layout_marginTop="10dp"
+		android:layout_marginBottom="10dp"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:spacing="10dp"/>
+</LinearLayout>

@@ -105,6 +105,12 @@
 					android:orientation="vertical">
 					<include
 						layout="@layout/include_amenities" />
+					<View
+						android:layout_width="fill_parent"
+						android:layout_height="@dimen/two_pixels"
+						android:layout_marginTop="4dp"
+						android:layout_marginBottom="6dp"
+						android:background="@drawable/divider" />
 					<LinearLayout
 						android:id="@+id/description_container"
 						android:layout_width="wrap_content"
@@ -112,7 +118,7 @@
 						android:layout_marginLeft="12dp"
 						android:layout_marginRight="12dp"
 						android:layout_marginBottom="10dp"
-						android:orientation="vertical"/>
+						android:orientation="vertical" />
 				</LinearLayout>
 			</ScrollView>
 		</RelativeLayout>

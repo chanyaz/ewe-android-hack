@@ -3,9 +3,7 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,7 +20,6 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
@@ -35,7 +32,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CheckBox;
@@ -56,24 +52,25 @@ import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Session;
+import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.BookingReceiptUtils;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.widget.RoomTypeHandler;
+import com.expedia.bookings.widget.RoomTypeActivityHandler;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
-import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.DialogUtils;
@@ -94,9 +91,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.booking";
 
-	private static final int DIALOG_BOOKING_PROGRESS = 1;
-	private static final int DIALOG_BOOKING_NULL = 2;
-	private static final int DIALOG_BOOKING_ERROR = 3;
 	private static final int DIALOG_CLEAR_PRIVATE_DATA = 4;
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -106,7 +100,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	// Room type handler
 
-	private RoomTypeHandler mRoomTypeHandler;
+	private RoomTypeActivityHandler mRoomTypeHandler;
 
 	// Data pertaining to this booking
 
@@ -148,6 +142,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private EditText mSecurityCodeEditText;
 	private TextView mConfirmationButton;
 	private CheckBox mRulesRestrictionsCheckbox;
+	private View mReceipt;
 
 	// Cached views (non-interactive)
 	private ScrollView mScrollView;
@@ -159,20 +154,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private ViewGroup mRulesRestrictionsLayout;
 
 	// Validation
-	private static final int ERROR_INVALID_CARD_NUMBER = 101;
-	private static final int ERROR_INVALID_MONTH = 102;
-	private static final int ERROR_EXPIRED_YEAR = 103;
-	private static final int ERROR_SHORT_SECURITY_CODE = 104;
-	private static final int ERROR_INVALID_CARD_TYPE = 105;
-	private static final int ERROR_AMEX_BAD_CURRENCY = 106;
-	private static final int ERROR_NO_TERMS_CONDITIONS_AGREEMEMT = 107;
 	private ValidationProcessor mValidationProcessor;
 	private TextViewErrorHandler mErrorHandler;
-
-	// Tracking
-	private boolean mGuestsCompleted;
-	private boolean mBillingCompleted;
-	private boolean mCardCompleted;
 
 	// This is a tracking variable to solve a nasty problem.  The problem is that Spinner.onItemSelectedListener()
 	// fires wildly when you set the Spinner's position manually (sometimes twice at a time).  We only want to track
@@ -196,6 +179,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private static final int INSTANCE_CARD_COMPLETED = 7;
 	private static final int INSTANCE_ERRORS = 8;
 
+	private BookingInfoValidation mBookingInfoValidation;
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
 
@@ -209,6 +194,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mContext = this;
 
 		mValidationProcessor = new ValidationProcessor();
+		mBookingInfoValidation = new BookingInfoValidation();
 
 		setContentView(R.layout.activity_booking_info);
 
@@ -235,10 +221,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				Log.e("Couldn't create dummy data!", e);
 			}
 		}
-
-		// Configure the room type handler
-		mRoomTypeHandler = new RoomTypeHandler(this, getIntent(), mProperty, mSearchParams, mRate);
-		mRoomTypeHandler.onCreate();
 
 		// Retrieve some data we keep using
 		Resources r = getResources();
@@ -274,9 +256,12 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mChargeDetailsTextView = (TextView) findViewById(R.id.charge_details_text_view);
 		mRulesRestrictionsTextView = (TextView) findViewById(R.id.rules_restrictions_text_view);
 		mRulesRestrictionsLayout = (ViewGroup) findViewById(R.id.rules_restrictions_layout);
+		mReceipt = findViewById(R.id.receipt);
+		// Configure the room type handler
+		mRoomTypeHandler = new RoomTypeActivityHandler(this, getIntent(), mProperty, mSearchParams, mRate);
 
 		// Configure the layout
-		configureTicket();
+		BookingReceiptUtils.configureTicket(this, mReceipt, mProperty, mSearchParams, mRate, mRoomTypeHandler);
 		configureForm();
 		configureFooter();
 
@@ -284,9 +269,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		SparseArray<Object> lastInstance = (SparseArray<Object>) getLastNonConfigurationInstance();
 		if (lastInstance != null) {
 			this.mBillingInfo = (BillingInfo) lastInstance.get(INSTANCE_BILLING_INFO);
-			this.mGuestsCompleted = (Boolean) lastInstance.get(INSTANCE_GUESTS_COMPLETED);
-			this.mBillingCompleted = (Boolean) lastInstance.get(INSTANCE_BILLING_COMPLETED);
-			this.mCardCompleted = (Boolean) lastInstance.get(INSTANCE_CARD_COMPLETED);
+			mBookingInfoValidation.setGuestsSectionCompleted((Boolean) lastInstance.get(INSTANCE_GUESTS_COMPLETED));
+			mBookingInfoValidation.setBillingSectionCompleted((Boolean) lastInstance.get(INSTANCE_BILLING_COMPLETED));
+			mBookingInfoValidation.setCardSectionCompleted((Boolean) lastInstance.get(INSTANCE_CARD_COMPLETED));
 			this.mErrors = (List<ServerError>) lastInstance.get(INSTANCE_ERRORS);
 
 			if ((Boolean) lastInstance.get(INSTANCE_FORM_HAS_BEEN_FOCUSED)) {
@@ -303,7 +288,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			}
 		}
 		else {
-			mGuestsCompleted = mBillingCompleted = mCardCompleted = false;
+			mBookingInfoValidation.markAllSectionsAsIncomplete();
 
 			// Try loading saved billing info
 			if (loadSavedBillingInfo()) {
@@ -312,11 +297,11 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				// Determine which form sections could be collapsed
 				checkSectionsCompleted(false);
 
-				if (!mGuestsCompleted) {
+				if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
 					expandGuestsForm(false);
 				}
 
-				if (!mBillingCompleted) {
+				if (!mBookingInfoValidation.isBillingSectionCompleted()) {
 					expandBillingForm(false);
 				}
 			}
@@ -330,6 +315,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 			onPageLoad();
 		}
+		mRoomTypeHandler.onCreate(null);
 	}
 
 	@Override
@@ -341,9 +327,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		instance.put(INSTANCE_FORM_HAS_BEEN_FOCUSED, mFormHasBeenFocused);
 		instance.put(INSTANCE_GUESTS_EXPANDED, mGuestsExpanded);
 		instance.put(INSTANCE_BILLING_EXPANDED, mBillingExpanded);
-		instance.put(INSTANCE_GUESTS_COMPLETED, mGuestsCompleted);
-		instance.put(INSTANCE_BILLING_COMPLETED, mBillingCompleted);
-		instance.put(INSTANCE_CARD_COMPLETED, mCardCompleted);
+		instance.put(INSTANCE_GUESTS_COMPLETED, mBookingInfoValidation.isGuestsSectionCompleted());
+		instance.put(INSTANCE_BILLING_COMPLETED, mBookingInfoValidation.isBillingSectionCompleted());
+		instance.put(INSTANCE_CARD_COMPLETED, mBookingInfoValidation.isCardSectionCompleted());
 		instance.put(INSTANCE_ERRORS, mErrors);
 
 		mRoomTypeHandler.onRetainNonConfigurationInstance(instance);
@@ -405,17 +391,17 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
-		case DIALOG_BOOKING_PROGRESS: {
+		case BookingInfoUtils.DIALOG_BOOKING_PROGRESS: {
 			ProgressDialog pd = new ProgressDialog(this);
 			pd.setMessage(getString(R.string.booking_loading));
 			pd.setCancelable(false);
 			return pd;
 		}
-		case DIALOG_BOOKING_NULL: {
-			return DialogUtils.createSimpleDialog(this, DIALOG_BOOKING_NULL, R.string.error_booking_title,
-					R.string.error_booking_null);
+		case BookingInfoUtils.DIALOG_BOOKING_NULL: {
+			return DialogUtils.createSimpleDialog(this, BookingInfoUtils.DIALOG_BOOKING_NULL,
+					R.string.error_booking_title, R.string.error_booking_null);
 		}
-		case DIALOG_BOOKING_ERROR: {
+		case BookingInfoUtils.DIALOG_BOOKING_ERROR: {
 			// Gather the error message
 			String errorMsg = "";
 			int numErrors = mErrors.size();
@@ -426,8 +412,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				errorMsg += mErrors.get(a).getPresentableMessage(this);
 			}
 
-			return DialogUtils.createSimpleDialog(this, DIALOG_BOOKING_ERROR, getString(R.string.error_booking_title),
-					errorMsg);
+			return DialogUtils.createSimpleDialog(this, BookingInfoUtils.DIALOG_BOOKING_ERROR,
+					getString(R.string.error_booking_title), errorMsg);
 		}
 		case DIALOG_CLEAR_PRIVATE_DATA: {
 			Builder builder = new AlertDialog.Builder(this);
@@ -494,10 +480,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	@Override
 	public void onDownload(Object results) {
-		removeDialog(DIALOG_BOOKING_PROGRESS);
+		removeDialog(BookingInfoUtils.DIALOG_BOOKING_PROGRESS);
 
 		if (results == null) {
-			showDialog(DIALOG_BOOKING_NULL);
+			showDialog(BookingInfoUtils.DIALOG_BOOKING_NULL);
 			TrackingUtils.trackErrorPage(this, "ReservationRequestFailed");
 			return;
 		}
@@ -505,7 +491,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		BookingResponse response = (BookingResponse) results;
 		if (response.hasErrors()) {
 			mErrors = response.getErrors();
-			showDialog(DIALOG_BOOKING_ERROR);
+			showDialog(BookingInfoUtils.DIALOG_BOOKING_ERROR);
 			TrackingUtils.trackErrorPage(this, "ReservationRequestFailed");
 			return;
 		}
@@ -537,43 +523,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	// Activity configuration
 
-	private void configureTicket() {
-		// Configure the booking summary at the top of the page
-		ImageView thumbnailView = (ImageView) findViewById(R.id.thumbnail_image_view);
-		if (mProperty.getThumbnail() != null) {
-			ImageCache.loadImage(mProperty.getThumbnail().getUrl(), thumbnailView);
-		}
-		else {
-			thumbnailView.setVisibility(View.GONE);
-		}
-
-		TextView nameView = (TextView) findViewById(R.id.name_text_view);
-		nameView.setText(mProperty.getName());
-
-		Location location = mProperty.getLocation();
-		TextView address1View = (TextView) findViewById(R.id.address1_text_view);
-		address1View.setText(Html.fromHtml(StrUtils.formatAddressStreet(location)));
-		TextView address2View = (TextView) findViewById(R.id.address2_text_view);
-		address2View.setText(Html.fromHtml(StrUtils.formatAddressCity(location)));
-
-		// Configure the details
-		ViewGroup detailsLayout = (ViewGroup) findViewById(R.id.details_layout);
-		mRoomTypeHandler.load(detailsLayout);
-		com.expedia.bookings.utils.LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate,
-				mRoomTypeHandler);
-
-		// Configure the total cost
-		Money totalAmountAfterTax = mRate.getTotalAmountAfterTax();
-		TextView totalView = (TextView) findViewById(R.id.total_cost_text_view);
-		if (totalAmountAfterTax != null && totalAmountAfterTax.getFormattedMoney() != null
-				&& totalAmountAfterTax.getFormattedMoney().length() > 0) {
-			totalView.setText(totalAmountAfterTax.getFormattedMoney());
-		}
-		else {
-			totalView.setText("Dan didn't account for no total info, tell him");
-		}
-	}
-
 	private void configureForm() {
 		mGuestSavedLayout.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -600,8 +549,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 			public void afterTextChanged(Editable s) {
 				String key = s.toString().toLowerCase();
-				if (COMMON_US_CITIES.containsKey(key)) {
-					mStateEditText.setText(COMMON_US_CITIES.get(key));
+				if (BookingInfoUtils.COMMON_US_CITIES.containsKey(key)) {
+					mStateEditText.setText(BookingInfoUtils.COMMON_US_CITIES.get(key));
 					mStateEditText.setError(null);
 					setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
 				}
@@ -625,9 +574,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				// See description of mSelectedCountryPosition to understand why we're doing this
 				if (mSelectedCountryPosition != position) {
 					if (mFormHasBeenFocused) {
-						focusAndOpenKeyboard(mPostalCodeEditText);
+						BookingInfoUtils.focusAndOpenKeyboard(BookingInfoActivity.this, mPostalCodeEditText);
 					}
-					onCountrySpinnerClick();
+					BookingInfoUtils.onCountrySpinnerClick(BookingInfoActivity.this);
 
 					// Once a user has explicitly changed the country, track every change thereafter
 					mSelectedCountryPosition = -1;
@@ -654,8 +603,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			public void afterTextChanged(Editable s) {
 				mCreditCardType = CurrencyUtils.detectCreditCardBrand(mContext, s.toString());
 				if (mCreditCardType != null) {
-					mCreditCardImageView.setImageResource(CREDIT_CARD_ICONS.get(mCreditCardType));
-					mSecurityCodeTipTextView.setText(CREDIT_CARD_SECURITY_LOCATION.get(mCreditCardType));
+					mCreditCardImageView.setImageResource(BookingInfoUtils.CREDIT_CARD_ICONS.get(mCreditCardType));
+					mSecurityCodeTipTextView.setText(BookingInfoUtils.CREDIT_CARD_SECURITY_LOCATION
+							.get(mCreditCardType));
 				}
 				else {
 					mCreditCardImageView.setImageResource(R.drawable.ic_cc_unknown);
@@ -724,13 +674,17 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		};
 		TextViewErrorHandler errorHandler = mErrorHandler = new TextViewErrorHandler(getString(R.string.required_field));
 		errorHandler.addResponse(ValidationError.ERROR_DATA_INVALID, getString(R.string.invalid_field));
-		errorHandler.addResponse(ERROR_INVALID_CARD_NUMBER, getString(R.string.invalid_card_number));
-		errorHandler.addResponse(ERROR_INVALID_MONTH, getString(R.string.invalid_month));
-		errorHandler.addResponse(ERROR_EXPIRED_YEAR, getString(R.string.invalid_expiration_year));
-		errorHandler.addResponse(ERROR_SHORT_SECURITY_CODE, getString(R.string.invalid_security_code));
-		errorHandler.addResponse(ERROR_INVALID_CARD_TYPE, getString(R.string.invalid_card_type));
-		errorHandler.addResponse(ERROR_AMEX_BAD_CURRENCY, getString(R.string.invalid_currency_for_amex, userCurrency));
-		errorHandler.addResponse(ERROR_NO_TERMS_CONDITIONS_AGREEMEMT, getString(R.string.error_no_user_agreement));
+		errorHandler.addResponse(BookingInfoValidation.ERROR_INVALID_CARD_NUMBER,
+				getString(R.string.invalid_card_number));
+		errorHandler.addResponse(BookingInfoValidation.ERROR_INVALID_MONTH, getString(R.string.invalid_month));
+		errorHandler.addResponse(BookingInfoValidation.ERROR_EXPIRED_YEAR, getString(R.string.invalid_expiration_year));
+		errorHandler.addResponse(BookingInfoValidation.ERROR_SHORT_SECURITY_CODE,
+				getString(R.string.invalid_security_code));
+		errorHandler.addResponse(BookingInfoValidation.ERROR_INVALID_CARD_TYPE, getString(R.string.invalid_card_type));
+		errorHandler.addResponse(BookingInfoValidation.ERROR_AMEX_BAD_CURRENCY,
+				getString(R.string.invalid_currency_for_amex, userCurrency));
+		errorHandler.addResponse(BookingInfoValidation.ERROR_NO_TERMS_CONDITIONS_AGREEMEMT,
+				getString(R.string.error_no_user_agreement));
 
 		// Add all the validators
 		mValidationProcessor.add(mFirstNameEditText, requiredFieldValidator);
@@ -745,16 +699,16 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			public int validate(CharSequence number) {
 				if (mCreditCardType == null) {
 					TrackingUtils.trackErrorPage(mContext, "CreditCardNotSupported");
-					return ERROR_INVALID_CARD_TYPE;
+					return BookingInfoValidation.ERROR_INVALID_CARD_TYPE;
 				}
 				else if (!FormatUtils.isValidCreditCardNumber(number)) {
 					TrackingUtils.trackErrorPage(mContext, "CreditCardNotSupported");
-					return ERROR_INVALID_CARD_NUMBER;
+					return BookingInfoValidation.ERROR_INVALID_CARD_NUMBER;
 				}
 				else if (mCreditCardType == CreditCardType.AMERICAN_EXPRESS
 						&& !CurrencyUtils.currencySupportedByAmex(mContext, userCurrency)) {
 					TrackingUtils.trackErrorPage(mContext, "CurrencyNotSupported");
-					return ERROR_AMEX_BAD_CURRENCY;
+					return BookingInfoValidation.ERROR_AMEX_BAD_CURRENCY;
 				}
 				return 0;
 			}
@@ -762,25 +716,25 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mValidationProcessor.add(mExpirationMonthEditText, new TextViewValidator(new Validator<CharSequence>() {
 			public int validate(CharSequence obj) {
 				int month = Integer.parseInt(obj.toString());
-				return (month < 1 || month > 12) ? ERROR_INVALID_MONTH : 0;
+				return (month < 1 || month > 12) ? BookingInfoValidation.ERROR_INVALID_MONTH : 0;
 			}
 		}));
 		mValidationProcessor.add(mExpirationYearEditText, new TextViewValidator(new Validator<CharSequence>() {
 			public int validate(CharSequence obj) {
 				int thisYear = Calendar.getInstance().get(Calendar.YEAR);
 				int year = Integer.parseInt(obj.toString());
-				return (thisYear % 100 > year) ? ERROR_EXPIRED_YEAR : 0;
+				return (thisYear % 100 > year) ? BookingInfoValidation.ERROR_EXPIRED_YEAR : 0;
 			}
 		}));
 		mValidationProcessor.add(mSecurityCodeEditText, new TextViewValidator(new Validator<CharSequence>() {
 			public int validate(CharSequence obj) {
-				return (obj.length() < 3) ? ERROR_SHORT_SECURITY_CODE : 0;
+				return (obj.length() < 3) ? BookingInfoValidation.ERROR_SHORT_SECURITY_CODE : 0;
 			}
 		}));
 		mValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
 			public int validate(CheckBox obj) {
 				if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
-					return ERROR_NO_TERMS_CONDITIONS_AGREEMEMT;
+					return BookingInfoValidation.ERROR_NO_TERMS_CONDITIONS_AGREEMEMT;
 				}
 				return 0;
 			}
@@ -803,7 +757,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 					// invalid field to enter
 					if (numErrors > 0) {
 						View firstErrorView = (View) errors.get(0).getObject();
-						focusAndOpenKeyboard(firstErrorView);
+						BookingInfoUtils.focusAndOpenKeyboard(BookingInfoActivity.this, firstErrorView);
 					}
 					return;
 				}
@@ -819,12 +773,12 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 						focusRulesRestrictions();
 					}
 					else {
-						focusAndOpenKeyboard(firstErrorView);
+						BookingInfoUtils.focusAndOpenKeyboard(BookingInfoActivity.this, firstErrorView);
 					}
 				}
 				else {
-					onClickSubmit();
-					showDialog(DIALOG_BOOKING_PROGRESS);
+					BookingInfoUtils.onClickSubmit(BookingInfoActivity.this);
+					showDialog(BookingInfoUtils.DIALOG_BOOKING_PROGRESS);
 					BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, activity, activity);
 				}
 			}
@@ -863,21 +817,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	}
 
 	private void configureFooter() {
-		// 9226: Only display the Expedia Points disclaimer if the user is in the US.
-		// (This may change in the future as more countries support points.)
-		int visibility = ("us".equals(Locale.getDefault().getCountry().toLowerCase())) ? View.VISIBLE : View.GONE;
-		TextView pointsDisclaimerView = (TextView) findViewById(R.id.expedia_points_disclaimer_text_view);
-		pointsDisclaimerView.setVisibility(visibility);
-
+		BookingInfoUtils.determineExpediaPointsDisclaimer(mScrollView);
+		
 		// Configure the cancellation policy
-		TextView cancellationPolicyView = (TextView) findViewById(R.id.cancellation_policy_text_view);
-		Policy cancellationPolicy = mRate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
-		if (cancellationPolicy != null) {
-			cancellationPolicyView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
-		}
-		else {
-			cancellationPolicyView.setVisibility(View.GONE);
-		}
+		ConfirmationUtils.determineCancellationPolicy(mRate, mScrollView);
 	}
 
 	private void setSpinnerSelection(Spinner spinner, String target) {
@@ -936,7 +879,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			fixFocus();
 
 			if (animateAndFocus) {
-				focusAndOpenKeyboard(mFirstNameEditText);
+				BookingInfoUtils.focusAndOpenKeyboard(this, mFirstNameEditText);
 			}
 
 			// TODO: Animation if animated
@@ -954,7 +897,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			fixFocus();
 
 			if (animateAndFocus) {
-				focusAndOpenKeyboard(mAddress1EditText);
+				BookingInfoUtils.focusAndOpenKeyboard(this, mAddress1EditText);
 			}
 
 			// TODO: Animation if animated
@@ -976,12 +919,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mCardNumberEditText.setNextFocusLeftId(nextId);
 		mExpirationMonthEditText.setNextFocusUpId(nextId);
 		mExpirationYearEditText.setNextFocusUpId(nextId);
-	}
-
-	private void focusAndOpenKeyboard(View view) {
-		view.requestFocus();
-		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.showSoftInput(view, 0);
 	}
 
 	// Focusing the rules & restrictions is special for two reasons:
@@ -1121,42 +1058,25 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		return false;
 	}
 
-	public void checkSectionsCompleted(boolean trackCompletion) {
-		boolean guestsCompleted = true;
-		boolean billingCompleted = true;
-		boolean cardCompleted = true;
+	private void checkSectionsCompleted(boolean trackCompletion) {
+		boolean isGuestsCompleted = mBookingInfoValidation.isGuestsSectionCompleted();
+		boolean isBillingCompleted = mBookingInfoValidation.isBillingSectionCompleted();
+		boolean isCardCompleted = mBookingInfoValidation.isCardSectionCompleted();
 
-		for (ValidationError error : mValidationProcessor.validate()) {
-			Object view = error.getObject();
-			if (view == mFirstNameEditText || view == mLastNameEditText || view == mTelephoneEditText
-					|| view == mEmailEditText) {
-				guestsCompleted = false;
-			}
-			else if (view == mAddress1EditText || view == mCityEditText || view == mStateEditText
-					|| view == mPostalCodeEditText) {
-				billingCompleted = false;
-			}
-			else if (view == mCardNumberEditText || view == mExpirationMonthEditText || view == mExpirationYearEditText
-					|| view == mSecurityCodeEditText) {
-				cardCompleted = false;
-			}
-		}
+		mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
 
 		if (trackCompletion) {
-			if (!mGuestsCompleted && guestsCompleted) {
-				onCompletedSection("CKO.BD.CompletedGuestInfo");
+			if (isGuestsCompleted && mBookingInfoValidation.isGuestsSectionCompleted()) {
+				BookingInfoUtils.onCompletedSection(this, "CKO.BD.CompletedGuestInfo");
 			}
-			if (!mBillingCompleted && billingCompleted) {
-				onCompletedSection("CKO.BD.CompletedBillingInfo");
+			if (isBillingCompleted && mBookingInfoValidation.isBillingSectionCompleted()) {
+				BookingInfoUtils.onCompletedSection(this, "CKO.BD.CompletedBillingInfo");
 			}
-			if (!mCardCompleted && cardCompleted) {
-				onCompletedSection("CKO.BD.CompletedCreditCard");
+			if (isCardCompleted && mBookingInfoValidation.isCardSectionCompleted()) {
+				BookingInfoUtils.onCompletedSection(this, "CKO.BD.CompletedCreditCard");
 			}
-		}
 
-		mGuestsCompleted = guestsCompleted;
-		mBillingCompleted = billingCompleted;
-		mCardCompleted = cardCompleted;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -1181,13 +1101,13 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// If any sections were already complete, fill them in here
 		String referrerId = null;
-		if (mGuestsCompleted && mBillingCompleted) {
+		if (mBookingInfoValidation.isGuestsSectionCompleted() && mBookingInfoValidation.isBillingSectionCompleted()) {
 			referrerId = "CKO.BD.CompletedGuestInfo|CKO.BD.CompletedBillingInfo";
 		}
-		else if (mGuestsCompleted) {
+		else if (mBookingInfoValidation.isGuestsSectionCompleted()) {
 			referrerId = "CKO.BD.CompletedGuestInfo";
 		}
-		else if (mBillingCompleted) {
+		else if (mBookingInfoValidation.isBillingSectionCompleted()) {
 			referrerId = "CKO.BD.CompletedBillingInfo";
 		}
 
@@ -1197,336 +1117,4 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		s.track();
 	}
 
-	public void onCompletedSection(String sectionName) {
-		Log.d("Tracking \"" + sectionName + "\" onClick");
-		TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", sectionName);
-	}
-
-	public void onCountrySpinnerClick() {
-		Log.d("Tracking \"country spinner\" onClick");
-		TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", "CKO.BD.ChangeCountry");
-	}
-
-	public void onClickSubmit() {
-		Log.d("Tracking \"submit\" onClick");
-		TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", "CKO.BD.Confirm");
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////
-	// More static data (that just takes up a lot of space, so at bottom)
-
-	// Which icon to use with which credit card
-	@SuppressWarnings("serial")
-	public static final HashMap<CreditCardType, Integer> CREDIT_CARD_ICONS = new HashMap<CreditCardType, Integer>() {
-		{
-			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_cc_amex);
-			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_cc_carte_blanche);
-			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_cc_china_union_pay);
-			put(CreditCardType.DINERS_CLUB, R.drawable.ic_cc_diners_club);
-			put(CreditCardType.DISCOVER, R.drawable.ic_cc_discover);
-			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.drawable.ic_cc_jcb);
-			put(CreditCardType.MAESTRO, R.drawable.ic_cc_maestro);
-			put(CreditCardType.MASTERCARD, R.drawable.ic_cc_mastercard);
-			put(CreditCardType.VISA, R.drawable.ic_cc_visa);
-		}
-	};
-
-	// Where to find security info on each card
-	@SuppressWarnings("serial")
-	public static final HashMap<CreditCardType, Integer> CREDIT_CARD_SECURITY_LOCATION = new HashMap<CreditCardType, Integer>() {
-		{
-			put(CreditCardType.AMERICAN_EXPRESS, R.string.security_code_tip_front);
-			put(CreditCardType.CARTE_BLANCHE, R.string.security_code_tip_back);
-			put(CreditCardType.CHINA_UNION_PAY, R.string.security_code_tip_back);
-			put(CreditCardType.DINERS_CLUB, R.string.security_code_tip_back);
-			put(CreditCardType.DISCOVER, R.string.security_code_tip_back);
-			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.string.security_code_tip_back);
-			put(CreditCardType.MAESTRO, R.string.security_code_tip_back);
-			put(CreditCardType.MASTERCARD, R.string.security_code_tip_back);
-			put(CreditCardType.VISA, R.string.security_code_tip_back);
-		}
-	};
-
-	// Static data that auto-fills states/countries
-	@SuppressWarnings("serial")
-	public static final HashMap<CharSequence, Integer> COMMON_US_CITIES = new HashMap<CharSequence, Integer>() {
-		{
-			put("new york", R.string.state_code_ny);
-			put("los angeles", R.string.state_code_ca);
-			put("chicago", R.string.state_code_il);
-			put("houston", R.string.state_code_tx);
-			put("philadelphia", R.string.state_code_pa);
-			put("phoenix", R.string.state_code_az);
-			put("san antonio", R.string.state_code_tx);
-			put("san diego", R.string.state_code_ca);
-			put("dallas", R.string.state_code_tx);
-			put("san jose", R.string.state_code_ca);
-			put("jacksonville", R.string.state_code_fl);
-			put("indianapolis", R.string.state_code_in);
-			put("san francisco", R.string.state_code_ca);
-			put("austin", R.string.state_code_tx);
-			put("columbus", R.string.state_code_oh);
-			put("fort worth", R.string.state_code_tx);
-			put("charlotte", R.string.state_code_nc);
-			put("detroit", R.string.state_code_mi);
-			put("el paso", R.string.state_code_tx);
-			put("memphis", R.string.state_code_tn);
-			put("baltimore", R.string.state_code_md);
-			put("boston", R.string.state_code_ma);
-			put("seattle", R.string.state_code_wa);
-			put("washington", R.string.state_code_dc);
-			put("nashville", R.string.state_code_tn);
-			put("denver", R.string.state_code_co);
-			put("louisville", R.string.state_code_ky);
-			put("milwaukee", R.string.state_code_wi);
-			put("portland", R.string.state_code_or);
-			put("las vegas", R.string.state_code_nv);
-			put("oklahoma city", R.string.state_code_ok);
-			put("albuquerque", R.string.state_code_nm);
-			put("tucson", R.string.state_code_az);
-			put("fresno", R.string.state_code_ca);
-			put("sacramento", R.string.state_code_ca);
-			put("long beach", R.string.state_code_ca);
-			put("kansas city", R.string.state_code_mo);
-			put("mesa", R.string.state_code_az);
-			put("virginia beach", R.string.state_code_va);
-			put("atlanta", R.string.state_code_ga);
-			put("colorado springs", R.string.state_code_co);
-			put("omaha", R.string.state_code_ne);
-			put("raleigh", R.string.state_code_nc);
-			put("miami", R.string.state_code_fl);
-			put("cleveland", R.string.state_code_oh);
-			put("tulsa", R.string.state_code_ok);
-			put("oakland", R.string.state_code_ca);
-			put("minneapolis", R.string.state_code_mn);
-			put("wichita", R.string.state_code_ks);
-			put("arlington", R.string.state_code_tx);
-			put("bakersfield", R.string.state_code_ca);
-			put("new orleans", R.string.state_code_la);
-			put("honolulu", R.string.state_code_hi);
-			put("anaheim", R.string.state_code_ca);
-			put("tampa", R.string.state_code_fl);
-			put("aurora", R.string.state_code_co);
-			put("santa ana", R.string.state_code_ca);
-			put("st louis", R.string.state_code_mo);
-			put("pittsburgh", R.string.state_code_pa);
-			put("corpus christi", R.string.state_code_tx);
-			put("riverside", R.string.state_code_ca);
-			put("cincinnati", R.string.state_code_oh);
-			put("lexington", R.string.state_code_ky);
-			put("anchorage", R.string.state_code_ak);
-			put("stockton", R.string.state_code_ca);
-			put("toledo", R.string.state_code_oh);
-			put("st paul", R.string.state_code_mn);
-			put("newark", R.string.state_code_nj);
-			put("greensboro", R.string.state_code_nc);
-			put("buffalo", R.string.state_code_ny);
-			put("plano", R.string.state_code_tx);
-			put("lincoln", R.string.state_code_ne);
-			put("henderson", R.string.state_code_nv);
-			put("fort wayne", R.string.state_code_in);
-			put("jersey city", R.string.state_code_nj);
-			put("st petersburg", R.string.state_code_fl);
-			put("chula vista", R.string.state_code_ca);
-			put("norfolk", R.string.state_code_va);
-			put("orlando", R.string.state_code_fl);
-			put("chandler", R.string.state_code_az);
-			put("laredo", R.string.state_code_tx);
-			put("madison", R.string.state_code_wi);
-			put("winston-salem", R.string.state_code_nc);
-			put("lubbock", R.string.state_code_tx);
-			put("baton rouge", R.string.state_code_la);
-			put("durham", R.string.state_code_nc);
-			put("garland", R.string.state_code_tx);
-			put("glendale", R.string.state_code_az);
-			put("reno", R.string.state_code_nv);
-			put("hialeah", R.string.state_code_fl);
-			put("paradise", R.string.state_code_nv);
-			put("chesapeake", R.string.state_code_va);
-			put("scottsdale", R.string.state_code_az);
-			put("north las vegas", R.string.state_code_nv);
-			put("irving", R.string.state_code_tx);
-			put("fremont", R.string.state_code_ca);
-			put("irvine", R.string.state_code_ca);
-			put("birmingham", R.string.state_code_al);
-			put("rochester", R.string.state_code_ny);
-			put("san bernardino", R.string.state_code_ca);
-			put("spokane", R.string.state_code_wa);
-			put("gilbert", R.string.state_code_az);
-			put("arlington", R.string.state_code_va);
-			put("montgomery", R.string.state_code_al);
-			put("boise", R.string.state_code_id);
-			put("richmond", R.string.state_code_va);
-			put("des moines", R.string.state_code_ia);
-			put("modesto", R.string.state_code_ca);
-			put("fayetteville", R.string.state_code_nc);
-			put("shreveport", R.string.state_code_la);
-			put("akron", R.string.state_code_oh);
-			put("tacoma", R.string.state_code_wa);
-			put("aurora", R.string.state_code_il);
-			put("oxnard", R.string.state_code_ca);
-			put("fontana", R.string.state_code_ca);
-			put("yonkers", R.string.state_code_ny);
-			put("augusta", R.string.state_code_ga);
-			put("mobile", R.string.state_code_al);
-			put("little rock", R.string.state_code_ar);
-			put("moreno valley", R.string.state_code_ca);
-			put("glendale", R.string.state_code_ca);
-			put("amarillo", R.string.state_code_tx);
-			put("huntington beach", R.string.state_code_ca);
-			put("columbus", R.string.state_code_ga);
-			put("grand rapids", R.string.state_code_mi);
-			put("salt lake city", R.string.state_code_ut);
-			put("tallahassee", R.string.state_code_fl);
-			put("worcester", R.string.state_code_ma);
-			put("newport news", R.string.state_code_va);
-			put("huntsville", R.string.state_code_al);
-			put("knoxville", R.string.state_code_tn);
-			put("providence", R.string.state_code_ri);
-			put("santa clarita", R.string.state_code_ca);
-			put("grand prairie", R.string.state_code_tx);
-			put("brownsville", R.string.state_code_tx);
-			put("jackson", R.string.state_code_ms);
-			put("overland park", R.string.state_code_ks);
-			put("garden grove", R.string.state_code_ca);
-			put("santa rosa", R.string.state_code_ca);
-			put("chattanooga", R.string.state_code_tn);
-			put("oceanside", R.string.state_code_ca);
-			put("fort lauderdale", R.string.state_code_fl);
-			put("rancho cucamonga", R.string.state_code_ca);
-			put("port st. lucie", R.string.state_code_fl);
-			put("ontario", R.string.state_code_ca);
-			put("vancouver", R.string.state_code_wa);
-			put("tempe", R.string.state_code_az);
-			put("springfield", R.string.state_code_mo);
-			put("lancaster", R.string.state_code_ca);
-			put("eugene", R.string.state_code_or);
-			put("pembroke pines", R.string.state_code_fl);
-			put("salem", R.string.state_code_or);
-			put("cape coral", R.string.state_code_fl);
-			put("peoria", R.string.state_code_az);
-			put("sioux falls", R.string.state_code_sd);
-			put("springfield", R.string.state_code_ma);
-			put("elk grove", R.string.state_code_ca);
-			put("rockford", R.string.state_code_il);
-			put("palmdale", R.string.state_code_ca);
-			put("corona", R.string.state_code_ca);
-			put("salinas", R.string.state_code_ca);
-			put("pomona", R.string.state_code_ca);
-			put("pasadena", R.string.state_code_tx);
-			put("joliet", R.string.state_code_il);
-			put("paterson", R.string.state_code_nj);
-			put("kansas city", R.string.state_code_ks);
-			put("torrance", R.string.state_code_ca);
-			put("syracuse", R.string.state_code_ny);
-			put("bridgeport", R.string.state_code_ct);
-			put("hayward", R.string.state_code_ca);
-			put("fort collins", R.string.state_code_co);
-			put("escondido", R.string.state_code_ca);
-			put("lakewood", R.string.state_code_co);
-			put("naperville", R.string.state_code_il);
-			put("dayton", R.string.state_code_oh);
-			put("hollywood", R.string.state_code_fl);
-			put("sunnyvale", R.string.state_code_ca);
-			put("alexandria", R.string.state_code_va);
-			put("mesquite", R.string.state_code_tx);
-			put("hampton", R.string.state_code_va);
-			put("pasadena", R.string.state_code_ca);
-			put("orange", R.string.state_code_ca);
-			put("savannah", R.string.state_code_ga);
-			put("cary", R.string.state_code_nc);
-			put("fullerton", R.string.state_code_ca);
-			put("warren", R.string.state_code_mi);
-			put("clarksville", R.string.state_code_tn);
-			put("mckinney", R.string.state_code_tx);
-			put("mcallen", R.string.state_code_tx);
-			put("new haven", R.string.state_code_ct);
-			put("sterling heights", R.string.state_code_mi);
-			put("west valley city", R.string.state_code_ut);
-			put("columbia", R.string.state_code_sc);
-			put("killeen", R.string.state_code_tx);
-			put("topeka", R.string.state_code_ks);
-			put("thousand oaks", R.string.state_code_ca);
-			put("cedar rapids", R.string.state_code_ia);
-			put("olathe", R.string.state_code_ks);
-			put("elizabeth", R.string.state_code_nj);
-			put("waco", R.string.state_code_tx);
-			put("hartford", R.string.state_code_ct);
-			put("visalia", R.string.state_code_ca);
-			put("gainesville", R.string.state_code_fl);
-			put("simi valley", R.string.state_code_ca);
-			put("stamford", R.string.state_code_ct);
-			put("bellevue", R.string.state_code_wa);
-			put("concord", R.string.state_code_ca);
-			put("miramar", R.string.state_code_fl);
-			put("coral springs", R.string.state_code_fl);
-			put("lafayette", R.string.state_code_la);
-			put("charleston", R.string.state_code_sc);
-			put("carrollton", R.string.state_code_tx);
-			put("roseville", R.string.state_code_ca);
-			put("thornton", R.string.state_code_co);
-			put("beaumont", R.string.state_code_tx);
-			put("allentown", R.string.state_code_pa);
-			put("surprise", R.string.state_code_az);
-			put("evansville", R.string.state_code_in);
-			put("abilene", R.string.state_code_tx);
-			put("frisco", R.string.state_code_tx);
-			put("independence", R.string.state_code_mo);
-			put("santa clara", R.string.state_code_ca);
-			put("springfield", R.string.state_code_il);
-			put("vallejo", R.string.state_code_ca);
-			put("victorville", R.string.state_code_ca);
-			put("athens", R.string.state_code_ga);
-			put("peoria", R.string.state_code_il);
-			put("lansing", R.string.state_code_mi);
-			put("ann arbor", R.string.state_code_mi);
-			put("el monte", R.string.state_code_ca);
-			put("denton", R.string.state_code_tx);
-			put("berkeley", R.string.state_code_ca);
-			put("provo", R.string.state_code_ut);
-			put("downey", R.string.state_code_ca);
-			put("midland", R.string.state_code_tx);
-			put("norman", R.string.state_code_ok);
-			put("waterbury", R.string.state_code_ct);
-			put("costa mesa", R.string.state_code_ca);
-			put("inglewood", R.string.state_code_ca);
-			put("manchester", R.string.state_code_nh);
-			put("murfreesboro", R.string.state_code_tn);
-			put("columbia", R.string.state_code_mo);
-			put("elgin", R.string.state_code_il);
-			put("clearwater", R.string.state_code_fl);
-			put("miami gardens", R.string.state_code_fl);
-			put("rochester", R.string.state_code_mn);
-			put("pueblo", R.string.state_code_co);
-			put("lowell", R.string.state_code_ma);
-			put("wilmington", R.string.state_code_nc);
-			put("arvada", R.string.state_code_co);
-			put("ventura", R.string.state_code_ca);
-			put("westminster", R.string.state_code_co);
-			put("west covina", R.string.state_code_ca);
-			put("gresham", R.string.state_code_or);
-			put("fargo", R.string.state_code_nd);
-			put("norwalk", R.string.state_code_ca);
-			put("carlsbad", R.string.state_code_ca);
-			put("fairfield", R.string.state_code_ca);
-			put("cambridge", R.string.state_code_ma);
-			put("wichita falls", R.string.state_code_tx);
-			put("high point", R.string.state_code_nc);
-			put("billings", R.string.state_code_mt);
-			put("green bay", R.string.state_code_wi);
-			put("west jordan", R.string.state_code_ut);
-			put("richmond", R.string.state_code_ca);
-			put("murrieta", R.string.state_code_ca);
-			put("burbank", R.string.state_code_ca);
-			put("palm bay", R.string.state_code_fl);
-			put("everett", R.string.state_code_wa);
-			put("flint", R.string.state_code_mi);
-			put("antioch", R.string.state_code_ca);
-			put("erie", R.string.state_code_pa);
-			put("south bend", R.string.state_code_in);
-			put("daly city", R.string.state_code_ca);
-			put("centennial", R.string.state_code_co);
-			put("temecula", R.string.state_code_ca);
-		}
-	};
 }

@@ -1,7 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.content.Intent;
@@ -12,9 +10,9 @@ import android.preference.PreferenceManager;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity.ExactSearchLocationSearchedListener;
-import com.expedia.bookings.activity.SearchActivity.MapViewListener;
-import com.expedia.bookings.activity.SearchActivity.SetShowDistanceListener;
+import com.expedia.bookings.activity.PhoneSearchActivity.ExactSearchLocationSearchedListener;
+import com.expedia.bookings.activity.PhoneSearchActivity.MapViewListener;
+import com.expedia.bookings.activity.PhoneSearchActivity.SetShowDistanceListener;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Property;
@@ -85,7 +83,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mMapView.setBuiltInZoomControls(true);
 		mMapView.setSatellite(false);
 
-		final SearchActivity parent = (SearchActivity) getParent();
+		final PhoneSearchActivity parent = (PhoneSearchActivity) getParent();
 		parent.addSearchListener(this);
 		parent.setMapViewListener(this);
 		parent.addSetShowDistanceListener(this);
@@ -98,7 +96,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		OnBalloonTap onTap = new OnBalloonTap() {
 			@Override
 			public void onBalloonTap(Property property) {
-				final SearchActivity parent = (SearchActivity) getParent();
+				final PhoneSearchActivity parent = (PhoneSearchActivity) getParent();
 
 				Intent intent = new Intent(SearchMapActivity.this, HotelActivity.class);
 				intent.putExtra(Codes.PROPERTY, property.toJson().toString());
@@ -168,12 +166,12 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 	@Override
 	public void onSearchProgress(int strId) {
-		// Do nothing.  SearchActivity should handle the display of search progress.
+		// Do nothing.  PhoneSearchActivity should handle the display of search progress.
 	}
 
 	@Override
 	public void onSearchFailed(String message) {
-		// Do nothing.  SearchActivity should handle the display of search progress.
+		// Do nothing.  PhoneSearchActivity should handle the display of search progress.
 	}
 
 	@Override
@@ -189,11 +187,9 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		List<Overlay> overlays = mMapView.getOverlays();
 
 		// Add hotels overlay
-		Property[] propertyArray = mSearchResponse.getFilteredAndSortedProperties();
-		List<Property> properties = new ArrayList<Property>();
-
-		properties = propertyArray != null ? Arrays.asList(propertyArray) : null;
-		mHotelItemizedOverlay.setProperties(properties, mSearchResponse.getProperties());
+		// clear the map info to determine center based on new search
+		clearSavedMapInfo();
+		mHotelItemizedOverlay.setProperties(mSearchResponse);
 		mHotelItemizedOverlay.setShowDistance(mShowDistance);
 
 		mExactLocationItemizedOverlay.setExactLocation(mExactLocationLatitude, mExactLocationLongitude,
@@ -256,8 +252,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mSavedZoomLevel = mMapView.getZoomLevel();
 		mTappedPropertyId = mHotelItemizedOverlay.getTappedPropertyId();
 
-		mHotelItemizedOverlay.setProperties(Arrays.asList(mSearchResponse.getFilteredAndSortedProperties()),
-				mSearchResponse.getProperties());
+		mHotelItemizedOverlay.setProperties(mSearchResponse);
 		mMapView.invalidate();
 
 		Boolean areHotelsVisible = mHotelItemizedOverlay.areHotelsVisible();

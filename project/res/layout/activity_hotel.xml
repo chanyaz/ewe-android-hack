@@ -9,7 +9,7 @@
 	<include
 		android:id="@+id/header"
 		layout="@layout/include_hotel_header" />
-	
+
 	<ScrollView
 		android:id="@+id/scroll_view"
 		android:layout_width="fill_parent"
@@ -78,6 +78,12 @@
 				android:background="#E3E3E6">
 				<include
 					layout="@layout/include_amenities" />
+				<View
+					android:layout_width="fill_parent"
+					android:layout_height="@dimen/two_pixels"
+					android:layout_marginTop="4dp"
+					android:layout_marginBottom="6dp"
+					android:background="@drawable/divider" />
 				<LinearLayout
 					android:id="@+id/description_container"
 					android:layout_width="wrap_content"

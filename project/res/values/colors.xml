@@ -30,4 +30,6 @@
 	
 	<color name="widget_message_text_color">#214461</color>
 	<color name="widget_text_color">#3d4552</color>
+
+	<color name="hotel_price_text_color">#064192</color>
 </resources>

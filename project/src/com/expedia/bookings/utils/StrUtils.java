@@ -1,7 +1,9 @@
 package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -9,7 +11,9 @@ import android.location.Address;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.mobiata.android.LocationServices;
 
@@ -164,5 +168,18 @@ public class StrUtils {
 
 	public static String formatHotelPrice(Money money, String currencyCode) {
 		return money.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN, currencyCode);
+	}
+	
+	public static List<String> getImageUrls(Property property) {
+		List<String> urls = new ArrayList<String>(property.getMediaCount());
+		Set<String> usedUrls = new HashSet<String>();
+		for (Media media : property.getMediaList()) {
+			String url = media.getUrl();
+			if (!usedUrls.contains(url)) {
+				urls.add(url);
+				usedUrls.add(url);
+			}
+		}
+		return urls;
 	}
 }

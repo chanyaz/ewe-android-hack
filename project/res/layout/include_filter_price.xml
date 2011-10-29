@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mobiata.android.widget.SegmentedControlGroup
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+	android:id="@+id/price_filter_button_group"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginBottom="4dp"
+	android:orientation="horizontal"
+	android:gravity="center"
+	android:paddingTop="5dp"
+	mobiata:textColor="@color/segmented_button_text">
+
+	<RadioButton
+		android:id="@+id/price_cheap_button"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:text="@string/filter_price_cheap"
+		android:textStyle="bold" />
+
+	<RadioButton
+		android:id="@+id/price_moderate_button"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:text="@string/filter_price_moderate"
+		android:textStyle="bold" />
+
+	<RadioButton
+		android:id="@+id/price_expensive_button"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:text="@string/filter_price_expensive"
+		android:textStyle="bold" />
+
+	<RadioButton
+		android:id="@+id/price_all_button"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:text="@string/all"
+		android:textStyle="bold"
+		android:checked="true" />
+
+</com.mobiata.android.widget.SegmentedControlGroup>

@@ -6,6 +6,7 @@ import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
@@ -41,7 +42,20 @@ public class Filter implements JSONable {
 	}
 
 	public static enum Sort {
-		POPULAR, PRICE, RATING, DISTANCE
+		POPULAR(R.string.sort_description_popular),
+		PRICE(R.string.sort_description_price),
+		RATING(R.string.sort_description_rating),
+		DISTANCE(R.string.sort_description_distance);
+
+		private int mResId;
+
+		private Sort(int resId) {
+			mResId = resId;
+		}
+
+		public int getDescriptionResId() {
+			return mResId;
+		}
 	}
 
 	private Set<OnFilterChangedListener> mListeners;

@@ -49,12 +49,9 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private boolean mEnglish;
 	private float mHighlyRatedTextSize;
 
-	public HotelAdapter(Context context, SearchResponse searchResponse) {
+	public HotelAdapter(Context context) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		mSearchResponse = searchResponse;
-		rebuildCache();
 
 		// Calculate the size of the sale text size
 		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(context.getString(R.string.sale_caps), 1, 11,
@@ -67,30 +64,47 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 				new TextPaint(), 58);
 	}
 
+	public HotelAdapter(Context context, SearchResponse searchResponse) {
+		this(context);
+
+		setSearchResponse(searchResponse);
+	}
+
+	public void setSearchResponse(SearchResponse searchResponse) {
+		mSearchResponse = searchResponse;
+		rebuildCache();
+	}
+
 	public void rebuildCache() {
 		Log.d("Rebuilding hotel list adapter cache...");
 
-		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
-		if (mCachedProperties.length == 0) {
-			TrackingUtils.trackErrorPage(mContext, "FilteredToZeroResults");
+		if (mSearchResponse == null) {
+			mCachedProperties = null;
 		}
+		else {
+			mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
+			if (mCachedProperties.length == 0) {
+				TrackingUtils.trackErrorPage(mContext, "FilteredToZeroResults");
+			}
 
-		mIsSortedByUserRating = (mSearchResponse.getFilter().getSort() == Sort.RATING);
+			mIsSortedByUserRating = (mSearchResponse.getFilter().getSort() == Sort.RATING);
 
-		mDistanceUnit = mSearchResponse.getFilter().getDistanceUnit();
+			mDistanceUnit = mSearchResponse.getFilter().getDistanceUnit();
 
-		final List<Property> properties = new ArrayList<Property>();
-		properties.addAll(mSearchResponse.getProperties());
+			// Clear all the images that are no longer going to be displayed (since we're only showing cached props)
+			final List<Property> properties = new ArrayList<Property>();
+			properties.addAll(mSearchResponse.getProperties());
 
-		final int size = mCachedProperties.length;
-		for (int i = 0; i < size; i++) {
-			properties.remove(mCachedProperties[i]);
-		}
+			final int size = mCachedProperties.length;
+			for (int i = 0; i < size; i++) {
+				properties.remove(mCachedProperties[i]);
+			}
 
-		for (Property property : properties) {
-			Media thumbnail = property.getThumbnail();
-			if (thumbnail != null && thumbnail.getUrl() != null) {
-				ImageCache.removeImage(thumbnail.getUrl(), true);
+			for (Property property : properties) {
+				Media thumbnail = property.getThumbnail();
+				if (thumbnail != null && thumbnail.getUrl() != null) {
+					ImageCache.removeImage(thumbnail.getUrl(), true);
+				}
 			}
 		}
 

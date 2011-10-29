@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>    
+<resources>
+	<!-- Suggested locations to search that are given to the user.  Order doesn't matter
+		as these are all shuffled before displaying anyways. -->
+	<string-array name="suggestions">
+		<item>@string/suggestion_times_square</item>
+		<item>@string/suggestion_boston</item>
+		<item>@string/suggestion_los_angeles</item>
+		<item>@string/suggestion_venice</item>
+		<item>@string/suggestion_miami</item>
+		<item>@string/suggestion_london</item>
+		<item>@string/suggestion_las_vegas</item>
+		<item>@string/suggestion_paris</item>
+		<item>@string/suggestion_minneapolis</item>
+		<item>@string/suggestion_san_francisco</item>
+	</string-array>
+
 	<!-- List of currency names that should be presented to the user as options.
 		If you want to use currencies other than these listed, override currency_names
 		and currency_codes in the application -->

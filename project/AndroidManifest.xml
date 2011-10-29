@@ -4,7 +4,7 @@
 	android:versionCode="4"
 	android:versionName="1.1">
       
-	<uses-sdk android:minSdkVersion="7" />
+	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="13" />
 	
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -18,18 +18,34 @@
     	android:label="@string/app_name"
     	android:theme="@style/Theme"
     	android:name="com.expedia.bookings.activity.ExpediaBookingApp"
-    	android:hardwareAccelerated="false">
+    	android:hardwareAccelerated="true">
 		
 		<meta-data android:name="AA_DB_VERSION" android:value="2" />
-        
+
     	<uses-library android:name="com.google.android.maps" />
-		
-		<activity android:name=".activity.SearchActivity">
+
+		<activity
+			android:name=".activity.SearchActivity"
+			android:theme="@android:style/Theme.NoDisplay">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
+		</activity>
+
+		<activity android:name=".activity.PhoneSearchActivity" />
+
+		<activity android:name=".activity.TabletActivity"
+			android:windowSoftInputMode="stateHidden|adjustPan"
+			android:launchMode="singleTop"
+			android:theme="@android:style/Theme.Holo.Light" >
+			<intent-filter>
+				<action android:name="android.intent.action.SEARCH" />
+			</intent-filter>
+			<meta-data
+				android:name="android.app.searchable"
+				android:resource="@xml/searchable" />
 		</activity>
 
 		<activity android:name=".activity.SearchListActivity" />
@@ -84,6 +100,11 @@
 			<meta-data android:name="android.appwidget.provider"
 				android:resource="@xml/eb_appwidget_info" />
 		</receiver>
+
+		<!-- Search stuff -->
+		<provider
+			android:name="com.expedia.bookings.content.AutocompleteProvider"
+			android:authorities="com.expedia.booking.autocomplete" />
 
 		<!-- Boot stuff -->
 		<receiver android:name=".activity.LocaleChangeReceiver">

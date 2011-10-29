@@ -68,7 +68,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_below="@id/from_text_view"
-			android:textColor="#064192"
+			android:textColor="@color/hotel_price_text_color"
 			android:textStyle="bold"
 			android:textSize="20sp"
 			android:includeFontPadding="false" />

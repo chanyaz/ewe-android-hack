@@ -2,8 +2,10 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,6 +64,132 @@ public class Rate implements JSONable {
 	private Money mInclusiveBaseRate = null;
 	private Money mInclusiveRate = null;
 
+	
+	/*
+	 * This enum represents the different bed types
+	 * that can be returned from EAN. Note that 
+	 * some bed types have multiple ids pointing to them.
+	 * The mappings were picked up from the following documentation:
+	 * http://developer.ean.com/general_info/BedTypes 
+	 *
+	 */
+	public static enum BedTypeId {
+		
+		/*
+		 * King bed types in order
+		 * of priority
+		 */
+		ONE_KING_BED(new String[] {
+				"KG", "4", "14" }),
+		TWO_KING_BEDS(new String[] { 
+				"2KG", "22" }),
+		
+		/*
+		 * Queen bed types in order
+		 * of priority
+		 */
+		ONE_QUEEN_BED(new String[]{
+				"QN", "3", "15" }),
+		TWO_QUEEN_BEDS(new String[] {
+				"2QN", "7", "23" }),
+						
+		/*
+		 * Double beds in order of
+		 * priority  				
+		 */
+		ONE_DOUBLE_BED(new String[] {
+				"DD", "2", "13" }),
+		TWO_DOUBLE_BEDS(new String[]{
+				"2DD", "6", "21" }),
+				
+		/*
+		 * Twin beds in order
+		 * of priority
+		 */
+		ONE_TWIN_BED(new String[] {
+				"TW", "18" }),
+		TWO_TWIN_BEDS(new String[] {
+				"2TW", "5", "25" }),
+		THREE_TWIN_BEDS(new String[] { 
+				"30" }),
+		FOUR_TWIN_BEDS(new String[] { 
+				"34" }),
+				
+		/*
+		 * Full beds in order 
+		 * of priority		
+		 */
+		ONE_FULL_BED(new String[] {
+				"46" }),
+		TWO_FULL_BEDS(new String[] { 
+				"47" }),
+
+		/*
+		 * Single beds in order
+		 * of priority
+		 */
+		ONE_SINGLE_BED(new String[] {
+				"42" }),
+		TWO_SINGLE_BEDS(new String[] {
+				"43" }),				
+		THREE_SINGLE_BEDS(new String[] {
+				"44" }),
+		FOUR_SINGLE_BEDS(new String[] {
+				"45" }),
+				
+		/*
+		 * Remaining beds in order
+		 * of priority
+		 */
+		ONE_BED(new String[] {
+				"40" }),
+		TWO_BEDS(new String[] { 
+				"41" }),
+		ONE_TRUNDLE_BED(new String[] {
+				"48" }),
+		ONE_MURPHY_BED(new String[] {
+				"49" }),
+		ONE_BUNK_BED(new String[] {
+				"50" }),
+		ONE_SLEEPER_SOFA(new String[] {
+				"51" }),
+		TWO_SLEEPER_SOFAS(new String[] {
+				"52" }),
+		THREE_SLEEPER_SOFAS(new String[] {
+				"53" });
+		
+		private Set<String> mIds;
+		
+		private BedTypeId(String[] ids) {
+			mIds = new HashSet<String>();
+			for(String id: ids) {
+				mIds.add(id);
+			}
+		}
+		
+		public static BedTypeId fromStringId(String id) {
+			for (BedTypeId bedTypeId : values()) {
+				if(bedTypeId.mIds.contains(id)) {
+					return bedTypeId;
+				}
+			}
+			return null;
+		}
+	}
+	
+	public static class BedType {
+		public BedTypeId bedTypeId;
+		public String bedTypeDescription;
+		
+		public BedType(BedTypeId id, String description) {
+			bedTypeId = id;
+			bedTypeDescription = description;
+		}
+	}
+	
+	
+	private Set<BedType> mBedTypes;
+
 	public String getRatePlanCode() {
 		return mRatePlanCode;
 	}
@@ -69,7 +197,18 @@ public class Rate implements JSONable {
 	public void setRatePlanCode(String ratePlanCode) {
 		this.mRatePlanCode = ratePlanCode;
 	}
+	
+	public Set<BedType> getBedTypes() {
+		return mBedTypes;
+	}
 
+	public void addBedType(String bedTypeId, String bedTypeDescription) {
+		if(mBedTypes == null) {
+			mBedTypes = new HashSet<Rate.BedType>();
+		}
+		mBedTypes.add(new BedType(BedTypeId.fromStringId(bedTypeId), bedTypeDescription));
+	}
+	
 	public List<RateBreakdown> getRateBreakdownList() {
 		return mRateBreakdown;
 	}

@@ -32,6 +32,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.HotelDescription;
+import com.expedia.bookings.data.HotelDescription.DescriptionSection;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
@@ -74,6 +76,8 @@ public class HotelActivity extends Activity {
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
 
+	private HotelDescription mDescription;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -97,6 +101,8 @@ public class HotelActivity extends Activity {
 		// Retrieve data to build this with
 		Property property = mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
 				Property.class);
+
+		mDescription = new HotelDescription(this);
 
 		// Retrieve the last instance
 		boolean startFlipping = true;
@@ -137,15 +143,7 @@ public class HotelActivity extends Activity {
 		Gallery gallery = mGallery = (Gallery) findViewById(R.id.images_gallery);
 		mScrollView = (ScrollView) findViewById(R.id.scroll_view);
 		if (property.getMediaCount() > 0) {
-			final List<String> urls = new ArrayList<String>(property.getMediaCount());
-			Set<String> usedUrls = new HashSet<String>();
-			for (Media media : property.getMediaList()) {
-				String url = media.getUrl();
-				if (!usedUrls.contains(url)) {
-					urls.add(url);
-					usedUrls.add(url);
-				}
-			}
+			final List<String> urls = StrUtils.getImageUrls(property);
 			gallery.setUrls(urls);
 
 			gallery.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -269,87 +267,13 @@ public class HotelActivity extends Activity {
 		}
 
 		ViewGroup amenitiesContainer = (ViewGroup) findViewById(R.id.amenities_table_row);
-
-		// We have to do these manually as multiple amenities can lead to the same icon, also for proper ordering
-		if (property.hasAmenity(Amenity.POOL) || property.hasAmenity(Amenity.POOL_INDOOR)
-				|| property.hasAmenity(Amenity.POOL_OUTDOOR)) {
-			addAmenity(amenitiesContainer, Amenity.POOL, R.drawable.ic_amenity_pool);
-		}
-		if (property.hasAmenity(Amenity.INTERNET)) {
-			addAmenity(amenitiesContainer, Amenity.INTERNET, R.drawable.ic_amenity_internet);
-		}
-		if (property.hasAmenity(Amenity.BREAKFAST)) {
-			addAmenity(amenitiesContainer, Amenity.BREAKFAST, R.drawable.ic_amenity_breakfast);
-		}
-		if (property.hasAmenity(Amenity.PARKING) || property.hasAmenity(Amenity.EXTENDED_PARKING)
-				|| property.hasAmenity(Amenity.FREE_PARKING)) {
-			addAmenity(amenitiesContainer, Amenity.PARKING, R.drawable.ic_amenity_parking);
-		}
-		if (property.hasAmenity(Amenity.PETS_ALLOWED)) {
-			addAmenity(amenitiesContainer, Amenity.PETS_ALLOWED, R.drawable.ic_amenity_pets);
-		}
-		if (property.hasAmenity(Amenity.RESTAURANT)) {
-			addAmenity(amenitiesContainer, Amenity.RESTAURANT, R.drawable.ic_amenity_restaurant);
-		}
-		if (property.hasAmenity(Amenity.FITNESS_CENTER)) {
-			addAmenity(amenitiesContainer, Amenity.FITNESS_CENTER, R.drawable.ic_amenity_fitness_center);
-		}
-		if (property.hasAmenity(Amenity.ROOM_SERVICE)) {
-			addAmenity(amenitiesContainer, Amenity.ROOM_SERVICE, R.drawable.ic_amenity_room_service);
-		}
-		if (property.hasAmenity(Amenity.SPA)) {
-			addAmenity(amenitiesContainer, Amenity.SPA, R.drawable.ic_amenity_spa);
-		}
-		if (property.hasAmenity(Amenity.BUSINESS_CENTER)) {
-			addAmenity(amenitiesContainer, Amenity.BUSINESS_CENTER, R.drawable.ic_amenity_business);
-		}
-		if (property.hasAmenity(Amenity.FREE_AIRPORT_SHUTTLE)) {
-			addAmenity(amenitiesContainer, Amenity.FREE_AIRPORT_SHUTTLE, R.drawable.ic_amenity_airport_shuttle);
-		}
-		if (property.hasAmenity(Amenity.ACCESSIBLE_BATHROOM)) {
-			addAmenity(amenitiesContainer, Amenity.ACCESSIBLE_BATHROOM, R.drawable.ic_amenity_accessible_bathroom);
-		}
-		if (property.hasAmenity(Amenity.HOT_TUB)) {
-			addAmenity(amenitiesContainer, Amenity.HOT_TUB, R.drawable.ic_amenity_hot_tub);
-		}
-		if (property.hasAmenity(Amenity.JACUZZI)) {
-			addAmenity(amenitiesContainer, Amenity.JACUZZI, R.drawable.ic_amenity_jacuzzi);
-		}
-		if (property.hasAmenity(Amenity.WHIRLPOOL_BATH)) {
-			addAmenity(amenitiesContainer, Amenity.WHIRLPOOL_BATH, R.drawable.ic_amenity_whirl_pool);
-		}
-		if (property.hasAmenity(Amenity.KITCHEN)) {
-			addAmenity(amenitiesContainer, Amenity.KITCHEN, R.drawable.ic_amenity_kitchen);
-		}
-		if (property.hasAmenity(Amenity.KIDS_ACTIVITIES)) {
-			addAmenity(amenitiesContainer, Amenity.KIDS_ACTIVITIES, R.drawable.ic_amenity_children_activities);
-		}
-		if (property.hasAmenity(Amenity.BABYSITTING)) {
-			addAmenity(amenitiesContainer, Amenity.BABYSITTING, R.drawable.ic_amenity_baby_sitting);
-		}
-		if (property.hasAmenity(Amenity.ACCESSIBLE_PATHS)) {
-			addAmenity(amenitiesContainer, Amenity.ACCESSIBLE_PATHS, R.drawable.ic_amenity_accessible_ramp);
-		}
-		if (property.hasAmenity(Amenity.ROLL_IN_SHOWER)) {
-			addAmenity(amenitiesContainer, Amenity.ROLL_IN_SHOWER, R.drawable.ic_amenity_accessible_shower);
-		}
-		if (property.hasAmenity(Amenity.HANDICAPPED_PARKING)) {
-			addAmenity(amenitiesContainer, Amenity.HANDICAPPED_PARKING, R.drawable.ic_amenity_handicap_parking);
-		}
-		if (property.hasAmenity(Amenity.IN_ROOM_ACCESSIBILITY)) {
-			addAmenity(amenitiesContainer, Amenity.IN_ROOM_ACCESSIBILITY, R.drawable.ic_amenity_accessible_room);
-		}
-		if (property.hasAmenity(Amenity.DEAF_ACCESSIBILITY_EQUIPMENT)) {
-			addAmenity(amenitiesContainer, Amenity.DEAF_ACCESSIBILITY_EQUIPMENT, R.drawable.ic_amenity_deaf_access);
-		}
-		if (property.hasAmenity(Amenity.BRAILLE_SIGNAGE)) {
-			addAmenity(amenitiesContainer, Amenity.BRAILLE_SIGNAGE, R.drawable.ic_amenity_braille_signs);
-		}
+		LayoutUtils.addAmenities(this, property, amenitiesContainer);
 
 		// Description
 		String description = property.getDescriptionText();
 		if (description != null && description.length() > 0) {
 			ViewGroup descriptionContainer = (ViewGroup) findViewById(R.id.description_container);
+			mDescription.parseDescription(description);
 			layoutDescription(descriptionContainer, description);
 		}
 
@@ -442,68 +366,15 @@ public class HotelActivity extends Activity {
 
 	private void layoutDescription(ViewGroup descriptionContainer, String description) {
 
-		// List support
-		description = description.replace("<ul>", "\n\n");
-		description = description.replace("</ul>", "\n");
-		description = description.replace("<li>", getString(R.string.bullet_point) + " ");
-		description = description.replace("</li>", "\n");
-
 		// Try to add the address as the third section
 		int addressSection = 2;
 
-		int len = description.length();
-		int index = 0;
-		String title = null;
-		while (index < len && index >= 0) {
-			int nextSection = description.indexOf("<p>", index);
-			int endSection = description.indexOf("</p>", nextSection);
-
-			if (nextSection != -1 && endSection > nextSection) {
-				int nextTitle = description.indexOf("<b>", index);
-				int endTitle = description.indexOf("</b>", nextTitle);
-
-				if (nextTitle != -1 && endTitle > nextTitle && endTitle < endSection) {
-					title = description.substring(nextTitle + 3, endTitle).trim();
-					if (title.endsWith(".")) {
-						title = title.substring(0, title.length() - 1);
-					}
-
-					String body = Html.fromHtml(description.substring(endTitle + 4, endSection)).toString().trim();
-
-					if (title.length() > 0 && body.length() > 0) {
-						addSection(title, body, descriptionContainer);
-						title = null;
-					}
-				}
-				else {
-					String body = description.substring(nextSection + 3, endSection).trim().replace("\n", "<br />");
-					if (title != null && body.length() > 0) {
-						addSection(title, body, descriptionContainer);
-						title = null;
-					}
-				}
-
-				// Iterate
-				index = endSection + 4;
-
-				// Check if we should add address here or not
-				addressSection--;
-				if (addressSection == 0) {
-					addAddressSection(descriptionContainer);
-				}
-			}
-			else {
-				// If there's something mysteriously at the end we can't parse, just append it
-				String body = description.substring(index);
-
-				// ensure not to add a string that is blank to the hote desription. This is possible
-				// if the end of the description is padded with whitespaces
-				if (isBlank(body)) {
-					break;
-				}
-
-				addSection(null, body, descriptionContainer);
-				break;
+		for (DescriptionSection section : mDescription.getSections()) {
+			addSection(section.title, section.description, descriptionContainer);
+			// Check if we should add address here or not
+			addressSection--;
+			if (addressSection == 0) {
+				addAddressSection(descriptionContainer);
 			}
 		}
 
@@ -511,21 +382,6 @@ public class HotelActivity extends Activity {
 		if (addressSection > 0) {
 			addAddressSection(descriptionContainer);
 		}
-
-	}
-
-	/*
-	 * This method returns true if the string is blank.
-	 * Ideally, I'd use the StringUtils.isBlank method but didnt want 
-	 * to pull in the commons jar just for this. 
-	 */
-	private boolean isBlank(String str) {
-		for (char a : str.toCharArray()) {
-			if (a != ' ' && a != '\n') {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	private View addSection(String title, String body, ViewGroup detailsContainer) {
@@ -534,7 +390,7 @@ public class HotelActivity extends Activity {
 				R.layout.snippet_hotel_description_section, null);
 
 		TextView titleTextView = (TextView) detailsSection.findViewById(R.id.title_description_text_view);
-		if (title != null) {
+		if (title != null && title != "") {
 			titleTextView.setText(Html.fromHtml(title.trim()));
 
 			// add the hotel rating to the hotel features section

@@ -61,19 +61,26 @@ public class Search extends ActiveRecordBase<Search> {
 	}
 
 	public static List<SearchParams> getAllSearchParams(Context context) {
-		List<SearchParams> searchParams = new ArrayList<SearchParams>();
 		List<Search> searches = query(context, Search.class, null, null, "Id DESC");
+		return convertSearches(searches);
+	}
+
+	public static List<SearchParams> getRecentSearches(Context context, int maxSearches) {
+		List<Search> searches = query(context, Search.class, null, null, "Id DESC", maxSearches + "");
+		return convertSearches(searches);
+	}
+
+	private static List<SearchParams> convertSearches(List<Search> searches) {
+		List<SearchParams> searchParams = new ArrayList<SearchParams>();
 		for (Search search : searches) {
 			searchParams.add(search.getSearchParams());
 		}
-
 		return searchParams;
 	}
 
 	public static void add(Context context, SearchParams searchParams) {
 		if (searchParams.getSearchType() != SearchType.FREEFORM || searchParams.getFreeformLocation() == null
 				&& searchParams.getFreeformLocation().length() > 0) {
-
 			return;
 		}
 

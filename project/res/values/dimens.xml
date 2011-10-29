@@ -14,6 +14,8 @@
 	<!-- Text sizes for amenities -->
 	<dimen name="amenity_text_size_large">12sp</dimen>
 	<dimen name="amenity_text_size_small">10sp</dimen>
+	<dimen name="amenity_layout_width">60dp</dimen>
+	<dimen name="amenity_layout_height">55dp</dimen>
 	
 	<!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
 	<dimen name="gallery_size">200dp</dimen>
@@ -23,4 +25,5 @@
 	<dimen name="header_button_height">38dp</dimen>
 	
 	<dimen name="right_padding_for_scroll_bar">30dp</dimen>
+	<dimen name="hotel_description_body_text_size">12sp</dimen>
 </resources>

@@ -20,4 +20,5 @@ public class Codes {
 	public static final String DISTANCE_OF_MAX_SAVINGS = "DISTANCE_OF_MAX_SAVINGS";
 	public static final String SHOW_BRANDING = "SHOW_BRANDING";
 	public static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
+	public static final String INCLUDE_CONFIRMATION_INFO = "INCLUDE_CONFIRMATION_INFO";
 }

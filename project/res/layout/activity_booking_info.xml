@@ -1,597 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
-	<com.mobiata.android.widget.PaddedScrollView
-		android:id="@+id/scroll_view"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:paddingBottom="@dimen/bottom_bar_height"
-		android:fillViewport="true"
-		android:fadingEdge="none"
-		android:background="@color/bg_default">
-		<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:padding="8dp"
-			android:orientation="vertical"
-			android:background="@color/bg_default"
-			android:focusableInTouchMode="true">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-			<!-- Ticket stub summary at top of page -->
-			<LinearLayout
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:background="@drawable/bg_ticket_shadow">
-				<LinearLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:orientation="vertical"
-					android:background="@drawable/bg_ticket">
-					<ImageView
-						android:layout_width="fill_parent"
-						android:layout_height="wrap_content"
-						android:src="@drawable/expedia_candy_cane"
-						android:scaleType="fitXY" />
-					<LinearLayout
-						android:layout_width="fill_parent"
-						android:layout_height="wrap_content"
-						android:paddingTop="6dp"
-						android:paddingLeft="6dp"
-						android:paddingRight="6dp"
-						android:orientation="horizontal"
-						android:gravity="center_vertical">
-						<ImageView
-							android:id="@+id/thumbnail_image_view"
-							android:layout_width="100dp"
-							android:layout_height="100dp"
-							android:layout_marginTop="4dp"
-							android:layout_marginRight="8dp"
-							android:layout_marginLeft="1dp"
-							android:scaleType="centerCrop"
-							android:src="@drawable/ic_image_placeholder"
-							android:background="@drawable/receipt_photo_frame" />
-						<LinearLayout
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_weight="1"
-							android:orientation="vertical"
-							android:gravity="right">
-							<ImageView
-								android:id="@+id/expedia_logo_image_view"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:layout_gravity="right"
-								android:src="@drawable/expedia_logo" />
-							<TextView
-								android:id="@+id/name_text_view"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:textColor="@color/dark_blue"
-								android:textSize="12sp"
-								android:singleLine="true"
-								android:ellipsize="end" />
-							<TextView
-								android:id="@+id/address1_text_view"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:gravity="right"
-								android:textColor="@color/dark_blue"
-								android:textSize="12sp" />
-							<TextView
-								android:id="@+id/address2_text_view"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:gravity="right"
-								android:textColor="@color/dark_blue"
-								android:textSize="12sp" />
-						</LinearLayout>
-					</LinearLayout>
-					<View
-						android:layout_width="fill_parent"
-						android:layout_height="@dimen/two_pixels"
-						android:layout_marginTop="6dp"
-						android:layout_marginRight="6dp"
-						android:layout_marginLeft="6dp"
-						android:background="@drawable/divider" />
-					<LinearLayout
-						android:id="@+id/details_layout"
-						android:layout_width="fill_parent"
-						android:layout_height="wrap_content"
-						android:paddingLeft="6dp"
-						android:paddingRight="6dp"
-						android:orientation="vertical" />
-					<View
-						android:layout_width="fill_parent"
-						android:layout_height="@dimen/two_pixels"
-						android:layout_margin="6dp"
-						android:background="@drawable/divider" />
-					<LinearLayout
-						android:layout_width="fill_parent"
-						android:layout_height="wrap_content"
-						android:paddingLeft="6dp"
-						android:paddingRight="6dp"
-						android:paddingBottom="6dp"
-						android:orientation="horizontal">
-						<TextView
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:textColor="@color/dark_blue"
-							android:textSize="18sp"
-							android:textStyle="bold"
-							android:text="@string/total_cost" />
-						<TextView
-							android:id="@+id/total_cost_text_view"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_weight="1"
-							android:gravity="right"
-							android:textSize="18sp"
-							android:textColor="@android:color/black"
-							android:textStyle="bold" />
-					</LinearLayout>
-				</LinearLayout>
-			</LinearLayout>
+    <com.mobiata.android.widget.PaddedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/bg_default"
+        android:fadingEdge="none"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/bottom_bar_height" >
 
-			<!-- Guest info section -->
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/guest_info"
-				style="@style/formSectionHeaderText" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/bg_default"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:padding="8dp" >
 
-			<!-- Guest form fields (from saved data) -->
-			<RelativeLayout
-				android:id="@+id/saved_guest_info_layout"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				style="@style/BookingSection">
-				<TextView
-					android:id="@+id/full_name_text_view"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textColor="#545454" />
-				<TextView
-					android:id="@+id/telephone_text_view"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textColor="#545454"
-					android:layout_below="@+id/full_name_text_view" />
-				<TextView
-					android:id="@+id/email_text_view"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textColor="#545454"
-					android:layout_below="@+id/telephone_text_view" />
-				<LinearLayout
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
-					android:layout_alignParentTop="true"
-					android:orientation="horizontal"
-					android:gravity="center_vertical">
-					<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginRight="3dp"
-						android:textColor="#545454"
-						android:text="@string/edit" />
-					<ImageView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="2dp"
-						android:src="@drawable/ic_edit_arrow" />
-				</LinearLayout>
-			</RelativeLayout>
+            <!-- Ticket stub summary at top of page -->
 
-			<!-- Guest form fields (entering data) -->
-			<LinearLayout
-				android:id="@+id/guest_info_layout"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				android:visibility="gone">
-				<LinearLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal">
-					<com.expedia.bookings.widget.CustomEditText
-						android:id="@+id/first_name_edit_text"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"
-						android:nextFocusUp="@+id/first_name_edit_text"
-						android:nextFocusLeft="@+id/first_name_edit_text"
-						android:nextFocusDown="@+id/last_name_edit_text"
-						android:nextFocusRight="@+id/last_name_edit_text"
-						android:inputType="textPersonName|textCapWords"
-						android:imeOptions="flagNoExtractUi"
-						android:hint="@string/FirstName"
-						android:textColorHint="@color/hint_color"
-						android:ellipsize="end" />
-					<com.expedia.bookings.widget.CustomEditText
-						android:id="@+id/last_name_edit_text"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"
-						android:nextFocusUp="@+id/first_name_edit_text"
-						android:nextFocusLeft="@+id/first_name_edit_text"
-						android:nextFocusDown="@+id/telephone_edit_text"
-						android:nextFocusRight="@+id/telephone_edit_text"
-						android:inputType="textPersonName|textCapWords"
-						android:imeOptions="flagNoExtractUi"
-						android:hint="@string/LastName"
-						android:textColorHint="@color/hint_color"
-						android:ellipsize="end" />
-				</LinearLayout>
-				<com.expedia.bookings.widget.CustomEditText
-					android:id="@+id/telephone_edit_text"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:nextFocusUp="@+id/first_name_edit_text"
-					android:nextFocusLeft="@+id/last_name_edit_text"
-					android:nextFocusDown="@+id/email_edit_text"
-					android:nextFocusRight="@+id/email_edit_text"
-					android:inputType="phone"
-					android:imeOptions="flagNoExtractUi"
-					android:hint="@string/Telephone"
-					android:textColorHint="@color/hint_color" />
-				<com.expedia.bookings.widget.CustomEditText
-					android:id="@+id/email_edit_text"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:nextFocusUp="@+id/telephone_edit_text"
-					android:nextFocusLeft="@+id/telephone_edit_text"
-					android:nextFocusDown="@+id/address1_edit_text"
-					android:nextFocusRight="@+id/address1_edit_text"
-					android:inputType="textEmailAddress"
-					android:imeOptions="flagNoExtractUi"
-					android:hint="@string/EmailForConf"
-					android:textColorHint="@color/hint_color" />
-			</LinearLayout>
+            <LinearLayout
+                android:id="@+id/receipt"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_ticket_shadow" >
 
-			<!-- Billing info form fields -->
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/billing_info"
-				style="@style/formSectionHeaderText" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_ticket"
+                    android:orientation="vertical" >
 
-			<!-- Billing form fields (from saved data) -->
-			<RelativeLayout
-				android:id="@+id/saved_billing_info_layout"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				style="@style/BookingSection">
-				<TextView
-					android:id="@+id/address_text_view"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textColor="#545454" />
-				<LinearLayout
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
-					android:layout_alignParentTop="true"
-					android:orientation="horizontal"
-					android:gravity="center_vertical">
-					<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginRight="3dp"
-						android:textColor="#545454"
-						android:text="@string/edit" />
-					<ImageView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="2dp"
-						android:src="@drawable/ic_edit_arrow" />
-				</LinearLayout>
-			</RelativeLayout>
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/expedia_candy_cane" />
 
-			<!-- Billing form fields (entering data) -->
-			<LinearLayout
-				android:id="@+id/billing_info_layout"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				android:visibility="gone">
-				<com.expedia.bookings.widget.CustomEditText
-					android:id="@+id/address1_edit_text"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:nextFocusUp="@+id/email_edit_text"
-					android:nextFocusLeft="@+id/email_edit_text"
-					android:nextFocusDown="@+id/address2_edit_text"
-					android:nextFocusRight="@+id/address2_edit_text"
-					android:inputType="textPostalAddress|textCapWords"
-					android:imeOptions="flagNoExtractUi"
-					android:hint="@string/hint_address1"
-					android:textColorHint="@color/hint_color" />
-				<com.expedia.bookings.widget.CustomEditText
-					android:id="@+id/address2_edit_text"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:nextFocusUp="@+id/address1_edit_text"
-					android:nextFocusLeft="@+id/address1_edit_text"
-					android:nextFocusDown="@+id/city_edit_text"
-					android:nextFocusRight="@+id/city_edit_text"
-					android:inputType="textPostalAddress|textCapWords"
-					android:imeOptions="flagNoExtractUi"
-					android:hint="@string/hint_address2"
-					android:textColorHint="@color/hint_color" />
-				<LinearLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal"
-					android:gravity="center_vertical">
-					<com.expedia.bookings.widget.CustomEditText
-						android:id="@+id/city_edit_text"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"
-						android:nextFocusUp="@+id/address2_edit_text"
-						android:nextFocusLeft="@+id/address2_edit_text"
-						android:nextFocusDown="@+id/state_edit_text"
-						android:nextFocusRight="@+id/state_edit_text"
-						android:minWidth="150dp"
-						android:inputType="textPostalAddress|textCapWords"
-						android:imeOptions="flagNoExtractUi"
-						android:hint="@string/City"
-						android:textColorHint="@color/hint_color"
-						android:ellipsize="end" />
-					<com.expedia.bookings.widget.CustomEditText
-						android:id="@+id/state_edit_text"
-						android:layout_width="100dp"
-						android:layout_height="wrap_content"
-						android:nextFocusUp="@+id/address2_edit_text"
-						android:nextFocusLeft="@+id/city_edit_text"
-						android:nextFocusDown="@+id/country_spinner"
-						android:nextFocusRight="@+id/country_spinner"
-						android:inputType="textPostalAddress|textCapCharacters"
-						android:imeOptions="flagNoExtractUi"
-						android:maxLength="3"
-						android:hint="@string/hint_state_code"
-						android:textColorHint="@color/hint_color"
-						android:ellipsize="end" />
-				</LinearLayout>
-				<LinearLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal"
-					android:gravity="center_vertical">
-					<Spinner
-						android:id="@+id/country_spinner"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"
-						android:nextFocusUp="@+id/city_edit_text"
-						android:nextFocusLeft="@+id/state_edit_text"
-						android:nextFocusDown="@+id/postal_code_edit_text"
-						android:nextFocusRight="@+id/postal_code_edit_text"
-						android:entries="@array/country_names" />
-					<com.expedia.bookings.widget.CustomEditText
-						android:id="@+id/postal_code_edit_text"
-						android:layout_width="140dp"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="1dp"
-						android:nextFocusUp="@+id/state_edit_text"
-						android:nextFocusLeft="@+id/country_spinner"
-						android:nextFocusDown="@+id/card_number_edit_text"
-						android:nextFocusRight="@+id/card_number_edit_text"
-						android:inputType="textPostalAddress|textCapCharacters"
-						android:imeOptions="flagNoExtractUi"
-						android:hint="@string/PostalCode"
-						android:textColorHint="@color/hint_color"
-						android:ellipsize="end" />
-				</LinearLayout>
-			</LinearLayout>
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp"
+                        android:paddingTop="6dp" >
 
-			<!-- Credit card info form fields -->
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/credit_card_info"
-				style="@style/formSectionHeaderText" />
-			<LinearLayout
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:orientation="vertical">
-				<LinearLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal">
-					<com.expedia.bookings.widget.CustomEditText
-						android:id="@+id/card_number_edit_text"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"
-						android:nextFocusUp="@+id/postal_code_edit_text"
-						android:nextFocusLeft="@+id/postal_code_edit_text"
-						android:nextFocusDown="@+id/expiration_month_edit_text"
-						android:nextFocusRight="@+id/expiration_month_edit_text"
-						android:inputType="number"
-						android:imeOptions="flagNoExtractUi"
-						android:maxLength="20"
-						android:hint="@string/hint_card_number"
-						android:textColorHint="@color/hint_color"
-						android:ellipsize="end" />
-					<com.expedia.bookings.widget.CustomEditText
-						android:id="@+id/expiration_month_edit_text"
-						android:layout_width="60dp"
-						android:layout_height="wrap_content"
-						android:nextFocusUp="@+id/postal_code_edit_text"
-						android:nextFocusLeft="@+id/card_number_edit_text"
-						android:nextFocusDown="@+id/expiration_year_edit_text"
-						android:nextFocusRight="@+id/expiration_year_edit_text"
-						android:inputType="number"
-						android:imeOptions="flagNoExtractUi"
-						android:maxLength="2"
-						android:hint="@string/hint_expiration_month"
-						android:textColorHint="@color/hint_color" 
-						mobiata:useClearFieldDrawable="false"/>
-					<com.expedia.bookings.widget.CustomEditText
-						android:id="@+id/expiration_year_edit_text"
-						android:layout_width="60dp"
-						android:layout_height="wrap_content"
-						android:nextFocusUp="@+id/postal_code_edit_text"
-						android:nextFocusLeft="@+id/expiration_month_edit_text"
-						android:nextFocusDown="@+id/security_code_edit_text"
-						android:nextFocusRight="@+id/security_code_edit_text"
-						android:inputType="number"
-						android:imeOptions="flagNoExtractUi"
-						android:maxLength="2"
-						android:hint="@string/hint_expiration_year"
-						android:textColorHint="@color/hint_color"
-						mobiata:useClearFieldDrawable="false"/>
-				</LinearLayout>
-				<LinearLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:paddingTop="5dp"
-					android:paddingLeft="6dp"
-					android:paddingBottom="2dp"
-					android:gravity="center_vertical"
-					android:orientation="horizontal"
-					style="@style/BookingSection">
-					<ImageView
-						android:id="@+id/credit_card_image_view"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:src="@drawable/ic_cc_unknown" />
-					<LinearLayout
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginLeft="6dp"
-						android:layout_weight="1"
-						android:layout_gravity="center_vertical"
-						android:orientation="vertical">
-						<TextView
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:textColor="#545454"
-							android:textStyle="bold"
-							android:text="@string/security_code" />
-						<TextView
-							android:id="@+id/security_code_tip_text_view"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:textColor="#545454"
-							android:textSize="12sp"
-							android:text="@string/security_code_tip_back" />
-					</LinearLayout>
-					<com.expedia.bookings.widget.CustomEditText
-						android:id="@+id/security_code_edit_text"
-						android:layout_width="90dp"
-						android:layout_height="wrap_content"
-						android:nextFocusUp="@+id/expiration_year_edit_text"
-						android:nextFocusLeft="@+id/expiration_year_edit_text"
-						android:inputType="number"
-						android:imeOptions="flagNoExtractUi"
-						android:maxLength="4" />
-				</LinearLayout>
-			</LinearLayout>
+                        <ImageView
+                            android:id="@+id/thumbnail_image_view"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/receipt_photo_frame"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_image_placeholder" />
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:orientation="vertical" >
 
-			<!-- Rules & Restrictions section -->
-			<RelativeLayout
-				android:id="@+id/rules_restrictions_layout"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="10dp">
-				<CheckBox
-					android:id="@+id/rules_restrictions_checkbox"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginRight="8dp"
-					android:layout_centerVertical="true"
-					android:layout_alignParentLeft="true" />
-				<TextView
-					android:id="@+id/rules_restrictions_text_view"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_toRightOf="@+id/rules_restrictions_checkbox"
-					android:layout_alignParentRight="true"
-					android:layout_centerVertical="true"
-					android:layout_alignWithParentIfMissing="true"
-					android:textSize="15sp"
-					android:textColor="@android:color/black" />
-			</RelativeLayout>
+                            <ImageView
+                                android:id="@+id/expedia_logo_image_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:src="@drawable/expedia_logo" />
 
-			<!-- Disclaimer notices at the bottom of the screen -->
-			<TextView
-				android:id="@+id/expedia_points_disclaimer_text_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="6dp"
-				android:textColor="#6A6D71"
-				android:text="@string/disclaimer_expedia_points" />
+                            <TextView
+                                android:id="@+id/name_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:singleLine="true"
+                                android:textColor="@color/dark_blue"
+                                android:textSize="12sp" />
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="0dp"
-				android:layout_marginTop="6dp"
-				android:layout_marginBottom="0dp"
-				android:text="@string/rules_restrictions"
-				style="@style/formSectionHeaderText" />
+                            <TextView
+                                android:id="@+id/address1_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:textColor="@color/dark_blue"
+                                android:textSize="12sp" />
 
-			<TextView
-				android:id="@+id/cancellation_policy_text_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textColor="#6A6D71" />
+                            <TextView
+                                android:id="@+id/address2_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:textColor="@color/dark_blue"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
 
-			<!-- This view serves a purpose, which is to allow the ScrollView to scroll 
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/two_pixels"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="6dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/divider" />
+
+                    <LinearLayout
+                        android:id="@+id/details_layout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp" />
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/two_pixels"
+                        android:layout_margin="6dp"
+                        android:background="@drawable/divider" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="6dp"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/total_cost"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/total_cost_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Guest info section -->
+
+            <TextView
+                style="@style/formSectionHeaderText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/guest_info" />
+
+            <!-- Guest form fields (from saved data) -->
+
+            <include layout="@layout/include_saved_guest_info" />
+
+            <!-- Guest form fields (entering data) -->
+
+            <include layout="@layout/include_guest_info_fields" />
+
+            <!-- Billing info form fields -->
+
+            <TextView
+                style="@style/formSectionHeaderText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/billing_info" />
+
+            <!-- Billing form fields (from saved data) -->
+
+            <include layout="@layout/include_billing_info_fields" />
+
+            <!-- Billing form fields (entering data) -->
+
+            <include layout="@layout/include_saved_billing_info" />
+
+            <!-- Credit card info form fields -->
+
+            <include layout="@layout/include_credit_card_info" />
+
+            <!-- Cancellation policy -->
+
+            <include layout="@layout/include_booking_cancellation_policy" />
+
+            <!-- Disclaimers -->
+
+            <include layout="@layout/include_booking_disclaimers" />
+
+            <!--
+                 This view serves a purpose, which is to allow the ScrollView to scroll 
 				down via physical keyboard to the very bottom despite the RelativeLayout 
-				trickery. -->
-			<View
-				android:layout_width="fill_parent"
-				android:layout_height="0dp"
-				android:focusable="true"
-				android:nextFocusDown="@+id/confirm_book_button" />
-		</LinearLayout>
-	</com.mobiata.android.widget.PaddedScrollView>
+				trickery.
+            -->
 
-	<!-- Bottom button bar -->
-	<LinearLayout
-		android:id="@+id/button_bar_layout"
-		android:layout_width="fill_parent"
-		android:layout_height="@dimen/bottom_bar_height"
-		android:layout_alignParentBottom="true"
-		android:paddingBottom="5dp"
-		android:orientation="horizontal"
-		android:background="#C000"
-		style="@android:style/ButtonBar">
-		<ImageView
-			android:id="@+id/charge_details_lock_image_view"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_vertical"
-			android:layout_marginLeft="4dp"
-			android:src="@drawable/ic_padlock"
-			android:visibility="invisible" />
-		<com.mobiata.android.widget.AutoResizeTextView
-			android:id="@+id/charge_details_text_view"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:layout_gravity="center_vertical"
-			android:layout_marginLeft="6dp"
-			android:layout_marginRight="2dp"
-			android:maxLines="2"
-			android:textColor="@android:color/white"
-			mobiata:maxTextSize="15dp" />
-		<com.mobiata.android.widget.AutoResizeTextView
-			android:id="@+id/confirm_book_button"
-			android:layout_width="144dp"
-			android:layout_height="48dp"
-			android:nextFocusUp="@+id/security_code_edit_text"
-			android:maxLines="1"
-			android:text="@string/EnterBookingInfo"
-			mobiata:maxTextSize="15dp"
-			style="@style/Widget.Button.Orange" />
-	</LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:focusable="true"
+                android:nextFocusDown="@+id/confirm_book_button" />
+        </LinearLayout>
+    </com.mobiata.android.widget.PaddedScrollView>
+
+    <!-- Bottom button bar -->
+
+    <LinearLayout
+        android:id="@+id/button_bar_layout"
+        style="@android:style/ButtonBar"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/bottom_bar_height"
+        android:layout_alignParentBottom="true"
+        android:background="#C000"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp" >
+
+        <ImageView
+            android:id="@+id/charge_details_lock_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="4dp"
+            android:src="@drawable/ic_padlock"
+            android:visibility="invisible" />
+
+        <com.mobiata.android.widget.AutoResizeTextView
+            android:id="@+id/charge_details_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1"
+            android:maxLines="2"
+            mobiata:maxTextSize="15dp"
+            android:textColor="@android:color/white" />
+
+        <com.mobiata.android.widget.AutoResizeTextView
+            android:id="@+id/confirm_book_button"
+            style="@style/Widget.Button.Orange"
+            android:layout_width="144dp"
+            android:layout_height="48dp"
+            android:maxLines="1"
+            mobiata:maxTextSize="15dp"
+            android:nextFocusUp="@+id/security_code_edit_text"
+            android:text="@string/EnterBookingInfo" />
+    </LinearLayout>
+
 </RelativeLayout>

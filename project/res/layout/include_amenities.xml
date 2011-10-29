@@ -18,11 +18,5 @@
 				android:layout_height="wrap_content"
 				android:layoutAnimation="@anim/layout_wave_scale" />
 		</TableLayout>
-		<View
-			android:layout_width="fill_parent"
-			android:layout_height="@dimen/two_pixels"
-			android:layout_marginTop="4dp"
-			android:layout_marginBottom="6dp"
-			android:background="@drawable/divider" />
 	</LinearLayout>
 </HorizontalScrollView>

@@ -1,23 +1,17 @@
 package com.expedia.bookings.activity;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.util.Linkify;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,19 +28,15 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.BookingReceiptUtils;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.SupportUtils;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
-import com.expedia.bookings.widget.RoomTypeHandler;
+import com.expedia.bookings.widget.RoomTypeActivityHandler;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -55,17 +45,13 @@ import com.google.android.maps.Overlay;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
-import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.omniture.AppMeasurement;
 
 public class ConfirmationActivity extends MapActivity {
 
 	public static final String EXTRA_FINISH = "EXTRA_FINISH";
-
-	private static final String CONFIRMATION_DATA_FILE = "confirmation.dat";
 
 	private static final int INSTANCE_PROPERTY = 1;
 	private static final int INSTANCE_SEARCH_PARAMS = 2;
@@ -75,7 +61,7 @@ public class ConfirmationActivity extends MapActivity {
 
 	private Context mContext;
 
-	private RoomTypeHandler mRoomTypeHandler;
+	private RoomTypeActivityHandler mRoomTypeHandler;
 
 	private SearchParams mSearchParams;
 	private Property mProperty;
@@ -108,7 +94,7 @@ public class ConfirmationActivity extends MapActivity {
 			mBookingResponse = (BookingResponse) instance.get(INSTANCE_BOOKING_RESPONSE);
 			loadedData = true;
 		}
-		else if (hasSavedConfirmationData(this)) {
+		else if (ConfirmationUtils.hasSavedConfirmationData(this)) {
 			if (loadSavedConfirmationData()) {
 				loadedData = true;
 			}
@@ -116,7 +102,7 @@ public class ConfirmationActivity extends MapActivity {
 				// If we failed to load the saved confirmation data, we should
 				// delete the file and go back (since we are only here if we were called
 				// directly from a startup).
-				deleteSavedConfirmationData(this);
+				ConfirmationUtils.deleteSavedConfirmationData(this);
 				finish();
 			}
 		}
@@ -135,7 +121,8 @@ public class ConfirmationActivity extends MapActivity {
 			// Start a background thread to save this data to the disk
 			new Thread(new Runnable() {
 				public void run() {
-					saveConfirmationData();
+					ConfirmationUtils.saveConfirmationData(ConfirmationActivity.this, mSearchParams, mProperty, mRate,
+							mBillingInfo, mBookingResponse);
 				}
 			}).start();
 		}
@@ -160,8 +147,8 @@ public class ConfirmationActivity extends MapActivity {
 			}
 		}
 
-		mRoomTypeHandler = new RoomTypeHandler(this, getIntent(), mProperty, mSearchParams, mRate);
-		mRoomTypeHandler.onCreate();
+		mRoomTypeHandler = new RoomTypeActivityHandler(this, getIntent(), mProperty, mSearchParams, mRate);
+		mRoomTypeHandler.onCreate(null);
 
 		//////////////////////////////////////////////////
 		// Screen configuration
@@ -208,46 +195,22 @@ public class ConfirmationActivity extends MapActivity {
 
 		// Reservation summary
 		ViewGroup detailsLayout = (ViewGroup) findViewById(R.id.details_layout);
-		LayoutUtils.addDetail(this, detailsLayout, R.string.confirmation_number, mBookingResponse.getConfNumber());
-		LayoutUtils.addDetail(this, detailsLayout, R.string.itinerary_number, mBookingResponse.getItineraryId());
-		LayoutUtils.addDetail(this, detailsLayout, R.string.confirmation_email, mBillingInfo.getEmail());
+		BookingReceiptUtils.addDetail(this, detailsLayout, R.string.confirmation_number,
+				mBookingResponse.getConfNumber());
+		BookingReceiptUtils
+				.addDetail(this, detailsLayout, R.string.itinerary_number, mBookingResponse.getItineraryId());
+		BookingReceiptUtils.addDetail(this, detailsLayout, R.string.confirmation_email, mBillingInfo.getEmail());
 		mRoomTypeHandler.load(detailsLayout);
-		LayoutUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate, mRoomTypeHandler);
+		BookingReceiptUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate, mRoomTypeHandler);
 
 		// Total cost / cancellation policy at the bottom
 		TextView totalCostView = (TextView) findViewById(R.id.total_cost_text_view);
 		totalCostView.setText(mRate.getTotalAmountAfterTax().getFormattedMoney());
-		TextView cancellationPolicyView = (TextView) findViewById(R.id.cancellation_policy_text_view);
-		Policy cancellationPolicy = mRate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
-		if (cancellationPolicy != null) {
-			cancellationPolicyView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
-		}
-		else {
-			cancellationPolicyView.setVisibility(View.GONE);
-		}
+		View confirmationContainer = findViewById(R.id.confirmation_content_container);
+		ConfirmationUtils.determineCancellationPolicy(mRate, confirmationContainer);
 
 		// Reservation support contact info
-		TextView contactView = (TextView) findViewById(R.id.contact_text_view);
-
-		if (!AndroidUtils.hasTelephonyFeature(this)) {
-			contactView.setAutoLinkMask(0);
-		}
-		else {
-			contactView.setAutoLinkMask(Linkify.PHONE_NUMBERS);
-		}
-
-		if (Locale.getDefault().getCountry().toUpperCase().equals("CN")) {
-			// Special case for China
-			mContactText = getString(R.string.contact_phone_china_template, "10-800712-2608", "10-800120-2608");
-		}
-		else if (SupportUtils.hasConfSupportNumber()) {
-			mContactText = getString(R.string.contact_phone_template, SupportUtils.getConfSupportNumber());
-		}
-		else {
-			mContactText = getString(R.string.contact_phone_default_template, "1-800-780-5733",
-					"00-800-11-20-11-40");
-		}
-		contactView.setText(mContactText);
+		mContactText = ConfirmationUtils.determineContactText(this, confirmationContainer);
 
 		//////////////////////////////////////////////////
 		// Button bar configuration
@@ -255,7 +218,8 @@ public class ConfirmationActivity extends MapActivity {
 		shareButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				share();
+				ConfirmationUtils.share(ConfirmationActivity.this, mSearchParams, mProperty, mBookingResponse,
+						mBillingInfo, mRate, mContactText);
 			}
 		});
 
@@ -263,10 +227,7 @@ public class ConfirmationActivity extends MapActivity {
 		mapButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent newIntent = new Intent(Intent.ACTION_VIEW);
-				String queryAddress = StrUtils.formatAddress(mProperty.getLocation()).replace("\n", " ");
-				newIntent.setData(Uri.parse("geo:0,0?q=" + queryAddress));
-				startActivity(newIntent);
+				startActivity(ConfirmationUtils.generateIntentToShowPropertyOnMap(mProperty));
 			}
 		});
 
@@ -279,11 +240,11 @@ public class ConfirmationActivity extends MapActivity {
 				onClickNewSearch();
 
 				// Ensure we can't come back here again
-				deleteSavedConfirmationData(mContext);
+				ConfirmationUtils.deleteSavedConfirmationData(mContext);
 
-				Intent intent = new Intent(mContext, SearchActivity.class);
+				Intent intent = new Intent(mContext, PhoneSearchActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				intent.putExtra(SearchActivity.EXTRA_NEW_SEARCH, true);
+				intent.putExtra(PhoneSearchActivity.EXTRA_NEW_SEARCH, true);
 				startActivity(intent);
 				finish();
 			}
@@ -346,132 +307,13 @@ public class ConfirmationActivity extends MapActivity {
 		// to the start, then finish that activity, when the user presses back.
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
 			finish();
-			Intent i = new Intent(mContext, SearchActivity.class);
+			Intent i = new Intent(mContext, PhoneSearchActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			i.putExtra("EXTRA_FINISH", true);
 			startActivity(i);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
-	}
-
-	public void share() {
-		Resources res = getResources();
-
-		DateFormat dateFormatter = new SimpleDateFormat("MM/dd");
-		DateFormat fullDateFormatter = android.text.format.DateFormat.getMediumDateFormat(this);
-		fullDateFormatter.setTimeZone(CalendarUtils.getFormatTimeZone());
-		DateFormat fullDateFormatter2 = android.text.format.DateFormat.getMediumDateFormat(this);
-		DateFormat dayFormatter = new SimpleDateFormat("EEE");
-
-		Date checkIn = mSearchParams.getCheckInDate().getTime();
-		Date checkOut = mSearchParams.getCheckOutDate().getTime();
-
-		// Create the subject
-		String dateStart = dateFormatter.format(checkIn);
-		String dateEnd = dateFormatter.format(checkOut);
-		String subject = getString(R.string.share_subject_template, mProperty.getName(), dateStart, dateEnd);
-
-		// Create the body 
-		StringBuilder body = new StringBuilder();
-		body.append(getString(R.string.share_body_start));
-		body.append("\n\n");
-
-		body.append(mProperty.getName());
-		body.append("\n");
-		body.append(StrUtils.formatAddress(mProperty.getLocation()));
-		body.append("\n\n");
-
-		appendLabelValue(body, R.string.confirmation_number, mBookingResponse.getConfNumber());
-		body.append("\n");
-		appendLabelValue(body, R.string.itinerary_number, mBookingResponse.getItineraryId());
-		body.append("\n\n");
-
-		appendLabelValue(body, R.string.name,
-				getString(R.string.name_template, mBillingInfo.getFirstName(), mBillingInfo.getLastName()));
-		body.append("\n");
-		appendLabelValue(body, R.string.CheckIn,
-				dayFormatter.format(checkIn) + ", " + fullDateFormatter.format(checkIn));
-		body.append("\n");
-		appendLabelValue(body, R.string.CheckOut,
-				dayFormatter.format(checkOut) + ", " + fullDateFormatter.format(checkOut));
-		body.append("\n");
-		int numDays = mSearchParams.getStayDuration();
-		appendLabelValue(body, R.string.stay_duration,
-				res.getQuantityString(R.plurals.length_of_stay, numDays, numDays));
-		body.append("\n\n");
-
-		appendLabelValue(body, R.string.room_type, Html.fromHtml(mRate.getRoomDescription()).toString());
-		body.append("\n");
-		appendLabelValue(body, R.string.bed_type, mRate.getRatePlanName());
-		body.append("\n");
-		appendLabelValue(body, R.string.adults, mSearchParams.getNumAdults() + "");
-		body.append("\n");
-		appendLabelValue(body, R.string.children, mSearchParams.getNumChildren() + "");
-		body.append("\n\n");
-
-		if (mRate.getRateBreakdownList() != null) {
-			for (RateBreakdown breakdown : mRate.getRateBreakdownList()) {
-				Date date = breakdown.getDate().getCalendar().getTime();
-				String dateStr = dayFormatter.format(date) + ", " + fullDateFormatter2.format(date);
-				Money amount = breakdown.getAmount();
-				if (amount.getAmount() == 0) {
-					appendLabelValue(body, getString(R.string.room_rate_template, dateStr), getString(R.string.free));
-				}
-				else {
-					appendLabelValue(body, getString(R.string.room_rate_template, dateStr), amount.getFormattedMoney());
-				}
-				body.append("\n");
-			}
-			body.append("\n\n");
-		}
-
-		if (mRate.getTotalAmountBeforeTax() != null) {
-			appendLabelValue(body, R.string.subtotal, mRate.getTotalAmountBeforeTax().getFormattedMoney());
-			body.append("\n");
-		}
-
-		Money surcharge = mRate.getSurcharge();
-		Money extraGuestFee = mRate.getExtraGuestFee();
-		if (extraGuestFee != null) {
-			appendLabelValue(body, R.string.extra_guest_charge, extraGuestFee.getFormattedMoney());
-			if (surcharge != null) {
-				surcharge = surcharge.copy();
-				surcharge.subtract(extraGuestFee);
-			}
-		}
-		if (surcharge != null) {
-			appendLabelValue(body, R.string.TaxesAndFees, surcharge.getFormattedMoney());
-			body.append("\n");
-		}
-
-		if (mRate.getTotalAmountAfterTax() != null) {
-			body.append("\n");
-			appendLabelValue(body, R.string.Total, mRate.getTotalAmountAfterTax().getFormattedMoney());
-		}
-
-		Policy cancellationPolicy = mRate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
-		if (cancellationPolicy != null) {
-			body.append("\n\n");
-			body.append(getString(R.string.cancellation_policy));
-			body.append("\n");
-			body.append(Html.fromHtml(cancellationPolicy.getDescription()));
-		}
-
-		body.append("\n\n");
-		body.append(mContactText);
-
-		SocialUtils.email(this, subject, body.toString());
-	}
-
-	private void appendLabelValue(StringBuilder sb, int labelStrId, String value) {
-		appendLabelValue(sb, getString(labelStrId), value);
-	}
-
-	private void appendLabelValue(StringBuilder sb, String label, String value) {
-		sb.append(label);
-		sb.append(": ");
-		sb.append(value);
 	}
 
 	@Override
@@ -482,21 +324,10 @@ public class ConfirmationActivity extends MapActivity {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Breadcrumb (reloading activity)
 
-	public static boolean hasSavedConfirmationData(Context context) {
-		File savedConfResults = context.getFileStreamPath(CONFIRMATION_DATA_FILE);
-		return savedConfResults.exists();
-	}
-
-	public static boolean deleteSavedConfirmationData(Context context) {
-		Log.i("Deleting saved confirmation data.");
-		File savedConfResults = context.getFileStreamPath(CONFIRMATION_DATA_FILE);
-		return savedConfResults.delete();
-	}
-
 	public boolean loadSavedConfirmationData() {
 		Log.i("Loading saved confirmation data...");
 		try {
-			JSONObject data = new JSONObject(IoUtils.readStringFromFile(CONFIRMATION_DATA_FILE, this));
+			JSONObject data = new JSONObject(IoUtils.readStringFromFile(ConfirmationUtils.CONFIRMATION_DATA_FILE, this));
 			mSearchParams = (SearchParams) JSONUtils.getJSONable(data, Codes.SEARCH_PARAMS, SearchParams.class);
 			mProperty = (Property) JSONUtils.getJSONable(data, Codes.PROPERTY, Property.class);
 			mRate = (Rate) JSONUtils.getJSONable(data, Codes.RATE, Rate.class);
@@ -507,26 +338,6 @@ public class ConfirmationActivity extends MapActivity {
 		}
 		catch (Exception e) {
 			Log.e("Could not load ConfirmationActivity state.", e);
-			return false;
-		}
-	}
-
-	public boolean saveConfirmationData() {
-		Log.i("Saving confirmation data...");
-		try {
-			JSONObject data = new JSONObject();
-			data.put(Codes.SEARCH_PARAMS, mSearchParams.toJson());
-			data.put(Codes.PROPERTY, mProperty.toJson());
-			data.put(Codes.RATE, mRate.toJson());
-			data.put(Codes.BILLING_INFO, mBillingInfo.toJson());
-			data.put(Codes.BOOKING_RESPONSE, mBookingResponse.toJson());
-
-			IoUtils.writeStringToFile(CONFIRMATION_DATA_FILE, data.toString(0), this);
-
-			return true;
-		}
-		catch (Exception e) {
-			Log.e("Could not save ConfirmationActivity state.", e);
 			return false;
 		}
 	}

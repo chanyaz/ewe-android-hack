@@ -26,7 +26,7 @@ import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelActivity;
-import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
@@ -624,7 +624,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		Log.i("Starting search");
 
 		// See if we have a good enough location stored
-		long minTime = Calendar.getInstance().getTimeInMillis() - SearchActivity.MINIMUM_TIME_AGO;
+		long minTime = Calendar.getInstance().getTimeInMillis() - PhoneSearchActivity.MINIMUM_TIME_AGO;
 		Location location = LocationServices.getLastBestLocation(getApplicationContext(), minTime);
 		if (location != null) {
 			mWidgetDeals.setSearchParams(new SearchParams());
