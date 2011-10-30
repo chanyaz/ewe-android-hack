@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Ticket stub summary at top of page -->
-
-<LinearLayout
+<LinearLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/receipt"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_ticket_shadow" >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_ticket"
         android:orientation="vertical" >

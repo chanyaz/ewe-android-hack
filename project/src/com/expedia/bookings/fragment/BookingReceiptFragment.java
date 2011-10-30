@@ -55,7 +55,7 @@ public class BookingReceiptFragment extends Fragment implements EventHandler {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View receipt = inflater.inflate(R.layout.fragment_receipt, container, false);
+		View receipt = inflater.inflate(R.layout.include_receipt, container, false);
 		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
 		SearchParams searchParams = ((TabletActivity) getActivity()).getSearchParams();
 		Rate rate = ((TabletActivity) getActivity()).getRoomRateForBooking();
