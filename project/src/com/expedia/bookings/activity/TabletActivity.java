@@ -62,6 +62,7 @@ import com.expedia.bookings.fragment.InstanceFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
 import com.expedia.bookings.fragment.NextOptionsFragment;
 import com.expedia.bookings.fragment.QuickSearchFragment;
+import com.expedia.bookings.fragment.RoomTypeDescriptionFragment;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment;
 import com.expedia.bookings.fragment.SortDialogFragment;
@@ -346,6 +347,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private static final String TAG_DIALOG_BOOKING_PROGRESS = "TAG_DIALOG_BOOKING_PROGRESS";
 	private static final String TAG_CONFIRMATION = "TAG_CONFIRMATION";
 	private static final String TAG_CONFIRMATION_CANCELLATION_POLICY = "TAG_CONFIRMATION_CANCELLATION_POLICY";
+	private static final String TAG_ROOM_DESCRIPTION = "TAG_ROOM_DESCRIPTION";
 	private static final String TAG_COMPLETE_BOOKING_INFO = "TAG_COMPLETE_BOOKING_INFO";
 	private static final String TAG_NEXT_OPTIONS = "TAG_NEXT_OPTIONS";
 
@@ -400,6 +402,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		ft.add(R.id.fragment_complete_booking, CompleteBookingInfoFragment.newInstance(), TAG_COMPLETE_BOOKING_INFO);
 		ft.add(R.id.fragment_booking_cancellation_policy, BookingCancellationPolicyFragment.newInstance(),
 				TAG_BOOKING_CANCELLATION_POLICY);
+		ft.add(R.id.fragment_room_descrption, RoomTypeDescriptionFragment.newInstance(), TAG_ROOM_DESCRIPTION);
 		ft.remove(fm.findFragmentByTag(TAG_HOTEL_LIST));
 		ft.remove(fm.findFragmentByTag(TAG_HOTEL_DETAILS));
 		ft.addToBackStack(null);

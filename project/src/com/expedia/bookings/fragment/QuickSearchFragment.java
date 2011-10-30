@@ -5,7 +5,6 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;

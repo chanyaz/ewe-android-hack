@@ -82,12 +82,24 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <LinearLayout
-                    android:id="@+id/fragment_complete_booking"
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center_horizontal" />
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:id="@+id/fragment_room_descrption"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <LinearLayout
+                        android:id="@+id/fragment_complete_booking"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+						android:layout_below="@id/fragment_room_descrption"
+    					android:gravity="bottom|center_horizontal"/>
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
