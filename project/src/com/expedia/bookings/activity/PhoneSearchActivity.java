@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -102,6 +101,7 @@ import com.expedia.bookings.tracking.MillennialTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
+import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
@@ -116,13 +116,11 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.text.format.Time;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
-import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
 import com.mobiata.android.widget.NumberPicker;
 import com.mobiata.android.widget.Panel;
 import com.mobiata.android.widget.SegmentedControlGroup;
@@ -647,7 +645,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		setDrawerViews();
 		setSearchEditViews();
 		setBottomBarOptions();
-		setNumberPickerRanges();
+		GuestsPickerUtils.configureAndUpdateDisplayedValues(this, mAdultsNumberPicker, mChildrenNumberPicker);
 
 		// #9103: Must add this after onResume(); otherwise it gets called when mSearchEditText
 		// automagically restores its previous state.
@@ -2402,29 +2400,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 	}
 
-	private void setNumberPickerRanges() {
-		Resources res = getResources();
-		String[] adults = new String[4];
-		for (int a = 0; a < 4; a++) {
-			adults[a] = res.getQuantityString(R.plurals.number_of_adults, a + 1, a + 1);
-		}
-		String[] children = new String[5];
-		for (int a = 0; a < 5; a++) {
-			children[a] = res.getQuantityString(R.plurals.number_of_children, a, a);
-		}
-
-		final int numAdults = mAdultsNumberPicker.getCurrent();
-		final int numChildren = mChildrenNumberPicker.getCurrent();
-		final int total = numAdults + numChildren;
-		int remaining = MAX_GUESTS_TOTAL - total;
-
-		mAdultsNumberPicker.setRange(1, Math.min(MAX_GUEST_NUM, numAdults + remaining), adults);
-		mChildrenNumberPicker.setRange(0, Math.min(MAX_GUEST_NUM, numChildren + remaining), children);
-
-		mAdultsNumberPicker.setCurrent(numAdults);
-		mChildrenNumberPicker.setCurrent(numChildren);
-	}
-
 	private void setRadioButtonShadowLayers() {
 		List<SegmentedControlGroup> groups = new ArrayList<SegmentedControlGroup>();
 		groups.add(mRadiusButtonGroup);
@@ -2760,7 +2735,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			mSearchParams.setNumAdults(mAdultsNumberPicker.getCurrent());
 			mSearchParams.setNumChildren(mChildrenNumberPicker.getCurrent());
 
-			setNumberPickerRanges();
+			GuestsPickerUtils.configureAndUpdateDisplayedValues(mContext, mAdultsNumberPicker, mChildrenNumberPicker);
 			setRefinementInfo();
 		}
 	};
