@@ -3,6 +3,10 @@ package com.expedia.bookings.utils;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import android.content.Context;
+import android.text.format.DateUtils;
+
+import com.expedia.bookings.data.SearchParams;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
@@ -72,5 +76,21 @@ public class CalendarUtils {
 		maxTime.normalize(true);
 
 		calendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
+	}
+
+	// #9770: Add an hour of buffer so that the date range is always > the number of days
+	private static final int DATE_RANGE_BUFFER = 1000 * 60 * 60; // 1 hour
+
+	/**
+	 * Convenience method for formatting date range represented by a particular SearchParams.
+	 * 
+	 * @param context the context
+	 * @param searchParams the params to format
+	 * @return a numeric representation of the stay range (e.g., "10/31 - 11/04").
+	 */
+	public static String formatDateRange(Context context, SearchParams searchParams) {
+		return DateUtils.formatDateRange(context, searchParams.getCheckInDate().getTimeInMillis(),
+				searchParams.getCheckOutDate().getTimeInMillis() + DATE_RANGE_BUFFER,
+				DateUtils.FORMAT_NUMERIC_DATE);
 	}
 }

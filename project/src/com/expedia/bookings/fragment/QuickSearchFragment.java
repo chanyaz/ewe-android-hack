@@ -18,6 +18,7 @@ import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.model.Search;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.services.GoogleServices;
@@ -91,8 +92,7 @@ public class QuickSearchFragment extends Fragment implements EventHandler {
 		View destination = addDestination(thumbnailUrl, location);
 
 		TextView paramsTextView = (TextView) destination.findViewById(R.id.params_text_view);
-		String dateRange = DateUtils.formatDateRange(getActivity(), searchParams.getCheckInDate().getTimeInMillis(),
-				searchParams.getCheckOutDate().getTimeInMillis() + 60000, DateUtils.FORMAT_NUMERIC_DATE);
+		String dateRange = CalendarUtils.formatDateRange(getActivity(), searchParams);
 		String guests = StrUtils.formatGuests(getActivity(), searchParams);
 		paramsTextView.setText(dateRange + ", " + guests);
 

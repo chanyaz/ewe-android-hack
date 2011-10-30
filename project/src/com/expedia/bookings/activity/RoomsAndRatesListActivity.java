@@ -28,6 +28,7 @@ import com.expedia.bookings.data.Session;
 import com.expedia.bookings.server.AvailabilityResponseHandler;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 import com.mobiata.android.FormatUtils;
@@ -112,9 +113,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 			nightsView.setText(getResources().getQuantityString(R.plurals.staying_nights, numNights, numNights));
 
 			TextView datesView = (TextView) findViewById(R.id.dates_text_view);
-			datesView.setText(DateUtils.formatDateRange(this, mSearchParams.getCheckInDate().getTimeInMillis(),
-					mSearchParams.getCheckOutDate().getTimeInMillis() + DATE_RANGE_BUFFER,
-					DateUtils.FORMAT_NUMERIC_DATE));
+			datesView.setText(CalendarUtils.formatDateRange(this, mSearchParams));
 		}
 		else {
 			findViewById(R.id.nights_container).setVisibility(View.GONE);
