@@ -22,6 +22,7 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
@@ -39,6 +40,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.fragment.BookingCancellationPolicyFragment;
 import com.expedia.bookings.fragment.BookingConfirmationFragment;
 import com.expedia.bookings.fragment.BookingInfoFragment;
 import com.expedia.bookings.fragment.BookingInfoFragment.BookingInProgressDialogFragment;
@@ -50,7 +52,6 @@ import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.CompleteBookingInfoFragment;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
-import com.expedia.bookings.fragment.BookingCancellationPolicyFragment;
 import com.expedia.bookings.fragment.FilterDialogFragment;
 import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
@@ -194,9 +195,35 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	protected void onStart() {
 		super.onStart();
 
+		// Configure the ActionBar
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
+		mSearchView = new SearchView(this);
+		actionBar.setCustomView(mSearchView);
+
+		// Configure the SearchView
+		mSearchView.setIconifiedByDefault(false);
+		mSearchView.setSubmitButtonEnabled(true);
+		mSearchView.setFocusable(false); // Fixes keyboard on submit, somehow!
+		mSearchView.setOnQueryTextListener(new OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				setFreeformLocation(query);
+				mSearchView.clearFocus();
+				startSearch();
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				return false;
+			}
+		});
+
+		// Register the autocomplete provider
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
 		mInstance.mFilter.addOnFilterChangedListener(this);
 	}
@@ -250,32 +277,9 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_tablet, menu);
 
-		mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
 		mGuestsMenuItem = menu.findItem(R.id.menu_guests);
 		mDatesMenuItem = menu.findItem(R.id.menu_dates);
 		mFilterMenuItem = menu.findItem(R.id.menu_filter);
-
-		mSearchView.setIconifiedByDefault(false);
-		mSearchView.setSubmitButtonEnabled(true);
-		mSearchView.setFocusable(false); // Fixes keyboard on submit, somehow!
-		mSearchView.setOnQueryTextListener(new OnQueryTextListener() {
-			@Override
-			public boolean onQueryTextSubmit(String query) {
-				setFreeformLocation(query);
-				mSearchView.clearFocus();
-				startSearch();
-				return true;
-			}
-
-			@Override
-			public boolean onQueryTextChange(String newText) {
-				return false;
-			}
-		});
-
-		// Register the autocomplete provider
-		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -283,8 +287,9 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		FragmentManager fm = getFragmentManager();
-		if (fm.findFragmentByTag(TAG_HOTEL_LIST) != null) {
-			menu.setGroupVisible(R.id.search_location_group, true);
+		ActionBar actionBar = getActionBar();
+		boolean atStart = fm.getBackStackEntryCount() == 0;
+		if (!atStart) {
 			menu.setGroupVisible(R.id.filter_group, true);
 			menu.setGroupVisible(R.id.search_options_group, true);
 
@@ -297,14 +302,17 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			mDatesMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_nights, numNights, numNights));
 
 			mFilterMenuItem.setEnabled(mInstance.mSearchResponse != null && !mInstance.mSearchResponse.hasErrors());
+
+			actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
 		}
 		else {
-			menu.setGroupVisible(R.id.search_location_group, false);
 			menu.setGroupVisible(R.id.filter_group, false);
 			menu.setGroupVisible(R.id.search_options_group, false);
+
+			actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_CUSTOM);
 		}
 
-		getActionBar().setDisplayHomeAsUpEnabled((fm.getBackStackEntryCount() != 0));
+		actionBar.setDisplayHomeAsUpEnabled(!atStart);
 
 		return super.onPrepareOptionsMenu(menu);
 	}
