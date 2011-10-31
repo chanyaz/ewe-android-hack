@@ -64,7 +64,9 @@
 		<activity android:name=".activity.ConfirmationActivity" />
 
 		<activity android:name=".activity.AboutActivity" />
-		
+
+		<activity android:name=".activity.TabletAboutActivity" />
+
 		<activity android:name=".activity.ExpediaBookingPreferenceActivity" />
 		
 		<activity android:name=".activity.AppFeedbackActivity" 

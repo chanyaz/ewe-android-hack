@@ -22,7 +22,6 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
@@ -333,7 +332,9 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			showFilterDialog();
 			return true;
 		case R.id.menu_about:
-			// TODO: Launch About fragment
+			Intent intent = new Intent(this, TabletAboutActivity.class);
+			intent.putExtra(TabletAboutActivity.EXTRA_ABOUT_HTML, getString(R.string.copyright));
+			startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
