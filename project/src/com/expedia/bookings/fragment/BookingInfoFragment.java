@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -35,15 +36,21 @@ import android.widget.TextView.OnEditorActionListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.widget.RoomTypeFragmentHandler;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
@@ -82,6 +89,7 @@ public class BookingInfoFragment extends DialogFragment {
 	private EditText mExpirationYearEditText;
 	private EditText mSecurityCodeEditText;
 	private TextView mConfirmBookButton;
+	private View mReceipt;
 
 	// Cached data from arrays
 	private String[] mCountryCodes;
@@ -109,6 +117,8 @@ public class BookingInfoFragment extends DialogFragment {
 	private boolean mFormHasBeenFocused;
 	private boolean mGuestsExpanded;
 	private boolean mBillingExpanded;
+
+	private RoomTypeFragmentHandler mRoomTypeHandler;
 
 	// This is a tracking variable to solve a nasty problem.  The problem is that Spinner.onItemSelectedListener()
 	// fires wildly when you set the Spinner's position manually (sometimes twice at a time).  We only want to track
@@ -155,6 +165,7 @@ public class BookingInfoFragment extends DialogFragment {
 		mRulesRestrictionsTextView = (TextView) view.findViewById(R.id.rules_restrictions_text_view);
 		mRulesRestrictionsLayout = (ViewGroup) view.findViewById(R.id.rules_restrictions_layout);
 		mConfirmBookButton = (TextView) view.findViewById(R.id.confirm_book_button);
+		mReceipt = view.findViewById(R.id.receipt);
 
 		// Retrieve some data we keep using
 		Resources r = getResources();
@@ -181,16 +192,64 @@ public class BookingInfoFragment extends DialogFragment {
 			expandBillingForm(false);
 		}
 		mFormHasBeenFocused = false;
-		
+
 		Dialog dialog = builder.create();
 		dialog.setCanceledOnTouchOutside(false);
 
+		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
+		Rate rate = ((TabletActivity) getActivity()).getRoomRateForBooking();
+		SearchParams searchParams = ((TabletActivity) getActivity()).getSearchParams();
+
+		mRoomTypeHandler = new RoomTypeFragmentHandler((TabletActivity) getActivity(), mReceipt, property,
+				searchParams, rate);
+		mRoomTypeHandler.onCreate(savedInstanceState);
 		return dialog;
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		configureTicket(mReceipt);
+		mRoomTypeHandler.updateRoomDetails(((TabletActivity) getActivity()).getRoomRateForBooking());
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		if (mRoomTypeHandler != null) {
+			mRoomTypeHandler.onAttach();
+		}
+		super.onAttach(activity);
+	}
+
+	@Override
+	public void onDetach() {
+		mRoomTypeHandler.onDetach();
+		super.onDetach();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		mRoomTypeHandler.saveToBundle(outState);
+	}
+
+	private void configureTicket(View receipt) {
+		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
+		SearchParams searchParams = ((TabletActivity) getActivity()).getSearchParams();
+		Rate rate = ((TabletActivity) getActivity()).getRoomRateForBooking();
+		BookingResponse bookingResponse = ((TabletActivity) getActivity()).getBookingResponse();
+		BillingInfo billingInfo = ((TabletActivity) getActivity()).getBillingInfo();
+
+		ViewGroup detailsLayout = (ViewGroup) receipt.findViewById(R.id.details_layout);
+		detailsLayout.removeAllViews();
+		if (getArguments() != null && getArguments().getBoolean(Codes.INCLUDE_CONFIRMATION_INFO, false)) {
+			BookingReceiptUtils.configureTicket(getActivity(), receipt, property, searchParams, rate, mRoomTypeHandler,
+					bookingResponse, billingInfo);
+		}
+		else {
+			BookingReceiptUtils.configureTicket(getActivity(), receipt, property, searchParams, rate, mRoomTypeHandler);
+		}
+
 	}
 
 	private void configureForm() {
@@ -320,7 +379,7 @@ public class BookingInfoFragment extends DialogFragment {
 		}
 
 		mConfirmBookButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				syncBillingInfo();
@@ -353,7 +412,7 @@ public class BookingInfoFragment extends DialogFragment {
 					((TabletActivity) getActivity()).bookingCompleted(mBillingInfo);
 					dismiss();
 				}
-				
+
 			}
 		});
 		// Setup the correct text (and link enabling) on the terms & conditions textview
@@ -717,7 +776,7 @@ public class BookingInfoFragment extends DialogFragment {
 		}
 
 	}
-	
+
 	public static class BookingInProgressDialogFragment extends DialogFragment {
 		public static BookingInProgressDialogFragment newInstance() {
 			BookingInProgressDialogFragment fragment = new BookingInProgressDialogFragment();
@@ -732,7 +791,6 @@ public class BookingInfoFragment extends DialogFragment {
 			pd.setCanceledOnTouchOutside(false);
 			return pd;
 		}
-		
-		
+
 	}
 }
