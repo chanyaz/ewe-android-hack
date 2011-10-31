@@ -47,15 +47,16 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		TabletActivity activity = (TabletActivity) getActivity();
-		
+
 		LinearLayout mapLayout = new LinearLayout(getActivity());
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
+				LayoutParams.FILL_PARENT);
 		mapLayout.setLayoutParams(params);
-		
+
 		mMapView = activity.getMapView();
 		mMapView.setClickable(true);
 		mapLayout.addView(mMapView);
-		
+
 		// Add the initial overlays
 		List<Overlay> overlays = mMapView.getOverlays();
 
@@ -116,7 +117,9 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
 		case TabletActivity.EVENT_SEARCH_STARTED:
-			mHotelOverlay.setProperties(null);
+			if (mHotelOverlay != null) {
+				mHotelOverlay.setProperties(null);
+			}
 			break;
 		case TabletActivity.EVENT_SEARCH_LOCATION_FOUND:
 			animateToSearchLocation();

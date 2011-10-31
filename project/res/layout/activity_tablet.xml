@@ -3,6 +3,68 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
+    <!-- Booking Info Screen Setup -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:id="@+id/fragment_rooms"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/receipt_and_details_container"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:id="@+id/fragment_receipt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical" >
+
+                        <LinearLayout
+                            android:id="@+id/fragment_room_descrption"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content" />
+
+                        <LinearLayout
+                            android:id="@+id/fragment_complete_booking"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/fragment_room_descrption"
+                            android:gravity="bottom|center_horizontal" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fragment_booking_cancellation_policy"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+    <!-- Search Screen Setup -->
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -20,6 +82,8 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
     </LinearLayout>
+
+    <!-- Search list + Hotel Details Screen Setup -->
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -54,61 +118,7 @@
         </FrameLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-
-        <LinearLayout
-            android:id="@+id/fragment_rooms"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="2"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
-
-                <LinearLayout
-                    android:id="@+id/fragment_receipt"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <LinearLayout
-                        android:id="@+id/fragment_room_descrption"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"/>
-
-                    <LinearLayout
-                        android:id="@+id/fragment_complete_booking"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-						android:layout_below="@id/fragment_room_descrption"
-    					android:gravity="bottom|center_horizontal"/>
-                </RelativeLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/fragment_booking_cancellation_policy"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-        </LinearLayout>
-    </LinearLayout>
+    <!-- Confirmation Screen Setup -->
 
     <LinearLayout
         android:layout_width="fill_parent"
