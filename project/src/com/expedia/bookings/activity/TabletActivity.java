@@ -304,12 +304,17 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			menu.setGroupVisible(R.id.search_options_group, false);
 		}
 
+		getActionBar().setDisplayHomeAsUpEnabled((fm.getBackStackEntryCount() != 0));
+
 		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case android.R.id.home:
+			getFragmentManager().popBackStack();
+			return true;
 		case R.id.menu_guests:
 			showGuestsDialog();
 			return true;
