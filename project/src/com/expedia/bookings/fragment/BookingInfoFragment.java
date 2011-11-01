@@ -6,22 +6,26 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.view.WindowManager.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -97,8 +101,6 @@ public class BookingInfoFragment extends DialogFragment {
 	// Cached views (non-interactive)
 	private ImageView mCreditCardImageView;
 	private TextView mSecurityCodeTipTextView;
-	private ImageView mChargeDetailsImageView;
-	private TextView mChargeDetailsTextView;
 	private TextView mRulesRestrictionsTextView;
 	private ViewGroup mRulesRestrictionsLayout;
 	private CheckBox mRulesRestrictionsCheckbox;
@@ -134,9 +136,12 @@ public class BookingInfoFragment extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_booking_info, null);
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setView(view);
+		LayoutInflater inflater = getActivity().getLayoutInflater();
+		View view = inflater.inflate(R.layout.fragment_booking_info, null);
+		
+		Dialog dialog = new Dialog(getActivity(), R.style.Theme_Light_Fullscreen_Preferences);
+		dialog.requestWindowFeature(STYLE_NO_TITLE);
+		dialog.setContentView(view);
 
 		// Retrieve views that we need for the form fields
 		mGuestSavedLayout = (ViewGroup) view.findViewById(R.id.saved_guest_info_layout);
@@ -159,8 +164,6 @@ public class BookingInfoFragment extends DialogFragment {
 		mSecurityCodeEditText = (EditText) view.findViewById(R.id.security_code_edit_text);
 		mCreditCardImageView = (ImageView) view.findViewById(R.id.credit_card_image_view);
 		mSecurityCodeTipTextView = (TextView) view.findViewById(R.id.security_code_tip_text_view);
-		mChargeDetailsImageView = (ImageView) view.findViewById(R.id.charge_details_lock_image_view);
-		mChargeDetailsTextView = (TextView) view.findViewById(R.id.charge_details_text_view);
 		mRulesRestrictionsCheckbox = (CheckBox) view.findViewById(R.id.rules_restrictions_checkbox);
 		mRulesRestrictionsTextView = (TextView) view.findViewById(R.id.rules_restrictions_text_view);
 		mRulesRestrictionsLayout = (ViewGroup) view.findViewById(R.id.rules_restrictions_layout);
@@ -193,7 +196,6 @@ public class BookingInfoFragment extends DialogFragment {
 		}
 		mFormHasBeenFocused = false;
 
-		Dialog dialog = builder.create();
 		dialog.setCanceledOnTouchOutside(false);
 
 		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
@@ -203,6 +205,13 @@ public class BookingInfoFragment extends DialogFragment {
 		mRoomTypeHandler = new RoomTypeFragmentHandler((TabletActivity) getActivity(), mReceipt, property,
 				searchParams, rate);
 		mRoomTypeHandler.onCreate(savedInstanceState);
+
+		// set the window of the dialog to have a transparent background
+		// so that the window is not visible through the edges of the dialog.
+		ColorDrawable drawable = new ColorDrawable(0);
+		dialog.getWindow().setBackgroundDrawable(drawable);
+		dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+
 		return dialog;
 	}
 
@@ -496,9 +505,8 @@ public class BookingInfoFragment extends DialogFragment {
 		OnFocusChangeListener l = new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
-					onFormFieldFocus();
-				}
-				else {
+					mFormHasBeenFocused = true;
+				} else {
 					saveBillingInfo();
 
 					((TabletActivity) getActivity()).getBookingInfoValidation().checkBookingSectionsCompleted(
@@ -720,22 +728,6 @@ public class BookingInfoFragment extends DialogFragment {
 		TrackingUtils.saveEmailForTracking(getActivity(), mBillingInfo.getEmail());
 
 		return mBillingInfo.save(getActivity());
-	}
-
-	private void onFormFieldFocus() {
-		if (!mFormHasBeenFocused) {
-
-			// Reveal the charge lock icon
-			mChargeDetailsImageView.setVisibility(View.VISIBLE);
-
-			// Add the charge details text
-			Rate rate = ((TabletActivity) getActivity()).getRoomRateForBooking();
-			CharSequence text = getString(R.string.charge_details_template, rate.getTotalAmountAfterTax()
-					.getFormattedMoney());
-			mChargeDetailsTextView.setText(text);
-
-			mFormHasBeenFocused = true;
-		}
 	}
 
 	public static class NullBookingDialogFragment extends DialogFragment {
