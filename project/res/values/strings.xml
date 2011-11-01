@@ -229,7 +229,7 @@
 	<string name="min_room_price_template">From %s</string>
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
 	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; from</string>
-	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> -->
+	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
 	<string name="reviews_recommended_template">Recommended by %1$d of %2$d guests</string>
 	<!--  Title for the amenities section in the hotel details fragment -->
 	<string name="amenities">Amenities</string>
