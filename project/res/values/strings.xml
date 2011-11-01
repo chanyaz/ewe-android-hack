@@ -513,7 +513,7 @@
 	<!-- Label to start a new search from a confirmation screen  -->
 	<string name="start_new_search">Start a New Search</string>
 	<!-- Label to view hotel in google maps to get directions from a confirmation screen -->
-	<string name="show_on_map">View Hotel on Map</string>
+	<string name="show_on_map">View On Map</string>
 	
 	<!-- Rate template strings -->
 	<!-- Label for the number of guests the booking is for. -->
