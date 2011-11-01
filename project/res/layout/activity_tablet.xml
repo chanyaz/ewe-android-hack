@@ -118,7 +118,7 @@
             <LinearLayout
                 android:id="@+id/fragment_mini_details"
                 android:layout_width="fill_parent"
-                android:layout_height="250dp"
+                android:layout_height="@dimen/mini_details_height"
                 android:layout_gravity="bottom" />
 
             <LinearLayout

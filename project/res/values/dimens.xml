@@ -26,4 +26,6 @@
 	
 	<dimen name="right_padding_for_scroll_bar">30dp</dimen>
 	<dimen name="hotel_description_body_text_size">12sp</dimen>
+	
+    <dimen name="mini_details_height">250dp</dimen>
 </resources>

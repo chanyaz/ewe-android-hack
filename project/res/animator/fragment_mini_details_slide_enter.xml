@@ -3,6 +3,6 @@
     android:duration="@android:integer/config_mediumAnimTime"
     android:interpolator="@android:interpolator/decelerate_quint"
     android:propertyName="translationY"
-    android:valueFrom="250dp"
+    android:valueFrom="@dimen/mini_details_height"
     android:valueTo="0dp"
     android:valueType="floatType" />

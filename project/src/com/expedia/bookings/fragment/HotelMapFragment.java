@@ -72,6 +72,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 				return true;
 			}
 		});
+		mHotelOverlay.setCenterOffsetY(getResources().getDimensionPixelSize(R.dimen.mini_details_height));
 		overlays.add(mHotelOverlay);
 
 		mDoubleTapToZoomOverlay = new DoubleTapToZoomListenerOverlay(activity, mMapView);
