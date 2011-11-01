@@ -99,20 +99,25 @@ public class HotelCollage {
 
 	private final OnImageLoaded mOnImageLoaded = new OnImageLoaded() {
 		public void onImageLoaded(String url, Bitmap bitmap) {
-			Drawable[] layers = new Drawable[2];
-			layers[0] = new ColorDrawable(Color.TRANSPARENT);
-			layers[1] = new BitmapDrawable(bitmap);
-			TransitionDrawable drawable = new TransitionDrawable(layers);
-			mPropertyImageViews.get(mCurrentIndex).setImageDrawable(drawable);
-			drawable.startTransition(FADE_TIME);
 
-			mCurrentIndex++;
 			if (mCurrentIndex < mPropertyUrls.size() && mCurrentIndex < mPropertyImageViews.size()) {
-				mHandler.postDelayed(new Runnable() {
-					public void run() {
-						ImageCache.loadImage(mPropertyUrls.get(mCurrentIndex), mOnImageLoaded);
-					}
-				}, FADE_PAUSE);
+				Drawable[] layers = new Drawable[2];
+				layers[0] = new ColorDrawable(Color.TRANSPARENT);
+				layers[1] = new BitmapDrawable(bitmap);
+				TransitionDrawable drawable = new TransitionDrawable(layers);
+
+				mPropertyImageViews.get(mCurrentIndex).setImageDrawable(drawable);
+				drawable.startTransition(FADE_TIME);
+
+				mCurrentIndex++;
+				if (mCurrentIndex < mPropertyUrls.size() && mCurrentIndex < mPropertyImageViews.size()) {
+					final String imageToLoadUrl = mPropertyUrls.get(mCurrentIndex);
+					mHandler.postDelayed(new Runnable() {
+						public void run() {
+							ImageCache.loadImage(imageToLoadUrl, mOnImageLoaded);
+						}
+					}, FADE_PAUSE);
+				}
 			}
 		}
 	};
