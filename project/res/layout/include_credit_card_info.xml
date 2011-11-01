@@ -24,7 +24,8 @@
             android:nextFocusLeft="@+id/postal_code_edit_text"
             android:nextFocusRight="@+id/expiration_month_edit_text"
             android:nextFocusUp="@+id/postal_code_edit_text"
-            android:textColorHint="@color/hint_color" />
+            android:textColorHint="@color/hint_color"
+            mobiata:errorTextColor="@android:color/black" />
 
         <com.expedia.bookings.widget.CustomEditText
             android:id="@+id/expiration_month_edit_text"
@@ -105,7 +106,8 @@
             android:inputType="number"
             android:maxLength="4"
             android:nextFocusLeft="@+id/expiration_year_edit_text"
-            android:nextFocusUp="@+id/expiration_year_edit_text" />
+            android:nextFocusUp="@+id/expiration_year_edit_text"
+            mobiata:errorTextColor="@android:color/black" />
     </LinearLayout>
 
 </LinearLayout>

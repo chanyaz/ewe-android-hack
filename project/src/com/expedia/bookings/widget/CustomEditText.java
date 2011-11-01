@@ -53,6 +53,7 @@ public class CustomEditText extends EditText {
 	private boolean isClearFieldButtonShowing;
 
 	private boolean mUseClearFieldDrawable = true;
+	private int mErrorTextColorResId;
 
 	/*
 	 * This textwatcher is responsible for 
@@ -195,6 +196,8 @@ public class CustomEditText extends EditText {
 		super(context, attrs);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomEditText);
 		mUseClearFieldDrawable = a.getBoolean(R.styleable.CustomEditText_useClearFieldDrawable, true);
+		mErrorTextColorResId = a.getResourceId(R.styleable.CustomEditText_errorTextColor,
+				android.R.attr.textColorPrimaryInverse);
 		addTextChangedListener(textWatcher);
 		setupTransparentRightDrawable();
 	}
@@ -463,6 +466,8 @@ public class CustomEditText extends EditText {
 	private void inflatePopup() {
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		final TextView err = (TextView) inflater.inflate(R.layout.textview_hint, null);
+		err.setTextColor(getResources().getColor(mErrorTextColorResId));
+		
 		final float scale = getResources().getDisplayMetrics().density;
 		mCustomPopup = new ErrorPopup(err, (int) (200 * scale + 0.5f), (int) (50 * scale + 0.5f));
 		mCustomPopup.setFocusable(false);

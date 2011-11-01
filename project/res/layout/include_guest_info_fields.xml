@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:id="@+id/guest_info_layout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -17,6 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            mobiata:errorTextColor="@android:color/black"
             android:hint="@string/FirstName"
             android:imeOptions="flagNoExtractUi"
             android:inputType="textPersonName|textCapWords"
@@ -31,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            mobiata:errorTextColor="@android:color/black"
             android:hint="@string/LastName"
             android:imeOptions="flagNoExtractUi"
             android:inputType="textPersonName|textCapWords"
@@ -45,6 +48,7 @@
         android:id="@+id/telephone_edit_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        mobiata:errorTextColor="@android:color/black"
         android:hint="@string/Telephone"
         android:imeOptions="flagNoExtractUi"
         android:inputType="phone"
@@ -58,6 +62,7 @@
         android:id="@+id/email_edit_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        mobiata:errorTextColor="@android:color/black"
         android:hint="@string/EmailForConf"
         android:imeOptions="flagNoExtractUi"
         android:inputType="textEmailAddress"
