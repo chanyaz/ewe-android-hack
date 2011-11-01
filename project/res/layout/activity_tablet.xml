@@ -28,7 +28,8 @@
                 <LinearLayout
                     android:id="@+id/receipt_and_details_container"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp" >
 
                     <LinearLayout
                         android:id="@+id/fragment_receipt"
@@ -40,6 +41,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginLeft="20dp"
                         android:orientation="vertical" >
 
                         <LinearLayout
@@ -51,15 +53,24 @@
                             android:id="@+id/fragment_complete_booking"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
                             android:layout_below="@id/fragment_room_descrption"
                             android:gravity="bottom|center_horizontal" />
                     </RelativeLayout>
                 </LinearLayout>
 
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/two_pixels"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/divider" />
+
                 <LinearLayout
                     android:id="@+id/fragment_booking_cancellation_policy"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
