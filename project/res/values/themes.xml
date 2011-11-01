@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<style name="Theme" parent="@android:style/Theme.NoTitleBar">
-		<item name="android:windowBackground">@color/window_background</item>
-		<item name="android:windowContentOverlay">@null</item>
-		<item name="android:editTextStyle">@style/Widget.EditText</item>
-		<item name="android:buttonStyle">@style/Widget.Button</item>
-		<item name="android:imageButtonStyle">@style/Widget.Button</item>
-		<item name="android:ratingBarStyle">@style/RatingBarSmall.Shadowed.Star</item>
-		<item name="android:spinnerStyle">@style/Widget.Spinner</item>
-		<item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
-	</style>
-	
-	<style name="Theme.Light.Fullscreen.Preferences" parent="@android:style/Theme.Holo.Light.Dialog">
+
+    <style name="Theme" parent="@android:style/Theme.NoTitleBar">
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:editTextStyle">@style/Widget.EditText</item>
+        <item name="android:buttonStyle">@style/Widget.Button</item>
+        <item name="android:imageButtonStyle">@style/Widget.Button</item>
+        <item name="android:ratingBarStyle">@style/RatingBarSmall.Shadowed.Star</item>
+        <item name="android:spinnerStyle">@style/Widget.Spinner</item>
+        <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
+    </style>
+
+    <style name="Theme.Light.Fullscreen.Preferences" parent="@android:style/Theme.Holo.Light.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:windowFullscreen">true</item>
@@ -21,5 +22,4 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-	    
 </resources>
