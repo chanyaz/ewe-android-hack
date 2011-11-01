@@ -183,7 +183,8 @@ public class BookingInfoFragment extends DialogFragment {
 			if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
 				expandGuestsForm(false);
 			}
-			else if (!mBookingInfoValidation.isBillingSectionCompleted()) {
+			
+			if (!mBookingInfoValidation.isBillingSectionCompleted()) {
 				expandBillingForm(false);
 			}
 
