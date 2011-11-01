@@ -539,6 +539,8 @@
 	<!-- About activity -->
 	<!-- Label for "contact Expedia" button in info page -->
 	<string name="contact_expedia">Contact Expedia</string>
+	<!-- Extra description for "contact Expedia" button, when space allows -->
+	<string name="contact_expedia_description">We\'re here for you 24 hours a day.</string>
 	<!-- Title for different ways to connect to Expedia -->
 	<string name="contact_expedia_via">Contact Expedia Via...</string>
 	<!-- Contact Expedia via phone -->
@@ -551,8 +553,16 @@
 	<string name="contact_expedia_website">Website</string>
 	<!-- Label for "Expedia website" button in info page -->
 	<string name="expedia_website">Expedia Website</string>
+	<!-- Extra description for "Expedia website" button, when space allows -->
+	<string name="expedia_website_description">Visit the website to book flights, cars, packages and more.</string>
+	<!-- Extra description for "app feedback" button, when space allows -->
+	<string name="app_feedback_description">Let us know what you think about the app.</string>
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">App Support</string>
+	<!-- Extra description for "app support" button, when space allows -->
+	<string name="app_support_description">Drop us a line and we\'ll get back to you.</string>
+	<!-- Extra description for "tell a friend" button, when space allows -->
+	<string name="tell_a_friend_description">Like amazing hotel deals? Tell your friends about the app.</string>
 	<!-- Section header for other apps by Mobiata -->
 	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->

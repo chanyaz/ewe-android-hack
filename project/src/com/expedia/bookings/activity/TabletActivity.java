@@ -333,7 +333,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			return true;
 		case R.id.menu_about:
 			Intent intent = new Intent(this, TabletAboutActivity.class);
-			intent.putExtra(TabletAboutActivity.EXTRA_ABOUT_HTML, getString(R.string.copyright));
 			startActivity(intent);
 			return true;
 		default:

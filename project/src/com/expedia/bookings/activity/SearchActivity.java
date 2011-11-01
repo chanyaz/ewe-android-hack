@@ -25,7 +25,7 @@ public class SearchActivity extends Activity {
 		Intent routingIntent;
 		if (AndroidUtils.getSdkVersion() >= 11 && (getResources().getConfiguration().screenLayout &
 				Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
-			routingIntent = new Intent(this, TabletActivity.class);
+			routingIntent = new Intent(this, TabletAboutActivity.class);
 		}
 		else {
 			routingIntent = new Intent(this, PhoneSearchActivity.class);
