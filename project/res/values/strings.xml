@@ -225,10 +225,15 @@
 	<string name="bullet_point">•</string>
 	
 	<!--  Hotel Details Fragment -->
+	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
 	<string name="min_room_price_template">From %s</string>
+	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
 	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; from</string>
+	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> -->
 	<string name="reviews_recommended_template">Recommended by %1$d of %2$d guests</string>
+	<!--  Title for the amenities section in the hotel details fragment -->
 	<string name="amenities">Amenities</string>
+	<!--  Label for button to see all reviews as a modal dialog -->
 	<string name="see_all_reviews">See All Reviews</string>
 	<!-- Label for button that brings users to the room selection page -->
 	<string name="select_room">Select Room</string>
@@ -495,8 +500,11 @@
 	<string name="contact_phone_default_template">If you have questions about your reservation, please call Expedia.com at %1$s in the US/Canada or %2$s in Europe.</string>
 
 	<!--  Confirmation Fragment -->
+	<!-- Label to share booking information after a booking confirmation -->
 	<string name="share_booking_info">Share Stay Info</string>
+	<!-- Label to start a new search from a confirmation screen  -->
 	<string name="start_new_search">Start a New Search</string>
+	<!-- Label to view hotel in google maps to get directions from a confirmation screen -->
 	<string name="show_on_map">View Hotel on Map</string>
 	
 	<!-- Rate template strings -->
