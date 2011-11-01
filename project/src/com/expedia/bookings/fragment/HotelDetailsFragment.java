@@ -9,6 +9,7 @@ import java.util.PriorityQueue;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
@@ -16,6 +17,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Pair;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,7 +29,9 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelDescription.DescriptionSection;
 import com.expedia.bookings.data.Property;
@@ -75,6 +79,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private RatingBar mUserRating;
 	private ViewGroup mHotelDescriptionContainer;
 	private View mBookNowButton;
+	private View mSeeAllReviewsButton;
 
 	//----------------------------------
 	// OTHERS
@@ -102,6 +107,19 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mAmenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 		mBookNowButton = view.findViewById(R.id.book_now_button);
+		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
+
+		mSeeAllReviewsButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				ContextThemeWrapper contextWrapper = new ContextThemeWrapper(getActivity(), R.style.Theme_Light_Fullscreen_Preferences);
+				Intent i = new Intent(getActivity(), UserReviewsListActivity.class);
+				i.putExtra(Codes.PROPERTY, ((TabletActivity) getActivity()).getPropertyToDisplay().toJson().toString());
+				i.putExtra(Codes.DISPLAY_MODAL_VIEW, true);
+				contextWrapper.startActivity(i);
+			}
+		});
 
 		mBookNowButton.setOnClickListener(new OnClickListener() {
 
@@ -237,7 +255,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 		if (mSummarizedRates.size() > 0) {
 			View minPriceRow = mInflater.inflate(R.layout.snippet_min_room_price_summary, null);
-			
+
 			TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
 			StyleSpan span = new StyleSpan(Typeface.BOLD);
 			String minPriceString = getString(R.string.min_room_price_template,
@@ -245,7 +263,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			Spannable str = new SpannableString(minPriceString);
 			str.setSpan(span, 0, minPriceString.length(), 0);
 			minPrice.setText(str);
-			
+
 			TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
 			if (Rate.showInclusivePrices()) {
 				perNighTextView.setVisibility(View.GONE);

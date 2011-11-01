@@ -11,6 +11,7 @@ import org.json.JSONException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -293,6 +294,11 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (getIntent().getBooleanExtra(Codes.DISPLAY_MODAL_VIEW, false)) {
+			setTheme(R.style.Theme_Light_Fullscreen_Preferences);
+		}
+
 		setContentView(R.layout.activity_user_reviews_list);
 
 		mContext = getApplicationContext();

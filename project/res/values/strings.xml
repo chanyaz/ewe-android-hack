@@ -225,6 +225,7 @@
 	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; from</string>
 	<string name="reviews_recommended_template">Recommended by %1$d of %2$d guests</string>
 	<string name="amenities">Amenities</string>
+	<string name="see_all_reviews">See All Reviews</string>
 
 	<!-- Amenity strings -->
 	<!-- Business center amenity -->
