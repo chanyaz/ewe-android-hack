@@ -141,6 +141,10 @@
 	<string name="per_night">/night</string>
 	<!-- Label for red "sale" corner -->
 	<string name="sale_caps">SALE</string>
+	<!-- Label shown when a hotel has no user ratings -->
+	<string name="not_rated">Not Rated</string>
+	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
+	<string name="percent_off_template">%2.0f%% OFF</string>
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">Filter Results</string>
@@ -226,6 +230,8 @@
 	<string name="reviews_recommended_template">Recommended by %1$d of %2$d guests</string>
 	<string name="amenities">Amenities</string>
 	<string name="see_all_reviews">See All Reviews</string>
+	<!-- Label for button that brings users to the room selection page -->
+	<string name="select_room">Select Room</string>
 
 	<!-- Amenity strings -->
 	<!-- Business center amenity -->
