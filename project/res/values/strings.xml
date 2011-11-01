@@ -501,7 +501,7 @@
 
 	<!--  Confirmation Fragment -->
 	<!-- Label to share booking information after a booking confirmation -->
-	<string name="share_booking_info">Share Stay Info</string>
+	<string name="share_booking_info">Share Booking Info</string>
 	<!-- Label to start a new search from a confirmation screen  -->
 	<string name="start_new_search">Start a New Search</string>
 	<!-- Label to view hotel in google maps to get directions from a confirmation screen -->
