@@ -113,11 +113,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 			@Override
 			public void onClick(View v) {
-				ContextThemeWrapper contextWrapper = new ContextThemeWrapper(getActivity(), R.style.Theme_Light_Fullscreen_Preferences);
 				Intent i = new Intent(getActivity(), UserReviewsListActivity.class);
 				i.putExtra(Codes.PROPERTY, ((TabletActivity) getActivity()).getPropertyToDisplay().toJson().toString());
 				i.putExtra(Codes.DISPLAY_MODAL_VIEW, true);
-				contextWrapper.startActivity(i);
+				startActivity(i);
 			}
 		});
 
@@ -358,6 +357,19 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private void addHotelDescription(Property property) {
 		mHotelDescriptionContainer.removeAllViews();
 
+		LinearLayout column1 = new LinearLayout(getActivity());
+		column1.setOrientation(LinearLayout.VERTICAL);
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT);
+		lp.weight = 1;
+		column1.setLayoutParams(lp);
+
+		LinearLayout column2 = new LinearLayout(getActivity());
+		column2.setOrientation(LinearLayout.VERTICAL);
+		column2.setLayoutParams(lp);
+
+		mHotelDescriptionContainer.addView(column1);
+		mHotelDescriptionContainer.addView(column2);
+
 		String description = property.getDescriptionText();
 		HotelDescription hotelDescription = new HotelDescription(getActivity());
 
@@ -368,13 +380,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		int sectionCount = hotelDescription.getSections().size();
 		int tenDp = (int) Math.ceil(getActivity().getResources().getDisplayMetrics().density * 10);
 		for (int i = 0; sectionCount > 0; i++) {
-			LinearLayout row = new LinearLayout(getActivity());
-			row.setOrientation(LinearLayout.HORIZONTAL);
-			LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, 0);
-			rowParams.weight = 1;
-			row.setLayoutParams(rowParams);
-			row.setPadding(0, tenDp, 0, 0);
-			row.setWeightSum(2);
 
 			for (int j = 0; j < MAX_DESCRIPTION_SECTIONS_PER_ROW && sectionCount > 0; j++) {
 				DescriptionSection section = hotelDescription.getSections().get(
@@ -382,9 +387,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				ViewGroup descriptionSection = (ViewGroup) mInflater.inflate(
 						R.layout.snippet_hotel_description_section, null);
 
-				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT);
-				params.weight = 1;
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
+						LayoutParams.WRAP_CONTENT);
 				descriptionSection.setLayoutParams(params);
+				descriptionSection.setPadding(0, tenDp, 0, 0);
 
 				TextView descriptionTitle = (TextView) descriptionSection
 						.findViewById(R.id.title_description_text_view);
@@ -393,10 +399,14 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				TextView descriptionBody = (TextView) descriptionSection.findViewById(R.id.body_description_text_view);
 				descriptionBody.setText(section.description);
 
-				row.addView(descriptionSection);
+				if (i % 2 == 0) {
+					column1.addView(descriptionSection);
+				}
+				else {
+					column2.addView(descriptionSection);
+				}
 				sectionCount--;
 			}
-			mHotelDescriptionContainer.addView(row);
 		}
 
 	}
