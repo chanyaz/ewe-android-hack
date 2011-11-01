@@ -32,4 +32,7 @@
 	<color name="widget_text_color">#3d4552</color>
 
 	<color name="hotel_price_text_color">#064192</color>
+	
+    <color name="suggestion_bg">#f2f2f2</color>
+    <color name="suggestion_bg_pressed">#e0e0e0</color>
 </resources>
