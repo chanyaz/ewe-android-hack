@@ -907,8 +907,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 				}
 
 				if (response.hasErrors()) {
-					mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, response.getErrors().get(0)
-							.getPresentableMessage(mContext));
+					mInstance.mSearchStatus = response.getErrors().get(0).getPresentableMessage(TabletActivity.this);
+					mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, null);
 				}
 				else {
 					response.setFilter(mInstance.mFilter);

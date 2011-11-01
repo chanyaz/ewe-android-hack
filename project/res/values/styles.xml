@@ -29,7 +29,7 @@
 	</style>
 	
 	<style name="RatingBarSmall.Shadowed.Star.Light"/>
-
+	
 	<style name="RatingBarSmall.Shadowed.Star.Dark">
 		<item name="android:progressDrawable">@drawable/star_rating_dark</item>
 	</style>
@@ -44,6 +44,12 @@
 	</style>
 
 	<style name="RatingBarSmall.Shadowed.UserReview.Light"/>
+	
+	<style name="RatingBarSmall.Shadowed.UserReview.Gray">
+		<item name="android:progressDrawable">@drawable/user_rating_small_gray</item>
+		<item name="android:minHeight">14dip</item>
+		<item name="android:maxHeight">14dip</item>    
+	</style>
 	
 	<style name="RatingBarSmall.Shadowed.UserReview.Dark">
 		<item name="android:progressDrawable">@drawable/user_rating_dark</item>

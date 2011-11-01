@@ -170,10 +170,12 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	}
 
 	private void displaySearchError() {
-		SearchResponse response = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
-		mMessageTextView.setText(response.getErrors().get(0).getPresentableMessage(getActivity()));
-		setHeaderVisibility(View.GONE);
-		mAdapter.setSearchResponse(null);
+		if (mMessageTextView != null && mAdapter != null) {
+			SearchResponse response = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
+			mMessageTextView.setText(response.getErrors().get(0).getPresentableMessage(getActivity()));
+			setHeaderVisibility(View.GONE);
+			mAdapter.setSearchResponse(null);
+		}
 	}
 
 	private void updateSearchResults() {
