@@ -240,6 +240,14 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 	private void layoutAvailabilitySummary() {
 
+		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
+		if (property.getLowestRate().getSavingsPercent() > 0) {
+			mAvailabilitySummaryContainer.setBackgroundResource(R.drawable.bg_summarized_room_rates_sale);
+		}
+		else {
+			mAvailabilitySummaryContainer.setBackgroundResource(R.drawable.bg_summarized_room_rates);
+		}
+
 		if (mSummarizedRates.size() > 0) {
 			View minPriceRow = getView().findViewById(R.id.min_price_row_container);
 			TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
@@ -255,7 +263,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			Spannable str = new SpannableString(minPriceString);
 
 			str.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
-			str.setSpan(textColorSpan, startingIndexOfDisplayRate, startingIndexOfDisplayRate + displayRateString.length(), 0);
+			str.setSpan(textColorSpan, startingIndexOfDisplayRate,
+					startingIndexOfDisplayRate + displayRateString.length(), 0);
 			minPrice.setText(str);
 
 			TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
@@ -267,10 +276,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			}
 		}
 		mAvailabilityRatesContainer.removeAllViews();
-		
+
 		// first adding all rows since the rows will exist regardless of whether
 		// there are enough rooms available or not 
-		for(int i = 0;i < MAX_SUMMARIZED_RATE_RESULTS; i++) {
+		for (int i = 0; i < MAX_SUMMARIZED_RATE_RESULTS; i++) {
 			View summaryRow = mInflater.inflate(R.layout.snippet_availability_summary_row, null);
 			setHeightOfWeightOneForRow(summaryRow);
 			if (i == (MAX_SUMMARIZED_RATE_RESULTS - 1)) {
@@ -278,19 +287,19 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			}
 			mAvailabilityRatesContainer.addView(summaryRow);
 		}
-		
+
 		for (int i = 0; i < MAX_SUMMARIZED_RATE_RESULTS && i < mSummarizedRates.size(); i++) {
 			View summaryRow = mAvailabilityRatesContainer.getChildAt(i);
 			final Rate rate = mSummarizedRates.get(i).second;
-			
+
 			summaryRow.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					((TabletActivity) getActivity()).bookRoom(rate);
 				}
 			});
-			
+
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
 
