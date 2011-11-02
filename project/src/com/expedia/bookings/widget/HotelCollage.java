@@ -94,8 +94,12 @@ public class HotelCollage {
 	//////////////////////////////////////////////////////////////////////////
 	// Fades images in
 
-	private static final int FADE_TIME = 500;
-	private static final int FADE_PAUSE = 100;
+	// The amount of time the image takes to fade in (when it's loaded), in ms
+	private static final int FADE_TIME = 200;
+
+	// The pause between loading an image and starting to download the next one, in ms
+	// (FADE_TIME may be running at this point on a previous image)
+	private static final int FADE_PAUSE = 30;
 
 	private final OnImageLoaded mOnImageLoaded = new OnImageLoaded() {
 		public void onImageLoaded(String url, Bitmap bitmap) {
