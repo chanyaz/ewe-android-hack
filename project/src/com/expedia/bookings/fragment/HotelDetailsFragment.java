@@ -25,6 +25,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -239,7 +240,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	}
 
 	private void layoutAvailabilitySummary() {
-
 		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
 		boolean isPropertyOnSale = property.getLowestRate().getSavingsPercent() > 0;
 		if (isPropertyOnSale) {
@@ -306,10 +306,17 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			mAvailabilityRatesContainer.addView(summaryRow);
 		}
 
-		for (int i = 0; i < MAX_SUMMARIZED_RATE_RESULTS && i < mSummarizedRates.size(); i++) {
+		for (int i = 0; i < MAX_SUMMARIZED_RATE_RESULTS; i++) {
 			View summaryRow = mAvailabilityRatesContainer.getChildAt(i);
-			final Rate rate = mSummarizedRates.get(i).second;
+			ObjectAnimator animator = ObjectAnimator.ofFloat(summaryRow, "alpha", 0, 1);
+			animator.setDuration(350);
+			animator.start();
 
+			if (i > (mSummarizedRates.size() - 1)) {
+				continue;
+			}
+
+			final Rate rate = mSummarizedRates.get(i).second;
 			summaryRow.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -353,11 +360,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			}
 		});
 		mAvailabilityRatesContainer.addView(selectRoomContainer);
-
-		mAvailabilitySummaryContainer.setVisibility(View.VISIBLE);
-		ObjectAnimator animator = ObjectAnimator.ofFloat(mAvailabilitySummaryContainer, "alpha", 0, 1);
-		animator.setDuration(350);
-		animator.start();
 
 	}
 
