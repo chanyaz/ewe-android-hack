@@ -36,4 +36,5 @@
     <color name="suggestion_bg">#f2f2f2</color>
     <color name="suggestion_bg_pressed">#e0e0e0</color>
 	<color name="bg_hotel_details">#e3e4e6</color>
+	<color name="hotel_details_text_color">#494e54</color>
 </resources>

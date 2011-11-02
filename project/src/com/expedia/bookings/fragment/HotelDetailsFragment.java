@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -17,7 +18,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Pair;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -69,6 +69,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	//----------------------------------
 
 	private ViewGroup mAvailabilitySummaryContainer;
+	private ViewGroup mAvailabilityRatesContainer;
 	private TextView mEmptyAvailabilitySummaryTextView;
 	private TextView mHotelLocationTextView;
 	private TextView mHotelNameTextView;
@@ -78,7 +79,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private ViewGroup mAmenitiesContainer;
 	private RatingBar mUserRating;
 	private ViewGroup mHotelDescriptionContainer;
-	private View mBookNowButton;
 	private View mSeeAllReviewsButton;
 
 	//----------------------------------
@@ -99,6 +99,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mHotelLocationTextView = (TextView) view.findViewById(R.id.hotel_address_text_view);
 		mHotelRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
 		mAvailabilitySummaryContainer = (ViewGroup) view.findViewById(R.id.availability_summary_container);
+		mAvailabilityRatesContainer = (ViewGroup) view.findViewById(R.id.rates_container);
 		mEmptyAvailabilitySummaryTextView = (TextView) view.findViewById(R.id.empty_summart_container);
 		mCollageHandler = new HotelCollage(view, mPictureClickedListener);
 		mReviewsTitle = (TextView) view.findViewById(R.id.reviews_title);
@@ -106,7 +107,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mReviewsSection = (ViewGroup) view.findViewById(R.id.reviews_container);
 		mAmenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
-		mBookNowButton = view.findViewById(R.id.book_now_button);
 		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
 
 		mSeeAllReviewsButton.setOnClickListener(new OnClickListener() {
@@ -117,16 +117,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				i.putExtra(Codes.PROPERTY, ((TabletActivity) getActivity()).getPropertyToDisplay().toJson().toString());
 				i.putExtra(Codes.DISPLAY_MODAL_VIEW, true);
 				startActivity(i);
-			}
-		});
-
-		mBookNowButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// if the user just presses the book now button,
-				// default to giving the user the minimum rate available
-				((TabletActivity) getActivity()).bookRoom(mMinimumRateAvailable);
 			}
 		});
 
@@ -202,12 +192,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
 			showLoadingForRates();
 			clearOutData();
-			mBookNowButton.setEnabled(false);
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
 			mEmptyAvailabilitySummaryTextView.setText((String) data);
 			mAvailabilitySummaryContainer.setVisibility(View.GONE);
-			mBookNowButton.setEnabled(false);
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
 			mEmptyAvailabilitySummaryTextView.setVisibility(View.GONE);
@@ -237,7 +225,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	}
 
 	private void clearOutData() {
-		mAvailabilitySummaryContainer.removeAllViews();
 		mBedTypeToMinRateMap.clear();
 		mSummarizedRates.clear();
 		mAvailableDoubleBedTypes.clear();
@@ -253,8 +240,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private void layoutAvailabilitySummary() {
 
 		if (mSummarizedRates.size() > 0) {
-			View minPriceRow = mInflater.inflate(R.layout.snippet_min_room_price_summary, null);
-
+			View minPriceRow = getView().findViewById(R.id.min_price_row_container);
 			TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
 			StyleSpan span = new StyleSpan(Typeface.BOLD);
 			String minPriceString = getString(R.string.min_room_price_template,
@@ -270,11 +256,12 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			else {
 				perNighTextView.setVisibility(View.VISIBLE);
 			}
-			mAvailabilitySummaryContainer.addView(minPriceRow);
 		}
-
+		mAvailabilityRatesContainer.removeAllViews();
 		for (int i = 0; i < MAX_SUMMARIZED_RATE_RESULTS && i < mSummarizedRates.size(); i++) {
 			View summaryRow = mInflater.inflate(R.layout.snippet_availability_summary_row, null);
+			setHeightOfWeightOneForRow(summaryRow);
+			
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
 
@@ -286,10 +273,41 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 					break;
 				}
 			}
+			
+			if(i == (MAX_SUMMARIZED_RATE_RESULTS - 1) || i == (mSummarizedRates.size() - 1)) {
+				summaryRow.findViewById(R.id.divider).setVisibility(View.GONE);
+			}
+			
 			priceTextView.setText(StrUtils.formatHotelPrice(pair.second.getDisplayRate()));
-
-			mAvailabilitySummaryContainer.addView(summaryRow);
+			mAvailabilityRatesContainer.addView(summaryRow);
 		}
+
+		View selectRoomContainer = mInflater.inflate(R.layout.snippet_select_room_button, null);
+		setHeightOfWeightOneForRow(selectRoomContainer);
+		
+		View selectRoomButton = selectRoomContainer.findViewById(R.id.book_now_button);
+		selectRoomButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// if the user just presses the book now button,
+				// default to giving the user the minimum rate available
+				((TabletActivity) getActivity()).bookRoom(mMinimumRateAvailable);
+			}
+		});
+		mAvailabilityRatesContainer.addView(selectRoomContainer);
+		
+		mAvailabilitySummaryContainer.setVisibility(View.VISIBLE);
+		ObjectAnimator animator = ObjectAnimator.ofFloat(mAvailabilitySummaryContainer, "alpha", 0, 1);
+		animator.setDuration(350);
+		animator.start();
+
+	}
+	
+	private void setHeightOfWeightOneForRow(View view) {
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, 0);
+		lp.weight = 1;
+		view.setLayoutParams(lp);
 	}
 
 	private void updateSummarizedRates(AvailabilityResponse availabilityResponse) {
@@ -299,7 +317,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			clusterByBedType();
 			summarizeRates();
 			layoutAvailabilitySummary();
-			mBookNowButton.setEnabled(true);
+			mEmptyAvailabilitySummaryTextView.setVisibility(View.GONE);
+
 		}
 		else {
 			// since the data is not yet available,
