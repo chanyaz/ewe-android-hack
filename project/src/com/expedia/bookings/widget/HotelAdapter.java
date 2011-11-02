@@ -42,8 +42,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private boolean mShowDistance = true;
 	private boolean mIsSortedByUserRating = false;
 
-	private float mSaleTextSize;
-
 	private DistanceUnit mDistanceUnit;
 
 	private boolean mEnglish;
@@ -52,10 +50,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	public HotelAdapter(Context context) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		// Calculate the size of the sale text size
-		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(context.getString(R.string.sale_caps), 1, 11,
-				new TextPaint(), 25);
 
 		Locale locale = Locale.getDefault();
 		mEnglish = (locale != null && locale.getLanguage() != null && Locale.getDefault()
@@ -154,8 +148,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 			holder = new HotelViewHolder();
 			holder.thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail_image_view);
-			holder.saleImage = (ImageView) convertView.findViewById(R.id.sale_image_view);
-			holder.saleLabel = (TextView) convertView.findViewById(R.id.sale_text_view);
 			holder.name = (TextView) convertView.findViewById(R.id.name_text_view);
 			holder.from = (TextView) convertView.findViewById(R.id.from_text_view);
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
@@ -165,8 +157,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.hotelRating = (RatingBar) convertView.findViewById(R.id.hotel_rating_bar);
 			holder.userRating = (RatingBar) convertView.findViewById(R.id.user_rating_bar);
 			holder.distance = (TextView) convertView.findViewById(R.id.distance_text_view);
-
-			holder.saleLabel.setTextSize(mSaleTextSize);
 
 			holder.highlyRatedImage.setImageResource((mEnglish) ? R.drawable.ic_highly_rated_english
 					: R.drawable.ic_highly_rated);
@@ -195,13 +185,9 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 					mContext.getString(R.string.from_template,
 							StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
 					new StrikethroughTagHandler()));
-			holder.saleImage.setVisibility(View.VISIBLE);
-			holder.saleLabel.setVisibility(View.VISIBLE);
 		}
 		else {
 			holder.from.setText(R.string.from);
-			holder.saleImage.setVisibility(View.GONE);
-			holder.saleLabel.setVisibility(View.GONE);
 		}
 
 		holder.price.setText(StrUtils.formatHotelPrice(lowestRate.getDisplayRate()));
@@ -276,8 +262,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private static class HotelViewHolder {
 		public ImageView thumbnail;
-		public ImageView saleImage;
-		public TextView saleLabel;
 		public TextView name;
 		public TextView from;
 		public TextView price;

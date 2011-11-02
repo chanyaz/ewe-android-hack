@@ -147,8 +147,6 @@
 	<string name="from_template">From &lt;strike&gt;%s&lt;/strike&gt;</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/night</string>
-	<!-- Label for red "sale" corner -->
-	<string name="sale_caps">SALE</string>
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">Not Rated</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
