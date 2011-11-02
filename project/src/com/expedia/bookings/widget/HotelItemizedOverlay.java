@@ -23,10 +23,11 @@ import com.mobiata.android.widget.BalloonOverlayItem;
 
 public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
+	private static final int DEFAULT_PIN = R.drawable.map_pin_normal;
+
 	private static final int DEFAULT_SPAN = 1000000;
 	private Context mContext;
-	private Drawable mMarkerUnavailable;
-	private Drawable mMarkerHighlyRated;
+	private Drawable mMarkerSale;
 
 	private List<Property> mProperties;
 	private List<Property> mUnFilteredProperties;
@@ -44,7 +45,7 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
 	public HotelItemizedOverlay(Context context, List<Property> properties, boolean enableOnClick, MapView mapView,
 			OnBalloonTap onTap) {
-		super(boundCenterBottom(context.getResources().getDrawable(R.drawable.map_pin)), mapView);
+		super(boundCenterBottom(context.getResources().getDrawable(DEFAULT_PIN)), mapView);
 
 		if (properties == null) {
 			properties = new ArrayList<Property>();
@@ -54,14 +55,12 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 		mProperties = properties;
 		mOnClickEnabled = enableOnClick;
 		mOnBalloonTap = onTap;
-		mMarkerUnavailable = context.getResources().getDrawable(R.drawable.map_pin_gray);
-		mMarkerHighlyRated = context.getResources().getDrawable(R.drawable.map_pin_highly_rated);
+		mMarkerSale = context.getResources().getDrawable(R.drawable.map_pin_sale);
 		mTappedPropertyId = null;
 		populate();
 
-		boundCenterBottom(mMarkerUnavailable);
-		boundCenterBottom(mMarkerHighlyRated);
-		setBalloonBottomOffset(context.getResources().getDrawable(R.drawable.map_pin).getIntrinsicHeight());
+		boundCenterBottom(mMarkerSale);
+		setBalloonBottomOffset(context.getResources().getDrawable(DEFAULT_PIN).getIntrinsicHeight());
 
 		mDistanceUnit = DistanceUnit.getDefaultDistanceUnit();
 	}
@@ -145,11 +144,8 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 			overlayItem.setThumbnailUrl(property.getThumbnail().getUrl());
 		}
 
-		if (!property.isAvailable()) {
-			overlayItem.setMarker(mMarkerUnavailable);
-		}
-		else if (property.isHighlyRated()) {
-			overlayItem.setMarker(mMarkerHighlyRated);
+		if (property.getLowestRate().getSavingsPercent() > 0) {
+			overlayItem.setMarker(mMarkerSale);
 		}
 
 		return overlayItem;
