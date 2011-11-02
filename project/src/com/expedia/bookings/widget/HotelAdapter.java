@@ -2,7 +2,6 @@ package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import android.content.Context;
 import android.text.Html;
@@ -44,17 +43,14 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private DistanceUnit mDistanceUnit;
 
-	private boolean mEnglish;
-	private float mHighlyRatedTextSize;
+	private float mSaleTextSize;
 
 	public HotelAdapter(Context context) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		Locale locale = Locale.getDefault();
-		mEnglish = (locale != null && locale.getLanguage() != null && Locale.getDefault()
-				.getLanguage().toLowerCase().equals("en"));
-		mHighlyRatedTextSize = ViewUtils.getTextSizeForMaxLines(context.getString(R.string.highly_rated), 1, 10,
+		String testString = context.getString(R.string.percent_off_template, 100.0f);
+		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(testString, 1, 10,
 				new TextPaint(), 58);
 	}
 
@@ -152,16 +148,13 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.from = (TextView) convertView.findViewById(R.id.from_text_view);
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
 			holder.perNight = (TextView) convertView.findViewById(R.id.per_night_text_view);
-			holder.highlyRatedImage = (ImageView) convertView.findViewById(R.id.highly_rated_image_view);
-			holder.highlyRatedText = (TextView) convertView.findViewById(R.id.highly_rated_text_view);
+			holder.saleImage = (ImageView) convertView.findViewById(R.id.sale_image_view);
+			holder.saleText = (TextView) convertView.findViewById(R.id.sale_text_view);
 			holder.hotelRating = (RatingBar) convertView.findViewById(R.id.hotel_rating_bar);
 			holder.userRating = (RatingBar) convertView.findViewById(R.id.user_rating_bar);
 			holder.distance = (TextView) convertView.findViewById(R.id.distance_text_view);
 
-			holder.highlyRatedImage.setImageResource((mEnglish) ? R.drawable.ic_highly_rated_english
-					: R.drawable.ic_highly_rated);
-
-			holder.highlyRatedText.setTextSize(mHighlyRatedTextSize);
+			holder.saleText.setTextSize(mSaleTextSize);
 
 			convertView.setTag(holder);
 		}
@@ -179,15 +172,21 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		// We assume we have a lowest rate here; this may not be a safe assumption
 		Rate lowestRate = property.getLowestRate();
+		float savingsPercent = (float) lowestRate.getSavingsPercent();
 		// Detect if the property is on sale, if it is do special things
-		if (lowestRate.getSavingsPercent() > 0) {
+		if (savingsPercent > 0) {
 			holder.from.setText(Html.fromHtml(
 					mContext.getString(R.string.from_template,
 							StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
 					new StrikethroughTagHandler()));
+			holder.saleImage.setVisibility(View.VISIBLE);
+			holder.saleText.setVisibility(View.VISIBLE);
+			holder.saleText.setText(mContext.getString(R.string.percent_off_template, savingsPercent * 100));
 		}
 		else {
 			holder.from.setText(R.string.from);
+			holder.saleImage.setVisibility(View.GONE);
+			holder.saleText.setVisibility(View.GONE);
 		}
 
 		holder.price.setText(StrUtils.formatHotelPrice(lowestRate.getDisplayRate()));
@@ -229,18 +228,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.thumbnail.setImageResource(R.drawable.ic_row_thumb_placeholder);
 		}
 
-		// See if this property is highly rated via TripAdvisor
-		if (property.isHighlyRated()) {
-			holder.highlyRatedImage.setVisibility(View.VISIBLE);
-			if (!mEnglish) {
-				holder.highlyRatedText.setVisibility(View.VISIBLE);
-			}
-		}
-		else {
-			holder.highlyRatedImage.setVisibility(View.GONE);
-			holder.highlyRatedText.setVisibility(View.GONE);
-		}
-
 		return convertView;
 	}
 
@@ -266,8 +253,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		public TextView from;
 		public TextView price;
 		public TextView perNight;
-		public ImageView highlyRatedImage;
-		public TextView highlyRatedText;
+		public ImageView saleImage;
+		public TextView saleText;
 		public RatingBar hotelRating;
 		public RatingBar userRating;
 		public TextView distance;

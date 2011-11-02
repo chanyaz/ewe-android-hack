@@ -64,20 +64,20 @@
             android:textSize="11sp" />
 
         <ImageView
-            android:id="@+id/highly_rated_image_view"
+            android:id="@+id/sale_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingTop="2dp"
-            android:src="@drawable/ic_highly_rated_english"
+            android:src="@drawable/ic_highly_rated"
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/highly_rated_text_view"
+            android:id="@+id/sale_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/highly_rated_image_view"
+            android:layout_alignLeft="@+id/sale_image_view"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:gravity="left"
