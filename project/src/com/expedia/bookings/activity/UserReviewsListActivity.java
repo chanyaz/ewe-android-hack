@@ -296,7 +296,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		super.onCreate(savedInstanceState);
 
 		if (getIntent().getBooleanExtra(Codes.DISPLAY_MODAL_VIEW, false)) {
-			setTheme(R.style.Theme_Light_Fullscreen_Preferences);
+			setTheme(R.style.Theme_Light_Fullscreen_Panel);
 		}
 
 		setContentView(R.layout.activity_user_reviews_list);

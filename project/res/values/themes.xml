@@ -12,7 +12,7 @@
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
     </style>
 
-    <style name="Theme.Light.Fullscreen.Preferences" parent="@android:style/Theme.Light.NoTitleBar">
+    <style name="Theme.Light.Fullscreen.Panel" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

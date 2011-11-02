@@ -137,7 +137,7 @@ public class BookingInfoFragment extends DialogFragment {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.fragment_booking_info, null);
 		
-		Dialog dialog = new Dialog(getActivity(), R.style.Theme_Light_Fullscreen_Preferences);
+		Dialog dialog = new Dialog(getActivity(), R.style.Theme_Light_Fullscreen_Panel);
 		dialog.requestWindowFeature(STYLE_NO_TITLE);
 		dialog.setContentView(view);
 
