@@ -101,7 +101,7 @@
 
                 <!-- Min price available -->
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/min_price_row_container"
                     android:layout_width="wrap_content"
                     android:layout_height="40px"
@@ -111,17 +111,18 @@
                         android:id="@+id/min_price_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:layout_centerVertical="true"
                         android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/per_night_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:layout_toRightOf="@id/min_price_text_view"
+                        android:layout_alignBaseline="@id/min_price_text_view"
                         android:text="@string/per_night"
-                        android:textSize="20sp" />
-                </LinearLayout>
+                        android:textSize="16sp" />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/rates_container"
