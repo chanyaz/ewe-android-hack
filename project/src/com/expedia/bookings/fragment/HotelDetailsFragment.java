@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import android.R.color;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Fragment;
@@ -19,7 +18,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.text.style.TextAppearanceSpan;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -269,10 +267,28 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			}
 		}
 		mAvailabilityRatesContainer.removeAllViews();
-		for (int i = 0; i < MAX_SUMMARIZED_RATE_RESULTS && i < mSummarizedRates.size(); i++) {
+		
+		for(int i = 0;i < MAX_SUMMARIZED_RATE_RESULTS; i++) {
 			View summaryRow = mInflater.inflate(R.layout.snippet_availability_summary_row, null);
 			setHeightOfWeightOneForRow(summaryRow);
-
+			if (i == (MAX_SUMMARIZED_RATE_RESULTS - 1)) {
+				summaryRow.findViewById(R.id.divider).setVisibility(View.GONE);
+			}
+			mAvailabilityRatesContainer.addView(summaryRow);
+		}
+		
+		for (int i = 0; i < MAX_SUMMARIZED_RATE_RESULTS && i < mSummarizedRates.size(); i++) {
+			View summaryRow = mAvailabilityRatesContainer.getChildAt(i);
+			final Rate rate = mSummarizedRates.get(i).second;
+			
+			summaryRow.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					((TabletActivity) getActivity()).bookRoom(rate);
+				}
+			});
+			
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
 
@@ -285,12 +301,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				}
 			}
 
-			if (i == (MAX_SUMMARIZED_RATE_RESULTS - 1) || i == (mSummarizedRates.size() - 1)) {
-				summaryRow.findViewById(R.id.divider).setVisibility(View.GONE);
-			}
-
 			priceTextView.setText(StrUtils.formatHotelPrice(pair.second.getDisplayRate()));
-			mAvailabilityRatesContainer.addView(summaryRow);
 		}
 
 		View selectRoomContainer = mInflater.inflate(R.layout.snippet_select_room_button, null);
