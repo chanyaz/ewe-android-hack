@@ -257,18 +257,34 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			String minPriceString = getString(R.string.min_room_price_template, displayRateString);
 			int startingIndexOfDisplayRate = minPriceString.indexOf(displayRateString);
 
+			// style the minimum available price text
 			StyleSpan textStyleSpan = new StyleSpan(Typeface.BOLD);
 			ForegroundColorSpan textColorSpan = new ForegroundColorSpan(getResources().getColor(
 					R.color.hotel_price_text_color));
+			ForegroundColorSpan textWhiteColorSpan = new ForegroundColorSpan(getResources().getColor(
+					android.R.color.white));
+			ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(getResources().getColor(
+					android.R.color.black));
 
 			Spannable str = new SpannableString(minPriceString);
 
 			str.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
-			str.setSpan(textColorSpan, startingIndexOfDisplayRate,
-					startingIndexOfDisplayRate + displayRateString.length(), 0);
+
+			if (isPropertyOnSale) {
+				str.setSpan(textWhiteColorSpan, 0, minPriceString.length(), 0);
+			}
+			else {
+				str.setSpan(textColorSpan, startingIndexOfDisplayRate,
+						startingIndexOfDisplayRate + displayRateString.length(), 0);
+				str.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
+			}
+
 			minPrice.setText(str);
 
 			TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
+			perNighTextView.setTextColor(isPropertyOnSale ? getResources().getColor(android.R.color.white)
+					: getResources().getColor(android.R.color.black));
+
 			if (Rate.showInclusivePrices()) {
 				perNighTextView.setVisibility(View.GONE);
 			}
