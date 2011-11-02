@@ -68,7 +68,11 @@
 		<activity android:name=".activity.TabletAboutActivity" />
 
 		<activity android:name=".activity.ExpediaBookingPreferenceActivity" />
-		
+
+		<activity android:name=".activity.TabletPreferenceActivity"
+		     android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar"
+		     android:excludeFromRecents="true" />
+
 		<activity android:name=".activity.AppFeedbackActivity" 
 			android:windowSoftInputMode="adjustResize"/>
 			

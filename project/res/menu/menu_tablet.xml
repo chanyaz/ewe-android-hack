@@ -20,6 +20,11 @@
 			android:showAsAction="always|withText" />
 	</group>
 
+   	<item
+   	    android:id="@+id/menu_settings"
+   	    android:icon="@android:drawable/ic_menu_manage"
+   	    android:title="@string/Settings"/>
+
 	<item
 		android:id="@+id/menu_about"
 		android:title="@string/About"

@@ -112,6 +112,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public static final int EVENT_PROPERTY_INFO_QUERY_ERROR = 18;
 	public static final int EVENT_RATE_SELECTED = 19;
 	public static final int EVENT_NEXT_FROM_SECURITY_CODE = 20;
+	public static final int EVENT_SETTINGS_CHANGED = 21;
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_AVAILABILITY_SEARCH = "KEY_AVAILABILITY_SEARCH";
@@ -119,6 +120,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private static final String KEY_REVIEWS = "KEY_REVIEWS";
 	private static final String KEY_PROPERTY_INFO = "KEY_PROPERTY_INFO";
 	private static final String KEY_BOOKING = "KEY_BOOKING";
+
+	private static final int REQUEST_CODE_SETTINGS = 1;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Fragments
@@ -264,6 +267,20 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		super.onDestroy();
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		// Indicates that settings were changed - send out a broadcast
+		if (requestCode == REQUEST_CODE_SETTINGS && resultCode == RESULT_OK) {
+			Log.i("Detected currency settings change.");
+			if (getFragmentManager().getBackStackEntryCount() > 0) {
+				startSearch();
+			}
+			mEventManager.notifyEventHandlers(EVENT_SETTINGS_CHANGED, null);
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 
@@ -331,10 +348,16 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		case R.id.menu_filter:
 			showFilterDialog();
 			return true;
-		case R.id.menu_about:
+		case R.id.menu_settings: {
+			Intent intent = new Intent(this, TabletPreferenceActivity.class);
+			startActivityForResult(intent, REQUEST_CODE_SETTINGS);
+			return true;
+		}
+		case R.id.menu_about: {
 			Intent intent = new Intent(this, TabletAboutActivity.class);
 			startActivity(intent);
 			return true;
+		}
 		default:
 			return super.onOptionsItemSelected(item);
 		}
