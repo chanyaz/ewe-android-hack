@@ -268,6 +268,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		}
 		mAvailabilityRatesContainer.removeAllViews();
 		
+		// first adding all rows since the rows will exist regardless of whether
+		// there are enough rooms available or not 
 		for(int i = 0;i < MAX_SUMMARIZED_RATE_RESULTS; i++) {
 			View summaryRow = mInflater.inflate(R.layout.snippet_availability_summary_row, null);
 			setHeightOfWeightOneForRow(summaryRow);
