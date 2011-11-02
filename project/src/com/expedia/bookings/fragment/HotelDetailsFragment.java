@@ -241,7 +241,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private void layoutAvailabilitySummary() {
 
 		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
-		if (property.getLowestRate().getSavingsPercent() > 0) {
+		boolean isPropertyOnSale = property.getLowestRate().getSavingsPercent() > 0;
+		if (isPropertyOnSale) {
 			mAvailabilitySummaryContainer.setBackgroundResource(R.drawable.bg_summarized_room_rates_sale);
 		}
 		else {
@@ -282,6 +283,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		for (int i = 0; i < MAX_SUMMARIZED_RATE_RESULTS; i++) {
 			View summaryRow = mInflater.inflate(R.layout.snippet_availability_summary_row, null);
 			setHeightOfWeightOneForRow(summaryRow);
+
 			if (i == (MAX_SUMMARIZED_RATE_RESULTS - 1)) {
 				summaryRow.findViewById(R.id.divider).setVisibility(View.GONE);
 			}
@@ -313,6 +315,12 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			}
 
 			priceTextView.setText(StrUtils.formatHotelPrice(pair.second.getDisplayRate()));
+			if (isPropertyOnSale) {
+				priceTextView.setTextColor(getResources().getColor(R.color.hotel_price_sale_text_color));
+			}
+			else {
+				priceTextView.setTextColor(getResources().getColor(R.color.hotel_price_text_color));
+			}
 		}
 
 		View selectRoomContainer = mInflater.inflate(R.layout.snippet_select_room_button, null);
