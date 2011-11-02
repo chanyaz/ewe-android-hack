@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import android.R.color;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Fragment;
@@ -16,7 +17,9 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.text.style.TextAppearanceSpan;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -242,11 +245,19 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		if (mSummarizedRates.size() > 0) {
 			View minPriceRow = getView().findViewById(R.id.min_price_row_container);
 			TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
-			StyleSpan span = new StyleSpan(Typeface.BOLD);
-			String minPriceString = getString(R.string.min_room_price_template,
-					StrUtils.formatHotelPrice(mMinimumRateAvailable.getDisplayRate()));
+
+			String displayRateString = StrUtils.formatHotelPrice(mMinimumRateAvailable.getDisplayRate());
+			String minPriceString = getString(R.string.min_room_price_template, displayRateString);
+			int startingIndexOfDisplayRate = minPriceString.indexOf(displayRateString);
+
+			StyleSpan textStyleSpan = new StyleSpan(Typeface.BOLD);
+			ForegroundColorSpan textColorSpan = new ForegroundColorSpan(getResources().getColor(
+					R.color.hotel_price_text_color));
+
 			Spannable str = new SpannableString(minPriceString);
-			str.setSpan(span, 0, minPriceString.length(), 0);
+
+			str.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
+			str.setSpan(textColorSpan, startingIndexOfDisplayRate, startingIndexOfDisplayRate + displayRateString.length(), 0);
 			minPrice.setText(str);
 
 			TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
@@ -261,7 +272,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		for (int i = 0; i < MAX_SUMMARIZED_RATE_RESULTS && i < mSummarizedRates.size(); i++) {
 			View summaryRow = mInflater.inflate(R.layout.snippet_availability_summary_row, null);
 			setHeightOfWeightOneForRow(summaryRow);
-			
+
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
 
@@ -273,18 +284,18 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 					break;
 				}
 			}
-			
-			if(i == (MAX_SUMMARIZED_RATE_RESULTS - 1) || i == (mSummarizedRates.size() - 1)) {
+
+			if (i == (MAX_SUMMARIZED_RATE_RESULTS - 1) || i == (mSummarizedRates.size() - 1)) {
 				summaryRow.findViewById(R.id.divider).setVisibility(View.GONE);
 			}
-			
+
 			priceTextView.setText(StrUtils.formatHotelPrice(pair.second.getDisplayRate()));
 			mAvailabilityRatesContainer.addView(summaryRow);
 		}
 
 		View selectRoomContainer = mInflater.inflate(R.layout.snippet_select_room_button, null);
 		setHeightOfWeightOneForRow(selectRoomContainer);
-		
+
 		View selectRoomButton = selectRoomContainer.findViewById(R.id.book_now_button);
 		selectRoomButton.setOnClickListener(new OnClickListener() {
 
@@ -296,14 +307,14 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			}
 		});
 		mAvailabilityRatesContainer.addView(selectRoomContainer);
-		
+
 		mAvailabilitySummaryContainer.setVisibility(View.VISIBLE);
 		ObjectAnimator animator = ObjectAnimator.ofFloat(mAvailabilitySummaryContainer, "alpha", 0, 1);
 		animator.setDuration(350);
 		animator.start();
 
 	}
-	
+
 	private void setHeightOfWeightOneForRow(View view) {
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, 0);
 		lp.weight = 1;
