@@ -48,8 +48,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		String testString = context.getString(R.string.percent_off_template, 100.0f);
-		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(testString, 1, 10,
-				new TextPaint(), 58);
+		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(testString, 1, 10, new TextPaint(), 58);
 	}
 
 	public HotelAdapter(Context context, SearchResponse searchResponse) {
@@ -174,11 +173,15 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 					mContext.getString(R.string.from_template,
 							StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
 					new StrikethroughTagHandler()));
+			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
+			holder.saleImage.setVisibility(View.VISIBLE);
 			holder.saleText.setVisibility(View.VISIBLE);
 			holder.saleText.setText(mContext.getString(R.string.percent_off_template, savingsPercent * 100));
 		}
 		else {
 			holder.from.setText(R.string.from);
+			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_text_color));
+			holder.saleImage.setVisibility(View.GONE);
 			holder.saleText.setVisibility(View.GONE);
 		}
 
