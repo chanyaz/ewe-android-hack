@@ -105,18 +105,20 @@
                     android:id="@+id/min_price_row_container"
                     android:layout_width="wrap_content"
                     android:layout_height="40px"
-                    android:layout_gravity="center" >
+                    android:layout_gravity="center">
 
                     <TextView
                         android:id="@+id/min_price_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/per_night_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:text="@string/per_night"
                         android:textSize="20sp" />
                 </LinearLayout>
