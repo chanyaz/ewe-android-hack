@@ -87,12 +87,13 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (!isHidden() && isAdded()) {
 					String location = s.toString().trim();
+					TabletActivity activity = ((TabletActivity) getActivity());
 					if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
-						((TabletActivity) getActivity()).setMyLocationSearch();
+						activity.setMyLocationSearch();
 						configureSuggestions(null);
 					}
-					else {
-						((TabletActivity) getActivity()).setFreeformLocation(location);
+					else if (!location.equals(activity.getSearchParams().getFreeformLocation())) {
+						activity.setFreeformLocation(location);
 						configureSuggestions(location);
 					}
 				}
@@ -120,7 +121,8 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			suggestionsContainer.addView(suggestionRow);
 
 			if (a + 1 < NUM_SUGGESTIONS) {
-				suggestionsContainer.addView(inflater.inflate(R.layout.snippet_autocomplete_divider, container, false));
+				row.mDivider = inflater.inflate(R.layout.snippet_autocomplete_divider, container, false);
+				suggestionsContainer.addView(row.mDivider);
 			}
 		}
 
@@ -224,8 +226,23 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 	private static class SuggestionRow {
 		public ViewGroup mRow;
+		public View mDivider;
 		public ImageView mIcon;
 		public TextView mLocation;
+
+		public void setVisibility(int visibility) {
+			mIcon.setVisibility(visibility);
+			mLocation.setVisibility(visibility);
+
+			if (mDivider != null) {
+				if (visibility == View.VISIBLE) {
+					mDivider.setBackgroundResource(R.drawable.autocomplete_seperator);
+				}
+				else {
+					mDivider.setBackgroundResource(R.drawable.bg_suggestion);
+				}
+			}
+		}
 	}
 
 	private void configureSuggestions(final String query) {
@@ -235,6 +252,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		if (query == null || query.length() == 0) {
 			// Configure "my location" separately
 			SuggestionRow currentLocationRow = mSuggestionRows.get(0);
+			currentLocationRow.setVisibility(View.VISIBLE);
 			currentLocationRow.mRow.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					mLocationEditText.setText(R.string.current_location);
@@ -261,6 +279,8 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	}
 
 	private void configureSuggestionRow(SuggestionRow row, final String suggestion) {
+		row.setVisibility(View.VISIBLE);
+
 		row.mRow.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				mLocationEditText.setText(suggestion);
@@ -276,18 +296,19 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	private OnDownloadComplete mAutocompleteCallback = new OnDownloadComplete() {
 		public void onDownload(Object results) {
 			List<Suggestion> suggestions = (List<Suggestion>) results;
-			if (suggestions == null || suggestions.size() == 0) {
-				// TODO: Handle cases of zero suggestions
+			if (suggestions == null) {
+				suggestions = new ArrayList<Suggestion>();
 			}
-			else {
-				int numSuggestions = suggestions.size();
-				for (int a = 0; a < mSuggestionRows.size(); a++) {
-					if (a < numSuggestions) {
-						configureSuggestionRow(mSuggestionRows.get(a), suggestions.get(a).mSuggestion);
-					}
-					else {
-						mSuggestionRows.get(a).mRow.setVisibility(View.INVISIBLE);
-					}
+
+			int numSuggestions = suggestions.size();
+			for (int a = 0; a < mSuggestionRows.size(); a++) {
+				SuggestionRow row = mSuggestionRows.get(a);
+				if (a < numSuggestions) {
+					configureSuggestionRow(row, suggestions.get(a).mSuggestion);
+				}
+				else {
+					row.setVisibility(View.INVISIBLE);
+					row.mRow.setClickable(false);
 				}
 			}
 		}
