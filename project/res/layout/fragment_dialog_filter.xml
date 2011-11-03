@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
@@ -11,7 +12,8 @@
         android:gravity="center_vertical"
         android:hint="@string/filter_hotel_name_hint"
         android:singleLine="true"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        mobiata:touchAreaPadding="35dp" />
 
     <include
         android:id="@+id/radius_filter_button_group"
