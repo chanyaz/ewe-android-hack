@@ -57,7 +57,7 @@ public class SearchParams implements JSONable {
 		setDefaultStay();
 
 		// Setup default adults/children 
-		mNumAdults = 2;
+		mNumAdults = 1;
 		mNumChildren = 0;
 
 		// Setup default number of results
