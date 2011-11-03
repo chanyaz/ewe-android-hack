@@ -45,6 +45,7 @@ public class InstanceFragment extends Fragment {
 	public Session mSession;
 	public String mSearchStatus;
 	public SearchResponse mSearchResponse;
+	public boolean mShowDistance;
 	public Filter mFilter;
 	public Property mProperty;
 	public Rate mRate;

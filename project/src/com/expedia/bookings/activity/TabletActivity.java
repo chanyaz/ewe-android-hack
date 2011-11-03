@@ -71,6 +71,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
+import com.expedia.bookings.utils.SearchUtils;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.mobiata.android.BackgroundDownloader;
@@ -672,6 +673,10 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		return mInstance.mSearchResponse;
 	}
 
+	public boolean showDistance() {
+		return mInstance.mShowDistance;
+	}
+
 	public AvailabilityResponse getRoomsAndRatesAvailability() {
 		return mInstance.mAvailabilityResponses.get(mInstance.mProperty.getPropertyId());
 	}
@@ -886,6 +891,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 		setLatLng(address.getLatitude(), address.getLongitude());
 
+		mInstance.mShowDistance = SearchUtils.isExactLocation(address);
+
 		startSearchDownloader();
 	}
 
@@ -895,6 +902,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	public void onMyLocationFound(Location location) {
 		setLatLng(location.getLatitude(), location.getLongitude());
+		mInstance.mShowDistance = true;
 		startSearchDownloader();
 	}
 

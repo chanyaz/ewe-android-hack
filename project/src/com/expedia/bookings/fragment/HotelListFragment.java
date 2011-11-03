@@ -179,7 +179,8 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	}
 
 	private void updateSearchResults() {
-		SearchResponse response = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
+		TabletActivity activity = ((TabletActivity) getActivity());
+		SearchResponse response = activity.getSearchResultsToDisplay();
 		mAdapter.setSearchResponse(response);
 
 		if (response.getPropertiesCount() == 0) {
@@ -194,7 +195,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 			updateNumHotels();
 			updateSortLabel(response);
 			setHeaderVisibility(View.VISIBLE);
-
+			mAdapter.setShowDistance(activity.showDistance());
 		}
 	}
 

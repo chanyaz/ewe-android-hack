@@ -145,15 +145,21 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		// and if there are overlay items to show on the map
 		SearchResponse searchResponse = activity.getSearchResultsToDisplay();
 		if (mHotelOverlay != null && mMapView != null && searchResponse != null) {
+			mHotelOverlay.setShowDistance(activity.showDistance());
 			mHotelOverlay.setProperties(searchResponse);
 			mMapView.invalidate();
 		}
 
-		// Only show exact location overlay if we have a search lat/lng
+		// Only show exact location overlay if we have a search lat/lng, and we're showing distance
 		SearchParams params = activity.getSearchParams();
-		if (params.hasSearchLatLon() && mExactLocationOverlay != null) {
-			mExactLocationOverlay.setExactLocation(params.getSearchLatitude(), params.getSearchLongitude(),
-					params.getSearchDisplayText(activity));
+		if (mExactLocationOverlay != null) {
+			if (params.hasSearchLatLon() && activity.showDistance()) {
+				mExactLocationOverlay.setExactLocation(params.getSearchLatitude(), params.getSearchLongitude(),
+						params.getSearchDisplayText(activity));
+			}
+			else {
+				mExactLocationOverlay.setExactLocation(0, 0, null);
+			}
 		}
 	}
 

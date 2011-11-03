@@ -103,6 +103,7 @@ import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
@@ -2505,7 +2506,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private void determineWhetherExactLocationSpecified(Address location) {
 		Log.d("determineWhetherExactLocationSpecified(): " + location);
 
-		if (location != null && location.getThoroughfare() != null) {
+		if (SearchUtils.isExactLocation(location)) {
 			setShowDistance(true);
 
 			showExactLocation(location.getLatitude(), location.getLongitude(), StrUtils.removeUSAFromAddress(location));
