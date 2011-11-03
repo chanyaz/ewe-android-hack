@@ -144,7 +144,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.from = (TextView) convertView.findViewById(R.id.from_text_view);
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
 			holder.perNight = (TextView) convertView.findViewById(R.id.per_night_text_view);
-			holder.saleImage = (ImageView) convertView.findViewById(R.id.sale_image_view);
 			holder.saleText = (TextView) convertView.findViewById(R.id.sale_text_view);
 			holder.userRating = (RatingBar) convertView.findViewById(R.id.user_rating_bar);
 			holder.notRatedText = (TextView) convertView.findViewById(R.id.not_rated_text_view);
@@ -175,13 +174,11 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 					mContext.getString(R.string.from_template,
 							StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
 					new StrikethroughTagHandler()));
-			holder.saleImage.setVisibility(View.VISIBLE);
 			holder.saleText.setVisibility(View.VISIBLE);
 			holder.saleText.setText(mContext.getString(R.string.percent_off_template, savingsPercent * 100));
 		}
 		else {
 			holder.from.setText(R.string.from);
-			holder.saleImage.setVisibility(View.GONE);
 			holder.saleText.setVisibility(View.GONE);
 		}
 
@@ -243,7 +240,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		public TextView from;
 		public TextView price;
 		public TextView perNight;
-		public ImageView saleImage;
 		public TextView saleText;
 		public RatingBar userRating;
 		public TextView notRatedText;
