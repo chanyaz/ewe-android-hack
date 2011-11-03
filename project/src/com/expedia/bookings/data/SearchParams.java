@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TimeZone;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,10 +37,6 @@ public class SearchParams implements JSONable {
 	private double mSearchLatitude;
 	private double mSearchLongitude;
 	private boolean mSearchLatLonUpToDate;
-
-	private double mUserLatitude;
-	private double mUserLongitude;
-	private boolean mUserLatLonUpToDate;
 
 	// This is used in our geocoding disambiguation; it prevents infinite disambiguation
 	private String mDestinationId;
@@ -277,24 +272,6 @@ public class SearchParams implements JSONable {
 
 	public boolean hasSearchLatLon() {
 		return mSearchLatLonUpToDate;
-	}
-
-	public void setUserLatLon(double latitude, double longitude) {
-		this.mUserLatitude = latitude;
-		this.mUserLongitude = longitude;
-		mUserLatLonUpToDate = true;
-	}
-
-	public double getUserLatitude() {
-		return mUserLatitude;
-	}
-
-	public double getUserLongitude() {
-		return mUserLongitude;
-	}
-
-	public boolean hasUserLatLon() {
-		return mUserLatLonUpToDate;
 	}
 
 	public boolean fromJson(JSONObject obj) {
