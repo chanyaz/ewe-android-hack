@@ -51,7 +51,7 @@ public class InstanceFragment extends Fragment {
 	public String mPropertyInfoStatus;
 	public PropertyInfoResponse mPropertyInfoResponse;
 	public Map<String, AvailabilityResponse> mAvailabilityResponses = new HashMap<String, AvailabilityResponse>();
-	public ReviewsResponse mReviewsResponse;
+	public Map<Integer, ReviewsResponse> mReviewsResponses = new HashMap<Integer, ReviewsResponse>();
 	public BookingResponse mBookingResponse;
 
 	// The data that the user has entered for billing info

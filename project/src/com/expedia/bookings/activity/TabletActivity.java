@@ -677,7 +677,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	}
 
 	public ReviewsResponse getReviewsForProperty() {
-		return mInstance.mReviewsResponse;
+		return mInstance.mReviewsResponses.get(mInstance.mProperty.getExpediaPropertyId());
 	}
 
 	public PropertyInfoResponse getInfoForProperty() {
@@ -791,6 +791,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		mInstance.mSearchResponse = null;
 		mInstance.mFilter.setOnDataListener(null);
 		mInstance.mAvailabilityResponses.clear();
+		mInstance.mReviewsResponses.clear();
 
 		// Reset the filter on each search
 		mInstance.mFilter.reset();
@@ -989,7 +990,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			return services.availability(mInstance.mSearchParams, mInstance.mProperty);
 		}
 	};
-	
+
 	private OnDownloadComplete mRoomAvailabilityCallback = new OnDownloadComplete() {
 		public void onDownload(Object results) {
 			AvailabilityResponse availabilityResponse = (AvailabilityResponse) results;
@@ -1053,6 +1054,11 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	// Hotel Reviews
 
 	private void startReviewsDownload() {
+		// Don't download the reviews if we already have them
+		if (getReviewsForProperty() != null) {
+			return;
+		}
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_REVIEWS);
 		bd.startDownload(KEY_REVIEWS, mReviewsDownload, mReviewsCallback);
@@ -1073,17 +1079,18 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 		@Override
 		public void onDownload(Object results) {
-			mInstance.mReviewsResponse = (ReviewsResponse) results;
+			ReviewsResponse reviewResponse = (ReviewsResponse) results;
+			mInstance.mReviewsResponses.put(mInstance.mProperty.getExpediaPropertyId(), reviewResponse);
 
 			if (results == null) {
 				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, null);
 			}
-			else if (mInstance.mReviewsResponse.hasErrors()) {
-				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, mInstance.mReviewsResponse.getErrors()
+			else if (reviewResponse.hasErrors()) {
+				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, reviewResponse.getErrors()
 						.get(0).getPresentableMessage(mContext));
 			}
 			else {
-				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_COMPLETE, mInstance.mReviewsResponse);
+				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_COMPLETE, reviewResponse);
 			}
 		}
 	};
