@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -110,6 +111,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mAmenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
+
+		// Disable the scrollbar on the amenities HorizontalScrollView
+		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) view.findViewById(R.id.amenities_scroll_view);
+		amenitiesScrollView.setHorizontalScrollBarEnabled(false);
 
 		mSeeAllReviewsButton.setOnClickListener(new OnClickListener() {
 
