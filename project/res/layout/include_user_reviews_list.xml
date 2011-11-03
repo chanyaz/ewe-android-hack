@@ -37,46 +37,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:layout_below="@id/user_review_sort_group"
-		android:paddingBottom="@dimen/bottom_bar_height"
+		android:paddingBottom="@dimen/bottom_bar_padding"
 		android:layout_alignParentBottom="true">
 	</FrameLayout>
-	<!-- Bottom button bar -->
-	<RelativeLayout
-		android:layout_width="fill_parent"
-		android:layout_height="@dimen/bottom_bar_height"
-		android:layout_alignParentBottom="true"
-		android:background="#C000"
-		style="@android:style/ButtonBar">
-		<TextView
-			android:id="@+id/user_review_total_reviews"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:layout_centerVertical="true"
-			android:layout_marginLeft="8dp"
-			android:layout_marginRight="4dp"
-			android:textStyle="bold"
-			android:textColor="@color/user_reviews_text_color" />
-		<RatingBar 
-			android:id="@+id/user_review_rating_bar_bottom"
-			android:layout_height="wrap_content" 
-			android:layout_width="wrap_content"
-			android:layout_toRightOf="@id/user_review_total_reviews"
-			android:layout_centerVertical="true"
-			android:numStars="5" 
-			android:stepSize="0.5" 
-			android:isIndicator="true"
-			style="@style/RatingBarSmall.Shadowed.UserReview.Dark" />
-		<com.mobiata.android.widget.AutoResizeTextView
-			android:id="@+id/book_now_button"
-			android:layout_width="@dimen/header_button_width"
-			android:layout_height="@dimen/action_bar_button_height"
-			android:layout_alignParentRight="true"
-			android:layout_gravity="center_vertical|right"
-			android:maxLines="1"
-			android:textStyle="bold"
-			android:text="@string/book_now"
-			mobiata:maxTextSize="15dp"
-			style="@style/Widget.Button.Orange" />
-	</RelativeLayout>
 </RelativeLayout>

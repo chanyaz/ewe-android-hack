@@ -295,11 +295,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (getIntent().getBooleanExtra(Codes.DISPLAY_MODAL_VIEW, false)) {
-			setTheme(R.style.Theme_Light_Fullscreen_Panel);
-		}
-
-		setContentView(R.layout.activity_user_reviews_list);
+		setContentView(R.layout.activity_user_reviews);
 
 		mContext = getApplicationContext();
 		ViewGroup listsContainer = (ViewGroup) findViewById(R.id.lists_container);
@@ -419,15 +415,25 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		mFooterLoadingMore = (ViewGroup) mLayoutInflater.inflate(R.layout.footer_user_reviews_list_loading_more, null,
 				false);
 
-		// Configure the book now button
-		TextView bookNowButton = (TextView) findViewById(R.id.book_now_button);
-		bookNowButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				Intent newIntent = new Intent(mContext, RoomsAndRatesListActivity.class);
-				newIntent.fillIn(getIntent(), 0);
-				startActivity(newIntent);
-			}
-		});
+		View bottomBar = findViewById(R.id.bottom_bar);
+		if (bottomBar != null) {
+			// Configure the book now button
+			TextView bookNowButton = (TextView) findViewById(R.id.book_now_button);
+			bookNowButton.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					Intent newIntent = new Intent(mContext, RoomsAndRatesListActivity.class);
+					newIntent.fillIn(getIntent(), 0);
+					startActivity(newIntent);
+				}
+			});
+
+			TextView totalReviews = (TextView) findViewById(R.id.user_review_total_reviews);
+			totalReviews.setText(getResources().getQuantityString(R.plurals.number_of_reviews,
+					mProperty.getTotalReviews(), mProperty.getTotalReviews()));
+
+			RatingBar bottomRatingBar = (RatingBar) findViewById(R.id.user_review_rating_bar_bottom);
+			bottomRatingBar.setRating((float) mProperty.getAverageExpediaRating());
+		}
 	}
 
 	@Override
@@ -568,12 +574,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			thumbView.setImageResource(R.drawable.review_thumbs_down);
 		}
 		recommendText.setText(styledText);
-
-		TextView totalReviews = (TextView) findViewById(R.id.user_review_total_reviews);
-		totalReviews.setText(getResources().getQuantityString(R.plurals.number_of_reviews, numberTotal, numberTotal));
-
-		RatingBar bottomRatingBar = (RatingBar) findViewById(R.id.user_review_rating_bar_bottom);
-		bottomRatingBar.setRating((float) mProperty.getAverageExpediaRating());
 	}
 
 	// Scroll listener infinite loading implementation
