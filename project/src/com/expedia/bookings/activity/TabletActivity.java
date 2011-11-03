@@ -673,7 +673,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	}
 
 	public AvailabilityResponse getRoomsAndRatesAvailability() {
-		return mInstance.mAvailabilityResponse;
+		return mInstance.mAvailabilityResponses.get(mInstance.mProperty.getPropertyId());
 	}
 
 	public ReviewsResponse getReviewsForProperty() {
@@ -790,6 +790,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		// Remove existing search results (and references to it)
 		mInstance.mSearchResponse = null;
 		mInstance.mFilter.setOnDataListener(null);
+		mInstance.mAvailabilityResponses.clear();
 
 		// Reset the filter on each search
 		mInstance.mFilter.reset();
@@ -969,10 +970,10 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	// Hotel Details
 
 	private void startRoomsAndRatesDownload(Property property) {
-		mInstance.mProperty = property;
-
-		// clear out previous results
-		mInstance.mAvailabilityResponse = null;
+		// If we have rates cached, don't bother downloading
+		if (getRoomsAndRatesAvailability() != null) {
+			return;
+		}
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
@@ -988,10 +989,11 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			return services.availability(mInstance.mSearchParams, mInstance.mProperty);
 		}
 	};
-
+	
 	private OnDownloadComplete mRoomAvailabilityCallback = new OnDownloadComplete() {
 		public void onDownload(Object results) {
-			AvailabilityResponse availabilityResponse = mInstance.mAvailabilityResponse = (AvailabilityResponse) results;
+			AvailabilityResponse availabilityResponse = (AvailabilityResponse) results;
+			mInstance.mAvailabilityResponses.put(mInstance.mProperty.getPropertyId(), availabilityResponse);
 
 			if (availabilityResponse == null) {
 				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR,

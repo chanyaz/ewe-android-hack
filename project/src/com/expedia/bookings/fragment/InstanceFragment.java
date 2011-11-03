@@ -1,5 +1,8 @@
 package com.expedia.bookings.fragment;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.Fragment;
 
 import com.expedia.bookings.data.AvailabilityResponse;
@@ -47,10 +50,10 @@ public class InstanceFragment extends Fragment {
 	public Rate mRate;
 	public String mPropertyInfoStatus;
 	public PropertyInfoResponse mPropertyInfoResponse;
-	public AvailabilityResponse mAvailabilityResponse;
+	public Map<String, AvailabilityResponse> mAvailabilityResponses = new HashMap<String, AvailabilityResponse>();
 	public ReviewsResponse mReviewsResponse;
 	public BookingResponse mBookingResponse;
-	
+
 	// The data that the user has entered for billing info
 	public BillingInfo mBillingInfo;
 	public CreditCardType mCreditCardType;
