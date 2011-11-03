@@ -169,4 +169,15 @@
     </style>
     
     <style name="HotelDescriptionTitle"/>
+    
+    <style name="ConfirmationButtonLabel">
+        <item name="android:textColor">#232323</item> 
+        <item name="android:shadowColor">#8affffff</item>
+        <item name="android:shadowRadius">0.1</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
 </resources>
