@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance.DistanceUnit;
-import com.expedia.bookings.data.Filter.Sort;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -39,7 +38,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private boolean mIsMeasuring = false;
 	private boolean mShowDistance = true;
-	private boolean mIsSortedByUserRating = false;
 
 	private DistanceUnit mDistanceUnit;
 
@@ -76,8 +74,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			if (mCachedProperties.length == 0) {
 				TrackingUtils.trackErrorPage(mContext, "FilteredToZeroResults");
 			}
-
-			mIsSortedByUserRating = (mSearchResponse.getFilter().getSort() == Sort.RATING);
 
 			mDistanceUnit = mSearchResponse.getFilter().getDistanceUnit();
 
@@ -150,7 +146,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.perNight = (TextView) convertView.findViewById(R.id.per_night_text_view);
 			holder.saleImage = (ImageView) convertView.findViewById(R.id.sale_image_view);
 			holder.saleText = (TextView) convertView.findViewById(R.id.sale_text_view);
-			holder.hotelRating = (RatingBar) convertView.findViewById(R.id.hotel_rating_bar);
 			holder.userRating = (RatingBar) convertView.findViewById(R.id.user_rating_bar);
 			holder.notRatedText = (TextView) convertView.findViewById(R.id.not_rated_text_view);
 			holder.distance = (TextView) convertView.findViewById(R.id.distance_text_view);
@@ -199,22 +194,13 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.perNight.setVisibility(View.VISIBLE);
 		}
 
-		holder.hotelRating.setRating((float) property.getHotelRating());
 		holder.userRating.setRating((float) property.getAverageExpediaRating());
-		if (mIsSortedByUserRating) {
-			holder.hotelRating.setVisibility(View.INVISIBLE);
-			if (holder.userRating.getRating() == 0) {
-				holder.userRating.setVisibility(View.INVISIBLE);
-				holder.notRatedText.setVisibility(View.VISIBLE);
-			}
-			else {
-				holder.userRating.setVisibility(View.VISIBLE);
-				holder.notRatedText.setVisibility(View.GONE);
-			}
+		if (holder.userRating.getRating() == 0) {
+			holder.userRating.setVisibility(View.INVISIBLE);
+			holder.notRatedText.setVisibility(View.VISIBLE);
 		}
 		else {
-			holder.hotelRating.setVisibility(View.VISIBLE);
-			holder.userRating.setVisibility(View.INVISIBLE);
+			holder.userRating.setVisibility(View.VISIBLE);
 			holder.notRatedText.setVisibility(View.GONE);
 		}
 
@@ -259,7 +245,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		public TextView perNight;
 		public ImageView saleImage;
 		public TextView saleText;
-		public RatingBar hotelRating;
 		public RatingBar userRating;
 		public TextView notRatedText;
 		public TextView distance;

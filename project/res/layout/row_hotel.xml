@@ -91,35 +91,22 @@
             android:visibility="gone" />
 
         <RatingBar
-            android:id="@+id/hotel_rating_bar"
-            style="@style/RatingBarSmall.Shadowed.Star.Light"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/price_text_view"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:stepSize=".5"
-            android:visibility="invisible" />
-
-        <RatingBar
             android:id="@+id/user_rating_bar"
             style="@style/RatingBarSmall.Shadowed.UserReview.Light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/hotel_rating_bar"
             android:layout_below="@id/price_text_view"
             android:isIndicator="true"
             android:numStars="5"
-            android:stepSize=".5"
-            android:visibility="invisible" />
+            android:stepSize=".5" />
 
         <TextView
             android:id="@+id/not_rated_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/user_rating_bar"
             android:layout_alignLeft="@+id/user_rating_bar"
             android:layout_alignTop="@+id/user_rating_bar"
-            android:layout_alignBottom="@+id/user_rating_bar"
             android:gravity="center"
             android:text="@string/not_rated"
             android:textStyle="bold"
@@ -129,7 +116,7 @@
             android:id="@+id/distance_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/hotel_rating_bar"
+            android:layout_alignBottom="@+id/user_rating_bar"
             android:layout_alignParentRight="true"
             android:paddingRight="@dimen/right_padding_for_scroll_bar"
             android:textColor="@color/light_gray"
