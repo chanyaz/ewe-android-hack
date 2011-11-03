@@ -35,7 +35,8 @@
             android:singleLine="true"
             android:hint="@string/hint_search_location"
             android:paddingLeft="12dp"
-            android:paddingRight="12dp" />
+            android:paddingRight="12dp"
+            mobiata:touchAreaPadding="35dp" />
 
         <LinearLayout
             android:id="@+id/suggestions_layout"

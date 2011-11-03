@@ -55,6 +55,9 @@ public class CustomEditText extends EditText {
 	private boolean mUseClearFieldDrawable = true;
 	private int mErrorTextColorResId;
 
+	// The padding that allows you to touch the "clear" button at a greater area
+	private int mTouchAreaPadding;
+
 	/*
 	 * This textwatcher is responsible for 
 	 * dismissing the error when the user starts 
@@ -198,6 +201,7 @@ public class CustomEditText extends EditText {
 		mUseClearFieldDrawable = a.getBoolean(R.styleable.CustomEditText_useClearFieldDrawable, true);
 		mErrorTextColorResId = a.getResourceId(R.styleable.CustomEditText_errorTextColor,
 				android.R.attr.textColorPrimaryInverse);
+		mTouchAreaPadding = a.getDimensionPixelSize(R.styleable.CustomEditText_touchAreaPadding, 0);
 		addTextChangedListener(textWatcher);
 		setupTransparentRightDrawable();
 	}
@@ -381,9 +385,9 @@ public class CustomEditText extends EditText {
 			Rect rBounds = dr[2].getBounds();
 			int x = (int) event.getX();
 			int y = (int) event.getY();
-			if (x >= (this.getRight() - this.getLeft() - rBounds.width()) && x <= (this.getRight() - this.getLeft())
+			if (x >= this.getRight() - this.getLeft() - rBounds.width() - mTouchAreaPadding
+					&& x <= this.getRight() - this.getLeft() + mTouchAreaPadding
 					&& y >= 0 && y <= (this.getHeight())) {
-				//System.out.println("touch");
 				this.setText("");
 				event.setAction(MotionEvent.ACTION_CANCEL);//use this to prevent the keyboard from coming up
 				removeClearFieldButton();
@@ -467,7 +471,7 @@ public class CustomEditText extends EditText {
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		final TextView err = (TextView) inflater.inflate(R.layout.textview_hint, null);
 		err.setTextColor(getResources().getColor(mErrorTextColorResId));
-		
+
 		final float scale = getResources().getDisplayMetrics().density;
 		mCustomPopup = new ErrorPopup(err, (int) (200 * scale + 0.5f), (int) (50 * scale + 0.5f));
 		mCustomPopup.setFocusable(false);

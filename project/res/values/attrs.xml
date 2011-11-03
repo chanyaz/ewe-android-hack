@@ -17,7 +17,8 @@
 		clear field functionality set up as a right drawable -->
     	<attr name="useClearFieldDrawable" format="boolean"/>
     	<attr name="errorTextColor" format="reference"/>
+    	<!-- Defines how much extra area around the "X" allows touch (for clearing the content)  -->
+    	<attr name="touchAreaPadding" format="dimension"/>
     </declare-styleable>
-    
-	    
+
 </resources>
