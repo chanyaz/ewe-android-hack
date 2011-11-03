@@ -3,9 +3,9 @@
 <Button xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:id="@+id/confirm_booking_button"
+    style="@style/ConfirmationButtonLabel"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:maxLines="1"
-    android:text="@string/enter_booking_info"
     android:background="@drawable/btn_default_orange"
-    style="@style/ConfirmationButtonLabel" />
+    android:maxLines="1"
+    android:text="@string/enter_booking_info" />
