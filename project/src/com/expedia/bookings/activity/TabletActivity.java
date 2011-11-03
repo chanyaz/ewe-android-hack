@@ -791,6 +791,9 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		mInstance.mSearchResponse = null;
 		mInstance.mFilter.setOnDataListener(null);
 
+		// Reset the filter on each search
+		mInstance.mFilter.reset();
+
 		showResultsFragments();
 		mInstance.mSearchStatus = getString(R.string.loading_hotels);
 		mEventManager.notifyEventHandlers(EVENT_SEARCH_STARTED, null);

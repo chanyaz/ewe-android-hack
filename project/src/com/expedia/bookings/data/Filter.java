@@ -76,12 +76,7 @@ public class Filter implements JSONable {
 		mListeners = new HashSet<Filter.OnFilterChangedListener>();
 
 		// Setup default filters
-		mSearchRadius = SearchRadius.ALL;
-		mDistanceUnit = DistanceUnit.getDefaultDistanceUnit();
-		mPriceRange = PriceRange.ALL;
-		mMinStarRating = 0;
-		mHotelName = null;
-		mSort = Sort.POPULAR;
+		reset();
 	}
 
 	public Filter(JSONObject obj) {
@@ -90,6 +85,18 @@ public class Filter implements JSONable {
 		if (obj != null) {
 			fromJson(obj);
 		}
+	}
+
+	/**
+	 * Resets the filter to its default settings.  (Does not clear listeners.) 
+	 */
+	public void reset() {
+		mSearchRadius = SearchRadius.ALL;
+		mDistanceUnit = DistanceUnit.getDefaultDistanceUnit();
+		mPriceRange = PriceRange.ALL;
+		mMinStarRating = 0;
+		mHotelName = null;
+		mSort = Sort.POPULAR;
 	}
 
 	/**
