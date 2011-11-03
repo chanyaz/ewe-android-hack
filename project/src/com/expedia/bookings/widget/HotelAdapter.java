@@ -152,6 +152,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.saleText = (TextView) convertView.findViewById(R.id.sale_text_view);
 			holder.hotelRating = (RatingBar) convertView.findViewById(R.id.hotel_rating_bar);
 			holder.userRating = (RatingBar) convertView.findViewById(R.id.user_rating_bar);
+			holder.notRatedText = (TextView) convertView.findViewById(R.id.not_rated_text_view);
 			holder.distance = (TextView) convertView.findViewById(R.id.distance_text_view);
 
 			holder.saleText.setTextSize(mSaleTextSize);
@@ -204,14 +205,17 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.hotelRating.setVisibility(View.INVISIBLE);
 			if (holder.userRating.getRating() == 0) {
 				holder.userRating.setVisibility(View.INVISIBLE);
+				holder.notRatedText.setVisibility(View.VISIBLE);
 			}
 			else {
 				holder.userRating.setVisibility(View.VISIBLE);
+				holder.notRatedText.setVisibility(View.GONE);
 			}
 		}
 		else {
 			holder.hotelRating.setVisibility(View.VISIBLE);
 			holder.userRating.setVisibility(View.INVISIBLE);
+			holder.notRatedText.setVisibility(View.GONE);
 		}
 
 		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit));
@@ -257,6 +261,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		public TextView saleText;
 		public RatingBar hotelRating;
 		public RatingBar userRating;
+		public TextView notRatedText;
 		public TextView distance;
 	}
 

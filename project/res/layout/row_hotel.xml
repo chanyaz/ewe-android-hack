@@ -114,6 +114,18 @@
             android:visibility="invisible" />
 
         <TextView
+            android:id="@+id/not_rated_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/user_rating_bar"
+            android:layout_alignTop="@+id/user_rating_bar"
+            android:layout_alignBottom="@+id/user_rating_bar"
+            android:gravity="center"
+            android:text="@string/not_rated"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
             android:id="@+id/distance_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
