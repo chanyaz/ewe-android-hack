@@ -90,8 +90,9 @@ public class BookingInfoFragment extends DialogFragment {
 	private EditText mExpirationMonthEditText;
 	private EditText mExpirationYearEditText;
 	private EditText mSecurityCodeEditText;
-	private TextView mConfirmBookButton;
+	private View mConfirmBookButton;
 	private View mReceipt;
+	private View mCloseFormButton;
 
 	// Cached data from arrays
 	private String[] mCountryCodes;
@@ -100,7 +101,6 @@ public class BookingInfoFragment extends DialogFragment {
 	private ImageView mCreditCardImageView;
 	private TextView mSecurityCodeTipTextView;
 	private TextView mRulesRestrictionsTextView;
-	private ViewGroup mRulesRestrictionsLayout;
 	private CheckBox mRulesRestrictionsCheckbox;
 
 	// Validation
@@ -136,7 +136,7 @@ public class BookingInfoFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.fragment_booking_info, null);
-		
+
 		Dialog dialog = new Dialog(getActivity(), R.style.Theme_Light_Fullscreen_Panel);
 		dialog.requestWindowFeature(STYLE_NO_TITLE);
 		dialog.setContentView(view);
@@ -164,9 +164,9 @@ public class BookingInfoFragment extends DialogFragment {
 		mSecurityCodeTipTextView = (TextView) view.findViewById(R.id.security_code_tip_text_view);
 		mRulesRestrictionsCheckbox = (CheckBox) view.findViewById(R.id.rules_restrictions_checkbox);
 		mRulesRestrictionsTextView = (TextView) view.findViewById(R.id.rules_restrictions_text_view);
-		mRulesRestrictionsLayout = (ViewGroup) view.findViewById(R.id.rules_restrictions_layout);
-		mConfirmBookButton = (TextView) view.findViewById(R.id.confirm_book_button);
+		mConfirmBookButton = view.findViewById(R.id.confirm_book_button);
 		mReceipt = view.findViewById(R.id.receipt);
+		mCloseFormButton = view.findViewById(R.id.close_booking_form);
 
 		// Retrieve some data we keep using
 		Resources r = getResources();
@@ -183,7 +183,7 @@ public class BookingInfoFragment extends DialogFragment {
 			if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
 				expandGuestsForm(false);
 			}
-			
+
 			if (!mBookingInfoValidation.isBillingSectionCompleted()) {
 				expandBillingForm(false);
 			}
@@ -423,6 +423,19 @@ public class BookingInfoFragment extends DialogFragment {
 
 			}
 		});
+
+		mCloseFormButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				syncBillingInfo();
+				saveBillingInfo();
+				((TabletActivity) getActivity()).getBookingInfoValidation().checkBookingSectionsCompleted(
+						mValidationProcessor);
+				dismiss();
+			}
+		});
+
 		// Setup the correct text (and link enabling) on the terms & conditions textview
 		mRulesRestrictionsTextView.setText(RulesRestrictionsUtils.getRulesRestrictionsConfirmation(getActivity()));
 		mRulesRestrictionsTextView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -505,7 +518,8 @@ public class BookingInfoFragment extends DialogFragment {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
 					mFormHasBeenFocused = true;
-				} else {
+				}
+				else {
 					saveBillingInfo();
 
 					((TabletActivity) getActivity()).getBookingInfoValidation().checkBookingSectionsCompleted(

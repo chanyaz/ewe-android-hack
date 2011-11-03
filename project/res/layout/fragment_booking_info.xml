@@ -19,37 +19,64 @@
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="8"
-            android:background="@color/bg_default"
+            android:background="@drawable/bg_booking_info_dialog"
             android:orientation="vertical" >
+
+            <!--
+                  Header Bar 
+            	  NOTE: Using a defined height since the header in the 9patch
+            	  is not stretchable and is 60px tall
+            -->
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_height="60px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
                     android:text="@string/booking_information_dialog_title"
                     android:textColor="#545454"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <LinearLayout
                     android:id="@+id/confirm_book_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/book_now"
-                    android:textSize="18sp" />
-            </RelativeLayout>
+                    android:layout_toLeftOf="@+id/close_booking_form"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:orientation="horizontal" >
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/two_pixels"
-                android:background="@color/dark_gray" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_action_book" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/close_booking_form"
+                        android:paddingLeft="5dp"
+                        android:text="@string/book_now"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/close_booking_form"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/btn_sort_normal"
+                    android:paddingLeft="12dp"
+                    android:src="@drawable/ic_action_close" />
+            </RelativeLayout>
 
             <ScrollView
                 android:layout_width="fill_parent"
@@ -68,8 +95,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:paddingRight="10dp"
-                        android:orientation="vertical" >
+                        android:orientation="vertical"
+                        android:paddingRight="10dp" >
 
                         <include
                             android:layout_width="wrap_content"
