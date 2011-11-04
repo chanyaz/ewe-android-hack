@@ -41,6 +41,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:singleLine="true"
+                    android:paddingBottom="5dp"
                     android:textColor="@color/hotel_details_text_color"
                     android:textSize="16sp" />
 
