@@ -30,7 +30,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="20dp"
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textColor="@color/hotel_details_text_color" />
@@ -63,7 +62,7 @@
             android:gravity="right"
             android:weightSum="3" >
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/availability_summary_container"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
@@ -78,7 +77,8 @@
                     android:id="@+id/min_price_row_container"
                     android:layout_width="wrap_content"
                     android:layout_height="40px"
-                    android:layout_gravity="center" >
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" >
 
                     <TextView
                         android:id="@+id/min_price_text_view"
@@ -101,15 +101,25 @@
                     android:id="@+id/rates_container"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
+                    android:layout_below="@+id/min_price_row_container"
                     android:orientation="vertical" />
+
+                <ProgressBar
+                    android:id="@+id/rates_progress_bar"
+                    style="@android:style/Widget.ProgressBar.Inverse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:indeterminate="true" />
 
                 <TextView
                     android:id="@+id/empty_summart_container"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1" />
-            </LinearLayout>
+                    android:paddingTop="10dp"
+                    android:layout_below="@+id/rates_progress_bar"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout

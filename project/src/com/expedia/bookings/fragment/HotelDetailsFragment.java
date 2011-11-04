@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -81,6 +82,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private RatingBar mUserRating;
 	private ViewGroup mHotelDescriptionContainer;
 	private View mSeeAllReviewsButton;
+	private ProgressBar mRatesProgressBar;
 
 	//----------------------------------
 	// OTHERS
@@ -108,6 +110,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mAmenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
+		mRatesProgressBar = (ProgressBar) view.findViewById(R.id.rates_progress_bar);
 
 		// Disable the scrollbar on the amenities HorizontalScrollView
 		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) view.findViewById(R.id.amenities_scroll_view);
@@ -198,12 +201,15 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			clearOutData();
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
+			mEmptyAvailabilitySummaryTextView.setVisibility(View.VISIBLE);
+			mRatesProgressBar.setVisibility(View.GONE);
 			mEmptyAvailabilitySummaryTextView.setText((String) data);
-			mAvailabilitySummaryContainer.setVisibility(View.GONE);
+			mAvailabilityRatesContainer.setVisibility(View.GONE);
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
 			mEmptyAvailabilitySummaryTextView.setVisibility(View.GONE);
-			mAvailabilitySummaryContainer.setVisibility(View.VISIBLE);
+			mRatesProgressBar.setVisibility(View.GONE);
+			mAvailabilityRatesContainer.setVisibility(View.VISIBLE);
 			updateSummarizedRates((AvailabilityResponse) data);
 			break;
 		case TabletActivity.EVENT_PROPERTY_SELECTED:
@@ -224,8 +230,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 	private void showLoadingForRates() {
 		mEmptyAvailabilitySummaryTextView.setVisibility(View.VISIBLE);
+		mRatesProgressBar.setVisibility(View.VISIBLE);
 		mEmptyAvailabilitySummaryTextView.setText(getString(R.string.room_rates_loading));
-		mAvailabilitySummaryContainer.setVisibility(View.GONE);
+		mAvailabilityRatesContainer.setVisibility(View.GONE);
 	}
 
 	private void clearOutData() {
@@ -379,7 +386,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			summarizeRates();
 			layoutAvailabilitySummary();
 			mEmptyAvailabilitySummaryTextView.setVisibility(View.GONE);
-
+			mRatesProgressBar.setVisibility(View.GONE);
 		}
 		else {
 			// since the data is not yet available,
