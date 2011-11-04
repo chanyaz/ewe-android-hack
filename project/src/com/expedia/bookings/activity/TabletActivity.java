@@ -427,7 +427,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			FragmentTransaction ft = fm.beginTransaction();
 			addStandardAnimation(ft);
 			ft.add(R.id.fragment_search_params, SearchParamsFragment.newInstance(), TAG_SEARCH_PARAMS);
-			ft.add(R.id.fragment_quick_search, QuickSearchFragment.newInstance(), TAG_QUICK_SEARCH);
 			ft.commit();
 		}
 	}
@@ -440,7 +439,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			ft.add(R.id.fragment_hotel_list, HotelListFragment.newInstance(), TAG_HOTEL_LIST);
 			ft.add(R.id.fragment_hotel_map, HotelMapFragment.newInstance(), TAG_HOTEL_MAP);
 			ft.remove(fm.findFragmentByTag(TAG_SEARCH_PARAMS));
-			ft.remove(fm.findFragmentByTag(TAG_QUICK_SEARCH));
 			ft.addToBackStack(BACKSTACK_RESULTS);
 			ft.commit();
 		}

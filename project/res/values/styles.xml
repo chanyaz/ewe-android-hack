@@ -88,6 +88,10 @@
         <item name="android:shadowDy">1</item>
     </style>
 
+    <style name="Widget.Button.Yellow.Search">
+        <item name="android:background">@drawable/btn_search_hotels</item>
+    </style>
+
     <style name="Widget.Button.Yellow.Confirmation">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
@@ -184,5 +188,14 @@
     </style>
 
     <style name="HotelDescriptionTitle" />
+
+    <style name="InstructionText">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">19dp</item>
+    </style>
 
 </resources>

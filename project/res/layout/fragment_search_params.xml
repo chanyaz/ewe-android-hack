@@ -3,8 +3,8 @@
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#e9e9eb"
-    android:orientation="horizontal" >
+    android:background="@drawable/bg_caesarspalace"
+    android:orientation="vertical" >
 
     <!-- This is a dummy View to keep the EditText from first grabbing focus -->
 
@@ -14,181 +14,232 @@
         android:focusable="true"
         android:focusableInTouchMode="true" />
 
-    <!-- Search location fields -->
+    <!-- Instructions at top of page -->
 
     <LinearLayout
-        android:id="@+id/location_layout"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="37dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="37dp"
-        android:layout_weight="1"
-        android:orientation="vertical" >
+        android:layout_width="fill_parent"
+        android:layout_height="56dp"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingBottom="6dp" >
 
-        <com.expedia.bookings.widget.CustomEditText
-            android:id="@+id/location_edit_text"
-            android:layout_width="fill_parent"
-            android:layout_height="52dp"
-            android:background="@drawable/bg_large_text_box"
-            android:hint="@string/hint_search_location"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:singleLine="true"
-            mobiata:touchAreaPadding="35dp" />
+        <TextView
+            style="@style/InstructionText"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="25dp"
+            android:text="@string/where_are_you_going" />
 
-        <LinearLayout
-            android:id="@+id/suggestions_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="#a3a3a3"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/one_pixel"
-            android:paddingLeft="@dimen/one_pixel"
-            android:paddingRight="@dimen/one_pixel" />
+        <TextView
+            style="@style/InstructionText"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:text="@string/drag_to_extend_your_stay" />
+
+        <TextView
+            style="@style/InstructionText"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:text="@string/who_is_going" />
     </LinearLayout>
 
-    <!-- Checkin/checkout fields -->
-
-    <FrameLayout
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_margin="30dp"
-        android:layout_weight="1"
-        android:background="@drawable/bg_calendar" >
-
-        <com.mobiata.android.widget.CalendarDatePicker
-            android:id="@+id/dates_date_picker"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            mobiata:cellBackground="@drawable/bg_calendar_cell"
-            mobiata:cellTextColor="@color/cell_text"
-            mobiata:drawGridLines="false"
-            mobiata:headerBackground="@color/calendar_header"
-            mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell"
-            mobiata:otherMonthCellTextColor="@color/cell_text_other_month"
-            mobiata:popupBackground="@drawable/calendar_date_picker_popup"
-            mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
-            mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
-            mobiata:todayCellBackground="@drawable/bg_calendar_cell_today" />
-    </FrameLayout>
-
-    <!-- Number of adults/kids, plus search button -->
+    <!-- User input params -->
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="33dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="33dp"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:orientation="horizontal"
+        android:paddingBottom="32dp"
+        android:paddingTop="4dp" >
+
+        <!-- Search location fields -->
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
+            android:id="@+id/location_layout"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="7dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="14dp"
-                android:scaleType="center"
-                android:src="@drawable/ic_adults" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical" >
-
-                <!--
-                     This needs to be wrapped because the default NumberPicker covers the whole bg (ignores
-                	the content space of the bg
-                -->
-
-                <FrameLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_counter" >
-
-                    <NumberPicker
-                        android:id="@+id/adults_number_picker"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:textSize="14dp" />
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/adults"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="14dp"
-                android:layout_marginLeft="20dp"
-                android:scaleType="center"
-                android:src="@drawable/ic_children" />
+            <com.expedia.bookings.widget.CustomEditText
+                android:id="@+id/location_edit_text"
+                android:layout_width="fill_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/bg_large_text_box"
+                android:hint="@string/hint_search_location"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:singleLine="true"
+                mobiata:touchAreaPadding="35dp" />
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:id="@+id/suggestions_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical" >
-
-                <!--
-                     This needs to be wrapped because the default NumberPicker covers the whole bg (ignores
-                	the content space of the bg
-                -->
-
-                <FrameLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_counter" >
-
-                    <NumberPicker
-                        android:id="@+id/children_number_picker"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:textSize="14dp" />
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/children"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                android:background="#a3a3a3"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/one_pixel"
+                android:paddingLeft="@dimen/one_pixel"
+                android:paddingRight="@dimen/one_pixel" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/search_button"
-            style="@style/Widget.Button.Yellow"
-            android:layout_width="fill_parent"
-            android:layout_height="80dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/search_for_hotels"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+        <!-- Checkin/checkout fields -->
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_calendar" >
+
+            <com.mobiata.android.widget.CalendarDatePicker
+                android:id="@+id/dates_date_picker"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                mobiata:cellBackground="@drawable/bg_calendar_cell"
+                mobiata:cellTextColor="@color/cell_text"
+                mobiata:drawGridLines="false"
+                mobiata:headerBackground="@color/calendar_header"
+                mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell"
+                mobiata:otherMonthCellTextColor="@color/cell_text_other_month"
+                mobiata:popupBackground="@drawable/calendar_date_picker_popup"
+                mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
+                mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
+                mobiata:todayCellBackground="@drawable/bg_calendar_cell_today" />
+        </FrameLayout>
+
+        <!-- Number of adults/kids, plus search button -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_adults" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <!--
+                     This needs to be wrapped because the default NumberPicker covers the whole bg (ignores
+                	the content space of the bg
+                    -->
+
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_counter" >
+
+                        <NumberPicker
+                            android:id="@+id/adults_number_picker"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:textSize="14dp" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/adults"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    android:layout_marginLeft="20dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_children" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <!--
+                     This needs to be wrapped because the default NumberPicker covers the whole bg (ignores
+                	the content space of the bg
+                    -->
+
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_counter" >
+
+                        <NumberPicker
+                            android:id="@+id/children_number_picker"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:textSize="14dp" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/children"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/search_button"
+                style="@style/Widget.Button.Yellow.Search"
+                android:layout_width="fill_parent"
+                android:layout_height="96dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/search_for_hotels"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="20dp"
+        android:scaleType="center"
+        android:src="@drawable/expedia_logo_large" />
 
 </LinearLayout>
