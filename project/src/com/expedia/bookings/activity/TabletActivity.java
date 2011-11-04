@@ -341,6 +341,13 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		}
 
 		boolean atStart = fm.getBackStackEntryCount() == 0;
+		if (!atStart) {
+			actionBar.show();
+		}
+		else {
+			actionBar.hide();
+		}
+
 		actionBar.setDisplayHomeAsUpEnabled(!atStart);
 
 		return super.onPrepareOptionsMenu(menu);
