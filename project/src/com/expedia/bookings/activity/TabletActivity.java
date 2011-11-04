@@ -582,15 +582,17 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		if (fm.findFragmentByTag(TAG_MINI_DETAILS) == null) {
 			showMiniDetailsFragment();
 		}
-
-		mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
-
 		// start downloading the availability response for this property
 		// ahead of time (from when it might actually be needed) so that 
 		// the results are instantly displayed in the hotel details view to the user
 		startRoomsAndRatesDownload(mInstance.mProperty);
 		startReviewsDownload();
 		startPropertyInfoDownload(mInstance.mProperty);
+
+		// notify the necessary components only after starting the 
+		// downloads so that the right downlaod information (such as  is picked up by the components
+		// when notified of the change in property
+		mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
 	}
 
 	public void moreDetailsForPropertySelected() {
@@ -1094,8 +1096,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, null);
 			}
 			else if (reviewResponse.hasErrors()) {
-				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, reviewResponse.getErrors()
-						.get(0).getPresentableMessage(mContext));
+				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, reviewResponse.getErrors().get(0)
+						.getPresentableMessage(mContext));
 			}
 			else {
 				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_COMPLETE, reviewResponse);

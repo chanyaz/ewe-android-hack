@@ -167,6 +167,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				property.getTotalReviews()));
 		mUserRating.setRating((float) property.getAverageExpediaRating());
 
+		setupAvailabilitySummary();
 		// update the summarized rates if they are available
 		AvailabilityResponse availabilityResponse = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
 		updateSummarizedRates(availabilityResponse);
@@ -202,7 +203,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
 			mEmptyAvailabilitySummaryTextView.setVisibility(View.VISIBLE);
-			mRatesProgressBar.setVisibility(View.GONE);
+			mRatesProgressBar.setVisibility(View.INVISIBLE);
 			mEmptyAvailabilitySummaryTextView.setText((String) data);
 			mAvailabilityRatesContainer.setVisibility(View.GONE);
 			break;
@@ -247,7 +248,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mAvailableRemainingBedTypes.clear();
 	}
 
-	private void layoutAvailabilitySummary() {
+	private void setupAvailabilitySummary() {
 		final Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
 		boolean isPropertyOnSale = property.getLowestRate().getSavingsPercent() > 0;
 		if (isPropertyOnSale) {
@@ -257,49 +258,50 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			mAvailabilitySummaryContainer.setBackgroundResource(R.drawable.bg_summarized_room_rates);
 		}
 
-		if (mSummarizedRates.size() > 0) {
-			View minPriceRow = getView().findViewById(R.id.min_price_row_container);
-			TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
+		View minPriceRow = getView().findViewById(R.id.min_price_row_container);
+		TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
 
-			String displayRateString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
-			String minPriceString = getString(R.string.min_room_price_template, displayRateString);
-			int startingIndexOfDisplayRate = minPriceString.indexOf(displayRateString);
+		String displayRateString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
+		String minPriceString = getString(R.string.min_room_price_template, displayRateString);
+		int startingIndexOfDisplayRate = minPriceString.indexOf(displayRateString);
 
-			// style the minimum available price text
-			StyleSpan textStyleSpan = new StyleSpan(Typeface.BOLD);
-			ForegroundColorSpan textColorSpan = new ForegroundColorSpan(getResources().getColor(
-					R.color.hotel_price_text_color));
-			ForegroundColorSpan textWhiteColorSpan = new ForegroundColorSpan(getResources().getColor(
-					android.R.color.white));
-			ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(getResources().getColor(
-					android.R.color.black));
+		// style the minimum available price text
+		StyleSpan textStyleSpan = new StyleSpan(Typeface.BOLD);
+		ForegroundColorSpan textColorSpan = new ForegroundColorSpan(getResources().getColor(
+				R.color.hotel_price_text_color));
+		ForegroundColorSpan textWhiteColorSpan = new ForegroundColorSpan(getResources().getColor(android.R.color.white));
+		ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(getResources().getColor(android.R.color.black));
 
-			Spannable str = new SpannableString(minPriceString);
+		Spannable str = new SpannableString(minPriceString);
 
-			str.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
+		str.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
 
-			if (isPropertyOnSale) {
-				str.setSpan(textWhiteColorSpan, 0, minPriceString.length(), 0);
-			}
-			else {
-				str.setSpan(textColorSpan, startingIndexOfDisplayRate,
-						startingIndexOfDisplayRate + displayRateString.length(), 0);
-				str.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
-			}
-
-			minPrice.setText(str);
-
-			TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
-			perNighTextView.setTextColor(isPropertyOnSale ? getResources().getColor(android.R.color.white)
-					: getResources().getColor(android.R.color.black));
-
-			if (Rate.showInclusivePrices()) {
-				perNighTextView.setVisibility(View.GONE);
-			}
-			else {
-				perNighTextView.setVisibility(View.VISIBLE);
-			}
+		if (isPropertyOnSale) {
+			str.setSpan(textWhiteColorSpan, 0, minPriceString.length(), 0);
 		}
+		else {
+			str.setSpan(textColorSpan, startingIndexOfDisplayRate,
+					startingIndexOfDisplayRate + displayRateString.length(), 0);
+			str.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
+		}
+
+		minPrice.setText(str);
+
+		TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
+		perNighTextView.setTextColor(isPropertyOnSale ? getResources().getColor(android.R.color.white) : getResources()
+				.getColor(android.R.color.black));
+
+		if (Rate.showInclusivePrices()) {
+			perNighTextView.setVisibility(View.GONE);
+		}
+		else {
+			perNighTextView.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private void layoutAvailabilitySummary() {
+		final Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
+		boolean isPropertyOnSale = property.getLowestRate().getSavingsPercent() > 0;
 		mAvailabilityRatesContainer.removeAllViews();
 
 		// first adding all rows since the rows will exist regardless of whether
@@ -379,7 +381,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 	private void updateSummarizedRates(AvailabilityResponse availabilityResponse) {
 		clearOutData();
-		
+
 		if (availabilityResponse != null) {
 			createBedTypeToMinRateMapping(availabilityResponse);
 			clusterByBedType();
