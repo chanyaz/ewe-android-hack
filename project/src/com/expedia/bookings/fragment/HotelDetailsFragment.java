@@ -262,7 +262,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			View minPriceRow = getView().findViewById(R.id.min_price_row_container);
 			TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
 
-			String displayRateString = StrUtils.formatHotelPrice(mMinimumRateAvailable.getDisplayRate());
+			String displayRateString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
 			String minPriceString = getString(R.string.min_room_price_template, displayRateString);
 			int startingIndexOfDisplayRate = minPriceString.indexOf(displayRateString);
 
@@ -380,6 +380,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 	private void updateSummarizedRates(AvailabilityResponse availabilityResponse) {
 		clearOutData();
+		
 		if (availabilityResponse != null) {
 			createBedTypeToMinRateMapping(availabilityResponse);
 			clusterByBedType();
