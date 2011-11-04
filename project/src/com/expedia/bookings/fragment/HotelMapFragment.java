@@ -24,6 +24,7 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.mobiata.android.MapUtils;
+import com.mobiata.android.widget.BalloonItemizedOverlay.OnBalloonClickListener;
 import com.mobiata.android.widget.DoubleTapToZoomListenerOverlay;
 import com.mobiata.android.widget.ExactLocationItemizedOverlay;
 
@@ -72,6 +73,16 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 				return true;
 			}
 		});
+
+		mHotelOverlay.setOnBalloonClickListener(new OnBalloonClickListener() {
+
+			@Override
+			public void onBalloonClick(int index) {
+				((TabletActivity) getActivity()).moreDetailsForPropertySelected();
+			}
+
+		});
+
 		mHotelOverlay.setCenterOffsetY(getResources().getDimensionPixelSize(R.dimen.mini_details_height));
 		overlays.add(mHotelOverlay);
 
