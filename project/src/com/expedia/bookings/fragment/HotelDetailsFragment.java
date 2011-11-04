@@ -75,7 +75,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private TextView mEmptyAvailabilitySummaryTextView;
 	private TextView mHotelLocationTextView;
 	private TextView mHotelNameTextView;
-	private RatingBar mHotelRatingBar;
 	private TextView mReviewsTitle;
 	private ViewGroup mReviewsSection;
 	private ViewGroup mAmenitiesContainer;
@@ -99,7 +98,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 		mHotelNameTextView = (TextView) view.findViewById(R.id.hotel_name_text_view);
 		mHotelLocationTextView = (TextView) view.findViewById(R.id.hotel_address_text_view);
-		mHotelRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
 		mAvailabilitySummaryContainer = (ViewGroup) view.findViewById(R.id.availability_summary_container);
 		mAvailabilityRatesContainer = (ViewGroup) view.findViewById(R.id.rates_container);
 		mEmptyAvailabilitySummaryTextView = (TextView) view.findViewById(R.id.empty_summart_container);
@@ -161,7 +159,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		String hotelAddressWithNewLine = StrUtils.formatAddress(property.getLocation(), StrUtils.F_STREET_ADDRESS
 				+ StrUtils.F_CITY + StrUtils.F_STATE_CODE);
 		mHotelLocationTextView.setText(hotelAddressWithNewLine.replace("\n", ", "));
-		mHotelRatingBar.setRating((float) property.getHotelRating());
 		mCollageHandler.updateCollage(property);
 		mReviewsTitle.setText(getString(R.string.reviews_recommended_template, property.getTotalRecommendations(),
 				property.getTotalReviews()));
