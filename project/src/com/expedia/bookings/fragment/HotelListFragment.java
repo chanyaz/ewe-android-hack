@@ -171,8 +171,8 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 
 	private void displaySearchError() {
 		if (mMessageTextView != null && mAdapter != null) {
-			SearchResponse response = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
-			mMessageTextView.setText(response.getErrors().get(0).getPresentableMessage(getActivity()));
+			String errorMsg = ((TabletActivity) getActivity()).getSearchStatus();
+			mMessageTextView.setText(errorMsg);
 			setHeaderVisibility(View.GONE);
 			mAdapter.setSearchResponse(null);
 		}
