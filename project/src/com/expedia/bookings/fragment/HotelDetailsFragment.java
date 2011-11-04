@@ -245,11 +245,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mAvailableTwinBedTypes.clear();
 		mAvailableSingleBedTypes.clear();
 		mAvailableRemainingBedTypes.clear();
-		mMinimumRateAvailable = null;
 	}
 
 	private void layoutAvailabilitySummary() {
-		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
+		final Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
 		boolean isPropertyOnSale = property.getLowestRate().getSavingsPercent() > 0;
 		if (isPropertyOnSale) {
 			mAvailabilitySummaryContainer.setBackgroundResource(R.drawable.bg_summarized_room_rates_sale);
@@ -365,7 +364,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			public void onClick(View v) {
 				// if the user just presses the book now button,
 				// default to giving the user the minimum rate available
-				((TabletActivity) getActivity()).bookRoom(mMinimumRateAvailable);
+				((TabletActivity) getActivity()).bookRoom(property.getLowestRate());
 			}
 		});
 		mAvailabilityRatesContainer.addView(selectRoomContainer);
@@ -526,7 +525,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	 */
 	private HashMap<BedTypeId, Rate> mBedTypeToMinRateMap = new HashMap<BedTypeId, Rate>();
 	private ArrayList<Pair<BedTypeId, Rate>> mSummarizedRates = new ArrayList<Pair<BedTypeId, Rate>>();
-	private Rate mMinimumRateAvailable;
 
 	/*
 	 * This comparator is used to determine the relative priority between 
@@ -635,11 +633,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				else {
 					mBedTypeToMinRateMap.put(bedTypeId, rate);
 				}
-			}
-			// also keep track of the minimum of all rates to display\
-			if (mMinimumRateAvailable == null
-					|| mMinimumRateAvailable.getDisplayRate().getAmount() > rate.getDisplayRate().getAmount()) {
-				mMinimumRateAvailable = rate;
 			}
 		}
 	}
