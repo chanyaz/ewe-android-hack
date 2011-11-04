@@ -305,8 +305,25 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		FragmentManager fm = getFragmentManager();
 		ActionBar actionBar = getActionBar();
-		boolean atStart = fm.getBackStackEntryCount() == 0;
-		if (!atStart) {
+
+		// Do not show the searh options in the actionbar if
+		// a) Search parameters are being shown on the screen
+		// b) User is currently attempting to pick a room  (see ticket #10563)
+		// c) User is on a booking confirmation screen
+		boolean dontShowSearchOptions = (fm.findFragmentByTag(TAG_SEARCH_PARAMS) != null && fm.findFragmentByTag(
+				TAG_SEARCH_PARAMS).isVisible())
+				|| (fm.findFragmentByTag(TAG_AVAILABILITY_LIST) != null && fm.findFragmentByTag(TAG_AVAILABILITY_LIST)
+						.isVisible())
+				|| (fm.findFragmentByTag(TAG_CONFIRMATION) != null && fm.findFragmentByTag(TAG_CONFIRMATION)
+						.isVisible());
+
+		if (dontShowSearchOptions) {
+			menu.setGroupVisible(R.id.filter_group, false);
+			menu.setGroupVisible(R.id.search_options_group, false);
+
+			actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_CUSTOM);
+		}
+		else {
 			menu.setGroupVisible(R.id.filter_group, true);
 			menu.setGroupVisible(R.id.search_options_group, true);
 
@@ -322,13 +339,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 			actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
 		}
-		else {
-			menu.setGroupVisible(R.id.filter_group, false);
-			menu.setGroupVisible(R.id.search_options_group, false);
 
-			actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_CUSTOM);
-		}
-
+		boolean atStart = fm.getBackStackEntryCount() == 0;
 		actionBar.setDisplayHomeAsUpEnabled(!atStart);
 
 		return super.onPrepareOptionsMenu(menu);
