@@ -110,10 +110,15 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		// remove the map view from the container so that its
 		// view is not destroyed by the os to enable re-use
 		((LinearLayout) getView()).removeAllViews();
-		super.onDestroyView();
 		mMapView.getOverlays().clear();
 		mHotelOverlay.destroyBalloon();
 		mExactLocationOverlay.destroyBalloon();
+		
+		mHotelOverlay = null;
+		mExactLocationOverlay = null;
+		mDoubleTapToZoomOverlay = null;
+		
+		super.onDestroyView();
 	}
 
 	@Override
