@@ -173,6 +173,11 @@ public class StrUtils {
 	public static List<String> getImageUrls(Property property) {
 		List<String> urls = new ArrayList<String>(property.getMediaCount());
 		Set<String> usedUrls = new HashSet<String>();
+		
+		if(property.getMediaList() == null) {
+			return urls;
+		}
+		
 		for (Media media : property.getMediaList()) {
 			String url = media.getUrl();
 			if (!usedUrls.contains(url)) {

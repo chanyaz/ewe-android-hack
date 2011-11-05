@@ -65,6 +65,11 @@ public class HotelCollage {
 
 		// Load the property urls
 		List<String> imageUrls = StrUtils.getImageUrls(property);
+		
+		if(imageUrls.isEmpty()) {
+			return;
+		}
+		
 		for (int i = 0; i < imageUrls.size() && i < MAX_NUM_IMAGES; i++) {
 			String imageUrl = imageUrls.get(i);
 			mPropertyUrls.add(imageUrl);
@@ -80,7 +85,7 @@ public class HotelCollage {
 		public void onClick(View v) {
 			if (mListener != null) {
 				int index = mPropertyImageViews.indexOf(v);
-				if (index != -1) {
+				if (index != -1 || index > (mPropertyUrls.size() - 1)) {
 					mListener.onImageClicked(mPropertyUrls.get(index));
 				}
 			}
