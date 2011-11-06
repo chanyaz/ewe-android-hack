@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="sort_filter_animation_duration">250</integer>
-    <integer name="booking_info_weight_sum">100</integer>
-    <integer name="booking_info_content_weight">85</integer>
+    <integer name="booking_info_dialog_width_weight_sum">10</integer>
+    <integer name="booking_info_content_width_weight">9</integer>
+    <integer name="booking_info_columns_width_weight_sum">10</integer>
+    <integer name="booking_info_receipt_width_weight">5</integer>
+    <integer name="booking_info_form_width_weight">5</integer>
 </resources>

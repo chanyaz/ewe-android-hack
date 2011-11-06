@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/billing_info_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:id="@+id/billing_info_layout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -98,7 +98,8 @@
             android:nextFocusLeft="@+id/country_spinner"
             android:nextFocusRight="@+id/card_number_edit_text"
             android:nextFocusUp="@+id/state_edit_text"
-            android:textColorHint="@color/hint_color" />
+            android:textColorHint="@color/hint_color"
+            mobiata:useClearFieldDrawable="false" />
     </LinearLayout>
 
 </LinearLayout>
