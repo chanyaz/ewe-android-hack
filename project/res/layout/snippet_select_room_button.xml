@@ -9,7 +9,7 @@
 
     <com.mobiata.android.widget.AutoResizeTextView
         android:id="@+id/book_now_button"
-        style="@style/Widget.Button.Orange"
+        style="@style/Widget.Button.Yellow"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center"

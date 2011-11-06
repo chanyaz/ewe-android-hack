@@ -32,10 +32,10 @@
             android:layout_width="fill_parent"
             android:layout_height="52dp"
             android:background="@drawable/bg_large_text_box"
-            android:singleLine="true"
             android:hint="@string/hint_search_location"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
+            android:singleLine="true"
             mobiata:touchAreaPadding="35dp" />
 
         <LinearLayout
@@ -182,16 +182,11 @@
 
         <Button
             android:id="@+id/search_button"
+            style="@style/Widget.Button.Yellow"
             android:layout_width="fill_parent"
             android:layout_height="80dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/btn_yellow"
-            android:shadowColor="#88FFFFFF"
-            android:shadowDx="0"
-            android:shadowDy="1"
-            android:shadowRadius="0.1"
             android:text="@string/search_for_hotels"
-            android:textColor="#232323"
             android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>
