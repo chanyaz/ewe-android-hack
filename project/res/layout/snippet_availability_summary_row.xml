@@ -38,7 +38,8 @@
         android:layout_alignParentTop="true"
         android:paddingRight="10dp"
         android:scaleType="center"
-        android:src="@drawable/room_rate_chevron" />
+        android:src="@drawable/room_rate_chevron"
+        android:visibility="gone" />
 
     <View
         android:id="@+id/divider"

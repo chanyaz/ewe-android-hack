@@ -337,6 +337,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				}
 			});
 
+			View chevron = summaryRow.findViewById(R.id.availability_chevron_image_view);
+			chevron.setVisibility(View.VISIBLE);
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
 
