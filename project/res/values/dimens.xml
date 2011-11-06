@@ -9,6 +9,16 @@
 	
 	<dimen name="bottom_bar_padding">@dimen/bottom_bar_height</dimen>
 	
+	<!-- Dimensions for hotel rows -->
+	<!-- This is the height/width of the image in a hotel row.  Height determines height of row as well -->
+	<dimen name="hotel_row_thumbnail_width">90dp</dimen>
+	<dimen name="hotel_row_thumbnail_height">90dp</dimen>
+	<dimen name="hotel_row_content_margin">6dp</dimen>
+	<dimen name="hotel_row_from_text_size">11sp</dimen>
+	<dimen name="hotel_row_price_text_size">20sp</dimen>
+	<dimen name="hotel_row_price_per_night_text_size">11sp</dimen>
+	<dimen name="hotel_row_distance_text_size">11sp</dimen>
+	
 	<!-- These are slight differences between hdpi and mpdi positioning -->
 	<dimen name="sale_text_margin_top">2dp</dimen>
 	<dimen name="sale_text_margin_left">0dp</dimen>
