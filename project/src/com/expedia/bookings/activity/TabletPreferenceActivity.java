@@ -1,6 +1,8 @@
 package com.expedia.bookings.activity;
 
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,4 +24,17 @@ public class TabletPreferenceActivity extends ExpediaBookingPreferenceActivity {
 			}
 		});
 	}
+
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		Rect bounds = new Rect();
+		getWindow().getDecorView().getHitRect(bounds);
+		
+		if (!bounds.contains((int) ev.getX(), (int) ev.getY())) {
+			finish();
+		}
+
+		return super.dispatchTouchEvent(ev);
+	}
+
 }

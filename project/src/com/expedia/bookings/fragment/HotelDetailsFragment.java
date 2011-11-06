@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.TabletUserReviewsListActivity;
 import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
@@ -120,7 +121,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(getActivity(), UserReviewsListActivity.class);
+				Intent i = new Intent(getActivity(), TabletUserReviewsListActivity.class);
 				i.putExtra(Codes.PROPERTY, ((TabletActivity) getActivity()).getPropertyToDisplay().toJson().toString());
 				i.putExtra(Codes.DISPLAY_MODAL_VIEW, true);
 				startActivity(i);

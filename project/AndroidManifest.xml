@@ -55,7 +55,9 @@
 			android:launchMode="singleTask"/>
 		<activity android:name=".activity.HotelMapActivity" />
 		
-		<activity android:name=".activity.UserReviewsListActivity"
+		<activity android:name=".activity.UserReviewsListActivity"/>
+		
+		<activity android:name=".activity.TabletUserReviewsListActivity"
 		    android:theme="@style/Theme.Light.Fullscreen.Panel" />
 
 		<activity android:name=".activity.RoomsAndRatesListActivity" />

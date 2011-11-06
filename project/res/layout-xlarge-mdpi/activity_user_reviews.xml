@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     android:weightSum="10" >
+
     <include
+        android:id="@+id/user_reviews_view"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="8"
         layout="@layout/include_user_reviews_list" />
+
 </LinearLayout>
