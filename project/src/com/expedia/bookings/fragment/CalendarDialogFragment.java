@@ -47,6 +47,7 @@ public class CalendarDialogFragment extends DialogFragment {
 		View view = inflater.inflate(R.layout.fragment_dialog_calendar, null);
 		mCalendarDatePicker = (CalendarDatePicker) view.findViewById(R.id.dates_date_picker);
 		builder.setView(view);
+		builder.setTitle(R.string.drag_to_extend_your_stay);
 
 		// Initial calendar date picker variables
 		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker);
