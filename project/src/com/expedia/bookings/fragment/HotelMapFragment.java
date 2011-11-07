@@ -62,6 +62,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		List<Overlay> overlays = mMapView.getOverlays();
 
 		mExactLocationOverlay = new ExactLocationItemizedOverlay(activity, mMapView);
+		mExactLocationOverlay.setShowChevron(false);
 		overlays.add(mExactLocationOverlay);
 
 		mHotelOverlay = new HotelItemizedOverlay(activity, null, false, mMapView, null);
