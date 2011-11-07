@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="country_and_postal_code_content_width_weight_sum">10</integer>
+    <integer name="country_width_weight">7</integer>
+    <integer name="postal_code_weight">3</integer>
+</resources>

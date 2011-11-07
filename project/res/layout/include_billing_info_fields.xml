@@ -73,13 +73,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:weightSum="@integer/country_and_postal_code_content_width_weight_sum" >
 
         <Spinner
             android:id="@+id/country_spinner"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="@integer/country_width_weight"
             android:entries="@array/country_names"
             android:nextFocusDown="@+id/postal_code_edit_text"
             android:nextFocusLeft="@+id/state_edit_text"
@@ -88,8 +89,9 @@
 
         <com.expedia.bookings.widget.CustomEditText
             android:id="@+id/postal_code_edit_text"
-            android:layout_width="140dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="@integer/postal_code_weight"
             android:layout_marginTop="1dp"
             android:hint="@string/PostalCode"
             android:imeOptions="flagNoExtractUi"
@@ -98,8 +100,7 @@
             android:nextFocusLeft="@+id/country_spinner"
             android:nextFocusRight="@+id/card_number_edit_text"
             android:nextFocusUp="@+id/state_edit_text"
-            android:textColorHint="@color/hint_color"
-            mobiata:useClearFieldDrawable="false" />
+            android:textColorHint="@color/hint_color"/>
     </LinearLayout>
 
 </LinearLayout>
