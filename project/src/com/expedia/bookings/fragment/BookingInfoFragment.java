@@ -210,7 +210,6 @@ public class BookingInfoFragment extends DialogFragment {
 		// so that the window is not visible through the edges of the dialog.
 		ColorDrawable drawable = new ColorDrawable(0);
 		dialog.getWindow().setBackgroundDrawable(drawable);
-		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 		dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 		return dialog;
 	}
