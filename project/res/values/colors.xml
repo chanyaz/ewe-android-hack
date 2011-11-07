@@ -39,4 +39,5 @@
 	<color name="bg_hotel_details">#e3e4e6</color>
 	<color name="hotel_details_text_color">#494e54</color>
 	<color name="bg_row_summarized_room_rate_pressed">#dbdbdb</color>
+	<color name="btn_booking_dialog_header_pressed">#19000000</color>
 </resources>
