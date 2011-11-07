@@ -12,13 +12,13 @@
 	<!-- Label for button that starts search -->
 	<string name="search_for_hotels">Search For Hotels</string>
 	<!--  Label for picking search location -->
-	<string name="where_are_you_going"><b>Where</b> are you going?</string>
+	<string name="where_are_you_going">&lt;b&gt;Where&lt;/b&gt; are you going?</string>
 	<!--  Label for picking checkin/checkout dates -->
-	<string name="drag_to_extend_your_stay"><b>Drag</b> to extend your stay.</string>
+	<string name="drag_to_extend_your_stay">&lt;b&gt;Drag&lt;/b&gt; to extend your stay.</string>
 	<!--  Label for picking checkin/checkout dates -->
-	<string name="where_are_you_staying"><b>Where</b> are you staying?</string>
+	<string name="where_are_you_staying">&lt;b&gt;Where&lt;/b&gt; are you staying?</string>
 	<!--  Label for picking guests for hotel booking -->
-	<string name="who_is_going"><b>Who</b> is going?</string>
+	<string name="who_is_going">&lt;b&gt;Who&lt;/b&gt; is going?</string>
 	
 	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
 	<!-- Suggestion to search Times Square -->

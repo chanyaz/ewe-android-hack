@@ -24,22 +24,22 @@
         android:paddingBottom="6dp" >
 
         <TextView
+            android:id="@+id/where_text_view"
             style="@style/InstructionText"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="25dp"
-            android:text="@string/where_are_you_going" />
+            android:layout_marginRight="25dp" />
 
         <TextView
+            android:id="@+id/when_text_view"
             style="@style/InstructionText"
             android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
-            android:text="@string/drag_to_extend_your_stay" />
+            android:layout_marginRight="45dp" />
 
         <TextView
+            android:id="@+id/who_text_view"
             style="@style/InstructionText"
             android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:text="@string/who_is_going" />
+            android:layout_marginRight="40dp" />
     </LinearLayout>
 
     <!-- User input params -->

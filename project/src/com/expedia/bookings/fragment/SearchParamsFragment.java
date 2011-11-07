@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +70,12 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_search_params, container, false);
+
+		// Manually put HTML-ified code into instruction textviews
+		// TODO: On a future translation, get rid of this step by using "<b>" in the strings instead of "&lt;b&gt;"
+		setHtmlTextView(view, R.id.where_text_view, R.string.where_are_you_going);
+		setHtmlTextView(view, R.id.when_text_view, R.string.drag_to_extend_your_stay);
+		setHtmlTextView(view, R.id.who_text_view, R.string.who_is_going);
 
 		mLocationEditText = (EditText) view.findViewById(R.id.location_edit_text);
 		mCalendarDatePicker = (CalendarDatePicker) view.findViewById(R.id.dates_date_picker);
@@ -217,6 +224,11 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 		mAdultsNumberPicker.setValue(params.getNumAdults());
 		mChildrenNumberPicker.setValue(params.getNumChildren());
+	}
+
+	private void setHtmlTextView(View container, int textViewId, int strId) {
+		TextView tv = (TextView) container.findViewById(textViewId);
+		tv.setText(Html.fromHtml(getString(strId)));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
