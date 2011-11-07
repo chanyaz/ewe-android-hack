@@ -66,7 +66,7 @@ public class CalendarDialogFragment extends DialogFragment {
 		}
 
 		// Configure buttons
-		builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
+		builder.setPositiveButton(R.string.search, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				Calendar checkIn = new GregorianCalendar(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
 						.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
