@@ -1,105 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
-    android:id="@+id/billing_info_layout"
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/saved_billing_info_layout"
+    style="@style/BookingSection"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:visibility="gone" >
+    android:layout_height="wrap_content" >
 
-    <com.expedia.bookings.widget.CustomEditText
-        android:id="@+id/address1_edit_text"
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/address_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_address1"
-        android:imeOptions="flagNoExtractUi"
-        android:inputType="textPostalAddress|textCapWords"
-        android:nextFocusDown="@+id/address2_edit_text"
-        android:nextFocusLeft="@+id/email_edit_text"
-        android:nextFocusRight="@+id/address2_edit_text"
-        android:nextFocusUp="@+id/email_edit_text"
-        android:textColorHint="@color/hint_color" />
-
-    <com.expedia.bookings.widget.CustomEditText
-        android:id="@+id/address2_edit_text"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_address2"
-        android:imeOptions="flagNoExtractUi"
-        android:inputType="textPostalAddress|textCapWords"
-        android:nextFocusDown="@+id/city_edit_text"
-        android:nextFocusLeft="@+id/address1_edit_text"
-        android:nextFocusRight="@+id/city_edit_text"
-        android:nextFocusUp="@+id/address1_edit_text"
-        android:textColorHint="@color/hint_color" />
+        android:textColor="#545454" />
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
-        <com.expedia.bookings.widget.CustomEditText
-            android:id="@+id/city_edit_text"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/City"
-            android:imeOptions="flagNoExtractUi"
-            android:inputType="textPostalAddress|textCapWords"
-            android:minWidth="150dp"
-            android:nextFocusDown="@+id/state_edit_text"
-            android:nextFocusLeft="@+id/address2_edit_text"
-            android:nextFocusRight="@+id/state_edit_text"
-            android:nextFocusUp="@+id/address2_edit_text"
-            android:textColorHint="@color/hint_color" />
+            android:layout_marginRight="3dp"
+            android:text="@string/edit"
+            android:textColor="#545454" />
 
-        <com.expedia.bookings.widget.CustomEditText
-            android:id="@+id/state_edit_text"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_state_code"
-            android:imeOptions="flagNoExtractUi"
-            android:inputType="textPostalAddress|textCapCharacters"
-            android:maxLength="3"
-            android:nextFocusDown="@+id/country_spinner"
-            android:nextFocusLeft="@+id/city_edit_text"
-            android:nextFocusRight="@+id/country_spinner"
-            android:nextFocusUp="@+id/address2_edit_text"
-            android:textColorHint="@color/hint_color" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal" >
-
-        <Spinner
-            android:id="@+id/country_spinner"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:entries="@array/country_names"
-            android:nextFocusDown="@+id/postal_code_edit_text"
-            android:nextFocusLeft="@+id/state_edit_text"
-            android:nextFocusRight="@+id/postal_code_edit_text"
-            android:nextFocusUp="@+id/city_edit_text" />
-
-        <com.expedia.bookings.widget.CustomEditText
-            android:id="@+id/postal_code_edit_text"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:hint="@string/PostalCode"
-            android:imeOptions="flagNoExtractUi"
-            android:inputType="textPostalAddress|textCapCharacters"
-            android:nextFocusDown="@+id/card_number_edit_text"
-            android:nextFocusLeft="@+id/country_spinner"
-            android:nextFocusRight="@+id/card_number_edit_text"
-            android:nextFocusUp="@+id/state_edit_text"
-            android:textColorHint="@color/hint_color"
-            mobiata:useClearFieldDrawable="false" />
+            android:layout_marginTop="2dp"
+            android:src="@drawable/ic_edit_arrow" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
