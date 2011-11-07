@@ -116,18 +116,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		// Disable the scrollbar on the amenities HorizontalScrollView
 		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) view.findViewById(R.id.amenities_scroll_view);
 		amenitiesScrollView.setHorizontalScrollBarEnabled(false);
-
-		mSeeAllReviewsButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(getActivity(), TabletUserReviewsListActivity.class);
-				i.putExtra(Codes.PROPERTY, ((TabletActivity) getActivity()).getPropertyToDisplay().toJson().toString());
-				i.putExtra(Codes.DISPLAY_MODAL_VIEW, true);
-				startActivity(i);
-			}
-		});
-
 		return view;
 	}
 
@@ -158,7 +146,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		updateViews(((TabletActivity) getActivity()).getPropertyToDisplay());
 	}
 
-	public void updateViews(Property property) {
+	public void updateViews(final Property property) {
 		mHotelNameTextView.setText(property.getName());
 		String hotelAddressWithNewLine = StrUtils.formatAddress(property.getLocation(), StrUtils.F_STREET_ADDRESS
 				+ StrUtils.F_CITY + StrUtils.F_STATE_CODE);
@@ -177,6 +165,23 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 		mAmenitiesContainer.removeAllViews();
 		LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
+		
+		if (property.hasExpediaReviews()) {
+			mSeeAllReviewsButton.setVisibility(View.VISIBLE);
+			mSeeAllReviewsButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Intent i = new Intent(getActivity(), TabletUserReviewsListActivity.class);
+					i.putExtra(Codes.PROPERTY, property.toJson().toString());
+					i.putExtra(Codes.DISPLAY_MODAL_VIEW, true);
+					startActivity(i);
+				}
+			});
+		}
+		else {
+			mSeeAllReviewsButton.setVisibility(View.GONE);
+		}
 
 		addHotelDescription(property);
 	}
