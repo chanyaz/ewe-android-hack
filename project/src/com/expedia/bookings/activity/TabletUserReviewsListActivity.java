@@ -14,7 +14,7 @@ public class TabletUserReviewsListActivity extends UserReviewsListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mRootView = findViewById(R.id.user_reviews_list);
+		mRootView = findViewById(R.id.user_reviews_view);
 	}
 	
 	@Override
