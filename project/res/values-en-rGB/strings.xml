@@ -1,5 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><resources>
 	<string name="app_name">Expedia</string>
+        <!-- Search Fragment -->
+        <!-- Hint for "search location" field -->
+        <string name="hint_search_location">Search Location</string>
+	<!-- Label for recent searches user has made -->
+        <string name="recent_searches">Recent Searches</string>
+        <!-- Label for searches that the user can make that are featured -->
+        <string name="featured_destinations">Featured Destinations</string>
+        <!-- Label for button that starts search -->
+        <string name="search_for_hotels">Search For Hotels</string>
+        <!--  Label for picking search location -->
+        <string name="where_are_you_going">&lt;b&gt;Where&lt;/b&gt; are you going?</string>
+        <!--  Label for picking checkin/checkout dates -->
+        <string name="drag_to_extend_your_stay">&lt;b&gt;Drag&lt;/b&gt; to extend your stay.</string>
+        <!--  Label for picking checkin/checkout dates -->
+        <string name="where_are_you_staying">&lt;b&gt;Where&lt;/b&gt; are you staying?</string>
+        <!--  Label for picking guests for hotel booking -->
+        <string name="who_is_going">&lt;b&gt;Who&lt;/b&gt; is going?</string>
+     
+        <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
+        <!-- Suggestion to search Times Square -->
+        <string name="suggestion_times_square">Times Square, New York, NY</string>
+        <string name="suggestion_boston">Boston, MA</string>
+        <string name="suggestion_los_angeles">Los Angeles, CA</string>
+        <string name="suggestion_venice">Venice Beach Park, Venice, CA</string>
+        <string name="suggestion_miami">Miami, FL</string>
+        <string name="suggestion_london">London, UK</string>
+        <string name="suggestion_las_vegas">Las Vegas, NV</string>
+        <string name="suggestion_paris">Paris, France</string>
+        <string name="suggestion_minneapolis">Minneapolis, MN</string>
+        <string name="suggestion_san_francisco">San Francisco, CA</string>
 
 	<!-- Search Activity --><!-- Label for "start search" button -->
 	<string name="search">Search</string>
@@ -11,6 +41,14 @@
 	-->
 	<string name="booking_info_template"><b>%1$s</b> — <b>%2$s</b> to <b>%3$s</b></string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
+        <!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
+        <plurals name="number_of_matching_hotels">
+                <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; matching hotels</item>
+                <item quantity="one">&lt;b&gt;%d&lt;/b&gt; matching hotel</item>
+                <item quantity="two">&lt;b&gt;%d&lt;/b&gt; matching hotels</item>
+                <item quantity="many">&lt;b&gt;%d&lt;/b&gt; matching hotels</item>
+                <item quantity="other">&lt;b&gt;%d&lt;/b&gt; matching hotels</item>
+        </plurals>
 	<string name="filter_info_template"><b>%1$d</b> matching hotels</string>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filter by hotel name</string>
@@ -34,9 +72,18 @@
 	<string name="loading_previous">Loading previous search results...</string>
 	<!-- Label for sort hotels button in bottom bar -->
 	<string name="sort_hotels">&quot;Sort:&quot;</string>
+        <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
+        <string name="sort_hotels_template">&lt;b&gt;Sort&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">Filter Hotels</string>
-
+        <!-- A number of results -->
+        <plurals name="number_of_results">
+                <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; Results</item>
+                <item quantity="one">&lt;b&gt;%d&lt;/b&gt; Result</item>
+                <item quantity="two">&lt;b&gt;%d&lt;/b&gt; Results</item>
+                <item quantity="many">&lt;b&gt;%d&lt;/b&gt; Results</item>
+                <item quantity="other">&lt;b&gt;%d&lt;/b&gt; Results</item>
+        </plurals>
 	<!-- Dialog message asking user if they want to enable a location provider. -->
 	<string name="EnableLocationSettings">To use My Location, you must first turn on a Location source in Settings.\nGo to Settings and turn it on now?</string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
@@ -96,9 +143,19 @@
 	<string name="per_night">/night</string>
 	<!-- Label for red "sale" corner -->
 	<string name="sale_caps">SALE</string>
+        <!-- Label shown when a hotel has no user ratings -->
+        <string name="not_rated">Not Rated</string>
+        <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
+        <string name="percent_off_template">%2.0f%% OFF</string>
+ 
+        <!-- Filter results action bar label -->
+        <string name="filter_results">Filter Results</string>
 
 	<!-- Map --><!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
 	<string name="map_snippet_price_template">From %s</string>
+        <!-- Mini-details fragment -->
+        <!-- Label for "see details" button on the mini details fragment -->
+        <string name="see_details">See Details</string>
 
 	<!-- Widget --><!--  Default Loading message for widget -->
 	<string name="loading_hotels">Loading hotels...</string>
@@ -110,6 +167,8 @@
 	<string name="widget_config_title">Hotel Deals Widget</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Add Widget</string>
+	<!--  Widget description in configuration activity -->
+	<string name="widget_description">Get nightly deals near you!</string>
 	<!--  Instructions on how to add widget to home screen -->
 	<string name="widget_add_instructions">Tap and hold on your home screen to add the Hotel Radar widget.</string>
 	<!--  Title for configuration options section in the widget config activity -->
@@ -164,7 +223,19 @@
 	<string name="address">Address</string>
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
-
+        <!--  Hotel Details Fragment -->
+        <!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
+        <string name="min_room_price_template">From %s</string>
+        <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
+        <string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; from</string>
+ 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
+	<string name="reviews_recommended_template">Recommended by %1$d of %2$d guests</string>
+	<!--  Title for the amenities section in the hotel details fragment -->
+	<string name="amenities">Amenities</string>
+	<!--  Label for button to see all reviews as a modal dialog -->
+	<string name="see_all_reviews">See All Reviews</string>
+	<!-- Label for button that brings users to the room selection page -->
+	<string name="select_room">Select Room</string>
 	<!-- Amenity strings --><!-- Business center amenity -->
 	<string name="AmenityBusinessCenter">Business Centre</string>
 	<!-- Fitness center amenity -->
@@ -288,6 +359,8 @@
 	<string name="value_add_template">Includes %s</string>
 	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
 	<string name="common_value_add_template">All rooms include %s</string>
+        <!--  Instruction as the header of the list to select a room from the list -->
+        <string name="select_a_room_instruction">Select a Room</string>
 
 	<!-- Booking info --><!-- edit label -->
 	<string name="edit">Edit</string>
@@ -392,7 +465,12 @@
 	<string name="error_booking_null">Could not connect to Expedia servers.Please check your connection and try again.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$s on %2$s</string>
-	
+	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
+	<string name="enter_booking_info">Enter Booking Info</string>
+	<!--  Title for action bar when the user is on the booking info screen -->
+	<string name="booking_information_title">Booking Information</string>
+	<!-- Title for dialog where the user is prompted to enter booking booking information -->
+	<string name="booking_information_dialog_title">Complete Your Booking</string>	
 	<!-- Confirmation activity --><!-- Format for a first/last name -->
 	<string name="name_template">%1$s %2$s</string>
 	<!-- Reservation summary label -->
@@ -411,7 +489,13 @@
 	<string name="contact_phone_china_template">If you have questions about your reservation, please call Expedia.com at %1$s (CN NetCom) or %2$s (CN Telecom).</string>
 	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
 	<string name="contact_phone_default_template">If you have questions about your reservation, please call Expedia.com at %1$s in the US/Canada or %2$s in Europe.</string>
-
+	<!--  Confirmation Fragment -->
+	<!-- Label to share booking information after a booking confirmation -->
+	<string name="share_booking_info">Share Booking Info</string>
+	<!-- Label to start a new search from a confirmation screen  -->
+	<string name="start_new_search">Start a New Search</string>
+	<!-- Label to view hotel in google maps to get directions from a confirmation screen -->
+	<string name="show_on_map">View On Map</string>
 	<!-- Rate template strings --><!-- Label for the number of guests the booking is for. -->
 	<string name="GuestsLabel">Guests</string>
 	<!-- Label for the taxes & fees for this booking. -->
@@ -455,6 +539,8 @@
 	
 	<!-- About activity --><!-- Label for "contact Expedia" button in info page -->
 	<string name="contact_expedia">Contact Expedia</string>
+        <!-- Extra description for "contact Expedia" button, when space allows -->
+        <string name="contact_expedia_description">We\'re here for you 24 hours a day.</string>
 	<!-- Title for different ways to connect to Expedia -->
 	<string name="contact_expedia_via">Contact Expedia Via...</string>
 	<!-- Contact Expedia via phone -->
@@ -465,8 +551,19 @@
 	<string name="contact_expedia_email_subject">Expedia Reservations Support</string>
 	<!-- Contact Expedia via website -->
 	<string name="contact_expedia_website">Website</string>
+	<!-- Extra description for "Expedia website" button, when space allows -->
+	<string name="expedia_website_description">Visit the website to book flights, cars, packages and more.</string>
+	<!-- Extra description for "app feedback" button, when space allows -->
+	<string name="app_feedback_description">Let us know what you think about the app.</string>
+
+	<!-- Extra description for "app support" button, when space allows -->
+	<string name="app_support_description">Drop us a line and we\'ll get back to you.</string>
+	<!-- Extra description for "tell a friend" button, when space allows -->
+	<string name="tell_a_friend_description">Like amazing hotel deals? Tell your friends about the app.</string>
 	<!-- Label for "Expedia website" button in info page -->
 	<string name="expedia_website">Expedia Website</string>
+	<!-- Label for "app feedback" button in info page -->
+	<string name="app_feedback">App Feedback</string>
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">App Support</string>
 	<!-- Section header for other apps by Mobiata -->
@@ -523,7 +620,22 @@
 		<item quantity="many">%d Children</item>
 		<item quantity="other">%d Children</item>
 	</plurals>
-
+	<!-- A number of guests -->
+	<plurals name="number_of_guests">
+		<item quantity="zero">%d Guests</item>
+		<item quantity="one">%d Guest</item>
+		<item quantity="two">%d Guests</item>
+		<item quantity="many">%d Guests</item>
+		<item quantity="other">%d Guests</item>
+	</plurals>
+	<!-- A number of nights (as in stay duration).  Capitalized -->
+	<plurals name="number_of_nights">
+		<item quantity="zero">%d Nights</item>
+		<item quantity="one">%d Night</item>
+		<item quantity="two">%d Nights</item>
+		<item quantity="many">%d Nights</item>
+		<item quantity="other">%d Nights</item>
+	</plurals>
 	<!-- Distance strings --><!-- Abbreviated miles (used in distance_template) -->
 	<string name="unit_miles">mi</string>
 	<!-- Abbreviated kilometers (used in distance_template) -->

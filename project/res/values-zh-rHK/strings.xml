@@ -1,6 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><resources>
 	<string name="app_name">Expedia</string>
 
+	<!-- Search Fragment -->
+	<!-- Hint for "search location" field -->
+	<string name="hint_search_location">搜尋位置</string>
+	<!-- Label for recent searches user has made -->
+	<string name="recent_searches">最近搜尋</string>
+	<!-- Label for searches that the user can make that are featured -->
+	<string name="featured_destinations">特色目的地</string>
+	<!-- Label for button that starts search -->
+	<string name="search_for_hotels">搜尋酒店</string>
+	<!--  Label for picking search location -->
+	<string name="where_are_you_going">您要去&lt;b&gt;哪裡&lt;/b&gt;？</string>
+	<!--  Label for picking checkin/checkout dates -->
+	<string name="drag_to_extend_your_stay">&lt;b&gt;拖曳&lt;/b&gt;以延長住宿時間。</string>
+	<!--  Label for picking checkin/checkout dates -->
+	<string name="where_are_you_staying">您住宿的地方在&lt;b&gt;哪裡&lt;/b&gt;？</string>
+	<!--  Label for picking guests for hotel booking -->
+	<string name="who_is_going">&lt;b&gt;誰&lt;/b&gt;會去？</string>
+	
+	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
+	<!-- Suggestion to search Times Square -->
+	<string name="suggestion_times_square">紐約州，紐約市，時代廣場</string>
+	<string name="suggestion_boston">麻薩諸塞州，波士頓</string>
+	<string name="suggestion_los_angeles">加利福尼亞洲，洛杉磯</string>
+	<string name="suggestion_venice">加利福尼亞州，威尼斯，威尼斯海灘</string>
+	<string name="suggestion_miami">佛羅里達州，邁阿密</string>
+	<string name="suggestion_london">英國，倫敦</string>
+	<string name="suggestion_las_vegas">內華達州，拉斯維加斯</string>
+	<string name="suggestion_paris">法國，巴黎</string>
+	<string name="suggestion_minneapolis">明尼蘇達州，明尼阿波利斯</string>
+	<string name="suggestion_san_francisco">加利福尼亞州，三藩市</string>
+
 	<!-- Search Activity --><!-- Label for "start search" button -->
 	<string name="search">搜尋</string>
 	<!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
@@ -10,6 +41,16 @@
 	    The dates may include year, if we cross a year boundary 
 	-->
 	<string name="booking_info_template"><b>%1$s</b> — <b>%2$s</b> to <b>%3$s</b></string>
+
+	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
+	<plurals name="number_of_matching_hotels">
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 間符合的酒店</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; 間符合的酒店</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; 間符合的酒店</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; 間符合的酒店</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; 間符合的酒店</item>
+        </plurals>
+
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
 	<string name="filter_info_template"><b>%1$d</b> 間相符的酒店</string>
 	<!-- Hint for filtering results by hotel name -->
@@ -34,8 +75,19 @@
 	<string name="loading_previous">正在載入先前的搜尋結果...</string>
 	<!-- Label for sort hotels button in bottom bar -->
 	<string name="sort_hotels">&quot;排序：&quot;</string>
+	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
+	<string name="sort_hotels_template">&lt;b&gt;分類&lt;/b&gt;：%s</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">篩選酒店</string>
+
+	<!-- A number of results -->
+	<plurals name="number_of_results">
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 項結果</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; 項結果</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; 項結果</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; 項結果</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; 項結果</item>
+	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
 	<string name="EnableLocationSettings">如要使用「我的地點」，請務必先開啟「設定」中的「地點」資料。\n現在要前往「設定」並將其開啟？</string>
@@ -97,8 +149,21 @@
 	<!-- Label for red "sale" corner -->
 	<string name="sale_caps">優惠活動</string>
 
+	<!-- Label shown when a hotel has no user ratings -->
+	<string name="not_rated">未評星級</string>
+	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
+	<string name="percent_off_template">%2.0f%% 折扣</string>
+	
+	<!-- Filter results action bar label -->
+	<string name="filter_results">篩選結果</string>
+
 	<!-- Map --><!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
 	<string name="map_snippet_price_template">從 %s</string>
+
+
+	<!-- Mini-details fragment -->
+	<!-- Label for "see details" button on the mini details fragment -->
+	<string name="see_details">查看詳細資訊</string>
 
 	<!-- Widget --><!--  Default Loading message for widget -->
 	<string name="loading_hotels">正在載入酒店...</string>
@@ -114,6 +179,8 @@
 	<string name="widget_config_title">酒店優惠小工具</string>
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">新增小工具</string>
+	<!--  Widget description in configuration activity -->
+	<string name="widget_description">獲得附近的住宿優惠！</string>
 	<!--  Instructions on how to add widget to home screen -->
 	<string name="widget_add_instructions">按住首頁畫面以新增 Hotel Radar widget。</string>
 	<!--  Title for configuration options section in the widget config activity -->
@@ -165,6 +232,20 @@
 	<string name="address">地址</string>
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
+
+	<!--  Hotel Details Fragment -->
+	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
+	<string name="min_room_price_template">起價自 %s</string>
+	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
+	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; 起價自</string>
+	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
+	<string name="reviews_recommended_template">推薦人數 %1$d 位 (共 %2$d 位)</string>
+	<!--  Title for the amenities section in the hotel details fragment -->
+	<string name="amenities">舒適度</string>
+	<!--  Label for button to see all reviews as a modal dialog -->
+	<string name="see_all_reviews">查看所有評論</string>
+	<!-- Label for button that brings users to the room selection page -->
+	<string name="select_room">選擇房間</string>
 
 	<!-- Amenity strings --><!-- Business center amenity -->
 	<string name="AmenityBusinessCenter">商務中心</string>
@@ -291,6 +372,9 @@
 	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
 	<string name="common_value_add_template">所有房間均包含 %s</string>
 
+	<!--  Instruction as the header of the list to select a room from the list -->
+	<string name="select_a_room_instruction">選擇房間</string>
+
 	<!-- Booking info --><!-- edit label -->
 	<string name="edit">編輯</string>
 	<!-- Label for room type -->
@@ -394,7 +478,14 @@
 	<string name="error_booking_null">無法連線至 Expedia 伺服器。請檢查連線，然後再試一次。</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$s，%2$s</string>
-	
+
+	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
+	<string name="enter_booking_info">輸入訂房資訊</string>
+        <!--  Title for action bar when the user is on the booking info screen -->
+	<string name="booking_information_title">訂房資訊</string>
+        <!-- Title for dialog where the user is prompted to enter booking booking information -->
+	<string name="booking_information_dialog_title">完成訂房</string>	
+
 	<!-- Confirmation activity --><!-- Format for a first/last name -->
 	<string name="name_template">%1$s %2$s</string>
 	<!-- Reservation summary label -->
@@ -413,6 +504,14 @@
 	<string name="contact_phone_china_template">如對預約情況有任何疑問，請致電 Expedia.com，電話是 %1$s (CN NetCom) 或 %2$s (CN Telecom)。</string>
 	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
 	<string name="contact_phone_default_template">如對預約情況有任何疑問，請致電 Expedia.com，電話是 %1$s (美國/加拿大地區) 或 %2$s (歐洲地區)。</string>
+
+	<!--  Confirmation Fragment -->
+	<!-- Label to share booking information after a booking confirmation -->
+	<string name="share_booking_info">分享訂房資訊</string>
+	<!-- Label to start a new search from a confirmation screen  -->
+	<string name="start_new_search">開始新搜尋</string>
+	<!-- Label to view hotel in google maps to get directions from a confirmation screen -->
+	<string name="show_on_map">在地圖上查看</string>
 
 	<!-- Rate template strings --><!-- Label for the number of guests the booking is for. -->
 	<string name="GuestsLabel">房客</string>
@@ -457,6 +556,8 @@
 	
 	<!-- About activity --><!-- Label for "contact Expedia" button in info page -->
 	<string name="contact_expedia">聯絡 Expedia</string>
+	<!-- Extra description for "contact Expedia" button, when space allows -->
+	<string name="contact_expedia_description">我們一天 24 小時竭誠為您服務。</string>
 	<!-- Title for different ways to connect to Expedia -->
 	<string name="contact_expedia_via">透過以下途徑聯絡 Expedia...</string>
 	<!-- Contact Expedia via phone -->
@@ -467,10 +568,21 @@
 	<string name="contact_expedia_email_subject">Expedia 預約支援</string>
 	<!-- Contact Expedia via website -->
 	<string name="contact_expedia_website">網站</string>
+	<!-- Extra description for "Expedia website" button, when space allows -->
+	<string name="expedia_website_description">造訪網站以預訂航班、租車、套裝行程等。</string>
+	<!-- Extra description for "app feedback" button, when space allows -->
+	<string name="app_feedback_description">請告訴我們您使用應用程式後的感想。</string>
+
 	<!-- Label for "Expedia website" button in info page -->
 	<string name="expedia_website">Expedia 網站</string>
+	<!-- Label for "app feedback" button in info page -->
+	<string name="app_feedback">應用程式相關意見</string>
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">應用程式支援</string>
+	<!-- Extra description for "app support" button, when space allows -->
+	<string name="app_support_description">傳送訊息給我們，我們會立即回覆。</string>
+	<!-- Extra description for "tell a friend" button, when space allows -->
+	<string name="tell_a_friend_description">您喜歡酒店超值優惠嗎？和您的朋友分享應用程式。</string>
 	<!-- Section header for other apps by Mobiata -->
 	<string name="travel_smart">醒目旅遊</string>
 	<!-- Subject line for "tell a friend" feature -->
@@ -523,6 +635,22 @@
 		<item quantity="two">%d 個小童</item>
 		<item quantity="many">%d 個小童</item>
 		<item quantity="other">%d 個小童</item>
+	</plurals>
+	<!-- A number of guests -->
+	<plurals name="number_of_guests">
+		<item quantity="zero">%d 位客人</item>
+		<item quantity="one">%d 位客人</item>
+		<item quantity="two">%d 位客人</item>
+		<item quantity="many">%d 位客人</item>
+		<item quantity="other">%d 位客人</item>
+	</plurals>
+	<!-- A number of nights (as in stay duration).  Capitalized -->
+	<plurals name="number_of_nights">
+		<item quantity="zero">%d 晚</item>
+		<item quantity="one">%d 晚</item>
+		<item quantity="two">%d 晚</item>
+		<item quantity="many">%d 晚</item>
+		<item quantity="other">%d 晚</item>
 	</plurals>
 
 	<!-- Distance strings --><!-- Abbreviated miles (used in distance_template) -->
