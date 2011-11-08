@@ -79,6 +79,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private TextView mHotelNameTextView;
 	private TextView mReviewsTitle;
 	private View mReviewsSection;
+	private View mReviewsContainer;
 	private ViewGroup mSomeReviewsContainer;
 	private View mReviewsLoadingContainer;
 	private ViewGroup mAmenitiesContainer;
@@ -110,7 +111,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mReviewsTitle = (TextView) view.findViewById(R.id.reviews_title);
 		mUserRating = (RatingBar) view.findViewById(R.id.user_rating_bar);
 		mSomeReviewsContainer = (ViewGroup) view.findViewById(R.id.some_reviews_container);
-		mReviewsSection = view.findViewById(R.id.reviews_container);
+		mReviewsSection = view.findViewById(R.id.reviews_section);
+		mReviewsContainer = view.findViewById(R.id.reviews_container);
 		mAmenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
@@ -160,22 +162,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				property.getTotalReviews()));
 		mUserRating.setRating((float) property.getAverageExpediaRating());
 
-		setupAvailabilitySummary();
-		// update the summarized rates if they are available
-		AvailabilityResponse availabilityResponse = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
-		updateSummarizedRates(availabilityResponse);
-
-		
-		int dimenResId = (property.getTotalReviews() > 3) ? R.dimen.min_height_two_rows_reviews : R.dimen.min_height_one_row_review;
-		mReviewsSection.setMinimumHeight((int) getActivity().getResources().getDimension(dimenResId));
-		mReviewsLoadingContainer.setVisibility(View.VISIBLE);
-		
-		addReviews(((TabletActivity) getActivity()).getReviewsForProperty());
-
-		mAmenitiesContainer.removeAllViews();
-		LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
-		
 		if (property.hasExpediaReviews()) {
+			mReviewsSection.setVisibility(View.VISIBLE);
 			mSeeAllReviewsButton.setVisibility(View.VISIBLE);
 			mSeeAllReviewsButton.setOnClickListener(new OnClickListener() {
 
@@ -191,8 +179,24 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		else {
 			mSeeAllReviewsButton.setVisibility(View.GONE);
 			mReviewsLoadingContainer.setVisibility(View.GONE);
+			mReviewsSection.setVisibility(View.GONE);
 		}
+		
+		setupAvailabilitySummary();
+		// update the summarized rates if they are available
+		AvailabilityResponse availabilityResponse = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
+		updateSummarizedRates(availabilityResponse);
 
+		
+		int dimenResId = (property.getTotalReviews() > 3) ? R.dimen.min_height_two_rows_reviews : R.dimen.min_height_one_row_review;
+		mReviewsContainer.setMinimumHeight((int) getActivity().getResources().getDimension(dimenResId));
+		mReviewsLoadingContainer.setVisibility(View.VISIBLE);
+		
+		addReviews(((TabletActivity) getActivity()).getReviewsForProperty());
+
+		mAmenitiesContainer.removeAllViews();
+		LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
+		
 		addHotelDescription(property);
 	}
 
