@@ -53,6 +53,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.Session;
 import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
@@ -114,7 +115,7 @@ public class ExpediaServices implements DownloadListener {
 	//////////////////////////////////////////////////////////////////////////
 	//// E3 API
 
-	private static final DateFormat ISO_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+	private static final String ISO_FORMAT = "yyyy-MM-dd";
 
 	public SearchResponse search(SearchParams params, int sortType) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
@@ -199,8 +200,10 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {
-		query.add(new BasicNameValuePair("checkInDate", ISO_FORMAT.format(params.getCheckInDate().getTime())));
-		query.add(new BasicNameValuePair("checkOutDate", ISO_FORMAT.format(params.getCheckOutDate().getTime())));
+		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
+		df.setTimeZone(CalendarUtils.getFormatTimeZone());
+		query.add(new BasicNameValuePair("checkInDate", df.format(params.getCheckInDate().getTime())));
+		query.add(new BasicNameValuePair("checkOutDate", df.format(params.getCheckOutDate().getTime())));
 
 		StringBuilder guests = new StringBuilder();
 		guests.append(params.getNumAdults());
