@@ -20,8 +20,8 @@
     </style>
 
     <style name="RatingBarSmall.Shadowed">
-        <item name="android:minHeight">16dip</item>
-        <item name="android:maxHeight">16dip</item>
+        <item name="android:minHeight">@dimen/min_height_rating_bar_small</item>
+        <item name="android:maxHeight">@dimen/max_height_rating_bar_small</item>
         <item name="android:background">@null</item>
     </style>
 

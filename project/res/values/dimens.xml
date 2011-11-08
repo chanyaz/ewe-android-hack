@@ -43,4 +43,7 @@
     
     <dimen name="min_height_two_rows_reviews">140dp</dimen>
     <dimen name="min_height_one_row_review">40dp</dimen>
+    
+    <dimen name="min_height_rating_bar_small">16dp</dimen>
+    <dimen name="max_height_rating_bar_small">16dp</dimen>
 </resources>
