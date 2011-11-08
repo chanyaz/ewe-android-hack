@@ -2,19 +2,19 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#dadada"
     android:fillViewport="true" >
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#dadada" >
+        android:padding="15dp" >
 
         <LinearLayout
             android:id="@+id/hotel_collage_and_title_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
             android:paddingBottom="7px"
             android:weightSum="3" >
 
@@ -40,8 +40,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:singleLine="true"
                     android:paddingBottom="5dp"
+                    android:singleLine="true"
                     android:textColor="@color/hotel_details_text_color"
                     android:textSize="16sp" />
 
@@ -117,9 +117,9 @@
                     android:id="@+id/empty_summart_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
                     android:layout_below="@+id/rates_progress_bar"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_centerHorizontal="true"
+                    android:paddingTop="10dp" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -128,7 +128,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/hotel_collage_and_title_container"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:orientation="vertical" >
 
@@ -194,39 +193,43 @@
                 android:layout_height="@dimen/two_pixels"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/divider"
-                android:padding="5dp"/>
-			<RelativeLayout
-			    android:id="@+id/reviews_container"
-				android:layout_height="wrap_content"
-				android:layout_width="fill_parent"
-				android:layout_marginTop="10dp"
-				android:orientation="vertical">
+                android:padding="5dp" />
+
+            <RelativeLayout
+                android:id="@+id/reviews_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/reviews_loading_container"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-					android:layout_centerInParent="true"
-					android:gravity="center"
-                    android:orientation="vertical">
-					<ProgressBar
-						android:id="@+id/reviews_progress_bar"
-		                style="@android:style/Widget.ProgressBar.Inverse"
-		                android:layout_width="wrap_content"
-		                android:layout_height="wrap_content"
-		                android:indeterminate="true" />
-					<TextView
-					    android:id="@+id/reviews_message_text_view"
-					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:paddingTop="10dp"
-					    android:text="@string/user_review_loading_text"/>
-				</LinearLayout>
-				<LinearLayout
-				    android:id="@+id/some_reviews_container"
-				    android:layout_height="wrap_content"
-				    android:layout_width="fill_parent"
-				    android:orientation="vertical"/>
-			</RelativeLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <ProgressBar
+                        android:id="@+id/reviews_progress_bar"
+                        style="@android:style/Widget.ProgressBar.Inverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true" />
+
+                    <TextView
+                        android:id="@+id/reviews_message_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:text="@string/user_review_loading_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/some_reviews_container"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -234,8 +237,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/reviews_section"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:orientation="vertical" >
 
             <TextView
@@ -254,8 +255,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/amenities_section"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:orientation="horizontal" />
     </RelativeLayout>
 

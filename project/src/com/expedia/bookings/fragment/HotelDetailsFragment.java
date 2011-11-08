@@ -431,6 +431,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		}
 
 		int tenDp = (int) Math.ceil(getActivity().getResources().getDisplayMetrics().density * 10);
+		int fiveDp = (int) Math.ceil(getActivity().getResources().getDisplayMetrics().density * 5);
 		int reviewCount = reviewsResponse.getReviewCount();
 		if (reviewCount > 0) {
 			for (int i = 0; i < MAX_REVIEWS_PER_ROW && reviewCount > 0; i++) {
@@ -448,6 +449,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 					LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT);
 					params.weight = 1;
+					params.rightMargin = fiveDp;
 					reviewSection.setLayoutParams(params);
 
 					TextView reviewTitle = (TextView) reviewSection.findViewById(R.id.review_title);
@@ -499,6 +501,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 		int sectionCount = hotelDescription.getSections().size();
 		int tenDp = (int) Math.ceil(getActivity().getResources().getDisplayMetrics().density * 10);
+		int fiveDp = (int) Math.ceil(getActivity().getResources().getDisplayMetrics().density * 5);
+
 		for (int i = 0; sectionCount > 0; i++) {
 
 			for (int j = 0; j < MAX_DESCRIPTION_SECTIONS_PER_ROW && sectionCount > 0; j++) {
@@ -509,8 +513,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
 						LayoutParams.WRAP_CONTENT);
+				params.bottomMargin = tenDp;
+				params.rightMargin = fiveDp;
 				descriptionSection.setLayoutParams(params);
-				descriptionSection.setPadding(0, tenDp, 0, 0);
 
 				TextView descriptionTitle = (TextView) descriptionSection
 						.findViewById(R.id.title_description_text_view);
