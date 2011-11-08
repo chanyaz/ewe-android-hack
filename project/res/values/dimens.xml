@@ -40,4 +40,7 @@
 	<dimen name="hotel_description_body_text_size">12sp</dimen>
 	
     <dimen name="mini_details_height">250dp</dimen>
+    
+    <dimen name="min_height_two_rows_reviews">140dp</dimen>
+    <dimen name="min_height_one_row_review">40dp</dimen>
 </resources>

@@ -33,7 +33,6 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.activity.TabletUserReviewsListActivity;
-import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.HotelDescription;
@@ -67,6 +66,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private static final int MAX_SUMMARIZED_RATE_RESULTS = 3;
 	private static final int MAX_REVIEWS_PER_ROW = 2;
 	private static final int MAX_DESCRIPTION_SECTIONS_PER_ROW = 2;
+	private static final int ANIMATION_SPEED = 350;
 
 	//----------------------------------
 	// VIEWS
@@ -78,7 +78,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private TextView mHotelLocationTextView;
 	private TextView mHotelNameTextView;
 	private TextView mReviewsTitle;
-	private ViewGroup mReviewsSection;
+	private View mReviewsSection;
+	private ViewGroup mSomeReviewsContainer;
+	private View mReviewsLoadingContainer;
 	private ViewGroup mAmenitiesContainer;
 	private RatingBar mUserRating;
 	private ViewGroup mHotelDescriptionContainer;
@@ -107,11 +109,13 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mCollageHandler = new HotelCollage(view, mPictureClickedListener);
 		mReviewsTitle = (TextView) view.findViewById(R.id.reviews_title);
 		mUserRating = (RatingBar) view.findViewById(R.id.user_rating_bar);
-		mReviewsSection = (ViewGroup) view.findViewById(R.id.reviews_container);
+		mSomeReviewsContainer = (ViewGroup) view.findViewById(R.id.some_reviews_container);
+		mReviewsSection = view.findViewById(R.id.reviews_container);
 		mAmenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
 		mRatesProgressBar = (ProgressBar) view.findViewById(R.id.rates_progress_bar);
+		mReviewsLoadingContainer =  view.findViewById(R.id.reviews_loading_container);
 
 		// Disable the scrollbar on the amenities HorizontalScrollView
 		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) view.findViewById(R.id.amenities_scroll_view);
@@ -161,6 +165,11 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		AvailabilityResponse availabilityResponse = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
 		updateSummarizedRates(availabilityResponse);
 
+		
+		int dimenResId = (property.getTotalReviews() > 3) ? R.dimen.min_height_two_rows_reviews : R.dimen.min_height_one_row_review;
+		mReviewsSection.setMinimumHeight((int) getActivity().getResources().getDimension(dimenResId));
+		mReviewsLoadingContainer.setVisibility(View.VISIBLE);
+		
 		addReviews(((TabletActivity) getActivity()).getReviewsForProperty());
 
 		mAmenitiesContainer.removeAllViews();
@@ -181,6 +190,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		}
 		else {
 			mSeeAllReviewsButton.setVisibility(View.GONE);
+			mReviewsLoadingContainer.setVisibility(View.GONE);
 		}
 
 		addHotelDescription(property);
@@ -223,11 +233,13 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			updateViews((Property) data);
 			break;
 		case TabletActivity.EVENT_REVIEWS_QUERY_STARTED:
-			mReviewsSection.removeAllViews();
+			mSomeReviewsContainer.removeAllViews();
+			mSomeReviewsContainer.setVisibility(View.GONE);
+			mReviewsLoadingContainer.setVisibility(View.VISIBLE);
 			break;
 		case TabletActivity.EVENT_REVIEWS_QUERY_COMPLETE:
 			ReviewsResponse reviewsResposne = (ReviewsResponse) data;
-			addReviews(reviewsResposne);
+ 			addReviews(reviewsResposne);
 			break;
 		}
 	}
@@ -326,7 +338,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		for (int i = 0; i < MAX_SUMMARIZED_RATE_RESULTS; i++) {
 			View summaryRow = mAvailabilityRatesContainer.getChildAt(i);
 			ObjectAnimator animator = ObjectAnimator.ofFloat(summaryRow, "alpha", 0, 1);
-			animator.setDuration(350);
+			animator.setDuration(ANIMATION_SPEED);
 			animator.start();
 
 			if (i > (mSummarizedRates.size() - 1)) {
@@ -407,7 +419,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	}
 
 	private void addReviews(ReviewsResponse reviewsResponse) {
-		mReviewsSection.removeAllViews();
+		mSomeReviewsContainer.removeAllViews();
+		mSomeReviewsContainer.setVisibility(View.GONE);
 
 		if (reviewsResponse == null) {
 			return;
@@ -447,9 +460,14 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 					reviewCount--;
 				}
-				mReviewsSection.addView(row);
+				mSomeReviewsContainer.addView(row);
 			}
-		}
+			mReviewsLoadingContainer.setVisibility(View.GONE);
+			mSomeReviewsContainer.setVisibility(View.VISIBLE);
+			ObjectAnimator animator = ObjectAnimator.ofFloat(mSomeReviewsContainer, "alpha", 0, 1);
+			animator.setDuration(ANIMATION_SPEED);
+			animator.start();
+		} 
 	}
 
 	private void addHotelDescription(Property property) {

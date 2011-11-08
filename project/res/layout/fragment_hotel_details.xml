@@ -194,9 +194,39 @@
                 android:layout_height="@dimen/two_pixels"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/divider"
-                android:padding="5dp" />
-
-            <include layout="@layout/include_some_reviews" />
+                android:padding="5dp"/>
+			<RelativeLayout
+			    android:id="@+id/reviews_container"
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:layout_marginTop="10dp"
+				android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/reviews_loading_container"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+					android:layout_centerInParent="true"
+					android:gravity="center"
+                    android:orientation="vertical">
+					<ProgressBar
+						android:id="@+id/reviews_progress_bar"
+		                style="@android:style/Widget.ProgressBar.Inverse"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:indeterminate="true" />
+					<TextView
+					    android:id="@+id/reviews_message_text_view"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:paddingTop="10dp"
+					    android:text="@string/user_review_loading_text"/>
+				</LinearLayout>
+				<LinearLayout
+				    android:id="@+id/some_reviews_container"
+				    android:layout_height="wrap_content"
+				    android:layout_width="fill_parent"
+				    android:orientation="vertical"/>
+			</RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
