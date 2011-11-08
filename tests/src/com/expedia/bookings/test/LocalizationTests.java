@@ -33,6 +33,7 @@ public class LocalizationTests extends AndroidTestCase {
 			new Locale("in"),
 			new Locale("ms"),
 			new Locale("tl"),
+			new Locale("nl"),
 			new Locale("zh"),
 			new Locale("en", "UK"),
 			new Locale("zh", "HK"),
@@ -145,7 +146,6 @@ public class LocalizationTests extends AndroidTestCase {
 
 			// ExpediaBookings
 			testString("booking_info_template", "Chicago, IL", "Aug 24", "Aug 25, 2011");
-			testString("filter_info_template", 5);
 			testString("NoGeocodingResults", "San Francisco");
 			testString("filter_distance_miles_template", 5);
 			testString("filter_distance_kilometers_template", 5);
@@ -176,6 +176,12 @@ public class LocalizationTests extends AndroidTestCase {
 			testPlural("number_of_adults");
 			testPlural("number_of_children");
 			testString("distance_template", "5", "miles");
+			testString("percent_off_template", 15.24f);
+			testString("min_room_price_template", "$125");
+			testString("bed_type_start_value_template", "2 Kings Bed");
+			testString("reviews_recommended_template", 10, 20);
+			testPlural("number_of_guests");
+			testPlural("number_of_nights");
 
 			// AndroidUtils
 			testString("MailChimpFailureReasonTemplate", "Failure reason");
