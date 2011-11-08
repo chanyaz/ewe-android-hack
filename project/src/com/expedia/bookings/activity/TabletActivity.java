@@ -395,7 +395,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 
 	private static final String TAG_INSTANCE_FRAGMENT = "INSTANCE_FRAGMENT";
 	private static final String TAG_SEARCH_PARAMS = "SEARCH_PARAMS";
-	private static final String TAG_QUICK_SEARCH = "QUICK_SEARCH";
 	private static final String TAG_HOTEL_LIST = "HOTEL_LIST";
 	private static final String TAG_HOTEL_MAP = "HOTEL_MAP";
 	private static final String TAG_HOTEL_DETAILS = "HOTEL_DETAILS";
@@ -481,7 +480,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			// remove them since they were not added to the backstack in the first place
 			if (fm.findFragmentByTag(TAG_SEARCH_PARAMS) != null) {
 				ft.remove(fm.findFragmentByTag(TAG_SEARCH_PARAMS));
-				ft.remove(fm.findFragmentByTag(TAG_QUICK_SEARCH));
 			}
 			ft.add(R.id.fragment_confirmation_receipt, BookingReceiptFragment.newInstance(true),
 					TAG_BOOKING_RECEIPT_CONFIRMATION);
