@@ -14,6 +14,9 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
+import android.graphics.Shader.TileMode;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
@@ -22,6 +25,7 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
@@ -61,7 +65,6 @@ import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.InstanceFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
 import com.expedia.bookings.fragment.NextOptionsFragment;
-import com.expedia.bookings.fragment.QuickSearchFragment;
 import com.expedia.bookings.fragment.RoomTypeDescriptionFragment;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment;
@@ -145,12 +148,17 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle events
 
+	private BitmapDrawable mListShadowDrawable;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		mContext = this;
 		mResources = getResources();
+		mListShadowDrawable = new BitmapDrawable(BitmapFactory.decodeResource(getResources(),
+				R.drawable.list_stroke_shadow));
+		mListShadowDrawable.setTileModeY(TileMode.REPEAT);
 
 		initializeInstanceFragment();
 
@@ -173,7 +181,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			// Show initial search interface
 			showSearchFragment();
 		}
-
 	}
 
 	@Override
@@ -445,6 +452,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		else {
 			fm.popBackStack(BACKSTACK_RESULTS, 0);
 		}
+
 	}
 
 	public void setupBookingInfoExperience() {
@@ -548,7 +556,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	@Override
 	public void onBackStackChanged() {
 		Log.v("onBackStackChanged()");
-
 		invalidateOptionsMenu();
 	}
 
@@ -672,6 +679,29 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		bd.startDownload(KEY_BOOKING, mBookingDownload, mBookingCallback);
 
 	}
+	
+	public void showAvailabilityListShadow() {
+		View availabilityListShadow = findViewById(R.id.availability_list_shadow);
+		availabilityListShadow.setBackgroundDrawable(mListShadowDrawable);
+		availabilityListShadow.setVisibility(View.VISIBLE);
+	}
+	
+	public void hideAvailabilityListShadow() {
+		View availabilityListShadow = findViewById(R.id.availability_list_shadow);
+		availabilityListShadow.setVisibility(View.GONE);
+	}
+	
+	public void showSearchResultsListShadow() {
+		View availabilityListShadow = findViewById(R.id.search_results_list_shadow);
+		availabilityListShadow.setBackgroundDrawable(mListShadowDrawable);
+		availabilityListShadow.setVisibility(View.VISIBLE);
+	}
+	
+	public void hideSearchResultsListShadow() {
+		View availabilityListShadow = findViewById(R.id.search_results_list_shadow);
+		availabilityListShadow.setVisibility(View.GONE);
+	}
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access

@@ -40,9 +40,4 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <View
-        android:layout_width="@dimen/one_pixel"
-        android:layout_height="fill_parent"
-        android:background="@color/light_gray" />
-
 </LinearLayout>

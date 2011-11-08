@@ -50,6 +50,14 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 		mAdapter = new HotelAdapter(getActivity());
 		setListAdapter(mAdapter);
 	}
+	
+	
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		((TabletActivity) getActivity()).showSearchResultsListShadow();
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,6 +75,14 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 		});
 
 		return view;
+	}
+	
+	
+
+	@Override
+	public void onDestroyView() {
+		((TabletActivity) getActivity()).hideSearchResultsListShadow();
+		super.onDestroyView();
 	}
 
 	@Override
