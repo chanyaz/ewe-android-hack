@@ -7,14 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
+import com.expedia.bookings.utils.AvailabilitySummaryLayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.HotelCollage;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
@@ -28,7 +29,6 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	private TextView mNameTextView;
 	private TextView mLocationTextView;
 	private RatingBar mRatingBar;
-	private Button mSeeDetailsButton;
 
 	private HotelCollage mCollageHandler;
 
@@ -48,14 +48,8 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		mNameTextView = (TextView) view.findViewById(R.id.name_text_view);
 		mLocationTextView = (TextView) view.findViewById(R.id.location_text_view);
 		mRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
-		mSeeDetailsButton = (Button) view.findViewById(R.id.see_details_button);
 		mCollageHandler = new HotelCollage(view, mOnImageClickedListener);
 
-		mSeeDetailsButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				((TabletActivity) getActivity()).moreDetailsForPropertySelected();
-			}
-		});
 		return view;
 	}
 
@@ -95,8 +89,22 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 			mLocationTextView.setText(StrUtils.formatAddress(property.getLocation()).replace("\n", ", "));
 			mRatingBar.setRating((float) property.getHotelRating());
 			mCollageHandler.updateCollage(property);
+
+			AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(((TabletActivity) getActivity()), getView());
+			// update the summarized rates if they are available
+			AvailabilityResponse availabilityResponse = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
+			AvailabilitySummaryLayoutUtils.updateSummarizedRates(((TabletActivity) getActivity()),
+					availabilityResponse, getView(), getString(R.string.see_details), seeDetailsOnClickListener);
 		}
 	}
+
+	private OnClickListener seeDetailsOnClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			((TabletActivity) getActivity()).moreDetailsForPropertySelected();
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// EventHandler implementation
@@ -106,6 +114,17 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		switch (eventCode) {
 		case TabletActivity.EVENT_PROPERTY_SELECTED:
 			updateViews((Property) data);
+			break;
+		case TabletActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
+			AvailabilitySummaryLayoutUtils.showLoadingForRates(((TabletActivity) getActivity()), getView());
+			break;
+		case TabletActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
+			AvailabilitySummaryLayoutUtils.showErrorForRates(getView(), (String) data);
+			break;
+		case TabletActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
+			AvailabilitySummaryLayoutUtils.showRatesContainer(getView());
+			AvailabilitySummaryLayoutUtils.updateSummarizedRates(((TabletActivity) getActivity()),
+					(AvailabilityResponse) data, getView(), getString(R.string.see_details), seeDetailsOnClickListener);
 			break;
 		}
 	}

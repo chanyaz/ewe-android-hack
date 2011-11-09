@@ -31,7 +31,7 @@
             android:layout_alignBottom="@id/name_text_view"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/location_name_view"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true" >
 
             <RatingBar
                 android:id="@+id/hotel_rating_bar"
@@ -65,14 +65,12 @@
             layout="@layout/include_mini_details_hotel_collage" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/availability_summary_container"
+    <include
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:background="@drawable/bg_summarized_room_rates"
         android:gravity="right"
-        android:orientation="vertical" />
+        layout="@layout/include_summarized_room_rates" />
 
     <Button
         android:id="@+id/see_details_button"

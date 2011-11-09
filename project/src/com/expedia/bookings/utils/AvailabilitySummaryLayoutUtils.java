@@ -1,7 +1,6 @@
 package com.expedia.bookings.utils;
 
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.text.Spannable;
@@ -14,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,13 +29,14 @@ import com.expedia.bookings.widget.SummarizedRoomRates;
 
 public class AvailabilitySummaryLayoutUtils {
 
-	public static void updateSummarizedRates(TabletActivity activity, AvailabilityResponse availabilityResponse, View view) {
+	public static void updateSummarizedRates(TabletActivity activity, AvailabilityResponse availabilityResponse,
+			View view, String buttonText, OnClickListener buttonOnClickListener) {
 
 		View emptyAvailabilitySummaryTextView = view.findViewById(R.id.empty_summart_container);
 		ProgressBar ratesProgressBar = (ProgressBar) view.findViewById(R.id.rates_progress_bar);
 
 		if (availabilityResponse != null) {
-			layoutAvailabilitySummary(activity, view);
+			layoutAvailabilitySummary(activity, view, buttonText, buttonOnClickListener);
 			emptyAvailabilitySummaryTextView.setVisibility(View.GONE);
 			ratesProgressBar.setVisibility(View.GONE);
 		}
@@ -104,7 +105,8 @@ public class AvailabilitySummaryLayoutUtils {
 		}
 	}
 
-	public static void layoutAvailabilitySummary(final TabletActivity activity, View view) {
+	public static void layoutAvailabilitySummary(final TabletActivity activity, View view, String buttonText,
+			OnClickListener buttonOnClickListener) {
 		final Property property = activity.getPropertyToDisplay();
 		final SummarizedRoomRates summarizedRoomRates = activity.getSummarizedRoomRates();
 		ViewGroup availabilityRatesContainer = (ViewGroup) view.findViewById(R.id.rates_container);
@@ -140,7 +142,7 @@ public class AvailabilitySummaryLayoutUtils {
 
 				@Override
 				public void onClick(View v) {
-					 activity.bookRoom(rate);
+					activity.bookRoom(rate);
 				}
 			});
 
@@ -170,16 +172,9 @@ public class AvailabilitySummaryLayoutUtils {
 		View selectRoomContainer = inflater.inflate(R.layout.snippet_select_room_button, null);
 		setHeightOfWeightOneForRow(selectRoomContainer);
 
-		View selectRoomButton = selectRoomContainer.findViewById(R.id.book_now_button);
-		selectRoomButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// if the user just presses the book now button,
-				// default to giving the user the minimum rate available
-				activity.bookRoom(summarizedRoomRates.getMinimumRateAvaialable());
-			}
-		});
+		TextView selectRoomButton = (TextView) selectRoomContainer.findViewById(R.id.book_now_button);
+		selectRoomButton.setText(buttonText);
+		selectRoomButton.setOnClickListener(buttonOnClickListener);
 		availabilityRatesContainer.addView(selectRoomContainer);
 
 	}

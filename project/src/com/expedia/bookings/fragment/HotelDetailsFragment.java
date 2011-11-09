@@ -30,6 +30,7 @@ import com.expedia.bookings.utils.AvailabilitySummaryLayoutUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.HotelCollage;
+import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
 
 public class HotelDetailsFragment extends Fragment implements EventHandler {
@@ -159,7 +160,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(((TabletActivity) getActivity()), getView());
 		// update the summarized rates if they are available
 		AvailabilityResponse availabilityResponse = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
-		AvailabilitySummaryLayoutUtils.updateSummarizedRates(((TabletActivity) getActivity()), availabilityResponse, getView());
+		AvailabilitySummaryLayoutUtils.updateSummarizedRates(((TabletActivity) getActivity()), availabilityResponse,
+				getView(), getString(R.string.select_room), mSelectRoomButtonOnClickListener);
 
 		int dimenResId = (property.getTotalReviews() > 3) ? R.dimen.min_height_two_rows_reviews
 				: R.dimen.min_height_one_row_review;
@@ -185,6 +187,15 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		}
 	};
 
+	private OnClickListener mSelectRoomButtonOnClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			SummarizedRoomRates summarizedRoomRates = ((TabletActivity) getActivity()).getSummarizedRoomRates();
+			((TabletActivity) getActivity()).bookRoom(summarizedRoomRates.getMinimumRateAvaialable());
+		}
+	};
+
 	//////////////////////////////////////////////////////////////////////////
 	// EVENTHANDLER IMPLEMENTATION
 
@@ -199,7 +210,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
 			AvailabilitySummaryLayoutUtils.showRatesContainer(getView());
-			AvailabilitySummaryLayoutUtils.updateSummarizedRates(((TabletActivity) getActivity()), (AvailabilityResponse) data, getView());
+			AvailabilitySummaryLayoutUtils.updateSummarizedRates(((TabletActivity) getActivity()),
+					(AvailabilityResponse) data, getView(), getString(R.string.select_room),
+					mSelectRoomButtonOnClickListener);
 			break;
 		case TabletActivity.EVENT_PROPERTY_SELECTED:
 			updateViews((Property) data);
