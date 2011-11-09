@@ -76,6 +76,7 @@ import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.SearchUtils;
+import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.mobiata.android.BackgroundDownloader;
@@ -740,6 +741,10 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public AvailabilityResponse getRoomsAndRatesAvailability() {
 		return mInstance.mAvailabilityResponses.get(mInstance.mProperty.getPropertyId());
 	}
+	
+	public SummarizedRoomRates getSummarizedRoomRates() {
+		return mInstance.mSummarizedRoomRates.get(mInstance.mProperty.getPropertyId());
+	}
 
 	public ReviewsResponse getReviewsForProperty() {
 		return mInstance.mReviewsResponses.get(mInstance.mProperty.getExpediaPropertyId());
@@ -1063,6 +1068,9 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		public void onDownload(Object results) {
 			AvailabilityResponse availabilityResponse = (AvailabilityResponse) results;
 			mInstance.mAvailabilityResponses.put(mInstance.mProperty.getPropertyId(), availabilityResponse);
+			
+			SummarizedRoomRates summarizedRoomRates = new SummarizedRoomRates();
+			mInstance.mSummarizedRoomRates.put(mInstance.mProperty.getPropertyId(), summarizedRoomRates);
 
 			if (availabilityResponse == null) {
 				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR,
@@ -1073,6 +1081,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 						.get(0).getPresentableMessage(mContext));
 			}
 			else {
+				summarizedRoomRates.updateSummarizedRoomRates(availabilityResponse);
 				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
 			}
 		}

@@ -17,6 +17,7 @@ import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.Session;
+import com.expedia.bookings.widget.SummarizedRoomRates;
 
 /**
  * This Fragment is designed for retaining data across orientation changes or what have you.
@@ -52,8 +53,11 @@ public class InstanceFragment extends Fragment {
 	public String mPropertyInfoStatus;
 	public PropertyInfoResponse mPropertyInfoResponse;
 	public Map<String, AvailabilityResponse> mAvailabilityResponses = new HashMap<String, AvailabilityResponse>();
+	public Map<String, SummarizedRoomRates> mSummarizedRoomRates = new HashMap<String, SummarizedRoomRates>();
 	public Map<Integer, ReviewsResponse> mReviewsResponses = new HashMap<Integer, ReviewsResponse>();
 	public BookingResponse mBookingResponse;
+	
+	
 
 	// The data that the user has entered for billing info
 	public BillingInfo mBillingInfo;

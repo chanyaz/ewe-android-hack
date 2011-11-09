@@ -87,7 +87,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	//----------------------------------
 	private LayoutInflater mInflater;
 	private HotelCollage mCollageHandler;
-	private SummarizedRoomRates mSummarizedRoomRates;
 
 	//////////////////////////////////////////////////////////////////////////
 	// LIFECYCLE EVENTS
@@ -112,9 +111,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
 		mRatesProgressBar = (ProgressBar) view.findViewById(R.id.rates_progress_bar);
-		mReviewsLoadingContainer =  view.findViewById(R.id.reviews_loading_container);
-		
-		mSummarizedRoomRates = new SummarizedRoomRates();
+		mReviewsLoadingContainer = view.findViewById(R.id.reviews_loading_container);
 
 		// Disable the scrollbar on the amenities HorizontalScrollView
 		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) view.findViewById(R.id.amenities_scroll_view);
@@ -178,22 +175,22 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			mReviewsLoadingContainer.setVisibility(View.GONE);
 			mReviewsSection.setVisibility(View.GONE);
 		}
-		
+
 		setupAvailabilitySummary();
 		// update the summarized rates if they are available
 		AvailabilityResponse availabilityResponse = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
 		updateSummarizedRates(availabilityResponse);
 
-		
-		int dimenResId = (property.getTotalReviews() > 3) ? R.dimen.min_height_two_rows_reviews : R.dimen.min_height_one_row_review;
+		int dimenResId = (property.getTotalReviews() > 3) ? R.dimen.min_height_two_rows_reviews
+				: R.dimen.min_height_one_row_review;
 		mReviewsContainer.setMinimumHeight((int) getActivity().getResources().getDimension(dimenResId));
 		mReviewsLoadingContainer.setVisibility(View.VISIBLE);
-		
+
 		addReviews(((TabletActivity) getActivity()).getReviewsForProperty());
 
 		mAmenitiesContainer.removeAllViews();
 		LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
-		
+
 		addHotelDescription(property);
 	}
 
@@ -216,7 +213,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		switch (eventCode) {
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
 			showLoadingForRates();
-			mSummarizedRoomRates.clearOutData();
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
 			mEmptyAvailabilitySummaryTextView.setVisibility(View.VISIBLE);
@@ -240,7 +236,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			break;
 		case TabletActivity.EVENT_REVIEWS_QUERY_COMPLETE:
 			ReviewsResponse reviewsResposne = (ReviewsResponse) data;
- 			addReviews(reviewsResposne);
+			addReviews(reviewsResposne);
 			break;
 		}
 	}
@@ -254,7 +250,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mEmptyAvailabilitySummaryTextView.setText(getString(R.string.room_rates_loading));
 		mAvailabilityRatesContainer.setVisibility(View.GONE);
 	}
-
 
 	private void setupAvailabilitySummary() {
 		final Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
@@ -309,6 +304,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 	private void layoutAvailabilitySummary() {
 		final Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
+		final SummarizedRoomRates summarizedRoomRates = ((TabletActivity) getActivity()).getSummarizedRoomRates();
 		boolean isPropertyOnSale = property.getLowestRate().getSavingsPercent() > 0;
 		mAvailabilityRatesContainer.removeAllViews();
 
@@ -330,11 +326,11 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			animator.setDuration(ANIMATION_SPEED);
 			animator.start();
 
-			if (i > (mSummarizedRoomRates.numSummarizedRates() - 1)) {
+			if (i > (summarizedRoomRates.numSummarizedRates() - 1)) {
 				continue;
 			}
 
-			final Rate rate = mSummarizedRoomRates.getRate(i);
+			final Rate rate = summarizedRoomRates.getRate(i);
 			summaryRow.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -348,7 +344,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
 
-			Pair<BedTypeId, Rate> pair = mSummarizedRoomRates.getBedTypeToRatePair(i);
+			Pair<BedTypeId, Rate> pair = summarizedRoomRates.getBedTypeToRatePair(i);
 			for (BedType bedType : pair.second.getBedTypes()) {
 				if (bedType.bedTypeId == pair.first) {
 					summaryDescription.setText(Html.fromHtml(getString(R.string.bed_type_start_value_template,
@@ -376,7 +372,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			public void onClick(View v) {
 				// if the user just presses the book now button,
 				// default to giving the user the minimum rate available
-				((TabletActivity) getActivity()).bookRoom(mSummarizedRoomRates.getMinimumRateAvaialable());
+				((TabletActivity) getActivity()).bookRoom(summarizedRoomRates.getMinimumRateAvaialable());
 			}
 		});
 		mAvailabilityRatesContainer.addView(selectRoomContainer);
@@ -390,10 +386,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	}
 
 	private void updateSummarizedRates(AvailabilityResponse availabilityResponse) {
-		mSummarizedRoomRates.clearOutData();
 
 		if (availabilityResponse != null) {
-			mSummarizedRoomRates.updateSummarizedRoomRates(availabilityResponse);
 			layoutAvailabilitySummary();
 			mEmptyAvailabilitySummaryTextView.setVisibility(View.GONE);
 			mRatesProgressBar.setVisibility(View.GONE);
@@ -456,7 +450,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			ObjectAnimator animator = ObjectAnimator.ofFloat(mSomeReviewsContainer, "alpha", 0, 1);
 			animator.setDuration(ANIMATION_SPEED);
 			animator.start();
-		} 
+		}
 	}
 
 	private void addHotelDescription(Property property) {
