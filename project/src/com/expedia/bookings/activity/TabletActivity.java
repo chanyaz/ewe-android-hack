@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
+import android.widget.SearchView.OnSuggestionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
@@ -149,7 +150,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	// Lifecycle events
 
 	private BitmapDrawable mListShadowDrawable;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -234,6 +235,19 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		// Register the autocomplete provider
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 		mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+		// #10515: Clear focus on SearchView when user clicks a suggestion
+		mSearchView.setOnSuggestionListener(new OnSuggestionListener() {
+			public boolean onSuggestionSelect(int position) {
+				mSearchView.clearFocus();
+				return false;
+			}
+
+			public boolean onSuggestionClick(int position) {
+				mSearchView.clearFocus();
+				return false;
+			}
+		});
 
 		mInstance.mFilter.addOnFilterChangedListener(this);
 	}
@@ -677,29 +691,28 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		bd.startDownload(KEY_BOOKING, mBookingDownload, mBookingCallback);
 
 	}
-	
+
 	public void showAvailabilityListShadow() {
 		View availabilityListShadow = findViewById(R.id.availability_list_shadow);
 		availabilityListShadow.setBackgroundDrawable(mListShadowDrawable);
 		availabilityListShadow.setVisibility(View.VISIBLE);
 	}
-	
+
 	public void hideAvailabilityListShadow() {
 		View availabilityListShadow = findViewById(R.id.availability_list_shadow);
 		availabilityListShadow.setVisibility(View.GONE);
 	}
-	
+
 	public void showSearchResultsListShadow() {
 		View availabilityListShadow = findViewById(R.id.search_results_list_shadow);
 		availabilityListShadow.setBackgroundDrawable(mListShadowDrawable);
 		availabilityListShadow.setVisibility(View.VISIBLE);
 	}
-	
+
 	public void hideSearchResultsListShadow() {
 		View availabilityListShadow = findViewById(R.id.search_results_list_shadow);
 		availabilityListShadow.setVisibility(View.GONE);
 	}
-
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
