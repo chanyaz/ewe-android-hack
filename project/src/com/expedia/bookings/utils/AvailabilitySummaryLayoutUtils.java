@@ -32,6 +32,10 @@ public class AvailabilitySummaryLayoutUtils {
 	public static void updateSummarizedRates(TabletActivity activity, AvailabilityResponse availabilityResponse,
 			View view, String buttonText, OnClickListener buttonOnClickListener) {
 
+		if (view == null) {
+			return;
+		}
+
 		View emptyAvailabilitySummaryTextView = view.findViewById(R.id.empty_summart_container);
 		ProgressBar ratesProgressBar = (ProgressBar) view.findViewById(R.id.rates_progress_bar);
 
@@ -191,6 +195,9 @@ public class AvailabilitySummaryLayoutUtils {
 	}
 
 	public static void showRatesContainer(View view) {
+		if (view == null) {
+			return;
+		}
 		TextView emptyAvailabilitySummaryTextView = (TextView) view.findViewById(R.id.empty_summart_container);
 		ProgressBar ratesProgressBar = (ProgressBar) view.findViewById(R.id.rates_progress_bar);
 		View availabilityRatesContainer = view.findViewById(R.id.rates_container);
@@ -201,6 +208,11 @@ public class AvailabilitySummaryLayoutUtils {
 	}
 
 	public static void showErrorForRates(View view, String string) {
+
+		if (view == null) {
+			return;
+		}
+
 		TextView emptyAvailabilitySummaryTextView = (TextView) view.findViewById(R.id.empty_summart_container);
 		ProgressBar ratesProgressBar = (ProgressBar) view.findViewById(R.id.rates_progress_bar);
 		View availabilityRatesContainer = view.findViewById(R.id.rates_container);
