@@ -148,7 +148,7 @@
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">Tanpa peringkat</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-	<string name="percent_off_template">Hemat %2,0f%%</string>
+	<string name="percent_off_template">Hemat %2.0f%%</string>
 	
 	<!-- Filter results action bar label -->
 	<string name="filter_results">Hasil Filter</string>
