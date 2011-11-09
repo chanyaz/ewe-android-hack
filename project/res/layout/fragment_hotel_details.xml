@@ -63,65 +63,11 @@
             android:gravity="right"
             android:weightSum="3" >
 
-            <RelativeLayout
-                android:id="@+id/availability_summary_container"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_alignParentRight="true"
-                android:layout_weight="1"
-                android:background="@drawable/bg_summarized_room_rates"
-                android:orientation="vertical" >
-
-                <!-- Min price available -->
-
-                <RelativeLayout
-                    android:id="@+id/min_price_row_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40px"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true" >
-
-                    <TextView
-                        android:id="@+id/min_price_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/per_night_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@id/min_price_text_view"
-                        android:layout_toRightOf="@id/min_price_text_view"
-                        android:text="@string/per_night"
-                        android:textSize="16sp" />
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/rates_container"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_below="@+id/min_price_row_container"
-                    android:orientation="vertical" />
-
-                <ProgressBar
-                    android:id="@+id/rates_progress_bar"
-                    style="@android:style/Widget.ProgressBar.Inverse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:indeterminate="true" />
-
-                <TextView
-                    android:id="@+id/empty_summart_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rates_progress_bar"
-                    android:gravity="center_horizontal"
-                    android:layout_centerHorizontal="true"
-                    android:paddingTop="10dp" />
-            </RelativeLayout>
+			<include
+			    layout="@layout/include_summarized_room_rates"
+			    android:layout_height="fill_parent"
+			    android:layout_width="0dp"
+			    android:layout_weight="1"/>
         </LinearLayout>
 
         <LinearLayout

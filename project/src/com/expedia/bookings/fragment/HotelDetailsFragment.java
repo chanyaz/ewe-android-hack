@@ -1,12 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.PriorityQueue;
-
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Fragment;
@@ -48,6 +41,7 @@ import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.HotelCollage;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
+import com.expedia.bookings.widget.SummarizedRoomRates;
 
 public class HotelDetailsFragment extends Fragment implements EventHandler {
 
@@ -93,6 +87,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	//----------------------------------
 	private LayoutInflater mInflater;
 	private HotelCollage mCollageHandler;
+	private SummarizedRoomRates mSummarizedRoomRates;
 
 	//////////////////////////////////////////////////////////////////////////
 	// LIFECYCLE EVENTS
@@ -118,6 +113,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
 		mRatesProgressBar = (ProgressBar) view.findViewById(R.id.rates_progress_bar);
 		mReviewsLoadingContainer =  view.findViewById(R.id.reviews_loading_container);
+		
+		mSummarizedRoomRates = new SummarizedRoomRates();
 
 		// Disable the scrollbar on the amenities HorizontalScrollView
 		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) view.findViewById(R.id.amenities_scroll_view);
@@ -219,7 +216,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		switch (eventCode) {
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
 			showLoadingForRates();
-			clearOutData();
+			mSummarizedRoomRates.clearOutData();
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
 			mEmptyAvailabilitySummaryTextView.setVisibility(View.VISIBLE);
@@ -258,18 +255,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mAvailabilityRatesContainer.setVisibility(View.GONE);
 	}
 
-	private void clearOutData() {
-		mBedTypeToMinRateMap.clear();
-		mSummarizedRates.clear();
-		mAvailableDoubleBedTypes.clear();
-		mAvailableFullBedTypes.clear();
-		mAvailableKingBedTypes.clear();
-		mAvailableQueenBedTypes.clear();
-		mAvailableTwinBedTypes.clear();
-		mAvailableSingleBedTypes.clear();
-		mAvailableRemainingBedTypes.clear();
-		mMinimumRateAvailable = null;
-	}
 
 	private void setupAvailabilitySummary() {
 		final Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
@@ -345,11 +330,11 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			animator.setDuration(ANIMATION_SPEED);
 			animator.start();
 
-			if (i > (mSummarizedRates.size() - 1)) {
+			if (i > (mSummarizedRoomRates.numSummarizedRates() - 1)) {
 				continue;
 			}
 
-			final Rate rate = mSummarizedRates.get(i).second;
+			final Rate rate = mSummarizedRoomRates.getRate(i);
 			summaryRow.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -363,7 +348,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
 
-			Pair<BedTypeId, Rate> pair = mSummarizedRates.get(i);
+			Pair<BedTypeId, Rate> pair = mSummarizedRoomRates.getBedTypeToRatePair(i);
 			for (BedType bedType : pair.second.getBedTypes()) {
 				if (bedType.bedTypeId == pair.first) {
 					summaryDescription.setText(Html.fromHtml(getString(R.string.bed_type_start_value_template,
@@ -391,7 +376,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			public void onClick(View v) {
 				// if the user just presses the book now button,
 				// default to giving the user the minimum rate available
-				((TabletActivity) getActivity()).bookRoom(mMinimumRateAvailable);
+				((TabletActivity) getActivity()).bookRoom(mSummarizedRoomRates.getMinimumRateAvaialable());
 			}
 		});
 		mAvailabilityRatesContainer.addView(selectRoomContainer);
@@ -405,12 +390,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	}
 
 	private void updateSummarizedRates(AvailabilityResponse availabilityResponse) {
-		clearOutData();
+		mSummarizedRoomRates.clearOutData();
 
 		if (availabilityResponse != null) {
-			createBedTypeToMinRateMapping(availabilityResponse);
-			clusterByBedType();
-			summarizeRates();
+			mSummarizedRoomRates.updateSummarizedRoomRates(availabilityResponse);
 			layoutAvailabilitySummary();
 			mEmptyAvailabilitySummaryTextView.setVisibility(View.GONE);
 			mRatesProgressBar.setVisibility(View.GONE);
@@ -534,207 +517,5 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			}
 		}
 
-	}
-
-	//----------------------------------------------
-	// AVAILABILITY CLUSTERING BOOKKEEPING + METHODS
-	//----------------------------------------------
-
-	/**
-	 * The clustering goal is as follows: To summarize the available
-	 * rooms for a particular hotel into a distribution that represents the top 3
-	 * most relevant rooms to the user.
-	 * 
-	 * The algorithm is as follows:
-	 * a) Start off with pre-defined buckets of all bed types categorized by the size of the bed 
-	 *    (eg. KING, QUEEN, DOUBLE, etc). The relative ordering of the hotels in the same bucket
-	 *    is defined by the position of the enum {@link com.expedia.bookings.data.Rate.BedTypeId}
-	 *   
-	 * b) Go through all rates to create a mapping of bedType to the minimum possible rate
-	 *    available for that bed type.
-	 *    
-	 * c) Cluster the minimum rates for each bedTypeId into the pre-defined buckets using 
-	 *    priority queues that maintain the relative priority of bedTypes in the same bucket
-	 * 
-	 * d) Pick one hotel from each queue until all hotels have been picked. The order in which
-	 *    to pick hotels from the bucket is: King > Queen > Double > Twin > Single > Full > Rest
-	 *    
-	 * e) Display as many as you'd like
-	 */
-	private HashMap<BedTypeId, Rate> mBedTypeToMinRateMap = new HashMap<BedTypeId, Rate>();
-	private ArrayList<Pair<BedTypeId, Rate>> mSummarizedRates = new ArrayList<Pair<BedTypeId, Rate>>();
-	private Rate mMinimumRateAvailable;
-
-	/*
-	 * This comparator is used to determine the relative priority between 
-	 * bed types of the same kind (king, queen, full, single, etc)
-	 */
-	private Comparator<BedTypeId> BED_TYPE_COMPARATOR = new Comparator<Rate.BedTypeId>() {
-
-		@Override
-		public int compare(BedTypeId object1, BedTypeId object2) {
-			if (object2 == null) {
-				return 1;
-			}
-			return object1.compareTo(object2);
-		}
-	};
-
-	/*
-	 * These priority queues each keep track of the relative priority of bed types available within
-	 * each defined bucket/category. The reason for this is so that we can display the relevant results
-	 * to the user in the summary and give them a good distribution of the different kind of rooms available
-	 */
-	private PriorityQueue<BedTypeId> mAvailableKingBedTypes = new PriorityQueue<Rate.BedTypeId>(1, BED_TYPE_COMPARATOR);
-	private PriorityQueue<BedTypeId> mAvailableQueenBedTypes = new PriorityQueue<Rate.BedTypeId>(1, BED_TYPE_COMPARATOR);
-	private PriorityQueue<BedTypeId> mAvailableDoubleBedTypes = new PriorityQueue<Rate.BedTypeId>(1,
-			BED_TYPE_COMPARATOR);
-	private PriorityQueue<BedTypeId> mAvailableTwinBedTypes = new PriorityQueue<Rate.BedTypeId>(1, BED_TYPE_COMPARATOR);
-	private PriorityQueue<BedTypeId> mAvailableFullBedTypes = new PriorityQueue<Rate.BedTypeId>(1, BED_TYPE_COMPARATOR);
-	private PriorityQueue<BedTypeId> mAvailableSingleBedTypes = new PriorityQueue<Rate.BedTypeId>(1,
-			BED_TYPE_COMPARATOR);
-	private PriorityQueue<BedTypeId> mAvailableRemainingBedTypes = new PriorityQueue<Rate.BedTypeId>(1,
-			BED_TYPE_COMPARATOR);
-
-	private static final List<BedTypeId> KING_BED_TYPES;
-	private static final List<BedTypeId> QUEEN_BED_TYPES;
-	private static final List<BedTypeId> DOUBLE_BED_TYPES;
-	private static final List<BedTypeId> TWIN_BED_TYPES;
-	private static final List<BedTypeId> FULL_BED_TYPES;
-	private static final List<BedTypeId> SINGLE_BED_TYPES;
-
-	/*
-	 * Creating the pre-defined groupings of bed types
-	 */
-	static {
-		List<BedTypeId> bedTypes = new ArrayList<Rate.BedTypeId>();
-		bedTypes.add(BedTypeId.ONE_KING_BED);
-		bedTypes.add(BedTypeId.TWO_KING_BEDS);
-		KING_BED_TYPES = Collections.unmodifiableList(new ArrayList<Rate.BedTypeId>(bedTypes));
-
-		bedTypes.clear();
-		bedTypes.add(BedTypeId.ONE_QUEEN_BED);
-		bedTypes.add(BedTypeId.TWO_QUEEN_BEDS);
-		QUEEN_BED_TYPES = Collections.unmodifiableList(new ArrayList<Rate.BedTypeId>(bedTypes));
-
-		bedTypes.clear();
-		bedTypes.add(BedTypeId.ONE_DOUBLE_BED);
-		bedTypes.add(BedTypeId.TWO_DOUBLE_BEDS);
-		DOUBLE_BED_TYPES = Collections.unmodifiableList(new ArrayList<Rate.BedTypeId>(bedTypes));
-
-		bedTypes.clear();
-		bedTypes.add(BedTypeId.ONE_TWIN_BED);
-		bedTypes.add(BedTypeId.TWO_TWIN_BEDS);
-		bedTypes.add(BedTypeId.THREE_TWIN_BEDS);
-		bedTypes.add(BedTypeId.FOUR_TWIN_BEDS);
-		TWIN_BED_TYPES = Collections.unmodifiableList(new ArrayList<Rate.BedTypeId>(bedTypes));
-
-		bedTypes.clear();
-		bedTypes.add(BedTypeId.ONE_FULL_BED);
-		bedTypes.add(BedTypeId.TWO_FULL_BEDS);
-		FULL_BED_TYPES = Collections.unmodifiableList(new ArrayList<Rate.BedTypeId>(bedTypes));
-
-		bedTypes.clear();
-		bedTypes.add(BedTypeId.ONE_SINGLE_BED);
-		bedTypes.add(BedTypeId.TWO_SINGLE_BEDS);
-		bedTypes.add(BedTypeId.THREE_SINGLE_BEDS);
-		bedTypes.add(BedTypeId.FOUR_SINGLE_BEDS);
-		SINGLE_BED_TYPES = Collections.unmodifiableList(new ArrayList<Rate.BedTypeId>(bedTypes));
-	}
-
-	/*
-	 * This method creates a mapping from bed type to the minimum
-	 * rate available for that bed type
-	 */
-	private void createBedTypeToMinRateMapping(AvailabilityResponse response) {
-		mBedTypeToMinRateMap.clear();
-
-		if (response.getRates() == null) {
-			return;
-		}
-
-		for (Rate rate : response.getRates()) {
-			if (rate.getBedTypes() == null) {
-				continue;
-			}
-			for (BedType bedType : rate.getBedTypes()) {
-				BedTypeId bedTypeId = bedType.bedTypeId;
-				/*
-				 * If a rate already exists for this bed type, 
-				 * check if its the minimum possible rate
-				 */
-				if (mBedTypeToMinRateMap.containsKey(bedTypeId)) {
-					Rate currentMinimumRate = mBedTypeToMinRateMap.get(bedTypeId);
-					if (currentMinimumRate.getDisplayRate().getAmount() > rate.getDisplayRate().getAmount()) {
-						mBedTypeToMinRateMap.put(bedTypeId, rate);
-					}
-				}
-				else {
-					mBedTypeToMinRateMap.put(bedTypeId, rate);
-				}
-			}
-			// also keep track of the minimum of all rates to display\
-			if (mMinimumRateAvailable == null
-					|| mMinimumRateAvailable.getDisplayRate().getAmount() > rate.getDisplayRate().getAmount()) {
-				mMinimumRateAvailable = rate;
-			}
-		}
-	}
-
-	/*
-	 * This method clusters hotels into the above defined buckets
-	 */
-	private void clusterByBedType() {
-		for (BedTypeId id : mBedTypeToMinRateMap.keySet()) {
-			if (KING_BED_TYPES.contains(id)) {
-				mAvailableKingBedTypes.add(id);
-			}
-			else if (QUEEN_BED_TYPES.contains(id)) {
-				mAvailableQueenBedTypes.add(id);
-			}
-			else if (DOUBLE_BED_TYPES.contains(id)) {
-				mAvailableDoubleBedTypes.add(id);
-			}
-			else if (TWIN_BED_TYPES.contains(id)) {
-				mAvailableTwinBedTypes.add(id);
-			}
-			else if (FULL_BED_TYPES.contains(id)) {
-				mAvailableFullBedTypes.add(id);
-			}
-			else if (SINGLE_BED_TYPES.contains(id)) {
-				mAvailableSingleBedTypes.add(id);
-			}
-			else {
-				mAvailableRemainingBedTypes.add(id);
-			}
-		}
-	}
-
-	/*
-	 * This method picks one rate to display from each bucket
-	 * and loops through this process until all queues are 
-	 * emptied out and we have a list summarized rates ordered 
-	 * by relevance
-	 */
-	private void summarizeRates() {
-		while (!mAvailableKingBedTypes.isEmpty() || !mAvailableQueenBedTypes.isEmpty()
-				|| !mAvailableTwinBedTypes.isEmpty() || !mAvailableSingleBedTypes.isEmpty()
-				|| !mAvailableDoubleBedTypes.isEmpty() || !mAvailableFullBedTypes.isEmpty()
-				|| !mAvailableRemainingBedTypes.isEmpty()) {
-			addRateFromQueue(mAvailableKingBedTypes);
-			addRateFromQueue(mAvailableQueenBedTypes);
-			addRateFromQueue(mAvailableDoubleBedTypes);
-			addRateFromQueue(mAvailableTwinBedTypes);
-			addRateFromQueue(mAvailableSingleBedTypes);
-			addRateFromQueue(mAvailableFullBedTypes);
-			addRateFromQueue(mAvailableRemainingBedTypes);
-		}
-	}
-
-	private void addRateFromQueue(PriorityQueue<BedTypeId> queue) {
-		BedTypeId id = queue.poll();
-		if (id != null) {
-			mSummarizedRates.add(new Pair<Rate.BedTypeId, Rate>(id, mBedTypeToMinRateMap.get(id)));
-		}
 	}
 }
