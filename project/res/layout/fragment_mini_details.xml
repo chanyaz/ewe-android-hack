@@ -3,46 +3,35 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg_mini_details"
+    android:orientation="horizontal"
     android:padding="15dp"
-    android:orientation="vertical"
-    android:weightSum="3" >
+    android:weightSum="4" >
 
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="3"
         android:padding="5dp" >
 
-        <Button
-            android:id="@+id/see_details_button"
-            style="@style/Widget.Button.Yellow"
-            android:layout_width="200dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/see_details"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:id="@+id/name_layout"
+        <TextView
+            android:id="@+id/name_text_view"
+            style="@style/HotelNameTitle_Tablet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/see_details_button"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
+            android:layout_toLeftOf="@+id/hotel_rating_bar"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/name_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textSize="24sp"
-                style="@style/HotelNameTitle_Tablet"/>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/name_text_view"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/location_name_view"
+            android:layout_centerVertical="true">
 
             <RatingBar
                 android:id="@+id/hotel_rating_bar"
@@ -53,27 +42,48 @@
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize=".5" />
-        </LinearLayout>
+        </FrameLayout>
 
         <TextView
             android:id="@+id/location_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/name_layout"
-            android:layout_toLeftOf="@+id/see_details_button"
+            android:layout_alignParentRight="@id/name_text_view"
+            android:layout_below="@+id/name_text_view"
+            android:layout_marginBottom="10dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textSize="16sp"
-            android:textColor="@color/hotel_details_text_color" />
+            android:textColor="@color/hotel_details_text_color"
+            android:textSize="16sp" />
+
+        <include
+            android:id="@+id/hotel_collage_container"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/location_text_view"
+            layout="@layout/include_mini_details_hotel_collage" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2" >
+        android:id="@+id/availability_summary_container"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:background="@drawable/bg_summarized_room_rates"
+        android:gravity="right"
+        android:orientation="vertical" />
 
-        <include layout="@layout/include_mini_details_hotel_collage" />
-    </RelativeLayout>
+    <Button
+        android:id="@+id/see_details_button"
+        style="@style/Widget.Button.Yellow"
+        android:layout_width="200dp"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/see_details"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 </LinearLayout>
