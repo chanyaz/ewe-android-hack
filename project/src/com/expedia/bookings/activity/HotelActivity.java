@@ -305,6 +305,8 @@ public class HotelActivity extends AsyncLoadActivity {
 	private void layoutDescription(ViewGroup descriptionContainer, String description) {
 		mDescription.parseDescription(description);
 
+		descriptionContainer.removeAllViews();
+
 		// Try to add the address as the third section
 		int addressSection = 2;
 
