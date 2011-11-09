@@ -730,7 +730,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		}
 	}
 
-	private class ActivityState {
+	private static class ActivityState {
 		public ReviewSort mCurrentReviewSort;
 		public HashMap<ReviewSort, ArrayList<ReviewWrapper>> reviewsMapWrapped;
 		public HashMap<ReviewSort, Boolean> reviewsAttemptDownloadMap;

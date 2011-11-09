@@ -2978,7 +2978,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	// PRIVATE CLASSES
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	private class ActivityState {
+	private static class ActivityState {
 		// Safe
 		public String tag;
 		public boolean showDistance;
