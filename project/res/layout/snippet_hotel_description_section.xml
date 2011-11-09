@@ -10,7 +10,7 @@
 		android:layout_height="wrap_content"
 		android:textStyle="bold"
 		android:textColor="@color/hotel_details_text_color"
-		style="@style/HotelDescriptionTitle"/>
+		style="@style/HotelNameTitle_Tablet"/>
 	<TextView
 		android:id="@+id/body_description_text_view"
 		android:layout_width="wrap_content"

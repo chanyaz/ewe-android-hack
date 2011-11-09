@@ -22,11 +22,9 @@ import com.mobiata.android.ImageCache.OnImageLoaded;
 
 public class HotelCollage {
 
-	private static final int MAX_NUM_IMAGES = 4;
-
 	private ArrayList<ImageView> mPropertyImageViews;
 	private ArrayList<String> mPropertyUrls;
-
+	
 	private OnCollageImageClickedListener mListener;
 
 	private int mCurrentIndex;
@@ -34,16 +32,16 @@ public class HotelCollage {
 	public HotelCollage(View view, OnCollageImageClickedListener listener) {
 		mListener = listener;
 
-		mPropertyImageViews = new ArrayList<ImageView>(MAX_NUM_IMAGES);
-		mPropertyUrls = new ArrayList<String>(MAX_NUM_IMAGES);
+		mPropertyImageViews = new ArrayList<ImageView>();
+		mPropertyUrls = new ArrayList<String>();
 
-		mPropertyImageViews.add((ImageView) view.findViewById(R.id.property_image_view_1));
-		mPropertyImageViews.add((ImageView) view.findViewById(R.id.property_image_view_2));
-		mPropertyImageViews.add((ImageView) view.findViewById(R.id.property_image_view_3));
-		mPropertyImageViews.add((ImageView) view.findViewById(R.id.property_image_view_4));
-
+		addViewToListIfExists(R.id.property_image_view_1, view);
+		addViewToListIfExists(R.id.property_image_view_2, view);
+		addViewToListIfExists(R.id.property_image_view_3, view);
+		addViewToListIfExists(R.id.property_image_view_4, view);
+		
 		// Setup the background images
-		for (int i = 0; i < MAX_NUM_IMAGES; i++) {
+		for (int i = 0; i < mPropertyImageViews.size(); i++) {
 			mPropertyImageViews.get(i).setBackgroundResource(R.drawable.blank_placeholder);
 		}
 
@@ -53,11 +51,18 @@ public class HotelCollage {
 			imageView.setOnClickListener(mCollageImageClickedListener);
 		}
 	}
+	
+	private void addViewToListIfExists(int viewId, View view) {
+		ImageView imageView = (ImageView) view.findViewById(viewId);
+		if(imageView != null) {
+			mPropertyImageViews.add(imageView);
+		}
+	}
 
 	public void updateCollage(Property property) {
 		// set the default thumbnails for all images
 		mPropertyUrls.clear();
-		for (int i = 0; i < MAX_NUM_IMAGES; i++) {
+		for (int i = 0; i < mPropertyImageViews.size(); i++) {
 			mPropertyImageViews.get(i).setImageDrawable(null);
 		}
 
@@ -70,7 +75,7 @@ public class HotelCollage {
 			return;
 		}
 		
-		for (int i = 0; i < imageUrls.size() && i < MAX_NUM_IMAGES; i++) {
+		for (int i = 0; i < imageUrls.size() && i < mPropertyImageViews.size(); i++) {
 			String imageUrl = imageUrls.get(i);
 			mPropertyUrls.add(imageUrl);
 		}

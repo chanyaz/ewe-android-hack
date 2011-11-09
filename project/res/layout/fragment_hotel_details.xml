@@ -26,7 +26,7 @@
 
                 <TextView
                     android:id="@+id/hotel_name_text_view"
-                    style="@style/HotelDetailsTitle_Tablet"
+                    style="@style/HotelNameTitle_Tablet"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -140,7 +140,7 @@
 
                 <TextView
                     android:id="@+id/reviews_title"
-                    style="@style/HotelDetailsTitle_Tablet"
+                    style="@style/HotelNameTitle_Tablet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/hotel_details_text_color" />
@@ -242,7 +242,7 @@
 
             <TextView
                 android:id="@+id/amenities_title"
-                style="@style/HotelDetailsTitle_Tablet"
+                style="@style/HotelNameTitle_Tablet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/amenities"
