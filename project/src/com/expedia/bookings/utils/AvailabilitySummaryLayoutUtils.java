@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,6 +31,7 @@ public class AvailabilitySummaryLayoutUtils {
 	public static void updateSummarizedRates(TabletActivity activity, AvailabilityResponse availabilityResponse,
 			View view, String buttonText, OnClickListener buttonOnClickListener) {
 
+		// view is not created yet, so there's nothing to do here
 		if (view == null) {
 			return;
 		}
@@ -39,8 +39,12 @@ public class AvailabilitySummaryLayoutUtils {
 		View emptyAvailabilitySummaryTextView = view.findViewById(R.id.empty_summart_container);
 		ProgressBar ratesProgressBar = (ProgressBar) view.findViewById(R.id.rates_progress_bar);
 
+		TextView selectRoomButton = (TextView) view.findViewById(R.id.book_now_button);
+		selectRoomButton.setText(buttonText);
+		selectRoomButton.setOnClickListener(buttonOnClickListener);
+
 		if (availabilityResponse != null) {
-			layoutAvailabilitySummary(activity, view, buttonText, buttonOnClickListener);
+			layoutAvailabilitySummary(activity, view);
 			emptyAvailabilitySummaryTextView.setVisibility(View.GONE);
 			ratesProgressBar.setVisibility(View.GONE);
 		}
@@ -55,6 +59,12 @@ public class AvailabilitySummaryLayoutUtils {
 	private static final int ANIMATION_SPEED = 350;
 
 	public static void setupAvailabilitySummary(TabletActivity activity, View view) {
+
+		// view is not created yet, so there's nothing to do here
+		if (view == null) {
+			return;
+		}
+
 		final Property property = activity.getPropertyToDisplay();
 		View availabilitySummaryContainer = view.findViewById(R.id.availability_summary_container);
 
@@ -109,8 +119,13 @@ public class AvailabilitySummaryLayoutUtils {
 		}
 	}
 
-	public static void layoutAvailabilitySummary(final TabletActivity activity, View view, String buttonText,
-			OnClickListener buttonOnClickListener) {
+	private static void layoutAvailabilitySummary(final TabletActivity activity, View view) {
+
+		// view is not created yet, so there's nothing to do here
+		if (view == null) {
+			return;
+		}
+
 		final Property property = activity.getPropertyToDisplay();
 		final SummarizedRoomRates summarizedRoomRates = activity.getSummarizedRoomRates();
 		ViewGroup availabilityRatesContainer = (ViewGroup) view.findViewById(R.id.rates_container);
@@ -142,6 +157,7 @@ public class AvailabilitySummaryLayoutUtils {
 			}
 
 			final Rate rate = summarizedRoomRates.getRate(i);
+
 			summaryRow.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -152,6 +168,7 @@ public class AvailabilitySummaryLayoutUtils {
 
 			View chevron = summaryRow.findViewById(R.id.availability_chevron_image_view);
 			chevron.setVisibility(View.VISIBLE);
+
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
 
@@ -172,18 +189,14 @@ public class AvailabilitySummaryLayoutUtils {
 				priceTextView.setTextColor(activity.getResources().getColor(R.color.hotel_price_text_color));
 			}
 		}
-
-		View selectRoomContainer = inflater.inflate(R.layout.snippet_select_room_button, null);
-		setHeightOfWeightOneForRow(selectRoomContainer);
-
-		TextView selectRoomButton = (TextView) selectRoomContainer.findViewById(R.id.book_now_button);
-		selectRoomButton.setText(buttonText);
-		selectRoomButton.setOnClickListener(buttonOnClickListener);
-		availabilityRatesContainer.addView(selectRoomContainer);
-
 	}
 
 	public static void showLoadingForRates(TabletActivity activity, View view) {
+
+		// view is not created yet, so there's nothing to do here
+		if (view == null) {
+			return;
+		}
 		TextView emptyAvailabilitySummaryTextView = (TextView) view.findViewById(R.id.empty_summart_container);
 		ProgressBar ratesProgressBar = (ProgressBar) view.findViewById(R.id.rates_progress_bar);
 		View availabilityRatesContainer = view.findViewById(R.id.rates_container);
@@ -195,6 +208,8 @@ public class AvailabilitySummaryLayoutUtils {
 	}
 
 	public static void showRatesContainer(View view) {
+
+		// view is not created yet, so there's nothing to do here
 		if (view == null) {
 			return;
 		}
@@ -209,6 +224,7 @@ public class AvailabilitySummaryLayoutUtils {
 
 	public static void showErrorForRates(View view, String string) {
 
+		// view is not created yet, so there's nothing to do here
 		if (view == null) {
 			return;
 		}

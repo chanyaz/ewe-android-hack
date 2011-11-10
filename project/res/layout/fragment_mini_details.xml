@@ -5,12 +5,12 @@
     android:background="@drawable/bg_mini_details"
     android:orientation="horizontal"
     android:padding="15dp"
-    android:weightSum="4" >
+    android:weightSum="10" >
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="fill_parent"
-        android:layout_weight="3"
+        android:layout_weight="7"
         android:padding="5dp" >
 
         <TextView
@@ -28,9 +28,9 @@
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/name_text_view"
+            android:layout_alignBottom="@id/location_text_view"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/location_name_view"
+            android:layout_alignTop="@+id/name_text_view"
             android:layout_centerVertical="true" >
 
             <RatingBar
@@ -41,7 +41,8 @@
                 android:layout_marginLeft="10dp"
                 android:isIndicator="true"
                 android:numStars="5"
-                android:stepSize=".5" />
+                android:stepSize=".5"
+                android:visibility="gone" />
         </FrameLayout>
 
         <TextView
@@ -68,20 +69,7 @@
     <include
         android:layout_width="0dp"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:gravity="right"
         layout="@layout/include_summarized_room_rates" />
-
-    <Button
-        android:id="@+id/see_details_button"
-        style="@style/Widget.Button.Yellow"
-        android:layout_width="200dp"
-        android:layout_height="fill_parent"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/see_details"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
-
 </LinearLayout>

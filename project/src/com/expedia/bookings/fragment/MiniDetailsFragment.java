@@ -54,8 +54,8 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
+	public void onStart() {
+		super.onStart();
 		updateViews();
 	}
 

@@ -33,27 +33,56 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/rates_container"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/min_price_row_container"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        android:weightSum="4" >
 
-    <ProgressBar
-        android:id="@+id/rates_progress_bar"
-        style="@android:style/Widget.ProgressBar.Inverse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:indeterminate="true" />
+        <RelativeLayout
+            android:id="@+id/rates_status_container"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3" >
 
-    <TextView
-        android:id="@+id/empty_summart_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rates_progress_bar"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:paddingTop="10dp" />
+            <LinearLayout
+                android:id="@+id/rates_container"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" />
+
+            <ProgressBar
+                android:id="@+id/rates_progress_bar"
+                style="@android:style/Widget.ProgressBar.Inverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminate="true" />
+
+            <TextView
+                android:id="@+id/empty_summart_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rates_progress_bar"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:paddingTop="10dp" />
+        </RelativeLayout>
+
+        <com.mobiata.android.widget.AutoResizeTextView
+            android:id="@+id/book_now_button"
+            style="@style/Widget.Button.Yellow"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:text="@string/select_room"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </RelativeLayout>
