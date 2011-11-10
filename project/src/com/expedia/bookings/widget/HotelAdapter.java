@@ -177,7 +177,12 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.saleText.setVisibility(View.VISIBLE);
 			holder.saleText.setText(mContext.getString(R.string.percent_off_template, savingsPercent * 100));
 		}
-		else {
+		else if (lowestRate.getPromoDescription() != null && lowestRate.getPromoDescription().length() > 0) {
+			holder.from.setText(R.string.from);
+			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
+			holder.saleText.setVisibility(View.VISIBLE);
+			holder.saleText.setText(R.string.sale_caps);
+		} else {
 			holder.from.setText(R.string.from);
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_text_color));
 			holder.saleText.setVisibility(View.GONE);
