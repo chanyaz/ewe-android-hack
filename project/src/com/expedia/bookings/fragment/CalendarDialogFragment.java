@@ -56,8 +56,8 @@ public class CalendarDialogFragment extends DialogFragment {
 		if (savedInstanceState == null) {
 			mCalendarDatePicker.updateStartDate(mInitialStartDate.get(Calendar.YEAR),
 					mInitialStartDate.get(Calendar.MONTH), mInitialStartDate.get(Calendar.DAY_OF_MONTH));
-			mCalendarDatePicker.updateEndDate(mInitialEndDate.get(Calendar.YEAR),
-					mInitialEndDate.get(Calendar.MONTH), mInitialEndDate.get(Calendar.DAY_OF_MONTH));
+			mCalendarDatePicker.updateEndDate(mInitialEndDate.get(Calendar.YEAR), mInitialEndDate.get(Calendar.MONTH),
+					mInitialEndDate.get(Calendar.DAY_OF_MONTH));
 		}
 		else {
 			mCalendarDatePicker.updateStartDate(savedInstanceState.getInt(KEY_START_YEAR),
@@ -81,7 +81,9 @@ public class CalendarDialogFragment extends DialogFragment {
 		});
 		builder.setNegativeButton(android.R.string.cancel, null);
 
-		return builder.create();
+		Dialog dialog = builder.create();
+		dialog.setCanceledOnTouchOutside(true);
+		return dialog;
 	}
 
 	@Override

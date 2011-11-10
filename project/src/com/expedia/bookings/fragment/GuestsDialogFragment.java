@@ -81,14 +81,16 @@ public class GuestsDialogFragment extends DialogFragment {
 		builder.setPositiveButton(R.string.search, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				TabletActivity activity = (TabletActivity) getActivity();
-				activity.setGuests(mAdultsNumberPicker.getValue(),
-						mChildrenNumberPicker.getValue());
+				activity.setGuests(mAdultsNumberPicker.getValue(), mChildrenNumberPicker.getValue());
 				activity.startSearch();
 			}
 		});
 		builder.setNegativeButton(android.R.string.cancel, null);
 
-		return builder.create();
+		Dialog dialog = builder.create();
+		dialog.setCanceledOnTouchOutside(true);
+
+		return dialog;
 	}
 
 	@Override
