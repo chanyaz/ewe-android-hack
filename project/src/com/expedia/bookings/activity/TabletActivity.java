@@ -329,6 +329,16 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		FragmentManager fm = getFragmentManager();
 		ActionBar actionBar = getActionBar();
 
+		boolean atStart = fm.getBackStackEntryCount() == 0;
+		if (!atStart) {
+			actionBar.show();
+		}
+		// there's nothing more to do if the actionbar is to be hidden in the 
+		else {
+			actionBar.hide();
+			return super.onPrepareOptionsMenu(menu);
+		}
+
 		// Do not show the searh options in the actionbar if
 		// a) Search parameters are being shown on the screen
 		// b) User is currently attempting to pick a room  (see ticket #10563)
@@ -361,14 +371,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			mFilterMenuItem.setEnabled(mInstance.mSearchResponse != null && !mInstance.mSearchResponse.hasErrors());
 
 			actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
-		}
-
-		boolean atStart = fm.getBackStackEntryCount() == 0;
-		if (!atStart) {
-			actionBar.show();
-		}
-		else {
-			actionBar.hide();
 		}
 
 		actionBar.setDisplayHomeAsUpEnabled(!atStart);
@@ -482,7 +484,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		ft.add(R.id.fragment_room_descrption, RoomTypeDescriptionFragment.newInstance(), TAG_ROOM_DESCRIPTION);
 
 		ft.remove(fm.findFragmentByTag(TAG_HOTEL_LIST));
-		
+
 		// remove the hotel details fragment if it exists, or the
 		// mini details fragment if the user bypassed the hotel details fragment to
 		// get to the booking info screen by tapping one of the room
@@ -495,7 +497,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			ft.remove(fm.findFragmentByTag(TAG_MINI_DETAILS));
 			ft.remove(fm.findFragmentByTag(TAG_HOTEL_MAP));
 		}
-		
+
 		ft.addToBackStack(null);
 		ft.commit();
 	}
