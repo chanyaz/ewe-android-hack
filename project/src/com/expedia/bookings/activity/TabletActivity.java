@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentManager.OnBackStackChangedListener;
 import android.app.FragmentTransaction;
@@ -479,8 +480,22 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		ft.add(R.id.fragment_booking_cancellation_policy, BookingCancellationPolicyFragment.newInstance(),
 				TAG_BOOKING_CANCELLATION_POLICY);
 		ft.add(R.id.fragment_room_descrption, RoomTypeDescriptionFragment.newInstance(), TAG_ROOM_DESCRIPTION);
+
 		ft.remove(fm.findFragmentByTag(TAG_HOTEL_LIST));
-		ft.remove(fm.findFragmentByTag(TAG_HOTEL_DETAILS));
+		
+		// remove the hotel details fragment if it exists, or the
+		// mini details fragment if the user bypassed the hotel details fragment to
+		// get to the booking info screen by tapping one of the room
+		// rates in the mini details fragment
+		Fragment hotelDetailsFragment = fm.findFragmentByTag(TAG_HOTEL_DETAILS);
+		if (hotelDetailsFragment != null) {
+			ft.remove(fm.findFragmentByTag(TAG_HOTEL_DETAILS));
+		}
+		else {
+			ft.remove(fm.findFragmentByTag(TAG_MINI_DETAILS));
+			ft.remove(fm.findFragmentByTag(TAG_HOTEL_MAP));
+		}
+		
 		ft.addToBackStack(null);
 		ft.commit();
 	}
@@ -741,7 +756,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	public AvailabilityResponse getRoomsAndRatesAvailability() {
 		return mInstance.mAvailabilityResponses.get(mInstance.mProperty.getPropertyId());
 	}
-	
+
 	public SummarizedRoomRates getSummarizedRoomRates() {
 		return mInstance.mSummarizedRoomRates.get(mInstance.mProperty.getPropertyId());
 	}
@@ -1068,7 +1083,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		public void onDownload(Object results) {
 			AvailabilityResponse availabilityResponse = (AvailabilityResponse) results;
 			mInstance.mAvailabilityResponses.put(mInstance.mProperty.getPropertyId(), availabilityResponse);
-			
+
 			SummarizedRoomRates summarizedRoomRates = new SummarizedRoomRates();
 			mInstance.mSummarizedRoomRates.put(mInstance.mProperty.getPropertyId(), summarizedRoomRates);
 
