@@ -171,6 +171,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		addReviews(((TabletActivity) getActivity()).getReviewsForProperty());
 
 		mAmenitiesContainer.removeAllViews();
+		
+		//#10588 disabling amenities layout animations
+		mAmenitiesContainer.setLayoutAnimation(null);
 		LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
 
 		addHotelDescription(property);
