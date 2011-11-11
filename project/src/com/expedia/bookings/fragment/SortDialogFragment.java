@@ -1,5 +1,8 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -31,13 +34,16 @@ public class SortDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Builder builder = new AlertDialog.Builder(getActivity());
 
-		CharSequence[] items = new CharSequence[] {
-				getString(R.string.sort_description_popular),
-				getString(R.string.sort_description_price),
-				getString(R.string.sort_description_rating),
-				getString(R.string.sort_description_distance),
-		};
-		builder.setItems(items, new OnClickListener() {
+		List<CharSequence> items = new ArrayList<CharSequence>();
+		items.add(getString(R.string.sort_description_popular));
+		items.add(getString(R.string.sort_description_price));
+		items.add(getString(R.string.sort_description_rating));
+
+		if (((TabletActivity) getActivity()).showDistance()) {
+			items.add(getString(R.string.sort_description_distance));
+		}
+
+		builder.setItems(items.toArray(new CharSequence[0]), new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				Sort newSort = Sort.POPULAR; // Default to popular
 				switch (which) {
