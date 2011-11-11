@@ -31,17 +31,29 @@
                 android:textColor="#3D4552"
                 android:textSize="16sp" />
 
-            <Button
-                android:id="@+id/sort_type_text_view"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_sort"
-                android:drawablePadding="9dp"
-                android:drawableRight="@drawable/sort_arrow"
-                android:paddingLeft="18dp"
-                android:paddingRight="18dp"
-                android:textColor="#3D4552"
-                android:textSize="16sp" />
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/sort_type_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_sort"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="18dp"
+                    android:paddingRight="18dp"
+                    android:textColor="#3D4552"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingRight="5dp"
+                    android:layout_gravity="right|bottom"
+                    android:src="@drawable/sort_arrow" />
+            </LinearLayout>
         </LinearLayout>
 
         <ListView
@@ -68,4 +80,5 @@
                 android:layout_marginTop="20dp" />
         </LinearLayout>
     </LinearLayout>
+
 </RelativeLayout>
