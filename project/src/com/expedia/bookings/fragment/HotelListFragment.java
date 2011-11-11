@@ -50,8 +50,6 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 		mAdapter = new HotelAdapter(getActivity());
 		setListAdapter(mAdapter);
 	}
-	
-	
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -76,8 +74,6 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 
 		return view;
 	}
-	
-	
 
 	@Override
 	public void onDestroyView() {
