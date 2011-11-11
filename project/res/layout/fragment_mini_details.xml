@@ -19,30 +19,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/hotel_rating_bar"
+            android:layout_toLeftOf="@+id/hotel_rating_bar_container"
             android:ellipsize="end"
             android:singleLine="true"
             android:textSize="24sp" />
 
         <FrameLayout
+            android:id="@+id/hotel_rating_bar_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/location_text_view"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/name_text_view"
-            android:layout_centerVertical="true" >
+            android:layout_alignBottom="@id/name_text_view"
+            android:layout_alignTop="@id/name_text_view"
+            android:paddingLeft="10dp"
+            android:layout_alignParentRight="true">
 
             <RatingBar
                 android:id="@+id/hotel_rating_bar"
                 style="@style/RatingBarSmall.Shadowed.Star.Light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
                 android:isIndicator="true"
                 android:numStars="5"
-                android:stepSize=".5"
-                android:visibility="gone" />
+                android:stepSize=".5" />
         </FrameLayout>
 
         <TextView
@@ -72,4 +71,5 @@
         android:layout_weight="3"
         android:gravity="right"
         layout="@layout/include_summarized_room_rates" />
+
 </LinearLayout>
