@@ -69,6 +69,7 @@
         android:gravity="left"
         android:includeFontPadding="false"
         android:paddingLeft="12dp"
+        android:paddingRight="@dimen/padding_right_sale_ribbon"
         android:paddingTop="@dimen/padding_top_sale_ribbon"
         android:text="@string/highly_rated"
         android:textColor="@android:color/white"

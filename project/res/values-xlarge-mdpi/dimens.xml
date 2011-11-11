@@ -16,5 +16,6 @@
     <dimen name="max_height_rating_bar_small">18dp</dimen>
 
 	<dimen name="padding_top_sale_ribbon">4dp</dimen>
+	<dimen name="padding_right_sale_ribbon">20dp</dimen>
         
 </resources>
