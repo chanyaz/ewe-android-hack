@@ -162,6 +162,10 @@ public class HotelActivity extends Activity {
 							// for #8401 for the 1.0.2 release and I don't want to
 							// have to update/branch Utils.
 						}
+
+						public void onImageLoadFailed(String url) {
+							// Do nothing.
+						}
 					};
 					boolean hasMore = true;
 					while (loaded < MAX_IMAGES_LOADED && hasMore) {

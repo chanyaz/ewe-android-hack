@@ -24,7 +24,7 @@ public class HotelCollage {
 
 	private ArrayList<ImageView> mPropertyImageViews;
 	private ArrayList<String> mPropertyUrls;
-	
+
 	private OnCollageImageClickedListener mListener;
 
 	private int mCurrentIndex;
@@ -39,7 +39,7 @@ public class HotelCollage {
 		addViewToListIfExists(R.id.property_image_view_2, view);
 		addViewToListIfExists(R.id.property_image_view_3, view);
 		addViewToListIfExists(R.id.property_image_view_4, view);
-		
+
 		// Setup the background images
 		for (int i = 0; i < mPropertyImageViews.size(); i++) {
 			mPropertyImageViews.get(i).setBackgroundResource(R.drawable.blank_placeholder);
@@ -51,10 +51,10 @@ public class HotelCollage {
 			imageView.setOnClickListener(mCollageImageClickedListener);
 		}
 	}
-	
+
 	private void addViewToListIfExists(int viewId, View view) {
 		ImageView imageView = (ImageView) view.findViewById(viewId);
-		if(imageView != null) {
+		if (imageView != null) {
 			mPropertyImageViews.add(imageView);
 		}
 	}
@@ -70,11 +70,11 @@ public class HotelCollage {
 
 		// Load the property urls
 		List<String> imageUrls = StrUtils.getImageUrls(property);
-		
-		if(imageUrls.isEmpty()) {
+
+		if (imageUrls.isEmpty()) {
 			return;
 		}
-		
+
 		for (int i = 0; i < imageUrls.size() && i < mPropertyImageViews.size(); i++) {
 			String imageUrl = imageUrls.get(i);
 			mPropertyUrls.add(imageUrl);
@@ -113,28 +113,33 @@ public class HotelCollage {
 
 	private final OnImageLoaded mOnImageLoaded = new OnImageLoaded() {
 		public void onImageLoaded(String url, Bitmap bitmap) {
+			Drawable[] layers = new Drawable[2];
+			layers[0] = new ColorDrawable(Color.TRANSPARENT);
+			layers[1] = new BitmapDrawable(bitmap);
+			TransitionDrawable drawable = new TransitionDrawable(layers);
 
-			if (mCurrentIndex < mPropertyUrls.size() && mCurrentIndex < mPropertyImageViews.size()) {
-				Drawable[] layers = new Drawable[2];
-				layers[0] = new ColorDrawable(Color.TRANSPARENT);
-				layers[1] = new BitmapDrawable(bitmap);
-				TransitionDrawable drawable = new TransitionDrawable(layers);
+			mPropertyImageViews.get(mCurrentIndex).setImageDrawable(drawable);
+			drawable.startTransition(FADE_TIME);
 
-				mPropertyImageViews.get(mCurrentIndex).setImageDrawable(drawable);
-				drawable.startTransition(FADE_TIME);
+			loadNextImage();
+		}
 
-				mCurrentIndex++;
-				if (mCurrentIndex < mPropertyUrls.size() && mCurrentIndex < mPropertyImageViews.size()) {
-					final String imageToLoadUrl = mPropertyUrls.get(mCurrentIndex);
-					mHandler.postDelayed(new Runnable() {
-						public void run() {
-							ImageCache.loadImage(imageToLoadUrl, mOnImageLoaded);
-						}
-					}, FADE_PAUSE);
-				}
-			}
+		public void onImageLoadFailed(String url) {
+			loadNextImage();
 		}
 	};
+
+	private void loadNextImage() {
+		mCurrentIndex++;
+		if (mCurrentIndex < mPropertyUrls.size() && mCurrentIndex < mPropertyImageViews.size()) {
+			final String imageToLoadUrl = mPropertyUrls.get(mCurrentIndex);
+			mHandler.postDelayed(new Runnable() {
+				public void run() {
+					ImageCache.loadImage(imageToLoadUrl, mOnImageLoaded);
+				}
+			}, FADE_PAUSE);
+		}
+	}
 
 	private Handler mHandler = new Handler();
 }

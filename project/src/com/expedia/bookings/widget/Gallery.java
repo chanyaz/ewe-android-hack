@@ -1546,6 +1546,10 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 				public void onImageLoaded(String url, Bitmap bitmap) {
 					notifyDataSetChanged();
 				}
+
+				public void onImageLoadFailed(String url) {
+					// Do nothing
+				}
 			};
 
 			if (ImageCache.containsImage(url)) {

@@ -701,6 +701,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 						updateWidgetWithImage(widget, property);
 					}
 				}
+
+				@Override
+				public void onImageLoadFailed(String url) {
+					// Do nothing
+				}
 			});
 		}
 		updateWidgetWithProperty(property, widget);
