@@ -81,7 +81,7 @@
 
     <style name="Widget.Button.Yellow" parent="@android:style/Widget.Button">
         <item name="android:background">@drawable/btn_yellow</item>
-        <item name="android:textColor">#232323</item>
+        <item name="android:textColor">@color/btn_yellow_text_color</item>
         <item name="android:shadowColor">#a5ffffff</item>
         <item name="android:shadowRadius">0.1</item>
         <item name="android:shadowDx">0</item>
@@ -135,8 +135,7 @@
     </style>
 
     <style name="ExpediaList">
-project/res/values/styles.xml
-                <item name="android:background">#e7e7e7</item>
+		<item name="android:background">#e7e7e7</item>
         <item name="android:cacheColorHint">#e7e7e7</item>
         <item name="android:divider">@drawable/list_divider</item>
         <item name="android:footerDividersEnabled">false</item>

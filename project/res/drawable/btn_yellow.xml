@@ -8,4 +8,6 @@
         android:drawable="@drawable/btn_yellow_pressed" />
     <item android:state_enabled="true"
         android:drawable="@drawable/btn_yellow_normal" />
+    <item android:state_enabled="false"
+        android:drawable="@drawable/btn_disabled" />
 </selector>

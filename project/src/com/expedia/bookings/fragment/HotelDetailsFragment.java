@@ -67,6 +67,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private RatingBar mUserRating;
 	private ViewGroup mHotelDescriptionContainer;
 	private View mSeeAllReviewsButton;
+	private View mSelectRoomButton;
 
 	//----------------------------------
 	// OTHERS
@@ -94,6 +95,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
 		mReviewsLoadingContainer = view.findViewById(R.id.reviews_loading_container);
+		mSelectRoomButton = view.findViewById(R.id.book_now_button);
 
 		// Disable the scrollbar on the amenities HorizontalScrollView
 		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) view.findViewById(R.id.amenities_scroll_view);
@@ -161,6 +163,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(((TabletActivity) getActivity()), getView());
 		// update the summarized rates if they are available
 		AvailabilityResponse availabilityResponse = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
+		mSelectRoomButton.setEnabled((availabilityResponse != null));
+		
 		AvailabilitySummaryLayoutUtils.updateSummarizedRates(((TabletActivity) getActivity()), availabilityResponse,
 				getView(), getString(R.string.select_room), mSelectRoomButtonOnClickListener);
 
@@ -207,12 +211,15 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
+			mSelectRoomButton.setEnabled(false);
 			AvailabilitySummaryLayoutUtils.showLoadingForRates(((TabletActivity) getActivity()), getView());
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
+			mSelectRoomButton.setEnabled(false);
 			AvailabilitySummaryLayoutUtils.showErrorForRates(getView(), (String) data);
 			break;
 		case TabletActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
+			mSelectRoomButton.setEnabled(true);
 			AvailabilitySummaryLayoutUtils.showRatesContainer(getView());
 			AvailabilitySummaryLayoutUtils.updateSummarizedRates(((TabletActivity) getActivity()),
 					(AvailabilityResponse) data, getView(), getString(R.string.select_room),
