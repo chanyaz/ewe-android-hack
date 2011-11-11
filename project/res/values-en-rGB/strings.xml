@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?><resources>
+<?xml version="1.0" encoding="utf-8"?><resources>
 	<string name="app_name">Expedia</string>
         <!-- Search Fragment -->
         <!-- Hint for "search location" field -->
@@ -39,7 +39,7 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template"><b>%1$s</b> — <b>%2$s</b> to <b>%3$s</b></string>
+	<string name="booking_info_template"><b>%1$s</b>  <b>%2$s</b> to <b>%3$s</b></string>
 	<!-- Label indicating how many hotels are left after filtering. 1$ is the number of hotels that match the filter -->
         <!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
         <plurals name="number_of_matching_hotels">
@@ -105,11 +105,11 @@
 	<!-- Filter option for "show all" -->
 	<string name="all">All</string>
 	<!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_cheap">£</string>
+	<string name="filter_price_cheap"></string>
 	<!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_moderate">££</string>
+	<string name="filter_price_moderate"></string>
 	<!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_expensive">£££</string>
+	<string name="filter_price_expensive"></string>
 	<!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
 	<string name="filter_stars_three">3+</string>
 	<!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
@@ -222,7 +222,7 @@
 	<!-- Label for the address section of the description  -->
 	<string name="address">Address</string>
 	<!-- Bullet point for list items  -->
-	<string name="bullet_point">•</string>
+	<string name="bullet_point"></string>
         <!--  Hotel Details Fragment -->
         <!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
         <string name="min_room_price_template">From %s</string>
@@ -424,7 +424,7 @@
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">Rules &amp; Restrictions</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">If you have an Expedia Rewards account, please book with the same email address and your points will automatically post after your stay.Please note that it may take up to 30 days for your points to appear.</string>
+	<string name="disclaimer_expedia_points">If you have an Expedia Rewards account, please book with the same email address and your points will automatically post after your stay. Please note that it may take up to 30 days for your points to appear.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
 	<string name="EnterBookingInfo">Enter Booking Info</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -577,7 +577,7 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Privacy Policy</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAll rights reserved.</string>
+	<string name="copyright"> Copyright 2011 Expedia, Inc.\nAll rights reserved.</string>
 	
 	<!--  App Feedback Activity --><!-- Text within submit button in header -->
 	<string name="send_feedback">Send Feedback</string>
@@ -658,10 +658,10 @@
 
 	<!-- Currency names -->
 	<string name="currency_aud">Australian Dollar</string>
-	<string name="currency_brl">Brazil Real</string>
+	<string name="currency_brl">Brazilian Real</string>
 	<string name="currency_gbp">British Pound</string>
 	<string name="currency_cad">Canadian Dollar</string>
-	<string name="currency_cny">China Yuan</string>
+	<string name="currency_cny">Chinese Yuan</string>
 	<string name="currency_dkk">Danish Kroner</string>
 	<string name="currency_eur">Euro</string>
 	<string name="currency_hkd">Hong Kong Dollar</string>
@@ -735,7 +735,7 @@
 	<string name="country_cu">Cuba</string>
 	<string name="country_cy">Cyprus</string>
 	<string name="country_cz">Czech Republic</string>
-	<string name="country_ci">Côte d\'Ivoire</string>
+	<string name="country_ci">Cte d\'Ivoire</string>
 	<string name="country_dk">Denmark</string>
 	<string name="country_dj">Djibouti</string>
 	<string name="country_dm">Dominica</string>
@@ -860,8 +860,8 @@
 	<string name="country_ro">Romania</string>
 	<string name="country_ru">Russian Federation</string>
 	<string name="country_rw">Rwanda</string>
-	<string name="country_re">Réunion</string>
-	<string name="country_bl">Saint Barthélemy</string>
+	<string name="country_re">Runion</string>
+	<string name="country_bl">Saint Barthlemy</string>
 	<string name="country_sh">Saint Helena</string>
 	<string name="country_kn">Saint Kitts and Nevis</string>
 	<string name="country_lc">Saint Lucia</string>
@@ -924,5 +924,5 @@
 	<string name="country_ye">Yemen</string>
 	<string name="country_zm">Zambia</string>
 	<string name="country_zw">Zimbabwe</string>
-	<string name="country_ax">Åland Islands</string>
+	<string name="country_ax">land Islands</string>
 </resources>

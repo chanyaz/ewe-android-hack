@@ -14,11 +14,11 @@
 	<!--  Label for picking search location -->
 	<string name="where_are_you_going">&lt;b&gt;어디&lt;/b&gt;로 가세요?</string>
 	<!--  Label for picking checkin/checkout dates -->
-	<string name="drag_to_extend_your_stay">&lt;b&gt;드래그&lt;/b&gt;하시면 숙박일 수를 늘릴 수 있어요.</string>
+	<string name="drag_to_extend_your_stay">&lt;b&gt;드래그&lt;/b&gt;하여 날짜를 더하세요.</string>
 	<!--  Label for picking checkin/checkout dates -->
-	<string name="where_are_you_staying">&lt;b&gt;어디&lt;/b&gt;서 숙박하세요?</string>
+	<string name="where_are_you_staying">&lt;b&gt;언제&lt;/b&gt; 가세요?</string>
 	<!--  Label for picking guests for hotel booking -->
-	<string name="who_is_going">&lt;b&gt;누가&lt;/b&gt; 가시나요?</string>
+	<string name="who_is_going">&lt;b&gt;몇분&lt;/b&gt;이 가세요?</string>
 	
 	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
 	<!-- Suggestion to search Times Square -->
@@ -124,7 +124,7 @@
 	<!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
 	<string name="filter_distance_kilometers_template">%s킬로미터</string>
 
-	<!-- Progress messages -->
+	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">현재 위치 찾는중...</string>
 	<!-- Message displayed when app is searching a location for hotels -->
@@ -140,7 +140,7 @@
 
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
-	<string name="from">최소</string>
+	<string name="from">시작가</string>
 	<!-- The label indicating that this hotel is highly rated by users -->
 	<string name="highly_rated">높은 평점</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
@@ -236,7 +236,7 @@
 	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
 	<string name="min_room_price_template">%s~</string>
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
-	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; 최소</string>
+	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; 시작가</string>
 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
 	<string name="reviews_recommended_template">%1$d명의(총 %2$d명 중) 고객이 추천</string>
 	<!--  Title for the amenities section in the hotel details fragment -->
@@ -318,8 +318,8 @@
 	<!-- Read more of the review -->
 	<string name="user_review_read_more">자세히 보기</string>
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-	1$ represents the number of guests that recommend this hotel
-	2$ represents the total number of guests  -->
+		1$ represents the number of guests that recommend this hotel
+		2$ represents the total number of guests  -->
 	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt;명의(총 &lt;b&gt;%2$d&lt;/b&gt;명 중) 고객이 이 호텔을 추천하셨습니다.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
@@ -330,8 +330,8 @@
 	<item quantity="other">%d개의 이용후기</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
-	1$ is the user name
-	2$ is the place they are from -->
+		1$ is the user name
+		2$ is the place they are from -->
 	<string name="user_review_name_and_location_signature">%1$s , %2$s</string>
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">이 호텔에 대한 비판적인 리뷰가 없습니다.</string>
@@ -403,13 +403,13 @@
 	<!-- Label for "guest info" form field section -->
 	<string name="guest_info">고객 정보</string>
 	<!-- The "first name" booking info field.  -->
-	<string name="FirstName">성</string>
+	<string name="FirstName">성(영문)</string>
 	<!-- The "last name" booking info field.  -->
-	<string name="LastName">이름</string>
+	<string name="LastName">이름(영문)</string>
 	<!-- The "telephone" booking info field.  -->
 	<string name="Telephone">전화</string>
 	<!-- The "email for booking confirmation" booking info field.  -->
-	<string name="EmailForConf">확인용 이메일</string>
+	<string name="EmailForConf">예약 확인용 이메일</string>
 	<!-- Label for "billing info" form field section -->
 	<string name="billing_info">청구지 정보</string>
 	<!-- Address line 1 form field hint -->
@@ -421,7 +421,7 @@
 	<!-- The "postal code" booking info field.  -->
 	<string name="PostalCode">우편 번호</string>
 	<!-- State code hint -->
-	<string name="hint_state_code">시/도</string>
+	<string name="hint_state_code">영문 약자</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">신용카드 정보</string>
 	<!-- Card number form field hint -->
@@ -485,7 +485,7 @@
 	<!--  Title for action bar when the user is on the booking info screen -->
 	<string name="booking_information_title">예약 정보</string>
 	<!-- Title for dialog where the user is prompted to enter booking booking information -->
-	<string name="booking_information_dialog_title">예약 완료</string>
+	<string name="booking_information_dialog_title">예약 진행</string>
 	
 	<!-- Confirmation activity -->
 	<!-- Format for a first/last name -->

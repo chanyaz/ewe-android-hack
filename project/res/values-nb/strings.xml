@@ -42,14 +42,14 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt; to &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; til &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
-	<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; passende hoteller</item>
-	<item quantity="one">&lt;b&gt;%d&lt;/b&gt; passende hotell </item>
-	<item quantity="two">&lt;b&gt;%d&lt;/b&gt; passende hoteller </item>
-	<item quantity="many">&lt;b&gt;%d&lt;/b&gt; passende hoteller </item>
-	<item quantity="other">&lt;b&gt;%d&lt;/b&gt; passende hoteller </item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; passende hoteller</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; passende hotell </item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; passende hoteller </item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; passende hoteller </item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; passende hoteller </item>
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filtrer etter hotellnavn</string>
@@ -72,18 +72,18 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Laster inn tidligere søkeresultater ...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"Sorter: "</string>
+	<string name="sort_hotels">Sorter: "</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;Sorter&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">Filtrer hotellene</string>
 	<!-- A number of results -->
 	<plurals name="number_of_results">
-	<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; Resultater</item>
-	<item quantity="one">&lt;b&gt;%d&lt;/b&gt; Resultat</item>
-	<item quantity="two">&lt;b&gt;%d&lt;/b&gt; Resultater </item>
-	<item quantity="many">&lt;b&gt;%d&lt;/b&gt; Resultater </item>
-	<item quantity="other">&lt;b&gt;%d&lt;/b&gt; Resultater </item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; resultater</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; resultat</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; resultater </item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; resultater </item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; resultater </item>
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
@@ -152,7 +152,7 @@
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">Ikke rangert</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-	<string name="percent_off_template">%2.0f%% rabatt</string>
+	<string name="percent_off_template">%2.0f %% rabatt</string>
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">Filtrer resultatene</string>
@@ -169,7 +169,7 @@
 	<!--  Default Loading message for widget -->
 	<string name="loading_hotels">Laster inn hoteller ...</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">Spar %2.0f%%</string>
+	<string name="widget_savings_template">Spar %2.0f %%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Trykk for å oppdatere</string>
 	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
@@ -193,7 +193,7 @@
 	<!--  Widget Branding description -->
 	<string name="book_a_room_tonight">Bestill et rom i kveld.</string>
 	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
-	<string name="save_upto_template">Spar opptil %2.0f%%</string>
+	<string name="save_upto_template">Spar opptil %2.0f %%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
 	<string name="error_search_in_past">Vi har ingen tilbud igjen i dag. Se etter nye topptilbud i morgen.</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
@@ -238,7 +238,7 @@
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
 	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; fra</string>
 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
-	<string name="reviews_recommended_template">Anbefalt av %1$d av %2$d gjester</string>
+ 	<string name="reviews_recommended_template">Anbefalt av %1$d av %2$d gjester</string>
 	<!--  Title for the amenities section in the hotel details fragment -->
 	<string name="amenities">Fasiliteter</string>
 	<!--  Label for button to see all reviews as a modal dialog -->
@@ -323,11 +323,11 @@
 	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; av &lt;b&gt;%2$d&lt;/b&gt; gjester anbefaler dette hotellet.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
-	<item quantity="zero">%d anmeldelser</item>
-	<item quantity="one">%d anmeldelse</item>
-	<item quantity="two">%d anmeldelser</item>
-	<item quantity="many">%d anmeldelser</item>
-	<item quantity="other">%d anmeldelser</item>
+		<item quantity="zero">%d anmeldelser</item>
+		<item quantity="one">%d anmeldelse</item>
+		<item quantity="two">%d anmeldelser</item>
+		<item quantity="many">%d anmeldelser</item>
+		<item quantity="other">%d anmeldelser</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
@@ -343,11 +343,11 @@
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
 	<plurals name="staying_nights">
-	<item quantity="zero">For %d netter</item>
-	<item quantity="one">For %d natt</item>
-	<item quantity="two">For %d netter</item>
-	<item quantity="many">For %d netter</item>
-	<item quantity="other">For %d netter</item>
+		<item quantity="zero">For %d netter</item>
+		<item quantity="one">For %d natt</item>
+		<item quantity="two">For %d netter</item>
+		<item quantity="many">For %d netter</item>
+		<item quantity="other">For %d netter</item>
 	</plurals>
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Søker etter ledige rom ...</string>
@@ -359,14 +359,14 @@
 	<string name="rate_avg_per_night">i snitt per natt</string>
 	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
 	<plurals name="number_of_rooms_left">
-	<item quantity="zero">Ingen rom igjen!</item>
-	<item quantity="one">Kun ett rom igjen!</item>
-	<item quantity="two">Kun %d rom igjen!</item>
-	<item quantity="many">Kun %d rom igjen!</item>
-	<item quantity="other">Kun %d rom igjen!</item>
+		<item quantity="zero">Ingen rom igjen!</item>
+		<item quantity="one">Kun ett rom igjen!</item>
+		<item quantity="two">Kun %d rom igjen!</item>
+		<item quantity="many">Kun %d rom igjen!</item>
+		<item quantity="other">Kun %d rom igjen!</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">Spar\n %2.0f%%</string>
+	<string name="savings_template">Spar\n %2.0f %%</string>
 	<!-- Label for free nights -->
 	<string name="free">GRATIS!</string>
 	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
@@ -391,8 +391,8 @@
 	<string name="stay_duration">Lengden på oppholdet</string>
 	<!-- Quantity for the length of stay -->
 	<plurals name="length_of_stay">
-	<item quantity="one">1 natt</item>
-	<item quantity="other">%d netter</item>
+		<item quantity="one">1 natt</item>
+		<item quantity="other">%d netter</item>
 	</plurals>
 	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
 	<string name="room_rate_template">Rompris %s</string>
@@ -479,7 +479,7 @@
 	<!-- Error message when we couldn't get a response -->
 	<string name="error_booking_null">Kunne ikke koble til Expedias servere. Kontroller internettforbindelsen og prøv på nytt.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s på %2$s</string>
+	<string name="check_in_out_time_template">%1$s den %2$s</string>
 	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
 	<string name="enter_booking_info">Oppgi bestillingsopplysninger</string>
 	<!--  Title for action bar when the user is on the booking info screen -->
@@ -505,7 +505,7 @@
 	<!-- Contact info for China  where 1$ represents the number by CN NetCom and 2$ represents the number from CN Telecom-->
 	<string name="contact_phone_china_template">Har du spørsmål vedrørende bestillingen, kan du ringe Expedia.com på %1$s (CN NetCom) eller %2$s (CN Telecom).</string>
 	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
-	<string name="contact_phone_default_template">Har du spørsmål vedrørende bestillingen, kan du ringe Expedia.com på %1$s i USA/Canada eller %2$s i Europa.</string>
+	<string name="contact_phone_default_template"> Har du spørsmål vedrørende bestillingen, kan du ringe Expedia.com på %1$s i USA/Canada eller %2$s i Europa.</string>
 
 	<!--  Confirmation Fragment -->
 	<!-- Label to share booking information after a booking confirmation -->
@@ -545,7 +545,7 @@
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-	<string name="share_subject_template">Expedia-reiserute – %1$s (%2$s – %3$s)</string>
+	<string name="share_subject_template">Expedia-reiserute –  %1$s (%2$s – %3$s)</string>
 	<!-- Preset at the top of the share body message -->
 	<string name="share_body_start">Her er mine bestillingsopplysninger:</string>
 	<!-- Name of user -->
@@ -585,7 +585,7 @@
 	<!-- Extra description for "app support" button, when space allows -->
 	<string name="app_support_description">Forklar problemet, så vil vi ta kontakt med deg.</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">Liker du fantastiske hotelltilbud?Fortell vennene dine om programmet</string>
+	<string name="tell_a_friend_description">Liker du gode hotelltilbud?Fortell vennene dine om programmet!</string>
 	<!-- Section header for other apps by Mobiata -->
 	<string name="travel_smart">Reis smart</string>
 	<!-- Subject line for "tell a friend" feature -->
@@ -595,9 +595,9 @@
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Vilkår</string>
 	<!-- Label for link to privacy policy -->
-	<string name="info_label_privacy_policy">Personvernerklæring</string>
+	<string name="info_label_privacy_policy">Personvernbestemmelser</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAlle rettigheter forbeholdt.</string>
+	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAll rights reserved.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
@@ -607,7 +607,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Ranger oss</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Laget av Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Personvernerklæring</a></string>
+	<string name="powered_by_opinion_lab">Laget av Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Personvernbestemmelser</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">E-postadresse</string>
 	<!-- Hint to type in comments -->
@@ -628,35 +628,35 @@
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-	<item quantity="zero">%d voksne</item>
-	<item quantity="one">%d voksen</item>
-	<item quantity="two">%d voksne</item>
-	<item quantity="many">%d voksne</item>
-	<item quantity="other">%d voksne</item>
+		<item quantity="zero">%d voksne</item>
+		<item quantity="one">%d voksen</item>
+		<item quantity="two">%d voksne</item>
+		<item quantity="many">%d voksne</item>
+		<item quantity="other">%d voksne</item>
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-	<item quantity="zero">%d barn</item>
-	<item quantity="one">%d barn</item>
-	<item quantity="two">%d barn</item>
-	<item quantity="many">%d barn</item>
-	<item quantity="other">%d barn</item>
+		<item quantity="zero">%d barn</item>
+		<item quantity="one">%d barn</item>
+		<item quantity="two">%d barn</item>
+		<item quantity="many">%d barn</item>
+		<item quantity="other">%d barn</item>
 	</plurals>
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
-	<item quantity="zero">%d gjester</item>
-	<item quantity="one">%d gjest</item>
-	<item quantity="two">%d gjester</item>
-	<item quantity="many">%d gjester</item>
-	<item quantity="other">%d gjester</item>
+		<item quantity="zero">%d gjester</item>
+		<item quantity="one">%d gjest</item>
+		<item quantity="two">%d gjester</item>
+		<item quantity="many">%d gjester</item>
+		<item quantity="other">%d gjester</item>
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">
-	<item quantity="zero">%d netter</item>
-	<item quantity="one">%d natt</item>
-	<item quantity="two">%d netter</item>
-	<item quantity="many">%d netter</item>
-	<item quantity="other">%d netter</item>
+		<item quantity="zero">%d netter</item>
+		<item quantity="one">%d natt</item>
+		<item quantity="two">%d netter</item>
+		<item quantity="many">%d netter</item>
+		<item quantity="other">%d netter</item>
 	</plurals>
 
 	<!-- Distance strings -->
@@ -693,7 +693,7 @@
 	<string name="currency_eur">Euro</string>
 	<string name="currency_hkd">Hong Kong-dollar</string>
 	<string name="currency_inr">Indiske rupi</string>
-	<string name="currency_ils">Israelske shekel</string>
+	<string name="currency_ils">Israelske shekel </string>
 	<string name="currency_jpy">Japanske yen</string>
 	<string name="currency_krw">Koreanske won</string>
 	<string name="currency_mxn">Meksikanske pesos</string>
@@ -888,7 +888,7 @@
 	<string name="country_ru">Russland</string>
 	<string name="country_rw">Rwanda</string>
 	<string name="country_re">Réunion</string>
-	<string name="country_bl">Saint-Barthélemy</string>
+	<string name="country_bl">Saint Barthélemy</string>
 	<string name="country_sh">Saint Helena</string>
 	<string name="country_kn">Saint Kitts og Nevis</string>
 	<string name="country_lc">Saint Lucia</string>

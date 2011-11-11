@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 
@@ -14,9 +14,9 @@
 	<!--  Label for picking search location -->
 	<string name="where_are_you_going">&lt;b&gt;Dove&lt;/b&gt;?</string>
 	<!--  Label for picking checkin/checkout dates -->
-	<string name="drag_to_extend_your_stay">&lt;b&gt;Trascina&lt;/b&gt; per cambiare le date.</string>
+	<string name="drag_to_extend_your_stay">&lt;b&gt;Quando&lt;/b&gt;?</string>
 	<!--  Label for picking checkin/checkout dates -->
-	<string name="where_are_you_staying">&lt;b&gt;Quando&lt;/b&gt;?</string>
+	<string name="where_are_you_staying">&lt;b&gt;Dove&lt;/b&gt;?</string>
 	<!--  Label for picking guests for hotel booking -->
 	<string name="who_is_going">&lt;b&gt;Chi&lt;/b&gt;?</string>
 	

@@ -601,7 +601,7 @@
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
-	<string name="send_feedback">Envoyer un commentaire</string>
+	<string name="send_feedback">Envoyer</string>
 	<!-- Header title -->
 	<string name="app_feedback">Commentaires sur l\'appli</string>
 	<!-- Section header for rating (1-5 stars) -->

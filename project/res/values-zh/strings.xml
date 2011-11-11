@@ -16,7 +16,7 @@
 	<!--  Label for picking checkin/checkout dates -->
 	<string name="drag_to_extend_your_stay">&lt;b&gt;拖动&lt;/b&gt;以延长您的住宿天数。</string>
 	<!--  Label for picking checkin/checkout dates -->
-	<string name="where_are_you_staying">您在&lt;b&gt;哪里&lt;/b&gt;投宿？</string>
+	<string name="where_are_you_staying">您的住宿&lt;b&gt;日期&lt;/b&gt;是？</string>
 	<!--  Label for picking guests for hotel booking -->
 	<string name="who_is_going">有&lt;b&gt;谁&lt;/b&gt;会去呢？</string>
 	
@@ -79,11 +79,11 @@
 	<string name="filter_hotels">筛选酒店</string>
 	<!-- A number of results -->
 	<plurals name="number_of_results">
-	<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 个结果条目</item>
-	<item quantity="one">&lt;b&gt;%d&lt;/b&gt; 个结果条目</item>
-	<item quantity="two">&lt;b&gt;%d&lt;/b&gt; 个结果条目</item>
-	<item quantity="many">&lt;b&gt;%d&lt;/b&gt; 个结果条目</item>
-	<item quantity="other">&lt;b&gt;%d&lt;/b&gt; 个结果条目</item>
+	<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
+	<item quantity="one">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
+	<item quantity="two">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
+	<item quantity="many">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
+	<item quantity="other">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
@@ -124,7 +124,7 @@
 	<!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
 	<string name="filter_distance_kilometers_template">%s 公里</string>
 
-	<!-- Progress messages -->
+	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">正在查找当前位置...</string>
 	<!-- Message displayed when app is searching a location for hotels -->
@@ -144,7 +144,7 @@
 	<!-- The label indicating that this hotel is highly rated by users -->
 	<string name="highly_rated">高评价</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">&lt;strike&gt;%s&lt;/strike&gt; 起</string>
+	<string name="from_template">起价 &lt;strike&gt;%s&lt;/strike&gt;</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/晚</string>
 	<!-- Label for red "sale" corner -->
@@ -155,7 +155,7 @@
 	<string name="percent_off_template">折扣 %2.0f%%</string>
 
 	<!-- Filter results action bar label -->
-	<string name="filter_results">筛选结果条目</string>
+	<string name="filter_results">筛选搜索结果</string>
 
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
@@ -234,9 +234,9 @@
 	
 	<!--  Hotel Details Fragment -->
 	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
-	<string name="min_room_price_template">%s 起</string>
+	<string name="min_room_price_template">起价 %s</string>
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
-	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; 起</string>
+	<string name="bed_type_start_value_template">起价 &lt;b&gt;%s&lt;/b&gt;</string>
 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
 	<string name="reviews_recommended_template">在 %2$d 位宾客中有 %1$d 位推荐此酒店</string>
 	<!--  Title for the amenities section in the hotel details fragment -->
@@ -318,8 +318,8 @@
 	<!-- Read more of the review -->
 	<string name="user_review_read_more">阅读更多内容</string>
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-	1$ represents the number of guests that recommend this hotel
-	2$ represents the total number of guests  -->
+		1$ represents the number of guests that recommend this hotel
+		2$ represents the total number of guests  -->
 	<string name="user_review_recommendation_tag_text">在 &lt;b&gt;%2$d&lt;/b&gt; 位宾客中有 &lt;b&gt;%1$d&lt;/b&gt; 位推荐此酒店。</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
@@ -330,8 +330,8 @@
 	<item quantity="other">%d 条评价</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
-	1$ is the user name
-	2$ is the place they are from -->
+		1$ is the user name
+		2$ is the place they are from -->
 	<string name="user_review_name_and_location_signature">%1$s 来自%2$s</string>
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">没有对此酒店的恶评</string>
@@ -591,7 +591,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">您好！\n\n请试试适用于 iPhone 和 Android 手机的 Expedia Hotels 应用程序。这是免费的！您可通过它轻松搜索并预订全世界超过 130,000 家酒店的客房。它是通过手机预订酒店客房最便捷的工具。\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">您好！\n\n请试试适用于 iPhone 和 Android 手机（移动设备）的 Expedia Hotels 应用程序。这是免费的！您可通过它轻松搜索并预订全世界超过 130,000 家酒店的客房。它是通过手机（移动设备）预订酒店客房最便捷的工具。\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">条款和条件</string>
 	<!-- Label for link to privacy policy -->
@@ -607,7 +607,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">请给予我们评分</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">由 Opinion Lab 提供技术支持<a href="http://mobile.opinionlab.com/static/privacy.html">隐私政策</a></string>
+	<string name="powered_by_opinion_lab">由 Opinion Lab 提供技术支持。<a href="http://mobile.opinionlab.com/static/privacy.html">隐私政策</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">电子邮件地址</string>
 	<!-- Hint to type in comments -->

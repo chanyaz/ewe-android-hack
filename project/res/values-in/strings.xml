@@ -187,7 +187,7 @@
 	<!--  Widget Branding title -->
 	<string name="hotel_radar">Hotel Radar</string>
 	<!--  Widget Branding description -->
-	<string name="book_a_room_tonight">Memesan kamar malam ini.</string>
+	<string name="book_a_room_tonight">Pesan kamar malam ini.</string>
 	<!--  Widget branding for max savings based on deals being shown. %s represents the max. savings represented by any one hotel in the widget-->
 	<string name="save_upto_template">Hemat hingga %s%%</string>
 	<!--  Widget error for search that is considered "in the past" due to time differences -->
@@ -666,26 +666,26 @@
 	<string name="ean_error_connect_unavailable">Tidak dapat terhubung ke hotel yang dipilih untuk menemukan kamar yang tersedia.</string>
 
 	<!-- Currency names -->
-	<string name="currency_aud">Dollar Australia</string>
+	<string name="currency_aud">Dolar Australia</string>
 	<string name="currency_brl">Real Brasil</string>
 	<string name="currency_gbp">Pound Inggris</string>
-	<string name="currency_cad">Dollar Kanada</string>
+	<string name="currency_cad">Dolar Kanada</string>
 	<string name="currency_cny">Yuan Cina</string>
 	<string name="currency_dkk">Krona Denmark</string>
 	<string name="currency_eur">Euro</string>
-	<string name="currency_hkd">Dollar Hong Kong</string>
+	<string name="currency_hkd">Dolar Hong Kong</string>
 	<string name="currency_inr">Rupee India</string>
 	<string name="currency_ils">Shekel Israel </string>
 	<string name="currency_jpy">Yen Jepang</string>
 	<string name="currency_krw">Won Korea</string>
 	<string name="currency_mxn">Peso Meksiko</string>
-	<string name="currency_nzd">Dollar Selandia Baru</string>
+	<string name="currency_nzd">Dolar Selandia Baru</string>
 	<string name="currency_nok">Krone Norwegia</string>
 	<string name="currency_rub">Rubel Rusia</string>
-	<string name="currency_sgd">Dollar Singapura</string>
+	<string name="currency_sgd">Dolar Singapura</string>
 	<string name="currency_sek">Krona Swedia</string>
 	<string name="currency_chf">Franc Swiss</string>
-	<string name="currency_usd">Dollar AS</string>
+	<string name="currency_usd">Dolar AS</string>
 
 	<!-- Country names -->
 	<string name="country_af">Afganistan</string>

@@ -35,7 +35,7 @@
 
 	<!-- Search Activity -->
 	<!-- Label for "start search" button -->
-	<string name="search">Paghahanap</string>
+	<string name="search">Maghanap</string>
 	<!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
 	    1$ - The search address
 	    2$ - The check-in date
@@ -447,7 +447,7 @@
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">Kumpirmahin &amp; I-book</string>
 	<!-- Label for clearing private data -->
-	<string name="clear_private_data">I-clear Pribadong Data</string>
+	<string name="clear_private_data">I-clear ang Pribadong Data</string>
 	<!-- Title for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_title">I-clear ang Pribadong Data?</string>
 	<!-- Message for dialog confirming the clearing of private data -->

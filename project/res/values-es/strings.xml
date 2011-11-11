@@ -439,7 +439,7 @@
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">Normas y restricciones</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">Si dispones de una cuenta Expedia Rewards, haz la reserva con la misma dirección de email, y recibirás automáticamente los puntos después de tu estancia. Los puntos pueden tardar hasta 30 días en aparecer.</string>
+	<string name="disclaimer_expedia_points">Si dispones de una cuenta Expedia Rewards, haz la reserva con la misma dirección de email y recibirás automáticamente los puntos después de tu estancia. Los puntos pueden tardar hasta 30 días en aparecer.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
 	<string name="EnterBookingInfo">Introduce los datos de la reserva</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -585,7 +585,7 @@
 	<!-- Extra description for "app support" button, when space allows -->
 	<string name="app_support_description">Escríbenos y te responderemos cuanto antes</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">¿Te gustan nuestras ofertas increíbles?  Recomienda la aplicación a tus amigos.</string>
+	<string name="tell_a_friend_description">¿Te gustan nuestras ofertas increíbles? Recomienda la aplicación.</string>
 	<!-- Section header for other apps by Mobiata -->
 	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->

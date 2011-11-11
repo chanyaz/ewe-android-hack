@@ -169,7 +169,7 @@
 	<!--  Default Loading message for widget -->
 	<string name="loading_hotels">Memuatkan hotel...</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">Simpan %2.0f%%</string>
+	<string name="widget_savings_template">Smpn %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Ketik untuk segarkan semula</string>
 	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->

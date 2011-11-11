@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 
@@ -10,13 +10,13 @@
 	<!-- Label for searches that the user can make that are featured -->
 	<string name="featured_destinations">Beliebte Reiseziele</string>
 	<!-- Label for button that starts search -->
-	<string name="search_for_hotels">Nach Hotels suchen</string>
+	<string name="search_for_hotels">Suche nach Hotels</string>
 	<!--  Label for picking search location -->
 	<string name="where_are_you_going">&lt;b&gt;Wohin&lt;/b&gt; reisen Sie?</string>
 	<!--  Label for picking checkin/checkout dates -->
 	<string name="drag_to_extend_your_stay">&lt;b&gt;Ziehen Sie&lt;/b&gt;, um den Aufenthalt zu verlängern.</string>
 	<!--  Label for picking checkin/checkout dates -->
-	<string name="where_are_you_staying">&lt;b&gt;Wo&lt;/b&gt; übernachten Sie?</string>
+	<string name="where_are_you_staying">&lt;b&gt;Wann&lt;/b&gt; verreisen Sie?</string>
 	<!--  Label for picking guests for hotel booking -->
 	<string name="who_is_going">&lt;b&gt;Wer&lt;/b&gt; verreist?</string>
 	
@@ -42,10 +42,10 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt; bis &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; to &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; passende Hotels </item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; passende Hotels</item>
 		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; passendes Hotel</item>
 		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; passende Hotels </item>
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; passende Hotels </item>
@@ -79,7 +79,7 @@
 	<string name="filter_hotels">Hotels filtern</string>
 	<!-- A number of results -->
 	<plurals name="number_of_results">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; Ergebnisse </item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; Ergebnisse</item>
 		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; Ergebnis</item>
 		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; Ergebnisse </item>
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; Ergebnisse </item>
@@ -181,7 +181,7 @@
 	<!--  Label for button to add widget to home screen from configuration activity -->
 	<string name="add_widget">Widget hinzufügen</string>
 	<!--  Instructions on how to add widget to home screen -->
-	<string name="widget_add_instructions"> Tippen Sie auf eine beliebige Stelle im Home Screen und halten Sie sie gedrückt, um das Hotel Radar Widget hinzuzufügen.</string>
+	<string name="widget_add_instructions">Um das Hotel Radar Widget hinzuzufügen.</string>
 	<!--  Title for configuration options section in the widget config activity -->
 	<string name="config_options_description">Hotelangebote in der Nähe von:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
@@ -238,7 +238,7 @@
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
 	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; ab</string>
 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
-	<string name="reviews_recommended_template">Empfohlen von %1$d von %2$d Gästen</string>
+ 	<string name="reviews_recommended_template">Empfohlen von %1$d von %2$d Gästen</string>
 	<!--  Title for the amenities section in the hotel details fragment -->
 	<string name="amenities">Annehmlichkeiten</string>
 	<!--  Label for button to see all reviews as a modal dialog -->
@@ -280,15 +280,15 @@
 	<!-- Room service amenity -->
 	<string name="AmenityRoomService">Zimmerservice</string>
 	<!-- Accessible path of travel amenity -->
-	<string name="AmenityAccessiblePaths">Barrierefreier Zugang</string>
+	<string name="AmenityAccessiblePaths">Barrierefr. Zugang</string>
 	<!-- Accessible bathroom amenity -->
-	<string name="AmenityAccessibleBathroom">Barrierefreies Badezimmer</string>
+	<string name="AmenityAccessibleBathroom">Barrierefr. Badezimmer</string>
 	<!-- Roll-in shower amenity -->
 	<string name="AmenityRollInShower">Rollstuhlgerechte Dusche</string>
 	<!-- Handicapped parking amenity -->
 	<string name="AmenityHandicappedParking">Behindertenparkplätze</string>
 	<!-- In-room accessibility amenity -->
-	<string name="AmenityInRoomAccessibility">Barrierefreies Zimmer</string>
+	<string name="AmenityInRoomAccessibility">Barrierefr. Zimmer</string>
 	<!-- Accessibility equipment for the deaf amenity -->
 	<string name="AmenityDeafAccessibilityEquipment">Für Taube geeignet</string>
 	<!-- Braille or raised signage amenity -->
@@ -336,14 +336,14 @@
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">Zu diesem Hotel wurden keine kritischen Bewertungen abgegeben.</string>
 	<!-- User review no favorable reviews -->
-	<string name="user_review_no_favorable_reviews">Zu diesem Hotel wurden keine positiven Bewertungen abgegeben.</string>
+	<string name="user_review_no_favorable_reviews"> Zu diesem Hotel wurden keine positiven Bewertungen abgegeben.</string>
 	<!-- User review no recent reviews -->
-	<string name="user_review_no_recent_reviews">Zu diesem Hotel wurden keine neuen Bewertungen abgegeben.</string>
+	<string name="user_review_no_recent_reviews"> Zu diesem Hotel wurden keine neuen Bewertungen abgegeben.</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
 	<plurals name="staying_nights">
-		<item quantity="zero">Aufenthalt von %d Nächten</item>
+		<item quantity="zero"> Aufenthalt von %d Nächten </item>
 		<item quantity="one"> Aufenthalt von %d Nacht </item>
 		<item quantity="two"> Aufenthalt von %d Nächten </item>
 		<item quantity="many"> Aufenthalt von %d Nächten </item>
@@ -352,7 +352,7 @@
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Suche nach verfügbaren Zimmern...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">Informationen zu Zimmern &amp; Preisen können derzeit nicht angezeigt werden. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.</string>
+	<string name="error_no_response_room_rates">Informationen zu Zimmern &amp; Preisen können derzeit nicht angezeigt werden.  Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">pro Nacht</string>
 	<!-- Rate price displayed "average per night" -->
@@ -391,8 +391,8 @@
 	<string name="stay_duration">Aufenthaltsdauer</string>
 	<!-- Quantity for the length of stay -->
 	<plurals name="length_of_stay">
-		<item quantity="one">1 Nacht</item>
-		<item quantity="other">%d Nächte</item>
+	<item quantity="one">1 Nacht</item>
+	<item quantity="other">%d Nächte</item>
 	</plurals>
 	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
 	<string name="room_rate_template">Zimmerpreis %s</string>
@@ -477,9 +477,9 @@
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Fehler</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">Es besteht keine Verbindung zu den Servern von Expedia. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.</string>
+	<string name="error_booking_null">Es besteht keine Verbindung zu den Servern von Expedia.  Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s am %2$s</string>
+	<string name="check_in_out_time_template">%1$s on %2$s</string>
 	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
 	<string name="enter_booking_info">Buchungsinformationen eingeben</string>
 	<!--  Title for action bar when the user is on the booking info screen -->
@@ -503,9 +503,9 @@
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
 	<string name="contact_phone_template">Wenn Sie Fragen zu Ihrer Buchung haben, wenden Sie sich bitte unter der Nummer %s an Expedia.com.</string>
 	<!-- Contact info for China  where 1$ represents the number by CN NetCom and 2$ represents the number from CN Telecom-->
-	<string name="contact_phone_china_template">Wenn Sie Fragen zu Ihrer Buchung haben, erreichen Sie Expedia.com unter den folgenden Telefonnummern: %1$s (CN NetCom) oder %2$s (CN Telecom).</string>
+	<string name="contact_phone_china_template">Wenn Sie Fragen zu Ihrer Buchung haben, erreichen Sie Expedia.com unter %1$s (CN NetCom) oder %2$s (CN Telecom).</string>
 	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
-	<string name="contact_phone_default_template">Wenn Sie Fragen zu Ihrer Buchung haben, erreichen Sie Expedia.com in der US/Kanada unter der Nummer %1$s, in Europa unter der Nummer %2$s.</string>
+	<string name="contact_phone_default_template">Wenn Sie Fragen zu Ihrer Buchung haben, erreichen Sie Expedia.com in den USA und Kanada unter %1$s, in Europa unter .%2$s .</string>
 
 	<!--  Confirmation Fragment -->
 	<!-- Label to share booking information after a booking confirmation -->
@@ -585,7 +585,7 @@
 	<!-- Extra description for "app support" button, when space allows -->
 	<string name="app_support_description">Schreiben Sie uns und wir melden uns bei Ihnen.</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">Sie mögen fantastische Hotelangebote? Erzählen Sie Ihren Freunden von der App.</string>
+	<string name="tell_a_friend_description">Sie Hotelangebote gewünscht? Erzählen Sie Ihren Freunden von der App.</string>
 	<!-- Section header for other apps by Mobiata -->
 	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->
@@ -597,7 +597,7 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Datenschutzrichtlinien</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAlle Rechte vorbehalten.</string>
+	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAll rights reserved.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
@@ -607,7 +607,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Bitte bewerten Sie uns!</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Unterstützt von Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Datenschutz</a></string>
+	<string name="powered_by_opinion_lab">Mit Unterstützung von Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Datenschutzrichtlinien</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">Email-Addresse</string>
 	<!-- Hint to type in comments -->
@@ -693,7 +693,7 @@
 	<string name="currency_eur">Euro</string>
 	<string name="currency_hkd">Hongkong-Dollar</string>
 	<string name="currency_inr">Indische Rupien</string>
-	<string name="currency_ils">Neue israelische Schekel</string>
+	<string name="currency_ils">Neue israelische Schekel </string>
 	<string name="currency_jpy">Japanische Yen</string>
 	<string name="currency_krw">Koreanische Won</string>
 	<string name="currency_mxn">Mexikanische Peso</string>
@@ -834,7 +834,7 @@
 	<string name="country_lt">Litauen</string>
 	<string name="country_lu">Luxemburg</string>
 	<string name="country_mo">Macao</string>
-	<string name="country_mk">Mazedonien</string>
+	<string name="country_mk">Mazedonien </string>
 	<string name="country_mg">Madagaskar</string>
 	<string name="country_mw">Malawi</string>
 	<string name="country_my">Malaysia</string>
@@ -847,7 +847,7 @@
 	<string name="country_mu">Mauritius</string>
 	<string name="country_yt">Mayotte</string>
 	<string name="country_mx">Mexiko</string>
-	<string name="country_fm">Mikronesien</string>
+	<string name="country_fm">Mikronesien </string>
 	<string name="country_md">Moldawien</string>
 	<string name="country_mc">Monaco</string>
 	<string name="country_mn">Mongolei</string>
@@ -888,7 +888,7 @@
 	<string name="country_ru">Russland</string>
 	<string name="country_rw">Ruanda</string>
 	<string name="country_re">Réunion</string>
-	<string name="country_bl">Sankt Bartholomäus</string>
+	<string name="country_bl">Saint Barthélemy</string>
 	<string name="country_sh">St. Helena</string>
 	<string name="country_kn">St. Kitts und Nevis</string>
 	<string name="country_lc">St. Lucia</string>

@@ -256,7 +256,7 @@
 	<!-- Internet access amenity -->
 	<string name="AmenityInternet">互聯網</string>
 	<!-- Kids' activities amenity -->
-	<string name="AmenityKidsActivities">兒童活動設施</string>
+	<string name="AmenityKidsActivities">小童活動設施</string>
 	<!-- Kitchen/kitchenette amenity -->
 	<string name="AmenityKitchen">廚房</string>
 	<!-- Pets allowed amenity -->
@@ -537,7 +537,7 @@
 	<!-- Expedia merchant hotel policies -->
 	<string name="PolicyExpediaMerchant">若您繼續進行此預約程序，即代表您同意接受所有條款與細則，包括「取消政策」以及「會員合約」中的所有條款與細則。\n\n您同意支付預約費用。若您未依約支付這筆欠款，致使我們必須委託收帳公司、律師或透過其他法律程序向您收取這筆款項，則您同意支付所有合理的成本或費用，包括與這類收款工作有關的律師費和訴訟費。</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">您預訂的是一間未提供折扣的酒店。除非另有註明，否則顯示的所有價格均為單一房間的每晚價格，並以雙人入住為準。請仔細閱讀房間說明和價格規定，以確保您選擇的房間可容納與您同行的所有旅客。部分價格可能需要出示特殊的身份證明。我們的預訂費、稅額以及酒店規定收取的其他附加費並未包含在內。如果有超過房間所示之入住人數的額外成人或兒童入住，可能必須依據酒店的內部規定加收額外費用。\n\n如果需要入住的人數超過2人、或是超過選定價格所許可的入住人數，則我們會將您的要求轉告酒店，但無法保證您的要求可獲得核准。如果您的要求獲准，則必須依據酒店的內部規定加收額外費用。</string>
+	<string name="PolicyExpediaAgent">您預訂的是一間未提供折扣的酒店。除非另有註明，否則顯示的所有價格均為單一房間的每晚價格，並以雙人入住為準。請仔細閱讀房間說明和價格規定，以確保您選擇的房間可容納與您同行的所有旅客。部分價格可能需要出示特殊的身份證明。我們的預訂費、稅額以及酒店規定收取的其他附加費並未包含在內。如果有超過房間所示之入住人數的額外成人或小童入住，可能必須依據酒店的內部規定加收額外費用。\n\n如果需要入住的人數超過2人、或是超過選定價格所許可的入住人數，則我們會將您的要求轉告酒店，但無法保證您的要求可獲得核准。如果您的要求獲准，則必須依據酒店的內部規定加收額外費用。</string>
 
 	<!-- Sharing bookings via email --><!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
 	<string name="share_subject_template">Expedia 行程 - %1$s (%2$s - %3$s)</string>
