@@ -12,6 +12,10 @@
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
     </style>
 
+    <style name="Theme.Tablet" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionMenuTextColor">#505966</item>
+    </style>
+
     <style name="Theme.Light.Fullscreen.Panel" parent="@android:style/Theme.Holo.Light.Dialog.NoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
