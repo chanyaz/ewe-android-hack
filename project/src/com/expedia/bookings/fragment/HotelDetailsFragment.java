@@ -22,6 +22,7 @@ import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelDescription.DescriptionSection;
+import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewsResponse;
@@ -30,8 +31,8 @@ import com.expedia.bookings.utils.AvailabilitySummaryLayoutUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.HotelCollage;
-import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
+import com.expedia.bookings.widget.SummarizedRoomRates;
 
 public class HotelDetailsFragment extends Fragment implements EventHandler {
 
@@ -185,8 +186,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private OnCollageImageClickedListener mPictureClickedListener = new OnCollageImageClickedListener() {
 
 		@Override
-		public void onImageClicked(String url) {
-			((TabletActivity) getActivity()).showPictureGalleryForHotel(url);
+		public void onImageClicked(Media media) {
+			((TabletActivity) getActivity()).showPictureGalleryForHotel(media);
 		}
 	};
 

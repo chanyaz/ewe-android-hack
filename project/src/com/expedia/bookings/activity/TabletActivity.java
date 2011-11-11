@@ -37,6 +37,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
+import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.PropertyInfoResponse;
 import com.expedia.bookings.data.Rate;
@@ -619,8 +620,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		newFragment.show(getFragmentManager(), "SortDialog");
 	}
 
-	private void showHotelGalleryDialog(String selectedImageUrl) {
-		DialogFragment newFragment = HotelGalleryDialogFragment.newInstance(selectedImageUrl);
+	private void showHotelGalleryDialog(Media selectedMedia) {
+		DialogFragment newFragment = HotelGalleryDialogFragment.newInstance(selectedMedia);
 		newFragment.show(getFragmentManager(), "HotelGalleryDialog");
 	}
 
@@ -657,8 +658,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		}
 	}
 
-	public void showPictureGalleryForHotel(String selectedImageUrl) {
-		showHotelGalleryDialog(selectedImageUrl);
+	public void showPictureGalleryForHotel(Media selectedMedia) {
+		showHotelGalleryDialog(selectedMedia);
 	}
 
 	public void bookRoom(Rate rate) {

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.AvailabilitySummaryLayoutUtils;
@@ -69,7 +70,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	// Callbacks
 
 	private OnCollageImageClickedListener mOnImageClickedListener = new OnCollageImageClickedListener() {
-		public void onImageClicked(String url) {
+		public void onImageClicked(Media media) {
 			((TabletActivity) getActivity()).moreDetailsForPropertySelected();
 		}
 	};

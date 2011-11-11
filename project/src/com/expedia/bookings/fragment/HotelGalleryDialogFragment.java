@@ -2,15 +2,15 @@ package com.expedia.bookings.fragment;
 
 import java.util.List;
 
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -21,23 +21,26 @@ import android.widget.ImageView.ScaleType;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.json.JSONUtils;
 
 public class HotelGalleryDialogFragment extends DialogFragment {
 
-	private static final String SELECTED_IMAGE_URL = "SELECTED_IMAGE_URL";
+	private static final String SELECTED_MEDIA = "SELECTED_MEDIA";
 
 	private Gallery mHotelGallery;
 	private ImageView mBigImageView;
 	private ImageAdapter mAdapter;
 	private LayoutInflater mInflater;
-	private String mSelectedImageUrl;
+	private Media mSelectedMedia;
 
-	public static HotelGalleryDialogFragment newInstance(String selectedImageUrl) {
+	public static HotelGalleryDialogFragment newInstance(Media selectedMedia) {
 		HotelGalleryDialogFragment dialog = new HotelGalleryDialogFragment();
 		Bundle args = new Bundle();
-		args.putString(SELECTED_IMAGE_URL, selectedImageUrl);
+		args.putString(SELECTED_MEDIA, selectedMedia.toJson().toString());
 		dialog.setArguments(args);
 		return dialog;
 	}
@@ -46,11 +49,15 @@ public class HotelGalleryDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		mInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_IMAGE_URL)) {
-			mSelectedImageUrl = savedInstanceState.getString(SELECTED_IMAGE_URL);
+		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
+
+		if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_MEDIA)) {
+			mSelectedMedia = (Media) JSONUtils.parseJSONObjectFromBundle(savedInstanceState, SELECTED_MEDIA,
+					Media.class);
 		}
 		else {
-			mSelectedImageUrl = getArguments().getString("SELECTED_IMAGE_URL");
+			mSelectedMedia = (Media) JSONUtils.parseJSONObjectFromBundle(getArguments(), SELECTED_MEDIA,
+					Media.class);
 		}
 
 		View view = mInflater.inflate(R.layout.fragment_hotel_gallery, null);
@@ -58,16 +65,17 @@ public class HotelGalleryDialogFragment extends DialogFragment {
 		mBigImageView = (ImageView) view.findViewById(R.id.big_image_view);
 
 		mAdapter = new ImageAdapter();
-		mAdapter.setUrls(StrUtils.getImageUrls(((TabletActivity) getActivity()).getPropertyToDisplay()));
+		mAdapter.setMedia(StrUtils.getUniqueMediaList(property));
 		mHotelGallery.setAdapter(mAdapter);
 		mHotelGallery.setCallbackDuringFling(false);
 
 		mHotelGallery.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> l, View arg1, int position, long id) {
-				mSelectedImageUrl = (String) mAdapter.getItem(position);
-				ImageCache.loadImage(mSelectedImageUrl, mBigImageView);
+			public void onItemClick(AdapterView<?> l, View imageView, int position, long id) {
+				mSelectedMedia = (Media) mAdapter.getItem(position);
+				ImageCache.loadImage(mSelectedMedia.getHighResUrl(),
+						mSelectedMedia.getImageLoadedCallback(mBigImageView, null));
 			}
 		});
 
@@ -75,55 +83,60 @@ public class HotelGalleryDialogFragment extends DialogFragment {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
-				mSelectedImageUrl = (String) mAdapter.getItem(position);
-				ImageCache.loadImage(mSelectedImageUrl, mBigImageView);
+				mSelectedMedia = (Media) mAdapter.getItem(position);
+				ImageCache.loadImage(mSelectedMedia.getHighResUrl(),
+						mSelectedMedia.getImageLoadedCallback(mBigImageView, null));
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				mSelectedImageUrl = (String) mAdapter.getItem(0);
-				ImageCache.loadImage(mSelectedImageUrl, mBigImageView);
+				mSelectedMedia = (Media) mAdapter.getItem(0);
+				ImageCache.loadImage(mSelectedMedia.getHighResUrl(),
+						mSelectedMedia.getImageLoadedCallback(mBigImageView, null));
 			}
 		});
 
-		int position = (mSelectedImageUrl == null) ? 0 : mAdapter.getPositionOfImage(mSelectedImageUrl);
-		mSelectedImageUrl = (mSelectedImageUrl == null) ? (String) mAdapter.getItem(0) : mSelectedImageUrl;
+		int position = (mSelectedMedia == null) ? 0 : mAdapter.getPositionOfImage(mSelectedMedia);
+		mSelectedMedia = (mSelectedMedia == null) ? (Media) mAdapter.getItem(0) : mSelectedMedia;
 
 		mHotelGallery.setSelection(position);
 
-		Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setView(view);
-		return builder.create();
+		Dialog dialog = new Dialog(getActivity(), R.style.Theme_Light_Fullscreen_Panel);
+		dialog.requestWindowFeature(STYLE_NO_TITLE);
+		dialog.setContentView(view);
+		dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+		return dialog;
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (mSelectedImageUrl != null) {
-			outState.putString(SELECTED_IMAGE_URL, mSelectedImageUrl);
+		if (mSelectedMedia != null) {
+			outState.putString(SELECTED_MEDIA, mSelectedMedia.toJson().toString());
 		}
 	}
 
 	private class ImageAdapter extends BaseAdapter {
-		private List<String> mUrls;
+		private List<Media> mMedia;
 
-		public void setUrls(List<String> urls) {
-			mUrls = urls;
+		public void setMedia(List<Media> media) {
+			mMedia = media;
 			notifyDataSetChanged();
 		}
 
-		public int getPositionOfImage(String url) {
-			return mUrls.indexOf(url);
+		public int getPositionOfImage(Media media) {
+			return mMedia.indexOf(media);
 		}
 
 		@Override
 		public int getCount() {
-			return mUrls.size();
+			return mMedia.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			return mUrls.get(position);
+			return mMedia.get(position);
 		}
 
 		@Override
@@ -135,13 +148,16 @@ public class HotelGalleryDialogFragment extends DialogFragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ImageView imageView = (ImageView) convertView;
 			if (convertView == null) {
+				int thumbnailDimensionDp = (int) Math.ceil(getResources().getDisplayMetrics().density * 150);
 				imageView = new ImageView(getActivity());
-				imageView.setLayoutParams(new Gallery.LayoutParams(150, 100));
+				imageView.setLayoutParams(new Gallery.LayoutParams(thumbnailDimensionDp, thumbnailDimensionDp));
 				imageView.setScaleType(ScaleType.CENTER_CROP);
+				imageView.setBackgroundResource(R.drawable.bg_gallery_item);
 				convertView = imageView;
 			}
 
-			boolean imageSet = ImageCache.loadImage((String) mUrls.get(position), imageView);
+			Media media = mMedia.get(position);
+			boolean imageSet = ImageCache.loadImage(media.getUrl(), imageView);
 			if (!imageSet) {
 				imageView.setImageResource(R.drawable.ic_row_thumb_placeholder);
 			}

@@ -187,4 +187,22 @@ public class StrUtils {
 		}
 		return urls;
 	}
+	
+	public static List<Media> getUniqueMediaList(Property property) {
+		List<Media> uniqueMediaList = new ArrayList<Media>(property.getMediaCount());
+		Set<Media> usedMedia = new HashSet<Media>();
+		
+		if(property.getMediaList() == null) {
+			return uniqueMediaList;
+		}
+		
+		for(Media media : property.getMediaList()) {
+			if(!usedMedia.contains(media)) {
+				uniqueMediaList.add(media);
+				usedMedia.add(media);
+			}
+		}
+		
+		return uniqueMediaList;
+	}
 }
