@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -47,7 +48,7 @@ public class CalendarDialogFragment extends DialogFragment {
 		View view = inflater.inflate(R.layout.fragment_dialog_calendar, null);
 		mCalendarDatePicker = (CalendarDatePicker) view.findViewById(R.id.dates_date_picker);
 		builder.setView(view);
-		builder.setTitle(R.string.drag_to_extend_your_stay);
+		builder.setTitle(Html.fromHtml(getString(R.string.drag_to_extend_your_stay)));
 
 		// Initial calendar date picker variables
 		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker);
