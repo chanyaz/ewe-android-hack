@@ -6,6 +6,10 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance;
@@ -61,6 +65,8 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
 		boundCenterBottom(mMarkerSale);
 		setBalloonBottomOffset(context.getResources().getDrawable(DEFAULT_PIN).getIntrinsicHeight());
+
+		setBalloonAdapter(new HotelBalloonAdapter());
 
 		mDistanceUnit = DistanceUnit.getDefaultDistanceUnit();
 	}
@@ -293,5 +299,46 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
 	public interface OnBalloonTap {
 		public void onBalloonTap(Property property);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Custom BalloonAdapter
+
+	private class HotelBalloonAdapter implements BalloonAdapter {
+
+		private TextView mTitle;
+		private TextView mSnippet;
+
+		@Override
+		public void bindView(View view, OverlayItem item, int index) {
+			if (item.getTitle() != null) {
+				mTitle.setVisibility(View.VISIBLE);
+				mTitle.setText(item.getTitle());
+			}
+			else {
+				mTitle.setVisibility(View.GONE);
+			}
+
+			if (item.getSnippet() != null) {
+				mSnippet.setVisibility(View.VISIBLE);
+				mSnippet.setText(item.getSnippet());
+			}
+			else {
+				mSnippet.setVisibility(View.GONE);
+			}
+		}
+
+		@Override
+		public View newView(ViewGroup parent) {
+			LayoutInflater inflater = (LayoutInflater) mapView.getContext().getSystemService(
+					Context.LAYOUT_INFLATER_SERVICE);
+
+			ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.balloon_map_hotel, null);
+
+			mTitle = (TextView) layout.findViewById(R.id.balloon_item_title);
+			mSnippet = (TextView) layout.findViewById(R.id.balloon_item_snippet);
+
+			return layout;
+		}
 	}
 }

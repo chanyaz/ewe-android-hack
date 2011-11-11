@@ -14,6 +14,7 @@
 
     <style name="Theme.Tablet" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionMenuTextColor">#505966</item>
+        <item name="balloonOverlayViewBackground">@drawable/bg_map_balloon</item>
     </style>
 
     <style name="Theme.Light.Fullscreen.Panel" parent="@android:style/Theme.Holo.Light.Dialog.NoActionBar">

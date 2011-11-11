@@ -211,4 +211,12 @@
         <item name="android:textSize">19dp</item>
     </style>
 
+	<style name="BalloonText">
+	    <item name="android:textColor">#3D4552</item>
+		<item name="android:shadowColor">#ffffff</item>
+		<item name="android:shadowRadius">0.1</item>
+		<item name="android:shadowDx">0</item>
+		<item name="android:shadowDy">1</item>
+	</style>
+
 </resources>
