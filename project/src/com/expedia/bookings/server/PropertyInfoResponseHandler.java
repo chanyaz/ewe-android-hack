@@ -48,8 +48,8 @@ public class PropertyInfoResponseHandler extends JsonResponseHandler<PropertyInf
 
 			JSONObject hotelDetails = jsonResponse.getJSONObject("HotelDetails");
 			PropertyInfo propertyInfo = new PropertyInfo();
-			propertyInfo.setCheckInTime(hotelDetails.getString("checkInTime"));
-			propertyInfo.setCheckOutTime(hotelDetails.getString("checkOutTime"));
+			propertyInfo.setCheckInTime(hotelDetails.optString("checkInTime", null));
+			propertyInfo.setCheckOutTime(hotelDetails.optString("checkOutTime", null));
 			propertyInfo.setPropertyId(jsonResponse.getString("@hotelId"));
 
 			JSONArray roomTypes = JSONUtils.getOrWrapJSONArray(jsonResponse.getJSONObject("RoomTypes"), "RoomType");
