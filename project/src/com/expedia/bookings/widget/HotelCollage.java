@@ -123,11 +123,9 @@ public class HotelCollage {
 		}
 
 		public void onImageLoadFailed(String url) {
-			loadNextImage();
+			// Do nothing
 		}
-		
 	};
-	 
 
 	private void loadNextImage() {
 		mCurrentIndex++;
