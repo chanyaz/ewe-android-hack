@@ -50,14 +50,11 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		mLocationTextView = (TextView) view.findViewById(R.id.location_text_view);
 		mRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
 		mCollageHandler = new HotelCollage(view, mOnImageClickedListener);
-
+		
+		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
+		updateViews(property, view);
+		
 		return view;
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		updateViews();
 	}
 
 	@Override
@@ -78,24 +75,24 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	//////////////////////////////////////////////////////////////////////////
 	// Views
 
-	private void updateViews() {
-		updateViews(((TabletActivity) getActivity()).getPropertyToDisplay());
-	}
-
 	private void updateViews(Property property) {
+		updateViews(property, getView());
+	}
+	
+	private void updateViews(Property property, View view) {
 		// don't update views if there is no
 		// view attached.
-		if (getView() != null && property != null) {
+		if (view != null && property != null) {
 			mNameTextView.setText(property.getName());
 			mLocationTextView.setText(StrUtils.formatAddress(property.getLocation()).replace("\n", ", "));
 			mRatingBar.setRating((float) property.getHotelRating());
 			mCollageHandler.updateCollage(property);
 
-			AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(((TabletActivity) getActivity()), getView());
+			AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(((TabletActivity) getActivity()), view);
 			// update the summarized rates if they are available
 			AvailabilityResponse availabilityResponse = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
 			AvailabilitySummaryLayoutUtils.updateSummarizedRates(((TabletActivity) getActivity()),
-					availabilityResponse, getView(), getString(R.string.see_details), seeDetailsOnClickListener);
+					availabilityResponse, view, getString(R.string.see_details), seeDetailsOnClickListener);
 		}
 	}
 
