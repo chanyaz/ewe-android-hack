@@ -28,6 +28,8 @@ public class TabletAboutActivity extends HoneycombAboutActivity {
 
 		setAboutAppsTitle(getString(R.string.travel_smart));
 
+		setLogoResource(R.drawable.about_expedia_logo);
+
 		ViewGroup standardSection = getStandardSection();
 
 		// Section about Expedia
