@@ -3,7 +3,6 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,10 +10,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Handler;
+import android.os.Message;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,15 +30,13 @@ public class HotelCollage {
 	private ArrayList<ImageView> mPropertyImageViews;
 	private List<Media> mPropertyMediaList;
 	private TextView mPromoDescriptionTextView;
-	private Context mContext;
-	
+
 	private OnCollageImageClickedListener mListener;
 
 	private int mCurrentIndex;
 
-	public HotelCollage(Context context, View view, OnCollageImageClickedListener listener) {
+	public HotelCollage(View view, OnCollageImageClickedListener listener) {
 		mListener = listener;
-		mContext = context;
 
 		mPropertyImageViews = new ArrayList<ImageView>();
 		mPropertyMediaList = new ArrayList<Media>();
@@ -48,7 +45,7 @@ public class HotelCollage {
 		addViewToListIfExists(R.id.property_image_view_2, view);
 		addViewToListIfExists(R.id.property_image_view_3, view);
 		addViewToListIfExists(R.id.property_image_view_4, view);
-		
+
 		mPromoDescriptionTextView = (TextView) view.findViewById(R.id.promo_description_text_view);
 
 		// Setup the background images
@@ -71,20 +68,23 @@ public class HotelCollage {
 	}
 
 	public void updateCollage(Property property) {
+		
+		mCurrentIndex = 0;
+		mPropertyMediaList = StrUtils.getUniqueMediaList(property);
+
+		// remove any pending messages in the queue since new ones
+		// will be scheduled for the cascading effect
+		mHandler.removeMessages(LOAD_IMAGE);
+
 		// set the default thumbnails for all images
-		mPropertyMediaList.clear();
 		for (int i = 0; i < mPropertyImageViews.size(); i++) {
 			mPropertyImageViews.get(i).setImageDrawable(null);
 		}
-
-		mCurrentIndex = 0;
 
 		// Load the property urls
 		if (property.getMediaCount() == 0 || property.getMediaList() == null) {
 			return;
 		}
-
-		mPropertyMediaList = StrUtils.getUniqueMediaList(property);
 
 		// Configure views on top of the gallery
 		Rate lowestRate = property.getLowestRate();
@@ -92,11 +92,11 @@ public class HotelCollage {
 		if (promoDescription != null && promoDescription.length() > 0) {
 			mPromoDescriptionTextView.setVisibility(View.VISIBLE);
 			mPromoDescriptionTextView.setText(Html.fromHtml(promoDescription));
-		} else {
+		}
+		else {
 			mPromoDescriptionTextView.setVisibility(View.GONE);
 		}
 
-		
 		// Start the cascade of loading images
 		Media media = mPropertyMediaList.get(mCurrentIndex);
 		ImageCache.loadImage(media.getHighResUrl(),
@@ -132,6 +132,14 @@ public class HotelCollage {
 
 	private final OnImageLoaded mOnImageLoaded = new OnImageLoaded() {
 		public void onImageLoaded(String url, Bitmap bitmap) {
+			// only continue the cascading download 
+			// if the image downloaded belongs to media 
+			// in the list
+			if (mCurrentIndex > (mPropertyMediaList.size() - 1)
+					|| !mPropertyMediaList.get(mCurrentIndex).isUrlForThisMedia(url)) {
+				return;
+			}
+
 			Drawable[] layers = new Drawable[2];
 			layers[0] = new ColorDrawable(Color.TRANSPARENT);
 			layers[1] = new BitmapDrawable(bitmap);
@@ -148,18 +156,31 @@ public class HotelCollage {
 		}
 	};
 
+	private static final int LOAD_IMAGE = 1;
+
 	private void loadNextImage() {
 		mCurrentIndex++;
 		if (mCurrentIndex < mPropertyMediaList.size() && mCurrentIndex < mPropertyImageViews.size()) {
-			final Media media = mPropertyMediaList.get(mCurrentIndex);
-			mHandler.postDelayed(new Runnable() {
-				public void run() {
-					ImageCache.loadImage(media.getHighResUrl(),
-							media.getImageLoadedCallback(mPropertyImageViews.get(mCurrentIndex), mOnImageLoaded));
-				}
-			}, FADE_PAUSE);
+			mHandler.sendMessageDelayed(Message.obtain(mHandler, LOAD_IMAGE), FADE_PAUSE);
 		}
 	}
+	
+	private Handler mHandler = new Handler() {
 
-	private Handler mHandler = new Handler();
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+
+			case LOAD_IMAGE:
+				Media media = mPropertyMediaList.get(mCurrentIndex);
+				ImageCache.loadImage(media.getHighResUrl(),
+						media.getImageLoadedCallback(mPropertyImageViews.get(mCurrentIndex), mOnImageLoaded));
+				break;
+
+			default:
+				super.handleMessage(msg);
+			}
+		}
+
+	};
 }

@@ -26,6 +26,8 @@ public class Media implements JSONable {
 	public static final String IMAGE_LARGE_SUFFIX = "y.jpg"; // 500x500 sized image
 	public static final String IMAGE_BIG_SUFFIX = "b.jpg"; // 350x350 sized image
 
+	private static final int SUFFIX_LENGTH = 5;
+
 	private HashMap<String, String> mImageUrls;
 
 	private int mMediaType;
@@ -77,6 +79,23 @@ public class Media implements JSONable {
 
 	public void setWidth(int width) {
 		this.mWidth = width;
+	}
+
+	/*
+	 * This method compares the url without the 
+	 * suffix (z.jpg, b.jpg, etc). This is helpful 
+	 * when attempting to compare whether the urls belong
+	 * to the same piece of media, irrespective of resolution.
+	 * 
+	 * This is under the assumption that the urls follow a 
+	 * common format where the last 5 characters in the string represent 
+	 * the image format and the code for the resolution of the image
+	 * as described in https://team.mobiata.com/wiki/EAN_Servers#Expedia_Hotels_Image_Derivatives
+	 */
+	public boolean isUrlForThisMedia(String url) {
+		String urlWithoutSuffix = url.substring(0, url.length() - SUFFIX_LENGTH);
+		String myUrlWithoutSuffix = mUrl.substring(0, mUrl.length() - SUFFIX_LENGTH);
+		return urlWithoutSuffix.equals(myUrlWithoutSuffix);
 	}
 
 	/**
@@ -162,8 +181,8 @@ public class Media implements JSONable {
 	 */
 	private void constructUrlsForDifferentImageSizes() {
 		mImageUrls = new HashMap<String, String>();
-		mImageUrls.put(IMAGE_XLARGE_SUFFIX, mUrl.substring(0, mUrl.length() - 5) + IMAGE_XLARGE_SUFFIX);
-		mImageUrls.put(IMAGE_LARGE_SUFFIX, mUrl.substring(0, mUrl.length() - 5) + IMAGE_LARGE_SUFFIX);
-		mImageUrls.put(IMAGE_BIG_SUFFIX, mUrl.substring(0, mUrl.length() - 5) + IMAGE_BIG_SUFFIX);
+		mImageUrls.put(IMAGE_XLARGE_SUFFIX, mUrl.substring(0, mUrl.length() - SUFFIX_LENGTH) + IMAGE_XLARGE_SUFFIX);
+		mImageUrls.put(IMAGE_LARGE_SUFFIX, mUrl.substring(0, mUrl.length() - SUFFIX_LENGTH) + IMAGE_LARGE_SUFFIX);
+		mImageUrls.put(IMAGE_BIG_SUFFIX, mUrl.substring(0, mUrl.length() - SUFFIX_LENGTH) + IMAGE_BIG_SUFFIX);
 	}
 }
