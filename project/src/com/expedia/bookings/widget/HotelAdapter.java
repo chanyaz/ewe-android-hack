@@ -29,6 +29,13 @@ import com.mobiata.android.util.ViewUtils;
 
 public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
+	// We implement a selected state for rows here.  The reason for this is that in touch mode, a ListView
+	// does not have a "selected" state (unless you are in touch mode).  An alternative solution would have
+	// been to use checkboxes/checked states, but I think we may someday want to use checkboxes for multiselect
+	// so I don't want to block future functionality.
+	private static final int ROW_NORMAL = 0;
+	private static final int ROW_SELECTED = 1;
+
 	private Context mContext;
 	private LayoutInflater mInflater;
 
@@ -42,6 +49,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private DistanceUnit mDistanceUnit;
 
 	private float mSaleTextSize;
+
+	private int mSelectedPosition = -1;
 
 	public HotelAdapter(Context context) {
 		mContext = context;
@@ -60,6 +69,10 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	public void setSearchResponse(SearchResponse searchResponse) {
 		mSearchResponse = searchResponse;
 		rebuildCache();
+	}
+
+	public void setSelectedPosition(int selectedPosition) {
+		mSelectedPosition = selectedPosition;
 	}
 
 	public void rebuildCache() {
@@ -128,6 +141,21 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		}
 
 		return Integer.valueOf(mCachedProperties[position].getPropertyId());
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		if (position == mSelectedPosition) {
+			return ROW_SELECTED;
+		}
+		else {
+			return ROW_NORMAL;
+		}
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return 2;
 	}
 
 	@Override
@@ -214,6 +242,14 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		}
 		if (!imageSet) {
 			holder.thumbnail.setImageResource(R.drawable.ic_row_thumb_placeholder);
+		}
+		
+		// Set the background based on whether the row is selected or not
+		if (getItemViewType(position) == ROW_SELECTED) {
+			convertView.setBackgroundResource(R.drawable.bg_row_selected);
+		}
+		else {
+			convertView.setBackgroundResource(R.drawable.bg_row);
 		}
 
 		return convertView;

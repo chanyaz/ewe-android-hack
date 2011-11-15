@@ -123,6 +123,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
 		case TabletActivity.EVENT_SEARCH_STARTED:
+			mAdapter.setSelectedPosition(-1);
 			displaySearchStatus();
 			break;
 		case TabletActivity.EVENT_SEARCH_PROGRESS:
@@ -136,8 +137,30 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 			break;
 		case TabletActivity.EVENT_FILTER_CHANGED:
 			updateSearchResults();
+
+			// If the property still exists in the list, make sure it's still selected.  Otherwise, 
+			// clear the current selection.
+			Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
+			mAdapter.setSelectedPosition(getPositionOfProperty(property));
+			mAdapter.notifyDataSetChanged();
+
+			break;
+		case TabletActivity.EVENT_PROPERTY_SELECTED:
+			mAdapter.setSelectedPosition(getPositionOfProperty((Property) data));
+			mAdapter.notifyDataSetChanged();
+
 			break;
 		}
+	}
+	
+	private int getPositionOfProperty(Property property) {
+		int count = mAdapter.getCount();
+		for (int position = 0; position < count; position++) {
+			if (mAdapter.getItem(position) == property) {
+				return position;
+			}
+		}
+		return -1;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
