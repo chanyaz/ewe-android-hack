@@ -31,7 +31,7 @@ import com.mobiata.android.util.AndroidUtils;
 
 public class BookingConfirmationFragment extends Fragment {
 	private MapView mMapView;
-	
+
 	public static BookingConfirmationFragment newInstance() {
 		BookingConfirmationFragment fragment = new BookingConfirmationFragment();
 		return fragment;
@@ -45,7 +45,7 @@ public class BookingConfirmationFragment extends Fragment {
 		ViewGroup mapViewLayout = (ViewGroup) view.findViewById(R.id.map_layout);
 		mapViewLayout.addView(mMapView);
 		mMapView.setEnabled(false);
-		
+
 		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
 		List<Property> properties = new ArrayList<Property>(1);
 		properties.add(property);
@@ -56,7 +56,7 @@ public class BookingConfirmationFragment extends Fragment {
 		GeoPoint center = overlay.getCenter();
 		mc.setCenter(center);
 		mc.setZoom(15);
-		
+
 		// Thumbnail in the map
 		ImageView thumbnail = (ImageView) view.findViewById(R.id.thumbnail_image_view);
 		if (property.getThumbnail() != null) {
@@ -65,14 +65,14 @@ public class BookingConfirmationFragment extends Fragment {
 		else {
 			thumbnail.setVisibility(View.GONE);
 		}
-		
-		View shareBookingButton =  view.findViewById(R.id.share_booking_info_button);
+
+		View shareBookingButton = view.findViewById(R.id.share_booking_info_button);
 		shareBookingButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				String contactText = "";
- 
+
 				if (AndroidUtils.hasTelephonyFeature(getActivity())) {
 					if (Locale.getDefault().getCountry().toUpperCase().equals("CN")) {
 						// Special case for China
@@ -97,10 +97,10 @@ public class BookingConfirmationFragment extends Fragment {
 						contactText);
 			}
 		});
-		
+
 		View showOnMapButton = view.findViewById(R.id.show_on_map_button);
 		showOnMapButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
@@ -117,20 +117,17 @@ public class BookingConfirmationFragment extends Fragment {
 			}
 		});
 
-
 		return view;
 	}
 
 	@Override
 	public void onDestroyView() {
-		
+
 		ViewGroup mapViewLayout = (ViewGroup) getView().findViewById(R.id.map_layout);
 		mapViewLayout.removeView(mMapView);
 		mMapView.setEnabled(true);
 		mMapView.getOverlays().clear();
 		super.onDestroyView();
 	}
-	
-	
 
 }

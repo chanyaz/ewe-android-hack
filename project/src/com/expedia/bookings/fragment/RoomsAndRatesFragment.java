@@ -51,7 +51,6 @@ public class RoomsAndRatesFragment extends ListFragment implements EventHandler 
 		} else {
 			mMessageTextView.setText(getString(R.string.room_rates_loading));
 		}
-		activity.showAvailabilityListShadow();
 	}
 
 	@Override
@@ -65,7 +64,6 @@ public class RoomsAndRatesFragment extends ListFragment implements EventHandler 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		((TabletActivity) getActivity()).hideAvailabilityListShadow();
 	}
 
 	@Override

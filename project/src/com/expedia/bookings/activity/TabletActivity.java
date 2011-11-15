@@ -46,16 +46,15 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.fragment.BookingCancellationPolicyFragment;
 import com.expedia.bookings.fragment.BookingConfirmationFragment;
+import com.expedia.bookings.fragment.BookingFormFragment;
+import com.expedia.bookings.fragment.BookingFormFragment.BookingInProgressDialogFragment;
+import com.expedia.bookings.fragment.BookingFormFragment.ErrorBookingDialogFragment;
+import com.expedia.bookings.fragment.BookingFormFragment.NullBookingDialogFragment;
 import com.expedia.bookings.fragment.BookingInfoFragment;
-import com.expedia.bookings.fragment.BookingInfoFragment.BookingInProgressDialogFragment;
-import com.expedia.bookings.fragment.BookingInfoFragment.ErrorBookingDialogFragment;
-import com.expedia.bookings.fragment.BookingInfoFragment.NullBookingDialogFragment;
 import com.expedia.bookings.fragment.BookingInfoValidation;
-import com.expedia.bookings.fragment.BookingReceiptFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
-import com.expedia.bookings.fragment.CompleteBookingInfoFragment;
+import com.expedia.bookings.fragment.ConfirmationReceiptFragment;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.fragment.FilterDialogFragment;
@@ -67,7 +66,6 @@ import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.InstanceFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
-import com.expedia.bookings.fragment.RoomTypeDescriptionFragment;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment;
 import com.expedia.bookings.fragment.SortDialogFragment;
@@ -418,17 +416,13 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private static final String TAG_HOTEL_DETAILS = "HOTEL_DETAILS";
 	private static final String TAG_MINI_DETAILS = "MINI_DETAILS";
 	private static final String TAG_AVAILABILITY_LIST = "TAG_AVAILABILITY_LIST";
-	private static final String TAG_BOOKING_RECEIPT = "TAG_BOOKING_RECEIPT";
 	private static final String TAG_BOOKING_RECEIPT_CONFIRMATION = "TAG_BOOKING_RECEIPT_CONFIRMATION";
+	private static final String TAG_BOOKING_FORM = "TAG_BOOKING_FORM";
 	private static final String TAG_BOOKING_INFO = "TAG_BOOKING_INFO";
-	private static final String TAG_BOOKING_CANCELLATION_POLICY = "TAG_BOOKING_CANCELLATION_POLICY";
 	private static final String TAG_DIALOG_NULL_BOOKING = "TAG_DIALOG_NULL_BOOKING";
 	private static final String TAG_DIALOG_BOOKING_ERROR = "TAG_DIALOG_BOOKING_ERROR";
 	private static final String TAG_DIALOG_BOOKING_PROGRESS = "TAG_DIALOG_BOOKING_PROGRESS";
 	private static final String TAG_CONFIRMATION = "TAG_CONFIRMATION";
-	private static final String TAG_CONFIRMATION_CANCELLATION_POLICY = "TAG_CONFIRMATION_CANCELLATION_POLICY";
-	private static final String TAG_ROOM_DESCRIPTION = "TAG_ROOM_DESCRIPTION";
-	private static final String TAG_COMPLETE_BOOKING_INFO = "TAG_COMPLETE_BOOKING_INFO";
 
 	private static final String BACKSTACK_RESULTS = "RESULTS";
 
@@ -476,12 +470,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		FragmentTransaction ft = fm.beginTransaction();
 		addStandardAnimation(ft);
 		ft.add(R.id.fragment_rooms, RoomsAndRatesFragment.newInstance(), TAG_AVAILABILITY_LIST);
-		ft.add(R.id.fragment_receipt, BookingReceiptFragment.newInstance(), TAG_BOOKING_RECEIPT);
-		ft.add(R.id.fragment_complete_booking, CompleteBookingInfoFragment.newInstance(), TAG_COMPLETE_BOOKING_INFO);
-		ft.add(R.id.fragment_booking_cancellation_policy, BookingCancellationPolicyFragment.newInstance(),
-				TAG_BOOKING_CANCELLATION_POLICY);
-		ft.add(R.id.fragment_room_descrption, RoomTypeDescriptionFragment.newInstance(), TAG_ROOM_DESCRIPTION);
-
+		ft.add(R.id.fragment_booking_info,  BookingInfoFragment.newInstance(), TAG_BOOKING_INFO);
 		ft.remove(fm.findFragmentByTag(TAG_HOTEL_LIST));
 
 		// remove the hotel details fragment if it exists, or the
@@ -512,10 +501,8 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 			if (fm.findFragmentByTag(TAG_SEARCH_PARAMS) != null) {
 				ft.remove(fm.findFragmentByTag(TAG_SEARCH_PARAMS));
 			}
-			ft.add(R.id.fragment_confirmation_receipt, BookingReceiptFragment.newInstance(true),
+			ft.add(R.id.fragment_confirmation_receipt, ConfirmationReceiptFragment.newInstance(true),
 					TAG_BOOKING_RECEIPT_CONFIRMATION);
-			ft.add(R.id.fragment_confirmation_cancellation_policy, BookingCancellationPolicyFragment.newInstance(),
-					TAG_CONFIRMATION_CANCELLATION_POLICY);
 			ft.add(R.id.fragment_confirmation, BookingConfirmationFragment.newInstance(), TAG_CONFIRMATION);
 			ft.commit();
 
@@ -670,7 +657,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	}
 
 	public void completeBookingInfo() {
-		BookingInfoFragment.newInstance().show(getFragmentManager(), TAG_BOOKING_INFO);
+		BookingFormFragment.newInstance().show(getFragmentManager(), TAG_BOOKING_FORM);
 	}
 
 	public void rateSelected(Rate rate) {
@@ -687,7 +674,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		ft.remove(getFragmentManager().findFragmentByTag(TAG_BOOKING_RECEIPT_CONFIRMATION));
 		ft.remove(getFragmentManager().findFragmentByTag(TAG_CONFIRMATION));
-		ft.remove(getFragmentManager().findFragmentByTag(TAG_CONFIRMATION_CANCELLATION_POLICY));
 		ft.commit();
 		showSearchFragment();
 
@@ -705,17 +691,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		bd.cancelDownload(KEY_BOOKING);
 		bd.startDownload(KEY_BOOKING, mBookingDownload, mBookingCallback);
 
-	}
-
-	public void showAvailabilityListShadow() {
-		View availabilityListShadow = findViewById(R.id.availability_list_shadow);
-		availabilityListShadow.setBackgroundDrawable(mListShadowDrawable);
-		availabilityListShadow.setVisibility(View.VISIBLE);
-	}
-
-	public void hideAvailabilityListShadow() {
-		View availabilityListShadow = findViewById(R.id.availability_list_shadow);
-		availabilityListShadow.setVisibility(View.GONE);
 	}
 
 	public void showSearchResultsListShadow() {

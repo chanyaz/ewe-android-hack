@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletActivity;
@@ -17,19 +18,20 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.BookingReceiptUtils;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.widget.RoomTypeFragmentHandler;
 
-public class BookingReceiptFragment extends Fragment implements EventHandler {
+public class ConfirmationReceiptFragment extends Fragment implements EventHandler {
 
 	private RoomTypeFragmentHandler mRoomTypeFragmentHandler;
 
-	public static BookingReceiptFragment newInstance() {
-		BookingReceiptFragment fragment = new BookingReceiptFragment();
+	public static ConfirmationReceiptFragment newInstance() {
+		ConfirmationReceiptFragment fragment = new ConfirmationReceiptFragment();
 		return fragment;
 	}
 
-	public static BookingReceiptFragment newInstance(boolean includeConfirmationInfo) {
-		BookingReceiptFragment fragment = new BookingReceiptFragment();
+	public static ConfirmationReceiptFragment newInstance(boolean includeConfirmationInfo) {
+		ConfirmationReceiptFragment fragment = new ConfirmationReceiptFragment();
 		Bundle arguments = new Bundle();
 		arguments.putBoolean(Codes.INCLUDE_CONFIRMATION_INFO, includeConfirmationInfo);
 		fragment.setArguments(arguments);
@@ -55,7 +57,7 @@ public class BookingReceiptFragment extends Fragment implements EventHandler {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View receipt = inflater.inflate(R.layout.include_receipt, container, false);
+		View receipt = inflater.inflate(R.layout.fragment_confirmation_receipt, container, false);
 		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
 		SearchParams searchParams = ((TabletActivity) getActivity()).getSearchParams();
 		Rate rate = ((TabletActivity) getActivity()).getRoomRateForBooking();
@@ -64,6 +66,14 @@ public class BookingReceiptFragment extends Fragment implements EventHandler {
 				searchParams, rate);
 
 		mRoomTypeFragmentHandler.onCreate(savedInstanceState);
+		/*
+		 * Configuring the policy cancellation section
+		 */
+		ConfirmationUtils.determineCancellationPolicy(rate, receipt);
+
+		TextView contactView = (TextView) receipt.findViewById(R.id.contact_text_view);
+		String contactText = ConfirmationUtils.determineContactText(getActivity());
+		ConfirmationUtils.configureContactView(getActivity(), contactView, contactText);
 		return receipt;
 	}
 
