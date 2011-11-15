@@ -49,7 +49,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		mNameTextView = (TextView) view.findViewById(R.id.name_text_view);
 		mLocationTextView = (TextView) view.findViewById(R.id.location_text_view);
 		mRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
-		mCollageHandler = new HotelCollage(view, mOnImageClickedListener);
+		mCollageHandler = new HotelCollage(getActivity(), view, mOnImageClickedListener);
 		
 		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
 		updateViews(property, view);

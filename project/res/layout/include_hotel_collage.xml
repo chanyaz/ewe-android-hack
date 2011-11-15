@@ -16,13 +16,34 @@
 		android:layout_weight="1"
 		android:layout_marginLeft="5dp"
 		android:orientation="vertical">
-
-		<ImageView
-			android:id="@+id/property_image_view_2"
-			android:layout_height="0dp"
-			android:layout_width="fill_parent"
-			android:layout_weight="1"
-			android:scaleType="centerCrop" />
+		
+	    
+	    <FrameLayout
+	        android:layout_height="0dp"
+	        android:layout_width="fill_parent"
+	        android:layout_weight="1">
+			<ImageView
+				android:id="@+id/property_image_view_2"
+				android:layout_height="0dp"
+				android:layout_width="fill_parent"
+				android:layout_weight="1"
+				android:scaleType="centerCrop" />
+			<TextView
+				android:id="@+id/promo_description_text_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:maxWidth="200dp"
+				android:paddingTop="2dp"
+				android:paddingBottom="6dp"
+				android:paddingLeft="14dp"
+				android:paddingRight="14dp"
+				android:background="@drawable/bg_sale_desc"
+				android:textStyle="bold"
+				android:textSize="12sp"
+				android:textColor="@android:color/white"
+				android:visibility="gone" />
+		</FrameLayout>
 		<LinearLayout
 			android:layout_height="0dp"
 			android:layout_width="fill_parent"

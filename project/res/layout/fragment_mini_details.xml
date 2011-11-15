@@ -22,7 +22,7 @@
             android:layout_toLeftOf="@+id/hotel_rating_bar_container"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <FrameLayout
             android:id="@+id/hotel_rating_bar_container"

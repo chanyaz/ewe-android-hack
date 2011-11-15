@@ -85,7 +85,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 		mHotelNameTextView = (TextView) view.findViewById(R.id.hotel_name_text_view);
 		mHotelLocationTextView = (TextView) view.findViewById(R.id.hotel_address_text_view);
-		mCollageHandler = new HotelCollage(view, mPictureClickedListener);
+		mCollageHandler = new HotelCollage(getActivity(), view, mPictureClickedListener);
 		mReviewsTitle = (TextView) view.findViewById(R.id.reviews_title);
 		mUserRating = (RatingBar) view.findViewById(R.id.user_rating_bar);
 		mSomeReviewsContainer = (ViewGroup) view.findViewById(R.id.some_reviews_container);

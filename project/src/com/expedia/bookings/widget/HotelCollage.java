@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,13 +11,17 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Handler;
+import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
@@ -25,13 +30,16 @@ public class HotelCollage {
 
 	private ArrayList<ImageView> mPropertyImageViews;
 	private List<Media> mPropertyMediaList;
-
+	private TextView mPromoDescriptionTextView;
+	private Context mContext;
+	
 	private OnCollageImageClickedListener mListener;
 
 	private int mCurrentIndex;
 
-	public HotelCollage(View view, OnCollageImageClickedListener listener) {
+	public HotelCollage(Context context, View view, OnCollageImageClickedListener listener) {
 		mListener = listener;
+		mContext = context;
 
 		mPropertyImageViews = new ArrayList<ImageView>();
 		mPropertyMediaList = new ArrayList<Media>();
@@ -40,6 +48,8 @@ public class HotelCollage {
 		addViewToListIfExists(R.id.property_image_view_2, view);
 		addViewToListIfExists(R.id.property_image_view_3, view);
 		addViewToListIfExists(R.id.property_image_view_4, view);
+		
+		mPromoDescriptionTextView = (TextView) view.findViewById(R.id.promo_description_text_view);
 
 		// Setup the background images
 		for (int i = 0; i < mPropertyImageViews.size(); i++) {
@@ -76,6 +86,17 @@ public class HotelCollage {
 
 		mPropertyMediaList = StrUtils.getUniqueMediaList(property);
 
+		// Configure views on top of the gallery
+		Rate lowestRate = property.getLowestRate();
+		String promoDescription = lowestRate.getPromoDescription();
+		if (promoDescription != null && promoDescription.length() > 0) {
+			mPromoDescriptionTextView.setVisibility(View.VISIBLE);
+			mPromoDescriptionTextView.setText(Html.fromHtml(promoDescription));
+		} else {
+			mPromoDescriptionTextView.setVisibility(View.GONE);
+		}
+
+		
 		// Start the cascade of loading images
 		Media media = mPropertyMediaList.get(mCurrentIndex);
 		ImageCache.loadImage(media.getHighResUrl(),
