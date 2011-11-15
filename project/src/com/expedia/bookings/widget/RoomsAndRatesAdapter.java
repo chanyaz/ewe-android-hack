@@ -27,6 +27,11 @@ import com.mobiata.android.util.ViewUtils;
 
 public class RoomsAndRatesAdapter extends BaseAdapter {
 
+	// We implement a selected state for rows here.  The reason for this is that in touch mode, a ListView
+	// does not have a "selected" state (unless you are in touch mode).
+	private static final int ROW_NORMAL = 0;
+	private static final int ROW_SELECTED = 1;
+
 	// When to start showing "only X rooms left!" message in layout
 	private static final int ROOMS_LEFT_CUTOFF = 5;
 
@@ -42,6 +47,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 	private float mSaleTextSize;
 
 	private int mBedRightMargin;
+
+	private int mSelectedPosition = -1;
 
 	public RoomsAndRatesAdapter(Context context, AvailabilityResponse response) {
 		mContext = context;
@@ -89,6 +96,10 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		}
 	}
 
+	public void setSelectedPosition(int selectedPosition) {
+		mSelectedPosition = selectedPosition;
+	}
+
 	@Override
 	public int getCount() {
 		return mRates.size();
@@ -102,6 +113,21 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 	@Override
 	public long getItemId(int position) {
 		return position;
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		if (position == mSelectedPosition) {
+			return ROW_SELECTED;
+		}
+		else {
+			return ROW_NORMAL;
+		}
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return 2;
 	}
 
 	@Override
@@ -214,6 +240,14 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 			holder.valueAdds.setText(mValueAdds.get(position));
 			holder.valueAddsBeds.setText(bedText);
+		}
+
+		// Set the background based on whether the row is selected or not
+		if (getItemViewType(position) == ROW_SELECTED) {
+			convertView.setBackgroundResource(R.drawable.bg_row_selected);
+		}
+		else {
+			convertView.setBackgroundResource(R.drawable.bg_row);
 		}
 
 		return convertView;

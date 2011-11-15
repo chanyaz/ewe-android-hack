@@ -42,14 +42,16 @@ public class RoomsAndRatesFragment extends ListFragment implements EventHandler 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		AvailabilityResponse response = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
+		TabletActivity activity = ((TabletActivity) getActivity());
+		AvailabilityResponse response = activity.getRoomsAndRatesAvailability();
 		if (response != null) {
 			mAdapter = new RoomsAndRatesAdapter(getActivity(), response);
+			mAdapter.setSelectedPosition(getPositionOfRate(activity.getRoomRateForBooking()));
 			setListAdapter(mAdapter);
 		} else {
 			mMessageTextView.setText(getString(R.string.room_rates_loading));
 		}
-		((TabletActivity) getActivity()).showAvailabilityListShadow();
+		activity.showAvailabilityListShadow();
 	}
 
 	@Override
@@ -69,8 +71,11 @@ public class RoomsAndRatesFragment extends ListFragment implements EventHandler 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		
+
 		((TabletActivity) getActivity()).rateSelected((Rate) mAdapter.getItem(position));
+
+		mAdapter.setSelectedPosition(position);
+		mAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -87,5 +92,15 @@ public class RoomsAndRatesFragment extends ListFragment implements EventHandler 
 			mMessageTextView.setText((String) data);
 			break;
 		}
+	}
+
+	private int getPositionOfRate(Rate rate) {
+		int count = mAdapter.getCount();
+		for (int position = 0; position < count; position++) {
+			if (mAdapter.getItem(position) == rate) {
+				return position;
+			}
+		}
+		return -1;
 	}
 }
