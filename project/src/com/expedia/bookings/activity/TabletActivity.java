@@ -67,7 +67,6 @@ import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.InstanceFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
-import com.expedia.bookings.fragment.NextOptionsFragment;
 import com.expedia.bookings.fragment.RoomTypeDescriptionFragment;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment;
@@ -430,7 +429,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 	private static final String TAG_CONFIRMATION_CANCELLATION_POLICY = "TAG_CONFIRMATION_CANCELLATION_POLICY";
 	private static final String TAG_ROOM_DESCRIPTION = "TAG_ROOM_DESCRIPTION";
 	private static final String TAG_COMPLETE_BOOKING_INFO = "TAG_COMPLETE_BOOKING_INFO";
-	private static final String TAG_NEXT_OPTIONS = "TAG_NEXT_OPTIONS";
 
 	private static final String BACKSTACK_RESULTS = "RESULTS";
 
@@ -518,8 +516,7 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 					TAG_BOOKING_RECEIPT_CONFIRMATION);
 			ft.add(R.id.fragment_confirmation_cancellation_policy, BookingCancellationPolicyFragment.newInstance(),
 					TAG_CONFIRMATION_CANCELLATION_POLICY);
-			ft.add(R.id.fragment_confirmation_map, BookingConfirmationFragment.newInstance(), TAG_CONFIRMATION);
-			ft.add(R.id.fragment_next_options, NextOptionsFragment.newInstance(), TAG_NEXT_OPTIONS);
+			ft.add(R.id.fragment_confirmation, BookingConfirmationFragment.newInstance(), TAG_CONFIRMATION);
 			ft.commit();
 
 			// Start a background thread to save this data to the disk
@@ -689,7 +686,6 @@ public class TabletActivity extends MapActivity implements LocationListener, OnB
 		ConfirmationUtils.deleteSavedConfirmationData(this);
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		ft.remove(getFragmentManager().findFragmentByTag(TAG_BOOKING_RECEIPT_CONFIRMATION));
-		ft.remove(getFragmentManager().findFragmentByTag(TAG_NEXT_OPTIONS));
 		ft.remove(getFragmentManager().findFragmentByTag(TAG_CONFIRMATION));
 		ft.remove(getFragmentManager().findFragmentByTag(TAG_CONFIRMATION_CANCELLATION_POLICY));
 		ft.commit();
