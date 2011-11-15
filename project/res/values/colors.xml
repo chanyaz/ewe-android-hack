@@ -8,7 +8,7 @@
 	<color name="dismiss">#72000000</color>
 	
 	<color name="bg_default">#e7e7e7</color>
-	<color name="calendar_header">#FFF3F3F3</color>
+	<color name="calendar_header">#60FFFFFF</color>
 	
 	<!-- The color for text hints on input -->
 	<color name="hint_color">#808080</color>
