@@ -146,13 +146,16 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 
 			break;
 		case TabletActivity.EVENT_PROPERTY_SELECTED:
-			mAdapter.setSelectedPosition(getPositionOfProperty((Property) data));
+			int position = getPositionOfProperty((Property) data);
+			mAdapter.setSelectedPosition(position);
 			mAdapter.notifyDataSetChanged();
+
+			getListView().smoothScrollToPositionFromTop(position, 10, 2000);
 
 			break;
 		}
 	}
-	
+
 	private int getPositionOfProperty(Property property) {
 		int count = mAdapter.getCount();
 		for (int position = 0; position < count; position++) {
