@@ -9,6 +9,8 @@
     <integer name="country_and_postal_code_content_width_weight_sum">10</integer>
     <integer name="country_width_weight">5</integer>
     <integer name="postal_code_weight">5</integer>
-
     <integer name="animation_duration">300</integer>
+    
+    <integer name="left_list_pane_weight">4</integer>
+    <integer name="right_content_pane_weight">6</integer>
 </resources>
