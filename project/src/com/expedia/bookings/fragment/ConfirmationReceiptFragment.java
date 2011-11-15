@@ -74,6 +74,10 @@ public class ConfirmationReceiptFragment extends Fragment implements EventHandle
 		TextView contactView = (TextView) receipt.findViewById(R.id.contact_text_view);
 		String contactText = ConfirmationUtils.determineContactText(getActivity());
 		ConfirmationUtils.configureContactView(getActivity(), contactView, contactText);
+		
+		configureTicket(receipt);
+		mRoomTypeFragmentHandler.updateRoomDetails(((TabletActivity) getActivity()).getRoomRateForBooking());
+
 		return receipt;
 	}
 
