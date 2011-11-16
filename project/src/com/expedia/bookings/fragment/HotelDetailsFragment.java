@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Fragment;
@@ -48,8 +50,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	// CONSTANTS
 	//----------------------------------
 
-	private static final int MAX_REVIEWS_PER_ROW = 2;
-	private static final int MAX_DESCRIPTION_SECTIONS_PER_ROW = 2;
 	private static final int ANIMATION_SPEED = 350;
 
 	//----------------------------------
@@ -166,9 +166,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				.getRoomsAndRatesAvailability();
 		mSelectRoomButton.setEnabled((availabilityResponse != null));
 
-		AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse,
-				getView(), getString(R.string.select_room), mSelectRoomButtonOnClickListener,
-				((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
+	AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse,
+			getView(), getString(R.string.select_room), mSelectRoomButtonOnClickListener,
+			((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
 
 		int dimenResId = (property.getTotalReviews() > 3) ? R.dimen.min_height_two_rows_reviews
 				: R.dimen.min_height_one_row_review;
@@ -253,11 +253,15 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			return;
 		}
 
-		int tenDp = (int) Math.ceil(getActivity().getResources().getDisplayMetrics().density * 10);
-		int fiveDp = (int) Math.ceil(getActivity().getResources().getDisplayMetrics().density * 5);
+		int tenDp = (int) Math.ceil(getResources().getDisplayMetrics().density * 10);
+		int fiveDp = (int) Math.ceil(getResources().getDisplayMetrics().density * 5);
+
+		int numReviewsPerRow = getResources().getInteger(R.integer.num_reviews_per_row);
+		int numReviewColumns = getResources().getInteger(R.integer.num_review_columns);
+
 		int reviewCount = reviewsResponse.getReviewCount();
 		if (reviewCount > 0) {
-			for (int i = 0; i < MAX_REVIEWS_PER_ROW && reviewCount > 0; i++) {
+			for (int i = 0; i < numReviewsPerRow && reviewCount > 0; i++) {
 				LinearLayout row = new LinearLayout(getActivity());
 				LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, 0);
 
@@ -266,8 +270,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				row.setLayoutParams(rowParams);
 				row.setPadding(0, tenDp, 0, 0);
 
-				for (int j = 0; j < MAX_REVIEWS_PER_ROW && reviewCount > 0; j++) {
-					final Review review = reviewsResponse.getReviews().get((i * MAX_REVIEWS_PER_ROW + j));
+				for (int j = 0; j < numReviewColumns && reviewCount > 0; j++) {
+					final Review review = reviewsResponse.getReviews().get((i * numReviewsPerRow + j));
 					ViewGroup reviewSection = (ViewGroup) mInflater.inflate(R.layout.snippet_review, null);
 
 					LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT);
@@ -302,18 +306,20 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private void addHotelDescription(Property property) {
 		mHotelDescriptionContainer.removeAllViews();
 
-		LinearLayout column1 = new LinearLayout(getActivity());
-		column1.setOrientation(LinearLayout.VERTICAL);
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT);
 		lp.weight = 1;
-		column1.setLayoutParams(lp);
 
-		LinearLayout column2 = new LinearLayout(getActivity());
-		column2.setOrientation(LinearLayout.VERTICAL);
-		column2.setLayoutParams(lp);
+		// setup the number of columns we expect to have
+		int numHotelDescriptionColumns = getResources().getInteger(R.integer.num_hotel_description_sections_per_row);
+		ArrayList<LinearLayout> columns = new ArrayList<LinearLayout>();
+		for (int i = 0; i < numHotelDescriptionColumns; i++) {
+			LinearLayout column = new LinearLayout(getActivity());
+			column.setOrientation(LinearLayout.VERTICAL);
+			column.setLayoutParams(lp);
 
-		mHotelDescriptionContainer.addView(column1);
-		mHotelDescriptionContainer.addView(column2);
+			columns.add(column);
+			mHotelDescriptionContainer.addView(column);
+		}
 
 		String description = property.getDescriptionText();
 		HotelDescription hotelDescription = new HotelDescription(getActivity());
@@ -323,14 +329,13 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		}
 
 		int sectionCount = hotelDescription.getSections().size();
-		int tenDp = (int) Math.ceil(getActivity().getResources().getDisplayMetrics().density * 10);
-		int fiveDp = (int) Math.ceil(getActivity().getResources().getDisplayMetrics().density * 5);
-
+		int tenDp = (int) Math.ceil(getResources().getDisplayMetrics().density * 10);
+		int fiveDp = (int) Math.ceil(getResources().getDisplayMetrics().density * 5);
+		int numHotelDescriptionsPerRow = getResources().getInteger(R.integer.num_hotel_description_sections_per_row);
 		for (int i = 0; sectionCount > 0; i++) {
 
-			for (int j = 0; j < MAX_DESCRIPTION_SECTIONS_PER_ROW && sectionCount > 0; j++) {
-				DescriptionSection section = hotelDescription.getSections().get(
-						i * MAX_DESCRIPTION_SECTIONS_PER_ROW + j);
+			for (int j = 0; j < numHotelDescriptionsPerRow && sectionCount > 0; j++) {
+				DescriptionSection section = hotelDescription.getSections().get(i * numHotelDescriptionsPerRow + j);
 				ViewGroup descriptionSection = (ViewGroup) mInflater.inflate(
 						R.layout.snippet_hotel_description_section, null);
 
@@ -347,12 +352,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				TextView descriptionBody = (TextView) descriptionSection.findViewById(R.id.body_description_text_view);
 				descriptionBody.setText(section.description);
 
-				if (i % 2 == 0) {
-					column1.addView(descriptionSection);
-				}
-				else {
-					column2.addView(descriptionSection);
-				}
+				columns.get(i % columns.size()).addView(descriptionSection);
+
 				sectionCount--;
 			}
 		}
