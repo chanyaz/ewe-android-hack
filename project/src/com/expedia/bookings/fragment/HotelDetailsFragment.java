@@ -109,14 +109,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		// Disable the scrollbar on the amenities HorizontalScrollView
 		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) view.findViewById(R.id.amenities_scroll_view);
 		amenitiesScrollView.setHorizontalScrollBarEnabled(false);
+		
+		updateViews(getInstance().mProperty, view);
 		return view;
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-
-		updateViews();
 	}
 
 	@Override
@@ -128,11 +123,11 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	//////////////////////////////////////////////////////////////////////////
 	// VIEWS
 
-	public void updateViews() {
-		updateViews(getInstance().mProperty);
+	public void updateViews(Property property) {
+		updateViews(property, getView());
 	}
 
-	public void updateViews(final Property property) {
+	public void updateViews(final Property property, View view) {
 		mHotelNameTextView.setText(property.getName());
 		String hotelAddressWithNewLine = StrUtils.formatAddress(property.getLocation(), StrUtils.F_STREET_ADDRESS
 				+ StrUtils.F_CITY + StrUtils.F_STATE_CODE);
@@ -171,16 +166,16 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			mReviewsSection.setVisibility(View.GONE);
 		}
 
-		AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(getActivity(), property, getView());
+		AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(getActivity(), property, view);
 
 		// update the summarized rates if they are available
 		AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
 				.getRoomsAndRatesAvailability();
 		mSelectRoomButton.setEnabled((availabilityResponse != null));
 
-	AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse,
-			getView(), getString(R.string.select_room), mSelectRoomButtonOnClickListener,
-			((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
+		AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse, view,
+				getString(R.string.select_room), mSelectRoomButtonOnClickListener,
+				((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
 
 		int dimenResId = (property.getTotalReviews() > 3) ? R.dimen.min_height_two_rows_reviews
 				: R.dimen.min_height_one_row_review;
