@@ -15,9 +15,24 @@
     <style name="Theme.Tablet" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionMenuTextColor">#505966</item>
         <item name="balloonOverlayViewBackground">@drawable/bg_map_balloon</item>
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+    </style>
+
+    <style name="Theme.Tablet.NoActionBar" parent="@android:style/Theme.Holo.Light.NoActionBar">
+        <item name="android:actionMenuTextColor">#505966</item>
+        <item name="balloonOverlayViewBackground">@drawable/bg_map_balloon</item>
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
     </style>
 
     <style name="Theme.Light.Fullscreen.Panel" parent="@android:style/Theme.Holo.Light.Dialog.NoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+
+    <style name="ActivityAnimation">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
+    </style>
+
 </resources>
