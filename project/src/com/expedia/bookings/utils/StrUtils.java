@@ -8,6 +8,8 @@ import java.util.Set;
 import android.content.Context;
 import android.content.res.Resources;
 import android.location.Address;
+import android.text.Html;
+import android.text.Spanned;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
@@ -16,6 +18,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.mobiata.android.LocationServices;
+import com.mobiata.android.text.StrikethroughTagHandler;
 
 public class StrUtils {
 
@@ -168,6 +171,10 @@ public class StrUtils {
 
 	public static String formatHotelPrice(Money money, String currencyCode) {
 		return money.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN, currencyCode);
+	}
+	
+	public static Spanned getStrikedThroughSpanned(String str) {
+		return Html.fromHtml("<strike>" + str + "</strike>", null, new StrikethroughTagHandler());
 	}
 	
 	public static List<String> getImageUrls(Property property) {

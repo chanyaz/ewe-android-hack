@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_mini_details"
+    android:weightSum="10" >
+
+    <TextView
+        android:id="@+id/name_text_view"
+        style="@style/HotelNameTitle_Tablet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_toLeftOf="@+id/min_price_container"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/location_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/name_text_view"
+        android:layout_below="@+id/name_text_view"
+        android:layout_marginBottom="10dp"
+        android:layout_toLeftOf="@+id/min_price_container"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/hotel_details_text_color"
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:id="@+id/min_price_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp" >
+
+        <TextView
+            android:id="@+id/base_price_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/min_price_text_view"
+            android:paddingRight="5dp"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/min_price_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/base_price_text_view"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/per_night_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/min_price_text_view"
+            android:layout_toRightOf="@id/min_price_text_view"
+            android:paddingRight="15dp"
+            android:text="@string/per_night"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/hotel_collage_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/star_rating_text_view"
+        android:layout_alignLeft="@id/name_text_view"
+        android:layout_below="@id/location_text_view"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="15dp"
+        layout="@layout/include_mini_details_collage" />
+
+    <Button
+        android:id="@+id/see_details_button"
+        style="@style/Widget.Button.Yellow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="15dp"
+        android:maxLines="1"
+        android:text="@string/see_details"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/star_rating_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/see_details_button"
+        android:layout_alignLeft="@id/name_text_view"
+        android:layout_alignTop="@id/see_details_button"
+        android:gravity="center_vertical"
+        android:text="@string/star_rating"
+        android:textColor="@color/hotel_details_text_color"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <FrameLayout
+        android:id="@+id/hotel_rating_bar_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/see_details_button"
+        android:layout_alignTop="@id/see_details_button"
+        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@id/see_details_button"
+        android:layout_toRightOf="@id/star_rating_text_view" >
+
+        <RatingBar
+            android:id="@+id/hotel_rating_bar"
+            style="@style/RatingBarSmall.Shadowed.Star.Light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:stepSize=".5" />
+    </FrameLayout>
+
+</RelativeLayout>

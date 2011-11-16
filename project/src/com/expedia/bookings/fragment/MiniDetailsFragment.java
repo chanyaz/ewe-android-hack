@@ -2,7 +2,13 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +26,7 @@ import com.expedia.bookings.utils.AvailabilitySummaryLayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.HotelCollage;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
+import com.mobiata.android.text.StrikethroughTagHandler;
 
 public class MiniDetailsFragment extends Fragment implements EventHandler {
 
@@ -30,6 +37,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	private TextView mNameTextView;
 	private TextView mLocationTextView;
 	private RatingBar mRatingBar;
+	boolean mDoesAvailabilityContainerExist = false;
 
 	private HotelCollage mCollageHandler;
 
@@ -51,6 +59,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		mRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
 		mCollageHandler = new HotelCollage(view, mOnImageClickedListener);
 
+		mDoesAvailabilityContainerExist = (view.findViewById(R.id.availability_summary_container) != null);
 		updateViews(getInstance().mProperty, view);
 
 		return view;
@@ -87,15 +96,76 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 			mRatingBar.setRating((float) property.getHotelRating());
 			mCollageHandler.updateCollage(property);
 
-			AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(getActivity(), property, view);
+			// its possible for the summary container to not exist at all
+			// in which case there's no setup to be done for this container
+			if (mDoesAvailabilityContainerExist) {
+				AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(getActivity(), property,  view);
+				// update the summarized rates if they are available
+				AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
+						.getRoomsAndRatesAvailability();
+				AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, 
+						availabilityResponse, view, getString(R.string.see_details), seeDetailsOnClickListener, ((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
+			}
 
-			// update the summarized rates if they are available
-			AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
-					.getRoomsAndRatesAvailability();
-			AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse, view,
-					getString(R.string.see_details), seeDetailsOnClickListener,
-					((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
+			View seeDetailsButton = view.findViewById(R.id.see_details_button);
+			if (seeDetailsButton != null) {
+				seeDetailsButton.setOnClickListener(seeDetailsOnClickListener);
+			}
+
+			updateMinPrice(view, property);
 		}
+
+	}
+
+	private void updateMinPrice(View view, Property property) {
+		View minPriceContainer = view.findViewById(R.id.min_price_container);
+
+		// nothing to do if the container does not exist
+		if (minPriceContainer == null) {
+			return;
+		}
+
+		TextView salePrice = (TextView) view.findViewById(R.id.min_price_text_view);
+		TextView basePrice = (TextView) view.findViewById(R.id.base_price_text_view);
+		TextView perNightText = (TextView) view.findViewById(R.id.per_night_text_view);
+		StyleSpan textStyleSpan = new StyleSpan(Typeface.BOLD);
+
+		if (property.getLowestRate().getSavingsPercent() > 0) {
+			minPriceContainer.setBackgroundResource(R.drawable.sale_ribbon_large);
+			basePrice.setVisibility(View.VISIBLE);
+
+			String minPriceString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
+			Spannable str = new SpannableString(minPriceString);
+			str.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
+			salePrice.setText(str);
+
+			basePrice.setText(StrUtils.getStrikedThroughSpanned(StrUtils.formatHotelPrice(property.getLowestRate()
+					.getDisplayBaseRate())));
+
+			salePrice.setTextColor(getResources().getColor(android.R.color.white));
+			perNightText.setTextColor(getResources().getColor(android.R.color.white));
+		}
+		else {
+			minPriceContainer.setBackgroundResource(R.drawable.normal_ribbon);
+			String displayRateString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
+			String minPriceString = getActivity().getString(R.string.min_room_price_template, displayRateString);
+			int startingIndexOfDisplayRate = minPriceString.indexOf(displayRateString);
+
+			ForegroundColorSpan textColorSpan = new ForegroundColorSpan(getActivity().getResources().getColor(
+					R.color.hotel_price_text_color));
+			ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(getActivity().getResources().getColor(
+					android.R.color.black));
+			Spannable str = new SpannableString(minPriceString);
+			str.setSpan(textColorSpan, startingIndexOfDisplayRate,
+					startingIndexOfDisplayRate + displayRateString.length(), 0);
+			str.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
+			str.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
+
+			salePrice.setText(str);
+			basePrice.setVisibility(View.GONE);
+			perNightText.setTextColor(getResources().getColor(android.R.color.black));
+		}
+
 	}
 
 	private OnClickListener seeDetailsOnClickListener = new OnClickListener() {
@@ -114,16 +184,22 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 			updateViews((Property) data);
 			break;
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
-			AvailabilitySummaryLayoutUtils.showLoadingForRates(getActivity(), getView());
+			if (mDoesAvailabilityContainerExist) {
+				AvailabilitySummaryLayoutUtils.showLoadingForRates((getActivity(), getView());
+			}
 			break;
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
-			AvailabilitySummaryLayoutUtils.showErrorForRates(getView(), (String) data);
+			if (mDoesAvailabilityContainerExist) {
+				AvailabilitySummaryLayoutUtils.showErrorForRates(getView(), (String) data);
+			}
 			break;
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
-			AvailabilitySummaryLayoutUtils.showRatesContainer(getView());
-			AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), getInstance().mProperty,
-					(AvailabilityResponse) data, getView(), getString(R.string.see_details), seeDetailsOnClickListener,
-					((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
+			if (mDoesAvailabilityContainerExist) {
+				AvailabilitySummaryLayoutUtils.showRatesContainer(getView());
+				AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), getInstance().mProperty,
+						(AvailabilityResponse) data, getView(), getString(R.string.see_details), seeDetailsOnClickListener,
+						((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
+			}
 			break;
 		}
 	}
