@@ -8,7 +8,6 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -41,7 +40,6 @@ import com.expedia.bookings.activity.BookingFragmentActivity.InstanceFragment;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.BookingReceiptUtils;
@@ -50,7 +48,6 @@ import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.RoomTypeFragmentHandler;
 import com.mobiata.android.FormatUtils;
-import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
 import com.mobiata.android.validation.RequiredValidator;
@@ -720,62 +717,6 @@ public class BookingFormFragment extends DialogFragment {
 		TrackingUtils.saveEmailForTracking(getActivity(), mBillingInfo.getEmail());
 
 		return mBillingInfo.save(getActivity());
-	}
-
-	public static class NullBookingDialogFragment extends DialogFragment {
-		public static NullBookingDialogFragment newInstance() {
-			NullBookingDialogFragment fragment = new NullBookingDialogFragment();
-			return fragment;
-		}
-
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			return DialogUtils.createSimpleDialog(getActivity(), BookingInfoUtils.DIALOG_BOOKING_NULL,
-					R.string.error_booking_title, R.string.error_booking_null);
-		}
-
-	}
-
-	public static class ErrorBookingDialogFragment extends DialogFragment {
-		public static ErrorBookingDialogFragment newInstance() {
-			ErrorBookingDialogFragment fragment = new ErrorBookingDialogFragment();
-			return fragment;
-		}
-
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			// Gather the error message
-			String errorMsg = "";
-			List<ServerError> errors = ((BookingFragmentActivity) getActivity()).mInstance.mBookingResponse.getErrors();
-			int numErrors = errors.size();
-			for (int a = 0; a < numErrors; a++) {
-				if (a > 0) {
-					errorMsg += "\n";
-				}
-				errorMsg += errors.get(a).getPresentableMessage(getActivity());
-			}
-
-			return DialogUtils.createSimpleDialog(getActivity(), BookingInfoUtils.DIALOG_BOOKING_ERROR,
-					getString(R.string.error_booking_title), errorMsg);
-		}
-
-	}
-
-	public static class BookingInProgressDialogFragment extends DialogFragment {
-		public static BookingInProgressDialogFragment newInstance() {
-			BookingInProgressDialogFragment fragment = new BookingInProgressDialogFragment();
-			return fragment;
-		}
-
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			ProgressDialog pd = new ProgressDialog(getActivity());
-			pd.setMessage(getString(R.string.booking_loading));
-			pd.setCancelable(false);
-			pd.setCanceledOnTouchOutside(false);
-			return pd;
-		}
-
 	}
 
 	//////////////////////////////////////////////////////////////////////////

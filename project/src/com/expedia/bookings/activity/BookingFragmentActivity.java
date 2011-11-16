@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.List;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -21,11 +23,11 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.PropertyInfoResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Session;
+import com.expedia.bookings.fragment.BookingErrorDialogFragment;
 import com.expedia.bookings.fragment.BookingFormFragment;
-import com.expedia.bookings.fragment.BookingFormFragment.BookingInProgressDialogFragment;
-import com.expedia.bookings.fragment.BookingFormFragment.ErrorBookingDialogFragment;
-import com.expedia.bookings.fragment.BookingFormFragment.NullBookingDialogFragment;
+import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.server.ExpediaServices;
@@ -261,15 +263,26 @@ public class BookingFragmentActivity extends Activity {
 					.dismiss();
 
 			if (results == null) {
-				NullBookingDialogFragment.newInstance().show(getFragmentManager(),
-						getString(R.string.tag_booking_error));
+				BookingErrorDialogFragment.newInstance(getString(R.string.error_booking_null)).show(
+						getFragmentManager(), getString(R.string.tag_booking_error));
 				TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
 				return;
 			}
 
 			BookingResponse response = mInstance.mBookingResponse = (BookingResponse) results;
 			if (response.hasErrors()) {
-				ErrorBookingDialogFragment.newInstance().show(getFragmentManager(),
+				// Gather the error message
+				String errorMsg = "";
+				int numErrors = response.getErrors().size();
+				List<ServerError> errors = response.getErrors();
+				for (int a = 0; a < numErrors; a++) {
+					if (a > 0) {
+						errorMsg += "\n";
+					}
+					errorMsg += errors.get(a).getPresentableMessage(BookingFragmentActivity.this);
+				}
+
+				BookingErrorDialogFragment.newInstance(errorMsg).show(getFragmentManager(),
 						getString(R.string.tag_booking_error));
 				TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
 				return;
