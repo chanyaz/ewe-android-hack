@@ -101,7 +101,6 @@ public class BookingFormFragment extends DialogFragment {
 	private TextViewErrorHandler mErrorHandler;
 
 	// The data that the user has entered for billing info
-	private BillingInfo mBillingInfo;
 	private CreditCardType mCreditCardType;
 
 	// The state of the form
@@ -166,9 +165,8 @@ public class BookingFormFragment extends DialogFragment {
 		mCountryCodes = r.getStringArray(R.array.country_codes);
 		BookingInfoValidation bookingInfoValidation = instance.mBookingInfoValidation;
 		configureForm();
-		boolean billingInfoLoaded = false; // TODO: IMPLEMENT PROPERLY
-		mBillingInfo = instance.mBillingInfo;
-		if (billingInfoLoaded) {
+		
+		if (getBillingInfo().doesExistOnDisk()) {
 			syncFormFields(view);
 
 			bookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
@@ -395,7 +393,7 @@ public class BookingFormFragment extends DialogFragment {
 				}
 				else {
 					BookingInfoUtils.onClickSubmit(getActivity());
-					((BookingFragmentActivity) getActivity()).bookingCompleted(mBillingInfo);
+					((BookingFragmentActivity) getActivity()).bookingCompleted();
 					dismiss();
 				}
 
@@ -406,7 +404,6 @@ public class BookingFormFragment extends DialogFragment {
 
 			@Override
 			public void onClick(View arg0) {
-				syncBillingInfo();
 				saveBillingInfo();
 				getInstance().mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
 				dismiss();
@@ -423,7 +420,7 @@ public class BookingFormFragment extends DialogFragment {
 		TextViewValidator requiredFieldValidator = new TextViewValidator();
 		Validator<TextView> usValidator = new Validator<TextView>() {
 			public int validate(TextView obj) {
-				if (mBillingInfo.getLocation().getCountryCode().equals("US")) {
+				if (getBillingInfo().getLocation().getCountryCode().equals("US")) {
 					return RequiredValidator.getInstance().validate(obj.getText());
 				}
 				return 0;
@@ -521,7 +518,7 @@ public class BookingFormFragment extends DialogFragment {
 		mConfirmBookButton.setOnFocusChangeListener(l);
 
 	}
-
+	
 	private void expandGuestsForm(boolean animateAndFocus) {
 		if (!mGuestsExpanded) {
 			mGuestsExpanded = true;
@@ -607,12 +604,12 @@ public class BookingFormFragment extends DialogFragment {
 	 */
 	private void syncBillingInfo() {
 		// Start off with a clean slate
-		mBillingInfo = new BillingInfo();
+		BillingInfo billingInfo = getInstance().mBillingInfo = new BillingInfo();
 
-		mBillingInfo.setFirstName(mFirstNameEditText.getText().toString());
-		mBillingInfo.setLastName(mLastNameEditText.getText().toString());
-		mBillingInfo.setTelephone(mTelephoneEditText.getText().toString());
-		mBillingInfo.setEmail(mEmailEditText.getText().toString());
+		billingInfo.setFirstName(mFirstNameEditText.getText().toString());
+		billingInfo.setLastName(mLastNameEditText.getText().toString());
+		billingInfo.setTelephone(mTelephoneEditText.getText().toString());
+		billingInfo.setEmail(mEmailEditText.getText().toString());
 
 		Location location = new Location();
 		List<String> streetAddress = new ArrayList<String>();
@@ -626,21 +623,21 @@ public class BookingFormFragment extends DialogFragment {
 		location.setPostalCode(mPostalCodeEditText.getText().toString());
 		location.setStateCode(mStateEditText.getText().toString());
 		location.setCountryCode(mCountryCodes[mCountrySpinner.getSelectedItemPosition()]);
-		mBillingInfo.setLocation(location);
+		billingInfo.setLocation(location);
 
-		mBillingInfo.setNumber(mCardNumberEditText.getText().toString());
+		billingInfo.setNumber(mCardNumberEditText.getText().toString());
 		String expirationMonth = mExpirationMonthEditText.getText().toString();
 		String expirationYear = mExpirationYearEditText.getText().toString();
 		if (expirationMonth != null && expirationMonth.length() > 0 && expirationYear != null
 				&& expirationYear.length() > 0) {
 			Calendar cal = new GregorianCalendar(Integer.parseInt(expirationYear) + 2000,
 					Integer.parseInt(expirationMonth) - 1, 15);
-			mBillingInfo.setExpirationDate(cal);
+			billingInfo.setExpirationDate(cal);
 		}
-		mBillingInfo.setSecurityCode(mSecurityCodeEditText.getText().toString());
+		billingInfo.setSecurityCode(mSecurityCodeEditText.getText().toString());
 
 		if (mCreditCardType != null) {
-			mBillingInfo.setBrandCode(mCreditCardType.getCode());
+			billingInfo.setBrandCode(mCreditCardType.getCode());
 		}
 	}
 
@@ -649,29 +646,31 @@ public class BookingFormFragment extends DialogFragment {
 	 * restoring the Activity.
 	 */
 	private void syncFormFields(View view) {
+		BillingInfo billingInfo = getBillingInfo();
+		
 		// Sync the saved guest fields
-		String firstName = mBillingInfo.getFirstName();
-		String lastName = mBillingInfo.getLastName();
+		String firstName = billingInfo.getFirstName();
+		String lastName = billingInfo.getLastName();
 		if (firstName != null && lastName != null) {
 			TextView fullNameView = (TextView) view.findViewById(R.id.full_name_text_view);
 			fullNameView.setText(firstName + " " + lastName);
 		}
 
 		TextView telephoneView = (TextView) view.findViewById(R.id.telephone_text_view);
-		telephoneView.setText(mBillingInfo.getTelephone());
+		telephoneView.setText(billingInfo.getTelephone());
 
 		TextView emailView = (TextView) view.findViewById(R.id.email_text_view);
-		emailView.setText(mBillingInfo.getEmail());
+		emailView.setText(billingInfo.getEmail());
 
 		// Sync the editable guest fields
 		mFirstNameEditText.setText(firstName);
 		mLastNameEditText.setText(lastName);
-		mTelephoneEditText.setText(mBillingInfo.getTelephone());
-		mEmailEditText.setText(mBillingInfo.getEmail());
+		mTelephoneEditText.setText(billingInfo.getTelephone());
+		mEmailEditText.setText(billingInfo.getEmail());
 
 		// Sync the saved billing info fields
 		String address = "";
-		Location loc = mBillingInfo.getLocation();
+		Location loc = billingInfo.getLocation();
 		if (loc != null) {
 			address = StrUtils.formatAddress(loc);
 			String countryCode = loc.getCountryCode();
@@ -700,13 +699,13 @@ public class BookingFormFragment extends DialogFragment {
 		}
 
 		// Sync the editable credit card info fields
-		mCardNumberEditText.setText(mBillingInfo.getNumber());
-		Calendar cal = mBillingInfo.getExpirationDate();
+		mCardNumberEditText.setText(billingInfo.getNumber());
+		Calendar cal = billingInfo.getExpirationDate();
 		if (cal != null) {
-			mExpirationMonthEditText.setText((mBillingInfo.getExpirationDate().get(Calendar.MONTH) + 1) + "");
-			mExpirationYearEditText.setText((mBillingInfo.getExpirationDate().get(Calendar.YEAR) % 100) + "");
+			mExpirationMonthEditText.setText((billingInfo.getExpirationDate().get(Calendar.MONTH) + 1) + "");
+			mExpirationYearEditText.setText((billingInfo.getExpirationDate().get(Calendar.YEAR) % 100) + "");
 		}
-		mSecurityCodeEditText.setText(mBillingInfo.getSecurityCode());
+		mSecurityCodeEditText.setText(billingInfo.getSecurityCode());
 	}
 
 	private boolean saveBillingInfo() {
@@ -714,9 +713,9 @@ public class BookingFormFragment extends DialogFragment {
 		syncBillingInfo();
 
 		// Save the hashed email, just for tracking purposes
-		TrackingUtils.saveEmailForTracking(getActivity(), mBillingInfo.getEmail());
+		TrackingUtils.saveEmailForTracking(getActivity(), getBillingInfo().getEmail());
 
-		return mBillingInfo.save(getActivity());
+		return getBillingInfo().save(getActivity());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -724,5 +723,9 @@ public class BookingFormFragment extends DialogFragment {
 
 	public BookingFragmentActivity.InstanceFragment getInstance() {
 		return ((BookingFragmentActivity) getActivity()).mInstance;
+	}
+	
+	public BillingInfo getBillingInfo() {
+		return getInstance().mBillingInfo;
 	}
 }

@@ -32,11 +32,10 @@ public class BillingInfo implements JSONable {
 	private String mNumber;
 	private String mSecurityCode;
 	private Calendar mExpirationDate;
-
-	private boolean mIsSavedInfo;
+	
+	private boolean mExistsOnDisk = false;
 
 	public BillingInfo() {
-		mIsSavedInfo = false;
 	}
 
 	public String getFirstName() {
@@ -119,14 +118,6 @@ public class BillingInfo implements JSONable {
 		this.mExpirationDate = expirationDate;
 	}
 
-	public boolean isSavedInfo() {
-		return mIsSavedInfo;
-	}
-
-	public void setIsSavedInfo(boolean isSavedInfo) {
-		this.mIsSavedInfo = isSavedInfo;
-	}
-
 	public boolean save(Context context) {
 		Log.d("Saving user's billing info.");
 
@@ -145,6 +136,8 @@ public class BillingInfo implements JSONable {
 		data.remove("number");
 		data.remove("securityCode");
 
+		mExistsOnDisk = true;
+		
 		return fileCipher.saveSecureData(context.getFileStreamPath(SAVED_INFO_FILENAME), data.toString());
 	}
 
@@ -154,30 +147,39 @@ public class BillingInfo implements JSONable {
 		// Check that the saved billing info file exists
 		File f = context.getFileStreamPath(SAVED_INFO_FILENAME);
 		if (!f.exists()) {
+			mExistsOnDisk = false;
 			return false;
 		}
 
 		// Initialize a cipher
 		FileCipher fileCipher = new FileCipher(PASSWORD);
 		if (!fileCipher.isInitialized()) {
+			mExistsOnDisk = false;
 			return false;
 		}
 
 		String results = fileCipher.loadSecureData(f);
 		if (results == null || results.length() == 0) {
+			mExistsOnDisk = false;
 			return false;
 		}
 
 		try {
 			fromJson(new JSONObject(results));
+			mExistsOnDisk = true;
 			return true;
 		}
 		catch (JSONException e) {
 			Log.e("Could not restore saved billing info.", e);
+			mExistsOnDisk = false;
 			return false;
 		}
 	}
-
+	
+	public boolean doesExistOnDisk() {
+		return mExistsOnDisk;
+	}
+	
 	// Returns true if the file does not exist by the end of the method;
 	// If it didn't exist at the beginning, it doesn't matter.
 	public boolean delete(Context context) {
@@ -194,6 +196,7 @@ public class BillingInfo implements JSONable {
 		mNumber = null;
 		mSecurityCode = null;
 		mExpirationDate = null;
+		mExistsOnDisk = false;
 
 		// Check that the saved billing info file exists before trying to delete
 		File f = context.getFileStreamPath(SAVED_INFO_FILENAME);
@@ -227,7 +230,6 @@ public class BillingInfo implements JSONable {
 				obj.putOpt("expYear", mExpirationDate.get(Calendar.YEAR));
 			}
 
-			obj.put("isSavedInfo", mIsSavedInfo);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -252,8 +254,6 @@ public class BillingInfo implements JSONable {
 			int expYear = obj.optInt("expYear");
 			mExpirationDate = new GregorianCalendar(expYear, expMonth, 1);
 		}
-
-		mIsSavedInfo = obj.optBoolean("isSavedInfo", false);
 
 		return true;
 	}

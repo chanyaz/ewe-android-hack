@@ -237,8 +237,7 @@ public class BookingFragmentActivity extends Activity {
 	//////////////////////////////////////////////////////////////////////////
 	// Booking
 
-	public void bookingCompleted(BillingInfo billingInfo) {
-		mInstance.mBillingInfo = billingInfo;
+	public void bookingCompleted() {
 		mInstance.mBookingResponse = null;
 		BookingInProgressDialogFragment.newInstance().show(getFragmentManager(),
 				getString(R.string.tag_booking_progress));
