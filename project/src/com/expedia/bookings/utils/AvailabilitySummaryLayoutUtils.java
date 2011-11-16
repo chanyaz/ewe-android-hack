@@ -96,13 +96,13 @@ public class AvailabilitySummaryLayoutUtils {
 		if (isPropertyOnSale) {
 			basePrice.setVisibility(View.VISIBLE);
 			String basePriceString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayBaseRate());
-			basePrice.setText(Html.fromHtml(activity.getString(R.string.from_template, basePriceString), null,
+			basePrice.setText(Html.fromHtml(r.getString(R.string.from_template, basePriceString), null,
 					new StrikethroughTagHandler()));
 			
 			SpannableString str = new SpannableString(displayRateString);
 			str.setSpan(textStyleSpan, 0, displayRateString.length(), 0);
 
-			int whiteColor = activity.getResources().getColor(android.R.color.white);
+			int whiteColor = r.getColor(android.R.color.white);
 			
 			minPrice.setText(str);
 			minPrice.setTextColor(whiteColor);
@@ -110,7 +110,7 @@ public class AvailabilitySummaryLayoutUtils {
 		}
 		else {
 			basePrice.setVisibility(View.GONE);
-			String minPriceString = activity.getString(R.string.min_room_price_template, displayRateString);
+			String minPriceString = r.getString(R.string.min_room_price_template, displayRateString);
 			SpannableString str = new SpannableString(minPriceString);
 			ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(r.getColor(
 					android.R.color.black));

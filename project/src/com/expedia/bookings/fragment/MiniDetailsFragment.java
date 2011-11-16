@@ -185,7 +185,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 			break;
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
 			if (mDoesAvailabilityContainerExist) {
-				AvailabilitySummaryLayoutUtils.showLoadingForRates((getActivity(), getView());
+				AvailabilitySummaryLayoutUtils.showLoadingForRates(getActivity(), getView());
 			}
 			break;
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
