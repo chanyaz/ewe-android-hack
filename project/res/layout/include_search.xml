@@ -4,22 +4,21 @@
     android:id="@+id/location_layout"
     android:layout_width="0dp"
     android:layout_height="fill_parent"
-    android:layout_marginBottom="7dp"
     android:layout_marginLeft="30dp"
     android:layout_marginRight="25dp"
-    android:layout_marginTop="7dp"
     android:layout_weight="1"
     android:orientation="vertical" >
 
     <com.expedia.bookings.widget.CustomEditText
         android:id="@+id/location_edit_text"
         android:layout_width="fill_parent"
-        android:layout_height="52dp"
+        android:layout_height="64dp"
         android:background="@drawable/bg_large_text_box"
         android:hint="@string/hint_search_location"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
         android:singleLine="true"
+        android:textColor="@android:color/white"
         mobiata:touchAreaPadding="35dp" />
 
     <LinearLayout
@@ -27,10 +26,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#a3a3a3"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/one_pixel"
-        android:paddingLeft="@dimen/one_pixel"
-        android:paddingRight="@dimen/one_pixel" />
+        android:background="@drawable/bg_suggestions"
+        android:orientation="vertical" />
 
 </LinearLayout>

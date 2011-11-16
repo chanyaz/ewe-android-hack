@@ -6,8 +6,8 @@
     android:background="@drawable/bg_suggestion"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp" >
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp" >
 
     <ImageView
         android:id="@+id/icon"

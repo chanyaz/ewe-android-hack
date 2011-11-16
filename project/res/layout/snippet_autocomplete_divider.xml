@@ -2,4 +2,6 @@
 <View xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="2dp"
+    android:layout_marginLeft="14dp"
+    android:layout_marginRight="14dp"
     android:background="@drawable/autocomplete_seperator" />
