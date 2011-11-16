@@ -115,7 +115,7 @@ public class SearchParamsFragment extends Fragment {
 		ViewGroup suggestionsContainer = (ViewGroup) view.findViewById(R.id.suggestions_layout);
 		mSuggestionRows = new ArrayList<SuggestionRow>();
 		for (int a = 0; a < NUM_SUGGESTIONS; a++) {
-			ViewGroup suggestionRow = (ViewGroup) inflater.inflate(R.layout.snippet_suggestion, container, false);
+			ViewGroup suggestionRow = (ViewGroup) inflater.inflate(R.layout.snippet_suggestion, suggestionsContainer, false);
 			SuggestionRow row = new SuggestionRow();
 			row.mRow = suggestionRow;
 			row.mIcon = (ImageView) suggestionRow.findViewById(R.id.icon);
@@ -124,7 +124,7 @@ public class SearchParamsFragment extends Fragment {
 			suggestionsContainer.addView(suggestionRow);
 
 			if (a + 1 < NUM_SUGGESTIONS) {
-				row.mDivider = inflater.inflate(R.layout.snippet_autocomplete_divider, container, false);
+				row.mDivider = inflater.inflate(R.layout.snippet_autocomplete_divider, suggestionsContainer, false);
 				suggestionsContainer.addView(row.mDivider);
 			}
 		}
