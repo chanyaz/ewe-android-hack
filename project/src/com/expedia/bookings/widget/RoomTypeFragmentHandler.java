@@ -7,22 +7,20 @@ import android.view.View;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.PropertyInfo;
+import com.expedia.bookings.data.PropertyInfoResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.mobiata.android.json.JSONUtils;
 
-public class RoomTypeFragmentHandler extends RoomTypeHandler implements EventHandler {
+public class RoomTypeFragmentHandler extends RoomTypeHandler {
 	private static final String PROPERTY_ROOM_CONTAINER_ID = "PROPERTY_ROOM_CONTAINER_ID";
 	private static final String INSTANCE_EXPANDED = "INSTANCE_EXPANDED";
 
-	private Context mContext;
 	private View mRootView;
 
 	public RoomTypeFragmentHandler(Context context, View rootView, Property property,
 			SearchParams searchParams, Rate rate) {
 		super(context, null, property, searchParams, rate);
-		mContext = context;
 		mRootView = rootView;
 	}
 
@@ -40,29 +38,16 @@ public class RoomTypeFragmentHandler extends RoomTypeHandler implements EventHan
 				setVisibility(View.VISIBLE);
 			}
 		}
-
-		// TODO: IMPLEMENT
-		// mActivity.registerEventHandler(this);
 	}
 
 	@Override
 	public void onResume() {
-		loadDetails();
+		// Do nothing
 	}
 
 	@Override
 	public void onDestroy() {
 		// Do nothing
-	}
-
-	public void onAttach() {
-		// TODO: IMPLEMENT
-		// mActivity.registerEventHandler(this);
-	}
-
-	public void onDetach() {
-		// TODO: IMPLEMENT
-		// mActivity.unregisterEventHandler(this);
 	}
 
 	public void saveToBundle(Bundle outState) {
@@ -73,18 +58,9 @@ public class RoomTypeFragmentHandler extends RoomTypeHandler implements EventHan
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Overriden methods
-
-	@Override
-	public void loadDetails() {
-		// TODO: IMPLEMENT
-
-		/*
+	public void loadDetails(PropertyInfoResponse response, String status) {
 		if (mPropertyInfo == null) {
-			PropertyInfoResponse response = mActivity.getInfoForProperty();
 			if (response == null) {
-				String status = mActivity.getPropertyInfoQueryStatus();
 				if (status != null) {
 					showDetails(status);
 					showCheckInCheckoutDetails(null);
@@ -99,37 +75,16 @@ public class RoomTypeFragmentHandler extends RoomTypeHandler implements EventHan
 			showDetails(mPropertyInfo);
 			showCheckInCheckoutDetails(mPropertyInfo);
 		}
-		*/
 	}
-
+	
 	/**
 	 * This method is responsible for updating the room type
 	 * information as the rate changes
 	 */
-	public void updateRoomDetails(Rate rate) {
+	public void updateRoomDetails(Rate rate, PropertyInfoResponse response, String status) {
 		mRate = rate;
 		updateRoomTypeDescription();
-		loadDetails();
+		loadDetails(response, status);
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// EventHandler implementation
-
-	@Override
-	public void handleEvent(int eventCode, Object data) {
-		// TODO: IMPLEMENT
-		/*
-		switch (eventCode) {
-		case TabletActivity.EVENT_PROPERTY_INFO_QUERY_STARTED:
-			break;
-		case TabletActivity.EVENT_PROPERTY_INFO_QUERY_ERROR:
-			showDetails(mActivity.getPropertyInfoQueryStatus());
-			showCheckInCheckoutDetails(null);
-			break;
-		case TabletActivity.EVENT_PROPERTY_INFO_QUERY_COMPLETE:
-			onPropertyInfoDownloaded(mActivity.getInfoForProperty());
-			break;
-		}
-		*/
-	}
 }

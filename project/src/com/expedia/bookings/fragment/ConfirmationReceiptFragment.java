@@ -9,13 +9,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.BookingFragmentActivity;
 import com.expedia.bookings.activity.ConfirmationFragmentActivity;
 import com.expedia.bookings.activity.ConfirmationFragmentActivity.InstanceFragment;
+import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.widget.RoomTypeFragmentHandler;
 
-public class ConfirmationReceiptFragment extends Fragment {
+public class ConfirmationReceiptFragment extends Fragment implements EventHandler {
 
 	private RoomTypeFragmentHandler mRoomTypeFragmentHandler;
 
@@ -35,9 +37,13 @@ public class ConfirmationReceiptFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		if (mRoomTypeFragmentHandler != null) {
-			mRoomTypeFragmentHandler.onAttach();
-		}
+		((ConfirmationFragmentActivity) activity).mEventManager.registerEventHandler(this);
+	}
+	
+	@Override
+	public void onDetach() {
+		((ConfirmationFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
+		super.onDetach();
 	}
 
 	@Override
@@ -61,28 +67,45 @@ public class ConfirmationReceiptFragment extends Fragment {
 		ConfirmationUtils.configureContactView(getActivity(), contactView, contactText);
 
 		configureTicket(receipt);
-		mRoomTypeFragmentHandler.updateRoomDetails(instance.mRate);
+		mRoomTypeFragmentHandler.updateRoomDetails(instance.mRate, instance.mPropertyInfoResponse,
+				instance.mPropertyInfoStatus);
 
 		return receipt;
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mRoomTypeFragmentHandler.onDetach();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		configureTicket(getView());
-		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
+		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
+				getInstance().mPropertyInfoStatus);
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		mRoomTypeFragmentHandler.saveToBundle(outState);
+	}
+
+	@Override
+	public void handleEvent(int eventCode, Object data) {
+		switch (eventCode) {
+
+		case BookingFragmentActivity.EVENT_RATE_SELECTED:
+			if (mRoomTypeFragmentHandler != null) {
+				configureTicket(getView());
+				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
+						getInstance().mPropertyInfoStatus);
+			}
+			break;
+		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_COMPLETE:
+			mRoomTypeFragmentHandler.onPropertyInfoDownloaded(getInstance().mPropertyInfoResponse);
+			break;
+		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_ERROR:
+			mRoomTypeFragmentHandler.showDetails(getInstance().mPropertyInfoStatus);
+			mRoomTypeFragmentHandler.showCheckInCheckoutDetails(null);
+			break;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

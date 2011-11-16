@@ -32,9 +32,6 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		if (mRoomTypeFragmentHandler != null) {
-			mRoomTypeFragmentHandler.onAttach();
-		}
 
 		((BookingFragmentActivity) activity).mEventManager.registerEventHandler(this);
 	}
@@ -50,8 +47,8 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 			}
 		});
 
-		mRoomTypeFragmentHandler = new RoomTypeFragmentHandler(getActivity(), view,
-				getInstance().mProperty, getInstance().mSearchParams, getInstance().mRate);
+		mRoomTypeFragmentHandler = new RoomTypeFragmentHandler(getActivity(), view, getInstance().mProperty,
+				getInstance().mSearchParams, getInstance().mRate);
 		mRoomTypeFragmentHandler.onCreate(savedInstanceState);
 
 		/*
@@ -65,13 +62,13 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 
 		updateRoomDescription(view);
 		configureTicket(view);
-		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
+		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
+				getInstance().mPropertyInfoStatus);
 		return view;
 	}
 
 	@Override
 	public void onDetach() {
-		mRoomTypeFragmentHandler.onDetach();
 		((BookingFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
 		super.onDetach();
 	}
@@ -89,11 +86,21 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 		case BookingFragmentActivity.EVENT_RATE_SELECTED:
 			if (mRoomTypeFragmentHandler != null) {
 				configureTicket(getView());
-				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
+				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
+						getInstance().mPropertyInfoStatus);
 			}
+			updateRoomDescription(getView());
+			break;
 		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_STARTED:
+			updateRoomDescription(getView());
+			break;
 		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_COMPLETE:
+			updateRoomDescription(getView());
+			mRoomTypeFragmentHandler.onPropertyInfoDownloaded(getInstance().mPropertyInfoResponse);
+			break;
 		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_ERROR:
+			mRoomTypeFragmentHandler.showDetails(getInstance().mPropertyInfoStatus);
+			mRoomTypeFragmentHandler.showCheckInCheckoutDetails(null);
 			updateRoomDescription(getView());
 			break;
 		}
@@ -120,8 +127,7 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 			}
 		}
 
-		TextView roomTypeDescriptionTitleTextView = (TextView) view.findViewById(
-				R.id.room_type_description_title_view);
+		TextView roomTypeDescriptionTitleTextView = (TextView) view.findViewById(R.id.room_type_description_title_view);
 		roomTypeDescriptionTitleTextView.setText(rate.getRatePlanName());
 		TextView roomTypeDescriptionTextView = (TextView) view.findViewById(R.id.room_type_description_text_view);
 		roomTypeDescriptionTextView.setText(roomTypeDescription);

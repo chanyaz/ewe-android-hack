@@ -91,10 +91,6 @@ public class RoomTypeActivityHandler extends RoomTypeHandler implements Download
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Overriden methods
-
-	@Override
 	public void loadDetails() {
 		if (mPropertyInfo != null && mPropertyInfo.getPropertyId().equals(mProperty.getPropertyId())) {
 			showDetails(mPropertyInfo);

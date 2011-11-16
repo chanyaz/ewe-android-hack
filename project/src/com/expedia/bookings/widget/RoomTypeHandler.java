@@ -129,21 +129,13 @@ public abstract class RoomTypeHandler {
 		return mRoomDetailsLayout.getVisibility() == View.VISIBLE;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Protected methods
-
-	protected void updateRoomTypeDescription() {
-		TextView valueView = (TextView) mRoomTypeRow.findViewById(R.id.value_text_view);
-		valueView.setText(Html.fromHtml(mRate.getRoomDescription()));
-	}
-
-	protected void showDetails(String details) {
+	public void showDetails(String details) {
 		mRoomDetailsTextView.setText(Html.fromHtml(details));
 		mRoomDetailsTextView.setVisibility(View.VISIBLE);
 		mProgressBar.setVisibility(View.GONE);
 	}
-
-	protected void showCheckInCheckoutDetails(PropertyInfo propertyInfo) {
+	
+	public void showCheckInCheckoutDetails(PropertyInfo propertyInfo) {
 		String start = BookingReceiptUtils.formatCheckInOutDate(mContext, mSearchParams.getCheckInDate());
 		String end = BookingReceiptUtils.formatCheckInOutDate(mContext, mSearchParams.getCheckOutDate());
 		TextView checkInTimeTextView = (TextView) mRoomTypeRowContainer.findViewById(R.id.check_in_time);
@@ -162,18 +154,9 @@ public abstract class RoomTypeHandler {
 			checkOutTimeTextView.setText(checkOutText);
 		}
 	}
+	
 
-	protected void showDetails(PropertyInfo propertyInfo) {
-		String details = propertyInfo.getRoomLongDescription(mRate);
-		if (details == null || details.length() == 0) {
-			showDetails(mContext.getString(R.string.error_room_type_nonexistant));
-		}
-		else {
-			showDetails(details);
-		}
-	}
-
-	protected void onPropertyInfoDownloaded(PropertyInfoResponse response) {
+	public void onPropertyInfoDownloaded(PropertyInfoResponse response) {
 		if (response == null) {
 			showDetails(mContext.getString(R.string.error_room_type_load));
 			showCheckInCheckoutDetails(null);
@@ -197,6 +180,25 @@ public abstract class RoomTypeHandler {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Protected methods
+
+	protected void updateRoomTypeDescription() {
+		TextView valueView = (TextView) mRoomTypeRow.findViewById(R.id.value_text_view);
+		valueView.setText(Html.fromHtml(mRate.getRoomDescription()));
+	}
+
+
+	protected void showDetails(PropertyInfo propertyInfo) {
+		String details = propertyInfo.getRoomLongDescription(mRate);
+		if (details == null || details.length() == 0) {
+			showDetails(mContext.getString(R.string.error_room_type_nonexistant));
+		}
+		else {
+			showDetails(details);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle Methods
 
 	public abstract void onDestroy();
@@ -204,6 +206,4 @@ public abstract class RoomTypeHandler {
 	public abstract void onResume();
 
 	public abstract void onCreate(Bundle savedInstanceState);
-
-	public abstract void loadDetails();
 }

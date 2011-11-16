@@ -48,7 +48,7 @@ public class BookingFragmentActivity extends Activity {
 	public static final int EVENT_PROPERTY_INFO_QUERY_ERROR = 3;
 	public static final int EVENT_RATE_SELECTED = 4;
 
-	private static final String KEY_PROPERTY_INFO = "KEY_PROPERTY_INFO";
+	public static final String KEY_PROPERTY_INFO = "KEY_PROPERTY_INFO";
 	private static final String KEY_BOOKING = "KEY_BOOKING";
 
 	//////////////////////////////////////////////////////////////////////////
@@ -116,14 +116,23 @@ public class BookingFragmentActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 
-		// TODO: PROPERLY HANDLE ROTATION WITH BACKGROUNDDOWNLOADER
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(KEY_PROPERTY_INFO)) {
+			bd.registerDownloadCallback(KEY_PROPERTY_INFO, mPropertyInfoCallback);
+		}
+		else if (mInstance.mPropertyInfoResponse != null) {
+			mPropertyInfoCallback.onDownload(mInstance.mPropertyInfoResponse);
+		}
+		else {
+			startPropertyInfoDownload(mInstance.mProperty);
+		}
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-
-		// TODO: PROPERLY HANDLE ROTATION WITH BACKGROUNDDOWNLOADER
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.unregisterDownloadCallback(KEY_PROPERTY_INFO, mPropertyInfoCallback);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -295,6 +304,9 @@ public class BookingFragmentActivity extends Activity {
 			intent.putExtra(Codes.RATE, mInstance.mRate.toJson().toString());
 			intent.putExtra(Codes.BOOKING_RESPONSE, mInstance.mBookingResponse.toJson().toString());
 			intent.putExtra(Codes.BILLING_INFO, mInstance.mBillingInfo.toJson().toString());
+			if (mInstance.mPropertyInfoResponse != null) {
+				intent.putExtra(Codes.PROPERTY_INFO_RESPONSE, mInstance.mPropertyInfoResponse.toJson().toString());
+			}
 			startActivity(intent);
 		}
 	};

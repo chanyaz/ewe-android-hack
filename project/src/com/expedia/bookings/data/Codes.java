@@ -10,6 +10,7 @@ public class Codes {
 	public static final String AVAILABILITY_RESPONSE = "AVAILABILITY_RESPONSE";
 	public static final String RATE = "RATE";
 	public static final String PROPERTY_INFO = "PROPERTY_INFO";
+	public static final String PROPERTY_INFO_RESPONSE = "PROPERTY_INFO_RESPONSE";
 	public static final String RATE_RULES = "RATE_RULES";
 	public static final String BILLING_INFO = "BILLING_INFO";
 	public static final String BOOKING_RESPONSE = "BOOKING_RESPONSE";

@@ -40,6 +40,7 @@ import com.expedia.bookings.activity.BookingFragmentActivity.InstanceFragment;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.BookingReceiptUtils;
@@ -57,7 +58,7 @@ import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.ValidationProcessor;
 import com.mobiata.android.validation.Validator;
 
-public class BookingFormFragment extends DialogFragment {
+public class BookingFormFragment extends DialogFragment implements EventHandler {
 
 	public static BookingFormFragment newInstance() {
 		BookingFormFragment dialog = new BookingFormFragment();
@@ -108,7 +109,7 @@ public class BookingFormFragment extends DialogFragment {
 	private boolean mGuestsExpanded;
 	private boolean mBillingExpanded;
 
-	private RoomTypeFragmentHandler mRoomTypeHandler;
+	private RoomTypeFragmentHandler mRoomTypeFragmentHandler;
 
 	// This is a tracking variable to solve a nasty problem.  The problem is that Spinner.onItemSelectedListener()
 	// fires wildly when you set the Spinner's position manually (sometimes twice at a time).  We only want to track
@@ -121,7 +122,14 @@ public class BookingFormFragment extends DialogFragment {
 		super.onCreate(savedInstanceState);
 		mValidationProcessor = new ValidationProcessor();
 	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
 
+		((BookingFragmentActivity) activity).mEventManager.registerEventHandler(this);
+	}
+	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -165,7 +173,7 @@ public class BookingFormFragment extends DialogFragment {
 		mCountryCodes = r.getStringArray(R.array.country_codes);
 		BookingInfoValidation bookingInfoValidation = instance.mBookingInfoValidation;
 		configureForm();
-		
+
 		if (getBillingInfo().doesExistOnDisk()) {
 			syncFormFields(view);
 
@@ -188,43 +196,55 @@ public class BookingFormFragment extends DialogFragment {
 
 		dialog.setCanceledOnTouchOutside(false);
 
-		mRoomTypeHandler = new RoomTypeFragmentHandler(getActivity(), mReceipt, instance.mProperty,
+		mRoomTypeFragmentHandler = new RoomTypeFragmentHandler(getActivity(), mReceipt, instance.mProperty,
 				instance.mSearchParams, instance.mRate);
-		mRoomTypeHandler.onCreate(savedInstanceState);
+		mRoomTypeFragmentHandler.onCreate(savedInstanceState);
 
 		// set the window of the dialog to have a transparent background
 		// so that the window is not visible through the edges of the dialog.
 		ColorDrawable drawable = new ColorDrawable(0);
 		dialog.getWindow().setBackgroundDrawable(drawable);
 		dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-		return dialog;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
+		
 		configureTicket(mReceipt);
-		mRoomTypeHandler.updateRoomDetails(getInstance().mRate);
-	}
+		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
+				getInstance().mPropertyInfoStatus);
 
-	@Override
-	public void onAttach(Activity activity) {
-		if (mRoomTypeHandler != null) {
-			mRoomTypeHandler.onAttach();
-		}
-		super.onAttach(activity);
-	}
-
-	@Override
-	public void onDetach() {
-		mRoomTypeHandler.onDetach();
-		super.onDetach();
+		return dialog;
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		mRoomTypeHandler.saveToBundle(outState);
+		mRoomTypeFragmentHandler.saveToBundle(outState);
+	}
+
+	@Override
+	public void onDetach() {
+		((BookingFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
+		super.onDetach();
+	}
+	
+	@Override
+	public void handleEvent(int eventCode, Object data) {
+		switch (eventCode) {
+
+		case BookingFragmentActivity.EVENT_RATE_SELECTED:
+			if (mRoomTypeFragmentHandler != null) {
+				configureTicket(getView());
+				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
+						getInstance().mPropertyInfoStatus);
+			}
+			break;
+		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_COMPLETE:
+			mRoomTypeFragmentHandler.onPropertyInfoDownloaded(getInstance().mPropertyInfoResponse);
+			break;
+		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_ERROR:
+			mRoomTypeFragmentHandler.showDetails(getInstance().mPropertyInfoStatus);
+			mRoomTypeFragmentHandler.showCheckInCheckoutDetails(null);
+			break;
+		}
+
 	}
 
 	private void configureTicket(View receipt) {
@@ -232,7 +252,7 @@ public class BookingFormFragment extends DialogFragment {
 		ViewGroup detailsLayout = (ViewGroup) receipt.findViewById(R.id.details_layout);
 		detailsLayout.removeAllViews();
 		BookingReceiptUtils.configureTicket(getActivity(), receipt, instance.mProperty, instance.mSearchParams,
-				instance.mRate, mRoomTypeHandler);
+				instance.mRate, mRoomTypeFragmentHandler);
 	}
 
 	private void configureForm() {
@@ -518,7 +538,7 @@ public class BookingFormFragment extends DialogFragment {
 		mConfirmBookButton.setOnFocusChangeListener(l);
 
 	}
-	
+
 	private void expandGuestsForm(boolean animateAndFocus) {
 		if (!mGuestsExpanded) {
 			mGuestsExpanded = true;
@@ -647,7 +667,7 @@ public class BookingFormFragment extends DialogFragment {
 	 */
 	private void syncFormFields(View view) {
 		BillingInfo billingInfo = getBillingInfo();
-		
+
 		// Sync the saved guest fields
 		String firstName = billingInfo.getFirstName();
 		String lastName = billingInfo.getLastName();
@@ -724,7 +744,7 @@ public class BookingFormFragment extends DialogFragment {
 	public BookingFragmentActivity.InstanceFragment getInstance() {
 		return ((BookingFragmentActivity) getActivity()).mInstance;
 	}
-	
+
 	public BillingInfo getBillingInfo() {
 		return getInstance().mBillingInfo;
 	}

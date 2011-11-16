@@ -6,6 +6,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,19 +17,30 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.PropertyInfo;
+import com.expedia.bookings.data.PropertyInfoResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.fragment.EventManager;
+import com.expedia.bookings.server.ExpediaServices;
 import com.google.android.maps.MapActivity;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
 public class ConfirmationFragmentActivity extends MapActivity {
 
 	public InstanceFragment mInstance;
+	private Context mContext;
+	public EventManager mEventManager = new EventManager();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mContext = this;
 
 		Intent intent = getIntent();
 
@@ -49,6 +61,8 @@ public class ConfirmationFragmentActivity extends MapActivity {
 					BillingInfo.class);
 			mInstance.mBookingResponse = (BookingResponse) JSONUtils.parseJSONableFromIntent(intent,
 					Codes.BOOKING_RESPONSE, BookingResponse.class);
+			mInstance.mPropertyInfoResponse = (PropertyInfoResponse) JSONUtils.parseJSONableFromIntent(intent,
+					Codes.PROPERTY_INFO_RESPONSE, PropertyInfoResponse.class);
 
 			// This code allows us to test the ConfirmationFragmentActivity standalone, for layout purposes.
 			// Just point the default launcher activity towards this instead of SearchActivity
@@ -85,6 +99,29 @@ public class ConfirmationFragmentActivity extends MapActivity {
 		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(BookingFragmentActivity.KEY_PROPERTY_INFO)) {
+			bd.registerDownloadCallback(BookingFragmentActivity.KEY_PROPERTY_INFO, mPropertyInfoCallback);
+		}
+		else if (mInstance.mPropertyInfoResponse != null) {
+			mPropertyInfoCallback.onDownload(mInstance.mPropertyInfoResponse);
+		}
+		else {
+			startPropertyInfoDownload(mInstance.mProperty);
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.unregisterDownloadCallback(BookingFragmentActivity.KEY_PROPERTY_INFO, mPropertyInfoCallback);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 
@@ -116,6 +153,42 @@ public class ConfirmationFragmentActivity extends MapActivity {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Hotel Info
+
+	private void startPropertyInfoDownload(Property property) {
+		//clear out previous results
+		mInstance.mPropertyInfoResponse = null;
+		mInstance.mPropertyInfoStatus = null;
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+
+		bd.cancelDownload(BookingFragmentActivity.KEY_PROPERTY_INFO);
+		bd.startDownload(BookingFragmentActivity.KEY_PROPERTY_INFO, mPropertyInfoDownload, mPropertyInfoCallback);
+	}
+
+	private Download mPropertyInfoDownload = new Download() {
+		public Object doDownload() {
+			ExpediaServices services = new ExpediaServices(mContext);
+			return services.info(mInstance.mProperty);
+		}
+	};
+
+	private OnDownloadComplete mPropertyInfoCallback = new OnDownloadComplete() {
+		public void onDownload(Object results) {
+			mInstance.mPropertyInfoResponse = (PropertyInfoResponse) results;
+			mInstance.mPropertyInfoStatus = null;
+
+			if (mInstance.mPropertyInfoResponse == null) {
+				mInstance.mPropertyInfoStatus = getString(R.string.error_room_type_load);
+				mEventManager.notifyEventHandlers(BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_ERROR, null);
+			}
+			else {
+				mEventManager.notifyEventHandlers(BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_COMPLETE, null);
+			}
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////////
 	// InstanceFragment
 
 	public static final class InstanceFragment extends Fragment {
@@ -132,11 +205,13 @@ public class ConfirmationFragmentActivity extends MapActivity {
 		public Rate mRate;
 		public BillingInfo mBillingInfo;
 		public BookingResponse mBookingResponse;
+		public PropertyInfoResponse mPropertyInfoResponse;
+		public String mPropertyInfoStatus;
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// Actions
-	
+
 	public void newSearch() {
 		Intent intent = new Intent(this, SearchFragmentActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
