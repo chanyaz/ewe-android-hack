@@ -7,6 +7,10 @@ import java.util.TimeZone;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.Shader.TileMode;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -26,6 +30,13 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Property.Amenity;
 
 public class LayoutUtils {
+
+	public static Drawable getDividerDrawable(Context context) {
+		BitmapDrawable drawable = new BitmapDrawable(BitmapFactory.decodeResource(context.getResources(),
+				R.drawable.list_stroke_shadow));
+		drawable.setTileModeY(TileMode.REPEAT);
+		return drawable;
+	}
 
 	public static void configureRadiusFilterLabels(Context context, ViewGroup radiusFilterGroup, Filter filter) {
 		// The radius filter buttons depend on whether the user's locale leans

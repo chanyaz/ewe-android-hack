@@ -16,20 +16,7 @@ import java.util.Set;
  */
 public class EventManager {
 
-	private static EventManager singleton;
-
 	private Set<EventHandler> mEvents = new HashSet<EventHandler>();
-
-	public static EventManager getInstance() {
-		if (singleton == null) {
-			singleton = new EventManager();
-		}
-		return singleton;
-	}
-
-	private EventManager() {
-		// singleton
-	}
 
 	public boolean registerEventHandler(EventHandler eventHandler) {
 		return mEvents.add(eventHandler);

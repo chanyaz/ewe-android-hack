@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,13 +9,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.BookingFragmentActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 
-public class RoomsAndRatesFragment extends ListFragment implements EventHandler {
+public class RoomsAndRatesFragment extends ListFragment {
 
 	public static RoomsAndRatesFragment newInstance() {
 		RoomsAndRatesFragment fragment = new RoomsAndRatesFragment();
@@ -27,28 +25,17 @@ public class RoomsAndRatesFragment extends ListFragment implements EventHandler 
 	private TextView mMessageTextView;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((TabletActivity) activity).registerEventHandler(this);
-	}
-
-	@Override
-	public void onDetach() {
-		((TabletActivity) getActivity()).unregisterEventHandler(this);
-		super.onDetach();
-	}
-
-	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		TabletActivity activity = ((TabletActivity) getActivity());
-		AvailabilityResponse response = activity.getRoomsAndRatesAvailability();
+		BookingFragmentActivity.InstanceFragment instance = ((BookingFragmentActivity) getActivity()).mInstance;
+		AvailabilityResponse response = instance.mAvailabilityResponse;
 		if (response != null) {
 			mAdapter = new RoomsAndRatesAdapter(getActivity(), response);
-			mAdapter.setSelectedPosition(getPositionOfRate(activity.getRoomRateForBooking()));
+			mAdapter.setSelectedPosition(getPositionOfRate(instance.mRate));
 			setListAdapter(mAdapter);
-		} else {
+		}
+		else {
 			mMessageTextView.setText(getString(R.string.room_rates_loading));
 		}
 	}
@@ -58,38 +45,16 @@ public class RoomsAndRatesFragment extends ListFragment implements EventHandler 
 		View view = inflater.inflate(R.layout.fragment_availability_list, container, false);
 		mMessageTextView = (TextView) view.findViewById(android.R.id.empty);
 		return view;
-
-	}
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
 	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		((TabletActivity) getActivity()).rateSelected((Rate) mAdapter.getItem(position));
+		((BookingFragmentActivity) getActivity()).rateSelected((Rate) mAdapter.getItem(position));
 
 		mAdapter.setSelectedPosition(position);
 		mAdapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public void handleEvent(int eventCode, Object data) {
-		switch (eventCode) {
-		case TabletActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
-			mAdapter = new RoomsAndRatesAdapter(getActivity(), (AvailabilityResponse) data);
-			setListAdapter(mAdapter);
-			break;
-		case TabletActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
-			mMessageTextView.setText((String) data);
-			break;
-		case TabletActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
-			mMessageTextView.setText((String) data);
-			break;
-		}
 	}
 
 	private int getPositionOfRate(Rate rate) {

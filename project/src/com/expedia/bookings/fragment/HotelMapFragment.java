@@ -12,7 +12,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
@@ -46,15 +46,21 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 	// Lifecycle
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		TabletActivity activity = (TabletActivity) getActivity();
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		((SearchResultsFragmentActivity) getActivity()).mEventManager.registerEventHandler(this);
+	}
 
-		LinearLayout mapLayout = new LinearLayout(getActivity());
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		Activity activity = getActivity();
+
+		LinearLayout mapLayout = new LinearLayout(activity);
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT);
 		mapLayout.setLayoutParams(params);
 
-		mMapView = activity.getMapView();
+		mMapView = MapUtils.createMapView(activity);
 		mMapView.setClickable(true);
 		mapLayout.addView(mMapView);
 
@@ -70,18 +76,15 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		mHotelOverlay.setShowChevron(false);
 		mHotelOverlay.setOnTapListener(new OnTapListener() {
 			public boolean onTap(Property property) {
-				((TabletActivity) getActivity()).propertySelected(property);
+				((SearchResultsFragmentActivity) getActivity()).propertySelected(property);
 				return true;
 			}
 		});
 
 		mHotelOverlay.setOnBalloonClickListener(new OnBalloonClickListener() {
-
-			@Override
 			public void onBalloonClick(int index) {
-				((TabletActivity) getActivity()).moreDetailsForPropertySelected();
+				((SearchResultsFragmentActivity) getActivity()).moreDetailsForPropertySelected();
 			}
-
 		});
 
 		mHotelOverlay.setCenterOffsetY(getResources().getDimensionPixelSize(R.dimen.mini_details_height));
@@ -91,12 +94,6 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		overlays.add(mDoubleTapToZoomOverlay);
 
 		return mapLayout;
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((TabletActivity) getActivity()).registerEventHandler(this);
 	}
 
 	@Override
@@ -114,18 +111,18 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		mMapView.getOverlays().clear();
 		mHotelOverlay.destroyBalloon();
 		mExactLocationOverlay.destroyBalloon();
-		
+
 		mHotelOverlay = null;
 		mExactLocationOverlay = null;
 		mDoubleTapToZoomOverlay = null;
-		
+
 		super.onDestroyView();
 	}
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		((TabletActivity) getActivity()).unregisterEventHandler(this);
+		((SearchResultsFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -134,45 +131,43 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 	@Override
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
-		case TabletActivity.EVENT_SEARCH_STARTED:
+		case SearchResultsFragmentActivity.EVENT_SEARCH_STARTED:
 			if (mHotelOverlay != null) {
 				mHotelOverlay.setProperties(null);
 			}
 			break;
-		case TabletActivity.EVENT_SEARCH_LOCATION_FOUND:
+		case SearchResultsFragmentActivity.EVENT_SEARCH_LOCATION_FOUND:
 			animateToSearchLocation();
 			break;
-		case TabletActivity.EVENT_SEARCH_COMPLETE:
+		case SearchResultsFragmentActivity.EVENT_SEARCH_COMPLETE:
 			updateView();
 			showAllResults();
 			break;
-		case TabletActivity.EVENT_PROPERTY_SELECTED:
+		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
 			selectBalloonForProperty();
 			break;
-		case TabletActivity.EVENT_FILTER_CHANGED:
+		case SearchResultsFragmentActivity.EVENT_FILTER_CHANGED:
 			updateView();
 			break;
 		}
 	}
 
 	private void updateView() {
-		TabletActivity activity = (TabletActivity) getActivity();
-
 		// only update the view if the map view exists
 		// and if there are overlay items to show on the map
-		SearchResponse searchResponse = activity.getSearchResultsToDisplay();
+		SearchResponse searchResponse = getInstance().mSearchResponse;
 		if (mHotelOverlay != null && mMapView != null && searchResponse != null) {
-			mHotelOverlay.setShowDistance(activity.showDistance());
+			mHotelOverlay.setShowDistance(getInstance().mShowDistance);
 			mHotelOverlay.setProperties(searchResponse);
 			mMapView.invalidate();
 		}
 
 		// Only show exact location overlay if we have a search lat/lng, and we're showing distance
-		SearchParams params = activity.getSearchParams();
+		SearchParams params = getInstance().mSearchParams;
 		if (mExactLocationOverlay != null) {
-			if (params.hasSearchLatLon() && activity.showDistance()) {
+			if (params.hasSearchLatLon() && getInstance().mShowDistance) {
 				mExactLocationOverlay.setExactLocation(params.getSearchLatitude(), params.getSearchLongitude(),
-						params.getSearchDisplayText(activity));
+						params.getSearchDisplayText(getActivity()));
 			}
 			else {
 				mExactLocationOverlay.setExactLocation(0, 0, null);
@@ -182,7 +177,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 
 	private void animateToSearchLocation() {
 		if (mMapView != null) {
-			SearchParams params = ((TabletActivity) getActivity()).getSearchParams();
+			SearchParams params = getInstance().mSearchParams;
 			GeoPoint searchPoint = MapUtils.convertToGeoPoint(params.getSearchLatitude(), params.getSearchLongitude());
 			MapController mc = mMapView.getController();
 			mc.animateTo(searchPoint);
@@ -207,9 +202,16 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		// only select a balloon to be displayed over an overlay
 		// item if there is a property whose overlay to display
 		// and if there is view in which to display
-		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
+		Property property = getInstance().mProperty;
 		if (mHotelOverlay != null && property != null) {
 			mHotelOverlay.showBalloon(property.getPropertyId(), true);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Convenience method
+
+	public SearchResultsFragmentActivity.InstanceFragment getInstance() {
+		return ((SearchResultsFragmentActivity) getActivity()).mInstance;
 	}
 }

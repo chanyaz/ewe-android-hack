@@ -1,13 +1,12 @@
 package com.expedia.bookings.widget;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
-import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.PropertyInfo;
-import com.expedia.bookings.data.PropertyInfoResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
@@ -17,13 +16,13 @@ public class RoomTypeFragmentHandler extends RoomTypeHandler implements EventHan
 	private static final String PROPERTY_ROOM_CONTAINER_ID = "PROPERTY_ROOM_CONTAINER_ID";
 	private static final String INSTANCE_EXPANDED = "INSTANCE_EXPANDED";
 
-	private TabletActivity mActivity;
+	private Context mContext;
 	private View mRootView;
 
-	public RoomTypeFragmentHandler(TabletActivity activity, View rootView, Property property,
+	public RoomTypeFragmentHandler(Context context, View rootView, Property property,
 			SearchParams searchParams, Rate rate) {
-		super(activity, null, property, searchParams, rate);
-		mActivity = activity;
+		super(context, null, property, searchParams, rate);
+		mContext = context;
 		mRootView = rootView;
 	}
 
@@ -41,8 +40,9 @@ public class RoomTypeFragmentHandler extends RoomTypeHandler implements EventHan
 				setVisibility(View.VISIBLE);
 			}
 		}
-		mActivity.registerEventHandler(this);
 
+		// TODO: IMPLEMENT
+		// mActivity.registerEventHandler(this);
 	}
 
 	@Override
@@ -52,14 +52,17 @@ public class RoomTypeFragmentHandler extends RoomTypeHandler implements EventHan
 
 	@Override
 	public void onDestroy() {
+		// Do nothing
 	}
 
 	public void onAttach() {
-		mActivity.registerEventHandler(this);
+		// TODO: IMPLEMENT
+		// mActivity.registerEventHandler(this);
 	}
 
 	public void onDetach() {
-		mActivity.unregisterEventHandler(this);
+		// TODO: IMPLEMENT
+		// mActivity.unregisterEventHandler(this);
 	}
 
 	public void saveToBundle(Bundle outState) {
@@ -75,6 +78,9 @@ public class RoomTypeFragmentHandler extends RoomTypeHandler implements EventHan
 
 	@Override
 	public void loadDetails() {
+		// TODO: IMPLEMENT
+
+		/*
 		if (mPropertyInfo == null) {
 			PropertyInfoResponse response = mActivity.getInfoForProperty();
 			if (response == null) {
@@ -93,6 +99,7 @@ public class RoomTypeFragmentHandler extends RoomTypeHandler implements EventHan
 			showDetails(mPropertyInfo);
 			showCheckInCheckoutDetails(mPropertyInfo);
 		}
+		*/
 	}
 
 	/**
@@ -110,6 +117,8 @@ public class RoomTypeFragmentHandler extends RoomTypeHandler implements EventHan
 
 	@Override
 	public void handleEvent(int eventCode, Object data) {
+		// TODO: IMPLEMENT
+		/*
 		switch (eventCode) {
 		case TabletActivity.EVENT_PROPERTY_INFO_QUERY_STARTED:
 			break;
@@ -121,5 +130,6 @@ public class RoomTypeFragmentHandler extends RoomTypeHandler implements EventHan
 			onPropertyInfoDownloaded(mActivity.getInfoForProperty());
 			break;
 		}
+		*/
 	}
 }

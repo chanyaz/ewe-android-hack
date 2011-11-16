@@ -3,8 +3,17 @@ package com.expedia.bookings.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.expedia.bookings.widget.SummarizedRoomRates;
+import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
+
 public class AvailabilityResponse extends Response {
 	private List<Rate> mRates;
+
+	private SummarizedRoomRates mSummarizedRoomRates;
 
 	public void addRate(Rate rate) {
 		if (mRates == null) {
@@ -31,6 +40,15 @@ public class AvailabilityResponse extends Response {
 		return mRates;
 	}
 
+	public SummarizedRoomRates getSummarizedRoomRates() {
+		if (mSummarizedRoomRates == null) {
+			mSummarizedRoomRates = new SummarizedRoomRates();
+			mSummarizedRoomRates.updateSummarizedRoomRates(this);
+		}
+
+		return mSummarizedRoomRates;
+	}
+
 	/**
 	 * Gathers the list of common value adds between all Rates contained within.
 	 * 
@@ -51,5 +69,32 @@ public class AvailabilityResponse extends Response {
 		}
 
 		return null;
+	}
+
+	@Override
+	public JSONObject toJson() {
+		JSONObject obj = super.toJson();
+		if (obj == null) {
+			return null;
+		}
+
+		try {
+			JSONUtils.putJSONableList(obj, "rates", mRates);
+			return obj;
+		}
+		catch (JSONException e) {
+			Log.e("Could not convert AvailabilityResponse object to JSON.", e);
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean fromJson(JSONObject obj) {
+		super.fromJson(obj);
+
+		mRates = (List<Rate>) JSONUtils.getJSONableList(obj, "rates", Rate.class);
+
+		return true;
 	}
 }

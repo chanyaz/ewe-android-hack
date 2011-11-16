@@ -20,7 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
@@ -43,7 +43,7 @@ public class FilterDialogFragment extends DialogFragment implements EventHandler
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		((TabletActivity) getActivity()).registerEventHandler(this);
+		((SearchResultsFragmentActivity) getActivity()).mEventManager.registerEventHandler(this);
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class FilterDialogFragment extends DialogFragment implements EventHandler
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		((TabletActivity) getActivity()).unregisterEventHandler(this);
+		((SearchResultsFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
 	}
 
 	public CharSequence getTitle() {
@@ -158,7 +158,7 @@ public class FilterDialogFragment extends DialogFragment implements EventHandler
 	}
 
 	public SearchResponse getSearchResponse() {
-		return ((TabletActivity) getActivity()).getSearchResultsToDisplay();
+		return ((SearchResultsFragmentActivity) getActivity()).mInstance.mSearchResponse;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -273,7 +273,7 @@ public class FilterDialogFragment extends DialogFragment implements EventHandler
 	@Override
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
-		case TabletActivity.EVENT_FILTER_CHANGED:
+		case SearchResultsFragmentActivity.EVENT_FILTER_CHANGED:
 			getDialog().setTitle(getTitle());
 			break;
 		}

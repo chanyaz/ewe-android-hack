@@ -12,7 +12,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.Sort;
 
@@ -39,7 +39,7 @@ public class SortDialogFragment extends DialogFragment {
 		items.add(getString(R.string.sort_description_price));
 		items.add(getString(R.string.sort_description_rating));
 
-		if (((TabletActivity) getActivity()).showDistance()) {
+		if (((SearchResultsFragmentActivity) getActivity()).mInstance.mShowDistance) {
 			items.add(getString(R.string.sort_description_distance));
 		}
 
@@ -61,7 +61,7 @@ public class SortDialogFragment extends DialogFragment {
 					break;
 				}
 
-				Filter filter = ((TabletActivity) getActivity()).getSearchResultsToDisplay().getFilter();
+				Filter filter = ((SearchResultsFragmentActivity) getActivity()).mInstance.mFilter;
 				filter.setSort(newSort);
 				filter.notifyFilterChanged();
 			}

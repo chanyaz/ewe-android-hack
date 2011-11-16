@@ -7,6 +7,7 @@ public class Codes {
 	public static final String PROPERTY_LOCATION_PREFIX = "USE_CURRENT_LOCATION";
 	public static final String PROPERTY = "PROPERTY";
 	public static final String SELECTED_IMAGE = "SELECTED_IMAGE";
+	public static final String AVAILABILITY_RESPONSE = "AVAILABILITY_RESPONSE";
 	public static final String RATE = "RATE";
 	public static final String PROPERTY_INFO = "PROPERTY_INFO";
 	public static final String RATE_RULES = "RATE_RULES";
@@ -20,6 +21,5 @@ public class Codes {
 	public static final String DISTANCE_OF_MAX_SAVINGS = "DISTANCE_OF_MAX_SAVINGS";
 	public static final String SHOW_BRANDING = "SHOW_BRANDING";
 	public static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
-	public static final String INCLUDE_CONFIRMATION_INFO = "INCLUDE_CONFIRMATION_INFO";
 	public static final String DISPLAY_MODAL_VIEW = "DISPLAY_MODAL_VIEW";
 }

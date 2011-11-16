@@ -36,17 +36,29 @@
 
 		<activity android:name=".activity.PhoneSearchActivity" />
 
-		<activity android:name=".activity.TabletActivity"
+		<activity android:name=".activity.SearchFragmentActivity"
+			android:windowSoftInputMode="stateHidden|adjustPan"
+			android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
+
+		<activity android:name=".activity.SearchResultsFragmentActivity"
 			android:windowSoftInputMode="stateHidden|adjustPan"
 			android:launchMode="singleTop"
 			android:theme="@style/Theme.Tablet" >
-			<intent-filter>
+		    <intent-filter>
 				<action android:name="android.intent.action.SEARCH" />
 			</intent-filter>
 			<meta-data
 				android:name="android.app.searchable"
 				android:resource="@xml/searchable" />
 		</activity>
+
+   		<activity android:name=".activity.BookingFragmentActivity"
+			android:windowSoftInputMode="stateHidden|adjustPan"
+			android:theme="@style/Theme.Tablet" />
+
+ 		<activity android:name=".activity.ConfirmationFragmentActivity"
+			android:windowSoftInputMode="stateHidden|adjustPan"
+			android:theme="@style/Theme.Tablet" />
 
 		<activity android:name=".activity.SearchListActivity" />
 		<activity android:name=".activity.SearchMapActivity" />

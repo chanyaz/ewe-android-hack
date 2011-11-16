@@ -9,11 +9,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
@@ -28,8 +27,6 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	private TextView mSortTypeTextView;
 	private TextView mMessageTextView;
 
-	private PopupWindow mSortPopup;
-
 	public static HotelListFragment newInstance() {
 		return new HotelListFragment();
 	}
@@ -40,7 +37,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		((TabletActivity) getActivity()).registerEventHandler(this);
+		((SearchResultsFragmentActivity) getActivity()).mEventManager.registerEventHandler(this);
 	}
 
 	@Override
@@ -49,12 +46,6 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 
 		mAdapter = new HotelAdapter(getActivity());
 		setListAdapter(mAdapter);
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		((TabletActivity) getActivity()).showSearchResultsListShadow();
 	}
 
 	@Override
@@ -68,17 +59,11 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 
 		mSortTypeTextView.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				((TabletActivity) getActivity()).showSortDialog();
+				((SearchResultsFragmentActivity) getActivity()).showSortDialog();
 			}
 		});
 
 		return view;
-	}
-
-	@Override
-	public void onDestroyView() {
-		((TabletActivity) getActivity()).hideSearchResultsListShadow();
-		super.onDestroyView();
 	}
 
 	@Override
@@ -90,7 +75,8 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		((TabletActivity) getActivity()).unregisterEventHandler(this);
+
+		((SearchResultsFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -100,20 +86,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		((TabletActivity) getActivity()).propertySelected((Property) mAdapter.getItem(position));
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Sort popup window
-
-	public void showSortPopup() {
-		if (mSortPopup.isShowing()) {
-			return;
-		}
-	}
-
-	public void hideSortPopup() {
-		mSortPopup.dismiss();
+		((SearchResultsFragmentActivity) getActivity()).propertySelected((Property) mAdapter.getItem(position));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -122,35 +95,33 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	@Override
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
-		case TabletActivity.EVENT_SEARCH_STARTED:
+		case SearchResultsFragmentActivity.EVENT_SEARCH_STARTED:
 			mAdapter.setSelectedPosition(-1);
 			displaySearchStatus();
 			break;
-		case TabletActivity.EVENT_SEARCH_PROGRESS:
+		case SearchResultsFragmentActivity.EVENT_SEARCH_PROGRESS:
 			displaySearchStatus();
 			break;
-		case TabletActivity.EVENT_SEARCH_COMPLETE:
+		case SearchResultsFragmentActivity.EVENT_SEARCH_COMPLETE:
 			updateSearchResults();
 			break;
-		case TabletActivity.EVENT_SEARCH_ERROR:
+		case SearchResultsFragmentActivity.EVENT_SEARCH_ERROR:
 			displaySearchError();
 			break;
-		case TabletActivity.EVENT_FILTER_CHANGED:
+		case SearchResultsFragmentActivity.EVENT_FILTER_CHANGED:
 			updateSearchResults();
 
 			// If the property still exists in the list, make sure it's still selected.  Otherwise, 
 			// clear the current selection.
-			Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
+			Property property = getInstance().mProperty;
 			mAdapter.setSelectedPosition(getPositionOfProperty(property));
 			mAdapter.notifyDataSetChanged();
 
 			break;
-		case TabletActivity.EVENT_PROPERTY_SELECTED:
+		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
 			int position = getPositionOfProperty((Property) data);
 			mAdapter.setSelectedPosition(position);
 			mAdapter.notifyDataSetChanged();
-
-			getListView().smoothScrollToPositionFromTop(position, 10, 2000);
 
 			break;
 		}
@@ -187,7 +158,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	}
 
 	private void updateViews() {
-		SearchResponse response = ((TabletActivity) getActivity()).getSearchResultsToDisplay();
+		SearchResponse response = getInstance().mSearchResponse;
 		if (response == null) {
 			displaySearchStatus();
 		}
@@ -201,7 +172,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 
 	private void displaySearchStatus() {
 		if (mMessageTextView != null && mAdapter != null) {
-			mMessageTextView.setText(((TabletActivity) getActivity()).getSearchStatus());
+			mMessageTextView.setText(getInstance().mSearchStatus);
 			setHeaderVisibility(View.GONE);
 			mAdapter.setSearchResponse(null);
 		}
@@ -209,7 +180,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 
 	private void displaySearchError() {
 		if (mMessageTextView != null && mAdapter != null) {
-			String errorMsg = ((TabletActivity) getActivity()).getSearchStatus();
+			String errorMsg = getInstance().mSearchStatus;
 			mMessageTextView.setText(errorMsg);
 			setHeaderVisibility(View.GONE);
 			mAdapter.setSearchResponse(null);
@@ -217,8 +188,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	}
 
 	private void updateSearchResults() {
-		TabletActivity activity = ((TabletActivity) getActivity());
-		SearchResponse response = activity.getSearchResultsToDisplay();
+		SearchResponse response = getInstance().mSearchResponse;
 		mAdapter.setSearchResponse(response);
 
 		if (response.getPropertiesCount() == 0) {
@@ -233,7 +203,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 			updateNumHotels();
 			updateSortLabel(response);
 			setHeaderVisibility(View.VISIBLE);
-			mAdapter.setShowDistance(activity.showDistance());
+			mAdapter.setShowDistance(getInstance().mShowDistance);
 		}
 	}
 
@@ -241,5 +211,12 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 		if (mHeaderLayout != null) {
 			mHeaderLayout.setVisibility(visibility);
 		}
+	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Convenience method
+
+	public SearchResultsFragmentActivity.InstanceFragment getInstance() {
+		return ((SearchResultsFragmentActivity) getActivity()).mInstance;
 	}
 }

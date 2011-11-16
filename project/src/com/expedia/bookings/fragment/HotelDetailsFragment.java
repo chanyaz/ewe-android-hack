@@ -16,7 +16,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.activity.TabletUserReviewsListActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
@@ -79,6 +79,12 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	// LIFECYCLE EVENTS
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		((SearchResultsFragmentActivity) getActivity()).mEventManager.registerEventHandler(this);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_details, container, false);
 		mInflater = inflater;
@@ -111,14 +117,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((TabletActivity) getActivity()).registerEventHandler(this);
-	}
-
-	@Override
 	public void onDetach() {
-		((TabletActivity) getActivity()).unregisterEventHandler(this);
+		((SearchResultsFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
 		super.onDetach();
 	}
 
@@ -126,8 +126,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	// VIEWS
 
 	public void updateViews() {
-
-		updateViews(((TabletActivity) getActivity()).getPropertyToDisplay());
+		updateViews(getInstance().mProperty);
 	}
 
 	public void updateViews(final Property property) {
@@ -160,23 +159,26 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			mReviewsSection.setVisibility(View.GONE);
 		}
 
-		AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(((TabletActivity) getActivity()), getView());
+		AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(getActivity(), property, getView());
+
 		// update the summarized rates if they are available
-		AvailabilityResponse availabilityResponse = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
+		AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
+				.getRoomsAndRatesAvailability();
 		mSelectRoomButton.setEnabled((availabilityResponse != null));
-		
-		AvailabilitySummaryLayoutUtils.updateSummarizedRates(((TabletActivity) getActivity()), availabilityResponse,
-				getView(), getString(R.string.select_room), mSelectRoomButtonOnClickListener);
+
+		AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse,
+				getView(), getString(R.string.select_room), mSelectRoomButtonOnClickListener,
+				((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
 
 		int dimenResId = (property.getTotalReviews() > 3) ? R.dimen.min_height_two_rows_reviews
 				: R.dimen.min_height_one_row_review;
 		mReviewsContainer.setMinimumHeight((int) getActivity().getResources().getDimension(dimenResId));
 		mReviewsLoadingContainer.setVisibility(View.VISIBLE);
 
-		addReviews(((TabletActivity) getActivity()).getReviewsForProperty());
+		addReviews(((SearchResultsFragmentActivity) getActivity()).getReviewsForProperty());
 
 		mAmenitiesContainer.removeAllViews();
-		
+
 		//#10588 disabling amenities layout animations
 		mAmenitiesContainer.setLayoutAnimation(null);
 		LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
@@ -191,16 +193,15 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 		@Override
 		public void onImageClicked(Media media) {
-			((TabletActivity) getActivity()).showPictureGalleryForHotel(media);
+			((SearchResultsFragmentActivity) getActivity()).showHotelGalleryDialog(media);
 		}
 	};
 
 	private OnClickListener mSelectRoomButtonOnClickListener = new OnClickListener() {
-
-		@Override
 		public void onClick(View v) {
-			SummarizedRoomRates summarizedRoomRates = ((TabletActivity) getActivity()).getSummarizedRoomRates();
-			((TabletActivity) getActivity()).bookRoom(summarizedRoomRates.getMinimumRateAvaialable());
+			SummarizedRoomRates summarizedRoomRates = ((SearchResultsFragmentActivity) getActivity())
+					.getSummarizedRoomRates();
+			((SearchResultsFragmentActivity) getActivity()).bookRoom(summarizedRoomRates.getMinimumRateAvaialable());
 		}
 	};
 
@@ -210,30 +211,31 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	@Override
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
-		case TabletActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
+		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
 			mSelectRoomButton.setEnabled(false);
-			AvailabilitySummaryLayoutUtils.showLoadingForRates(((TabletActivity) getActivity()), getView());
+			AvailabilitySummaryLayoutUtils.showLoadingForRates(getActivity(), getView());
 			break;
-		case TabletActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
+		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
 			mSelectRoomButton.setEnabled(false);
 			AvailabilitySummaryLayoutUtils.showErrorForRates(getView(), (String) data);
 			break;
-		case TabletActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
+		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
 			mSelectRoomButton.setEnabled(true);
 			AvailabilitySummaryLayoutUtils.showRatesContainer(getView());
-			AvailabilitySummaryLayoutUtils.updateSummarizedRates(((TabletActivity) getActivity()),
+			AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), getInstance().mProperty,
 					(AvailabilityResponse) data, getView(), getString(R.string.select_room),
-					mSelectRoomButtonOnClickListener);
+					mSelectRoomButtonOnClickListener,
+					((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
 			break;
-		case TabletActivity.EVENT_PROPERTY_SELECTED:
+		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
 			updateViews((Property) data);
 			break;
-		case TabletActivity.EVENT_REVIEWS_QUERY_STARTED:
+		case SearchResultsFragmentActivity.EVENT_REVIEWS_QUERY_STARTED:
 			mSomeReviewsContainer.removeAllViews();
 			mSomeReviewsContainer.setVisibility(View.GONE);
 			mReviewsLoadingContainer.setVisibility(View.VISIBLE);
 			break;
-		case TabletActivity.EVENT_REVIEWS_QUERY_COMPLETE:
+		case SearchResultsFragmentActivity.EVENT_REVIEWS_QUERY_COMPLETE:
 			ReviewsResponse reviewsResposne = (ReviewsResponse) data;
 			addReviews(reviewsResposne);
 			break;
@@ -355,5 +357,12 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			}
 		}
 
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Convenience method
+
+	public SearchResultsFragmentActivity.InstanceFragment getInstance() {
+		return ((SearchResultsFragmentActivity) getActivity()).mInstance;
 	}
 }

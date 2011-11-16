@@ -1,6 +1,8 @@
 package com.expedia.bookings.utils;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.text.Spannable;
@@ -18,7 +20,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -28,8 +29,9 @@ import com.expedia.bookings.widget.SummarizedRoomRates;
 
 public class AvailabilitySummaryLayoutUtils {
 
-	public static void updateSummarizedRates(TabletActivity activity, AvailabilityResponse availabilityResponse,
-			View view, String buttonText, OnClickListener buttonOnClickListener) {
+	public static void updateSummarizedRates(Context context, Property property,
+			AvailabilityResponse availabilityResponse, View view, String buttonText,
+			OnClickListener buttonOnClickListener, OnRateClickListener onRateClickListener) {
 
 		// view is not created yet, so there's nothing to do here
 		if (view == null) {
@@ -44,28 +46,28 @@ public class AvailabilitySummaryLayoutUtils {
 		selectRoomButton.setOnClickListener(buttonOnClickListener);
 
 		if (availabilityResponse != null) {
-			layoutAvailabilitySummary(activity, view);
+			layoutAvailabilitySummary(context, property, availabilityResponse.getSummarizedRoomRates(), view,
+					onRateClickListener);
 			emptyAvailabilitySummaryTextView.setVisibility(View.GONE);
 			ratesProgressBar.setVisibility(View.GONE);
 		}
 		else {
 			// since the data is not yet available,
 			// make sure to clean out any old data and show the loading screen
-			showLoadingForRates(activity, view);
+			showLoadingForRates(context, view);
 		}
 	}
 
 	private static final int MAX_SUMMARIZED_RATE_RESULTS = 3;
 	private static final int ANIMATION_SPEED = 350;
 
-	public static void setupAvailabilitySummary(TabletActivity activity, View view) {
+	public static void setupAvailabilitySummary(Context context, Property property, View view) {
 
 		// view is not created yet, so there's nothing to do here
 		if (view == null) {
 			return;
 		}
 
-		final Property property = activity.getPropertyToDisplay();
 		View availabilitySummaryContainer = view.findViewById(R.id.availability_summary_container);
 
 		boolean isPropertyOnSale = property.getLowestRate().getSavingsPercent() > 0;
@@ -80,17 +82,15 @@ public class AvailabilitySummaryLayoutUtils {
 		TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
 
 		String displayRateString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
-		String minPriceString = activity.getString(R.string.min_room_price_template, displayRateString);
+		String minPriceString = context.getString(R.string.min_room_price_template, displayRateString);
 		int startingIndexOfDisplayRate = minPriceString.indexOf(displayRateString);
 
 		// style the minimum available price text
 		StyleSpan textStyleSpan = new StyleSpan(Typeface.BOLD);
-		ForegroundColorSpan textColorSpan = new ForegroundColorSpan(activity.getResources().getColor(
-				R.color.hotel_price_text_color));
-		ForegroundColorSpan textWhiteColorSpan = new ForegroundColorSpan(activity.getResources().getColor(
-				android.R.color.white));
-		ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(activity.getResources().getColor(
-				android.R.color.black));
+		Resources r = context.getResources();
+		ForegroundColorSpan textColorSpan = new ForegroundColorSpan(r.getColor(R.color.hotel_price_text_color));
+		ForegroundColorSpan textWhiteColorSpan = new ForegroundColorSpan(r.getColor(android.R.color.white));
+		ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(r.getColor(android.R.color.black));
 
 		Spannable str = new SpannableString(minPriceString);
 
@@ -108,8 +108,8 @@ public class AvailabilitySummaryLayoutUtils {
 		minPrice.setText(str);
 
 		TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
-		perNighTextView.setTextColor(isPropertyOnSale ? activity.getResources().getColor(android.R.color.white)
-				: activity.getResources().getColor(android.R.color.black));
+		perNighTextView.setTextColor(isPropertyOnSale ? r.getColor(android.R.color.white)
+				: r.getColor(android.R.color.black));
 
 		if (Rate.showInclusivePrices()) {
 			perNighTextView.setVisibility(View.GONE);
@@ -119,17 +119,16 @@ public class AvailabilitySummaryLayoutUtils {
 		}
 	}
 
-	private static void layoutAvailabilitySummary(final TabletActivity activity, View view) {
+	private static void layoutAvailabilitySummary(Context context, Property property,
+			SummarizedRoomRates summarizedRoomRates, View view, final OnRateClickListener onRateClickListener) {
 
 		// view is not created yet, so there's nothing to do here
 		if (view == null) {
 			return;
 		}
 
-		final Property property = activity.getPropertyToDisplay();
-		final SummarizedRoomRates summarizedRoomRates = activity.getSummarizedRoomRates();
 		ViewGroup availabilityRatesContainer = (ViewGroup) view.findViewById(R.id.rates_container);
-		LayoutInflater inflater = activity.getLayoutInflater();
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		boolean isPropertyOnSale = property.getLowestRate().getSavingsPercent() > 0;
 		availabilityRatesContainer.removeAllViews();
@@ -159,10 +158,8 @@ public class AvailabilitySummaryLayoutUtils {
 			final Rate rate = summarizedRoomRates.getRate(i);
 
 			summaryRow.setOnClickListener(new OnClickListener() {
-
-				@Override
 				public void onClick(View v) {
-					activity.bookRoom(rate);
+					onRateClickListener.onRateClick(rate);
 				}
 			});
 
@@ -175,7 +172,7 @@ public class AvailabilitySummaryLayoutUtils {
 			Pair<BedTypeId, Rate> pair = summarizedRoomRates.getBedTypeToRatePair(i);
 			for (BedType bedType : pair.second.getBedTypes()) {
 				if (bedType.bedTypeId == pair.first) {
-					summaryDescription.setText(Html.fromHtml(activity.getString(R.string.bed_type_start_value_template,
+					summaryDescription.setText(Html.fromHtml(context.getString(R.string.bed_type_start_value_template,
 							bedType.bedTypeDescription)));
 					break;
 				}
@@ -183,15 +180,19 @@ public class AvailabilitySummaryLayoutUtils {
 
 			priceTextView.setText(StrUtils.formatHotelPrice(pair.second.getDisplayRate()));
 			if (isPropertyOnSale) {
-				priceTextView.setTextColor(activity.getResources().getColor(R.color.hotel_price_sale_text_color));
+				priceTextView.setTextColor(context.getResources().getColor(R.color.hotel_price_sale_text_color));
 			}
 			else {
-				priceTextView.setTextColor(activity.getResources().getColor(R.color.hotel_price_text_color));
+				priceTextView.setTextColor(context.getResources().getColor(R.color.hotel_price_text_color));
 			}
 		}
 	}
 
-	public static void showLoadingForRates(TabletActivity activity, View view) {
+	public interface OnRateClickListener {
+		public void onRateClick(Rate rate);
+	}
+
+	public static void showLoadingForRates(Context context, View view) {
 
 		// view is not created yet, so there's nothing to do here
 		if (view == null) {
@@ -203,7 +204,7 @@ public class AvailabilitySummaryLayoutUtils {
 
 		emptyAvailabilitySummaryTextView.setVisibility(View.VISIBLE);
 		ratesProgressBar.setVisibility(View.VISIBLE);
-		emptyAvailabilitySummaryTextView.setText(activity.getString(R.string.room_rates_loading));
+		emptyAvailabilitySummaryTextView.setText(context.getString(R.string.room_rates_loading));
 		availabilityRatesContainer.setVisibility(View.GONE);
 	}
 

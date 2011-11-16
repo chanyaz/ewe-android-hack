@@ -11,7 +11,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
@@ -39,7 +39,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		((TabletActivity) getActivity()).registerEventHandler(this);
+		((SearchResultsFragmentActivity) getActivity()).mEventManager.registerEventHandler(this);
 	}
 
 	@Override
@@ -50,17 +50,16 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		mLocationTextView = (TextView) view.findViewById(R.id.location_text_view);
 		mRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
 		mCollageHandler = new HotelCollage(view, mOnImageClickedListener);
-		
-		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
-		updateViews(property, view);
-		
+
+		updateViews(getInstance().mProperty, view);
+
 		return view;
 	}
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		((TabletActivity) getActivity()).unregisterEventHandler(this);
+		((SearchResultsFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -68,7 +67,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 
 	private OnCollageImageClickedListener mOnImageClickedListener = new OnCollageImageClickedListener() {
 		public void onImageClicked(Media media) {
-			((TabletActivity) getActivity()).moreDetailsForPropertySelected();
+			((SearchResultsFragmentActivity) getActivity()).moreDetailsForPropertySelected();
 		}
 	};
 
@@ -78,7 +77,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	private void updateViews(Property property) {
 		updateViews(property, getView());
 	}
-	
+
 	private void updateViews(Property property, View view) {
 		// don't update views if there is no
 		// view attached.
@@ -88,19 +87,20 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 			mRatingBar.setRating((float) property.getHotelRating());
 			mCollageHandler.updateCollage(property);
 
-			AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(((TabletActivity) getActivity()), view);
+			AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(getActivity(), property, view);
+
 			// update the summarized rates if they are available
-			AvailabilityResponse availabilityResponse = ((TabletActivity) getActivity()).getRoomsAndRatesAvailability();
-			AvailabilitySummaryLayoutUtils.updateSummarizedRates(((TabletActivity) getActivity()),
-					availabilityResponse, view, getString(R.string.see_details), seeDetailsOnClickListener);
+			AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
+					.getRoomsAndRatesAvailability();
+			AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse, view,
+					getString(R.string.see_details), seeDetailsOnClickListener,
+					((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
 		}
 	}
 
 	private OnClickListener seeDetailsOnClickListener = new OnClickListener() {
-
-		@Override
 		public void onClick(View v) {
-			((TabletActivity) getActivity()).moreDetailsForPropertySelected();
+			((SearchResultsFragmentActivity) getActivity()).moreDetailsForPropertySelected();
 		}
 	};
 
@@ -110,20 +110,28 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	@Override
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
-		case TabletActivity.EVENT_PROPERTY_SELECTED:
+		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
 			updateViews((Property) data);
 			break;
-		case TabletActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
-			AvailabilitySummaryLayoutUtils.showLoadingForRates(((TabletActivity) getActivity()), getView());
+		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
+			AvailabilitySummaryLayoutUtils.showLoadingForRates(getActivity(), getView());
 			break;
-		case TabletActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
+		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
 			AvailabilitySummaryLayoutUtils.showErrorForRates(getView(), (String) data);
 			break;
-		case TabletActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
+		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
 			AvailabilitySummaryLayoutUtils.showRatesContainer(getView());
-			AvailabilitySummaryLayoutUtils.updateSummarizedRates(((TabletActivity) getActivity()),
-					(AvailabilityResponse) data, getView(), getString(R.string.see_details), seeDetailsOnClickListener);
+			AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), getInstance().mProperty,
+					(AvailabilityResponse) data, getView(), getString(R.string.see_details), seeDetailsOnClickListener,
+					((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
 			break;
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Convenience method
+
+	public SearchResultsFragmentActivity.InstanceFragment getInstance() {
+		return ((SearchResultsFragmentActivity) getActivity()).mInstance;
 	}
 }

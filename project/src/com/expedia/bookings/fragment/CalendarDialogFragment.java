@@ -16,7 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 
@@ -75,7 +75,7 @@ public class CalendarDialogFragment extends DialogFragment {
 				Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
 						.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
 
-				TabletActivity activity = (TabletActivity) getActivity();
+				SearchResultsFragmentActivity activity = (SearchResultsFragmentActivity) getActivity();
 				activity.setDates(checkIn, checkOut);
 				activity.startSearch();
 			}

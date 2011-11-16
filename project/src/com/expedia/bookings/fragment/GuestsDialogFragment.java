@@ -14,7 +14,7 @@ import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.StrUtils;
 
@@ -80,7 +80,7 @@ public class GuestsDialogFragment extends DialogFragment {
 		// Setup button listeners
 		builder.setPositiveButton(R.string.search, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				TabletActivity activity = (TabletActivity) getActivity();
+				SearchResultsFragmentActivity activity = (SearchResultsFragmentActivity) getActivity();
 				activity.setGuests(mAdultsNumberPicker.getValue(), mChildrenNumberPicker.getValue());
 				activity.startSearch();
 			}

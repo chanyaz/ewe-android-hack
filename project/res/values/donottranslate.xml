@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Fragment tags -->
+    <string name="tag_search_params">SEARCH_PARAMS</string>
+    <string name="tag_hotel_list">HOTEL_LIST</string>
+    <string name="tag_hotel_map">HOTEL_MAP</string>
+    <string name="tag_mini_details">MINI_DETAILS</string>
+    <string name="tag_details">DETAILS</string>
+    <string name="tag_rooms_and_rates">ROOMS_AND_RATES</string>
+    <string name="tag_booking_info">BOOKING_INFO</string>
+    <string name="tag_booking_form">BOOKING_FORM</string>
+    <string name="tag_booking_progress">BOOKING_PROGRESS</string>
+    <string name="tag_booking_error">BOOKING_ERROR</string>
+    <string name="tag_booking_confirmation">BOOKING_CONFIRMATION</string>
+    <string name="tag_confirmation_receipt">CONFIRMATION_RECEIPT</string>
+
 	<string name="map_snippet_template">%1$s · %2$s</string>
 
 	<!-- Preference keys -->

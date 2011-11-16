@@ -9,32 +9,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
-import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.fragment.EventManager.EventHandler;
+import com.expedia.bookings.activity.ConfirmationFragmentActivity;
+import com.expedia.bookings.activity.ConfirmationFragmentActivity.InstanceFragment;
 import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.widget.RoomTypeFragmentHandler;
 
-public class ConfirmationReceiptFragment extends Fragment implements EventHandler {
+public class ConfirmationReceiptFragment extends Fragment {
 
 	private RoomTypeFragmentHandler mRoomTypeFragmentHandler;
 
 	public static ConfirmationReceiptFragment newInstance() {
 		ConfirmationReceiptFragment fragment = new ConfirmationReceiptFragment();
-		return fragment;
-	}
-
-	public static ConfirmationReceiptFragment newInstance(boolean includeConfirmationInfo) {
-		ConfirmationReceiptFragment fragment = new ConfirmationReceiptFragment();
-		Bundle arguments = new Bundle();
-		arguments.putBoolean(Codes.INCLUDE_CONFIRMATION_INFO, includeConfirmationInfo);
-		fragment.setArguments(arguments);
 		return fragment;
 	}
 
@@ -52,31 +38,30 @@ public class ConfirmationReceiptFragment extends Fragment implements EventHandle
 		if (mRoomTypeFragmentHandler != null) {
 			mRoomTypeFragmentHandler.onAttach();
 		}
-		((TabletActivity) activity).registerEventHandler(this);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View receipt = inflater.inflate(R.layout.fragment_confirmation_receipt, container, false);
-		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
-		SearchParams searchParams = ((TabletActivity) getActivity()).getSearchParams();
-		Rate rate = ((TabletActivity) getActivity()).getRoomRateForBooking();
 
-		mRoomTypeFragmentHandler = new RoomTypeFragmentHandler(((TabletActivity) getActivity()), receipt, property,
-				searchParams, rate);
+		InstanceFragment instance = getInstance();
+
+		mRoomTypeFragmentHandler = new RoomTypeFragmentHandler(getActivity(), receipt, instance.mProperty,
+				instance.mSearchParams, instance.mRate);
 
 		mRoomTypeFragmentHandler.onCreate(savedInstanceState);
+
 		/*
 		 * Configuring the policy cancellation section
 		 */
-		ConfirmationUtils.determineCancellationPolicy(rate, receipt);
+		ConfirmationUtils.determineCancellationPolicy(instance.mRate, receipt);
 
 		TextView contactView = (TextView) receipt.findViewById(R.id.contact_text_view);
 		String contactText = ConfirmationUtils.determineContactText(getActivity());
 		ConfirmationUtils.configureContactView(getActivity(), contactView, contactText);
-		
+
 		configureTicket(receipt);
-		mRoomTypeFragmentHandler.updateRoomDetails(((TabletActivity) getActivity()).getRoomRateForBooking());
+		mRoomTypeFragmentHandler.updateRoomDetails(instance.mRate);
 
 		return receipt;
 	}
@@ -85,14 +70,13 @@ public class ConfirmationReceiptFragment extends Fragment implements EventHandle
 	public void onDetach() {
 		super.onDetach();
 		mRoomTypeFragmentHandler.onDetach();
-		((TabletActivity) getActivity()).unregisterEventHandler(this);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		configureTicket(getView());
-		mRoomTypeFragmentHandler.updateRoomDetails(((TabletActivity) getActivity()).getRoomRateForBooking());
+		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
 	}
 
 	@Override
@@ -102,37 +86,21 @@ public class ConfirmationReceiptFragment extends Fragment implements EventHandle
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// EventHandler implementation
-
-	@Override
-	public void handleEvent(int eventCode, Object data) {
-		switch (eventCode) {
-		case TabletActivity.EVENT_RATE_SELECTED:
-			if (mRoomTypeFragmentHandler != null) {
-				configureTicket(getView());
-				mRoomTypeFragmentHandler.updateRoomDetails(((TabletActivity) getActivity()).getRoomRateForBooking());
-			}
-			break;
-		}
-	}
+	// Views stuff
 
 	private void configureTicket(View receipt) {
-		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
-		SearchParams searchParams = ((TabletActivity) getActivity()).getSearchParams();
-		Rate rate = ((TabletActivity) getActivity()).getRoomRateForBooking();
-		BookingResponse bookingResponse = ((TabletActivity) getActivity()).getBookingResponse();
-		BillingInfo billingInfo = ((TabletActivity) getActivity()).getBillingInfo();
+		InstanceFragment instance = getInstance();
 
 		ViewGroup detailsLayout = (ViewGroup) receipt.findViewById(R.id.details_layout);
 		detailsLayout.removeAllViews();
-		if (getArguments() != null && getArguments().getBoolean(Codes.INCLUDE_CONFIRMATION_INFO, false)) {
-			BookingReceiptUtils.configureTicket(getActivity(), receipt, property, searchParams, rate,
-					mRoomTypeFragmentHandler, bookingResponse, billingInfo);
-		}
-		else {
-			BookingReceiptUtils.configureTicket(getActivity(), receipt, property, searchParams, rate,
-					mRoomTypeFragmentHandler);
-		}
+		BookingReceiptUtils.configureTicket(getActivity(), receipt, instance.mProperty, instance.mSearchParams,
+				instance.mRate, mRoomTypeFragmentHandler, instance.mBookingResponse, instance.mBillingInfo);
+	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Convenience method
+
+	public ConfirmationFragmentActivity.InstanceFragment getInstance() {
+		return ((ConfirmationFragmentActivity) getActivity()).mInstance;
 	}
 }

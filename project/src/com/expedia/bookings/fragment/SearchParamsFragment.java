@@ -7,8 +7,8 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,9 +28,11 @@ import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.SearchFragmentActivity;
+import com.expedia.bookings.activity.SearchResultsFragmentActivity;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.fragment.EventManager.EventHandler;
+import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.mobiata.android.BackgroundDownloader;
@@ -42,7 +44,7 @@ import com.mobiata.android.services.Suggestion;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 
-public class SearchParamsFragment extends Fragment implements EventHandler {
+public class SearchParamsFragment extends Fragment {
 
 	private static final int NUM_SUGGESTIONS = 5;
 
@@ -60,12 +62,6 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((TabletActivity) getActivity()).registerEventHandler(this);
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -94,13 +90,13 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (!isHidden() && isAdded()) {
 					String location = s.toString().trim();
-					TabletActivity activity = ((TabletActivity) getActivity());
+					SearchParams searchParams = getInstance().mSearchParams;
 					if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
-						activity.setMyLocationSearch();
+						searchParams.setSearchType(SearchType.MY_LOCATION);
 						configureSuggestions(null);
 					}
-					else if (!location.equals(activity.getSearchParams().getFreeformLocation())) {
-						activity.setFreeformLocation(location);
+					else if (!location.equals(searchParams.getFreeformLocation())) {
+						searchParams.setFreeformLocation(location);
 						configureSuggestions(location);
 					}
 				}
@@ -147,7 +143,9 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 					Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
 							.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
 
-					((TabletActivity) getActivity()).setDates(checkIn, checkOut);
+					SearchParams searchParams = getInstance().mSearchParams;
+					searchParams.setCheckInDate(checkIn);
+					searchParams.setCheckOutDate(checkOut);
 				}
 			}
 		});
@@ -157,8 +155,9 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
 			public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 				if (!isHidden()) {
-					((TabletActivity) getActivity()).setGuests(mAdultsNumberPicker.getValue(),
-							mChildrenNumberPicker.getValue());
+					SearchParams searchParams = getInstance().mSearchParams;
+					searchParams.setNumAdults(mAdultsNumberPicker.getValue());
+					searchParams.setNumChildren(mChildrenNumberPicker.getValue());
 				}
 
 				GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
@@ -175,7 +174,9 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		Button button = (Button) view.findViewById(R.id.search_button);
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				((TabletActivity) getActivity()).startSearch();
+				Intent intent = new Intent(getActivity(), SearchResultsFragmentActivity.class);
+				intent.putExtra(Codes.SEARCH_PARAMS, getInstance().mSearchParams.toJson().toString());
+				startActivity(intent);
 			}
 		});
 
@@ -201,17 +202,11 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD);
 	}
 
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		((TabletActivity) getActivity()).unregisterEventHandler(this);
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Views
 
 	public void updateViews() {
-		SearchParams params = ((TabletActivity) getActivity()).getSearchParams();
+		SearchParams params = getInstance().mSearchParams;
 
 		mLocationEditText.setText(params.getSearchDisplayText(getActivity()));
 
@@ -360,16 +355,9 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// EventHandler implementation
+	// Convenience method
 
-	@Override
-	public void handleEvent(int eventCode, Object data) {
-		switch (eventCode) {
-		case TabletActivity.EVENT_SEARCH_PARAMS_CHANGED:
-			if (isHidden()) {
-				updateViews();
-			}
-			break;
-		}
+	public SearchFragmentActivity.InstanceFragment getInstance() {
+		return ((SearchFragmentActivity) getActivity()).getInstance();
 	}
 }

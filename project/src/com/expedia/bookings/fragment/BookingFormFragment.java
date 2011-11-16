@@ -20,7 +20,6 @@ import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
@@ -37,15 +36,11 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.BookingFragmentActivity;
+import com.expedia.bookings.activity.BookingFragmentActivity.InstanceFragment;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
@@ -112,8 +107,6 @@ public class BookingFormFragment extends DialogFragment {
 	private BillingInfo mBillingInfo;
 	private CreditCardType mCreditCardType;
 
-	private BookingInfoValidation mBookingInfoValidation;
-
 	// The state of the form
 	private boolean mFormHasBeenFocused;
 	private boolean mGuestsExpanded;
@@ -169,23 +162,25 @@ public class BookingFormFragment extends DialogFragment {
 		mReceipt = view.findViewById(R.id.receipt);
 		mCloseFormButton = view.findViewById(R.id.close_booking_form);
 
+		InstanceFragment instance = getInstance();
+
 		// Retrieve some data we keep using
 		Resources r = getResources();
 		mCountryCodes = r.getStringArray(R.array.country_codes);
-		mBookingInfoValidation = ((TabletActivity) getActivity()).getBookingInfoValidation();
+		BookingInfoValidation bookingInfoValidation = instance.mBookingInfoValidation;
 		configureForm();
-		boolean billingInfoLoaded = ((TabletActivity) getActivity()).loadBillingInfo();
-		mBillingInfo = ((TabletActivity) getActivity()).getBillingInfo();
+		boolean billingInfoLoaded = false; // TODO: IMPLEMENT PROPERLY
+		mBillingInfo = instance.mBillingInfo;
 		if (billingInfoLoaded) {
 			syncFormFields(view);
 
-			mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
+			bookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
 
-			if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
+			if (!bookingInfoValidation.isGuestsSectionCompleted()) {
 				expandGuestsForm(false);
 			}
 
-			if (!mBookingInfoValidation.isBillingSectionCompleted()) {
+			if (!bookingInfoValidation.isBillingSectionCompleted()) {
 				expandBillingForm(false);
 			}
 
@@ -198,12 +193,8 @@ public class BookingFormFragment extends DialogFragment {
 
 		dialog.setCanceledOnTouchOutside(false);
 
-		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
-		Rate rate = ((TabletActivity) getActivity()).getRoomRateForBooking();
-		SearchParams searchParams = ((TabletActivity) getActivity()).getSearchParams();
-
-		mRoomTypeHandler = new RoomTypeFragmentHandler((TabletActivity) getActivity(), mReceipt, property,
-				searchParams, rate);
+		mRoomTypeHandler = new RoomTypeFragmentHandler(getActivity(), mReceipt, instance.mProperty,
+				instance.mSearchParams, instance.mRate);
 		mRoomTypeHandler.onCreate(savedInstanceState);
 
 		// set the window of the dialog to have a transparent background
@@ -218,7 +209,7 @@ public class BookingFormFragment extends DialogFragment {
 	public void onResume() {
 		super.onResume();
 		configureTicket(mReceipt);
-		mRoomTypeHandler.updateRoomDetails(((TabletActivity) getActivity()).getRoomRateForBooking());
+		mRoomTypeHandler.updateRoomDetails(getInstance().mRate);
 	}
 
 	@Override
@@ -242,22 +233,11 @@ public class BookingFormFragment extends DialogFragment {
 	}
 
 	private void configureTicket(View receipt) {
-		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
-		SearchParams searchParams = ((TabletActivity) getActivity()).getSearchParams();
-		Rate rate = ((TabletActivity) getActivity()).getRoomRateForBooking();
-		BookingResponse bookingResponse = ((TabletActivity) getActivity()).getBookingResponse();
-		BillingInfo billingInfo = ((TabletActivity) getActivity()).getBillingInfo();
-
+		InstanceFragment instance = getInstance();
 		ViewGroup detailsLayout = (ViewGroup) receipt.findViewById(R.id.details_layout);
 		detailsLayout.removeAllViews();
-		if (getArguments() != null && getArguments().getBoolean(Codes.INCLUDE_CONFIRMATION_INFO, false)) {
-			BookingReceiptUtils.configureTicket(getActivity(), receipt, property, searchParams, rate, mRoomTypeHandler,
-					bookingResponse, billingInfo);
-		}
-		else {
-			BookingReceiptUtils.configureTicket(getActivity(), receipt, property, searchParams, rate, mRoomTypeHandler);
-		}
-
+		BookingReceiptUtils.configureTicket(getActivity(), receipt, instance.mProperty, instance.mSearchParams,
+				instance.mRate, mRoomTypeHandler);
 	}
 
 	private void configureForm() {
@@ -375,7 +355,8 @@ public class BookingFormFragment extends DialogFragment {
 			mSecurityCodeEditText.setOnEditorActionListener(new OnEditorActionListener() {
 				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 					if (actionId == EditorInfo.IME_ACTION_NEXT) {
-						((TabletActivity) getActivity()).focusOnRulesAndRestrictions();
+						// TODO: IMPLEMENT THIS
+						// .focusOnRulesAndRestrictions();
 						return true;
 					}
 					return false;
@@ -417,7 +398,7 @@ public class BookingFormFragment extends DialogFragment {
 				}
 				else {
 					BookingInfoUtils.onClickSubmit(getActivity());
-					((TabletActivity) getActivity()).bookingCompleted(mBillingInfo);
+					((BookingFragmentActivity) getActivity()).bookingCompleted(mBillingInfo);
 					dismiss();
 				}
 
@@ -430,8 +411,7 @@ public class BookingFormFragment extends DialogFragment {
 			public void onClick(View arg0) {
 				syncBillingInfo();
 				saveBillingInfo();
-				((TabletActivity) getActivity()).getBookingInfoValidation().checkBookingSectionsCompleted(
-						mValidationProcessor);
+				getInstance().mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
 				dismiss();
 			}
 		});
@@ -522,8 +502,7 @@ public class BookingFormFragment extends DialogFragment {
 				else {
 					saveBillingInfo();
 
-					((TabletActivity) getActivity()).getBookingInfoValidation().checkBookingSectionsCompleted(
-							mValidationProcessor);
+					getInstance().mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
 				}
 			}
 		};
@@ -767,7 +746,7 @@ public class BookingFormFragment extends DialogFragment {
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			// Gather the error message
 			String errorMsg = "";
-			List<ServerError> errors = ((TabletActivity) getActivity()).getBookingResponse().getErrors();
+			List<ServerError> errors = ((BookingFragmentActivity) getActivity()).mInstance.mBookingResponse.getErrors();
 			int numErrors = errors.size();
 			for (int a = 0; a < numErrors; a++) {
 				if (a > 0) {
@@ -797,5 +776,12 @@ public class BookingFormFragment extends DialogFragment {
 			return pd;
 		}
 
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Convenience method
+
+	public BookingFragmentActivity.InstanceFragment getInstance() {
+		return ((BookingFragmentActivity) getActivity()).mInstance;
 	}
 }

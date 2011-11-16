@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <fragment
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="3"
+        android:name="com.expedia.bookings.fragment.HotelListFragment"
+        android:tag="@string/tag_hotel_list" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="7" >
+
+        <fragment
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:name="com.expedia.bookings.fragment.HotelMapFragment"
+            android:tag="@string/tag_hotel_map" />
+
+        <LinearLayout
+            android:id="@+id/fragment_mini_details"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/mini_details_height"
+            android:layout_gravity="bottom" />
+
+        <LinearLayout
+            android:id="@+id/fragment_details"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <View
+            android:id="@+id/search_results_list_shadow"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" />
+    </FrameLayout>
+
+</LinearLayout>

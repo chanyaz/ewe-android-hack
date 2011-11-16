@@ -12,7 +12,7 @@ import android.location.Address;
 import android.os.Bundle;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.utils.StrUtils;
 
 public class GeocodeDisambiguationDialogFragment extends DialogFragment {
@@ -40,12 +40,12 @@ public class GeocodeDisambiguationDialogFragment extends DialogFragment {
 		builder.setTitle(R.string.ChooseLocation);
 		builder.setItems(freeformLocations, new Dialog.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				((TabletActivity) getActivity()).onGeocodeSuccess(mAddresses.get(which));
+				((SearchResultsFragmentActivity) getActivity()).onGeocodeSuccess(mAddresses.get(which));
 			}
 		});
 		builder.setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				((TabletActivity) getActivity()).onGeocodeFailure();
+				((SearchResultsFragmentActivity) getActivity()).onGeocodeFailure();
 			}
 		});
 
@@ -68,6 +68,6 @@ public class GeocodeDisambiguationDialogFragment extends DialogFragment {
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
 
-		((TabletActivity) getActivity()).onGeocodeFailure();
+		((SearchResultsFragmentActivity) getActivity()).onGeocodeFailure();
 	}
 }

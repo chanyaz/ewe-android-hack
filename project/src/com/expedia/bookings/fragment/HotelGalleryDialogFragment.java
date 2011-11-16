@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
+import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.StrUtils;
@@ -49,7 +49,7 @@ public class HotelGalleryDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		mInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		Property property = ((TabletActivity) getActivity()).getPropertyToDisplay();
+		Property property = ((SearchResultsFragmentActivity) getActivity()).mInstance.mProperty;
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_MEDIA)) {
 			mSelectedMedia = (Media) JSONUtils.parseJSONObjectFromBundle(savedInstanceState, SELECTED_MEDIA,

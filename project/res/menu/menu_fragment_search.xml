@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <group android:id="@+id/filter_group" >
+
+        <item
+            android:id="@+id/menu_filter"
+            android:showAsAction="always|withText"
+            android:title="@string/filter_results"/>
+    </group>
+
+    <group android:id="@+id/search_options_group" >
+
+        <item
+            android:id="@+id/menu_guests"
+            android:icon="@drawable/ic_action_guests"
+            android:showAsAction="always|withText"/>
+
+        <item
+            android:id="@+id/menu_dates"
+            android:icon="@drawable/ic_action_dates"
+            android:showAsAction="always|withText"/>
+    </group>
+
+    <item
+        android:id="@+id/menu_settings"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="@string/Settings"/>
+
+</menu>

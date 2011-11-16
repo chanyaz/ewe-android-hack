@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletActivity;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.model.Search;
@@ -23,6 +22,8 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.GoogleServices.MapType;
 
+// This is an old Fragment that has gone unused, but will probably someday return.
+// It's being kept around in the meantime.  Some aspects of it will need to be redone.
 public class QuickSearchFragment extends Fragment implements EventHandler {
 
 	private static final int MAX_RECENT_SEARCHES = 3;
@@ -41,7 +42,8 @@ public class QuickSearchFragment extends Fragment implements EventHandler {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		((TabletActivity) getActivity()).registerEventHandler(this);
+		// TODO: IMPLEMENT
+		//((TabletActivity) getActivity()).registerEventHandler(this);
 	}
 
 	@Override
@@ -74,7 +76,8 @@ public class QuickSearchFragment extends Fragment implements EventHandler {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		((TabletActivity) getActivity()).unregisterEventHandler(this);
+		// TODO: IMPLEMENT
+		// ((TabletActivity) getActivity()).unregisterEventHandler(this);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -97,9 +100,10 @@ public class QuickSearchFragment extends Fragment implements EventHandler {
 
 		destination.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				TabletActivity activity = (TabletActivity) getActivity();
-				activity.setSearchParams(searchParams);
-				activity.startSearch();
+				// TODO: Re-implement
+//				TabletActivity activity = (TabletActivity) getActivity();
+//				activity.setSearchParams(searchParams);
+//				activity.startSearch();
 			}
 		});
 
@@ -110,9 +114,10 @@ public class QuickSearchFragment extends Fragment implements EventHandler {
 		View destination = addDestination(thumbnailUrl, name);
 		destination.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				TabletActivity activity = (TabletActivity) getActivity();
-				activity.setFreeformLocation(name);
-				activity.startSearch();
+				// TODO: Re-implement
+//				TabletActivity activity = (TabletActivity) getActivity();
+//				activity.setFreeformLocation(name);
+//				activity.startSearch();
 			}
 		});
 
