@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -58,7 +59,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 	private TextView mHotelLocationTextView;
 	private TextView mHotelNameTextView;
-	private TextView mReviewsTitle;
+	private TextView mReviewsTitleLong;
+	private TextView mReviewsTitleShort;
 	private View mReviewsSection;
 	private View mReviewsContainer;
 	private ViewGroup mSomeReviewsContainer;
@@ -92,7 +94,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mHotelNameTextView = (TextView) view.findViewById(R.id.hotel_name_text_view);
 		mHotelLocationTextView = (TextView) view.findViewById(R.id.hotel_address_text_view);
 		mCollageHandler = new HotelCollage(view, mPictureClickedListener);
-		mReviewsTitle = (TextView) view.findViewById(R.id.reviews_title);
+		mReviewsTitleLong = (TextView) view.findViewById(R.id.reviews_title);
+		mReviewsTitleShort = (TextView) view.findViewById(R.id.reviews_title_short);
 		mUserRating = (RatingBar) view.findViewById(R.id.user_rating_bar);
 		mSomeReviewsContainer = (ViewGroup) view.findViewById(R.id.some_reviews_container);
 		mReviewsSection = view.findViewById(R.id.reviews_section);
@@ -135,8 +138,17 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				+ StrUtils.F_CITY + StrUtils.F_STATE_CODE);
 		mHotelLocationTextView.setText(hotelAddressWithNewLine.replace("\n", ", "));
 		mCollageHandler.updateCollage(property);
-		mReviewsTitle.setText(getString(R.string.reviews_recommended_template, property.getTotalRecommendations(),
-				property.getTotalReviews()));
+
+		if (mReviewsTitleLong != null) {
+			mReviewsTitleLong.setText(getString(R.string.reviews_recommended_template,
+					property.getTotalRecommendations(), property.getTotalReviews()));
+		}
+		else if (mReviewsTitleShort != null) {
+			int reviewsCount = property.getTotalReviews();
+			mReviewsTitleShort.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_reviews,
+					reviewsCount, reviewsCount)));
+		}
+
 		mUserRating.setRating((float) property.getAverageExpediaRating());
 
 		if (property.hasExpediaReviews()) {
@@ -271,7 +283,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				row.setPadding(0, tenDp, 0, 0);
 
 				for (int j = 0; j < numReviewColumns && reviewCount > 0; j++) {
-					final Review review = reviewsResponse.getReviews().get((i * numReviewsPerRow + j));
+					final Review review = reviewsResponse.getReviews().get((i * numReviewColumns + j));
 					ViewGroup reviewSection = (ViewGroup) mInflater.inflate(R.layout.snippet_review, null);
 
 					LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT);
