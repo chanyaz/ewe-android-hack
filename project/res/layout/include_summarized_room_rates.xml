@@ -13,13 +13,21 @@
         android:layout_width="wrap_content"
         android:layout_height="40px"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical" >
 
+        <TextView 
+            android:id="@+id/base_price_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/min_price_text_view"
+            android:textSize="20sp" />
         <TextView
             android:id="@+id/min_price_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:paddingLeft="5dp"
+            android:layout_toRightOf="@id/base_price_text_view"
             android:textSize="20sp" />
 
         <TextView

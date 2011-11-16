@@ -147,19 +147,19 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		}
 		else {
 			minPriceContainer.setBackgroundResource(R.drawable.normal_ribbon);
-			String displayRateString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
-			String minPriceString = getActivity().getString(R.string.min_room_price_template, displayRateString);
-			int startingIndexOfDisplayRate = minPriceString.indexOf(displayRateString);
+			String basePriceString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
+			String salePriceString = getActivity().getString(R.string.min_room_price_template, basePriceString);
+			int startingIndexOfDisplayRate = salePriceString.indexOf(basePriceString);
 
 			ForegroundColorSpan textColorSpan = new ForegroundColorSpan(getActivity().getResources().getColor(
 					R.color.hotel_price_text_color));
 			ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(getActivity().getResources().getColor(
 					android.R.color.black));
-			Spannable str = new SpannableString(minPriceString);
+			Spannable str = new SpannableString(salePriceString);
 			str.setSpan(textColorSpan, startingIndexOfDisplayRate,
-					startingIndexOfDisplayRate + displayRateString.length(), 0);
+					startingIndexOfDisplayRate + basePriceString.length(), 0);
 			str.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
-			str.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
+			str.setSpan(textStyleSpan, 0, salePriceString.length(), 0);
 
 			salePrice.setText(str);
 			basePrice.setVisibility(View.GONE);

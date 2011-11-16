@@ -9,7 +9,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.location.Address;
 import android.text.Html;
+import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
@@ -174,7 +176,10 @@ public class StrUtils {
 	}
 	
 	public static Spanned getStrikedThroughSpanned(String str) {
-		return Html.fromHtml("<strike>" + str + "</strike>", null, new StrikethroughTagHandler());
+		SpannableString strSpannable = new SpannableString(str);
+		StrikethroughSpan strikeThroughSpan = new StrikethroughSpan();
+		strSpannable.setSpan(strikeThroughSpan, 0, str.length(), 0);
+		return strSpannable;
 	}
 	
 	public static List<String> getImageUrls(Property property) {

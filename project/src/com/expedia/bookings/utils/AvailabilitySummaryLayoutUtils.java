@@ -5,10 +5,11 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.text.Html;
-import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.text.style.TextAppearanceSpan;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.BedType;
 import com.expedia.bookings.data.Rate.BedTypeId;
 import com.expedia.bookings.widget.SummarizedRoomRates;
+import com.mobiata.android.text.StrikethroughTagHandler;
 
 public class AvailabilitySummaryLayoutUtils {
 
@@ -80,32 +82,48 @@ public class AvailabilitySummaryLayoutUtils {
 
 		View minPriceRow = view.findViewById(R.id.min_price_row_container);
 		TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
+		TextView basePrice = (TextView) minPriceRow.findViewById(R.id.base_price_text_view);
 
 		String displayRateString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
-		String minPriceString = context.getString(R.string.min_room_price_template, displayRateString);
-		int startingIndexOfDisplayRate = minPriceString.indexOf(displayRateString);
 
+
+		Resources r = context.getResources();
 		// style the minimum available price text
 		StyleSpan textStyleSpan = new StyleSpan(Typeface.BOLD);
-		Resources r = context.getResources();
-		ForegroundColorSpan textColorSpan = new ForegroundColorSpan(r.getColor(R.color.hotel_price_text_color));
-		ForegroundColorSpan textWhiteColorSpan = new ForegroundColorSpan(r.getColor(android.R.color.white));
-		ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(r.getColor(android.R.color.black));
-
-		Spannable str = new SpannableString(minPriceString);
-
-		str.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
+		ForegroundColorSpan textColorSpan = new ForegroundColorSpan(r.getColor(
+				R.color.hotel_price_text_color));
 
 		if (isPropertyOnSale) {
-			str.setSpan(textWhiteColorSpan, 0, minPriceString.length(), 0);
+			basePrice.setVisibility(View.VISIBLE);
+			String basePriceString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayBaseRate());
+			basePrice.setText(Html.fromHtml(activity.getString(R.string.from_template, basePriceString), null,
+					new StrikethroughTagHandler()));
+			
+			SpannableString str = new SpannableString(displayRateString);
+			str.setSpan(textStyleSpan, 0, displayRateString.length(), 0);
+
+			int whiteColor = activity.getResources().getColor(android.R.color.white);
+			
+			minPrice.setText(str);
+			minPrice.setTextColor(whiteColor);
+			basePrice.setTextColor(whiteColor);
 		}
 		else {
+			basePrice.setVisibility(View.GONE);
+			String minPriceString = activity.getString(R.string.min_room_price_template, displayRateString);
+			SpannableString str = new SpannableString(minPriceString);
+			ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(r.getColor(
+					android.R.color.black));
+			int startingIndexOfDisplayRate = minPriceString.indexOf(displayRateString);
+
+			str.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
 			str.setSpan(textColorSpan, startingIndexOfDisplayRate,
 					startingIndexOfDisplayRate + displayRateString.length(), 0);
 			str.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
+
+			minPrice.setText(str);
 		}
 
-		minPrice.setText(str);
 
 		TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
 		perNighTextView.setTextColor(isPropertyOnSale ? r.getColor(android.R.color.white)
