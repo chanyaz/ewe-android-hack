@@ -3,8 +3,9 @@
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_marginRight="20dp"
-    android:layout_marginTop="30dp"
+    android:paddingRight="20dp"
+    android:paddingTop="30dp"
+    android:background="@color/bg_tablet_content"
     android:orientation="vertical" >
 
     <RelativeLayout
