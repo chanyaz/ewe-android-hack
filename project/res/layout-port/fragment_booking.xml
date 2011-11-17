@@ -1,0 +1,86 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/availability_list_shadow"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/bg_tablet_content" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="20dp" >
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp" >
+
+            <include
+                android:id="@+id/fragment_receipt"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/include_receipt" />
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/complete_booking_info_button"
+            style="@style/Widget.Button.Yellow.Confirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:maxLines="1"
+            android:text="@string/enter_booking_info" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/two_pixels"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/divider" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" >
+
+            <TextView
+                android:id="@+id/room_type_description_title_view"
+                style="@style/formSectionHeaderText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="6dp"
+                android:text="@string/room_type"
+                android:textColor="#6A6D71" />
+
+            <TextView
+                android:id="@+id/room_type_description_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/room_type_description_title_view"
+                android:layout_marginTop="8dp"
+                android:textColor="#6A6D71" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/two_pixels"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/divider" />
+
+        <TextView
+            android:id="@+id/rules_and_restrictions_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/rules_restrictions"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#6A6D71" />
+
+        <include layout="@layout/include_booking_cancellation_policy" />
+    </LinearLayout>
+
+</ScrollView>
