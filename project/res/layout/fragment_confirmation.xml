@@ -22,10 +22,13 @@
             android:layout_weight="1"
             android:background="@drawable/receipt_photo_frame" />
 
-        <com.mobiata.android.widget.TiltedImageView
+        <ImageView
             android:id="@+id/thumbnail_image_view"
             android:layout_width="300dp"
             android:layout_height="200dp"
+            android:transformPivotX="150dp"
+            android:transformPivotY="100dp"
+            android:rotation="-5"
             android:layout_centerVertical="true"
             android:layout_marginLeft="30dp"
             android:layout_weight="1"
