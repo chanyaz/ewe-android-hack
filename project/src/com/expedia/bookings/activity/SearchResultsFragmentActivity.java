@@ -568,6 +568,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		bd.cancelDownload(KEY_SEARCH);
 		bd.cancelDownload(KEY_GEOCODE);
 
+		// Clear the image cache
+		ImageCache.recycleCache(true);
+
 		// Reset the views
 		hideDetails();
 
