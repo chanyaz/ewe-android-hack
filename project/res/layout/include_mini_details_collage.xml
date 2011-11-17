@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
@@ -34,8 +34,8 @@
                 android:id="@+id/property_image_view_3"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_marginTop="5dp"
+                android:layout_weight="1"
                 android:scaleType="centerCrop" />
         </LinearLayout>
     </LinearLayout>
@@ -44,11 +44,13 @@
         android:id="@+id/promo_description_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/bg_sale_desc"
-        android:layout_gravity="right|top"
-        android:maxWidth="200dp"
-        android:paddingBottom="6dp"
+        android:gravity="center"
+        android:paddingBottom="10dp"
         android:paddingLeft="14dp"
         android:paddingRight="14dp"
         android:paddingTop="2dp"
@@ -57,4 +59,4 @@
         android:textStyle="bold"
         android:visibility="gone" />
 
-</FrameLayout>
+</RelativeLayout>
