@@ -19,6 +19,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -110,12 +111,20 @@ public class SearchParamsFragment extends Fragment {
 				// Do nothing
 			}
 		});
+		mLocationEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus && mLocationEditText.getText().toString().equals(getString(R.string.current_location))) {
+					mLocationEditText.setText("");
+				}
+			}
+		});
 
 		// Configure suggestions
 		ViewGroup suggestionsContainer = (ViewGroup) view.findViewById(R.id.suggestions_layout);
 		mSuggestionRows = new ArrayList<SuggestionRow>();
 		for (int a = 0; a < NUM_SUGGESTIONS; a++) {
-			ViewGroup suggestionRow = (ViewGroup) inflater.inflate(R.layout.snippet_suggestion, suggestionsContainer, false);
+			ViewGroup suggestionRow = (ViewGroup) inflater.inflate(R.layout.snippet_suggestion, suggestionsContainer,
+					false);
 			SuggestionRow row = new SuggestionRow();
 			row.mRow = suggestionRow;
 			row.mIcon = (ImageView) suggestionRow.findViewById(R.id.icon);
@@ -177,6 +186,9 @@ public class SearchParamsFragment extends Fragment {
 				Intent intent = new Intent(getActivity(), SearchResultsFragmentActivity.class);
 				intent.putExtra(Codes.SEARCH_PARAMS, getInstance().mSearchParams.toJson().toString());
 				startActivity(intent);
+
+				// Do this so that when the user clicks back, they aren't focused on the location edit text immediately
+				mLocationEditText.clearFocus();
 			}
 		});
 

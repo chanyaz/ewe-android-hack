@@ -22,6 +22,8 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SearchView.OnSuggestionListener;
@@ -181,6 +183,14 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			@Override
 			public boolean onQueryTextChange(String newText) {
 				return false;
+			}
+		});
+
+		mSearchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus && mSearchView.getQuery().toString().equals(getString(R.string.current_location))) {
+					mSearchView.setQuery("", false);
+				}
 			}
 		});
 
