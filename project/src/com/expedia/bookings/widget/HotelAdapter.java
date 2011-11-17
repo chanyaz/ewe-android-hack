@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.text.Html;
 import android.text.TextPaint;
 import android.view.LayoutInflater;
@@ -56,8 +57,10 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		String testString = context.getString(R.string.percent_off_template, 100.0f);
-		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(testString, 1, 10, new TextPaint(), 58);
+		String testString = context.getString(R.string.percent_off_template, 50.0f);
+		TextPaint textPaint = new TextPaint();
+		textPaint.setTypeface(Typeface.DEFAULT_BOLD);
+		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(testString, 1, 11.5f, textPaint, 58);
 	}
 
 	public HotelAdapter(Context context, SearchResponse searchResponse) {
