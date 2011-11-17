@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_margin="30dp"
+    android:background="@color/bg_tablet_content"
     android:orientation="vertical" >
 
     <include

@@ -42,4 +42,6 @@
 	<color name="btn_booking_dialog_header_pressed">#19000000</color>
 
 	<color name="bg_row_state_pressed">#dcddde</color>
+	
+	 <color name="bg_tablet_content">#e3e4e6</color>
 </resources>
