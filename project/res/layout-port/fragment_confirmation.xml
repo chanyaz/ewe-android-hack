@@ -3,14 +3,11 @@
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_marginRight="20dp"
-    android:layout_marginTop="30dp"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_height="400dp" >
 
         <!-- The MapView is added dynamically to this layout -->
 
@@ -18,7 +15,6 @@
             android:id="@+id/map_layout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
             android:background="@drawable/receipt_photo_frame" />
 
         <com.mobiata.android.widget.TiltedImageView
@@ -45,8 +41,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:paddingTop="20dp" >
 

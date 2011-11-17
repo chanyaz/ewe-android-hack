@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="20dp"
+    android:background="@color/bg_tablet_content"
+    android:orientation="vertical" >
+
+    <fragment
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:name="com.expedia.bookings.fragment.BookingConfirmationFragment"
+        android:tag="@string/tag_booking_confirmation" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/two_pixels"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/divider" />
+
+    <fragment
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:name="com.expedia.bookings.fragment.ConfirmationReceiptFragment"
+        android:tag="@string/tag_confirmation_receipt" />
+
+</LinearLayout>
