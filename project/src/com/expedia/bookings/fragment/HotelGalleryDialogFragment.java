@@ -74,8 +74,7 @@ public class HotelGalleryDialogFragment extends DialogFragment {
 			@Override
 			public void onItemClick(AdapterView<?> l, View imageView, int position, long id) {
 				mSelectedMedia = (Media) mAdapter.getItem(position);
-				ImageCache.loadImage(mSelectedMedia.getHighResUrl(),
-						mSelectedMedia.getImageLoadedCallback(mBigImageView, null));
+				mSelectedMedia.loadHighResImage(mBigImageView, null);
 			}
 		});
 
@@ -84,15 +83,13 @@ public class HotelGalleryDialogFragment extends DialogFragment {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
 				mSelectedMedia = (Media) mAdapter.getItem(position);
-				ImageCache.loadImage(mSelectedMedia.getHighResUrl(),
-						mSelectedMedia.getImageLoadedCallback(mBigImageView, null));
+				mSelectedMedia.loadHighResImage(mBigImageView, null);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				mSelectedMedia = (Media) mAdapter.getItem(0);
-				ImageCache.loadImage(mSelectedMedia.getHighResUrl(),
-						mSelectedMedia.getImageLoadedCallback(mBigImageView, null));
+				mSelectedMedia.loadHighResImage(mBigImageView, null);
 			}
 		});
 

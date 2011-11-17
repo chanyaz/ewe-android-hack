@@ -99,8 +99,7 @@ public class HotelCollage {
 
 		// Start the cascade of loading images
 		Media media = mPropertyMediaList.get(mCurrentIndex);
-		ImageCache.loadImage(media.getHighResUrl(),
-				media.getImageLoadedCallback(mPropertyImageViews.get(mCurrentIndex), mOnImageLoaded));
+		media.loadHighResImage(mPropertyImageViews.get(mCurrentIndex), mOnImageLoaded);
 	}
 
 	private OnClickListener mCollageImageClickedListener = new OnClickListener() {
@@ -173,8 +172,7 @@ public class HotelCollage {
 
 			case LOAD_IMAGE:
 				Media media = mPropertyMediaList.get(mCurrentIndex);
-				ImageCache.loadImage(media.getHighResUrl(),
-						media.getImageLoadedCallback(mPropertyImageViews.get(mCurrentIndex), mOnImageLoaded));
+				media.loadHighResImage(mPropertyImageViews.get(mCurrentIndex), mOnImageLoaded);
 				break;
 
 			default:
