@@ -62,6 +62,7 @@ import com.google.android.maps.MapActivity;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.ImageCache;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -339,6 +340,16 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	// Event handling
 
 	public void propertySelected(Property property) {
+		// Clear out the previous property's images from the cache
+		if (mInstance.mProperty != null && mInstance.mProperty != property) {
+			if (mInstance.mProperty.getMediaCount() > 0) {
+				for (Media media : mInstance.mProperty.getMediaList()) {
+					ImageCache.removeImage(media.getActiveUrl(), true);
+					ImageCache.removeImage(media.getUrl(), true);
+				}
+			}
+		}
+
 		mInstance.mProperty = property;
 		Log.v("propertySelected(): " + property.getName());
 

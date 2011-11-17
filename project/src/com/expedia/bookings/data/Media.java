@@ -31,6 +31,9 @@ public class Media implements JSONable {
 	private int mHeight;
 	private int mWidth;
 
+	// Contains the last known active url - the one that we might have downloaded to an ImageView 
+	private String mActiveUrl;
+
 	public Media() {
 		// Default constructor
 	}
@@ -54,6 +57,15 @@ public class Media implements JSONable {
 
 	public String getUrl(String suffix) {
 		return mUrl.substring(0, mUrl.length() - SUFFIX_LENGTH) + suffix;
+	}
+
+	public String getActiveUrl() {
+		if (mActiveUrl != null) {
+			return mActiveUrl;
+		}
+		else {
+			return mUrl;
+		}
 	}
 
 	public void setUrl(String url) {
@@ -102,6 +114,7 @@ public class Media implements JSONable {
 	 * @param callback
 	 */
 	public void loadHighResImage(ImageView imageView, OnImageLoaded callback) {
+		mActiveUrl = null;
 		ImageCache.loadImage(getUrl(IMAGE_XLARGE_SUFFIX), getImageLoadedCallback(imageView, callback));
 	}
 
@@ -118,6 +131,7 @@ public class Media implements JSONable {
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				if (bitmap != null) {
 					Log.d("** Loading image with url = " + url);
+					mActiveUrl = url;
 					imageView.setImageBitmap(bitmap);
 
 					if (additionCallback != null) {
