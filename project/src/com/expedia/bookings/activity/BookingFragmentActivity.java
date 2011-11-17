@@ -172,8 +172,10 @@ public class BookingFragmentActivity extends Activity {
 		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 
 		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_TITLE,
+				ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_TITLE);
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setTitle(R.string.booking_information_title);
 
 		return super.onCreateOptionsMenu(menu);
 	}
