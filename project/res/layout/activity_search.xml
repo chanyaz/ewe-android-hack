@@ -1,362 +1,382 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-	<LinearLayout
-		android:id="@+id/focus_layout"
-		android:layout_width="0dp"
-		android:layout_height="0dp"
-		android:focusable="true"
-		android:focusableInTouchMode="true" />
+    <LinearLayout
+        android:id="@+id/focus_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
-	<ImageView
-		android:id="@+id/view_flip_image"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:layout_below="@+id/search_bar_layout"
-		android:layout_above="@+id/bottom_bar_layout" />
+    <ImageView
+        android:id="@+id/view_flip_image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/bottom_bar_layout"
+        android:layout_below="@+id/search_bar_layout" />
 
-	<FrameLayout
-		android:id="@+id/content_layout"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/search_bar_layout"
-		android:layout_above="@+id/bottom_bar_layout" />
+    <FrameLayout
+        android:id="@+id/content_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_bar_layout"
+        android:layout_below="@id/search_bar_layout" />
 
-	<RelativeLayout
-		android:id="@+id/search_progress_layout"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:layout_below="@id/search_bar_layout"
-		android:visibility="gone">
-		<com.expedia.bookings.widget.gl.GLTagProgressBar
-			android:id="@+id/search_progress_bar"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:visibility="gone" />
-		<View
-			android:id="@+id/search_progress_hider"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:background="#E4E4E4" />
-		<TextView
-			android:id="@+id/search_progress_text_view"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:textColor="#555555"
-			android:textStyle="bold"
-			android:gravity="center"
-			android:padding="16dp"
-			android:shadowRadius=".1"
-			android:shadowDx="0"
-			android:shadowDy="1"
-			android:shadowColor="#88FFFFFF" />
-	</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/search_progress_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/search_bar_layout"
+        android:visibility="gone" >
 
-	<View
-		android:id="@+id/panel_dismiss_view"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:visibility="gone"
-		android:background="@color/dismiss" />
+        <com.expedia.bookings.widget.gl.GLTagProgressBar
+            android:id="@+id/search_progress_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:visibility="gone" />
 
+        <View
+            android:id="@+id/search_progress_hider"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#E4E4E4" />
 
-	<View
-		android:id="@+id/sort_popup_dismiss_view"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:visibility="gone"
-		android:background="@android:color/transparent" />
+        <TextView
+            android:id="@+id/search_progress_text_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:shadowColor="#88FFFFFF"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius=".1"
+            android:textColor="#555555"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
-	<com.mobiata.android.widget.Panel
-		android:id="@+id/drawer_panel"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true"
-		android:visibility="gone"
-		mobiata:handle="@+id/filter_info_text_view"
-		mobiata:content="@+id/drawer_content"
-		mobiata:position="bottom"
-		mobiata:openedHandle="@drawable/search_results_drawer_handle"
-		mobiata:closedHandle="@drawable/search_results_drawer_handle"
-		mobiata:animationDuration="@integer/sort_filter_animation_duration">
+    <View
+        android:id="@+id/panel_dismiss_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/dismiss"
+        android:visibility="gone" />
 
-		<TextView
-			android:id="@+id/filter_info_text_view"
-			android:layout_width="fill_parent"
-			android:layout_height="32dp"
-			android:padding="2dp"
-			android:gravity="center"
-			android:singleLine="true"
-			android:textColor="#FF3D404F"
-			android:shadowColor="#88FFFFFF"
-			android:shadowDx="0"
-			android:shadowDy="1"
-			android:shadowRadius="0.1"
-			android:text=""
-			android:textSize="12dp"
-			android:background="@drawable/search_results_drawer_handle" />
+    <View
+        android:id="@+id/sort_popup_dismiss_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/transparent"
+        android:visibility="gone" />
 
-		<include
-			android:id="@id/drawer_content"
-			layout="@layout/include_drawer_content" />
+    <com.mobiata.android.widget.Panel
+        android:id="@+id/drawer_panel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        mobiata:animationDuration="@integer/sort_filter_animation_duration"
+        mobiata:closedHandle="@drawable/search_results_drawer_handle"
+        mobiata:content="@+id/drawer_content"
+        mobiata:handle="@+id/filter_info_text_view"
+        mobiata:openedHandle="@drawable/search_results_drawer_handle"
+        mobiata:position="bottom"
+        android:visibility="gone" >
 
-	</com.mobiata.android.widget.Panel>
+        <TextView
+            android:id="@+id/filter_info_text_view"
+            android:layout_width="fill_parent"
+            android:layout_height="32dp"
+            android:background="@drawable/search_results_drawer_handle"
+            android:gravity="center"
+            android:padding="2dp"
+            android:shadowColor="#88FFFFFF"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="0.1"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#FF3D404F"
+            android:textSize="12dp" />
 
-	<View
-		android:id="@+id/refinement_dismiss_view"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:visibility="gone"
-		android:background="@color/dismiss" />
+        <include
+            android:id="@id/drawer_content"
+            layout="@layout/include_drawer_content" />
+    </com.mobiata.android.widget.Panel>
 
-	<RelativeLayout
-		android:id="@+id/widget_notification_bar_layout"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:paddingLeft="10dp"
-		android:paddingTop="3dp"
-		android:layout_below="@+id/search_bar_layout"
-		android:visibility="gone"
-		android:clickable="true"
-		android:background="@drawable/widget_notification_bg">
+    <View
+        android:id="@+id/refinement_dismiss_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/dismiss"
+        android:visibility="gone" />
 
-		<com.mobiata.android.widget.WorkingViewFlipper
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:flipInterval="2000"
-			android:autoStart="true"
-			android:layout_centerVertical="true"
-			android:layout_toLeftOf="@+id/widget_notification_close_btn"
-			android:layout_alignParentLeft="true"
-			android:paddingBottom="10dp"
-			android:inAnimation="@anim/push_up_in"
-			android:outAnimation="@anim/push_up_out">
-			<TextView
-				android:id="@+id/widget_notification_text_view_1"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:singleLine="true"
-				android:ellipsize="end"
-				android:text="@string/widget_upsell_short_1"
-				android:textColor="#333333" />
-			<TextView
-				android:id="@+id/widget_notification_text_view_2"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:singleLine="true"
-				android:ellipsize="end"
-				android:text="@string/widget_upsell_short_2"
-				android:textColor="#333333" />
-		</com.mobiata.android.widget.WorkingViewFlipper>
+    <RelativeLayout
+        android:id="@+id/widget_notification_bar_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_bar_layout"
+        android:background="@drawable/widget_notification_bg"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingTop="3dp"
+        android:visibility="gone" >
 
-			<ImageView
-			    android:id="@+id/widget_notification_close_btn"
-				android:layout_height="40dp"
-				android:layout_width="40dp"
-				android:scaleType="center"
-				android:layout_centerVertical="true"
-				android:layout_alignParentRight="true"
-				android:paddingBottom="10dp"
-				android:src="@drawable/widget_notification_close_btn" />
-	</RelativeLayout>
-	<include
-		android:id="@id/search_bar_layout"
-		layout="@layout/include_search_bar" />
-	<ImageView
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent"
-		android:layout_below="@id/search_bar_layout"
-		android:background="@drawable/actionbar_shadow" />
-	<ImageView
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent"
-		android:layout_above="@+id/bottombar_divider"
-		android:background="@drawable/bottombar_shadow" />
+        <com.mobiata.android.widget.WorkingViewFlipper
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/widget_notification_close_btn"
+            android:autoStart="true"
+            android:flipInterval="2000"
+            android:inAnimation="@anim/push_up_in"
+            android:outAnimation="@anim/push_up_out"
+            android:paddingBottom="10dp" >
 
-	<View
-		android:id="@+id/bottombar_divider"
-		android:layout_height="2px"
-		android:layout_width="fill_parent"
-		android:layout_above="@+id/bottom_bar_layout"
-		android:background="#b2b5b8" />
+            <TextView
+                android:id="@+id/widget_notification_text_view_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/widget_upsell_short_1"
+                android:textColor="#333333" />
 
-	<RelativeLayout
-		android:id="@+id/bottom_bar_layout"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:gravity="bottom"
-		android:layout_alignParentBottom="true"
-		android:orientation="horizontal"
-		android:background="@drawable/bg_actionbar"
-		android:visibility="gone">
+            <TextView
+                android:id="@+id/widget_notification_text_view_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/widget_upsell_short_2"
+                android:textColor="#333333" />
+        </com.mobiata.android.widget.WorkingViewFlipper>
 
-		<LinearLayout
-			android:layout_height="wrap_content"
-			android:layout_width="fill_parent"
-			android:layout_alignTop="@+id/view_button"
-			android:layout_toLeftOf="@+id/view_button"
-			android:orientation="horizontal">
-			<RelativeLayout
-				android:id="@+id/sort_button_layout"
-				android:layout_height="fill_parent"
-				android:layout_width="0dp"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:clickable="true"
-				android:focusable="true"
-				android:background="@drawable/btn_left_bottombar">
-				<ImageView
-					android:id="@+id/sort_button_circle"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:layout_centerVertical="true"
-					android:src="@drawable/triangle_button_circle" />
-				<FrameLayout
-					android:id="@+id/up_arrow_sort_hotels_container"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignTop="@id/sort_button_circle"
-					android:layout_alignBottom="@id/sort_button_circle"
-					android:layout_alignLeft="@id/sort_button_circle"
-					android:layout_alignRight="@id/sort_button_circle"
-					android:layout_centerVertical="true">
-					<ImageView
-						android:id="@+id/up_arrow_sort_hotels"
-						android:layout_height="wrap_content"
-						android:layout_width="wrap_content"
-						android:layout_gravity="center"
-						android:paddingBottom="1px"
-						android:src="@drawable/triangle_button_triangle" />
-				</FrameLayout>
-				<TextView
-					android:id="@+id/sort_text_view"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:layout_toRightOf="@+id/up_arrow_sort_hotels_container"
-					android:layout_centerVertical="true"
-					android:paddingLeft="5dp"
-					android:text="@string/sort_hotels"
-					android:textStyle="bold"
-					android:textSize="14sp"
-					style="@style/BottomBarText" />
-				<TextView
-					android:id="@+id/sort_type_text_view"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_centerVertical="true"
-					android:layout_toRightOf="@id/sort_text_view"
-					android:singleLine="true"
-					android:ellipsize="end"
-					android:textSize="14sp"
-					style="@style/BottomBarText" />
-			</RelativeLayout>
-			<RelativeLayout
-				android:id="@+id/search_map_button_layout"
-				android:layout_height="fill_parent"
-				android:layout_width="0dp"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:clickable="true"
-				android:focusable="true"
-				android:visibility="gone"
-				android:background="@drawable/btn_left_bottombar">
-				<ImageView
-					android:id="@+id/search_map_image_view"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:layout_centerVertical="true"
-					android:src="@drawable/ic_search_map" />
-				<TextView
-					android:id="@+id/search_map_text_view"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:layout_toRightOf="@+id/search_map_image_view"
-					android:layout_centerVertical="true"
-					android:includeFontPadding="false"
-					android:paddingLeft="5dp"
-					android:text="@string/map_search_button"
-					android:textStyle="bold"
-					android:textSize="14sp"
-					style="@style/BottomBarText" />
-			</RelativeLayout>
-			<RelativeLayout
-				android:id="@+id/filter_button_layout"
-				android:layout_height="fill_parent"
-				android:layout_width="0dp"
-				android:layout_weight="1"
-				android:gravity="center"
-				android:clickable="true"
-				android:focusable="true"
-				android:background="@drawable/btn_bottombar">
-				<ImageView
-					android:id="@+id/filter_button_circle"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:layout_centerVertical="true"
-					android:src="@drawable/triangle_button_circle" />
-				<FrameLayout
-					android:id="@+id/up_arrow_filter_hotels_container"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignTop="@id/filter_button_circle"
-					android:layout_alignBottom="@id/filter_button_circle"
-					android:layout_alignLeft="@id/filter_button_circle"
-					android:layout_alignRight="@id/filter_button_circle"
-					android:layout_centerVertical="true">
-					<ImageView
-						android:id="@+id/up_arrow_filter_hotels"
-						android:layout_height="wrap_content"
-						android:layout_width="wrap_content"
-						android:layout_gravity="center"
-						android:paddingBottom="1px"
-						android:src="@drawable/triangle_button_triangle" />
-				</FrameLayout>
-				<TextView
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:includeFontPadding="false"
-					android:layout_toRightOf="@+id/up_arrow_filter_hotels_container"
-					android:layout_centerVertical="true"
-					android:paddingLeft="5dp"
-					android:text="@string/filter_hotels"
-					android:textStyle="bold"
-					android:textSize="14sp"
-					style="@style/BottomBarText" />
-			</RelativeLayout>
-		</LinearLayout>
-		<ImageButton
-			android:id="@+id/view_button"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentRight="true"
-			android:src="@drawable/btn_actionbar_map"
-			android:background="@null" />
-	</RelativeLayout>
+        <ImageView
+            android:id="@+id/widget_notification_close_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="10dp"
+            android:scaleType="center"
+            android:src="@drawable/widget_notification_close_btn" />
+    </RelativeLayout>
 
-	<ListView
-		android:id="@+id/search_suggestions_list_view"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:layout_below="@id/search_bar_layout"
-		android:drawingCacheQuality="low"
-		android:footerDividersEnabled="false"
-		android:visibility="gone"
-		android:background="@android:color/white"
-		android:cacheColorHint="@android:color/white"
-		android:listSelector="@null"
-		android:divider="@null"
-		android:dividerHeight="0dp" />
+    <include
+        android:id="@id/search_bar_layout"
+        layout="@layout/include_search_bar" />
 
-	<include
-		android:id="@id/button_bar_layout"
-		layout="@layout/include_button_bar" />
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_bar_layout"
+        android:background="@drawable/actionbar_shadow" />
 
-	<include
-		android:id="@+id/refinements_layout"
-		layout="@layout/include_refinements_layout" />
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottombar_divider"
+        android:background="@drawable/bottombar_shadow" />
+
+    <View
+        android:id="@+id/bottombar_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:layout_above="@+id/bottom_bar_layout"
+        android:background="#b2b5b8" />
+
+    <RelativeLayout
+        android:id="@+id/bottom_bar_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_actionbar"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/view_button"
+            android:layout_toLeftOf="@+id/view_button"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:id="@+id/sort_button_layout"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_left_bottombar"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center" >
+
+                <ImageView
+                    android:id="@+id/sort_button_circle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/triangle_button_circle" />
+
+                <FrameLayout
+                    android:id="@+id/up_arrow_sort_hotels_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/sort_button_circle"
+                    android:layout_alignLeft="@id/sort_button_circle"
+                    android:layout_alignRight="@id/sort_button_circle"
+                    android:layout_alignTop="@id/sort_button_circle"
+                    android:layout_centerVertical="true" >
+
+                    <ImageView
+                        android:id="@+id/up_arrow_sort_hotels"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingBottom="1px"
+                        android:src="@drawable/triangle_button_triangle" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/sort_text_view"
+                    style="@style/BottomBarText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/up_arrow_sort_hotels_container"
+                    android:paddingLeft="5dp"
+                    android:text="@string/sort_hotels"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/sort_type_text_view"
+                    style="@style/BottomBarText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/sort_text_view"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/search_map_button_layout"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_left_bottombar"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:visibility="gone" >
+
+                <ImageView
+                    android:id="@+id/search_map_image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_search_map" />
+
+                <TextView
+                    android:id="@+id/search_map_text_view"
+                    style="@style/BottomBarText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/search_map_image_view"
+                    android:includeFontPadding="false"
+                    android:paddingLeft="5dp"
+                    android:text="@string/map_search_button"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/filter_button_layout"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_bottombar"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center" >
+
+                <ImageView
+                    android:id="@+id/filter_button_circle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/triangle_button_circle" />
+
+                <FrameLayout
+                    android:id="@+id/up_arrow_filter_hotels_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/filter_button_circle"
+                    android:layout_alignLeft="@id/filter_button_circle"
+                    android:layout_alignRight="@id/filter_button_circle"
+                    android:layout_alignTop="@id/filter_button_circle"
+                    android:layout_centerVertical="true" >
+
+                    <ImageView
+                        android:id="@+id/up_arrow_filter_hotels"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingBottom="1px"
+                        android:src="@drawable/triangle_button_triangle" />
+                </FrameLayout>
+
+                <TextView
+                    style="@style/BottomBarText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/up_arrow_filter_hotels_container"
+                    android:includeFontPadding="false"
+                    android:paddingLeft="5dp"
+                    android:text="@string/filter_hotels"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/view_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:src="@drawable/btn_actionbar_map" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/search_suggestions_list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/search_bar_layout"
+        android:background="@android:color/white"
+        android:cacheColorHint="@android:color/white"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:drawingCacheQuality="low"
+        android:footerDividersEnabled="false"
+        android:listSelector="@null"
+        android:visibility="gone" />
+
+    <include
+        android:id="@id/button_bar_layout"
+        layout="@layout/include_button_bar" />
+
+    <include
+        android:id="@+id/refinements_layout"
+        layout="@layout/include_refinements_layout" />
 
 </RelativeLayout>
