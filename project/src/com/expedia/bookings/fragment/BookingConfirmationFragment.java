@@ -62,6 +62,11 @@ public class BookingConfirmationFragment extends Fragment {
 		else {
 			thumbnail.setVisibility(View.GONE);
 		}
+		
+		// anti-aliasing is not supported on the hardware
+		// rendering pipline yet, so rendering the image 
+		// on a software layer to prevent the jaggies.
+		thumbnail.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 		View shareBookingButton = view.findViewById(R.id.share_booking_info_button);
 		shareBookingButton.setOnClickListener(new OnClickListener() {
