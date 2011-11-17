@@ -51,7 +51,8 @@
             android:id="@+id/rates_status_container"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="3" >
+            android:layout_weight="3"
+            android:gravity="center" >
 
             <LinearLayout
                 android:id="@+id/rates_container"

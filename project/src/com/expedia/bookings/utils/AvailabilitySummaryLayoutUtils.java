@@ -253,7 +253,7 @@ public class AvailabilitySummaryLayoutUtils {
 		View availabilityRatesContainer = view.findViewById(R.id.rates_container);
 
 		emptyAvailabilitySummaryTextView.setVisibility(View.VISIBLE);
-		ratesProgressBar.setVisibility(View.INVISIBLE);
+		ratesProgressBar.setVisibility(View.GONE);
 		emptyAvailabilitySummaryTextView.setText(string);
 		availabilityRatesContainer.setVisibility(View.GONE);
 	}
