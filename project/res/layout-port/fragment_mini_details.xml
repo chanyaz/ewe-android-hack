@@ -77,7 +77,7 @@
         android:layout_below="@id/location_text_view"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="15dp"
-        layout="@layout/include_mini_details_collage" />
+        layout="@layout/include_hotel_collage_2" />
 
     <Button
         android:id="@+id/see_details_button"

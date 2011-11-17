@@ -44,7 +44,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="350dp"
                 android:layout_weight="2"
-                layout="@layout/include_hotel_collage" />
+                layout="@layout/include_hotel_collage_3" />
         </LinearLayout>
 
         <LinearLayout

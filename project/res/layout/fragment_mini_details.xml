@@ -62,7 +62,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_below="@id/location_text_view"
-            layout="@layout/include_hotel_collage" />
+            layout="@layout/include_hotel_collage_1" />
     </RelativeLayout>
 
     <include
