@@ -39,7 +39,7 @@
 	<dimen name="right_padding_for_scroll_bar">30dp</dimen>
 	<dimen name="hotel_description_body_text_size">12sp</dimen>
 	
-    <dimen name="mini_details_height">300dp</dimen>
+    <dimen name="mini_details_height">320dp</dimen>
     
     <dimen name="min_height_per_row_review">70dp</dimen>
     
