@@ -3,7 +3,7 @@
 
     <integer name="left_list_pane_weight">4</integer>
     <integer name="right_content_pane_weight">6</integer>
-    <integer name="num_reviews_per_row">3</integer>
+    <integer name="num_review_rows">3</integer>
     <integer name="num_review_columns">1</integer>
     <integer name="num_hotel_description_sections_per_row">1</integer>
     <integer name="num_hotel_description_columns">1</integer>
