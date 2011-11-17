@@ -7,8 +7,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:padding="15dp" >
+        android:layout_height="fill_parent" >
 
         <LinearLayout
             android:id="@+id/hotel_collage_and_title_container"
@@ -16,7 +15,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:orientation="vertical"
-            android:paddingBottom="7px" >
+            android:paddingBottom="7px"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" >
 
             <TextView
                 android:id="@+id/hotel_name_text_view"
@@ -51,15 +52,12 @@
             android:id="@+id/availability_summary_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/hotel_collage_and_title_container"
-            android:layout_alignTop="@id/hotel_collage_and_title_container"
-            android:gravity="right"
-            android:visibility="gone"
-            android:weightSum="3" >
+            android:paddingRight="10dp"
+            android:layout_below="@id/hotel_collage_and_title_container" >
 
             <include
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="230dp"
                 android:layout_weight="1"
                 layout="@layout/include_summarized_room_rates" />
         </LinearLayout>
@@ -68,9 +66,11 @@
             android:id="@+id/reviews_section"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/hotel_collage_and_title_container"
+            android:layout_below="@id/availability_summary_layout"
             android:layout_marginTop="10dp"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" >
 
             <RelativeLayout
                 android:id="@+id/reviews_title_container"
@@ -90,22 +90,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/reviews_title_short"
-                    android:paddingBottom="5dp"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/reviews_title_short"
                     android:isIndicator="true"
                     android:numStars="5"
+                    android:paddingBottom="5dp"
                     android:stepSize="0.5" />
 
                 <RelativeLayout
                     android:id="@+id/see_all_reviews_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_alignBottom="@id/reviews_title_short"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="2dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="2dp">
+                    android:layout_marginRight="5dp" >
 
                     <TextView
                         android:id="@+id/see_all_reviews_text"
@@ -177,7 +177,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/reviews_section"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" >
 
             <TextView
                 android:id="@+id/amenities_title"
@@ -195,7 +197,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/amenities_section"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
     </RelativeLayout>
 
 </ScrollView>

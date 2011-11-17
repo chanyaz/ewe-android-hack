@@ -6,10 +6,8 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.text.SpannableString;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.text.style.TextAppearanceSpan;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,40 +68,55 @@ public class AvailabilitySummaryLayoutUtils {
 			return;
 		}
 
-		View availabilitySummaryContainer = view.findViewById(R.id.availability_summary_container);
+		View availabilitySummaryContainerCentered = view.findViewById(R.id.availability_summary_container);
+		View availabilitySummaryContainerLeft = view.findViewById(R.id.availability_summary_container_left);
+		View minPriceRow = view.findViewById(R.id.min_price_row_container);
 
 		boolean isPropertyOnSale = property.getLowestRate().getSavingsPercent() > 0;
-		if (isPropertyOnSale) {
-			availabilitySummaryContainer.setBackgroundResource(R.drawable.bg_summarized_room_rates_sale);
+
+		/*
+		 * If the centered availability summary container does not exist,
+		 * and the one that is left-aligned does, adjust the layout with that
+		 * in mind (set the background of the right views)
+		 */
+		if (availabilitySummaryContainerCentered != null) {
+			if (isPropertyOnSale) {
+				availabilitySummaryContainerCentered.setBackgroundResource(R.drawable.bg_summarized_room_rates_sale);
+			}
+			else {
+				availabilitySummaryContainerCentered.setBackgroundResource(R.drawable.bg_summarized_room_rates);
+			}
 		}
-		else {
-			availabilitySummaryContainer.setBackgroundResource(R.drawable.bg_summarized_room_rates);
+		else if (availabilitySummaryContainerLeft != null) {
+			if (isPropertyOnSale) {
+				minPriceRow.setBackgroundResource(R.drawable.bg_sale_ribbon_left);
+			}
+			else {
+				minPriceRow.setBackgroundResource(R.drawable.bg_normal_ribbon_left);
+			}
 		}
 
-		View minPriceRow = view.findViewById(R.id.min_price_row_container);
 		TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
 		TextView basePrice = (TextView) minPriceRow.findViewById(R.id.base_price_text_view);
 
 		String displayRateString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
 
-
 		Resources r = context.getResources();
 		// style the minimum available price text
 		StyleSpan textStyleSpan = new StyleSpan(Typeface.BOLD);
-		ForegroundColorSpan textColorSpan = new ForegroundColorSpan(r.getColor(
-				R.color.hotel_price_text_color));
+		ForegroundColorSpan textColorSpan = new ForegroundColorSpan(r.getColor(R.color.hotel_price_text_color));
 
 		if (isPropertyOnSale) {
 			basePrice.setVisibility(View.VISIBLE);
 			String basePriceString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayBaseRate());
 			basePrice.setText(Html.fromHtml(r.getString(R.string.from_template, basePriceString), null,
 					new StrikethroughTagHandler()));
-			
+
 			SpannableString str = new SpannableString(displayRateString);
 			str.setSpan(textStyleSpan, 0, displayRateString.length(), 0);
 
 			int whiteColor = r.getColor(android.R.color.white);
-			
+
 			minPrice.setText(str);
 			minPrice.setTextColor(whiteColor);
 			basePrice.setTextColor(whiteColor);
@@ -112,8 +125,7 @@ public class AvailabilitySummaryLayoutUtils {
 			basePrice.setVisibility(View.GONE);
 			String minPriceString = r.getString(R.string.min_room_price_template, displayRateString);
 			SpannableString str = new SpannableString(minPriceString);
-			ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(r.getColor(
-					android.R.color.black));
+			ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(r.getColor(android.R.color.black));
 			int startingIndexOfDisplayRate = minPriceString.indexOf(displayRateString);
 
 			str.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
@@ -124,10 +136,9 @@ public class AvailabilitySummaryLayoutUtils {
 			minPrice.setText(str);
 		}
 
-
 		TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
-		perNighTextView.setTextColor(isPropertyOnSale ? r.getColor(android.R.color.white)
-				: r.getColor(android.R.color.black));
+		perNighTextView.setTextColor(isPropertyOnSale ? r.getColor(android.R.color.white) : r
+				.getColor(android.R.color.black));
 
 		if (Rate.showInclusivePrices()) {
 			perNighTextView.setVisibility(View.GONE);
@@ -181,6 +192,9 @@ public class AvailabilitySummaryLayoutUtils {
 				}
 			});
 
+			boolean centeredLayout = (view.findViewById(R.id.availability_summary_container) != null);
+			boolean leftAlignedLayout = (view.findViewById(R.id.availability_summary_container_left) != null);
+
 			View chevron = summaryRow.findViewById(R.id.availability_chevron_image_view);
 			chevron.setVisibility(View.VISIBLE);
 
@@ -190,8 +204,17 @@ public class AvailabilitySummaryLayoutUtils {
 			Pair<BedTypeId, Rate> pair = summarizedRoomRates.getBedTypeToRatePair(i);
 			for (BedType bedType : pair.second.getBedTypes()) {
 				if (bedType.bedTypeId == pair.first) {
-					summaryDescription.setText(Html.fromHtml(context.getString(R.string.bed_type_start_value_template,
-							bedType.bedTypeDescription)));
+
+					if (centeredLayout) {
+						summaryDescription.setText(Html.fromHtml(context.getString(
+								R.string.bed_type_start_value_template, bedType.bedTypeDescription)));
+					}
+					else if (leftAlignedLayout) {
+						SpannableString str = new SpannableString(bedType.bedTypeDescription);
+						StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+						str.setSpan(boldSpan, 0, bedType.bedTypeDescription.length(), 0);
+						summaryDescription.setText(str);
+					}
 					break;
 				}
 			}
