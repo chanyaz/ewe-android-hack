@@ -177,9 +177,16 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				getString(R.string.select_room), mSelectRoomButtonOnClickListener,
 				((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
 
-		int dimenResId = (property.getTotalReviews() > 3) ? R.dimen.min_height_two_rows_reviews
-				: R.dimen.min_height_one_row_review;
-		mReviewsContainer.setMinimumHeight((int) getActivity().getResources().getDimension(dimenResId));
+		int numReviewRows = getResources().getInteger(R.integer.num_reviews_per_row);
+		float heightPerReviewRow = getResources().getDimension(R.dimen.min_height_per_row_review);
+		float minHeight = 0.0f;
+		if((property.getTotalReviews() / numReviewRows) >= 1) {
+			minHeight = heightPerReviewRow * numReviewRows;
+		} else {
+			minHeight = heightPerReviewRow * (property.getTotalReviews() % numReviewRows);
+		}
+		
+		mReviewsContainer.setMinimumHeight((int) minHeight);
 		mReviewsLoadingContainer.setVisibility(View.VISIBLE);
 
 		addReviews(((SearchResultsFragmentActivity) getActivity()).getReviewsForProperty());
