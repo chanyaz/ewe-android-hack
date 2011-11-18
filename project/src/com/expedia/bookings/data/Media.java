@@ -114,8 +114,8 @@ public class Media implements JSONable {
 	 * @param callback
 	 */
 	public void loadHighResImage(ImageView imageView, OnImageLoaded callback) {
-		mActiveUrl = null;
-		ImageCache.loadImage(getUrl(IMAGE_XLARGE_SUFFIX), getImageLoadedCallback(imageView, callback));
+		mActiveUrl = getUrl(IMAGE_XLARGE_SUFFIX);
+		ImageCache.loadImage(mActiveUrl, getImageLoadedCallback(imageView, callback));
 	}
 
 	/**
@@ -130,8 +130,7 @@ public class Media implements JSONable {
 			@Override
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				if (bitmap != null) {
-					Log.d("** Loading image with url = " + url);
-					mActiveUrl = url;
+					Log.v("** Loading image with url = " + url);
 					imageView.setImageBitmap(bitmap);
 
 					if (additionCallback != null) {
@@ -143,17 +142,17 @@ public class Media implements JSONable {
 			@Override
 			public void onImageLoadFailed(String url) {
 				if (url.equals(getUrl(IMAGE_XLARGE_SUFFIX))) {
-					Log.d("** Falling back from " + IMAGE_XLARGE_SUFFIX + " to " + IMAGE_LARGE_SUFFIX);
-					ImageCache.loadImage(getUrl(IMAGE_LARGE_SUFFIX),
-							getImageLoadedCallback(imageView, additionCallback));
+					Log.v("** Falling back from " + IMAGE_XLARGE_SUFFIX + " to " + IMAGE_LARGE_SUFFIX);
+					mActiveUrl = getUrl(IMAGE_LARGE_SUFFIX);
+					ImageCache.loadImage(mActiveUrl, getImageLoadedCallback(imageView, additionCallback));
 				}
 				else if (url.equals(getUrl(IMAGE_LARGE_SUFFIX))) {
-					Log.d("** Falling back from " + IMAGE_LARGE_SUFFIX + " to " + IMAGE_BIG_SUFFIX);
-					ImageCache.loadImage(getUrl(IMAGE_BIG_SUFFIX),
-							getImageLoadedCallback(imageView, additionCallback));
+					Log.v("** Falling back from " + IMAGE_LARGE_SUFFIX + " to " + IMAGE_BIG_SUFFIX);
+					mActiveUrl = getUrl(IMAGE_BIG_SUFFIX);
+					ImageCache.loadImage(mActiveUrl, getImageLoadedCallback(imageView, additionCallback));
 				}
 				else {
-					Log.d("** No sizes available");
+					Log.v("** No sizes available");
 					if (additionCallback != null) {
 						additionCallback.onImageLoadFailed(url);
 					}
