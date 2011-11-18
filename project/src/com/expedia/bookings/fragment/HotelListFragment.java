@@ -110,28 +110,24 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 			break;
 		case SearchResultsFragmentActivity.EVENT_FILTER_CHANGED:
 			updateSearchResults();
-
-			// If the property still exists in the list, make sure it's still selected.  Otherwise, 
-			// clear the current selection.
-			Property property = getInstance().mProperty;
-			mAdapter.setSelectedPosition(getPositionOfProperty(property));
-			mAdapter.notifyDataSetChanged();
-
 			break;
 		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
 			int position = getPositionOfProperty((Property) data);
-			mAdapter.setSelectedPosition(position);
-			mAdapter.notifyDataSetChanged();
-
+			if (position != mAdapter.getSelectedPosition()) {
+				mAdapter.setSelectedPosition(position);
+				mAdapter.notifyDataSetChanged();
+			}
 			break;
 		}
 	}
 
 	private int getPositionOfProperty(Property property) {
-		int count = mAdapter.getCount();
-		for (int position = 0; position < count; position++) {
-			if (mAdapter.getItem(position) == property) {
-				return position;
+		if (property != null) {
+			int count = mAdapter.getCount();
+			for (int position = 0; position < count; position++) {
+				if (mAdapter.getItem(position) == property) {
+					return position;
+				}
 			}
 		}
 		return -1;
@@ -191,6 +187,9 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 		SearchResponse response = getInstance().mSearchResponse;
 		mAdapter.setSearchResponse(response);
 
+		// In case there is a currently selected property, select it on the screen.
+		mAdapter.setSelectedPosition(getPositionOfProperty(getInstance().mProperty));
+
 		if (response.getPropertiesCount() == 0) {
 			setHeaderVisibility(View.GONE);
 			mMessageTextView.setText(R.string.ean_error_no_results);
@@ -212,7 +211,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 			mHeaderLayout.setVisibility(visibility);
 		}
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// Convenience method
 
