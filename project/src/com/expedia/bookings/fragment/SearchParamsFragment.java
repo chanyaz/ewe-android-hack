@@ -98,6 +98,7 @@ public class SearchParamsFragment extends Fragment {
 					}
 					else if (!location.equals(searchParams.getFreeformLocation())) {
 						searchParams.setFreeformLocation(location);
+						searchParams.setSearchType(SearchType.FREEFORM);
 						configureSuggestions(location);
 					}
 				}
