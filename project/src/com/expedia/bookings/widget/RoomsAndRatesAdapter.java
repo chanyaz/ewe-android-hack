@@ -89,7 +89,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		// 3. If there are sales tags and one exceeds one line, align all a bit more to the left.
 		mBedRightMargin = Math.round(mResources.getDisplayMetrics().density * -52);
 		for (Rate rate : mRates) {
-			if (rate.getSavingsPercent() > 0 && showRoomsLeft(rate)) {
+			if (rate.isOnSale() && showRoomsLeft(rate)) {
 				mBedRightMargin = Math.round(mResources.getDisplayMetrics().density * -30);
 				break;
 			}
@@ -173,13 +173,12 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		String explanation = "";
 
 		// Check if there should be a strike-through rate, if this is on sale
-		double savings = rate.getSavingsPercent();
-		if (savings > 0) {
+		if (rate.isOnSale()) {
 			explanation += "<strike>"
 					+ StrUtils.formatHotelPrice(rate.getDisplayBaseRate())
 					+ "</strike> ";
 
-			holder.saleLabel.setText(mContext.getString(R.string.savings_template, savings * 100));
+			holder.saleLabel.setText(mContext.getString(R.string.savings_template, rate.getSavingsPercent() * 100));
 			holder.saleImage.setVisibility(View.VISIBLE);
 			holder.saleLabel.setVisibility(View.VISIBLE);
 		}

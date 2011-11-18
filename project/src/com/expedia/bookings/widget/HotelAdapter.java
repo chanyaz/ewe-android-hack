@@ -197,16 +197,15 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		// We assume we have a lowest rate here; this may not be a safe assumption
 		Rate lowestRate = property.getLowestRate();
-		float savingsPercent = (float) lowestRate.getSavingsPercent();
 		// Detect if the property is on sale, if it is do special things
-		if (savingsPercent > 0) {
+		if (lowestRate.isOnSale()) {
 			holder.from.setText(Html.fromHtml(
 					mContext.getString(R.string.from_template,
 							StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
 					new StrikethroughTagHandler()));
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
 			holder.saleText.setVisibility(View.VISIBLE);
-			holder.saleText.setText(mContext.getString(R.string.percent_off_template, savingsPercent * 100));
+			holder.saleText.setText(mContext.getString(R.string.percent_off_template, lowestRate.getSavingsPercent() * 100));
 		}
 		else {
 			holder.from.setText(R.string.from);

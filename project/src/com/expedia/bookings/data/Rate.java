@@ -64,7 +64,6 @@ public class Rate implements JSONable {
 	private Money mInclusiveBaseRate = null;
 	private Money mInclusiveRate = null;
 
-	
 	/*
 	 * This enum represents the different bed types
 	 * that can be returned from EAN. Note that 
@@ -377,6 +376,11 @@ public class Rate implements JSONable {
 		}
 
 		return 0;
+	}
+
+	// #10905 - If the property's sale is <1%, we don't consider it on sale.
+	public boolean isOnSale() {
+		return getSavingsPercent() >= .01;
 	}
 
 	public int getNumRoomsLeft() {

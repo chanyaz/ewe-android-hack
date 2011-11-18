@@ -130,7 +130,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		TextView perNightText = (TextView) view.findViewById(R.id.per_night_text_view);
 		StyleSpan textStyleSpan = new StyleSpan(Typeface.BOLD);
 
-		if (property.getLowestRate().getSavingsPercent() > 0) {
+		if (property.getLowestRate().isOnSale()) {
 			minPriceContainer.setBackgroundResource(R.drawable.sale_ribbon_large);
 			basePrice.setVisibility(View.VISIBLE);
 

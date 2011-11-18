@@ -72,7 +72,7 @@ public class AvailabilitySummaryLayoutUtils {
 		View availabilitySummaryContainerLeft = view.findViewById(R.id.availability_summary_container_left);
 		View minPriceRow = view.findViewById(R.id.min_price_row_container);
 
-		boolean isPropertyOnSale = property.getLowestRate().getSavingsPercent() > 0;
+		boolean isPropertyOnSale = property.getLowestRate().isOnSale();
 
 		/*
 		 * If the centered availability summary container does not exist,
@@ -159,7 +159,7 @@ public class AvailabilitySummaryLayoutUtils {
 		ViewGroup availabilityRatesContainer = (ViewGroup) view.findViewById(R.id.rates_container);
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		boolean isPropertyOnSale = property.getLowestRate().getSavingsPercent() > 0;
+		boolean isPropertyOnSale = property.getLowestRate().isOnSale();
 		availabilityRatesContainer.removeAllViews();
 
 		// first adding all rows since the rows will exist regardless of whether

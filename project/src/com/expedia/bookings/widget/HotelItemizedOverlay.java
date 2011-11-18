@@ -150,7 +150,7 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 			overlayItem.setThumbnailUrl(property.getThumbnail().getUrl());
 		}
 
-		if (property.getLowestRate().getSavingsPercent() > 0) {
+		if (property.getLowestRate().isOnSale()) {
 			overlayItem.setMarker(mMarkerSale);
 		}
 

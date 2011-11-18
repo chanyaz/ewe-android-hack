@@ -237,7 +237,7 @@ public class HotelActivity extends Activity {
 		priceContainer.setOnClickListener(onBookNowClick);
 		priceContainer.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_left));
 		TextView fromView = (TextView) findViewById(R.id.from_text_view);
-		if (lowestRate.getSavingsPercent() > 0) {
+		if (lowestRate.isOnSale()) {
 			Money baseRate = lowestRate.getDisplayBaseRate();
 			fromView.setText(Html.fromHtml(getString(R.string.from_template, StrUtils.formatHotelPrice(baseRate)),
 					null, new StrikethroughTagHandler()));
