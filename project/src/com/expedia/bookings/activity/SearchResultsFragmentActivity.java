@@ -830,12 +830,18 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR,
 						getString(R.string.error_no_response_room_rates));
 			}
-			else if (availabilityResponse.hasErrors()) {
-				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR, availabilityResponse.getErrors()
-						.get(0).getPresentableMessage(mContext));
-			}
 			else {
-				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
+				if (availabilityResponse.getSession() != null) {
+					mInstance.mSession = availabilityResponse.getSession();
+				}
+
+				if (availabilityResponse.hasErrors()) {
+					mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR, availabilityResponse.getErrors()
+							.get(0).getPresentableMessage(mContext));
+				}
+				else {
+					mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
+				}
 			}
 		}
 	};

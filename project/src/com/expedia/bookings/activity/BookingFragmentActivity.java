@@ -280,6 +280,11 @@ public class BookingFragmentActivity extends Activity {
 			}
 
 			BookingResponse response = mInstance.mBookingResponse = (BookingResponse) results;
+
+			if (response.getSession() != null) {
+				mInstance.mSession = response.getSession();
+			}
+
 			if (response.hasErrors()) {
 				// Gather the error message
 				String errorMsg = "";
