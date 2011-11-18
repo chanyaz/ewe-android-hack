@@ -543,6 +543,18 @@ public class Rate implements JSONable {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		// This assumes that rate plan code is always available - may not actually always be the case once we
+		// re-introduce GDS properties.
+		if (o instanceof Rate) {
+			Rate other = (Rate) o;
+			return getRatePlanCode().equals(other.getRatePlanCode())
+					&& getRoomTypeCode().equals(other.getRoomTypeCode());
+		}
+		return false;
+	}
+
+	@Override
 	public String toString() {
 		JSONObject obj = toJson();
 		try {
