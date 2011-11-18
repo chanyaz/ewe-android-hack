@@ -2426,9 +2426,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 	private void setRefinementInfo() {
 		if (mDisplayType == DisplayType.CALENDAR) {
-			int nights = mDatesCalendarDatePicker.getSelectedRange() - 1;
-			nights = nights > 0 ? nights : 1;
-			mRefinementInfoTextView.setText(getResources().getQuantityString(R.plurals.length_of_stay, nights, nights));
+			mRefinementInfoTextView.setText(CalendarUtils.getCalendarDatePickerTitle(this, mDatesCalendarDatePicker));
 		}
 		else if (mDisplayType == DisplayType.GUEST_PICKER) {
 			final int adults = mAdultsNumberPicker.getCurrent();

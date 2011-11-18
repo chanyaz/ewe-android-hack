@@ -4,8 +4,10 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import android.content.Context;
+import android.text.Html;
 import android.text.format.DateUtils;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.widget.CalendarDatePicker;
@@ -92,5 +94,15 @@ public class CalendarUtils {
 		return DateUtils.formatDateRange(context, searchParams.getCheckInDate().getTimeInMillis(),
 				searchParams.getCheckOutDate().getTimeInMillis() + DATE_RANGE_BUFFER,
 				DateUtils.FORMAT_NUMERIC_DATE);
+	}
+
+	public static CharSequence getCalendarDatePickerTitle(Context context, CalendarDatePicker calendarDatePicker) {
+		int nights = calendarDatePicker.getSelectedRange() - 1;
+		if (nights <= 1) {
+			return Html.fromHtml(context.getString(R.string.drag_to_extend_your_stay));
+		}
+		else {
+			return context.getResources().getQuantityString(R.plurals.length_of_stay, nights, nights);
+		}
 	}
 }

@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -108,13 +107,7 @@ public class CalendarDialogFragment extends DialogFragment {
 	}
 
 	private CharSequence getTitleText() {
-		int nights = mCalendarDatePicker.getSelectedRange() - 1;
-		if (nights <= 1) {
-			return Html.fromHtml(getString(R.string.drag_to_extend_your_stay));
-		}
-		else {
-			return getResources().getQuantityString(R.plurals.length_of_stay, nights, nights);
-		}
+		return CalendarUtils.getCalendarDatePickerTitle(getActivity(), mCalendarDatePicker);
 	}
 
 	private void updateTitle() {
