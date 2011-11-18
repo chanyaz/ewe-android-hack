@@ -94,6 +94,7 @@ public class HotelMapActivity extends MapActivity {
 		// Configure the map
 		mMapView.setBuiltInZoomControls(true);
 		mMapView.setSatellite(false);
+		mMapView.setClickable(true);
 
 		List<Property> properties = new ArrayList<Property>();
 		properties.add(mProperty);

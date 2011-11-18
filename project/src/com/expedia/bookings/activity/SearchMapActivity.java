@@ -82,6 +82,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		// Configure the map
 		mMapView.setBuiltInZoomControls(true);
 		mMapView.setSatellite(false);
+		mMapView.setClickable(true);
 
 		final PhoneSearchActivity parent = (PhoneSearchActivity) getParent();
 		parent.addSearchListener(this);
