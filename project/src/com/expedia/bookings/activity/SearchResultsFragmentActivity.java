@@ -322,7 +322,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(this), false);
+		if (!mSearchViewFocused) {
+			mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(this), false);
+		}
 
 		int numGuests = mInstance.mSearchParams.getNumAdults() + mInstance.mSearchParams.getNumChildren();
 		mGuestsMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_guests, numGuests, numGuests));
