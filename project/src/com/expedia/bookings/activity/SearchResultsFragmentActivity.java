@@ -25,10 +25,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SearchView.OnSuggestionListener;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
@@ -310,6 +312,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private boolean mSearchViewFocused = false;
 	private boolean mUseCondensedActionBar = false;
 
+	private TextView mGuestsTextView;
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_fragment_search, menu);
@@ -329,6 +333,17 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		if (mUseCondensedActionBar) {
 			mFilterMenuItem.setTitle(R.string.filter);
+
+			// Configure the custom action view (which is more condensed than the normal one
+			mGuestsMenuItem.setActionView(R.layout.action_menu_item_guests);
+			View actionView = mGuestsMenuItem.getActionView();
+			View button = actionView.findViewById(R.id.guests_button);
+			button.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					showGuestsDialog();
+				}
+			});
+			mGuestsTextView = (TextView) actionView.findViewById(R.id.guests_text_view);
 		}
 
 		return super.onCreateOptionsMenu(menu);
@@ -341,7 +356,12 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		}
 
 		int numGuests = mInstance.mSearchParams.getNumAdults() + mInstance.mSearchParams.getNumChildren();
-		mGuestsMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_guests, numGuests, numGuests));
+		if (mUseCondensedActionBar) {
+			mGuestsTextView.setText(numGuests + "");
+		}
+		else {
+			mGuestsMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_guests, numGuests, numGuests));
+		}
 
 		int numNights = mInstance.mSearchParams.getStayDuration();
 		mDatesMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_nights, numNights, numNights));
