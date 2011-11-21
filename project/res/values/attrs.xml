@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="Gallery">
-    	<!-- These are styleables that are in a standard Gallery, 
-    		reproduced here so we can use them -->
+
+        <!--
+             These are styleables that are in a standard Gallery, 
+    		reproduced here so we can use them
+        -->
         <attr name="android:gravity" />
         <attr name="android:animationDuration" />
         <attr name="android:spacing" />
@@ -11,14 +15,37 @@
         <!-- The rate at which we flip through images, in ms. -->
         <attr name="android:flipInterval" />
     </declare-styleable>
-    
-	<declare-styleable name="CustomEditText">
-		<!--  Flag to indicate whether or not to use the 
-		clear field functionality set up as a right drawable -->
-    	<attr name="useClearFieldDrawable" format="boolean"/>
-    	<attr name="errorTextColor" format="reference"/>
-    	<!-- Defines how much extra area around the "X" allows touch (for clearing the content)  -->
-    	<attr name="touchAreaPadding" format="dimension"/>
+    <declare-styleable name="CustomEditText">
+
+        <!--
+        Flag to indicate whether or not to use the 
+		clear field functionality set up as a right drawable
+        -->
+        <attr format="boolean" name="useClearFieldDrawable" />
+        <attr format="reference" name="errorTextColor" />
+        <!-- Defines how much extra area around the "X" allows touch (for clearing the content) -->
+        <attr format="dimension" name="touchAreaPadding" />
+    </declare-styleable>
+
+    <!-- NumberPicker style. -->
+    <attr format="reference" name="numberPickerStyle" />
+    <!-- NumberPicker up button style. -->
+    <attr format="reference" name="numberPickerUpButtonStyle" />
+    <!-- NumberPicker down button style. -->
+    <attr format="reference" name="numberPickerDownButtonStyle" />
+    <!-- NumberPicker input text style. -->
+    <attr format="reference" name="numberPickerInputTextStyle" />
+
+    <declare-styleable name="NumberPicker">
+
+        <!-- @hide Color for the solid color background if such for optimized rendering. -->
+        <attr format="color|reference" name="solidColor" />
+        <!-- @hide Whether the number picker supports fligning. -->
+        <attr format="boolean" name="flingable" />
+        <!-- @hide The divider for making the selection area. -->
+        <attr format="reference" name="selectionDivider" />
+        <!-- @hide The height of the selection divider. -->
+        <attr format="dimension" name="selectionDividerHeight" />
     </declare-styleable>
 
 </resources>

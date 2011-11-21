@@ -1,37 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme" parent="@android:style/Theme.NoTitleBar">
-        <item name="android:windowBackground">@color/window_background</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:editTextStyle">@style/Widget.EditText</item>
-        <item name="android:buttonStyle">@style/Widget.Button</item>
-        <item name="android:imageButtonStyle">@style/Widget.Button</item>
-        <item name="android:ratingBarStyle">@style/RatingBarSmall.Shadowed.Star</item>
-        <item name="android:spinnerStyle">@style/Widget.Spinner</item>
-        <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
-    </style>
+	<style name="Theme" parent="@android:style/Theme.NoTitleBar">
+		<item name="android:windowBackground">@color/window_background</item>
+		<item name="android:windowContentOverlay">@null</item>
+		<item name="android:editTextStyle">@style/Widget.EditText</item>
+		<item name="android:buttonStyle">@style/Widget.Button</item>
+		<item name="android:imageButtonStyle">@style/Widget.Button</item>
+		<item name="android:ratingBarStyle">@style/RatingBarSmall.Shadowed.Star</item>
+		<item name="android:spinnerStyle">@style/Widget.Spinner</item>
+		<item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
+	</style>
 
-    <style name="Theme.Tablet" parent="@android:style/Theme.Holo.Light">
-        <item name="android:actionMenuTextColor">#505966</item>
-        <item name="balloonOverlayViewBackground">@drawable/bg_map_balloon</item>
-        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
-    </style>
+	<style name="Theme.Tablet" parent="@android:style/Theme.Holo.Light">
+		<item name="android:actionMenuTextColor">#505966</item>
+		<item name="balloonOverlayViewBackground">@drawable/bg_map_balloon</item>
+		<item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
 
-    <style name="Theme.Tablet.NoActionBar" >
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
+		<!-- NumberPicker styles -->
+		<item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
+		<item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton
+		</item>
+		<item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
+		<item name="numberPickerStyle">@style/Widget.NumberPicker</item>
+	</style>
 
-    <style name="Theme.Light.Fullscreen.Panel" parent="@android:style/Theme.Holo.Light.Dialog.NoActionBar">
-        <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
+	<style name="Theme.Tablet.NoActionBar">
+		<item name="android:windowActionBar">false</item>
+		<item name="android:windowNoTitle">true</item>
+	</style>
 
-    <style name="ActivityAnimation">
-        <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
-        <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
-        <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
-        <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
-    </style>
+	<style name="Theme.Light.Fullscreen.Panel" parent="@android:style/Theme.Holo.Light.Dialog.NoActionBar">
+		<item name="android:windowBackground">@android:color/transparent</item>
+	</style>
+
+	<style name="ActivityAnimation">
+		<item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
+		<item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
+		<item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
+		<item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
+	</style>
 
 </resources>

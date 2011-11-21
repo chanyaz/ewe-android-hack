@@ -31,10 +31,11 @@
             android:layout_weight="1"
             android:background="@drawable/bg_counter" >
 
-            <NumberPicker
+            <com.expedia.bookings.widget.NumberPicker
                 android:id="@+id/adults_number_picker"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                android:gravity="center"
                 android:textSize="14dp" />
         </FrameLayout>
 
@@ -75,10 +76,11 @@
             android:layout_weight="1"
             android:background="@drawable/bg_counter" >
 
-            <NumberPicker
+            <com.expedia.bookings.widget.NumberPicker
                 android:id="@+id/children_number_picker"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                android:gravity="center"
                 android:textSize="14dp" />
         </FrameLayout>
 

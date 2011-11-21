@@ -24,8 +24,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
-import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -36,6 +34,8 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
+import com.expedia.bookings.widget.NumberPicker;
+import com.expedia.bookings.widget.NumberPicker.OnValueChangeListener;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
