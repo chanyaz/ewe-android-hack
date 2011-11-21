@@ -18,7 +18,7 @@
             android:id="@+id/map_layout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/receipt_photo_frame" />
+            android:background="@drawable/bg_confirmation_map" />
 
         <ImageView
             android:id="@+id/thumbnail_image_view"
