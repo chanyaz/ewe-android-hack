@@ -67,6 +67,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private View mReviewsLoadingContainer;
 	private ViewGroup mAmenitiesContainer;
 	private RatingBar mUserRating;
+	private RatingBar mStarRating;
 	private ViewGroup mHotelDescriptionContainer;
 	private View mSeeAllReviewsButton;
 	private View mSelectRoomButton;
@@ -97,6 +98,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mReviewsTitleLong = (TextView) view.findViewById(R.id.reviews_title);
 		mReviewsTitleShort = (TextView) view.findViewById(R.id.reviews_title_short);
 		mUserRating = (RatingBar) view.findViewById(R.id.user_rating_bar);
+		mStarRating = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
 		mSomeReviewsContainer = (ViewGroup) view.findViewById(R.id.some_reviews_container);
 		mReviewsSection = view.findViewById(R.id.reviews_section);
 		mReviewsContainer = view.findViewById(R.id.reviews_container);
@@ -131,6 +133,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mHotelNameTextView.setText(property.getName());
 		String hotelAddressWithNewLine = StrUtils.formatAddress(property.getLocation(), StrUtils.F_STREET_ADDRESS
 				+ StrUtils.F_CITY + StrUtils.F_STATE_CODE);
+		mStarRating.setRating((float) property.getHotelRating());
 		mHotelLocationTextView.setText(hotelAddressWithNewLine.replace("\n", ", "));
 		mCollageHandler.updateCollage(property);
 

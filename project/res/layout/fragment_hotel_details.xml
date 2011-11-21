@@ -24,15 +24,33 @@
                 android:layout_weight="2"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/hotel_name_text_view"
-                    style="@style/HotelNameTitle_Tablet"
-                    android:layout_width="fill_parent"
+                <LinearLayout
+                    android:id="@+id/first_line_layout"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:textColor="@color/hotel_details_text_color" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/hotel_name_text_view"
+                        style="@style/HotelNameTitle_Tablet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="@color/hotel_details_text_color"/>
+
+                    <RatingBar
+                        android:id="@+id/hotel_rating_bar"
+                        style="@style/RatingBarSmall.Shadowed.Star.Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:stepSize=".5" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/hotel_address_text_view"
@@ -63,11 +81,11 @@
             android:gravity="right"
             android:weightSum="3" >
 
-			<include
-			    layout="@layout/include_summarized_room_rates"
-			    android:layout_height="fill_parent"
-			    android:layout_width="0dp"
-			    android:layout_weight="1"/>
+            <include
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                layout="@layout/include_summarized_room_rates" />
         </LinearLayout>
 
         <LinearLayout
@@ -81,7 +99,7 @@
             <RelativeLayout
                 android:id="@+id/reviews_title_container"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" >
 
                 <TextView
                     android:id="@+id/reviews_title"
@@ -95,8 +113,8 @@
                     style="@style/RatingBarSmall.Shadowed.UserReview.Light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-					android:layout_alignBottom="@id/reviews_title"
-					android:layout_marginBottom="5dp"
+                    android:layout_alignBottom="@id/reviews_title"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/reviews_title"
                     android:isIndicator="true"
@@ -109,9 +127,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/reviews_title"
                     android:layout_alignParentRight="true"
+                    android:layout_marginBottom="2dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="2dp" >
+                    android:layout_marginRight="5dp" >
 
                     <TextView
                         android:id="@+id/see_all_reviews_text"
@@ -145,7 +163,7 @@
                 android:id="@+id/reviews_container"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical" >
 
                 <LinearLayout
                     android:id="@+id/reviews_loading_container"
