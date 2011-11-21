@@ -22,6 +22,7 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.widget.SearchView;
@@ -189,8 +190,13 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		mSearchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
+				mSearchViewFocused = hasFocus;
+
 				if (hasFocus && mSearchView.getQuery().toString().equals(getString(R.string.current_location))) {
 					mSearchView.setQuery("", false);
+				}
+				else if (!hasFocus) {
+					mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(mContext), false);
 				}
 			}
 		});
@@ -259,6 +265,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		mInstance.mFilter.removeOnFilterChangedListener(this);
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Activity overrides
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -271,6 +280,24 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		}
 	}
 
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		// We're ensuring that if the user clicks somewhere else on the screen while the SearchView is focused,
+		// we clear focus on the SearchView.
+		if (mSearchViewFocused) {
+			float evX = ev.getX();
+			float evY = ev.getY();
+			float searchViewX = mSearchView.getX();
+			float searchViewY = mSearchView.getY();
+			if (evX < searchViewX || evX > searchViewX + mSearchView.getWidth() || evY < searchViewY
+					|| evY > searchViewY + mSearchView.getHeight()) {
+				mSearchView.clearFocus();
+			}
+		}
+
+		return super.dispatchTouchEvent(ev);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 
@@ -278,6 +305,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private MenuItem mGuestsMenuItem;
 	private MenuItem mDatesMenuItem;
 	private MenuItem mFilterMenuItem;
+
+	private boolean mSearchViewFocused = false;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
