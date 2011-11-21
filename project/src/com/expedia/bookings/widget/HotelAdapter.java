@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.text.TextPaint;
@@ -26,6 +27,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
@@ -53,6 +55,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private int mSelectedPosition = -1;
 
+	private boolean mUseCondensedRows;
+
 	public HotelAdapter(Context context) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -61,6 +65,15 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		TextPaint textPaint = new TextPaint();
 		textPaint.setTypeface(Typeface.DEFAULT_BOLD);
 		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(testString, 1, 11.5f, textPaint, 58);
+
+		// Use a condensed rows if the screen width is not large enough
+		Configuration config = context.getResources().getConfiguration();
+		if (AndroidUtils.getSdkVersion() >= 13) {
+			mUseCondensedRows = config.screenWidthDp <= 800;
+		}
+		else {
+			mUseCondensedRows = config.orientation == Configuration.ORIENTATION_PORTRAIT;
+		}
 	}
 
 	public HotelAdapter(Context context, SearchResponse searchResponse) {
@@ -77,7 +90,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	public void setSelectedPosition(int selectedPosition) {
 		mSelectedPosition = selectedPosition;
 	}
-	
+
 	public int getSelectedPosition() {
 		return mSelectedPosition;
 	}
@@ -236,7 +249,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.notRatedText.setVisibility(View.GONE);
 		}
 
-		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit));
+		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit, mUseCondensedRows));
 		holder.distance.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
 
 		// See if there's a first image; if there is, use that as the thumbnail
@@ -249,7 +262,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		if (!imageSet) {
 			holder.thumbnail.setImageResource(R.drawable.ic_row_thumb_placeholder);
 		}
-		
+
 		// Set the background based on whether the row is selected or not
 		if (getItemViewType(position) == ROW_SELECTED) {
 			convertView.setBackgroundResource(R.drawable.bg_row_selected);

@@ -105,15 +105,20 @@ public class Distance implements JSONable, Comparable<Distance> {
 	}
 
 	public String formatDistance(Context context) {
-		return formatDistance(context, mUnit);
+		return formatDistance(context, mUnit, false);
 	}
 
 	public String formatDistance(Context context, DistanceUnit distanceUnit) {
+		return formatDistance(context, distanceUnit, false);
+	}
+
+	public String formatDistance(Context context, DistanceUnit distanceUnit, boolean abbreviated) {
 		double distance = getDistance(distanceUnit);
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(1);
 		int unitStrId = (distanceUnit == DistanceUnit.KILOMETERS) ? R.string.unit_kilometers : R.string.unit_miles;
-		return context.getString(R.string.distance_template, nf.format(distance), context.getString(unitStrId));
+		int templateResId = (abbreviated) ? R.string.distance_template_short : R.string.distance_template;
+		return context.getString(templateResId, nf.format(distance), context.getString(unitStrId));
 	}
 
 	public boolean fromJson(JSONObject obj) {
