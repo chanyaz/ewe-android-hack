@@ -3,14 +3,14 @@
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:paddingRight="20dp"
-    android:paddingTop="30dp"
     android:background="@color/bg_tablet_content"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingRight="20dp"
+    android:paddingTop="30dp" >
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="400dp">
+        android:layout_height="400dp" >
 
         <!-- The MapView is added dynamically to this layout -->
 
@@ -20,20 +20,34 @@
             android:layout_height="fill_parent"
             android:background="@drawable/bg_confirmation_map" />
 
-        <ImageView
-            android:id="@+id/thumbnail_image_view"
-            android:layout_width="300dp"
-            android:layout_height="200dp"
-            android:transformPivotX="150dp"
-            android:transformPivotY="100dp"
-            android:rotation="-5"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"
-            android:layout_weight="1"
-            android:background="@drawable/receipt_photo_frame"
-            mobiata:rotation="-5"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_image_placeholder" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="2" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:weightSum="10"
+                android:gravity="center" >
+
+                <ImageView
+                    android:id="@+id/thumbnail_image_view"
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:layout_weight="9"
+                    android:background="@drawable/receipt_photo_frame"
+                    android:rotation="-5"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_image_placeholder"
+                    android:transformPivotX="150dp"
+                    android:transformPivotY="100dp" />
+            </LinearLayout>
+        </LinearLayout>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -42,7 +56,7 @@
             android:layout_alignTop="@id/map_layout"
             android:paddingRight="20dp"
             android:paddingTop="20dp"
-            android:src="@drawable/enjoy_your_stay" />
+            android:src="@drawable/confirmation_enjoy_your_stay" />
     </RelativeLayout>
 
     <RelativeLayout
