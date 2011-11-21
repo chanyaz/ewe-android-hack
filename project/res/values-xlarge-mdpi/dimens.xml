@@ -12,9 +12,6 @@
 
 	<dimen name="bottom_bar_padding">0dp</dimen>
 	
-	<dimen name="min_height_rating_bar_small">18dp</dimen>
-    <dimen name="max_height_rating_bar_small">18dp</dimen>
-
 	<dimen name="padding_top_sale_ribbon">1dp</dimen>
 	<dimen name="padding_right_sale_ribbon">20dp</dimen>
         
