@@ -16,18 +16,19 @@
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical" >
 
-        <TextView 
+        <TextView
             android:id="@+id/base_price_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/min_price_text_view"
             android:textSize="20sp" />
+
         <TextView
             android:id="@+id/min_price_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
             android:layout_toRightOf="@id/base_price_text_view"
+            android:paddingLeft="5dp"
             android:textSize="20sp" />
 
         <TextView
@@ -78,18 +79,26 @@
                 android:paddingTop="10dp" />
         </RelativeLayout>
 
-        <com.mobiata.android.widget.AutoResizeTextView
-            android:id="@+id/book_now_button"
-            style="@style/Widget.Button.Yellow"
+        <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
-			android:layout_margin="15dp"
-            android:layout_weight="1"
-            android:maxLines="1"
-            android:text="@string/select_room"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_weight="1" >
+
+            <com.mobiata.android.widget.AutoResizeTextView
+                android:id="@+id/book_now_button"
+                style="@style/Widget.Button.Yellow"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/select_room"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </FrameLayout>
     </LinearLayout>
 
 </RelativeLayout>
