@@ -150,6 +150,8 @@
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">Filter Results</string>
+	<!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
+	<string name="filter">Filter</string>
 
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->

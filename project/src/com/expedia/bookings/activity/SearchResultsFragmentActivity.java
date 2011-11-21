@@ -13,6 +13,7 @@ import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Location;
@@ -307,6 +308,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private MenuItem mFilterMenuItem;
 
 	private boolean mSearchViewFocused = false;
+	private boolean mUseCondensedActionBar = false;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -316,6 +318,18 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		mGuestsMenuItem = menu.findItem(R.id.menu_guests);
 		mDatesMenuItem = menu.findItem(R.id.menu_dates);
 		mFilterMenuItem = menu.findItem(R.id.menu_filter);
+
+		// Use a condensed ActionBar if the screen width is not large enough
+		if (AndroidUtils.getSdkVersion() >= 13) {
+			mUseCondensedActionBar = mResources.getConfiguration().screenWidthDp <= 800;
+		}
+		else {
+			mUseCondensedActionBar = mResources.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+		}
+
+		if (mUseCondensedActionBar) {
+			mFilterMenuItem.setTitle(R.string.filter);
+		}
 
 		return super.onCreateOptionsMenu(menu);
 	}
