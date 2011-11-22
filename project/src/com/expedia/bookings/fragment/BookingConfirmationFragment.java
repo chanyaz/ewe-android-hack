@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ConfirmationFragmentActivity;
 import com.expedia.bookings.activity.ConfirmationFragmentActivity.InstanceFragment;
-import com.expedia.bookings.activity.SearchFragmentActivity;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.widget.HotelItemizedOverlay;

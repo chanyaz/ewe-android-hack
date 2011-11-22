@@ -14,13 +14,12 @@ import com.mobiata.android.json.JSONUtils;
 
 public class RoomTypeFragmentHandler extends RoomTypeHandler {
 	private static final String PROPERTY_ROOM_CONTAINER_ID = "PROPERTY_ROOM_CONTAINER_ID";
-	private static final String INSTANCE_EXPANDED = "INSTANCE_EXPANDED";
 
 	private View mRootView;
 
 	public RoomTypeFragmentHandler(Context context, View rootView, Property property,
 			SearchParams searchParams, Rate rate) {
-		super(context, null, property, searchParams, rate);
+		super(context, null, property, searchParams, rate, false);
 		mRootView = rootView;
 	}
 
@@ -34,9 +33,6 @@ public class RoomTypeFragmentHandler extends RoomTypeHandler {
 					PropertyInfo.class);
 			mRoomTypeRowContainer = mRootView.findViewById(((Integer) savedInstanceState
 					.get(PROPERTY_ROOM_CONTAINER_ID)).intValue());
-			if ((Boolean) savedInstanceState.get(INSTANCE_EXPANDED)) {
-				setVisibility(View.VISIBLE);
-			}
 		}
 	}
 
@@ -51,7 +47,6 @@ public class RoomTypeFragmentHandler extends RoomTypeHandler {
 	}
 
 	public void saveToBundle(Bundle outState) {
-		outState.putBoolean(INSTANCE_EXPANDED, isExpanded());
 		outState.putInt(PROPERTY_ROOM_CONTAINER_ID, mRoomTypeRowContainer.getId());
 		if (mPropertyInfo != null) {
 			outState.putString(Codes.PROPERTY_INFO, mPropertyInfo.toJson().toString());
@@ -62,7 +57,6 @@ public class RoomTypeFragmentHandler extends RoomTypeHandler {
 		if (mPropertyInfo == null) {
 			if (response == null) {
 				if (status != null) {
-					showDetails(status);
 					showCheckInCheckoutDetails(null);
 				}
 			}
@@ -72,7 +66,6 @@ public class RoomTypeFragmentHandler extends RoomTypeHandler {
 		}
 
 		if (mPropertyInfo != null && mPropertyInfo.getPropertyId().equals(mProperty.getPropertyId())) {
-			showDetails(mPropertyInfo);
 			showCheckInCheckoutDetails(mPropertyInfo);
 		}
 	}

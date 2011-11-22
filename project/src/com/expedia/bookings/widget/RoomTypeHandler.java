@@ -50,15 +50,22 @@ public abstract class RoomTypeHandler {
 	private TextView mRoomDetailsTextView;
 
 	private OnClickListener mOnRowClickListener;
+	private boolean mMoreDetailsEnabled;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Public methods
-	
+
 	public RoomTypeHandler(Context context, Intent intent, Property property, SearchParams searchParams, Rate rate) {
+		this(context, intent, property, searchParams, rate, true);
+	}
+
+	public RoomTypeHandler(Context context, Intent intent, Property property, SearchParams searchParams, Rate rate,
+			boolean moreDetailsEnabled) {
 		mContext = context;
 		mProperty = property;
 		mSearchParams = searchParams;
 		mRate = rate;
+		mMoreDetailsEnabled = moreDetailsEnabled;
 
 		String propertyInfoString = (intent != null) ? intent.getStringExtra(Codes.PROPERTY_INFO) : null;
 		if (propertyInfoString != null) {
@@ -84,25 +91,31 @@ public abstract class RoomTypeHandler {
 
 		// Initial configuration of the views
 		updateRoomTypeDescription();
-		
+
 		// Configure behavior
 		ViewGroup roomTypeLayout = (ViewGroup) roomTypeRow.findViewById(R.id.room_type_layout);
 		mOnRowClickListener = new OnClickListener() {
 			public void onClick(View v) {
-				if (isExpanded()) {
-					setVisibility(View.GONE);
-					onDestroy();
-				}
-				else {
-					setVisibility(View.VISIBLE);
-					onResume();
+				if (mMoreDetailsEnabled) {
+					if (isExpanded()) {
+						setVisibility(View.GONE);
+						onDestroy();
+					}
+					else {
+						setVisibility(View.VISIBLE);
+						onResume();
+					}
 				}
 			}
 		};
 		addClickableView(roomTypeLayout);
 		addClickableView(mRoomDetailsLayout);
+
+		if (!mMoreDetailsEnabled) {
+			mDisplayArrow.setVisibility(View.GONE);
+		}
 	}
-	
+
 	// We may want to add clickable rows outside of the handler, to expand the tap area; this allows
 	// you to do that.  Warning, destroys existing OnClickListener (if were any on the View).
 	public void addClickableView(View view) {
@@ -113,7 +126,7 @@ public abstract class RoomTypeHandler {
 		container.addView(mRoomTypeRow);
 		mRoomTypeRowContainer = container;
 	}
-	
+
 	public void setVisibility(int visibility) {
 		if (visibility == View.VISIBLE) {
 			mDisplayArrow.setRotation(0);
@@ -129,12 +142,6 @@ public abstract class RoomTypeHandler {
 		return mRoomDetailsLayout.getVisibility() == View.VISIBLE;
 	}
 
-	public void showDetails(String details) {
-		mRoomDetailsTextView.setText(Html.fromHtml(details));
-		mRoomDetailsTextView.setVisibility(View.VISIBLE);
-		mProgressBar.setVisibility(View.GONE);
-	}
-	
 	public void showCheckInCheckoutDetails(PropertyInfo propertyInfo) {
 		String start = BookingReceiptUtils.formatCheckInOutDate(mContext, mSearchParams.getCheckInDate());
 		String end = BookingReceiptUtils.formatCheckInOutDate(mContext, mSearchParams.getCheckOutDate());
@@ -154,7 +161,6 @@ public abstract class RoomTypeHandler {
 			checkOutTimeTextView.setText(checkOutText);
 		}
 	}
-	
 
 	public void onPropertyInfoDownloaded(PropertyInfoResponse response) {
 		if (response == null) {
@@ -187,7 +193,6 @@ public abstract class RoomTypeHandler {
 		valueView.setText(Html.fromHtml(mRate.getRoomDescription()));
 	}
 
-
 	protected void showDetails(PropertyInfo propertyInfo) {
 		String details = propertyInfo.getRoomLongDescription(mRate);
 		if (details == null || details.length() == 0) {
@@ -196,6 +201,12 @@ public abstract class RoomTypeHandler {
 		else {
 			showDetails(details);
 		}
+	}
+
+	protected void showDetails(String details) {
+		mRoomDetailsTextView.setText(Html.fromHtml(details));
+		mRoomDetailsTextView.setVisibility(View.VISIBLE);
+		mProgressBar.setVisibility(View.GONE);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

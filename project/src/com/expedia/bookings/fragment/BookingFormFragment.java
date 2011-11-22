@@ -240,7 +240,6 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 			mRoomTypeFragmentHandler.onPropertyInfoDownloaded(getInstance().mPropertyInfoResponse);
 			break;
 		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_ERROR:
-			mRoomTypeFragmentHandler.showDetails(getInstance().mPropertyInfoStatus);
 			mRoomTypeFragmentHandler.showCheckInCheckoutDetails(null);
 			break;
 		}

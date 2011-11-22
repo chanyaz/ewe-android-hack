@@ -100,7 +100,6 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 			mRoomTypeFragmentHandler.onPropertyInfoDownloaded(getInstance().mPropertyInfoResponse);
 			break;
 		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_ERROR:
-			mRoomTypeFragmentHandler.showDetails(getInstance().mPropertyInfoStatus);
 			mRoomTypeFragmentHandler.showCheckInCheckoutDetails(null);
 			updateRoomDescription(getView());
 			break;
