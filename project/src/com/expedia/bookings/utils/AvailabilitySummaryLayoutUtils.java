@@ -200,6 +200,11 @@ public class AvailabilitySummaryLayoutUtils {
 
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
+			
+			View perNightTexView = summaryRow.findViewById(R.id.per_night_text_view);
+			if (perNightTexView != null) {
+				perNightTexView.setVisibility(View.VISIBLE);
+			}
 
 			Pair<BedTypeId, Rate> pair = summarizedRoomRates.getBedTypeToRatePair(i);
 			for (BedType bedType : pair.second.getBedTypes()) {
