@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/bg_gallery"
+    android:background="@color/bg_tablet_gallery"
     android:gravity="center"
     android:orientation="vertical"
     android:weightSum="4" >
@@ -12,15 +12,16 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        android:scaleType="centerCrop"
         android:layout_margin="20dp"
         android:layout_weight="3"
-        android:background="@drawable/bg_gallery_item"/>
+        android:background="@drawable/bg_gallery_photo_normal"
+        android:scaleType="centerCrop" />
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
-        android:background="@color/light_gray" />
+        android:layout_margin="20dp"
+        android:background="@drawable/gallery_divider" />
 
     <Gallery
         android:id="@+id/hotel_gallery"

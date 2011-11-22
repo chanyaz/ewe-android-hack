@@ -18,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchResultsFragmentActivity;
@@ -56,8 +57,7 @@ public class HotelGalleryDialogFragment extends DialogFragment {
 					Media.class);
 		}
 		else {
-			mSelectedMedia = (Media) JSONUtils.parseJSONObjectFromBundle(getArguments(), SELECTED_MEDIA,
-					Media.class);
+			mSelectedMedia = (Media) JSONUtils.parseJSONObjectFromBundle(getArguments(), SELECTED_MEDIA, Media.class);
 		}
 
 		View view = mInflater.inflate(R.layout.fragment_hotel_gallery, null);
@@ -147,9 +147,9 @@ public class HotelGalleryDialogFragment extends DialogFragment {
 			if (convertView == null) {
 				int thumbnailDimensionDp = (int) Math.ceil(getResources().getDisplayMetrics().density * 150);
 				imageView = new ImageView(getActivity());
-				imageView.setLayoutParams(new Gallery.LayoutParams(thumbnailDimensionDp, thumbnailDimensionDp));
+				imageView.setLayoutParams(new LinearLayout.LayoutParams(thumbnailDimensionDp, thumbnailDimensionDp));
 				imageView.setScaleType(ScaleType.CENTER_CROP);
-				imageView.setBackgroundResource(R.drawable.bg_gallery_item);
+				imageView.setBackgroundResource(R.drawable.bg_gallery_photo);
 				convertView = imageView;
 			}
 
@@ -163,5 +163,4 @@ public class HotelGalleryDialogFragment extends DialogFragment {
 		}
 
 	}
-
 }

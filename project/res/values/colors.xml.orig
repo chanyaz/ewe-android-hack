@@ -45,6 +45,9 @@
 	<color name="bg_row_state_pressed">#dcddde</color>
 
 	<color name="bg_tablet_content">#e3e4e6</color>
+<<<<<<< HEAD
 	<color name="text_shadow_color">#a5ffffff</color>
+=======
 	<color name="bg_tablet_gallery">#333333</color>
+>>>>>>> Add gallery assets.
 </resources>
