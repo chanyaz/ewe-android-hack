@@ -7,8 +7,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:padding="20dp"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="20dp" >
 
         <LinearLayout
             android:id="@+id/receipt_and_details_container"
@@ -29,31 +29,49 @@
                 android:layout_weight="1"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/room_type_description_title_view"
-                    style="@style/formSectionHeaderText"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/room_type_description_container"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="200dp"
                     android:layout_marginTop="6dp"
-                    android:text="@string/room_type" />
+                    android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/room_type_description_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/room_type_description_title_view"
-                    android:layout_marginTop="8dp"
-                    android:textColor="#6A6D71" />
+                    <TextView
+                        android:id="@+id/room_type_description_title_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#6A6D71"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <ProgressBar
+                        android:id="@+id/room_description_progress_bar"
+                        style="@android:style/Widget.ProgressBar.Large.Inverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:indeterminate="true" />
+
+                    <TextView
+                        android:id="@+id/room_type_description_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/room_type_description_container"
+                        android:layout_marginTop="8dp"
+                        android:textColor="#6A6D71" />
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/complete_booking_info_button"
                     style="@style/Widget.Button.Yellow.Confirmation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/room_type_description_container"
                     android:layout_marginTop="20dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@id/room_type_description_text_view"
                     android:maxLines="1"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:text="@string/enter_booking_info" />
             </RelativeLayout>
         </LinearLayout>
@@ -61,7 +79,8 @@
         <View
             android:layout_width="fill_parent"
             android:layout_height="@dimen/two_pixels"
-            android:layout_margin="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/divider" />
 
         <TextView

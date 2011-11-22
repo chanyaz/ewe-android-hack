@@ -203,11 +203,13 @@ public class BookingFragmentActivity extends Activity {
 		//clear out previous results
 		mInstance.mPropertyInfoResponse = null;
 		mInstance.mPropertyInfoStatus = null;
-
+		mEventManager.notifyEventHandlers(EVENT_PROPERTY_INFO_QUERY_STARTED, null);
+		
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
 		bd.cancelDownload(KEY_PROPERTY_INFO);
 		bd.startDownload(KEY_PROPERTY_INFO, mPropertyInfoDownload, mPropertyInfoCallback);
+		
 	}
 
 	private Download mPropertyInfoDownload = new Download() {
