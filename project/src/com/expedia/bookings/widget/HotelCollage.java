@@ -152,9 +152,9 @@ public class HotelCollage {
 	}
 
 	private void loadNextImage() {
-		mCurrentIndex++;
-		if (mCurrentIndex < mPropertyMediaList.size() && mCurrentIndex < mPropertyImageViews.size()) {
-			mHandler.sendMessageDelayed(Message.obtain(mHandler, LOAD_IMAGE), FADE_PAUSE);
+		if (mCurrentIndex + 1 < mPropertyMediaList.size() && mCurrentIndex + 1 < mPropertyImageViews.size()) {
+			mCurrentIndex++;
+			mHandler.sendEmptyMessageDelayed(LOAD_IMAGE, FADE_PAUSE);
 		}
 	}
 
