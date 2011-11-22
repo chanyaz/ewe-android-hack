@@ -151,7 +151,6 @@
 					android:id="@+id/sale_text_view"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_toRightOf="@id/sale_image_view"
 					android:layout_alignBaseline="@id/price_text_view"
 					android:includeFontPadding="false"
 					android:singleLine="true"
