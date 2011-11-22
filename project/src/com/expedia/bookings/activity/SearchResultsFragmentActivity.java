@@ -196,10 +196,19 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			public void onFocusChange(View v, boolean hasFocus) {
 				mSearchViewFocused = hasFocus;
 
-				if (hasFocus && mSearchView.getQuery().toString().equals(getString(R.string.current_location))) {
-					mSearchView.setQuery("", false);
+				if (hasFocus) {
+					String currQuery = mSearchView.getQuery().toString();
+					if (currQuery.equals(getString(R.string.current_location))) {
+						mSearchView.setQuery("", false);
+					}
+					else if (currQuery.length() == 0) {
+						// #10908: If the SearchView is focused when it has no text in it, then it won't fire off
+						// an autocomplete query.  By doing resetting the query to the blank string, we invoke an 
+						// autocomplete query (even though it seems like this call is completely redundant).
+						mSearchView.setQuery("", false);
+					}
 				}
-				else if (!hasFocus) {
+				else {
 					mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(mContext), false);
 				}
 			}
