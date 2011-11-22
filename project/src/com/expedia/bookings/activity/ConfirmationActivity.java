@@ -51,8 +51,6 @@ import com.omniture.AppMeasurement;
 
 public class ConfirmationActivity extends MapActivity {
 
-	public static final String EXTRA_FINISH = "EXTRA_FINISH";
-
 	private static final int INSTANCE_PROPERTY = 1;
 	private static final int INSTANCE_SEARCH_PARAMS = 2;
 	private static final int INSTANCE_RATE = 3;
@@ -246,7 +244,7 @@ public class ConfirmationActivity extends MapActivity {
 
 				Intent intent = new Intent(mContext, PhoneSearchActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				intent.putExtra(PhoneSearchActivity.EXTRA_NEW_SEARCH, true);
+				intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
 				startActivity(intent);
 				finish();
 			}
@@ -311,7 +309,7 @@ public class ConfirmationActivity extends MapActivity {
 			finish();
 			Intent i = new Intent(mContext, PhoneSearchActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			i.putExtra("EXTRA_FINISH", true);
+			i.putExtra(Codes.EXTRA_FINISH, true);
 			startActivity(i);
 			return true;
 		}

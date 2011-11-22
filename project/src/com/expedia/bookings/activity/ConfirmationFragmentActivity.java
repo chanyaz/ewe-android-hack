@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -22,12 +23,14 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.google.android.maps.MapActivity;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.IoUtils;
 
 public class ConfirmationFragmentActivity extends MapActivity {
 
@@ -51,35 +54,58 @@ public class ConfirmationFragmentActivity extends MapActivity {
 			ft.add(mInstance, InstanceFragment.TAG);
 			ft.commit();
 
-			// Load data from Intent
-			mInstance.mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
-					SearchParams.class);
-			mInstance.mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
-			mInstance.mRate = (Rate) JSONUtils.parseJSONableFromIntent(intent, Codes.RATE, Rate.class);
-			mInstance.mBillingInfo = (BillingInfo) JSONUtils.parseJSONableFromIntent(intent, Codes.BILLING_INFO,
-					BillingInfo.class);
-			mInstance.mBookingResponse = (BookingResponse) JSONUtils.parseJSONableFromIntent(intent,
-					Codes.BOOKING_RESPONSE, BookingResponse.class);
-			mInstance.mPropertyInfoResponse = (PropertyInfoResponse) JSONUtils.parseJSONableFromIntent(intent,
-					Codes.PROPERTY_INFO_RESPONSE, PropertyInfoResponse.class);
-
-			// This code allows us to test the ConfirmationFragmentActivity standalone, for layout purposes.
-			// Just point the default launcher activity towards this instead of SearchActivity
-			if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
-				try {
-					mInstance.mSearchParams = new SearchParams();
-					mInstance.mSearchParams.fillWithTestData();
-					mInstance.mProperty = new Property();
-					mInstance.mProperty.fillWithTestData();
-					mInstance.mRate = new Rate();
-					mInstance.mRate.fillWithTestData();
-					mInstance.mBookingResponse = new BookingResponse();
-					mInstance.mBookingResponse.fillWithTestData();
-					mInstance.mBillingInfo = new BillingInfo();
-					mInstance.mBillingInfo.fillWithTestData();
+			if (ConfirmationUtils.hasSavedConfirmationData(this)) {
+				// Load saved data from disk
+				if (!loadSavedConfirmationData()) {
+					// If we failed to load the saved confirmation data, we should
+					// delete the file and go back (since we are only here if we were called
+					// directly from a startup).
+					ConfirmationUtils.deleteSavedConfirmationData(this);
+					finish();
 				}
-				catch (JSONException e) {
-					Log.e("Couldn't create dummy data!", e);
+			}
+			else {
+				// Load data from Intent
+				mInstance.mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
+						SearchParams.class);
+				mInstance.mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
+						Property.class);
+				mInstance.mRate = (Rate) JSONUtils.parseJSONableFromIntent(intent, Codes.RATE, Rate.class);
+				mInstance.mBillingInfo = (BillingInfo) JSONUtils.parseJSONableFromIntent(intent, Codes.BILLING_INFO,
+						BillingInfo.class);
+				mInstance.mBookingResponse = (BookingResponse) JSONUtils.parseJSONableFromIntent(intent,
+						Codes.BOOKING_RESPONSE, BookingResponse.class);
+				mInstance.mPropertyInfoResponse = (PropertyInfoResponse) JSONUtils.parseJSONableFromIntent(intent,
+						Codes.PROPERTY_INFO_RESPONSE, PropertyInfoResponse.class);
+
+				// This code allows us to test the ConfirmationFragmentActivity standalone, for layout purposes.
+				// Just point the default launcher activity towards this instead of SearchActivity
+				if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
+					try {
+						mInstance.mSearchParams = new SearchParams();
+						mInstance.mSearchParams.fillWithTestData();
+						mInstance.mProperty = new Property();
+						mInstance.mProperty.fillWithTestData();
+						mInstance.mRate = new Rate();
+						mInstance.mRate.fillWithTestData();
+						mInstance.mBookingResponse = new BookingResponse();
+						mInstance.mBookingResponse.fillWithTestData();
+						mInstance.mBillingInfo = new BillingInfo();
+						mInstance.mBillingInfo.fillWithTestData();
+					}
+					catch (JSONException e) {
+						Log.e("Couldn't create dummy data!", e);
+					}
+				}
+				else {
+					// Start a background thread to save this data to the disk
+					new Thread(new Runnable() {
+						public void run() {
+							ConfirmationUtils.saveConfirmationData(mContext, mInstance.mSearchParams,
+									mInstance.mProperty,
+									mInstance.mRate, mInstance.mBillingInfo, mInstance.mBookingResponse);
+						}
+					}).start();
 				}
 			}
 		}
@@ -121,6 +147,15 @@ public class ConfirmationFragmentActivity extends MapActivity {
 		bd.unregisterDownloadCallback(BookingFragmentActivity.KEY_PROPERTY_INFO, mPropertyInfoCallback);
 	}
 
+	@Override
+	public void onBackPressed() {
+		finish();
+		Intent i = new Intent(this, SearchFragmentActivity.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		i.putExtra(Codes.EXTRA_FINISH, true);
+		startActivity(i);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 
@@ -139,7 +174,7 @@ public class ConfirmationFragmentActivity extends MapActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			newSearch();
+			onBackPressed();
 			return true;
 		case R.id.menu_about: {
 			Intent intent = new Intent(this, TabletAboutActivity.class);
@@ -187,6 +222,28 @@ public class ConfirmationFragmentActivity extends MapActivity {
 		}
 	};
 
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Breadcrumb (reloading activity)
+
+	public boolean loadSavedConfirmationData() {
+		Log.i("Loading saved confirmation data...");
+		try {
+			JSONObject data = new JSONObject(IoUtils.readStringFromFile(ConfirmationUtils.CONFIRMATION_DATA_FILE, this));
+			mInstance.mSearchParams = (SearchParams) JSONUtils.getJSONable(data, Codes.SEARCH_PARAMS,
+					SearchParams.class);
+			mInstance.mProperty = (Property) JSONUtils.getJSONable(data, Codes.PROPERTY, Property.class);
+			mInstance.mRate = (Rate) JSONUtils.getJSONable(data, Codes.RATE, Rate.class);
+			mInstance.mBillingInfo = (BillingInfo) JSONUtils.getJSONable(data, Codes.BILLING_INFO, BillingInfo.class);
+			mInstance.mBookingResponse = (BookingResponse) JSONUtils.getJSONable(data, Codes.BOOKING_RESPONSE,
+					BookingResponse.class);
+			return true;
+		}
+		catch (Exception e) {
+			Log.e("Could not load ConfirmationFragmentActivity state.", e);
+			return false;
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// InstanceFragment
 
@@ -212,9 +269,14 @@ public class ConfirmationFragmentActivity extends MapActivity {
 	// Actions
 
 	public void newSearch() {
-		Intent intent = new Intent(this, SearchFragmentActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		// Ensure we can't come back here again
+		ConfirmationUtils.deleteSavedConfirmationData(mContext);
+
+		Intent intent = new Intent(mContext, SearchFragmentActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
 		startActivity(intent);
+		finish();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -83,6 +83,7 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.animation.Rotate3dAnimation;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
@@ -205,9 +206,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 	public static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
-
-	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
-	public static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
 
 	private static final int F_NO_DIVIDERS = 1;
 	private static final int F_FIRST = 2;
@@ -448,16 +446,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		super.onCreate(savedInstanceState);
 
 		// #7090: If the user was just sent from the ConfirmationActivity, quit (if desired)
-		if (getIntent().getBooleanExtra(ConfirmationActivity.EXTRA_FINISH, false)) {
-			finish();
-			return;
-		}
-
-		// #7090: First, check to see if the user last confirmed a booking.  If that is the case,
-		//        then we should forward the user to the ConfirmationActivity
-		if (ConfirmationUtils.hasSavedConfirmationData(this)) {
-			Intent intent = new Intent(this, ConfirmationActivity.class);
-			startActivity(intent);
+		if (getIntent().getBooleanExtra(Codes.EXTRA_FINISH, false)) {
 			finish();
 			return;
 		}
@@ -605,7 +594,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		hideSortOptions();
 		hideFilterOptions(false);
 
-		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
+		if (intent.getBooleanExtra(Codes.EXTRA_NEW_SEARCH, false)) {
 			mStartSearchOnResume = true;
 		}
 
