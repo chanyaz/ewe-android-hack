@@ -8,6 +8,7 @@ import java.util.TimeZone;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Shader.TileMode;
@@ -32,6 +33,7 @@ import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Property.Amenity;
+import com.mobiata.android.util.AndroidUtils;
 
 public class LayoutUtils {
 
@@ -194,7 +196,8 @@ public class LayoutUtils {
 		amenityName.setText(amenityStr);
 
 		// fix width for first amenity
-		if (amenitiesTable.getChildCount() == 0) {
+
+		if (amenitiesTable.getChildCount() == 0 && AndroidUtils.isTablet(context)) {
 			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) amenityLayout.getLayoutParams();
 			params.width = LayoutParams.WRAP_CONTENT;
 			amenityLayout.setLayoutParams(params);
