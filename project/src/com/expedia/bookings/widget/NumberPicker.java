@@ -523,7 +523,7 @@ public class NumberPicker extends LinearLayout {
 		setSelectorWheelState(SELECTOR_WHEEL_STATE_NONE);
 
 		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.number_picker, this, true);
+		inflater.inflate(R.layout.number_picker_14, this, true);
 
 		OnClickListener onClickListener = new OnClickListener() {
 			public void onClick(View v) {

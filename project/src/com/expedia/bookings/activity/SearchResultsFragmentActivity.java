@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.animation.Animator;
 import android.app.ActionBar;
 import android.app.DialogFragment;
 import android.app.Fragment;
@@ -489,10 +490,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 					R.animator.fragment_mini_details_slide_exit, R.animator.fragment_mini_details_slide_enter,
 					R.animator.fragment_mini_details_slide_exit);
 		}
-		else {
-			ft.setCustomAnimations(R.animator.fragment_mini_details_slide_enter,
-					R.animator.fragment_mini_details_slide_exit);
-		}
 		ft.add(R.id.fragment_mini_details, fragment, getString(R.string.tag_mini_details));
 		ft.addToBackStack(MINI_DETAILS_PUSH);
 		ft.commit();
@@ -505,9 +502,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			if (AndroidUtils.getSdkVersion() >= 13) {
 				ft.setCustomAnimations(R.animator.fragment_slide_left_enter, R.animator.fragment_slide_left_exit,
 						R.animator.fragment_slide_right_enter, R.animator.fragment_slide_right_exit);
-			}
-			else {
-				ft.setCustomAnimations(R.animator.fragment_slide_left_enter, R.animator.fragment_slide_left_exit);
 			}
 			ft.hide(fm.findFragmentByTag(getString(R.string.tag_hotel_map)));
 			ft.remove(fm.findFragmentByTag(getString(R.string.tag_mini_details)));
