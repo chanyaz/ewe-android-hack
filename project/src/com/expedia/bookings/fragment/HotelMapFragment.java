@@ -18,6 +18,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
+import com.expedia.bookings.widget.SimpleBalloonAdapter;
 import com.expedia.bookings.widget.HotelItemizedOverlay.OnTapListener;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
@@ -69,6 +70,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 
 		mExactLocationOverlay = new ExactLocationItemizedOverlay(activity, mMapView);
 		mExactLocationOverlay.setShowChevron(false);
+		mExactLocationOverlay.setBalloonAdapter(new SimpleBalloonAdapter(getActivity()));
 		overlays.add(mExactLocationOverlay);
 
 		mHotelOverlay = new HotelItemizedOverlay(activity, null, false, mMapView, null);
