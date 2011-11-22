@@ -79,11 +79,6 @@ public class HotelCollage {
 			mPropertyImageViews.get(i).setImageDrawable(null);
 		}
 
-		// Load the property urls
-		if (property.getMediaCount() == 0 || property.getMediaList() == null) {
-			return;
-		}
-
 		// Configure views on top of the gallery
 		Rate lowestRate = property.getLowestRate();
 		String promoDescription = lowestRate.getPromoDescription();
@@ -96,7 +91,9 @@ public class HotelCollage {
 		}
 
 		// Start the cascade of loading images
-		startLoadingImages();
+		if (property.getMediaCount() > 0) {
+			startLoadingImages();
+		}
 	}
 
 	private OnClickListener mCollageImageClickedListener = new OnClickListener() {
