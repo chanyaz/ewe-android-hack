@@ -191,6 +191,7 @@ public class AvailabilitySummaryLayoutUtils {
 		((RelativeLayout.LayoutParams) minPrice.getLayoutParams()).addRule(RelativeLayout.RIGHT_OF,
 				R.id.base_price_text_view);
 		((RelativeLayout.LayoutParams) minPrice.getLayoutParams()).topMargin = 0;
+		((RelativeLayout.LayoutParams) basePrice.getLayoutParams()).bottomMargin = 0;
 
 		float textSize = context.getResources().getDimension(R.dimen.min_price_row_text_normal);
 		basePrice.setTextSize(textSize);
@@ -213,12 +214,12 @@ public class AvailabilitySummaryLayoutUtils {
 		float measuredTextWidth = paintToMeasureWith.measureText(textToMeasure);
 
 		if (availabilitySummaryContainerCentered != null) {
-			if ((availabilitySummaryContainerCentered.getMeasuredWidth() / measuredTextWidth) > 0.7) {
+			if ((measuredTextWidth / availabilitySummaryContainerCentered.getMeasuredWidth()) > 0.8) {
 				return true;
 			}
 		}
 		else if (availabilitySummaryContainerLeft != null) {
-			if ((availabilitySummaryContainerLeft.getMeasuredWidth() / measuredTextWidth) > 0.7) {
+			if ((measuredTextWidth / availabilitySummaryContainerLeft.getMeasuredWidth()) > 0.8) {
 				return true;
 			}
 		}
