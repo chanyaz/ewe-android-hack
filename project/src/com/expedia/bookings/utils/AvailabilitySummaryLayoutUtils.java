@@ -109,6 +109,17 @@ public class AvailabilitySummaryLayoutUtils {
 		StyleSpan textStyleSpan = new StyleSpan(Typeface.BOLD);
 		ForegroundColorSpan textColorSpan = new ForegroundColorSpan(r.getColor(R.color.hotel_price_text_color));
 
+		TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
+		perNighTextView.setTextColor(isPropertyOnSale ? r.getColor(android.R.color.white) : r
+				.getColor(android.R.color.black));
+
+		if (Rate.showInclusivePrices()) {
+			perNighTextView.setVisibility(View.GONE);
+		}
+		else {
+			perNighTextView.setVisibility(View.VISIBLE);
+		}
+		
 		if (isPropertyOnSale) {
 			basePrice.setVisibility(View.VISIBLE);
 			String basePriceString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayBaseRate());
@@ -130,14 +141,15 @@ public class AvailabilitySummaryLayoutUtils {
 
 			SpannableString str = new SpannableString(displayRateString);
 			str.setSpan(textStyleSpan, 0, displayRateString.length(), 0);
-
+			
 			int whiteColor = r.getColor(android.R.color.white);
 
 			minPrice.setText(str);
 			minPrice.setTextColor(whiteColor);
-
+			// remove shadow layer
+			minPrice.setShadowLayer(0f, 0f, 0f, 0);
+			
 			basePrice.setTextColor(whiteColor);
-
 		}
 		else {
 			layoutBaseAndMinPriceSideBySide(context, basePrice, minPrice);
@@ -158,18 +170,18 @@ public class AvailabilitySummaryLayoutUtils {
 			float textSize = context.getResources().getDimension(R.dimen.min_price_row_text_normal);
 			basePrice.setTextSize(textSize);
 			minPrice.setTextSize(textSize);
+
+			/*
+			 * NOTE: Unsure as to why the text shadow layer is not applied 
+			 * to the text view when the view is hardware rendered 
+			 */
+			minPrice.setShadowLayer(0.1f, 0f, 1f, context.getResources().getColor(R.color.text_shadow_color));
+			minPrice.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
+			perNighTextView.setShadowLayer(0.1f, 0f, 1f, context.getResources().getColor(R.color.text_shadow_color));
+			perNighTextView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}
 
-		TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
-		perNighTextView.setTextColor(isPropertyOnSale ? r.getColor(android.R.color.white) : r
-				.getColor(android.R.color.black));
-
-		if (Rate.showInclusivePrices()) {
-			perNighTextView.setVisibility(View.GONE);
-		}
-		else {
-			perNighTextView.setVisibility(View.VISIBLE);
-		}
 	}
 
 	private static void layoutBaseAndMinPriceSideBySide(Context context, TextView basePrice, TextView minPrice) {
