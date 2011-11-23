@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Typeface;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.os.Handler;
+=======
+>>>>>>> 11057. Start gallery activity instead of details.
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -101,6 +104,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 			// its possible for the summary container to not exist at all
 			// in which case there's no setup to be done for this container
 			if (mDoesAvailabilityContainerExist) {
+<<<<<<< HEAD
 
 				/*
 				 * If the app is resumed, post the setup of the
@@ -159,6 +163,15 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 					});
 
 				}
+=======
+				AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(getActivity(), property, view);
+				// update the summarized rates if they are available
+				AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
+						.getRoomsAndRatesAvailability();
+				AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse,
+						view, getString(R.string.see_details), seeDetailsOnClickListener,
+						((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
+>>>>>>> 11057. Start gallery activity instead of details.
 			}
 
 			View seeDetailsButton = view.findViewById(R.id.see_details_button);
