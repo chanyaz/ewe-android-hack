@@ -18,11 +18,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-			android:padding="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:maxLines="1"
+            android:padding="10dp"
             android:text="@string/select_room"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -65,36 +65,49 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/min_price_row_container"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:gravity="center" >
+        android:orientation="horizontal"
+        android:weightSum="10" >
 
-        <TextView
-            android:id="@+id/base_price_text_view"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/min_price_text_view"
-            android:textSize="20sp" />
+            android:layout_weight="7" >
 
-        <TextView
-            android:id="@+id/min_price_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/base_price_text_view"
-            android:paddingLeft="5dp"
-            android:textSize="20sp" />
+            <RelativeLayout
+                android:id="@+id/min_price_row_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center" >
 
-        <TextView
-            android:id="@+id/per_night_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/min_price_text_view"
-            android:layout_toRightOf="@id/min_price_text_view"
-            android:text="@string/per_night"
-            android:textSize="16sp" />
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/base_price_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/min_price_text_view"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/min_price_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/base_price_text_view"
+                    android:paddingLeft="5dp"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/per_night_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/min_price_text_view"
+                    android:layout_toRightOf="@id/min_price_text_view"
+                    android:text="@string/per_night"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>

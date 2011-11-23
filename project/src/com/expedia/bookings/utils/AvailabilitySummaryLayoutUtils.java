@@ -3,9 +3,11 @@ package com.expedia.bookings.utils;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Pair;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -61,7 +64,7 @@ public class AvailabilitySummaryLayoutUtils {
 	private static final int MAX_SUMMARIZED_RATE_RESULTS = 3;
 	private static final int ANIMATION_SPEED = 350;
 
-	public static void setupAvailabilitySummary(Context context, Property property, View view) {
+	public static void setupAvailabilitySummary(final Context context, Property property, View view) {
 
 		// view is not created yet, so there's nothing to do here
 		if (view == null) {
@@ -96,8 +99,8 @@ public class AvailabilitySummaryLayoutUtils {
 			}
 		}
 
-		TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
 		TextView basePrice = (TextView) minPriceRow.findViewById(R.id.base_price_text_view);
+		TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
 
 		String displayRateString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
 
@@ -109,8 +112,21 @@ public class AvailabilitySummaryLayoutUtils {
 		if (isPropertyOnSale) {
 			basePrice.setVisibility(View.VISIBLE);
 			String basePriceString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayBaseRate());
-			basePrice.setText(Html.fromHtml(r.getString(R.string.from_template, basePriceString), null,
-					new StrikethroughTagHandler()));
+
+			Spanned basePriceStringSpanned = Html.fromHtml(r.getString(R.string.from_template, basePriceString), null,
+					new StrikethroughTagHandler());
+			basePrice.setText(basePriceStringSpanned);
+
+			String textToMeasure = basePriceStringSpanned.toString() + displayRateString
+					+ context.getString(R.string.per_night);
+
+			if (tooLongToFitOnOneLine(availabilitySummaryContainerCentered, availabilitySummaryContainerLeft,
+					textToMeasure, minPrice.getPaint())) {
+				layoutBaseAndMinPriceOnTwoLines(context, basePrice, minPrice);
+			}
+			else {
+				layoutBaseAndMinPriceSideBySide(context, basePrice, minPrice);
+			}
 
 			SpannableString str = new SpannableString(displayRateString);
 			str.setSpan(textStyleSpan, 0, displayRateString.length(), 0);
@@ -119,12 +135,17 @@ public class AvailabilitySummaryLayoutUtils {
 
 			minPrice.setText(str);
 			minPrice.setTextColor(whiteColor);
+
 			basePrice.setTextColor(whiteColor);
+
 		}
 		else {
+			layoutBaseAndMinPriceSideBySide(context, basePrice, minPrice);
 			basePrice.setVisibility(View.GONE);
+
 			String minPriceString = r.getString(R.string.min_room_price_template, displayRateString);
 			SpannableString str = new SpannableString(minPriceString);
+
 			ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(r.getColor(android.R.color.black));
 			int startingIndexOfDisplayRate = minPriceString.indexOf(displayRateString);
 
@@ -134,6 +155,9 @@ public class AvailabilitySummaryLayoutUtils {
 			str.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
 
 			minPrice.setText(str);
+			float textSize = context.getResources().getDimension(R.dimen.min_price_row_text_normal);
+			basePrice.setTextSize(textSize);
+			minPrice.setTextSize(textSize);
 		}
 
 		TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
@@ -146,6 +170,47 @@ public class AvailabilitySummaryLayoutUtils {
 		else {
 			perNighTextView.setVisibility(View.VISIBLE);
 		}
+	}
+
+	private static void layoutBaseAndMinPriceSideBySide(Context context, TextView basePrice, TextView minPrice) {
+		((RelativeLayout.LayoutParams) basePrice.getLayoutParams()).addRule(RelativeLayout.ALIGN_BASELINE,
+				R.id.min_price_text_view);
+		((RelativeLayout.LayoutParams) minPrice.getLayoutParams()).addRule(RelativeLayout.BELOW, 0);
+		((RelativeLayout.LayoutParams) minPrice.getLayoutParams()).addRule(RelativeLayout.RIGHT_OF,
+				R.id.base_price_text_view);
+		((RelativeLayout.LayoutParams) minPrice.getLayoutParams()).topMargin = 0;
+
+		float textSize = context.getResources().getDimension(R.dimen.min_price_row_text_normal);
+		basePrice.setTextSize(textSize);
+		minPrice.setTextSize(textSize);
+	}
+
+	private static void layoutBaseAndMinPriceOnTwoLines(Context context, TextView basePrice, TextView minPrice) {
+		((RelativeLayout.LayoutParams) basePrice.getLayoutParams()).addRule(RelativeLayout.ALIGN_BASELINE, 0);
+		((RelativeLayout.LayoutParams) minPrice.getLayoutParams()).addRule(RelativeLayout.BELOW,
+				R.id.base_price_text_view);
+		((RelativeLayout.LayoutParams) minPrice.getLayoutParams()).addRule(RelativeLayout.RIGHT_OF, 0);
+		((RelativeLayout.LayoutParams) minPrice.getLayoutParams()).topMargin = 0;
+		float textSize = context.getResources().getDimension(R.dimen.min_price_row_text_small);
+		basePrice.setTextSize(textSize);
+		minPrice.setTextSize(textSize);
+	}
+
+	private static boolean tooLongToFitOnOneLine(View availabilitySummaryContainerCentered,
+			View availabilitySummaryContainerLeft, String textToMeasure, Paint paintToMeasureWith) {
+		float measuredTextWidth = paintToMeasureWith.measureText(textToMeasure);
+
+		if (availabilitySummaryContainerCentered != null) {
+			if ((availabilitySummaryContainerCentered.getMeasuredWidth() / measuredTextWidth) > 0.7) {
+				return true;
+			}
+		}
+		else if (availabilitySummaryContainerLeft != null) {
+			if ((availabilitySummaryContainerLeft.getMeasuredWidth() / measuredTextWidth) > 0.7) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static void layoutAvailabilitySummary(Context context, Property property,
@@ -200,7 +265,7 @@ public class AvailabilitySummaryLayoutUtils {
 
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
-			
+
 			View perNightTexView = summaryRow.findViewById(R.id.per_night_text_view);
 			if (perNightTexView != null) {
 				perNightTexView.setVisibility(View.VISIBLE);

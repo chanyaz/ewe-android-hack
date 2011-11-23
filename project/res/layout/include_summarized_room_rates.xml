@@ -13,14 +13,17 @@
         android:layout_width="wrap_content"
         android:layout_height="40px"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="3dp"
         android:layout_centerHorizontal="true"
-        android:gravity="center_vertical" >
+        android:gravity="center" >
 
         <TextView
             android:id="@+id/base_price_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/min_price_text_view"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textSize="20sp" />
 
         <TextView
@@ -28,7 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/base_price_text_view"
+            android:ellipsize="end"
             android:paddingLeft="5dp"
+            android:singleLine="true"
             android:textSize="20sp" />
 
         <TextView
@@ -37,6 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/min_price_text_view"
             android:layout_toRightOf="@id/min_price_text_view"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="@string/per_night"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -90,9 +97,9 @@
                 style="@style/Widget.Button.Yellow"
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="5dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:maxLines="1"
                 android:text="@string/select_room"

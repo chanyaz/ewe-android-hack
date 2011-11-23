@@ -50,4 +50,7 @@
     <dimen name="padding_right_sale_ribbon">0dp</dimen>
     
     <dimen name="margin_top_sale_ribbon_room_rates">20dp</dimen>
+    
+    <dimen name="min_price_row_text_normal">20sp</dimen>
+    <dimen name="min_price_row_text_small">14sp</dimen>
 </resources>
