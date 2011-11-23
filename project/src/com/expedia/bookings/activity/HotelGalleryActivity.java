@@ -144,8 +144,8 @@ public class HotelGalleryActivity extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ImageView imageView = (ImageView) convertView;
 			if (convertView == null) {
-				imageView = (ImageView) getLayoutInflater().inflate(R.layout.gallery_item, null);
-				convertView = imageView;
+				convertView = getLayoutInflater().inflate(R.layout.gallery_item, null);
+				imageView = (ImageView) convertView.findViewById(R.id.image);
 			}
 
 			if (!ImageCache.loadImage(mMedia.get(position).getUrl(), imageView)) {
