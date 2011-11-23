@@ -47,6 +47,18 @@
 		<item name="android:textSize">30sp</item>
 	</style>
 
+	<style name="Widget.ActionBar" parent="android:style/Widget.Holo.ActionBar">
+		<item name="android:background">@drawable/bg_action_bar_gallery</item>
+		<item name="android:titleTextStyle">@style/TextAppearance.Widget.ActionBar.Title</item>
+	</style>
+
+	<style name="TextAppearance.Widget.ActionBar.Title" parent="android:style/TextAppearance.Medium">
+		<item name="android:shadowColor">@color/tablet_gallery_actionbar_title</item>
+		<item name="android:shadowDx">0</item>
+		<item name="android:shadowDy">1</item>
+		<item name="android:shadowRadius">0.1</item>
+	</style>
+
 	<!-- App -->
 
 	<style name="formSectionHeaderText">

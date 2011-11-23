@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.animation.Animator;
 import android.app.ActionBar;
 import android.app.DialogFragment;
 import android.app.Fragment;
@@ -53,7 +52,6 @@ import com.expedia.bookings.fragment.FilterDialogFragment;
 import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
 import com.expedia.bookings.fragment.HotelDetailsFragment;
-import com.expedia.bookings.fragment.HotelGalleryDialogFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
 import com.expedia.bookings.fragment.SortDialogFragment;
 import com.expedia.bookings.model.Search;
@@ -555,11 +553,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		newFragment.show(getFragmentManager(), "SortDialog");
 	}
 
-	public void showHotelGalleryDialog(Media selectedMedia) {
-		DialogFragment newFragment = HotelGalleryDialogFragment.newInstance(selectedMedia);
-		newFragment.show(getFragmentManager(), "HotelGalleryDialog");
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// SearchParams management
 
@@ -968,7 +961,16 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Forward motion (opening rates activity)
+	// Forward motion 
+
+	public void startHotelGalleryActivity(Media media) {
+		Intent intent = new Intent(this, HotelGalleryActivity.class);
+		intent.putExtra(Codes.PROPERTY, mInstance.mProperty.toString());
+		intent.putExtra(Codes.SELECTED_IMAGE, media.toString());
+		startActivity(intent);
+	}
+
+	// (opening rates activity)
 
 	public void bookRoom(Rate rate) {
 		Intent intent = new Intent(this, BookingFragmentActivity.class);

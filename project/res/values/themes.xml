@@ -25,6 +25,22 @@
 		<item name="numberPickerStyle">@style/Widget.NumberPicker</item>
 	</style>
 
+	<style name="Theme.Tablet.Dark" parent="@android:style/Theme.Holo">
+		<item name="android:actionMenuTextColor">#505966</item>
+		<item name="balloonOverlayViewBackground">@drawable/bg_map_balloon</item>
+		<item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+
+		<item name="android:actionBarStyle">@style/Widget.ActionBar</item>
+
+		<!-- NumberPicker styles -->
+		<item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
+		<item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton
+		</item>
+		<item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
+		<item name="numberPickerStyle">@style/Widget.NumberPicker</item>
+
+	</style>
+
 	<style name="Theme.Tablet.NoActionBar">
 		<item name="android:windowActionBar">false</item>
 		<item name="android:windowNoTitle">true</item>

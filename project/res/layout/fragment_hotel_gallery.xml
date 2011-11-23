@@ -20,7 +20,8 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
-        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/gallery_divider" />
 
     <Gallery
@@ -28,8 +29,11 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
+        android:fadingEdge="horizontal"
         android:spacing="10dp" />
 
 </LinearLayout>

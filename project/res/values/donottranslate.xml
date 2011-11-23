@@ -2,6 +2,7 @@
 <resources>
     <!-- Fragment tags -->
     <string name="tag_search_params">SEARCH_PARAMS</string>
+    <string name="tag_hotel_gallery">HOTEL_GALLERY</string>
     <string name="tag_hotel_list">HOTEL_LIST</string>
     <string name="tag_hotel_map">HOTEL_MAP</string>
     <string name="tag_mini_details">MINI_DETAILS</string>

@@ -265,7 +265,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 		@Override
 		public void onImageClicked(Media media) {
-			((SearchResultsFragmentActivity) getActivity()).showHotelGalleryDialog(media);
+			((SearchResultsFragmentActivity) getActivity()).startHotelGalleryActivity(media);
 		}
 	};
 
