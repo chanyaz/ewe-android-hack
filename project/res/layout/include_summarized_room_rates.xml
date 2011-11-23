@@ -53,7 +53,8 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/min_price_row_container"
         android:orientation="vertical"
-        android:weightSum="4" >
+        android:weightSum="4"
+        android:paddingBottom="10dp" >
 
         <RelativeLayout
             android:id="@+id/rates_status_container"
