@@ -47,5 +47,6 @@
 	<color name="bg_tablet_content">#e3e4e6</color>
 	<color name="text_shadow_color">#a5ffffff</color>
 	<color name="bg_tablet_gallery">#333333</color>
-	<color name="tablet_gallery_actionbar_title">#82000000</color>
+	<color name="tablet_gallery_actionbar_title">#F4F4F4</color>
+	<color name="tablet_gallery_actionbar_title_shadow">#82000000</color>
 </resources>

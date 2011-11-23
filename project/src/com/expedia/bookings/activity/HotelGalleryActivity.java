@@ -16,7 +16,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
@@ -38,7 +37,7 @@ public class HotelGalleryActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-		setContentView(R.layout.fragment_hotel_gallery);
+		setContentView(R.layout.activity_hotel_gallery);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(Codes.PROPERTY)
 				&& savedInstanceState.containsKey(Codes.SELECTED_IMAGE)) {
@@ -63,7 +62,6 @@ public class HotelGalleryActivity extends Activity {
 		mHotelGallery.setCallbackDuringFling(false);
 
 		mHotelGallery.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> l, View imageView, int position, long id) {
 				mSelectedMedia = (Media) mAdapter.getItem(position);
@@ -72,7 +70,6 @@ public class HotelGalleryActivity extends Activity {
 		});
 
 		mHotelGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
-
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
 				mSelectedMedia = (Media) mAdapter.getItem(position);
@@ -147,22 +144,15 @@ public class HotelGalleryActivity extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ImageView imageView = (ImageView) convertView;
 			if (convertView == null) {
-				int thumbnailDimensionDp = (int) Math.ceil(getResources().getDisplayMetrics().density * 150);
-				imageView = new ImageView(HotelGalleryActivity.this);
-				imageView.setLayoutParams(new Gallery.LayoutParams(thumbnailDimensionDp, thumbnailDimensionDp));
-				imageView.setScaleType(ScaleType.CENTER_CROP);
-				imageView.setBackgroundResource(R.drawable.bg_gallery_photo);
+				imageView = (ImageView) getLayoutInflater().inflate(R.layout.gallery_item, null);
 				convertView = imageView;
 			}
 
-			Media media = mMedia.get(position);
-			boolean imageSet = ImageCache.loadImage(media.getUrl(), imageView);
-			if (!imageSet) {
+			if (!ImageCache.loadImage(mMedia.get(position).getUrl(), imageView)) {
 				imageView.setImageResource(R.drawable.ic_row_thumb_placeholder);
 			}
 
 			return convertView;
 		}
-
 	}
 }

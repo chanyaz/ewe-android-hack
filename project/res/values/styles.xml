@@ -53,10 +53,11 @@
 	</style>
 
 	<style name="TextAppearance.Widget.ActionBar.Title" parent="android:style/TextAppearance.Medium">
-		<item name="android:shadowColor">@color/tablet_gallery_actionbar_title</item>
+		<item name="android:textColor">@color/tablet_gallery_actionbar_title</item>
+		<item name="android:shadowColor">@color/tablet_gallery_actionbar_title_shadow</item>
 		<item name="android:shadowDx">0</item>
 		<item name="android:shadowDy">1</item>
-		<item name="android:shadowRadius">0.1</item>
+		<item name="android:shadowRadius">3</item>
 	</style>
 
 	<!-- App -->
