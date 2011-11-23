@@ -110,6 +110,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mHotelItemizedOverlay = new HotelItemizedOverlay(this, null, true, mMapView, onTap);
 		mHotelItemizedOverlay.setShowDistance(mShowDistance);
 		mHotelItemizedOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
+		mHotelItemizedOverlay.useDefaultBalloonAdapter();
 
 		mExactLocationItemizedOverlay = new ExactLocationItemizedOverlay(this, mMapView);
 		mExactLocationItemizedOverlay.setBalloonAdapter(new SimpleBalloonAdapter(this));

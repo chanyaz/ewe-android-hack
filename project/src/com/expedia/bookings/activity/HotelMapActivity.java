@@ -99,6 +99,8 @@ public class HotelMapActivity extends MapActivity {
 		List<Property> properties = new ArrayList<Property>();
 		properties.add(mProperty);
 		mOverlay = new HotelItemizedOverlay(this, properties, true, mMapView, null);
+		mOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
+		mOverlay.useDefaultBalloonAdapter();
 
 		List<Overlay> overlays = mMapView.getOverlays();
 		overlays.add(mOverlay);
