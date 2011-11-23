@@ -6,8 +6,12 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -26,11 +30,17 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.json.JSONUtils;
 
 public class HotelGalleryActivity extends Activity {
+	private static final int SWIPE_MIN_DISTANCE = 120;
+	private static final int SWIPE_MAX_OFF_PATH = 250;
+	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
 	private Gallery mHotelGallery;
 	private ImageView mBigImageView;
 	private ImageAdapter mAdapter;
 	private Property mProperty;
 	private Media mSelectedMedia;
+
+	private GestureDetector mGestureDetector;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +70,6 @@ public class HotelGalleryActivity extends Activity {
 		mAdapter.setMedia(StrUtils.getUniqueMediaList(mProperty));
 		mHotelGallery.setAdapter(mAdapter);
 		mHotelGallery.setCallbackDuringFling(false);
-
 		mHotelGallery.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> l, View imageView, int position, long id) {
@@ -68,7 +77,6 @@ public class HotelGalleryActivity extends Activity {
 				mSelectedMedia.loadHighResImage(mBigImageView, null);
 			}
 		});
-
 		mHotelGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
@@ -80,6 +88,14 @@ public class HotelGalleryActivity extends Activity {
 			public void onNothingSelected(AdapterView<?> arg0) {
 				mSelectedMedia = (Media) mAdapter.getItem(0);
 				mSelectedMedia.loadHighResImage(mBigImageView, null);
+			}
+		});
+
+		mGestureDetector = new GestureDetector(new PageGestureDetector());
+		mBigImageView.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return mGestureDetector.onTouchEvent(event);
 			}
 		});
 
@@ -154,5 +170,33 @@ public class HotelGalleryActivity extends Activity {
 
 			return convertView;
 		}
+	}
+
+	private class PageGestureDetector extends SimpleOnGestureListener {
+		@Override
+		public boolean onDown(MotionEvent e) {
+			return true;
+		}
+
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+			if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
+				return false;
+			}
+
+			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+				final int position = mHotelGallery.getSelectedItemPosition();
+				final int newPosition = Math.min(position + 1, mHotelGallery.getCount() - 1);
+				mHotelGallery.setSelection(newPosition);
+			}
+			else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+				final int position = mHotelGallery.getSelectedItemPosition();
+				final int newPosition = Math.max(position - 1, 0);
+				mHotelGallery.setSelection(newPosition);
+			}
+
+			return false;
+		}
+
 	}
 }
