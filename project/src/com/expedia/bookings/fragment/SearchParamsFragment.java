@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchFragmentActivity;
+import com.expedia.bookings.activity.SearchFragmentActivity.InstanceFragment;
 import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.SearchParams;
@@ -87,35 +88,16 @@ public class SearchParamsFragment extends Fragment {
 		updateViews();
 
 		// Configure the location EditText
-		mLocationEditText.addTextChangedListener(new TextWatcher() {
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (!isHidden() && isAdded()) {
-					String location = s.toString().trim();
-					SearchParams searchParams = getInstance().mSearchParams;
-					if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
-						searchParams.setSearchType(SearchType.MY_LOCATION);
-						configureSuggestions(null);
-					}
-					else if (!location.equals(searchParams.getFreeformLocation())) {
-						searchParams.setFreeformLocation(location);
-						searchParams.setSearchType(SearchType.FREEFORM);
-						configureSuggestions(location);
-					}
-				}
-			}
-
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				// Do nothing
-			}
-
-			public void afterTextChanged(Editable s) {
-				// Do nothing
-			}
-		});
 		mLocationEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus && mLocationEditText.getText().toString().equals(getString(R.string.current_location))) {
-					mLocationEditText.setText("");
+				if (hasFocus) {
+					getInstance().mHasFocusedSearchField = true;
+
+					String text = mLocationEditText.getText().toString();
+					if (text.equals(getString(R.string.current_location))
+							|| text.equals(getString(R.string.enter_search_location))) {
+						mLocationEditText.setText("");
+					}
 				}
 			}
 		});
@@ -206,6 +188,8 @@ public class SearchParamsFragment extends Fragment {
 		}
 
 		updateViews();
+
+		mLocationEditText.addTextChangedListener(mLocationTextWatcher);
 	}
 
 	@Override
@@ -213,15 +197,23 @@ public class SearchParamsFragment extends Fragment {
 		super.onPause();
 
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD);
+
+		mLocationEditText.removeTextChangedListener(mLocationTextWatcher);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Views
 
 	public void updateViews() {
-		SearchParams params = getInstance().mSearchParams;
+		InstanceFragment instance = getInstance();
+		SearchParams params = instance.mSearchParams;
 
-		mLocationEditText.setText(params.getSearchDisplayText(getActivity()));
+		if (instance.mHasFocusedSearchField) {
+			mLocationEditText.setText(params.getSearchDisplayText(getActivity()));
+		}
+		else {
+			mLocationEditText.setText(R.string.enter_search_location);
+		}
 
 		Calendar start = params.getCheckInDate();
 		mCalendarDatePicker.updateStartDate(start.get(Calendar.YEAR), start.get(Calendar.MONTH),
@@ -269,7 +261,7 @@ public class SearchParamsFragment extends Fragment {
 		mHandler.removeMessages(WHAT_AUTOCOMPLETE);
 
 		// Show default suggestions in case of null query
-		if (query == null || query.length() == 0) {
+		if (query == null || query.length() == 0 || !getInstance().mHasFocusedSearchField) {
 			// Configure "my location" separately
 			SuggestionRow currentLocationRow = mSuggestionRows.get(0);
 			currentLocationRow.setVisibility(View.VISIBLE);
@@ -331,6 +323,35 @@ public class SearchParamsFragment extends Fragment {
 					row.mRow.setClickable(false);
 				}
 			}
+		}
+	};
+
+	private TextWatcher mLocationTextWatcher = new TextWatcher() {
+
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			getInstance().mHasFocusedSearchField = true;
+
+			if (!isHidden() && isAdded()) {
+				String location = s.toString().trim();
+				SearchParams searchParams = getInstance().mSearchParams;
+				if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
+					searchParams.setSearchType(SearchType.MY_LOCATION);
+					configureSuggestions(null);
+				}
+				else if (!location.equals(searchParams.getFreeformLocation())) {
+					searchParams.setFreeformLocation(location);
+					searchParams.setSearchType(SearchType.FREEFORM);
+					configureSuggestions(location);
+				}
+			}
+		}
+
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			// Do nothing
+		}
+
+		public void afterTextChanged(Editable s) {
+			// Do nothing
 		}
 	};
 

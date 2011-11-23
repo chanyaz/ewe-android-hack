@@ -61,5 +61,7 @@ public class SearchFragmentActivity extends Activity {
 		}
 
 		public SearchParams mSearchParams;
+
+		public boolean mHasFocusedSearchField = false;
 	}
 }
