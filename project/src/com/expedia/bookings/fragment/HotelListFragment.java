@@ -55,7 +55,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 		mHeaderLayout = (ViewGroup) view.findViewById(R.id.header_layout);
 		mNumHotelsTextView = (TextView) view.findViewById(R.id.num_hotels_text_view);
 		mSortTypeTextView = (TextView) view.findViewById(R.id.sort_type_text_view);
-		mMessageTextView = (TextView) view.findViewById(R.id.empty_message);
+		mMessageTextView = (TextView) view.findViewById(android.R.id.empty);
 
 		mSortTypeTextView.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
