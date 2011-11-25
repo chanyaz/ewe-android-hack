@@ -185,7 +185,7 @@
     <View
         android:id="@+id/bottombar_divider"
         android:layout_width="fill_parent"
-        android:layout_height="2px"
+        android:layout_height="@dimen/two_pixels"
         android:layout_above="@+id/bottom_bar_layout"
         android:background="#b2b5b8" />
 
@@ -238,7 +238,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:paddingBottom="1px"
+                        android:paddingBottom="@dimen/one_pixel"
                         android:src="@drawable/triangle_button_triangle" />
                 </FrameLayout>
 
@@ -330,7 +330,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:paddingBottom="1px"
+                        android:paddingBottom="@dimen/one_pixel"
                         android:src="@drawable/triangle_button_triangle" />
                 </FrameLayout>
 
