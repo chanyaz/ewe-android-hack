@@ -60,7 +60,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/close_booking_form"
                     android:paddingLeft="5dp"
                     android:shadowColor="#8affffff"
                     android:shadowDx="0"

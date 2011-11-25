@@ -73,7 +73,6 @@
                     android:id="@+id/room_type_description_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/room_type_description_title_view"
                     android:layout_marginTop="8dp"
                     android:textColor="#6A6D71" />
             </LinearLayout>

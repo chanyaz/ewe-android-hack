@@ -118,7 +118,6 @@
 				android:singleLine="true"
 				android:paddingTop="3dp"
 				android:paddingRight="5dp"
-				android:layout_alignLeft="@id/hotel_name_text_view"
 				style="@style/widgetHotelLocationText" />
 
 			<RelativeLayout
