@@ -5,88 +5,75 @@
     android:background="@color/bg_tablet_content"
     android:fillViewport="true" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/hotel_collage_and_title_container"
-            android:layout_width="fill_parent"
+            android:id="@+id/first_line_layout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
-            android:orientation="vertical"
-            android:paddingBottom="7dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp" >
-
-            <LinearLayout
-                android:id="@+id/first_line_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/hotel_name_text_view"
-                    style="@style/HotelNameTitle_Tablet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:textColor="@color/hotel_details_text_color" />
-
-                <RatingBar
-                    android:id="@+id/hotel_rating_bar"
-                    style="@style/RatingBarSmall.Shadowed.Star.Light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:isIndicator="true"
-                    android:numStars="5"
-                    android:stepSize=".5" />
-            </LinearLayout>
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/hotel_address_text_view"
-                style="@style/widgetHotelLocationText"
-                android:layout_width="fill_parent"
+                android:id="@+id/hotel_name_text_view"
+                style="@style/HotelNameTitle_Tablet"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:ellipsize="end"
-                android:paddingBottom="10dp"
                 android:singleLine="true"
-                android:textColor="@color/hotel_details_text_color"
-                android:textSize="16sp" />
+                android:textColor="@color/hotel_details_text_color" />
 
-            <include
-                android:id="@+id/hotel_collage"
-                android:layout_width="fill_parent"
-                android:layout_height="350dp"
-                android:layout_weight="2"
-                layout="@layout/include_hotel_collage_3" />
+            <RatingBar
+                android:id="@+id/hotel_rating_bar"
+                style="@style/RatingBarSmall.Shadowed.Star.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize=".5" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/availability_summary_layout"
+        <TextView
+            android:id="@+id/hotel_address_text_view"
+            style="@style/widgetHotelLocationText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/hotel_collage_and_title_container"
-            android:layout_marginTop="10dp"
-            android:paddingRight="10dp" >
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/hotel_details_text_color"
+            android:textSize="16sp" />
 
-            <include
-                android:layout_width="0dp"
-                android:layout_height="230dp"
-                android:layout_weight="1"
-                layout="@layout/include_summarized_room_rates" />
-        </LinearLayout>
+        <include
+            android:id="@+id/hotel_collage"
+            android:layout_width="fill_parent"
+            android:layout_height="350dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            layout="@layout/include_hotel_collage_3" />
+
+        <include
+            android:layout_width="fill_parent"
+            android:layout_height="230dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            layout="@layout/include_summarized_room_rates" />
 
         <LinearLayout
             android:id="@+id/reviews_section"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/availability_summary_layout"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
             android:paddingLeft="15dp"
@@ -192,35 +179,31 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/amenities_section"
+        <TextView
+            android:id="@+id/amenities_title"
+            style="@style/HotelNameTitle_Tablet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/amenities"
+            android:textColor="@color/hotel_details_text_color" />
+
+        <include
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/reviews_section"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp" >
-
-            <TextView
-                android:id="@+id/amenities_title"
-                style="@style/HotelNameTitle_Tablet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/amenities"
-                android:textColor="@color/hotel_details_text_color" />
-
-            <include layout="@layout/include_amenities" />
-        </LinearLayout>
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            layout="@layout/include_amenities" />
 
         <LinearLayout
             android:id="@+id/hotel_description_section"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/amenities_section"
             android:orientation="horizontal"
             android:paddingLeft="15dp"
             android:paddingRight="15dp" />
-    </RelativeLayout>
+    </LinearLayout>
 
 </ScrollView>
