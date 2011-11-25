@@ -5,24 +5,23 @@
     android:background="@color/bg_tablet_content"
     android:fillViewport="true" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="15dp" >
 
         <LinearLayout
-            android:id="@+id/hotel_collage_and_title_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:paddingBottom="7dp"
-            android:weightSum="3" >
+            android:orientation="horizontal" >
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="2"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:paddingBottom="7dp" >
 
                 <LinearLayout
                     android:id="@+id/first_line_layout"
@@ -34,12 +33,12 @@
                     <TextView
                         android:id="@+id/hotel_name_text_view"
                         style="@style/HotelNameTitle_Tablet"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:textColor="@color/hotel_details_text_color"/>
+                        android:textColor="@color/hotel_details_text_color" />
 
                     <RatingBar
                         android:id="@+id/hotel_rating_bar"
@@ -67,19 +66,8 @@
                     android:id="@+id/hotel_collage"
                     android:layout_width="fill_parent"
                     android:layout_height="250dp"
-                    android:layout_weight="2"
                     layout="@layout/include_hotel_collage_1" />
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/availability_summary_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/hotel_collage_and_title_container"
-            android:layout_alignTop="@id/hotel_collage_and_title_container"
-            android:gravity="right"
-            android:weightSum="3" >
 
             <include
                 android:layout_width="0dp"
@@ -92,7 +80,6 @@
             android:id="@+id/reviews_section"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/hotel_collage_and_title_container"
             android:layout_marginTop="10dp"
             android:orientation="vertical" >
 
@@ -196,30 +183,21 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/amenities_section"
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/amenities_title"
+            style="@style/HotelNameTitle_Tablet"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/reviews_section"
-            android:orientation="vertical" >
+            android:text="@string/amenities"
+            android:textColor="@color/hotel_details_text_color" />
 
-            <TextView
-                android:id="@+id/amenities_title"
-                style="@style/HotelNameTitle_Tablet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/amenities"
-                android:textColor="@color/hotel_details_text_color" />
-
-            <include layout="@layout/include_amenities" />
-        </LinearLayout>
+        <include layout="@layout/include_amenities" />
 
         <LinearLayout
             android:id="@+id/hotel_description_section"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/amenities_section"
             android:orientation="horizontal" />
-    </RelativeLayout>
+    </LinearLayout>
 
 </ScrollView>
