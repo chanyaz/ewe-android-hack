@@ -148,20 +148,7 @@ public class SearchParamsFragment extends Fragment {
 
 		// Configure the calendar
 		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker);
-		mCalendarDatePicker.setOnDateChangedListener(new OnDateChangedListener() {
-			public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-				if (!isHidden()) {
-					Calendar checkIn = new GregorianCalendar(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
-							.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
-					Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
-							.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
-
-					SearchParams searchParams = getInstance().mSearchParams;
-					searchParams.setCheckInDate(checkIn);
-					searchParams.setCheckOutDate(checkOut);
-				}
-			}
-		});
+		mCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 
 		// Configure the number pickers
 		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
@@ -240,12 +227,18 @@ public class SearchParamsFragment extends Fragment {
 			mLocationEditText.setText(R.string.enter_search_location);
 		}
 
+		// Temporarily remove the OnDateChangedListener so that it is not fired
+		// while we manually update the start/end dates
+		mCalendarDatePicker.setOnDateChangedListener(null);
+
 		Calendar start = params.getCheckInDate();
+		Calendar end = params.getCheckOutDate();
 		mCalendarDatePicker.updateStartDate(start.get(Calendar.YEAR), start.get(Calendar.MONTH),
 				start.get(Calendar.DAY_OF_MONTH));
-		Calendar end = params.getCheckOutDate();
 		mCalendarDatePicker.updateEndDate(end.get(Calendar.YEAR), end.get(Calendar.MONTH),
 				end.get(Calendar.DAY_OF_MONTH));
+
+		mCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 
 		mAdultsNumberPicker.setValue(params.getNumAdults());
 		mChildrenNumberPicker.setValue(params.getNumChildren());
@@ -255,6 +248,19 @@ public class SearchParamsFragment extends Fragment {
 		TextView tv = (TextView) container.findViewById(textViewId);
 		tv.setText(Html.fromHtml(getString(strId)));
 	}
+
+	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
+		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
+			Calendar checkIn = new GregorianCalendar(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
+					.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
+			Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
+					.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
+
+			SearchParams searchParams = getInstance().mSearchParams;
+			searchParams.setCheckInDate(checkIn);
+			searchParams.setCheckOutDate(checkOut);
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Suggestion/autocomplete stuff
