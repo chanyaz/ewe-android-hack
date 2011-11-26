@@ -41,7 +41,7 @@
         <activity
             android:name=".activity.SearchFragmentActivity"
             android:theme="@style/Theme.Tablet.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:launchMode="singleTop"
             android:name=".activity.SearchResultsFragmentActivity"

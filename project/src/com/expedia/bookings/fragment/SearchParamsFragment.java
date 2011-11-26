@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -22,9 +23,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,6 +39,7 @@ import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.widget.NumberPicker;
@@ -49,9 +51,8 @@ import com.mobiata.android.Log;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.Suggestion;
 import com.mobiata.android.widget.CalendarDatePicker;
-import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 
-public class SearchParamsFragment extends Fragment {
+public class SearchParamsFragment extends Fragment implements EventHandler {
 
 	private static final int NUM_SUGGESTIONS = 5;
 
@@ -69,6 +70,12 @@ public class SearchParamsFragment extends Fragment {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		((SearchFragmentActivity) activity).mEventManager.registerEventHandler(this);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -190,8 +197,6 @@ public class SearchParamsFragment extends Fragment {
 			bd.registerDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD, mAutocompleteCallback);
 		}
 
-		updateViews();
-
 		mLocationEditText.addTextChangedListener(mLocationTextWatcher);
 	}
 
@@ -202,6 +207,12 @@ public class SearchParamsFragment extends Fragment {
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD);
 
 		mLocationEditText.removeTextChangedListener(mLocationTextWatcher);
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		((SearchFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
 	}
 
 	public void startSearch() {
@@ -420,6 +431,20 @@ public class SearchParamsFragment extends Fragment {
 				bd.startDownload(KEY_AUTOCOMPLETE_DOWNLOAD, download, mAutocompleteCallback);
 			}
 			super.handleMessage(msg);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// EventHandler implementation
+
+	@Override
+	public void handleEvent(int eventCode, Object data) {
+		switch (eventCode) {
+		case SearchFragmentActivity.EVENT_RESET_PARAMS:
+			updateViews();
+			BackgroundDownloader.getInstance().cancelDownload(KEY_AUTOCOMPLETE_DOWNLOAD);
+			configureSuggestions(null);
+			break;
 		}
 	}
 
