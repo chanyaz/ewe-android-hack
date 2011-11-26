@@ -8,6 +8,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -288,12 +290,7 @@ public class SearchParamsFragment extends Fragment {
 			// Configure "my location" separately
 			SuggestionRow currentLocationRow = mSuggestionRows.get(0);
 			currentLocationRow.setVisibility(View.VISIBLE);
-			currentLocationRow.mRow.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					mLocationEditText.setText(R.string.current_location);
-
-				}
-			});
+			currentLocationRow.mRow.setOnClickListener(createRowOnClickListener(getString(R.string.current_location)));
 			currentLocationRow.mLocation.setText(R.string.current_location);
 			currentLocationRow.mLocation.setTypeface(Typeface.DEFAULT_BOLD);
 			currentLocationRow.mIcon.setImageResource(R.drawable.autocomplete_location);
@@ -313,18 +310,27 @@ public class SearchParamsFragment extends Fragment {
 		}
 	}
 
-	private void configureSuggestionRow(SuggestionRow row, final String suggestion) {
+	private void configureSuggestionRow(SuggestionRow row, String suggestion) {
 		row.setVisibility(View.VISIBLE);
 
-		row.mRow.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				mLocationEditText.setText(suggestion);
-				mLocationEditText.clearFocus();
-			}
-		});
+		row.mRow.setOnClickListener(createRowOnClickListener(suggestion));
 
 		row.mLocation.setText(suggestion);
 		row.mIcon.setImageResource(R.drawable.autocomplete_pin);
+	}
+
+	private OnClickListener createRowOnClickListener(final String suggestion) {
+		return new OnClickListener() {
+			public void onClick(View v) {
+				mLocationEditText.setText(suggestion);
+				mLocationEditText.clearFocus();
+
+				// Hide the IME
+				InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+						Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(mLocationEditText.getWindowToken(), 0);
+			}
+		};
 	}
 
 	@SuppressWarnings("unchecked")
