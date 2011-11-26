@@ -16,15 +16,18 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.EditorInfo;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchFragmentActivity;
@@ -102,6 +105,22 @@ public class SearchParamsFragment extends Fragment {
 			}
 		});
 
+		mLocationEditText.setOnEditorActionListener(new OnEditorActionListener() {
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					if (v.getText().length() > 0) {
+						// #11066: Start the search when user clicks "done"
+						startSearch();
+					}
+					else {
+						// Don't let the user click "done" if they haven't entered anything
+						return true;
+					}
+				}
+				return false;
+			}
+		});
+
 		// Configure suggestions
 		ViewGroup suggestionsContainer = (ViewGroup) view.findViewById(R.id.suggestions_layout);
 		mSuggestionRows = new ArrayList<SuggestionRow>();
@@ -166,12 +185,7 @@ public class SearchParamsFragment extends Fragment {
 		Button button = (Button) view.findViewById(R.id.search_button);
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(), SearchResultsFragmentActivity.class);
-				intent.putExtra(Codes.SEARCH_PARAMS, getInstance().mSearchParams.toJson().toString());
-				startActivity(intent);
-
-				// Do this so that when the user clicks back, they aren't focused on the location edit text immediately
-				mLocationEditText.clearFocus();
+				startSearch();
 			}
 		});
 
@@ -199,6 +213,15 @@ public class SearchParamsFragment extends Fragment {
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD);
 
 		mLocationEditText.removeTextChangedListener(mLocationTextWatcher);
+	}
+
+	public void startSearch() {
+		Intent intent = new Intent(getActivity(), SearchResultsFragmentActivity.class);
+		intent.putExtra(Codes.SEARCH_PARAMS, getInstance().mSearchParams.toJson().toString());
+		startActivity(intent);
+
+		// Do this so that when the user clicks back, they aren't focused on the location edit text immediately
+		mLocationEditText.clearFocus();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
