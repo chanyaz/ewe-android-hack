@@ -276,6 +276,19 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		mInstance.mFilter.removeOnFilterChangedListener(this);
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (isFinishing()) {
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			bd.cancelDownload(KEY_GEOCODE);
+			bd.cancelDownload(KEY_SEARCH);
+			bd.cancelDownload(KEY_AVAILABILITY_SEARCH);
+			bd.cancelDownload(KEY_REVIEWS);
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Activity overrides
 
