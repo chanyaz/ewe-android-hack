@@ -160,6 +160,10 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 	}
 
 	public PriceTier getPriceTier(PriceRange priceRange) {
+		if (mPriceTiers.size() == 0) {
+			clusterProperties();
+		}
+
 		return mPriceTiers.get(priceRange);
 	}
 

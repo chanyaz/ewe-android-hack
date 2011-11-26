@@ -301,7 +301,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private SearchParams mOriginalSearchParams;
 	private Session mSession;
 	private SearchResponse mSearchResponse;
-	private Map<PriceRange, PriceTier> mPriceTierCache;
 	private Filter mFilter;
 	private Filter mOldFilter;
 	public boolean mStartSearchOnResume;
@@ -357,7 +356,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				ImageCache.recycleCache(true);
 				broadcastSearchCompleted(mSearchResponse);
 
-				buildPriceTierCache();
 				hideLoading();
 				setFilterInfoText();
 
@@ -1457,7 +1455,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		state.oldSearchParams = mOldSearchParams;
 		state.originalSearchParams = mOriginalSearchParams;
 		state.searchResponse = mSearchResponse;
-		state.priceTierCache = mPriceTierCache;
 		state.session = mSession;
 		state.filter = mFilter;
 		state.oldFilter = mOldFilter;
@@ -1497,7 +1494,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		mOldSearchParams = state.oldSearchParams;
 		mOriginalSearchParams = state.originalSearchParams;
 		mSearchResponse = state.searchResponse;
-		mPriceTierCache = state.priceTierCache;
 		mSession = state.session;
 		mFilter = state.filter;
 		mOldFilter = state.oldFilter;
@@ -2009,18 +2005,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	//----------------------------------
 	// VIEW BUILDING METHODS
 	//----------------------------------
-
-	private void buildPriceTierCache() {
-		if (mSearchResponse != null) {
-			mSearchResponse.clusterProperties();
-
-			mPriceTierCache = new HashMap<PriceRange, PriceTier>();
-			mPriceTierCache.put(PriceRange.CHEAP, mSearchResponse.getPriceTier(PriceRange.CHEAP));
-			mPriceTierCache.put(PriceRange.MODERATE, mSearchResponse.getPriceTier(PriceRange.MODERATE));
-			mPriceTierCache.put(PriceRange.EXPENSIVE, mSearchResponse.getPriceTier(PriceRange.EXPENSIVE));
-			mPriceTierCache.put(PriceRange.ALL, mSearchResponse.getPriceTier(PriceRange.ALL));
-		}
-	}
 
 	private void disablePanelHandle() {
 		mPanel.getHandle().setEnabled(false);
