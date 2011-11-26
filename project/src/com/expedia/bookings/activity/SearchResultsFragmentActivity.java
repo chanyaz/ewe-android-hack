@@ -413,38 +413,53 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	// Event handling
 
 	public void propertySelected(Property property) {
-		// Clear out the previous property's images from the cache
-		if (mInstance.mProperty != null && mInstance.mProperty != property) {
-			if (mInstance.mProperty.getMediaCount() > 0) {
-				for (Media media : mInstance.mProperty.getMediaList()) {
-					ImageCache.removeImage(media.getActiveUrl(), true);
-					ImageCache.removeImage(media.getUrl(), true);
-				}
-			}
-		}
-
-		mInstance.mProperty = property;
 		Log.v("propertySelected(): " + property.getName());
 
-		// Ensure that a MiniDetailsFragment is being displayed
+		boolean selectionChanged = (mInstance.mProperty != property);
+
+		// Ensure that the proper view is being displayed.
+		//
+		// If the user isn't viewing anything, bring up mini details.  If some details are up, either expand to
+		// full details or just changed the selected property (based on the state when this property is selected).
 		FragmentManager fm = getFragmentManager();
-		if (fm.findFragmentByTag(getString(R.string.tag_mini_details)) == null) {
+		boolean miniDetailsShowing = fm.findFragmentByTag(getString(R.string.tag_mini_details)) != null;
+		boolean detailsShowing = fm.findFragmentByTag(getString(R.string.tag_details)) != null;
+		if (!miniDetailsShowing && !detailsShowing) {
 			showMiniDetailsFragment();
 		}
-		// start downloading the availability response for this property
-		// ahead of time (from when it might actually be needed) so that 
-		// the results are instantly displayed in the hotel details view to the user
-		startRoomsAndRatesDownload(mInstance.mProperty);
-		startReviewsDownload();
+		else if (!selectionChanged && miniDetailsShowing) {
+			showHotelDetailsFragment();
+		}
 
-		// notify the necessary components only after starting the 
-		// downloads so that the right downlaod information (such as  is picked up by the components
-		// when notified of the change in property
-		mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
+		// When the selected property changes, a few things need to be done.
+		if (selectionChanged) {
+			// Clear out the previous property's images from the cache
+			if (mInstance.mProperty != null) {
+				if (mInstance.mProperty.getMediaCount() > 0) {
+					for (Media media : mInstance.mProperty.getMediaList()) {
+						ImageCache.removeImage(media.getActiveUrl(), true);
+						ImageCache.removeImage(media.getUrl(), true);
+					}
+				}
+			}
+
+			mInstance.mProperty = property;
+
+			// start downloading the availability response for this property
+			// ahead of time (from when it might actually be needed) so that 
+			// the results are instantly displayed in the hotel details view to the user
+			startRoomsAndRatesDownload(mInstance.mProperty);
+			startReviewsDownload();
+
+			// notify the necessary components only after starting the 
+			// downloads so that the right downlaod information (such as  is picked up by the components
+			// when notified of the change in property
+			mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
+		}
 	}
 
 	public void moreDetailsForPropertySelected() {
-		showHotelDetailsFragment();
+		propertySelected(mInstance.mProperty);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
