@@ -3,6 +3,7 @@
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:baselineAligned="false"
     android:gravity="center"
     android:orientation="horizontal"
     android:weightSum="@integer/booking_info_dialog_width_weight_sum" >
@@ -91,9 +92,10 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
-                android:weightSum="@integer/booking_info_columns_width_weight_sum"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:weightSum="@integer/booking_info_columns_width_weight_sum" >
 
                 <LinearLayout
                     android:layout_width="0dp"

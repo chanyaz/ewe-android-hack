@@ -23,6 +23,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:baselineAligned="false"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:weightSum="2" >
@@ -30,10 +31,11 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:orientation="horizontal"
                 android:layout_weight="1"
-                android:weightSum="10"
-                android:gravity="center" >
+                android:baselineAligned="false"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="10" >
 
                 <ImageView
                     android:id="@+id/thumbnail_image_view"
