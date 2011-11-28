@@ -237,7 +237,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		int numReviewRows = getResources().getInteger(R.integer.num_review_rows);
 		float heightPerReviewRow = getResources().getDimension(R.dimen.min_height_per_row_review);
 		float minHeight = 0.0f;
-		if ((property.getTotalReviews() / numReviewRows) >= 1) {
+		if ((property.getTotalReviews() / numReviewRows) > 1) {
 			minHeight = heightPerReviewRow * numReviewRows;
 		}
 		else {
