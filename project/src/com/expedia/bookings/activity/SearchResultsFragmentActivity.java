@@ -555,30 +555,45 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	// Dialogs
 
 	private void showGuestsDialog() {
-		DialogFragment newFragment = GuestsDialogFragment.newInstance(mInstance.mSearchParams.getNumAdults(),
-				mInstance.mSearchParams.getNumChildren());
-		newFragment.show(getFragmentManager(), "GuestsDialog");
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(getString(R.string.tag_guests_dialog)) == null) {
+			DialogFragment newFragment = GuestsDialogFragment.newInstance(mInstance.mSearchParams.getNumAdults(),
+					mInstance.mSearchParams.getNumChildren());
+			newFragment.show(fm, getString(R.string.tag_guests_dialog));
+		}
 	}
 
 	private void showCalendarDialog() {
-		DialogFragment newFragment = CalendarDialogFragment.newInstance(mInstance.mSearchParams.getCheckInDate(),
-				mInstance.mSearchParams.getCheckOutDate());
-		newFragment.show(getFragmentManager(), "CalendarDialog");
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(getString(R.string.tag_calendar_dialog)) == null) {
+			DialogFragment newFragment = CalendarDialogFragment.newInstance(mInstance.mSearchParams.getCheckInDate(),
+					mInstance.mSearchParams.getCheckOutDate());
+			newFragment.show(getFragmentManager(), getString(R.string.tag_calendar_dialog));
+		}
 	}
 
 	private void showGeocodeDisambiguationDialog(List<Address> addresses) {
-		DialogFragment newFragment = GeocodeDisambiguationDialogFragment.newInstance(addresses);
-		newFragment.show(getFragmentManager(), "GeocodeDisambiguationDialog");
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(getString(R.string.tag_geocode_disambiguation_dialog)) == null) {
+			DialogFragment newFragment = GeocodeDisambiguationDialogFragment.newInstance(addresses);
+			newFragment.show(getFragmentManager(), getString(R.string.tag_geocode_disambiguation_dialog));
+		}
 	}
 
 	private void showFilterDialog() {
-		DialogFragment newFragment = FilterDialogFragment.newInstance();
-		newFragment.show(getFragmentManager(), "FilterDialog");
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(getString(R.string.tag_filter_dialog)) == null) {
+			DialogFragment newFragment = FilterDialogFragment.newInstance();
+			newFragment.show(getFragmentManager(), getString(R.string.tag_filter_dialog));
+		}
 	}
 
 	public void showSortDialog() {
-		DialogFragment newFragment = SortDialogFragment.newInstance();
-		newFragment.show(getFragmentManager(), "SortDialog");
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(getString(R.string.tag_sort_dialog)) == null) {
+			DialogFragment newFragment = SortDialogFragment.newInstance();
+			newFragment.show(getFragmentManager(), getString(R.string.tag_sort_dialog));
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -270,7 +270,10 @@ public class BookingFragmentActivity extends Activity {
 	}
 
 	public void enterBookingInfo() {
-		BookingFormFragment.newInstance().show(getFragmentManager(), getString(R.string.tag_booking_form));
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(getString(R.string.tag_booking_form)) == null) {
+			BookingFormFragment.newInstance().show(getFragmentManager(), getString(R.string.tag_booking_form));
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
