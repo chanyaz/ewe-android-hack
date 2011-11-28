@@ -41,7 +41,7 @@ public class Rate implements JSONable {
 	private Money mTaxesAndFeesPerRoom;
 
 	// Surcharges
-	private Money mSurcharge; // The total fees for the rate (NOT per night)
+	private Money mTotalSurcharge; // The total fees for the rate (NOT per night)
 	private Money mExtraGuestFee;
 
 	// StayHIP unique fields
@@ -348,12 +348,12 @@ public class Rate implements JSONable {
 		mAverageBaseRate = averageBaseRate;
 	}
 
-	public Money getSurcharge() {
-		return mSurcharge;
+	public Money getTotalSurcharge() {
+		return mTotalSurcharge;
 	}
 
-	public void setSurcharge(Money surcharge) {
-		mSurcharge = surcharge;
+	public void setTotalSurcharge(Money surcharge) {
+		mTotalSurcharge = surcharge;
 	}
 
 	public int getNumberOfNights() {
@@ -432,7 +432,7 @@ public class Rate implements JSONable {
 		if (mInclusiveBaseRate == null) {
 			double rate = mAverageBaseRate.getAmount() * mNumberOfNights;
 			mInclusiveBaseRate = ParserUtils.createMoney(rate, mAverageBaseRate.getCurrency());
-			mInclusiveBaseRate.add(mSurcharge);
+			mInclusiveBaseRate.add(mTotalSurcharge);
 		}
 		return mInclusiveBaseRate;
 	}
@@ -441,7 +441,7 @@ public class Rate implements JSONable {
 		if (mInclusiveRate == null) {
 			double rate = mAverageRate.getAmount() * mNumberOfNights;
 			mInclusiveRate = ParserUtils.createMoney(rate, mAverageRate.getCurrency());
-			mInclusiveRate.add(mSurcharge);
+			mInclusiveRate.add(mTotalSurcharge);
 		}
 		return mInclusiveRate;
 	}
@@ -488,7 +488,7 @@ public class Rate implements JSONable {
 			obj.putOpt("promoDescription", mPromoDescription);
 			JSONUtils.putJSONable(obj, "averageRate", mAverageRate);
 			JSONUtils.putJSONable(obj, "averageBaseRate", mAverageBaseRate);
-			JSONUtils.putJSONable(obj, "surcharge", mSurcharge);
+			JSONUtils.putJSONable(obj, "totalSurcharge", mTotalSurcharge);
 			obj.putOpt("numberOfNights", mNumberOfNights);
 			obj.putOpt("numRoomsLeft", mNumRoomsLeft);
 			JSONUtils.putStringList(obj, "valueAdds", mValueAdds);
@@ -528,7 +528,7 @@ public class Rate implements JSONable {
 		mPromoDescription = obj.optString("promoDescription", null);
 		mAverageRate = (Money) JSONUtils.getJSONable(obj, "averageRate", Money.class);
 		mAverageBaseRate = (Money) JSONUtils.getJSONable(obj, "averageBaseRate", Money.class);
-		mSurcharge = (Money) JSONUtils.getJSONable(obj, "surcharge", Money.class);
+		mTotalSurcharge = (Money) JSONUtils.getJSONable(obj, "totalSurcharge", Money.class);
 		mNumberOfNights = obj.optInt("numberOfNights", 0);
 		mNumRoomsLeft = obj.optInt("numRoomsLeft", 0);
 		mValueAdds = JSONUtils.getStringList(obj, "valueAdds");

@@ -122,16 +122,11 @@ public class BookingReceiptUtils {
 					.getDailyAmountBeforeTax().getFormattedMoney());
 		}
 
-		Money totalSurcharge = rate.getSurcharge();
+		Money totalSurcharge = rate.getTotalSurcharge();
 		Money extraGuestFee = rate.getExtraGuestFee();
 		if (extraGuestFee != null) {
 			BookingReceiptUtils.addDetail(context, detailsLayout, R.string.extra_guest_charge,
 					extraGuestFee.getFormattedMoney());
-			if (totalSurcharge != null) {
-				// Make a mutable copy
-				totalSurcharge = totalSurcharge.copy();
-				totalSurcharge.subtract(extraGuestFee);
-			}
 		}
 		if (totalSurcharge != null) {
 			BookingReceiptUtils.addDetail(context, detailsLayout, R.string.TaxesAndFees,

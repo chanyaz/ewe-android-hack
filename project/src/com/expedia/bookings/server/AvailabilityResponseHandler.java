@@ -120,16 +120,16 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 					rate.setAverageBaseRate(ParserUtils.createMoney(chargeableRateInfo.getString("averageBaseRate"),
 							currencyCode));
 
-					Money surchargeTotal = ParserUtils.createMoney(
-							chargeableRateInfo.optString("surchargeTotal", "0.0"),
+					Money surchargeTotalForEntireStay = ParserUtils.createMoney(
+							chargeableRateInfo.optString("surchargeTotalForEntireStay", "0.0"),
 							currencyCode);
 					Money total = ParserUtils.createMoney(chargeableRateInfo.getString("total"), currencyCode);
 					Money totalBeforeTax = total.copy();
-					totalBeforeTax.subtract(surchargeTotal);
+					totalBeforeTax.subtract(surchargeTotalForEntireStay);
 
 					rate.setTotalAmountBeforeTax(totalBeforeTax);
 					rate.setTotalAmountAfterTax(total);
-					rate.setSurcharge(surchargeTotal);
+					rate.setTotalSurcharge(surchargeTotalForEntireStay);
 
 					if (jsonRate.has("taxRate")) {
 						rate.setTaxesAndFeesPerRoom(ParserUtils.createMoney(jsonRate.getDouble("taxRate"), currencyCode));
@@ -149,10 +149,10 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 					}
 
 					// Surcharges
-					JSONArray surcharges = chargeableRateInfo.optJSONArray("surcharges");
-					if (surcharges != null) {
-						for (int b = 0; b < surcharges.length(); b++) {
-							JSONObject surcharge = surcharges.getJSONObject(b);
+					JSONArray surchargesForEntireStay = chargeableRateInfo.optJSONArray("surchargesForEntireStay");
+					if (surchargesForEntireStay != null) {
+						for (int b = 0; b < surchargesForEntireStay.length(); b++) {
+							JSONObject surcharge = surchargesForEntireStay.getJSONObject(b);
 							if (surcharge.optString("type").equals("EXTRA")) {
 								rate.setExtraGuestFee(ParserUtils.createMoney(surcharge.getDouble("amount"),
 										currencyCode));
