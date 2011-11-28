@@ -17,6 +17,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelAdapter;
+import com.expedia.bookings.widget.TagProgressBar;
 
 public class HotelListFragment extends ListFragment implements EventHandler {
 
@@ -25,7 +26,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	private ViewGroup mHeaderLayout;
 	private TextView mNumHotelsTextView;
 	private TextView mSortTypeTextView;
-	private TextView mMessageTextView;
+	private TagProgressBar mTagProgressBar;
 
 	public static HotelListFragment newInstance() {
 		return new HotelListFragment();
@@ -55,7 +56,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 		mHeaderLayout = (ViewGroup) view.findViewById(R.id.header_layout);
 		mNumHotelsTextView = (TextView) view.findViewById(R.id.num_hotels_text_view);
 		mSortTypeTextView = (TextView) view.findViewById(R.id.sort_type_text_view);
-		mMessageTextView = (TextView) view.findViewById(android.R.id.empty);
+		mTagProgressBar = (TagProgressBar) view.findViewById(android.R.id.empty);
 
 		mSortTypeTextView.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -167,17 +168,18 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	}
 
 	private void displaySearchStatus() {
-		if (mMessageTextView != null && mAdapter != null) {
-			mMessageTextView.setText(getInstance().mSearchStatus);
+		if (mTagProgressBar != null && mAdapter != null) {
+			mTagProgressBar.setText(getInstance().mSearchStatus);
 			setHeaderVisibility(View.GONE);
 			mAdapter.setSearchResponse(null);
 		}
 	}
 
 	private void displaySearchError() {
-		if (mMessageTextView != null && mAdapter != null) {
+		if (mTagProgressBar != null && mAdapter != null) {
 			String errorMsg = getInstance().mSearchStatus;
-			mMessageTextView.setText(errorMsg);
+			mTagProgressBar.setText(errorMsg);
+			mTagProgressBar.setShowProgress(false);
 			setHeaderVisibility(View.GONE);
 			mAdapter.setSearchResponse(null);
 		}
@@ -192,11 +194,13 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 
 		if (response.getPropertiesCount() == 0) {
 			setHeaderVisibility(View.GONE);
-			mMessageTextView.setText(R.string.ean_error_no_results);
+			mTagProgressBar.setText(R.string.ean_error_no_results);
+			mTagProgressBar.setShowProgress(false);
 		}
 		else if (mAdapter.getCount() == 0) {
 			setHeaderVisibility(View.GONE);
-			mMessageTextView.setText(R.string.no_filter_results);
+			mTagProgressBar.setText(R.string.no_filter_results);
+			mTagProgressBar.setShowProgress(false);
 		}
 		else {
 			updateNumHotels();

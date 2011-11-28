@@ -42,6 +42,9 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 	private Activity mParent;
 
+	private Bitmap mBitmap;
+	private Canvas mCanvas;
+
 	private boolean mShowProgress = true;
 	private String mText;
 
@@ -128,6 +131,15 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		setTextStyle(attrs.getAttributeIntValue("android", "textStyle", Typeface.NORMAL));
 	}
 
+	@Override
+	public void setVisibility(int visibility) {
+		if (visibility != View.VISIBLE && mDrawingThread != null) {
+			mDrawingThread.setRunning(false);
+		}
+
+		super.setVisibility(visibility);
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
 
@@ -136,6 +148,9 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		mWidth = width;
 		mHeight = height;
 		mSurfaceRect = new Rect(0, 0, width, height);
+
+		mBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+		mCanvas = new Canvas(mBitmap);
 
 		calculateMeasurements();
 	}
@@ -221,6 +236,10 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 		case Surface.ROTATION_90: {
 			acceleration[1] = event.values[0];
 			acceleration[0] = -event.values[1];
+			break;
+		}
+		case Surface.ROTATION_180: {
+			acceleration[1] *= -1;
 			break;
 		}
 		case Surface.ROTATION_270: {
@@ -456,7 +475,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private classes
 
-	class DrawingThread extends Thread {
+	private class DrawingThread extends Thread {
 		//////////////////////////////////////////////////////////////////////////////
 		// Constants
 
@@ -539,7 +558,7 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 
 				c = null;
 				try {
-					c = mSurfaceHolder.lockCanvas(null);
+					c = mSurfaceHolder.lockCanvas();
 					synchronized (mSurfaceHolder) {
 						doDraw(c, delta);
 					}
@@ -605,7 +624,9 @@ public class TagProgressBar extends SurfaceView implements SurfaceHolder.Callbac
 				if (!mTagGrabbed) {
 					updatePhysics(delta);
 				}
-				draw(canvas);
+				draw(mCanvas);
+
+				canvas.drawBitmap(mBitmap, 0, 0, null);
 
 				mLastDrawTime = mNow;
 			}
