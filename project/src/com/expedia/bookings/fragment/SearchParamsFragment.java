@@ -283,6 +283,11 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			mIcon.setVisibility(visibility);
 			mLocation.setVisibility(visibility);
 
+			// Don't allow the row to be clicked if it's being hidden
+			if (visibility != View.VISIBLE) {
+				mRow.setClickable(false);
+			}
+
 			if (mDivider != null) {
 				if (visibility == View.VISIBLE) {
 					mDivider.setBackgroundResource(R.drawable.autocomplete_seperator);
