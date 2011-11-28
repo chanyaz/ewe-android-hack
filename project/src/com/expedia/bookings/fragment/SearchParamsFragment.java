@@ -9,8 +9,12 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -198,6 +202,10 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		}
 
 		mLocationEditText.addTextChangedListener(mLocationTextWatcher);
+
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+		getActivity().registerReceiver(mConnectivityReceiver, filter);
 	}
 
 	@Override
@@ -207,6 +215,8 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD);
 
 		mLocationEditText.removeTextChangedListener(mLocationTextWatcher);
+
+		getActivity().unregisterReceiver(mConnectivityReceiver);
 	}
 
 	@Override
@@ -413,6 +423,15 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 		public void afterTextChanged(Editable s) {
 			// Do nothing
+		}
+	};
+
+	private BroadcastReceiver mConnectivityReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// Kick off a new suggestion query based on the current text.
+			configureSuggestions(mLocationEditText.getText().toString());
 		}
 	};
 
