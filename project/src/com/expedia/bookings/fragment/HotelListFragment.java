@@ -19,7 +19,6 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
-import com.expedia.bookings.widget.TagProgressBar;
 
 public class HotelListFragment extends ListFragment implements EventHandler {
 
