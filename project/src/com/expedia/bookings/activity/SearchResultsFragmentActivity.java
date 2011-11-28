@@ -293,6 +293,16 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	// Activity overrides
 
 	@Override
+	public void finish() {
+		// Store the search params going backwards, for the SearchFragmentActivity to use
+		Intent data = new Intent();
+		data.putExtra(Codes.SEARCH_PARAMS, mInstance.mSearchParams.toString());
+		setResult(RESULT_OK, data);
+
+		super.finish();
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 

@@ -11,6 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager;
+import com.mobiata.android.json.JSONUtils;
 
 public class SearchFragmentActivity extends Activity {
 
@@ -18,6 +19,9 @@ public class SearchFragmentActivity extends Activity {
 	// Constants
 
 	public static final int EVENT_RESET_PARAMS = 1;
+	public static final int EVENT_UPDATE_PARAMS = 2;
+
+	public static final int REQUEST_SEARCH = 1;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Member vars
@@ -62,6 +66,25 @@ public class SearchFragmentActivity extends Activity {
 
 			mEventManager.notifyEventHandlers(EVENT_RESET_PARAMS, mInstance.mSearchParams);
 		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (resultCode == RESULT_OK && requestCode == REQUEST_SEARCH && data != null
+				&& data.hasExtra(Codes.SEARCH_PARAMS)) {
+			mInstance.mSearchParams = JSONUtils.parseJSONableFromIntent(data, Codes.SEARCH_PARAMS, SearchParams.class);
+			mInstance.mHasFocusedSearchField = true;
+
+			mEventManager.notifyEventHandlers(EVENT_UPDATE_PARAMS, mInstance.mSearchParams);
+		}
+	}
+
+	public void startSearch() {
+		Intent intent = new Intent(this, SearchResultsFragmentActivity.class);
+		intent.putExtra(Codes.SEARCH_PARAMS, getInstance().mSearchParams.toJson().toString());
+		startActivityForResult(intent, REQUEST_SEARCH);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

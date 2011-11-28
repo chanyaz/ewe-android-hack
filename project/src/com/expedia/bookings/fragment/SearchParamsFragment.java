@@ -10,7 +10,6 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,8 +34,6 @@ import android.widget.TextView.OnEditorActionListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchFragmentActivity;
 import com.expedia.bookings.activity.SearchFragmentActivity.InstanceFragment;
-import com.expedia.bookings.activity.SearchResultsFragmentActivity;
-import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
@@ -216,9 +213,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	}
 
 	public void startSearch() {
-		Intent intent = new Intent(getActivity(), SearchResultsFragmentActivity.class);
-		intent.putExtra(Codes.SEARCH_PARAMS, getInstance().mSearchParams.toJson().toString());
-		startActivity(intent);
+		((SearchFragmentActivity) getActivity()).startSearch();
 
 		// Do this so that when the user clicks back, they aren't focused on the location edit text immediately
 		mLocationEditText.clearFocus();
@@ -377,18 +372,16 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			getInstance().mHasFocusedSearchField = true;
 
-			if (!isHidden() && isAdded()) {
-				String location = s.toString().trim();
-				SearchParams searchParams = getInstance().mSearchParams;
-				if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
-					searchParams.setSearchType(SearchType.MY_LOCATION);
-					configureSuggestions(null);
-				}
-				else if (!location.equals(searchParams.getFreeformLocation())) {
-					searchParams.setFreeformLocation(location);
-					searchParams.setSearchType(SearchType.FREEFORM);
-					configureSuggestions(location);
-				}
+			String location = s.toString().trim();
+			SearchParams searchParams = getInstance().mSearchParams;
+			if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
+				searchParams.setSearchType(SearchType.MY_LOCATION);
+				configureSuggestions(null);
+			}
+			else if (!location.equals(searchParams.getFreeformLocation())) {
+				searchParams.setFreeformLocation(location);
+				searchParams.setSearchType(SearchType.FREEFORM);
+				configureSuggestions(location);
 			}
 		}
 
@@ -444,6 +437,10 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			updateViews();
 			BackgroundDownloader.getInstance().cancelDownload(KEY_AUTOCOMPLETE_DOWNLOAD);
 			configureSuggestions(null);
+			break;
+		case SearchFragmentActivity.EVENT_UPDATE_PARAMS:
+			BackgroundDownloader.getInstance().cancelDownload(KEY_AUTOCOMPLETE_DOWNLOAD);
+			updateViews();
 			break;
 		}
 	}
