@@ -249,6 +249,12 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 						JSONObject bedType = bedTypes.getJSONObject(b);
 						String bedTypeDescription = bedType.getString("description");
 						bedTypeElements.add(bedTypeDescription);
+
+						// 11085: don't add empty bed type description to rate
+						if (bedType.getString("@id") == null || "".equals(bedTypeDescription)) {
+							continue;
+						}
+
 						rate.addBedType(bedType.getString("@id"), bedTypeDescription);
 					}
 					String ratePlanName = FormatUtils.series(mContext, bedTypeElements, ",", Conjunction.OR);
