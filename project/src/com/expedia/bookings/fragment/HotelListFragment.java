@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -17,6 +18,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelAdapter;
+import com.expedia.bookings.widget.PlaceholderTagProgressBar;
 import com.expedia.bookings.widget.TagProgressBar;
 
 public class HotelListFragment extends ListFragment implements EventHandler {
@@ -26,7 +28,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	private ViewGroup mHeaderLayout;
 	private TextView mNumHotelsTextView;
 	private TextView mSortTypeTextView;
-	private TagProgressBar mTagProgressBar;
+	private PlaceholderTagProgressBar mSearchProgressBar;
 
 	public static HotelListFragment newInstance() {
 		return new HotelListFragment();
@@ -56,7 +58,12 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 		mHeaderLayout = (ViewGroup) view.findViewById(R.id.header_layout);
 		mNumHotelsTextView = (TextView) view.findViewById(R.id.num_hotels_text_view);
 		mSortTypeTextView = (TextView) view.findViewById(R.id.sort_type_text_view);
-		mTagProgressBar = (TagProgressBar) view.findViewById(android.R.id.empty);
+		
+		ViewGroup placeholderContainer = (ViewGroup) findViewById(R.id.placeholder_progress_layout);
+		ProgressBar placeholderProgressBar = (ProgressBar) findViewById(R.id.placeholder_progress_bar);
+		TextView placeholderProgressTextView = (TextView) findViewById(R.id.placeholder_progress_text_view);
+		mSearchProgressBar = new PlaceholderTagProgressBar(placeholderContainer, placeholderProgressBar,
+				placeholderProgressTextView);	
 
 		mSortTypeTextView.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {

@@ -55,9 +55,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
-    <com.expedia.bookings.widget.TagProgressBar
+    <include
         android:id="@android:id/empty"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        layout="@layout/include_placeholder_progress" />
 
 </LinearLayout>
