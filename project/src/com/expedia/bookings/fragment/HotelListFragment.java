@@ -28,6 +28,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	private ViewGroup mHeaderLayout;
 	private TextView mNumHotelsTextView;
 	private TextView mSortTypeTextView;
+	
 	private PlaceholderTagProgressBar mSearchProgressBar;
 
 	public static HotelListFragment newInstance() {
@@ -58,12 +59,12 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 		mHeaderLayout = (ViewGroup) view.findViewById(R.id.header_layout);
 		mNumHotelsTextView = (TextView) view.findViewById(R.id.num_hotels_text_view);
 		mSortTypeTextView = (TextView) view.findViewById(R.id.sort_type_text_view);
-		
-		ViewGroup placeholderContainer = (ViewGroup) findViewById(R.id.placeholder_progress_layout);
-		ProgressBar placeholderProgressBar = (ProgressBar) findViewById(R.id.placeholder_progress_bar);
-		TextView placeholderProgressTextView = (TextView) findViewById(R.id.placeholder_progress_text_view);
+
+		ViewGroup placeholderContainer = (ViewGroup) view.findViewById(android.R.id.empty);
+		ProgressBar placeholderProgressBar = (ProgressBar) view.findViewById(R.id.placeholder_progress_bar);
+		TextView placeholderProgressTextView = (TextView) view.findViewById(R.id.placeholder_progress_text_view);
 		mSearchProgressBar = new PlaceholderTagProgressBar(placeholderContainer, placeholderProgressBar,
-				placeholderProgressTextView);	
+				placeholderProgressTextView);
 
 		mSortTypeTextView.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -175,18 +176,18 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	}
 
 	private void displaySearchStatus() {
-		if (mTagProgressBar != null && mAdapter != null) {
-			mTagProgressBar.setText(getInstance().mSearchStatus);
+		if (mSearchProgressBar != null && mAdapter != null) {
+			mSearchProgressBar.setText(getInstance().mSearchStatus);
 			setHeaderVisibility(View.GONE);
 			mAdapter.setSearchResponse(null);
 		}
 	}
 
 	private void displaySearchError() {
-		if (mTagProgressBar != null && mAdapter != null) {
+		if (mSearchProgressBar != null && mAdapter != null) {
 			String errorMsg = getInstance().mSearchStatus;
-			mTagProgressBar.setText(errorMsg);
-			mTagProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(errorMsg);
+			mSearchProgressBar.setShowProgress(false);
 			setHeaderVisibility(View.GONE);
 			mAdapter.setSearchResponse(null);
 		}
@@ -201,13 +202,13 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 
 		if (response.getPropertiesCount() == 0) {
 			setHeaderVisibility(View.GONE);
-			mTagProgressBar.setText(R.string.ean_error_no_results);
-			mTagProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(R.string.ean_error_no_results);
+			mSearchProgressBar.setShowProgress(false);
 		}
 		else if (mAdapter.getCount() == 0) {
 			setHeaderVisibility(View.GONE);
-			mTagProgressBar.setText(R.string.no_filter_results);
-			mTagProgressBar.setShowProgress(false);
+			mSearchProgressBar.setText(R.string.no_filter_results);
+			mSearchProgressBar.setShowProgress(false);
 		}
 		else {
 			updateNumHotels();
