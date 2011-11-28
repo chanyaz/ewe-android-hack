@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -12,6 +13,8 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.DialogUtils;
+import com.mobiata.android.util.NetUtils;
 
 public class SearchFragmentActivity extends Activity {
 
@@ -22,6 +25,8 @@ public class SearchFragmentActivity extends Activity {
 	public static final int EVENT_UPDATE_PARAMS = 2;
 
 	public static final int REQUEST_SEARCH = 1;
+
+	public static final int DIALOG_NO_INTERNET = 1;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Member vars
@@ -81,7 +86,23 @@ public class SearchFragmentActivity extends Activity {
 		}
 	}
 
+	@Override
+	protected Dialog onCreateDialog(int id, Bundle args) {
+		switch (id) {
+		case DIALOG_NO_INTERNET:
+			return DialogUtils.createSimpleDialog(this, DIALOG_NO_INTERNET, 0, R.string.error_no_internet);
+		}
+
+		return super.onCreateDialog(id, args);
+
+	}
+
 	public void startSearch() {
+		if (!NetUtils.isOnline(this)) {
+			showDialog(DIALOG_NO_INTERNET);
+			return;
+		}
+
 		Intent intent = new Intent(this, SearchResultsFragmentActivity.class);
 		intent.putExtra(Codes.SEARCH_PARAMS, getInstance().mSearchParams.toJson().toString());
 		startActivityForResult(intent, REQUEST_SEARCH);
