@@ -47,6 +47,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.Suggestion;
+import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 
 public class SearchParamsFragment extends Fragment implements EventHandler {
@@ -64,6 +65,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	private CalendarDatePicker mCalendarDatePicker;
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
+	private TextView mSuggestionErrorTextView;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -88,6 +90,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		mCalendarDatePicker = (CalendarDatePicker) view.findViewById(R.id.dates_date_picker);
 		mAdultsNumberPicker = (NumberPicker) view.findViewById(R.id.adults_number_picker);
 		mChildrenNumberPicker = (NumberPicker) view.findViewById(R.id.children_number_picker);
+		mSuggestionErrorTextView = (TextView) view.findViewById(R.id.suggestion_error_text_view);
 
 		// Need to set temporary max values for number pickers, or updateViews() won't work (since a picker value
 		// must be within its valid range to be set)
@@ -301,6 +304,20 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 	private void configureSuggestions(final String query) {
 		mHandler.removeMessages(WHAT_AUTOCOMPLETE);
+
+		if (!NetUtils.isOnline(getActivity())) {
+			// Hide all of the current suggestion rows
+			for (SuggestionRow row : mSuggestionRows) {
+				row.setVisibility(View.INVISIBLE);
+			}
+
+			mSuggestionErrorTextView.setVisibility(View.VISIBLE);
+			mSuggestionErrorTextView.setText(R.string.error_no_internet);
+			return;
+		}
+		else {
+			mSuggestionErrorTextView.setVisibility(View.GONE);
+		}
 
 		// Show default suggestions in case of null query
 		if (query == null || query.length() == 0 || !getInstance().mHasFocusedSearchField) {
