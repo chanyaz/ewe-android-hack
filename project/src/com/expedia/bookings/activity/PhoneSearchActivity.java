@@ -371,7 +371,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 				enablePanelHandle();
 			}
-			else if (mSearchResponse != null && mSearchResponse.getLocations() != null
+			else if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0 && mSearchResponse.getLocations() != null
 					&& mSearchResponse.getLocations().size() > 0) {
 				showDialog(DIALOG_LOCATION_SUGGESTIONS);
 			}
@@ -2027,7 +2027,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	//----------------------------------
 
 	private void buildPriceTierCache() {
-		if (mSearchResponse != null) {
+		if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0) {
 			mSearchResponse.clusterProperties();
 
 			mPriceTierCache = new HashMap<PriceRange, PriceTier>();
@@ -2394,7 +2394,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	}
 
 	private void setFilterInfoText() {
-		if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
+		if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0 && !mSearchResponse.hasErrors()) {
 			final int count = mSearchResponse.getFilteredAndSortedProperties().length;
 			final String text = getResources().getQuantityString(R.plurals.number_of_matching_hotels, count, count);
 
@@ -3239,8 +3239,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 
 		// Number of search results
-		if (mSearchResponse != null && mSearchResponse.getFilteredAndSortedProperties() != null) {
-			s.prop1 = mSearchResponse.getFilteredAndSortedProperties().length + "";
+		if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0) {
+			s.prop1 = mSearchResponse.getPropertiesCount() + "";
 		}
 
 		// Send the tracking data
