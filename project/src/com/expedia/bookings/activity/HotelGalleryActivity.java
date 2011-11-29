@@ -91,8 +91,9 @@ public class HotelGalleryActivity extends Activity {
 			}
 		});
 
+		final View bigImageContainer = findViewById(R.id.big_image_container);
 		mGestureDetector = new GestureDetector(new PageGestureDetector());
-		mBigImageView.setOnTouchListener(new OnTouchListener() {
+		bigImageContainer.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				return mGestureDetector.onTouchEvent(event);

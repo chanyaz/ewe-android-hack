@@ -7,16 +7,23 @@
     android:orientation="vertical"
     android:weightSum="4" >
 
-    <ImageView
-        android:id="@+id/big_image_view"
+    <FrameLayout
+        android:id="@+id/big_image_container"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
-        android:layout_weight="3"
-        android:background="@drawable/bg_gallery_photo_normal"
-        android:cropToPadding="true"
-        android:scaleType="centerCrop" />
+        android:layout_weight="3" >
+
+        <ImageView
+            android:id="@+id/big_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_gallery_photo_normal"
+            android:cropToPadding="true"
+            android:scaleType="fitXY" />
+    </FrameLayout>
 
     <View
         android:layout_width="fill_parent"
