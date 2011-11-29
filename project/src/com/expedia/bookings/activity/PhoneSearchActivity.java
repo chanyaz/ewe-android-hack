@@ -342,7 +342,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			mFilter.clearOnFilterChangedListeners();
 			mSearchResponse = (SearchResponse) results;
 
-			if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
+			if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0 && !mSearchResponse.hasErrors()) {
 				incrementNumSearches();
 
 				mSearchResponse.setFilter(mFilter);
