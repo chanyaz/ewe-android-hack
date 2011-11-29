@@ -56,6 +56,9 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_mini_details, container, false);
 
+		// #11181: We make the root view clickable so that clicks don't bleed through to the underlying MapView
+		view.setClickable(true);
+
 		mNameTextView = (TextView) view.findViewById(R.id.name_text_view);
 		mLocationTextView = (TextView) view.findViewById(R.id.location_text_view);
 		mRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
