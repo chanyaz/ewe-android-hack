@@ -213,8 +213,6 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		Double averageRate = null;
 		Double averageBaseRate = null;
 		Rate lowestRate = null;
-		String description = null;
-		String shortDescription = null;
 		Double surcharges = null;
 
 		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
@@ -242,12 +240,10 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 				property.setExpediaPropertyId(parser.getValueAsInt());
 			}
 			else if (name.equals("description")) {
-				description = parser.getText();
-			}
-			else if (name.equals("shortDescription")) {
-				// We don't want to use short description if a long description was found already, 
-				// so only capture if we haven't found a long description yet.
-				shortDescription = parser.getText();
+				String description = parser.getText();
+				if (description.length() > 0) {
+					property.setDescriptionText(fixDescription(description));
+				}
 			}
 			else if (name.equals("thumbNailUrl")) {
 				// The thumbnail url can sometimes assume a prefix
@@ -409,14 +405,6 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			lowestRate.setNumberOfNights(mNumNights);
 
 			property.setLowestRate(lowestRate);
-		}
-
-		if (description == null && shortDescription != null) {
-			description = Html.fromHtml(shortDescription).toString();
-		}
-
-		if (description != null && description.length() > 0) {
-			property.setDescriptionText(fixDescription(description));
 		}
 
 		searchResponse.addProperty(property);
