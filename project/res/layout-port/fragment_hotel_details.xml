@@ -118,8 +118,9 @@
                         android:id="@+id/see_all_reviews_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:duplicateParentState="true"
                         android:text="@string/see_all_reviews"
-                        android:textColor="@color/hotel_details_text_color"
+                        android:textColor="@color/btn_chevron_text"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -130,8 +131,9 @@
                         android:layout_alignTop="@id/see_all_reviews_text"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/see_all_reviews_text"
+                        android:duplicateParentState="true"
                         android:paddingLeft="5dp"
-                        android:src="@drawable/link_chevron" />
+                        android:src="@drawable/btn_reviews_chevron" />
                 </RelativeLayout>
             </RelativeLayout>
 
