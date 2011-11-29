@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Fragment;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,10 +48,15 @@ public class BookingConfirmationFragment extends Fragment {
 		List<Overlay> overlays = mMapView.getOverlays();
 		HotelItemizedOverlay overlay = new HotelItemizedOverlay(getActivity(), properties, false, mMapView, null);
 		overlays.add(overlay);
-		MapController mc = mMapView.getController();
-		GeoPoint center = overlay.getCenter();
-		mc.setCenter(center);
+		final MapController mc = mMapView.getController();
 		mc.setZoom(15);
+		mc.setCenter(overlay.getCenter());
+		mMapView.post(new Runnable() {
+			@Override
+			public void run() {
+				mc.setCenter(getAdjustedCenter(mMapView));
+			}
+		});
 
 		// Thumbnail in the map
 		ImageView thumbnail = (ImageView) view.findViewById(R.id.thumbnail_image_view);
@@ -60,7 +66,7 @@ public class BookingConfirmationFragment extends Fragment {
 		else {
 			thumbnail.setVisibility(View.GONE);
 		}
-		
+
 		// anti-aliasing is not supported on the hardware
 		// rendering pipline yet, so rendering the image 
 		// on a software layer to prevent the jaggies.
@@ -111,5 +117,14 @@ public class BookingConfirmationFragment extends Fragment {
 
 	public ConfirmationFragmentActivity.InstanceFragment getInstance() {
 		return ((ConfirmationFragmentActivity) getActivity()).mInstance;
+	}
+
+	private GeoPoint getAdjustedCenter(MapView mapView) {
+		GeoPoint center = mapView.getMapCenter();
+		final int thirdDistance = (mapView.getLongitudeSpan() / 3);
+		final int halfDistance = (mapView.getLongitudeSpan() / 2);
+		final int moveDistance = halfDistance - thirdDistance;
+
+		return new GeoPoint(center.getLatitudeE6(), center.getLongitudeE6() - moveDistance);
 	}
 }
