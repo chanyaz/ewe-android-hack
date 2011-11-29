@@ -1,5 +1,9 @@
 package com.expedia.bookings.utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
@@ -23,6 +27,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.BedType;
@@ -49,8 +54,7 @@ public class AvailabilitySummaryLayoutUtils {
 		selectRoomButton.setOnClickListener(buttonOnClickListener);
 
 		if (availabilityResponse != null) {
-			layoutAvailabilitySummary(context, property, availabilityResponse.getSummarizedRoomRates(), view,
-					onRateClickListener);
+			layoutAvailabilitySummary(context, property, availabilityResponse, view, onRateClickListener);
 			emptyAvailabilitySummaryTextView.setVisibility(View.GONE);
 			ratesProgressBar.setVisibility(View.GONE);
 		}
@@ -119,7 +123,7 @@ public class AvailabilitySummaryLayoutUtils {
 		else {
 			perNighTextView.setVisibility(View.VISIBLE);
 		}
-		
+
 		if (isPropertyOnSale) {
 			basePrice.setVisibility(View.VISIBLE);
 			String basePriceString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayBaseRate());
@@ -141,14 +145,14 @@ public class AvailabilitySummaryLayoutUtils {
 
 			SpannableString str = new SpannableString(displayRateString);
 			str.setSpan(textStyleSpan, 0, displayRateString.length(), 0);
-			
+
 			int whiteColor = r.getColor(android.R.color.white);
 
 			minPrice.setText(str);
 			minPrice.setTextColor(whiteColor);
 			// remove shadow layer
 			minPrice.setShadowLayer(0f, 0f, 0f, 0);
-			
+
 			basePrice.setTextColor(whiteColor);
 		}
 		else {
@@ -226,8 +230,41 @@ public class AvailabilitySummaryLayoutUtils {
 		return false;
 	}
 
-	private static void layoutAvailabilitySummary(Context context, Property property,
-			SummarizedRoomRates summarizedRoomRates, View view, final OnRateClickListener onRateClickListener) {
+	public static final Comparator<Rate> RATE_COMPARATOR = new Comparator<Rate>() {
+		@Override
+		public int compare(Rate rate1, Rate rate2) {
+
+			Money lowRate1 = rate1.getDisplayRate();
+			Money lowRate2 = rate2.getDisplayRate();
+
+			// Check that we have rates to compare first
+			if (lowRate1 == null && lowRate2 == null) {
+				return 0;
+			}
+			else if (lowRate1 == null) {
+				return -1;
+			}
+			else if (lowRate2 == null) {
+				return 1;
+			}
+
+			// Compare rates
+			double amount1 = lowRate1.getAmount();
+			double amount2 = lowRate2.getAmount();
+			if (amount1 == amount2) {
+				return 0;
+			}
+			else if (amount1 > amount2) {
+				return 1;
+			}
+			else {
+				return -1;
+			}
+		}
+	};
+
+	private static void layoutAvailabilitySummary(Context context, Property property, AvailabilityResponse response,
+			View view, final OnRateClickListener onRateClickListener) {
 
 		// view is not created yet, so there's nothing to do here
 		if (view == null) {
@@ -252,21 +289,35 @@ public class AvailabilitySummaryLayoutUtils {
 			availabilityRatesContainer.addView(summaryRow);
 		}
 
+		SummarizedRoomRates summarizedRoomRates = response.getSummarizedRoomRates();
+		
+		Rate[] sortedRates = response.getRates().toArray(new Rate[0]).clone();
+		Arrays.sort(sortedRates, RATE_COMPARATOR);
+
 		for (int i = 0; i < MAX_SUMMARIZED_RATE_RESULTS; i++) {
 			View summaryRow = availabilityRatesContainer.getChildAt(i);
 			ObjectAnimator animator = ObjectAnimator.ofFloat(summaryRow, "alpha", 0, 1);
 			animator.setDuration(ANIMATION_SPEED);
 			animator.start();
 
-			if (i > (summarizedRoomRates.numSummarizedRates() - 1)) {
+			Rate rate = null;
+			boolean useSummarizedRoomRates = false;
+			if (summarizedRoomRates.numSummarizedRates() > 0 && i < summarizedRoomRates.numSummarizedRates()) {
+				rate = summarizedRoomRates.getRate(i);
+				useSummarizedRoomRates = true;
+			}
+			else if (summarizedRoomRates.numSummarizedRates() == 0 && response.getRateCount() > 0
+					&& i < response.getRateCount()) {
+				rate = sortedRates[i];
+			}
+			else {
 				continue;
 			}
 
-			final Rate rate = summarizedRoomRates.getRate(i);
-
+			final Rate clickedRate = rate;
 			summaryRow.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					onRateClickListener.onRateClick(rate);
+					onRateClickListener.onRateClick(clickedRate);
 				}
 			});
 
@@ -274,35 +325,46 @@ public class AvailabilitySummaryLayoutUtils {
 			boolean leftAlignedLayout = (view.findViewById(R.id.availability_summary_container_left) != null);
 
 			View chevron = summaryRow.findViewById(R.id.availability_chevron_image_view);
-			chevron.setVisibility(View.VISIBLE);
-
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
-
 			View perNightTexView = summaryRow.findViewById(R.id.per_night_text_view);
+			
+
+			// make row elements visible since there's a price to display
+			chevron.setVisibility(View.VISIBLE);
 			if (perNightTexView != null) {
 				perNightTexView.setVisibility(View.VISIBLE);
 			}
 
-			Pair<BedTypeId, Rate> pair = summarizedRoomRates.getBedTypeToRatePair(i);
-			for (BedType bedType : pair.second.getBedTypes()) {
-				if (bedType.bedTypeId == pair.first) {
+			// determine description of room to display
+			String description = null;
+			if (useSummarizedRoomRates) {
+				Pair<BedTypeId, Rate> pair = summarizedRoomRates.getBedTypeToRatePair(i);
+				for (BedType bedType : pair.second.getBedTypes()) {
+					if (bedType.bedTypeId == pair.first) {
 
-					if (centeredLayout) {
-						summaryDescription.setText(Html.fromHtml(context.getString(
-								R.string.bed_type_start_value_template, bedType.bedTypeDescription)));
+						description = bedType.bedTypeDescription;
+						break;
 					}
-					else if (leftAlignedLayout) {
-						SpannableString str = new SpannableString(bedType.bedTypeDescription);
-						StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
-						str.setSpan(boldSpan, 0, bedType.bedTypeDescription.length(), 0);
-						summaryDescription.setText(str);
-					}
-					break;
 				}
 			}
+			else {
+				description = response.getRate(i).getRoomDescription();
+			}
 
-			priceTextView.setText(StrUtils.formatHotelPrice(pair.second.getDisplayRate()));
+			// setup the row
+			if (centeredLayout) {
+				summaryDescription.setText(Html.fromHtml(context.getString(R.string.bed_type_start_value_template,
+						description)));
+			}
+			else if (leftAlignedLayout) {
+				SpannableString str = new SpannableString(description);
+				StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+				str.setSpan(boldSpan, 0, description.length(), 0);
+				summaryDescription.setText(str);
+			}
+
+			priceTextView.setText(StrUtils.formatHotelPrice(rate.getDisplayRate()));
 			if (isPropertyOnSale) {
 				priceTextView.setTextColor(context.getResources().getColor(R.color.hotel_price_sale_text_color));
 			}
