@@ -27,8 +27,9 @@ public class SearchActivity extends Activity {
 		boolean hasSavedConfirmationData = ConfirmationUtils.hasSavedConfirmationData(this);
 
 		// Determine where to route the app
+		// #11076 - for Android 3.0, we still use the phone version of the app due to crippling bugs.
 		Class<? extends Activity> routingTarget;
-		if (AndroidUtils.getSdkVersion() >= 11 && (getResources().getConfiguration().screenLayout &
+		if (AndroidUtils.getSdkVersion() >= 12 && (getResources().getConfiguration().screenLayout &
 				Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
 			routingTarget = (hasSavedConfirmationData) ? ConfirmationFragmentActivity.class
 					: SearchFragmentActivity.class;
