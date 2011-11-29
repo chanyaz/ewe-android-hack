@@ -1,6 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -290,28 +289,50 @@ public class AvailabilitySummaryLayoutUtils {
 		}
 
 		SummarizedRoomRates summarizedRoomRates = response.getSummarizedRoomRates();
-		
+
 		Rate[] sortedRates = response.getRates().toArray(new Rate[0]).clone();
 		Arrays.sort(sortedRates, RATE_COMPARATOR);
 
-		for (int i = 0; i < MAX_SUMMARIZED_RATE_RESULTS; i++) {
-			View summaryRow = availabilityRatesContainer.getChildAt(i);
+		boolean useSummarizedRates = summarizedRoomRates.numSummarizedRates() > 0;
+
+		// determine the minimum rate to show
+		Rate minimumRate = null;
+		if (useSummarizedRates) {
+			minimumRate = summarizedRoomRates.getMinimumRateAvaialable();
+		}
+		else if (response.getRateCount() > 0) {
+			minimumRate = sortedRates[0];
+		}
+
+		int rateCount = sortedRates.length;
+		int ratePickerPosition = 0;
+		int summaryRowPosition = 0;
+
+		// display rates in the summary container as long as one of the conditions continue to be met:
+		// a) we are not past the maximum 3 rates to display 
+		// b) there is atleast a minimum rate available
+		// c) the rates in the summarized rates container have not been exhausted
+		// d) if there are no summarized rates, the sorted rates have not been exhausted
+		while (summaryRowPosition < MAX_SUMMARIZED_RATE_RESULTS
+				&& ((summaryRowPosition == 0 && summarizedRoomRates.getMinimumRateAvaialable() != null || rateCount > 0)
+						|| (useSummarizedRates && ratePickerPosition < summarizedRoomRates.numSummarizedRates()) 
+						|| (!useSummarizedRates && ratePickerPosition <  rateCount - 1))) {
+
+			View summaryRow = availabilityRatesContainer.getChildAt(summaryRowPosition);
 			ObjectAnimator animator = ObjectAnimator.ofFloat(summaryRow, "alpha", 0, 1);
 			animator.setDuration(ANIMATION_SPEED);
 			animator.start();
 
+			boolean showMinimumRate = (summaryRowPosition == 0);
 			Rate rate = null;
-			boolean useSummarizedRoomRates = false;
-			if (summarizedRoomRates.numSummarizedRates() > 0 && i < summarizedRoomRates.numSummarizedRates()) {
-				rate = summarizedRoomRates.getRate(i);
-				useSummarizedRoomRates = true;
+			if (showMinimumRate) {
+				rate = minimumRate;
 			}
-			else if (summarizedRoomRates.numSummarizedRates() == 0 && response.getRateCount() > 0
-					&& i < response.getRateCount()) {
-				rate = sortedRates[i];
+			else if (useSummarizedRates) {
+				rate = summarizedRoomRates.getRate(ratePickerPosition);
 			}
 			else {
-				continue;
+				rate = sortedRates[ratePickerPosition + 1];
 			}
 
 			final Rate clickedRate = rate;
@@ -328,7 +349,6 @@ public class AvailabilitySummaryLayoutUtils {
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
 			View perNightTexView = summaryRow.findViewById(R.id.per_night_text_view);
-			
 
 			// make row elements visible since there's a price to display
 			chevron.setVisibility(View.VISIBLE);
@@ -338,18 +358,20 @@ public class AvailabilitySummaryLayoutUtils {
 
 			// determine description of room to display
 			String description = null;
-			if (useSummarizedRoomRates) {
-				Pair<BedTypeId, Rate> pair = summarizedRoomRates.getBedTypeToRatePair(i);
-				for (BedType bedType : pair.second.getBedTypes()) {
+			if (showMinimumRate) {
+				description = minimumRate.getBedTypes().iterator().next().bedTypeDescription;
+			}
+			else if (useSummarizedRates) {
+				Pair<BedTypeId, Rate> pair = summarizedRoomRates.getBedTypeToRatePair(ratePickerPosition);
+				for (BedType bedType : rate.getBedTypes()) {
 					if (bedType.bedTypeId == pair.first) {
-
 						description = bedType.bedTypeDescription;
 						break;
 					}
 				}
 			}
 			else {
-				description = response.getRate(i).getRoomDescription();
+				description = rate.getRoomDescription();
 			}
 
 			// setup the row
@@ -371,6 +393,13 @@ public class AvailabilitySummaryLayoutUtils {
 			else {
 				priceTextView.setTextColor(context.getResources().getColor(R.color.hotel_price_text_color));
 			}
+			
+			// since we are using the minimum rate, don't increment
+			// the position at which to pick a rate from
+			if (!showMinimumRate) {
+				ratePickerPosition++;
+			}
+			summaryRowPosition++;
 		}
 	}
 
