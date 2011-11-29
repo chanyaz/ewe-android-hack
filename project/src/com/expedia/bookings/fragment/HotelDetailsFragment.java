@@ -67,6 +67,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private View mReviewsContainer;
 	private ViewGroup mSomeReviewsContainer;
 	private View mReviewsLoadingContainer;
+	private TextView mAmenitiesTitle;
 	private ViewGroup mAmenitiesContainer;
 	private RatingBar mUserRating;
 	private RatingBar mStarRating;
@@ -106,11 +107,15 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mSomeReviewsContainer = (ViewGroup) view.findViewById(R.id.some_reviews_container);
 		mReviewsSection = view.findViewById(R.id.reviews_section);
 		mReviewsContainer = view.findViewById(R.id.reviews_container);
+		mAmenitiesTitle = (TextView) view.findViewById(R.id.amenities_title);
 		mAmenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
 		mReviewsLoadingContainer = view.findViewById(R.id.reviews_loading_container);
 		mSelectRoomButton = view.findViewById(R.id.book_now_button);
+
+		//#10588 disabling amenities layout animations
+		mAmenitiesContainer.setLayoutAnimation(null);
 
 		// Disable the scrollbar on the amenities HorizontalScrollView
 		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) view.findViewById(R.id.amenities_scroll_view);
@@ -225,7 +230,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				@Override
 				public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop,
 						int oldRight, int oldBottom) {
-					if(left == 0 && right == 0 && top == 0 && bottom == 0) {
+					if (left == 0 && right == 0 && top == 0 && bottom == 0) {
 						return;
 					}
 					setupAvailabilityContainer(property, view);
@@ -249,11 +254,17 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 		addReviews(((SearchResultsFragmentActivity) getActivity()).getReviewsForProperty());
 
-		mAmenitiesContainer.removeAllViews();
+		if (property.hasAmenities()) {
+			mAmenitiesContainer.setVisibility(View.VISIBLE);
+			mAmenitiesTitle.setVisibility(View.VISIBLE);
 
-		//#10588 disabling amenities layout animations
-		mAmenitiesContainer.setLayoutAnimation(null);
-		LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
+			mAmenitiesContainer.removeAllViews();
+			LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
+		}
+		else {
+			mAmenitiesContainer.setVisibility(View.GONE);
+			mAmenitiesTitle.setVisibility(View.GONE);
+		}
 
 		addHotelDescription(property);
 	}
@@ -316,7 +327,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 	//////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
-	
 
 	private void setupAvailabilityContainer(final Property property, final View view) {
 		AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(getActivity(), property, view);
