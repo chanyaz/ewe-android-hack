@@ -43,8 +43,9 @@
                     android:layout_height="200dp"
                     android:layout_weight="9"
                     android:background="@drawable/receipt_photo_frame"
+                    android:cropToPadding="true"
                     android:rotation="-5"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_image_placeholder"
                     android:transformPivotX="150dp"
                     android:transformPivotY="100dp" />
@@ -85,7 +86,7 @@
                 android:src="@drawable/ic_share" />
 
             <TextView
-				style="@style/ConfirmationButtonText"
+                style="@style/ConfirmationButtonText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
@@ -112,7 +113,7 @@
                 android:src="@drawable/ic_view_on_map" />
 
             <TextView
-				style="@style/ConfirmationButtonText"
+                style="@style/ConfirmationButtonText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
