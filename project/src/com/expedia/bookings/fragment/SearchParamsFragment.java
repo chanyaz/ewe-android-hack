@@ -71,6 +71,10 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	private NumberPicker mChildrenNumberPicker;
 	private TextView mSuggestionErrorTextView;
 
+	// #10978: Tracks when an autocomplete row was just clicked, so that we don't
+	// automatically start a new autocomplete query.
+	private boolean mAutocompleteClicked = false;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
@@ -366,6 +370,8 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	private OnClickListener createRowOnClickListener(final String suggestion) {
 		return new OnClickListener() {
 			public void onClick(View v) {
+				mAutocompleteClicked = true;
+
 				mLocationEditText.setText(suggestion);
 				mLocationEditText.clearFocus();
 
@@ -408,12 +414,18 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			SearchParams searchParams = getInstance().mSearchParams;
 			if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
 				searchParams.setSearchType(SearchType.MY_LOCATION);
-				configureSuggestions(null);
+				location = null;
 			}
 			else if (!location.equals(searchParams.getFreeformLocation())) {
 				searchParams.setFreeformLocation(location);
 				searchParams.setSearchType(SearchType.FREEFORM);
+			}
+
+			if (!mAutocompleteClicked) {
 				configureSuggestions(location);
+			}
+			else {
+				mAutocompleteClicked = false;
 			}
 		}
 
