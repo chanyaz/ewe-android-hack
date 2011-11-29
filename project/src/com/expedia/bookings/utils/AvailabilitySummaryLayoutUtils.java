@@ -319,7 +319,7 @@ public class AvailabilitySummaryLayoutUtils {
 		// c) the rates in the summarized rates container have not been exhausted
 		// d) if there are no summarized rates, the sorted rates have not been exhausted
 		while (summaryRowPosition < MAX_SUMMARIZED_RATE_RESULTS
-				&& ((summaryRowPosition == 0 && summarizedRoomRates.getMinimumRateAvaialable() != null || rateCount > 0)
+				&& ((summaryRowPosition == 0 && (summarizedRoomRates.getMinimumRateAvaialable() != null || rateCount > 0))
 						|| (useSummarizedRates && ratePickerPosition < summarizedRoomRates.numSummarizedRates()) 
 						|| (!useSummarizedRates && ratePickerPosition <  rateCount - 1))) {
 
