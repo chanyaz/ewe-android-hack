@@ -53,9 +53,14 @@ public class AvailabilitySummaryLayoutUtils {
 		selectRoomButton.setOnClickListener(buttonOnClickListener);
 
 		if (availabilityResponse != null) {
-			layoutAvailabilitySummary(context, property, availabilityResponse, view, onRateClickListener);
-			emptyAvailabilitySummaryTextView.setVisibility(View.GONE);
-			ratesProgressBar.setVisibility(View.GONE);
+			if (availabilityResponse.hasErrors()) {
+				showErrorForRates(view, availabilityResponse.getErrors().get(0).getPresentableMessage(context));
+			}
+			else {
+				layoutAvailabilitySummary(context, property, availabilityResponse, view, onRateClickListener);
+				emptyAvailabilitySummaryTextView.setVisibility(View.GONE);
+				ratesProgressBar.setVisibility(View.GONE);
+			}
 		}
 		else {
 			// since the data is not yet available,
