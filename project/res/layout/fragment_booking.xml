@@ -26,21 +26,20 @@
                 android:id="@+id/room_details_container_right"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/fragment_receipt"
                 android:layout_alignBottom="@id/fragment_receipt"
+                android:layout_alignTop="@id/fragment_receipt"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="2dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="2dp"
                 android:layout_toRightOf="@id/fragment_receipt"
                 android:orientation="vertical" >
 
                 <TextView
                     android:id="@+id/room_type_description_title_view"
+                    style="@style/TabletSectionHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#6A6D71"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textSize="20sp" />
 
                 <ProgressBar
                     android:id="@+id/room_description_progress_bar"
@@ -55,7 +54,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="#6A6D71" />
+                    android:textColor="@color/hotel_details_text_color"
+                    android:textSize="14sp" />
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -67,11 +67,11 @@
                         style="@style/Widget.Button.Yellow.Confirmation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
                         android:layout_marginTop="20dp"
                         android:maxLines="1"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        android:layout_gravity="bottom"
                         android:text="@string/enter_booking_info" />
                 </FrameLayout>
             </LinearLayout>
@@ -86,12 +86,12 @@
 
         <TextView
             android:id="@+id/rules_and_restrictions_title_text_view"
+            style="@style/TabletSectionHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:text="@string/rules_restrictions"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textSize="20sp" />
 
         <include layout="@layout/include_booking_cancellation_policy" />
     </LinearLayout>

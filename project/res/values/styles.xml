@@ -61,11 +61,7 @@
 	</style>
 
 	<!-- App -->
-
-	<style name="formSectionHeaderText">
-		<item name="android:layout_marginTop">10dp</item>
-		<item name="android:layout_marginBottom">2dp</item>
-		<item name="android:layout_marginLeft">8dp</item>
+	<style name="TabletSectionHeader">
 		<item name="android:textColor">#545454</item>
 		<item name="android:shadowColor">@android:color/white</item>
 		<item name="android:shadowRadius">.1</item>
@@ -74,7 +70,14 @@
 		<item name="android:textStyle">bold</item>
 		<item name="android:textSize">20sp</item>
 	</style>
+	
+	<style name="TabletSectionHeader.Details" parent="@style/TabletSectionHeader">
+		<item name="android:layout_marginTop">10dp</item>
+		<item name="android:layout_marginBottom">2dp</item>
+		<item name="android:layout_marginLeft">8dp</item>
+	</style>
 
+    
 	<!-- Partial import from @android:style/Widget.RatingBar.Small. -->
 	<style name="RatingBarSmall">
 		<item name="android:indeterminateOnly">false</item>
