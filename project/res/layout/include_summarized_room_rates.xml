@@ -34,7 +34,8 @@
             android:ellipsize="end"
             android:paddingLeft="5dp"
             android:singleLine="true"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@color/hotel_price_text_color"/>
 
         <TextView
             android:id="@+id/per_night_text_view"

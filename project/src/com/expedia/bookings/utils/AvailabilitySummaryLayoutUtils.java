@@ -90,23 +90,6 @@ public class AvailabilitySummaryLayoutUtils {
 		 * and the one that is left-aligned does, adjust the layout with that
 		 * in mind (set the background of the right views)
 		 */
-		if (availabilitySummaryContainerCentered != null) {
-			if (isPropertyOnSale) {
-				availabilitySummaryContainerCentered.setBackgroundResource(R.drawable.bg_summarized_room_rates_sale);
-			}
-			else {
-				availabilitySummaryContainerCentered.setBackgroundResource(R.drawable.bg_summarized_room_rates);
-			}
-		}
-		else if (availabilitySummaryContainerLeft != null) {
-			if (isPropertyOnSale) {
-				minPriceRow.setBackgroundResource(R.drawable.bg_sale_ribbon_left);
-			}
-			else {
-				minPriceRow.setBackgroundResource(R.drawable.bg_normal_ribbon_left);
-			}
-		}
-
 		TextView basePrice = (TextView) minPriceRow.findViewById(R.id.base_price_text_view);
 		TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
 
@@ -118,8 +101,7 @@ public class AvailabilitySummaryLayoutUtils {
 		ForegroundColorSpan textColorSpan = new ForegroundColorSpan(r.getColor(R.color.hotel_price_text_color));
 
 		TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
-		perNighTextView.setTextColor(isPropertyOnSale ? r.getColor(android.R.color.white) : r
-				.getColor(android.R.color.black));
+		perNighTextView.setTextColor(r.getColor(android.R.color.black));
 
 		if (Rate.showInclusivePrices()) {
 			perNighTextView.setVisibility(View.GONE);
@@ -135,6 +117,9 @@ public class AvailabilitySummaryLayoutUtils {
 			Spanned basePriceStringSpanned = Html.fromHtml(r.getString(R.string.from_template, basePriceString), null,
 					new StrikethroughTagHandler());
 			basePrice.setText(basePriceStringSpanned);
+			basePrice.setTextColor(r.getColor(android.R.color.black));
+			basePrice.setShadowLayer(0.1f, 0f, 1f, r.getColor(R.color.text_shadow_color));
+			basePrice.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 			String textToMeasure = basePriceStringSpanned.toString() + displayRateString
 					+ context.getString(R.string.per_night);
@@ -150,14 +135,8 @@ public class AvailabilitySummaryLayoutUtils {
 			SpannableString str = new SpannableString(displayRateString);
 			str.setSpan(textStyleSpan, 0, displayRateString.length(), 0);
 
-			int whiteColor = r.getColor(android.R.color.white);
-
 			minPrice.setText(str);
-			minPrice.setTextColor(whiteColor);
-			// remove shadow layer
-			minPrice.setShadowLayer(0f, 0f, 0f, 0);
-
-			basePrice.setTextColor(whiteColor);
+			minPrice.setTextColor(r.getColor(R.color.hotel_price_text_color));
 		}
 		else {
 			layoutBaseAndMinPriceSideBySide(context, basePrice, minPrice);
@@ -178,17 +157,17 @@ public class AvailabilitySummaryLayoutUtils {
 			float textSize = context.getResources().getDimension(R.dimen.min_price_row_text_normal);
 			basePrice.setTextSize(textSize);
 			minPrice.setTextSize(textSize);
-
-			/*
-			 * NOTE: Unsure as to why the text shadow layer is not applied 
-			 * to the text view when the view is hardware rendered 
-			 */
-			minPrice.setShadowLayer(0.1f, 0f, 1f, context.getResources().getColor(R.color.text_shadow_color));
-			minPrice.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
-			perNighTextView.setShadowLayer(0.1f, 0f, 1f, context.getResources().getColor(R.color.text_shadow_color));
-			perNighTextView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}
+
+		/*
+		 * NOTE: Unsure as to why the text shadow layer is not applied 
+		 * to the text view when the view is hardware rendered 
+		 */
+		minPrice.setShadowLayer(0.1f, 0f, 1f, r.getColor(R.color.text_shadow_color));
+		minPrice.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
+		perNighTextView.setShadowLayer(0.1f, 0f, 1f, r.getColor(R.color.text_shadow_color));
+		perNighTextView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 	}
 
@@ -278,7 +257,6 @@ public class AvailabilitySummaryLayoutUtils {
 		ViewGroup availabilityRatesContainer = (ViewGroup) view.findViewById(R.id.rates_container);
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		boolean isPropertyOnSale = property.getLowestRate().isOnSale();
 		availabilityRatesContainer.removeAllViews();
 
 		// first adding all rows since the rows will exist regardless of whether
@@ -320,8 +298,7 @@ public class AvailabilitySummaryLayoutUtils {
 		// d) if there are no summarized rates, the sorted rates have not been exhausted
 		while (summaryRowPosition < MAX_SUMMARIZED_RATE_RESULTS
 				&& ((summaryRowPosition == 0 && (summarizedRoomRates.getMinimumRateAvaialable() != null || rateCount > 0))
-						|| (useSummarizedRates && ratePickerPosition < summarizedRoomRates.numSummarizedRates()) 
-						|| (!useSummarizedRates && ratePickerPosition <  rateCount - 1))) {
+						|| (useSummarizedRates && ratePickerPosition < summarizedRoomRates.numSummarizedRates()) || (!useSummarizedRates && ratePickerPosition < rateCount - 1))) {
 
 			View summaryRow = availabilityRatesContainer.getChildAt(summaryRowPosition);
 			ObjectAnimator animator = ObjectAnimator.ofFloat(summaryRow, "alpha", 0, 1);
@@ -392,13 +369,7 @@ public class AvailabilitySummaryLayoutUtils {
 			}
 
 			priceTextView.setText(StrUtils.formatHotelPrice(rate.getDisplayRate()));
-			if (isPropertyOnSale) {
-				priceTextView.setTextColor(context.getResources().getColor(R.color.hotel_price_sale_text_color));
-			}
-			else {
-				priceTextView.setTextColor(context.getResources().getColor(R.color.hotel_price_text_color));
-			}
-			
+
 			// since we are using the minimum rate, don't increment
 			// the position at which to pick a rate from
 			if (!showMinimumRate) {
