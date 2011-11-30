@@ -5,6 +5,8 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -12,8 +14,10 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -77,6 +81,7 @@ public class HotelCollage {
 		// set the default thumbnails for all images
 		for (int i = 0; i < mPropertyImageViews.size(); i++) {
 			mPropertyImageViews.get(i).setImageDrawable(null);
+			mPropertyImageViews.get(i).setOnTouchListener(null);
 		}
 
 		// Configure views on top of the gallery
@@ -131,6 +136,8 @@ public class HotelCollage {
 			TransitionDrawable drawable = new TransitionDrawable(layers);
 
 			mPropertyImageViews.get(mCurrentIndex).setImageDrawable(drawable);
+			mPropertyImageViews.get(mCurrentIndex).setOnTouchListener(onImageTouch);
+
 			drawable.startTransition(FADE_TIME);
 
 			loadNextImage();
@@ -138,6 +145,21 @@ public class HotelCollage {
 
 		public void onImageLoadFailed(String url) {
 			// Do nothing
+		}
+	};
+
+	private final OnTouchListener onImageTouch = new OnTouchListener() {
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+
+			if (event.getAction() == MotionEvent.ACTION_DOWN) {
+				((ImageView) v).setColorFilter(0x82000000, PorterDuff.Mode.SRC_ATOP);
+			}
+			else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+				((ImageView) v).setColorFilter(0x00000000, PorterDuff.Mode.SRC_ATOP);
+			}
+			return false;
 		}
 	};
 
