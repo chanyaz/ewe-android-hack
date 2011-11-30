@@ -102,7 +102,7 @@ public class HotelCollage {
 		public void onClick(View v) {
 			if (mListener != null) {
 				int index = mPropertyImageViews.indexOf(v);
-				if (index != -1 || index > (mPropertyMediaList.size() - 1)) {
+				if (index != -1 && index < mPropertyMediaList.size()) {
 					mListener.onImageClicked(mPropertyMediaList.get(index));
 				}
 			}
