@@ -468,7 +468,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 						GoogleServices services = new GoogleServices(getActivity());
 						BackgroundDownloader.getInstance().addDownloadListener(KEY_AUTOCOMPLETE_DOWNLOAD,
 								services);
-						return services.getSuggestions(query);
+						return services.getSuggestions(query, "geocode");
 					}
 				};
 

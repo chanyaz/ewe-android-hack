@@ -46,7 +46,7 @@ public class AutocompleteProvider extends ContentProvider {
 			Log.d("Autocomplete query: " + query);
 
 			GoogleServices services = new GoogleServices(getContext());
-			List<Suggestion> suggestions = services.getSuggestions(query);
+			List<Suggestion> suggestions = services.getSuggestions(query, "geocode");
 			if (suggestions != null && suggestions.size() > 0) {
 				for (Suggestion suggestion : suggestions) {
 					Object[] row = { id, suggestion.mSuggestion, suggestion.mSuggestion,
