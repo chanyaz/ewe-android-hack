@@ -6,11 +6,17 @@
     android:orientation="vertical"
     android:weightSum="10" >
 
-    <include
-        android:id="@+id/user_reviews_view"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="8"
-        layout="@layout/include_user_reviews_list" />
+        android:background="@drawable/bg_dialog_shadow" >
+
+        <include
+            android:id="@+id/user_reviews_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            layout="@layout/include_user_reviews_list" />
+    </LinearLayout>
 
 </LinearLayout>

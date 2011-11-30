@@ -8,7 +8,6 @@ import java.util.Locale;
 
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -149,7 +148,7 @@ public class ConfirmationUtils {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Breadcrumb (reloading activity)
 
-	public static boolean saveConfirmationData(Activity activity, SearchParams searchParams, Property property,
+	public static boolean saveConfirmationData(Context context, SearchParams searchParams, Property property,
 			Rate rate, BillingInfo billingInfo, BookingResponse bookingResponse) {
 		Log.i("Saving confirmation data...");
 		try {
@@ -160,7 +159,7 @@ public class ConfirmationUtils {
 			data.put(Codes.BILLING_INFO, billingInfo.toJson());
 			data.put(Codes.BOOKING_RESPONSE, bookingResponse.toJson());
 
-			IoUtils.writeStringToFile(CONFIRMATION_DATA_FILE, data.toString(0), activity);
+			IoUtils.writeStringToFile(CONFIRMATION_DATA_FILE, data.toString(0), context);
 
 			return true;
 		}

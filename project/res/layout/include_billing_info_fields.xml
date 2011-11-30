@@ -41,7 +41,7 @@
 
         <com.expedia.bookings.widget.CustomEditText
             android:id="@+id/city_edit_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/City"

@@ -7,10 +7,12 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.HorizontalScrollView;
@@ -65,8 +67,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private View mReviewsContainer;
 	private ViewGroup mSomeReviewsContainer;
 	private View mReviewsLoadingContainer;
+	private TextView mAmenitiesTitle;
 	private ViewGroup mAmenitiesContainer;
 	private RatingBar mUserRating;
+	private RatingBar mStarRating;
 	private ViewGroup mHotelDescriptionContainer;
 	private View mSeeAllReviewsButton;
 	private View mSelectRoomButton;
@@ -76,6 +80,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	//----------------------------------
 	private LayoutInflater mInflater;
 	private HotelCollage mCollageHandler;
+
+	private Handler mHandler = new Handler();
 
 	//////////////////////////////////////////////////////////////////////////
 	// LIFECYCLE EVENTS
@@ -88,7 +94,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_hotel_details, container, false);
+		final View view = inflater.inflate(R.layout.fragment_hotel_details, container, false);
 		mInflater = inflater;
 
 		mHotelNameTextView = (TextView) view.findViewById(R.id.hotel_name_text_view);
@@ -97,20 +103,26 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mReviewsTitleLong = (TextView) view.findViewById(R.id.reviews_title);
 		mReviewsTitleShort = (TextView) view.findViewById(R.id.reviews_title_short);
 		mUserRating = (RatingBar) view.findViewById(R.id.user_rating_bar);
+		mStarRating = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
 		mSomeReviewsContainer = (ViewGroup) view.findViewById(R.id.some_reviews_container);
 		mReviewsSection = view.findViewById(R.id.reviews_section);
 		mReviewsContainer = view.findViewById(R.id.reviews_container);
+		mAmenitiesTitle = (TextView) view.findViewById(R.id.amenities_title);
 		mAmenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
 		mReviewsLoadingContainer = view.findViewById(R.id.reviews_loading_container);
 		mSelectRoomButton = view.findViewById(R.id.book_now_button);
 
+		//#10588 disabling amenities layout animations
+		mAmenitiesContainer.setLayoutAnimation(null);
+
 		// Disable the scrollbar on the amenities HorizontalScrollView
 		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) view.findViewById(R.id.amenities_scroll_view);
 		amenitiesScrollView.setHorizontalScrollBarEnabled(false);
-		
+
 		updateViews(getInstance().mProperty, view);
+
 		return view;
 	}
 
@@ -127,10 +139,11 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		updateViews(property, getView());
 	}
 
-	public void updateViews(final Property property, View view) {
+	public void updateViews(final Property property, final View view) {
 		mHotelNameTextView.setText(property.getName());
 		String hotelAddressWithNewLine = StrUtils.formatAddress(property.getLocation(), StrUtils.F_STREET_ADDRESS
 				+ StrUtils.F_CITY + StrUtils.F_STATE_CODE);
+		mStarRating.setRating((float) property.getHotelRating());
 		mHotelLocationTextView.setText(hotelAddressWithNewLine.replace("\n", ", "));
 		mCollageHandler.updateCollage(property);
 
@@ -166,36 +179,92 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			mReviewsSection.setVisibility(View.GONE);
 		}
 
-		AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(getActivity(), property, view);
+		/*
+		 * If the app is resumed, post the setup of the
+		 * availability summary container to a runnable so that
+		 * its only run after all the layout is complete.
+		 * 
+		 * The reason for posting to runnable instead of 
+		 * just using a layoutChangedListener is because
+		 * it seems like the system makes multiple passes
+		 * to attempt to figure out the layout, therefore
+		 * showing the intermediate steps of the layout
+		 * to the user.
+		 * 
+		 * NOTE: The whole reason to post a runnable
+		 * or wait for the layout to complete is because
+		 * we need to know accurate dimensions of the views 
+		 * to be able to determine whether or not the text
+		 * is too wide for the container.
+		 * 
+		 * Another approach to this problem would be to have static
+		 * set widths for the containers we care about, but this 
+		 * provides for a more generic solution.
+		 */
+		if (isResumed()) {
+			mHandler.post(new Runnable() {
 
-		// update the summarized rates if they are available
-		AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
-				.getRoomsAndRatesAvailability();
-		mSelectRoomButton.setEnabled((availabilityResponse != null));
+				@Override
+				public void run() {
+					setupAvailabilityContainer(property, view);
+				}
+			});
+		}
+		/*
+		 * This listener handles the case of orientation
+		 * change as posting to the runnable during orientation
+		 * change doesn't seem to do the trick since the accurate dimensions
+		 * of views are not available yet.
+		 * 
+		 * If the app is not resumed, wait till the layout
+		 * is complete to ensure that we setup the container
+		 * appropriately on rotation. 
+		 */
+		else {
+			View availabilitySummaryContainer = view.findViewById(R.id.availability_summary_container);
+			View availabilitySummaryContainerLeft = view.findViewById(R.id.availability_summary_container_left);
+			final View availabilityContainer = (availabilitySummaryContainer != null) ? availabilitySummaryContainer
+					: (availabilitySummaryContainerLeft != null) ? availabilitySummaryContainerLeft : null;
+			availabilityContainer.addOnLayoutChangeListener(new OnLayoutChangeListener() {
 
-		AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse, view,
-				getString(R.string.select_room), mSelectRoomButtonOnClickListener,
-				((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
+				@Override
+				public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop,
+						int oldRight, int oldBottom) {
+					if (left == 0 && right == 0 && top == 0 && bottom == 0) {
+						return;
+					}
+					setupAvailabilityContainer(property, view);
+					availabilityContainer.removeOnLayoutChangeListener(this);
+				}
+			});
+		}
 
 		int numReviewRows = getResources().getInteger(R.integer.num_review_rows);
 		float heightPerReviewRow = getResources().getDimension(R.dimen.min_height_per_row_review);
 		float minHeight = 0.0f;
-		if((property.getTotalReviews() / numReviewRows) >= 1) {
+		if ((property.getTotalReviews() / numReviewRows) > 1) {
 			minHeight = heightPerReviewRow * numReviewRows;
-		} else {
+		}
+		else {
 			minHeight = heightPerReviewRow * (property.getTotalReviews() % numReviewRows);
 		}
-		
+
 		mReviewsContainer.setMinimumHeight((int) minHeight);
 		mReviewsLoadingContainer.setVisibility(View.VISIBLE);
 
 		addReviews(((SearchResultsFragmentActivity) getActivity()).getReviewsForProperty());
 
-		mAmenitiesContainer.removeAllViews();
+		if (property.hasAmenities()) {
+			mAmenitiesContainer.setVisibility(View.VISIBLE);
+			mAmenitiesTitle.setVisibility(View.VISIBLE);
 
-		//#10588 disabling amenities layout animations
-		mAmenitiesContainer.setLayoutAnimation(null);
-		LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
+			mAmenitiesContainer.removeAllViews();
+			LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
+		}
+		else {
+			mAmenitiesContainer.setVisibility(View.GONE);
+			mAmenitiesTitle.setVisibility(View.GONE);
+		}
 
 		addHotelDescription(property);
 	}
@@ -207,7 +276,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 		@Override
 		public void onImageClicked(Media media) {
-			((SearchResultsFragmentActivity) getActivity()).showHotelGalleryDialog(media);
+			((SearchResultsFragmentActivity) getActivity()).startHotelGalleryActivity(media);
 		}
 	};
 
@@ -258,6 +327,19 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 	//////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
+
+	private void setupAvailabilityContainer(final Property property, final View view) {
+		AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(getActivity(), property, view);
+
+		// update the summarized rates if they are available
+		AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
+				.getRoomsAndRatesAvailability();
+		mSelectRoomButton.setEnabled((availabilityResponse != null));
+
+		AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse,
+				view, getString(R.string.select_room), mSelectRoomButtonOnClickListener,
+				((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
+	}
 
 	private void addReviews(ReviewsResponse reviewsResponse) {
 		mSomeReviewsContainer.removeAllViews();

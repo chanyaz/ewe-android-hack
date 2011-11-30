@@ -2,6 +2,7 @@
 <resources>
     <!-- Fragment tags -->
     <string name="tag_search_params">SEARCH_PARAMS</string>
+    <string name="tag_hotel_gallery">HOTEL_GALLERY</string>
     <string name="tag_hotel_list">HOTEL_LIST</string>
     <string name="tag_hotel_map">HOTEL_MAP</string>
     <string name="tag_mini_details">MINI_DETAILS</string>
@@ -13,6 +14,11 @@
     <string name="tag_booking_error">BOOKING_ERROR</string>
     <string name="tag_booking_confirmation">BOOKING_CONFIRMATION</string>
     <string name="tag_confirmation_receipt">CONFIRMATION_RECEIPT</string>
+    <string name="tag_filter_dialog">FILTER_DIALOG</string>
+    <string name="tag_sort_dialog">SORT_DIALOG</string>
+    <string name="tag_geocode_disambiguation_dialog">GEOCODE_DISAMBIGUATION_DIALOG</string>
+    <string name="tag_calendar_dialog">CALENDAR_DIALOG</string>
+    <string name="tag_guests_dialog">GUESTS_DIALOG</string>
 
 	<string name="map_snippet_template">%1$s · %2$s</string>
 

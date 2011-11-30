@@ -1,84 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:id="@+id/hotel_list_container"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="#e9e9eb"
+    android:gravity="center"
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/hotel_list_container"
+    <RelativeLayout
+        android:id="@+id/header_layout"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_toLeftOf="@+id/list_right_shadow"
-        android:background="#e9e9eb"
-        android:gravity="center"
-        android:orientation="vertical" >
+        android:layout_height="43dp"
+        android:background="@drawable/bg_list_header"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
-        <RelativeLayout
-            android:id="@+id/header_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="43dp"
-            android:background="@drawable/bg_list_header"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="gone" >
+        <TextView
+            android:id="@+id/sort_type_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_sort"
+            android:gravity="center"
+            android:paddingLeft="18dp"
+            android:paddingRight="26dp"
+            android:textColor="#3D4552"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/sort_type_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/btn_sort"
-                android:gravity="center"
-                android:paddingLeft="18dp"
-                android:paddingRight="18dp"
-                android:textColor="#3D4552"
-                android:textSize="16sp" />
+        <TextView
+            android:id="@+id/num_hotels_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="12dp"
+            android:layout_toLeftOf="@+id/sort_type_text_view"
+            android:gravity="center_vertical|left"
+            android:textColor="#3D4552"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/num_hotels_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="12dp"
-                android:layout_toLeftOf="@+id/sort_type_text_view"
-                android:gravity="center_vertical|left"
-                android:textColor="#3D4552"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:paddingBottom="5dp"
-                android:paddingRight="5dp"
-                android:src="@drawable/sort_arrow" />
-        </RelativeLayout>
-
-        <ListView
-            android:id="@android:id/list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-
-        <LinearLayout
-            android:id="@android:id/empty"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical" >
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            android:src="@drawable/sort_arrow" />
+    </RelativeLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/expedia_watermark" />
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 
-            <TextView
-                android:id="@+id/empty_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center" />
-        </LinearLayout>
-    </LinearLayout>
+    <include
+        android:id="@android:id/empty"
+        layout="@layout/include_placeholder_progress" />
 
-</RelativeLayout>
+</LinearLayout>

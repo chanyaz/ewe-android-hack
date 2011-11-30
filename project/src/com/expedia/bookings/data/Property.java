@@ -134,6 +134,10 @@ public class Property implements JSONable {
 		return amenity.inMask(mAmenityMask);
 	}
 
+	public boolean hasAmenities() {
+		return mAmenityMask != 0;
+	}
+
 	public void addMedia(Media media) {
 		if (mMedia == null) {
 			mMedia = new ArrayList<Media>();

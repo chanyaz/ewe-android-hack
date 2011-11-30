@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 
 	<!-- Search Fragment -->
+	<!-- Initial hint for the search location field - invites the user to enter information here -->
+	<string name="enter_search_location">検索ロケーションを入力…</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">ロケーションを検索</string>
 	<!-- Label for recent searches user has made -->
@@ -42,7 +44,7 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; to &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt; ～ &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
 		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 軒の該当ホテル</item>
@@ -53,8 +55,6 @@
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">ホテル名で絞り込む</string>
-	<!-- Label to show only hotels highly rated by TripAdvisor -->
-	<string name="tripadvisor_rating_high">高評価のホテルのみ表示</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
 	<string name="tripadvisor_rating_all">全てのホテルを表示</string>
 	<!-- Label indicating that there are no results matching their current filter -->
@@ -74,7 +74,7 @@
 	<!-- Label for sort hotels button in bottom bar -->
 	<string name="sort_hotels">"並べ替え: "</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-	<string name="sort_hotels_template">&lt;b&gt;並べ替え&lt;/b&gt;:%s</string>
+	<string name="sort_hotels_template">&lt;b&gt;並べ替え&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">ホテルの絞り込み</string>
 	<!-- A number of results -->
@@ -141,14 +141,10 @@
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
 	<string name="from">最低料金</string>
-	<!-- The label indicating that this hotel is highly rated by users -->
-	<string name="highly_rated">高評価</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template"> &lt;strike&gt;%s&lt;/strike&gt; ～ </string>
+	<string name="from_template">&lt;strike&gt;%s&lt;/strike&gt; ～</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/泊</string>
-	<!-- Label for red "sale" corner -->
-	<string name="sale_caps">セール</string>
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">評価なし</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -156,6 +152,8 @@
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">結果を絞り込む</string>
+	<!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
+	<string name="filter">絞り込み</string>
 
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
@@ -238,7 +236,7 @@
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
 	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; ～</string>
 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
- 	<string name="reviews_recommended_template">%2$d 中 %1$d 人のゲストがおすすめしています</string>
+	<string name="reviews_recommended_template">%2$d 人中 %1$d 人のゲストがお勧めしています</string>
 	<!--  Title for the amenities section in the hotel details fragment -->
 	<string name="amenities">設備</string>
 	<!--  Label for button to see all reviews as a modal dialog -->
@@ -320,7 +318,7 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%2$d&lt;/b&gt; 人中&lt;b&gt;%1$d&lt;/b&gt; 人のゲストがこのホテルをおすすめしています。</string>
+	<string name="user_review_recommendation_tag_text">&lt;b&gt;%2$d&lt;/b&gt; 人中 &lt;b&gt;%1$d&lt;/b&gt; 人のゲストがこのホテルをお勧めしています。</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d 件のレビュー</item>
@@ -332,7 +330,7 @@
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
 		2$ is the place they are from -->
-	<string name="user_review_name_and_location_signature">%1$s  ～%2$s</string>
+	<string name="user_review_name_and_location_signature">%1$s  ～ %2$s</string>
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">このホテルのネガティブなレビューはまだありません</string>
 	<!-- User review no favorable reviews -->
@@ -375,6 +373,10 @@
 	<string name="common_value_add_template">すべての部屋に含まれているもの: %s</string>
 	<!--  Instruction as the header of the list to select a room from the list -->
 	<string name="select_a_room_instruction">部屋を選択</string>
+	
+	<!-- Gallery -->
+	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
+	<string name="gallery_title_template">&lt;b&gt;%1$s&lt;/b&gt; の写真</string>
 	    
 	<!-- Booking info -->
 	<!-- edit label -->
@@ -479,7 +481,7 @@
 	<!-- Error message when we couldn't get a response -->
 	<string name="error_booking_null">エクスペディアのサーバーに接続できませんでした。インターネットへの接続を確認して再度お試しください。</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s ,%2$s</string>
+	<string name="check_in_out_time_template">%1$s , %2$s</string>
 	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
 	<string name="enter_booking_info">予約情報を入力</string>
 	<!--  Title for action bar when the user is on the booking info screen -->
@@ -503,9 +505,9 @@
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
 	<string name="contact_phone_template">ご予約に関するお問い合わせは、エクスペディア (%s) までご連絡ください。</string>
 	<!-- Contact info for China  where 1$ represents the number by CN NetCom and 2$ represents the number from CN Telecom-->
-	<string name="contact_phone_china_template">ご予約に関するお問い合わせは、Expedia.com %1$s (CN NetCom) あるいは%2$s (CN Telecom)までご連絡ください。.</string>
+	<string name="contact_phone_china_template">ご予約に関するお問い合わせは、Expedia.com %1$s (CN NetCom) あるいは %2$s (CN Telecom) までご連絡ください。</string>
 	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
-	<string name="contact_phone_default_template">ご予約に関するお問い合わせは、Expedia.com %1$s （北米 / カナダ国内）、あるいは%2$s （ヨーロッパ地域内）までご連絡ください。</string>
+	<string name="contact_phone_default_template">ご予約に関するお問い合わせは、Expedia.com %1$s （北米 / カナダ国内）、あるいは %2$s （ヨーロッパ地域内）までお電話ください。</string>
 
 	<!--  Confirmation Fragment -->
 	<!-- Label to share booking information after a booking confirmation -->
@@ -545,7 +547,7 @@
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-	<string name="share_subject_template">Expedia の旅程 -%1$s (%2$s - %3$s)</string>
+	<string name="share_subject_template">エクスペディア 旅程 - %1$s (%2$s - %3$s)</string>
 	<!-- Preset at the top of the share body message -->
 	<string name="share_body_start">ホテル予約情報 ：</string>
 	<!-- Name of user -->
@@ -607,7 +609,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">評価してください</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Powered by Opinion Lab<a href="http://mobile.opinionlab.com/static/privacy.html">プライバシー ポリシー</a></string>
+	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">プライバシー ポリシー</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">メールアドレス</string>
 	<!-- Hint to type in comments -->
@@ -652,7 +654,7 @@
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">
-		<item quantity="zero">%d 泊</item>
+		<item quantity="zero">%d泊</item>
 		<item quantity="one">%d泊</item>
 		<item quantity="two">%d泊</item>
 		<item quantity="many">%d泊</item>
@@ -665,7 +667,9 @@
 	<!-- Abbreviated kilometers (used in distance_template) -->
 	<string name="unit_kilometers">キロ</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-	<string name="distance_template">%1$s %2$s 距離</string>
+	<string name="distance_template">%1$s 距離 %2$s</string>
+	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
+	<string name="distance_template_short">%1$s %2$s</string>
 
 	<!-- Menu strings -->
 	<!-- Label for "settings" menu item. -->
@@ -693,7 +697,7 @@
 	<string name="currency_eur">ユーロ</string>
 	<string name="currency_hkd">香港ドル</string>
 	<string name="currency_inr">インド ルピー</string>
-	<string name="currency_ils">イスラエル 新シェケル</string>
+	<string name="currency_ils">イスラエル 新シェケル </string>
 	<string name="currency_jpy">日本円</string>
 	<string name="currency_krw">韓国ウォン</string>
 	<string name="currency_mxn">メキシコ ペソ</string>
@@ -762,7 +766,7 @@
 	<string name="country_cu">キューバ</string>
 	<string name="country_cy">キプロス</string>
 	<string name="country_cz">チェコ共和国</string>
-	<string name="country_ci">コート\'ジボワール</string>
+	<string name="country_ci">コートジボワール</string>
 	<string name="country_dk">デンマーク</string>
 	<string name="country_dj">ジブティ</string>
 	<string name="country_dm">ドミニカ</string>
@@ -888,7 +892,7 @@
 	<string name="country_ru">ロシア連邦</string>
 	<string name="country_rw">ルワンダ</string>
 	<string name="country_re">レユニオン</string>
-	<string name="country_bl">Saint Barthélemy</string>
+	<string name="country_bl">サン・バルテミー島</string>
 	<string name="country_sh">セントヘレナ</string>
 	<string name="country_kn">セントクリストダー・ネイビス</string>
 	<string name="country_lc">セントルシア</string>

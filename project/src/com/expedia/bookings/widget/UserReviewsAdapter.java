@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -51,9 +50,9 @@ public class UserReviewsAdapter extends BaseAdapter {
 	public boolean isEmpty() {
 		return (mLoadedReviews == null || mLoadedReviews.isEmpty());
 	}
-
+ 
 	@Override
-	public ReviewWrapper getItem(int position) {
+	public Object getItem(int position) {
 		return mLoadedReviews.get(position);
 	}
 
@@ -185,7 +184,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void switchUserReviews(ArrayList<ReviewWrapper> reviews) {
+	public void setUserReviews(ArrayList<ReviewWrapper> reviews) {
 		mLoadedReviews = reviews;
 		notifyDataSetChanged();
 	}
@@ -195,5 +194,4 @@ public class UserReviewsAdapter extends BaseAdapter {
 		viewHolder.submissionDate.setVisibility(View.VISIBLE);
 		viewHolder.nameAndLocation.setVisibility(View.VISIBLE);
 	}
-
 }

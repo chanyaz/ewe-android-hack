@@ -2,6 +2,9 @@ package com.expedia.bookings.activity;
 
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -30,10 +33,12 @@ import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.fragment.EventManager;
+import com.expedia.bookings.server.AvailabilityResponseHandler;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.json.JSONUtils;
@@ -86,6 +91,27 @@ public class BookingFragmentActivity extends Activity {
 			mInstance.mAvailabilityResponse = (AvailabilityResponse) JSONUtils.parseJSONableFromIntent(intent,
 					Codes.AVAILABILITY_RESPONSE, AvailabilityResponse.class);
 			mInstance.mRate = (Rate) JSONUtils.parseJSONableFromIntent(intent, Codes.RATE, Rate.class);
+
+			// This code allows us to test the BookingFragmentActivity standalone, for layout purposes.
+			// Just point the default launcher activity towards this instead of SearchActivity
+			if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
+				try {
+					mInstance.mSearchParams = new SearchParams();
+					mInstance.mSearchParams.fillWithTestData();
+					mInstance.mProperty = new Property();
+					mInstance.mProperty.fillWithTestData();
+					mInstance.mRate = new Rate();
+					mInstance.mRate.fillWithTestData();
+
+					JSONObject obj = new JSONObject(getString(R.string.sample_availability_response));
+					AvailabilityResponseHandler handler = new AvailabilityResponseHandler(this,
+							mInstance.mSearchParams, mInstance.mProperty);
+					mInstance.mAvailabilityResponse = (AvailabilityResponse) handler.handleJson(obj);
+				}
+				catch (JSONException e) {
+					Log.e("Couldn't create dummy data!", e);
+				}
+			}
 
 			// Initialize some variables in the instance for later use
 			mInstance.mBookingInfoValidation = new BookingInfoValidation();
@@ -203,11 +229,13 @@ public class BookingFragmentActivity extends Activity {
 		//clear out previous results
 		mInstance.mPropertyInfoResponse = null;
 		mInstance.mPropertyInfoStatus = null;
+		mEventManager.notifyEventHandlers(EVENT_PROPERTY_INFO_QUERY_STARTED, null);
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
 		bd.cancelDownload(KEY_PROPERTY_INFO);
 		bd.startDownload(KEY_PROPERTY_INFO, mPropertyInfoDownload, mPropertyInfoCallback);
+
 	}
 
 	private Download mPropertyInfoDownload = new Download() {
@@ -242,7 +270,10 @@ public class BookingFragmentActivity extends Activity {
 	}
 
 	public void enterBookingInfo() {
-		BookingFormFragment.newInstance().show(getFragmentManager(), getString(R.string.tag_booking_form));
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(getString(R.string.tag_booking_form)) == null) {
+			BookingFormFragment.newInstance().show(getFragmentManager(), getString(R.string.tag_booking_form));
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -280,6 +311,11 @@ public class BookingFragmentActivity extends Activity {
 			}
 
 			BookingResponse response = mInstance.mBookingResponse = (BookingResponse) results;
+
+			if (response.getSession() != null) {
+				mInstance.mSession = response.getSession();
+			}
+
 			if (response.hasErrors()) {
 				// Gather the error message
 				String errorMsg = "";

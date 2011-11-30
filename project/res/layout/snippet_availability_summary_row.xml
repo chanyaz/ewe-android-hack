@@ -3,8 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="0dp"
     android:layout_weight="1"
-    android:gravity="center_vertical"
-    android:background="@drawable/bg_row_summarized_room_rate" >
+    android:background="@drawable/bg_row_summarized_room_rate"
+    android:gravity="center_vertical" >
 
     <LinearLayout
         android:id="@+id/availability_text"
@@ -12,6 +12,8 @@
         android:layout_height="fill_parent"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/availability_chevron_image_view"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
@@ -19,6 +21,8 @@
             android:id="@+id/availability_description_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textColor="#48505c"
             android:textSize="16sp" />
 
@@ -39,6 +43,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:paddingRight="10dp"
+        android:paddingLeft="10dp"
         android:scaleType="center"
         android:src="@drawable/room_rate_chevron"
         android:visibility="gone" />

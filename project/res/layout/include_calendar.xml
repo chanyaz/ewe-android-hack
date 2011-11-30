@@ -12,16 +12,16 @@
         android:id="@+id/dates_date_picker"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        mobiata:cellBackground="@drawable/bg_calendar_cell"
+        mobiata:cellBackground="@drawable/bg_calendar_cell_tablet"
         mobiata:cellTextColor="@color/cell_text"
         mobiata:drawGridLines="false"
         mobiata:headerBackground="@color/calendar_header_tablet"
         mobiata:headerHeight="52dp"
-        mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell"
+        mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell_tablet"
         mobiata:otherMonthCellTextColor="@color/cell_text_other_month"
         mobiata:popupBackground="@drawable/calendar_date_picker_popup"
         mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
         mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
-        mobiata:todayCellBackground="@drawable/bg_calendar_cell_today" />
+        mobiata:todayCellBackground="@drawable/bg_calendar_cell_today_tablet" />
 
 </FrameLayout>

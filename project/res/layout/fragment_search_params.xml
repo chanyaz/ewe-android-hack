@@ -54,15 +54,54 @@
 
         <!-- Search location fields -->
 
-        <include layout="@layout/include_search" />
+        <include
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="25dp"
+            android:layout_weight="1"
+            layout="@layout/include_search" />
 
         <!-- Checkin/checkout fields -->
 
-        <include layout="@layout/include_calendar" />
+        <include
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_weight="1"
+            layout="@layout/include_calendar" />
 
         <!-- Number of adults/kids, plus search button -->
 
-        <include layout="@layout/include_guests" />
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <include
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                layout="@layout/include_guests" />
+
+            <Button
+                android:id="@+id/search_button"
+                style="@style/Widget.Button.Yellow.Search"
+                android:layout_width="fill_parent"
+                android:layout_height="96dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/search_for_hotels"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
     <ImageView

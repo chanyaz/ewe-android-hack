@@ -1,15 +1,13 @@
 package com.expedia.bookings.data;
 
-import java.util.HashMap;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
@@ -28,12 +26,13 @@ public class Media implements JSONable {
 
 	private static final int SUFFIX_LENGTH = 5;
 
-	private HashMap<String, String> mImageUrls;
-
 	private int mMediaType;
 	private String mUrl;
 	private int mHeight;
 	private int mWidth;
+
+	// Contains the last known active url - the one that we might have downloaded to an ImageView 
+	private String mActiveUrl;
 
 	public Media() {
 		// Default constructor
@@ -56,13 +55,21 @@ public class Media implements JSONable {
 		return mUrl;
 	}
 
-	public String getHighResUrl() {
-		return mImageUrls.get(IMAGE_XLARGE_SUFFIX);
+	public String getUrl(String suffix) {
+		return mUrl.substring(0, mUrl.length() - SUFFIX_LENGTH) + suffix;
+	}
+
+	public String getActiveUrl() {
+		if (mActiveUrl != null) {
+			return mActiveUrl;
+		}
+		else {
+			return mUrl;
+		}
 	}
 
 	public void setUrl(String url) {
 		this.mUrl = url;
-		constructUrlsForDifferentImageSizes();
 	}
 
 	public int getHeight() {
@@ -99,18 +106,31 @@ public class Media implements JSONable {
 	}
 
 	/**
+	 * Loads a high-res image automatically into an ImageView.
+	 * 
+	 * If you need more fine-grained control
+	 *  
+	 * @param imageView
+	 * @param callback
+	 */
+	public void loadHighResImage(ImageView imageView, OnImageLoaded callback) {
+		mActiveUrl = getUrl(IMAGE_XLARGE_SUFFIX);
+		ImageCache.loadImage(mActiveUrl, getImageLoadedCallback(imageView, callback));
+	}
+
+	/**
 	 * This method provides a callback that implements the 
 	 * fallback mechanism for images, trying to get the
 	 * highest resolution image first, and then working
 	 * its way down the list to see what sized image is available
 	 */
-	public OnImageLoaded getImageLoadedCallback(final ImageView imageView, final OnImageLoaded additionCallback) {
+	private OnImageLoaded getImageLoadedCallback(final ImageView imageView, final OnImageLoaded additionCallback) {
 		return new OnImageLoaded() {
 
 			@Override
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				if (bitmap != null) {
-					Log.d("** Loading image with url = " + url);
+					Log.v("** Loading image with url = " + url);
 					imageView.setImageBitmap(bitmap);
 
 					if (additionCallback != null) {
@@ -121,18 +141,18 @@ public class Media implements JSONable {
 
 			@Override
 			public void onImageLoadFailed(String url) {
-				if (url.equals(mImageUrls.get(IMAGE_XLARGE_SUFFIX))) {
-					Log.d("** Falling back from " + IMAGE_XLARGE_SUFFIX + " to " + IMAGE_LARGE_SUFFIX);
-					ImageCache.loadImage(mImageUrls.get(IMAGE_LARGE_SUFFIX),
-							getImageLoadedCallback(imageView, additionCallback));
+				if (url.equals(getUrl(IMAGE_XLARGE_SUFFIX))) {
+					Log.v("** Falling back from " + IMAGE_XLARGE_SUFFIX + " to " + IMAGE_LARGE_SUFFIX);
+					mActiveUrl = getUrl(IMAGE_LARGE_SUFFIX);
+					ImageCache.loadImage(mActiveUrl, getImageLoadedCallback(imageView, additionCallback));
 				}
-				else if (url.equals(mImageUrls.get(IMAGE_LARGE_SUFFIX))) {
-					Log.d("** Falling back from " + IMAGE_LARGE_SUFFIX + " to " + IMAGE_BIG_SUFFIX);
-					ImageCache.loadImage(mImageUrls.get(IMAGE_BIG_SUFFIX),
-							getImageLoadedCallback(imageView, additionCallback));
+				else if (url.equals(getUrl(IMAGE_LARGE_SUFFIX))) {
+					Log.v("** Falling back from " + IMAGE_LARGE_SUFFIX + " to " + IMAGE_BIG_SUFFIX);
+					mActiveUrl = getUrl(IMAGE_BIG_SUFFIX);
+					ImageCache.loadImage(mActiveUrl, getImageLoadedCallback(imageView, additionCallback));
 				}
 				else {
-					Log.d("** No sizes available");
+					Log.v("** No sizes available");
 					if (additionCallback != null) {
 						additionCallback.onImageLoadFailed(url);
 					}
@@ -172,17 +192,5 @@ public class Media implements JSONable {
 		catch (JSONException e) {
 			return obj.toString();
 		}
-	}
-
-	/*
-	 * This method takes the last 4 characters in the 
-	 * url string to replace it with the desired resolution
-	 * for the image.
-	 */
-	private void constructUrlsForDifferentImageSizes() {
-		mImageUrls = new HashMap<String, String>();
-		mImageUrls.put(IMAGE_XLARGE_SUFFIX, mUrl.substring(0, mUrl.length() - SUFFIX_LENGTH) + IMAGE_XLARGE_SUFFIX);
-		mImageUrls.put(IMAGE_LARGE_SUFFIX, mUrl.substring(0, mUrl.length() - SUFFIX_LENGTH) + IMAGE_LARGE_SUFFIX);
-		mImageUrls.put(IMAGE_BIG_SUFFIX, mUrl.substring(0, mUrl.length() - SUFFIX_LENGTH) + IMAGE_BIG_SUFFIX);
 	}
 }

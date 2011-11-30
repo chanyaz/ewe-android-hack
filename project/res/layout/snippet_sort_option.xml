@@ -8,7 +8,7 @@
 	android:background="@drawable/bg_sort_option_row">
 	<View
 		android:id="@+id/sort_option_divider"
-		android:layout_height="2px"
+		android:layout_height="@dimen/two_pixels"
 		android:layout_width="fill_parent" />
 	<LinearLayout
 		android:layout_height="wrap_content"

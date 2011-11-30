@@ -165,6 +165,12 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		mConfirmBookButton = view.findViewById(R.id.confirm_book_button);
 		mReceipt = view.findViewById(R.id.receipt);
 		mCloseFormButton = view.findViewById(R.id.close_booking_form);
+		
+		// 10758: rendering the saved layouts on a software layer
+		// to avoid the fuzziness of the saved section background
+		mGuestSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		mBillingSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		view.findViewById(R.id.credit_card_security_code_container).setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 		InstanceFragment instance = getInstance();
 
@@ -240,7 +246,6 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 			mRoomTypeFragmentHandler.onPropertyInfoDownloaded(getInstance().mPropertyInfoResponse);
 			break;
 		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_ERROR:
-			mRoomTypeFragmentHandler.showDetails(getInstance().mPropertyInfoStatus);
 			mRoomTypeFragmentHandler.showCheckInCheckoutDetails(null);
 			break;
 		}

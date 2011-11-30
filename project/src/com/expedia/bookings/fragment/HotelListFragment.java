@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -17,6 +18,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelAdapter;
+import com.expedia.bookings.widget.PlaceholderTagProgressBar;
 
 public class HotelListFragment extends ListFragment implements EventHandler {
 
@@ -25,7 +27,8 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	private ViewGroup mHeaderLayout;
 	private TextView mNumHotelsTextView;
 	private TextView mSortTypeTextView;
-	private TextView mMessageTextView;
+	
+	private PlaceholderTagProgressBar mSearchProgressBar;
 
 	public static HotelListFragment newInstance() {
 		return new HotelListFragment();
@@ -55,7 +58,12 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 		mHeaderLayout = (ViewGroup) view.findViewById(R.id.header_layout);
 		mNumHotelsTextView = (TextView) view.findViewById(R.id.num_hotels_text_view);
 		mSortTypeTextView = (TextView) view.findViewById(R.id.sort_type_text_view);
-		mMessageTextView = (TextView) view.findViewById(R.id.empty_message);
+
+		ViewGroup placeholderContainer = (ViewGroup) view.findViewById(android.R.id.empty);
+		ProgressBar placeholderProgressBar = (ProgressBar) view.findViewById(R.id.placeholder_progress_bar);
+		TextView placeholderProgressTextView = (TextView) view.findViewById(R.id.placeholder_progress_text_view);
+		mSearchProgressBar = new PlaceholderTagProgressBar(placeholderContainer, placeholderProgressBar,
+				placeholderProgressTextView);
 
 		mSortTypeTextView.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -110,28 +118,24 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 			break;
 		case SearchResultsFragmentActivity.EVENT_FILTER_CHANGED:
 			updateSearchResults();
-
-			// If the property still exists in the list, make sure it's still selected.  Otherwise, 
-			// clear the current selection.
-			Property property = getInstance().mProperty;
-			mAdapter.setSelectedPosition(getPositionOfProperty(property));
-			mAdapter.notifyDataSetChanged();
-
 			break;
 		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
 			int position = getPositionOfProperty((Property) data);
-			mAdapter.setSelectedPosition(position);
-			mAdapter.notifyDataSetChanged();
-
+			if (position != mAdapter.getSelectedPosition()) {
+				mAdapter.setSelectedPosition(position);
+				mAdapter.notifyDataSetChanged();
+			}
 			break;
 		}
 	}
 
 	private int getPositionOfProperty(Property property) {
-		int count = mAdapter.getCount();
-		for (int position = 0; position < count; position++) {
-			if (mAdapter.getItem(position) == property) {
-				return position;
+		if (property != null) {
+			int count = mAdapter.getCount();
+			for (int position = 0; position < count; position++) {
+				if (mAdapter.getItem(position) == property) {
+					return position;
+				}
 			}
 		}
 		return -1;
@@ -171,17 +175,18 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	}
 
 	private void displaySearchStatus() {
-		if (mMessageTextView != null && mAdapter != null) {
-			mMessageTextView.setText(getInstance().mSearchStatus);
+		if (mSearchProgressBar != null && mAdapter != null) {
+			mSearchProgressBar.setText(getInstance().mSearchStatus);
 			setHeaderVisibility(View.GONE);
 			mAdapter.setSearchResponse(null);
 		}
 	}
 
 	private void displaySearchError() {
-		if (mMessageTextView != null && mAdapter != null) {
+		if (mSearchProgressBar != null && mAdapter != null) {
 			String errorMsg = getInstance().mSearchStatus;
-			mMessageTextView.setText(errorMsg);
+			mSearchProgressBar.setText(errorMsg);
+			mSearchProgressBar.setShowProgress(false);
 			setHeaderVisibility(View.GONE);
 			mAdapter.setSearchResponse(null);
 		}
@@ -191,13 +196,18 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 		SearchResponse response = getInstance().mSearchResponse;
 		mAdapter.setSearchResponse(response);
 
+		// In case there is a currently selected property, select it on the screen.
+		mAdapter.setSelectedPosition(getPositionOfProperty(getInstance().mProperty));
+
 		if (response.getPropertiesCount() == 0) {
 			setHeaderVisibility(View.GONE);
-			mMessageTextView.setText(R.string.ean_error_no_results);
+			mSearchProgressBar.setText(R.string.ean_error_no_results);
+			mSearchProgressBar.setShowProgress(false);
 		}
 		else if (mAdapter.getCount() == 0) {
 			setHeaderVisibility(View.GONE);
-			mMessageTextView.setText(R.string.no_filter_results);
+			mSearchProgressBar.setText(R.string.no_filter_results);
+			mSearchProgressBar.setShowProgress(false);
 		}
 		else {
 			updateNumHotels();
@@ -212,7 +222,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 			mHeaderLayout.setVisibility(visibility);
 		}
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// Convenience method
 

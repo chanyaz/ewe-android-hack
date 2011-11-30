@@ -25,8 +25,8 @@ public class RoomsAndRatesFragment extends ListFragment {
 	private TextView mMessageTextView;
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
 		BookingFragmentActivity.InstanceFragment instance = ((BookingFragmentActivity) getActivity()).mInstance;
 		AvailabilityResponse response = instance.mAvailabilityResponse;
@@ -58,10 +58,12 @@ public class RoomsAndRatesFragment extends ListFragment {
 	}
 
 	private int getPositionOfRate(Rate rate) {
-		int count = mAdapter.getCount();
-		for (int position = 0; position < count; position++) {
-			if (mAdapter.getItem(position) == rate) {
-				return position;
+		if (rate != null) {
+			int count = mAdapter.getCount();
+			for (int position = 0; position < count; position++) {
+				if (rate.equals(mAdapter.getItem(position))) {
+					return position;
+				}
 			}
 		}
 		return -1;

@@ -2,15 +2,16 @@
 <resources>
 	<dimen name="action_bar_button_height">48dp</dimen>
 	<dimen name="row_search_suggestion_footer_height">48dp</dimen>
-	
-	<!-- This is the amount of padding the bottom of the booking info activity needs
-		to account for the see-through bar -->
+
+	<!-- This is the amount of padding the bottom of the booking info activity 
+		needs to account for the see-through bar -->
 	<dimen name="bottom_bar_height">50dp</dimen>
-	
+
 	<dimen name="bottom_bar_padding">@dimen/bottom_bar_height</dimen>
-	
+
 	<!-- Dimensions for hotel rows -->
-	<!-- This is the height/width of the image in a hotel row.  Height determines height of row as well -->
+	<!-- This is the height/width of the image in a hotel row. Height determines 
+		height of row as well -->
 	<dimen name="hotel_row_thumbnail_width">90dp</dimen>
 	<dimen name="hotel_row_thumbnail_height">90dp</dimen>
 	<dimen name="hotel_row_content_margin">6dp</dimen>
@@ -18,7 +19,7 @@
 	<dimen name="hotel_row_price_text_size">20sp</dimen>
 	<dimen name="hotel_row_price_per_night_text_size">11sp</dimen>
 	<dimen name="hotel_row_distance_text_size">11sp</dimen>
-	
+
 	<!-- These are slight differences between hdpi and mpdi positioning -->
 	<dimen name="sale_text_margin_top">2dp</dimen>
 	<dimen name="sale_text_margin_left">0dp</dimen>
@@ -28,24 +29,40 @@
 	<dimen name="amenity_text_size_small">10sp</dimen>
 	<dimen name="amenity_layout_width">60dp</dimen>
 	<dimen name="amenity_layout_height">55dp</dimen>
-	
-	<!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
+
+	<!-- The limiting dimension of the gallery (either height or width, depending 
+		on orientation) -->
 	<dimen name="gallery_size">200dp</dimen>
-	
+
 	<!-- Dimensions for book now button or any other button in the header -->
 	<dimen name="header_button_width">100dp</dimen>
 	<dimen name="header_button_height">38dp</dimen>
-	
+
 	<dimen name="right_padding_for_scroll_bar">30dp</dimen>
 	<dimen name="hotel_description_body_text_size">12sp</dimen>
+
+	<dimen name="mini_details_height">320dp</dimen>
+
+	<dimen name="min_height_per_row_review">70dp</dimen>
+
+	<dimen name="min_height_rating_bar_small">16dp</dimen>
+	<dimen name="max_height_rating_bar_small">16dp</dimen>
+
+	<dimen name="padding_top_sale_ribbon">0dp</dimen>
+	<dimen name="padding_right_sale_ribbon">0dp</dimen>
+
+	<dimen name="margin_top_sale_ribbon_room_rates">20dp</dimen>
+
+	<dimen name="min_price_row_text_normal">20sp</dimen>
+	<dimen name="min_price_row_text_small">14sp</dimen>
+
+	<!-- Dimensions for the placeholder progress bar throbber -->
+	<dimen name="placeholder_throbber_size">76dp</dimen>
+	<!-- Offset for placeholder tag -->
+	<dimen name="placeholder_tag_margin_top">15dp</dimen>
+	<!-- Offset for placeholder tag -->
+	<dimen name="placeholder_tag_margin_top">44dp</dimen>
 	
-    <dimen name="mini_details_height">320dp</dimen>
-    
-    <dimen name="min_height_per_row_review">70dp</dimen>
-    
-    <dimen name="min_height_rating_bar_small">16dp</dimen>
-    <dimen name="max_height_rating_bar_small">16dp</dimen>
-    
-    <dimen name="padding_top_sale_ribbon">0dp</dimen>
-    <dimen name="padding_right_sale_ribbon">0dp</dimen>
+	<dimen name="booking_form_saved_field_text_size">14sp</dimen>
+	<dimen name="booking_form_saved_section_padding">5dp</dimen>
 </resources>

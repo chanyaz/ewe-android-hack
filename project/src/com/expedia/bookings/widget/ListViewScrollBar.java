@@ -54,7 +54,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 	private Drawable mBarDrawable;
 	private Drawable mIndicatorDrawable;
-	private Drawable mTripAdvisorMarker;
+	private Drawable mSaleMarker;
 
 	private double mFirstVisibleItem;
 	private double mVisibleItemCount;
@@ -131,7 +131,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 
 		drawBar(canvas);
 		drawIndicator(canvas);
-		drawTripAdvisorMarkers(canvas);
+		drawSaleMarkers(canvas);
 	}
 
 	public void rebuildCache() {
@@ -143,7 +143,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		mBarDrawable = getResources().getDrawable(R.drawable.scroll_bar);
 		mIndicatorDrawable = getResources().getDrawable(R.drawable.scroll_indicator);
-		mTripAdvisorMarker = getResources().getDrawable(R.drawable.scroll_highly_rated_marker);
+		mSaleMarker = getResources().getDrawable(R.drawable.scroll_sale_marker);
 
 		mPaddingLeft = getPaddingLeft();
 		mPaddingTop = getPaddingTop();
@@ -216,8 +216,8 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		mIndicatorLeft = ((mWidth - mPaddingLeft - mPaddingRight - mIndicatorWidth) / 2) + mPaddingLeft;
 		mIndicatorRight = mIndicatorLeft + mIndicatorWidth;
 
-		mMarkerWidth = mTripAdvisorMarker.getMinimumWidth();
-		mMarkerHeight = mTripAdvisorMarker.getMinimumHeight();
+		mMarkerWidth = mSaleMarker.getMinimumWidth();
+		mMarkerHeight = mSaleMarker.getMinimumHeight();
 		mMarkerLeft = ((mWidth - mPaddingLeft - mPaddingRight - mMarkerWidth) / 2) + mPaddingLeft;
 		mMarkerRight = mMarkerLeft + mMarkerWidth;
 	}
@@ -404,7 +404,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		mIndicatorDrawable.draw(canvas);
 	}
 
-	private void drawTripAdvisorMarkers(Canvas canvas) {
+	private void drawSaleMarkers(Canvas canvas) {
 		if (mCachedMarkerPositions != null) {
 			final int size = mCachedMarkerPositions.length;
 			if (size == mTotalItemCount) {
@@ -416,9 +416,9 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 				final double top = (mMarkerRangeHeight * markerPercent) - (mMarkerHeight / 2) + mIndicatorPaddingTop
 						+ mMarkerRangePaddingTop + mPaddingTop;
 
-				mTripAdvisorMarker.setBounds((int) mMarkerLeft, (int) top, (int) mMarkerRight, (int) top
+				mSaleMarker.setBounds((int) mMarkerLeft, (int) top, (int) mMarkerRight, (int) top
 						+ (int) mMarkerHeight);
-				mTripAdvisorMarker.draw(canvas);
+				mSaleMarker.draw(canvas);
 			}
 		}
 	}
@@ -512,7 +512,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		int i = 0;
 		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
 		for (Property property : mCachedProperties) {
-			if (property.getAverageExpediaRating() >= Filter.HIGH_USER_RATING) {
+			if (property.getLowestRate().isOnSale()) {
 				propertyPositions.add(i);
 			}
 			i++;

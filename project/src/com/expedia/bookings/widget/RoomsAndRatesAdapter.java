@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -79,21 +78,6 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		// Calculate the size of the sale text size
 		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(context.getString(R.string.savings_template, 50.0), 2, 11,
 				new TextPaint(), 28);
-
-		// Here we determine the margin for all rows' bed description.
-		// We pre-calculate this so that everything is aligned. How
-		// this is calculated:
-		//
-		// 1. If there are no sales tags, align to the right.
-		// 2. If there are sales tags but none of the bed descriptions exceed one line, do same as #1.
-		// 3. If there are sales tags and one exceeds one line, align all a bit more to the left.
-		mBedRightMargin = Math.round(mResources.getDisplayMetrics().density * -52);
-		for (Rate rate : mRates) {
-			if (rate.getSavingsPercent() > 0 && showRoomsLeft(rate)) {
-				mBedRightMargin = Math.round(mResources.getDisplayMetrics().density * -30);
-				break;
-			}
-		}
 	}
 
 	public void setSelectedPosition(int selectedPosition) {
@@ -142,15 +126,12 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
 			holder.priceExplanation = (TextView) convertView.findViewById(R.id.price_explanation_text_view);
 			holder.beds = (TextView) convertView.findViewById(R.id.beds_text_view);
-			holder.saleImage = (ImageView) convertView.findViewById(R.id.sale_image_view);
 			holder.saleLabel = (TextView) convertView.findViewById(R.id.sale_text_view);
 			holder.valueAddsLayout = (ViewGroup) convertView.findViewById(R.id.value_adds_layout);
 			holder.valueAdds = (TextView) convertView.findViewById(R.id.value_adds_text_view);
 			holder.valueAddsBeds = (TextView) convertView.findViewById(R.id.value_adds_beds_text_view);
 
 			holder.saleLabel.setTextSize(mSaleTextSize);
-
-			((RelativeLayout.LayoutParams) holder.beds.getLayoutParams()).rightMargin = mBedRightMargin;
 
 			// #6966: Fix specifically for Android 2.1 and below.  Since RelativeLayout can't properly align
 			// bottom on a ListView, I'm just going to add extra margin
@@ -173,19 +154,16 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		String explanation = "";
 
 		// Check if there should be a strike-through rate, if this is on sale
-		double savings = rate.getSavingsPercent();
-		if (savings > 0) {
+		if (rate.isOnSale()) {
 			explanation += "<strike>"
 					+ StrUtils.formatHotelPrice(rate.getDisplayBaseRate())
 					+ "</strike> ";
 
-			holder.saleLabel.setText(mContext.getString(R.string.savings_template, savings * 100));
-			holder.saleImage.setVisibility(View.VISIBLE);
+			holder.saleLabel.setText(mContext.getString(R.string.percent_off_template, rate.getSavingsPercent() * 100));
 			holder.saleLabel.setVisibility(View.VISIBLE);
 		}
 		else {
-			holder.saleImage.setVisibility(View.INVISIBLE);
-			holder.saleLabel.setVisibility(View.INVISIBLE);
+			holder.saleLabel.setVisibility(View.GONE);
 		}
 
 		// Determine whether to show rate, rate per night, or avg rate per night for explanation
@@ -224,6 +202,12 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		if (showRoomsLeft(rate)) {
 			int numRoomsLeft = rate.getNumRoomsLeft();
 			bedText += "\n" + mResources.getQuantityString(R.plurals.number_of_rooms_left, numRoomsLeft, numRoomsLeft);
+			
+			// move the sale label up so as to accomodate the multiple lines for the bed text
+			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL, 0);
+			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).topMargin = (int) mContext.getResources().getDimension(R.dimen.margin_top_sale_ribbon_room_rates);
+		} else {
+			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		}
 
 		// If there are value adds, setup the alternate view
@@ -263,7 +247,6 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		public TextView price;
 		public TextView priceExplanation;
 		public TextView beds;
-		public ImageView saleImage;
 		public TextView saleLabel;
 
 		public ViewGroup valueAddsLayout;

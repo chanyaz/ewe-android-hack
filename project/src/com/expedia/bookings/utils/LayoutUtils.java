@@ -5,8 +5,11 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,9 +18,11 @@ import android.text.format.DateUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -28,6 +33,7 @@ import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Property.Amenity;
+import com.mobiata.android.util.AndroidUtils;
 
 public class LayoutUtils {
 
@@ -42,8 +48,7 @@ public class LayoutUtils {
 		// The radius filter buttons depend on whether the user's locale leans
 		// towards miles or kilometers.  For now, we just use US == miles,
 		// everything else == kilometers (pending a better way to determine this).
-		DistanceUnit distanceUnit = (filter != null) ? filter.getDistanceUnit() : DistanceUnit
-				.getDefaultDistanceUnit();
+		DistanceUnit distanceUnit = (filter != null) ? filter.getDistanceUnit() : DistanceUnit.getDefaultDistanceUnit();
 		int distanceStrId = (distanceUnit == DistanceUnit.MILES) ? R.string.filter_distance_miles_template
 				: R.string.filter_distance_kilometers_template;
 
@@ -189,6 +194,29 @@ public class LayoutUtils {
 		}
 
 		amenityName.setText(amenityStr);
+
+		// fix width for first amenity
+
+		if (amenitiesTable.getChildCount() == 0 && AndroidUtils.isTablet(context)) {
+			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) amenityLayout.getLayoutParams();
+			params.width = LayoutParams.WRAP_CONTENT;
+			amenityLayout.setLayoutParams(params);
+
+			final Resources res = context.getResources();
+			final int amenityLayoutWidth = (int) res.getDimension(R.dimen.amenity_layout_width);
+			final int amenityLayoutHeight = (int) res.getDimension(R.dimen.amenity_layout_height);
+
+			final int widthMeasureSpec = MeasureSpec.makeMeasureSpec(LayoutParams.WRAP_CONTENT, MeasureSpec.EXACTLY);
+			final int heightMeasureSpec = MeasureSpec.makeMeasureSpec(amenityLayoutHeight, MeasureSpec.EXACTLY);
+
+			amenityLayout.measure(widthMeasureSpec, heightMeasureSpec);
+
+			final int width = amenityLayout.getMeasuredWidth();
+			final int marginRight = (int) (((amenityLayoutWidth - width) / 2) + (res.getDisplayMetrics().scaledDensity * 3));
+
+			params.setMargins(0, 0, marginRight, 0);
+		}
+
 		amenitiesTable.addView(amenityLayout);
 	}
 

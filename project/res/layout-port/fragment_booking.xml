@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/availability_list_shadow"
     android:layout_width="fill_parent"
@@ -8,21 +9,16 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="20dp" >
+        android:padding="20dp" >
 
-        <FrameLayout
+        <include
+            android:id="@+id/fragment_receipt"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp" >
-
-            <include
-                android:id="@+id/fragment_receipt"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/include_receipt" />
-        </FrameLayout>
+            android:layout_marginRight="30dp"
+            layout="@layout/include_receipt" />
 
         <Button
             android:id="@+id/complete_booking_info_button"
@@ -31,6 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:maxLines="1"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:text="@string/enter_booking_info" />
 
         <View
@@ -39,29 +37,29 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/divider" />
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/room_type_description_title_view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" >
+            android:layout_marginTop="16dp"
+            android:textColor="#6A6D71"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/room_type_description_title_view"
-                style="@style/formSectionHeaderText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="6dp"
-                android:text="@string/room_type"
-                android:textColor="#6A6D71" />
+        <ProgressBar
+            android:id="@+id/room_description_progress_bar"
+            style="@android:style/Widget.ProgressBar.Large.Inverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
 
-            <TextView
-                android:id="@+id/room_type_description_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/room_type_description_title_view"
-                android:layout_marginTop="8dp"
-                android:textColor="#6A6D71" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/room_type_description_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="#6A6D71" />
 
         <View
             android:layout_width="fill_parent"
@@ -76,9 +74,9 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="20dp"
             android:text="@string/rules_restrictions"
+            android:textColor="#6A6D71"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#6A6D71" />
+            android:textStyle="bold" />
 
         <include layout="@layout/include_booking_cancellation_policy" />
     </LinearLayout>

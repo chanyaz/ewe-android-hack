@@ -33,7 +33,7 @@ public class WidgetDeals implements JSONable {
 	private List<Property> mDeals;
 	private Session mSession;
 	private SearchParams mSearchParams;
-	
+
 	private int refreshCount = 0;
 
 	private static WidgetDeals singleton;
@@ -241,7 +241,7 @@ public class WidgetDeals implements JSONable {
 				break;
 			}
 
-			if (!relevantProperties.contains(property) && property.getLowestRate().getSavingsPercent() == 0
+			if (!relevantProperties.contains(property) && !property.getLowestRate().isOnSale()
 					&& !property.isHighlyRated()) {
 				relevantProperties.add(property);
 			}
@@ -264,7 +264,7 @@ public class WidgetDeals implements JSONable {
 			}
 
 			if (!relevantProperties.contains(property) && property.isHighlyRated()
-					&& (property.getLowestRate().getSavingsPercent() == 0)) {
+					&& !property.getLowestRate().isOnSale()) {
 				relevantProperties.add(property);
 			}
 		}
@@ -284,7 +284,7 @@ public class WidgetDeals implements JSONable {
 			}
 
 			if (!relevantProperties.contains(property)) {
-				if (property.getLowestRate().getSavingsPercent() > 0) {
+				if (property.getLowestRate().isOnSale()) {
 					relevantProperties.add(property);
 				}
 			}

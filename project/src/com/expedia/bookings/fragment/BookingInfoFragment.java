@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -99,7 +100,6 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 			mRoomTypeFragmentHandler.onPropertyInfoDownloaded(getInstance().mPropertyInfoResponse);
 			break;
 		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_ERROR:
-			mRoomTypeFragmentHandler.showDetails(getInstance().mPropertyInfoStatus);
 			mRoomTypeFragmentHandler.showCheckInCheckoutDetails(null);
 			updateRoomDescription(getView());
 			break;
@@ -115,10 +115,22 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 		PropertyInfoResponse propertyInfoResponse = getInstance().mPropertyInfoResponse;
 		Rate rate = getInstance().mRate;
 		String roomTypeDescription = null;
+		ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.room_description_progress_bar);
+		TextView roomTypeDescriptionTitleTextView = (TextView) view.findViewById(R.id.room_type_description_title_view);
+		roomTypeDescriptionTitleTextView.setText(rate.getRatePlanName());
+
 		if (propertyInfoResponse == null) {
-			roomTypeDescription = getInstance().mPropertyInfoStatus;
+			if (getInstance().mPropertyInfoStatus != null) {
+				roomTypeDescription = getInstance().mPropertyInfoStatus;
+				progressBar.setVisibility(View.GONE);
+			}
+			else {
+				progressBar.setVisibility(View.VISIBLE);
+			}
 		}
 		else {
+			progressBar.setVisibility(View.GONE);
+
 			if (propertyInfoResponse.hasErrors()) {
 				roomTypeDescription = propertyInfoResponse.getErrors().get(0).getPresentableMessage(getActivity());
 			}
@@ -127,8 +139,6 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 			}
 		}
 
-		TextView roomTypeDescriptionTitleTextView = (TextView) view.findViewById(R.id.room_type_description_title_view);
-		roomTypeDescriptionTitleTextView.setText(rate.getRatePlanName());
 		TextView roomTypeDescriptionTextView = (TextView) view.findViewById(R.id.room_type_description_text_view);
 		roomTypeDescriptionTextView.setText(roomTypeDescription);
 	}

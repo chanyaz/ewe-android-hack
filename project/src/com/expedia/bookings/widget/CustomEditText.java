@@ -200,7 +200,7 @@ public class CustomEditText extends EditText {
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomEditText);
 		mUseClearFieldDrawable = a.getBoolean(R.styleable.CustomEditText_useClearFieldDrawable, true);
 		mErrorTextColorResId = a.getResourceId(R.styleable.CustomEditText_errorTextColor,
-				android.R.attr.textColorPrimaryInverse);
+				android.R.color.black);
 		mTouchAreaPadding = a.getDimensionPixelSize(R.styleable.CustomEditText_touchAreaPadding, 0);
 		addTextChangedListener(textWatcher);
 		setupTransparentRightDrawable();

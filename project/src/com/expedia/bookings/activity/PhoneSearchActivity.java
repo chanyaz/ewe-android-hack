@@ -83,6 +83,7 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.animation.Rotate3dAnimation;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
@@ -206,9 +207,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	public static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
 
-	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
-	public static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
-
 	private static final int F_NO_DIVIDERS = 1;
 	private static final int F_FIRST = 2;
 	private static final int F_LAST = 4;
@@ -303,7 +301,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private SearchParams mOriginalSearchParams;
 	private Session mSession;
 	private SearchResponse mSearchResponse;
-	private Map<PriceRange, PriceTier> mPriceTierCache;
 	private Filter mFilter;
 	private Filter mOldFilter;
 	public boolean mStartSearchOnResume;
@@ -359,7 +356,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				ImageCache.recycleCache(true);
 				broadcastSearchCompleted(mSearchResponse);
 
-				buildPriceTierCache();
 				hideLoading();
 				setFilterInfoText();
 
@@ -448,16 +444,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		super.onCreate(savedInstanceState);
 
 		// #7090: If the user was just sent from the ConfirmationActivity, quit (if desired)
-		if (getIntent().getBooleanExtra(ConfirmationActivity.EXTRA_FINISH, false)) {
-			finish();
-			return;
-		}
-
-		// #7090: First, check to see if the user last confirmed a booking.  If that is the case,
-		//        then we should forward the user to the ConfirmationActivity
-		if (ConfirmationUtils.hasSavedConfirmationData(this)) {
-			Intent intent = new Intent(this, ConfirmationActivity.class);
-			startActivity(intent);
+		if (getIntent().getBooleanExtra(Codes.EXTRA_FINISH, false)) {
 			finish();
 			return;
 		}
@@ -605,7 +592,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		hideSortOptions();
 		hideFilterOptions(false);
 
-		if (intent.getBooleanExtra(EXTRA_NEW_SEARCH, false)) {
+		if (intent.getBooleanExtra(Codes.EXTRA_NEW_SEARCH, false)) {
 			mStartSearchOnResume = true;
 		}
 
@@ -1473,7 +1460,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		state.oldSearchParams = mOldSearchParams;
 		state.originalSearchParams = mOriginalSearchParams;
 		state.searchResponse = mSearchResponse;
-		state.priceTierCache = mPriceTierCache;
 		state.session = mSession;
 		state.filter = mFilter;
 		state.oldFilter = mOldFilter;
@@ -1513,7 +1499,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		mOldSearchParams = state.oldSearchParams;
 		mOriginalSearchParams = state.originalSearchParams;
 		mSearchResponse = state.searchResponse;
-		mPriceTierCache = state.priceTierCache;
 		mSession = state.session;
 		mFilter = state.filter;
 		mOldFilter = state.oldFilter;
@@ -2026,18 +2011,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	// VIEW BUILDING METHODS
 	//----------------------------------
 
-	private void buildPriceTierCache() {
-		if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0) {
-			mSearchResponse.clusterProperties();
-
-			mPriceTierCache = new HashMap<PriceRange, PriceTier>();
-			mPriceTierCache.put(PriceRange.CHEAP, mSearchResponse.getPriceTier(PriceRange.CHEAP));
-			mPriceTierCache.put(PriceRange.MODERATE, mSearchResponse.getPriceTier(PriceRange.MODERATE));
-			mPriceTierCache.put(PriceRange.EXPENSIVE, mSearchResponse.getPriceTier(PriceRange.EXPENSIVE));
-			mPriceTierCache.put(PriceRange.ALL, mSearchResponse.getPriceTier(PriceRange.ALL));
-		}
-	}
-
 	private void disablePanelHandle() {
 		mPanel.getHandle().setEnabled(false);
 	}
@@ -2431,9 +2404,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 	private void setRefinementInfo() {
 		if (mDisplayType == DisplayType.CALENDAR) {
-			int nights = mDatesCalendarDatePicker.getSelectedRange() - 1;
-			nights = nights > 0 ? nights : 1;
-			mRefinementInfoTextView.setText(getResources().getQuantityString(R.plurals.length_of_stay, nights, nights));
+			mRefinementInfoTextView.setText(CalendarUtils.getCalendarDatePickerTitle(this, mDatesCalendarDatePicker));
 		}
 		else if (mDisplayType == DisplayType.GUEST_PICKER) {
 			final int adults = mAdultsNumberPicker.getCurrent();

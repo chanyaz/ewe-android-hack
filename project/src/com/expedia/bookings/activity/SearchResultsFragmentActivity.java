@@ -13,6 +13,7 @@ import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Location;
@@ -22,11 +23,14 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SearchView.OnSuggestionListener;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
@@ -48,7 +52,6 @@ import com.expedia.bookings.fragment.FilterDialogFragment;
 import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
 import com.expedia.bookings.fragment.HotelDetailsFragment;
-import com.expedia.bookings.fragment.HotelGalleryDialogFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
 import com.expedia.bookings.fragment.SortDialogFragment;
 import com.expedia.bookings.model.Search;
@@ -62,6 +65,7 @@ import com.google.android.maps.MapActivity;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.ImageCache;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -188,8 +192,22 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		mSearchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus && mSearchView.getQuery().toString().equals(getString(R.string.current_location))) {
-					mSearchView.setQuery("", false);
+				mSearchViewFocused = hasFocus;
+
+				if (hasFocus) {
+					String currQuery = mSearchView.getQuery().toString();
+					if (currQuery.equals(getString(R.string.current_location))) {
+						mSearchView.setQuery("", false);
+					}
+					else if (currQuery.length() == 0) {
+						// #10908: If the SearchView is focused when it has no text in it, then it won't fire off
+						// an autocomplete query.  By doing resetting the query to the blank string, we invoke an 
+						// autocomplete query (even though it seems like this call is completely redundant).
+						mSearchView.setQuery("", false);
+					}
+				}
+				else {
+					mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(mContext), false);
 				}
 			}
 		});
@@ -259,6 +277,32 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	}
 
 	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (isFinishing()) {
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			bd.cancelDownload(KEY_GEOCODE);
+			bd.cancelDownload(KEY_SEARCH);
+			bd.cancelDownload(KEY_AVAILABILITY_SEARCH);
+			bd.cancelDownload(KEY_REVIEWS);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Activity overrides
+
+	@Override
+	public void finish() {
+		// Store the search params going backwards, for the SearchFragmentActivity to use
+		Intent data = new Intent();
+		data.putExtra(Codes.SEARCH_PARAMS, mInstance.mSearchParams.toString());
+		setResult(RESULT_OK, data);
+
+		super.finish();
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
@@ -270,6 +314,24 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		}
 	}
 
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		// We're ensuring that if the user clicks somewhere else on the screen while the SearchView is focused,
+		// we clear focus on the SearchView.
+		if (mSearchViewFocused) {
+			float evX = ev.getX();
+			float evY = ev.getY();
+			float searchViewX = mSearchView.getX();
+			float searchViewY = mSearchView.getY();
+			if (evX < searchViewX || evX > searchViewX + mSearchView.getWidth() || evY < searchViewY
+					|| evY > searchViewY + mSearchView.getHeight()) {
+				mSearchView.clearFocus();
+			}
+		}
+
+		return super.dispatchTouchEvent(ev);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 
@@ -277,6 +339,11 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private MenuItem mGuestsMenuItem;
 	private MenuItem mDatesMenuItem;
 	private MenuItem mFilterMenuItem;
+
+	private boolean mSearchViewFocused = false;
+	private boolean mUseCondensedActionBar = false;
+
+	private TextView mGuestsTextView;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -287,15 +354,45 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		mDatesMenuItem = menu.findItem(R.id.menu_dates);
 		mFilterMenuItem = menu.findItem(R.id.menu_filter);
 
+		// Use a condensed ActionBar if the screen width is not large enough
+		if (AndroidUtils.getSdkVersion() >= 13) {
+			mUseCondensedActionBar = mResources.getConfiguration().screenWidthDp <= 800;
+		}
+		else {
+			mUseCondensedActionBar = mResources.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+		}
+
+		if (mUseCondensedActionBar) {
+			mFilterMenuItem.setTitle(R.string.filter);
+
+			// Configure the custom action view (which is more condensed than the normal one
+			mGuestsMenuItem.setActionView(R.layout.action_menu_item_guests);
+			View actionView = mGuestsMenuItem.getActionView();
+			View button = actionView.findViewById(R.id.guests_button);
+			button.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					showGuestsDialog();
+				}
+			});
+			mGuestsTextView = (TextView) actionView.findViewById(R.id.guests_text_view);
+		}
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(this), false);
+		if (!mSearchViewFocused) {
+			mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(this), false);
+		}
 
 		int numGuests = mInstance.mSearchParams.getNumAdults() + mInstance.mSearchParams.getNumChildren();
-		mGuestsMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_guests, numGuests, numGuests));
+		if (mUseCondensedActionBar) {
+			mGuestsTextView.setText(numGuests + "");
+		}
+		else {
+			mGuestsMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_guests, numGuests, numGuests));
+		}
 
 		int numNights = mInstance.mSearchParams.getStayDuration();
 		mDatesMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_nights, numNights, numNights));
@@ -339,28 +436,53 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	// Event handling
 
 	public void propertySelected(Property property) {
-		mInstance.mProperty = property;
 		Log.v("propertySelected(): " + property.getName());
 
-		// Ensure that a MiniDetailsFragment is being displayed
+		boolean selectionChanged = (mInstance.mProperty != property);
+
+		// Ensure that the proper view is being displayed.
+		//
+		// If the user isn't viewing anything, bring up mini details.  If some details are up, either expand to
+		// full details or just changed the selected property (based on the state when this property is selected).
 		FragmentManager fm = getFragmentManager();
-		if (fm.findFragmentByTag(getString(R.string.tag_mini_details)) == null) {
+		boolean miniDetailsShowing = fm.findFragmentByTag(getString(R.string.tag_mini_details)) != null;
+		boolean detailsShowing = fm.findFragmentByTag(getString(R.string.tag_details)) != null;
+		if (!miniDetailsShowing && !detailsShowing) {
 			showMiniDetailsFragment();
 		}
-		// start downloading the availability response for this property
-		// ahead of time (from when it might actually be needed) so that 
-		// the results are instantly displayed in the hotel details view to the user
-		startRoomsAndRatesDownload(mInstance.mProperty);
-		startReviewsDownload();
+		else if (!selectionChanged && miniDetailsShowing) {
+			showHotelDetailsFragment();
+		}
 
-		// notify the necessary components only after starting the 
-		// downloads so that the right downlaod information (such as  is picked up by the components
-		// when notified of the change in property
-		mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
+		// When the selected property changes, a few things need to be done.
+		if (selectionChanged) {
+			// Clear out the previous property's images from the cache
+			if (mInstance.mProperty != null) {
+				if (mInstance.mProperty.getMediaCount() > 0) {
+					for (Media media : mInstance.mProperty.getMediaList()) {
+						ImageCache.removeImage(media.getActiveUrl(), true);
+						ImageCache.removeImage(media.getUrl(), true);
+					}
+				}
+			}
+
+			mInstance.mProperty = property;
+
+			// start downloading the availability response for this property
+			// ahead of time (from when it might actually be needed) so that 
+			// the results are instantly displayed in the hotel details view to the user
+			startRoomsAndRatesDownload(mInstance.mProperty);
+			startReviewsDownload();
+
+			// notify the necessary components only after starting the 
+			// downloads so that the right downlaod information (such as  is picked up by the components
+			// when notified of the change in property
+			mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
+		}
 	}
 
 	public void moreDetailsForPropertySelected() {
-		showHotelDetailsFragment();
+		propertySelected(mInstance.mProperty);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -413,10 +535,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 					R.animator.fragment_mini_details_slide_exit, R.animator.fragment_mini_details_slide_enter,
 					R.animator.fragment_mini_details_slide_exit);
 		}
-		else {
-			ft.setCustomAnimations(R.animator.fragment_mini_details_slide_enter,
-					R.animator.fragment_mini_details_slide_exit);
-		}
 		ft.add(R.id.fragment_mini_details, fragment, getString(R.string.tag_mini_details));
 		ft.addToBackStack(MINI_DETAILS_PUSH);
 		ft.commit();
@@ -429,9 +547,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			if (AndroidUtils.getSdkVersion() >= 13) {
 				ft.setCustomAnimations(R.animator.fragment_slide_left_enter, R.animator.fragment_slide_left_exit,
 						R.animator.fragment_slide_right_enter, R.animator.fragment_slide_right_exit);
-			}
-			else {
-				ft.setCustomAnimations(R.animator.fragment_slide_left_enter, R.animator.fragment_slide_left_exit);
 			}
 			ft.hide(fm.findFragmentByTag(getString(R.string.tag_hotel_map)));
 			ft.remove(fm.findFragmentByTag(getString(R.string.tag_mini_details)));
@@ -450,35 +565,45 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	// Dialogs
 
 	private void showGuestsDialog() {
-		DialogFragment newFragment = GuestsDialogFragment.newInstance(mInstance.mSearchParams.getNumAdults(),
-				mInstance.mSearchParams.getNumChildren());
-		newFragment.show(getFragmentManager(), "GuestsDialog");
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(getString(R.string.tag_guests_dialog)) == null) {
+			DialogFragment newFragment = GuestsDialogFragment.newInstance(mInstance.mSearchParams.getNumAdults(),
+					mInstance.mSearchParams.getNumChildren());
+			newFragment.show(fm, getString(R.string.tag_guests_dialog));
+		}
 	}
 
 	private void showCalendarDialog() {
-		DialogFragment newFragment = CalendarDialogFragment.newInstance(mInstance.mSearchParams.getCheckInDate(),
-				mInstance.mSearchParams.getCheckOutDate());
-		newFragment.show(getFragmentManager(), "CalendarDialog");
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(getString(R.string.tag_calendar_dialog)) == null) {
+			DialogFragment newFragment = CalendarDialogFragment.newInstance(mInstance.mSearchParams.getCheckInDate(),
+					mInstance.mSearchParams.getCheckOutDate());
+			newFragment.show(getFragmentManager(), getString(R.string.tag_calendar_dialog));
+		}
 	}
 
 	private void showGeocodeDisambiguationDialog(List<Address> addresses) {
-		DialogFragment newFragment = GeocodeDisambiguationDialogFragment.newInstance(addresses);
-		newFragment.show(getFragmentManager(), "GeocodeDisambiguationDialog");
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(getString(R.string.tag_geocode_disambiguation_dialog)) == null) {
+			DialogFragment newFragment = GeocodeDisambiguationDialogFragment.newInstance(addresses);
+			newFragment.show(getFragmentManager(), getString(R.string.tag_geocode_disambiguation_dialog));
+		}
 	}
 
 	private void showFilterDialog() {
-		DialogFragment newFragment = FilterDialogFragment.newInstance();
-		newFragment.show(getFragmentManager(), "FilterDialog");
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(getString(R.string.tag_filter_dialog)) == null) {
+			DialogFragment newFragment = FilterDialogFragment.newInstance();
+			newFragment.show(getFragmentManager(), getString(R.string.tag_filter_dialog));
+		}
 	}
 
 	public void showSortDialog() {
-		DialogFragment newFragment = SortDialogFragment.newInstance();
-		newFragment.show(getFragmentManager(), "SortDialog");
-	}
-
-	public void showHotelGalleryDialog(Media selectedMedia) {
-		DialogFragment newFragment = HotelGalleryDialogFragment.newInstance(selectedMedia);
-		newFragment.show(getFragmentManager(), "HotelGalleryDialog");
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(getString(R.string.tag_sort_dialog)) == null) {
+			DialogFragment newFragment = SortDialogFragment.newInstance();
+			newFragment.show(getFragmentManager(), getString(R.string.tag_sort_dialog));
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -556,6 +681,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		// Cancel existing downloads
 		bd.cancelDownload(KEY_SEARCH);
 		bd.cancelDownload(KEY_GEOCODE);
+
+		// Clear the image cache
+		ImageCache.recycleCache(true);
 
 		// Reset the views
 		hideDetails();
@@ -816,12 +944,18 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR,
 						getString(R.string.error_no_response_room_rates));
 			}
-			else if (availabilityResponse.hasErrors()) {
-				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR, availabilityResponse.getErrors()
-						.get(0).getPresentableMessage(mContext));
-			}
 			else {
-				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
+				if (availabilityResponse.getSession() != null) {
+					mInstance.mSession = availabilityResponse.getSession();
+				}
+
+				if (availabilityResponse.hasErrors()) {
+					mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR, availabilityResponse.getErrors()
+							.get(0).getPresentableMessage(mContext));
+				}
+				else {
+					mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
+				}
 			}
 		}
 	};
@@ -880,7 +1014,16 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Forward motion (opening rates activity)
+	// Forward motion 
+
+	public void startHotelGalleryActivity(Media media) {
+		Intent intent = new Intent(this, HotelGalleryActivity.class);
+		intent.putExtra(Codes.PROPERTY, mInstance.mProperty.toString());
+		intent.putExtra(Codes.SELECTED_IMAGE, media.toString());
+		startActivity(intent);
+	}
+
+	// (opening rates activity)
 
 	public void bookRoom(Rate rate) {
 		Intent intent = new Intent(this, BookingFragmentActivity.class);

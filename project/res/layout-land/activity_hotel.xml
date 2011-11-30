@@ -100,7 +100,6 @@
 				<LinearLayout
 					android:layout_width="fill_parent"
 					android:layout_height="fill_parent"
-					android:layout_weight="1"
 					android:background="#E3E3E6"
 					android:orientation="vertical">
 					<include

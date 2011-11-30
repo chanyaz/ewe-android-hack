@@ -64,7 +64,6 @@ public class Rate implements JSONable {
 	private Money mInclusiveBaseRate = null;
 	private Money mInclusiveRate = null;
 
-	
 	/*
 	 * This enum represents the different bed types
 	 * that can be returned from EAN. Note that 
@@ -379,6 +378,11 @@ public class Rate implements JSONable {
 		return 0;
 	}
 
+	// #10905 - If the property's sale is <1%, we don't consider it on sale.
+	public boolean isOnSale() {
+		return getSavingsPercent() >= .01;
+	}
+
 	public int getNumRoomsLeft() {
 		return mNumRoomsLeft;
 	}
@@ -536,6 +540,18 @@ public class Rate implements JSONable {
 		mRateRules = (RateRules) JSONUtils.getJSONable(obj, "rateRules", RateRules.class);
 
 		return true;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		// This assumes that rate plan code is always available - may not actually always be the case once we
+		// re-introduce GDS properties.
+		if (o instanceof Rate) {
+			Rate other = (Rate) o;
+			return getRatePlanCode().equals(other.getRatePlanCode())
+					&& getRoomTypeCode().equals(other.getRoomTypeCode());
+		}
+		return false;
 	}
 
 	@Override

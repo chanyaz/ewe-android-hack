@@ -16,6 +16,7 @@ import android.content.Context;
 import android.text.Html;
 
 import com.expedia.bookings.data.Distance;
+import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;

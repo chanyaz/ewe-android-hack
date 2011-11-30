@@ -22,7 +22,6 @@ import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 
 public class HotelCollage {
@@ -68,7 +67,6 @@ public class HotelCollage {
 	}
 
 	public void updateCollage(Property property) {
-		
 		mCurrentIndex = 0;
 		mPropertyMediaList = StrUtils.getUniqueMediaList(property);
 
@@ -79,11 +77,6 @@ public class HotelCollage {
 		// set the default thumbnails for all images
 		for (int i = 0; i < mPropertyImageViews.size(); i++) {
 			mPropertyImageViews.get(i).setImageDrawable(null);
-		}
-
-		// Load the property urls
-		if (property.getMediaCount() == 0 || property.getMediaList() == null) {
-			return;
 		}
 
 		// Configure views on top of the gallery
@@ -98,9 +91,9 @@ public class HotelCollage {
 		}
 
 		// Start the cascade of loading images
-		Media media = mPropertyMediaList.get(mCurrentIndex);
-		ImageCache.loadImage(media.getHighResUrl(),
-				media.getImageLoadedCallback(mPropertyImageViews.get(mCurrentIndex), mOnImageLoaded));
+		if (property.getMediaCount() > 0) {
+			startLoadingImages();
+		}
 	}
 
 	private OnClickListener mCollageImageClickedListener = new OnClickListener() {
@@ -109,7 +102,7 @@ public class HotelCollage {
 		public void onClick(View v) {
 			if (mListener != null) {
 				int index = mPropertyImageViews.indexOf(v);
-				if (index != -1 || index > (mPropertyMediaList.size() - 1)) {
+				if (index != -1 && index < mPropertyMediaList.size()) {
 					mListener.onImageClicked(mPropertyMediaList.get(index));
 				}
 			}
@@ -132,14 +125,6 @@ public class HotelCollage {
 
 	private final OnImageLoaded mOnImageLoaded = new OnImageLoaded() {
 		public void onImageLoaded(String url, Bitmap bitmap) {
-			// only continue the cascading download 
-			// if the image downloaded belongs to media 
-			// in the list
-			if (mCurrentIndex > (mPropertyMediaList.size() - 1)
-					|| !mPropertyMediaList.get(mCurrentIndex).isUrlForThisMedia(url)) {
-				return;
-			}
-
 			Drawable[] layers = new Drawable[2];
 			layers[0] = new ColorDrawable(Color.TRANSPARENT);
 			layers[1] = new BitmapDrawable(bitmap);
@@ -158,13 +143,18 @@ public class HotelCollage {
 
 	private static final int LOAD_IMAGE = 1;
 
+	private void startLoadingImages() {
+		mCurrentIndex = -1;
+		loadNextImage();
+	}
+
 	private void loadNextImage() {
-		mCurrentIndex++;
-		if (mCurrentIndex < mPropertyMediaList.size() && mCurrentIndex < mPropertyImageViews.size()) {
-			mHandler.sendMessageDelayed(Message.obtain(mHandler, LOAD_IMAGE), FADE_PAUSE);
+		if (mCurrentIndex + 1 < mPropertyMediaList.size() && mCurrentIndex + 1 < mPropertyImageViews.size()) {
+			mCurrentIndex++;
+			mHandler.sendEmptyMessageDelayed(LOAD_IMAGE, FADE_PAUSE);
 		}
 	}
-	
+
 	private Handler mHandler = new Handler() {
 
 		@Override
@@ -173,8 +163,7 @@ public class HotelCollage {
 
 			case LOAD_IMAGE:
 				Media media = mPropertyMediaList.get(mCurrentIndex);
-				ImageCache.loadImage(media.getHighResUrl(),
-						media.getImageLoadedCallback(mPropertyImageViews.get(mCurrentIndex), mOnImageLoaded));
+				media.loadHighResImage(mPropertyImageViews.get(mCurrentIndex), mOnImageLoaded);
 				break;
 
 			default:

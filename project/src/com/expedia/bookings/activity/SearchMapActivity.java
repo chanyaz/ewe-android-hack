@@ -19,6 +19,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.expedia.bookings.widget.HotelItemizedOverlay.OnBalloonTap;
+import com.expedia.bookings.widget.SimpleBalloonAdapter;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -82,6 +83,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		// Configure the map
 		mMapView.setBuiltInZoomControls(true);
 		mMapView.setSatellite(false);
+		mMapView.setClickable(true);
 
 		final PhoneSearchActivity parent = (PhoneSearchActivity) getParent();
 		parent.addSearchListener(this);
@@ -108,8 +110,10 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 		mHotelItemizedOverlay = new HotelItemizedOverlay(this, null, true, mMapView, onTap);
 		mHotelItemizedOverlay.setShowDistance(mShowDistance);
 		mHotelItemizedOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
+		mHotelItemizedOverlay.useDefaultBalloonAdapter();
 
 		mExactLocationItemizedOverlay = new ExactLocationItemizedOverlay(this, mMapView);
+		mExactLocationItemizedOverlay.setBalloonAdapter(new SimpleBalloonAdapter(this));
 		mDoubleTapToZoomListenerOverlay = new DoubleTapToZoomListenerOverlay(this, mMapView);
 	}
 

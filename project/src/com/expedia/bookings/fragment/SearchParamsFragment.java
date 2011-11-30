@@ -7,45 +7,54 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
-import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchFragmentActivity;
-import com.expedia.bookings.activity.SearchResultsFragmentActivity;
-import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.activity.SearchFragmentActivity.InstanceFragment;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
+import com.expedia.bookings.widget.NumberPicker;
+import com.expedia.bookings.widget.NumberPicker.OnValueChangeListener;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.Suggestion;
+import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
-import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 
-public class SearchParamsFragment extends Fragment {
+public class SearchParamsFragment extends Fragment implements EventHandler {
 
 	private static final int NUM_SUGGESTIONS = 5;
 
@@ -60,9 +69,20 @@ public class SearchParamsFragment extends Fragment {
 	private CalendarDatePicker mCalendarDatePicker;
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
+	private TextView mSuggestionErrorTextView;
+
+	// #10978: Tracks when an autocomplete row was just clicked, so that we don't
+	// automatically start a new autocomplete query.
+	private boolean mAutocompleteClicked = false;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		((SearchFragmentActivity) activity).mEventManager.registerEventHandler(this);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,6 +98,7 @@ public class SearchParamsFragment extends Fragment {
 		mCalendarDatePicker = (CalendarDatePicker) view.findViewById(R.id.dates_date_picker);
 		mAdultsNumberPicker = (NumberPicker) view.findViewById(R.id.adults_number_picker);
 		mChildrenNumberPicker = (NumberPicker) view.findViewById(R.id.children_number_picker);
+		mSuggestionErrorTextView = (TextView) view.findViewById(R.id.suggestion_error_text_view);
 
 		// Need to set temporary max values for number pickers, or updateViews() won't work (since a picker value
 		// must be within its valid range to be set)
@@ -87,35 +108,33 @@ public class SearchParamsFragment extends Fragment {
 		updateViews();
 
 		// Configure the location EditText
-		mLocationEditText.addTextChangedListener(new TextWatcher() {
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (!isHidden() && isAdded()) {
-					String location = s.toString().trim();
-					SearchParams searchParams = getInstance().mSearchParams;
-					if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
-						searchParams.setSearchType(SearchType.MY_LOCATION);
-						configureSuggestions(null);
-					}
-					else if (!location.equals(searchParams.getFreeformLocation())) {
-						searchParams.setFreeformLocation(location);
-						configureSuggestions(location);
-					}
-				}
-			}
-
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				// Do nothing
-			}
-
-			public void afterTextChanged(Editable s) {
-				// Do nothing
-			}
-		});
 		mLocationEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus && mLocationEditText.getText().toString().equals(getString(R.string.current_location))) {
-					mLocationEditText.setText("");
+				if (hasFocus) {
+					getInstance().mHasFocusedSearchField = true;
+
+					String text = mLocationEditText.getText().toString();
+					if (text.equals(getString(R.string.current_location))
+							|| text.equals(getString(R.string.enter_search_location))) {
+						mLocationEditText.setText("");
+					}
 				}
+			}
+		});
+
+		mLocationEditText.setOnEditorActionListener(new OnEditorActionListener() {
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					if (v.getText().length() > 0) {
+						// #11066: Start the search when user clicks "done"
+						startSearch();
+					}
+					else {
+						// Don't let the user click "done" if they haven't entered anything
+						return true;
+					}
+				}
+				return false;
 			}
 		});
 
@@ -144,20 +163,7 @@ public class SearchParamsFragment extends Fragment {
 
 		// Configure the calendar
 		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker);
-		mCalendarDatePicker.setOnDateChangedListener(new OnDateChangedListener() {
-			public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-				if (!isHidden()) {
-					Calendar checkIn = new GregorianCalendar(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
-							.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
-					Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
-							.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
-
-					SearchParams searchParams = getInstance().mSearchParams;
-					searchParams.setCheckInDate(checkIn);
-					searchParams.setCheckOutDate(checkOut);
-				}
-			}
-		});
+		mCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 
 		// Configure the number pickers
 		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
@@ -183,12 +189,7 @@ public class SearchParamsFragment extends Fragment {
 		Button button = (Button) view.findViewById(R.id.search_button);
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(), SearchResultsFragmentActivity.class);
-				intent.putExtra(Codes.SEARCH_PARAMS, getInstance().mSearchParams.toJson().toString());
-				startActivity(intent);
-
-				// Do this so that when the user clicks back, they aren't focused on the location edit text immediately
-				mLocationEditText.clearFocus();
+				startSearch();
 			}
 		});
 
@@ -204,7 +205,11 @@ public class SearchParamsFragment extends Fragment {
 			bd.registerDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD, mAutocompleteCallback);
 		}
 
-		updateViews();
+		mLocationEditText.addTextChangedListener(mLocationTextWatcher);
+
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+		getActivity().registerReceiver(mConnectivityReceiver, filter);
 	}
 
 	@Override
@@ -212,22 +217,51 @@ public class SearchParamsFragment extends Fragment {
 		super.onPause();
 
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD);
+
+		mLocationEditText.removeTextChangedListener(mLocationTextWatcher);
+
+		getActivity().unregisterReceiver(mConnectivityReceiver);
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		((SearchFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
+	}
+
+	public void startSearch() {
+		((SearchFragmentActivity) getActivity()).startSearch();
+
+		// Do this so that when the user clicks back, they aren't focused on the location edit text immediately
+		mLocationEditText.clearFocus();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Views
 
 	public void updateViews() {
-		SearchParams params = getInstance().mSearchParams;
+		InstanceFragment instance = getInstance();
+		SearchParams params = instance.mSearchParams;
 
-		mLocationEditText.setText(params.getSearchDisplayText(getActivity()));
+		if (instance.mHasFocusedSearchField) {
+			mLocationEditText.setText(params.getSearchDisplayText(getActivity()));
+		}
+		else {
+			mLocationEditText.setText(R.string.enter_search_location);
+		}
+
+		// Temporarily remove the OnDateChangedListener so that it is not fired
+		// while we manually update the start/end dates
+		mCalendarDatePicker.setOnDateChangedListener(null);
 
 		Calendar start = params.getCheckInDate();
+		Calendar end = params.getCheckOutDate();
 		mCalendarDatePicker.updateStartDate(start.get(Calendar.YEAR), start.get(Calendar.MONTH),
 				start.get(Calendar.DAY_OF_MONTH));
-		Calendar end = params.getCheckOutDate();
 		mCalendarDatePicker.updateEndDate(end.get(Calendar.YEAR), end.get(Calendar.MONTH),
 				end.get(Calendar.DAY_OF_MONTH));
+
+		mCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 
 		mAdultsNumberPicker.setValue(params.getNumAdults());
 		mChildrenNumberPicker.setValue(params.getNumChildren());
@@ -237,6 +271,19 @@ public class SearchParamsFragment extends Fragment {
 		TextView tv = (TextView) container.findViewById(textViewId);
 		tv.setText(Html.fromHtml(getString(strId)));
 	}
+
+	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
+		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
+			Calendar checkIn = new GregorianCalendar(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
+					.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
+			Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
+					.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
+
+			SearchParams searchParams = getInstance().mSearchParams;
+			searchParams.setCheckInDate(checkIn);
+			searchParams.setCheckOutDate(checkOut);
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Suggestion/autocomplete stuff
@@ -253,6 +300,11 @@ public class SearchParamsFragment extends Fragment {
 			mIcon.setVisibility(visibility);
 			mLocation.setVisibility(visibility);
 
+			// Don't allow the row to be clicked if it's being hidden
+			if (visibility != View.VISIBLE) {
+				mRow.setClickable(false);
+			}
+
 			if (mDivider != null) {
 				if (visibility == View.VISIBLE) {
 					mDivider.setBackgroundResource(R.drawable.autocomplete_seperator);
@@ -267,17 +319,26 @@ public class SearchParamsFragment extends Fragment {
 	private void configureSuggestions(final String query) {
 		mHandler.removeMessages(WHAT_AUTOCOMPLETE);
 
+		if (!NetUtils.isOnline(getActivity())) {
+			// Hide all of the current suggestion rows
+			for (SuggestionRow row : mSuggestionRows) {
+				row.setVisibility(View.INVISIBLE);
+			}
+
+			mSuggestionErrorTextView.setVisibility(View.VISIBLE);
+			mSuggestionErrorTextView.setText(R.string.error_no_internet);
+			return;
+		}
+		else {
+			mSuggestionErrorTextView.setVisibility(View.GONE);
+		}
+
 		// Show default suggestions in case of null query
-		if (query == null || query.length() == 0) {
+		if (query == null || query.length() == 0 || !getInstance().mHasFocusedSearchField) {
 			// Configure "my location" separately
 			SuggestionRow currentLocationRow = mSuggestionRows.get(0);
 			currentLocationRow.setVisibility(View.VISIBLE);
-			currentLocationRow.mRow.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					mLocationEditText.setText(R.string.current_location);
-
-				}
-			});
+			currentLocationRow.mRow.setOnClickListener(createRowOnClickListener(getString(R.string.current_location)));
 			currentLocationRow.mLocation.setText(R.string.current_location);
 			currentLocationRow.mLocation.setTypeface(Typeface.DEFAULT_BOLD);
 			currentLocationRow.mIcon.setImageResource(R.drawable.autocomplete_location);
@@ -297,18 +358,29 @@ public class SearchParamsFragment extends Fragment {
 		}
 	}
 
-	private void configureSuggestionRow(SuggestionRow row, final String suggestion) {
+	private void configureSuggestionRow(SuggestionRow row, String suggestion) {
 		row.setVisibility(View.VISIBLE);
 
-		row.mRow.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				mLocationEditText.setText(suggestion);
-				mLocationEditText.clearFocus();
-			}
-		});
+		row.mRow.setOnClickListener(createRowOnClickListener(suggestion));
 
 		row.mLocation.setText(suggestion);
 		row.mIcon.setImageResource(R.drawable.autocomplete_pin);
+	}
+
+	private OnClickListener createRowOnClickListener(final String suggestion) {
+		return new OnClickListener() {
+			public void onClick(View v) {
+				mAutocompleteClicked = true;
+
+				mLocationEditText.setText(suggestion);
+				mLocationEditText.clearFocus();
+
+				// Hide the IME
+				InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+						Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(mLocationEditText.getWindowToken(), 0);
+			}
+		};
 	}
 
 	@SuppressWarnings("unchecked")
@@ -330,6 +402,48 @@ public class SearchParamsFragment extends Fragment {
 					row.mRow.setClickable(false);
 				}
 			}
+		}
+	};
+
+	private TextWatcher mLocationTextWatcher = new TextWatcher() {
+
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			getInstance().mHasFocusedSearchField = true;
+
+			String location = s.toString().trim();
+			SearchParams searchParams = getInstance().mSearchParams;
+			if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
+				searchParams.setSearchType(SearchType.MY_LOCATION);
+				location = null;
+			}
+			else if (!location.equals(searchParams.getFreeformLocation())) {
+				searchParams.setFreeformLocation(location);
+				searchParams.setSearchType(SearchType.FREEFORM);
+			}
+
+			if (!mAutocompleteClicked) {
+				configureSuggestions(location);
+			}
+			else {
+				mAutocompleteClicked = false;
+			}
+		}
+
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			// Do nothing
+		}
+
+		public void afterTextChanged(Editable s) {
+			// Do nothing
+		}
+	};
+
+	private BroadcastReceiver mConnectivityReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// Kick off a new suggestion query based on the current text.
+			configureSuggestions(mLocationEditText.getText().toString());
 		}
 	};
 
@@ -363,6 +477,24 @@ public class SearchParamsFragment extends Fragment {
 				bd.startDownload(KEY_AUTOCOMPLETE_DOWNLOAD, download, mAutocompleteCallback);
 			}
 			super.handleMessage(msg);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// EventHandler implementation
+
+	@Override
+	public void handleEvent(int eventCode, Object data) {
+		switch (eventCode) {
+		case SearchFragmentActivity.EVENT_RESET_PARAMS:
+			updateViews();
+			BackgroundDownloader.getInstance().cancelDownload(KEY_AUTOCOMPLETE_DOWNLOAD);
+			configureSuggestions(null);
+			break;
+		case SearchFragmentActivity.EVENT_UPDATE_PARAMS:
+			BackgroundDownloader.getInstance().cancelDownload(KEY_AUTOCOMPLETE_DOWNLOAD);
+			updateViews();
+			break;
 		}
 	}
 

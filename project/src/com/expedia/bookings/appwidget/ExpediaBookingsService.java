@@ -805,7 +805,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		String location = property.getDistanceFromUser().formatDistance(this);
 		widgetContents.setTextViewText(R.id.location_text_view, location);
 
-		if (property.getLowestRate().getSavingsPercent() > 0) {
+		if (property.getLowestRate().isOnSale()) {
 			widgetContents.setTextViewText(R.id.sale_text_view,
 					getString(R.string.widget_savings_template, property.getLowestRate().getSavingsPercent() * 100));
 

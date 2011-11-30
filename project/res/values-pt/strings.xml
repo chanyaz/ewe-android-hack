@@ -3,6 +3,8 @@
 	<string name="app_name">Expedia</string>
 
 	<!-- Search Fragment -->
+	<!-- Initial hint for the search location field - invites the user to enter information here -->
+	<string name="enter_search_location">Inserir a posição de pesquisa...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Pesquisar Posição</string>
 	<!-- Label for recent searches user has made -->
@@ -31,7 +33,7 @@
 	<string name="suggestion_las_vegas">Las Vegas, NV</string>
 	<string name="suggestion_paris">Paris, França</string>
 	<string name="suggestion_minneapolis">Minneapolis, MN</string>
-	<string name="suggestion_san_francisco">San Francisco, CA</string>
+	<string name="suggestion_san_francisco">São Francisco, CA</string>
 
 	<!-- Search Activity -->
 	<!-- Label for "start search" button -->
@@ -42,7 +44,7 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; to &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; —de &lt;b&gt;%2$s&lt;/b&gt; a &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
 		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; hotéis correspondentes</item>
@@ -53,8 +55,6 @@
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filtrar pelo nome do hotel</string>
-	<!-- Label to show only hotels highly rated by TripAdvisor -->
-	<string name="tripadvisor_rating_high">Exibir apenas os hotéis bem votados</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
 	<string name="tripadvisor_rating_all">Exibir todos os hotéis</string>
 	<!-- Label indicating that there are no results matching their current filter -->
@@ -93,7 +93,7 @@
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
 	<string name="ProviderOutOfService">Seu provedor de local está fora de serviço. Tente novamente mais tarde.</string>
 	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">Seu provedor de local está temporariamente não disponível. Tente novamente em alguns minutos.</string>
+	<string name="ProviderTemporarilyUnavailable">Seu provedor de local está temporariamente não disponível.  Tente novamente em alguns minutos.</string>
 
 	<!-- Sort descriptions, e.g. Sorted by "description" -->
 	<!-- Sort by distance label -->
@@ -141,14 +141,10 @@
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
 	<string name="from">A partir de</string>
-	<!-- The label indicating that this hotel is highly rated by users -->
-	<string name="highly_rated">Bem Votado</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
 	<string name="from_template">A partir de &lt;strike&gt;%s&lt;/strike&gt;</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/noite</string>
-	<!-- Label for red "sale" corner -->
-	<string name="sale_caps">SALE</string>
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">Não Votado</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -156,6 +152,8 @@
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">Filtrar Resultados</string>
+	<!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
+	<string name="filter">Filtrar</string>
 
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
@@ -238,7 +236,7 @@
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
 	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; a partir de</string>
 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
- 	<string name="reviews_recommended_template">Recomendado por %1$d de %2$d hóspedes</string>
+	<string name="reviews_recommended_template">Recomendado por %1$d de %2$d hóspedes</string>
 	<!--  Title for the amenities section in the hotel details fragment -->
 	<string name="amenities">Comodidades</string>
 	<!--  Label for button to see all reviews as a modal dialog -->
@@ -375,6 +373,10 @@
 	<string name="common_value_add_template">Todos os quartos oferecem %s</string>
 	<!--  Instruction as the header of the list to select a room from the list -->
 	<string name="select_a_room_instruction">Selecione um Quarto</string>
+	
+	<!-- Gallery -->
+	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
+	<string name="gallery_title_template">Fotos do &lt;b&gt;%1$s&lt;/b&gt;</string>
 	    
 	<!-- Booking info -->
 	<!-- edit label -->
@@ -503,9 +505,9 @@
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
 	<string name="contact_phone_template">Se tiver alguma dúvida em relação à sua reserva, ligue para a Expedia no número %s.</string>
 	<!-- Contact info for China  where 1$ represents the number by CN NetCom and 2$ represents the number from CN Telecom-->
-	<string name="contact_phone_china_template">Se tiver alguma dúvida em relação à sua reserva, ligue para a Expedia.com no número %1$s (CN NetCom) ou %2$s (CN Telecom).</string>
+	<string name="contact_phone_china_template">Se tiver alguma dúvida em relação à reserva, ligue para a Expedia no número %1$s (CN NetCom) ou %2$s (CN Telecom).</string>
 	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
-	<string name="contact_phone_default_template">Se tiver alguma dúvida em relação à sua reserva, ligue para a Expedia.com no número %1$s, nos EUA/Canadá, ou %2$s, na Europa.</string>
+	<string name="contact_phone_default_template">Se tiver alguma dúvida em relação à sua reserva, ligue para a Expedia no número %1$s, nos EUA/Canadá, ou %2$s, na Europa.</string>
 
 	<!--  Confirmation Fragment -->
 	<!-- Label to share booking information after a booking confirmation -->
@@ -595,9 +597,9 @@
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Termos e Condições</string>
 	<!-- Label for link to privacy policy -->
-	<string name="info_label_privacy_policy">Pollítica de Privacidade</string>
+	<string name="info_label_privacy_policy">Política de Privacidade</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAll rights reserved.</string>
+	<string name="copyright">© Copyright 2011 Expedia, Inc.\nTodos os direitos reservados.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
@@ -666,6 +668,8 @@
 	<string name="unit_kilometers">km</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
 	<string name="distance_template">%1$s %2$s de distância</string>
+	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
+	<string name="distance_template_short">%1$s %2$s</string>
 
 	<!-- Menu strings -->
 	<!-- Label for "settings" menu item. -->

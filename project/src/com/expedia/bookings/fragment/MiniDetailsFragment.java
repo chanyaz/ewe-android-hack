@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Html;
+import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -12,6 +12,7 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -26,7 +27,6 @@ import com.expedia.bookings.utils.AvailabilitySummaryLayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.HotelCollage;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
-import com.mobiata.android.text.StrikethroughTagHandler;
 
 public class MiniDetailsFragment extends Fragment implements EventHandler {
 
@@ -41,6 +41,8 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 
 	private HotelCollage mCollageHandler;
 
+	private Handler mHandler = new Handler();
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
@@ -53,6 +55,9 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_mini_details, container, false);
+
+		// #11181: We make the root view clickable so that clicks don't bleed through to the underlying MapView
+		view.setClickable(true);
 
 		mNameTextView = (TextView) view.findViewById(R.id.name_text_view);
 		mLocationTextView = (TextView) view.findViewById(R.id.location_text_view);
@@ -76,7 +81,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 
 	private OnCollageImageClickedListener mOnImageClickedListener = new OnCollageImageClickedListener() {
 		public void onImageClicked(Media media) {
-			((SearchResultsFragmentActivity) getActivity()).moreDetailsForPropertySelected();
+			((SearchResultsFragmentActivity) getActivity()).startHotelGalleryActivity(media);
 		}
 	};
 
@@ -87,7 +92,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		updateViews(property, getView());
 	}
 
-	private void updateViews(Property property, View view) {
+	private void updateViews(final Property property, final View view) {
 		// don't update views if there is no
 		// view attached.
 		if (view != null && property != null) {
@@ -99,12 +104,64 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 			// its possible for the summary container to not exist at all
 			// in which case there's no setup to be done for this container
 			if (mDoesAvailabilityContainerExist) {
-				AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(getActivity(), property,  view);
-				// update the summarized rates if they are available
-				AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
-						.getRoomsAndRatesAvailability();
-				AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, 
-						availabilityResponse, view, getString(R.string.see_details), seeDetailsOnClickListener, ((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
+
+				/*
+				 * If the app is resumed, post the setup of the
+				 * availability summary container to a runnable so that
+				 * its only run after all the layout is complete.
+				 * 
+				 * The reason for posting to runnable instead of 
+				 * just using a layoutChangedListener is because
+				 * it seems like the system makes multiple passes
+				 * to attempt to figure out the layout, therefore
+				 * showing the intermediate steps of the layout
+				 * to the user.
+				 * 
+				 * NOTE: The whole reason to post a runnable
+				 * or wait for the layout to complete is because
+				 * we need to know accurate dimensions of the views 
+				 * to be able to determine whether or not the text
+				 * is too wide for the container.
+				 * 
+				 * Another approach to this problem would be to have static
+				 * set widths for the containers we care about, but this 
+				 * provides for a more generic solution.
+				 */
+				if (isResumed()) {
+					mHandler.post(new Runnable() {
+
+						@Override
+						public void run() {
+							setupAvailabilityContainer(property, view);
+						}
+					});
+				}
+				/*
+				 * This listener handles the case of orientation
+				 * change as posting to the runnable during orientation
+				 * change doesn't seem to do the trick since the accurate dimensions
+				 * of views are not available yet.
+				 * 
+				 * If the app is not resumed, wait till the layout
+				 * is complete to ensure that we setup the container
+				 * appropriately on rotation. 
+				 */
+				else {
+					final View availabilityContainer = view.findViewById(R.id.availability_summary_container);
+					availabilityContainer.addOnLayoutChangeListener(new OnLayoutChangeListener() {
+
+						@Override
+						public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft,
+								int oldTop, int oldRight, int oldBottom) {
+							if (left == 0 && right == 0 && top == 0 && bottom == 0) {
+								return;
+							}
+							setupAvailabilityContainer(property, view);
+							availabilityContainer.removeOnLayoutChangeListener(this);
+						}
+					});
+
+				}
 			}
 
 			View seeDetailsButton = view.findViewById(R.id.see_details_button);
@@ -130,7 +187,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		TextView perNightText = (TextView) view.findViewById(R.id.per_night_text_view);
 		StyleSpan textStyleSpan = new StyleSpan(Typeface.BOLD);
 
-		if (property.getLowestRate().getSavingsPercent() > 0) {
+		if (property.getLowestRate().isOnSale()) {
 			minPriceContainer.setBackgroundResource(R.drawable.sale_ribbon_large);
 			basePrice.setVisibility(View.VISIBLE);
 
@@ -174,6 +231,16 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		}
 	};
 
+	private void setupAvailabilityContainer(final Property property, final View view) {
+		AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(getActivity(), property, view);
+		// update the summarized rates if they are available
+		AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
+				.getRoomsAndRatesAvailability();
+		AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse, view,
+				getString(R.string.see_details), seeDetailsOnClickListener,
+				((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// EventHandler implementation
 
@@ -196,9 +263,10 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
 			if (mDoesAvailabilityContainerExist) {
 				AvailabilitySummaryLayoutUtils.showRatesContainer(getView());
-				AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), getInstance().mProperty,
-						(AvailabilityResponse) data, getView(), getString(R.string.see_details), seeDetailsOnClickListener,
-						((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
+				AvailabilitySummaryLayoutUtils
+						.updateSummarizedRates(getActivity(), getInstance().mProperty, (AvailabilityResponse) data,
+								getView(), getString(R.string.see_details), seeDetailsOnClickListener,
+								((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
 			}
 			break;
 		}

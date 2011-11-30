@@ -16,6 +16,7 @@ import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.utils.StrUtils;
 import com.google.android.maps.GeoPoint;
@@ -130,19 +131,17 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 		String snippet = "";
 
 		Distance distanceFromuser = property.getDistanceFromUser();
-		if (property.getLowestRate() != null) {
-			String formattedMoney = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
-			String money = mContext.getString(R.string.map_snippet_price_template, formattedMoney);
-			if (mShowDistance && distanceFromuser != null) {
-				snippet = mContext.getString(R.string.map_snippet_template,
-						distanceFromuser.formatDistance(mContext, mDistanceUnit), money);
-			}
-			else {
-				snippet = money;
-			}
+		Rate lowestRate = property.getLowestRate();
+		String formattedMoney = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
+		snippet = mContext.getString(R.string.map_snippet_price_template, formattedMoney);
+
+		if (mShowDistance && distanceFromuser != null) {
+			snippet = mContext.getString(R.string.map_snippet_template, snippet,
+					distanceFromuser.formatDistance(mContext, mDistanceUnit));
 		}
-		else if (distanceFromuser != null) {
-			snippet = distanceFromuser.formatDistance(mContext);
+		else if (lowestRate.isOnSale()) {
+			snippet = mContext.getString(R.string.map_snippet_template, snippet,
+					mContext.getString(R.string.widget_savings_template, lowestRate.getSavingsPercent() * 100));
 		}
 
 		overlayItem = new BalloonOverlayItem(point, property.getName(), snippet);
@@ -150,7 +149,7 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 			overlayItem.setThumbnailUrl(property.getThumbnail().getUrl());
 		}
 
-		if (property.getLowestRate().getSavingsPercent() > 0) {
+		if (property.getLowestRate().isOnSale()) {
 			overlayItem.setMarker(mMarkerSale);
 		}
 

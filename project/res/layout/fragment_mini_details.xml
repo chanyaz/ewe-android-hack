@@ -13,44 +13,40 @@
         android:layout_weight="7"
         android:padding="5dp" >
 
-        <TextView
-            android:id="@+id/name_text_view"
-            style="@style/HotelNameTitle_Tablet"
+        <LinearLayout
+            android:id="@+id/first_line_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/hotel_rating_bar_container"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textSize="20sp" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
 
-        <FrameLayout
-            android:id="@+id/hotel_rating_bar_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/name_text_view"
-            android:layout_alignTop="@id/name_text_view"
-            android:paddingLeft="10dp"
-            android:layout_alignParentRight="true">
+            <TextView
+                android:id="@+id/name_text_view"
+                style="@style/HotelNameTitle_Tablet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="20sp" />
 
             <RatingBar
                 android:id="@+id/hotel_rating_bar"
                 style="@style/RatingBarSmall.Shadowed.Star.Light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize=".5" />
-        </FrameLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/location_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="@id/name_text_view"
-            android:layout_below="@+id/name_text_view"
+            android:layout_below="@+id/first_line_layout"
             android:layout_marginBottom="10dp"
             android:ellipsize="end"
             android:singleLine="true"

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.mobiata.android.util.AndroidUtils;
 
 /**
@@ -21,18 +22,24 @@ public class SearchActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// #7090: First, check to see if the user last confirmed a booking.  If that is the case,
+		//        then we should forward the user to the ConfirmationActivity
+		boolean hasSavedConfirmationData = ConfirmationUtils.hasSavedConfirmationData(this);
+
 		// Determine where to route the app
-		Intent routingIntent;
-		if (AndroidUtils.getSdkVersion() >= 11 && (getResources().getConfiguration().screenLayout &
+		// #11076 - for Android 3.0, we still use the phone version of the app due to crippling bugs.
+		Class<? extends Activity> routingTarget;
+		if (AndroidUtils.getSdkVersion() >= 12 && (getResources().getConfiguration().screenLayout &
 				Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
-			routingIntent = new Intent(this, SearchFragmentActivity.class);
+			routingTarget = (hasSavedConfirmationData) ? ConfirmationFragmentActivity.class
+					: SearchFragmentActivity.class;
 		}
 		else {
-			routingIntent = new Intent(this, PhoneSearchActivity.class);
+			routingTarget = (hasSavedConfirmationData) ? ConfirmationActivity.class : PhoneSearchActivity.class;
 		}
 
 		// Start the routing intent
-		startActivity(routingIntent);
+		startActivity(new Intent(this, routingTarget));
 
 		// Finish this Activity after routing
 		finish();

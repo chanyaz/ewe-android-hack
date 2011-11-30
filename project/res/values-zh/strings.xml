@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 
 	<!-- Search Fragment -->
+	<!-- Initial hint for the search location field - invites the user to enter information here -->
+	<string name="enter_search_location">输入搜索位置...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">搜索位置</string>
 	<!-- Label for recent searches user has made -->
@@ -45,16 +47,14 @@
 	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; 到 &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
-	<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
-	<item quantity="one">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
-	<item quantity="two">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
-	<item quantity="many">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
-	<item quantity="other">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">按酒店名称筛选</string>
-	<!-- Label to show only hotels highly rated by TripAdvisor -->
-	<string name="tripadvisor_rating_high">仅显示高评价的酒店</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
 	<string name="tripadvisor_rating_all">显示所有酒店</string>
 	<!-- Label indicating that there are no results matching their current filter -->
@@ -74,16 +74,16 @@
 	<!-- Label for sort hotels button in bottom bar -->
 	<string name="sort_hotels">排序方式：</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-	<string name="sort_hotels_template">&lt;b&gt;排序方式&lt;/b&gt;：%s</string>
+	<string name="sort_hotels_template">&lt;b&gt;排序方式&lt;/b&gt;： %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">筛选酒店</string>
 	<!-- A number of results -->
 	<plurals name="number_of_results">
-	<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
-	<item quantity="one">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
-	<item quantity="two">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
-	<item quantity="many">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
-	<item quantity="other">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
@@ -140,15 +140,11 @@
 
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
-	<string name="from">起价</string>
-	<!-- The label indicating that this hotel is highly rated by users -->
-	<string name="highly_rated">高评价</string>
+	<string name="from">起始价</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">起价 &lt;strike&gt;%s&lt;/strike&gt;</string>
+	<string name="from_template">起始价 &lt;strike&gt;%s&lt;/strike&gt;</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/晚</string>
-	<!-- Label for red "sale" corner -->
-	<string name="sale_caps">促销</string>
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">没有评分</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -156,10 +152,12 @@
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">筛选搜索结果</string>
+	<!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
+	<string name="filter">筛选</string>
 
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-	<string name="map_snippet_price_template">%s 起</string>
+	<string name="map_snippet_price_template">起始价 %s</string>
 
 	<!-- Mini-details fragment -->
 	<!-- Label for "see details" button on the mini details fragment -->
@@ -220,7 +218,7 @@
 	
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
-	<string name="book_now">马上预订</string>
+	<string name="book_now">立即预订</string>
 	<!-- Label for the hotel's star rating -->
 	<string name="star_rating">星级</string>
 	<!--  Title for star rating in hotel description section -->
@@ -234,9 +232,9 @@
 	
 	<!--  Hotel Details Fragment -->
 	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
-	<string name="min_room_price_template">起价 %s</string>
+	<string name="min_room_price_template">起始价 %s</string>
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
-	<string name="bed_type_start_value_template">起价 &lt;b&gt;%s&lt;/b&gt;</string>
+	<string name="bed_type_start_value_template">起始价 &lt;b&gt;%s&lt;/b&gt;</string>
 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
 	<string name="reviews_recommended_template">在 %2$d 位宾客中有 %1$d 位推荐此酒店</string>
 	<!--  Title for the amenities section in the hotel details fragment -->
@@ -323,16 +321,16 @@
 	<string name="user_review_recommendation_tag_text">在 &lt;b&gt;%2$d&lt;/b&gt; 位宾客中有 &lt;b&gt;%1$d&lt;/b&gt; 位推荐此酒店。</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
-	<item quantity="zero">%d 条评价</item>
-	<item quantity="one">%d 条评价</item>
-	<item quantity="two">%d 条评价</item>
-	<item quantity="many">%d 条评价</item>
-	<item quantity="other">%d 条评价</item>
+		<item quantity="zero">%d 条评价</item>
+		<item quantity="one">%d 条评价</item>
+		<item quantity="two">%d 条评价</item>
+		<item quantity="many">%d 条评价</item>
+		<item quantity="other">%d 条评价</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
 		2$ is the place they are from -->
-	<string name="user_review_name_and_location_signature">%1$s 来自%2$s</string>
+	<string name="user_review_name_and_location_signature">%1$s 来自 %2$s</string>
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">没有对此酒店的恶评</string>
 	<!-- User review no favorable reviews -->
@@ -343,11 +341,11 @@
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
 	<plurals name="staying_nights">
-	<item quantity="zero">住宿 %d 晚</item>
-	<item quantity="one">住宿 %d 晚</item>
-	<item quantity="two">住宿 %d 晚</item>
-	<item quantity="many">住宿 %d 晚</item>
-	<item quantity="other">住宿 %d 晚</item>
+		<item quantity="zero">住宿 %d 晚</item>
+		<item quantity="one">住宿 %d 晚</item>
+		<item quantity="two">住宿 %d 晚</item>
+		<item quantity="many">住宿 %d 晚</item>
+		<item quantity="other">住宿 %d 晚</item>
 	</plurals>
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">正在查找空房...</string>
@@ -359,11 +357,11 @@
 	<string name="rate_avg_per_night">每晚平均价</string>
 	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
 	<plurals name="number_of_rooms_left">
-	<item quantity="zero">没房了！</item>
-	<item quantity="one">只剩 1 间房了！</item>
-	<item quantity="two">只剩 %d 间房了！</item>
-	<item quantity="many">只剩 %d 间房了！</item>
-	<item quantity="other">只剩 %d 间房了！</item>
+		<item quantity="zero">没房了！</item>
+		<item quantity="one">只剩 1 间房了！</item>
+		<item quantity="two">只剩 %d 间房了！</item>
+		<item quantity="many">只剩 %d 间房了！</item>
+		<item quantity="other">只剩 %d 间房了！</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
 	<string name="savings_template">节省\n %2.0f%%</string>
@@ -375,6 +373,10 @@
 	<string name="common_value_add_template">所有客房都包含%s</string>
 	<!--  Instruction as the header of the list to select a room from the list -->
 	<string name="select_a_room_instruction">选择一间房</string>
+	
+	<!-- Gallery -->
+	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
+	<string name="gallery_title_template">&lt;b&gt;%1$s&lt;/b&gt;µÄÕÕÆ¬</string>
 	    
 	<!-- Booking info -->
 	<!-- edit label -->
@@ -391,8 +393,8 @@
 	<string name="stay_duration">住宿天数</string>
 	<!-- Quantity for the length of stay -->
 	<plurals name="length_of_stay">
-	<item quantity="one">1 晚</item>
-	<item quantity="other">%d 晚</item>
+		<item quantity="one">1 晚</item>
+		<item quantity="other">%d 晚</item>
 	</plurals>
 	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
 	<string name="room_rate_template">%s 的客房价格</string>
@@ -479,7 +481,7 @@
 	<!-- Error message when we couldn't get a response -->
 	<string name="error_booking_null">无法连接到 Expedia 服务器。请检查您的网络连接情况并重试。</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s 日期：%2$s</string>
+	<string name="check_in_out_time_template">%1$s ， %2$s</string>
 	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
 	<string name="enter_booking_info">输入预订信息</string>
 	<!--  Title for action bar when the user is on the booking info screen -->
@@ -503,9 +505,9 @@
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
 	<string name="contact_phone_template">如果您对您的预订程序有任何问题，请拨电 %s 联系 Expedia.com。</string>
 	<!-- Contact info for China  where 1$ represents the number by CN NetCom and 2$ represents the number from CN Telecom-->
-	<string name="contact_phone_china_template">如果您对您的预订程序有任何问题，请拨电联系 Expedia.com，号码为：%1$s （中国网通 CN NetCom）或%2$s （中国电信 CN Telecom）。</string>
+	<string name="contact_phone_china_template">如果您对您的预订程序有任何问题，请拨电 %1$s（中国网通 CN NetCom）或 %2$s（中国电信 CN Telecom）联系 Expedia.com。</string>
 	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
-	<string name="contact_phone_default_template">如果您对您的预订程序有任何问题，请拨电联系 Expedia.com，号码为：%1$s （美国/加拿大）或%2$s （欧洲）。</string>
+	<string name="contact_phone_default_template">如果您对您的预订程序有任何问题，请拨电 %1$s（美国/加拿大）或 %2$s（欧洲）联系 Expedia.com。</string>
 
 	<!--  Confirmation Fragment -->
 	<!-- Label to share booking information after a booking confirmation -->
@@ -607,7 +609,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">请给予我们评分</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">由 Opinion Lab 提供技术支持。<a href="http://mobile.opinionlab.com/static/privacy.html">隐私政策</a></string>
+	<string name="powered_by_opinion_lab">由 Opinion Lab 提供技术支持 <a href="http://mobile.opinionlab.com/static/privacy.html">隐私政策</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">电子邮件地址</string>
 	<!-- Hint to type in comments -->
@@ -628,35 +630,35 @@
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-	<item quantity="zero">%d 位成人</item>
-	<item quantity="one">%d 位成人</item>
-	<item quantity="two">%d 位成人</item>
-	<item quantity="many">%d 位成人</item>
-	<item quantity="other">%d 位成人</item>
+		<item quantity="zero">%d 位成人</item>
+		<item quantity="one">%d 位成人</item>
+		<item quantity="two">%d 位成人</item>
+		<item quantity="many">%d 位成人</item>
+		<item quantity="other">%d 位成人</item>
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-	<item quantity="zero">%d 名儿童</item>
-	<item quantity="one">%d 名儿童</item>
-	<item quantity="two">%d 名儿童</item>
-	<item quantity="many">%d 名儿童</item>
-	<item quantity="other">%d 名儿童</item>
+		<item quantity="zero">%d 名儿童</item>
+		<item quantity="one">%d 名儿童</item>
+		<item quantity="two">%d 名儿童</item>
+		<item quantity="many">%d 名儿童</item>
+		<item quantity="other">%d 名儿童</item>
 	</plurals>
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
-	<item quantity="zero">%d 位宾客</item>
-	<item quantity="one">%d 位宾客</item>
-	<item quantity="two">%d 位宾客</item>
-	<item quantity="many">%d 位宾客</item>
-	<item quantity="other">%d 位宾客</item>
+		<item quantity="zero">%d 位宾客</item>
+		<item quantity="one">%d 位宾客</item>
+		<item quantity="two">%d 位宾客</item>
+		<item quantity="many">%d 位宾客</item>
+		<item quantity="other">%d 位宾客</item>
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">
-	<item quantity="zero">%d 晚</item>
-	<item quantity="one">%d 晚</item>
-	<item quantity="two">%d 晚</item>
-	<item quantity="many">%d 晚</item>
-	<item quantity="other">%d 晚</item>
+		<item quantity="zero">%d 晚</item>
+		<item quantity="one">%d 晚</item>
+		<item quantity="two">%d 晚</item>
+		<item quantity="many">%d 晚</item>
+		<item quantity="other">%d 晚</item>
 	</plurals>
 
 	<!-- Distance strings -->
@@ -666,6 +668,8 @@
 	<string name="unit_kilometers">公里</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
 	<string name="distance_template">%1$s %2$s外</string>
+	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
+	<string name="distance_template_short">%1$s %2$s</string>
 
 	<!-- Menu strings -->
 	<!-- Label for "settings" menu item. -->
@@ -693,7 +697,7 @@
 	<string name="currency_eur">欧元</string>
 	<string name="currency_hkd">港元</string>
 	<string name="currency_inr">印度卢比</string>
-	<string name="currency_ils">以色列新谢克尔</string>
+	<string name="currency_ils">以色列新谢克尔 </string>
 	<string name="currency_jpy">日元</string>
 	<string name="currency_krw">韩元</string>
 	<string name="currency_mxn">墨西哥比索</string>
@@ -888,7 +892,7 @@
 	<string name="country_ru">俄罗斯联邦</string>
 	<string name="country_rw">卢旺达</string>
 	<string name="country_re">留尼旺岛</string>
-	<string name="country_bl">圣巴特岛</string>
+	<string name="country_bl">圣巴泰勒米</string>
 	<string name="country_sh">圣赫勒拿</string>
 	<string name="country_kn">圣基茨和尼维斯</string>
 	<string name="country_lc">圣卢西亚</string>

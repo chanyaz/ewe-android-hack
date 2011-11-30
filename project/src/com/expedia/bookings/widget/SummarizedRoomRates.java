@@ -130,7 +130,7 @@ public class SummarizedRoomRates {
 		mAvailableRemainingBedTypes.clear();
 		mMinimumRateAvailable = null;
 	}
-	
+
 	public int numSummarizedRates() {
 		return mSummarizedRates.size();
 	}
@@ -138,21 +138,21 @@ public class SummarizedRoomRates {
 	public Rate getRate(int position) {
 		return mSummarizedRates.get(position).second;
 	}
-	
+
 	public Pair<BedTypeId, Rate> getBedTypeToRatePair(int position) {
 		return mSummarizedRates.get(position);
 	}
-	
+
 	public Rate getMinimumRateAvaialable() {
 		return mMinimumRateAvailable;
 	}
-	
+
 	public void updateSummarizedRoomRates(AvailabilityResponse response) {
 		createBedTypeToMinRateMapping(response);
 		clusterByBedType();
 		summarizeRates();
 	}
-	
+
 	/*
 	 * This method creates a mapping from bed type to the minimum
 	 * rate available for that bed type
@@ -244,8 +244,11 @@ public class SummarizedRoomRates {
 
 	private void addRateFromQueue(PriorityQueue<BedTypeId> queue) {
 		BedTypeId id = queue.poll();
-		if (id != null) {
-			mSummarizedRates.add(new Pair<Rate.BedTypeId, Rate>(id, mBedTypeToMinRateMap.get(id)));
+		Rate rate = mBedTypeToMinRateMap.get(id);
+		// don't add the minimum rate to the summarized container
+		// since that is separately handled
+		if (id != null && !rate.equals(mMinimumRateAvailable)) {
+			mSummarizedRates.add(new Pair<Rate.BedTypeId, Rate>(id, rate));
 		}
 	}
 

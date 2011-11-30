@@ -11,24 +11,31 @@
     <RelativeLayout
         android:id="@+id/min_price_row_container"
         android:layout_width="wrap_content"
-        android:layout_height="40px"
+        android:layout_height="40dp"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="3dp"
         android:layout_centerHorizontal="true"
-        android:gravity="center_vertical" >
+        android:gravity="center" >
 
-        <TextView 
+        <TextView
             android:id="@+id/base_price_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/min_price_text_view"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textSize="20sp" />
+
         <TextView
             android:id="@+id/min_price_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
             android:layout_toRightOf="@id/base_price_text_view"
-            android:textSize="20sp" />
+            android:ellipsize="end"
+            android:paddingLeft="5dp"
+            android:singleLine="true"
+            android:textSize="20sp"
+            android:textColor="@color/hotel_price_text_color"/>
 
         <TextView
             android:id="@+id/per_night_text_view"
@@ -36,6 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/min_price_text_view"
             android:layout_toRightOf="@id/min_price_text_view"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="@string/per_night"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -45,13 +54,15 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/min_price_row_container"
         android:orientation="vertical"
-        android:weightSum="4" >
+        android:weightSum="4"
+        android:paddingBottom="10dp" >
 
         <RelativeLayout
             android:id="@+id/rates_status_container"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="3" >
+            android:layout_weight="3"
+            android:gravity="center" >
 
             <LinearLayout
                 android:id="@+id/rates_container"
@@ -77,20 +88,26 @@
                 android:paddingTop="10dp" />
         </RelativeLayout>
 
-        <com.mobiata.android.widget.AutoResizeTextView
-            android:id="@+id/book_now_button"
-            style="@style/Widget.Button.Yellow"
+        <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:maxLines="1"
-            android:text="@string/select_room"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_weight="1" >
+
+            <com.mobiata.android.widget.AutoResizeTextView
+                android:id="@+id/book_now_button"
+                style="@style/Widget.Button.Yellow"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/select_room"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </FrameLayout>
     </LinearLayout>
 
 </RelativeLayout>

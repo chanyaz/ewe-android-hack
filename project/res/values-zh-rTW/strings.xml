@@ -1,8 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 
 	<!-- Search Fragment -->
+	<!-- Initial hint for the search location field - invites the user to enter information here -->
+	<string name="enter_search_location">輸入搜尋地點...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">搜尋地點</string>
 	<!-- Label for recent searches user has made -->
@@ -53,8 +55,6 @@
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">依飯店名稱篩選</string>
-	<!-- Label to show only hotels highly rated by TripAdvisor -->
-	<string name="tripadvisor_rating_high">僅顯示高評價飯店</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
 	<string name="tripadvisor_rating_all">顯示所有飯店</string>
 	<!-- Label indicating that there are no results matching their current filter -->
@@ -141,14 +141,10 @@
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
 	<string name="from">起價</string>
-	<!-- The label indicating that this hotel is highly rated by users -->
-	<string name="highly_rated">高評價</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
 	<string name="from_template">&lt;strike&gt;%s&lt;/strike&gt; 元起</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">元/每夜</string>
-	<!-- Label for red "sale" corner -->
-	<string name="sale_caps">促銷</string>
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">未評等</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -156,6 +152,8 @@
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">篩選結果</string>
+	<!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
+	<string name="filter">篩選</string>
 
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
@@ -375,6 +373,10 @@
 	<string name="common_value_add_template">所有客房都包含%s</string>
 	<!--  Instruction as the header of the list to select a room from the list -->
 	<string name="select_a_room_instruction">選取客房</string>
+	
+	<!-- Gallery -->
+	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
+	<string name="gallery_title_template">&lt;b&gt;%1$s&lt;/b&gt;的照片</string>
 	    
 	<!-- Booking info -->
 	<!-- edit label -->
@@ -463,7 +465,7 @@
 	<!-- Error if an invalid credit card type was entered -->
 	<string name="invalid_card_type">我們無法偵測您的信用卡卡別，請輸入一張有效的信用卡。</string>
 	<!-- Error if an invalid month (not 1-12) was entered -->
-	<string name="invalid_month">請輸入介於1和12之間的數值</string>
+	<string name="invalid_month">請輸入介於 1 和 12 之間的數值</string>
 	<!-- Error if an invalid year was entered -->
 	<string name="invalid_expiration_year">請輸入尚未過期的年份</string>
 	<!-- Error if an invalid security code was entered -->
@@ -479,7 +481,7 @@
 	<!-- Error message when we couldn't get a response -->
 	<string name="error_booking_null">無法連線至 Expedia 伺服器。請檢查您的連線狀態，然後再試一次。</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s於%2$s</string>
+	<string name="check_in_out_time_template">%1$s 於 %2$s</string>
 	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
 	<string name="enter_booking_info">輸入預訂資訊</string>
 	<!--  Title for action bar when the user is on the booking info screen -->
@@ -666,6 +668,8 @@
 	<string name="unit_kilometers">公里</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
 	<string name="distance_template">距離 %1$s %2$s</string>
+	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
+	<string name="distance_template_short">%1$s %2$s</string>
 
 	<!-- Menu strings -->
 	<!-- Label for "settings" menu item. -->

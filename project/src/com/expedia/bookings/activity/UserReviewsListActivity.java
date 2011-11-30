@@ -257,7 +257,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				}
 
 				mReviewsMapWrapped.put(thisReviewSort, previouslyLoadedReviewsWrapped);
-				adapter.switchUserReviews(previouslyLoadedReviewsWrapped);
+				adapter.setUserReviews(previouslyLoadedReviewsWrapped);
 				adapter.notifyDataSetChanged();
 			}
 			else {
@@ -378,7 +378,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			if (mReviewsMapWrapped.get(mCurrentReviewSort) != null) {
 				ViewGroup listViewContainer = mListViewContainersMap.get(mCurrentReviewSort);
 				UserReviewsAdapter adapter = mListAdaptersMap.get(mCurrentReviewSort);
-				adapter.switchUserReviews(new ArrayList<ReviewWrapper>(mReviewsMapWrapped.get(mCurrentReviewSort)));
+				adapter.setUserReviews(new ArrayList<ReviewWrapper>(mReviewsMapWrapped.get(mCurrentReviewSort)));
 				adapter.notifyDataSetChanged();
 				bringContainerToFront(listViewContainer);
 				showListOrEmptyView(listViewContainer, adapter);
@@ -538,7 +538,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 				ViewGroup listViewContainer = mListViewContainersMap.get(mCurrentReviewSort);
 				UserReviewsAdapter adapter = mListAdaptersMap.get(mCurrentReviewSort);
-				adapter.switchUserReviews(mReviewsMapWrapped.get(mCurrentReviewSort));
+				adapter.setUserReviews(mReviewsMapWrapped.get(mCurrentReviewSort));
 				bringContainerToFront(listViewContainer);
 				showListOrEmptyView(listViewContainer, adapter);
 			}
