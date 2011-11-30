@@ -27,11 +27,13 @@ public class TabletPreferenceActivity extends ExpediaBookingPreferenceActivity {
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
-		Rect bounds = new Rect();
-		getWindow().getDecorView().getHitRect(bounds);
-		
-		if (!bounds.contains((int) ev.getX(), (int) ev.getY())) {
-			finish();
+		if (!isFinishing()) {
+			Rect bounds = new Rect();
+			getWindow().getDecorView().getHitRect(bounds);
+
+			if (!bounds.contains((int) ev.getX(), (int) ev.getY())) {
+				finish();
+			}
 		}
 
 		return super.dispatchTouchEvent(ev);
