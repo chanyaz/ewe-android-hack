@@ -11,7 +11,9 @@ import android.graphics.Typeface;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -114,15 +116,23 @@ public class AvailabilitySummaryLayoutUtils {
 			basePrice.setVisibility(View.VISIBLE);
 			String basePriceString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayBaseRate());
 
-			Spanned basePriceStringSpanned = Html.fromHtml(r.getString(R.string.from_template, basePriceString), null,
-					new StrikethroughTagHandler());
-			basePrice.setText(basePriceStringSpanned);
+			String basePriceStringWithFrom = r.getString(R.string.min_room_price_template, basePriceString);
+			int startingIndexOfBasePrice = basePriceStringWithFrom.indexOf(basePriceString);
+
+			SpannableString basePriceStrSpannable = new SpannableString(basePriceStringWithFrom);
+
+			basePriceStrSpannable.setSpan(textStyleSpan, 0, startingIndexOfBasePrice - 1, 0);
+			basePriceStrSpannable.setSpan(new StrikethroughSpan(), startingIndexOfBasePrice,
+					basePriceStringWithFrom.length(), 0);
+			basePriceStrSpannable.setSpan(new AbsoluteSizeSpan(16, true), startingIndexOfBasePrice,
+					basePriceStringWithFrom.length(), 0);
+
+			basePrice.setText(basePriceStrSpannable);
 			basePrice.setTextColor(r.getColor(android.R.color.black));
 			basePrice.setShadowLayer(0.1f, 0f, 1f, r.getColor(R.color.text_shadow_color));
 			basePrice.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
-			String textToMeasure = basePriceStringSpanned.toString() + displayRateString
-					+ context.getString(R.string.per_night);
+			String textToMeasure = basePriceStringWithFrom + displayRateString + context.getString(R.string.per_night);
 
 			if (tooLongToFitOnOneLine(availabilitySummaryContainerCentered, availabilitySummaryContainerLeft,
 					textToMeasure, minPrice.getPaint())) {
