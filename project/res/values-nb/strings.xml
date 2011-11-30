@@ -3,6 +3,8 @@
 	<string name="app_name">Expedia</string>
 
 	<!-- Search Fragment -->
+	<!-- Initial hint for the search location field - invites the user to enter information here -->
+	<string name="enter_search_location">Oppgi sted ...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Søk etter sted</string>
 	<!-- Label for recent searches user has made -->
@@ -45,7 +47,7 @@
 	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; til &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; passende hoteller</item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; passende hoteller </item>
 		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; passende hotell </item>
 		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; passende hoteller </item>
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; passende hoteller </item>
@@ -53,8 +55,6 @@
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filtrer etter hotellnavn</string>
-	<!-- Label to show only hotels highly rated by TripAdvisor -->
-	<string name="tripadvisor_rating_high">Vis kun høyt rangerte hoteller</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
 	<string name="tripadvisor_rating_all">Vis alle hoteller</string>
 	<!-- Label indicating that there are no results matching their current filter -->
@@ -79,7 +79,7 @@
 	<string name="filter_hotels">Filtrer hotellene</string>
 	<!-- A number of results -->
 	<plurals name="number_of_results">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; resultater</item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; resultater </item>
 		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; resultat</item>
 		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; resultater </item>
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; resultater </item>
@@ -141,14 +141,10 @@
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
 	<string name="from">Fra</string>
-	<!-- The label indicating that this hotel is highly rated by users -->
-	<string name="highly_rated">Høyt rangert</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
 	<string name="from_template">Fra &lt;strike&gt;%s&lt;/strike&gt;</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">per natt</string>
-	<!-- Label for red "sale" corner -->
-	<string name="sale_caps">SALG</string>
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">Ikke rangert</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -156,6 +152,8 @@
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">Filtrer resultatene</string>
+	<!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
+	<string name="filter">Filtrer</string>
 
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
@@ -238,7 +236,7 @@
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
 	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; fra</string>
 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
- 	<string name="reviews_recommended_template">Anbefalt av %1$d av %2$d gjester</string>
+	<string name="reviews_recommended_template">Anbefalt av %1$d av %2$d gjester</string>
 	<!--  Title for the amenities section in the hotel details fragment -->
 	<string name="amenities">Fasiliteter</string>
 	<!--  Label for button to see all reviews as a modal dialog -->
@@ -375,6 +373,10 @@
 	<string name="common_value_add_template">Alle rommene er inkludert %s</string>
 	<!--  Instruction as the header of the list to select a room from the list -->
 	<string name="select_a_room_instruction">Velg et rom</string>
+	
+	<!-- Gallery -->
+	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
+	<string name="gallery_title_template">Bilder av &lt;b&gt;%1$s&lt;/b&gt;</string>
 	    
 	<!-- Booking info -->
 	<!-- edit label -->
@@ -503,9 +505,9 @@
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
 	<string name="contact_phone_template">Ring Expedia.com på %s dersom du har spørsmål vedrørende bestillingen.</string>
 	<!-- Contact info for China  where 1$ represents the number by CN NetCom and 2$ represents the number from CN Telecom-->
-	<string name="contact_phone_china_template">Har du spørsmål vedrørende bestillingen, kan du ringe Expedia.com på %1$s (CN NetCom) eller %2$s (CN Telecom).</string>
+	<string name="contact_phone_china_template">Ring Expedia.com på %1$s (CN NetCom) eller %2$s (CN Telecom) dersom du har spørsmål vedrørende bestillingen.</string>
 	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
-	<string name="contact_phone_default_template"> Har du spørsmål vedrørende bestillingen, kan du ringe Expedia.com på %1$s i USA/Canada eller %2$s i Europa.</string>
+	<string name="contact_phone_default_template">Ring Expedia.com på %1$s i USA/Canada eller %2$s i Europa dersom du har spørsmål vedrørende bestillingen.</string>
 
 	<!--  Confirmation Fragment -->
 	<!-- Label to share booking information after a booking confirmation -->
@@ -545,7 +547,7 @@
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-	<string name="share_subject_template">Expedia-reiserute –  %1$s (%2$s – %3$s)</string>
+	<string name="share_subject_template">Expedia-reiserute – %1$s (%2$s – %3$s)</string>
 	<!-- Preset at the top of the share body message -->
 	<string name="share_body_start">Her er mine bestillingsopplysninger:</string>
 	<!-- Name of user -->
@@ -585,7 +587,7 @@
 	<!-- Extra description for "app support" button, when space allows -->
 	<string name="app_support_description">Forklar problemet, så vil vi ta kontakt med deg.</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">Liker du gode hotelltilbud?Fortell vennene dine om programmet!</string>
+	<string name="tell_a_friend_description">Liker du gode hotelltilbud? Fortell vennene dine om programmet!</string>
 	<!-- Section header for other apps by Mobiata -->
 	<string name="travel_smart">Reis smart</string>
 	<!-- Subject line for "tell a friend" feature -->
@@ -597,7 +599,7 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Personvernbestemmelser</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAll rights reserved.</string>
+	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAlle rettigheter forbeholdt.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
@@ -607,7 +609,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Ranger oss</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Laget av Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Personvernbestemmelser</a></string>
+	<string name="powered_by_opinion_lab">Laget av Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Personvernerklæring</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">E-postadresse</string>
 	<!-- Hint to type in comments -->
@@ -666,6 +668,8 @@
 	<string name="unit_kilometers">km</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
 	<string name="distance_template">%1$s %2$s unna</string>
+	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
+	<string name="distance_template_short">%1$s %2$s</string>
 
 	<!-- Menu strings -->
 	<!-- Label for "settings" menu item. -->

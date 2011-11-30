@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 
 	<!-- Search Fragment -->
+	<!-- Initial hint for the search location field - invites the user to enter information here -->
+	<string name="enter_search_location">위치 검색 입력...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">위치 검색</string>
 	<!-- Label for recent searches user has made -->
@@ -28,7 +30,7 @@
 	<string name="suggestion_venice">베니스 비치 파크, 베니스, 캘리포니아</string>
 	<string name="suggestion_miami">마이애미, 플로리다</string>
 	<string name="suggestion_london">런던, 영국</string>
-	<string name="suggestion_las_vegas">라스베이거스, 네바다주</string>
+	<string name="suggestion_las_vegas">라스베이거스, 네바다</string>
 	<string name="suggestion_paris">파리, 프랑스</string>
 	<string name="suggestion_minneapolis">미니애폴리스, 미네소타</string>
 	<string name="suggestion_san_francisco">샌프란시스코, 캘리포니아</string>
@@ -45,16 +47,14 @@
 	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; ~ &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
-	<item quantity="zero">&lt;b&gt;%d&lt;/b&gt;개의 필터링된 호텔</item>
-	<item quantity="one">&lt;b&gt;%d&lt;/b&gt;개의 필터링된 호텔</item>
-	<item quantity="two">&lt;b&gt;%d&lt;/b&gt;개의 필터링된 호텔</item>
-	<item quantity="many">&lt;b&gt;%d&lt;/b&gt;개의 필터링된 호텔</item>
-	<item quantity="other">&lt;b&gt;%d&lt;/b&gt;개의 필터링된 호텔</item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt;개의 필터링된 호텔</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt;개의 필터링된 호텔</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt;개의 필터링된 호텔</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt;개의 필터링된 호텔</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt;개의 필터링된 호텔</item>
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">호텔 이름별 필터링</string>
-	<!-- Label to show only hotels highly rated by TripAdvisor -->
-	<string name="tripadvisor_rating_high">평점 높은 호텔만 보기</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
 	<string name="tripadvisor_rating_all">모든 호텔 보기</string>
 	<!-- Label indicating that there are no results matching their current filter -->
@@ -79,19 +79,19 @@
 	<string name="filter_hotels">호텔 필터링</string>
 	<!-- A number of results -->
 	<plurals name="number_of_results">
-	<item quantity="zero">&lt;b&gt;%d&lt;/b&gt;개의 결과</item>
-	<item quantity="one">&lt;b&gt;%d&lt;/b&gt;개의 결과</item>
-	<item quantity="two">&lt;b&gt;%d&lt;/b&gt;개의 결과</item>
-	<item quantity="many">&lt;b&gt;%d&lt;/b&gt;개의 결과</item>
-	<item quantity="other">&lt;b&gt;%d&lt;/b&gt;개의 결과</item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt;개의 결과</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt;개의 결과</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt;개의 결과</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt;개의 결과</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt;개의 결과</item>
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">[내 위치]를 사용하시려면 [설정]에서 [위치] 정보를 켜주셔야 합니다.\n지금 [설정]으로 이동하여 켜시겠습니까?</string>
+	<string name="EnableLocationSettings">[내 위치]를 사용하시려면 [설정]에서 [위치] 정보를 설정하셔야 합니다.\n지금 [설정]으로 이동하여 설정하시겠습니까?</string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
-	<string name="ProviderDisabled">고객님의 위치 제공자가 활성화되지 않았습니다. 고객님의 위치로 검색하시려면 이를 다시 활성화해주세요.</string>
+	<string name="ProviderDisabled">고객님의 위치 제공자가 설정 해제되었습니다. 고객님의 위치로 검색하시려면 이를 다시 설정해주세요.</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-	<string name="ProviderOutOfService">고객님 위치 제공자의 서비스가 중단되었습니다. 나중에 다시 시도해주세요.</string>
+	<string name="ProviderOutOfService">고객님의 위치 제공자가 서비스를 중단했습니다. 나중에 다시 시도해주세요.</string>
 	<!-- Message displayed when the location provider is temporarily unavailable. -->
 	<string name="ProviderTemporarilyUnavailable">고객님의 위치 제공자가 일시적으로 이용 불가능합니다. 잠시 후 다시 시도해주세요.</string>
 
@@ -141,14 +141,10 @@
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
 	<string name="from">시작가</string>
-	<!-- The label indicating that this hotel is highly rated by users -->
-	<string name="highly_rated">높은 평점</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">&lt;strike&gt;%s&lt;/strike&gt; ~</string>
+	<string name="from_template">&lt;strike&gt;%s&lt;/strike&gt;~</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/1박당</string>
-	<!-- Label for red "sale" corner -->
-	<string name="sale_caps">세일</string>
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">평가 없음</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -156,6 +152,8 @@
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">결과 필터링</string>
+	<!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
+	<string name="filter">필터링</string>
 
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
@@ -183,7 +181,7 @@
 	<!--  Instructions on how to add widget to home screen -->
 	<string name="widget_add_instructions">홈 화면에서 가만히 누르고 계시면 Hotel Radar 위젯을 추가하실 수 있어요.</string>
 	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description">인근의 호텔 상품 보기:</string>
+	<string name="config_options_description">호텔 상품이 가능한 인근 지역:</string>
 	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
 	<string name="last_hotel_search">최근의 앱 검색</string>
 	<!--  Error string for widget when internet connection is unavailable -->
@@ -238,7 +236,7 @@
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
 	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; 시작가</string>
 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
-	<string name="reviews_recommended_template">%1$d명의(총 %2$d명 중) 고객이 추천</string>
+	<string name="reviews_recommended_template">%1$d의 고객이(총 %2$d 명중) 추천하셨습니다.</string>
 	<!--  Title for the amenities section in the hotel details fragment -->
 	<string name="amenities">편의 시설</string>
 	<!--  Label for button to see all reviews as a modal dialog -->
@@ -320,19 +318,19 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt;명의(총 &lt;b&gt;%2$d&lt;/b&gt;명 중) 고객이 이 호텔을 추천하셨습니다.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt;명의 고객이(총 &lt;b&gt;%2$d&lt;/b&gt;명중) 이 호텔을 추천하셨습니다.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
-	<item quantity="zero">%d개의 이용후기</item>
-	<item quantity="one">%d개의 이용후기</item>
-	<item quantity="two">%d개의 이용후기</item>
-	<item quantity="many">%d개의 이용후기</item>
-	<item quantity="other">%d개의 이용후기</item>
+		<item quantity="zero">%d개의 이용후기</item>
+		<item quantity="one">%d개의 이용후기</item>
+		<item quantity="two">%d개의 이용후기</item>
+		<item quantity="many">%d개의 이용후기</item>
+		<item quantity="other">%d개의 이용후기</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
 		2$ is the place they are from -->
-	<string name="user_review_name_and_location_signature">%1$s , %2$s</string>
+	<string name="user_review_name_and_location_signature">%1$s, %2$s</string>
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">이 호텔에 대한 비판적인 리뷰가 없습니다.</string>
 	<!-- User review no favorable reviews -->
@@ -343,11 +341,11 @@
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
 	<plurals name="staying_nights">
-	<item quantity="zero">%d박 숙박</item>
-	<item quantity="one">%d박 숙박</item>
-	<item quantity="two">%d박 숙박</item>
-	<item quantity="many">%d박 숙박</item>
-	<item quantity="other">%d박 숙박</item>
+		<item quantity="zero">%d박 숙박</item>
+		<item quantity="one">%d박 숙박</item>
+		<item quantity="two">%d박 숙박</item>
+		<item quantity="many">%d박 숙박</item>
+		<item quantity="other">%d박 숙박</item>
 	</plurals>
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">남은 객실 검색중...</string>
@@ -359,11 +357,11 @@
 	<string name="rate_avg_per_night">1박당 평균 요금</string>
 	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
 	<plurals name="number_of_rooms_left">
-	<item quantity="zero">남은 객실이 없습니다!</item>
-	<item quantity="one">1개 객실만 남았습니다!</item>
-	<item quantity="two">%d개 객실만 남았습니다!</item>
-	<item quantity="many">%d개 객실만 남았습니다!</item>
-	<item quantity="other">%d개 객실만 남았습니다!</item>
+		<item quantity="zero">남은 객실이 없습니다!</item>
+		<item quantity="one">1개 객실만 남았습니다!</item>
+		<item quantity="two">%d개 객실만 남았습니다!</item>
+		<item quantity="many">%d개 객실만 남았습니다!</item>
+		<item quantity="other">%d개 객실만 남았습니다!</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
 	<string name="savings_template">\n %2.0f%% 할인</string>
@@ -375,6 +373,10 @@
 	<string name="common_value_add_template">모든 객실이 %s 포함</string>
 	<!--  Instruction as the header of the list to select a room from the list -->
 	<string name="select_a_room_instruction">객실 선택</string>
+	
+	<!-- Gallery -->
+	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
+	<string name="gallery_title_template">&lt;b&gt;%1$s&lt;/b&gt;의 사진</string>
 	    
 	<!-- Booking info -->
 	<!-- edit label -->
@@ -391,13 +393,13 @@
 	<string name="stay_duration">숙박일수</string>
 	<!-- Quantity for the length of stay -->
 	<plurals name="length_of_stay">
-	<item quantity="one">1박</item>
-	<item quantity="other">%d박</item>
+		<item quantity="one">1박</item>
+		<item quantity="other">%d박</item>
 	</plurals>
 	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
 	<string name="room_rate_template">객실 요금(%s 기준)</string>
 	<!-- Label for the extra guest charge -->
-	<string name="extra_guest_charge">손님 추가 비용</string>
+	<string name="extra_guest_charge">인원 추가 비용</string>
 	<!-- Label for total cost of hotel stay -->
 	<string name="total_cost">총요금</string>
 	<!-- Label for "guest info" form field section -->
@@ -475,7 +477,7 @@
 	<!-- Message to display to user while booking is in progress -->
 	<string name="booking_loading">예약중...</string>
 	<!-- Title for error dialog when booking fails -->
-	<string name="error_booking_title">에러</string>
+	<string name="error_booking_title">오류</string>
 	<!-- Error message when we couldn't get a response -->
 	<string name="error_booking_null">Expedia 서버에 연결할 수 없습니다. 연결 상태를 확인하고 다시 시도해주세요.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
@@ -497,15 +499,15 @@
 	<!-- Itinerary number label -->
 	<string name="itinerary_number">일정번호</string>
 	<!-- Confirmation email label -->
-	<string name="confirmation_email">확인 이메일</string>
+	<string name="confirmation_email">확인용 이메일</string>
 	<!-- Label for starting a new search -->
 	<string name="new_search">새로 검색</string>
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
 	<string name="contact_phone_template">예약 관련 문의사항은 Expedia 전화 %s 번호로 연락해주세요.</string>
 	<!-- Contact info for China  where 1$ represents the number by CN NetCom and 2$ represents the number from CN Telecom-->
-	<string name="contact_phone_china_template">예약 관련 문의사항은 Expedia 전화 %1$s(CN NetCom) 또는 %2$s(CN Telecom) 번호로 연락해주세요.</string>
+	<string name="contact_phone_china_template">예약 관련 문의사항은 Expedia.com 전화 %1$s(CN NetCom) 또는 %2$s(CN Telecom) 번호로 연락해주세요.</string>
 	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
-	<string name="contact_phone_default_template">예약 관련 문의사항은 Expedia 전화 %1$s(미국/캐나다) 또는 %2$s(유럽) 번호로 연락해주세요.</string>
+	<string name="contact_phone_default_template">예약 관련 문의사항은 Expedia.com 전화 %1$s(미국/캐나다) 또는 %2$s(유럽) 번호로 연락해주세요.</string>
 
 	<!--  Confirmation Fragment -->
 	<!-- Label to share booking information after a booking confirmation -->
@@ -545,7 +547,7 @@
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-	<string name="share_subject_template">Expedia 일정 - %1$s (%2$s ~ %3$s)</string>
+	<string name="share_subject_template">Expedia 일정 - %1$s(%2$s ~ %3$s)</string>
 	<!-- Preset at the top of the share body message -->
 	<string name="share_body_start">내 호텔 예약 정보:</string>
 	<!-- Name of user -->
@@ -607,7 +609,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">평가 의견을 남겨주세요.</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Opinion Lab 제공 <a href="http://mobile.opinionlab.com/static/privacy.html">개인정보 보호정책</a></string>
+	<string name="powered_by_opinion_lab">Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">개인정보 보호정책</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">이메일 주소</string>
 	<!-- Hint to type in comments -->
@@ -628,35 +630,35 @@
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-	<item quantity="zero">어른 %d명</item>
-	<item quantity="one">어른 %d명</item>
-	<item quantity="two">어른 %d명</item>
-	<item quantity="many">어른 %d명</item>
-	<item quantity="other">어른 %d명</item>
+		<item quantity="zero">어른 %d명</item>
+		<item quantity="one">어른 %d명</item>
+		<item quantity="two">어른 %d명</item>
+		<item quantity="many">어른 %d명</item>
+		<item quantity="other">어른 %d명</item>
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-	<item quantity="zero">어린이 %d명</item>
-	<item quantity="one">어린이 %d명</item>
-	<item quantity="two">어린이 %d명</item>
-	<item quantity="many">어린이 %d명</item>
-	<item quantity="other">어린이 %d명</item>
+		<item quantity="zero">어린이 %d명</item>
+		<item quantity="one">어린이 %d명</item>
+		<item quantity="two">어린이 %d명</item>
+		<item quantity="many">어린이 %d명</item>
+		<item quantity="other">어린이 %d명</item>
 	</plurals>
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
-	<item quantity="zero">%d명의 고객님</item>
-	<item quantity="one">%d명의 고객님</item>
-	<item quantity="two">%d명의 고객님</item>
-	<item quantity="many">%d명의 고객님</item>
-	<item quantity="other">%d명의 고객님</item>
+		<item quantity="zero">%d명의 고객님</item>
+		<item quantity="one">%d명의 고객님</item>
+		<item quantity="two">%d명의 고객님</item>
+		<item quantity="many">%d명의 고객님</item>
+		<item quantity="other">%d명의 고객님</item>
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">
-	<item quantity="zero">%d박</item>
-	<item quantity="one">%d박</item>
-	<item quantity="two">%d박</item>
-	<item quantity="many">%d박</item>
-	<item quantity="other">%d박</item>
+		<item quantity="zero">%d박</item>
+		<item quantity="one">%d박</item>
+		<item quantity="two">%d박</item>
+		<item quantity="many">%d박</item>
+		<item quantity="other">%d박</item>
 	</plurals>
 
 	<!-- Distance strings -->
@@ -666,6 +668,8 @@
 	<string name="unit_kilometers">킬로미터</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
 	<string name="distance_template">%1$s %2$s 거리</string>
+	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
+	<string name="distance_template_short">%1$s %2$s</string>
 
 	<!-- Menu strings -->
 	<!-- Label for "settings" menu item. -->

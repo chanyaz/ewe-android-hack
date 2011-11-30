@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 
 	<!-- Search Fragment -->
+	<!-- Initial hint for the search location field - invites the user to enter information here -->
+	<string name="enter_search_location">Introduce una ubicación...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Buscar ubicación</string>
 	<!-- Label for recent searches user has made -->
@@ -14,7 +16,7 @@
 	<!--  Label for picking search location -->
 	<string name="where_are_you_going">&lt;b&gt;;¿Dónde&lt;/b&gt; quieres ir?</string>
 	<!--  Label for picking checkin/checkout dates -->
-	<string name="drag_to_extend_your_stay">&lt;b&gt;Arrastra&lt;/b&gt; para ampliar la estancia</string>
+	<string name="drag_to_extend_your_stay">&lt;b&gt;Arrastra&lt;/b&gt; para ampliar la estancia.</string>
 	<!--  Label for picking checkin/checkout dates -->
 	<string name="where_are_you_staying">&lt;b&gt;¿Cuándo&lt;/b&gt; quieres viajar?</string>
 	<!--  Label for picking guests for hotel booking -->
@@ -42,19 +44,17 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt; - &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; - &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
 		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; hoteles encontrados</item>
 		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; hotel encontrado</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt;hoteles encontrados</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; hoteles encontrados</item>
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; hoteles encontrados</item>
 		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; hoteles encontrados</item>
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filtrar por nombre</string>
-	<!-- Label to show only hotels highly rated by TripAdvisor -->
-	<string name="tripadvisor_rating_high">Ver solo los hoteles mejor valorados</string>
 	<!-- Label to show hotels with any TripAdvisor rating -->
 	<string name="tripadvisor_rating_all">Ver todos los hoteles</string>
 	<!-- Label indicating that there are no results matching their current filter -->
@@ -72,7 +72,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Cargando los resultados de la búsqueda anterior...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"Ordenar: "</string>
+	<string name="sort_hotels">"Ordenar por: "</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;Ordenar por&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
@@ -82,7 +82,7 @@
 		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; resultados</item>
 		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; resultado</item>
 		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; resultados</item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt;  resultados</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; resultados</item>
 		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; resultados</item>
 	</plurals>
 
@@ -141,21 +141,19 @@
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
 	<string name="from">Desde</string>
-	<!-- The label indicating that this hotel is highly rated by users -->
-	<string name="highly_rated">Recomendado</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
 	<string name="from_template">Desde &lt;strike&gt;%s&lt;/strike&gt;</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">por noche</string>
-	<!-- Label for red "sale" corner -->
-	<string name="sale_caps">OFERTA</string>
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">Sin valoraciones</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-	<string name="percent_off_template">%2.0f%% ODTO</string>
+	<string name="percent_off_template">%2.0f%% DTO.</string>
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">Filtrar los resultados</string>
+	<!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
+	<string name="filter">Filtrar</string>
 
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
@@ -169,7 +167,7 @@
 	<!--  Default Loading message for widget -->
 	<string name="loading_hotels">Cargando hoteles...</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">Ahorra un %2.0f%%</string>
+	<string name="widget_savings_template">- %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Actualizar</string>
 	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
@@ -234,11 +232,11 @@
 	
 	<!--  Hotel Details Fragment -->
 	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
-	<string name="min_room_price_template">Desde%s</string>
+	<string name="min_room_price_template">Desde %s</string>
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
-	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; Desde</string>
+	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; desde</string>
 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
-	<string name="reviews_recommended_template">Recomendado por  %1$d clientes de  %2$d</string>
+	<string name="reviews_recommended_template">Recomendado por %1$d huéspedes de %2$d.</string>
 	<!--  Title for the amenities section in the hotel details fragment -->
 	<string name="amenities">Servicios</string>
 	<!--  Label for button to see all reviews as a modal dialog -->
@@ -375,6 +373,10 @@
 	<string name="common_value_add_template">Todas las habitaciones incluyen %s</string>
 	<!--  Instruction as the header of the list to select a room from the list -->
 	<string name="select_a_room_instruction">Elige una habitación</string>
+	
+	<!-- Gallery -->
+	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
+	<string name="gallery_title_template">Fotos de &lt;b&gt;%1$s&lt;/b&gt;</string>
 	    
 	<!-- Booking info -->
 	<!-- edit label -->
@@ -563,7 +565,7 @@
 	<!-- Label for "contact Expedia" button in info page -->
 	<string name="contact_expedia">Ponte en contacto con Expedia</string>
 	<!-- Extra description for "contact Expedia" button, when space allows -->
-	<string name="contact_expedia_description">Estamos a tu disposición las 24 horas</string>
+	<string name="contact_expedia_description">Estamos a tu disposición las 24 horas.</string>
 	<!-- Title for different ways to connect to Expedia -->
 	<string name="contact_expedia_via">Ponte en contacto con Expedia por...</string>
 	<!-- Contact Expedia via phone -->
@@ -583,9 +585,9 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Asistencia</string>
 	<!-- Extra description for "app support" button, when space allows -->
-	<string name="app_support_description">Escríbenos y te responderemos cuanto antes</string>
+	<string name="app_support_description">Escríbenos y te responderemos cuanto antes.</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">¿Te gustan nuestras ofertas increíbles? Recomienda la aplicación.</string>
+	<string name="tell_a_friend_description">¿Te gustan nuestras ofertas increíbles? Recomienda la aplicación a tus amigos.</string>
 	<!-- Section header for other apps by Mobiata -->
 	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->
@@ -644,15 +646,15 @@
 	</plurals>
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
-		<item quantity="zero">%dpersonas</item>
+		<item quantity="zero">%d personas</item>
 		<item quantity="one">%d persona</item>
-		<item quantity="two">%dpersonas</item>
-		<item quantity="many">%dpersonas</item>
-		<item quantity="other">%d Guests</item>
+		<item quantity="two">%d personas</item>
+		<item quantity="many">%d personas</item>
+		<item quantity="other">%d personas</item>
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">
-		<item quantity="zero">%dnoches</item>
+		<item quantity="zero">%d noches</item>
 		<item quantity="one">%d noche</item>
 		<item quantity="two">%d noches</item>
 		<item quantity="many">%d noches</item>
@@ -666,6 +668,8 @@
 	<string name="unit_kilometers">km</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
 	<string name="distance_template">%1$s %2$s de distancia</string>
+	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
+	<string name="distance_template_short">%1$s %2$s</string>
 
 	<!-- Menu strings -->
 	<!-- Label for "settings" menu item. -->
