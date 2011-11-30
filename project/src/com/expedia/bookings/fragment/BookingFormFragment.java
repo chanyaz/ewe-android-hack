@@ -8,6 +8,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -24,6 +25,7 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CheckBox;
@@ -122,14 +124,14 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		super.onCreate(savedInstanceState);
 		mValidationProcessor = new ValidationProcessor();
 	}
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
 		((BookingFragmentActivity) activity).mEventManager.registerEventHandler(this);
 	}
-	
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -165,7 +167,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		mConfirmBookButton = view.findViewById(R.id.confirm_book_button);
 		mReceipt = view.findViewById(R.id.receipt);
 		mCloseFormButton = view.findViewById(R.id.close_booking_form);
-		
+
 		// 10758: rendering the saved layouts on a software layer
 		// to avoid the fuzziness of the saved section background
 		mGuestSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -211,7 +213,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		ColorDrawable drawable = new ColorDrawable(0);
 		dialog.getWindow().setBackgroundDrawable(drawable);
 		dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-		
+
 		configureTicket(mReceipt);
 		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
 				getInstance().mPropertyInfoStatus);
@@ -230,7 +232,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		((BookingFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
 		super.onDetach();
 	}
-	
+
 	@Override
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
@@ -391,6 +393,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 
 			@Override
 			public void onClick(View v) {
+				
 				syncBillingInfo();
 
 				// Just to make sure, save the billing info when the user clicks submit
@@ -417,6 +420,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 					BookingInfoUtils.focusAndOpenKeyboard(getActivity(), (View) errors.get(0).getObject());
 				}
 				else {
+					dismissKeyboard(v);
 					BookingInfoUtils.onClickSubmit(getActivity());
 					((BookingFragmentActivity) getActivity()).bookingCompleted();
 					dismiss();
@@ -428,7 +432,9 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		mCloseFormButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View v) {
+				dismissKeyboard(v);
+				
 				saveBillingInfo();
 				getInstance().mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
 				dismiss();
@@ -741,6 +747,11 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		TrackingUtils.saveEmailForTracking(getActivity(), getBillingInfo().getEmail());
 
 		return getBillingInfo().save(getActivity());
+	}
+
+	private void dismissKeyboard(View view) {
+		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
