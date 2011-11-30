@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
@@ -319,12 +320,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		// We're ensuring that if the user clicks somewhere else on the screen while the SearchView is focused,
 		// we clear focus on the SearchView.
 		if (mSearchViewFocused) {
-			float evX = ev.getX();
-			float evY = ev.getY();
-			float searchViewX = mSearchView.getX();
-			float searchViewY = mSearchView.getY();
-			if (evX < searchViewX || evX > searchViewX + mSearchView.getWidth() || evY < searchViewY
-					|| evY > searchViewY + mSearchView.getHeight()) {
+			Rect bounds = new Rect();
+			mSearchView.getHitRect(bounds);
+			if (!bounds.contains((int) ev.getX(), (int) ev.getY())) {
 				mSearchView.clearFocus();
 			}
 		}
