@@ -11,7 +11,6 @@ import org.json.JSONException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -74,7 +73,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			ReviewSort reviewSort = ReviewSort.valueOf((String) data[1]);
 			ListView listView = getListView(mListViewContainersMap.get(reviewSort));
 			if (addFooter) {
-				listView.addFooterView(mFooterLoadingMore);
+				listView.addFooterView(mFooterLoadingMore, null, false);
 			}
 			else {
 				listView.removeFooterView(mFooterLoadingMore);
@@ -509,7 +508,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 		ViewGroup header = (ViewGroup) mLayoutInflater.inflate(R.layout.header_user_reviews_list, null, false);
 		for (ViewGroup viewContainer : mListViewContainersMap.values()) {
-			getListView(viewContainer).addHeaderView(header);
+			getListView(viewContainer).addHeaderView(header, null, false);
 		}
 
 		mSortGroup = (SegmentedControlGroup) findViewById(R.id.user_review_sort_group);
