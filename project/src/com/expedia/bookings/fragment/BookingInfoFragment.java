@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -65,6 +67,39 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 		configureTicket(view);
 		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
 				getInstance().mPropertyInfoStatus);
+
+		final View receipt = view.findViewById(R.id.fragment_receipt);
+		final View roomDetailsContainer = view.findViewById(R.id.room_details_container_right);
+
+		// 10886: Bottom aligning the complete booking info button
+		// with the fragment receipt as long as the fragment receipt is 
+		// last than the max defined height. In that case, using the maximum
+		// height definition.
+		if (roomDetailsContainer != null) {
+			receipt.addOnLayoutChangeListener(new OnLayoutChangeListener() {
+
+				@Override
+				public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop,
+						int oldRight, int oldBottom) {
+					if (left == 0 && top == 0 && right == 0 && bottom == 0) {
+						return;
+					}
+
+					int maxHeightInPx = (int) Math.ceil(getResources().getDisplayMetrics().density
+							* getResources().getDimension(R.dimen.max_height_room_details_container));
+					if (receipt.getMeasuredHeight() > maxHeightInPx) {
+						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).height = maxHeightInPx;
+						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).addRule(
+								RelativeLayout.ALIGN_BOTTOM, 0);
+					}
+					else {
+						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).addRule(
+								RelativeLayout.ALIGN_BOTTOM, R.id.fragment_receipt);
+					}
+
+				}
+			});
+		}
 		return view;
 	}
 
