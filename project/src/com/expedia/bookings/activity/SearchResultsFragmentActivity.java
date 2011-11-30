@@ -975,13 +975,14 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_STARTED, null);
 	}
 
+	private static final int MAX_SUMMARIZED_REVIEWS = 4;
 	private Download mReviewsDownload = new Download() {
 
 		@Override
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext, mInstance.mSession);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_REVIEWS, services);
-			return services.reviews(mInstance.mProperty, 1, ReviewSort.HIGHEST_RATING_FIRST);
+			return services.reviews(mInstance.mProperty, 1, ReviewSort.HIGHEST_RATING_FIRST, MAX_SUMMARIZED_REVIEWS);
 		}
 	};
 
