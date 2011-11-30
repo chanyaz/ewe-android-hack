@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="booking_info_dialog_width_weight_sum">100</integer>
+    <integer name="booking_info_content_width_weight">80</integer>
+</resources>
