@@ -12,9 +12,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="@integer/booking_info_content_width_weight"
+        android:background="@drawable/bg_booking_info_dialog"
         android:gravity="center"
-        android:orientation="vertical"
-        android:background="@drawable/bg_booking_info_dialog" >
+        android:orientation="vertical" >
 
         <!--
 		      Header Bar 
@@ -46,12 +46,12 @@
                 android:id="@+id/confirm_book_button"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:gravity="center_vertical"
-                android:paddingRight="12dp"
-                android:paddingLeft="12dp"
                 android:layout_toLeftOf="@+id/close_booking_form"
-                android:orientation="horizontal" 
-                android:background="@drawable/btn_booking_dialog_header">
+                android:background="@drawable/btn_booking_dialog_header"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -123,6 +123,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="@integer/booking_info_form_width_weight"
                     android:orientation="vertical" >
 
@@ -132,6 +133,7 @@
                         style="@style/formSectionHeaderText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
                         android:text="@string/guest_info" />
 
                     <!-- Guest form fields (from saved data) -->
@@ -141,6 +143,10 @@
                     <!-- Guest form fields (entering data) -->
 
                     <include layout="@layout/include_guest_info_fields" />
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="10dp" />
 
                     <!-- Billing info form fields -->
 
@@ -157,6 +163,10 @@
                     <!-- Billing form fields (entering data) -->
 
                     <include layout="@layout/include_saved_billing_info" />
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="10dp" />
 
                     <!-- Credit card info form fields -->
 

@@ -62,4 +62,7 @@
 	<dimen name="placeholder_tag_margin_top">15dp</dimen>
 	<!-- Offset for placeholder tag -->
 	<dimen name="placeholder_tag_margin_top">44dp</dimen>
+	
+	<dimen name="booking_form_saved_field_text_size">14sp</dimen>
+	<dimen name="booking_form_saved_section_padding">5dp</dimen>
 </resources>
