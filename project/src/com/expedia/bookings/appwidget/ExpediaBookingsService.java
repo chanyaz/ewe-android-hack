@@ -639,7 +639,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private void startSearchDownloader() {
 		// search for 1 guest by default
 		mWidgetDeals.getSearchParams().setNumAdults(1);
-		
+
 		if (!NetUtils.isOnline(getApplicationContext())
 				&& (mWidgetDeals.getDeals() == null || mWidgetDeals.getDeals().isEmpty())) {
 			mHandler.sendMessageDelayed(Message.obtain(mHandler, NO_INTERNET_CONNECTIVITY),
@@ -813,11 +813,13 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
 
 			widgetContents.setViewVisibility(R.id.sale_text_view, View.VISIBLE);
+			widgetContents.setTextColor(R.id.price_text_view, getResources().getColor(R.color.hotel_price_sale_text_color));
 			widgetContents.setViewVisibility(R.id.sale_image_view, View.VISIBLE);
 		}
 		else {
 			widgetContents.setViewVisibility(R.id.sale_text_view, View.GONE);
 			widgetContents.setViewVisibility(R.id.sale_image_view, View.GONE);
+			widgetContents.setTextColor(R.id.price_text_view, getResources().getColor(R.color.hotel_price_text_color));
 			widgetContents.setViewVisibility(R.id.price_per_night_container, View.VISIBLE);
 			widgetContents.setTextViewText(R.id.price_text_view,
 					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
