@@ -70,6 +70,7 @@ public class HotelGalleryActivity extends FragmentActivity {
 		mHotelGallery = (Gallery) findViewById(R.id.hotel_gallery);
 		mHotelGallery.setAdapter(mAdapter);
 		mHotelGallery.setCallbackDuringFling(false);
+		mHotelGallery.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 		
 		/*
 		 * setup all the event listeners 
