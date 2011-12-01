@@ -273,10 +273,11 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	// CALLBACKS
 
 	private OnCollageImageClickedListener mPictureClickedListener = new OnCollageImageClickedListener() {
-
 		@Override
 		public void onImageClicked(Media media) {
-			((SearchResultsFragmentActivity) getActivity()).startHotelGalleryActivity(media);
+			if (getInstance().mProperty.getMediaCount() > 0) {
+				((SearchResultsFragmentActivity) getActivity()).startHotelGalleryActivity(media);
+			}
 		}
 	};
 
@@ -336,8 +337,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 				.getRoomsAndRatesAvailability();
 		mSelectRoomButton.setEnabled((availabilityResponse != null));
 
-		AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse,
-				view, getString(R.string.select_room), mSelectRoomButtonOnClickListener,
+		AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse, view,
+				getString(R.string.select_room), mSelectRoomButtonOnClickListener,
 				((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
 	}
 
