@@ -11,18 +11,16 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.model.Search;
 import com.mobiata.android.Log;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.Suggestion;
 
 public class AutocompleteProvider extends ContentProvider {
 
-	private static final String[] COLUMNS = {
-			BaseColumns._ID,
-			SearchManager.SUGGEST_COLUMN_TEXT_1,
-			SearchManager.SUGGEST_COLUMN_QUERY,
-			SearchManager.SUGGEST_COLUMN_ICON_1
-	};
+	private static final String[] COLUMNS = { BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1,
+			SearchManager.SUGGEST_COLUMN_QUERY, SearchManager.SUGGEST_COLUMN_ICON_1 };
 
 	@Override
 	public boolean onCreate() {
@@ -49,8 +47,7 @@ public class AutocompleteProvider extends ContentProvider {
 			List<Suggestion> suggestions = services.getSuggestions(query, "geocode");
 			if (suggestions != null && suggestions.size() > 0) {
 				for (Suggestion suggestion : suggestions) {
-					Object[] row = { id, suggestion.mSuggestion, suggestion.mSuggestion,
-							R.drawable.autocomplete_pin };
+					Object[] row = { id, suggestion.mSuggestion, suggestion.mSuggestion, R.drawable.autocomplete_pin };
 					cursor.addRow(row);
 					id++;
 				}
@@ -60,8 +57,22 @@ public class AutocompleteProvider extends ContentProvider {
 		}
 		else {
 			// If there is nothing to query, suggest "current location"
-			Object[] row = { id, currentLocation, currentLocation, R.drawable.autocomplete_location };
+			final Object[] row = { id, currentLocation, currentLocation, R.drawable.autocomplete_location };
 			cursor.addRow(row);
+
+			// Then suggest history
+			for (SearchParams searchParams : Search.getRecentSearches(getContext(), 5)) {
+				final String freeformLocation = searchParams.getFreeformLocation();
+				final Object[] historyRow = { id, freeformLocation, freeformLocation, R.drawable.autocomplete_pin };
+				cursor.addRow(historyRow);
+			}
+
+			// Then suggest from array
+			for (String suggestion : getContext().getResources().getStringArray(R.array.suggestions)) {
+				final Object[] suggestionRow = { id, suggestion, suggestion, R.drawable.autocomplete_pin };
+				cursor.addRow(suggestionRow);
+			}
+
 			id++;
 		}
 
