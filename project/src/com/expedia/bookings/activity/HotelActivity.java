@@ -272,13 +272,23 @@ public class HotelActivity extends Activity {
 
 		ViewGroup amenitiesContainer = (ViewGroup) findViewById(R.id.amenities_table_row);
 		LayoutUtils.addAmenities(this, property, amenitiesContainer);
+		// hide the divider below the amenities if there are no amenities to show
+		if (!property.hasAmenities()) {
+			findViewById(R.id.amenities_divider).setVisibility(View.GONE);
+		}
+		else {
+			findViewById(R.id.amenities_divider).setVisibility(View.VISIBLE);
+		}
 
 		// Description
+		ViewGroup descriptionContainer = (ViewGroup) findViewById(R.id.description_container);
 		String description = property.getDescriptionText();
 		if (description != null && description.length() > 0) {
-			ViewGroup descriptionContainer = (ViewGroup) findViewById(R.id.description_container);
 			mDescription.parseDescription(description);
 			layoutDescription(descriptionContainer, description);
+		}
+		else {
+			addAddressSection(descriptionContainer);
 		}
 
 		// Tracking
