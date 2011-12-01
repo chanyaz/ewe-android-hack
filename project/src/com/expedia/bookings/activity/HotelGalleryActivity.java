@@ -71,11 +71,11 @@ public class HotelGalleryActivity extends FragmentActivity {
 		mHotelGallery.setAdapter(mAdapter);
 		mHotelGallery.setCallbackDuringFling(false);
 		mHotelGallery.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-		
+
 		/*
 		 * setup all the event listeners 
 		 */
-		
+
 		mPager.setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
@@ -93,7 +93,7 @@ public class HotelGalleryActivity extends FragmentActivity {
 			public void onPageScrollStateChanged(int arg0) {
 			}
 		});
-		
+
 		mHotelGallery.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> l, View imageView, int position, long id) {
@@ -115,8 +115,8 @@ public class HotelGalleryActivity extends FragmentActivity {
 				mPager.setCurrentItem(0);
 			}
 		});
-		
-		int position = (mSelectedMedia == null) ? 0 : mAdapter.getPositionOfImage(mSelectedMedia);
+
+		int position = (mSelectedMedia == null) ? 0 : mAdapter.getPositionOfMedia(mSelectedMedia);
 		mSelectedMedia = (mSelectedMedia == null) ? (Media) mAdapter.getItem(0) : mSelectedMedia;
 		mHotelGallery.setSelection(position);
 	}
@@ -157,8 +157,13 @@ public class HotelGalleryActivity extends FragmentActivity {
 			notifyDataSetChanged();
 		}
 
-		public int getPositionOfImage(Media media) {
-			return mMedia.indexOf(media);
+		public int getPositionOfMedia(Media media) {
+			for (int i = 0; i < mMedia.size(); i++) {
+				if (mMedia.get(i).getUrl().equals(media.getUrl())) {
+					return i;
+				}
+			}
+			return -1;
 		}
 
 		@Override
@@ -193,6 +198,7 @@ public class HotelGalleryActivity extends FragmentActivity {
 	}
 
 	private static final String IMAGE_POSITION = "POSITION";
+
 	public class HotelImagePagerAdapter extends FragmentStatePagerAdapter {
 
 		public HotelImagePagerAdapter(android.support.v4.app.FragmentManager fragmentManager) {
