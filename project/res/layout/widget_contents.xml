@@ -152,6 +152,7 @@
 					android:layout_height="wrap_content"
 					android:layout_alignBaseline="@id/price_text_view"
 					android:includeFontPadding="false"
+					android:layout_toRightOf="@+id/sale_image_view"
 					android:singleLine="true"
 					android:paddingBottom="5dp"
 					android:paddingRight="5dp"
