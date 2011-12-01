@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
@@ -41,6 +40,7 @@ import com.expedia.bookings.activity.SearchFragmentActivity.InstanceFragment;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
+import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.widget.NumberPicker;
@@ -157,8 +157,21 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			}
 		}
 
-		mSuggestions = Arrays.asList(getResources().getStringArray(R.array.suggestions));
+		// Get suggestions from res
+		mSuggestions = new ArrayList<String>();
+		// Must iterate because Arrays.asList returns a mutable list and we need to add search history later 
+		for (String string : getResources().getStringArray(R.array.suggestions)) {
+			mSuggestions.add(string);
+		}
 		Collections.shuffle(mSuggestions); // Randomly shuffle them for each launch
+
+		// Add history to top
+		List<String> searchHistory = new ArrayList<String>();
+		for (SearchParams searchParams : Search.getRecentSearches(getActivity(), 5)) {
+			searchHistory.add(searchParams.getFreeformLocation());
+		}
+		mSuggestions.addAll(0, searchHistory);
+
 		configureSuggestions(null);
 
 		// Configure the calendar
@@ -274,10 +287,10 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-			Calendar checkIn = new GregorianCalendar(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
-					.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
-			Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
-					.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
+			Calendar checkIn = new GregorianCalendar(mCalendarDatePicker.getStartYear(),
+					mCalendarDatePicker.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
+			Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(),
+					mCalendarDatePicker.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
 
 			SearchParams searchParams = getInstance().mSearchParams;
 			searchParams.setCheckInDate(checkIn);
@@ -466,8 +479,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 				final Download download = new Download() {
 					public Object doDownload() {
 						GoogleServices services = new GoogleServices(getActivity());
-						BackgroundDownloader.getInstance().addDownloadListener(KEY_AUTOCOMPLETE_DOWNLOAD,
-								services);
+						BackgroundDownloader.getInstance().addDownloadListener(KEY_AUTOCOMPLETE_DOWNLOAD, services);
 						return services.getSuggestions(query, "geocode");
 					}
 				};

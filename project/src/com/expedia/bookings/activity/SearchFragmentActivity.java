@@ -11,7 +11,9 @@ import android.os.Bundle;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.fragment.EventManager;
+import com.expedia.bookings.model.Search;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.util.NetUtils;
@@ -101,6 +103,10 @@ public class SearchFragmentActivity extends Activity {
 		if (!NetUtils.isOnline(this)) {
 			showDialog(DIALOG_NO_INTERNET);
 			return;
+		}
+
+		if (getInstance().mSearchParams.getSearchType() == SearchType.FREEFORM) {
+			Search.add(this, getInstance().mSearchParams);
 		}
 
 		Intent intent = new Intent(this, SearchResultsFragmentActivity.class);
