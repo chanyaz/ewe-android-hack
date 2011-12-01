@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
@@ -158,11 +159,9 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		}
 
 		// Get suggestions from res
+		final List<String> tmpArray = Arrays.asList(getResources().getStringArray(R.array.suggestions));
 		mSuggestions = new ArrayList<String>();
-		// Must iterate because Arrays.asList returns a mutable list and we need to add search history later 
-		for (String string : getResources().getStringArray(R.array.suggestions)) {
-			mSuggestions.add(string);
-		}
+		mSuggestions.addAll(tmpArray);
 		Collections.shuffle(mSuggestions); // Randomly shuffle them for each launch
 
 		// Add history to top
