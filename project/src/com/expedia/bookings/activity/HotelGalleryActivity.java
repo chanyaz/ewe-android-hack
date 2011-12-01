@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -21,6 +22,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
@@ -28,6 +30,7 @@ import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.json.JSONUtils;
 
 public class HotelGalleryActivity extends FragmentActivity {
@@ -230,9 +233,21 @@ public class HotelGalleryActivity extends FragmentActivity {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View view = inflater.inflate(R.layout.fragment_pager_hotel_image, container, false);
 			int position = getArguments().getInt(IMAGE_POSITION);
-			ImageView imageView = (ImageView) view.findViewById(R.id.big_image_view);
+			final ImageView imageView = (ImageView) view.findViewById(R.id.big_image_view);
+			final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.hotel_image_progress_bar);
 			Media hotelMedia = ((HotelGalleryActivity) getActivity()).getHotelMedia(position);
-			hotelMedia.loadHighResImage(imageView, null);
+			hotelMedia.loadHighResImage(imageView, new OnImageLoaded() {
+				
+				@Override
+				public void onImageLoaded(String url, Bitmap bitmap) {
+					progressBar.setVisibility(View.GONE);
+					imageView.setVisibility(View.VISIBLE);
+				}
+				
+				@Override
+				public void onImageLoadFailed(String url) {
+				}
+			});
 
 			return view;
 		}
