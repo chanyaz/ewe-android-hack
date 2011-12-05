@@ -276,6 +276,8 @@ public class ConfirmationFragmentActivity extends MapActivity {
 	// Actions
 
 	public void newSearch() {
+		Tracker.trackNewSearch(this);
+
 		// Ensure we can't come back here again
 		ConfirmationUtils.deleteSavedConfirmationData(mContext);
 

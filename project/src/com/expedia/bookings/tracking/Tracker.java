@@ -259,4 +259,9 @@ public class Tracker {
 		Log.d("Tracking \"CKO.CP.ViewInMaps\" onClick");
 		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", "CKO.CP.ViewInMaps");
 	}
+
+	public static void trackNewSearch(Context context) {
+		Log.d("Tracking \"new search\" onClick");
+		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", "CKO.CP.StartNewSearch");
+	}
 }

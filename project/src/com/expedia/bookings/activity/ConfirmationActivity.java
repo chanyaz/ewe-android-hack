@@ -30,7 +30,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.Tracker;
-import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -350,7 +349,6 @@ public class ConfirmationActivity extends MapActivity {
 	}
 
 	public void onClickNewSearch() {
-		Log.d("Tracking \"new search\" onClick");
-		TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", "CKO.CP.StartNewSearch");
+		Tracker.trackNewSearch(this);
 	}
 }
