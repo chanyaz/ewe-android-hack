@@ -10,6 +10,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
@@ -162,4 +163,41 @@ public class Tracker {
 		// Send the tracking data
 		s.track();
 	}
+	
+	public static void trackAppHotelsCheckoutPayment(Context context, Property property, BookingInfoValidation validation) {
+		Log.d("Tracking \"App.Hotels.Checkout.Payment\" pageLoad");
+
+		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+
+		TrackingUtils.addStandardFields(context, s);
+
+		s.pageName = "App.Hotels.Checkout.Payment";
+
+		s.events = "event34";
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+
+		// Products
+		TrackingUtils.addProducts(s, property);
+
+		// If any sections were already complete, fill them in here
+		String referrerId = null;
+		if (validation.isGuestsSectionCompleted() && validation.isBillingSectionCompleted()) {
+			referrerId = "CKO.BD.CompletedGuestInfo|CKO.BD.CompletedBillingInfo";
+		}
+		else if (validation.isGuestsSectionCompleted()) {
+			referrerId = "CKO.BD.CompletedGuestInfo";
+		}
+		else if (validation.isBillingSectionCompleted()) {
+			referrerId = "CKO.BD.CompletedBillingInfo";
+		}
+
+		s.eVar28 = s.prop16 = referrerId;
+
+		// Send the tracking data
+		s.track();
+	}
+
+
 }

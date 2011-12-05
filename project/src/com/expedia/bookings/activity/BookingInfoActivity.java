@@ -59,6 +59,7 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Session;
 import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.BookingReceiptUtils;
@@ -82,7 +83,6 @@ import com.mobiata.android.validation.TextViewValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.ValidationProcessor;
 import com.mobiata.android.validation.Validator;
-import com.omniture.AppMeasurement;
 
 public class BookingInfoActivity extends Activity implements Download, OnDownloadComplete {
 
@@ -818,7 +818,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	private void configureFooter() {
 		BookingInfoUtils.determineExpediaPointsDisclaimer(mScrollView);
-		
+
 		// Configure the cancellation policy
 		ConfirmationUtils.determineCancellationPolicy(mRate, mScrollView);
 	}
@@ -1083,38 +1083,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	// Omniture tracking
 
 	public void onPageLoad() {
-		Log.d("Tracking \"App.Hotels.Checkout.Payment\" pageLoad");
-
-		AppMeasurement s = new AppMeasurement(getApplication());
-
-		TrackingUtils.addStandardFields(this, s);
-
-		s.pageName = "App.Hotels.Checkout.Payment";
-
-		s.events = "event34";
-
-		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
-
-		// Products
-		TrackingUtils.addProducts(s, mProperty);
-
-		// If any sections were already complete, fill them in here
-		String referrerId = null;
-		if (mBookingInfoValidation.isGuestsSectionCompleted() && mBookingInfoValidation.isBillingSectionCompleted()) {
-			referrerId = "CKO.BD.CompletedGuestInfo|CKO.BD.CompletedBillingInfo";
-		}
-		else if (mBookingInfoValidation.isGuestsSectionCompleted()) {
-			referrerId = "CKO.BD.CompletedGuestInfo";
-		}
-		else if (mBookingInfoValidation.isBillingSectionCompleted()) {
-			referrerId = "CKO.BD.CompletedBillingInfo";
-		}
-
-		s.eVar28 = s.prop16 = referrerId;
-
-		// Send the tracking data
-		s.track();
+		Tracker.trackAppHotelsCheckoutPayment(this, mProperty, mBookingInfoValidation);
 	}
 
 }
