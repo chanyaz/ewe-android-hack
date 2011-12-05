@@ -60,26 +60,11 @@ public class TrackingUtils {
 	 */
 	public static void trackSimpleEvent(Context context, String pageName, String events, String shopperConfirmer,
 			String referrerId) {
-		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
-
-		addStandardFields(context, s);
-
-		if (events != null) {
-			s.events = events;
-		}
-
-		if (shopperConfirmer != null) {
-			s.eVar25 = s.prop25 = shopperConfirmer;
-		}
-
-		if (referrerId != null) {
-			s.eVar28 = s.prop16 = referrerId;
-		}
+		AppMeasurement s = createSimpleEvent(context, pageName, events, shopperConfirmer, referrerId);
 
 		// Handle the tracking different for pageLoads and onClicks.
 		// If there is no pageName, it is an onClick (by default)
 		if (pageName != null) {
-			s.pageName = pageName;
 			s.track();
 		}
 		else {
@@ -95,6 +80,29 @@ public class TrackingUtils {
 
 	public static void trackOnClick(AppMeasurement s) {
 		s.trackLink(null, "o", s.eVar28);
+	}
+
+	public static AppMeasurement createSimpleEvent(Context context, String pageName, String events,
+			String shopperConfirmer, String referrerId) {
+		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+
+		addStandardFields(context, s);
+
+		s.pageName = pageName;
+
+		if (events != null) {
+			s.events = events;
+		}
+
+		if (shopperConfirmer != null) {
+			s.eVar25 = s.prop25 = shopperConfirmer;
+		}
+
+		if (referrerId != null) {
+			s.eVar28 = s.prop16 = referrerId;
+		}
+
+		return s;
 	}
 
 	public static void addStandardFields(Context context, AppMeasurement s) {
