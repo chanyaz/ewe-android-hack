@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
@@ -34,7 +33,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.BedType;
 import com.expedia.bookings.data.Rate.BedTypeId;
 import com.expedia.bookings.widget.SummarizedRoomRates;
-import com.mobiata.android.text.StrikethroughTagHandler;
 
 public class AvailabilitySummaryLayoutUtils {
 
@@ -291,7 +289,7 @@ public class AvailabilitySummaryLayoutUtils {
 		// determine the minimum rate to show
 		Rate minimumRate = null;
 		if (useSummarizedRates) {
-			minimumRate = summarizedRoomRates.getMinimumRateAvaialable();
+			minimumRate = summarizedRoomRates.getStartingRate();
 		}
 		else if (response.getRateCount() > 0) {
 			minimumRate = sortedRates[0];
@@ -307,7 +305,7 @@ public class AvailabilitySummaryLayoutUtils {
 		// c) the rates in the summarized rates container have not been exhausted
 		// d) if there are no summarized rates, the sorted rates have not been exhausted
 		while (summaryRowPosition < MAX_SUMMARIZED_RATE_RESULTS
-				&& ((summaryRowPosition == 0 && (summarizedRoomRates.getMinimumRateAvaialable() != null || rateCount > 0))
+				&& ((summaryRowPosition == 0 && (summarizedRoomRates.getStartingRate() != null || rateCount > 0))
 						|| (useSummarizedRates && ratePickerPosition < summarizedRoomRates.numSummarizedRates()) || (!useSummarizedRates && ratePickerPosition < rateCount - 1))) {
 
 			View summaryRow = availabilityRatesContainer.getChildAt(summaryRowPosition);

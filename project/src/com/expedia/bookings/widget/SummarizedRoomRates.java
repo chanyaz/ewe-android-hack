@@ -40,6 +40,7 @@ public class SummarizedRoomRates {
 	private HashMap<BedTypeId, Rate> mBedTypeToMinRateMap = new HashMap<BedTypeId, Rate>();
 	private ArrayList<Pair<BedTypeId, Rate>> mSummarizedRates = new ArrayList<Pair<BedTypeId, Rate>>();
 	private Rate mMinimumRateAvailable;
+	private BedTypeId mMinimumRateBedTypeId;
 
 	/*
 	 * This comparator is used to determine the relative priority between 
@@ -143,7 +144,7 @@ public class SummarizedRoomRates {
 		return mSummarizedRates.get(position);
 	}
 
-	public Rate getMinimumRateAvaialable() {
+	public Rate getStartingRate() {
 		return mMinimumRateAvailable;
 	}
 
@@ -184,11 +185,20 @@ public class SummarizedRoomRates {
 					mBedTypeToMinRateMap.put(bedTypeId, rate);
 				}
 			}
+			
 			// also keep track of the minimum of all rates to display\
 			if (mMinimumRateAvailable == null
 					|| mMinimumRateAvailable.getDisplayRate().getAmount() > rate.getDisplayRate().getAmount()) {
 				mMinimumRateAvailable = rate;
+				mMinimumRateBedTypeId = rate.getBedTypes().iterator().next().bedTypeId;
 			}
+		}
+		
+		// don't keep track of the bed type to rate mapping  
+		// considered the minimum rate mapping in the map 
+		// since it will be handled separately 
+		if(mMinimumRateAvailable != null) {
+			mBedTypeToMinRateMap.remove(mMinimumRateBedTypeId);
 		}
 	}
 
@@ -245,9 +255,7 @@ public class SummarizedRoomRates {
 	private void addRateFromQueue(PriorityQueue<BedTypeId> queue) {
 		BedTypeId id = queue.poll();
 		Rate rate = mBedTypeToMinRateMap.get(id);
-		// don't add the minimum rate to the summarized container
-		// since that is separately handled
-		if (id != null && !rate.equals(mMinimumRateAvailable)) {
+		if (id != null) {
 			mSummarizedRates.add(new Pair<Rate.BedTypeId, Rate>(id, rate));
 		}
 	}

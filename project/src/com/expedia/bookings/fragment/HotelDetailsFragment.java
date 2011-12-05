@@ -285,7 +285,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		public void onClick(View v) {
 			SummarizedRoomRates summarizedRoomRates = ((SearchResultsFragmentActivity) getActivity())
 					.getSummarizedRoomRates();
-			((SearchResultsFragmentActivity) getActivity()).bookRoom(summarizedRoomRates.getMinimumRateAvaialable());
+			((SearchResultsFragmentActivity) getActivity()).bookRoom(summarizedRoomRates.getStartingRate());
 		}
 	};
 
