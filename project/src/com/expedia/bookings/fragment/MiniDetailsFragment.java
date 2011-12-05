@@ -227,7 +227,8 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 
 	private OnClickListener seeDetailsOnClickListener = new OnClickListener() {
 		public void onClick(View v) {
-			((SearchResultsFragmentActivity) getActivity()).moreDetailsForPropertySelected();
+			((SearchResultsFragmentActivity) getActivity())
+					.moreDetailsForPropertySelected(SearchResultsFragmentActivity.SOURCE_MINI_DETAILS);
 		}
 	};
 

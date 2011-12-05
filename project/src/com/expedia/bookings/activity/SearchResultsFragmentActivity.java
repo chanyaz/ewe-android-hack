@@ -74,6 +74,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
+import com.omniture.AppMeasurement;
 
 public class SearchResultsFragmentActivity extends MapActivity implements LocationListener, OnFilterChangedListener {
 
@@ -435,7 +436,11 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	//////////////////////////////////////////////////////////////////////////
 	// Event handling
 
-	public void propertySelected(Property property) {
+	public static final int SOURCE_LIST = 1;
+	public static final int SOURCE_MAP = 2;
+	public static final int SOURCE_MINI_DETAILS = 3;
+
+	public void propertySelected(Property property, int source) {
 		Log.v("propertySelected(): " + property.getName());
 
 		boolean selectionChanged = (mInstance.mProperty != property);
@@ -479,10 +484,43 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			// when notified of the change in property
 			mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
 		}
+
+		// Track what was just pressed
+		if ((!selectionChanged && !detailsShowing) || (selectionChanged && detailsShowing)) {
+			// Track that the full details has a pageload
+			Log.d("Tracking \"App.Hotels.Details\" pageLoad");
+
+			AppMeasurement s = TrackingUtils.createSimpleEvent(this, "App.Hotels.Details", "event32", "Shopper", null);
+
+			TrackingUtils.addHotelRating(s, property);
+
+			s.eVar8 = property.getLowestRate().getPromoDescription();
+
+			s.track();
+		}
+		else if (selectionChanged && !detailsShowing) {
+			// Track that the mini details has a pageload
+			Log.d("Tracking \"App.Hotels.Search.QuickView\" onClick");
+
+			String referrer = null;
+			if (source == SOURCE_LIST) {
+				referrer = "App.Hotels.Search.QuickView.List";
+			}
+			else if (source == SOURCE_MAP) {
+				referrer = "App.Hotels.Search.QuickView.Map";
+			}
+
+			AppMeasurement s = TrackingUtils.createSimpleEvent(this, "App.Hotels.Search.QuickView", null, "Shopper",
+					referrer);
+
+			s.eVar8 = property.getLowestRate().getPromoDescription();
+
+			s.track();
+		}
 	}
 
-	public void moreDetailsForPropertySelected() {
-		propertySelected(mInstance.mProperty);
+	public void moreDetailsForPropertySelected(int source) {
+		propertySelected(mInstance.mProperty, source);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

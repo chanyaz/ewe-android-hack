@@ -94,7 +94,8 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		((SearchResultsFragmentActivity) getActivity()).propertySelected((Property) mAdapter.getItem(position));
+		((SearchResultsFragmentActivity) getActivity()).propertySelected((Property) mAdapter.getItem(position),
+				SearchResultsFragmentActivity.SOURCE_LIST);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

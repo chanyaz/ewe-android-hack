@@ -18,8 +18,8 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
-import com.expedia.bookings.widget.SimpleBalloonAdapter;
 import com.expedia.bookings.widget.HotelItemizedOverlay.OnTapListener;
+import com.expedia.bookings.widget.SimpleBalloonAdapter;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -78,14 +78,16 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		mHotelOverlay.setShowChevron(false);
 		mHotelOverlay.setOnTapListener(new OnTapListener() {
 			public boolean onTap(Property property) {
-				((SearchResultsFragmentActivity) getActivity()).propertySelected(property);
+				((SearchResultsFragmentActivity) getActivity()).propertySelected(property,
+						SearchResultsFragmentActivity.SOURCE_MAP);
 				return true;
 			}
 		});
 
 		mHotelOverlay.setOnBalloonClickListener(new OnBalloonClickListener() {
 			public void onBalloonClick(int index) {
-				((SearchResultsFragmentActivity) getActivity()).moreDetailsForPropertySelected();
+				((SearchResultsFragmentActivity) getActivity())
+						.moreDetailsForPropertySelected(SearchResultsFragmentActivity.SOURCE_MAP);
 			}
 		});
 
