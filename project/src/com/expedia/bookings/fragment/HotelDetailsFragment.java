@@ -33,6 +33,7 @@ import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelDescription.DescriptionSection;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
@@ -303,7 +304,16 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		public void onClick(View v) {
 			SummarizedRoomRates summarizedRoomRates = ((SearchResultsFragmentActivity) getActivity())
 					.getSummarizedRoomRates();
-			((SearchResultsFragmentActivity) getActivity()).bookRoom(summarizedRoomRates.getStartingRate(), false);
+			AvailabilityResponse response = ((SearchResultsFragmentActivity) getActivity())
+					.getRoomsAndRatesAvailability();
+			Rate[] sortedRates = response.getRates().toArray(new Rate[0]).clone();
+			
+			Rate minimumRate = summarizedRoomRates.getStartingRate();
+			if (minimumRate == null) {
+				minimumRate = sortedRates[0];
+			}
+			
+			((SearchResultsFragmentActivity) getActivity()).bookRoom(minimumRate, false);
 		}
 	};
 
@@ -412,7 +422,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 							// Get review body
 							String text = review.getBody();
-							
+
 							// Truncate the first line by using the textview width and the width of ellipses
 							String firstLine = (String) TextUtils.ellipsize(text, paint, width + ellipsesWidth,
 									TruncateAt.END);

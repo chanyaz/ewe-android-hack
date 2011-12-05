@@ -368,7 +368,11 @@ public class AvailabilitySummaryLayoutUtils {
 			// determine description of room to display
 			String description = null;
 			if (showMinimumRate) {
-				description = minimumRate.getBedTypes().iterator().next().bedTypeDescription;
+				if(minimumRate.getBedTypes() != null) {
+					description = minimumRate.getBedTypes().iterator().next().bedTypeDescription;
+				} else {
+					description = minimumRate.getRoomDescription();
+				}
 			}
 			else if (useSummarizedRates) {
 				Pair<BedTypeId, Rate> pair = summarizedRoomRates.getBedTypeToRatePair(ratePickerPosition);
