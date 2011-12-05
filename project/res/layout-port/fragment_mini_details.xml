@@ -39,7 +39,8 @@
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp" >
+        android:layout_marginTop="15dp"
+        android:background="@drawable/normal_ribbon" >
 
         <TextView
             android:id="@+id/base_price_text_view"
