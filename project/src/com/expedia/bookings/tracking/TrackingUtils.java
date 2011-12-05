@@ -30,6 +30,12 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.omniture.AppMeasurement;
 
+/**
+ * Utilities for omniture tracking.  Should rarely (if ever) be called directly; instead, most calls
+ * should be routed through Tracker.java (since most things we have to track for both the phone and
+ * tablet versions of the UI).
+ * 
+ */
 public class TrackingUtils {
 
 	private static final String EMAIL_HASH_KEY = "email_hash";

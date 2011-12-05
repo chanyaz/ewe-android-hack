@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.ConfirmationUtils;
 
 /**
@@ -19,6 +20,9 @@ public class SearchActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Track the app loading
+		Tracker.trackAppLoading(this);
 
 		// #7090: First, check to see if the user last confirmed a booking.  If that is the case,
 		//        then we should forward the user to the ConfirmationActivity

@@ -6,7 +6,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -97,8 +96,7 @@ import com.expedia.bookings.data.Session;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.GreystripeTracking;
-import com.expedia.bookings.tracking.MillennialTracking;
+import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
@@ -451,7 +449,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		mContext = this;
 
-		onPageLoad();
 		setContentView(R.layout.activity_search);
 
 		initializeViews();
@@ -2990,64 +2987,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// OMNITURE TRACKING
 	//////////////////////////////////////////////////////////////////////////////////////////
-
-	// The SettingUtils key for the last version tracked
-	private static final String TRACK_VERSION = "tracking_version";
-
-	public void onPageLoad() {
-		// Only send page load when the app just started up - if there's a previous instance, that means
-		// it was just a configuration change.
-		if (getLastNonConfigurationInstance() == null) {
-			Log.d("Tracking \"App.Loading\" pageLoad...");
-
-			AppMeasurement s = new AppMeasurement(getApplication());
-
-			TrackingUtils.addStandardFields(this, s);
-
-			s.pageName = "App.Loading";
-
-			// Determine if this is a new install, an upgrade, or just a regular launch
-			String trackVersion = SettingUtils.get(this, TRACK_VERSION, null);
-			String currentVersion = AndroidUtils.getAppVersion(this);
-
-			// Start a background thread to do conversion tracking
-			new Thread(new Runnable() {
-				public void run() {
-					// Millennial tracking (possibly)
-					if (!MillennialTracking.hasTrackedMillennial(mContext) && NetUtils.isOnline(mContext)) {
-						MillennialTracking.trackConversion(mContext);
-					}
-
-					// GreyStripe tracking
-					GreystripeTracking.trackDownload(mContext);
-				}
-			}).start();
-
-			boolean save = false;
-			if (trackVersion == null) {
-				// New install
-				s.events = "event28";
-				save = true;
-			}
-			else if (!trackVersion.equals(currentVersion)) {
-				// App was upgraded
-				s.events = "event29";
-				save = true;
-			}
-			else {
-				// Regular launch
-				s.events = "event27";
-			}
-
-			if (save) {
-				// Save new data
-				SettingUtils.save(this, TRACK_VERSION, currentVersion);
-			}
-
-			// Send the tracking data
-			s.track();
-		}
-	}
 
 	private void onSearchResultsChanged() {
 		// If we already have results, check for refinements; if there were none, it's possible
