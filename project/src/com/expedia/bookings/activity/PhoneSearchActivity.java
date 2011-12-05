@@ -2999,10 +2999,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		// of refinements at once instead of flooding the system with a ton of different refinements
 		String refinements = TrackingUtils.getRefinements(mSearchParams, mOldSearchParams, mFilter, mOldFilter);
 
-		if (refinements == null) {
-			return;
-		}
-
 		// Update the last filter/search params we used to track refinements 
 		mOldSearchParams = mSearchParams.copy();
 		mOldFilter = mFilter.copy();
