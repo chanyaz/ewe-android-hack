@@ -57,6 +57,8 @@ public class BookingFragmentActivity extends Activity {
 	public static final String KEY_PROPERTY_INFO = "KEY_PROPERTY_INFO";
 	private static final String KEY_BOOKING = "KEY_BOOKING";
 
+	public static final String EXTRA_SPECIFIC_RATE = "EXTRA_SPECIFIC_RATE";
+
 	//////////////////////////////////////////////////////////////////////////
 	// Member vars
 
@@ -128,7 +130,10 @@ public class BookingFragmentActivity extends Activity {
 		findViewById(R.id.search_results_list_shadow).setBackgroundDrawable(LayoutUtils.getDividerDrawable(this));
 
 		if (savedInstanceState == null) {
-			Tracker.trackAppHotelsRoomsRates(this, mInstance.mProperty);
+			String referrer = getIntent().getBooleanExtra(EXTRA_SPECIFIC_RATE, false) ? "App.Hotels.ViewSpecificRoom"
+					: "App.Hotels.ViewAllRooms";
+
+			Tracker.trackAppHotelsRoomsRates(this, mInstance.mProperty, referrer);
 		}
 	}
 

@@ -124,7 +124,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		getListView().addFooterView(footer, null, false);
 
 		if (savedInstanceState == null) {
-			Tracker.trackAppHotelsRoomsRates(this, mProperty);
+			Tracker.trackAppHotelsRoomsRates(this, mProperty, null);
 		}
 	}
 
@@ -140,7 +140,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		super.onStart();
 
 		if (mWasStopped) {
-			Tracker.trackAppHotelsRoomsRates(this, mProperty);
+			Tracker.trackAppHotelsRoomsRates(this, mProperty, null);
 			mWasStopped = false;
 		}
 	}

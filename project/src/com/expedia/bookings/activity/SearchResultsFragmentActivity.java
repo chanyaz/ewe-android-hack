@@ -1098,19 +1098,24 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	// (opening rates activity)
 
-	public void bookRoom(Rate rate) {
+	public void bookRoom(Rate rate, boolean specificRateClicked) {
 		Intent intent = new Intent(this, BookingFragmentActivity.class);
 		intent.putExtra(Codes.SESSION, mInstance.mSession.toJson().toString());
 		intent.putExtra(Codes.SEARCH_PARAMS, mInstance.mSearchParams.toJson().toString());
 		intent.putExtra(Codes.PROPERTY, mInstance.mProperty.toJson().toString());
 		intent.putExtra(Codes.AVAILABILITY_RESPONSE, getRoomsAndRatesAvailability().toJson().toString());
 		intent.putExtra(Codes.RATE, rate.toJson().toString());
+
+		if (specificRateClicked) {
+			intent.putExtra(BookingFragmentActivity.EXTRA_SPECIFIC_RATE, true);
+		}
+
 		startActivity(intent);
 	}
 
 	public OnRateClickListener mOnRateClickListener = new OnRateClickListener() {
 		public void onRateClick(Rate rate) {
-			bookRoom(rate);
+			bookRoom(rate, true);
 		}
 	};
 

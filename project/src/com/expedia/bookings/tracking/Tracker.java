@@ -144,7 +144,7 @@ public class Tracker {
 		s.track();
 	}
 
-	public static void trackAppHotelsRoomsRates(Context context, Property property) {
+	public static void trackAppHotelsRoomsRates(Context context, Property property, String referrer) {
 		Log.d("Tracking \"App.Hotels.RoomsRates\" event");
 
 		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
@@ -164,6 +164,10 @@ public class Tracker {
 
 		// Products
 		TrackingUtils.addProducts(s, property);
+
+		// Referrer (determines whether a specific rate was clicked into here or not - only applicable for
+		// the tablet version of the UI).
+		s.referrer = referrer;
 
 		// Send the tracking data
 		s.track();
