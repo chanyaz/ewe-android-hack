@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.text.TextPaint;
+import android.text.TextUtils;
+import android.text.TextUtils.TruncateAt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -400,6 +403,35 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 					final TextView reviewBody = (TextView) reviewSection.findViewById(R.id.review_body);
 					reviewBody.setLines(2);
 					reviewBody.setText(review.getBody());
+					reviewBody.post(new Runnable() {
+						@Override
+						public void run() {
+							final TextPaint paint = reviewBody.getPaint();
+							final float width = reviewBody.getWidth();
+							final float ellipsesWidth = paint.measureText("...");
+
+							// Get review body
+							String text = review.getBody();
+							
+							// Truncate the first line by using the textview width and the width of ellipses
+							String firstLine = (String) TextUtils.ellipsize(text, paint, width + ellipsesWidth,
+									TruncateAt.END);
+
+							// Find the last space in the first line
+							final int lastSpace = firstLine.lastIndexOf(" ");
+							if (lastSpace > -1) {
+								// The first line only goes to the last space, at which point it wraps
+								firstLine = firstLine.substring(0, lastSpace);
+							}
+
+							// Get the second string by subtracting the first string and truncating by the textview width
+							String secondLine = (String) TextUtils.ellipsize(text.substring(firstLine.length()), paint,
+									width, TruncateAt.END);
+
+							// set the text as the first line plus the second line truncated
+							reviewBody.setText(firstLine + secondLine);
+						}
+					});
 
 					row.addView(reviewSection);
 
