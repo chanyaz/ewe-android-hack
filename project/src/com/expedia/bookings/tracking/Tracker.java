@@ -217,6 +217,11 @@ public class Tracker {
 
 		s.events = "purchase";
 
+		// Promo description
+		if (rate != null) {
+			s.eVar9 = rate.getPromoDescription();
+		}
+
 		// Shopper/Confirmer
 		s.eVar25 = s.prop25 = "Confirmer";
 
