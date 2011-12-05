@@ -31,7 +31,9 @@ public class TabletPreferenceActivity extends ExpediaBookingPreferenceActivity {
 			Rect bounds = new Rect();
 			getWindow().getDecorView().getHitRect(bounds);
 
-			if (!bounds.contains((int) ev.getX(), (int) ev.getY())) {
+			// 11354: ensure to check the key press so that the reviews container is not dismissed
+			// when merely scrolling
+			if (ev.getAction() == MotionEvent.ACTION_UP && !bounds.contains((int) ev.getX(), (int) ev.getY())) {
 				finish();
 			}
 		}

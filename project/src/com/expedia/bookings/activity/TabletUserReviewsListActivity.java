@@ -22,7 +22,10 @@ public class TabletUserReviewsListActivity extends UserReviewsListActivity {
 		if (!isFinishing() && mRootView != null) {
 			Rect bounds = new Rect();
 			mRootView.getHitRect(bounds);
-			if (!bounds.contains((int) ev.getX(), (int) ev.getY())) {
+
+			// 11354: ensure to check the key press so that the reviews container is not dismissed
+			// when merely scrolling
+			if (ev.getAction() == MotionEvent.ACTION_UP && !bounds.contains((int) ev.getX(), (int) ev.getY())) {
 				finish();
 			}
 		}
