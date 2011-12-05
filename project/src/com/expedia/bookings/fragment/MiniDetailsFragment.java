@@ -81,7 +81,9 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 
 	private OnCollageImageClickedListener mOnImageClickedListener = new OnCollageImageClickedListener() {
 		public void onImageClicked(Media media) {
-			((SearchResultsFragmentActivity) getActivity()).startHotelGalleryActivity(media);
+			if (getInstance().mProperty.getMediaCount() > 0) {
+				((SearchResultsFragmentActivity) getActivity()).startHotelGalleryActivity(media);
+			}
 		}
 	};
 
