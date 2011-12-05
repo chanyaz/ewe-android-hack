@@ -16,12 +16,15 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.location.Location;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Property;
 import com.mobiata.android.DebugUtils;
+import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -96,14 +99,15 @@ public class TrackingUtils {
 		s.trackOffline = true;
 
 		// account
-		s.account = (AndroidUtils.isRelease(context)) ? "expedia1androidcom" : "expedia1androidcomdev";
+		boolean usingTabletInterface = (ExpediaBookingApp.useTabletInterface(context));
+		s.account = (usingTabletInterface) ? "expedia1tabletandroidcom" : "expedia1androidcom";
+		if (!AndroidUtils.isRelease(context)) {
+			s.account += "dev";
+		}
 
 		// Server
 		s.trackingServer = "om.expedia.com";
 		s.trackingServerSecure = "oms.expedia.com";
-
-		// Add the country locale
-		s.eVar31 = Locale.getDefault().getCountry();
 
 		// Time parting
 		// Format is: YY:DayOfYear:Interval Size:Interval Num
@@ -112,7 +116,7 @@ public class TrackingUtils {
 		s.eVar49 = df.format(gmt);
 
 		// Experience segmentation
-		s.eVar50 = "app.android";
+		s.eVar50 = (usingTabletInterface) ? "app.tablet.android" : "app.android";
 
 		// hashed email
 		// Normally we store this in a setting; in 1.0 we stored this in BillingInfo, but
@@ -138,12 +142,18 @@ public class TrackingUtils {
 		// GMT timestamp
 		s.prop32 = gmt.getTime() + "";
 
+		// Add the country locale
+		s.prop31 = Locale.getDefault().getCountry();
+
 		// Device carrier network info - format is "android|<carrier>|<network>"
 		TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		s.prop33 = "android|" + tm.getNetworkOperatorName() + "|" + getNetworkType(tm);
 
 		// App version
 		s.prop35 = AndroidUtils.getAppVersion(context);
+
+		// Language/locale
+		s.prop37 = Locale.getDefault().getLanguage();
 
 		// Screen orientation
 		Configuration config = context.getResources().getConfiguration();
@@ -160,6 +170,13 @@ public class TrackingUtils {
 		case Configuration.ORIENTATION_UNDEFINED:
 			s.prop39 = "undefined";
 			break;
+		}
+
+		// User location
+		Location bestLastLocation = LocationServices.getLastBestLocation(context, Long.MAX_VALUE);
+		if (bestLastLocation != null) {
+			s.prop40 = bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
+					+ bestLastLocation.getAccuracy() + "|" + bestLastLocation.getTime();
 		}
 	}
 
@@ -245,6 +262,9 @@ public class TrackingUtils {
 					}
 					else if (field.getName().equals("NETWORK_TYPE_HSPA")) {
 						types.put(field.getInt(null), "hspa");
+					}
+					else if (field.getName().equals("NETWORK_TYPE_HSPAP")) {
+						types.put(field.getInt(null), "hspap");
 					}
 					else if (field.getName().equals("NETWORK_TYPE_HSUPA")) {
 						types.put(field.getInt(null), "hsupa");
