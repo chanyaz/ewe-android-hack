@@ -1,7 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +29,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
@@ -47,7 +46,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.IoUtils;
-import com.omniture.AppMeasurement;
 
 public class ConfirmationActivity extends MapActivity {
 
@@ -346,47 +344,8 @@ public class ConfirmationActivity extends MapActivity {
 	// Omniture tracking
 
 	public void onPageLoad() {
-		Log.d("Tracking \"App.Hotels.Checkout.Confirmation\" pageLoad");
-
-		AppMeasurement s = new AppMeasurement(getApplication());
-
-		TrackingUtils.addStandardFields(this, s);
-
-		s.pageName = "App.Hotels.Checkout.Confirmation";
-
-		s.events = "purchase";
-
-		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Confirmer";
-
-		// Product details
-		DateFormat df = new SimpleDateFormat("yyyyMMdd");
-		String checkIn = df.format(mSearchParams.getCheckInDate().getTime());
-		String checkOut = df.format(mSearchParams.getCheckOutDate().getTime());
-		s.eVar30 = "Hotel:" + checkIn + "-" + checkOut + ":N";
-
-		// Unique confirmation id
-		s.prop15 = s.purchaseID = mBookingResponse.getConfNumber();
-
-		// Billing country code
-		s.prop46 = s.state = mBillingInfo.getLocation().getCountryCode();
-
-		// Billing zip codes
-		s.prop49 = s.zip = mBillingInfo.getLocation().getPostalCode();
-
-		// Products
-		int numDays = mSearchParams.getStayDuration();
-		double totalCost = 0;
-		if (mRate != null && mRate.getTotalAmountAfterTax() != null) {
-			totalCost = mRate.getTotalAmountAfterTax().getAmount();
-		}
-		TrackingUtils.addProducts(s, mProperty, numDays, totalCost);
-
-		// Currency code
-		s.currencyCode = mRate.getTotalAmountAfterTax().getCurrency();
-
-		// Send the tracking data
-		s.track();
+		Tracker.trackAppHotelsCheckoutConfirmation(this, mSearchParams, mProperty, mBillingInfo, mRate,
+				mBookingResponse);
 	}
 
 	public void onClickNewSearch() {

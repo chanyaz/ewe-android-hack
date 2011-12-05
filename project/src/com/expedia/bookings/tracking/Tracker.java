@@ -1,12 +1,17 @@
 package com.expedia.bookings.tracking;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.app.Application;
 import android.content.Context;
 
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
@@ -163,8 +168,9 @@ public class Tracker {
 		// Send the tracking data
 		s.track();
 	}
-	
-	public static void trackAppHotelsCheckoutPayment(Context context, Property property, BookingInfoValidation validation) {
+
+	public static void trackAppHotelsCheckoutPayment(Context context, Property property,
+			BookingInfoValidation validation) {
 		Log.d("Tracking \"App.Hotels.Checkout.Payment\" pageLoad");
 
 		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
@@ -199,5 +205,48 @@ public class Tracker {
 		s.track();
 	}
 
+	public static void trackAppHotelsCheckoutConfirmation(Context context, SearchParams searchParams,
+			Property property, BillingInfo billingInfo, Rate rate, BookingResponse response) {
+		Log.d("Tracking \"App.Hotels.Checkout.Confirmation\" pageLoad");
 
+		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+
+		TrackingUtils.addStandardFields(context, s);
+
+		s.pageName = "App.Hotels.Checkout.Confirmation";
+
+		s.events = "purchase";
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Confirmer";
+
+		// Product details
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+		String checkIn = df.format(searchParams.getCheckInDate().getTime());
+		String checkOut = df.format(searchParams.getCheckOutDate().getTime());
+		s.eVar30 = "Hotel:" + checkIn + "-" + checkOut + ":N";
+
+		// Unique confirmation id
+		s.prop15 = s.purchaseID = response.getConfNumber();
+
+		// Billing country code
+		s.prop46 = s.state = billingInfo.getLocation().getCountryCode();
+
+		// Billing zip codes
+		s.prop49 = s.zip = billingInfo.getLocation().getPostalCode();
+
+		// Products
+		int numDays = searchParams.getStayDuration();
+		double totalCost = 0;
+		if (rate != null && rate.getTotalAmountAfterTax() != null) {
+			totalCost = rate.getTotalAmountAfterTax().getAmount();
+		}
+		TrackingUtils.addProducts(s, property, numDays, totalCost);
+
+		// Currency code
+		s.currencyCode = rate.getTotalAmountAfterTax().getCurrency();
+
+		// Send the tracking data
+		s.track();
+	}
 }
