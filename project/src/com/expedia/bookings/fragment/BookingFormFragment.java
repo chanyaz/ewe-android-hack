@@ -43,6 +43,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
+import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.BookingReceiptUtils;
@@ -120,16 +121,21 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 	private int mSelectedCountryPosition;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mValidationProcessor = new ValidationProcessor();
-	}
-
-	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
 		((BookingFragmentActivity) activity).mEventManager.registerEventHandler(this);
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mValidationProcessor = new ValidationProcessor();
+
+		if (savedInstanceState == null) {
+			InstanceFragment instance = getInstance();
+			Tracker.trackAppHotelsCheckoutPayment(getActivity(), instance.mProperty, instance.mBookingInfoValidation);
+		}
 	}
 
 	@Override
@@ -393,7 +399,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 
 			@Override
 			public void onClick(View v) {
-				
+
 				syncBillingInfo();
 
 				// Just to make sure, save the billing info when the user clicks submit
@@ -434,7 +440,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 			@Override
 			public void onClick(View v) {
 				dismissKeyboard(v);
-				
+
 				saveBillingInfo();
 				getInstance().mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
 				dismiss();
