@@ -217,7 +217,18 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 			Spannable str = new SpannableString(salePriceString);
 			str.setSpan(textColorSpan, startingIndexOfDisplayRate,
 					startingIndexOfDisplayRate + basePriceString.length(), 0);
-			str.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
+			
+			
+			// 11364: ensuring to specifically handle the case where the "from" word can be before
+			// or after the min price
+			if (startingIndexOfDisplayRate > 0) {
+				str.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
+			}
+			else if (startingIndexOfDisplayRate == 0) {
+				str.setSpan(textBlackColorSpan, startingIndexOfDisplayRate + basePriceString.length(),
+						salePriceString.length(), 0);
+			}
+			
 			str.setSpan(textStyleSpan, 0, salePriceString.length(), 0);
 
 			salePrice.setText(str);

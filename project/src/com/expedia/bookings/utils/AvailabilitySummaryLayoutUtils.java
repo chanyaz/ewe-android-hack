@@ -119,11 +119,21 @@ public class AvailabilitySummaryLayoutUtils {
 
 			SpannableString basePriceStrSpannable = new SpannableString(basePriceStringWithFrom);
 
-			basePriceStrSpannable.setSpan(textStyleSpan, 0, startingIndexOfBasePrice - 1, 0);
-			basePriceStrSpannable.setSpan(new StrikethroughSpan(), startingIndexOfBasePrice,
-					basePriceStringWithFrom.length(), 0);
+			// 11364: ensuring to spefically handle both cases where the "from" word
+			// can be before or after the base price
+			if (startingIndexOfBasePrice > 0) {
+				basePriceStrSpannable.setSpan(textStyleSpan, 0, startingIndexOfBasePrice - 1, 0);
+
+			}
+			else if (startingIndexOfBasePrice == 0) {
+				basePriceStrSpannable.setSpan(textStyleSpan, startingIndexOfBasePrice + basePriceString.length(),
+						basePriceStringWithFrom.length(), 0);
+			}
+
+			basePriceStrSpannable.setSpan(new StrikethroughSpan(), startingIndexOfBasePrice, startingIndexOfBasePrice
+					+ basePriceString.length(), 0);
 			basePriceStrSpannable.setSpan(new AbsoluteSizeSpan(16, true), startingIndexOfBasePrice,
-					basePriceStringWithFrom.length(), 0);
+					startingIndexOfBasePrice + basePriceString.length(), 0);
 
 			basePrice.setText(basePriceStrSpannable);
 			basePrice.setTextColor(r.getColor(android.R.color.black));
@@ -159,7 +169,16 @@ public class AvailabilitySummaryLayoutUtils {
 			str.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
 			str.setSpan(textColorSpan, startingIndexOfDisplayRate,
 					startingIndexOfDisplayRate + displayRateString.length(), 0);
-			str.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
+
+			// 11364: ensuring to specifically handle the case where the "from" word can be before
+			// or after the min price
+			if (startingIndexOfDisplayRate > 0) {
+				str.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
+			}
+			else if (startingIndexOfDisplayRate == 0) {
+				str.setSpan(textBlackColorSpan, startingIndexOfDisplayRate + displayRateString.length(),
+						minPriceString.length(), 0);
+			}
 
 			minPrice.setText(str);
 			float textSize = context.getResources().getDimension(R.dimen.min_price_row_text_normal);
