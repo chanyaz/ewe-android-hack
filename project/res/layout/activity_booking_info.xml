@@ -28,7 +28,7 @@
             <!-- Guest info section -->
 
             <TextView
-                style="@style/TabletSectionHeader.Details"
+                style="@style/PhoneSectionHeader.Details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/guest_info" />
@@ -44,7 +44,7 @@
             <!-- Billing info form fields -->
 
             <TextView
-                style="@style/TabletSectionHeader.Details"
+                style="@style/PhoneSectionHeader.Details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/billing_info" />
