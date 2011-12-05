@@ -191,7 +191,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		if (getBillingInfo().doesExistOnDisk()) {
 			syncFormFields(view);
 
-			bookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
+			checkSectionsCompleted(false);
 
 			if (!bookingInfoValidation.isGuestsSectionCompleted()) {
 				expandGuestsForm(false);
@@ -442,7 +442,9 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 				dismissKeyboard(v);
 
 				saveBillingInfo();
-				getInstance().mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
+
+				checkSectionsCompleted(false);
+
 				dismiss();
 			}
 		});
@@ -533,7 +535,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 				else {
 					saveBillingInfo();
 
-					getInstance().mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
+					checkSectionsCompleted(true);
 				}
 			}
 		};
@@ -753,6 +755,11 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		TrackingUtils.saveEmailForTracking(getActivity(), getBillingInfo().getEmail());
 
 		return getBillingInfo().save(getActivity());
+	}
+
+	private void checkSectionsCompleted(boolean trackCompletion) {
+		Context context = (trackCompletion) ? getActivity() : null;
+		getInstance().mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor, context);
 	}
 
 	private void dismissKeyboard(View view) {

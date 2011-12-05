@@ -1059,24 +1059,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	}
 
 	private void checkSectionsCompleted(boolean trackCompletion) {
-		boolean isGuestsCompleted = mBookingInfoValidation.isGuestsSectionCompleted();
-		boolean isBillingCompleted = mBookingInfoValidation.isBillingSectionCompleted();
-		boolean isCardCompleted = mBookingInfoValidation.isCardSectionCompleted();
-
-		mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
-
-		if (trackCompletion) {
-			if (isGuestsCompleted && mBookingInfoValidation.isGuestsSectionCompleted()) {
-				BookingInfoUtils.onCompletedSection(this, "CKO.BD.CompletedGuestInfo");
-			}
-			if (isBillingCompleted && mBookingInfoValidation.isBillingSectionCompleted()) {
-				BookingInfoUtils.onCompletedSection(this, "CKO.BD.CompletedBillingInfo");
-			}
-			if (isCardCompleted && mBookingInfoValidation.isCardSectionCompleted()) {
-				BookingInfoUtils.onCompletedSection(this, "CKO.BD.CompletedCreditCard");
-			}
-
-		}
+		Context context = (trackCompletion) ? this : null;
+		mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor, context );
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
