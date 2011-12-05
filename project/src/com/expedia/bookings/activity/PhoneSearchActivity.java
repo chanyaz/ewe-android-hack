@@ -620,7 +620,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	@Override
 	protected void onResume() {
 		super.onResume();
-		((ExpediaBookingApp) getApplicationContext()).registerSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
+		((ExpediaBookingApp) getApplicationContext())
+				.registerSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
 
 		mProgressBar.onResume();
 
@@ -682,7 +683,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		// load onto an image until explicitly requested.
 		ImageCache.clearAllCallbacks();
 
-		((ExpediaBookingApp) getApplicationContext()).unregisterSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
+		((ExpediaBookingApp) getApplicationContext())
+				.unregisterSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
 
 		// do not attempt to save parameters if the user was short circuited to the
 		// confirmation screen when the search activity started
@@ -1064,7 +1066,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(PhoneSearchActivity.this, getString(R.string.widget_add_instructions), Toast.LENGTH_SHORT)
+				Toast.makeText(PhoneSearchActivity.this, getString(R.string.widget_add_instructions),
+						Toast.LENGTH_SHORT)
 						.show();
 			}
 		});
