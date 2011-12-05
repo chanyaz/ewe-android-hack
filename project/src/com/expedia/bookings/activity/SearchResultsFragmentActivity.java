@@ -58,6 +58,8 @@ import com.expedia.bookings.fragment.SortDialogFragment;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
+import com.expedia.bookings.tracking.Tracker;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.AvailabilitySummaryLayoutUtils.OnRateClickListener;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.SearchUtils;
@@ -245,7 +247,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
 		}
 		else if (mInstance.mSearchResponse != null) {
-			mSearchCallback.onDownload(mInstance.mSearchResponse);
+			loadSearchResponse(mInstance.mSearchResponse, false);
 
 			if (bd.isDownloading(KEY_AVAILABILITY_SEARCH)) {
 				bd.registerDownloadCallback(KEY_AVAILABILITY_SEARCH, mRoomAvailabilityCallback);
@@ -504,6 +506,10 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		public Map<String, AvailabilityResponse> mAvailabilityResponses = new HashMap<String, AvailabilityResponse>();
 		public Map<Integer, ReviewsResponse> mReviewsResponses = new HashMap<Integer, ReviewsResponse>();
 		public Session mSession;
+
+		// For tracking purposes only
+		public SearchParams mLastSearchParams;
+		public Filter mLastFilter;
 	}
 
 	public AvailabilityResponse getRoomsAndRatesAvailability() {
@@ -806,32 +812,40 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
 		public void onDownload(Object results) {
-			SearchResponse response = mInstance.mSearchResponse = (SearchResponse) results;
+			loadSearchResponse((SearchResponse) results, true);
+		}
+	};
 
-			if (response == null) {
-				mInstance.mSearchStatus = getString(R.string.progress_search_failed);
+	private void loadSearchResponse(SearchResponse response, boolean initialLoad) {
+		mInstance.mSearchResponse = response;
+
+		if (response == null) {
+			mInstance.mSearchStatus = getString(R.string.progress_search_failed);
+			mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, null);
+		}
+		else {
+			if (response.getSession() != null) {
+				mInstance.mSession = response.getSession();
+			}
+
+			if (response.hasErrors()) {
+				mInstance.mSearchStatus = response.getErrors().get(0).getPresentableMessage(mContext);
 				mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, null);
 			}
 			else {
-				if (response.getSession() != null) {
-					mInstance.mSession = response.getSession();
-				}
+				response.setFilter(mInstance.mFilter);
 
-				if (response.hasErrors()) {
-					mInstance.mSearchStatus = response.getErrors().get(0).getPresentableMessage(mContext);
-					mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, null);
-				}
-				else {
-					response.setFilter(mInstance.mFilter);
+				mEventManager.notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
 
-					mEventManager.notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
+				if (initialLoad) {
+					onSearchResultsChanged();
 				}
 			}
-
-			// Update action bar views based on results
-			invalidateOptionsMenu();
 		}
-	};
+
+		// Update action bar views based on results
+		invalidateOptionsMenu();
+	}
 
 	private void simulateSearchErrorResponse(int errorMessageResId) {
 		SearchResponse response = new SearchResponse();
@@ -1010,6 +1024,22 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	@Override
 	public void onFilterChanged() {
 		mEventManager.notifyEventHandlers(EVENT_FILTER_CHANGED, null);
+
+		onSearchResultsChanged();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Tracking
+
+	public void onSearchResultsChanged() {
+		String refinements = TrackingUtils.getRefinements(mInstance.mSearchParams, mInstance.mLastSearchParams,
+				mInstance.mFilter, mInstance.mLastFilter);
+
+		// Update the last filter/search params we used to track refinements 
+		mInstance.mLastSearchParams = mInstance.mSearchParams.copy();
+		mInstance.mLastFilter = mInstance.mFilter.copy();
+
+		Tracker.trackAppHotelsSearch(this, mInstance.mSearchParams, mInstance.mSearchResponse, refinements);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
