@@ -860,6 +860,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		if (response == null) {
 			mInstance.mSearchStatus = getString(R.string.progress_search_failed);
 			mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, null);
+			TrackingUtils.trackErrorPage(this, "HotelListRequestFailed");
 		}
 		else {
 			if (response.getSession() != null) {
@@ -869,6 +870,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			if (response.hasErrors()) {
 				mInstance.mSearchStatus = response.getErrors().get(0).getPresentableMessage(mContext);
 				mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, null);
+				TrackingUtils.trackErrorPage(this, "HotelListRequestFailed");
 			}
 			else {
 				response.setFilter(mInstance.mFilter);
@@ -993,6 +995,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			if (availabilityResponse == null) {
 				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR,
 						getString(R.string.error_no_response_room_rates));
+				TrackingUtils.trackErrorPage(mContext, "RatesListRequestFailed");
 			}
 			else {
 				if (availabilityResponse.getSession() != null) {
@@ -1002,6 +1005,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 				if (availabilityResponse.hasErrors()) {
 					mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR, availabilityResponse.getErrors()
 							.get(0).getPresentableMessage(mContext));
+					TrackingUtils.trackErrorPage(mContext, "RatesListRequestFailed");
 				}
 				else {
 					mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
@@ -1045,10 +1049,12 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 			if (results == null) {
 				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, null);
+				TrackingUtils.trackErrorPage(mContext, "UserReviewLoadFailed");
 			}
 			else if (reviewResponse.hasErrors()) {
 				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, reviewResponse.getErrors().get(0)
 						.getPresentableMessage(mContext));
+				TrackingUtils.trackErrorPage(mContext, "UserReviewLoadFailed");
 			}
 			else {
 				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_COMPLETE, reviewResponse);

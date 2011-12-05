@@ -262,6 +262,10 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			else {
 				//send message to remove loading footer
 				mHandler.sendMessage(prepareMessage(false, thisReviewSort));
+
+				if (response == null || response.hasErrors()) {
+					TrackingUtils.trackErrorPage(mContext, "UserReviewLoadFailed");
+				}
 			}
 
 			isLoadingIndicatorShowingForReviewSort.remove(thisReviewSort);
