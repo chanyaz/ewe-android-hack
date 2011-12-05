@@ -121,7 +121,7 @@ public class Tracker {
 		s.eVar25 = s.prop25 = "Shopper";
 
 		// Number adults searched for
-		s.eVar47 = searchParams.getNumAdults() + "";
+		s.eVar47 = "A" + searchParams.getNumAdults() + "|C" + searchParams.getNumChildren();
 
 		// Freeform location
 		if (searchParams.getSearchType() == SearchType.FREEFORM) {
