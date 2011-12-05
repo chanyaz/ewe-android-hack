@@ -254,4 +254,9 @@ public class Tracker {
 		// Send the tracking data
 		s.track();
 	}
+
+	public static void trackViewOnMap(Context context) {
+		Log.d("Tracking \"CKO.CP.ViewInMaps\" onClick");
+		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", "CKO.CP.ViewInMaps");
+	}
 }

@@ -225,6 +225,7 @@ public class ConfirmationActivity extends MapActivity {
 		mapButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Tracker.trackViewOnMap(mContext);
 				startActivity(ConfirmationUtils.generateIntentToShowPropertyOnMap(mProperty));
 			}
 		});

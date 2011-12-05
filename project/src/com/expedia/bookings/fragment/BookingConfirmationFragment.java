@@ -15,6 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ConfirmationFragmentActivity;
 import com.expedia.bookings.activity.ConfirmationFragmentActivity.InstanceFragment;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.google.android.maps.GeoPoint;
@@ -86,6 +87,8 @@ public class BookingConfirmationFragment extends Fragment {
 		View showOnMapButton = view.findViewById(R.id.show_on_map_button);
 		showOnMapButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				Tracker.trackViewOnMap(getActivity());
+
 				Property property = getInstance().mProperty;
 				startActivity(ConfirmationUtils.generateIntentToShowPropertyOnMap(property));
 			}
