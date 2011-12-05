@@ -35,6 +35,7 @@ import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.server.AvailabilityResponseHandler;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.BackgroundDownloader;
@@ -125,6 +126,10 @@ public class BookingFragmentActivity extends Activity {
 
 		// Need to set this BG from code so we can make it just repeat vertically
 		findViewById(R.id.search_results_list_shadow).setBackgroundDrawable(LayoutUtils.getDividerDrawable(this));
+
+		if (savedInstanceState == null) {
+			Tracker.trackAppHotelsRoomsRates(this, mInstance.mProperty);
+		}
 	}
 
 	@Override
