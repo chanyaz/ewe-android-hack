@@ -1880,7 +1880,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				animationIn = new Rotate3dAnimation(-90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
 			}
 
-			onListLoad(false, null);
+			Tracker.trackAppHotelsSearch(this, mSearchParams, mSearchResponse, null);
 		}
 
 		if (animationOut != null && animationIn != null) {
@@ -2997,96 +2997,10 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		// 
 		// This is a somewhat lazy way of doing things, but it is easiest and catches a bunch
 		// of refinements at once instead of flooding the system with a ton of different refinements
-		String refinementsStr = null;
-		if (mOldFilter != null && mOldSearchParams != null) {
-			List<String> refinements = new ArrayList<String>();
+		String refinements = TrackingUtils.getRefinements(mSearchParams, mOldSearchParams, mFilter, mOldFilter);
 
-			// Sort change
-			if (mOldFilter.getSort() != mFilter.getSort()) {
-				Sort sort = mFilter.getSort();
-				if (sort == Sort.POPULAR) {
-					refinements.add("App.Hotels.Search.Sort.Popular");
-				}
-				else if (sort == Sort.PRICE) {
-					refinements.add("App.Hotels.Search.Sort.Price");
-				}
-				else if (sort == Sort.DISTANCE) {
-					refinements.add("App.Hotels.Search.Sort.Distance");
-				}
-				else if (sort == Sort.RATING) {
-					refinements.add("App.Hotels.Search.Sort.Rating");
-				}
-			}
-
-			// Number of travelers change
-			if (mSearchParams.getNumAdults() != mOldSearchParams.getNumAdults()
-					|| mSearchParams.getNumChildren() != mOldSearchParams.getNumChildren()) {
-				refinements.add("App.Hotels.Search.Refine.NumberTravelers");
-			}
-
-			// Location change
-			// Checks that the search type is the same, or else that a search of a particular type hasn't
-			// been modified (e.g., freeform text changing on a freeform search)
-			if (mSearchParams.getSearchType() != mOldSearchParams.getSearchType()
-					|| (mSearchParams.getSearchType() == SearchType.FREEFORM && !mSearchParams.getFreeformLocation()
-							.equals(mOldSearchParams.getFreeformLocation()))
-					|| ((mSearchParams.getSearchType() == SearchType.MY_LOCATION || mSearchParams.getSearchType() == SearchType.PROXIMITY) && (mSearchParams
-							.getSearchLatitude() != mOldSearchParams.getSearchLatitude() || mSearchParams
-							.getSearchLongitude() != mOldSearchParams.getSearchLongitude()))) {
-				refinements.add("App.Hotels.Search.Refine.Location");
-			}
-
-			// Checkin date change
-			if (!mSearchParams.getCheckInDate().equals(mOldSearchParams.getCheckInDate())) {
-				refinements.add("App.Hotels.Search.Refine.CheckinDate");
-			}
-
-			// Checkout date change
-			if (!mSearchParams.getCheckOutDate().equals(mOldSearchParams.getCheckOutDate())) {
-				refinements.add("App.Hotels.Search.Refine.CheckoutDate");
-			}
-
-			// Search radius change
-			if (mFilter.getSearchRadius() != mOldFilter.getSearchRadius()) {
-				refinements.add("App.Hotels.Search.Refine.SearchRadius");
-			}
-
-			// Price range change
-			if (mFilter.getPriceRange() != mOldFilter.getPriceRange()) {
-				refinements.add("App.Hotels.Search.Refine.PriceRange");
-			}
-
-			// Star rating change
-			double minStarRating = mFilter.getMinimumStarRating();
-			if (minStarRating != mOldFilter.getMinimumStarRating()) {
-				if (minStarRating == 5) {
-					refinements.add("App.Hotels.Search.Refine.AllStars");
-				}
-				else {
-					refinements.add("App.Hotels.Search.Refine." + minStarRating + "Stars");
-				}
-			}
-
-			boolean hasHotelFilter = mFilter.getHotelName() != null;
-			boolean oldHasHotelFilter = mOldFilter.getHotelName() != null;
-			if (hasHotelFilter != oldHasHotelFilter
-					|| (hasHotelFilter && !mFilter.getHotelName().equals(mOldFilter.getHotelName()))) {
-				refinements.add("App.Hotels.Search.Refine.Name");
-			}
-
-			int numRefinements = refinements.size();
-			if (numRefinements == 0) {
-				return;
-			}
-
-			StringBuilder sb = new StringBuilder();
-			for (int a = 0; a < numRefinements; a++) {
-				if (a != 0) {
-					sb.append("|");
-				}
-				sb.append(refinements.get(a));
-			}
-			refinementsStr = sb.toString();
+		if (refinements == null) {
+			return;
 		}
 
 		// Update the last filter/search params we used to track refinements 
@@ -3094,65 +3008,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		mOldFilter = mFilter.copy();
 
 		// Start actually tracking the search result change
-		onListLoad(true, refinementsStr);
-	}
-
-	private void onListLoad(boolean onSearchCompleted, String refinements) {
-		// Start actually tracking the search result change
-		Log.d("Tracking \"App.Hotels.Search\" pageLoad...");
-
-		AppMeasurement s = new AppMeasurement(getApplication());
-
-		TrackingUtils.addStandardFields(this, s);
-
-		s.pageName = "App.Hotels.Search";
-
-		if (onSearchCompleted) {
-			// Whether this was the first search or a refined search
-			s.events = (refinements != null && refinements.length() > 0) ? "event31" : "event30";
-
-			// Refinement  
-			s.eVar28 = s.prop16 = refinements;
-		}
-
-		// LOB Search
-		s.eVar2 = s.prop2 = "hotels";
-
-		// Region
-		DecimalFormat df = new DecimalFormat("#.######");
-		String region = null;
-		if (mSearchParams.getSearchType() == SearchType.FREEFORM) {
-			region = mSearchParams.getFreeformLocation();
-		}
-		else {
-			region = df.format(mSearchParams.getSearchLatitude()) + "|" + df.format(mSearchParams.getSearchLongitude());
-		}
-		s.eVar4 = s.prop4 = region;
-
-		// Check in/check out date
-		s.eVar5 = s.prop5 = CalendarUtils.getDaysBetween(mSearchParams.getCheckInDate(), Calendar.getInstance()) + "";
-		s.eVar6 = s.prop16 = CalendarUtils.getDaysBetween(mSearchParams.getCheckOutDate(),
-				mSearchParams.getCheckInDate())
-				+ "";
-
-		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
-
-		// Number adults searched for
-		s.eVar47 = mSearchParams.getNumAdults() + "";
-
-		// Freeform location
-		if (mSearchParams.getSearchType() == SearchType.FREEFORM) {
-			s.eVar48 = mSearchParams.getUserFreeformLocation();
-		}
-
-		// Number of search results
-		if (mSearchResponse != null && mSearchResponse.getFilteredAndSortedProperties() != null) {
-			s.prop1 = mSearchResponse.getFilteredAndSortedProperties().length + "";
-		}
-
-		// Send the tracking data
-		s.track();
+		Tracker.trackAppHotelsSearch(this, mSearchParams, mSearchResponse, refinements);
 	}
 
 	private void onOpenFilterPanel() {

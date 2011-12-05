@@ -1,8 +1,15 @@
 package com.expedia.bookings.tracking;
 
+import java.text.DecimalFormat;
+import java.util.Calendar;
+
 import android.app.Application;
 import android.content.Context;
 
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
@@ -68,4 +75,65 @@ public class Tracker {
 		s.track();
 	}
 
+	public static void trackAppHotelsSearch(Context context, SearchParams searchParams, SearchResponse searchResponse,
+			String refinements) {
+		// Start actually tracking the search result change
+		Log.d("Tracking \"App.Hotels.Search\" pageLoad...");
+
+		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+
+		TrackingUtils.addStandardFields(context, s);
+
+		s.pageName = "App.Hotels.Search";
+
+		if (refinements != null) {
+			// Whether this was the first search or a refined search
+			s.events = "event31";
+
+			// Refinement  
+			s.eVar28 = s.prop16 = refinements;
+		}
+		else {
+			s.events = "event30";
+		}
+
+		// LOB Search
+		s.eVar2 = s.prop2 = "hotels";
+
+		// Region
+		DecimalFormat df = new DecimalFormat("#.######");
+		String region = null;
+		if (searchParams.getSearchType() == SearchType.FREEFORM) {
+			region = searchParams.getFreeformLocation();
+		}
+		else {
+			region = df.format(searchParams.getSearchLatitude()) + "|" + df.format(searchParams.getSearchLongitude());
+		}
+		s.eVar4 = s.prop4 = region;
+
+		// Check in/check out date
+		s.eVar5 = s.prop5 = CalendarUtils.getDaysBetween(searchParams.getCheckInDate(), Calendar.getInstance()) + "";
+		s.eVar6 = s.prop16 = CalendarUtils.getDaysBetween(searchParams.getCheckOutDate(),
+				searchParams.getCheckInDate())
+				+ "";
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+
+		// Number adults searched for
+		s.eVar47 = searchParams.getNumAdults() + "";
+
+		// Freeform location
+		if (searchParams.getSearchType() == SearchType.FREEFORM) {
+			s.eVar48 = searchParams.getUserFreeformLocation();
+		}
+
+		// Number of search results
+		if (searchResponse != null && searchResponse.getFilteredAndSortedProperties() != null) {
+			s.prop1 = searchResponse.getFilteredAndSortedProperties().length + "";
+		}
+
+		// Send the tracking data
+		s.track();
+	}
 }

@@ -6,9 +6,11 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -22,7 +24,11 @@ import android.telephony.TelephonyManager;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.Filter;
+import com.expedia.bookings.data.Filter.Sort;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchParams.SearchType;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
@@ -319,6 +325,103 @@ public class TrackingUtils {
 		}
 		catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public static String getRefinements(SearchParams searchParams, SearchParams oldSearchParams, Filter filter,
+			Filter oldFilter) {
+		if (oldFilter != null && oldSearchParams != null) {
+			List<String> refinements = new ArrayList<String>();
+
+			// Sort change
+			if (oldFilter.getSort() != filter.getSort()) {
+				Sort sort = filter.getSort();
+				if (sort == Sort.POPULAR) {
+					refinements.add("App.Hotels.Search.Sort.Popular");
+				}
+				else if (sort == Sort.PRICE) {
+					refinements.add("App.Hotels.Search.Sort.Price");
+				}
+				else if (sort == Sort.DISTANCE) {
+					refinements.add("App.Hotels.Search.Sort.Distance");
+				}
+				else if (sort == Sort.RATING) {
+					refinements.add("App.Hotels.Search.Sort.Rating");
+				}
+			}
+
+			// Number of travelers change
+			if (searchParams.getNumAdults() != oldSearchParams.getNumAdults()
+					|| searchParams.getNumChildren() != oldSearchParams.getNumChildren()) {
+				refinements.add("App.Hotels.Search.Refine.NumberTravelers");
+			}
+
+			// Location change
+			// Checks that the search type is the same, or else that a search of a particular type hasn't
+			// been modified (e.g., freeform text changing on a freeform search)
+			if (searchParams.getSearchType() != oldSearchParams.getSearchType()
+					|| (searchParams.getSearchType() == SearchType.FREEFORM && !searchParams.getFreeformLocation()
+							.equals(oldSearchParams.getFreeformLocation()))
+					|| ((searchParams.getSearchType() == SearchType.MY_LOCATION || searchParams.getSearchType() == SearchType.PROXIMITY) && (searchParams
+							.getSearchLatitude() != oldSearchParams.getSearchLatitude() || searchParams
+							.getSearchLongitude() != oldSearchParams.getSearchLongitude()))) {
+				refinements.add("App.Hotels.Search.Refine.Location");
+			}
+
+			// Checkin date change
+			if (!searchParams.getCheckInDate().equals(oldSearchParams.getCheckInDate())) {
+				refinements.add("App.Hotels.Search.Refine.CheckinDate");
+			}
+
+			// Checkout date change
+			if (!searchParams.getCheckOutDate().equals(oldSearchParams.getCheckOutDate())) {
+				refinements.add("App.Hotels.Search.Refine.CheckoutDate");
+			}
+
+			// Search radius change
+			if (filter.getSearchRadius() != oldFilter.getSearchRadius()) {
+				refinements.add("App.Hotels.Search.Refine.SearchRadius");
+			}
+
+			// Price range change
+			if (filter.getPriceRange() != oldFilter.getPriceRange()) {
+				refinements.add("App.Hotels.Search.Refine.PriceRange");
+			}
+
+			// Star rating change
+			double minStarRating = filter.getMinimumStarRating();
+			if (minStarRating != oldFilter.getMinimumStarRating()) {
+				if (minStarRating == 5) {
+					refinements.add("App.Hotels.Search.Refine.AllStars");
+				}
+				else {
+					refinements.add("App.Hotels.Search.Refine." + minStarRating + "Stars");
+				}
+			}
+
+			boolean hasHotelFilter = filter.getHotelName() != null;
+			boolean oldHasHotelFilter = oldFilter.getHotelName() != null;
+			if (hasHotelFilter != oldHasHotelFilter
+					|| (hasHotelFilter && !filter.getHotelName().equals(oldFilter.getHotelName()))) {
+				refinements.add("App.Hotels.Search.Refine.Name");
+			}
+
+			int numRefinements = refinements.size();
+			if (numRefinements == 0) {
+				return null;
+			}
+
+			StringBuilder sb = new StringBuilder();
+			for (int a = 0; a < numRefinements; a++) {
+				if (a != 0) {
+					sb.append("|");
+				}
+				sb.append(refinements.get(a));
+			}
+
+			return sb.toString();
 		}
 
 		return null;
