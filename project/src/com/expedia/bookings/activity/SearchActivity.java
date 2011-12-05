@@ -2,11 +2,9 @@ package com.expedia.bookings.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.expedia.bookings.utils.ConfirmationUtils;
-import com.mobiata.android.util.AndroidUtils;
 
 /**
  * This is a routing Activity that points users towards either the phone or
@@ -29,8 +27,7 @@ public class SearchActivity extends Activity {
 		// Determine where to route the app
 		// #11076 - for Android 3.0, we still use the phone version of the app due to crippling bugs.
 		Class<? extends Activity> routingTarget;
-		if (AndroidUtils.getSdkVersion() >= 12 && (getResources().getConfiguration().screenLayout &
-				Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
+		if (ExpediaBookingApp.useTabletInterface(this)) {
 			routingTarget = (hasSavedConfirmationData) ? ConfirmationFragmentActivity.class
 					: SearchFragmentActivity.class;
 		}
