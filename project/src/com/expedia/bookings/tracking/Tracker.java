@@ -6,6 +6,7 @@ import java.util.Calendar;
 import android.app.Application;
 import android.content.Context;
 
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
@@ -132,6 +133,31 @@ public class Tracker {
 		if (searchResponse != null && searchResponse.getFilteredAndSortedProperties() != null) {
 			s.prop1 = searchResponse.getFilteredAndSortedProperties().length + "";
 		}
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackAppHotelsRoomsRates(Context context, Property property) {
+		Log.d("Tracking \"App.Hotels.RoomsRates\" event");
+
+		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+
+		TrackingUtils.addStandardFields(context, s);
+
+		s.pageName = "App.Hotels.RoomsRates";
+
+		// Promo description
+		s.eVar9 = property.getLowestRate().getPromoDescription();
+
+		// Shopper/Confirmer
+		s.eVar25 = s.prop25 = "Shopper";
+
+		// Rating or highly rated
+		TrackingUtils.addHotelRating(s, property);
+
+		// Products
+		TrackingUtils.addProducts(s, property);
 
 		// Send the tracking data
 		s.track();

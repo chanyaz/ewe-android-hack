@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,6 +26,7 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Session;
 import com.expedia.bookings.server.AvailabilityResponseHandler;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -37,7 +37,6 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.AsyncLoadListActivity;
 import com.mobiata.android.json.JSONUtils;
-import com.omniture.AppMeasurement;
 
 public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
@@ -125,7 +124,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		getListView().addFooterView(footer, null, false);
 
 		if (savedInstanceState == null) {
-			onPageLoad();
+			Tracker.trackAppHotelsRoomsRates(this, mProperty);
 		}
 	}
 
@@ -141,7 +140,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		super.onStart();
 
 		if (mWasStopped) {
-			onPageLoad();
+			Tracker.trackAppHotelsRoomsRates(this, mProperty);
 			mWasStopped = false;
 		}
 	}
@@ -228,33 +227,5 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		if (mAdapter.getCount() == 0) {
 			TrackingUtils.trackErrorPage(this, "HotelHasNoRoomsAvailable");
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// Omniture tracking
-
-	public void onPageLoad() {
-		Log.d("Tracking \"App.Hotels.RoomsRates\" event");
-
-		AppMeasurement s = new AppMeasurement(getApplication());
-
-		TrackingUtils.addStandardFields(this, s);
-
-		s.pageName = "App.Hotels.RoomsRates";
-
-		// Promo description
-		s.eVar9 = mProperty.getLowestRate().getPromoDescription();
-
-		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
-
-		// Rating or highly rated
-		TrackingUtils.addHotelRating(s, mProperty);
-
-		// Products
-		TrackingUtils.addProducts(s, mProperty);
-
-		// Send the tracking data
-		s.track();
 	}
 }
