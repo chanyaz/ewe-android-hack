@@ -246,6 +246,8 @@ public class HotelGalleryActivity extends FragmentActivity {
 				
 				@Override
 				public void onImageLoadFailed(String url) {
+					progressBar.setVisibility(View.GONE);
+					imageView.setVisibility(View.VISIBLE);					
 				}
 			});
 
