@@ -18,6 +18,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -74,6 +75,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private ViewGroup mHotelDescriptionContainer;
 	private View mSeeAllReviewsButton;
 	private View mSelectRoomButton;
+	private ScrollView mHotelDetailsScrollView;
 
 	//----------------------------------
 	// OTHERS
@@ -97,6 +99,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		final View view = inflater.inflate(R.layout.fragment_hotel_details, container, false);
 		mInflater = inflater;
 
+		mHotelDetailsScrollView = (ScrollView) view.findViewById(R.id.hotel_details_scroll_view);
 		mHotelNameTextView = (TextView) view.findViewById(R.id.hotel_name_text_view);
 		mHotelLocationTextView = (TextView) view.findViewById(R.id.hotel_address_text_view);
 		mCollageHandler = new HotelCollage(view, mPictureClickedListener);
@@ -267,6 +270,18 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		}
 
 		addHotelDescription(property);
+
+		// post a message to the event queue to be run on the
+		// next event loop to scroll up to the top of the view
+		// the purpose of posting this to the message queue versus
+		// running it immediately is to enable smooth scrolling animation
+		mHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				mHotelDetailsScrollView.smoothScrollTo(0, 0);
+			}
+		});
 	}
 
 	//////////////////////////////////////////////////////////////////////////
