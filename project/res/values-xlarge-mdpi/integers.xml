@@ -2,4 +2,5 @@
 <resources>
     <integer name="country_width_weight">5</integer>
     <integer name="postal_code_weight">5</integer>
+    <integer name="cushion_for_reviews_container">40</integer>
 </resources>
