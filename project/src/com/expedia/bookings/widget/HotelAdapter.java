@@ -222,7 +222,10 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 					new StrikethroughTagHandler()));
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
 			holder.saleText.setVisibility(View.VISIBLE);
-			holder.saleText.setText(mContext.getString(R.string.percent_off_template, lowestRate.getSavingsPercent() * 100));
+			if (!mUseCondensedRows) {
+				holder.saleText.setText(mContext.getString(R.string.percent_off_template,
+						lowestRate.getSavingsPercent() * 100));
+			}
 		}
 		else {
 			holder.from.setText(R.string.from);
@@ -249,7 +252,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.notRatedText.setVisibility(View.GONE);
 		}
 
-		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit, mUseCondensedRows));
+		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit,
+				mUseCondensedRows));
 		holder.distance.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
 
 		// See if there's a first image; if there is, use that as the thumbnail
