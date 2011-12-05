@@ -17,6 +17,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
@@ -222,7 +223,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 					new StrikethroughTagHandler()));
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
 			holder.saleText.setVisibility(View.VISIBLE);
-			if (!mUseCondensedRows) {
+			if (!mUseCondensedRows || !ExpediaBookingApp.useTabletInterface(mContext)) {
 				holder.saleText.setText(mContext.getString(R.string.percent_off_template,
 						lowestRate.getSavingsPercent() * 100));
 			}
