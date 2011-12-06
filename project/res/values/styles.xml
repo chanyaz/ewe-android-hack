@@ -111,17 +111,15 @@
 		<item name="android:progressDrawable">@drawable/star_inset_gray_ratingbar</item>
 	</style>
 
+	<style name="RatingBarSmall.UserReview">
+		<item name="android:progressDrawable">@drawable/user_rating_small</item>
+	</style>
+	
 	<style name="RatingBarSmall.Shadowed.UserReview">
 		<item name="android:progressDrawable">@drawable/user_rating_light</item>
 	</style>
 
-	<style name="RatingBarSmall.Shadowed.UserReview.Light" />
-
-	<style name="RatingBarSmall.Shadowed.UserReview.Gray">
-		<item name="android:progressDrawable">@drawable/user_rating_small_gray</item>
-		<item name="android:minHeight">14dip</item>
-		<item name="android:maxHeight">14dip</item>
-	</style>
+	<style name="RatingBarSmall.Shadowed.UserReview.Light"/>
 
 	<style name="RatingBarSmall.Shadowed.UserReview.Dark">
 		<item name="android:progressDrawable">@drawable/user_rating_dark</item>
