@@ -129,6 +129,9 @@ public class TrackingUtils {
 		s.trackingServer = "om.expedia.com";
 		s.trackingServerSecure = "oms.expedia.com";
 
+		// Add the country locale
+		s.eVar31 = Locale.getDefault().getCountry();
+
 		// Time parting
 		// Format is: YY:DayOfYear:Interval Size:Interval Num
 		// Interval size == 60 minutes
@@ -161,9 +164,6 @@ public class TrackingUtils {
 
 		// GMT timestamp
 		s.prop32 = gmt.getTime() + "";
-
-		// Add the country locale
-		s.prop31 = Locale.getDefault().getCountry();
 
 		// Device carrier network info - format is "android|<carrier>|<network>"
 		TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
