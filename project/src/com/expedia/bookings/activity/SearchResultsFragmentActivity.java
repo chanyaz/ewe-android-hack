@@ -142,6 +142,11 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		// Need to set this BG from code so we can make it just repeat vertically
 		findViewById(R.id.search_results_list_shadow).setBackgroundDrawable(LayoutUtils.getDividerDrawable(this));
+
+		// Load initial data, if it already exists (aka, screen rotated)
+		if (mInstance.mSearchResponse != null) {
+			loadSearchResponse(mInstance.mSearchResponse, false);
+		}
 	}
 
 	@Override
@@ -249,8 +254,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
 		}
 		else if (mInstance.mSearchResponse != null) {
-			loadSearchResponse(mInstance.mSearchResponse, false);
-
 			if (bd.isDownloading(KEY_AVAILABILITY_SEARCH)) {
 				bd.registerDownloadCallback(KEY_AVAILABILITY_SEARCH, mRoomAvailabilityCallback);
 			}
@@ -384,6 +387,12 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		// This can be run before we've actually initialized the options menu - in that case, don't run
+		// the preparation (it will get run on its own course later).
+		if (mSearchView == null) {
+			return super.onPrepareOptionsMenu(menu);
+		}
+
 		if (!mSearchViewFocused) {
 			mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(this), false);
 		}
