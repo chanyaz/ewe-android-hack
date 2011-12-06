@@ -132,12 +132,6 @@ public class TrackingUtils {
 		// Add the country locale
 		s.eVar31 = Locale.getDefault().getCountry();
 
-		// Time parting
-		// Format is: YY:DayOfYear:Interval Size:Interval Num
-		// Interval size == 60 minutes
-		DateFormat df = new SimpleDateFormat("yy:DDD:60:HH");
-		s.eVar49 = df.format(gmt);
-
 		// Experience segmentation
 		s.eVar50 = (usingTabletInterface) ? "app.tablet.android" : "app.android";
 
