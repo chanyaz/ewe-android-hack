@@ -47,7 +47,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="@integer/search_params_input_weight"
         android:orientation="horizontal"
         android:paddingBottom="32dp"
         android:paddingTop="4dp" >
@@ -58,7 +58,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="25dp"
+            android:layout_marginRight="@dimen/search_params_search_margin_right"
             android:layout_weight="1"
             layout="@layout/include_search" />
 
@@ -67,8 +67,8 @@
         <include
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
+            android:layout_marginLeft="@dimen/search_params_calendar_margin_left"
+            android:layout_marginRight="@dimen/search_params_calendar_margin_right"
             android:layout_weight="1"
             layout="@layout/include_calendar" />
 
@@ -79,8 +79,8 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_marginBottom="3dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginLeft="@dimen/search_params_guests_margin_left"
+            android:layout_marginRight="30dp"
             android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
@@ -107,7 +107,7 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="@integer/search_params_image_weight"
         android:paddingTop="20dp"
         android:scaleType="center"
         android:src="@drawable/expedia_logo_large" />
