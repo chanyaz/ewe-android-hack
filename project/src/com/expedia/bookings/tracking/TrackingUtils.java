@@ -120,7 +120,7 @@ public class TrackingUtils {
 
 		// account
 		boolean usingTabletInterface = (ExpediaBookingApp.useTabletInterface(context));
-		s.account = (usingTabletInterface) ? "expedia1tabletandroidcom" : "expedia1androidcom";
+		s.account = (usingTabletInterface) ? "expedia1tabletandroid" : "expedia1androidcom";
 		if (!AndroidUtils.isRelease(context)) {
 			s.account += "dev";
 		}
