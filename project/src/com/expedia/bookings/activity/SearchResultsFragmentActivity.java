@@ -38,6 +38,7 @@ import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
+import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -874,6 +875,12 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			}
 			else {
 				response.setFilter(mInstance.mFilter);
+
+				if (mInstance.mSearchResponse.getFilteredAndSortedProperties().length <= 10) {
+					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
+					mInstance.mFilter.setSearchRadius(SearchRadius.ALL);
+					mInstance.mSearchResponse.clearCache();
+				}
 
 				mEventManager.notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
 
