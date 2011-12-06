@@ -61,10 +61,6 @@
 
             <include layout="@layout/include_credit_card_info" />
 
-            <!-- Cancellation policy -->
-
-            <include layout="@layout/include_booking_cancellation_policy" />
-
             <!-- Terms and conditions -->
 
             <RelativeLayout
@@ -92,6 +88,10 @@
                     android:textColor="@android:color/black"
                     android:textSize="15sp" />
             </RelativeLayout>
+
+            <!-- Cancellation policy -->
+
+            <include layout="@layout/include_booking_cancellation_policy" />
 
             <!-- Expedia points disclaimer -->
 
