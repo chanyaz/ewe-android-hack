@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -87,7 +88,7 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 
 					int maxHeightInPx = (int) Math.ceil(getResources().getDisplayMetrics().density
 							* getResources().getDimension(R.dimen.max_height_room_details_container));
-					if (receipt.getMeasuredHeight() > maxHeightInPx) {
+					if (receipt.getMeasuredHeight() > maxHeightInPx || roomDetailsContainer.getMeasuredHeight() > maxHeightInPx) {
 						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).height = maxHeightInPx;
 						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).addRule(
 								RelativeLayout.ALIGN_BOTTOM, 0);
@@ -170,7 +171,7 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 				roomTypeDescription = propertyInfoResponse.getErrors().get(0).getPresentableMessage(getActivity());
 			}
 			else {
-				roomTypeDescription = propertyInfoResponse.getPropertyInfo().getRoomLongDescription(rate);
+				roomTypeDescription = Html.fromHtml(propertyInfoResponse.getPropertyInfo().getRoomLongDescription(rate)).toString().trim();
 			}
 		}
 
