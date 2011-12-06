@@ -450,7 +450,6 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 					dismissKeyboard(v);
 					BookingInfoUtils.onClickSubmit(getActivity());
 					((BookingFragmentActivity) getActivity()).bookingCompleted();
-					dismiss();
 				}
 
 			}

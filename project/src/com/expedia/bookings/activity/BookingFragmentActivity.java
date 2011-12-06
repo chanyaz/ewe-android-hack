@@ -162,13 +162,14 @@ public class BookingFragmentActivity extends Activity {
 		else {
 			startPropertyInfoDownload(mInstance.mProperty);
 		}
-		
-		if(bd.isDownloading(KEY_BOOKING)) {
+
+		if (bd.isDownloading(KEY_BOOKING)) {
 			bd.registerDownloadCallback(KEY_BOOKING, mBookingCallback);
-		} else if(mInstance.mBookingResponse != null) {
+		}
+		else if (mInstance.mBookingResponse != null) {
 			mBookingCallback.onDownload(mInstance.mBookingResponse);
-		} 
-		
+		}
+
 	}
 
 	@Override
@@ -318,13 +319,18 @@ public class BookingFragmentActivity extends Activity {
 
 		@Override
 		public void onDownload(Object results) {
-			((DialogFragment) getFragmentManager().findFragmentByTag(getString(R.string.tag_booking_progress)))
-					.dismiss();
+			DialogFragment bookingProgressFragment = (DialogFragment) getFragmentManager().findFragmentByTag(
+					getString(R.string.tag_booking_progress));
+			if (bookingProgressFragment != null) {
+				bookingProgressFragment.dismiss();
+			}
 
 			if (results == null) {
-				BookingErrorDialogFragment.newInstance(getString(R.string.error_booking_null)).show(
-						getFragmentManager(), getString(R.string.tag_booking_error));
-				TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
+				if (getFragmentManager().findFragmentByTag(getString(R.string.tag_booking_error)) == null) {
+					BookingErrorDialogFragment.newInstance(getString(R.string.error_booking_null)).show(
+							getFragmentManager(), getString(R.string.tag_booking_error));
+					TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
+				}
 				return;
 			}
 
@@ -345,11 +351,18 @@ public class BookingFragmentActivity extends Activity {
 					}
 					errorMsg += errors.get(a).getPresentableMessage(BookingFragmentActivity.this);
 				}
-
-				BookingErrorDialogFragment.newInstance(errorMsg).show(getFragmentManager(),
-						getString(R.string.tag_booking_error));
-				TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
+				if (getFragmentManager().findFragmentByTag(getString(R.string.tag_booking_error)) == null) {
+					BookingErrorDialogFragment.newInstance(errorMsg).show(getFragmentManager(),
+							getString(R.string.tag_booking_error));
+					TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
+				}
 				return;
+			}
+
+			DialogFragment bookingFormFragment = (DialogFragment) getFragmentManager().findFragmentByTag(
+					getString(R.string.tag_booking_form));
+			if (bookingFormFragment != null) {
+				bookingFormFragment.dismiss();
 			}
 
 			// Start the conf activity
