@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -30,6 +31,7 @@ import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.Rate.BedType;
 import com.expedia.bookings.data.Rate.BedTypeId;
 import com.expedia.bookings.widget.SummarizedRoomRates;
@@ -357,12 +359,35 @@ public class AvailabilitySummaryLayoutUtils {
 			View chevron = summaryRow.findViewById(R.id.availability_chevron_image_view);
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
-			View perNightTexView = summaryRow.findViewById(R.id.per_night_text_view);
-
+			TextView perNightTexView = (TextView) summaryRow.findViewById(R.id.per_night_text_view);
+			
+			List<RateBreakdown> rateBreakdown = rate.getRateBreakdownList();
+			int perNightTextId = R.string.per_night;
+			boolean hidePerNightTextView = false;
+			if (!Rate.showInclusivePrices()) {
+				if (rateBreakdown == null) {
+					// If rateBreakdown is null, we assume that this is a per/night hotel
+					perNightTextId = R.string.rate_per_night;
+				}
+				else if (rateBreakdown.size() > 1) {
+					if (rate.rateChanges()) {
+						perNightTextId = R.string.rate_avg_per_night;
+					}
+					else {
+						perNightTextId = R.string.rate_per_night;
+					}
+				}
+			} else {
+				hidePerNightTextView = true;
+			}
+			
 			// make row elements visible since there's a price to display
 			chevron.setVisibility(View.VISIBLE);
-			if (perNightTexView != null) {
+			
+			// ensure to only show the per night section if necessary
+			if (perNightTexView != null && !hidePerNightTextView) {
 				perNightTexView.setVisibility(View.VISIBLE);
+				perNightTexView.setText(context.getString(perNightTextId));
 			}
 
 			// determine description of room to display
