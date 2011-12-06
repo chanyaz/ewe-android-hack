@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -31,10 +32,11 @@ import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.Rate.BedType;
 import com.expedia.bookings.data.Rate.BedTypeId;
+import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.widget.SummarizedRoomRates;
+import com.mobiata.android.util.AndroidUtils;
 
 public class AvailabilitySummaryLayoutUtils {
 
@@ -112,11 +114,21 @@ public class AvailabilitySummaryLayoutUtils {
 			perNighTextView.setVisibility(View.VISIBLE);
 		}
 
+		boolean useCondensedActionBar;
+		if (AndroidUtils.getSdkVersion() >= 13) {
+			useCondensedActionBar = r.getConfiguration().screenWidthDp <= 800;
+		}
+		else {
+			useCondensedActionBar = r.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+		}
+
 		if (isPropertyOnSale) {
 			basePrice.setVisibility(View.VISIBLE);
 			String basePriceString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayBaseRate());
 
-			String basePriceStringWithFrom = r.getString(R.string.min_room_price_template, basePriceString);
+			String basePriceStringWithFrom = useCondensedActionBar ? basePriceString : r.getString(
+					R.string.min_room_price_template, basePriceString);
+
 			int startingIndexOfBasePrice = basePriceStringWithFrom.indexOf(basePriceString);
 
 			SpannableString basePriceStrSpannable = new SpannableString(basePriceStringWithFrom);
@@ -162,7 +174,9 @@ public class AvailabilitySummaryLayoutUtils {
 			layoutBaseAndMinPriceSideBySide(context, basePrice, minPrice);
 			basePrice.setVisibility(View.GONE);
 
-			String minPriceString = r.getString(R.string.min_room_price_template, displayRateString);
+			String minPriceString = useCondensedActionBar ? displayRateString : r.getString(
+					R.string.min_room_price_template, displayRateString);
+
 			SpannableString str = new SpannableString(minPriceString);
 
 			ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(r.getColor(android.R.color.black));
@@ -360,7 +374,7 @@ public class AvailabilitySummaryLayoutUtils {
 			TextView summaryDescription = (TextView) summaryRow.findViewById(R.id.availability_description_text_view);
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
 			TextView perNightTexView = (TextView) summaryRow.findViewById(R.id.per_night_text_view);
-			
+
 			List<RateBreakdown> rateBreakdown = rate.getRateBreakdownList();
 			int perNightTextId = R.string.per_night;
 			boolean hidePerNightTextView = false;
@@ -377,13 +391,14 @@ public class AvailabilitySummaryLayoutUtils {
 						perNightTextId = R.string.rate_per_night;
 					}
 				}
-			} else {
+			}
+			else {
 				hidePerNightTextView = true;
 			}
-			
+
 			// make row elements visible since there's a price to display
 			chevron.setVisibility(View.VISIBLE);
-			
+
 			// ensure to only show the per night section if necessary
 			if (perNightTexView != null && !hidePerNightTextView) {
 				perNightTexView.setVisibility(View.VISIBLE);
@@ -393,9 +408,10 @@ public class AvailabilitySummaryLayoutUtils {
 			// determine description of room to display
 			String description = null;
 			if (showMinimumRate) {
-				if(minimumRate.getBedTypes() != null) {
+				if (minimumRate.getBedTypes() != null) {
 					description = minimumRate.getBedTypes().iterator().next().bedTypeDescription;
-				} else {
+				}
+				else {
 					description = minimumRate.getRoomDescription();
 				}
 			}
