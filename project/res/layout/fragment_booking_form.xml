@@ -70,6 +70,7 @@
         </RelativeLayout>
 
         <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:fadingEdge="none"
