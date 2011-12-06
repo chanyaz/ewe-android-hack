@@ -89,6 +89,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 	private Handler mHandler = new Handler();
 
+	// Used to prevent click-happy jerks from opening the user reviews activity with
+	// fast clicks to the button.
+	private boolean mOpeningUserReviews;
+
 	//////////////////////////////////////////////////////////////////////////
 	// LIFECYCLE EVENTS
 
@@ -134,6 +138,13 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+
+		mOpeningUserReviews = false;
+	}
+
+	@Override
 	public void onDetach() {
 		((SearchResultsFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
 		super.onDetach();
@@ -173,10 +184,14 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 				@Override
 				public void onClick(View v) {
-					Intent i = new Intent(getActivity(), TabletUserReviewsListActivity.class);
-					i.putExtra(Codes.PROPERTY, property.toJson().toString());
-					i.putExtra(Codes.DISPLAY_MODAL_VIEW, true);
-					startActivity(i);
+					if (!mOpeningUserReviews) {
+						mOpeningUserReviews = true;
+
+						Intent i = new Intent(getActivity(), TabletUserReviewsListActivity.class);
+						i.putExtra(Codes.PROPERTY, property.toJson().toString());
+						i.putExtra(Codes.DISPLAY_MODAL_VIEW, true);
+						startActivity(i);
+					}
 				}
 			});
 		}
@@ -307,12 +322,12 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			AvailabilityResponse response = ((SearchResultsFragmentActivity) getActivity())
 					.getRoomsAndRatesAvailability();
 			Rate[] sortedRates = response.getRates().toArray(new Rate[0]).clone();
-			
+
 			Rate minimumRate = summarizedRoomRates.getStartingRate();
 			if (minimumRate == null) {
 				minimumRate = sortedRates[0];
 			}
-			
+
 			((SearchResultsFragmentActivity) getActivity()).bookRoom(minimumRate, false);
 		}
 	};
