@@ -39,9 +39,9 @@ import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
 public class BookingFragmentActivity extends Activity {
@@ -162,6 +162,13 @@ public class BookingFragmentActivity extends Activity {
 		else {
 			startPropertyInfoDownload(mInstance.mProperty);
 		}
+		
+		if(bd.isDownloading(KEY_BOOKING)) {
+			bd.registerDownloadCallback(KEY_BOOKING, mBookingCallback);
+		} else if(mInstance.mBookingResponse != null) {
+			mBookingCallback.onDownload(mInstance.mBookingResponse);
+		} 
+		
 	}
 
 	@Override
@@ -169,6 +176,7 @@ public class BookingFragmentActivity extends Activity {
 		super.onPause();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_PROPERTY_INFO, mPropertyInfoCallback);
+		bd.unregisterDownloadCallback(KEY_BOOKING, mBookingCallback);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
