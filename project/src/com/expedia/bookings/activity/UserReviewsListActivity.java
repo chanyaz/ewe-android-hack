@@ -353,6 +353,11 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		// Load the three different lists as the adapter is being constructed
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state == null) {
+			// Cancel any existing downloads
+			mReviewsDownloader.cancelDownload(KEY_REVIEWS_HIGHEST);
+			mReviewsDownloader.cancelDownload(KEY_REVIEWS_NEWEST);
+			mReviewsDownloader.cancelDownload(KEY_REVIEWS_LOWEST);
+
 			// Initialize the ReviewSort attempted download map
 			mReviewSortDownloadAttemptedMap.put(ReviewSort.HIGHEST_RATING_FIRST, false);
 			mReviewSortDownloadAttemptedMap.put(ReviewSort.LOWEST_RATING_FIRST, false);
