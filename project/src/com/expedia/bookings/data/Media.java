@@ -20,7 +20,6 @@ public class Media implements JSONable {
 	 * The suffixes for different image sizes is documented here:
 	 * https://team.mobiata.com/wiki/EAN_Servers#Expedia_Hotels_Image_Derivatives
 	 */
-	public static final String IMAGE_XLARGE_SUFFIX = "z.jpg"; //1000x1000 sized image
 	public static final String IMAGE_LARGE_SUFFIX = "y.jpg"; // 500x500 sized image
 	public static final String IMAGE_BIG_SUFFIX = "b.jpg"; // 350x350 sized image
 
@@ -114,7 +113,7 @@ public class Media implements JSONable {
 	 * @param callback
 	 */
 	public void loadHighResImage(ImageView imageView, OnImageLoaded callback) {
-		mActiveUrl = getUrl(IMAGE_XLARGE_SUFFIX);
+		mActiveUrl = getUrl(IMAGE_LARGE_SUFFIX);
 		ImageCache.loadImage(mActiveUrl, getImageLoadedCallback(imageView, callback));
 	}
 
@@ -141,12 +140,7 @@ public class Media implements JSONable {
 
 			@Override
 			public void onImageLoadFailed(String url) {
-				if (url.equals(getUrl(IMAGE_XLARGE_SUFFIX))) {
-					Log.v("** Falling back from " + IMAGE_XLARGE_SUFFIX + " to " + IMAGE_LARGE_SUFFIX);
-					mActiveUrl = getUrl(IMAGE_LARGE_SUFFIX);
-					ImageCache.loadImage(mActiveUrl, getImageLoadedCallback(imageView, additionCallback));
-				}
-				else if (url.equals(getUrl(IMAGE_LARGE_SUFFIX))) {
+				if (url.equals(getUrl(IMAGE_LARGE_SUFFIX))) {
 					Log.v("** Falling back from " + IMAGE_LARGE_SUFFIX + " to " + IMAGE_BIG_SUFFIX);
 					mActiveUrl = getUrl(IMAGE_BIG_SUFFIX);
 					ImageCache.loadImage(mActiveUrl, getImageLoadedCallback(imageView, additionCallback));
