@@ -196,7 +196,7 @@ public class TrackingUtils {
 		Location bestLastLocation = LocationServices.getLastBestLocation(context, 0);
 		if (bestLastLocation != null) {
 			s.prop40 = bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
-					+ bestLastLocation.getAccuracy() + "|" + bestLastLocation.getTime();
+					+ bestLastLocation.getAccuracy();
 		}
 	}
 
