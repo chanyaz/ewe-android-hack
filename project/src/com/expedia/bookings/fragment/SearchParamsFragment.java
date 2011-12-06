@@ -76,6 +76,11 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	// automatically start a new autocomplete query.
 	private boolean mAutocompleteClicked = false;
 
+	// #11237: When you register a connectivity receiver, it necessarily fires a
+	// response once.  We only want to listen when connectivity changes *after*
+	// the initial registration.
+	private boolean mDetectedInitialConnectivity;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
@@ -218,6 +223,8 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		}
 
 		mLocationEditText.addTextChangedListener(mLocationTextWatcher);
+
+		mDetectedInitialConnectivity = false;
 
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -454,8 +461,13 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// Kick off a new suggestion query based on the current text.
-			configureSuggestions(mLocationEditText.getText().toString());
+			if (mDetectedInitialConnectivity) {
+				// Kick off a new suggestion query based on the current text.
+				configureSuggestions(mLocationEditText.getText().toString());
+			}
+			else {
+				mDetectedInitialConnectivity = true;
+			}
 		}
 	};
 
@@ -505,6 +517,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		case SearchFragmentActivity.EVENT_UPDATE_PARAMS:
 			BackgroundDownloader.getInstance().cancelDownload(KEY_AUTOCOMPLETE_DOWNLOAD);
 			updateViews();
+			configureSuggestions(null);
 			break;
 		}
 	}
