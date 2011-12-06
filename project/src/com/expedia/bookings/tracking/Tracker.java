@@ -119,10 +119,9 @@ public class Tracker {
 		s.eVar4 = s.prop4 = region;
 
 		// Check in/check out date
-		s.eVar5 = s.prop5 = CalendarUtils.getDaysBetween(searchParams.getCheckInDate(), Calendar.getInstance()) + "";
-		s.eVar6 = s.prop16 = CalendarUtils.getDaysBetween(searchParams.getCheckOutDate(),
-				searchParams.getCheckInDate())
-				+ "";
+		s.eVar5 = s.prop5 = CalendarUtils.getDaysBetween(Calendar.getInstance(), searchParams.getCheckInDate()) + "";
+		s.eVar6 = s.prop6 = CalendarUtils.getDaysBetween(searchParams.getCheckInDate(),
+				searchParams.getCheckOutDate()) + "";
 
 		// Shopper/Confirmer
 		s.eVar25 = s.prop25 = "Shopper";
