@@ -33,8 +33,10 @@ public class CalendarUtils {
 		}
 
 		Calendar cal = (Calendar) start.clone();
+		int endDay = end.get(Calendar.DAY_OF_YEAR);
+		int endYear = end.get(Calendar.YEAR);
 		long daysBetween = 0;
-		while (cal.before(end)) {
+		while (cal.get(Calendar.DAY_OF_YEAR) != endDay || cal.get(Calendar.YEAR) != endYear) {
 			cal.add(Calendar.DAY_OF_MONTH, 1);
 			daysBetween++;
 		}
