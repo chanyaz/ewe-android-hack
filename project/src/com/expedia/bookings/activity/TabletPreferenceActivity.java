@@ -2,6 +2,8 @@ package com.expedia.bookings.activity;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,6 +12,8 @@ import android.widget.Button;
 import com.expedia.bookings.R;
 
 public class TabletPreferenceActivity extends ExpediaBookingPreferenceActivity {
+
+	private GestureDetector mDetector;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,22 +27,32 @@ public class TabletPreferenceActivity extends ExpediaBookingPreferenceActivity {
 				finish();
 			}
 		});
+
+		mDetector = new GestureDetector(this, new CloseGestureDetector());
 	}
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
-		if (!isFinishing()) {
-			Rect bounds = new Rect();
-			getWindow().getDecorView().getHitRect(bounds);
-
-			// 11354: ensure to check the key press so that the reviews container is not dismissed
-			// when merely scrolling
-			if (ev.getAction() == MotionEvent.ACTION_UP && !bounds.contains((int) ev.getX(), (int) ev.getY())) {
-				finish();
-			}
-		}
+		mDetector.onTouchEvent(ev);
 
 		return super.dispatchTouchEvent(ev);
+	}
+
+	private class CloseGestureDetector extends SimpleOnGestureListener {
+
+		@Override
+		public boolean onSingleTapUp(MotionEvent ev) {
+			if (!isFinishing()) {
+				Rect bounds = new Rect();
+				getWindow().getDecorView().getHitRect(bounds);
+
+				if (!bounds.contains((int) ev.getX(), (int) ev.getY())) {
+					finish();
+				}
+			}
+
+			return true;
+		}
 	}
 
 }
