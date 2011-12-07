@@ -3,9 +3,7 @@ package com.expedia.bookings.tracking;
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -293,7 +291,7 @@ public class TrackingUtils {
 						types.put(field.getInt(null), "umts");
 					}
 					else if (field.getName().equals("NETWORK_TYPE_UNKNOWN")) {
-						types.put(field.getInt(null), "unknown");
+						types.put(field.getInt(null), "NA");
 					}
 				}
 
