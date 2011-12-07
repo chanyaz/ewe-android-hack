@@ -104,7 +104,26 @@ public class AvailabilitySummaryLayoutUtils {
 		else {
 			useCondensedActionBar = r.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
 		}
-
+		
+		// Determine whether to show rate, rate per night, or avg rate per night for explanation
+		Rate lowestRate = property.getLowestRate();
+		int explanationId = 0;
+		List<RateBreakdown> rateBreakdown = lowestRate.getRateBreakdownList();
+		if (!Rate.showInclusivePrices()) {
+			if (rateBreakdown == null) {
+				// If rateBreakdown is null, we assume that this is a per/night hotel
+				explanationId = R.string.per_night;
+			}
+			else if (rateBreakdown.size() > 1) {
+				if (lowestRate.rateChanges()) {
+					explanationId = R.string.rate_avg_per_night;
+				}
+				else {
+					explanationId = R.string.per_night;
+				}
+			}
+		}
+		
 		SpannableString basePriceSpannableString = null;
 		SpannableString minPriceSpannableString = null;
 		float textSize = 0.0f;
@@ -140,7 +159,12 @@ public class AvailabilitySummaryLayoutUtils {
 			// bold the sale price
 			minPriceSpannableString.setSpan(textStyleSpan, 0, displayRateString.length(), 0);
 
-			String textToMeasure = basePriceStringWithFrom + displayRateString + context.getString(R.string.per_night);
+			
+			String textToMeasure = basePriceStringWithFrom + displayRateString;
+			if(explanationId != 0) {
+				textToMeasure += context.getString(explanationId);
+			}
+			
 			Paint paint = new Paint();
 			paint.setTextSize(r.getDimension(R.dimen.min_price_row_text_normal));
 
@@ -234,13 +258,6 @@ public class AvailabilitySummaryLayoutUtils {
 			basePrice.setVisibility(View.GONE);
 		}
 
-		if (Rate.showInclusivePrices()) {
-			perNightTextView.setVisibility(View.GONE);
-		}
-		else {
-			perNightTextView.setVisibility(View.VISIBLE);
-		}
-
 		/*
 		 * NOTE: Unsure as to why the text shadow layer is not applied 
 		 * to the text view when the view is hardware rendered 
@@ -251,9 +268,15 @@ public class AvailabilitySummaryLayoutUtils {
 		minPrice.setTextColor(r.getColor(R.color.hotel_price_text_color));
 		minPrice.setTextSize(textSize);
 
-		perNightTextView.setTextColor(Color.BLACK);
-		perNightTextView.setShadowLayer(0.1f, 0f, 1f, r.getColor(R.color.text_shadow_color));
-		perNightTextView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		if(explanationId != 0) {
+			perNightTextView.setVisibility(View.VISIBLE);
+			perNightTextView.setText(context.getString(explanationId));
+			perNightTextView.setTextColor(Color.BLACK);
+			perNightTextView.setShadowLayer(0.1f, 0f, 1f, r.getColor(R.color.text_shadow_color));
+			perNightTextView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		} else {
+			perNightTextView.setVisibility(View.GONE);
+		}
 	}
 
 	private static boolean tooLongToFitOnOneLine(View availabilitySummaryContainerCentered,
@@ -398,14 +421,14 @@ public class AvailabilitySummaryLayoutUtils {
 			if (!Rate.showInclusivePrices()) {
 				if (rateBreakdown == null) {
 					// If rateBreakdown is null, we assume that this is a per/night hotel
-					perNightTextId = R.string.rate_per_night;
+					perNightTextId = R.string.per_night;
 				}
 				else if (rateBreakdown.size() > 1) {
 					if (rate.rateChanges()) {
 						perNightTextId = R.string.rate_avg_per_night;
 					}
 					else {
-						perNightTextId = R.string.rate_per_night;
+						perNightTextId = R.string.per_night;
 					}
 				}
 			}
