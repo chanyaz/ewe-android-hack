@@ -45,9 +45,9 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 	private float mSaleTextSize;
 
-	private int mBedRightMargin;
-
 	private int mSelectedPosition = -1;
+
+	private int mBedSalePadding;
 
 	public RoomsAndRatesAdapter(Context context, AvailabilityResponse response) {
 		mContext = context;
@@ -78,6 +78,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		// Calculate the size of the sale text size
 		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(context.getString(R.string.savings_template, 50.0), 2, 11,
 				new TextPaint(), 28);
+
+		mBedSalePadding = (int) Math.round(mResources.getDisplayMetrics().density * 26);
 	}
 
 	public void setSelectedPosition(int selectedPosition) {
@@ -132,13 +134,6 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			holder.valueAddsBeds = (TextView) convertView.findViewById(R.id.value_adds_beds_text_view);
 
 			holder.saleLabel.setTextSize(mSaleTextSize);
-
-			// #6966: Fix specifically for Android 2.1 and below.  Since RelativeLayout can't properly align
-			// bottom on a ListView, I'm just going to add extra margin
-			if (Build.VERSION.SDK_INT <= 7) {
-				holder.beds.setPadding(0, (int) mContext.getResources().getDisplayMetrics().density * 24,
-						(int) mContext.getResources().getDisplayMetrics().density * 10, 0);
-			}
 
 			convertView.setTag(holder);
 		}
@@ -195,6 +190,26 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		else {
 			holder.priceExplanation.setVisibility(View.GONE);
 		}
+
+		// We adjust the bed's padding based on whether the sale tag is visible or not
+		int padding;
+		if (rate.isOnSale()) {
+			padding = mBedSalePadding;
+		}
+		else {
+			if (Build.VERSION.SDK_INT > 7) {
+				padding = 0;
+			}
+			else {
+				// We have to do some special acrobatics here because the beds view won't properly align
+				// to othe bottom on API 7 or less.
+				padding = (holder.priceExplanation.getVisibility() == View.VISIBLE) ? mBedSalePadding : (int) Math
+						.round(mResources.getDisplayMetrics().density * 10);
+			}
+		}
+
+		holder.beds.setPadding(holder.beds.getPaddingLeft(), padding, holder.beds.getPaddingRight(),
+				holder.beds.getPaddingBottom());
 
 		String bedText = rate.getRatePlanName();
 

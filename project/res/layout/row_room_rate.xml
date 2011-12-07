@@ -66,14 +66,16 @@
     <TextView
         android:id="@+id/beds_text_view"
         style="@style/rateInfoText"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/sale_text_view"
+        android:layout_below="@+id/room_description_text_view"
         android:layout_marginRight="10dp"
-        android:layout_toRightOf="@id/price_layout"
-        android:gravity="right" />
+        android:layout_toRightOf="@+id/price_layout"
+        android:gravity="right"
+        android:paddingBottom="3dp"
+        android:paddingTop="26dp" />
 
     <!-- This view replaces the above beds_text_view if the row has value-adds -->
 
