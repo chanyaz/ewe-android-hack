@@ -350,7 +350,7 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 				if (lowestRate == null) {
 					lowestRate = new Rate();
 				}
-				lowestRate.setPromoDescription(parser.getText());
+				lowestRate.setPromoDescription(Html.fromHtml(parser.getText()).toString());
 			}
 			else if (name.equals("averageRate")) {
 				averageRate = parser.getValueAsDouble();
