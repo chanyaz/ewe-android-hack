@@ -13,9 +13,15 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="3dp"
         android:layout_centerHorizontal="true"
-        android:gravity="center" >
+        android:layout_marginLeft="3dp"
+        android:gravity="center"
+        android:paddingBottom="2dp" >
+
+        <!--
+             One line layout of base price and min price during
+             sale
+        -->
 
         <TextView
             android:id="@+id/base_price_text_view"
@@ -23,8 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/min_price_text_view"
             android:ellipsize="end"
-            android:singleLine="true"
-            android:textSize="20sp" />
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/min_price_text_view"
@@ -33,9 +38,7 @@
             android:layout_toRightOf="@id/base_price_text_view"
             android:ellipsize="end"
             android:paddingLeft="5dp"
-            android:singleLine="true"
-            android:textSize="20sp"
-            android:textColor="@color/hotel_price_text_color"/>
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/per_night_text_view"
@@ -45,8 +48,41 @@
             android:layout_toRightOf="@id/min_price_text_view"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="@string/per_night"
-            android:textSize="16sp" />
+            android:text="@string/per_night" />
+
+        <!--
+             Two line layout of base price and min price during sale.
+        	 This approach is used when there isnt enough space for both
+        	 base price and min price to fit on one line
+        -->
+
+        <TextView
+            android:id="@+id/base_price_text_view_first_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/min_price_text_view"
+            android:layout_alignParentTop="true"
+            android:ellipsize="end"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/min_price_text_view_second_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/base_price_text_view_first_line"
+            android:ellipsize="end"
+            android:paddingLeft="5dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/per_night_text_view_second_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/min_price_text_view_second_line"
+            android:layout_toRightOf="@id/min_price_text_view_second_line"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/per_night" />
     </RelativeLayout>
 
     <LinearLayout
@@ -54,8 +90,8 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/min_price_row_container"
         android:orientation="vertical"
-        android:weightSum="4"
-        android:paddingBottom="10dp" >
+        android:paddingBottom="10dp"
+        android:weightSum="4" >
 
         <RelativeLayout
             android:id="@+id/rates_status_container"

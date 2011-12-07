@@ -8,6 +8,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.Html;
@@ -24,7 +25,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -86,33 +86,16 @@ public class AvailabilitySummaryLayoutUtils {
 		View availabilitySummaryContainerCentered = view.findViewById(R.id.availability_summary_container);
 		View availabilitySummaryContainerLeft = view.findViewById(R.id.availability_summary_container_left);
 		View minPriceRow = view.findViewById(R.id.min_price_row_container);
+		Resources r = context.getResources();
 
 		boolean isPropertyOnSale = property.getLowestRate().isOnSale();
-
-		/*
-		 * If the centered availability summary container does not exist,
-		 * and the one that is left-aligned does, adjust the layout with that
-		 * in mind (set the background of the right views)
-		 */
-		TextView basePrice = (TextView) minPriceRow.findViewById(R.id.base_price_text_view);
-		TextView minPrice = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
-
 		String displayRateString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
 
-		Resources r = context.getResources();
-		// style the minimum available price text
+		/*
+		 * Styling
+		 */
 		StyleSpan textStyleSpan = new StyleSpan(Typeface.BOLD);
 		ForegroundColorSpan textColorSpan = new ForegroundColorSpan(r.getColor(R.color.hotel_price_text_color));
-
-		TextView perNighTextView = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
-		perNighTextView.setTextColor(r.getColor(android.R.color.black));
-
-		if (Rate.showInclusivePrices()) {
-			perNighTextView.setVisibility(View.GONE);
-		}
-		else {
-			perNighTextView.setVisibility(View.VISIBLE);
-		}
 
 		boolean useCondensedActionBar;
 		if (AndroidUtils.getSdkVersion() >= 13) {
@@ -122,121 +105,155 @@ public class AvailabilitySummaryLayoutUtils {
 			useCondensedActionBar = r.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
 		}
 
-		if (isPropertyOnSale) {
-			basePrice.setVisibility(View.VISIBLE);
-			String basePriceString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayBaseRate());
+		SpannableString basePriceSpannableString = null;
+		SpannableString minPriceSpannableString = null;
+		float textSize = 0.0f;
+		boolean twoLineLayout = false;
 
+		if (isPropertyOnSale) {
+			String basePriceString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayBaseRate());
 			String basePriceStringWithFrom = useCondensedActionBar ? basePriceString : r.getString(
 					R.string.min_room_price_template, basePriceString);
+			basePriceSpannableString = new SpannableString(basePriceStringWithFrom);
 
 			int startingIndexOfBasePrice = basePriceStringWithFrom.indexOf(basePriceString);
 
-			SpannableString basePriceStrSpannable = new SpannableString(basePriceStringWithFrom);
-
-			// 11364: ensuring to spefically handle both cases where the "from" word
+			// 11364: ensuring to specifically handle both cases where the "from" word
 			// can be before or after the base price
 			if (startingIndexOfBasePrice > 0) {
-				basePriceStrSpannable.setSpan(textStyleSpan, 0, startingIndexOfBasePrice - 1, 0);
-
+				basePriceSpannableString.setSpan(textStyleSpan, 0, startingIndexOfBasePrice - 1, 0);
 			}
 			else if (startingIndexOfBasePrice == 0) {
-				basePriceStrSpannable.setSpan(textStyleSpan, startingIndexOfBasePrice + basePriceString.length(),
+				basePriceSpannableString.setSpan(textStyleSpan, startingIndexOfBasePrice + basePriceString.length(),
 						basePriceStringWithFrom.length(), 0);
 			}
-
-			basePriceStrSpannable.setSpan(new StrikethroughSpan(), startingIndexOfBasePrice, startingIndexOfBasePrice
-					+ basePriceString.length(), 0);
-			basePriceStrSpannable.setSpan(new AbsoluteSizeSpan(16, true), startingIndexOfBasePrice,
+			
+			// strike through the baes price to indicate sale
+			basePriceSpannableString.setSpan(new StrikethroughSpan(), startingIndexOfBasePrice,
+					startingIndexOfBasePrice + basePriceString.length(), 0);
+			
+			// decrease the size of the base price so that the sale price is more prominent
+			basePriceSpannableString.setSpan(new AbsoluteSizeSpan(16, true), startingIndexOfBasePrice,
 					startingIndexOfBasePrice + basePriceString.length(), 0);
 
-			basePrice.setText(basePriceStrSpannable);
-			basePrice.setTextColor(r.getColor(android.R.color.black));
-			basePrice.setShadowLayer(0.1f, 0f, 1f, r.getColor(R.color.text_shadow_color));
-			basePrice.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+			minPriceSpannableString = new SpannableString(displayRateString);
+			// bold the sale price
+			minPriceSpannableString.setSpan(textStyleSpan, 0, displayRateString.length(), 0);
 
 			String textToMeasure = basePriceStringWithFrom + displayRateString + context.getString(R.string.per_night);
+			Paint paint = new Paint();
+			paint.setTextSize(r.getDimension(R.dimen.min_price_row_text_normal));
 
+			// if the base and minimum price are too long to fit on one line, use a two line approach instead
 			if (tooLongToFitOnOneLine(availabilitySummaryContainerCentered, availabilitySummaryContainerLeft,
-					textToMeasure, minPrice.getPaint())) {
-				layoutBaseAndMinPriceOnTwoLines(context, basePrice, minPrice);
+					textToMeasure, paint)) {
+				twoLineLayout = true;
+				textSize = context.getResources().getDimension(R.dimen.min_price_row_text_small);
 			}
 			else {
-				layoutBaseAndMinPriceSideBySide(context, basePrice, minPrice);
+				textSize = context.getResources().getDimension(R.dimen.min_price_row_text_normal);
 			}
 
-			SpannableString str = new SpannableString(displayRateString);
-			str.setSpan(textStyleSpan, 0, displayRateString.length(), 0);
-
-			minPrice.setText(str);
-			minPrice.setTextColor(r.getColor(R.color.hotel_price_text_color));
 		}
 		else {
-			layoutBaseAndMinPriceSideBySide(context, basePrice, minPrice);
-			basePrice.setVisibility(View.GONE);
-
 			String minPriceString = useCondensedActionBar ? displayRateString : r.getString(
 					R.string.min_room_price_template, displayRateString);
-
-			SpannableString str = new SpannableString(minPriceString);
+			minPriceSpannableString = new SpannableString(minPriceString);
 
 			ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(r.getColor(android.R.color.black));
 			int startingIndexOfDisplayRate = minPriceString.indexOf(displayRateString);
 
-			str.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
-			str.setSpan(textColorSpan, startingIndexOfDisplayRate,
-					startingIndexOfDisplayRate + displayRateString.length(), 0);
+			// bold the starting price
+			minPriceSpannableString.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
+			
+			// set the starting price to be the color black
+			minPriceSpannableString.setSpan(textColorSpan, startingIndexOfDisplayRate, startingIndexOfDisplayRate
+					+ displayRateString.length(), 0);
 
 			// 11364: ensuring to specifically handle the case where the "from" word can be before
 			// or after the min price
 			if (startingIndexOfDisplayRate > 0) {
-				str.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
+				minPriceSpannableString.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
 			}
 			else if (startingIndexOfDisplayRate == 0) {
-				str.setSpan(textBlackColorSpan, startingIndexOfDisplayRate + displayRateString.length(),
-						minPriceString.length(), 0);
+				minPriceSpannableString.setSpan(textBlackColorSpan,
+						startingIndexOfDisplayRate + displayRateString.length(), minPriceString.length(), 0);
 			}
+			
+			textSize = context.getResources().getDimension(R.dimen.min_price_row_text_normal);
+		}
 
-			minPrice.setText(str);
-			float textSize = context.getResources().getDimension(R.dimen.min_price_row_text_normal);
+		TextView basePriceOneLine = (TextView) minPriceRow.findViewById(R.id.base_price_text_view);
+		TextView minPriceOneLine = (TextView) minPriceRow.findViewById(R.id.min_price_text_view);
+		TextView perNightTextViewOneLine = (TextView) minPriceRow.findViewById(R.id.per_night_text_view);
+		TextView basePriceFirstLine = (TextView) minPriceRow.findViewById(R.id.base_price_text_view_first_line);
+		TextView minPriceOnSecondLine = (TextView) minPriceRow.findViewById(R.id.min_price_text_view_second_line);
+		TextView perNightTextViewOnSecondLine = (TextView) minPriceRow
+				.findViewById(R.id.per_night_text_view_second_line);
+
+		TextView basePrice = null;
+		TextView minPrice = null;
+		TextView perNightTextView = null;
+
+		if (twoLineLayout) {
+			basePrice = basePriceFirstLine;
+			minPrice = minPriceOnSecondLine;
+			perNightTextView = perNightTextViewOnSecondLine;
+
+			basePriceOneLine.setVisibility(View.GONE);
+			minPriceOneLine.setVisibility(View.GONE);
+			perNightTextViewOneLine.setVisibility(View.GONE);
+
+			basePriceFirstLine.setVisibility(View.VISIBLE);
+			minPriceOnSecondLine.setVisibility(View.VISIBLE);
+			perNightTextViewOnSecondLine.setVisibility(View.VISIBLE);
+		}
+		else {
+			basePrice = basePriceOneLine;
+			minPrice = minPriceOneLine;
+			perNightTextView = perNightTextViewOneLine;
+
+			basePriceOneLine.setVisibility(View.VISIBLE);
+			minPriceOneLine.setVisibility(View.VISIBLE);
+			perNightTextViewOneLine.setVisibility(View.VISIBLE);
+
+			basePriceFirstLine.setVisibility(View.GONE);
+			minPriceOnSecondLine.setVisibility(View.GONE);
+			perNightTextViewOnSecondLine.setVisibility(View.GONE);
+		}
+
+		if (basePriceSpannableString != null) {
+			basePrice.setText(basePriceSpannableString);
+			basePrice.setTextColor(Color.BLACK);
+			basePrice.setShadowLayer(0.1f, 0f, 1f, r.getColor(R.color.text_shadow_color));
+			basePrice.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+			basePrice.setVisibility(View.VISIBLE);
 			basePrice.setTextSize(textSize);
-			minPrice.setTextSize(textSize);
+		}
+		else {
+			basePrice.setVisibility(View.GONE);
+		}
+
+		if (Rate.showInclusivePrices()) {
+			perNightTextView.setVisibility(View.GONE);
+		}
+		else {
+			perNightTextView.setVisibility(View.VISIBLE);
 		}
 
 		/*
 		 * NOTE: Unsure as to why the text shadow layer is not applied 
 		 * to the text view when the view is hardware rendered 
 		 */
+		minPrice.setText(minPriceSpannableString);
 		minPrice.setShadowLayer(0.1f, 0f, 1f, r.getColor(R.color.text_shadow_color));
 		minPrice.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
-		perNighTextView.setShadowLayer(0.1f, 0f, 1f, r.getColor(R.color.text_shadow_color));
-		perNighTextView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
-	}
-
-	private static void layoutBaseAndMinPriceSideBySide(Context context, TextView basePrice, TextView minPrice) {
-		((RelativeLayout.LayoutParams) basePrice.getLayoutParams()).addRule(RelativeLayout.ALIGN_BASELINE,
-				R.id.min_price_text_view);
-		((RelativeLayout.LayoutParams) minPrice.getLayoutParams()).addRule(RelativeLayout.BELOW, 0);
-		((RelativeLayout.LayoutParams) minPrice.getLayoutParams()).addRule(RelativeLayout.RIGHT_OF,
-				R.id.base_price_text_view);
-		((RelativeLayout.LayoutParams) minPrice.getLayoutParams()).topMargin = 0;
-		((RelativeLayout.LayoutParams) basePrice.getLayoutParams()).bottomMargin = 0;
-
-		float textSize = context.getResources().getDimension(R.dimen.min_price_row_text_normal);
-		basePrice.setTextSize(textSize);
+		minPrice.setTextColor(r.getColor(R.color.hotel_price_text_color));
 		minPrice.setTextSize(textSize);
-	}
 
-	private static void layoutBaseAndMinPriceOnTwoLines(Context context, TextView basePrice, TextView minPrice) {
-		((RelativeLayout.LayoutParams) basePrice.getLayoutParams()).addRule(RelativeLayout.ALIGN_BASELINE, 0);
-		((RelativeLayout.LayoutParams) minPrice.getLayoutParams()).addRule(RelativeLayout.BELOW,
-				R.id.base_price_text_view);
-		((RelativeLayout.LayoutParams) minPrice.getLayoutParams()).addRule(RelativeLayout.RIGHT_OF, 0);
-		((RelativeLayout.LayoutParams) minPrice.getLayoutParams()).topMargin = 0;
-		float textSize = context.getResources().getDimension(R.dimen.min_price_row_text_small);
-		basePrice.setTextSize(textSize);
-		minPrice.setTextSize(textSize);
+		perNightTextView.setTextColor(Color.BLACK);
+		perNightTextView.setShadowLayer(0.1f, 0f, 1f, r.getColor(R.color.text_shadow_color));
+		perNightTextView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 	}
 
 	private static boolean tooLongToFitOnOneLine(View availabilitySummaryContainerCentered,
