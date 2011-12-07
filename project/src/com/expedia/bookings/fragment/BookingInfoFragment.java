@@ -88,7 +88,8 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 
 					int maxHeightInPx = (int) Math.ceil(getResources().getDisplayMetrics().density
 							* getResources().getDimension(R.dimen.max_height_room_details_container));
-					if (receipt.getMeasuredHeight() > maxHeightInPx || roomDetailsContainer.getMeasuredHeight() > maxHeightInPx) {
+					if (receipt.getMeasuredHeight() > maxHeightInPx
+							|| roomDetailsContainer.getMeasuredHeight() > maxHeightInPx) {
 						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).height = maxHeightInPx;
 						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).addRule(
 								RelativeLayout.ALIGN_BOTTOM, 0);
@@ -171,7 +172,15 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 				roomTypeDescription = propertyInfoResponse.getErrors().get(0).getPresentableMessage(getActivity());
 			}
 			else {
-				roomTypeDescription = Html.fromHtml(propertyInfoResponse.getPropertyInfo().getRoomLongDescription(rate)).toString().trim();
+				//11479: It's possible for there to not exist a long description for a particular rate. In such a situation, 
+				// load up a message saying that the description is not available.
+				String longDescription = propertyInfoResponse.getPropertyInfo().getRoomLongDescription(rate);
+				if (longDescription != null) {
+					roomTypeDescription = Html.fromHtml(longDescription).toString().trim();
+				}
+				else {
+					roomTypeDescription = getString(R.string.error_room_type_nonexistant);
+				}
 			}
 		}
 
