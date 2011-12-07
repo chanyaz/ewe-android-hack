@@ -309,7 +309,7 @@ public class TrackingUtils {
 			return mNetworkTypes.get(networkType);
 		}
 
-		return "unknown";
+		return "NA";
 	}
 
 	private static String md5(String s) {
