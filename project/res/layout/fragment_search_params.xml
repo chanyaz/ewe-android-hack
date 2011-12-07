@@ -34,7 +34,7 @@
             style="@style/InstructionText"
             android:layout_marginLeft="@dimen/search_params_calendar_margin_left"
             android:layout_marginRight="@dimen/search_params_calendar_margin_right"
-            android:paddingLeft="18dp" />
+            android:paddingLeft="@dimen/when_text_padding_left" />
 
         <TextView
             android:id="@+id/who_text_view"

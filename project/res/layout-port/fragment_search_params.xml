@@ -72,7 +72,7 @@
         android:id="@+id/who_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
+        android:layout_marginLeft="41dp"
         android:layout_marginTop="40dp"
         android:textColor="@android:color/white"
         android:textSize="19dp" />
