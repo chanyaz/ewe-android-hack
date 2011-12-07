@@ -247,14 +247,14 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 			perNightText.setVisibility(View.VISIBLE);
 			if (rateBreakdown == null) {
 				// If rateBreakdown is null, we assume that this is a per/night hotel
-				perNightTextId = R.string.rate_per_night;
+				perNightTextId = R.string.per_night; // R.string.rate_per_night;
 			}
 			else if (rateBreakdown.size() > 1) {
 				if (lowestRate.rateChanges()) {
 					perNightTextId = R.string.rate_avg_per_night;
 				}
 				else {
-					perNightTextId = R.string.rate_per_night;
+					perNightTextId = R.string.per_night; // R.string.rate_per_night;
 				}
 			}
 		}
