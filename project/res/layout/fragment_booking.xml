@@ -26,13 +26,12 @@
                 android:id="@+id/room_details_container_right"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/fragment_receipt"
                 android:layout_alignTop="@id/fragment_receipt"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="2dp"
                 android:layout_toRightOf="@id/fragment_receipt"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/room_type_description_title_view"
@@ -53,29 +52,24 @@
                     android:id="@+id/room_type_description_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/hotel_details_text_color"
                     android:textSize="14sp" />
 
-                <FrameLayout
+                <Button
+                    android:id="@+id/complete_booking_info_button"
+                    style="@style/Widget.Button.Yellow.Confirmation"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" >
-
-                    <Button
-                        android:id="@+id/complete_booking_info_button"
-                        style="@style/Widget.Button.Yellow.Confirmation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginTop="5dp"
-                        android:maxLines="1"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="@string/enter_booking_info" />
-                </FrameLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="5dp"
+                    android:maxLines="1"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/enter_booking_info" />
             </LinearLayout>
         </RelativeLayout>
 

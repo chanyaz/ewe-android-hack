@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.View.OnLayoutChangeListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -88,9 +90,8 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 
 					int maxHeightInPx = (int) Math.ceil(getResources().getDisplayMetrics().density
 							* getResources().getDimension(R.dimen.max_height_room_details_container));
-					if (receipt.getMeasuredHeight() > maxHeightInPx
-							|| roomDetailsContainer.getMeasuredHeight() > maxHeightInPx) {
-						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).height = maxHeightInPx;
+					if (receipt.getMeasuredHeight() > maxHeightInPx) {
+						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).height = LayoutParams.WRAP_CONTENT;
 						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).addRule(
 								RelativeLayout.ALIGN_BOTTOM, 0);
 					}
