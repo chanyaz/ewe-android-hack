@@ -67,6 +67,12 @@ public class SearchParams implements JSONable {
 		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 		mCheckInDate = new GregorianCalendar(year, month, dayOfMonth);
 		mCheckOutDate = new GregorianCalendar(year, month, dayOfMonth + 1);
+
+		// #11476: If we don't examine these now, they somehow (later in the code) end up being set
+		// as a day earlier.  I don't claim to know why this works, but it fixes the problem.  In
+		// the future, we should figure out a better fix.  TODO ~dlew
+		Log.v("#11476: Forcing processing on check in/out date to correct weird Calendar issue: "
+				+ mCheckInDate.get(Calendar.DAY_OF_MONTH) + ", " + mCheckOutDate.get(Calendar.DAY_OF_MONTH));
 	}
 
 	public SearchParams(JSONObject obj) {
