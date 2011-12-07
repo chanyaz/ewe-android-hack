@@ -65,24 +65,31 @@
             android:ellipsize="end"
             android:singleLine="true" />
 
-        <TextView
-            android:id="@+id/min_price_text_view_second_line"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/base_price_text_view_first_line"
-            android:ellipsize="end"
-            android:paddingLeft="5dp"
-            android:singleLine="true" />
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:layout_centerHorizontal="true" >
 
-        <TextView
-            android:id="@+id/per_night_text_view_second_line"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/min_price_text_view_second_line"
-            android:layout_toRightOf="@id/min_price_text_view_second_line"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="@string/per_night" />
+            <TextView
+                android:id="@+id/min_price_text_view_second_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/per_night_text_view_second_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/min_price_text_view_second_line"
+                android:layout_toRightOf="@id/min_price_text_view_second_line"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/per_night" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <LinearLayout
