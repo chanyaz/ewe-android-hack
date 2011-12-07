@@ -378,7 +378,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		// update the summarized rates if they are available
 		AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
 				.getRoomsAndRatesAvailability();
-		mSelectRoomButton.setEnabled((availabilityResponse != null));
+		mSelectRoomButton.setEnabled(availabilityResponse != null && !availabilityResponse.hasErrors());
 
 		AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse, view,
 				getString(R.string.select_room), mSelectRoomButtonOnClickListener,
