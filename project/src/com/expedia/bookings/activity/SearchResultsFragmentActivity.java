@@ -778,6 +778,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	public void startGeocode() {
 		Log.i("startGeocode(): " + mInstance.mSearchParams.getFreeformLocation());
+
+		mInstance.mSearchParams.setUserFreeformLocation(mInstance.mSearchParams.getFreeformLocation());
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.startDownload(KEY_GEOCODE, mGeocodeDownload, mGeocodeCallback);
 	}
