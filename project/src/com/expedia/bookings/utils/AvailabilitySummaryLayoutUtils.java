@@ -104,7 +104,7 @@ public class AvailabilitySummaryLayoutUtils {
 		else {
 			useCondensedActionBar = r.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
 		}
-		
+
 		// Determine whether to show rate, rate per night, or avg rate per night for explanation
 		Rate lowestRate = property.getLowestRate();
 		int explanationId = 0;
@@ -123,7 +123,7 @@ public class AvailabilitySummaryLayoutUtils {
 				}
 			}
 		}
-		
+
 		SpannableString basePriceSpannableString = null;
 		SpannableString minPriceSpannableString = null;
 		float textSize = 0.0f;
@@ -146,11 +146,11 @@ public class AvailabilitySummaryLayoutUtils {
 				basePriceSpannableString.setSpan(textStyleSpan, startingIndexOfBasePrice + basePriceString.length(),
 						basePriceStringWithFrom.length(), 0);
 			}
-			
+
 			// strike through the baes price to indicate sale
 			basePriceSpannableString.setSpan(new StrikethroughSpan(), startingIndexOfBasePrice,
 					startingIndexOfBasePrice + basePriceString.length(), 0);
-			
+
 			// decrease the size of the base price so that the sale price is more prominent
 			basePriceSpannableString.setSpan(new AbsoluteSizeSpan(16, true), startingIndexOfBasePrice,
 					startingIndexOfBasePrice + basePriceString.length(), 0);
@@ -159,12 +159,11 @@ public class AvailabilitySummaryLayoutUtils {
 			// bold the sale price
 			minPriceSpannableString.setSpan(textStyleSpan, 0, displayRateString.length(), 0);
 
-			
 			String textToMeasure = basePriceStringWithFrom + displayRateString;
-			if(explanationId != 0) {
+			if (explanationId != 0) {
 				textToMeasure += context.getString(explanationId);
 			}
-			
+
 			Paint paint = new Paint();
 			paint.setTextSize(r.getDimension(R.dimen.min_price_row_text_normal));
 
@@ -189,7 +188,7 @@ public class AvailabilitySummaryLayoutUtils {
 
 			// bold the starting price
 			minPriceSpannableString.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
-			
+
 			// set the starting price to be the color black
 			minPriceSpannableString.setSpan(textColorSpan, startingIndexOfDisplayRate, startingIndexOfDisplayRate
 					+ displayRateString.length(), 0);
@@ -203,7 +202,7 @@ public class AvailabilitySummaryLayoutUtils {
 				minPriceSpannableString.setSpan(textBlackColorSpan,
 						startingIndexOfDisplayRate + displayRateString.length(), minPriceString.length(), 0);
 			}
-			
+
 			textSize = context.getResources().getDimension(R.dimen.min_price_row_text_normal);
 		}
 
@@ -241,9 +240,11 @@ public class AvailabilitySummaryLayoutUtils {
 			minPriceOneLine.setVisibility(View.VISIBLE);
 			perNightTextViewOneLine.setVisibility(View.VISIBLE);
 
-			basePriceFirstLine.setVisibility(View.GONE);
-			minPriceOnSecondLine.setVisibility(View.GONE);
-			perNightTextViewOnSecondLine.setVisibility(View.GONE);
+			if (basePriceFirstLine != null) {
+				basePriceFirstLine.setVisibility(View.GONE);
+				minPriceOnSecondLine.setVisibility(View.GONE);
+				perNightTextViewOnSecondLine.setVisibility(View.GONE);
+			}
 		}
 
 		if (basePriceSpannableString != null) {
@@ -268,13 +269,14 @@ public class AvailabilitySummaryLayoutUtils {
 		minPrice.setTextColor(r.getColor(R.color.hotel_price_text_color));
 		minPrice.setTextSize(textSize);
 
-		if(explanationId != 0) {
+		if (explanationId != 0) {
 			perNightTextView.setVisibility(View.VISIBLE);
 			perNightTextView.setText(context.getString(explanationId));
 			perNightTextView.setTextColor(Color.BLACK);
 			perNightTextView.setShadowLayer(0.1f, 0f, 1f, r.getColor(R.color.text_shadow_color));
 			perNightTextView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		} else {
+		}
+		else {
 			perNightTextView.setVisibility(View.GONE);
 		}
 	}
@@ -285,11 +287,6 @@ public class AvailabilitySummaryLayoutUtils {
 
 		if (availabilitySummaryContainerCentered != null) {
 			if ((measuredTextWidth / availabilitySummaryContainerCentered.getMeasuredWidth()) > 0.8) {
-				return true;
-			}
-		}
-		else if (availabilitySummaryContainerLeft != null) {
-			if ((measuredTextWidth / availabilitySummaryContainerLeft.getMeasuredWidth()) > 0.8) {
 				return true;
 			}
 		}
