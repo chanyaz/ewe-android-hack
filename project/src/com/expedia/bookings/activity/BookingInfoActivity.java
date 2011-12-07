@@ -518,7 +518,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	@Override
 	public Object doDownload() {
 		ExpediaServices services = new ExpediaServices(this, mSession);
-		return services.reservation(mSearchParams, mProperty, mRate, mBillingInfo);
+		return services.reservation(this, mSearchParams, mProperty, mRate, mBillingInfo);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -665,7 +665,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// Configure form validation
 		// Setup validators and error handlers
-		final String userCurrency = CurrencyUtils.getCurrencyCode(mContext);
+		final String userCurrency = "USD"; //TODO: CurrencyUtils.getCurrencyCode(mContext);
 		TextViewValidator requiredFieldValidator = new TextViewValidator();
 		Validator<TextView> usValidator = new Validator<TextView>() {
 			public int validate(TextView obj) {

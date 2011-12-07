@@ -291,8 +291,8 @@ public class BookingFragmentActivity extends Activity {
 	private Download mBookingDownload = new Download() {
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext, mInstance.mSession);
-			return services.reservation(mInstance.mSearchParams, mInstance.mProperty, mInstance.mRate,
-					mInstance.mBillingInfo);
+			return services.reservation(BookingFragmentActivity.this, mInstance.mSearchParams, mInstance.mProperty,
+					mInstance.mRate, mInstance.mBillingInfo);
 		}
 	};
 

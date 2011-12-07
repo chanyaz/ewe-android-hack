@@ -441,7 +441,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 
 		// Configure form validation
 		// Setup validators and error handlers
-		final String userCurrency = CurrencyUtils.getCurrencyCode(getActivity());
+		final String userCurrency = "USD"; //TODO: CurrencyUtils.getCurrencyCode(getActivity());
 		TextViewValidator requiredFieldValidator = new TextViewValidator();
 		Validator<TextView> usValidator = new Validator<TextView>() {
 			public int validate(TextView obj) {

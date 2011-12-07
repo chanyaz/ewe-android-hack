@@ -15,57 +15,42 @@
 		<item>@string/suggestion_san_francisco</item>
 	</string-array>
 
-	<!-- List of currency names that should be presented to the user as options.
-		If you want to use currencies other than these listed, override currency_names
-		and currency_codes in the application -->
-	<string-array name="currency_names">
-		<item>@string/Default</item>
-		<item>@string/currency_aud</item>
-		<item>@string/currency_brl</item>
-		<item>@string/currency_gbp</item>
-		<item>@string/currency_cad</item>
-		<item>@string/currency_cny</item>
-		<item>@string/currency_dkk</item>
-		<item>@string/currency_eur</item>
-		<item>@string/currency_hkd</item>
-		<item>@string/currency_inr</item>
-		<item>@string/currency_ils</item>
-		<item>@string/currency_jpy</item>
-		<item>@string/currency_krw</item>
-		<item>@string/currency_mxn</item>
-		<item>@string/currency_nzd</item>
-		<item>@string/currency_nok</item>
-		<item>@string/currency_rub</item>
-		<item>@string/currency_sgd</item>
-		<item>@string/currency_sek</item>
-		<item>@string/currency_chf</item>
-		<item>@string/currency_usd</item>
-	</string-array>
-
-	<!-- List of currency codes that corresponds to the currencies in currency_names. -->
-	<string-array name="currency_codes">
-		<item>@string/CurrencyDefault</item>
-		<item>@string/currency_code_aud</item>
-		<item>@string/currency_code_brl</item>
-		<item>@string/currency_code_gbp</item>
-		<item>@string/currency_code_cad</item>
-		<item>@string/currency_code_cny</item>
-		<item>@string/currency_code_dkk</item>
-		<item>@string/currency_code_eur</item>
-		<item>@string/currency_code_hkd</item>
-		<item>@string/currency_code_inr</item>
-		<item>@string/currency_code_ils</item>
-		<item>@string/currency_code_jpy</item>
-		<item>@string/currency_code_krw</item>
-		<item>@string/currency_code_mxn</item>
-		<item>@string/currency_code_nzd</item>
-		<item>@string/currency_code_nok</item>
-		<item>@string/currency_code_rub</item>
-		<item>@string/currency_code_sgd</item>
-		<item>@string/currency_code_sek</item>
-		<item>@string/currency_code_chf</item>
-		<item>@string/currency_code_usd</item>
-	</string-array>
+    <!--
+         List of available Expedia Points of Sale (POS) that should be presented to the
+         user as options.
+    -->
+    <string-array name="points_of_sale">
+        <item>@string/point_of_sale_us</item>
+        <item>@string/point_of_sale_ar</item>
+        <item>@string/point_of_sale_at</item>
+        <item>@string/point_of_sale_au</item>
+        <item>@string/point_of_sale_be</item>
+        <item>@string/point_of_sale_br</item>
+        <item>@string/point_of_sale_ca</item>
+        <item>@string/point_of_sale_de</item>
+        <item>@string/point_of_sale_dk</item>
+        <item>@string/point_of_sale_es</item>
+        <item>@string/point_of_sale_fr</item>
+        <item>@string/point_of_sale_hk</item>
+        <item>@string/point_of_sale_id</item>
+        <item>@string/point_of_sale_ie</item>
+        <item>@string/point_of_sale_in</item>
+        <item>@string/point_of_sale_it</item>
+        <item>@string/point_of_sale_jp</item>
+        <item>@string/point_of_sale_kr</item>
+        <item>@string/point_of_sale_mx</item>
+        <item>@string/point_of_sale_my</item>
+        <item>@string/point_of_sale_nl</item>
+        <item>@string/point_of_sale_no</item>
+        <item>@string/point_of_sale_nz</item>
+        <item>@string/point_of_sale_ph</item>
+        <item>@string/point_of_sale_se</item>
+        <item>@string/point_of_sale_sg</item>
+        <item>@string/point_of_sale_th</item>
+        <item>@string/point_of_sale_tw</item>
+        <item>@string/point_of_sale_uk</item>
+        <item>@string/point_of_sale_vn</item>
+    </string-array>
 
 	<string-array name="country_names">
 		<item>@string/country_af</item>

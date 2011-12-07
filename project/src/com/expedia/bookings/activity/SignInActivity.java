@@ -101,7 +101,7 @@ public class SignInActivity extends Activity {
 
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SIGNIN, services);
-			return services.signIn(email, password);
+			return services.signIn(SignInActivity.this, email, password);
 		}
 	};
 

@@ -9,11 +9,10 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.LocaleUtils;
+import com.mobiata.android.util.SettingUtils;
 
 public class ExpediaBookingPreferenceActivity extends PreferenceActivity {
-
-	private String mDefaultCurrency;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,23 +21,22 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity {
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preferences);
 
-		mDefaultCurrency = CurrencyUtils.getDefaultCurrencyCode(this);
+		String pointOfSaleKey = getString(R.string.PointOfSaleKey);
 
-		// Setup the default currency so it states what it considers default
-		// Depends on the first value being the default, so don't change the order
-		ListPreference currencyPref = (ListPreference) findPreference(getString(R.string.CurrencyKey));
-		CharSequence[] entries = currencyPref.getEntries();
-		entries[0] = getString(R.string.default_currency_template, mDefaultCurrency);
-		currencyPref.setEntries(entries);
+		// Make sure the default value (based on locale) is saved in the SharedPreferences
+		SettingUtils.save(this, pointOfSaleKey,
+				SettingUtils.get(this, pointOfSaleKey, LocaleUtils.getDefaultPointOfSale(this)));
 
-		currencyPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+		ListPreference pointOfSalePref = (ListPreference) findPreference(pointOfSaleKey);
+
+		pointOfSalePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				configureCurrencyPreferenceSummary((String) newValue);
+				configurePointOfSalePreferenceSummary((String) newValue);
 				return true;
 			}
 		});
 
-		configureCurrencyPreferenceSummary(CurrencyUtils.getCurrencyCode(this));
+		configurePointOfSalePreferenceSummary(pointOfSalePref.getValue());
 
 		// If the result is canceled, means no prefs were modified
 		setResult(RESULT_CANCELED);
@@ -55,15 +53,10 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity {
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}
 
-	// Sets the currency summary to display whichever currency is currently selected
-	public void configureCurrencyPreferenceSummary(String currencyCode) {
-		if (currencyCode.equals(getString(R.string.CurrencyDefault))) {
-			currencyCode = mDefaultCurrency;
-		}
-		String currencyName = CurrencyUtils.getCurrencyName(this, currencyCode);
-
+	// Sets the currency summary to display whichever point of sale is currently selected
+	public void configurePointOfSalePreferenceSummary(String pos) {
 		PreferenceManager pm = getPreferenceManager();
-		Preference currencyPref = pm.findPreference(getString(R.string.CurrencyKey));
-		currencyPref.setSummary(getString(R.string.preference_currency_summary_template, currencyName, currencyCode));
+		Preference pointOfSalePref = pm.findPreference(getString(R.string.PointOfSaleKey));
+		pointOfSalePref.setSummary(pos);
 	}
 }

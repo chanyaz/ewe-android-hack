@@ -4,11 +4,10 @@
 	<PreferenceCategory
 		android:title="@string/preference_category_general">
 		<ListPreference
-			android:key="@string/CurrencyKey"
-			android:title="@string/preference_currency_title"
-			android:entries="@array/currency_names"
-			android:entryValues="@array/currency_codes"
-			android:defaultValue="@string/CurrencyDefault" />
+			android:key="@string/PointOfSaleKey"
+			android:title="@string/preference_point_of_sale_title"
+			android:entries="@array/points_of_sale"
+			android:entryValues="@array/points_of_sale" />
 		<com.expedia.bookings.dialog.ClearPrivateDataDialogPreference
 			android:key="@string/preference_clear_private_data_key"
 			android:title="@string/clear_private_data"

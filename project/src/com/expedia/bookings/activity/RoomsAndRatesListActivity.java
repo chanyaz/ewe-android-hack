@@ -185,7 +185,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		}
 		else {
 			ExpediaServices services = new ExpediaServices(this, mSession);
-			return services.availability(mSearchParams, mProperty);
+			return services.availability(this, mSearchParams, mProperty);
 		}
 	}
 

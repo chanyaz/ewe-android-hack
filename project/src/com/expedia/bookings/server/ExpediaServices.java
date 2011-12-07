@@ -40,6 +40,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
@@ -55,11 +56,13 @@ import com.expedia.bookings.data.Session;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.AndroidHttpClient;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
+import com.mobiata.android.util.SettingUtils;
 
 public class ExpediaServices implements DownloadListener {
 
@@ -117,7 +120,7 @@ public class ExpediaServices implements DownloadListener {
 
 	private static final String ISO_FORMAT = "yyyy-MM-dd";
 
-	public SearchResponse search(SearchParams params, int sortType) {
+	public SearchResponse search(Context context, SearchParams params, int sortType) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		if (params.hasSearchLatLon()) {
@@ -137,14 +140,14 @@ public class ExpediaServices implements DownloadListener {
 
 		SearchResponseHandler rh = new SearchResponseHandler(mContext);
 		rh.setNumNights(params.getStayDuration());
-		return (SearchResponse) doRequest("/MobileHotel/Webapp/SearchResults", query, rh, 0);
+		return (SearchResponse) doRequest(context, "/MobileHotel/Webapp/SearchResults", query, rh, 0);
 	}
 
-	public AvailabilityResponse availability(SearchParams params, Property property) {
-		return availability(params, property, F_EXPENSIVE);
+	public AvailabilityResponse availability(Context context, SearchParams params, Property property) {
+		return availability(context, params, property, F_EXPENSIVE);
 	}
 
-	public AvailabilityResponse availability(SearchParams params, Property property, int flags) {
+	public AvailabilityResponse availability(Context context, SearchParams params, Property property, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
@@ -155,11 +158,12 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("makeExpensiveRealtimeCall", "true"));
 		}
 
-		return (AvailabilityResponse) doRequest("/MobileHotel/Webapp/HotelOffers", query,
+		return (AvailabilityResponse) doRequest(context, "/MobileHotel/Webapp/HotelOffers", query,
 				new AvailabilityResponseHandler(mContext, params, property), 0);
 	}
 
-	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo) {
+	public BookingResponse reservation(Context context, SearchParams params, Property property, Rate rate,
+			BillingInfo billingInfo) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
@@ -186,17 +190,17 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
 				.getTime())));
 
-		return (BookingResponse) doRequest("/MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(
+		return (BookingResponse) doRequest(context, "/MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(
 				mContext), F_SECURE_REQUEST);
 	}
 
-	public SignInResponse signIn(String email, String password) {
+	public SignInResponse signIn(Context context, String email, String password) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("email", email));
 		query.add(new BasicNameValuePair("password", password));
 
-		return (SignInResponse) doRequest("/MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext),
-				F_SECURE_REQUEST);
+		return (SignInResponse) doRequest(context, "/MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(
+				mContext), F_SECURE_REQUEST);
 	}
 
 	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {
@@ -282,12 +286,24 @@ public class ExpediaServices implements DownloadListener {
 		return doRequest(post, responseHandler, flags);
 	}
 
-	private Object doRequest(String targetUrl, List<BasicNameValuePair> params, ResponseHandler<?> responseHandler,
-			int flags) {
+	private Object doRequest(Context context, String targetUrl, List<BasicNameValuePair> params,
+			ResponseHandler<?> responseHandler, int flags) {
+
 		// Determine the target URL
-		String baseUrl = ((flags & F_SECURE_REQUEST) != 0) ? "https://www.expedia.com.chelwebestr37.bgb.karmalab.net"
-				: "http://www.expedia.com.chelwebestr37.bgb.karmalab.net";
-		String serverUrl = baseUrl + targetUrl;
+		StringBuilder builder = new StringBuilder();
+
+		builder.append((flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
+		builder.append("www.");
+
+		String pointOfSale = SettingUtils.get(context, context.getString(R.string.PointOfSaleKey),
+				LocaleUtils.getDefaultPointOfSale(context));
+		builder.append(pointOfSale);
+
+		if (!AndroidUtils.isRelease(context))
+			builder.append(".chelwebestr37.bgb.karmalab.net");
+
+		builder.append(targetUrl);
+		String serverUrl = builder.toString();
 
 		// Create the request
 		HttpPost post = NetUtils.createHttpPost(serverUrl, params);
@@ -480,6 +496,6 @@ public class ExpediaServices implements DownloadListener {
 
 	@Deprecated
 	private void addCurrencyCode(JSONObject body) throws JSONException {
-		body.put("currencyCode", CurrencyUtils.getCurrencyCode(mContext));
+		//body.put("currencyCode", CurrencyUtils.getCurrencyCode(mContext));
 	}
 }
