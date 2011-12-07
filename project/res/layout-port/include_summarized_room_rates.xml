@@ -80,6 +80,7 @@
                 android:id="@+id/min_price_row_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="-2dp"
                 android:layout_marginTop="14dp"
                 android:background="@drawable/bg_normal_ribbon_left"
                 android:gravity="center" >
@@ -97,8 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/base_price_text_view"
                     android:paddingLeft="5dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/hotel_price_text_color" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/per_night_text_view"
