@@ -830,6 +830,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	public void onGeocodeFailure() {
 		simulateSearchErrorResponse(R.string.geolocation_failed);
+
+		TrackingUtils.trackErrorPage(this, "App.Error.LocationNotFound");
 	}
 
 	public void onMyLocationFound(Location location) {
