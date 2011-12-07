@@ -164,6 +164,7 @@ public class BookingReceiptUtils {
 
 	public static String formatCheckInOutDate(Context context, Calendar cal) {
 		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(context);
+		medDf.setTimeZone(CalendarUtils.getFormatTimeZone());
 		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_MEDIUM) + ", "
 				+ medDf.format(cal.getTime());
 	}
