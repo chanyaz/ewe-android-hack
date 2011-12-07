@@ -193,16 +193,20 @@ public class AvailabilitySummaryLayoutUtils {
 			minPriceSpannableString.setSpan(textColorSpan, startingIndexOfDisplayRate, startingIndexOfDisplayRate
 					+ displayRateString.length(), 0);
 
-			// 11364: ensuring to specifically handle the case where the "from" word can be before
-			// or after the min price
-			if (startingIndexOfDisplayRate > 0) {
-				minPriceSpannableString.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
+			
+			// 11464: the condensed version of the min price string does not have the "from" word 
+			// in the ribbon
+			if (!useCondensedActionBar) {
+				// 11364: ensuring to specifically handle the case where the "from" word can be before
+				// or after the min price, so it doesn't make sense to attempt to style it.
+				if (startingIndexOfDisplayRate > 0) {
+					minPriceSpannableString.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
+				}
+				else if (startingIndexOfDisplayRate == 0) {
+					minPriceSpannableString.setSpan(textBlackColorSpan,
+							startingIndexOfDisplayRate + displayRateString.length(), minPriceString.length(), 0);
+				}
 			}
-			else if (startingIndexOfDisplayRate == 0) {
-				minPriceSpannableString.setSpan(textBlackColorSpan,
-						startingIndexOfDisplayRate + displayRateString.length(), minPriceString.length(), 0);
-			}
-
 			textSize = context.getResources().getDimension(R.dimen.min_price_row_text_normal);
 		}
 
