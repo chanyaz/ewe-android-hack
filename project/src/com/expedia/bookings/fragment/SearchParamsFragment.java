@@ -262,6 +262,13 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		InstanceFragment instance = getInstance();
 		SearchParams params = instance.mSearchParams;
 
+		// #11468: Not sure how we get into this state, but let's just try to prevent a crash for now.
+		if (params == null) {
+			Log.w("Somehow, params are null.  Resetting them to default to avoid problems.");
+			instance.mSearchParams = params = new SearchParams();
+			instance.mHasFocusedSearchField = false;
+		}
+
 		if (instance.mHasFocusedSearchField) {
 			mLocationEditText.setText(params.getSearchDisplayText(getActivity()));
 		}

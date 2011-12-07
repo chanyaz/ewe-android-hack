@@ -81,7 +81,11 @@ public class SearchFragmentActivity extends Activity {
 
 		if (resultCode == RESULT_OK && requestCode == REQUEST_SEARCH && data != null
 				&& data.hasExtra(Codes.SEARCH_PARAMS)) {
-			mInstance.mSearchParams = JSONUtils.parseJSONableFromIntent(data, Codes.SEARCH_PARAMS, SearchParams.class);
+			// #11468: Not sure if this is the root cause of the problem, but trying to prevent crash here
+			SearchParams params = JSONUtils.parseJSONableFromIntent(data, Codes.SEARCH_PARAMS, SearchParams.class);
+			if (params != null) {
+				mInstance.mSearchParams = params;
+			}
 			mInstance.mHasFocusedSearchField = true;
 
 			mEventManager.notifyEventHandlers(EVENT_UPDATE_PARAMS, mInstance.mSearchParams);
