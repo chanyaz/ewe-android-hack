@@ -358,39 +358,24 @@ public class AvailabilitySummaryLayoutUtils {
 
 		boolean useSummarizedRates = summarizedRoomRates.numSummarizedRates() > 0;
 
-		// determine the minimum rate to show
-		Rate minimumRate = null;
-		if (useSummarizedRates) {
-			minimumRate = summarizedRoomRates.getStartingRate();
-		}
-		else if (response.getRateCount() > 0) {
-			minimumRate = sortedRates[0];
-		}
-
 		int rateCount = sortedRates.length;
 		int ratePickerPosition = 0;
-		int summaryRowPosition = 0;
 
 		// display rates in the summary container as long as one of the conditions continue to be met:
 		// a) we are not past the maximum 3 rates to display 
 		// b) there is atleast a minimum rate available
 		// c) the rates in the summarized rates container have not been exhausted
 		// d) if there are no summarized rates, the sorted rates have not been exhausted
-		while (summaryRowPosition < MAX_SUMMARIZED_RATE_RESULTS
-				&& ((summaryRowPosition == 0 && (summarizedRoomRates.getStartingRate() != null || rateCount > 0))
-						|| (useSummarizedRates && ratePickerPosition < summarizedRoomRates.numSummarizedRates()) || (!useSummarizedRates && ratePickerPosition < rateCount - 1))) {
+		while (ratePickerPosition < MAX_SUMMARIZED_RATE_RESULTS
+				&& ((useSummarizedRates && ratePickerPosition < summarizedRoomRates.numSummarizedRates()) || (!useSummarizedRates && ratePickerPosition < rateCount))) {
 
-			View summaryRow = availabilityRatesContainer.getChildAt(summaryRowPosition);
+			View summaryRow = availabilityRatesContainer.getChildAt(ratePickerPosition);
 			ObjectAnimator animator = ObjectAnimator.ofFloat(summaryRow, "alpha", 0, 1);
 			animator.setDuration(ANIMATION_SPEED);
 			animator.start();
 
-			boolean showMinimumRate = (summaryRowPosition == 0);
 			Rate rate = null;
-			if (showMinimumRate) {
-				rate = minimumRate;
-			}
-			else if (useSummarizedRates) {
+			if (useSummarizedRates) {
 				rate = summarizedRoomRates.getRate(ratePickerPosition);
 			}
 			else {
@@ -444,15 +429,7 @@ public class AvailabilitySummaryLayoutUtils {
 
 			// determine description of room to display
 			String description = null;
-			if (showMinimumRate) {
-				if (minimumRate.getBedTypes() != null) {
-					description = minimumRate.getBedTypes().iterator().next().bedTypeDescription;
-				}
-				else {
-					description = minimumRate.getRoomDescription();
-				}
-			}
-			else if (useSummarizedRates) {
+			if (useSummarizedRates) {
 				Pair<BedTypeId, Rate> pair = summarizedRoomRates.getBedTypeToRatePair(ratePickerPosition);
 				for (BedType bedType : rate.getBedTypes()) {
 					if (bedType.bedTypeId == pair.first) {
@@ -478,13 +455,7 @@ public class AvailabilitySummaryLayoutUtils {
 			}
 
 			priceTextView.setText(StrUtils.formatHotelPrice(rate.getDisplayRate()));
-
-			// since we are using the minimum rate, don't increment
-			// the position at which to pick a rate from
-			if (!showMinimumRate) {
-				ratePickerPosition++;
-			}
-			summaryRowPosition++;
+			ratePickerPosition++;
 		}
 	}
 

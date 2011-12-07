@@ -185,7 +185,7 @@ public class SummarizedRoomRates {
 					mBedTypeToMinRateMap.put(bedTypeId, rate);
 				}
 			}
-			
+
 			// also keep track of the minimum of all rates to display\
 			if (mMinimumRateAvailable == null
 					|| mMinimumRateAvailable.getDisplayRate().getAmount() > rate.getDisplayRate().getAmount()) {
@@ -193,11 +193,11 @@ public class SummarizedRoomRates {
 				mMinimumRateBedTypeId = rate.getBedTypes().iterator().next().bedTypeId;
 			}
 		}
-		
+
 		// don't keep track of the bed type to rate mapping  
 		// considered the minimum rate mapping in the map 
 		// since it will be handled separately 
-		if(mMinimumRateAvailable != null) {
+		if (mMinimumRateAvailable != null) {
 			mBedTypeToMinRateMap.remove(mMinimumRateBedTypeId);
 		}
 	}
@@ -238,6 +238,12 @@ public class SummarizedRoomRates {
 	 * by relevance
 	 */
 	private void summarizeRates() {
+
+		// first, add the minimum rate to the summarized rates
+		if (mMinimumRateAvailable != null) {
+			mSummarizedRates.add(new Pair<Rate.BedTypeId, Rate>(mMinimumRateBedTypeId, mMinimumRateAvailable));
+		}
+
 		while (!mAvailableKingBedTypes.isEmpty() || !mAvailableQueenBedTypes.isEmpty()
 				|| !mAvailableTwinBedTypes.isEmpty() || !mAvailableSingleBedTypes.isEmpty()
 				|| !mAvailableDoubleBedTypes.isEmpty() || !mAvailableFullBedTypes.isEmpty()
