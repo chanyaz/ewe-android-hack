@@ -383,7 +383,7 @@ public class AvailabilitySummaryLayoutUtils {
 				rate = summarizedRoomRates.getRate(ratePickerPosition);
 			}
 			else {
-				rate = sortedRates[ratePickerPosition + 1];
+				rate = sortedRates[ratePickerPosition];
 			}
 
 			final Rate clickedRate = rate;
