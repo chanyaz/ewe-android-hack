@@ -240,7 +240,7 @@
 	<!--  Title for the amenities section in the hotel details fragment -->
 	<string name="amenities">Servizi</string>
 	<!--  Label for button to see all reviews as a modal dialog -->
-	<string name="see_all_reviews">Mostra tutte le recensioni</string>
+	<string name="see_all_reviews">Mostre tutte</string>
 	<!-- Label for button that brings users to the room selection page -->
 	<string name="select_room">Scegli la camera</string>
 
