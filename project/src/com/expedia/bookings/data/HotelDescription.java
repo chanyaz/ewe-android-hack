@@ -28,6 +28,11 @@ public class HotelDescription {
 	}
 
 	public void parseDescription(String description) {
+
+		//TODO: temporary, until E3 team makes this more easy ~ddm
+		mSections.add(new DescriptionSection("Description", description));
+
+		/*
 		// List support
 		description = description.replace("<ul>", "\n\n");
 		description = description.replace("</ul>", "\n");
@@ -94,6 +99,7 @@ public class HotelDescription {
 				break;
 			}
 		}
+		*/
 	}
 
 	public List<DescriptionSection> getSections() {

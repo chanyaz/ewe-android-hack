@@ -57,6 +57,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			Property property = new Property();
 			availResponse.setProperty(property);
 			property.setDescriptionText(response.optString("longDescription", null));
+
 			JSONArray photos = response.optJSONArray("photos");
 			if (photos != null) {
 				int len = photos.length();
@@ -64,8 +65,14 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 					JSONObject photo = photos.optJSONObject(a);
 					String url = photo.optString("url");
 					if (!url.startsWith("http://")) {
+						// No need to worry about POS here.
 						url = "http://media.expedia.com" + url;
 					}
+
+					// Hack-ish: replace the trailing _l.jpg with _b.jpg for bigger pictures
+					// This is the same way that we handle it on iOS ~ddm
+					url = url.replace("_l.jpg", "_b.jpg");
+
 					Media media = new Media(Media.TYPE_STILL_IMAGE, url);
 					property.addMedia(media);
 				}
@@ -251,6 +258,11 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 					List<String> bedTypeElements = new ArrayList<String>();
 					for (int b = 0; b < bedTypes.length(); b++) {
 						JSONObject bedType = bedTypes.getJSONObject(b);
+						if (!bedType.has("description")) {
+							Log.w("No description for bed type. Skipping.");
+							continue;
+						}
+
 						String bedTypeDescription = bedType.getString("description");
 						bedTypeElements.add(bedTypeDescription);
 

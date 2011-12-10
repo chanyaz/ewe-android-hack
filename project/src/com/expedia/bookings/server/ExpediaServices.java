@@ -55,7 +55,6 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.Session;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
@@ -293,16 +292,19 @@ public class ExpediaServices implements DownloadListener {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append((flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
+
 		builder.append("www.");
 
 		String pointOfSale = SettingUtils.get(context, context.getString(R.string.PointOfSaleKey),
 				LocaleUtils.getDefaultPointOfSale(context));
 		builder.append(pointOfSale);
 
+		//TODO: determine when to use development E3 server. Maybe just always use production?
 		if (!AndroidUtils.isRelease(context))
 			builder.append(".chelwebestr37.bgb.karmalab.net");
 
 		builder.append(targetUrl);
+
 		String serverUrl = builder.toString();
 
 		// Create the request
@@ -328,6 +330,11 @@ public class ExpediaServices implements DownloadListener {
 			versionName = "1.0";
 		}
 		String userAgent = "ExpediaBookings/" + versionName + " Android";
+
+		//TODO: Right now we'll masquerade as chrome in order to convince 
+		// the live server not to redirect to the mobile site. Fix this.
+		// Live server responds with: Location: http://m.expedia.com/mt/www.expedia.com/MobileHotel/Webapp/SearchResults
+		userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/18.6.872.0 Safari/535.2 UNTRUSTED/1.0 3gpp-gba UNTRUSTED/1.0";
 
 		mRequest = request;
 		AndroidHttpClient client = AndroidHttpClient.newInstance(userAgent, mContext);
