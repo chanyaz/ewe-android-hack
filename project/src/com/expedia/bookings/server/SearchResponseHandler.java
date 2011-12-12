@@ -234,6 +234,8 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		double averageRate = 0;
 		double averageBaseRate = 0;
 		double surchargeTotalForEntireStay = 0;
+		double totalMandatoryFees = 0;
+		double totalPriceWithMandatoryFees = 0;
 
 		String name;
 		JsonToken token;
@@ -253,6 +255,12 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			else if (name.equals("surchargeTotalForEntireStay")) {
 				surchargeTotalForEntireStay = parser.getValueAsDouble();
 			}
+			else if (name.equals("totalMandatoryFees")) {
+				totalMandatoryFees = parser.getValueAsDouble();
+			}
+			else if (name.equals("totalPriceWithMandatoryFees")) {
+				totalPriceWithMandatoryFees = parser.getValueAsDouble();
+			}
 			else if (name.equals("currencyCode")) {
 				currencyCode = parser.getText();
 			}
@@ -265,6 +273,8 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		rate.setAverageRate(ParserUtils.createMoney(averageRate, currencyCode));
 		rate.setAverageBaseRate(ParserUtils.createMoney(averageBaseRate, currencyCode));
 		rate.setTotalSurcharge(ParserUtils.createMoney(surchargeTotalForEntireStay, currencyCode));
+		rate.setTotalMandatoryFees(ParserUtils.createMoney(totalMandatoryFees, currencyCode));
+		rate.setTotalPriceWithMandatoryFees(ParserUtils.createMoney(totalPriceWithMandatoryFees, currencyCode));
 		return rate;
 	}
 

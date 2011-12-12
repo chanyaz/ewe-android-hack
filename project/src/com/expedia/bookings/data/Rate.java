@@ -43,6 +43,8 @@ public class Rate implements JSONable {
 	// Surcharges
 	private Money mTotalSurcharge; // The total fees for the rate (NOT per night)
 	private Money mExtraGuestFee;
+	private Money mTotalMandatoryFees; // "bait & switch" fees
+	private Money mTotalPriceWithMandatoryFees;
 
 	// StayHIP unique fields
 	private String mBookingCode;
@@ -355,6 +357,22 @@ public class Rate implements JSONable {
 		mTotalSurcharge = surcharge;
 	}
 
+	public Money getTotalMandatoryFees() {
+		return mTotalMandatoryFees;
+	}
+
+	public void setTotalMandatoryFees(Money totalMandatoryFees) {
+		mTotalMandatoryFees = totalMandatoryFees;
+	}
+
+	public Money getTotalPriceWithMandatoryFees() {
+		return mTotalPriceWithMandatoryFees;
+	}
+
+	public void setTotalPriceWithMandatoryFees(Money totalPriceWithMandatoryFees) {
+		mTotalPriceWithMandatoryFees = totalPriceWithMandatoryFees;
+	}
+
 	public int getNumberOfNights() {
 		return mNumberOfNights;
 	}
@@ -493,6 +511,8 @@ public class Rate implements JSONable {
 			JSONUtils.putJSONable(obj, "averageRate", mAverageRate);
 			JSONUtils.putJSONable(obj, "averageBaseRate", mAverageBaseRate);
 			JSONUtils.putJSONable(obj, "totalSurcharge", mTotalSurcharge);
+			JSONUtils.putJSONable(obj, "totalMandatoryFees", mTotalMandatoryFees);
+			JSONUtils.putJSONable(obj, "totalPriceWithMandatoryFees", mTotalPriceWithMandatoryFees);
 			obj.putOpt("numberOfNights", mNumberOfNights);
 			obj.putOpt("numRoomsLeft", mNumRoomsLeft);
 			JSONUtils.putStringList(obj, "valueAdds", mValueAdds);
@@ -533,6 +553,8 @@ public class Rate implements JSONable {
 		mAverageRate = (Money) JSONUtils.getJSONable(obj, "averageRate", Money.class);
 		mAverageBaseRate = (Money) JSONUtils.getJSONable(obj, "averageBaseRate", Money.class);
 		mTotalSurcharge = (Money) JSONUtils.getJSONable(obj, "totalSurcharge", Money.class);
+		mTotalMandatoryFees = (Money) JSONUtils.getJSONable(obj, "totalMandatoryFees", Money.class);
+		mTotalPriceWithMandatoryFees = (Money) JSONUtils.getJSONable(obj, "totalPriceWithMandatoryFees", Money.class);
 		mNumberOfNights = obj.optInt("numberOfNights", 0);
 		mNumRoomsLeft = obj.optInt("numRoomsLeft", 0);
 		mValueAdds = JSONUtils.getStringList(obj, "valueAdds");
@@ -567,7 +589,7 @@ public class Rate implements JSONable {
 
 	// **WARNING: USE FOR TESTING PURPOSES ONLY**
 	public void fillWithTestData() throws JSONException {
-		String data = "{\"roomTypeCode\":\"175351\",\"numberOfNights\":4,\"rateType\":0,\"totalAmountBeforeTax\":{\"amount\":317.8,\"currency\":\"USD\"},\"taxesAndFeesPerRoom\":{\"amount\":44.38,\"currency\":\"USD\"},\"rateKey\":\"545d5c8d-e37c-4089-bedc-e8c773b23f22\",\"surcharge\":{\"amount\":44.69,\"currency\":\"USD\"},\"rateBreakdown\":[{\"date\":{\"month\":12,\"year\":2011,\"dayOfMonth\":30},\"amount\":{\"amount\":71.4,\"currency\":\"USD\"}},{\"date\":{\"month\":12,\"year\":2011,\"dayOfMonth\":31},\"amount\":{\"amount\":79.8,\"currency\":\"USD\"}},{\"date\":{\"month\":1,\"year\":2012,\"dayOfMonth\":1},\"amount\":{\"amount\":83.3,\"currency\":\"USD\"}},{\"date\":{\"month\":1,\"year\":2012,\"dayOfMonth\":2},\"amount\":{\"amount\":83.3,\"currency\":\"USD\"}}],\"numRoomsLeft\":0,\"ratePlanName\":\"2 Double Beds\",\"ratePlanCode\":\"408276\",\"averageRate\":{\"amount\":79.45,\"currency\":\"USD\"},\"totalAmountAfterTax\":{\"amount\":362.49,\"currency\":\"USD\"},\"rateChange\":true,\"averageBaseRate\":{\"amount\":113.5,\"currency\":\"USD\"},\"dailyAmountBeforeTax\":{\"amount\":79.45,\"currency\":\"USD\"},\"rateRules\":{\"policies\":[{\"type\":3,\"description\":\"There are no room charges for children 17 years old and younger who occupy the same room as their parents or guardians, using existing bedding.   The following fees and deposits are charged by the property at time of service, check-in, or check-out.  Pet fee: USD 25 per pet, per day The above list may not be comprehensive. Fees and deposits may not include tax and are subject to change.\"},{\"type\":11,\"description\":\"Your credit card will be charged immediately for the full amount of the reservation upon booking.\"},{\"type\":2,\"description\":\"We understand that sometimes plans fall through. We do not charge a change or cancel fee. However, this property (Park Plaza) imposes the following penalty to its customers that we are required to pass on: Cancellations or changes made after 3:00 PM ((GMT-06:00) Central Time (US &amp; Canada)) on Dec 30, 2011 are subject to a 1 Night Room &amp; Tax penalty. The property makes no refunds for no shows or early checkouts.\"},{\"type\":8,\"description\":\"By proceeding with this reservation, you agree to all terms and conditions, which include the Cancellation Policy and all terms and conditions contained in the User Agreement.\n\nYou agree to pay the cost of your reservation. If you do not pay this debt and it is collected through the use of a collection agency, an attorney, or through other legal proceedings, you agree to pay all reasonable costs or fees, including attorney fees and court costs, incurred in connection with such collection effort.\"}]},\"valueAdds\":[\"Free Airport Shuttle\",\"Free High-Speed Internet\"],\"roomDescription\":\"Double Bed Guest Room-HighSpeed Internet\"}";
+		String data = "{\"roomTypeCode\":\"175351\",\"numberOfNights\":4,\"rateType\":0,\"totalAmountBeforeTax\":{\"amount\":317.8,\"currency\":\"USD\"},\"taxesAndFeesPerRoom\":{\"amount\":44.38,\"currency\":\"USD\"},\"rateKey\":\"545d5c8d-e37c-4089-bedc-e8c773b23f22\",\"surcharge\":{\"amount\":44.69,\"currency\":\"USD\"},\"rateBreakdown\":[{\"date\":{\"month\":12,\"year\":2011,\"dayOfMonth\":30},\"amount\":{\"amount\":71.4,\"currency\":\"USD\"}},{\"date\":{\"month\":12,\"year\":2011,\"dayOfMonth\":31},\"amount\":{\"amount\":79.8,\"currency\":\"USD\"}},{\"date\":{\"month\":1,\"year\":2012,\"dayOfMonth\":1},\"amount\":{\"amount\":83.3,\"currency\":\"USD\"}},{\"date\":{\"month\":1,\"year\":2012,\"dayOfMonth\":2},\"amount\":{\"amount\":83.3,\"currency\":\"USD\"}}],\"numRoomsLeft\":0,\"ratePlanName\":\"2 Double Beds\",\"ratePlanCode\":\"408276\",\"averageRate\":{\"amount\":79.45,\"currency\":\"USD\"},\"totalAmountAfterTax\":{\"amount\":345.8,\"currency\":\"USD\"},\"rateChange\":true,\"averageBaseRate\":{\"amount\":113.5,\"currency\":\"USD\"},\"totalSurcharge\":{\"amount\":28,\"currency\":\"USD\"},\"totalMandatoryFees\":{\"amount\":22.8,\"currency\":\"USD\"},\"totalPriceWithMandatoryFees\":{\"amount\":368.6,\"currency\":\"USD\"},\"dailyAmountBeforeTax\":{\"amount\":79.45,\"currency\":\"USD\"},\"rateRules\":{\"policies\":[{\"type\":3,\"description\":\"There are no room charges for children 17 years old and younger who occupy the same room as their parents or guardians, using existing bedding.   The following fees and deposits are charged by the property at time of service, check-in, or check-out.  Pet fee: USD 25 per pet, per day The above list may not be comprehensive. Fees and deposits may not include tax and are subject to change.\"},{\"type\":11,\"description\":\"Your credit card will be charged immediately for the full amount of the reservation upon booking.\"},{\"type\":2,\"description\":\"We understand that sometimes plans fall through. We do not charge a change or cancel fee. However, this property (Park Plaza) imposes the following penalty to its customers that we are required to pass on: Cancellations or changes made after 3:00 PM ((GMT-06:00) Central Time (US &amp; Canada)) on Dec 30, 2011 are subject to a 1 Night Room &amp; Tax penalty. The property makes no refunds for no shows or early checkouts.\"},{\"type\":8,\"description\":\"By proceeding with this reservation, you agree to all terms and conditions, which include the Cancellation Policy and all terms and conditions contained in the User Agreement.\n\nYou agree to pay the cost of your reservation. If you do not pay this debt and it is collected through the use of a collection agency, an attorney, or through other legal proceedings, you agree to pay all reasonable costs or fees, including attorney fees and court costs, incurred in connection with such collection effort.\"}]},\"valueAdds\":[\"Free Airport Shuttle\",\"Free High-Speed Internet\"],\"roomDescription\":\"Double Bed Guest Room-HighSpeed Internet\"}";
 		JSONObject obj = new JSONObject(data);
 		fromJson(obj);
 	}

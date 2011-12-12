@@ -127,6 +127,14 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 					rate.setAverageBaseRate(ParserUtils.createMoney(chargeableRateInfo.getString("averageBaseRate"),
 							currencyCode));
 
+					Money totalMandatoryFees = ParserUtils.createMoney(
+							chargeableRateInfo.optString("totalMandatoryFees", "0.0"), currencyCode);
+					rate.setTotalMandatoryFees(totalMandatoryFees);
+
+					Money totalPriceWithMandatoryFees = ParserUtils.createMoney(
+							chargeableRateInfo.optString("totalPriceWithMandatoryFees", "0.0"), currencyCode);
+					rate.setTotalPriceWithMandatoryFees(totalPriceWithMandatoryFees);
+
 					Money surchargeTotalForEntireStay = ParserUtils.createMoney(
 							chargeableRateInfo.optString("surchargeTotalForEntireStay", "0.0"),
 							currencyCode);

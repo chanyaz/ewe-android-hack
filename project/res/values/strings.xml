@@ -524,10 +524,14 @@
 	<string name="GuestsLabel">Guests</string>
 	<!-- Label for the taxes & fees for this booking. -->
 	<string name="TaxesAndFees">Taxes &amp; Fees</string>
+	<!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+	<string name="MandatoryFees">Hotel Fees (Paid at hotel)</string>
 	<!-- Label for the rate per room per night. -->
 	<string name="RatePerRoomPerNight">Rate per Room per Night</string>
 	<!-- Label for the total cost of the booking. -->
 	<string name="Total">Total</string>
+	<!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
+	<string name="PayToExpedia">Pay to Expedia</string>
 	<!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
 	<string name="CheckIn">Check In</string>
 	<!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->

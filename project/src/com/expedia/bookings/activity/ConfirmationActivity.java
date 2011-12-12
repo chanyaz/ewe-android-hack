@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,7 +18,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -27,14 +25,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
-import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.expedia.bookings.widget.RoomTypeActivityHandler;
 import com.google.android.maps.GeoPoint;
@@ -42,7 +38,6 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.json.JSONUtils;
@@ -151,15 +146,6 @@ public class ConfirmationActivity extends MapActivity {
 		//////////////////////////////////////////////////
 		// Screen configuration
 
-		// Thumbnail in the map
-		ImageView thumbnail = (ImageView) findViewById(R.id.thumbnail_image_view);
-		if (mProperty.getThumbnail() != null) {
-			ImageCache.loadImage(mProperty.getThumbnail().getUrl(), thumbnail);
-		}
-		else {
-			thumbnail.setVisibility(View.GONE);
-		}
-
 		// Show on the map where the hotel is
 		MapView mapView = MapUtils.createMapView(this);
 		ViewGroup mapContainer = (ViewGroup) findViewById(R.id.map_layout);
@@ -178,32 +164,17 @@ public class ConfirmationActivity extends MapActivity {
 		// disabling the map so that it does not respond to touch events 
 		mapView.setEnabled(false);
 
-		// Overview of hotel
-		TextView nameView = (TextView) findViewById(R.id.name_text_view);
-		nameView.setText(mProperty.getName());
-		Location location = mProperty.getLocation();
-		TextView address1View = (TextView) findViewById(R.id.address1_text_view);
-		address1View.setText(Html.fromHtml(StrUtils.formatAddressStreet(location)));
-		TextView address2View = (TextView) findViewById(R.id.address2_text_view);
-		address2View.setText(Html.fromHtml(StrUtils.formatAddressCity(location)));
+		// Ratings
 		RatingBar hotelRating = (RatingBar) findViewById(R.id.hotel_rating_bar);
 		hotelRating.setRating((float) mProperty.getHotelRating());
 		RatingBar userRating = (RatingBar) findViewById(R.id.user_rating_bar);
 		userRating.setRating((float) mProperty.getAverageExpediaRating());
 
-		// Reservation summary
-		ViewGroup detailsLayout = (ViewGroup) findViewById(R.id.details_layout);
-		BookingReceiptUtils.addDetail(this, detailsLayout, R.string.confirmation_number,
-				mBookingResponse.getConfNumber());
-		BookingReceiptUtils
-				.addDetail(this, detailsLayout, R.string.itinerary_number, mBookingResponse.getItineraryId());
-		BookingReceiptUtils.addDetail(this, detailsLayout, R.string.confirmation_email, mBillingInfo.getEmail());
-		mRoomTypeHandler.load(detailsLayout);
-		BookingReceiptUtils.addRateDetails(this, detailsLayout, mSearchParams, mProperty, mRate, mRoomTypeHandler);
+		// Receipt pricing info (daily rates, taxes, total, etc.)
+		BookingReceiptUtils.configureTicket(this, this.getWindow().getDecorView(), mProperty, mSearchParams, mRate,
+				mRoomTypeHandler);
 
-		// Total cost / cancellation policy at the bottom
-		TextView totalCostView = (TextView) findViewById(R.id.total_cost_text_view);
-		totalCostView.setText(mRate.getTotalAmountAfterTax().getFormattedMoney());
+		// Cancellation policy (at the bottom)
 		View confirmationContainer = findViewById(R.id.confirmation_content_container);
 		ConfirmationUtils.determineCancellationPolicy(mRate, confirmationContainer);
 

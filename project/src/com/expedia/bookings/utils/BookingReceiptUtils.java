@@ -25,6 +25,8 @@ import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.widget.RoomTypeHandler;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.Log;
+import com.mobiata.android.util.SettingUtils;
 
 public class BookingReceiptUtils {
 
@@ -48,7 +50,6 @@ public class BookingReceiptUtils {
 		TextView address2View = (TextView) receipt.findViewById(R.id.address2_text_view);
 		address2View.setText(Html.fromHtml(StrUtils.formatAddressCity(location)));
 
-		
 		// Configure the details
 		ViewGroup detailsLayout = (ViewGroup) receipt.findViewById(R.id.details_layout);
 		if(billingInfo != null && bookingResponse != null) {
@@ -60,12 +61,23 @@ public class BookingReceiptUtils {
 		addRateDetails(activity.getApplicationContext(), detailsLayout,
 				searchParams, property, rate, roomTypeHandler);
 
-		// Configure the total cost
-		Money totalAmountAfterTax = rate.getTotalAmountAfterTax();
+		// Configure the total cost and (if necessary) total cost paid to Expedia
+		Money displayedTotal;
+		ViewGroup totalPaidView = (ViewGroup)receipt.findViewById(R.id.below_total_details_layout);
+		if (BookingReceiptUtils.shouldDisplayMandatoryFees(activity)) {
+			totalPaidView.setVisibility(View.VISIBLE);
+			BookingReceiptUtils.addDetail(activity, totalPaidView, R.string.PayToExpedia, rate.getTotalAmountAfterTax()
+					.getFormattedMoney());
+			displayedTotal = rate.getTotalPriceWithMandatoryFees();
+		}
+		else {
+			totalPaidView.setVisibility(View.GONE);
+			displayedTotal = rate.getTotalAmountAfterTax();
+		}
 		TextView totalView = (TextView) receipt.findViewById(R.id.total_cost_text_view);
-		if (totalAmountAfterTax != null && totalAmountAfterTax.getFormattedMoney() != null
-				&& totalAmountAfterTax.getFormattedMoney().length() > 0) {
-			totalView.setText(totalAmountAfterTax.getFormattedMoney());
+		if (displayedTotal != null && displayedTotal.getFormattedMoney() != null
+				&& displayedTotal.getFormattedMoney().length() > 0) {
+			totalView.setText(displayedTotal.getFormattedMoney());
 		}
 		else {
 			totalView.setText("Dan didn't account for no total info, tell him");
@@ -124,6 +136,8 @@ public class BookingReceiptUtils {
 
 		Money totalSurcharge = rate.getTotalSurcharge();
 		Money extraGuestFee = rate.getExtraGuestFee();
+		Money totalMandatoryFees = rate.getTotalMandatoryFees();
+
 		if (extraGuestFee != null) {
 			BookingReceiptUtils.addDetail(context, detailsLayout, R.string.extra_guest_charge,
 					extraGuestFee.getFormattedMoney());
@@ -131,6 +145,11 @@ public class BookingReceiptUtils {
 		if (totalSurcharge != null) {
 			BookingReceiptUtils.addDetail(context, detailsLayout, R.string.TaxesAndFees,
 					totalSurcharge.getFormattedMoney());
+		}
+
+		if (totalMandatoryFees != null && BookingReceiptUtils.shouldDisplayMandatoryFees(context)) {
+			BookingReceiptUtils.addDetail(context, detailsLayout, R.string.MandatoryFees,
+					totalMandatoryFees.getFormattedMoney());
 		}
 	}
 
@@ -168,6 +187,16 @@ public class BookingReceiptUtils {
 		View v = new View(context);
 		v.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, height));
 		parent.addView(v);
+	}
+
+	// Mandatory fees should only be displayed in IT and DE
+	private static boolean shouldDisplayMandatoryFees(Context context) {
+		String pos = SettingUtils.get(context, context.getString(R.string.PointOfSaleKey), null);
+		if (pos == null) {
+			return false;
+		}
+		return pos.equals(context.getString(R.string.point_of_sale_it))
+				|| pos.equals(context.getString(R.string.point_of_sale_de));
 	}
 
 }
