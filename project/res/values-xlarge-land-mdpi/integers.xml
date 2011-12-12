@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <integer name="country_width_weight">7</integer>
-    <integer name="postal_code_weight">3</integer>
-</resources>
