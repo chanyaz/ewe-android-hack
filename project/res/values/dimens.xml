@@ -68,9 +68,4 @@
 	<dimen name="booking_form_saved_section_padding">5dp</dimen>
 	
 	<dimen name="max_height_room_details_container">400dp</dimen>
-	
-	<dimen name="search_params_search_margin_right">25dp</dimen>
-    <dimen name="search_params_calendar_margin_left">45dp</dimen>
-    <dimen name="search_params_calendar_margin_right">45dp</dimen>
-    <dimen name="search_params_guests_margin_left">15dp</dimen>
 </resources>

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <dimen name="search_params_search_margin_right">15dp</dimen>
-    <dimen name="search_params_calendar_margin_left">15dp</dimen>
-    <dimen name="search_params_calendar_margin_right">15dp</dimen>
-    <dimen name="search_params_guests_margin_left">15dp</dimen>
-
-</resources>
