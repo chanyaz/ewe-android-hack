@@ -21,8 +21,6 @@
 	<color name="user_reviews_text_color">#ffffff</color>
 	<color name="hotel_description_text_color">#333333</color>
 
-	<color name="dark_gray">#FF555555</color>
-
 	<color name="calendar_actionbar_text_color">#4a5461</color>
 	<color name="guests_actionbar_text_color">#4a5461</color>
 
@@ -35,12 +33,9 @@
 	<color name="hotel_price_text_color">#064192</color>
 	<color name="hotel_price_sale_text_color">#a63030</color>
 
-	<color name="suggestion_bg">#f2f2f2</color>
 	<color name="suggestion_bg_pressed">#e0e0e0</color>
-	<color name="bg_hotel_details">#e3e4e6</color>
 	<color name="hotel_details_text_color">#494e54</color>
 	<color name="bg_row_summarized_room_rate_pressed">#dbdbdb</color>
-	<color name="btn_booking_dialog_header_pressed">#19000000</color>
 
 	<color name="bg_row_state_pressed">#dcddde</color>
 

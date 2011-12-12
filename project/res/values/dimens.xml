@@ -20,15 +20,10 @@
 	<dimen name="hotel_row_price_per_night_text_size">11sp</dimen>
 	<dimen name="hotel_row_distance_text_size">11sp</dimen>
 
-	<!-- These are slight differences between hdpi and mpdi positioning -->
-	<dimen name="sale_text_margin_top">2dp</dimen>
-	<dimen name="sale_text_margin_left">0dp</dimen>
-
 	<!-- Text sizes for amenities -->
 	<dimen name="amenity_text_size_large">12sp</dimen>
 	<dimen name="amenity_text_size_small">10sp</dimen>
 	<dimen name="amenity_layout_width">60dp</dimen>
-	<dimen name="amenity_layout_height">55dp</dimen>
 
 	<!-- The limiting dimension of the gallery (either height or width, depending 
 		on orientation) -->
