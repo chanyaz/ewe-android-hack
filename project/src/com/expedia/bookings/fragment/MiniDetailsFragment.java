@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.res.Resources;
@@ -26,8 +24,6 @@ import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.AvailabilitySummaryLayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -240,30 +236,13 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 			perNightText.setTextColor(Color.BLACK);
 		}
 
-		Rate lowestRate = property.getLowestRate();
-		List<RateBreakdown> rateBreakdown = lowestRate.getRateBreakdownList();
-		int perNightTextId = R.string.per_night;
-		if (!Rate.showInclusivePrices()) {
+		int perNightTextId = property.getLowestRate().getQualifier();
+		if (perNightTextId != 0) {
+			perNightText.setText(getString(perNightTextId));
 			perNightText.setVisibility(View.VISIBLE);
-			if (rateBreakdown == null) {
-				// If rateBreakdown is null, we assume that this is a per/night hotel
-				perNightTextId = R.string.per_night; // R.string.rate_per_night;
-			}
-			else if (rateBreakdown.size() > 1) {
-				if (lowestRate.rateChanges()) {
-					perNightTextId = R.string.rate_avg_per_night;
-				}
-				else {
-					perNightTextId = R.string.per_night; // R.string.rate_per_night;
-				}
-			}
 		}
 		else {
 			perNightText.setVisibility(View.GONE);
-		}
-
-		if (perNightTextId != 0) {
-			perNightText.setText(getString(perNightTextId));
 		}
 	}
 

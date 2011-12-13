@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
@@ -162,23 +161,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		}
 
 		// Determine whether to show rate, rate per night, or avg rate per night for explanation
-		int explanationId = 0;
-		List<RateBreakdown> rateBreakdown = rate.getRateBreakdownList();
-		if (!Rate.showInclusivePrices()) {
-			if (rateBreakdown == null) {
-				// If rateBreakdown is null, we assume that this is a per/night hotel
-				explanationId = R.string.rate_per_night;
-			}
-			else if (rateBreakdown.size() > 1) {
-				if (rate.rateChanges()) {
-					explanationId = R.string.rate_avg_per_night;
-				}
-				else {
-					explanationId = R.string.rate_per_night;
-				}
-			}
-		}
-
+		int explanationId = rate.getQualifier();
 		if (explanationId != 0) {
 			explanation += mContext.getString(explanationId);
 		}

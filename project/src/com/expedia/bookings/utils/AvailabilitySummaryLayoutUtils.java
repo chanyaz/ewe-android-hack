@@ -193,7 +193,6 @@ public class AvailabilitySummaryLayoutUtils {
 			minPriceSpannableString.setSpan(textColorSpan, startingIndexOfDisplayRate, startingIndexOfDisplayRate
 					+ displayRateString.length(), 0);
 
-			
 			// 11464: the condensed version of the min price string does not have the "from" word 
 			// in the ribbon
 			if (!useCondensedActionBar) {
@@ -401,34 +400,17 @@ public class AvailabilitySummaryLayoutUtils {
 			TextView priceTextView = (TextView) summaryRow.findViewById(R.id.availability_summary_price_text_view);
 			TextView perNightTexView = (TextView) summaryRow.findViewById(R.id.per_night_text_view);
 
-			List<RateBreakdown> rateBreakdown = rate.getRateBreakdownList();
-			int perNightTextId = R.string.per_night;
-			boolean hidePerNightTextView = false;
-			if (!Rate.showInclusivePrices()) {
-				if (rateBreakdown == null) {
-					// If rateBreakdown is null, we assume that this is a per/night hotel
-					perNightTextId = R.string.per_night;
-				}
-				else if (rateBreakdown.size() > 1) {
-					if (rate.rateChanges()) {
-						perNightTextId = R.string.rate_avg_per_night;
-					}
-					else {
-						perNightTextId = R.string.per_night;
-					}
-				}
-			}
-			else {
-				hidePerNightTextView = true;
-			}
-
 			// make row elements visible since there's a price to display
 			chevron.setVisibility(View.VISIBLE);
 
 			// ensure to only show the per night section if necessary
-			if (perNightTexView != null && !hidePerNightTextView) {
+			int qualifierId = rate.getQualifier();
+			if (perNightTexView != null && qualifierId != 0) {
 				perNightTexView.setVisibility(View.VISIBLE);
-				perNightTexView.setText(context.getString(perNightTextId));
+				perNightTexView.setText(context.getString(qualifierId));
+			}
+			else {
+				perNightTexView.setVisibility(View.GONE);
 			}
 
 			// determine description of room to display

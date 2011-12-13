@@ -10,6 +10,7 @@ import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.server.ParserUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -384,6 +385,34 @@ public class Rate implements JSONable {
 
 	public RateRules getRateRules() {
 		return mRateRules;
+	}
+
+	/**
+	 * Returns the qualifier on what the rate means - e.g., is it per night?  Average per night?  Total?
+	 * 
+	 * The qualifier is returned as a resource id (which links to the qualifier in question)
+	 * 
+	 * @return the qualifier for this rate
+	 */
+	public int getQualifier() {
+		if (!Rate.showInclusivePrices()) {
+			List<RateBreakdown> rateBreakdown = getRateBreakdownList();
+			if (rateBreakdown == null) {
+				// If rateBreakdown is null, we assume that this is a per/night hotel
+				return R.string.rate_per_night;
+			}
+			else if (rateBreakdown.size() > 1) {
+				if (rateChanges()) {
+					return R.string.rate_avg_per_night;
+				}
+				else {
+					return R.string.rate_per_night;
+				}
+			}
+		}
+
+		// Indicates this is a total and has no qualifier
+		return 0;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
