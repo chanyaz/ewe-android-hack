@@ -46,7 +46,7 @@ public class BookingConfirmationFragment extends Fragment {
 		List<Property> properties = new ArrayList<Property>(1);
 		properties.add(property);
 		List<Overlay> overlays = mMapView.getOverlays();
-		HotelItemizedOverlay overlay = new HotelItemizedOverlay(getActivity(), properties, false, mMapView, null);
+		HotelItemizedOverlay overlay = new HotelItemizedOverlay(getActivity(), properties, mMapView);
 		overlays.add(overlay);
 		final MapController mc = mMapView.getController();
 		mc.setZoom(15);

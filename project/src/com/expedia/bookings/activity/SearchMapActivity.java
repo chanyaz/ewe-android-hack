@@ -15,10 +15,8 @@ import com.expedia.bookings.activity.PhoneSearchActivity.MapViewListener;
 import com.expedia.bookings.activity.PhoneSearchActivity.SetShowDistanceListener;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
-import com.expedia.bookings.widget.HotelItemizedOverlay.OnBalloonTap;
 import com.expedia.bookings.widget.SimpleBalloonAdapter;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -28,8 +26,10 @@ import com.google.android.maps.Overlay;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.util.SettingUtils;
+import com.mobiata.android.widget.BalloonItemizedOverlay.SimpleBalloonListener;
 import com.mobiata.android.widget.DoubleTapToZoomListenerOverlay;
 import com.mobiata.android.widget.ExactLocationItemizedOverlay;
+import com.mobiata.android.widget.StandardBalloonAdapter;
 
 public class SearchMapActivity extends MapActivity implements SearchListener, OnFilterChangedListener, MapViewListener,
 		SetShowDistanceListener, ExactSearchLocationSearchedListener {
@@ -95,22 +95,24 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 		restoreSavedExactSearchLocation();
 
-		OnBalloonTap onTap = new OnBalloonTap() {
-			@Override
-			public void onBalloonTap(Property property) {
+		SimpleBalloonListener listener = new SimpleBalloonListener() {
+			public void onBalloonClicked(int index) {
 				final PhoneSearchActivity parent = (PhoneSearchActivity) getParent();
 
 				Intent intent = new Intent(SearchMapActivity.this, HotelActivity.class);
-				intent.putExtra(Codes.PROPERTY, property.toJson().toString());
+				intent.putExtra(Codes.PROPERTY, mHotelItemizedOverlay.getProperty(index).toJson().toString());
 				intent.putExtra(Codes.SEARCH_PARAMS, parent.getSearchParams().toString());
 				intent.putExtra(Codes.SESSION, parent.getSession().toJson().toString());
 				SearchMapActivity.this.startActivity(intent);
 			}
 		};
-		mHotelItemizedOverlay = new HotelItemizedOverlay(this, null, true, mMapView, onTap);
+		mHotelItemizedOverlay = new HotelItemizedOverlay(this, null, mMapView);
+		mHotelItemizedOverlay.setBalloonListener(listener);
 		mHotelItemizedOverlay.setShowDistance(mShowDistance);
-		mHotelItemizedOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
-		mHotelItemizedOverlay.useDefaultBalloonAdapter();
+		StandardBalloonAdapter adapter = new StandardBalloonAdapter(this);
+		adapter.setThumbnailPlaceholderResource(R.drawable.ic_image_placeholder);
+		adapter.setShowChevron(false);
+		mHotelItemizedOverlay.setBalloonAdapter(adapter);
 
 		mExactLocationItemizedOverlay = new ExactLocationItemizedOverlay(this, mMapView);
 		mExactLocationItemizedOverlay.setBalloonAdapter(new SimpleBalloonAdapter(this));
@@ -202,7 +204,7 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 			// restore the map to show the balloon for the
 			// user specified location in the search
 			if (mIsExactLocationTapped) {
-				mExactLocationItemizedOverlay.showBalloon(0, false);
+				mExactLocationItemizedOverlay.showBalloon(0);
 				mIsExactLocationTapped = false;
 			}
 		}

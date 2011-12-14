@@ -165,7 +165,7 @@ public class ConfirmationActivity extends MapActivity {
 		List<Property> properties = new ArrayList<Property>(1);
 		properties.add(mProperty);
 		List<Overlay> overlays = mapView.getOverlays();
-		HotelItemizedOverlay overlay = new HotelItemizedOverlay(this, properties, false, mapView, null);
+		HotelItemizedOverlay overlay = new HotelItemizedOverlay(this, properties, mapView);
 		overlays.add(overlay);
 		MapController mc = mapView.getController();
 		GeoPoint center = overlay.getCenter();
