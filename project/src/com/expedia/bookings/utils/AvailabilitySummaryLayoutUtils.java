@@ -405,12 +405,14 @@ public class AvailabilitySummaryLayoutUtils {
 
 			// ensure to only show the per night section if necessary
 			int qualifierId = rate.getQualifier();
-			if (perNightTexView != null && qualifierId != 0) {
-				perNightTexView.setVisibility(View.VISIBLE);
-				perNightTexView.setText(context.getString(qualifierId));
-			}
-			else {
-				perNightTexView.setVisibility(View.GONE);
+			if (perNightTexView != null) {
+				if (qualifierId != 0) {
+					perNightTexView.setVisibility(View.VISIBLE);
+					perNightTexView.setText(context.getString(qualifierId));
+				}
+				else {
+					perNightTexView.setVisibility(View.GONE);
+				}	
 			}
 
 			// determine description of room to display
