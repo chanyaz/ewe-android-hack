@@ -23,7 +23,6 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.PropertyInfoResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.ServerError;
@@ -38,9 +37,9 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
 public class BookingFragmentActivity extends Activity {
@@ -48,12 +47,8 @@ public class BookingFragmentActivity extends Activity {
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
 
-	public static final int EVENT_PROPERTY_INFO_QUERY_STARTED = 1;
-	public static final int EVENT_PROPERTY_INFO_QUERY_COMPLETE = 2;
-	public static final int EVENT_PROPERTY_INFO_QUERY_ERROR = 3;
 	public static final int EVENT_RATE_SELECTED = 4;
 
-	public static final String KEY_PROPERTY_INFO = "KEY_PROPERTY_INFO";
 	private static final String KEY_BOOKING = "KEY_BOOKING";
 
 	//////////////////////////////////////////////////////////////////////////
@@ -138,29 +133,6 @@ public class BookingFragmentActivity extends Activity {
 		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_PROPERTY_INFO)) {
-			bd.registerDownloadCallback(KEY_PROPERTY_INFO, mPropertyInfoCallback);
-		}
-		else if (mInstance.mPropertyInfoResponse != null) {
-			mPropertyInfoCallback.onDownload(mInstance.mPropertyInfoResponse);
-		}
-		else {
-			startPropertyInfoDownload(mInstance.mProperty);
-		}
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.unregisterDownloadCallback(KEY_PROPERTY_INFO, mPropertyInfoCallback);
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// InstanceFragment
 
@@ -180,9 +152,6 @@ public class BookingFragmentActivity extends Activity {
 
 		public AvailabilityResponse mAvailabilityResponse;
 		public Rate mRate;
-
-		public String mPropertyInfoStatus;
-		public PropertyInfoResponse mPropertyInfoResponse;
 
 		public BillingInfo mBillingInfo;
 		public BookingInfoValidation mBookingInfoValidation;
@@ -221,44 +190,6 @@ public class BookingFragmentActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Hotel Info
-
-	private void startPropertyInfoDownload(Property property) {
-		//clear out previous results
-		mInstance.mPropertyInfoResponse = null;
-		mInstance.mPropertyInfoStatus = null;
-		mEventManager.notifyEventHandlers(EVENT_PROPERTY_INFO_QUERY_STARTED, null);
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-
-		bd.cancelDownload(KEY_PROPERTY_INFO);
-		bd.startDownload(KEY_PROPERTY_INFO, mPropertyInfoDownload, mPropertyInfoCallback);
-
-	}
-
-	private Download mPropertyInfoDownload = new Download() {
-		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext);
-			return services.info(mInstance.mProperty);
-		}
-	};
-
-	private OnDownloadComplete mPropertyInfoCallback = new OnDownloadComplete() {
-		public void onDownload(Object results) {
-			mInstance.mPropertyInfoResponse = (PropertyInfoResponse) results;
-			mInstance.mPropertyInfoStatus = null;
-
-			if (mInstance.mPropertyInfoResponse == null) {
-				mInstance.mPropertyInfoStatus = getString(R.string.error_room_type_load);
-				mEventManager.notifyEventHandlers(EVENT_PROPERTY_INFO_QUERY_ERROR, null);
-			}
-			else {
-				mEventManager.notifyEventHandlers(EVENT_PROPERTY_INFO_QUERY_COMPLETE, null);
-			}
-		}
-	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Actions
@@ -342,9 +273,6 @@ public class BookingFragmentActivity extends Activity {
 			intent.putExtra(Codes.RATE, mInstance.mRate.toJson().toString());
 			intent.putExtra(Codes.BOOKING_RESPONSE, mInstance.mBookingResponse.toJson().toString());
 			intent.putExtra(Codes.BILLING_INFO, mInstance.mBillingInfo.toJson().toString());
-			if (mInstance.mPropertyInfoResponse != null) {
-				intent.putExtra(Codes.PROPERTY_INFO_RESPONSE, mInstance.mPropertyInfoResponse.toJson().toString());
-			}
 			startActivity(intent);
 		}
 	};

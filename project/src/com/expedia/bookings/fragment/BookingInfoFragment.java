@@ -7,13 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.BookingFragmentActivity;
 import com.expedia.bookings.activity.BookingFragmentActivity.InstanceFragment;
-import com.expedia.bookings.data.PropertyInfoResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.BookingReceiptUtils;
@@ -63,8 +61,7 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 
 		updateRoomDescription(view);
 		configureTicket(view);
-		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
-				getInstance().mPropertyInfoStatus);
+		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
 		return view;
 	}
 
@@ -87,20 +84,8 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 		case BookingFragmentActivity.EVENT_RATE_SELECTED:
 			if (mRoomTypeFragmentHandler != null) {
 				configureTicket(getView());
-				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
-						getInstance().mPropertyInfoStatus);
+				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
 			}
-			updateRoomDescription(getView());
-			break;
-		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_STARTED:
-			updateRoomDescription(getView());
-			break;
-		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_COMPLETE:
-			updateRoomDescription(getView());
-			mRoomTypeFragmentHandler.onPropertyInfoDownloaded(getInstance().mPropertyInfoResponse);
-			break;
-		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_ERROR:
-			mRoomTypeFragmentHandler.showCheckInCheckoutDetails(null);
 			updateRoomDescription(getView());
 			break;
 		}
@@ -112,32 +97,10 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 			return;
 		}
 
-		PropertyInfoResponse propertyInfoResponse = getInstance().mPropertyInfoResponse;
 		Rate rate = getInstance().mRate;
-		String roomTypeDescription = null;
-		ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.room_description_progress_bar);
+		String roomTypeDescription = rate.getRoomLongDescription();
 		TextView roomTypeDescriptionTitleTextView = (TextView) view.findViewById(R.id.room_type_description_title_view);
 		roomTypeDescriptionTitleTextView.setText(rate.getRatePlanName());
-
-		if (propertyInfoResponse == null) {
-			if (getInstance().mPropertyInfoStatus != null) {
-				roomTypeDescription = getInstance().mPropertyInfoStatus;
-				progressBar.setVisibility(View.GONE);
-			}
-			else {
-				progressBar.setVisibility(View.VISIBLE);
-			}
-		}
-		else {
-			progressBar.setVisibility(View.GONE);
-
-			if (propertyInfoResponse.hasErrors()) {
-				roomTypeDescription = propertyInfoResponse.getErrors().get(0).getPresentableMessage(getActivity());
-			}
-			else {
-				roomTypeDescription = propertyInfoResponse.getPropertyInfo().getRoomLongDescription(rate);
-			}
-		}
 
 		TextView roomTypeDescriptionTextView = (TextView) view.findViewById(R.id.room_type_description_text_view);
 		roomTypeDescriptionTextView.setText(roomTypeDescription);

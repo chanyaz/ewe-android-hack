@@ -47,7 +47,6 @@ import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.CreditCardBrand;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.PropertyInfoResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.SearchParams;
@@ -439,27 +438,6 @@ public class ExpediaServices implements DownloadListener {
 	//// Deprecated API calls
 	//
 	// We need to find replacements for these calls in E3
-
-	@Deprecated
-	public PropertyInfoResponse info(Property property) {
-		// Construct the request
-		JSONObject request = new JSONObject();
-		try {
-			addStandardRequestFields(request, "info");
-
-			// Construct the body
-			JSONObject body = new JSONObject();
-			request.put("body", body);
-
-			body.put("hotelId", property.getPropertyId());
-		}
-		catch (JSONException e) {
-			Log.e("Could not construct JSON info object.", e);
-			return null;
-		}
-
-		return (PropertyInfoResponse) doRequest(request, new PropertyInfoResponseHandler(mContext), 0);
-	}
 
 	@Deprecated
 	@SuppressWarnings("unchecked")

@@ -46,14 +46,6 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <ProgressBar
-            android:id="@+id/room_description_progress_bar"
-            style="@android:style/Widget.ProgressBar.Large.Inverse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:indeterminate="true" />
-
         <TextView
             android:id="@+id/room_type_description_text_view"
             android:layout_width="wrap_content"

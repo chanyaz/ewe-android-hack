@@ -213,8 +213,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 		
 		configureTicket(mReceipt);
-		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
-				getInstance().mPropertyInfoStatus);
+		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
 
 		return dialog;
 	}
@@ -238,15 +237,9 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		case BookingFragmentActivity.EVENT_RATE_SELECTED:
 			if (mRoomTypeFragmentHandler != null) {
 				configureTicket(getView());
-				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
-						getInstance().mPropertyInfoStatus);
+				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
+				mRoomTypeFragmentHandler.showCheckInCheckoutDetails();
 			}
-			break;
-		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_COMPLETE:
-			mRoomTypeFragmentHandler.onPropertyInfoDownloaded(getInstance().mPropertyInfoResponse);
-			break;
-		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_ERROR:
-			mRoomTypeFragmentHandler.showCheckInCheckoutDetails(null);
 			break;
 		}
 

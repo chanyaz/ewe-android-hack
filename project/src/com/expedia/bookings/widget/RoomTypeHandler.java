@@ -1,12 +1,10 @@
 package com.expedia.bookings.widget;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,13 +13,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.PropertyInfo;
-import com.expedia.bookings.data.PropertyInfoResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.widget.TiltedImageView;
@@ -39,7 +33,6 @@ public abstract class RoomTypeHandler {
 
 	protected Property mProperty;
 	protected Rate mRate;
-	protected PropertyInfo mPropertyInfo;
 
 	protected View mRoomTypeRow;
 	protected View mRoomTypeRowContainer;
@@ -66,18 +59,6 @@ public abstract class RoomTypeHandler {
 		mSearchParams = searchParams;
 		mRate = rate;
 		mMoreDetailsEnabled = moreDetailsEnabled;
-
-		String propertyInfoString = (intent != null) ? intent.getStringExtra(Codes.PROPERTY_INFO) : null;
-		if (propertyInfoString != null) {
-			try {
-				PropertyInfo propertyInfo = new PropertyInfo();
-				propertyInfo.fromJson(new JSONObject(propertyInfoString));
-				mPropertyInfo = propertyInfo;
-			}
-			catch (JSONException e) {
-				Log.i("Unable to get property info object from the previous state", e);
-			}
-		}
 
 		// Inflate the view
 		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -142,47 +123,14 @@ public abstract class RoomTypeHandler {
 		return mRoomDetailsLayout.getVisibility() == View.VISIBLE;
 	}
 
-	public void showCheckInCheckoutDetails(PropertyInfo propertyInfo) {
+	public void showCheckInCheckoutDetails() {
 		String start = BookingReceiptUtils.formatCheckInOutDate(mContext, mSearchParams.getCheckInDate());
 		String end = BookingReceiptUtils.formatCheckInOutDate(mContext, mSearchParams.getCheckOutDate());
 		TextView checkInTimeTextView = (TextView) mRoomTypeRowContainer.findViewById(R.id.check_in_time);
 		TextView checkOutTimeTextView = (TextView) mRoomTypeRowContainer.findViewById(R.id.check_out_time);
 
-		if (propertyInfo == null) {
-			checkInTimeTextView.setText(start);
-			checkOutTimeTextView.setText(end);
-		}
-		else {
-			String checkInText = (propertyInfo.getCheckInTime() == null) ? start : mContext.getString(
-					R.string.check_in_out_time_template, propertyInfo.getCheckInTime(), start);
-			String checkOutText = (propertyInfo.getCheckOutTime() == null) ? end : mContext.getString(
-					R.string.check_in_out_time_template, propertyInfo.getCheckOutTime(), end);
-			checkInTimeTextView.setText(checkInText);
-			checkOutTimeTextView.setText(checkOutText);
-		}
-	}
-
-	public void onPropertyInfoDownloaded(PropertyInfoResponse response) {
-		if (response == null) {
-			showDetails(mContext.getString(R.string.error_room_type_load));
-			showCheckInCheckoutDetails(null);
-		}
-		else if (response.hasErrors()) {
-			StringBuilder sb = new StringBuilder();
-			for (ServerError error : response.getErrors()) {
-				sb.append(error.getPresentableMessage(mContext));
-				sb.append("\n");
-			}
-			showDetails(sb.toString().trim());
-			showCheckInCheckoutDetails(null);
-		}
-		else {
-			mPropertyInfo = response.getPropertyInfo();
-			if (isExpanded()) {
-				showDetails(mPropertyInfo);
-			}
-			showCheckInCheckoutDetails(mPropertyInfo);
-		}
+		checkInTimeTextView.setText(start);
+		checkOutTimeTextView.setText(end);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -191,11 +139,15 @@ public abstract class RoomTypeHandler {
 	protected void updateRoomTypeDescription() {
 		TextView valueView = (TextView) mRoomTypeRow.findViewById(R.id.value_text_view);
 		valueView.setText(Html.fromHtml(mRate.getRoomDescription()));
+		showDetails(mRate.getRoomLongDescription());
 	}
 
-	protected void showDetails(PropertyInfo propertyInfo) {
-		String details = propertyInfo.getRoomLongDescription(mRate);
-		if (details == null || details.length() == 0) {
+	protected void showDetails() {
+		showCheckInCheckoutDetails();
+
+		String details = mRate.getRoomLongDescription();
+
+		if (TextUtils.isEmpty(details)) {
 			showDetails(mContext.getString(R.string.error_room_type_nonexistant));
 		}
 		else {
@@ -204,8 +156,10 @@ public abstract class RoomTypeHandler {
 	}
 
 	protected void showDetails(String details) {
-		mRoomDetailsTextView.setText(Html.fromHtml(details));
-		mRoomDetailsTextView.setVisibility(View.VISIBLE);
+		if (!TextUtils.isEmpty(details)) {
+			mRoomDetailsTextView.setText(Html.fromHtml(details));
+			mRoomDetailsTextView.setVisibility(View.VISIBLE);
+		}
 		mProgressBar.setVisibility(View.GONE);
 	}
 

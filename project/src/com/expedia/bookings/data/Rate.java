@@ -28,6 +28,7 @@ public class Rate implements JSONable {
 	private String mRatePlanCode; // In Expedia, this is just rateCode
 	private String mRatePlanName;
 	private String mRoomDescription;
+	private String mRoomLongDescription;
 	private List<RateBreakdown> mRateBreakdown;
 	private boolean mRateChange;
 	private Money mDailyAmountBeforeTax; // HP equiv: bookableRate
@@ -235,6 +236,14 @@ public class Rate implements JSONable {
 
 	public void setRoomDescription(String roomDescription) {
 		this.mRoomDescription = roomDescription;
+	}
+
+	public String getRoomLongDescription() {
+		return mRoomLongDescription;
+	}
+
+	public void setRoomLongDescription(String roomLongDescription) {
+		this.mRoomLongDescription = roomLongDescription;
 	}
 
 	public Money getDailyAmountBeforeTax() {
@@ -491,6 +500,8 @@ public class Rate implements JSONable {
 			obj.putOpt("ratePlanCode", mRatePlanCode);
 			obj.putOpt("ratePlanName", mRatePlanName);
 			obj.putOpt("roomDescription", mRoomDescription);
+			obj.putOpt("roomLongDescription", mRoomLongDescription);
+			Log.e("jsonifying roomLongDescription: " + mRoomLongDescription);
 
 			JSONUtils.putJSONableList(obj, "rateBreakdown", mRateBreakdown);
 			obj.putOpt("rateChange", mRateChange);
@@ -531,6 +542,7 @@ public class Rate implements JSONable {
 		mRatePlanCode = obj.optString("ratePlanCode", null);
 		mRatePlanName = obj.optString("ratePlanName", null);
 		mRoomDescription = obj.optString("roomDescription", null);
+		mRoomLongDescription = obj.optString("roomLongDescription", null);
 
 		mRateBreakdown = (List<RateBreakdown>) JSONUtils.getJSONableList(obj, "rateBreakdown", RateBreakdown.class);
 		mRateChange = obj.optBoolean("rateChange", false);

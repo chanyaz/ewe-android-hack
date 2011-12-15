@@ -67,8 +67,7 @@ public class ConfirmationReceiptFragment extends Fragment implements EventHandle
 		ConfirmationUtils.configureContactView(getActivity(), contactView, contactText);
 
 		configureTicket(receipt);
-		mRoomTypeFragmentHandler.updateRoomDetails(instance.mRate, instance.mPropertyInfoResponse,
-				instance.mPropertyInfoStatus);
+		mRoomTypeFragmentHandler.updateRoomDetails(instance.mRate);
 
 		return receipt;
 	}
@@ -77,8 +76,7 @@ public class ConfirmationReceiptFragment extends Fragment implements EventHandle
 	public void onResume() {
 		super.onResume();
 		configureTicket(getView());
-		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
-				getInstance().mPropertyInfoStatus);
+		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
 	}
 
 	@Override
@@ -94,15 +92,8 @@ public class ConfirmationReceiptFragment extends Fragment implements EventHandle
 		case BookingFragmentActivity.EVENT_RATE_SELECTED:
 			if (mRoomTypeFragmentHandler != null) {
 				configureTicket(getView());
-				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
-						getInstance().mPropertyInfoStatus);
+				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
 			}
-			break;
-		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_COMPLETE:
-			mRoomTypeFragmentHandler.onPropertyInfoDownloaded(getInstance().mPropertyInfoResponse);
-			break;
-		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_ERROR:
-			mRoomTypeFragmentHandler.showCheckInCheckoutDetails(null);
 			break;
 		}
 	}

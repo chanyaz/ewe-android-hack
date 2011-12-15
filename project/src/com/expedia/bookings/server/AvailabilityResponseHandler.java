@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
@@ -29,6 +30,8 @@ import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
 
 public class AvailabilityResponseHandler extends JsonResponseHandler<AvailabilityResponse> {
+
+	public static final String DOWNLOAD_KEY_PREFIX = "AVAILABILITY_RESPONSE_HANDLER";
 
 	private Context mContext;
 	private SearchParams mSearchParams;
@@ -86,7 +89,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 
 			Policy checkInPolicy = null;
 			String checkInInstructions = response.optString("checkInInstructions", null);
-			if (checkInInstructions != null && checkInInstructions.length() > 0) {
+			if (!TextUtils.isEmpty(checkInInstructions)) {
 				checkInPolicy = new Policy();
 				checkInPolicy.setType(Policy.TYPE_CHECK_IN);
 				checkInPolicy.setDescription(checkInInstructions);
@@ -107,6 +110,8 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 				rate.setRatePlanCode(jsonRate.optString("rateCode", null));
 				rate.setRoomTypeCode(jsonRate.optString("roomTypeCode", null));
 				rate.setRoomDescription(jsonRate.getString("roomTypeDescription"));
+				rate.setRoomLongDescription(jsonRate.optString("roomLongDescription", null));
+
 				rate.setRateChange(rateInfo.optBoolean("rateChange", false));
 				rate.setNumRoomsLeft(jsonRate.optInt("currentAllotment", 0));
 				rate.setNumberOfNights(numberOfNights);
@@ -281,7 +286,6 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 					String ratePlanName = FormatUtils.series(mContext, bedTypeElements, ",", Conjunction.OR);
 					rate.setRatePlanName(ratePlanName);
 				}
-
 				availResponse.addRate(rate);
 			}
 		}
