@@ -329,12 +329,9 @@ public class ExpediaServices implements DownloadListener {
 			Log.w("Couldn't get package info in order to submit proper version #!", e);
 			versionName = "1.0";
 		}
-		String userAgent = "ExpediaBookings/" + versionName + " Android";
-
-		//TODO: Right now we'll masquerade as chrome in order to convince 
-		// the live server not to redirect to the mobile site. Fix this.
-		// Live server responds with: Location: http://m.expedia.com/mt/www.expedia.com/MobileHotel/Webapp/SearchResults
-		userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/18.6.872.0 Safari/535.2 UNTRUSTED/1.0 3gpp-gba UNTRUSTED/1.0";
+		// Be careful not to use the word "Android" here
+		// https://mingle/projects/e3_mobile_web/cards/676
+		String userAgent = "ExpediaBookings/" + versionName + " (EHad; Mobiata)";
 
 		mRequest = request;
 		AndroidHttpClient client = AndroidHttpClient.newInstance(userAgent, mContext);
