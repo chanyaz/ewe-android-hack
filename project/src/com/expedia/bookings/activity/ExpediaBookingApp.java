@@ -6,6 +6,9 @@ import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 
+import android.content.Context;
+import android.content.res.Configuration;
+
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.DebugUtils;
@@ -57,7 +60,15 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 		// Call the original exception handler
 		mOriginalUncaughtExceptionHandler.uncaughtException(thread, ex);
 	}
-	
+
+	//////////////////////////////////////////////////////////////////////////
+	// All-app utilities
+
+	public static boolean useTabletInterface(Context context) {
+		return AndroidUtils.getSdkVersion() >= 12 && (context.getResources().getConfiguration().screenLayout &
+				Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// LISTENERS FOR WHEN SEARCH PARAMS CHANGE IN THE WIDGET
 	//////////////////////////////////////////////////////////////////////////////////////////

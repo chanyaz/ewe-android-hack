@@ -28,7 +28,7 @@
             <!-- Guest info section -->
 
             <TextView
-                style="@style/formSectionHeaderText"
+                style="@style/PhoneSectionHeader.Details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/guest_info" />
@@ -44,7 +44,7 @@
             <!-- Billing info form fields -->
 
             <TextView
-                style="@style/formSectionHeaderText"
+                style="@style/PhoneSectionHeader.Details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/billing_info" />
@@ -60,10 +60,6 @@
             <!-- Credit card info form fields -->
 
             <include layout="@layout/include_credit_card_info" />
-
-            <!-- Cancellation policy -->
-
-            <include layout="@layout/include_booking_cancellation_policy" />
 
             <!-- Terms and conditions -->
 
@@ -92,6 +88,10 @@
                     android:textColor="@android:color/black"
                     android:textSize="15sp" />
             </RelativeLayout>
+
+            <!-- Cancellation policy -->
+
+            <include layout="@layout/include_booking_cancellation_policy" />
 
             <!-- Expedia points disclaimer -->
 

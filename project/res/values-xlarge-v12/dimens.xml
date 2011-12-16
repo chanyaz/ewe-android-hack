@@ -7,12 +7,4 @@
 	<dimen name="hotel_row_price_text_size">25sp</dimen>
 	<dimen name="hotel_row_price_per_night_text_size">14sp</dimen>
 	<dimen name="hotel_row_distance_text_size">15sp</dimen>
-
-    <dimen name="right_padding_for_scroll_bar">10dp</dimen>
-
-	<dimen name="bottom_bar_padding">0dp</dimen>
-	
-	<dimen name="padding_top_sale_ribbon">1dp</dimen>
-	<dimen name="padding_right_sale_ribbon">20dp</dimen>
-        
 </resources>

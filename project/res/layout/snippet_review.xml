@@ -7,7 +7,7 @@
 
     <RatingBar
         android:id="@+id/user_review_rating"
-        style="@style/RatingBarSmall.Shadowed.UserReview.Gray"
+        style="@style/RatingBarSmall.UserReview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="3dp"

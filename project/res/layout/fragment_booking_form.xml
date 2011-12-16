@@ -42,34 +42,21 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <TextView
                 android:id="@+id/confirm_book_button"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Button.Yellow"
+                android:background="@drawable/btn_small_yellow"
                 android:layout_toLeftOf="@+id/close_booking_form"
-                android:background="@drawable/btn_booking_dialog_header"
+                android:text="@string/confirm_book"
                 android:gravity="center_vertical"
+                android:layout_centerVertical="true"
                 android:orientation="horizontal"
                 android:paddingLeft="12dp"
-                android:paddingRight="12dp" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_action_book" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:shadowColor="#8affffff"
-                    android:shadowDx="0"
-                    android:shadowDy="1"
-                    android:shadowRadius="0.1"
-                    android:text="@string/book_now"
-                    android:textColor="#4a5360"
-                    android:textSize="18sp" />
-            </LinearLayout>
+                android:paddingRight="12dp"
+                android:textSize="14sp"
+               	android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/close_booking_form"
@@ -77,12 +64,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/btn_sort_normal"
+				android:background="@null"
                 android:paddingLeft="12dp"
                 android:src="@drawable/ic_action_close" />
         </RelativeLayout>
 
         <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:fadingEdge="none"
@@ -130,7 +118,7 @@
                     <!-- Guest info section -->
 
                     <TextView
-                        style="@style/formSectionHeaderText"
+                        style="@style/TabletSectionHeader.Details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="0dp"
@@ -151,7 +139,7 @@
                     <!-- Billing info form fields -->
 
                     <TextView
-                        style="@style/formSectionHeaderText"
+                        style="@style/TabletSectionHeader.Details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/billing_info" />
@@ -171,7 +159,7 @@
                     <!-- Credit card info form fields -->
 
                     <TextView
-                        style="@style/formSectionHeaderText"
+                        style="@style/TabletSectionHeader.Details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/credit_card_info" />

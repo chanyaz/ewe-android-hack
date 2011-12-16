@@ -39,7 +39,9 @@
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp" >
+        android:layout_marginTop="15dp"
+        android:paddingRight="15dp"
+        android:background="@drawable/normal_ribbon" >
 
         <TextView
             android:id="@+id/base_price_text_view"
@@ -63,7 +65,6 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/min_price_text_view"
             android:layout_toRightOf="@id/min_price_text_view"
-            android:paddingRight="15dp"
             android:text="@string/per_night"
             android:textSize="14sp" />
     </RelativeLayout>

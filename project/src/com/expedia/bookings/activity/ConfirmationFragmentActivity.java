@@ -22,6 +22,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.google.android.maps.MapActivity;
 import com.mobiata.android.BackgroundDownloader;
@@ -108,6 +109,12 @@ public class ConfirmationFragmentActivity extends MapActivity {
 		}
 
 		setContentView(R.layout.activity_confirmation_fragment);
+
+		// Track page load
+		if (savedInstanceState == null) {
+			Tracker.trackAppHotelsCheckoutConfirmation(this, mInstance.mSearchParams, mInstance.mProperty,
+					mInstance.mBillingInfo, mInstance.mRate, mInstance.mBookingResponse);
+		}
 	}
 
 	@Override
@@ -205,6 +212,8 @@ public class ConfirmationFragmentActivity extends MapActivity {
 	// Actions
 
 	public void newSearch() {
+		Tracker.trackNewSearch(this);
+
 		// Ensure we can't come back here again
 		ConfirmationUtils.deleteSavedConfirmationData(mContext);
 

@@ -3,12 +3,12 @@ package com.expedia.bookings.tracking;
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -16,17 +16,30 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.location.Location;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.Filter;
+import com.expedia.bookings.data.Filter.Sort;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchParams.SearchType;
 import com.mobiata.android.DebugUtils;
+import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.omniture.AppMeasurement;
 
+/**
+ * Utilities for omniture tracking.  Should rarely (if ever) be called directly; instead, most calls
+ * should be routed through Tracker.java (since most things we have to track for both the phone and
+ * tablet versions of the UI).
+ * 
+ */
 public class TrackingUtils {
 
 	private static final String EMAIL_HASH_KEY = "email_hash";
@@ -45,26 +58,11 @@ public class TrackingUtils {
 	 */
 	public static void trackSimpleEvent(Context context, String pageName, String events, String shopperConfirmer,
 			String referrerId) {
-		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
-
-		addStandardFields(context, s);
-
-		if (events != null) {
-			s.events = events;
-		}
-
-		if (shopperConfirmer != null) {
-			s.eVar25 = s.prop25 = shopperConfirmer;
-		}
-
-		if (referrerId != null) {
-			s.eVar28 = s.prop16 = referrerId;
-		}
+		AppMeasurement s = createSimpleEvent(context, pageName, events, shopperConfirmer, referrerId);
 
 		// Handle the tracking different for pageLoads and onClicks.
 		// If there is no pageName, it is an onClick (by default)
 		if (pageName != null) {
-			s.pageName = pageName;
 			s.track();
 		}
 		else {
@@ -82,6 +80,29 @@ public class TrackingUtils {
 		s.trackLink(null, "o", s.eVar28);
 	}
 
+	public static AppMeasurement createSimpleEvent(Context context, String pageName, String events,
+			String shopperConfirmer, String referrerId) {
+		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+
+		addStandardFields(context, s);
+
+		s.pageName = pageName;
+
+		if (events != null) {
+			s.events = events;
+		}
+
+		if (shopperConfirmer != null) {
+			s.eVar25 = s.prop25 = shopperConfirmer;
+		}
+
+		if (referrerId != null) {
+			s.eVar28 = s.prop16 = referrerId;
+		}
+
+		return s;
+	}
+
 	public static void addStandardFields(Context context, AppMeasurement s) {
 		// Information gathering (before we run in and start setting variables)
 		Calendar now = Calendar.getInstance();
@@ -96,7 +117,11 @@ public class TrackingUtils {
 		s.trackOffline = true;
 
 		// account
-		s.account = (AndroidUtils.isRelease(context)) ? "expedia1androidcom" : "expedia1androidcomdev";
+		boolean usingTabletInterface = (ExpediaBookingApp.useTabletInterface(context));
+		s.account = (usingTabletInterface) ? "expedia1tabletandroid" : "expedia1androidcom";
+		if (!AndroidUtils.isRelease(context)) {
+			s.account += "dev";
+		}
 
 		// Server
 		s.trackingServer = "om.expedia.com";
@@ -105,14 +130,8 @@ public class TrackingUtils {
 		// Add the country locale
 		s.eVar31 = Locale.getDefault().getCountry();
 
-		// Time parting
-		// Format is: YY:DayOfYear:Interval Size:Interval Num
-		// Interval size == 60 minutes
-		DateFormat df = new SimpleDateFormat("yy:DDD:60:HH");
-		s.eVar49 = df.format(gmt);
-
 		// Experience segmentation
-		s.eVar50 = "app.android";
+		s.eVar50 = (usingTabletInterface) ? "app.tablet.android" : "app.android";
 
 		// hashed email
 		// Normally we store this in a setting; in 1.0 we stored this in BillingInfo, but
@@ -145,6 +164,9 @@ public class TrackingUtils {
 		// App version
 		s.prop35 = AndroidUtils.getAppVersion(context);
 
+		// Language/locale
+		s.prop37 = Locale.getDefault().getLanguage();
+
 		// Screen orientation
 		Configuration config = context.getResources().getConfiguration();
 		switch (config.orientation) {
@@ -160,6 +182,13 @@ public class TrackingUtils {
 		case Configuration.ORIENTATION_UNDEFINED:
 			s.prop39 = "undefined";
 			break;
+		}
+
+		// User location
+		Location bestLastLocation = LocationServices.getLastBestLocation(context, 0);
+		if (bestLastLocation != null) {
+			s.prop40 = bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
+					+ bestLastLocation.getAccuracy();
 		}
 	}
 
@@ -246,6 +275,9 @@ public class TrackingUtils {
 					else if (field.getName().equals("NETWORK_TYPE_HSPA")) {
 						types.put(field.getInt(null), "hspa");
 					}
+					else if (field.getName().equals("NETWORK_TYPE_HSPAP")) {
+						types.put(field.getInt(null), "hspap");
+					}
 					else if (field.getName().equals("NETWORK_TYPE_HSUPA")) {
 						types.put(field.getInt(null), "hsupa");
 					}
@@ -259,7 +291,7 @@ public class TrackingUtils {
 						types.put(field.getInt(null), "umts");
 					}
 					else if (field.getName().equals("NETWORK_TYPE_UNKNOWN")) {
-						types.put(field.getInt(null), "unknown");
+						types.put(field.getInt(null), "NA");
 					}
 				}
 
@@ -275,7 +307,7 @@ public class TrackingUtils {
 			return mNetworkTypes.get(networkType);
 		}
 
-		return "unknown";
+		return "NA";
 	}
 
 	private static String md5(String s) {
@@ -293,6 +325,103 @@ public class TrackingUtils {
 		}
 		catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public static String getRefinements(SearchParams searchParams, SearchParams oldSearchParams, Filter filter,
+			Filter oldFilter) {
+		if (oldFilter != null && oldSearchParams != null) {
+			List<String> refinements = new ArrayList<String>();
+
+			// Sort change
+			if (oldFilter.getSort() != filter.getSort()) {
+				Sort sort = filter.getSort();
+				if (sort == Sort.POPULAR) {
+					refinements.add("App.Hotels.Search.Sort.Popular");
+				}
+				else if (sort == Sort.PRICE) {
+					refinements.add("App.Hotels.Search.Sort.Price");
+				}
+				else if (sort == Sort.DISTANCE) {
+					refinements.add("App.Hotels.Search.Sort.Distance");
+				}
+				else if (sort == Sort.RATING) {
+					refinements.add("App.Hotels.Search.Sort.Rating");
+				}
+			}
+
+			// Number of travelers change
+			if (searchParams.getNumAdults() != oldSearchParams.getNumAdults()
+					|| searchParams.getNumChildren() != oldSearchParams.getNumChildren()) {
+				refinements.add("App.Hotels.Search.Refine.NumberTravelers");
+			}
+
+			// Location change
+			// Checks that the search type is the same, or else that a search of a particular type hasn't
+			// been modified (e.g., freeform text changing on a freeform search)
+			if (searchParams.getSearchType() != oldSearchParams.getSearchType()
+					|| (searchParams.getSearchType() == SearchType.FREEFORM && !searchParams.getFreeformLocation()
+							.equals(oldSearchParams.getFreeformLocation()))
+					|| ((searchParams.getSearchType() == SearchType.MY_LOCATION || searchParams.getSearchType() == SearchType.PROXIMITY) && (searchParams
+							.getSearchLatitude() != oldSearchParams.getSearchLatitude() || searchParams
+							.getSearchLongitude() != oldSearchParams.getSearchLongitude()))) {
+				refinements.add("App.Hotels.Search.Refine.Location");
+			}
+
+			// Checkin date change
+			if (!searchParams.getCheckInDate().equals(oldSearchParams.getCheckInDate())) {
+				refinements.add("App.Hotels.Search.Refine.CheckinDate");
+			}
+
+			// Checkout date change
+			if (!searchParams.getCheckOutDate().equals(oldSearchParams.getCheckOutDate())) {
+				refinements.add("App.Hotels.Search.Refine.CheckoutDate");
+			}
+
+			// Search radius change
+			if (filter.getSearchRadius() != oldFilter.getSearchRadius()) {
+				refinements.add("App.Hotels.Search.Refine.SearchRadius");
+			}
+
+			// Price range change
+			if (filter.getPriceRange() != oldFilter.getPriceRange()) {
+				refinements.add("App.Hotels.Search.Refine.PriceRange");
+			}
+
+			// Star rating change
+			double minStarRating = filter.getMinimumStarRating();
+			if (minStarRating != oldFilter.getMinimumStarRating()) {
+				if (minStarRating == 5) {
+					refinements.add("App.Hotels.Search.Refine.AllStars");
+				}
+				else {
+					refinements.add("App.Hotels.Search.Refine." + minStarRating + "Stars");
+				}
+			}
+
+			boolean hasHotelFilter = filter.getHotelName() != null;
+			boolean oldHasHotelFilter = oldFilter.getHotelName() != null;
+			if (hasHotelFilter != oldHasHotelFilter
+					|| (hasHotelFilter && !filter.getHotelName().equals(oldFilter.getHotelName()))) {
+				refinements.add("App.Hotels.Search.Refine.Name");
+			}
+
+			int numRefinements = refinements.size();
+			if (numRefinements == 0) {
+				return null;
+			}
+
+			StringBuilder sb = new StringBuilder();
+			for (int a = 0; a < numRefinements; a++) {
+				if (a != 0) {
+					sb.append("|");
+				}
+				sb.append(refinements.get(a));
+			}
+
+			return sb.toString();
 		}
 
 		return null;

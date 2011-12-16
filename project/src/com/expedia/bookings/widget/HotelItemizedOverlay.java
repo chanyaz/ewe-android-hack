@@ -24,7 +24,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.widget.BalloonItemizedOverlay;
-import com.mobiata.android.widget.BalloonOverlayItem;
+import com.mobiata.android.widget.StandardBalloonAdapter.StandardBalloonOverlayItem;
 
 public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
@@ -37,19 +37,13 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 	private List<Property> mProperties;
 	private List<Property> mUnFilteredProperties;
 
-	private boolean mOnClickEnabled;
 	private boolean mShowDistance = true;
-
-	private OnBalloonTap mOnBalloonTap;
 
 	private String mTappedPropertyId;
 
 	private DistanceUnit mDistanceUnit;
 
-	private OnTapListener mOnTapListener;
-
-	public HotelItemizedOverlay(Context context, List<Property> properties, boolean enableOnClick, MapView mapView,
-			OnBalloonTap onTap) {
+	public HotelItemizedOverlay(Context context, List<Property> properties, MapView mapView) {
 		super(boundCenterBottom(context.getResources().getDrawable(DEFAULT_PIN)), mapView);
 
 		if (properties == null) {
@@ -58,14 +52,11 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
 		mContext = context;
 		mProperties = properties;
-		mOnClickEnabled = enableOnClick;
-		mOnBalloonTap = onTap;
 		mMarkerSale = context.getResources().getDrawable(R.drawable.map_pin_sale);
 		mTappedPropertyId = null;
 		populate();
 
 		boundCenterBottom(mMarkerSale);
-		setBalloonBottomOffset(context.getResources().getDrawable(DEFAULT_PIN).getIntrinsicHeight());
 
 		setBalloonAdapter(new HotelBalloonAdapter());
 
@@ -99,6 +90,7 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 	 * @return
 	 */
 	public Boolean areHotelsVisible() {
+		MapView mapView = getMapView();
 		int lonSpan = mapView.getLongitudeSpan();
 		int latSpan = mapView.getLatitudeSpan();
 		GeoPoint center = mapView.getMapCenter();
@@ -118,13 +110,17 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 		return new Boolean(false);
 	}
 
+	public Property getProperty(int index) {
+		return mProperties.get(index);
+	}
+
 	public String getTappedPropertyId() {
 		return mTappedPropertyId;
 	}
 
 	@Override
 	protected OverlayItem createItem(int i) {
-		BalloonOverlayItem overlayItem;
+		StandardBalloonOverlayItem overlayItem;
 		Property property = mProperties.get(i);
 		Location location = property.getLocation();
 		GeoPoint point = MapUtils.convertToGeoPoint(location.getLatitude(), location.getLongitude());
@@ -144,7 +140,7 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 					mContext.getString(R.string.widget_savings_template, lowestRate.getSavingsPercent() * 100));
 		}
 
-		overlayItem = new BalloonOverlayItem(point, property.getName(), snippet);
+		overlayItem = new StandardBalloonOverlayItem(point, property.getName(), snippet);
 		if (property.getThumbnail() != null) {
 			overlayItem.setThumbnailUrl(property.getThumbnail().getUrl());
 		}
@@ -232,43 +228,22 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 		return super.getLonSpanE6();
 	}
 
-	public interface OnTapListener {
-		public boolean onTap(Property property);
-	}
-
 	@Override
-	public boolean onTap(int index) {
-		boolean resolved = false;
-		if (mOnTapListener != null) {
-			resolved = mOnTapListener.onTap(mProperties.get(index));
-		}
+	public void onBalloonShown(int index) {
+		super.onBalloonShown(index);
 
-		if (!resolved) {
-			resolved = super.onTap(index);
-		}
-
-		return resolved;
-	}
-
-	public void setOnTapListener(OnTapListener onTapListener) {
-		mOnTapListener = onTapListener;
-	}
-
-	@Override
-	public boolean showBalloon(int index, boolean animateTo) {
 		mTappedPropertyId = mProperties.get(index).getPropertyId();
-		return super.showBalloon(index, animateTo);
 	}
 
 	public boolean showBalloon(String propertyId) {
-		return showBalloon(propertyId, false);
+		return showBalloon(propertyId, BalloonItemizedOverlay.F_FOCUS + BalloonItemizedOverlay.F_OFFSET_MARKER);
 	}
 
-	public boolean showBalloon(String propertyId, boolean animateTo) {
+	public boolean showBalloon(String propertyId, int flags) {
 
 		for (int position = 0; mProperties != null && position < mProperties.size(); position++) {
 			if (mProperties.get(position).getPropertyId().equals(propertyId)) {
-				return showBalloon(position, animateTo);
+				showBalloon(position, flags);
 			}
 		}
 
@@ -279,25 +254,6 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 	public void hideBalloon() {
 		mTappedPropertyId = null;
 		super.hideBalloon();
-	}
-
-	@Override
-	protected boolean onBalloonTap(int index) {
-		if (!mOnClickEnabled) {
-			return false;
-		}
-
-		// Call the attached interface
-		if (mOnBalloonTap != null) {
-			mOnBalloonTap.onBalloonTap(mProperties.get(index));
-			return true;
-		}
-
-		return false;
-	}
-
-	public interface OnBalloonTap {
-		public void onBalloonTap(Property property);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -329,7 +285,7 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
 		@Override
 		public View newView(ViewGroup parent) {
-			LayoutInflater inflater = (LayoutInflater) mapView.getContext().getSystemService(
+			LayoutInflater inflater = (LayoutInflater) getMapView().getContext().getSystemService(
 					Context.LAYOUT_INFLATER_SERVICE);
 
 			ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.balloon_map_hotel, null);

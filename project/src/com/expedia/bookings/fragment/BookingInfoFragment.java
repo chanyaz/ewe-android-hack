@@ -3,10 +3,14 @@ package com.expedia.bookings.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -62,6 +66,39 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 		updateRoomDescription(view);
 		configureTicket(view);
 		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
+
+		final View receipt = view.findViewById(R.id.fragment_receipt);
+		final View roomDetailsContainer = view.findViewById(R.id.room_details_container_right);
+
+		// 10886: Bottom aligning the complete booking info button
+		// with the fragment receipt as long as the fragment receipt is 
+		// last than the max defined height. In that case, using the maximum
+		// height definition.
+		if (roomDetailsContainer != null) {
+			receipt.addOnLayoutChangeListener(new OnLayoutChangeListener() {
+
+				@Override
+				public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop,
+						int oldRight, int oldBottom) {
+					if (left == 0 && top == 0 && right == 0 && bottom == 0) {
+						return;
+					}
+
+					int maxHeightInPx = (int) Math.ceil(getResources().getDisplayMetrics().density
+							* getResources().getDimension(R.dimen.max_height_room_details_container));
+					if (receipt.getMeasuredHeight() > maxHeightInPx) {
+						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).height = LayoutParams.WRAP_CONTENT;
+						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).addRule(
+								RelativeLayout.ALIGN_BOTTOM, 0);
+					}
+					else {
+						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).addRule(
+								RelativeLayout.ALIGN_BOTTOM, R.id.fragment_receipt);
+					}
+
+				}
+			});
+		}
 		return view;
 	}
 
@@ -101,6 +138,16 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 		String roomTypeDescription = rate.getRoomLongDescription();
 		TextView roomTypeDescriptionTitleTextView = (TextView) view.findViewById(R.id.room_type_description_title_view);
 		roomTypeDescriptionTitleTextView.setText(rate.getRatePlanName());
+
+		//11479: It's possible for there to not exist a long description for a particular rate. In such a situation, 
+		// load up a message saying that the description is not available.
+		String longDescription = rate.getRoomLongDescription();
+		if (longDescription != null) {
+			roomTypeDescription = Html.fromHtml(longDescription).toString().trim();
+		}
+		else {
+			roomTypeDescription = getString(R.string.error_room_type_nonexistant);
+		}
 
 		TextView roomTypeDescriptionTextView = (TextView) view.findViewById(R.id.room_type_description_text_view);
 		roomTypeDescriptionTextView.setText(roomTypeDescription);

@@ -25,6 +25,8 @@ import com.google.android.maps.Overlay;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.widget.BalloonItemizedOverlay;
+import com.mobiata.android.widget.StandardBalloonAdapter;
 import com.omniture.AppMeasurement;
 
 public class HotelMapActivity extends MapActivity {
@@ -98,9 +100,12 @@ public class HotelMapActivity extends MapActivity {
 
 		List<Property> properties = new ArrayList<Property>();
 		properties.add(mProperty);
-		mOverlay = new HotelItemizedOverlay(this, properties, true, mMapView, null);
-		mOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
-		mOverlay.useDefaultBalloonAdapter();
+		mOverlay = new HotelItemizedOverlay(this, properties, mMapView);
+		mOverlay.setClickable(false);
+		StandardBalloonAdapter adapter = new StandardBalloonAdapter(this);
+		adapter.setThumbnailPlaceholderResource(R.drawable.ic_image_placeholder);
+		adapter.setShowChevron(false);
+		mOverlay.setBalloonAdapter(adapter);
 
 		List<Overlay> overlays = mMapView.getOverlays();
 		overlays.add(mOverlay);
@@ -115,7 +120,7 @@ public class HotelMapActivity extends MapActivity {
 			mc.setCenter(mOverlay.getCenter());
 		}
 
-		mOverlay.showBalloon(0, false); // Open the popup initially
+		mOverlay.showBalloon(0, BalloonItemizedOverlay.F_FOCUS + BalloonItemizedOverlay.F_OFFSET_MARKER); // Open the popup initially
 
 		if (savedInstanceState == null) {
 			onPageLoad();

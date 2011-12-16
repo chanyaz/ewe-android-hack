@@ -2,6 +2,8 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -185,49 +187,69 @@ public class MiniDetailsFragment extends Fragment implements EventHandler {
 		TextView salePrice = (TextView) view.findViewById(R.id.min_price_text_view);
 		TextView basePrice = (TextView) view.findViewById(R.id.base_price_text_view);
 		TextView perNightText = (TextView) view.findViewById(R.id.per_night_text_view);
+
+		Resources r = getResources();
 		StyleSpan textStyleSpan = new StyleSpan(Typeface.BOLD);
+		ForegroundColorSpan textColorSpan = new ForegroundColorSpan(r.getColor(R.color.hotel_price_text_color));
+		ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(r.getColor(android.R.color.black));
 
 		if (property.getLowestRate().isOnSale()) {
-			minPriceContainer.setBackgroundResource(R.drawable.sale_ribbon_large);
 			basePrice.setVisibility(View.VISIBLE);
 
 			String minPriceString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
 			Spannable str = new SpannableString(minPriceString);
 			str.setSpan(textStyleSpan, 0, minPriceString.length(), 0);
+			str.setSpan(textColorSpan, 0, minPriceString.length(), 0);
 			salePrice.setText(str);
 
 			basePrice.setText(StrUtils.getStrikedThroughSpanned(StrUtils.formatHotelPrice(property.getLowestRate()
 					.getDisplayBaseRate())));
 
-			salePrice.setTextColor(getResources().getColor(android.R.color.white));
-			perNightText.setTextColor(getResources().getColor(android.R.color.white));
+			basePrice.setTextColor(Color.BLACK);
+			salePrice.setTextColor(Color.BLACK);
+
+			perNightText.setTextColor(Color.BLACK);
 		}
 		else {
-			minPriceContainer.setBackgroundResource(R.drawable.normal_ribbon);
 			String basePriceString = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
 			String salePriceString = getActivity().getString(R.string.min_room_price_template, basePriceString);
 			int startingIndexOfDisplayRate = salePriceString.indexOf(basePriceString);
 
-			ForegroundColorSpan textColorSpan = new ForegroundColorSpan(getActivity().getResources().getColor(
-					R.color.hotel_price_text_color));
-			ForegroundColorSpan textBlackColorSpan = new ForegroundColorSpan(getActivity().getResources().getColor(
-					android.R.color.black));
 			Spannable str = new SpannableString(salePriceString);
 			str.setSpan(textColorSpan, startingIndexOfDisplayRate,
 					startingIndexOfDisplayRate + basePriceString.length(), 0);
-			str.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
+
+			// 11364: ensuring to specifically handle the case where the "from" word can be before
+			// or after the min price
+			if (startingIndexOfDisplayRate > 0) {
+				str.setSpan(textBlackColorSpan, 0, startingIndexOfDisplayRate - 1, 0);
+			}
+			else if (startingIndexOfDisplayRate == 0) {
+				str.setSpan(textBlackColorSpan, startingIndexOfDisplayRate + basePriceString.length(),
+						salePriceString.length(), 0);
+			}
+
 			str.setSpan(textStyleSpan, 0, salePriceString.length(), 0);
 
 			salePrice.setText(str);
 			basePrice.setVisibility(View.GONE);
-			perNightText.setTextColor(getResources().getColor(android.R.color.black));
+			perNightText.setTextColor(Color.BLACK);
 		}
 
+		int perNightTextId = property.getLowestRate().getQualifier();
+		if (perNightTextId != 0) {
+			perNightText.setText(getString(perNightTextId));
+			perNightText.setVisibility(View.VISIBLE);
+		}
+		else {
+			perNightText.setVisibility(View.GONE);
+		}
 	}
 
 	private OnClickListener seeDetailsOnClickListener = new OnClickListener() {
 		public void onClick(View v) {
-			((SearchResultsFragmentActivity) getActivity()).moreDetailsForPropertySelected();
+			((SearchResultsFragmentActivity) getActivity())
+					.moreDetailsForPropertySelected(SearchResultsFragmentActivity.SOURCE_MINI_DETAILS);
 		}
 	};
 

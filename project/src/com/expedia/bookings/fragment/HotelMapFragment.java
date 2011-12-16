@@ -19,15 +19,16 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.expedia.bookings.widget.SimpleBalloonAdapter;
-import com.expedia.bookings.widget.HotelItemizedOverlay.OnTapListener;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.mobiata.android.MapUtils;
-import com.mobiata.android.widget.BalloonItemizedOverlay.OnBalloonClickListener;
+import com.mobiata.android.widget.BalloonItemizedOverlay;
+import com.mobiata.android.widget.BalloonItemizedOverlay.BalloonListener;
 import com.mobiata.android.widget.DoubleTapToZoomListenerOverlay;
 import com.mobiata.android.widget.ExactLocationItemizedOverlay;
+import com.mobiata.android.widget.StandardBalloonAdapter;
 
 public class HotelMapFragment extends Fragment implements EventHandler {
 
@@ -69,27 +70,33 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		List<Overlay> overlays = mMapView.getOverlays();
 
 		mExactLocationOverlay = new ExactLocationItemizedOverlay(activity, mMapView);
-		mExactLocationOverlay.setShowChevron(false);
 		mExactLocationOverlay.setBalloonAdapter(new SimpleBalloonAdapter(getActivity()));
 		overlays.add(mExactLocationOverlay);
 
-		mHotelOverlay = new HotelItemizedOverlay(activity, null, false, mMapView, null);
-		mHotelOverlay.setThumbnailPlaceholder(R.drawable.ic_image_placeholder);
-		mHotelOverlay.setShowChevron(false);
-		mHotelOverlay.setOnTapListener(new OnTapListener() {
-			public boolean onTap(Property property) {
-				((SearchResultsFragmentActivity) getActivity()).propertySelected(property);
-				return true;
+		mHotelOverlay = new HotelItemizedOverlay(activity, null, mMapView);
+		StandardBalloonAdapter adapter = new StandardBalloonAdapter(getActivity());
+		adapter.setThumbnailPlaceholderResource(R.drawable.ic_image_placeholder);
+		adapter.setShowChevron(false);
+		mHotelOverlay.setBalloonListener(new BalloonListener() {
+			@Override
+			public void onBalloonShown(int index) {
+				((SearchResultsFragmentActivity) getActivity()).propertySelected(mHotelOverlay.getProperty(index),
+						SearchResultsFragmentActivity.SOURCE_MAP);
+			}
+
+			@Override
+			public void onBalloonClicked(int index) {
+				((SearchResultsFragmentActivity) getActivity())
+						.moreDetailsForPropertySelected(SearchResultsFragmentActivity.SOURCE_MAP);
+			}
+
+			@Override
+			public void onBalloonHidden() {
+				// Do nothing
 			}
 		});
 
-		mHotelOverlay.setOnBalloonClickListener(new OnBalloonClickListener() {
-			public void onBalloonClick(int index) {
-				((SearchResultsFragmentActivity) getActivity()).moreDetailsForPropertySelected();
-			}
-		});
-
-		mHotelOverlay.setCenterOffsetY(getResources().getDimensionPixelSize(R.dimen.mini_details_height));
+		mHotelOverlay.setCenterOffset(0, getResources().getDimensionPixelSize(R.dimen.mini_details_height));
 		overlays.add(mHotelOverlay);
 
 		mDoubleTapToZoomOverlay = new DoubleTapToZoomListenerOverlay(activity, mMapView);
@@ -206,7 +213,8 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		// and if there is view in which to display
 		Property property = getInstance().mProperty;
 		if (mHotelOverlay != null && property != null) {
-			mHotelOverlay.showBalloon(property.getPropertyId(), true);
+			mHotelOverlay.showBalloon(property.getPropertyId(), BalloonItemizedOverlay.getDefaultFlags()
+					+ BalloonItemizedOverlay.F_SILENCE_LISTENER);
 		}
 	}
 

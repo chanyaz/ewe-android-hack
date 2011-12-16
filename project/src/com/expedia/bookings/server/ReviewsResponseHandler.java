@@ -13,10 +13,13 @@ import com.expedia.bookings.data.ReviewsResponse;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
 import com.mobiata.android.text.format.Time;
+import com.mobiata.android.util.AndroidUtils;
 
 public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse> {
 
 	private Context mContext;
+
+	private static final int SDK_VERSION = AndroidUtils.getSdkVersion();
 
 	public ReviewsResponseHandler(Context context) {
 		mContext = context;
@@ -46,7 +49,12 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 				review.setRecommended(reviewJson.optBoolean("Recommended"));
 
 				Time submissionDate = new Time();
-				submissionDate.parse3339(reviewJson.getString("SubmissionDate"));
+				String submissionDateStr = reviewJson.getString("SubmissionDate");
+				if (SDK_VERSION <= 7 && submissionDateStr.length() == 25) {
+					// #11403: Need to massage the data here to get Android to properly parse it
+					submissionDateStr = submissionDateStr.substring(0, 19) + ".000" + submissionDateStr.substring(19);
+				}
+				submissionDate.parse3339(submissionDateStr);
 				review.setSubmissionDate(submissionDate);
 
 				JSONObject reviewerJson = reviewJson.getJSONObject("ReviewerDetails");

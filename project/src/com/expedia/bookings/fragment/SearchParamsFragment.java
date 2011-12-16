@@ -41,6 +41,7 @@ import com.expedia.bookings.activity.SearchFragmentActivity.InstanceFragment;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
+import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.widget.NumberPicker;
@@ -74,6 +75,11 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	// #10978: Tracks when an autocomplete row was just clicked, so that we don't
 	// automatically start a new autocomplete query.
 	private boolean mAutocompleteClicked = false;
+
+	// #11237: When you register a connectivity receiver, it necessarily fires a
+	// response once.  We only want to listen when connectivity changes *after*
+	// the initial registration.
+	private boolean mDetectedInitialConnectivity;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -157,8 +163,19 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			}
 		}
 
-		mSuggestions = Arrays.asList(getResources().getStringArray(R.array.suggestions));
+		// Get suggestions from res
+		final List<String> tmpArray = Arrays.asList(getResources().getStringArray(R.array.suggestions));
+		mSuggestions = new ArrayList<String>();
+		mSuggestions.addAll(tmpArray);
 		Collections.shuffle(mSuggestions); // Randomly shuffle them for each launch
+
+		// Add history to top
+		List<String> searchHistory = new ArrayList<String>();
+		for (SearchParams searchParams : Search.getRecentSearches(getActivity(), 5)) {
+			searchHistory.add(searchParams.getFreeformLocation());
+		}
+		mSuggestions.addAll(0, searchHistory);
+
 		configureSuggestions(null);
 
 		// Configure the calendar
@@ -207,6 +224,8 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 		mLocationEditText.addTextChangedListener(mLocationTextWatcher);
 
+		mDetectedInitialConnectivity = false;
+
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 		getActivity().registerReceiver(mConnectivityReceiver, filter);
@@ -243,6 +262,13 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		InstanceFragment instance = getInstance();
 		SearchParams params = instance.mSearchParams;
 
+		// #11468: Not sure how we get into this state, but let's just try to prevent a crash for now.
+		if (params == null) {
+			Log.w("Somehow, params are null.  Resetting them to default to avoid problems.");
+			instance.mSearchParams = params = new SearchParams();
+			instance.mHasFocusedSearchField = false;
+		}
+
 		if (instance.mHasFocusedSearchField) {
 			mLocationEditText.setText(params.getSearchDisplayText(getActivity()));
 		}
@@ -274,10 +300,10 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-			Calendar checkIn = new GregorianCalendar(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
-					.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
-			Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
-					.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
+			Calendar checkIn = new GregorianCalendar(mCalendarDatePicker.getStartYear(),
+					mCalendarDatePicker.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
+			Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(),
+					mCalendarDatePicker.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
 
 			SearchParams searchParams = getInstance().mSearchParams;
 			searchParams.setCheckInDate(checkIn);
@@ -442,8 +468,13 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// Kick off a new suggestion query based on the current text.
-			configureSuggestions(mLocationEditText.getText().toString());
+			if (mDetectedInitialConnectivity) {
+				// Kick off a new suggestion query based on the current text.
+				configureSuggestions(mLocationEditText.getText().toString());
+			}
+			else {
+				mDetectedInitialConnectivity = true;
+			}
 		}
 	};
 
@@ -466,9 +497,8 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 				final Download download = new Download() {
 					public Object doDownload() {
 						GoogleServices services = new GoogleServices(getActivity());
-						BackgroundDownloader.getInstance().addDownloadListener(KEY_AUTOCOMPLETE_DOWNLOAD,
-								services);
-						return services.getSuggestions(query);
+						BackgroundDownloader.getInstance().addDownloadListener(KEY_AUTOCOMPLETE_DOWNLOAD, services);
+						return services.getSuggestions(query, "geocode");
 					}
 				};
 
@@ -494,6 +524,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		case SearchFragmentActivity.EVENT_UPDATE_PARAMS:
 			BackgroundDownloader.getInstance().cancelDownload(KEY_AUTOCOMPLETE_DOWNLOAD);
 			updateViews();
+			configureSuggestions(null);
 			break;
 		}
 	}

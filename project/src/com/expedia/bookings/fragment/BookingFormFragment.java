@@ -8,6 +8,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -24,11 +25,15 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -41,6 +46,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
+import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.BookingReceiptUtils;
@@ -92,10 +98,12 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 	private String[] mCountryCodes;
 
 	// Cached views (non-interactive)
+	private ScrollView mScrollView;
 	private ImageView mCreditCardImageView;
 	private TextView mSecurityCodeTipTextView;
 	private TextView mRulesRestrictionsTextView;
 	private CheckBox mRulesRestrictionsCheckbox;
+	private ViewGroup mRulesRestrictionsLayout;
 
 	// Validation
 	private ValidationProcessor mValidationProcessor;
@@ -118,18 +126,23 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 	private int mSelectedCountryPosition;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mValidationProcessor = new ValidationProcessor();
-	}
-	
-	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
 		((BookingFragmentActivity) activity).mEventManager.registerEventHandler(this);
 	}
-	
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mValidationProcessor = new ValidationProcessor();
+
+		if (savedInstanceState == null) {
+			InstanceFragment instance = getInstance();
+			Tracker.trackAppHotelsCheckoutPayment(getActivity(), instance.mProperty, instance.mBookingInfoValidation);
+		}
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -160,12 +173,14 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		mSecurityCodeEditText = (EditText) view.findViewById(R.id.security_code_edit_text);
 		mCreditCardImageView = (ImageView) view.findViewById(R.id.credit_card_image_view);
 		mSecurityCodeTipTextView = (TextView) view.findViewById(R.id.security_code_tip_text_view);
-		mRulesRestrictionsCheckbox = (CheckBox) view.findViewById(R.id.rules_restrictions_checkbox);
+		mScrollView = (ScrollView) view.findViewById(R.id.scroll_view);
+ 		mRulesRestrictionsCheckbox = (CheckBox) view.findViewById(R.id.rules_restrictions_checkbox);
 		mRulesRestrictionsTextView = (TextView) view.findViewById(R.id.rules_restrictions_text_view);
+		mRulesRestrictionsLayout = (ViewGroup) view.findViewById(R.id.rules_restrictions_layout);
 		mConfirmBookButton = view.findViewById(R.id.confirm_book_button);
 		mReceipt = view.findViewById(R.id.receipt);
 		mCloseFormButton = view.findViewById(R.id.close_booking_form);
-		
+
 		// 10758: rendering the saved layouts on a software layer
 		// to avoid the fuzziness of the saved section background
 		mGuestSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -183,7 +198,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		if (getBillingInfo().doesExistOnDisk()) {
 			syncFormFields(view);
 
-			bookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
+			checkSectionsCompleted(false);
 
 			if (!bookingInfoValidation.isGuestsSectionCompleted()) {
 				expandGuestsForm(false);
@@ -211,7 +226,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		ColorDrawable drawable = new ColorDrawable(0);
 		dialog.getWindow().setBackgroundDrawable(drawable);
 		dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-		
+
 		configureTicket(mReceipt);
 		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
 
@@ -229,7 +244,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		((BookingFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
 		super.onDetach();
 	}
-	
+
 	@Override
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
@@ -360,6 +375,13 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 
 		// Only display the checkbox if we're in a locale that requires its display
 		if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox()) {
+			mRulesRestrictionsCheckbox.setVisibility(View.VISIBLE);
+			mRulesRestrictionsCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					buttonView.setError(null);
+				}
+			});
+
 			// Configure credit card security code field to point towards the checkbox
 			mSecurityCodeEditText.setNextFocusDownId(R.id.rules_restrictions_checkbox);
 			mSecurityCodeEditText.setNextFocusRightId(R.id.rules_restrictions_checkbox);
@@ -384,6 +406,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 
 			@Override
 			public void onClick(View v) {
+
 				syncBillingInfo();
 
 				// Just to make sure, save the billing info when the user clicks submit
@@ -407,12 +430,19 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 						mErrorHandler.handleError(error);
 					}
 
-					BookingInfoUtils.focusAndOpenKeyboard(getActivity(), (View) errors.get(0).getObject());
+					// Request focus on the first field that was invalid
+					View firstErrorView = (View) errors.get(0).getObject();
+					if (firstErrorView == mRulesRestrictionsCheckbox) {
+						focusRulesRestrictions();
+					}
+					else {
+						BookingInfoUtils.focusAndOpenKeyboard(getActivity(), (View) errors.get(0).getObject());
+					}
 				}
 				else {
+					dismissKeyboard(v);
 					BookingInfoUtils.onClickSubmit(getActivity());
 					((BookingFragmentActivity) getActivity()).bookingCompleted();
-					dismiss();
 				}
 
 			}
@@ -421,9 +451,13 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		mCloseFormButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View v) {
+				dismissKeyboard(v);
+
 				saveBillingInfo();
-				getInstance().mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
+
+				checkSectionsCompleted(false);
+
 				dismiss();
 			}
 		});
@@ -503,6 +537,14 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 				return (obj.length() < 3) ? BookingInfoValidation.ERROR_SHORT_SECURITY_CODE : 0;
 			}
 		}));
+		mValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
+			public int validate(CheckBox obj) {
+				if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
+					return BookingInfoValidation.ERROR_NO_TERMS_CONDITIONS_AGREEMEMT;
+				}
+				return 0;
+			}
+		});
 
 		// Setup a focus change listener that changes the bottom from "enter booking info"
 		// to "confirm & book", plus the text
@@ -514,7 +556,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 				else {
 					saveBillingInfo();
 
-					getInstance().mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor);
+					checkSectionsCompleted(true);
 				}
 			}
 		};
@@ -614,6 +656,14 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 				return;
 			}
 		}
+	}
+	
+	// Focusing the rules & restrictions is special for two reasons:
+	// 1. It needs to focus the containing layout, so users can view the entire rules & restrictions.
+	// 2. It doesn't need to open the soft keyboard.
+	private void focusRulesRestrictions() {
+		mScrollView.requestChildFocus(mRulesRestrictionsLayout, mRulesRestrictionsLayout);
+		mScrollView.scrollBy(0, (int) getResources().getDisplayMetrics().density * 15);
 	}
 
 	/**
@@ -734,6 +784,16 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		TrackingUtils.saveEmailForTracking(getActivity(), getBillingInfo().getEmail());
 
 		return getBillingInfo().save(getActivity());
+	}
+
+	private void checkSectionsCompleted(boolean trackCompletion) {
+		Context context = (trackCompletion) ? getActivity() : null;
+		getInstance().mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor, context);
+	}
+
+	private void dismissKeyboard(View view) {
+		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -5,3 +5,4 @@ gen/
 .classpath
 .DS_Store
 project/.DS_Store
+local.properties

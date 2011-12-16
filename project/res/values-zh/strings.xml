@@ -376,7 +376,7 @@
 	
 	<!-- Gallery -->
 	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
-	<string name="gallery_title_template">&lt;b&gt;%1$s&lt;/b&gt;µÄÕÕÆ¬</string>
+	<string name="gallery_title_template">&lt;b&gt;%1$s&lt;/b&gt;的照片</string>
 	    
 	<!-- Booking info -->
 	<!-- edit label -->

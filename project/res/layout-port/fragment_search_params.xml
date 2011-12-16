@@ -33,13 +33,15 @@
             android:id="@+id/where_text_view"
             style="@style/InstructionText"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp" />
+            android:layout_marginRight="15dp"
+            android:paddingLeft="11dp" />
 
         <TextView
             android:id="@+id/when_text_view"
             style="@style/InstructionText"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp" />
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="30dp"
+            android:paddingLeft="8dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -51,14 +53,14 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="15dp"
             android:layout_weight="1"
             layout="@layout/include_search" />
 
         <include
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="30dp"
             android:layout_weight="1"
             layout="@layout/include_calendar" />
@@ -70,7 +72,7 @@
         android:id="@+id/who_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="41dp"
         android:layout_marginTop="40dp"
         android:textColor="@android:color/white"
         android:textSize="19dp" />
@@ -86,7 +88,7 @@
             android:layout_height="fill_parent"
             android:layout_marginBottom="40dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="40dp"
             android:layout_weight="1"
             layout="@layout/include_guests" />
@@ -96,7 +98,7 @@
             style="@style/Widget.Button.Yellow.Search"
             android:layout_width="0dp"
             android:layout_height="96dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="30dp"
             android:layout_weight="1"
             android:text="@string/search_for_hotels"

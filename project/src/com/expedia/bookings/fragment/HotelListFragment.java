@@ -27,7 +27,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	private ViewGroup mHeaderLayout;
 	private TextView mNumHotelsTextView;
 	private TextView mSortTypeTextView;
-	
+
 	private PlaceholderTagProgressBar mSearchProgressBar;
 
 	public static HotelListFragment newInstance() {
@@ -94,7 +94,8 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		((SearchResultsFragmentActivity) getActivity()).propertySelected((Property) mAdapter.getItem(position));
+		((SearchResultsFragmentActivity) getActivity()).propertySelected((Property) mAdapter.getItem(position),
+				SearchResultsFragmentActivity.SOURCE_LIST);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -177,6 +178,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	private void displaySearchStatus() {
 		if (mSearchProgressBar != null && mAdapter != null) {
 			mSearchProgressBar.setText(getInstance().mSearchStatus);
+			mSearchProgressBar.setShowProgress(true);
 			setHeaderVisibility(View.GONE);
 			mAdapter.setSearchResponse(null);
 		}

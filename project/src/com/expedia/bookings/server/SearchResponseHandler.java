@@ -136,8 +136,8 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 					+ parser.getCurrentToken() + " instead.");
 		}
 
-		String name;
-		JsonToken token;
+		String name, mediaName;
+		JsonToken token, mediaToken;
 		while (parser.nextToken() != JsonToken.END_OBJECT) {
 			name = parser.getCurrentName();
 			token = parser.nextToken();
@@ -206,6 +206,28 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			}
 			else if (name.equals("discountMessage")) {
 				promoDesc = parser.getText();
+			}
+			else if (name.equals("media")) {
+				if (token != JsonToken.START_ARRAY) {
+					throw new IOException("Expected media to start with an Array, started with "
+							+ parser.getCurrentToken() + " instead.");
+				}
+
+				while (parser.nextToken() != JsonToken.END_ARRAY) {
+					if (parser.getCurrentToken() != JsonToken.START_OBJECT) {
+						throw new IOException("Expected media item to start with an Object, started with "
+								+ parser.getCurrentToken() + " instead.");
+					}
+
+					while (parser.nextToken() != JsonToken.END_OBJECT) {
+						mediaName = parser.getCurrentName();
+						mediaToken = parser.nextToken();
+						if (mediaName.equals("url") && mediaToken != JsonToken.VALUE_NULL) {
+							property.addMedia(new Media(Media.TYPE_STILL_IMAGE, parser.getText()));
+						}
+					}
+				}
+
 			}
 			else if (name.equals("lowRateInfo")) {
 				Rate lowestRate = readLowRateInfo(parser);

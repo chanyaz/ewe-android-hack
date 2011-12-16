@@ -3,7 +3,6 @@ package com.expedia.bookings.utils;
 import java.util.HashMap;
 import java.util.Locale;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -26,21 +25,21 @@ public class BookingInfoUtils {
 		imm.showSoftInput(view, 0);
 	}
 
-	public static void onCompletedSection(Activity activity, String sectionName) {
+	public static void onCompletedSection(Context context, String sectionName) {
 		Log.d("Tracking \"" + sectionName + "\" onClick");
-		TrackingUtils.trackSimpleEvent(activity, null, null, "Shopper", sectionName);
+		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", sectionName);
 	}
 
-	public static void onCountrySpinnerClick(Activity activity) {
+	public static void onCountrySpinnerClick(Context context) {
 		Log.d("Tracking \"country spinner\" onClick");
-		TrackingUtils.trackSimpleEvent(activity, null, null, "Shopper", "CKO.BD.ChangeCountry");
+		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", "CKO.BD.ChangeCountry");
 	}
 
-	public static void onClickSubmit(Activity activity) {
+	public static void onClickSubmit(Context context) {
 		Log.d("Tracking \"submit\" onClick");
-		TrackingUtils.trackSimpleEvent(activity, null, null, "Shopper", "CKO.BD.Confirm");
+		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", "CKO.BD.Confirm");
 	}
-	
+
 	public static void determineExpediaPointsDisclaimer(View view) {
 		// 9226: Only display the Expedia Points disclaimer if the user is in the US.
 		// (This may change in the future as more countries support points.)
@@ -48,7 +47,7 @@ public class BookingInfoUtils {
 		TextView pointsDisclaimerView = (TextView) view.findViewById(R.id.expedia_points_disclaimer_text_view);
 		pointsDisclaimerView.setVisibility(visibility);
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// More static data (that just takes up a lot of space, so at bottom)
 
@@ -83,7 +82,7 @@ public class BookingInfoUtils {
 			put(CreditCardType.VISA, R.drawable.ic_cc_visa);
 		}
 	};
-	
+
 	// Static data that auto-fills states/countries
 	@SuppressWarnings("serial")
 	public static final HashMap<CharSequence, Integer> COMMON_US_CITIES = new HashMap<CharSequence, Integer>() {

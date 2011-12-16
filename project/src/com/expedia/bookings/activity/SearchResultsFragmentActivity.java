@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
@@ -37,6 +38,7 @@ import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
+import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -57,6 +59,8 @@ import com.expedia.bookings.fragment.SortDialogFragment;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
+import com.expedia.bookings.tracking.Tracker;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.AvailabilitySummaryLayoutUtils.OnRateClickListener;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.SearchUtils;
@@ -71,6 +75,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
+import com.omniture.AppMeasurement;
 
 public class SearchResultsFragmentActivity extends MapActivity implements LocationListener, OnFilterChangedListener {
 
@@ -137,6 +142,11 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		// Need to set this BG from code so we can make it just repeat vertically
 		findViewById(R.id.search_results_list_shadow).setBackgroundDrawable(LayoutUtils.getDividerDrawable(this));
+
+		// Load initial data, if it already exists (aka, screen rotated)
+		if (mInstance.mSearchResponse != null) {
+			loadSearchResponse(mInstance.mSearchResponse, false);
+		}
 	}
 
 	@Override
@@ -244,8 +254,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
 		}
 		else if (mInstance.mSearchResponse != null) {
-			mSearchCallback.onDownload(mInstance.mSearchResponse);
-
 			if (bd.isDownloading(KEY_AVAILABILITY_SEARCH)) {
 				bd.registerDownloadCallback(KEY_AVAILABILITY_SEARCH, mRoomAvailabilityCallback);
 			}
@@ -319,12 +327,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		// We're ensuring that if the user clicks somewhere else on the screen while the SearchView is focused,
 		// we clear focus on the SearchView.
 		if (mSearchViewFocused) {
-			float evX = ev.getX();
-			float evY = ev.getY();
-			float searchViewX = mSearchView.getX();
-			float searchViewY = mSearchView.getY();
-			if (evX < searchViewX || evX > searchViewX + mSearchView.getWidth() || evY < searchViewY
-					|| evY > searchViewY + mSearchView.getHeight()) {
+			Rect bounds = new Rect();
+			mSearchView.getHitRect(bounds);
+			if (!bounds.contains((int) ev.getX(), (int) ev.getY())) {
 				mSearchView.clearFocus();
 			}
 		}
@@ -382,6 +387,12 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		// This can be run before we've actually initialized the options menu - in that case, don't run
+		// the preparation (it will get run on its own course later).
+		if (mSearchView == null) {
+			return super.onPrepareOptionsMenu(menu);
+		}
+
 		if (!mSearchViewFocused) {
 			mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(this), false);
 		}
@@ -435,7 +446,11 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	//////////////////////////////////////////////////////////////////////////
 	// Event handling
 
-	public void propertySelected(Property property) {
+	public static final int SOURCE_LIST = 1;
+	public static final int SOURCE_MAP = 2;
+	public static final int SOURCE_MINI_DETAILS = 3;
+
+	public void propertySelected(Property property, int source) {
 		Log.v("propertySelected(): " + property.getName());
 
 		boolean selectionChanged = (mInstance.mProperty != property);
@@ -479,10 +494,43 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			// when notified of the change in property
 			mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
 		}
+
+		// Track what was just pressed
+		if ((!selectionChanged && !detailsShowing) || (selectionChanged && detailsShowing)) {
+			// Track that the full details has a pageload
+			Log.d("Tracking \"App.Hotels.Details\" pageLoad");
+
+			AppMeasurement s = TrackingUtils.createSimpleEvent(this, "App.Hotels.Details", "event32", "Shopper", null);
+
+			TrackingUtils.addHotelRating(s, property);
+
+			s.eVar8 = property.getLowestRate().getPromoDescription();
+
+			s.track();
+		}
+		else if (selectionChanged && !detailsShowing) {
+			// Track that the mini details has a pageload
+			Log.d("Tracking \"App.Hotels.Search.QuickView\" onClick");
+
+			String referrer = null;
+			if (source == SOURCE_LIST) {
+				referrer = "App.Hotels.Search.QuickView.List";
+			}
+			else if (source == SOURCE_MAP) {
+				referrer = "App.Hotels.Search.QuickView.Map";
+			}
+
+			AppMeasurement s = TrackingUtils.createSimpleEvent(this, "App.Hotels.Search.QuickView", null, "Shopper",
+					referrer);
+
+			s.eVar8 = property.getLowestRate().getPromoDescription();
+
+			s.track();
+		}
 	}
 
-	public void moreDetailsForPropertySelected() {
-		propertySelected(mInstance.mProperty);
+	public void moreDetailsForPropertySelected(int source) {
+		propertySelected(mInstance.mProperty, source);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -506,6 +554,10 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		public Map<String, AvailabilityResponse> mAvailabilityResponses = new HashMap<String, AvailabilityResponse>();
 		public Map<String, ReviewsResponse> mReviewsResponses = new HashMap<String, ReviewsResponse>();
 		public Session mSession;
+
+		// For tracking purposes only
+		public SearchParams mLastSearchParams;
+		public Filter mLastFilter;
 	}
 
 	public AvailabilityResponse getRoomsAndRatesAvailability() {
@@ -726,6 +778,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	public void startGeocode() {
 		Log.i("startGeocode(): " + mInstance.mSearchParams.getFreeformLocation());
+
+		mInstance.mSearchParams.setUserFreeformLocation(mInstance.mSearchParams.getFreeformLocation());
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.startDownload(KEY_GEOCODE, mGeocodeDownload, mGeocodeCallback);
 	}
@@ -775,6 +830,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	public void onGeocodeFailure() {
 		simulateSearchErrorResponse(R.string.geolocation_failed);
+
+		TrackingUtils.trackErrorPage(this, "App.Error.LocationNotFound");
 	}
 
 	public void onMyLocationFound(Location location) {
@@ -808,32 +865,48 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
 		public void onDownload(Object results) {
-			SearchResponse response = mInstance.mSearchResponse = (SearchResponse) results;
-
-			if (response == null) {
-				mInstance.mSearchStatus = getString(R.string.progress_search_failed);
-				mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, null);
-			}
-			else {
-				if (response.getSession() != null) {
-					mInstance.mSession = response.getSession();
-				}
-
-				if (response.hasErrors()) {
-					mInstance.mSearchStatus = response.getErrors().get(0).getPresentableMessage(mContext);
-					mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, null);
-				}
-				else {
-					response.setFilter(mInstance.mFilter);
-
-					mEventManager.notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
-				}
-			}
-
-			// Update action bar views based on results
-			invalidateOptionsMenu();
+			loadSearchResponse((SearchResponse) results, true);
 		}
 	};
+
+	private void loadSearchResponse(SearchResponse response, boolean initialLoad) {
+		mInstance.mSearchResponse = response;
+
+		if (response == null) {
+			mInstance.mSearchStatus = getString(R.string.progress_search_failed);
+			mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, null);
+			TrackingUtils.trackErrorPage(this, "HotelListRequestFailed");
+		}
+		else {
+			if (response.getSession() != null) {
+				mInstance.mSession = response.getSession();
+			}
+
+			if (response.hasErrors()) {
+				mInstance.mSearchStatus = response.getErrors().get(0).getPresentableMessage(mContext);
+				mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, null);
+				TrackingUtils.trackErrorPage(this, "HotelListRequestFailed");
+			}
+			else {
+				response.setFilter(mInstance.mFilter);
+
+				if (mInstance.mSearchResponse.getFilteredAndSortedProperties().length <= 10) {
+					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
+					mInstance.mFilter.setSearchRadius(SearchRadius.ALL);
+					mInstance.mSearchResponse.clearCache();
+				}
+
+				mEventManager.notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
+
+				if (initialLoad) {
+					onSearchResultsChanged();
+				}
+			}
+		}
+
+		// Update action bar views based on results
+		invalidateOptionsMenu();
+	}
 
 	private void simulateSearchErrorResponse(int errorMessageResId) {
 		SearchResponse response = new SearchResponse();
@@ -944,6 +1017,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			if (availabilityResponse == null) {
 				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR,
 						getString(R.string.error_no_response_room_rates));
+				TrackingUtils.trackErrorPage(mContext, "RatesListRequestFailed");
 			}
 			else {
 				if (availabilityResponse.getSession() != null) {
@@ -953,6 +1027,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 				if (availabilityResponse.hasErrors()) {
 					mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR, availabilityResponse.getErrors()
 							.get(0).getPresentableMessage(mContext));
+					TrackingUtils.trackErrorPage(mContext, "RatesListRequestFailed");
 				}
 				else {
 					mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
@@ -976,13 +1051,14 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_STARTED, null);
 	}
 
+	private static final int MAX_SUMMARIZED_REVIEWS = 4;
 	private Download mReviewsDownload = new Download() {
 
 		@Override
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext, mInstance.mSession);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_REVIEWS, services);
-			return services.reviews(mInstance.mProperty, 1, ReviewSort.HIGHEST_RATING_FIRST);
+			return services.reviews(mInstance.mProperty, 1, ReviewSort.HIGHEST_RATING_FIRST, MAX_SUMMARIZED_REVIEWS);
 		}
 	};
 
@@ -995,10 +1071,12 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 			if (results == null) {
 				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, null);
+				TrackingUtils.trackErrorPage(mContext, "UserReviewLoadFailed");
 			}
 			else if (reviewResponse.hasErrors()) {
 				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, reviewResponse.getErrors().get(0)
 						.getPresentableMessage(mContext));
+				TrackingUtils.trackErrorPage(mContext, "UserReviewLoadFailed");
 			}
 			else {
 				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_COMPLETE, reviewResponse);
@@ -1012,6 +1090,22 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	@Override
 	public void onFilterChanged() {
 		mEventManager.notifyEventHandlers(EVENT_FILTER_CHANGED, null);
+
+		onSearchResultsChanged();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Tracking
+
+	public void onSearchResultsChanged() {
+		String refinements = TrackingUtils.getRefinements(mInstance.mSearchParams, mInstance.mLastSearchParams,
+				mInstance.mFilter, mInstance.mLastFilter);
+
+		// Update the last filter/search params we used to track refinements 
+		mInstance.mLastSearchParams = mInstance.mSearchParams.copy();
+		mInstance.mLastFilter = mInstance.mFilter.copy();
+
+		Tracker.trackAppHotelsSearch(this, mInstance.mSearchParams, mInstance.mSearchResponse, refinements);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1026,19 +1120,24 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	// (opening rates activity)
 
-	public void bookRoom(Rate rate) {
+	public void bookRoom(Rate rate, boolean specificRateClicked) {
 		Intent intent = new Intent(this, BookingFragmentActivity.class);
 		intent.putExtra(Codes.SESSION, mInstance.mSession.toJson().toString());
 		intent.putExtra(Codes.SEARCH_PARAMS, mInstance.mSearchParams.toJson().toString());
 		intent.putExtra(Codes.PROPERTY, mInstance.mProperty.toJson().toString());
 		intent.putExtra(Codes.AVAILABILITY_RESPONSE, getRoomsAndRatesAvailability().toJson().toString());
 		intent.putExtra(Codes.RATE, rate.toJson().toString());
+
+		if (specificRateClicked) {
+			intent.putExtra(BookingFragmentActivity.EXTRA_SPECIFIC_RATE, true);
+		}
+
 		startActivity(intent);
 	}
 
 	public OnRateClickListener mOnRateClickListener = new OnRateClickListener() {
 		public void onRateClick(Rate rate) {
-			bookRoom(rate);
+			bookRoom(rate, true);
 		}
 	};
 

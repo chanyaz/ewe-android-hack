@@ -27,6 +27,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -143,6 +144,10 @@ public class ConfirmationUtils {
 		body.append(contactText);
 
 		SocialUtils.email(context, subject, body.toString());
+
+		// Track the share
+		Log.d("Tracking \"CKO.CP.ShareBooking\" onClick");
+		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", "CKO.CP.ShareBooking");
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

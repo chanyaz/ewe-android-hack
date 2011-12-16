@@ -11,7 +11,6 @@ import org.json.JSONException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -74,7 +73,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			ReviewSort reviewSort = ReviewSort.valueOf((String) data[1]);
 			ListView listView = getListView(mListViewContainersMap.get(reviewSort));
 			if (addFooter) {
-				listView.addFooterView(mFooterLoadingMore);
+				listView.addFooterView(mFooterLoadingMore, null, false);
 			}
 			else {
 				listView.removeFooterView(mFooterLoadingMore);
@@ -263,6 +262,10 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			else {
 				//send message to remove loading footer
 				mHandler.sendMessage(prepareMessage(false, thisReviewSort));
+
+				if (response == null || response.hasErrors()) {
+					TrackingUtils.trackErrorPage(mContext, "UserReviewLoadFailed");
+				}
 			}
 
 			isLoadingIndicatorShowingForReviewSort.remove(thisReviewSort);
@@ -350,6 +353,11 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		// Load the three different lists as the adapter is being constructed
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state == null) {
+			// Cancel any existing downloads
+			mReviewsDownloader.cancelDownload(KEY_REVIEWS_HIGHEST);
+			mReviewsDownloader.cancelDownload(KEY_REVIEWS_NEWEST);
+			mReviewsDownloader.cancelDownload(KEY_REVIEWS_LOWEST);
+
 			// Initialize the ReviewSort attempted download map
 			mReviewSortDownloadAttemptedMap.put(ReviewSort.HIGHEST_RATING_FIRST, false);
 			mReviewSortDownloadAttemptedMap.put(ReviewSort.LOWEST_RATING_FIRST, false);
@@ -509,7 +517,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 		ViewGroup header = (ViewGroup) mLayoutInflater.inflate(R.layout.header_user_reviews_list, null, false);
 		for (ViewGroup viewContainer : mListViewContainersMap.values()) {
-			getListView(viewContainer).addHeaderView(header);
+			getListView(viewContainer).addHeaderView(header, null, false);
 		}
 
 		mSortGroup = (SegmentedControlGroup) findViewById(R.id.user_review_sort_group);

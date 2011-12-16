@@ -143,7 +143,10 @@ public class FilterDialogFragment extends DialogFragment implements EventHandler
 			}
 		});
 
-		return builder.create();
+		Dialog dialog = builder.create();
+		dialog.setCanceledOnTouchOutside(true);
+	 
+		return dialog;
 	}
 
 	@Override

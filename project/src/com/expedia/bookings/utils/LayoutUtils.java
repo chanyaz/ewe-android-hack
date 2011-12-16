@@ -8,7 +8,6 @@ import java.util.TimeZone;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Shader.TileMode;
@@ -204,10 +203,8 @@ public class LayoutUtils {
 
 			final Resources res = context.getResources();
 			final int amenityLayoutWidth = (int) res.getDimension(R.dimen.amenity_layout_width);
-			final int amenityLayoutHeight = (int) res.getDimension(R.dimen.amenity_layout_height);
-
 			final int widthMeasureSpec = MeasureSpec.makeMeasureSpec(LayoutParams.WRAP_CONTENT, MeasureSpec.EXACTLY);
-			final int heightMeasureSpec = MeasureSpec.makeMeasureSpec(amenityLayoutHeight, MeasureSpec.EXACTLY);
+			final int heightMeasureSpec = MeasureSpec.makeMeasureSpec(LayoutParams.WRAP_CONTENT, MeasureSpec.EXACTLY);
 
 			amenityLayout.measure(widthMeasureSpec, heightMeasureSpec);
 

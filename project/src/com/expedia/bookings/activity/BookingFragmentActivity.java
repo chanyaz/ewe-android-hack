@@ -34,6 +34,7 @@ import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.server.AvailabilityResponseHandler;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.BackgroundDownloader;
@@ -50,6 +51,8 @@ public class BookingFragmentActivity extends Activity {
 	public static final int EVENT_RATE_SELECTED = 4;
 
 	private static final String KEY_BOOKING = "KEY_BOOKING";
+
+	public static final String EXTRA_SPECIFIC_RATE = "EXTRA_SPECIFIC_RATE";
 
 	//////////////////////////////////////////////////////////////////////////
 	// Member vars
@@ -120,6 +123,13 @@ public class BookingFragmentActivity extends Activity {
 
 		// Need to set this BG from code so we can make it just repeat vertically
 		findViewById(R.id.search_results_list_shadow).setBackgroundDrawable(LayoutUtils.getDividerDrawable(this));
+
+		if (savedInstanceState == null) {
+			String referrer = getIntent().getBooleanExtra(EXTRA_SPECIFIC_RATE, false) ? "App.Hotels.ViewSpecificRoom"
+					: "App.Hotels.ViewAllRooms";
+
+			Tracker.trackAppHotelsRoomsRates(this, mInstance.mProperty, referrer);
+		}
 	}
 
 	@Override
@@ -131,6 +141,27 @@ public class BookingFragmentActivity extends Activity {
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(KEY_BOOKING)) {
+			bd.registerDownloadCallback(KEY_BOOKING, mBookingCallback);
+		}
+		else if (mInstance.mBookingResponse != null) {
+			mBookingCallback.onDownload(mInstance.mBookingResponse);
+		}
+
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.unregisterDownloadCallback(KEY_BOOKING, mBookingCallback);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -231,13 +262,18 @@ public class BookingFragmentActivity extends Activity {
 
 		@Override
 		public void onDownload(Object results) {
-			((DialogFragment) getFragmentManager().findFragmentByTag(getString(R.string.tag_booking_progress)))
-					.dismiss();
+			DialogFragment bookingProgressFragment = (DialogFragment) getFragmentManager().findFragmentByTag(
+					getString(R.string.tag_booking_progress));
+			if (bookingProgressFragment != null) {
+				bookingProgressFragment.dismiss();
+			}
 
 			if (results == null) {
-				BookingErrorDialogFragment.newInstance(getString(R.string.error_booking_null)).show(
-						getFragmentManager(), getString(R.string.tag_booking_error));
-				TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
+				if (getFragmentManager().findFragmentByTag(getString(R.string.tag_booking_error)) == null) {
+					BookingErrorDialogFragment.newInstance(getString(R.string.error_booking_null)).show(
+							getFragmentManager(), getString(R.string.tag_booking_error));
+					TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
+				}
 				return;
 			}
 
@@ -258,11 +294,18 @@ public class BookingFragmentActivity extends Activity {
 					}
 					errorMsg += errors.get(a).getPresentableMessage(BookingFragmentActivity.this);
 				}
-
-				BookingErrorDialogFragment.newInstance(errorMsg).show(getFragmentManager(),
-						getString(R.string.tag_booking_error));
-				TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
+				if (getFragmentManager().findFragmentByTag(getString(R.string.tag_booking_error)) == null) {
+					BookingErrorDialogFragment.newInstance(errorMsg).show(getFragmentManager(),
+							getString(R.string.tag_booking_error));
+					TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
+				}
 				return;
+			}
+
+			DialogFragment bookingFormFragment = (DialogFragment) getFragmentManager().findFragmentByTag(
+					getString(R.string.tag_booking_form));
+			if (bookingFormFragment != null) {
+				bookingFormFragment.dismiss();
 			}
 
 			// Start the conf activity

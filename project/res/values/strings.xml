@@ -17,8 +17,6 @@
 	<string name="where_are_you_going">&lt;b&gt;Where&lt;/b&gt; are you going?</string>
 	<!--  Label for picking checkin/checkout dates -->
 	<string name="drag_to_extend_your_stay">&lt;b&gt;Drag&lt;/b&gt; to extend your stay.</string>
-	<!--  Label for picking checkin/checkout dates -->
-	<string name="where_are_you_staying">&lt;b&gt;Where&lt;/b&gt; are you staying?</string>
 	<!--  Label for picking guests for hotel booking -->
 	<string name="who_is_going">&lt;b&gt;Who&lt;/b&gt; is going?</string>
 	
@@ -55,8 +53,6 @@
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filter by hotel name</string>
-	<!-- Label to show hotels with any TripAdvisor rating -->
-	<string name="tripadvisor_rating_all">Show all hotels</string>
 	<!-- Label indicating that there are no results matching their current filter -->
 	<string name="no_filter_results">Sorry, no hotels match your current filters.</string>
 	<!-- Label indicating that geolocation failed -->
@@ -170,52 +166,19 @@
 	<string name="widget_savings_template">Save %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Tap to refresh</string>
-	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
-	<string name="tap_to_start_new_search">Tap to start a new search</string>
-	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
-	<string name="tap_to_see_booking">Tap to see your booking</string>
-	<!--  Title for the widget configuration activity -->
-	<string name="widget_config_title">Hotel Deals Widget</string>
-	<!--  Label for button to add widget to home screen from configuration activity -->
-	<string name="add_widget">Add Widget</string>
 	<!--  Instructions on how to add widget to home screen -->
 	<string name="widget_add_instructions">Tap and hold on your home screen to add the Hotel Radar widget.</string>
-	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description">Show hotel deals near:</string>
-	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
-	<string name="last_hotel_search">Last App Search</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">No Internet Connectivity</string>
 	<!--  Widget Branding title -->
 	<string name="hotel_radar">Hotel Radar</string>
 	<!--  Widget Branding description -->
 	<string name="book_a_room_tonight">Book a room tonight.</string>
-	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
-	<string name="save_upto_template">Save up to %2.0f%%</string>
-	<!--  Widget error for search that is considered "in the past" due to time differences -->
-	<string name="error_search_in_past">We\'re out of deals for today. Check in for top deals tomorrow.</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short_1">&lt;b&gt;Add the Hotel Radar Widget.&lt;/b&gt;</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
 	<string name="widget_upsell_short_2">&lt;b&gt;Get nightly deals near you!&lt;/b&gt;</string>
-	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
-	<string name="enjoy_your_stay">Enjoy your stay!</string>
-	
-	<!--  Hotel names for widget preview -->
-	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_wynn">Wynn Las Vegas</string>
-	<!-- Name of Bellagio hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_bellagio">Bellagio</string>
-	<!-- Name of Flamingo Las Vegas hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_flamingo">Flamingo Las Vegas</string>
-	<!-- Name of Venetian Resort Hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_caesers_palace">Caesars Palace</string>
-	<!-- Name of Harrah's hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_paris">Paris Las Vegas</string>
-	
-	<!--  Location of all hotels in widget preview -->
-	<string name="preview_hotel_location">Las Vegas, NV</string>
-	
+
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
 	<string name="book_now">Book Now</string>

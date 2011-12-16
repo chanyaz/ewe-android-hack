@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.text.TextPaint;
+import android.text.TextUtils;
+import android.text.TextUtils.TruncateAt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +21,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -29,6 +33,7 @@ import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelDescription.DescriptionSection;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
@@ -74,6 +79,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private ViewGroup mHotelDescriptionContainer;
 	private View mSeeAllReviewsButton;
 	private View mSelectRoomButton;
+	private ScrollView mHotelDetailsScrollView;
 
 	//----------------------------------
 	// OTHERS
@@ -82,6 +88,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private HotelCollage mCollageHandler;
 
 	private Handler mHandler = new Handler();
+
+	// Used to prevent click-happy jerks from opening the user reviews activity with
+	// fast clicks to the button.
+	private boolean mOpeningUserReviews;
 
 	//////////////////////////////////////////////////////////////////////////
 	// LIFECYCLE EVENTS
@@ -97,6 +107,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		final View view = inflater.inflate(R.layout.fragment_hotel_details, container, false);
 		mInflater = inflater;
 
+		mHotelDetailsScrollView = (ScrollView) view.findViewById(R.id.hotel_details_scroll_view);
 		mHotelNameTextView = (TextView) view.findViewById(R.id.hotel_name_text_view);
 		mHotelLocationTextView = (TextView) view.findViewById(R.id.hotel_address_text_view);
 		mCollageHandler = new HotelCollage(view, mPictureClickedListener);
@@ -124,6 +135,13 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		updateViews(getInstance().mProperty, view);
 
 		return view;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		mOpeningUserReviews = false;
 	}
 
 	@Override
@@ -166,10 +184,14 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 
 				@Override
 				public void onClick(View v) {
-					Intent i = new Intent(getActivity(), TabletUserReviewsListActivity.class);
-					i.putExtra(Codes.PROPERTY, property.toJson().toString());
-					i.putExtra(Codes.DISPLAY_MODAL_VIEW, true);
-					startActivity(i);
+					if (!mOpeningUserReviews) {
+						mOpeningUserReviews = true;
+
+						Intent i = new Intent(getActivity(), TabletUserReviewsListActivity.class);
+						i.putExtra(Codes.PROPERTY, property.toJson().toString());
+						i.putExtra(Codes.DISPLAY_MODAL_VIEW, true);
+						startActivity(i);
+					}
 				}
 			});
 		}
@@ -267,16 +289,29 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		}
 
 		addHotelDescription(property);
+
+		// post a message to the event queue to be run on the
+		// next event loop to scroll up to the top of the view
+		// the purpose of posting this to the message queue versus
+		// running it immediately is to enable smooth scrolling animation
+		mHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				mHotelDetailsScrollView.smoothScrollTo(0, 0);
+			}
+		});
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// CALLBACKS
 
 	private OnCollageImageClickedListener mPictureClickedListener = new OnCollageImageClickedListener() {
-
 		@Override
 		public void onImageClicked(Media media) {
-			((SearchResultsFragmentActivity) getActivity()).startHotelGalleryActivity(media);
+			if (getInstance().mProperty.getMediaCount() > 0) {
+				((SearchResultsFragmentActivity) getActivity()).startHotelGalleryActivity(media);
+			}
 		}
 	};
 
@@ -284,7 +319,16 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		public void onClick(View v) {
 			SummarizedRoomRates summarizedRoomRates = ((SearchResultsFragmentActivity) getActivity())
 					.getSummarizedRoomRates();
-			((SearchResultsFragmentActivity) getActivity()).bookRoom(summarizedRoomRates.getMinimumRateAvaialable());
+			AvailabilityResponse response = ((SearchResultsFragmentActivity) getActivity())
+					.getRoomsAndRatesAvailability();
+			Rate[] sortedRates = response.getRates().toArray(new Rate[0]).clone();
+
+			Rate minimumRate = summarizedRoomRates.getStartingRate();
+			if (minimumRate == null) {
+				minimumRate = sortedRates[0];
+			}
+
+			((SearchResultsFragmentActivity) getActivity()).bookRoom(minimumRate, false);
 		}
 	};
 
@@ -334,10 +378,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		// update the summarized rates if they are available
 		AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
 				.getRoomsAndRatesAvailability();
-		mSelectRoomButton.setEnabled((availabilityResponse != null));
+		mSelectRoomButton.setEnabled(availabilityResponse != null && !availabilityResponse.hasErrors());
 
-		AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse,
-				view, getString(R.string.select_room), mSelectRoomButtonOnClickListener,
+		AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse, view,
+				getString(R.string.select_room), mSelectRoomButtonOnClickListener,
 				((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
 	}
 
@@ -384,6 +428,35 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 					final TextView reviewBody = (TextView) reviewSection.findViewById(R.id.review_body);
 					reviewBody.setLines(2);
 					reviewBody.setText(review.getBody());
+					reviewBody.post(new Runnable() {
+						@Override
+						public void run() {
+							final TextPaint paint = reviewBody.getPaint();
+							final float width = reviewBody.getWidth();
+							final float ellipsesWidth = paint.measureText("...");
+
+							// Get review body
+							String text = review.getBody();
+
+							// Truncate the first line by using the textview width and the width of ellipses
+							String firstLine = (String) TextUtils.ellipsize(text, paint, width + ellipsesWidth,
+									TruncateAt.END);
+
+							// Find the last space in the first line
+							final int lastSpace = firstLine.lastIndexOf(" ");
+							if (lastSpace > -1) {
+								// The first line only goes to the last space, at which point it wraps
+								firstLine = firstLine.substring(0, lastSpace);
+							}
+
+							// Get the second string by subtracting the first string and truncating by the textview width
+							String secondLine = (String) TextUtils.ellipsize(text.substring(firstLine.length()), paint,
+									width, TruncateAt.END);
+
+							// set the text as the first line plus the second line truncated
+							reviewBody.setText(firstLine + secondLine);
+						}
+					});
 
 					row.addView(reviewSection);
 

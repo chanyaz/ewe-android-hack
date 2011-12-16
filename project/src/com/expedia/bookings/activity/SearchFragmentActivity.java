@@ -11,7 +11,9 @@ import android.os.Bundle;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.fragment.EventManager;
+import com.expedia.bookings.model.Search;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.util.NetUtils;
@@ -79,7 +81,11 @@ public class SearchFragmentActivity extends Activity {
 
 		if (resultCode == RESULT_OK && requestCode == REQUEST_SEARCH && data != null
 				&& data.hasExtra(Codes.SEARCH_PARAMS)) {
-			mInstance.mSearchParams = JSONUtils.parseJSONableFromIntent(data, Codes.SEARCH_PARAMS, SearchParams.class);
+			// #11468: Not sure if this is the root cause of the problem, but trying to prevent crash here
+			SearchParams params = JSONUtils.parseJSONableFromIntent(data, Codes.SEARCH_PARAMS, SearchParams.class);
+			if (params != null) {
+				mInstance.mSearchParams = params;
+			}
 			mInstance.mHasFocusedSearchField = true;
 
 			mEventManager.notifyEventHandlers(EVENT_UPDATE_PARAMS, mInstance.mSearchParams);
@@ -101,6 +107,10 @@ public class SearchFragmentActivity extends Activity {
 		if (!NetUtils.isOnline(this)) {
 			showDialog(DIALOG_NO_INTERNET);
 			return;
+		}
+
+		if (getInstance().mSearchParams.getSearchType() == SearchType.FREEFORM) {
+			Search.add(this, getInstance().mSearchParams);
 		}
 
 		Intent intent = new Intent(this, SearchResultsFragmentActivity.class);

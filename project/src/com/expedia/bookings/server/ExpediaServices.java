@@ -223,14 +223,14 @@ public class ExpediaServices implements DownloadListener {
 		int maxPage = (int) Math.ceil(property.getTotalReviews() / (double) REVIEWS_PER_PAGE);
 		return maxPage >= page;
 	}
-
-	public ReviewsResponse reviews(Property property, ReviewSort sort) {
-		return reviews(property, 1, sort);
+	
+	public ReviewsResponse reviews(Property property, int pageNumber, ReviewSort sort) {
+		return reviews(property, pageNumber, sort, REVIEWS_PER_PAGE);
 	}
 
-	public ReviewsResponse reviews(Property property, int index, ReviewSort sort) {
+	public ReviewsResponse reviews(Property property, int pageNumber, ReviewSort sort, int reviewCount) {
 		// Check that there are more reviews to add; if there aren't, just return null
-		if (!hasMoreReviews(property, index)) {
+		if (!hasMoreReviews(property, pageNumber)) {
 			return null;
 		}
 
@@ -246,9 +246,9 @@ public class ExpediaServices implements DownloadListener {
 			request.put("body", body);
 
 			body.put("sort", sort.getKey());
-			body.put("count", REVIEWS_PER_PAGE);
+			body.put("count", reviewCount);
 			body.put("propertyId", property.getPropertyId() + "");
-			body.put("index", index);
+			body.put("index", pageNumber);
 		}
 		catch (JSONException e) {
 			Log.e("Could not construct JSON reviews object.", e);
