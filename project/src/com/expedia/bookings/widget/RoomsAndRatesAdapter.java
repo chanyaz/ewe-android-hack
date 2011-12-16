@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
 import android.text.Html;
-import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +17,10 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
-import com.mobiata.android.util.ViewUtils;
 
 public class RoomsAndRatesAdapter extends BaseAdapter {
 
@@ -75,8 +74,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		}
 
 		// Calculate the size of the sale text size
-		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(context.getString(R.string.savings_template, 50.0), 2, 11,
-				new TextPaint(), 28);
+		mSaleTextSize = LayoutUtils.getSaleTextSize(context);
 
 		mBedSalePadding = (int) Math.round(mResources.getDisplayMetrics().density * 26);
 	}

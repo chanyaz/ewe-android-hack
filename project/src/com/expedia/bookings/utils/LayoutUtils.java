@@ -10,9 +10,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.TextPaint;
 import android.text.format.DateUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -33,8 +35,16 @@ import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Property.Amenity;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.ViewUtils;
 
 public class LayoutUtils {
+
+	public static float getSaleTextSize(Context context) {
+		TextPaint textPaint = new TextPaint();
+		textPaint.setTypeface(Typeface.DEFAULT_BOLD);
+		return ViewUtils.getTextSizeForMaxLines(context, context.getString(R.string.percent_off_template, 50.0),
+				textPaint, 58, 1, 11.5f, 1);
+	}
 
 	public static Drawable getDividerDrawable(Context context) {
 		BitmapDrawable drawable = new BitmapDrawable(BitmapFactory.decodeResource(context.getResources(),

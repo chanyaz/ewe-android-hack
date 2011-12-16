@@ -5,9 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.text.Html;
-import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +22,12 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.ViewUtils;
 
 public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
@@ -62,10 +60,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		String testString = context.getString(R.string.percent_off_template, 50.0f);
-		TextPaint textPaint = new TextPaint();
-		textPaint.setTypeface(Typeface.DEFAULT_BOLD);
-		mSaleTextSize = ViewUtils.getTextSizeForMaxLines(testString, 1, 11.5f, textPaint, 58);
+		mSaleTextSize = LayoutUtils.getSaleTextSize(context);
 
 		// Use a condensed rows if the screen width is not large enough
 		Configuration config = context.getResources().getConfiguration();
