@@ -78,6 +78,7 @@ public class HotelActivity extends AsyncLoadActivity {
 
 	private SearchParams mSearchParams;
 	private Property mProperty;
+	private AvailabilityResponse mAvailabilityResponse;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
@@ -299,6 +300,8 @@ public class HotelActivity extends AsyncLoadActivity {
 	public void startRoomRatesActivity() {
 		Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
 		roomsRatesIntent.fillIn(getIntent(), 0);
+		if (mAvailabilityResponse != null)
+			roomsRatesIntent.putExtra(Codes.AVAILABILITY_RESPONSE, mAvailabilityResponse.toJson().toString());
 		startActivity(roomsRatesIntent);
 	}
 
@@ -435,6 +438,7 @@ public class HotelActivity extends AsyncLoadActivity {
 			description = response.getErrors().get(0).getPresentableMessage(this);
 		}
 		else {
+			mAvailabilityResponse = response;
 			Property property = response.getProperty();
 
 			description = property.getDescriptionText();

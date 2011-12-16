@@ -44,6 +44,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 	private Session mSession;
 	private Property mProperty;
 	private SearchParams mSearchParams;
+	private AvailabilityResponse mAvailabilityResponse;
 
 	private RoomsAndRatesAdapter mAdapter;
 
@@ -73,6 +74,8 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 				Property.class);
 		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
 				SearchParams.class);
+		mAvailabilityResponse = (AvailabilityResponse) JSONUtils.parseJSONableFromIntent(intent,
+				Codes.AVAILABILITY_RESPONSE, AvailabilityResponse.class);
 
 		// This code allows us to test the RoomsAndRatesListActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
@@ -160,7 +163,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 	@Override
 	public String getUniqueKey() {
-		return "com.expedia.bookings.roomsrates." + mProperty.getPropertyId();
+		return "com.expedia.booking.details.offer";
 	}
 
 	@Override
@@ -183,12 +186,12 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 				return null;
 			}
 		}
+		else if (mAvailabilityResponse != null) {
+			return mAvailabilityResponse;
+		}
 		else {
 			ExpediaServices services = new ExpediaServices(this, mSession);
-			return services.availability(this, mSearchParams, mProperty);
-
-			// This will do the non-expensive call.
-			//return services.availability(this, mSearchParams, mProperty, 0);
+			return services.availability(this, mSearchParams, mProperty, 0);
 		}
 	}
 
@@ -216,6 +219,8 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 			TrackingUtils.trackErrorPage(this, "RatesListRequestFailed");
 			return;
 		}
+
+		mAvailabilityResponse = response;
 
 		mAdapter = new RoomsAndRatesAdapter(this, response);
 
