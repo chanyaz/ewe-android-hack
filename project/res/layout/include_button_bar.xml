@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
 	android:id="@+id/button_bar_layout"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
@@ -10,16 +11,18 @@
     android:background="@drawable/button_bar_bg"
     android:visibility="gone">
 
-    <TextView
+    <com.mobiata.android.widget.AutoResizeTextView
 		android:id="@+id/refinement_info_text_view"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="6dp"
 		android:layout_weight="1"
+		android:maxLines="1"
 		android:paddingBottom="3dp"
-		android:gravity="center|left"
-		android:textSize="18sp"
-		android:textColor="@android:color/white" />
+		android:gravity="center_vertical|left"
+		android:textColor="@android:color/white"
+		mobiata:maxTextSize="16sp"
+		mobiata:minTextSize="6sp" />
 
     <Button
 		android:id="@+id/search_button"
@@ -27,7 +30,7 @@
 		android:layout_height="wrap_content"
 		android:paddingLeft="12dp"
 		android:paddingRight="12dp"
-		android:gravity="center|right"
+		android:gravity="center_vertical|right"
 		android:text="@string/search"
 		style="@style/Widget.Button.Small.Orange" />
 
