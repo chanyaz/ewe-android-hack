@@ -276,7 +276,9 @@ public class HotelActivity extends Activity {
 		// Hide the text that indicated no amenities because there are amenities
 		if (property.hasAmenities()) {
 			findViewById(R.id.amenities_none_text).setVisibility(View.GONE);
-		}
+		} else {
+			findViewById(R.id.amenities_none_text).setVisibility(View.VISIBLE);
+        }
 
 		// Description
 		ViewGroup descriptionContainer = (ViewGroup) findViewById(R.id.description_container);
