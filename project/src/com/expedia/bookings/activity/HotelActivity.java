@@ -272,12 +272,10 @@ public class HotelActivity extends Activity {
 
 		ViewGroup amenitiesContainer = (ViewGroup) findViewById(R.id.amenities_table_row);
 		LayoutUtils.addAmenities(this, property, amenitiesContainer);
-		// hide the divider below the amenities if there are no amenities to show
-		if (!property.hasAmenities()) {
-			findViewById(R.id.amenities_divider).setVisibility(View.GONE);
-		}
-		else {
-			findViewById(R.id.amenities_divider).setVisibility(View.VISIBLE);
+
+		// Hide the text that indicated no amenities because there are amenities
+		if (property.hasAmenities()) {
+			findViewById(R.id.amenities_none_text).setVisibility(View.GONE);
 		}
 
 		// Description

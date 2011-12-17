@@ -208,6 +208,8 @@
 	<string name="select_room">Select Room</string>
 
 	<!-- Amenity strings -->
+	<!-- Text that indicates no amenities at this property -->
+	<string name="AmenityNone">No Amenities Offered</string>
 	<!-- Business center amenity -->
 	<string name="AmenityBusinessCenter">Business Center</string>
 	<!-- Fitness center amenity -->
