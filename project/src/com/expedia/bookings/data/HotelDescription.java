@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.text.Html;
-
-import com.expedia.bookings.R;
 
 public class HotelDescription {
 

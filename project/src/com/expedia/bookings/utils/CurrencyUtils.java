@@ -1,16 +1,8 @@
 package com.expedia.bookings.utils;
 
-import java.util.Currency;
-import java.util.Locale;
-
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.preference.PreferenceManager;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
-import com.mobiata.android.Log;
 
 public class CurrencyUtils {
 

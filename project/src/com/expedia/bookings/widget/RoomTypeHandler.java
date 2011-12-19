@@ -17,7 +17,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.utils.BookingReceiptUtils;
-import com.mobiata.android.Log;
 import com.mobiata.android.widget.TiltedImageView;
 
 /**

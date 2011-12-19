@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -124,7 +123,6 @@ import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.NumberPicker;
 import com.mobiata.android.widget.Panel;
 import com.mobiata.android.widget.SegmentedControlGroup;
-import com.omniture.AppMeasurement;
 
 public class PhoneSearchActivity extends ActivityGroup implements LocationListener, OnDrawStartedListener {
 	//////////////////////////////////////////////////////////////////////////////////////////

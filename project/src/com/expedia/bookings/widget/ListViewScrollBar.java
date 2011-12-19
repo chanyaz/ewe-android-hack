@@ -21,7 +21,6 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
 

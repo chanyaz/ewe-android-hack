@@ -25,7 +25,6 @@ import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.widget.RoomTypeHandler;
 import com.mobiata.android.ImageCache;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
 public class BookingReceiptUtils {

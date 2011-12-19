@@ -8,7 +8,6 @@ import java.util.Set;
 import android.content.Context;
 import android.content.res.Resources;
 import android.location.Address;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StrikethroughSpan;
@@ -20,7 +19,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.mobiata.android.LocationServices;
-import com.mobiata.android.text.StrikethroughTagHandler;
 
 public class StrUtils {
 
