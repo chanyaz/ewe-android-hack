@@ -74,6 +74,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private View mReviewsLoadingContainer;
 	private TextView mAmenitiesTitle;
 	private ViewGroup mAmenitiesContainer;
+	private View mAmenitiesNoneText;
 	private RatingBar mUserRating;
 	private RatingBar mStarRating;
 	private ViewGroup mHotelDescriptionContainer;
@@ -120,6 +121,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mReviewsContainer = view.findViewById(R.id.reviews_container);
 		mAmenitiesTitle = (TextView) view.findViewById(R.id.amenities_title);
 		mAmenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
+		mAmenitiesNoneText = (View) view.findViewById(R.id.amenities_none_text);
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
 		mReviewsLoadingContainer = view.findViewById(R.id.reviews_loading_container);
@@ -277,15 +279,13 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		addReviews(((SearchResultsFragmentActivity) getActivity()).getReviewsForProperty());
 
 		if (property.hasAmenities()) {
-			mAmenitiesContainer.setVisibility(View.VISIBLE);
-			mAmenitiesTitle.setVisibility(View.VISIBLE);
-
 			mAmenitiesContainer.removeAllViews();
 			LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
+			mAmenitiesNoneText.setVisibility(View.GONE);
 		}
 		else {
-			mAmenitiesContainer.setVisibility(View.GONE);
-			mAmenitiesTitle.setVisibility(View.GONE);
+			// Make sure the text is visible
+			mAmenitiesNoneText.setVisibility(View.VISIBLE);
 		}
 
 		addHotelDescription(property);
