@@ -46,6 +46,7 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.widget.SegmentedControlGroup;
 
 public class UserReviewsListActivity extends Activity implements OnScrollListener {
@@ -721,7 +722,10 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			ProgressBar progressBar = (ProgressBar) listViewContainer.findViewById(R.id.progress_bar);
 			progressBar.setVisibility(View.GONE);
 			String text;
-			if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST) {
+			if (!NetUtils.isOnline(getApplicationContext())) {
+				text = getString(R.string.widget_error_no_internet);
+			}
+			else if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST) {
 				text = getString(R.string.user_review_no_favorable_reviews);
 			}
 			else if (mCurrentReviewSort == ReviewSort.LOWEST_RATING_FIRST) {
