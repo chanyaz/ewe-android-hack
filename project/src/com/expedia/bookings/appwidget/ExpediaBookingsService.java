@@ -108,7 +108,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(getApplicationContext(), mWidgetDeals.getSession());
 			mSearchDownloader.addDownloadListener(WIDGET_KEY_SEARCH, services);
-			return services.search(ExpediaBookingsService.this, mWidgetDeals.getSearchParams(), 0);
+			return services.search(mWidgetDeals.getSearchParams(), 0);
 		}
 	};
 	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {

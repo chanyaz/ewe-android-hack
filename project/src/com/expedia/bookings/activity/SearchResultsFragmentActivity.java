@@ -859,7 +859,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext, mInstance.mSession);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
-			return services.search(SearchResultsFragmentActivity.this, mInstance.mSearchParams, 0);
+			return services.search(mInstance.mSearchParams, 0);
 		}
 	};
 
@@ -1004,8 +1004,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext, mInstance.mSession);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_AVAILABILITY_SEARCH, services);
-			return services.availability(SearchResultsFragmentActivity.this, mInstance.mSearchParams,
-					mInstance.mProperty);
+			return services.availability(mInstance.mSearchParams, mInstance.mProperty);
 		}
 	};
 

@@ -118,7 +118,7 @@ public class ExpediaServices implements DownloadListener {
 
 	private static final String ISO_FORMAT = "yyyy-MM-dd";
 
-	public SearchResponse search(Context context, SearchParams params, int sortType) {
+	public SearchResponse search(SearchParams params, int sortType) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		if (params.hasSearchLatLon()) {
@@ -138,14 +138,14 @@ public class ExpediaServices implements DownloadListener {
 
 		SearchResponseHandler rh = new SearchResponseHandler(mContext);
 		rh.setNumNights(params.getStayDuration());
-		return (SearchResponse) doRequest(context, "/MobileHotel/Webapp/SearchResults", query, rh, 0);
+		return (SearchResponse) doRequest("/MobileHotel/Webapp/SearchResults", query, rh, 0);
 	}
 
-	public AvailabilityResponse availability(Context context, SearchParams params, Property property) {
-		return availability(context, params, property, F_EXPENSIVE);
+	public AvailabilityResponse availability(SearchParams params, Property property) {
+		return availability(params, property, F_EXPENSIVE);
 	}
 
-	public AvailabilityResponse availability(Context context, SearchParams params, Property property, int flags) {
+	public AvailabilityResponse availability(SearchParams params, Property property, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
@@ -156,12 +156,11 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("makeExpensiveRealtimeCall", "true"));
 		}
 
-		return (AvailabilityResponse) doRequest(context, "/MobileHotel/Webapp/HotelOffers", query,
+		return (AvailabilityResponse) doRequest("/MobileHotel/Webapp/HotelOffers", query,
 				new AvailabilityResponseHandler(mContext, params, property), 0);
 	}
 
-	public BookingResponse reservation(Context context, SearchParams params, Property property, Rate rate,
-			BillingInfo billingInfo) {
+	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
@@ -188,17 +187,17 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
 				.getTime())));
 
-		return (BookingResponse) doRequest(context, "/MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(
-				mContext), F_SECURE_REQUEST);
+		return (BookingResponse) doRequest("/MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(mContext),
+				F_SECURE_REQUEST);
 	}
 
-	public SignInResponse signIn(Context context, String email, String password) {
+	public SignInResponse signIn(String email, String password) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("email", email));
 		query.add(new BasicNameValuePair("password", password));
 
-		return (SignInResponse) doRequest(context, "/MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(
-				mContext), F_SECURE_REQUEST);
+		return (SignInResponse) doRequest("/MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext),
+				F_SECURE_REQUEST);
 	}
 
 	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {
@@ -284,7 +283,7 @@ public class ExpediaServices implements DownloadListener {
 		return doRequest(post, responseHandler, flags);
 	}
 
-	private Object doRequest(Context context, String targetUrl, List<BasicNameValuePair> params,
+	private Object doRequest(String targetUrl, List<BasicNameValuePair> params,
 			ResponseHandler<?> responseHandler, int flags) {
 
 		// Determine the target URL
@@ -294,8 +293,8 @@ public class ExpediaServices implements DownloadListener {
 
 		builder.append("www.");
 
-		String pointOfSale = SettingUtils.get(context, context.getString(R.string.PointOfSaleKey),
-				LocaleUtils.getDefaultPointOfSale(context));
+		String pointOfSale = SettingUtils.get(mContext, mContext.getString(R.string.PointOfSaleKey),
+				LocaleUtils.getDefaultPointOfSale(mContext));
 		builder.append(pointOfSale);
 
 		//TODO: determine when to use development E3 server. Maybe just always use production?

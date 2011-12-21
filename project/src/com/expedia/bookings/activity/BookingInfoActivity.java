@@ -518,7 +518,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	@Override
 	public Object doDownload() {
 		ExpediaServices services = new ExpediaServices(this, mSession);
-		return services.reservation(this, mSearchParams, mProperty, mRate, mBillingInfo);
+		return services.reservation(mSearchParams, mProperty, mRate, mBillingInfo);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////

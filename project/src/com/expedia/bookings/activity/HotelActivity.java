@@ -426,7 +426,7 @@ public class HotelActivity extends AsyncLoadActivity {
 	@Override
 	public Object downloadImpl() {
 		ExpediaServices services = new ExpediaServices(this);
-		return services.availability(this, mSearchParams, mProperty, 0);
+		return services.availability(mSearchParams, mProperty, 0);
 	}
 
 	@Override

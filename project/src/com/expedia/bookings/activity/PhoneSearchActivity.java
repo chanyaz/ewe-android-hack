@@ -324,7 +324,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this, mSession);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
-			return services.search(PhoneSearchActivity.this, mSearchParams, 0);
+			return services.search(mSearchParams, 0);
 		}
 	};
 
