@@ -23,10 +23,6 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity {
 
 		String pointOfSaleKey = getString(R.string.PointOfSaleKey);
 
-		// Make sure the default value (based on locale) is saved in the SharedPreferences
-		SettingUtils.save(this, pointOfSaleKey,
-				SettingUtils.get(this, pointOfSaleKey, LocaleUtils.getDefaultPointOfSale(this)));
-
 		ListPreference pointOfSalePref = (ListPreference) findPreference(pointOfSaleKey);
 
 		pointOfSalePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
