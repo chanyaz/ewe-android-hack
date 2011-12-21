@@ -75,6 +75,7 @@ public class HotelActivity extends AsyncLoadActivity {
 	private Gallery mGallery;
 	private ViewGroup mDescriptionContainer;
 	private ProgressBar mProgressBar;
+	private TextView mBookButton;
 
 	private SearchParams mSearchParams;
 	private Property mProperty;
@@ -113,12 +114,16 @@ public class HotelActivity extends AsyncLoadActivity {
 
 		mDescription = new HotelDescription(this);
 
+		mBookButton = (TextView) findViewById(R.id.book_now_button);
+		mBookButton.setEnabled(false);
+
 		// This code allows us to test the HotelActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
 		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
 			try {
 				property = mProperty = new Property();
 				mProperty.fillWithTestData();
+				mBookButton.setEnabled(true);
 			}
 			catch (JSONException e) {
 				Log.e("Couldn't create dummy data!", e);
@@ -128,7 +133,9 @@ public class HotelActivity extends AsyncLoadActivity {
 		// Fill in header views
 		OnClickListener onBookNowClick = new OnClickListener() {
 			public void onClick(View v) {
-				startRoomRatesActivity();
+				if (mBookButton.isEnabled()) {
+					startRoomRatesActivity();
+				}
 			}
 		};
 
@@ -426,12 +433,13 @@ public class HotelActivity extends AsyncLoadActivity {
 	@Override
 	public Object downloadImpl() {
 		ExpediaServices services = new ExpediaServices(this);
-		return services.availability(mSearchParams, mProperty, 0);
+		return services.availability(mSearchParams, mProperty);
 	}
 
 	@Override
 	public void onResults(Object results) {
 		mProgressBar.setVisibility(View.GONE);
+		mBookButton.setEnabled(true);
 
 		AvailabilityResponse response = (AvailabilityResponse) results;
 		String description;
