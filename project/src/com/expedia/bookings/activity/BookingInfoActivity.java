@@ -665,7 +665,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// Configure form validation
 		// Setup validators and error handlers
-		final String userCurrency = "USD"; //TODO: CurrencyUtils.getCurrencyCode(mContext);
+		final String userCurrency = mRate.getTotalAmountBeforeTax().getCurrency();
 		TextViewValidator requiredFieldValidator = new TextViewValidator();
 		Validator<TextView> usValidator = new Validator<TextView>() {
 			public int validate(TextView obj) {
