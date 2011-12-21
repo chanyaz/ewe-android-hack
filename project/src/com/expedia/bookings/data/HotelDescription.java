@@ -2,8 +2,14 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.Context;
+import android.text.TextUtils;
+
+import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 
 public class HotelDescription {
 
@@ -24,79 +30,57 @@ public class HotelDescription {
 		mContext = context;
 	}
 
-	public void parseDescription(String description) {
+	public void parseDescription(String html) {
+		// See MOHotelDescription.m
+		String bullet = mContext.getString(R.string.bullet_point);
 
-		//TODO: temporary, until E3 team makes this more easy ~ddm
-		mSections.add(new DescriptionSection("Description", description));
+        // fix up notifications html, otherwise some gets cut off
+		html = html.replace("<br>", "\n");
+		html = html.replace("<br />", "\n");
+		html = html.replace("<p>", "\n");
+		html = html.replace("</p>", "\n");
 
-		/*
-		// List support
-		description = description.replace("<ul>", "\n\n");
-		description = description.replace("</ul>", "\n");
-		description = description.replace("<li>", mContext.getString(R.string.bullet_point) + " ");
-		description = description.replace("</li>", "\n");
-		description = description.replace("<strong><strong>", "<strong>");
-		description = description.replace("</strong>:</strong>", "</strong>");
-		description = description.replace("<p></p>", "");
+		// list support
+		html = html.replace("<ul>", "\n\n");
+		html = html.replace("</li>", "\n");
+		html = html.replace("</ul>", "\n");
+		html = html.replace("<li>", bullet + " ");
 
-		int len = description.length();
-		int index = 0;
-		String title = null;
-		while (index < len && index >= 0) {
-			int nextSection = description.indexOf("<p>", index);
-			int endSection = description.indexOf("</p>", nextSection);
+		// sometimes section headers are wrapped in <b></b> instead of <strong></strong>
+		html = html.replace("<b>", "<strong>");
+		html = html.replace("</b>", "</strong>");
 
-			if (nextSection != -1 && endSection > nextSection) {
-				int nextTitle = description.indexOf("<strong>", index);
-				int endTitle = description.indexOf("</strong>", nextTitle);
+		int flags = Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL;
+		Pattern sectionPattern = Pattern.compile("<strong>(.*?)</strong>(.*?)(?=\\z|<strong>)", flags);
+		Matcher sectionMatcher = sectionPattern.matcher(html);
 
-				if (nextTitle != -1 && endTitle > nextTitle && endTitle < endSection) {
-					title = description.substring(nextTitle + 8, endTitle).trim();
-					if (title.endsWith(".")) {
-						title = title.substring(0, title.length() - 1);
-					}
+		Pattern anyTag = Pattern.compile("<.+?>", flags);
 
-					// Crazy hacks for the description.  Should be rewritten someday
-					String body = description.substring(endTitle + 9, endSection).trim().replace("\n", "<br />");
-					if (body.startsWith("<br>")) {
-						body = body.substring(4);
-					}
-					if (body.startsWith("<br /><br />")) {
-						body = body.substring(12);
-					}
-					body = body.replace("<p>", "<br />");
+		String title, body;
+		while (sectionMatcher.find()) {
 
-					if (title.length() > 0 && body.length() > 0) {
-						mSections.add(new DescriptionSection(title, body));
-						title = null;
-					}
-				}
-				else {
-					String body = description.substring(nextSection + 3, endSection).trim().replace("\n", "<br />");
-					if (title != null && body.length() > 0) {
-						mSections.add(new DescriptionSection(title, body));
-						title = null;
-					}
-				}
-
-				// Iterate
-				index = endSection + 4;
+			// Parse title
+			title = sectionMatcher.group(1);
+			title = title.replaceAll(anyTag.pattern(), "");
+			title = title.trim();
+			if (title.endsWith(".") || title.endsWith(":")) {
+				title = title.substring(0, title.length() - 1);
 			}
-			else {
-				// If there's something mysteriously at the end we can't parse, just append it
-				String body = description.substring(index);
 
-				// ensure not to add a string that is blank to the hote desription. This is possible
-				// if the end of the description is padded with whitespaces
-				if (isBlank(body)) {
-					break;
-				}
+			// Parse body
+			body = sectionMatcher.group(2);
+			body = body.trim();
+			body = body.replace("\n" + bullet, "\n<br />" + bullet);
 
-				mSections.add(new DescriptionSection("", body));
-				break;
+			if (isBlank(title) || isBlank(body)) {
+				continue;
 			}
+
+			Log.e("title: " + title);
+			Log.e("body: " + body);
+
+			mSections.add(new DescriptionSection(title, body));
 		}
-		*/
 	}
 
 	public List<DescriptionSection> getSections() {
