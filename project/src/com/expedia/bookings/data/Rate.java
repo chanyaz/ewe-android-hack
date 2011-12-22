@@ -505,7 +505,6 @@ public class Rate implements JSONable {
 			obj.putOpt("ratePlanName", mRatePlanName);
 			obj.putOpt("roomDescription", mRoomDescription);
 			obj.putOpt("roomLongDescription", mRoomLongDescription);
-			Log.e("jsonifying roomLongDescription: " + mRoomLongDescription);
 
 			JSONUtils.putJSONableList(obj, "rateBreakdown", mRateBreakdown);
 			obj.putOpt("rateChange", mRateChange);

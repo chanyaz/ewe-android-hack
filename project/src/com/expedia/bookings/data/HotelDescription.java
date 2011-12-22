@@ -76,9 +76,6 @@ public class HotelDescription {
 				continue;
 			}
 
-			Log.e("title: " + title);
-			Log.e("body: " + body);
-
 			mSections.add(new DescriptionSection(title, body));
 		}
 	}
