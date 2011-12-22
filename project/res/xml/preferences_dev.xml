@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory
+		android:title="Development">
+		<CheckBoxPreference
+			android:key="@string/preference_use_dev_api"
+			android:title="Use Dev API (requires VPN)"
+			android:summaryOff="Don't do it!"
+			android:summaryOn="Do it!!!"
+			android:defaultValue="false"
+ 			/>
+	</PreferenceCategory>
+</PreferenceScreen>

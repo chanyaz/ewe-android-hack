@@ -297,9 +297,10 @@ public class ExpediaServices implements DownloadListener {
 				LocaleUtils.getDefaultPointOfSale(mContext));
 		builder.append(pointOfSale);
 
-		//TODO: determine when to use development E3 server. Maybe just always use production?
-		//if (!AndroidUtils.isRelease(context))
-		//	builder.append(".chelwebestr37.bgb.karmalab.net");
+		if (!AndroidUtils.isRelease(mContext)
+				&& SettingUtils.get(mContext, mContext.getString(R.string.preference_use_dev_api), false)) {
+			builder.append(".chelwebestr37.bgb.karmalab.net");
+		}
 
 		builder.append(targetUrl);
 

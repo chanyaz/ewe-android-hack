@@ -10,6 +10,7 @@ import android.preference.PreferenceScreen;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public class ExpediaBookingPreferenceActivity extends PreferenceActivity {
@@ -20,6 +21,10 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity {
 
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preferences);
+
+		if (!AndroidUtils.isRelease(this)) {
+			addPreferencesFromResource(R.xml.preferences_dev);
+		}
 
 		String pointOfSaleKey = getString(R.string.PointOfSaleKey);
 

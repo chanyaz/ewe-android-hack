@@ -25,6 +25,7 @@
 	<!-- Preference keys -->
 	<string name="preference_clear_private_data_key">CLEAR_PRIVATE_DATA</string>
     <string name="PointOfSaleKey">point_of_sale_key</string>
+    <string name="preference_use_dev_api">use_dev_api</string>
 
 	<!-- Currency codes -->
 	<string name="currency_code_aud">AUD</string>
