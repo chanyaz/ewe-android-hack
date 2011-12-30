@@ -599,7 +599,7 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">隱私權政策</string>
 	<!-- Copyright information -->
-	<string name="copyright">© 2011 Expedia, Inc. 著作權所有，\n保留一切權利。</string>
+	<string name="copyright">© 2011-2012 Expedia, Inc. 著作權所有，\n保留一切權利。</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->

@@ -599,7 +599,7 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Patakaran sa Privacy</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011 Expedia, Inc.\nNakalaan ang lahat ng mga karapatan.</string>
+	<string name="copyright">© Copyright 2011-2012 Expedia, Inc.\nNakalaan ang lahat ng mga karapatan.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->

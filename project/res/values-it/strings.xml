@@ -599,7 +599,7 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Informativa sulla Privacy</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011 Expedia, Inc.\nTutti i diritti riservati.</string>
+	<string name="copyright">© Copyright 2011-2012 Expedia, Inc.\nTutti i diritti riservati.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
