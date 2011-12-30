@@ -599,7 +599,7 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Dasar Privasi</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Hak Cipta 2011 Expedia, Inc.\nSemua hak terpelihara.</string>
+	<string name="copyright">© Hak Cipta 2011-2012 Expedia, Inc.\nSemua hak terpelihara.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
