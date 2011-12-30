@@ -510,11 +510,13 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 		List<Integer> propertyPositions = new ArrayList<Integer>();
 		int i = 0;
 		mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
-		for (Property property : mCachedProperties) {
-			if (property.getLowestRate().isOnSale()) {
-				propertyPositions.add(i);
+		if (mCachedProperties != null) {
+			for (Property property : mCachedProperties) {
+				if (property.getLowestRate().isOnSale()) {
+					propertyPositions.add(i);
+				}
+				i++;
 			}
-			i++;
 		}
 
 		mCachedMarkerPositions = propertyPositions.toArray(new Integer[0]);

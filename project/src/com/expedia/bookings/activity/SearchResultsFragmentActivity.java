@@ -890,7 +890,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			else {
 				response.setFilter(mInstance.mFilter);
 
-				if (mInstance.mSearchResponse.getFilteredAndSortedProperties().length <= 10) {
+				Property[] properties = mInstance.mSearchResponse.getFilteredAndSortedProperties(); 
+				if (properties != null && properties.length <= 10) {
 					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
 					mInstance.mFilter.setSearchRadius(SearchRadius.ALL);
 					mInstance.mSearchResponse.clearCache();
