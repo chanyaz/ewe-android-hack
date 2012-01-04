@@ -113,17 +113,17 @@ public class ConfirmationUtils {
 			body.append("\n");
 		}
 
-		Money surcharge = rate.getSurcharge();
+		Money totalSurcharge = rate.getTotalSurcharge();
 		Money extraGuestFee = rate.getExtraGuestFee();
 		if (extraGuestFee != null) {
 			appendLabelValue(context, body, R.string.extra_guest_charge, extraGuestFee.getFormattedMoney());
-			if (surcharge != null) {
-				surcharge = surcharge.copy();
-				surcharge.subtract(extraGuestFee);
+			if (totalSurcharge != null) {
+				totalSurcharge = totalSurcharge.copy();
+				totalSurcharge.subtract(extraGuestFee);
 			}
 		}
-		if (surcharge != null) {
-			appendLabelValue(context, body, R.string.TaxesAndFees, surcharge.getFormattedMoney());
+		if (totalSurcharge != null) {
+			appendLabelValue(context, body, R.string.TaxesAndFees, totalSurcharge.getFormattedMoney());
 			body.append("\n");
 		}
 

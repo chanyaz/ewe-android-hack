@@ -94,12 +94,13 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	public void rebuildCache() {
 		Log.d("Rebuilding hotel list adapter cache...");
 
-		if (mSearchResponse == null) {
+		if (mSearchResponse == null || mSearchResponse.getProperties() == null) {
 			mCachedProperties = null;
 		}
 		else {
 			mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
-			if (mCachedProperties.length == 0) {
+			final int size = mCachedProperties == null ? 0 : mCachedProperties.length;
+			if (size == 0) {
 				TrackingUtils.trackErrorPage(mContext, "FilteredToZeroResults");
 			}
 
@@ -109,7 +110,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			final List<Property> properties = new ArrayList<Property>();
 			properties.addAll(mSearchResponse.getProperties());
 
-			final int size = mCachedProperties.length;
 			for (int i = 0; i < size; i++) {
 				properties.remove(mCachedProperties[i]);
 			}

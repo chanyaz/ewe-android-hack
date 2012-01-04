@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.json.JSONException;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -25,12 +24,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelDescription.DescriptionSection;
@@ -38,9 +39,10 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Property.Amenity;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -51,11 +53,12 @@ import com.expedia.bookings.widget.Gallery.OnScrollListener;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
+import com.mobiata.android.app.AsyncLoadActivity;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.omniture.AppMeasurement;
 
-public class HotelActivity extends Activity {
+public class HotelActivity extends AsyncLoadActivity {
 
 	// This is the position in the list that the hotel had when the user clicked on it 
 	public static final String EXTRA_POSITION = "EXTRA_POSITION";
@@ -70,8 +73,13 @@ public class HotelActivity extends Activity {
 	private ScrollView mScrollView;
 
 	private Gallery mGallery;
+	private ViewGroup mDescriptionContainer;
+	private ProgressBar mProgressBar;
+	private TextView mBookButton;
 
+	private SearchParams mSearchParams;
 	private Property mProperty;
+	private AvailabilityResponse mAvailabilityResponse;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
@@ -99,17 +107,15 @@ public class HotelActivity extends Activity {
 		setContentView(R.layout.activity_hotel);
 
 		// Retrieve data to build this with
+		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
+				SearchParams.class);
 		Property property = mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
 				Property.class);
 
 		mDescription = new HotelDescription(this);
 
-		// Retrieve the last instance
-		boolean startFlipping = true;
-		Instance instance = (Instance) getLastNonConfigurationInstance();
-		if (instance != null) {
-			startFlipping = instance.mGalleryFlipping;
-		}
+		mBookButton = (TextView) findViewById(R.id.book_now_button);
+		mBookButton.setEnabled(false);
 
 		// This code allows us to test the HotelActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
@@ -117,6 +123,7 @@ public class HotelActivity extends Activity {
 			try {
 				property = mProperty = new Property();
 				mProperty.fillWithTestData();
+				mBookButton.setEnabled(true);
 			}
 			catch (JSONException e) {
 				Log.e("Couldn't create dummy data!", e);
@@ -126,7 +133,9 @@ public class HotelActivity extends Activity {
 		// Fill in header views
 		OnClickListener onBookNowClick = new OnClickListener() {
 			public void onClick(View v) {
-				startRoomRatesActivity();
+				if (mBookButton.isEnabled()) {
+					startRoomRatesActivity();
+				}
 			}
 		};
 
@@ -140,87 +149,9 @@ public class HotelActivity extends Activity {
 		LayoutUtils.configureHeader(this, property, onBookNowClick, onReviewsClick);
 
 		// Configure the gallery
-		Gallery gallery = mGallery = (Gallery) findViewById(R.id.images_gallery);
+		mGallery = (Gallery) findViewById(R.id.images_gallery);
+		mGallery.setVisibility(View.GONE);
 		mScrollView = (ScrollView) findViewById(R.id.scroll_view);
-		if (property.getMediaCount() > 0) {
-			final List<String> urls = StrUtils.getImageUrls(property);
-			gallery.setUrls(urls);
-
-			gallery.setOnItemSelectedListener(new OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					// Pre-load images around the currently selected image, until we have MAX_IMAGES_LOADED
-					// loading.  Then cancel downloads on all the rest.
-					int left = position;
-					int right = position;
-					int loaded = 1;
-					int len = urls.size();
-					OnImageLoaded doNothing = new OnImageLoaded() {
-						public void onImageLoaded(String url, Bitmap bitmap) {
-							// Do nothing.  In the future, ImageCache should have 
-							// the ability to simply preload, but this is a fix 
-							// for #8401 for the 1.0.2 release and I don't want to
-							// have to update/branch Utils.
-						}
-
-						public void onImageLoadFailed(String url) {
-							// Do nothing.
-						}
-					};
-					boolean hasMore = true;
-					while (loaded < MAX_IMAGES_LOADED && hasMore) {
-						hasMore = false;
-						if (left > 0) {
-							left--;
-							ImageCache.loadImage(urls.get(left), doNothing);
-							loaded++;
-							hasMore = true;
-						}
-						if (loaded == MAX_IMAGES_LOADED) {
-							break;
-						}
-						if (right < len - 1) {
-							right++;
-							ImageCache.loadImage(urls.get(right), doNothing);
-							loaded++;
-							hasMore = true;
-						}
-					}
-
-					// Clear images a few to the right/left of the bounds.
-					while (left > 0) {
-						left--;
-						ImageCache.removeImage(urls.get(left), true);
-					}
-					while (right < len - 1) {
-						right++;
-						ImageCache.removeImage(urls.get(right), true);
-					}
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					// Do nothing
-				}
-			});
-
-			if (startFlipping) {
-				gallery.startFlipping();
-			}
-
-			// Set it up so that we scroll to the top whenever user scrolls the gallery
-			// ONLY do this is not landscape
-			if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-				gallery.setOnScrollListener(new OnScrollListener() {
-					public void onScroll() {
-						mScrollView.smoothScrollTo(0, 0);
-					}
-				});
-			}
-		}
-		else {
-			gallery.setVisibility(View.GONE);
-		}
 
 		// Configure views on top of the gallery
 		Rate lowestRate = property.getLowestRate();
@@ -281,15 +212,8 @@ public class HotelActivity extends Activity {
         }
 
 		// Description
-		ViewGroup descriptionContainer = (ViewGroup) findViewById(R.id.description_container);
-		String description = property.getDescriptionText();
-		if (description != null && description.length() > 0) {
-			mDescription.parseDescription(description);
-			layoutDescription(descriptionContainer, description);
-		}
-		else {
-			addAddressSection(descriptionContainer);
-		}
+		mDescriptionContainer = (ViewGroup) findViewById(R.id.description_container);
+		mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
 		// Tracking
 		if (savedInstanceState == null) {
@@ -314,6 +238,21 @@ public class HotelActivity extends Activity {
 
 	private static class Instance {
 		private boolean mGalleryFlipping;
+
+		private Object asyncLoadObj;
+	}
+
+	@Override
+	public Object getLastNonConfigurationInstance() {
+		Instance instance = (Instance) super.getLastNonConfigurationInstance();
+		if (instance != null) {
+			return instance.asyncLoadObj;
+		}
+		return null;
+	}
+
+	public Object getLastNonConfigurationInstanceWrapper() {
+		return super.getLastNonConfigurationInstance();
 	}
 
 	@Override
@@ -375,10 +314,15 @@ public class HotelActivity extends Activity {
 	public void startRoomRatesActivity() {
 		Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
 		roomsRatesIntent.fillIn(getIntent(), 0);
+		if (mAvailabilityResponse != null)
+			roomsRatesIntent.putExtra(Codes.AVAILABILITY_RESPONSE, mAvailabilityResponse.toJson().toString());
 		startActivity(roomsRatesIntent);
 	}
 
 	private void layoutDescription(ViewGroup descriptionContainer, String description) {
+		mDescription.parseDescription(description);
+
+		descriptionContainer.removeAllViews();
 
 		// Try to add the address as the third section
 		int addressSection = 2;
@@ -399,7 +343,6 @@ public class HotelActivity extends Activity {
 	}
 
 	private View addSection(String title, String body, ViewGroup detailsContainer) {
-
 		RelativeLayout detailsSection = (RelativeLayout) getLayoutInflater().inflate(
 				R.layout.snippet_hotel_description_section, null);
 
@@ -471,6 +414,148 @@ public class HotelActivity extends Activity {
 			View body = addressSection.findViewById(R.id.body_description_text_view);
 			((RelativeLayout.LayoutParams) body.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, R.id.view_button);
 			addressSection.addView(mapButton, lp);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Async loading of hoteloffers
+
+	@Override
+	public String getUniqueKey() {
+		return "com.expedia.booking.details.offer";
+	}
+
+	@Override
+	public void showProgress() {
+		mProgressBar.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public Object downloadImpl() {
+		ExpediaServices services = new ExpediaServices(this);
+		return services.availability(mSearchParams, mProperty);
+	}
+
+	@Override
+	public void onResults(Object results) {
+		mProgressBar.setVisibility(View.GONE);
+		mBookButton.setEnabled(true);
+
+		AvailabilityResponse response = (AvailabilityResponse) results;
+		String description;
+		if (response == null) {
+			// Use short description (if available)
+			description = mProperty.getDescriptionText();
+		}
+		else if (response.hasErrors()) {
+			// TODO: At a later junction, remove the error display and
+			// just show the short description.
+			description = response.getErrors().get(0).getPresentableMessage(this);
+		}
+		else {
+			mAvailabilityResponse = response;
+			Property property = response.getProperty();
+
+			description = property.getDescriptionText();
+
+			if (property.getMediaCount() > 0) {
+				mGallery.setVisibility(View.VISIBLE);
+				final List<String> urls = new ArrayList<String>(property.getMediaCount());
+				Set<String> usedUrls = new HashSet<String>();
+				for (Media media : property.getMediaList()) {
+					String url = media.getUrl();
+					if (!usedUrls.contains(url)) {
+						urls.add(url);
+						usedUrls.add(url);
+					}
+				}
+				mGallery.setUrls(urls);
+
+				mGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
+					@Override
+					public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+						// Pre-load images around the currently selected image, until we have MAX_IMAGES_LOADED
+						// loading.  Then cancel downloads on all the rest.
+						int left = position;
+						int right = position;
+						int loaded = 1;
+						int len = urls.size();
+						OnImageLoaded doNothing = new OnImageLoaded() {
+							public void onImageLoaded(String url, Bitmap bitmap) {
+								// Do nothing.  In the future, ImageCache should have 
+								// the ability to simply preload, but this is a fix 
+								// for #8401 for the 1.0.2 release and I don't want to
+								// have to update/branch Utils.
+							}
+
+							public void onImageLoadFailed(String url) {
+								// Do nothing.
+							}
+						};
+						boolean hasMore = true;
+						while (loaded < MAX_IMAGES_LOADED && hasMore) {
+							hasMore = false;
+							if (left > 0) {
+								left--;
+								ImageCache.loadImage(urls.get(left), doNothing);
+								loaded++;
+								hasMore = true;
+							}
+							if (loaded == MAX_IMAGES_LOADED) {
+								break;
+							}
+							if (right < len - 1) {
+								right++;
+								ImageCache.loadImage(urls.get(right), doNothing);
+								loaded++;
+								hasMore = true;
+							}
+						}
+
+						// Clear images a few to the right/left of the bounds.
+						while (left > 0) {
+							left--;
+							ImageCache.removeImage(urls.get(left), true);
+						}
+						while (right < len - 1) {
+							right++;
+							ImageCache.removeImage(urls.get(right), true);
+						}
+					}
+
+					@Override
+					public void onNothingSelected(AdapterView<?> parent) {
+						// Do nothing
+					}
+				});
+
+				boolean startFlipping = true;
+				Instance instance = (Instance) getLastNonConfigurationInstanceWrapper();
+				if (instance != null) {
+					startFlipping = instance.mGalleryFlipping;
+				}
+
+				if (startFlipping) {
+					mGallery.startFlipping();
+				}
+
+				// Set it up so that we scroll to the top whenever user scrolls the gallery
+				// ONLY do this is not landscape
+				if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+					mGallery.setOnScrollListener(new OnScrollListener() {
+						public void onScroll() {
+							mScrollView.smoothScrollTo(0, 0);
+						}
+					});
+				}
+			}
+			else {
+				mGallery.setVisibility(View.GONE);
+			}
+		}
+
+		if (description != null && description.length() > 0) {
+			layoutDescription(mDescriptionContainer, description);
 		}
 	}
 

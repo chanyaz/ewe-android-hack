@@ -18,17 +18,12 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.PropertyInfoResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.google.android.maps.MapActivity;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.IoUtils;
@@ -76,8 +71,6 @@ public class ConfirmationFragmentActivity extends MapActivity {
 						BillingInfo.class);
 				mInstance.mBookingResponse = (BookingResponse) JSONUtils.parseJSONableFromIntent(intent,
 						Codes.BOOKING_RESPONSE, BookingResponse.class);
-				mInstance.mPropertyInfoResponse = (PropertyInfoResponse) JSONUtils.parseJSONableFromIntent(intent,
-						Codes.PROPERTY_INFO_RESPONSE, PropertyInfoResponse.class);
 
 				// This code allows us to test the ConfirmationFragmentActivity standalone, for layout purposes.
 				// Just point the default launcher activity towards this instead of SearchActivity
@@ -132,29 +125,6 @@ public class ConfirmationFragmentActivity extends MapActivity {
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(BookingFragmentActivity.KEY_PROPERTY_INFO)) {
-			bd.registerDownloadCallback(BookingFragmentActivity.KEY_PROPERTY_INFO, mPropertyInfoCallback);
-		}
-		else if (mInstance.mPropertyInfoResponse != null) {
-			mPropertyInfoCallback.onDownload(mInstance.mPropertyInfoResponse);
-		}
-		else {
-			startPropertyInfoDownload(mInstance.mProperty);
-		}
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.unregisterDownloadCallback(BookingFragmentActivity.KEY_PROPERTY_INFO, mPropertyInfoCallback);
-	}
-
-	@Override
 	public void onBackPressed() {
 		finish();
 		Intent i = new Intent(this, SearchFragmentActivity.class);
@@ -192,42 +162,6 @@ public class ConfirmationFragmentActivity extends MapActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Hotel Info
-
-	private void startPropertyInfoDownload(Property property) {
-		//clear out previous results
-		mInstance.mPropertyInfoResponse = null;
-		mInstance.mPropertyInfoStatus = null;
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-
-		bd.cancelDownload(BookingFragmentActivity.KEY_PROPERTY_INFO);
-		bd.startDownload(BookingFragmentActivity.KEY_PROPERTY_INFO, mPropertyInfoDownload, mPropertyInfoCallback);
-	}
-
-	private Download mPropertyInfoDownload = new Download() {
-		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext);
-			return services.info(mInstance.mProperty);
-		}
-	};
-
-	private OnDownloadComplete mPropertyInfoCallback = new OnDownloadComplete() {
-		public void onDownload(Object results) {
-			mInstance.mPropertyInfoResponse = (PropertyInfoResponse) results;
-			mInstance.mPropertyInfoStatus = null;
-
-			if (mInstance.mPropertyInfoResponse == null) {
-				mInstance.mPropertyInfoStatus = getString(R.string.error_room_type_load);
-				mEventManager.notifyEventHandlers(BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_ERROR, null);
-			}
-			else {
-				mEventManager.notifyEventHandlers(BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_COMPLETE, null);
-			}
-		}
-	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Breadcrumb (reloading activity)
@@ -268,8 +202,6 @@ public class ConfirmationFragmentActivity extends MapActivity {
 		public Rate mRate;
 		public BillingInfo mBillingInfo;
 		public BookingResponse mBookingResponse;
-		public PropertyInfoResponse mPropertyInfoResponse;
-		public String mPropertyInfoStatus;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

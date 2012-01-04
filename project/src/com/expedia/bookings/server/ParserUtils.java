@@ -1,5 +1,8 @@
 package com.expedia.bookings.server;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,6 +73,29 @@ public class ParserUtils {
 			serverError.setCategory(error.optString("category", null));
 			serverError.setHandling(error.optString("handling", null));
 			return serverError;
+		}
+
+		return null;
+	}
+
+	public static List<ServerError> parseErrors(Context context, JSONObject response) throws JSONException {
+		if (response.has("errors")) {
+			List<ServerError> errors = new ArrayList<ServerError>();
+
+			JSONArray arr = response.getJSONArray("errors");
+			for (int a = 0; a < arr.length(); a++) {
+				JSONObject error = arr.getJSONObject(a);
+				ServerError serverError = new ServerError();
+				serverError.setCode(error.getString("errorCode"));
+
+				JSONObject info = error.getJSONObject("errorInfo");
+				serverError.addExtra("field", info.optString("field", null));
+				serverError.addExtra("summary", info.optString("summary", null));
+
+				errors.add(serverError);
+			}
+
+			return errors;
 		}
 
 		return null;

@@ -61,7 +61,8 @@ public class RoomsAndRatesFragment extends ListFragment {
 		if (rate != null) {
 			int count = mAdapter.getCount();
 			for (int position = 0; position < count; position++) {
-				if (rate.equals(mAdapter.getItem(position))) {
+				Object item = mAdapter.getItem(position);
+				if (item != null && rate.equals(item)) {
 					return position;
 				}
 			}

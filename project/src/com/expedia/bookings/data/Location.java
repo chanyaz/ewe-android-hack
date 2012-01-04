@@ -25,6 +25,18 @@ public class Location implements JSONable {
 		return mStreetAddress;
 	}
 
+	public String getStreetAddressString() {
+		if (mStreetAddress == null) {
+			return null;
+		}
+
+		StringBuilder sb = new StringBuilder();
+		for (String string : mStreetAddress) {
+			sb.append(string + "\n");
+		}
+		return sb.toString().trim();
+	}
+
 	public void setStreetAddress(List<String> streetAddress) {
 		mStreetAddress = streetAddress;
 	}

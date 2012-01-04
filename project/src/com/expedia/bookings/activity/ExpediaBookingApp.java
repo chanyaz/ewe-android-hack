@@ -9,11 +9,14 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.res.Configuration;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.nullwire.trace.ExceptionHandler;
 import com.omniture.AppMeasurement;
 
@@ -37,6 +40,16 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 		if (isRelease && !isLogEnablerInstalled) {
 			ExceptionHandler.register(this, "http://www.mobiata.com/appsupport/ftandroid/trace.php");
 		}
+
+		// Fill POS based on locale if it's not already filled.
+		// Do it here so it becomes a sticky preference, i.e. it won't
+		// change magically if the user changes his locale. Chances are, he wants
+		// to keep using the same Expedia POS even if he changes his locale.
+		String posKey = getString(R.string.PointOfSaleKey);
+		if (null == SettingUtils.get(this, posKey, null)) {
+			SettingUtils.save(this, posKey, LocaleUtils.getDefaultPointOfSale(this));
+		}
+
 	}
 
 	@Override
@@ -52,6 +65,8 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 		final PrintWriter printWriter = new PrintWriter(writer);
 		ex.printStackTrace(printWriter);
 		s.prop36 = ex.getMessage() + "|" + writer.toString();
+
+		Log.i("prop36: " + s.prop36);
 
 		TrackingUtils.trackOnClick(s);
 

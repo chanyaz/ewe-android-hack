@@ -24,6 +24,7 @@ public class BillingInfo implements JSONable {
 
 	private String mFirstName;
 	private String mLastName;
+	private String mTelephoneCountryCode;
 	private String mTelephone;
 	private String mEmail;
 	private Location mLocation;
@@ -52,6 +53,14 @@ public class BillingInfo implements JSONable {
 
 	public void setLastName(String lastName) {
 		this.mLastName = lastName;
+	}
+
+	public String getTelephoneCountryCode() {
+		return mTelephoneCountryCode;
+	}
+
+	public void setTelephoneCountryCode(String telephoneCountryCode) {
+		this.mTelephoneCountryCode = telephoneCountryCode;
 	}
 
 	public String getTelephone() {
@@ -188,6 +197,7 @@ public class BillingInfo implements JSONable {
 		// Reset internal fields
 		mFirstName = null;
 		mLastName = null;
+		mTelephoneCountryCode = null;
 		mTelephone = null;
 		mEmail = null;
 		mLocation = null;
@@ -217,6 +227,7 @@ public class BillingInfo implements JSONable {
 			JSONObject obj = new JSONObject();
 			obj.putOpt("firstName", mFirstName);
 			obj.putOpt("lastName", mLastName);
+			obj.putOpt("telephoneCountryCode", mTelephoneCountryCode);
 			obj.putOpt("telephone", mTelephone);
 			obj.putOpt("email", mEmail);
 			JSONUtils.putJSONable(obj, "location", mLocation);
@@ -241,6 +252,7 @@ public class BillingInfo implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mFirstName = obj.optString("firstName", null);
 		mLastName = obj.optString("lastName", null);
+		mTelephoneCountryCode = obj.optString("telephoneCountryCode", null);
 		mTelephone = obj.optString("telephone", null);
 		mEmail = obj.optString("email", null);
 		mLocation = (Location) JSONUtils.getJSONable(obj, "location", Location.class);

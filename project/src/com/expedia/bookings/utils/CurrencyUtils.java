@@ -1,71 +1,10 @@
 package com.expedia.bookings.utils;
 
-import java.util.Currency;
-import java.util.Locale;
-
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.preference.PreferenceManager;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
-import com.mobiata.android.Log;
 
 public class CurrencyUtils {
-
-	public static String getCurrencyCode(Context context) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		String defaultValue = context.getString(R.string.CurrencyDefault);
-		String currencyCode = prefs.getString(context.getString(R.string.CurrencyKey), defaultValue);
-		if (currencyCode.equals(defaultValue)) {
-			return getDefaultCurrencyCode(context);
-		}
-		else if (isValidCurrencyCode(context, currencyCode)) {
-			return currencyCode;
-		}
-		else {
-			return "USD";
-		}
-	}
-
-	public static String getDefaultCurrencyCode(Context context) {
-		try {
-			Currency currency = Currency.getInstance(Locale.getDefault());
-			String currencyCode = currency.getCurrencyCode();
-			if (isValidCurrencyCode(context, currencyCode)) {
-				return currencyCode;
-			}
-		}
-		catch (IllegalArgumentException e) {
-			Log.w("Invalid country locale for currency.", e);
-		}
-
-		// Return USD, the ultra-default
-		return "USD";
-	}
-
-	public static String getCurrencyName(Context context, String currencyCode) {
-		Resources r = context.getResources();
-		String[] currencyCodes = r.getStringArray(R.array.currency_codes);
-		String[] currencyNames = r.getStringArray(R.array.currency_names);
-		for (int a = 1; a < currencyCodes.length; a++) {
-			if (currencyCodes[a].equals(currencyCode)) {
-				return currencyNames[a];
-			}
-		}
-		return null;
-	}
-
-	public static boolean isValidCurrencyCode(Context context, String currencyCode) {
-		String[] currencyCodes = context.getResources().getStringArray(R.array.currency_codes);
-		for (String validCode : currencyCodes) {
-			if (currencyCode.equalsIgnoreCase(validCode)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	private static final String[] AMEX_CURRENCIES = new String[] {
 			"CAD",

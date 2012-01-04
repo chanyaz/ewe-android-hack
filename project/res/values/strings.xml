@@ -373,6 +373,8 @@
 	<string name="FirstName">First Name</string>
 	<!-- The "last name" booking info field.  -->
 	<string name="LastName">Last Name</string>
+	<!-- Hint for "telephone country code" field (e.g., "+44") -->
+	<string name="hint_telephone_country_code">##</string>
 	<!-- The "telephone" booking info field.  -->
 	<string name="Telephone">Phone</string>
 	<!-- The "email for booking confirmation" booking info field.  -->
@@ -487,10 +489,14 @@
 	<string name="GuestsLabel">Guests</string>
 	<!-- Label for the taxes & fees for this booking. -->
 	<string name="TaxesAndFees">Taxes &amp; Fees</string>
+	<!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+	<string name="MandatoryFees">Hotel Fees (Paid at hotel)</string>
 	<!-- Label for the rate per room per night. -->
 	<string name="RatePerRoomPerNight">Rate per Room per Night</string>
 	<!-- Label for the total cost of the booking. -->
 	<string name="Total">Total</string>
+	<!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
+	<string name="PayToExpedia">Pay to Expedia</string>
 	<!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
 	<string name="CheckIn">Check In</string>
 	<!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
@@ -509,6 +515,16 @@
 	<string name="PolicyExpediaMerchant">By proceeding with this reservation, you agree to all terms and conditions, which include the Cancellation Policy and all terms and conditions contained in the User Agreement.\n\nYou agree to pay the cost of your reservation. If you do not pay this debt and it is collected through the use of a collection agency, an attorney, or through other legal proceedings, you agree to pay all reasonable costs or fees, including attorney fees and court costs, incurred in connection with such collection effort.</string>
 	<!-- Expedia agent hotel policies -->
 	<string name="PolicyExpediaAgent">You are booking a non-discounted property. All rates displayed are nightly, and based on double occupancy per room unless otherwise specified. Carefully review the room descriptions and rate rules to ensure the room you select can accommodate your entire party. Some rates may require special identification. Our booking fee, taxes, and other surcharges imposed by the hotel are not included. Any extra adults or children above the room\'s listed occupancy may be subject to additional charges at the property\'s discretion.\n\nRequests for more than 2 people, or for more occupants than your selected rate indicates, will be sent to the hotel but are not guaranteed. If accepted, they will be subject to additional charges at the property\'s discretion.</string>
+
+	<!-- Expedia Accounts -->
+	<!-- Label for menu item to log into account -->
+	<string name="log_in">Log Into Expedia</string>
+	<!-- Hint for user to enter password into a field -->
+	<string name="hint_password">Password</string>
+	<!-- Progress dialog text when we are logging the user into Expedia -->
+	<string name="logging_in">Logging in...</string>
+	<!-- Message that tells user they successfully logged in -->
+	<string name="login_success">Success!  You are now logged in.</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -585,12 +601,10 @@
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
 	<string name="preference_category_general">General</string>
-	<!-- Title for currency setting -->
-	<string name="preference_currency_title">Currency</string>
-	<!-- Summary for currency setting.  E.g., "US Dollars (USD)" -->
-	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
-	<!-- Template for default currency -->
-	<string name="default_currency_template">Default (%s)</string>
+	<!-- Title for point of sale setting -->
+	<string name="preference_point_of_sale_title">Domain</string>
+	<!-- Template for default point of sale -->
+	<string name="default_point_of_sale_template">Default (%s)</string>
 
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->

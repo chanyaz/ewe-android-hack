@@ -10,7 +10,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Calendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,14 +21,18 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
-import org.json.JSONArray;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,27 +40,31 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.CreditCardBrand;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.PropertyInfoResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.Session;
-import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.AndroidHttpClient;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
+import com.mobiata.android.util.SettingUtils;
 
 public class ExpediaServices implements DownloadListener {
+
+	private static final String COOKIES_FILE = "cookies.dat";
 
 	public static final int REVIEWS_PER_PAGE = 25;
 
@@ -77,11 +87,14 @@ public class ExpediaServices implements DownloadListener {
 	// Flags for doRequest()
 	private static final int F_SECURE_REQUEST = 1;
 
+	// Flags for availability()
+	private static final int F_EXPENSIVE = 4;
+
 	private Context mContext;
 	private Session mSession;
 
 	// For cancelling requests
-	private HttpRequestBase mPost;
+	private HttpRequestBase mRequest;
 
 	// This is just so that the error messages aren't treated severely when a download is canceled - naturally,
 	// things kind of crash and burn when you kill the connection midway through.
@@ -101,84 +114,109 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	//// Expedia requests
+	//// E3 API
+
+	private static final String ISO_FORMAT = "yyyy-MM-dd";
 
 	public SearchResponse search(SearchParams params, int sortType) {
-		// Construct the request
-		JSONObject request = new JSONObject();
-		try {
-			addStandardRequestFields(request, "list");
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-			// Construct the body
-			JSONObject body = new JSONObject();
-			request.put("body", body);
-
-			JSONObject location = new JSONObject();
-			body.put("location", location);
-
-			if (params.hasDestinationId()) {
-				location.put("destinationId", params.getDestinationId());
-			}
-			else if (params.hasSearchLatLon()) {
-				JSONObject coords = new JSONObject();
-				coords.put("latitude", params.getSearchLatitude());
-				coords.put("longitude", params.getSearchLongitude());
-				location.put("coords", coords);
-			}
-			else if (params.hasFreeformLocation()) {
-				location.put("destinationString", params.getFreeformLocation());
-			}
-
-			addBasicSearchParams(body, params);
-
-			body.put("numberOfAdults", params.getNumAdults());
-			body.put("numberOfChildren", params.getNumChildren());
-
-			addCurrencyCode(body);
-
-			body.put("locale", getLocaleString());
-
-			// Display scale sets up proper image thumbnails (better looking than defaults)
-			request.put("displayScale", 2);
-
-			// Add some details to the body
-			body.put("sort", "OVERALL_VALUE");
-			body.put("numberOfResults", -1);
-
-			// Limit to 15 mile search radius
-			body.put("searchRadiusUnit", "MI");
-			body.put("searchRadius", 15);
+		if (params.hasSearchLatLon()) {
+			query.add(new BasicNameValuePair("latitude", params.getSearchLatitude() + ""));
+			query.add(new BasicNameValuePair("longitude", params.getSearchLongitude() + ""));
 		}
-		catch (JSONException e) {
-			Log.e("Could not construct JSON search object.", e);
-			return null;
+		else if (params.hasFreeformLocation()) {
+			query.add(new BasicNameValuePair("city", params.getFreeformLocation()));
 		}
 
-		return (SearchResponse) doRequest(request, new SearchResponseHandler(mContext), 0);
+		addBasicParams(query, params);
+
+		// These values are always the same (for now)
+		query.add(new BasicNameValuePair("resultsPerPage", "25"));
+		query.add(new BasicNameValuePair("pageIndex", "0"));
+		query.add(new BasicNameValuePair("filterUnavailable", "true"));
+
+		SearchResponseHandler rh = new SearchResponseHandler(mContext);
+		rh.setNumNights(params.getStayDuration());
+		return (SearchResponse) doRequest("/MobileHotel/Webapp/SearchResults", query, rh, 0);
 	}
 
-	public SearchResponse search(SearchResponse lastResponse) {
-		// Construct the request
-		JSONObject request = new JSONObject();
-		try {
-			addStandardRequestFields(request, "list");
-
-			// Construct the body
-			JSONObject body = new JSONObject();
-			request.put("body", body);
-
-			body.put("cacheKey", lastResponse.getCachekey());
-			body.put("cacheLocation", lastResponse.getCacheLocation());
-
-			body.put("locale", getLocaleString());
-		}
-		catch (JSONException e) {
-			Log.e("Could not construct JSON search object.", e);
-			return null;
-		}
-
-		return (SearchResponse) doRequest(request, new SearchResponseHandler(mContext), 0);
+	public AvailabilityResponse availability(SearchParams params, Property property) {
+		return availability(params, property, F_EXPENSIVE);
 	}
+
+	public AvailabilityResponse availability(SearchParams params, Property property, int flags) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
+
+		addBasicParams(query, params);
+
+		if ((flags & F_EXPENSIVE) != 0) {
+			query.add(new BasicNameValuePair("makeExpensiveRealtimeCall", "true"));
+		}
+
+		return (AvailabilityResponse) doRequest("/MobileHotel/Webapp/HotelOffers", query,
+				new AvailabilityResponseHandler(mContext, params, property), 0);
+	}
+
+	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
+		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
+
+		addBasicParams(query, params);
+
+		query.add(new BasicNameValuePair("firstName", billingInfo.getFirstName()));
+		query.add(new BasicNameValuePair("lastName", billingInfo.getLastName()));
+		query.add(new BasicNameValuePair("phoneCountryCode", billingInfo.getTelephoneCountryCode()));
+		query.add(new BasicNameValuePair("phone", billingInfo.getTelephone()));
+		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
+
+		Location location = billingInfo.getLocation();
+		query.add(new BasicNameValuePair("streetAddress", location.getStreetAddressString()));
+		query.add(new BasicNameValuePair("city", location.getCity()));
+		query.add(new BasicNameValuePair("state", location.getStateCode()));
+		query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
+		query.add(new BasicNameValuePair("country", location.getCountryCode()));
+
+		query.add(new BasicNameValuePair("creditCardNumber", billingInfo.getNumber()));
+		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
+
+		DateFormat expFormatter = new SimpleDateFormat("MMyy");
+		query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
+				.getTime())));
+
+		return (BookingResponse) doRequest("/MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(mContext),
+				F_SECURE_REQUEST);
+	}
+
+	public SignInResponse signIn(String email, String password) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		query.add(new BasicNameValuePair("email", email));
+		query.add(new BasicNameValuePair("password", password));
+
+		return (SignInResponse) doRequest("/MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext),
+				F_SECURE_REQUEST);
+	}
+
+	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {
+		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
+		df.setTimeZone(CalendarUtils.getFormatTimeZone());
+		query.add(new BasicNameValuePair("checkInDate", df.format(params.getCheckInDate().getTime())));
+		query.add(new BasicNameValuePair("checkOutDate", df.format(params.getCheckOutDate().getTime())));
+
+		StringBuilder guests = new StringBuilder();
+		guests.append(params.getNumAdults());
+		for (int a = 0; a < params.getNumChildren(); a++) {
+			guests.append(",12");
+		}
+
+		query.add(new BasicNameValuePair("room1", guests.toString()));
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	//// TRS (reviews) API
 
 	public static boolean hasMoreReviews(Property property, int page) {
 		int maxPage = (int) Math.ceil(property.getTotalReviews() / (double) REVIEWS_PER_PAGE);
@@ -208,7 +246,7 @@ public class ExpediaServices implements DownloadListener {
 
 			body.put("sort", sort.getKey());
 			body.put("count", reviewCount);
-			body.put("propertyId", property.getExpediaPropertyId() + "");
+			body.put("propertyId", property.getPropertyId() + "");
 			body.put("index", pageNumber);
 		}
 		catch (JSONException e) {
@@ -219,231 +257,10 @@ public class ExpediaServices implements DownloadListener {
 		return (ReviewsResponse) doRequest(request, new ReviewsResponseHandler(mContext), 0);
 	}
 
-	public AvailabilityResponse availability(SearchParams params, Property property) {
-		// Construct the request
-		JSONObject request = new JSONObject();
-		try {
-			addStandardRequestFields(request, "availability");
-
-			// Construct the body
-			JSONObject body = new JSONObject();
-			request.put("body", body);
-
-			addBasicSearchParams(body, params);
-
-			JSONArray rooms = new JSONArray();
-			JSONObject room = new JSONObject();
-			body.put("rooms", rooms);
-			rooms.put(room);
-
-			room.put("numberOfAdults", params.getNumAdults());
-			room.put("numberOfChildren", params.getNumChildren());
-
-			body.put("hotelId", property.getPropertyId());
-
-			addCurrencyCode(body);
-
-			body.put("locale", getLocaleString());
-		}
-		catch (JSONException e) {
-			Log.e("Could not construct JSON availability object.", e);
-			return null;
-		}
-
-		return (AvailabilityResponse) doRequest(request, new AvailabilityResponseHandler(mContext, params, property), 0);
-	}
-
-	public PropertyInfoResponse info(Property property) {
-		// Construct the request
-		JSONObject request = new JSONObject();
-		try {
-			addStandardRequestFields(request, "info");
-
-			// Construct the body
-			JSONObject body = new JSONObject();
-			request.put("body", body);
-
-			body.put("hotelId", property.getPropertyId());
-		}
-		catch (JSONException e) {
-			Log.e("Could not construct JSON info object.", e);
-			return null;
-		}
-
-		return (PropertyInfoResponse) doRequest(request, new PropertyInfoResponseHandler(mContext), 0);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<CreditCardBrand> paymentInfo() {
-		// Construct the request
-		JSONObject request = new JSONObject();
-		try {
-			addStandardRequestFields(request, "payment_info");
-
-			// Construct the body
-			JSONObject body = new JSONObject();
-			request.put("body", body);
-
-			body.put("locale", getLocaleString());
-			addCurrencyCode(body);
-		}
-		catch (JSONException e) {
-			Log.e("Could not construct JSON payment info object.", e);
-			return null;
-		}
-
-		return (List<CreditCardBrand>) doRequest(request, new PaymentInfoResponseHandler(), 0);
-	}
-
-	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo) {
-		// Construct the request
-		JSONObject request = new JSONObject();
-		try {
-			addStandardRequestFields(request, "reservation");
-
-			// Construct the body
-			JSONObject body = new JSONObject();
-			request.put("body", body);
-
-			addBasicSearchParams(body, params);
-
-			addCurrencyCode(body);
-
-			// Add hotel information
-			body.put("hotelId", property.getPropertyId());
-			body.put("rateCode", rate.getRatePlanCode());
-			body.put("roomTypeCode", rate.getRoomTypeCode());
-			body.put("supplierType", property.getSupplierType());
-			if (rate.getRateKey() != null) {
-				body.put("rateKey", rate.getRateKey());
-			}
-
-			// Figure out what data to put into chargeableRate.  If we can't find one, 
-			// throw an error
-			Money chargeableRate = rate.getTotalAmountAfterTax();
-			if (chargeableRate == null) {
-				chargeableRate = rate.getDailyAmountBeforeTax();
-				if (chargeableRate == null) {
-					Log.e("Could not find a chargeable rate for booking.");
-					return null;
-				}
-			}
-			body.put("chargeableRate", chargeableRate.getAmount());
-
-			// TODO: Handle itineraryId
-
-			// Add room information
-			JSONArray rooms = new JSONArray();
-			body.put("rooms", rooms);
-			JSONObject room = new JSONObject();
-			rooms.put(room);
-
-			room.put("firstName", billingInfo.getFirstName());
-			room.put("lastName", billingInfo.getLastName());
-			room.put("numberOfAdults", params.getNumAdults());
-			room.put("numberOfChildren", params.getNumChildren());
-
-			// Add billing info
-			JSONObject billing = new JSONObject();
-			body.put("billingInfo", billing);
-
-			billing.put("firstName", billingInfo.getFirstName());
-			billing.put("lastName", billingInfo.getLastName());
-			billing.put("email", billingInfo.getEmail());
-			billing.put("homePhone", billingInfo.getTelephone());
-
-			JSONObject homeAddress = new JSONObject();
-			billing.put("addressInfo", homeAddress);
-
-			Location location = billingInfo.getLocation();
-			List<String> streetAddress = location.getStreetAddress();
-			for (int a = 0; a < streetAddress.size(); a++) {
-				homeAddress.put("address" + (a + 1), streetAddress.get(a));
-			}
-			homeAddress.put("city", location.getCity());
-			homeAddress.putOpt("stateProvinceCode", location.getStateCode());
-			homeAddress.putOpt("postalCode", location.getPostalCode());
-			homeAddress.put("countryCode", location.getCountryCode());
-
-			JSONObject creditCardInfo = new JSONObject();
-			billing.put("creditCardInfo", creditCardInfo);
-
-			creditCardInfo.put("creditCardType", billingInfo.getBrandCode());
-			creditCardInfo.put("creditCardNumber", billingInfo.getNumber());
-			creditCardInfo.put("creditCardIdentifier", Integer.parseInt(billingInfo.getSecurityCode()));
-			creditCardInfo.put("creditCardExpirationMonth", billingInfo.getExpirationDate().get(Calendar.MONTH) + 1);
-			creditCardInfo.put("creditCardExpirationYear", billingInfo.getExpirationDate().get(Calendar.YEAR));
-
-			// Email addresses
-			JSONArray emails = new JSONArray();
-			body.put("EmailItineraryAddresses", emails);
-			emails.put(billingInfo.getEmail());
-
-			body.put("locale", getLocaleString());
-		}
-		catch (JSONException e) {
-			Log.e("Could not construct JSON reservation object.", e);
-			return null;
-		}
-
-		return (BookingResponse) doRequest(request, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
-	}
-
 	//////////////////////////////////////////////////////////////////////////
-	//// Request building assistance methods
+	//// Request code
 
-	private void addStandardRequestFields(JSONObject request, String type) throws JSONException {
-		request.put("type", type);
-		if (!AndroidUtils.isRelease(mContext)) {
-			request.put("echoRequest", true);
-		}
-		request.put("cid", 345106);
-
-		if (mSession != null && !mSession.hasExpired()) {
-			Log.i("Applying sessionId: " + mSession.getSessionId());
-			request.put("customerSessionId", mSession.getSessionId());
-		}
-	}
-
-	private void addBasicSearchParams(JSONObject body, SearchParams params) throws JSONException {
-		body.put("checkinDate", createDate(params.getCheckInDate()));
-		body.put("checkoutDate", createDate(params.getCheckOutDate()));
-	}
-
-	private JSONObject createDate(Calendar cal) throws JSONException {
-		JSONObject date = new JSONObject();
-		date.put("year", cal.get(Calendar.YEAR));
-		date.put("month", cal.get(Calendar.MONTH) + 1);
-		date.put("dayOfMonth", cal.get(Calendar.DAY_OF_MONTH));
-		return date;
-	}
-
-	private void addCurrencyCode(JSONObject body) throws JSONException {
-		body.put("currencyCode", CurrencyUtils.getCurrencyCode(mContext));
-	}
-
-	private String getLocaleString() {
-		return Locale.getDefault().toString();
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	//// Request methods
-
-	public Object doRequest(JSONObject request, ResponseHandler<?> responseHandler, int flags) {
-		// Construct a proper user agent string
-		String versionName;
-		try {
-			PackageManager pm = mContext.getPackageManager();
-			PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), 0);
-			versionName = pi.versionName;
-		}
-		catch (Exception e) {
-			// PackageManager is traditionally wonky, need to accept all exceptions here.
-			Log.w("Couldn't get package info in order to submit proper version #!", e);
-			versionName = "1.0";
-		}
-		String userAgent = "ExpediaBookings/" + versionName + " Android";
-
+	private Object doRequest(JSONObject request, ResponseHandler<?> responseHandler, int flags) {
 		// Determine the target URL
 		String serverUrl;
 		boolean isRelease = AndroidUtils.isRelease(mContext);
@@ -456,12 +273,76 @@ public class ExpediaServices implements DownloadListener {
 					: "http://70.42.224.108/appsupport/ean_api/service";
 		}
 
-		// Configure the client
+		// Create the request
+		HttpPost post = NetUtils.createHttpPost(serverUrl, request.toString());
+
+		// Some logging before passing the request along
+		Log.d("Sending request to " + serverUrl);
+		Log.d("Request: " + request.toString());
+
+		return doRequest(post, responseHandler, flags);
+	}
+
+	private Object doRequest(String targetUrl, List<BasicNameValuePair> params,
+			ResponseHandler<?> responseHandler, int flags) {
+
+		// Determine the target URL
+		StringBuilder builder = new StringBuilder();
+
+		builder.append((flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
+
+		builder.append("www.");
+
+		String pointOfSale = SettingUtils.get(mContext, mContext.getString(R.string.PointOfSaleKey),
+				LocaleUtils.getDefaultPointOfSale(mContext));
+		builder.append(pointOfSale);
+
+		if (!AndroidUtils.isRelease(mContext)
+				&& SettingUtils.get(mContext, mContext.getString(R.string.preference_use_dev_api), false)) {
+			builder.append(".chelwebestr37.bgb.karmalab.net");
+		}
+
+		builder.append(targetUrl);
+
+		String serverUrl = builder.toString();
+
+		// Create the request
+		HttpPost post = NetUtils.createHttpPost(serverUrl, params);
+
+		// Some logging before passing the request along
+		Log.d("Request: " + serverUrl + "?" + NetUtils.getParamsForLogging(params));
+
+		return doRequest(post, responseHandler, flags);
+	}
+
+	private Object doRequest(HttpRequestBase request, ResponseHandler<?> responseHandler, int flags) {
+		// Construct a proper user agent string
+		String versionName;
+		try {
+			PackageManager pm = mContext.getPackageManager();
+			PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), 0);
+			versionName = pi.versionName;
+		}
+		catch (Exception e) {
+			// PackageManager is traditionally wonky, need to accept all exceptions here.
+			Log.w("Couldn't get package info in order to submit proper version #!", e);
+			versionName = "1.0";
+		}
+		// Be careful not to use the word "Android" here
+		// https://mingle/projects/e3_mobile_web/cards/676
+		String userAgent = "ExpediaBookings/" + versionName + " (EHad; Mobiata)";
+
+		mRequest = request;
 		AndroidHttpClient client = AndroidHttpClient.newInstance(userAgent, mContext);
-		mPost = NetUtils.createHttpPost(serverUrl, request.toString());
-		AndroidHttpClient.modifyRequestToAcceptGzipResponse(mPost);
+		AndroidHttpClient.modifyRequestToAcceptGzipResponse(mRequest);
 		HttpParams httpParameters = client.getParams();
 		HttpConnectionParams.setSoTimeout(httpParameters, 100000);
+
+		// TODO: Find some way to keep this easily in memory so we're not saving/loading after each request.
+		PersistantCookieStore cookieStore = new PersistantCookieStore();
+		cookieStore.load(mContext, COOKIES_FILE);
+		HttpContext httpContext = new BasicHttpContext();
+		httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
 
 		// When not a release build, allow SSL from all connections
 		if ((flags & F_SECURE_REQUEST) != 0 && !AndroidUtils.isRelease(mContext)) {
@@ -485,10 +366,8 @@ public class ExpediaServices implements DownloadListener {
 		// Make the request
 		long start = System.currentTimeMillis();
 		mCancellingDownload = false;
-		Log.d("Sending request to " + serverUrl);
-		Log.d("Request: " + request.toString());
 		try {
-			return client.execute(mPost, responseHandler);
+			return client.execute(mRequest, responseHandler, httpContext);
 		}
 		catch (IOException e) {
 			if (mCancellingDownload) {
@@ -501,6 +380,8 @@ public class ExpediaServices implements DownloadListener {
 		finally {
 			client.close();
 			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
+
+			cookieStore.save(mContext, COOKIES_FILE);
 		}
 
 		return null;
@@ -548,37 +429,55 @@ public class ExpediaServices implements DownloadListener {
 	public void onCancel() {
 		Log.i("Cancelling download!");
 		mCancellingDownload = true;
-		if (mPost != null) {
-			mPost.abort();
+		if (mRequest != null) {
+			mRequest.abort();
 		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	//// Legacy static API
+	//// Deprecated API calls
+	//
+	// We need to find replacements for these calls in E3
 
-	public static SearchResponse search(Context context, SearchResponse lastResponse) {
-		ExpediaServices services = new ExpediaServices(context);
-		return services.search(lastResponse);
+	@Deprecated
+	@SuppressWarnings("unchecked")
+	public List<CreditCardBrand> paymentInfo() {
+		// Construct the request
+		JSONObject request = new JSONObject();
+		try {
+			addStandardRequestFields(request, "payment_info");
+
+			// Construct the body
+			JSONObject body = new JSONObject();
+			request.put("body", body);
+
+			body.put("locale", Locale.getDefault().toString());
+			addCurrencyCode(body);
+		}
+		catch (JSONException e) {
+			Log.e("Could not construct JSON payment info object.", e);
+			return null;
+		}
+
+		return (List<CreditCardBrand>) doRequest(request, new PaymentInfoResponseHandler(), 0);
 	}
 
-	public static SearchResponse search(Context context, SearchParams params, int sortType) {
-		ExpediaServices services = new ExpediaServices(context);
-		return services.search(params, sortType);
+	@Deprecated
+	private void addStandardRequestFields(JSONObject request, String type) throws JSONException {
+		request.put("type", type);
+		if (!AndroidUtils.isRelease(mContext)) {
+			request.put("echoRequest", true);
+		}
+		request.put("cid", 345106);
+
+		if (mSession != null && !mSession.hasExpired()) {
+			Log.i("Applying sessionId: " + mSession.getSessionId());
+			request.put("customerSessionId", mSession.getSessionId());
+		}
 	}
 
-	public static AvailabilityResponse availability(Context context, SearchParams params, Property property) {
-		ExpediaServices services = new ExpediaServices(context);
-		return services.availability(params, property);
-	}
-
-	public static List<CreditCardBrand> paymentInfo(Context context) {
-		ExpediaServices services = new ExpediaServices(context);
-		return services.paymentInfo();
-	}
-
-	public static BookingResponse reservation(Context context, SearchParams params, Property property, Rate rate,
-			BillingInfo billingInfo) {
-		ExpediaServices services = new ExpediaServices(context);
-		return services.reservation(params, property, rate, billingInfo);
+	@Deprecated
+	private void addCurrencyCode(JSONObject body) throws JSONException {
+		//body.put("currencyCode", CurrencyUtils.getCurrencyCode(mContext));
 	}
 }

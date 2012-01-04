@@ -168,30 +168,30 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 		double maxLat = -90;
 		double minLon = 180;
 		double maxLon = -180;
-		int numProps = mProperties.size();
-		for (Property property : mProperties) {
-			Location location = property.getLocation();
-			lat = location.getLatitude();
-			lon = location.getLongitude();
-			if (lat < minLat) {
-				minLat = lat;
-			}
-			if (lat > maxLat) {
-				maxLat = lat;
-			}
-			if (lon < minLon) {
-				minLon = lon;
-			}
-			if (lon > maxLon) {
-				maxLon = lon;
-			}
-		}
 
-		if (numProps > 0) {
+		if (mProperties != null && mProperties.size() > 0) {
+			for (Property property : mProperties) {
+				Location location = property.getLocation();
+				lat = location.getLatitude();
+				lon = location.getLongitude();
+				if (lat < minLat) {
+					minLat = lat;
+				}
+				if (lat > maxLat) {
+					maxLat = lat;
+				}
+				if (lon < minLon) {
+					minLon = lon;
+				}
+				if (lon > maxLon) {
+					maxLon = lon;
+				}
+			}
+
 			return MapUtils.convertToGeoPoint(minLat + ((maxLat - minLat) / 2), minLon + ((maxLon - minLon) / 2));
 		}
-		else {
 
+		else {
 			// set the map to the center of north america if there are just no
 			// properties (filtered or unfiltered) to display
 			if (mUnFilteredProperties == null || mUnFilteredProperties.isEmpty()) {

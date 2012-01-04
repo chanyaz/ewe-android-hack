@@ -28,9 +28,9 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -76,6 +76,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 	private ViewGroup mGuestFormLayout;
 	private EditText mFirstNameEditText;
 	private EditText mLastNameEditText;
+	private EditText mTelephoneCountryCodeEditText;
 	private EditText mTelephoneEditText;
 	private EditText mEmailEditText;
 	private ViewGroup mBillingSavedLayout;
@@ -157,6 +158,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		mGuestFormLayout = (ViewGroup) view.findViewById(R.id.guest_info_layout);
 		mFirstNameEditText = (EditText) view.findViewById(R.id.first_name_edit_text);
 		mLastNameEditText = (EditText) view.findViewById(R.id.last_name_edit_text);
+		mTelephoneCountryCodeEditText = (EditText)view.findViewById(R.id.telephone_country_code_edit_text);
 		mTelephoneEditText = (EditText) view.findViewById(R.id.telephone_edit_text);
 		mEmailEditText = (EditText) view.findViewById(R.id.email_edit_text);
 		mBillingSavedLayout = (ViewGroup) view.findViewById(R.id.saved_billing_info_layout);
@@ -228,8 +230,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 
 		configureTicket(mReceipt);
-		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
-				getInstance().mPropertyInfoStatus);
+		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
 
 		return dialog;
 	}
@@ -253,15 +254,9 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		case BookingFragmentActivity.EVENT_RATE_SELECTED:
 			if (mRoomTypeFragmentHandler != null) {
 				configureTicket(getView());
-				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate, getInstance().mPropertyInfoResponse,
-						getInstance().mPropertyInfoStatus);
+				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
+				mRoomTypeFragmentHandler.showCheckInCheckoutDetails();
 			}
-			break;
-		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_COMPLETE:
-			mRoomTypeFragmentHandler.onPropertyInfoDownloaded(getInstance().mPropertyInfoResponse);
-			break;
-		case BookingFragmentActivity.EVENT_PROPERTY_INFO_QUERY_ERROR:
-			mRoomTypeFragmentHandler.showCheckInCheckoutDetails(null);
 			break;
 		}
 
@@ -475,7 +470,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 
 		// Configure form validation
 		// Setup validators and error handlers
-		final String userCurrency = CurrencyUtils.getCurrencyCode(getActivity());
+		final String userCurrency = "USD"; //TODO: CurrencyUtils.getCurrencyCode(getActivity());
 		TextViewValidator requiredFieldValidator = new TextViewValidator();
 		Validator<TextView> usValidator = new Validator<TextView>() {
 			public int validate(TextView obj) {
@@ -502,6 +497,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		// Add all the validators
 		mValidationProcessor.add(mFirstNameEditText, requiredFieldValidator);
 		mValidationProcessor.add(mLastNameEditText, requiredFieldValidator);
+		mValidationProcessor.add(mTelephoneCountryCodeEditText, new TextViewValidator(new TelephoneValidator()));
 		mValidationProcessor.add(mTelephoneEditText, new TextViewValidator(new TelephoneValidator()));
 		mValidationProcessor.add(mEmailEditText, new TextViewValidator(new EmailValidator()));
 		mValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
@@ -570,6 +566,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 
 		mFirstNameEditText.setOnFocusChangeListener(l);
 		mLastNameEditText.setOnFocusChangeListener(l);
+		mTelephoneCountryCodeEditText.setOnFocusChangeListener(l);
 		mTelephoneEditText.setOnFocusChangeListener(l);
 		mEmailEditText.setOnFocusChangeListener(l);
 		mAddress1EditText.setOnFocusChangeListener(l);
@@ -683,6 +680,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 
 		billingInfo.setFirstName(mFirstNameEditText.getText().toString());
 		billingInfo.setLastName(mLastNameEditText.getText().toString());
+		billingInfo.setTelephoneCountryCode(mTelephoneCountryCodeEditText.getText().toString());
 		billingInfo.setTelephone(mTelephoneEditText.getText().toString());
 		billingInfo.setEmail(mEmailEditText.getText().toString());
 
@@ -740,6 +738,7 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 		// Sync the editable guest fields
 		mFirstNameEditText.setText(firstName);
 		mLastNameEditText.setText(lastName);
+		mTelephoneCountryCodeEditText.setText(billingInfo.getTelephoneCountryCode());
 		mTelephoneEditText.setText(billingInfo.getTelephone());
 		mEmailEditText.setText(billingInfo.getEmail());
 

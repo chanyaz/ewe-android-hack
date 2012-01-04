@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -124,7 +123,6 @@ import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.NumberPicker;
 import com.mobiata.android.widget.Panel;
 import com.mobiata.android.widget.SegmentedControlGroup;
-import com.omniture.AppMeasurement;
 
 public class PhoneSearchActivity extends ActivityGroup implements LocationListener, OnDrawStartedListener {
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -337,7 +335,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			mFilter.clearOnFilterChangedListeners();
 			mSearchResponse = (SearchResponse) results;
 
-			if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
+			if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0 && !mSearchResponse.hasErrors()) {
 				incrementNumSearches();
 
 				mSearchResponse.setFilter(mFilter);
@@ -365,7 +363,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 				enablePanelHandle();
 			}
-			else if (mSearchResponse != null && mSearchResponse.getLocations() != null
+			else if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0 && mSearchResponse.getLocations() != null
 					&& mSearchResponse.getLocations().size() > 0) {
 				showDialog(DIALOG_LOCATION_SUGGESTIONS);
 			}
@@ -832,6 +830,11 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.log_in: {
+			Intent intent = new Intent(this, SignInActivity.class);
+			startActivity(intent);
+			break;
+		}
 		case R.id.settings: {
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
 			startActivityForResult(intent, REQUEST_CODE_SETTINGS);
@@ -2362,7 +2365,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	}
 
 	private void setFilterInfoText() {
-		if (mSearchResponse != null && !mSearchResponse.hasErrors()) {
+		if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0 && !mSearchResponse.hasErrors()) {
 			final int count = mSearchResponse.getFilteredAndSortedProperties().length;
 			final String text = getResources().getQuantityString(R.plurals.number_of_matching_hotels, count, count);
 
