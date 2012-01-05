@@ -70,7 +70,11 @@ public class HotelDescription {
 			// Parse body
 			body = sectionMatcher.group(2);
 			body = body.trim();
+			body = body.replaceAll(bullet + "\\s*" + bullet, bullet);
 			body = body.replace("\n" + bullet, "\n<br />" + bullet);
+			if (body.startsWith(":")) {
+				body = body.substring(1);
+			}
 
 			if (isBlank(title) || isBlank(body)) {
 				continue;
