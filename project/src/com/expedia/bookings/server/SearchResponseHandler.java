@@ -172,7 +172,10 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 				property.setTotalRecommendations(parser.getValueAsInt());
 			}
 			else if (name.equals("totalReviews")) {
-				property.setTotalReviews(parser.getValueAsInt());
+				int totalReviews = parser.getValueAsInt();
+				if (totalReviews < 0)
+					totalReviews = 0;
+				property.setTotalReviews(totalReviews);
 			}
 			else if (name.equals("hotelGuestRating")) {
 				property.setAverageExpediaRating(parser.getValueAsDouble());
