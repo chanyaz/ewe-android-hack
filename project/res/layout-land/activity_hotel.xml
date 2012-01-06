@@ -103,14 +103,16 @@
 					android:background="#E3E3E6"
 					android:orientation="vertical">
 					<include
-						layout="@layout/include_amenities" />
+						layout="@layout/include_amenities"
+						android:visibility="gone" />
 					<View
 					    android:id="@+id/amenities_divider"
 						android:layout_width="fill_parent"
 						android:layout_height="@dimen/two_pixels"
 						android:layout_marginTop="4dp"
 						android:layout_marginBottom="6dp"
-						android:background="@drawable/divider" />
+						android:background="@drawable/divider"
+						android:visibility="gone" />
 					<LinearLayout
 						android:id="@+id/description_container"
 						android:layout_width="wrap_content"

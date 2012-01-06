@@ -201,16 +201,6 @@ public class HotelActivity extends AsyncLoadActivity {
 			Log.w("Something went wrong trying to disable overscroll mode.", e);
 		}
 
-		ViewGroup amenitiesContainer = (ViewGroup) findViewById(R.id.amenities_table_row);
-		LayoutUtils.addAmenities(this, property, amenitiesContainer);
-
-		// Hide the text that indicated no amenities because there are amenities
-		if (property.hasAmenities()) {
-			findViewById(R.id.amenities_none_text).setVisibility(View.GONE);
-		} else {
-			findViewById(R.id.amenities_none_text).setVisibility(View.VISIBLE);
-        }
-
 		// Description
 		mDescriptionContainer = (ViewGroup) findViewById(R.id.description_container);
 		mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
@@ -285,30 +275,6 @@ public class HotelActivity extends AsyncLoadActivity {
 			onPageLoad();
 			mWasStopped = false;
 		}
-	}
-
-	public void addAmenity(ViewGroup amenitiesTable, Amenity amenity, int iconResourceId) {
-		View amenityLayout = getLayoutInflater().inflate(R.layout.snippet_amenity, amenitiesTable, false);
-
-		ImageView amenityIcon = (ImageView) amenityLayout.findViewById(R.id.icon_text_view);
-		amenityIcon.setImageResource(iconResourceId);
-
-		TextView amenityName = (TextView) amenityLayout.findViewById(R.id.name_text_view);
-		String amenityStr = getString(amenity.getStrId());
-
-		// measure the length of the amenity string and determine whether it is short enough
-		// to fit within the acceptable width. If not, reduce the font size in an attempt to 
-		// get it to fit.
-		float acceptableWidth = getResources().getDisplayMetrics().density * MAX_AMENITY_TEXT_WIDTH_IN_DP;
-		float measuredWidthOfStr = amenityName.getPaint().measureText(getString(amenity.getStrId()));
-
-		if (amenityStr.contains(" ") || measuredWidthOfStr > acceptableWidth) {
-			amenityName.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					getResources().getDimension(R.dimen.amenity_text_size_small));
-		}
-
-		amenityName.setText(amenityStr);
-		amenitiesTable.addView(amenityLayout);
 	}
 
 	public void startRoomRatesActivity() {
@@ -458,105 +424,126 @@ public class HotelActivity extends AsyncLoadActivity {
 
 			description = property.getDescriptionText();
 
-			if (property.getMediaCount() > 0) {
-				mGallery.setVisibility(View.VISIBLE);
-				final List<String> urls = new ArrayList<String>(property.getMediaCount());
-				Set<String> usedUrls = new HashSet<String>();
-				for (Media media : property.getMediaList()) {
-					String url = media.getUrl();
-					if (!usedUrls.contains(url)) {
-						urls.add(url);
-						usedUrls.add(url);
-					}
-				}
-				mGallery.setUrls(urls);
-
-				mGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
-					@Override
-					public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-						// Pre-load images around the currently selected image, until we have MAX_IMAGES_LOADED
-						// loading.  Then cancel downloads on all the rest.
-						int left = position;
-						int right = position;
-						int loaded = 1;
-						int len = urls.size();
-						OnImageLoaded doNothing = new OnImageLoaded() {
-							public void onImageLoaded(String url, Bitmap bitmap) {
-								// Do nothing.  In the future, ImageCache should have 
-								// the ability to simply preload, but this is a fix 
-								// for #8401 for the 1.0.2 release and I don't want to
-								// have to update/branch Utils.
-							}
-
-							public void onImageLoadFailed(String url) {
-								// Do nothing.
-							}
-						};
-						boolean hasMore = true;
-						while (loaded < MAX_IMAGES_LOADED && hasMore) {
-							hasMore = false;
-							if (left > 0) {
-								left--;
-								ImageCache.loadImage(urls.get(left), doNothing);
-								loaded++;
-								hasMore = true;
-							}
-							if (loaded == MAX_IMAGES_LOADED) {
-								break;
-							}
-							if (right < len - 1) {
-								right++;
-								ImageCache.loadImage(urls.get(right), doNothing);
-								loaded++;
-								hasMore = true;
-							}
-						}
-
-						// Clear images a few to the right/left of the bounds.
-						while (left > 0) {
-							left--;
-							ImageCache.removeImage(urls.get(left), true);
-						}
-						while (right < len - 1) {
-							right++;
-							ImageCache.removeImage(urls.get(right), true);
-						}
-					}
-
-					@Override
-					public void onNothingSelected(AdapterView<?> parent) {
-						// Do nothing
-					}
-				});
-
-				boolean startFlipping = true;
-				Instance instance = (Instance) getLastNonConfigurationInstanceWrapper();
-				if (instance != null) {
-					startFlipping = instance.mGalleryFlipping;
-				}
-
-				if (startFlipping) {
-					mGallery.startFlipping();
-				}
-
-				// Set it up so that we scroll to the top whenever user scrolls the gallery
-				// ONLY do this is not landscape
-				if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-					mGallery.setOnScrollListener(new OnScrollListener() {
-						public void onScroll() {
-							mScrollView.smoothScrollTo(0, 0);
-						}
-					});
-				}
-			}
-			else {
-				mGallery.setVisibility(View.GONE);
-			}
+			setupGallery(property);
+			setupAmenities(property);
 		}
 
 		if (description != null && description.length() > 0) {
 			layoutDescription(mDescriptionContainer, description);
 		}
+	}
+
+	private void setupGallery(Property property) {
+		if (property.getMediaCount() > 0) {
+			mGallery.setVisibility(View.VISIBLE);
+			final List<String> urls = new ArrayList<String>(property.getMediaCount());
+			Set<String> usedUrls = new HashSet<String>();
+			for (Media media : property.getMediaList()) {
+				String url = media.getUrl();
+				if (!usedUrls.contains(url)) {
+					urls.add(url);
+					usedUrls.add(url);
+				}
+			}
+			mGallery.setUrls(urls);
+
+			mGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					// Pre-load images around the currently selected image, until we have MAX_IMAGES_LOADED
+					// loading.  Then cancel downloads on all the rest.
+					int left = position;
+					int right = position;
+					int loaded = 1;
+					int len = urls.size();
+					OnImageLoaded doNothing = new OnImageLoaded() {
+						public void onImageLoaded(String url, Bitmap bitmap) {
+							// Do nothing.  In the future, ImageCache should have 
+							// the ability to simply preload, but this is a fix 
+							// for #8401 for the 1.0.2 release and I don't want to
+							// have to update/branch Utils.
+						}
+
+						public void onImageLoadFailed(String url) {
+							// Do nothing.
+						}
+					};
+					boolean hasMore = true;
+					while (loaded < MAX_IMAGES_LOADED && hasMore) {
+						hasMore = false;
+						if (left > 0) {
+							left--;
+							ImageCache.loadImage(urls.get(left), doNothing);
+							loaded++;
+							hasMore = true;
+						}
+						if (loaded == MAX_IMAGES_LOADED) {
+							break;
+						}
+						if (right < len - 1) {
+							right++;
+							ImageCache.loadImage(urls.get(right), doNothing);
+							loaded++;
+							hasMore = true;
+						}
+					}
+
+					// Clear images a few to the right/left of the bounds.
+					while (left > 0) {
+						left--;
+						ImageCache.removeImage(urls.get(left), true);
+					}
+					while (right < len - 1) {
+						right++;
+						ImageCache.removeImage(urls.get(right), true);
+					}
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// Do nothing
+				}
+			});
+
+			boolean startFlipping = true;
+			Instance instance = (Instance) getLastNonConfigurationInstanceWrapper();
+			if (instance != null) {
+				startFlipping = instance.mGalleryFlipping;
+			}
+
+			if (startFlipping) {
+				mGallery.startFlipping();
+			}
+
+			// Set it up so that we scroll to the top whenever user scrolls the gallery
+			// ONLY do this is not landscape
+			if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+				mGallery.setOnScrollListener(new OnScrollListener() {
+					public void onScroll() {
+						mScrollView.smoothScrollTo(0, 0);
+					}
+				});
+			}
+		}
+		else {
+			mGallery.setVisibility(View.GONE);
+		}
+	}
+	
+	private void setupAmenities(Property property) {
+		ViewGroup amenitiesContainer = (ViewGroup) findViewById(R.id.amenities_table_row);
+		amenitiesContainer.removeAllViews();
+		LayoutUtils.addAmenities(this, property, amenitiesContainer);
+
+		// Hide the text that indicated no amenities because there are amenities
+		if (property.hasAmenities()) {
+			findViewById(R.id.amenities_none_text).setVisibility(View.GONE);
+		} else {
+			findViewById(R.id.amenities_none_text).setVisibility(View.VISIBLE);
+        }
+		
+		findViewById(R.id.amenities_scroll_view).setVisibility(View.VISIBLE);
+		findViewById(R.id.amenities_divider).setVisibility(View.VISIBLE);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

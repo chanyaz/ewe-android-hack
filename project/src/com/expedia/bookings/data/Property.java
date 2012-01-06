@@ -56,6 +56,10 @@ public class Property implements JSONable {
 			return (amenityMask & flag) != 0;
 		}
 
+		public int getFlag() {
+			return flag;
+		}
+		
 		public int getStrId() {
 			return strId;
 		}

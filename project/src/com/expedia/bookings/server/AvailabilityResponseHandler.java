@@ -61,9 +61,10 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			availResponse.setProperty(property);
 			property.setDescriptionText(response.optString("longDescription", null));
 
+			int len;
 			JSONArray photos = response.optJSONArray("photos");
 			if (photos != null) {
-				int len = photos.length();
+				len = photos.length();
 				for (int a = 0; a < len; a++) {
 					JSONObject photo = photos.optJSONObject(a);
 					String url = photo.optString("url");
@@ -96,11 +97,169 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			}
 
 			JSONArray roomRates = response.getJSONArray("hotelRoomResponse");
-			int len = roomRates.length();
+			len = roomRates.length();
 			for (int a = 0; a < len; a++) {
 				JSONObject jsonRate = roomRates.getJSONObject(a);
 				Rate rate = parseJsonHotelOffer(jsonRate, numberOfNights, checkInPolicy);
 				availResponse.addRate(rate);
+			}
+
+			// Amenities
+			// see EHiOS implementation: https://team.mobiata.com/redmine/issues/8992
+			JSONArray amenityArray = response.optJSONArray("hotelAmenities");
+			if (amenityArray != null) {
+				int amenityMask = 0;
+				len = amenityArray.length();
+				for (int a = 0; a < len; a++) {
+					JSONObject jsonAmenity = amenityArray.getJSONObject(a);
+					switch (jsonAmenity.optInt("id")) {
+					
+					case 2065:  // Business Center
+                    case 2213:  // Free Business Center Access
+                    case 2538:  // 24-hour business center
+                        amenityMask |= Property.Amenity.BUSINESS_CENTER.getFlag();
+                        break;
+
+                    case 9:     // Fitness equipment
+                        amenityMask |= Property.Amenity.FITNESS_CENTER.getFlag();
+                        break;
+
+                    case 371:   // Spa tub
+                        amenityMask |= Property.Amenity.HOT_TUB.getFlag();
+                        break;
+
+                    case 2046:  // Internet access - high speed
+                    case 2097:  // In-Room High Speed Internet Acce
+                    case 2100:  // Internet access - wireless
+                    case 2101:  // Internet access - wireless
+                    case 2125:  // Internet access - high speed
+                    case 2126:  // Internet access - dial-up
+                    case 2127:  // Internet access - complimentary
+                    case 2156:  // Internet access - complimentary
+                    case 2191:  // Free High-Speed Internet
+                    case 2192:  // Free Wireless Internet
+                    case 2220:  // In-Room Wireless Internet Access
+                    case 2390:  // Wireless Internet access - compl
+                    case 2392:  // High-speed (w) Internet -comp
+                    case 2394:  // Dial-up Internet access - compli
+                    case 2403:  // Wireless Internet access - compl
+                    case 2405:  // High-speed (w) Internet acc-comp
+                    case 2407:  // Dial-up Internet access - compli
+                        amenityMask |= Property.Amenity.INTERNET.getFlag();
+                        break;
+
+                    case 2186:  // Children's club
+                        amenityMask |= Property.Amenity.KIDS_ACTIVITIES.getFlag();
+                        break;
+
+                    case 312:   // Kitchenette
+                    case 2158:  // Kitchen
+                    case 2208:  // Full Kitchen
+                        amenityMask |= Property.Amenity.KITCHEN.getFlag();
+                        break;
+
+                    case 51:    // Pets accepted
+                    case 2338:  // Pet-friendly Hotel
+                        amenityMask |= Property.Amenity.PETS_ALLOWED.getFlag();
+                        break;
+
+                    case 14:    // Swimming pool - indoor
+                    case 24:    // Swimming pool - outdoor
+                    case 2074:  // Swimming pool
+                    case 2138:  // Swimming pool - outdoor seasonal
+                    case 2859:  // Private pool
+                        amenityMask |= Property.Amenity.POOL.getFlag();
+                        break;
+
+                    case 19:    // Restaurant
+                        amenityMask |= Property.Amenity.RESTAURANT.getFlag();
+                        break;
+
+                    case 2017:  // Spa services on site
+                    case 2123:  // Full-service health spa
+                    case 2341:  // Spa Hotel
+                        amenityMask |= Property.Amenity.SPA.getFlag();
+                        break;
+
+                    case 361:   // Breakfast available (surcharge)
+                    case 2001:  // Complimentary breakfast
+                    case 2077:  // Free Breakfast
+                    case 2098:  // Free Breakfast
+                    case 2102:  // All Meals
+                    case 2103:  // Continental Breakfast
+                    case 2104:  // Full Breakfast
+                    case 2105:  // English Breakfast
+                    case 2193:  // Continental Breakfast for 2
+                    case 2194:  // Breakfast for 2
+                    case 2205:  // Breakfast Buffet
+                    case 2209:  // Continental Breakfast
+                    case 2210:  // Full Breakfast
+                    case 2211:  // Buffet Breakfast
+                        amenityMask |= Property.Amenity.BREAKFAST.getFlag();
+                        break;
+
+                    case 6:     // Babysitting or child care
+                        amenityMask |= Property.Amenity.BABYSITTING.getFlag();
+                        break;
+
+                    case 28:    // Parking (valet)
+                    case 2011:  // Parking (free)
+                    case 2013:  // Self parking
+                    case 2109:  // Free Parking
+                    case 2110:  // Free Airport Parking
+                    case 2132:  // Parking garage
+                    case 2133:  // Parking (secure)
+                    case 2195:  // Free Valet Parking
+                    case 2215:  // Free Hotel Parking
+                    case 2216:  // Free Valet Parking
+                    case 2553:  // Free Parking During Stay
+                    case 2798:  // Extended parking
+                        amenityMask |= Property.Amenity.PARKING.getFlag();
+                        break;
+
+                    case 20:    // Room service - (limited hours)
+                    case 2015:  // Room service (24 hours)
+                    case 2053:  // Room service
+                        amenityMask |= Property.Amenity.ROOM_SERVICE.getFlag();
+                        break;
+
+                    case 2419:  // Accessible path of travel
+                        amenityMask |= Property.Amenity.ACCESSIBLE_PATHS.getFlag();
+                        break;
+
+                    case 2420:  // Accessible bathroom
+                        amenityMask |= Property.Amenity.ACCESSIBLE_BATHROOM.getFlag();
+                        break;
+
+                    case 2421:  // Roll-in shower
+                        amenityMask |= Property.Amenity.ROLL_IN_SHOWER.getFlag();
+                        break;
+
+                    case 2422:  // Handicapped parking
+                        amenityMask |= Property.Amenity.HANDICAPPED_PARKING.getFlag();
+                        break;
+
+                    case 2423:  // In-room accessibility
+                        amenityMask |= Property.Amenity.IN_ROOM_ACCESSIBILITY.getFlag();
+                        break;
+
+                    case 2424:  // Accessibility equipment for deaf
+                        amenityMask |= Property.Amenity.DEAF_ACCESSIBILITY_EQUIPMENT.getFlag();
+                        break;
+
+                    case 2425:  // Braille or raised signage
+                        amenityMask |= Property.Amenity.BRAILLE_SIGNAGE.getFlag();
+                        break;
+
+                    case 10:    // Airport transportation (comp)
+                    case 2196:  // Free Airport Shuttle
+                    case 2214:  // Free Airport Shuttle
+                    case 2353:  // Airport transportation
+                        amenityMask |= Property.Amenity.FREE_AIRPORT_SHUTTLE.getFlag();
+                        break;
+					}
+				}
+				property.setAmenityMask(amenityMask);
 			}
 		}
 		catch (JSONException e) {
