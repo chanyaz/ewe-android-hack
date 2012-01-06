@@ -79,29 +79,25 @@ public class Rate implements JSONable {
 	public static enum BedTypeId {
 
 		/*
-		 * King bed types in order
-		 * of priority
+		 * King bed types in order of priority
 		 */
 		ONE_KING_BED(new String[] { "KG", "4", "14" }),
 		TWO_KING_BEDS(new String[] { "2KG", "22" }),
 
 		/*
-		 * Queen bed types in order
-		 * of priority
+		 * Queen bed types in order of priority
 		 */
 		ONE_QUEEN_BED(new String[] { "QN", "3", "15" }),
 		TWO_QUEEN_BEDS(new String[] { "2QN", "7", "23" }),
 
 		/*
-		 * Double beds in order of
-		 * priority  				
+		 * Double beds in order of priority
 		 */
 		ONE_DOUBLE_BED(new String[] { "DD", "2", "13" }),
 		TWO_DOUBLE_BEDS(new String[] { "2DD", "6", "21" }),
 
 		/*
-		 * Twin beds in order
-		 * of priority
+		 * Twin beds in order of priority
 		 */
 		ONE_TWIN_BED(new String[] { "TW", "18" }),
 		TWO_TWIN_BEDS(new String[] { "2TW", "5", "25" }),
@@ -109,15 +105,13 @@ public class Rate implements JSONable {
 		FOUR_TWIN_BEDS(new String[] { "34" }),
 
 		/*
-		 * Full beds in order 
-		 * of priority		
+		 * Full beds in order of priority
 		 */
 		ONE_FULL_BED(new String[] { "46" }),
 		TWO_FULL_BEDS(new String[] { "47" }),
 
 		/*
-		 * Single beds in order
-		 * of priority
+		 * Single beds in order of priority
 		 */
 		ONE_SINGLE_BED(new String[] { "42" }),
 		TWO_SINGLE_BEDS(new String[] { "43" }),
@@ -125,8 +119,7 @@ public class Rate implements JSONable {
 		FOUR_SINGLE_BEDS(new String[] { "45" }),
 
 		/*
-		 * Remaining beds in order
-		 * of priority
+		 * Remaining beds in order of priority
 		 */
 		ONE_BED(new String[] { "40" }),
 		TWO_BEDS(new String[] { "41" }),

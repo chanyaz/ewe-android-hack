@@ -1,11 +1,11 @@
 package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 import android.util.Pair;
 
@@ -43,92 +43,59 @@ public class SummarizedRoomRates {
 	private BedTypeId mMinimumRateBedTypeId;
 
 	/*
-	 * This comparator is used to determine the relative priority between 
-	 * bed types of the same kind (king, queen, full, single, etc)
-	 */
-	private Comparator<BedTypeId> BED_TYPE_COMPARATOR = new Comparator<Rate.BedTypeId>() {
-
-		@Override
-		public int compare(BedTypeId object1, BedTypeId object2) {
-			if (object2 == null) {
-				return 1;
-			}
-			return object1.compareTo(object2);
-		}
-	};
-
-	/*
 	 * These priority queues each keep track of the relative priority of bed types available within
 	 * each defined bucket/category. The reason for this is so that we can display the relevant results
 	 * to the user in the summary and give them a good distribution of the different kind of rooms available
 	 */
-	private PriorityQueue<BedTypeId> mAvailableKingBedTypes = new PriorityQueue<Rate.BedTypeId>(1, BED_TYPE_COMPARATOR);
-	private PriorityQueue<BedTypeId> mAvailableQueenBedTypes = new PriorityQueue<Rate.BedTypeId>(1, BED_TYPE_COMPARATOR);
-	private PriorityQueue<BedTypeId> mAvailableDoubleBedTypes = new PriorityQueue<Rate.BedTypeId>(1,
-			BED_TYPE_COMPARATOR);
-	private PriorityQueue<BedTypeId> mAvailableTwinBedTypes = new PriorityQueue<Rate.BedTypeId>(1, BED_TYPE_COMPARATOR);
-	private PriorityQueue<BedTypeId> mAvailableFullBedTypes = new PriorityQueue<Rate.BedTypeId>(1, BED_TYPE_COMPARATOR);
-	private PriorityQueue<BedTypeId> mAvailableSingleBedTypes = new PriorityQueue<Rate.BedTypeId>(1,
-			BED_TYPE_COMPARATOR);
-	private PriorityQueue<BedTypeId> mAvailableRemainingBedTypes = new PriorityQueue<Rate.BedTypeId>(1,
-			BED_TYPE_COMPARATOR);
+	private Map<BedTypeGrouping, PriorityQueue<BedTypeId>> mAvailableBedTypes = new HashMap<SummarizedRoomRates.BedTypeGrouping, PriorityQueue<BedTypeId>>();
 
-	private static final List<BedTypeId> KING_BED_TYPES;
-	private static final List<BedTypeId> QUEEN_BED_TYPES;
-	private static final List<BedTypeId> DOUBLE_BED_TYPES;
-	private static final List<BedTypeId> TWIN_BED_TYPES;
-	private static final List<BedTypeId> FULL_BED_TYPES;
-	private static final List<BedTypeId> SINGLE_BED_TYPES;
+	private static enum BedTypeGrouping {
+		KING_BEDS,
+		QUEEN_BEDS,
+		DOUBLE_BEDS,
+		TWIN_BEDS,
+		FULL_BEDS,
+		SINGLE_BEDS,
+		REMAINING; // Unknown remaining bed types
+	}
+
+	private static final Map<BedTypeGrouping, Set<BedTypeId>> BED_TYPE_GROUPINGS;
 
 	/*
 	 * Creating the pre-defined groupings of bed types
 	 */
 	static {
-		List<BedTypeId> bedTypes = new ArrayList<Rate.BedTypeId>();
-		bedTypes.add(BedTypeId.ONE_KING_BED);
-		bedTypes.add(BedTypeId.TWO_KING_BEDS);
-		KING_BED_TYPES = Collections.unmodifiableList(new ArrayList<Rate.BedTypeId>(bedTypes));
+		BED_TYPE_GROUPINGS = new HashMap<SummarizedRoomRates.BedTypeGrouping, Set<BedTypeId>>();
 
-		bedTypes.clear();
-		bedTypes.add(BedTypeId.ONE_QUEEN_BED);
-		bedTypes.add(BedTypeId.TWO_QUEEN_BEDS);
-		QUEEN_BED_TYPES = Collections.unmodifiableList(new ArrayList<Rate.BedTypeId>(bedTypes));
+		BED_TYPE_GROUPINGS.put(BedTypeGrouping.KING_BEDS,
+				createBedTypeGrouping(BedTypeId.ONE_KING_BED, BedTypeId.TWO_KING_BEDS));
+		BED_TYPE_GROUPINGS.put(BedTypeGrouping.QUEEN_BEDS,
+				createBedTypeGrouping(BedTypeId.ONE_QUEEN_BED, BedTypeId.TWO_QUEEN_BEDS));
+		BED_TYPE_GROUPINGS.put(BedTypeGrouping.DOUBLE_BEDS,
+				createBedTypeGrouping(BedTypeId.ONE_DOUBLE_BED, BedTypeId.TWO_DOUBLE_BEDS));
+		BED_TYPE_GROUPINGS.put(BedTypeGrouping.TWIN_BEDS,
+				createBedTypeGrouping(BedTypeId.ONE_TWIN_BED, BedTypeId.TWO_TWIN_BEDS, BedTypeId.THREE_TWIN_BEDS,
+						BedTypeId.FOUR_TWIN_BEDS));
+		BED_TYPE_GROUPINGS.put(BedTypeGrouping.FULL_BEDS,
+				createBedTypeGrouping(BedTypeId.ONE_FULL_BED, BedTypeId.TWO_FULL_BEDS));
+		BED_TYPE_GROUPINGS.put(BedTypeGrouping.SINGLE_BEDS,
+				createBedTypeGrouping(BedTypeId.ONE_SINGLE_BED, BedTypeId.TWO_SINGLE_BEDS, BedTypeId.THREE_SINGLE_BEDS,
+						BedTypeId.FOUR_SINGLE_BEDS));
+		BED_TYPE_GROUPINGS.put(BedTypeGrouping.REMAINING, new HashSet<BedTypeId>());
+	}
 
-		bedTypes.clear();
-		bedTypes.add(BedTypeId.ONE_DOUBLE_BED);
-		bedTypes.add(BedTypeId.TWO_DOUBLE_BEDS);
-		DOUBLE_BED_TYPES = Collections.unmodifiableList(new ArrayList<Rate.BedTypeId>(bedTypes));
-
-		bedTypes.clear();
-		bedTypes.add(BedTypeId.ONE_TWIN_BED);
-		bedTypes.add(BedTypeId.TWO_TWIN_BEDS);
-		bedTypes.add(BedTypeId.THREE_TWIN_BEDS);
-		bedTypes.add(BedTypeId.FOUR_TWIN_BEDS);
-		TWIN_BED_TYPES = Collections.unmodifiableList(new ArrayList<Rate.BedTypeId>(bedTypes));
-
-		bedTypes.clear();
-		bedTypes.add(BedTypeId.ONE_FULL_BED);
-		bedTypes.add(BedTypeId.TWO_FULL_BEDS);
-		FULL_BED_TYPES = Collections.unmodifiableList(new ArrayList<Rate.BedTypeId>(bedTypes));
-
-		bedTypes.clear();
-		bedTypes.add(BedTypeId.ONE_SINGLE_BED);
-		bedTypes.add(BedTypeId.TWO_SINGLE_BEDS);
-		bedTypes.add(BedTypeId.THREE_SINGLE_BEDS);
-		bedTypes.add(BedTypeId.FOUR_SINGLE_BEDS);
-		SINGLE_BED_TYPES = Collections.unmodifiableList(new ArrayList<Rate.BedTypeId>(bedTypes));
+	private static Set<BedTypeId> createBedTypeGrouping(BedTypeId... bedTypeIds) {
+		Set<BedTypeId> grouping = new HashSet<Rate.BedTypeId>();
+		for (BedTypeId bedTypeId : bedTypeIds) {
+			grouping.add(bedTypeId);
+		}
+		return grouping;
 	}
 
 	public void clearOutData() {
 		mBedTypeToMinRateMap.clear();
 		mSummarizedRates.clear();
-		mAvailableDoubleBedTypes.clear();
-		mAvailableFullBedTypes.clear();
-		mAvailableKingBedTypes.clear();
-		mAvailableQueenBedTypes.clear();
-		mAvailableTwinBedTypes.clear();
-		mAvailableSingleBedTypes.clear();
-		mAvailableRemainingBedTypes.clear();
+		mAvailableBedTypes.clear();
 		mMinimumRateAvailable = null;
 	}
 
@@ -207,26 +174,26 @@ public class SummarizedRoomRates {
 	 */
 	private void clusterByBedType() {
 		for (BedTypeId id : mBedTypeToMinRateMap.keySet()) {
-			if (KING_BED_TYPES.contains(id)) {
-				mAvailableKingBedTypes.add(id);
+			boolean added = false;
+			for (BedTypeGrouping grouping : BedTypeGrouping.values()) {
+				if (BED_TYPE_GROUPINGS.get(grouping).contains(id)) {
+					PriorityQueue<BedTypeId> queue = mAvailableBedTypes.get(grouping);
+
+					if (queue == null) {
+						queue = new PriorityQueue<Rate.BedTypeId>(2);
+						mAvailableBedTypes.put(grouping, queue);
+					}
+
+					queue.add(id);
+
+					added = true;
+					break;
+				}
 			}
-			else if (QUEEN_BED_TYPES.contains(id)) {
-				mAvailableQueenBedTypes.add(id);
-			}
-			else if (DOUBLE_BED_TYPES.contains(id)) {
-				mAvailableDoubleBedTypes.add(id);
-			}
-			else if (TWIN_BED_TYPES.contains(id)) {
-				mAvailableTwinBedTypes.add(id);
-			}
-			else if (FULL_BED_TYPES.contains(id)) {
-				mAvailableFullBedTypes.add(id);
-			}
-			else if (SINGLE_BED_TYPES.contains(id)) {
-				mAvailableSingleBedTypes.add(id);
-			}
-			else {
-				mAvailableRemainingBedTypes.add(id);
+
+			// If not added to any other group, add to the "remaining" group
+			if (!added) {
+				BED_TYPE_GROUPINGS.get(BedTypeGrouping.REMAINING).add(id);
 			}
 		}
 	}
@@ -238,32 +205,33 @@ public class SummarizedRoomRates {
 	 * by relevance
 	 */
 	private void summarizeRates() {
-
 		// first, add the minimum rate to the summarized rates
 		if (mMinimumRateAvailable != null) {
 			mSummarizedRates.add(new Pair<Rate.BedTypeId, Rate>(mMinimumRateBedTypeId, mMinimumRateAvailable));
 		}
 
-		while (!mAvailableKingBedTypes.isEmpty() || !mAvailableQueenBedTypes.isEmpty()
-				|| !mAvailableTwinBedTypes.isEmpty() || !mAvailableSingleBedTypes.isEmpty()
-				|| !mAvailableDoubleBedTypes.isEmpty() || !mAvailableFullBedTypes.isEmpty()
-				|| !mAvailableRemainingBedTypes.isEmpty()) {
-			addRateFromQueue(mAvailableKingBedTypes);
-			addRateFromQueue(mAvailableQueenBedTypes);
-			addRateFromQueue(mAvailableDoubleBedTypes);
-			addRateFromQueue(mAvailableTwinBedTypes);
-			addRateFromQueue(mAvailableSingleBedTypes);
-			addRateFromQueue(mAvailableFullBedTypes);
-			addRateFromQueue(mAvailableRemainingBedTypes);
+		boolean hasMore;
+		do {
+			hasMore = false;
+			for (BedTypeGrouping grouping : BedTypeGrouping.values()) {
+				hasMore = hasMore || addRateFromQueue(mAvailableBedTypes.get(grouping));
+			}
 		}
+		while (hasMore);
 	}
 
-	private void addRateFromQueue(PriorityQueue<BedTypeId> queue) {
-		BedTypeId id = queue.poll();
-		Rate rate = mBedTypeToMinRateMap.get(id);
-		if (id != null) {
-			mSummarizedRates.add(new Pair<Rate.BedTypeId, Rate>(id, rate));
+	private boolean addRateFromQueue(PriorityQueue<BedTypeId> queue) {
+		if (queue != null) {
+			BedTypeId id = queue.poll();
+			Rate rate = mBedTypeToMinRateMap.get(id);
+			if (id != null) {
+				mSummarizedRates.add(new Pair<Rate.BedTypeId, Rate>(id, rate));
+			}
+
+			return !queue.isEmpty();
 		}
+
+		return false;
 	}
 
 }
