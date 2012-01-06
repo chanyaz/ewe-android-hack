@@ -15,7 +15,6 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AnimationUtils;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -39,7 +37,6 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Property.Amenity;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.server.ExpediaServices;
@@ -538,9 +535,10 @@ public class HotelActivity extends AsyncLoadActivity {
 		// Hide the text that indicated no amenities because there are amenities
 		if (property.hasAmenities()) {
 			findViewById(R.id.amenities_none_text).setVisibility(View.GONE);
-		} else {
+		}
+		else {
 			findViewById(R.id.amenities_none_text).setVisibility(View.VISIBLE);
-        }
+		}
 		
 		findViewById(R.id.amenities_scroll_view).setVisibility(View.VISIBLE);
 		findViewById(R.id.amenities_divider).setVisibility(View.VISIBLE);
