@@ -130,6 +130,10 @@ public class Property implements JSONable {
 		this.mThumbnail = thumbnail;
 	}
 
+	public int getAmenityMask() {
+		return mAmenityMask;
+	}
+
 	public void setAmenityMask(int amenityMask) {
 		mAmenityMask = amenityMask;
 	}

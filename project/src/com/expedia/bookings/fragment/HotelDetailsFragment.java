@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -75,8 +76,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	private TextView mAmenitiesTitle;
 	private ViewGroup mAmenitiesContainer;
 	private View mAmenitiesNoneText;
+	private int mAmenitiesContainerVisibility;
 	private RatingBar mUserRating;
 	private RatingBar mStarRating;
+	private ProgressBar mProgressBar;
 	private ViewGroup mHotelDescriptionContainer;
 	private View mSeeAllReviewsButton;
 	private ScrollView mHotelDetailsScrollView;
@@ -123,6 +126,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		mSomeReviewsContainer = (ViewGroup) view.findViewById(R.id.some_reviews_container);
 		mReviewsSection = view.findViewById(R.id.reviews_section);
 		mReviewsContainer = view.findViewById(R.id.reviews_container);
+		mProgressBar = (ProgressBar) view.findViewById(R.id.remaining_info_progress_bar);
 		mAmenitiesTitle = (TextView) view.findViewById(R.id.amenities_title);
 		mAmenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
 		mAmenitiesNoneText = (View) view.findViewById(R.id.amenities_none_text);
@@ -139,6 +143,11 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		// Disable the scrollbar on the amenities HorizontalScrollView
 		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) view.findViewById(R.id.amenities_scroll_view);
 		amenitiesScrollView.setHorizontalScrollBarEnabled(false);
+
+		mAmenitiesTitle.setVisibility(View.GONE);
+		mAmenitiesContainerVisibility = View.GONE;
+		mAmenitiesContainer.setVisibility(View.GONE);
+		mAmenitiesNoneText.setVisibility(View.GONE);
 
 		updateViews(getInstance().mProperty, view);
 
@@ -225,17 +234,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		mReviewsLoadingContainer.setVisibility(View.VISIBLE);
 
 		addReviews(((SearchResultsFragmentActivity) getActivity()).getReviewsForProperty());
-
-		if (property.hasAmenities()) {
-			mAmenitiesContainer.removeAllViews();
-			LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
-			mAmenitiesNoneText.setVisibility(View.GONE);
-		}
-		else {
-			// Make sure the text is visible
-			mAmenitiesNoneText.setVisibility(View.VISIBLE);
-		}
-
+		updateAmenities(property);
 		addHotelDescription(property);
 
 		// post a message to the event queue to be run on the
@@ -249,6 +248,18 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 				mHotelDetailsScrollView.smoothScrollTo(0, 0);
 			}
 		});
+	}
+
+	private void updateAmenities(Property property){
+		mAmenitiesContainer.removeAllViews();
+		if (property.hasAmenities()) {
+			LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
+			mAmenitiesNoneText.setVisibility(View.GONE);
+		}
+		else if (mAmenitiesContainerVisibility == View.VISIBLE) {
+			// Make sure the text is visible
+			mAmenitiesNoneText.setVisibility(View.VISIBLE);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -276,12 +287,34 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
 			mAvailabilityWidget.setButtonEnabled(false);
 			mAvailabilityWidget.showError((String) data);
+			mProgressBar.setVisibility(View.GONE);
 			break;
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
 			mAvailabilityWidget.setButtonEnabled(true);
 			mAvailabilityWidget.showRates((AvailabilityResponse) data);
+
+			// We now also need to update the description and amenities
+			mProgressBar.setVisibility(View.GONE);
+			Property p = ((AvailabilityResponse) data).getProperty();
+			getInstance().mProperty.setAmenityMask(p.getAmenityMask());
+			getInstance().mProperty.setDescriptionText(p.getDescriptionText());
+
+			// Show amenities section
+			mAmenitiesTitle.setVisibility(View.VISIBLE);
+			mAmenitiesContainerVisibility = View.VISIBLE;
+			mAmenitiesContainer.setVisibility(View.VISIBLE);
+
+			updateAmenities(p);
+			addHotelDescription(p);
 			break;
 		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
+			mProgressBar.setVisibility(View.VISIBLE);
+
+			mAmenitiesTitle.setVisibility(View.GONE);
+			mAmenitiesContainerVisibility = View.GONE;
+			mAmenitiesContainer.setVisibility(View.GONE);
+			mAmenitiesNoneText.setVisibility(View.GONE);
+
 			updateViews((Property) data);
 			break;
 		case SearchResultsFragmentActivity.EVENT_REVIEWS_QUERY_STARTED:

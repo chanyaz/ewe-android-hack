@@ -183,6 +183,21 @@
             </RelativeLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <ProgressBar
+                android:id="@+id/remaining_info_progress_bar"
+                style="@android:style/Widget.ProgressBar.Inverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:indeterminate="true"
+                android:paddingTop="5dp" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/amenities_title"
             style="@style/HotelNameTitle_Tablet"
