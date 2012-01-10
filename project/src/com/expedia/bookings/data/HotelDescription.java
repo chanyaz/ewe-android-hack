@@ -49,6 +49,8 @@ public class HotelDescription {
 		// sometimes section headers are wrapped in <b></b> instead of <strong></strong>
 		html = html.replace("<b>", "<strong>");
 		html = html.replace("</b>", "</strong>");
+		html = html.replace("<B>", "<strong>");
+		html = html.replace("</B>", "</strong>");
 
 		int flags = Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL;
 		Pattern sectionPattern = Pattern.compile("<strong>(.*?)</strong>(.*?)(?=\\z|<strong>)", flags);
@@ -71,10 +73,8 @@ public class HotelDescription {
 			body = sectionMatcher.group(2);
 			body = body.trim();
 			body = body.replaceAll(bullet + "\\s*" + bullet, bullet);
-			body = body.replace("\n" + bullet, "\n<br />" + bullet);
-			if (body.startsWith(":")) {
-				body = body.substring(1);
-			}
+			//body = body.replace("\n" + bullet, "\n<br />" + bullet);
+			body = body.replaceAll("^\\s*:\\s*</strong>\\s*", "");
 
 			if (isBlank(title) || isBlank(body)) {
 				continue;
