@@ -40,9 +40,8 @@ public class SearchActivity extends Activity {
 		else {
 			routingTarget = (hasSavedConfirmationData) ? ConfirmationActivity.class : PhoneSearchActivity.class;
 		}
-		
-		Intent intent = new Intent(this, SearchResultsFragmentActivity.class);
-		intent.putExtra(Codes.SEARCH_PARAMS, (new SearchParams()).toJson().toString());
+
+		Intent intent = new Intent(this, routingTarget);
 
 		// Start the routing intent
 		startActivity(intent);
