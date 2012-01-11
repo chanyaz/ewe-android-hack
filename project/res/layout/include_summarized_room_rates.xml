@@ -1,156 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/availability_summary_container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/bg_summarized_room_rates"
     android:orientation="vertical" >
 
-    <!-- Min price available -->
-
     <RelativeLayout
-        android:id="@+id/min_price_row_container"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="3dp"
         android:gravity="center"
-        android:paddingBottom="2dp" >
-
-        <!--
-             One line layout of base price and min price during
-             sale
-        -->
+        android:paddingBottom="3dp" >
 
         <TextView
-            android:id="@+id/base_price_text_view"
+            android:id="@+id/from_text_view"
+            style="@style/DropShadowText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/min_price_text_view"
-            android:ellipsize="end"
-            android:singleLine="true" />
+            android:layout_marginRight="5dp"
+            android:text="@string/from"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/min_price_text_view"
+            android:id="@+id/base_rate_text_view"
+            style="@style/DropShadowText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/base_price_text_view"
-            android:ellipsize="end"
-            android:paddingLeft="5dp"
-            android:singleLine="true" />
+            android:layout_alignBaseline="@+id/from_text_view"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/from_text_view"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/per_night_text_view"
+            android:id="@+id/sale_rate_text_view"
+            style="@style/DropShadowText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/min_price_text_view"
-            android:layout_toRightOf="@id/min_price_text_view"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="@string/per_night" />
-
-        <!--
-             Two line layout of base price and min price during sale.
-        	 This approach is used when there isnt enough space for both
-        	 base price and min price to fit on one line
-        -->
+            android:layout_alignBaseline="@+id/from_text_view"
+            android:layout_toRightOf="@+id/base_rate_text_view"
+            android:textColor="@color/hotel_price_text_color"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/base_price_text_view_first_line"
+            android:id="@+id/rate_qualifier_text_view"
+            style="@style/DropShadowText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/min_price_text_view"
-            android:layout_alignParentTop="true"
-            android:ellipsize="end"
-            android:singleLine="true" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/base_price_text_view_first_line"
-            android:padding="0dp"
-            android:layout_margin="0dp"
-            android:layout_centerHorizontal="true" >
-
-            <TextView
-                android:id="@+id/min_price_text_view_second_line"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true" />
-
-            <TextView
-                android:id="@+id/per_night_text_view_second_line"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/min_price_text_view_second_line"
-                android:layout_toRightOf="@id/min_price_text_view_second_line"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="@string/per_night" />
-        </RelativeLayout>
+            android:layout_alignBaseline="@+id/from_text_view"
+            android:layout_toRightOf="@+id/sale_rate_text_view"
+            android:textColor="@android:color/black" />
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/min_price_row_container"
-        android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:weightSum="4" >
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center" >
 
-        <RelativeLayout
-            android:id="@+id/rates_status_container"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:gravity="center" >
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@android:style/Widget.ProgressBar.Inverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
 
-            <LinearLayout
-                android:id="@+id/rates_container"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical" />
+        <LinearLayout
+            android:id="@+id/rates_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone" />
 
-            <ProgressBar
-                android:id="@+id/rates_progress_bar"
-                style="@android:style/Widget.ProgressBar.Inverse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:indeterminate="true" />
-
-            <TextView
-                android:id="@+id/empty_summart_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rates_progress_bar"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"
-                android:paddingTop="10dp" />
-        </RelativeLayout>
-
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_weight="1" >
-
-            <com.mobiata.android.widget.AutoResizeTextView
-                android:id="@+id/book_now_button"
-                style="@style/Widget.Button.Yellow"
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="@string/select_room"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-        </FrameLayout>
+        <TextView
+            android:id="@+id/error_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center" />
     </LinearLayout>
 
-</RelativeLayout>
+    <com.mobiata.android.widget.AutoResizeTextView
+        android:id="@+id/more_button"
+        style="@style/Widget.Button.Yellow"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:maxLines="1"
+        android:text="@string/see_details"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

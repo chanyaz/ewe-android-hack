@@ -49,9 +49,6 @@
 
 	<dimen name="margin_top_sale_ribbon_room_rates">20dp</dimen>
 
-	<dimen name="min_price_row_text_normal">20sp</dimen>
-	<dimen name="min_price_row_text_small">14sp</dimen>
-
 	<!-- Dimensions for the placeholder progress bar throbber -->
 	<dimen name="placeholder_throbber_size">76dp</dimen>
 	<!-- Offset for placeholder tag -->

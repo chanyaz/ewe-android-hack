@@ -15,7 +15,6 @@ import android.text.TextUtils.TruncateAt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.HorizontalScrollView;
@@ -37,14 +36,15 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
-import com.expedia.bookings.utils.AvailabilitySummaryLayoutUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.widget.AvailabilitySummaryWidget;
+import com.expedia.bookings.widget.AvailabilitySummaryWidget.AvailabilitySummaryListener;
 import com.expedia.bookings.widget.HotelCollage;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
 import com.expedia.bookings.widget.SummarizedRoomRates;
 
-public class HotelDetailsFragment extends Fragment implements EventHandler {
+public class HotelDetailsFragment extends Fragment implements EventHandler, AvailabilitySummaryListener {
 
 	public static HotelDetailsFragment newInstance() {
 		HotelDetailsFragment fragment = new HotelDetailsFragment();
@@ -79,8 +79,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	private RatingBar mStarRating;
 	private ViewGroup mHotelDescriptionContainer;
 	private View mSeeAllReviewsButton;
-	private View mSelectRoomButton;
 	private ScrollView mHotelDetailsScrollView;
+
+	private AvailabilitySummaryWidget mAvailabilityWidget;
 
 	//----------------------------------
 	// OTHERS
@@ -101,6 +102,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		((SearchResultsFragmentActivity) getActivity()).mEventManager.registerEventHandler(this);
+
+		mAvailabilityWidget = new AvailabilitySummaryWidget(activity);
+		mAvailabilityWidget.setListener(this);
 	}
 
 	@Override
@@ -125,7 +129,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
 		mReviewsLoadingContainer = view.findViewById(R.id.reviews_loading_container);
-		mSelectRoomButton = view.findViewById(R.id.book_now_button);
+
+		mAvailabilityWidget.init(view);
+		mAvailabilityWidget.setButtonText(R.string.select_room);
 
 		//#10588 disabling amenities layout animations
 		mAmenitiesContainer.setLayoutAnimation(null);
@@ -203,65 +209,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			mReviewsSection.setVisibility(View.GONE);
 		}
 
-		/*
-		 * If the app is resumed, post the setup of the
-		 * availability summary container to a runnable so that
-		 * its only run after all the layout is complete.
-		 * 
-		 * The reason for posting to runnable instead of 
-		 * just using a layoutChangedListener is because
-		 * it seems like the system makes multiple passes
-		 * to attempt to figure out the layout, therefore
-		 * showing the intermediate steps of the layout
-		 * to the user.
-		 * 
-		 * NOTE: The whole reason to post a runnable
-		 * or wait for the layout to complete is because
-		 * we need to know accurate dimensions of the views 
-		 * to be able to determine whether or not the text
-		 * is too wide for the container.
-		 * 
-		 * Another approach to this problem would be to have static
-		 * set widths for the containers we care about, but this 
-		 * provides for a more generic solution.
-		 */
-		if (isResumed()) {
-			mHandler.post(new Runnable() {
-
-				@Override
-				public void run() {
-					setupAvailabilityContainer(property, view);
-				}
-			});
-		}
-		/*
-		 * This listener handles the case of orientation
-		 * change as posting to the runnable during orientation
-		 * change doesn't seem to do the trick since the accurate dimensions
-		 * of views are not available yet.
-		 * 
-		 * If the app is not resumed, wait till the layout
-		 * is complete to ensure that we setup the container
-		 * appropriately on rotation. 
-		 */
-		else {
-			View availabilitySummaryContainer = view.findViewById(R.id.availability_summary_container);
-			View availabilitySummaryContainerLeft = view.findViewById(R.id.availability_summary_container_left);
-			final View availabilityContainer = (availabilitySummaryContainer != null) ? availabilitySummaryContainer
-					: (availabilitySummaryContainerLeft != null) ? availabilitySummaryContainerLeft : null;
-			availabilityContainer.addOnLayoutChangeListener(new OnLayoutChangeListener() {
-
-				@Override
-				public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop,
-						int oldRight, int oldBottom) {
-					if (left == 0 && right == 0 && top == 0 && bottom == 0) {
-						return;
-					}
-					setupAvailabilityContainer(property, view);
-					availabilityContainer.removeOnLayoutChangeListener(this);
-				}
-			});
-		}
+		setupAvailabilityContainer(property);
 
 		int numReviewRows = getResources().getInteger(R.integer.num_review_rows);
 		float heightPerReviewRow = getResources().getDimension(R.dimen.min_height_per_row_review);
@@ -315,23 +263,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 		}
 	};
 
-	private OnClickListener mSelectRoomButtonOnClickListener = new OnClickListener() {
-		public void onClick(View v) {
-			SummarizedRoomRates summarizedRoomRates = ((SearchResultsFragmentActivity) getActivity())
-					.getSummarizedRoomRates();
-			AvailabilityResponse response = ((SearchResultsFragmentActivity) getActivity())
-					.getRoomsAndRatesAvailability();
-			Rate[] sortedRates = response.getRates().toArray(new Rate[0]).clone();
-
-			Rate minimumRate = summarizedRoomRates.getStartingRate();
-			if (minimumRate == null) {
-				minimumRate = sortedRates[0];
-			}
-
-			((SearchResultsFragmentActivity) getActivity()).bookRoom(minimumRate, false);
-		}
-	};
-
 	//////////////////////////////////////////////////////////////////////////
 	// EVENTHANDLER IMPLEMENTATION
 
@@ -339,20 +270,16 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
-			mSelectRoomButton.setEnabled(false);
-			AvailabilitySummaryLayoutUtils.showLoadingForRates(getActivity(), getView());
+			mAvailabilityWidget.setButtonEnabled(false);
+			mAvailabilityWidget.showProgressBar();
 			break;
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
-			mSelectRoomButton.setEnabled(false);
-			AvailabilitySummaryLayoutUtils.showErrorForRates(getView(), (String) data);
+			mAvailabilityWidget.setButtonEnabled(false);
+			mAvailabilityWidget.showError((String) data);
 			break;
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
-			mSelectRoomButton.setEnabled(true);
-			AvailabilitySummaryLayoutUtils.showRatesContainer(getView());
-			AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), getInstance().mProperty,
-					(AvailabilityResponse) data, getView(), getString(R.string.select_room),
-					mSelectRoomButtonOnClickListener,
-					((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
+			mAvailabilityWidget.setButtonEnabled(true);
+			mAvailabilityWidget.showRates((AvailabilityResponse) data);
 			break;
 		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
 			updateViews((Property) data);
@@ -372,17 +299,16 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 	//////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 
-	private void setupAvailabilityContainer(final Property property, final View view) {
-		AvailabilitySummaryLayoutUtils.setupAvailabilitySummary(getActivity(), property, view);
+	private void setupAvailabilityContainer(Property property) {
+		mAvailabilityWidget.updateProperty(property);
 
-		// update the summarized rates if they are available
 		AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
 				.getRoomsAndRatesAvailability();
-		mSelectRoomButton.setEnabled(availabilityResponse != null && !availabilityResponse.hasErrors());
+		mAvailabilityWidget.setButtonEnabled(availabilityResponse != null && !availabilityResponse.hasErrors());
 
-		AvailabilitySummaryLayoutUtils.updateSummarizedRates(getActivity(), property, availabilityResponse, view,
-				getString(R.string.select_room), mSelectRoomButtonOnClickListener,
-				((SearchResultsFragmentActivity) getActivity()).mOnRateClickListener);
+		if (availabilityResponse != null) {
+			mAvailabilityWidget.showRates(availabilityResponse);
+		}
 	}
 
 	private void addReviews(ReviewsResponse reviewsResponse) {
@@ -527,6 +453,22 @@ public class HotelDetailsFragment extends Fragment implements EventHandler {
 			}
 		}
 
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Convenience method
+
+	@Override
+	public void onRateClicked(Rate rate) {
+		((SearchResultsFragmentActivity) getActivity()).bookRoom(rate, true);
+	}
+
+	@Override
+	public void onButtonClicked() {
+		SummarizedRoomRates summarizedRoomRates = ((SearchResultsFragmentActivity) getActivity())
+				.getSummarizedRoomRates();
+
+		((SearchResultsFragmentActivity) getActivity()).bookRoom(summarizedRoomRates.getStartingRate(), false);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

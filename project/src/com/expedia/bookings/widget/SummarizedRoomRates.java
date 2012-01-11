@@ -103,6 +103,10 @@ public class SummarizedRoomRates {
 		return mSummarizedRates.size();
 	}
 
+	public BedTypeId getBedTypeId(int position) {
+		return mSummarizedRates.get(position).first;
+	}
+
 	public Rate getRate(int position) {
 		return mSummarizedRates.get(position).second;
 	}

@@ -22,6 +22,10 @@
 
 	<string name="map_snippet_template">%1$s · %2$s</string>
 
+	<!-- An alternative way to modify text, if you don't want to set the typeface of the TextView -->
+	<string name="bold_template">&lt;b&gt;%s&lt;/b&gt;</string>
+	<string name="strike_template">&lt;strike&gt;%s&lt;/strike&gt;</string>
+
 	<!-- Preference keys -->
 	<string name="preference_clear_private_data_key">CLEAR_PRIVATE_DATA</string>
     <string name="PointOfSaleKey">point_of_sale_key</string>
