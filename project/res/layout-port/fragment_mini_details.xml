@@ -37,36 +37,54 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:gravity="center_vertical"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
-        android:paddingRight="15dp"
-        android:background="@drawable/normal_ribbon" >
+        android:background="@drawable/normal_ribbon"
+        android:gravity="center_vertical"
+        android:paddingRight="15dp" >
 
         <TextView
-            android:id="@+id/base_price_text_view"
+            android:id="@+id/from_text_view"
+            style="@style/DropShadowText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/min_price_text_view"
-            android:paddingRight="5dp"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
+            android:layout_alignBaseline="@+id/sale_rate_text_view"
+            android:layout_marginRight="5dp"
+            android:text="@string/from"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/min_price_text_view"
+            android:id="@+id/base_rate_text_view"
+            style="@style/DropShadowText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/base_price_text_view"
-            android:textSize="16sp" />
+            android:layout_alignBaseline="@+id/sale_rate_text_view"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/from_text_view"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/per_night_text_view"
+            android:id="@+id/sale_rate_text_view"
+            style="@style/DropShadowText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/min_price_text_view"
-            android:layout_toRightOf="@id/min_price_text_view"
-            android:text="@string/per_night"
-            android:textSize="14sp" />
+            android:layout_toRightOf="@+id/base_rate_text_view"
+            android:textColor="@color/hotel_price_text_color"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/rate_qualifier_text_view"
+            style="@style/DropShadowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/sale_rate_text_view"
+            android:layout_toRightOf="@+id/sale_rate_text_view"
+            android:textColor="@android:color/black" />
     </RelativeLayout>
 
     <include
@@ -81,7 +99,7 @@
         layout="@layout/include_hotel_collage_2" />
 
     <Button
-        android:id="@+id/see_details_button"
+        android:id="@+id/more_button"
         style="@style/Widget.Button.Yellow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -90,9 +108,9 @@
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="15dp"
-        android:paddingRight="15dp"
-        android:paddingLeft="15dp"
         android:maxLines="1"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:text="@string/see_details"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -101,9 +119,9 @@
         android:id="@+id/star_rating_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/see_details_button"
+        android:layout_alignBottom="@+id/more_button"
         android:layout_alignLeft="@id/name_text_view"
-        android:layout_alignTop="@id/see_details_button"
+        android:layout_alignTop="@+id/more_button"
         android:gravity="center_vertical"
         android:text="@string/star_rating"
         android:textColor="@color/hotel_details_text_color"
@@ -114,10 +132,10 @@
         android:id="@+id/hotel_rating_bar_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/see_details_button"
-        android:layout_alignTop="@id/see_details_button"
+        android:layout_alignBottom="@+id/more_button"
+        android:layout_alignTop="@+id/more_button"
         android:layout_marginLeft="10dp"
-        android:layout_toLeftOf="@id/see_details_button"
+        android:layout_toLeftOf="@+id/more_button"
         android:layout_toRightOf="@id/star_rating_text_view" >
 
         <RatingBar

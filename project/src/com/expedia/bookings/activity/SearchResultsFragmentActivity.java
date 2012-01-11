@@ -61,7 +61,6 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.utils.AvailabilitySummaryLayoutUtils.OnRateClickListener;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.widget.SummarizedRoomRates;
@@ -1134,12 +1133,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		startActivity(intent);
 	}
-
-	public OnRateClickListener mOnRateClickListener = new OnRateClickListener() {
-		public void onRateClick(Rate rate) {
-			bookRoom(rate, true);
-		}
-	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// MapActivity

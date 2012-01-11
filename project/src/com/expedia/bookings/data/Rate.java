@@ -414,25 +414,29 @@ public class Rate implements JSONable {
 	 * 
 	 * @return the qualifier for this rate
 	 */
-	public int getQualifier() {
+	public int getQualifier(boolean shortVersion) {
 		if (!Rate.showInclusivePrices()) {
 			List<RateBreakdown> rateBreakdown = getRateBreakdownList();
 			if (rateBreakdown == null) {
 				// If rateBreakdown is null, we assume that this is a per/night hotel
-				return R.string.rate_per_night;
+				return (shortVersion) ? R.string.per_night : R.string.rate_per_night;
 			}
 			else if (rateBreakdown.size() > 1) {
 				if (rateChanges()) {
 					return R.string.rate_avg_per_night;
 				}
 				else {
-					return R.string.rate_per_night;
+					return (shortVersion) ? R.string.per_night : R.string.rate_per_night;
 				}
 			}
 		}
 
 		// Indicates this is a total and has no qualifier
 		return 0;
+	}
+
+	public int getQualifier() {
+		return getQualifier(false);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

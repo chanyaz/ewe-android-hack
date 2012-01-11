@@ -1,116 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_rooms_rates_container" >
 
     <RelativeLayout
-        android:id="@+id/availability_summary_container_left"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="5dp"
-        android:background="@drawable/bg_rooms_rates_container"
-        android:orientation="vertical" >
+        android:id="@+id/ribbon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-7.5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_normal_ribbon_left"
+        android:gravity="center" >
 
         <TextView
-            android:id="@+id/book_now_button"
-            style="@style/Widget.Button.Yellow"
+            android:id="@+id/base_rate_text_view"
+            style="@style/DropShadowText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:maxLines="1"
-            android:padding="10dp"
-            android:text="@string/select_room"
-            android:textSize="18sp"
+            android:layout_alignBaseline="@+id/sale_rate_text_view"
+            android:layout_marginRight="5dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/book_now_button"
-            android:orientation="vertical" >
+        <TextView
+            android:id="@+id/sale_rate_text_view"
+            style="@style/DropShadowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/base_rate_text_view"
+            android:textColor="@color/hotel_price_text_color"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-            <RelativeLayout
-                android:id="@+id/rates_status_container"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:gravity="center" >
-
-                <LinearLayout
-                    android:id="@+id/rates_container"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical" />
-
-                <ProgressBar
-                    android:id="@+id/rates_progress_bar"
-                    style="@android:style/Widget.ProgressBar.Inverse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:indeterminate="true" />
-
-                <TextView
-                    android:id="@+id/empty_summart_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rates_progress_bar"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="10dp" />
-            </RelativeLayout>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/rate_qualifier_text_view"
+            style="@style/DropShadowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/sale_rate_text_view"
+            android:layout_toRightOf="@+id/sale_rate_text_view"
+            android:textColor="@android:color/black" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <com.mobiata.android.widget.AutoResizeTextView
+        android:id="@+id/more_button"
+        style="@style/Widget.Button.Yellow"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="10" >
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:maxLines="1"
+        android:padding="10dp"
+        android:text="@string/see_details"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/ribbon"
+        android:gravity="center" >
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@android:style/Widget.ProgressBar.Inverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/rates_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/error_text_view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="7" >
-
-            <RelativeLayout
-                android:id="@+id/min_price_row_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="-2dp"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/bg_normal_ribbon_left"
-                android:gravity="center" >
-
-                <TextView
-                    android:id="@+id/base_price_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/min_price_text_view"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/min_price_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/base_price_text_view"
-                    android:paddingLeft="5dp"
-                    android:textColor="@color/hotel_price_text_color"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/per_night_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/min_price_text_view"
-                    android:layout_toRightOf="@id/min_price_text_view"
-                    android:text="@string/per_night"
-                    android:textSize="16sp" />
-            </RelativeLayout>
-        </LinearLayout>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center" />
     </LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>

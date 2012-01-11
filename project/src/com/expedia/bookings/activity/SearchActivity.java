@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.ConfirmationUtils;
 
@@ -38,9 +40,12 @@ public class SearchActivity extends Activity {
 		else {
 			routingTarget = (hasSavedConfirmationData) ? ConfirmationActivity.class : PhoneSearchActivity.class;
 		}
+		
+		Intent intent = new Intent(this, SearchResultsFragmentActivity.class);
+		intent.putExtra(Codes.SEARCH_PARAMS, (new SearchParams()).toJson().toString());
 
 		// Start the routing intent
-		startActivity(new Intent(this, routingTarget));
+		startActivity(intent);
 
 		// Finish this Activity after routing
 		finish();
