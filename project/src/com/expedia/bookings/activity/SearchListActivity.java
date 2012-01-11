@@ -87,7 +87,6 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		Intent intent = new Intent(this, HotelActivity.class);
 		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
 		intent.putExtra(Codes.SEARCH_PARAMS, mParent.getSearchParams().toString());
-		intent.putExtra(Codes.SESSION, mParent.getSession().toJson().toString());
 		intent.putExtra(HotelActivity.EXTRA_POSITION, position);
 		startActivity(intent);
 	}

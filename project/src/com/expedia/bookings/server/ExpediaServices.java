@@ -51,7 +51,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
-import com.expedia.bookings.data.Session;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
@@ -91,7 +90,6 @@ public class ExpediaServices implements DownloadListener {
 	private static final int F_EXPENSIVE = 4;
 
 	private Context mContext;
-	private Session mSession;
 
 	// For cancelling requests
 	private HttpRequestBase mRequest;
@@ -102,15 +100,6 @@ public class ExpediaServices implements DownloadListener {
 
 	public ExpediaServices(Context context) {
 		mContext = context;
-	}
-
-	public ExpediaServices(Context context, Session session) {
-		this(context);
-		mSession = session;
-	}
-
-	public void setSession(Session session) {
-		mSession = session;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -469,11 +458,6 @@ public class ExpediaServices implements DownloadListener {
 			request.put("echoRequest", true);
 		}
 		request.put("cid", 345106);
-
-		if (mSession != null && !mSession.hasExpired()) {
-			Log.i("Applying sessionId: " + mSession.getSessionId());
-			request.put("customerSessionId", mSession.getSessionId());
-		}
 	}
 
 	@Deprecated

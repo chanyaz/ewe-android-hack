@@ -13,17 +13,6 @@ import com.mobiata.android.json.JSONable;
 public class Response implements JSONable {
 	private List<ServerError> mErrors;
 
-	// Session is just a session ID that can expire
-	private Session mSession;
-
-	public Session getSession() {
-		return mSession;
-	}
-
-	public void setSession(Session session) {
-		mSession = session;
-	}
-
 	public void addError(ServerError error) {
 		if (mErrors == null) {
 			mErrors = new ArrayList<ServerError>();
@@ -46,7 +35,6 @@ public class Response implements JSONable {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();
-			JSONUtils.putJSONable(obj, "session", mSession);
 			JSONUtils.putJSONableList(obj, "errors", mErrors);
 			return obj;
 		}
@@ -59,7 +47,6 @@ public class Response implements JSONable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mSession = (Session) JSONUtils.getJSONable(obj, "session", Session.class);
 		mErrors = (List<ServerError>) JSONUtils.getJSONableList(obj, "errors", ServerError.class);
 		return true;
 	}

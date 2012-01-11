@@ -14,7 +14,6 @@ import android.content.Context;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
-import com.expedia.bookings.data.Session;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -31,7 +30,6 @@ public class WidgetDeals implements JSONable {
 
 	private Context mContext;
 	private List<Property> mDeals;
-	private Session mSession;
 	private SearchParams mSearchParams;
 
 	private int refreshCount = 0;
@@ -61,10 +59,6 @@ public class WidgetDeals implements JSONable {
 		return mDeals;
 	}
 
-	public Session getSession() {
-		return mSession;
-	}
-
 	public SearchParams getSearchParams() {
 		return mSearchParams;
 	}
@@ -82,8 +76,6 @@ public class WidgetDeals implements JSONable {
 			refreshCount++;
 			return;
 		}
-
-		mSession = response.getSession();
 
 		Property[] properties = response.getProperties().toArray(new Property[1]);
 		sortProperties(properties);
@@ -132,7 +124,6 @@ public class WidgetDeals implements JSONable {
 		try {
 			if (mDeals != null) {
 				JSONUtils.putJSONableList(obj, "deals", mDeals);
-				obj.put("session", mSession.toJson());
 				obj.put("searchParams", mSearchParams.toJson());
 			}
 		}
@@ -151,8 +142,6 @@ public class WidgetDeals implements JSONable {
 			return false;
 		}
 
-		mSession = new Session();
-		mSession.fromJson(obj.optJSONObject("session"));
 		mSearchParams = new SearchParams(obj.optJSONObject("searchParams"));
 		return true;
 	}

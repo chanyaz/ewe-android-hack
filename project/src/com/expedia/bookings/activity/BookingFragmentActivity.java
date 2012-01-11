@@ -26,7 +26,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.Session;
 import com.expedia.bookings.fragment.BookingErrorDialogFragment;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
@@ -82,7 +81,6 @@ public class BookingFragmentActivity extends Activity {
 
 			// Construct data for activity 
 			Intent intent = getIntent();
-			mInstance.mSession = (Session) JSONUtils.parseJSONableFromIntent(intent, Codes.SESSION, Session.class);
 			mInstance.mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
 					SearchParams.class);
 			mInstance.mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
@@ -176,8 +174,6 @@ public class BookingFragmentActivity extends Activity {
 			return fragment;
 		}
 
-		public Session mSession;
-
 		public SearchParams mSearchParams;
 		public Property mProperty;
 
@@ -252,7 +248,7 @@ public class BookingFragmentActivity extends Activity {
 
 	private Download mBookingDownload = new Download() {
 		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext, mInstance.mSession);
+			ExpediaServices services = new ExpediaServices(mContext);
 			return services.reservation(mInstance.mSearchParams, mInstance.mProperty, mInstance.mRate,
 					mInstance.mBillingInfo);
 		}
@@ -278,10 +274,6 @@ public class BookingFragmentActivity extends Activity {
 			}
 
 			BookingResponse response = mInstance.mBookingResponse = (BookingResponse) results;
-
-			if (response.getSession() != null) {
-				mInstance.mSession = response.getSession();
-			}
 
 			if (response.hasErrors()) {
 				// Gather the error message
@@ -310,7 +302,6 @@ public class BookingFragmentActivity extends Activity {
 
 			// Start the conf activity
 			Intent intent = new Intent(mContext, ConfirmationFragmentActivity.class);
-			intent.putExtra(Codes.SESSION, mInstance.mSession.toJson().toString());
 			intent.putExtra(Codes.SEARCH_PARAMS, mInstance.mSearchParams.toJson().toString());
 			intent.putExtra(Codes.PROPERTY, mInstance.mProperty.toJson().toString());
 			intent.putExtra(Codes.RATE, mInstance.mRate.toJson().toString());

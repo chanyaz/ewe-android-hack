@@ -56,7 +56,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.Session;
 import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
@@ -104,7 +103,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	// Data pertaining to this booking
 
-	private Session mSession;
 	private SearchParams mSearchParams;
 	private Property mProperty;
 	private Rate mRate;
@@ -201,7 +199,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		// Retrieve data to build this with
 		final Intent intent = getIntent();
-		mSession = (Session) JSONUtils.parseJSONableFromIntent(intent, Codes.SESSION, Session.class);
 		mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
 		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
 				SearchParams.class);
@@ -499,12 +496,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			return;
 		}
 
-		mSession = response.getSession();
-
 		Intent intent = new Intent(this, ConfirmationActivity.class);
 		intent.fillIn(getIntent(), 0);
 		intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
-		intent.putExtra(Codes.SESSION, mSession.toJson().toString());
 		mRoomTypeHandler.saveToIntent(intent);
 
 		// Create a BillingInfo that lacks the user's security code (for safety)
@@ -517,7 +511,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	@Override
 	public Object doDownload() {
-		ExpediaServices services = new ExpediaServices(this, mSession);
+		ExpediaServices services = new ExpediaServices(this);
 		return services.reservation(mSearchParams, mProperty, mRate, mBillingInfo);
 	}
 

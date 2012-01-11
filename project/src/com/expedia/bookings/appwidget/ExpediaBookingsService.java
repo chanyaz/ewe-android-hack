@@ -106,7 +106,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private Download mSearchDownload = new Download() {
 		@Override
 		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(getApplicationContext(), mWidgetDeals.getSession());
+			ExpediaServices services = new ExpediaServices(getApplicationContext());
 			mSearchDownloader.addDownloadListener(WIDGET_KEY_SEARCH, services);
 			return services.search(mWidgetDeals.getSearchParams(), 0);
 		}
@@ -938,7 +938,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	private void setupOnClickIntentForWidget(WidgetState widget, Property property, RemoteViews rv) {
 		Intent onClickIntent = new Intent(this.getApplicationContext(), HotelActivity.class);
-		onClickIntent.putExtra(Codes.SESSION, mWidgetDeals.getSession().toJson().toString());
 		onClickIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
 		onClickIntent.putExtra(Codes.SEARCH_PARAMS, mWidgetDeals.getSearchParams().toJson().toString());
 		onClickIntent.putExtra(Codes.OPENED_FROM_WIDGET, true);

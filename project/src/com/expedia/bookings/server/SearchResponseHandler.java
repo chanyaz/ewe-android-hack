@@ -23,7 +23,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.Session;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.AndroidHttpClient;
 
@@ -54,10 +53,6 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		Log.d("Starting to read streaming search response...");
 
 		SearchResponse searchResponse = readSearchResponse(parser);
-
-		// TODO: REMOVE THIS ONCE FULLY SWITCHED TO NEW API
-		// ALL THIS DOES IS COVER FOR THE APP EXPECTING A SESSION. ~dlew
-		searchResponse.setSession(new Session("DUMMY_SESSION"));
 
 		parser.close();
 

@@ -23,7 +23,6 @@ import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.RateRules;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.Session;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.Log;
@@ -83,10 +82,6 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			}
 
 			int numberOfNights = response.optInt("numberOfNights");
-
-			// TODO: REMOVE THIS ONCE FULLY SWITCHED TO NEW API
-			// ALL THIS DOES IS COVER FOR THE APP EXPECTING A SESSION. ~dlew
-			availResponse.setSession(new Session("DUMMY_SESSION"));
 
 			Policy checkInPolicy = null;
 			String checkInInstructions = response.optString("checkInInstructions", null);

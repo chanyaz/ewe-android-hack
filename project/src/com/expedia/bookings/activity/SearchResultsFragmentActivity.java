@@ -47,7 +47,6 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.Session;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.fragment.FilterDialogFragment;
@@ -552,7 +551,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		public Filter mFilter = new Filter();
 		public Map<String, AvailabilityResponse> mAvailabilityResponses = new HashMap<String, AvailabilityResponse>();
 		public Map<String, ReviewsResponse> mReviewsResponses = new HashMap<String, ReviewsResponse>();
-		public Session mSession;
 
 		// For tracking purposes only
 		public SearchParams mLastSearchParams;
@@ -856,7 +854,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	private Download mSearchDownload = new Download() {
 		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext, mInstance.mSession);
+			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
 			return services.search(mInstance.mSearchParams, 0);
 		}
@@ -877,10 +875,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			TrackingUtils.trackErrorPage(this, "HotelListRequestFailed");
 		}
 		else {
-			if (response.getSession() != null) {
-				mInstance.mSession = response.getSession();
-			}
-
 			if (response.hasErrors()) {
 				mInstance.mSearchStatus = response.getErrors().get(0).getPresentableMessage(mContext);
 				mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, null);
@@ -1002,7 +996,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	private Download mRoomAvailabilityDownload = new Download() {
 		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext, mInstance.mSession);
+			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_AVAILABILITY_SEARCH, services);
 			return services.availability(mInstance.mSearchParams, mInstance.mProperty);
 		}
@@ -1019,10 +1013,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 				TrackingUtils.trackErrorPage(mContext, "RatesListRequestFailed");
 			}
 			else {
-				if (availabilityResponse.getSession() != null) {
-					mInstance.mSession = availabilityResponse.getSession();
-				}
-
 				if (availabilityResponse.hasErrors()) {
 					mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR, availabilityResponse.getErrors()
 							.get(0).getPresentableMessage(mContext));
@@ -1055,7 +1045,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		@Override
 		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext, mInstance.mSession);
+			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_REVIEWS, services);
 			return services.reviews(mInstance.mProperty, 1, ReviewSort.HIGHEST_RATING_FIRST, MAX_SUMMARIZED_REVIEWS);
 		}
@@ -1121,7 +1111,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	public void bookRoom(Rate rate, boolean specificRateClicked) {
 		Intent intent = new Intent(this, BookingFragmentActivity.class);
-		intent.putExtra(Codes.SESSION, mInstance.mSession.toJson().toString());
 		intent.putExtra(Codes.SEARCH_PARAMS, mInstance.mSearchParams.toJson().toString());
 		intent.putExtra(Codes.PROPERTY, mInstance.mProperty.toJson().toString());
 		intent.putExtra(Codes.AVAILABILITY_RESPONSE, getRoomsAndRatesAvailability().toJson().toString());

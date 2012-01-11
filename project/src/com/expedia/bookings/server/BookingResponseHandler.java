@@ -9,7 +9,6 @@ import android.content.Context;
 
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.Session;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
 
@@ -25,10 +24,6 @@ public class BookingResponseHandler extends JsonResponseHandler<BookingResponse>
 	public BookingResponse handleJson(JSONObject response) {
 		BookingResponse bookingResponse = new BookingResponse();
 		try {
-			// TODO: REMOVE THIS ONCE FULLY SWITCHED TO NEW API
-			// ALL THIS DOES IS COVER FOR THE APP EXPECTING A SESSION. ~dlew
-			bookingResponse.setSession(new Session("DUMMY_SESSION"));
-
 			// Check for errors, return if found
 			List<ServerError> errors = ParserUtils.parseErrors(mContext, response);
 			if (errors != null) {

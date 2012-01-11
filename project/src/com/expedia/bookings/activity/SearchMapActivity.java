@@ -102,7 +102,6 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 				Intent intent = new Intent(SearchMapActivity.this, HotelActivity.class);
 				intent.putExtra(Codes.PROPERTY, mHotelItemizedOverlay.getProperty(index).toJson().toString());
 				intent.putExtra(Codes.SEARCH_PARAMS, parent.getSearchParams().toString());
-				intent.putExtra(Codes.SESSION, parent.getSession().toJson().toString());
 				SearchMapActivity.this.startActivity(intent);
 			}
 		};

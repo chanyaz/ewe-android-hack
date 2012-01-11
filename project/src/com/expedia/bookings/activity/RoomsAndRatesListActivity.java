@@ -23,7 +23,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.Session;
 import com.expedia.bookings.server.AvailabilityResponseHandler;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
@@ -40,7 +39,6 @@ import com.mobiata.android.json.JSONUtils;
 
 public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
-	private Session mSession;
 	private Property mProperty;
 	private SearchParams mSearchParams;
 	private AvailabilityResponse mAvailabilityResponse;
@@ -68,7 +66,6 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 		// Retrieve data to build this with
 		final Intent intent = getIntent();
-		mSession = (Session) JSONUtils.parseJSONableFromIntent(intent, Codes.SESSION, Session.class);
 		Property property = mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
 				Property.class);
 		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
@@ -155,7 +152,6 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		Rate rate = (Rate) mAdapter.getItem(position);
 		Intent intent = new Intent(this, BookingInfoActivity.class);
 		intent.fillIn(getIntent(), 0);
-		intent.putExtra(Codes.SESSION, mSession.toJson().toString());
 		intent.putExtra(Codes.RATE, rate.toJson().toString());
 		startActivity(intent);
 	}
@@ -189,7 +185,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 			return mAvailabilityResponse;
 		}
 		else {
-			ExpediaServices services = new ExpediaServices(this, mSession);
+			ExpediaServices services = new ExpediaServices(this);
 			return services.availability(mSearchParams, mProperty, 0);
 		}
 	}
@@ -205,8 +201,6 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		}
 
 		AvailabilityResponse response = (AvailabilityResponse) results;
-
-		mSession = response.getSession();
 
 		if (response.hasErrors()) {
 			StringBuilder sb = new StringBuilder();

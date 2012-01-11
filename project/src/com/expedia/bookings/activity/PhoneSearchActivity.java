@@ -91,7 +91,6 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.Session;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
@@ -295,7 +294,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private SearchParams mSearchParams;
 	private SearchParams mOldSearchParams;
 	private SearchParams mOriginalSearchParams;
-	private Session mSession;
 	private SearchResponse mSearchResponse;
 	private Filter mFilter;
 	private Filter mOldFilter;
@@ -322,7 +320,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private Download mSearchDownload = new Download() {
 		@Override
 		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this, mSession);
+			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
 			return services.search(mSearchParams, 0);
 		}
@@ -341,7 +339,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				mSearchResponse.setFilter(mFilter);
 				mSearchResponse.setSearchType(mSearchParams.getSearchType());
 				mSearchResponse.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
-				mSession = mSearchResponse.getSession();
 
 				if (!mLoadedSavedResults && mSearchResponse.getFilteredAndSortedProperties().length <= 10) {
 					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
@@ -975,10 +972,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		return mSearchParams;
 	}
 
-	public Session getSession() {
-		return mSession;
-	}
-
 	public void setMapViewListener(MapViewListener mapViewListener) {
 		mMapViewListener = mapViewListener;
 	}
@@ -1458,7 +1451,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		state.oldSearchParams = mOldSearchParams;
 		state.originalSearchParams = mOriginalSearchParams;
 		state.searchResponse = mSearchResponse;
-		state.session = mSession;
 		state.filter = mFilter;
 		state.oldFilter = mOldFilter;
 		state.showDistance = mShowDistance;
@@ -1497,7 +1489,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		mOldSearchParams = state.oldSearchParams;
 		mOriginalSearchParams = state.originalSearchParams;
 		mSearchResponse = state.searchResponse;
-		mSession = state.session;
 		mFilter = state.filter;
 		mOldFilter = state.oldFilter;
 		mShowDistance = state.showDistance;
@@ -2957,7 +2948,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		public String tag;
 		public boolean showDistance;
 		public Map<PriceRange, PriceTier> priceTierCache;
-		public Session session;
 		public SearchParams searchParams;
 		public SearchParams oldSearchParams;
 		public SearchParams originalSearchParams;
