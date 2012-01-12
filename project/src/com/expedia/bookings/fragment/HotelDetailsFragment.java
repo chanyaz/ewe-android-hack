@@ -45,6 +45,8 @@ import com.expedia.bookings.widget.HotelCollage;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
 import com.expedia.bookings.widget.SummarizedRoomRates;
 
+import com.mobiata.android.Log;
+
 public class HotelDetailsFragment extends Fragment implements EventHandler, AvailabilitySummaryListener {
 
 	public static HotelDetailsFragment newInstance() {
@@ -76,10 +78,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	private TextView mAmenitiesTitle;
 	private ViewGroup mAmenitiesContainer;
 	private View mAmenitiesNoneText;
-	private int mAmenitiesContainerVisibility;
 	private RatingBar mUserRating;
 	private RatingBar mStarRating;
 	private ProgressBar mProgressBar;
+	private boolean mIsSearchError;
 	private ViewGroup mHotelDescriptionContainer;
 	private View mSeeAllReviewsButton;
 	private ScrollView mHotelDetailsScrollView;
@@ -145,7 +147,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		amenitiesScrollView.setHorizontalScrollBarEnabled(false);
 
 		mAmenitiesTitle.setVisibility(View.GONE);
-		mAmenitiesContainerVisibility = View.GONE;
 		mAmenitiesContainer.setVisibility(View.GONE);
 		mAmenitiesNoneText.setVisibility(View.GONE);
 
@@ -252,13 +253,31 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 
 	private void updateAmenities(Property property){
 		mAmenitiesContainer.removeAllViews();
-		if (property.hasAmenities()) {
-			LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
-			mAmenitiesNoneText.setVisibility(View.GONE);
-		}
-		else if (mAmenitiesContainerVisibility == View.VISIBLE) {
-			// Make sure the text is visible
+
+		if (property.hasAmenitiesSet()) {
+			mProgressBar.setVisibility(View.GONE);
+
+			mAmenitiesTitle.setVisibility(View.VISIBLE);
+			mAmenitiesContainer.setVisibility(View.VISIBLE);
 			mAmenitiesNoneText.setVisibility(View.VISIBLE);
+			if (property.hasAmenities()) {
+				LayoutUtils.addAmenities(getActivity(), property, mAmenitiesContainer);
+				mAmenitiesNoneText.setVisibility(View.GONE);
+
+			}
+		}
+		else {
+			if (mIsSearchError) {
+				// TODO: Indicate more error?
+				mProgressBar.setVisibility(View.GONE);
+			}
+			else {
+				mProgressBar.setVisibility(View.VISIBLE);
+			}
+
+			mAmenitiesTitle.setVisibility(View.GONE);
+			mAmenitiesContainer.setVisibility(View.GONE);
+			mAmenitiesNoneText.setVisibility(View.GONE);
 		}
 	}
 
@@ -279,15 +298,17 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 
 	@Override
 	public void handleEvent(int eventCode, Object data) {
+		Property p;
 		switch (eventCode) {
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
 			mAvailabilityWidget.setButtonEnabled(false);
 			mAvailabilityWidget.showProgressBar();
+			Log.d("HERE SEARCH_STARTED");
 			break;
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
 			mAvailabilityWidget.setButtonEnabled(false);
 			mAvailabilityWidget.showError((String) data);
-			mProgressBar.setVisibility(View.GONE);
+			mIsSearchError = true;
 			break;
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
 			mAvailabilityWidget.setButtonEnabled(true);
@@ -295,27 +316,23 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 
 			// We now also need to update the description and amenities
 			mProgressBar.setVisibility(View.GONE);
-			Property p = ((AvailabilityResponse) data).getProperty();
+
+			p = ((AvailabilityResponse) data).getProperty();
 			getInstance().mProperty.setAmenityMask(p.getAmenityMask());
 			getInstance().mProperty.setDescriptionText(p.getDescriptionText());
-
-			// Show amenities section
-			mAmenitiesTitle.setVisibility(View.VISIBLE);
-			mAmenitiesContainerVisibility = View.VISIBLE;
-			mAmenitiesContainer.setVisibility(View.VISIBLE);
 
 			updateAmenities(p);
 			addHotelDescription(p);
 			break;
 		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
-			mProgressBar.setVisibility(View.VISIBLE);
+			p = (Property) data;
 
-			mAmenitiesTitle.setVisibility(View.GONE);
-			mAmenitiesContainerVisibility = View.GONE;
-			mAmenitiesContainer.setVisibility(View.GONE);
-			mAmenitiesNoneText.setVisibility(View.GONE);
+			if (p.hasAmenitiesSet()) {
+				getInstance().mProperty.setAmenityMask(p.getAmenityMask());
+				getInstance().mProperty.setDescriptionText(p.getDescriptionText());
+			}
 
-			updateViews((Property) data);
+			updateViews(p);
 			break;
 		case SearchResultsFragmentActivity.EVENT_REVIEWS_QUERY_STARTED:
 			mSomeReviewsContainer.removeAllViews();
@@ -449,10 +466,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			mHotelDescriptionContainer.addView(column);
 		}
 
-		String description = property.getDescriptionText();
 		HotelDescription hotelDescription = new HotelDescription(getActivity());
 
-		if (description != null && description.length() > 0) {
+		if (property.hasDescriptionText()) {
 			hotelDescription.parseDescription(property.getDescriptionText());
 		}
 

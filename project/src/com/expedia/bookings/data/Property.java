@@ -59,7 +59,7 @@ public class Property implements JSONable {
 		public int getFlag() {
 			return flag;
 		}
-		
+
 		public int getStrId() {
 			return strId;
 		}
@@ -79,6 +79,7 @@ public class Property implements JSONable {
 
 	// Expedia specific detail
 	private int mAmenityMask;
+	private boolean mHasAmenitiesSet;
 	private String mSupplierType; // E == merchant, S or W == GDS
 	private Rate mLowestRate;
 
@@ -122,6 +123,10 @@ public class Property implements JSONable {
 		this.mDescriptionText = descriptionText;
 	}
 
+	public boolean hasDescriptionText() {
+		return this.mDescriptionText != null && this.mDescriptionText.length() > 0;
+	}
+
 	public Media getThumbnail() {
 		return mThumbnail;
 	}
@@ -135,6 +140,7 @@ public class Property implements JSONable {
 	}
 
 	public void setAmenityMask(int amenityMask) {
+		mHasAmenitiesSet = true;
 		mAmenityMask = amenityMask;
 	}
 
@@ -144,6 +150,10 @@ public class Property implements JSONable {
 
 	public boolean hasAmenities() {
 		return mAmenityMask != 0;
+	}
+
+	public boolean hasAmenitiesSet() {
+		return mHasAmenitiesSet;
 	}
 
 	public void addMedia(Media media) {
