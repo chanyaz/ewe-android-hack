@@ -174,6 +174,10 @@ public class Property implements JSONable {
 		return mMedia;
 	}
 
+	public void setMediaList(List<Media> theList) {
+		this.mMedia = theList;
+	}
+
 	public int getMediaCount() {
 		if (mMedia == null) {
 			return 0;

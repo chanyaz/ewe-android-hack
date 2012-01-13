@@ -130,6 +130,8 @@ public class MiniDetailsFragment extends Fragment implements EventHandler, Avail
 			Property p = ((AvailabilityResponse) data).getProperty();
 			getInstance().mProperty.setAmenityMask(p.getAmenityMask());
 			getInstance().mProperty.setDescriptionText(p.getDescriptionText());
+			getInstance().mProperty.setMediaList(p.getMediaList());
+			updateViews(getInstance().mProperty);
 			break;
 		}
 	}

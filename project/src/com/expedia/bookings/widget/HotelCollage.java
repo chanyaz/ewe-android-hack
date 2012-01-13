@@ -85,7 +85,7 @@ public class HotelCollage {
 
 		// Configure views on top of the gallery
 		Rate lowestRate = property.getLowestRate();
-		String promoDescription = lowestRate.getPromoDescription();
+		String promoDescription = lowestRate == null ? null : lowestRate.getPromoDescription();
 		if (promoDescription != null && promoDescription.length() > 0) {
 			mPromoDescriptionTextView.setVisibility(View.VISIBLE);
 			mPromoDescriptionTextView.setText(Html.fromHtml(promoDescription));

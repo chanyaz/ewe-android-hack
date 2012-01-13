@@ -314,15 +314,12 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			mAvailabilityWidget.setButtonEnabled(true);
 			mAvailabilityWidget.showRates((AvailabilityResponse) data);
 
-			// We now also need to update the description and amenities
-			mProgressBar.setVisibility(View.GONE);
-
 			p = ((AvailabilityResponse) data).getProperty();
 			getInstance().mProperty.setAmenityMask(p.getAmenityMask());
 			getInstance().mProperty.setDescriptionText(p.getDescriptionText());
+			getInstance().mProperty.setMediaList(p.getMediaList());
 
-			updateAmenities(p);
-			addHotelDescription(p);
+			updateViews(getInstance().mProperty);
 			break;
 		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
 			p = (Property) data;
@@ -330,6 +327,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			if (p.hasAmenitiesSet()) {
 				getInstance().mProperty.setAmenityMask(p.getAmenityMask());
 				getInstance().mProperty.setDescriptionText(p.getDescriptionText());
+				getInstance().mProperty.setMediaList(p.getMediaList());
 			}
 
 			updateViews(p);
