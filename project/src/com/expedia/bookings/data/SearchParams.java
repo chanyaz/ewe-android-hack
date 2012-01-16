@@ -3,6 +3,7 @@ package com.expedia.bookings.data;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -16,6 +17,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class SearchParams implements JSONable {
@@ -29,7 +31,7 @@ public class SearchParams implements JSONable {
 	private Calendar mCheckInDate;
 	private Calendar mCheckOutDate;
 	private int mNumAdults;
-	private int mNumChildren;
+	private List<String> mChildren;
 	private Set<String> mPropertyIds;
 
 	// These may be out of sync with freeform location; make sure to sync before
@@ -53,7 +55,7 @@ public class SearchParams implements JSONable {
 
 		// Setup default adults/children 
 		mNumAdults = 1;
-		mNumChildren = 0;
+		mChildren = null;
 
 		// Setup default number of results
 		mFreeformLocation = null;
@@ -245,15 +247,16 @@ public class SearchParams implements JSONable {
 		return mNumAdults;
 	}
 
-	public void setNumChildren(int numChildren) {
-		if (numChildren < 0) {
-			numChildren = 0;
-		}
-		mNumChildren = numChildren;
+	public void setChildren(List<String> children) {
+		mChildren = children;
+	}
+
+	public List<String>getChildren() {
+		return mChildren;
 	}
 
 	public int getNumChildren() {
-		return mNumChildren;
+		return mChildren == null ? 0 : mChildren.size();
 	}
 
 	public void setSearchLatLon(double latitude, double longitude) {
@@ -292,7 +295,8 @@ public class SearchParams implements JSONable {
 		}
 
 		mNumAdults = obj.optInt("numAdults", 0);
-		mNumChildren = obj.optInt("numChildren", 0);
+		mChildren = JSONUtils.getStringList(obj, "children");
+
 		mSearchType = SearchType.valueOf(obj.optString("searchType"));
 
 		mDestinationId = obj.optString("destinationId", null);
@@ -330,14 +334,21 @@ public class SearchParams implements JSONable {
 				obj.put("checkoutDate", mCheckOutDate.getTimeInMillis());
 			}
 			obj.put("numAdults", mNumAdults);
-			obj.put("numChildren", mNumChildren);
+			if (mChildren != null) {
+				JSONArray children = new JSONArray();
+				for (String child : mChildren) {
+					children.put(child);
+				}
+				obj.put("children", children);
+			}
+
 			obj.put("searchType", mSearchType);
 
-			JSONArray arr = new JSONArray();
+			JSONArray propertyIds = new JSONArray();
 			for (String propertyId : mPropertyIds) {
-				arr.put(propertyId);
+				propertyIds.put(propertyId);
 			}
-			obj.put("propertyIds", arr);
+			obj.put("propertyIds", propertyIds);
 
 			obj.put("destinationId", mDestinationId);
 
@@ -359,14 +370,14 @@ public class SearchParams implements JSONable {
 			// compare some state variables (such as lat/lon, which are retrieved from the freeform location
 
 			return this.getSearchType().equals(other.getSearchType())
-					&& (mFreeformLocation != null ? this.mFreeformLocation.equals(other.getFreeformLocation()) : true) // mFreeformLocation may be null
+					&& (mFreeformLocation != null ? mFreeformLocation.equals(other.getFreeformLocation()) : true) // mFreeformLocation may be null
 					&& this.mSearchLatitude == other.getSearchLatitude()
 					&& this.mSearchLongitude == other.getSearchLongitude()
 					&& this.mPropertyIds.equals(other.getPropertyIds())
 					&& this.mCheckInDate.equals(other.getCheckInDate())
 					&& this.mCheckOutDate.equals(other.getCheckOutDate())
 					&& this.mNumAdults == other.getNumAdults()
-					&& this.mNumChildren == other.getNumChildren();
+					&& (this.mChildren == null ? other.getChildren() == null : mChildren.equals(other.getChildren()));
 		}
 		return false;
 	}

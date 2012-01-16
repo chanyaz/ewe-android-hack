@@ -189,7 +189,14 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 				if (!isHidden()) {
 					SearchParams searchParams = getInstance().mSearchParams;
 					searchParams.setNumAdults(mAdultsNumberPicker.getValue());
-					searchParams.setNumChildren(mChildrenNumberPicker.getValue());
+
+					//TODO: add actual ages
+					int numChildren = mChildrenNumberPicker.getValue();
+					ArrayList<String> children = new ArrayList<String>(numChildren);
+					for(int i = 0; i < numChildren; i++) {
+						children.add("12");
+					}
+					searchParams.setChildren(children);
 				}
 
 				GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);

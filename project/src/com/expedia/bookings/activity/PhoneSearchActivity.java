@@ -2699,7 +2699,14 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		@Override
 		public void onChanged(NumberPicker picker, int oldVal, int newVal) {
 			mSearchParams.setNumAdults(mAdultsNumberPicker.getCurrent());
-			mSearchParams.setNumChildren(mChildrenNumberPicker.getCurrent());
+
+			//TODO: add actual ages
+			int numChildren = mChildrenNumberPicker.getCurrent();
+			ArrayList<String> children = new ArrayList<String>(numChildren);
+			for(int i = 0; i < numChildren; i++) {
+				children.add("12");
+			}
+			mSearchParams.setChildren(children);
 
 			GuestsPickerUtils.configureAndUpdateDisplayedValues(mContext, mAdultsNumberPicker, mChildrenNumberPicker);
 			setRefinementInfo();

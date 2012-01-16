@@ -197,8 +197,11 @@ public class ExpediaServices implements DownloadListener {
 
 		StringBuilder guests = new StringBuilder();
 		guests.append(params.getNumAdults());
-		for (int a = 0; a < params.getNumChildren(); a++) {
-			guests.append(",12");
+		List<String>children = params.getChildren();
+		if (children != null) {
+			for (String child : children) {
+				guests.append("," + child);
+			}
 		}
 
 		query.add(new BasicNameValuePair("room1", guests.toString()));

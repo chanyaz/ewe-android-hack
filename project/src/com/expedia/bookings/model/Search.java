@@ -26,6 +26,7 @@ public class Search extends ActiveRecordBase<Search> {
 		mCheckInDate = searchParams.getCheckInDate();
 		mCheckOutDate = searchParams.getCheckOutDate();
 		mNumAdults = searchParams.getNumAdults();
+		//TODO: revisit this for children's ages
 		mNumChildren = searchParams.getNumChildren();
 	}
 
@@ -55,7 +56,13 @@ public class Search extends ActiveRecordBase<Search> {
 		searchParams.setCheckInDate(mCheckInDate);
 		searchParams.setCheckOutDate(mCheckOutDate);
 		searchParams.setNumAdults(mNumAdults);
-		searchParams.setNumChildren(mNumChildren);
+
+		//TODO: add actual ages
+		ArrayList<String> children = new ArrayList<String>(mNumChildren);
+		for(int i = 0; i < mNumChildren; i++) {
+			children.add("12");
+		}
+		searchParams.setChildren(children);
 
 		return searchParams;
 	}
