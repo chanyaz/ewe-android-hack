@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
@@ -45,7 +44,6 @@ import com.expedia.bookings.activity.BookingFragmentActivity.InstanceFragment;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
@@ -64,7 +62,7 @@ import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.ValidationProcessor;
 import com.mobiata.android.validation.Validator;
 
-public class BookingFormFragment extends DialogFragment implements EventHandler {
+public class BookingFormFragment extends DialogFragment {
 
 	public static BookingFormFragment newInstance() {
 		BookingFormFragment dialog = new BookingFormFragment();
@@ -125,13 +123,6 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 	// when a user *explicitly* clicks on a new country.  What this does is keep track of what the system thinks
 	// is the selected country - only the user can get this out of alignment, thus causing tracking.
 	private int mSelectedCountryPosition;
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		((BookingFragmentActivity) activity).mEventManager.registerEventHandler(this);
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -239,27 +230,6 @@ public class BookingFormFragment extends DialogFragment implements EventHandler 
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		mRoomTypeFragmentHandler.saveToBundle(outState);
-	}
-
-	@Override
-	public void onDetach() {
-		((BookingFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
-		super.onDetach();
-	}
-
-	@Override
-	public void handleEvent(int eventCode, Object data) {
-		switch (eventCode) {
-
-		case BookingFragmentActivity.EVENT_RATE_SELECTED:
-			if (mRoomTypeFragmentHandler != null) {
-				configureTicket(getView());
-				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
-				mRoomTypeFragmentHandler.showCheckInCheckoutDetails();
-			}
-			break;
-		}
-
 	}
 
 	private void configureTicket(View receipt) {

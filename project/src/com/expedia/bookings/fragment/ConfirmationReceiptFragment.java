@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,15 +8,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.BookingFragmentActivity;
 import com.expedia.bookings.activity.ConfirmationFragmentActivity;
 import com.expedia.bookings.activity.ConfirmationFragmentActivity.InstanceFragment;
-import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.widget.RoomTypeFragmentHandler;
 
-public class ConfirmationReceiptFragment extends Fragment implements EventHandler {
+public class ConfirmationReceiptFragment extends Fragment {
 
 	private RoomTypeFragmentHandler mRoomTypeFragmentHandler;
 
@@ -32,18 +29,6 @@ public class ConfirmationReceiptFragment extends Fragment implements EventHandle
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((ConfirmationFragmentActivity) activity).mEventManager.registerEventHandler(this);
-	}
-	
-	@Override
-	public void onDetach() {
-		((ConfirmationFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
-		super.onDetach();
 	}
 
 	@Override
@@ -83,19 +68,6 @@ public class ConfirmationReceiptFragment extends Fragment implements EventHandle
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		mRoomTypeFragmentHandler.saveToBundle(outState);
-	}
-
-	@Override
-	public void handleEvent(int eventCode, Object data) {
-		switch (eventCode) {
-
-		case BookingFragmentActivity.EVENT_RATE_SELECTED:
-			if (mRoomTypeFragmentHandler != null) {
-				configureTicket(getView());
-				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
-			}
-			break;
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
