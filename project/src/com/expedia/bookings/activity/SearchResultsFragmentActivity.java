@@ -883,7 +883,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			else {
 				response.setFilter(mInstance.mFilter);
 
-				Property[] properties = mInstance.mSearchResponse.getFilteredAndSortedProperties(); 
+				Property[] properties = mInstance.mSearchResponse.getFilteredAndSortedProperties();
 				if (properties != null && properties.length <= 10) {
 					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
 					mInstance.mFilter.setSearchRadius(SearchRadius.ALL);
@@ -1019,6 +1019,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 					TrackingUtils.trackErrorPage(mContext, "RatesListRequestFailed");
 				}
 				else {
+					mInstance.mProperty.updateFrom(availabilityResponse.getProperty());
+
 					mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
 				}
 			}

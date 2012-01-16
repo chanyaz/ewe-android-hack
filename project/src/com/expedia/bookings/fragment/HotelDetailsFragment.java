@@ -251,7 +251,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		});
 	}
 
-	private void updateAmenities(Property property){
+	private void updateAmenities(Property property) {
 		mAmenitiesContainer.removeAllViews();
 
 		if (property.hasAmenitiesSet()) {
@@ -298,7 +298,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 
 	@Override
 	public void handleEvent(int eventCode, Object data) {
-		Property p;
 		switch (eventCode) {
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
 			mAvailabilityWidget.setButtonEnabled(false);
@@ -314,23 +313,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			mAvailabilityWidget.setButtonEnabled(true);
 			mAvailabilityWidget.showRates((AvailabilityResponse) data);
 
-			p = ((AvailabilityResponse) data).getProperty();
-			getInstance().mProperty.setAmenityMask(p.getAmenityMask());
-			getInstance().mProperty.setDescriptionText(p.getDescriptionText());
-			getInstance().mProperty.setMediaList(p.getMediaList());
-
 			updateViews(getInstance().mProperty);
 			break;
 		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
-			p = (Property) data;
-
-			if (p.hasAmenitiesSet()) {
-				getInstance().mProperty.setAmenityMask(p.getAmenityMask());
-				getInstance().mProperty.setDescriptionText(p.getDescriptionText());
-				getInstance().mProperty.setMediaList(p.getMediaList());
-			}
-
-			updateViews(p);
+			updateViews((Property) data);
 			break;
 		case SearchResultsFragmentActivity.EVENT_REVIEWS_QUERY_STARTED:
 			mSomeReviewsContainer.removeAllViews();

@@ -127,10 +127,6 @@ public class MiniDetailsFragment extends Fragment implements EventHandler, Avail
 			break;
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
 			mAvailabilitySummary.showRates((AvailabilityResponse) data);
-			Property p = ((AvailabilityResponse) data).getProperty();
-			getInstance().mProperty.setAmenityMask(p.getAmenityMask());
-			getInstance().mProperty.setDescriptionText(p.getDescriptionText());
-			getInstance().mProperty.setMediaList(p.getMediaList());
 			updateViews(getInstance().mProperty);
 			break;
 		}
