@@ -261,12 +261,20 @@ public class Property implements JSONable {
 	public boolean isHighlyRated() {
 		return getAverageExpediaRating() >= Filter.HIGH_USER_RATING;
 	}
-	
+
 	// Updates a Property from another Property (currently, one returned via an AvailabilityResponse)
 	public void updateFrom(Property property) {
-		setAmenityMask(property.getAmenityMask());
-		setDescriptionText(property.getDescriptionText());
-		setMediaList(property.getMediaList());
+		if (property.hasAmenitiesSet()) {
+			this.setAmenityMask(property.getAmenityMask());
+		}
+		if (property.getDescriptionText() != null) {
+			if (this.mDescriptionText == null || this.mDescriptionText.length() < property.getDescriptionText().length()) {
+				this.setDescriptionText(property.getDescriptionText());
+			}
+		}
+		if (property.getMediaList() != null) {
+			this.setMediaList(property.getMediaList());
+		}
 	}
 
 	public JSONObject toJson() {
