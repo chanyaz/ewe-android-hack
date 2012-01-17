@@ -1,6 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -686,9 +685,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		mInstance.mSearchParams.setNumAdults(numAdults);
 
 		//TODO: add actual ages
-		ArrayList<String> children = new ArrayList<String>(numChildren);
+		int[] children = new int[numChildren];
 		for(int i = 0; i < numChildren; i++) {
-			children.add("12");
+			children[i] = 12;
 		}
 		mInstance.mSearchParams.setChildren(children);
 

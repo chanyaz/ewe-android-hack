@@ -3,7 +3,6 @@ package com.expedia.bookings.data;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -31,7 +30,7 @@ public class SearchParams implements JSONable {
 	private Calendar mCheckInDate;
 	private Calendar mCheckOutDate;
 	private int mNumAdults;
-	private List<String> mChildren;
+	private int[] mChildren;
 	private Set<String> mPropertyIds;
 
 	// These may be out of sync with freeform location; make sure to sync before
@@ -177,7 +176,7 @@ public class SearchParams implements JSONable {
 	 * 
 	 * @param cal
 	 */
-	public void setCheckInDate(Calendar cal) { 
+	public void setCheckInDate(Calendar cal) {
 		if (mCheckInDate != null
 				&& mCheckOutDate != null
 				&& (cal.after(mCheckOutDate) || (cal.get(Calendar.YEAR) == mCheckOutDate.get(Calendar.YEAR)
@@ -247,16 +246,16 @@ public class SearchParams implements JSONable {
 		return mNumAdults;
 	}
 
-	public void setChildren(List<String> children) {
+	public void setChildren(int[] children) {
 		mChildren = children;
 	}
 
-	public List<String>getChildren() {
+	public int[] getChildren() {
 		return mChildren;
 	}
 
 	public int getNumChildren() {
-		return mChildren == null ? 0 : mChildren.size();
+		return mChildren == null ? 0 : mChildren.length;
 	}
 
 	public void setSearchLatLon(double latitude, double longitude) {
@@ -295,7 +294,7 @@ public class SearchParams implements JSONable {
 		}
 
 		mNumAdults = obj.optInt("numAdults", 0);
-		mChildren = JSONUtils.getStringList(obj, "children");
+		mChildren = JSONUtils.getIntArray(obj, "children");
 
 		mSearchType = SearchType.valueOf(obj.optString("searchType"));
 
@@ -334,13 +333,7 @@ public class SearchParams implements JSONable {
 				obj.put("checkoutDate", mCheckOutDate.getTimeInMillis());
 			}
 			obj.put("numAdults", mNumAdults);
-			if (mChildren != null) {
-				JSONArray children = new JSONArray();
-				for (String child : mChildren) {
-					children.put(child);
-				}
-				obj.put("children", children);
-			}
+			JSONUtils.putIntArray(obj, "children", mChildren);
 
 			obj.put("searchType", mSearchType);
 
@@ -375,8 +368,7 @@ public class SearchParams implements JSONable {
 					&& this.mSearchLongitude == other.getSearchLongitude()
 					&& this.mPropertyIds.equals(other.getPropertyIds())
 					&& this.mCheckInDate.equals(other.getCheckInDate())
-					&& this.mCheckOutDate.equals(other.getCheckOutDate())
-					&& this.mNumAdults == other.getNumAdults()
+					&& this.mCheckOutDate.equals(other.getCheckOutDate()) && this.mNumAdults == other.getNumAdults()
 					&& (this.mChildren == null ? other.getChildren() == null : mChildren.equals(other.getChildren()));
 		}
 		return false;

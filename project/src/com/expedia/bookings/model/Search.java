@@ -26,8 +26,8 @@ public class Search extends ActiveRecordBase<Search> {
 		mCheckInDate = searchParams.getCheckInDate();
 		mCheckOutDate = searchParams.getCheckOutDate();
 		mNumAdults = searchParams.getNumAdults();
-		//TODO: revisit this for children's ages
 		mNumChildren = searchParams.getNumChildren();
+		mChildren = searchParams.getChildren();
 	}
 
 	@Column(name = "DestinationId")
@@ -48,6 +48,9 @@ public class Search extends ActiveRecordBase<Search> {
 	@Column(name = "NumChildren")
 	private int mNumChildren;
 
+	@Column(name = "Children")
+	private int[] mChildren;
+
 	public SearchParams getSearchParams() {
 		SearchParams searchParams = new SearchParams();
 		searchParams.setSearchType(SearchType.FREEFORM);
@@ -56,13 +59,16 @@ public class Search extends ActiveRecordBase<Search> {
 		searchParams.setCheckInDate(mCheckInDate);
 		searchParams.setCheckOutDate(mCheckOutDate);
 		searchParams.setNumAdults(mNumAdults);
+		searchParams.setChildren(mChildren);
 
-		//TODO: add actual ages
-		ArrayList<String> children = new ArrayList<String>(mNumChildren);
-		for(int i = 0; i < mNumChildren; i++) {
-			children.add("12");
+		// Legacy support
+		if (mChildren == null && mNumChildren > 0) {
+			int[] children = new int[mNumChildren];
+			for (int i = 0; i < mNumChildren; i++) {
+				children[i] = 12;
+			}
+			searchParams.setChildren(children);
 		}
-		searchParams.setChildren(children);
 
 		return searchParams;
 	}
