@@ -45,7 +45,7 @@ public class HotelDescription {
 		// Reset sections
 		mSections = new ArrayList<DescriptionSection>();
 
-		StringBuilder str = new StringBuilder();
+		StringBuilder str = new StringBuilder(2048);
 		String tag;
 		String sectionString = null;
 		int length = html.length();
@@ -90,7 +90,7 @@ public class HotelDescription {
 				if (tag.equals("strong")) {
 					if (sectionString != null && str.length() > 0) {
 						mSections.add(new DescriptionSection(sectionString, str.toString().trim()));
-						str = new StringBuilder();
+						str = str.delete(0, str.length());
 						sectionString = null;
 					}
 					if (html.substring(i).startsWith("<strong>")) {
@@ -132,8 +132,6 @@ public class HotelDescription {
 
 		if (sectionString != null && str.length() > 0) {
 			mSections.add(new DescriptionSection(sectionString, str.toString().trim()));
-			str = new StringBuilder();
-			sectionString = null;
 		}
 	}
 
