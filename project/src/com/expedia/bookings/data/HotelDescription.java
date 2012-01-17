@@ -37,32 +37,32 @@ public class HotelDescription {
 	 *
 	 * FIXME: May have out-of-bounds issues with the indexOf operations.
 	 */
-        public void parseDescription(String html) {
-                // See MOHotelDescription.m
+	public void parseDescription(String html) {
+		// See MOHotelDescription.m
 		String bullet = "<br/>" + mContext.getString(R.string.bullet_point) + " ";
 		String justBullet = mContext.getString(R.string.bullet_point) + " ";
 
 		// Reset sections
 		mSections = new ArrayList<DescriptionSection>();
 
-                StringBuilder str = new StringBuilder();
-                String tag;
+		StringBuilder str = new StringBuilder();
+		String tag;
 		String sectionString = null;
-                int length = html.length();
-                int i = 0;
-                int start, end;
+		int length = html.length();
+		int i = 0;
+		int start, end;
 
-                while (i < length) {
-                        start = html.indexOf('<', i);
+		while (i < length) {
+			start = html.indexOf('<', i);
 			if (start < 0) {
 				break;
 			}
-                        end = html.indexOf('>', start);
+			end = html.indexOf('>', start);
 			if (start > i) {
 				str.append(html.substring(i, start));
 			}
-                        i = end + 1;
-                        tag = html.substring(start + 1, end);
+			i = end + 1;
+			tag = html.substring(start + 1, end);
 
 			switch(tag.charAt(0)){
 			case 'l': // li
@@ -128,7 +128,7 @@ public class HotelDescription {
 				// drop the tag
 				break;
 			}
-                }
+		}
 
 		if (sectionString != null && str.length() > 0) {
 			mSections.add(new DescriptionSection(sectionString, str.toString().trim()));
