@@ -240,7 +240,12 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			property.getLowestRate().setPromoDescription(promoDesc);
 		}
 
-		searchResponse.addProperty(property);
+		// TODO: For now, we only support merchant hotels.  In the future, we will
+		// support all variety of supplier types.  For now, this is an easy way to
+		// filter out all non-merchant hotels.
+		if (property.isMerchant()) {
+			searchResponse.addProperty(property);
+		}
 	}
 
 	private Rate readLowRateInfo(JsonParser parser) throws IOException {
