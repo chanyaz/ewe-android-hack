@@ -27,10 +27,9 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.Tracker;
-import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
-import com.expedia.bookings.widget.RoomTypeWidget;
+import com.expedia.bookings.widget.ReceiptWidget;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -51,7 +50,7 @@ public class ConfirmationActivity extends MapActivity {
 
 	private Context mContext;
 
-	private RoomTypeWidget mRoomTypeWidget;
+	private ReceiptWidget mReceiptWidget;
 
 	private SearchParams mSearchParams;
 	private Property mProperty;
@@ -137,9 +136,8 @@ public class ConfirmationActivity extends MapActivity {
 			}
 		}
 
-		mRoomTypeWidget = new RoomTypeWidget(this, true);
-		mRoomTypeWidget.updateRate(mRate);
-		mRoomTypeWidget.restoreInstanceState(savedInstanceState);
+		mReceiptWidget = new ReceiptWidget(this, findViewById(R.id.receipt), true);
+		mReceiptWidget.restoreInstanceState(savedInstanceState);
 
 		//////////////////////////////////////////////////
 		// Screen configuration
@@ -169,8 +167,7 @@ public class ConfirmationActivity extends MapActivity {
 		userRating.setRating((float) mProperty.getAverageExpediaRating());
 
 		// Receipt pricing info (daily rates, taxes, total, etc.)
-		BookingReceiptUtils.configureTicket(this, this.getWindow().getDecorView(), mProperty, mSearchParams, mRate,
-				mRoomTypeWidget);
+		mReceiptWidget.updateData(mProperty, mSearchParams, mRate, mBookingResponse, mBillingInfo);
 
 		// Cancellation policy (at the bottom)
 		View confirmationContainer = findViewById(R.id.confirmation_content_container);
@@ -243,7 +240,7 @@ public class ConfirmationActivity extends MapActivity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		mRoomTypeWidget.saveInstanceState(outState);
+		mReceiptWidget.saveInstanceState(outState);
 	}
 
 	@Override

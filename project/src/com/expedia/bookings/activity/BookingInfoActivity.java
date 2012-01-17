@@ -61,12 +61,11 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
-import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.widget.RoomTypeWidget;
+import com.expedia.bookings.widget.ReceiptWidget;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -97,9 +96,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	private Context mContext;
 
-	// Room type widget
+	// Receipt widget
 
-	private RoomTypeWidget mRoomTypeWidget;
+	private ReceiptWidget mReceiptWidget;
 
 	// Data pertaining to this booking
 
@@ -141,7 +140,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private EditText mSecurityCodeEditText;
 	private TextView mConfirmationButton;
 	private CheckBox mRulesRestrictionsCheckbox;
-	private View mReceipt;
 
 	// Cached views (non-interactive)
 	private ScrollView mScrollView;
@@ -255,15 +253,13 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mChargeDetailsTextView = (TextView) findViewById(R.id.charge_details_text_view);
 		mRulesRestrictionsTextView = (TextView) findViewById(R.id.rules_restrictions_text_view);
 		mRulesRestrictionsLayout = (ViewGroup) findViewById(R.id.rules_restrictions_layout);
-		mReceipt = findViewById(R.id.receipt);
 
-		// Configure the room type handler
-		mRoomTypeWidget = new RoomTypeWidget(this, true);
-		mRoomTypeWidget.updateRate(mRate);
-		mRoomTypeWidget.restoreInstanceState(savedInstanceState);
+		// Configure the receipt widget
+		mReceiptWidget = new ReceiptWidget(mContext, findViewById(R.id.receipt), true);
+		mReceiptWidget.updateData(mProperty, mSearchParams, mRate);
+		mReceiptWidget.restoreInstanceState(savedInstanceState);
 
 		// Configure the layout
-		BookingReceiptUtils.configureTicket(this, mReceipt, mProperty, mSearchParams, mRate, mRoomTypeWidget);
 		configureForm();
 		configureFooter();
 
@@ -340,7 +336,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		mRoomTypeWidget.saveInstanceState(outState);
+		mReceiptWidget.saveInstanceState(outState);
 	}
 
 	@Override

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content" >
 
             <include
-                android:id="@+id/fragment_receipt"
+                android:id="@+id/receipt"
                 android:layout_width="400dp"
                 android:layout_height="wrap_content"
                 layout="@layout/include_receipt" />
@@ -26,11 +26,11 @@
                 android:id="@+id/room_details_container_right"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/fragment_receipt"
+                android:layout_alignTop="@+id/receipt"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="2dp"
-                android:layout_toRightOf="@id/fragment_receipt"
+                android:layout_toRightOf="@+id/receipt"
                 android:orientation="vertical">
 
                 <TextView

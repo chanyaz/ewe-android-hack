@@ -12,7 +12,7 @@
         android:padding="20dp" >
 
         <include
-            android:id="@+id/fragment_receipt"
+            android:id="@+id/receipt"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"

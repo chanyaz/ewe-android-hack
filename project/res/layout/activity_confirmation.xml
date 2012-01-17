@@ -24,6 +24,7 @@
             <!-- Ticket stub summary at top of page -->
 
             <LinearLayout
+                android:id="@+id/receipt"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_ticket_shadow" >
@@ -63,8 +64,8 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingTop="13dp"
                                 android:layout_gravity="right"
+                                android:paddingTop="13dp"
                                 android:src="@drawable/enjoy_your_stay" />
                         </FrameLayout>
                     </LinearLayout>
@@ -245,11 +246,11 @@
                         android:id="@+id/below_total_details_layout"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         android:orientation="vertical"
                         android:paddingBottom="6dp"
                         android:paddingLeft="6dp"
-                        android:paddingRight="6dp" />
+                        android:paddingRight="6dp"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:layout_width="fill_parent"

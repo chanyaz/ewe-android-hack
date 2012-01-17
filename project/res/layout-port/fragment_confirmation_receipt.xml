@@ -5,7 +5,6 @@
     android:background="@color/bg_tablet_content">
 
     <include
-        android:id="@+id/fragment_confirmation_receipt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

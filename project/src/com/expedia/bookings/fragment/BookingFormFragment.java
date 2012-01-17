@@ -47,11 +47,10 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
-import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.widget.RoomTypeWidget;
+import com.expedia.bookings.widget.ReceiptWidget;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
@@ -90,7 +89,6 @@ public class BookingFormFragment extends DialogFragment {
 	private EditText mExpirationYearEditText;
 	private EditText mSecurityCodeEditText;
 	private View mConfirmBookButton;
-	private View mReceipt;
 	private View mCloseFormButton;
 
 	// Cached data from arrays
@@ -116,7 +114,7 @@ public class BookingFormFragment extends DialogFragment {
 	private boolean mGuestsExpanded;
 	private boolean mBillingExpanded;
 
-	private RoomTypeWidget mRoomTypeWidget;
+	private ReceiptWidget mReceiptWidget;
 
 	// This is a tracking variable to solve a nasty problem.  The problem is that Spinner.onItemSelectedListener()
 	// fires wildly when you set the Spinner's position manually (sometimes twice at a time).  We only want to track
@@ -149,7 +147,7 @@ public class BookingFormFragment extends DialogFragment {
 		mGuestFormLayout = (ViewGroup) view.findViewById(R.id.guest_info_layout);
 		mFirstNameEditText = (EditText) view.findViewById(R.id.first_name_edit_text);
 		mLastNameEditText = (EditText) view.findViewById(R.id.last_name_edit_text);
-		mTelephoneCountryCodeEditText = (EditText)view.findViewById(R.id.telephone_country_code_edit_text);
+		mTelephoneCountryCodeEditText = (EditText) view.findViewById(R.id.telephone_country_code_edit_text);
 		mTelephoneEditText = (EditText) view.findViewById(R.id.telephone_edit_text);
 		mEmailEditText = (EditText) view.findViewById(R.id.email_edit_text);
 		mBillingSavedLayout = (ViewGroup) view.findViewById(R.id.saved_billing_info_layout);
@@ -167,12 +165,13 @@ public class BookingFormFragment extends DialogFragment {
 		mCreditCardImageView = (ImageView) view.findViewById(R.id.credit_card_image_view);
 		mSecurityCodeTipTextView = (TextView) view.findViewById(R.id.security_code_tip_text_view);
 		mScrollView = (ScrollView) view.findViewById(R.id.scroll_view);
- 		mRulesRestrictionsCheckbox = (CheckBox) view.findViewById(R.id.rules_restrictions_checkbox);
+		mRulesRestrictionsCheckbox = (CheckBox) view.findViewById(R.id.rules_restrictions_checkbox);
 		mRulesRestrictionsTextView = (TextView) view.findViewById(R.id.rules_restrictions_text_view);
 		mRulesRestrictionsLayout = (ViewGroup) view.findViewById(R.id.rules_restrictions_layout);
 		mConfirmBookButton = view.findViewById(R.id.confirm_book_button);
-		mReceipt = view.findViewById(R.id.receipt);
 		mCloseFormButton = view.findViewById(R.id.close_booking_form);
+
+		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), false);
 
 		// 10758: rendering the saved layouts on a software layer
 		// to avoid the fuzziness of the saved section background
@@ -210,26 +209,15 @@ public class BookingFormFragment extends DialogFragment {
 
 		dialog.setCanceledOnTouchOutside(false);
 
-		mRoomTypeWidget = new RoomTypeWidget(getActivity(), false);
-		mRoomTypeWidget.updateRate(getInstance().mRate);
-
 		// set the window of the dialog to have a transparent background
 		// so that the window is not visible through the edges of the dialog.
 		ColorDrawable drawable = new ColorDrawable(0);
 		dialog.getWindow().setBackgroundDrawable(drawable);
 		dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 
-		configureTicket(mReceipt);
+		mReceiptWidget.updateData(instance.mProperty, instance.mSearchParams, instance.mRate);
 
 		return dialog;
-	}
-
-	private void configureTicket(View receipt) {
-		InstanceFragment instance = getInstance();
-		ViewGroup detailsLayout = (ViewGroup) receipt.findViewById(R.id.details_layout);
-		detailsLayout.removeAllViews();
-		BookingReceiptUtils.configureTicket(getActivity(), receipt, instance.mProperty, instance.mSearchParams,
-				instance.mRate, mRoomTypeWidget);
 	}
 
 	private void configureForm() {
@@ -623,7 +611,7 @@ public class BookingFormFragment extends DialogFragment {
 			}
 		}
 	}
-	
+
 	// Focusing the rules & restrictions is special for two reasons:
 	// 1. It needs to focus the containing layout, so users can view the entire rules & restrictions.
 	// 2. It doesn't need to open the soft keyboard.
