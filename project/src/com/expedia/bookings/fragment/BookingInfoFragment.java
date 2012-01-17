@@ -20,12 +20,12 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
-import com.expedia.bookings.widget.RoomTypeFragmentHandler;
+import com.expedia.bookings.widget.RoomTypeWidget;
 
 public class BookingInfoFragment extends Fragment implements EventHandler {
 
 	private View mCompleteBookingInfoButton;
-	private RoomTypeFragmentHandler mRoomTypeFragmentHandler;
+	private RoomTypeWidget mRoomTypeWidget;
 
 	public static BookingInfoFragment newInstance() {
 		BookingInfoFragment fragment = new BookingInfoFragment();
@@ -50,9 +50,8 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 			}
 		});
 
-		mRoomTypeFragmentHandler = new RoomTypeFragmentHandler(getActivity(), view, getInstance().mProperty,
-				getInstance().mSearchParams, getInstance().mRate);
-		mRoomTypeFragmentHandler.onCreate(savedInstanceState);
+		mRoomTypeWidget = new RoomTypeWidget(getActivity(), false);
+		mRoomTypeWidget.updateRate(getInstance().mRate);
 
 		/*
 		 * Configuring the policy cancellation section
@@ -65,7 +64,6 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 
 		updateRoomDescription(view);
 		configureTicket(view);
-		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
 
 		final View receipt = view.findViewById(R.id.fragment_receipt);
 		final View roomDetailsContainer = view.findViewById(R.id.room_details_container_right);
@@ -109,19 +107,13 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		mRoomTypeFragmentHandler.saveToBundle(outState);
-	}
-
-	@Override
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
 
 		case BookingFragmentActivity.EVENT_RATE_SELECTED:
-			if (mRoomTypeFragmentHandler != null) {
+			if (mRoomTypeWidget != null) {
 				configureTicket(getView());
-				mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
+				mRoomTypeWidget.updateRate(getInstance().mRate);
 			}
 			updateRoomDescription(getView());
 			break;
@@ -158,7 +150,7 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 		ViewGroup detailsLayout = (ViewGroup) receipt.findViewById(R.id.details_layout);
 		detailsLayout.removeAllViews();
 		BookingReceiptUtils.configureTicket(getActivity(), receipt, instance.mProperty, instance.mSearchParams,
-				instance.mRate, mRoomTypeFragmentHandler);
+				instance.mRate, mRoomTypeWidget);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

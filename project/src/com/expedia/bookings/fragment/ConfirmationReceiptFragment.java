@@ -12,11 +12,11 @@ import com.expedia.bookings.activity.ConfirmationFragmentActivity;
 import com.expedia.bookings.activity.ConfirmationFragmentActivity.InstanceFragment;
 import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
-import com.expedia.bookings.widget.RoomTypeFragmentHandler;
+import com.expedia.bookings.widget.RoomTypeWidget;
 
 public class ConfirmationReceiptFragment extends Fragment {
 
-	private RoomTypeFragmentHandler mRoomTypeFragmentHandler;
+	private RoomTypeWidget mRoomTypeWidget;
 
 	public static ConfirmationReceiptFragment newInstance() {
 		ConfirmationReceiptFragment fragment = new ConfirmationReceiptFragment();
@@ -37,10 +37,8 @@ public class ConfirmationReceiptFragment extends Fragment {
 
 		InstanceFragment instance = getInstance();
 
-		mRoomTypeFragmentHandler = new RoomTypeFragmentHandler(getActivity(), receipt, instance.mProperty,
-				instance.mSearchParams, instance.mRate);
-
-		mRoomTypeFragmentHandler.onCreate(savedInstanceState);
+		mRoomTypeWidget = new RoomTypeWidget(getActivity(), false);
+		mRoomTypeWidget.updateRate(instance.mRate);
 
 		/*
 		 * Configuring the policy cancellation section
@@ -52,22 +50,8 @@ public class ConfirmationReceiptFragment extends Fragment {
 		ConfirmationUtils.configureContactView(getActivity(), contactView, contactText);
 
 		configureTicket(receipt);
-		mRoomTypeFragmentHandler.updateRoomDetails(instance.mRate);
 
 		return receipt;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		configureTicket(getView());
-		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		mRoomTypeFragmentHandler.saveToBundle(outState);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -79,7 +63,7 @@ public class ConfirmationReceiptFragment extends Fragment {
 		ViewGroup detailsLayout = (ViewGroup) receipt.findViewById(R.id.details_layout);
 		detailsLayout.removeAllViews();
 		BookingReceiptUtils.configureTicket(getActivity(), receipt, instance.mProperty, instance.mSearchParams,
-				instance.mRate, mRoomTypeFragmentHandler, instance.mBookingResponse, instance.mBillingInfo);
+				instance.mRate, mRoomTypeWidget, instance.mBookingResponse, instance.mBillingInfo);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

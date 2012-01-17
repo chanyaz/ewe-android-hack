@@ -51,7 +51,7 @@ import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.widget.RoomTypeFragmentHandler;
+import com.expedia.bookings.widget.RoomTypeWidget;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
@@ -116,7 +116,7 @@ public class BookingFormFragment extends DialogFragment {
 	private boolean mGuestsExpanded;
 	private boolean mBillingExpanded;
 
-	private RoomTypeFragmentHandler mRoomTypeFragmentHandler;
+	private RoomTypeWidget mRoomTypeWidget;
 
 	// This is a tracking variable to solve a nasty problem.  The problem is that Spinner.onItemSelectedListener()
 	// fires wildly when you set the Spinner's position manually (sometimes twice at a time).  We only want to track
@@ -210,9 +210,8 @@ public class BookingFormFragment extends DialogFragment {
 
 		dialog.setCanceledOnTouchOutside(false);
 
-		mRoomTypeFragmentHandler = new RoomTypeFragmentHandler(getActivity(), mReceipt, instance.mProperty,
-				instance.mSearchParams, instance.mRate);
-		mRoomTypeFragmentHandler.onCreate(savedInstanceState);
+		mRoomTypeWidget = new RoomTypeWidget(getActivity(), false);
+		mRoomTypeWidget.updateRate(getInstance().mRate);
 
 		// set the window of the dialog to have a transparent background
 		// so that the window is not visible through the edges of the dialog.
@@ -221,15 +220,8 @@ public class BookingFormFragment extends DialogFragment {
 		dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 
 		configureTicket(mReceipt);
-		mRoomTypeFragmentHandler.updateRoomDetails(getInstance().mRate);
 
 		return dialog;
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		mRoomTypeFragmentHandler.saveToBundle(outState);
 	}
 
 	private void configureTicket(View receipt) {
@@ -237,7 +229,7 @@ public class BookingFormFragment extends DialogFragment {
 		ViewGroup detailsLayout = (ViewGroup) receipt.findViewById(R.id.details_layout);
 		detailsLayout.removeAllViews();
 		BookingReceiptUtils.configureTicket(getActivity(), receipt, instance.mProperty, instance.mSearchParams,
-				instance.mRate, mRoomTypeFragmentHandler);
+				instance.mRate, mRoomTypeWidget);
 	}
 
 	private void configureForm() {

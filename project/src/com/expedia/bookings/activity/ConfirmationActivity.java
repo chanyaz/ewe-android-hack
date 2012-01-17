@@ -30,7 +30,7 @@ import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.BookingReceiptUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
-import com.expedia.bookings.widget.RoomTypeActivityHandler;
+import com.expedia.bookings.widget.RoomTypeWidget;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -51,7 +51,7 @@ public class ConfirmationActivity extends MapActivity {
 
 	private Context mContext;
 
-	private RoomTypeActivityHandler mRoomTypeHandler;
+	private RoomTypeWidget mRoomTypeWidget;
 
 	private SearchParams mSearchParams;
 	private Property mProperty;
@@ -137,8 +137,9 @@ public class ConfirmationActivity extends MapActivity {
 			}
 		}
 
-		mRoomTypeHandler = new RoomTypeActivityHandler(this, getIntent(), mProperty, mSearchParams, mRate);
-		mRoomTypeHandler.onCreate(null);
+		mRoomTypeWidget = new RoomTypeWidget(this, true);
+		mRoomTypeWidget.updateRate(mRate);
+		mRoomTypeWidget.restoreInstanceState(savedInstanceState);
 
 		//////////////////////////////////////////////////
 		// Screen configuration
@@ -169,7 +170,7 @@ public class ConfirmationActivity extends MapActivity {
 
 		// Receipt pricing info (daily rates, taxes, total, etc.)
 		BookingReceiptUtils.configureTicket(this, this.getWindow().getDecorView(), mProperty, mSearchParams, mRate,
-				mRoomTypeHandler);
+				mRoomTypeWidget);
 
 		// Cancellation policy (at the bottom)
 		View confirmationContainer = findViewById(R.id.confirmation_content_container);
@@ -235,14 +236,14 @@ public class ConfirmationActivity extends MapActivity {
 		instance.put(INSTANCE_BILLING_INFO, mBillingInfo);
 		instance.put(INSTANCE_BOOKING_RESPONSE, mBookingResponse);
 
-		mRoomTypeHandler.onRetainNonConfigurationInstance(instance);
 		return instance;
 	}
 
 	@Override
-	protected void onDestroy() {
-		mRoomTypeHandler.onDestroy();
-		super.onDestroy();
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		mRoomTypeWidget.saveInstanceState(outState);
 	}
 
 	@Override
@@ -260,13 +261,6 @@ public class ConfirmationActivity extends MapActivity {
 			onPageLoad();
 			mWasStopped = false;
 		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		mRoomTypeHandler.onResume();
 	}
 
 	@Override

@@ -23,14 +23,14 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.widget.RoomTypeHandler;
+import com.expedia.bookings.widget.RoomTypeWidget;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.util.SettingUtils;
 
 public class BookingReceiptUtils {
 
 	public static void configureTicket(Activity activity, View receipt, Property property, SearchParams searchParams,
-			Rate rate, RoomTypeHandler roomTypeHandler, BookingResponse bookingResponse, BillingInfo billingInfo) {
+			Rate rate, RoomTypeWidget roomTypeWidget, BookingResponse bookingResponse, BillingInfo billingInfo) {
 		// Configure the booking summary at the top of the page
 		ImageView thumbnailView = (ImageView) receipt.findViewById(R.id.thumbnail_image_view);
 		if (property.getThumbnail() != null) {
@@ -51,18 +51,22 @@ public class BookingReceiptUtils {
 
 		// Configure the details
 		ViewGroup detailsLayout = (ViewGroup) receipt.findViewById(R.id.details_layout);
-		if(billingInfo != null && bookingResponse != null) {
-			BookingReceiptUtils.addDetail(activity, detailsLayout, R.string.confirmation_number, bookingResponse.getConfNumber());
-			BookingReceiptUtils.addDetail(activity, detailsLayout, R.string.itinerary_number, bookingResponse.getItineraryId());
+		if (billingInfo != null && bookingResponse != null) {
+			BookingReceiptUtils.addDetail(activity, detailsLayout, R.string.confirmation_number,
+					bookingResponse.getConfNumber());
+			BookingReceiptUtils.addDetail(activity, detailsLayout, R.string.itinerary_number,
+					bookingResponse.getItineraryId());
 			BookingReceiptUtils.addDetail(activity, detailsLayout, R.string.confirmation_email, billingInfo.getEmail());
 		}
-		roomTypeHandler.load(detailsLayout);
+
+		detailsLayout.addView(roomTypeWidget.getView());
+
 		addRateDetails(activity.getApplicationContext(), detailsLayout,
-				searchParams, property, rate, roomTypeHandler);
+				searchParams, property, rate, roomTypeWidget);
 
 		// Configure the total cost and (if necessary) total cost paid to Expedia
 		Money displayedTotal;
-		ViewGroup totalPaidView = (ViewGroup)receipt.findViewById(R.id.below_total_details_layout);
+		ViewGroup totalPaidView = (ViewGroup) receipt.findViewById(R.id.below_total_details_layout);
 		if (BookingReceiptUtils.shouldDisplayMandatoryFees(activity)) {
 			totalPaidView.setVisibility(View.VISIBLE);
 			BookingReceiptUtils.addDetail(activity, totalPaidView, R.string.PayToExpedia, rate.getTotalAmountAfterTax()
@@ -82,18 +86,19 @@ public class BookingReceiptUtils {
 			totalView.setText("Dan didn't account for no total info, tell him");
 		}
 	}
-	
+
 	public static void configureTicket(Activity activity, View receipt, Property property, SearchParams searchParams,
-			Rate rate, RoomTypeHandler roomTypeHandler) {
-		configureTicket(activity, receipt, property, searchParams, rate, roomTypeHandler, null, null);
+			Rate rate, RoomTypeWidget roomTypeWidget) {
+		configureTicket(activity, receipt, property, searchParams, rate, roomTypeWidget, null, null);
 	}
-	
+
 	public static void addRateDetails(Context context, ViewGroup detailsLayout, SearchParams searchParams,
-			Property property, Rate rate, RoomTypeHandler roomTypeHandler) {
+			Property property, Rate rate, RoomTypeWidget roomTypeWidget) {
 		View bedTypeRow = BookingReceiptUtils.addDetail(context, detailsLayout, R.string.bed_type,
 				rate.getRatePlanName());
-		if (roomTypeHandler != null) {
-			roomTypeHandler.addClickableView(bedTypeRow);
+
+		if (roomTypeWidget != null) {
+			roomTypeWidget.addClickableView(bedTypeRow);
 		}
 
 		BookingReceiptUtils.addDetail(context, detailsLayout, R.string.GuestsLabel,

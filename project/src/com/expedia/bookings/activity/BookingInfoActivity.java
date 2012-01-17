@@ -66,7 +66,7 @@ import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.widget.RoomTypeActivityHandler;
+import com.expedia.bookings.widget.RoomTypeWidget;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -97,9 +97,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	private Context mContext;
 
-	// Room type handler
+	// Room type widget
 
-	private RoomTypeActivityHandler mRoomTypeHandler;
+	private RoomTypeWidget mRoomTypeWidget;
 
 	// Data pertaining to this booking
 
@@ -256,11 +256,14 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mRulesRestrictionsTextView = (TextView) findViewById(R.id.rules_restrictions_text_view);
 		mRulesRestrictionsLayout = (ViewGroup) findViewById(R.id.rules_restrictions_layout);
 		mReceipt = findViewById(R.id.receipt);
+
 		// Configure the room type handler
-		mRoomTypeHandler = new RoomTypeActivityHandler(this, getIntent(), mProperty, mSearchParams, mRate);
+		mRoomTypeWidget = new RoomTypeWidget(this, true);
+		mRoomTypeWidget.updateRate(mRate);
+		mRoomTypeWidget.restoreInstanceState(savedInstanceState);
 
 		// Configure the layout
-		BookingReceiptUtils.configureTicket(this, mReceipt, mProperty, mSearchParams, mRate, mRoomTypeHandler);
+		BookingReceiptUtils.configureTicket(this, mReceipt, mProperty, mSearchParams, mRate, mRoomTypeWidget);
 		configureForm();
 		configureFooter();
 
@@ -314,7 +317,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 			onPageLoad();
 		}
-		mRoomTypeHandler.onCreate(null);
 	}
 
 	@Override
@@ -331,9 +333,14 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		instance.put(INSTANCE_CARD_COMPLETED, mBookingInfoValidation.isCardSectionCompleted());
 		instance.put(INSTANCE_ERRORS, mErrors);
 
-		mRoomTypeHandler.onRetainNonConfigurationInstance(instance);
-
 		return instance;
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		mRoomTypeWidget.saveInstanceState(outState);
 	}
 
 	@Override
@@ -368,20 +375,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		if (downloader.isDownloading(DOWNLOAD_KEY)) {
 			downloader.registerDownloadCallback(DOWNLOAD_KEY, this);
 		}
-
-		mRoomTypeHandler.onResume();
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	protected void onDestroy() {
-		mRoomTypeHandler.onDestroy();
-
-		super.onDestroy();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -499,7 +492,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		Intent intent = new Intent(this, ConfirmationActivity.class);
 		intent.fillIn(getIntent(), 0);
 		intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
-		mRoomTypeHandler.saveToIntent(intent);
 
 		// Create a BillingInfo that lacks the user's security code (for safety)
 		JSONObject billingJson = mBillingInfo.toJson();
@@ -1061,7 +1053,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	private void checkSectionsCompleted(boolean trackCompletion) {
 		Context context = (trackCompletion) ? this : null;
-		mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor, context );
+		mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor, context);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
