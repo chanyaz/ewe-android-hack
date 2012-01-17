@@ -26,7 +26,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.fragment.BookingErrorDialogFragment;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.BookingInfoValidation;
@@ -40,6 +39,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.json.JSONUtils;
 
 public class BookingFragmentActivity extends Activity {
@@ -266,8 +266,9 @@ public class BookingFragmentActivity extends Activity {
 
 			if (results == null) {
 				if (getFragmentManager().findFragmentByTag(getString(R.string.tag_booking_error)) == null) {
-					BookingErrorDialogFragment.newInstance(getString(R.string.error_booking_null)).show(
-							getFragmentManager(), getString(R.string.tag_booking_error));
+					SimpleDialogFragment.newInstance(getString(R.string.error_booking_title),
+							getString(R.string.error_booking_null)).show(getFragmentManager(),
+							getString(R.string.tag_booking_error));
 					TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
 				}
 				return;
@@ -287,8 +288,9 @@ public class BookingFragmentActivity extends Activity {
 					errorMsg += errors.get(a).getPresentableMessage(BookingFragmentActivity.this);
 				}
 				if (getFragmentManager().findFragmentByTag(getString(R.string.tag_booking_error)) == null) {
-					BookingErrorDialogFragment.newInstance(errorMsg).show(getFragmentManager(),
-							getString(R.string.tag_booking_error));
+					SimpleDialogFragment.newInstance(getString(R.string.error_booking_title), errorMsg).show(
+							getFragmentManager(), getString(R.string.tag_booking_error));
+
 					TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
 				}
 				return;
