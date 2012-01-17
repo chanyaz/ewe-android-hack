@@ -30,57 +30,116 @@ public class HotelDescription {
 		mContext = context;
 	}
 
-	public void parseDescription(String html) {
-		// See MOHotelDescription.m
-		String bullet = mContext.getString(R.string.bullet_point);
+	/* Preliminary version of this parser. To get it to be a little more
+	 * general and easy to use (read slower) add a stack of StringBuilders for
+	 * when you did deeper into nested tags. Allows pruning of empty leaves
+	 * easily as well.
+	 *
+	 * FIXME: The if-else construct is very slow and was to get this working.
+	 *        They need to be replaced with a better technique. Either a jump
+	 *        table or if a quality trie can be found do that.
+	 *
+	 * FIXME: Probably ripe with out-of-bounds issues with the indexOf operations.
+	 *        Replace with our own.
+	 */
+        public void parseDescription(String html) {
+                // See MOHotelDescription.m
 
-        // fix up notifications html, otherwise some gets cut off
-		html = html.replace("<br>", "\n");
-		html = html.replace("<br />", "\n");
-		html = html.replace("<p>", "\n");
-		html = html.replace("</p>", "\n");
+		String bullet = "<br/>" + mContext.getString(R.string.bullet_point) + " ";
+		String justBullet = mContext.getString(R.string.bullet_point) + " ";
+                StringBuilder str = new StringBuilder();
+                String tag;
+		String sectionString = null;
+                int length = html.length();
+                int i = 0;
+                int start, end;
 
-		// list support
-		html = html.replace("<ul>", "\n\n");
-		html = html.replace("</li>", "\n");
-		html = html.replace("</ul>", "\n");
-		html = html.replace("<li>", bullet + " ");
-
-		// sometimes section headers are wrapped in <b></b> instead of <strong></strong>
-		html = html.replace("<b>", "<strong>");
-		html = html.replace("</b>", "</strong>");
-		html = html.replace("<B>", "<strong>");
-		html = html.replace("</B>", "</strong>");
-
-		int flags = Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL;
-		Pattern sectionPattern = Pattern.compile("<strong>(.*?)</strong>(.*?)(?=\\z|<strong>)", flags);
-		Matcher sectionMatcher = sectionPattern.matcher(html);
-
-		Pattern anyTag = Pattern.compile("<.+?>", flags);
-
-		String title, body;
-		while (sectionMatcher.find()) {
-
-			// Parse title
-			title = sectionMatcher.group(1);
-			title = title.replaceAll(anyTag.pattern(), "");
-			title = title.trim();
-			if (title.endsWith(".") || title.endsWith(":")) {
-				title = title.substring(0, title.length() - 1);
+                while (i < length) {
+                        start = html.indexOf('<', i);
+			if (start < 0) {
+				break;
 			}
+                        end = html.indexOf('>', start);
+			if (start > i) {
+				str.append(html.substring(i, start));
+			}
+                        i = end + 1;
+                        tag = html.substring(start + 1, end);
 
-			// Parse body
-			body = sectionMatcher.group(2);
-			body = body.trim();
-			body = body.replaceAll(bullet + "\\s*" + bullet, bullet);
-			//body = body.replace("\n" + bullet, "\n<br />" + bullet);
-			body = body.replaceAll("^\\s*:\\s*</strong>\\s*", "");
-
-			if (isBlank(title) || isBlank(body)) {
+                        if (tag.equalsIgnoreCase("p")) {
+                                continue;
+                        } else if (tag.equalsIgnoreCase("/p")) {
 				continue;
+                        } else if (tag.equalsIgnoreCase("b")) {
+                                continue;
+                        } else if (tag.equalsIgnoreCase("/b")) {
+				continue;
+                        } else if (tag.equalsIgnoreCase("br")) {
+				continue;
+                        } else if (tag.equalsIgnoreCase("br/")) {
+				continue;
+                        } else if (tag.equalsIgnoreCase("li")) {
+				if (! html.substring(i).startsWith("<ul>")){
+					if (str.length() > 0) {
+						str.append(bullet);
+					} else {
+						str.append(justBullet);
+					}
+				}
+                        } else if (tag.equalsIgnoreCase("/li")) {
+				continue;
+                        } else if (tag.equalsIgnoreCase("/ul")) {
+                                str.append("<br/>");
+                        } else if (tag.equalsIgnoreCase("ul")) {
+				if (html.substring(i).startsWith("</ul>")) {
+					// Skip this noise
+					i += 5;
+				} else if (str.length() > 0) {
+					str.append("<br/>");
+				}
+                        } else if (tag.equalsIgnoreCase("strong")) {
+				if (sectionString != null && str.length() > 0) {
+					mSections.add(new DescriptionSection(sectionString, str.toString().trim()));
+					str = new StringBuilder();
+					sectionString = null;
+				}
+				if (html.substring(i).startsWith("<strong>")) {
+					// Parse section
+					i += 8;
+					start = html.indexOf('<', i);
+					sectionString = html.substring(i, start);
+					end = html.indexOf('<', start + 1);
+					end = html.indexOf('>', end + 1);
+					i = end + 1;
+				} else if (html.substring(i).startsWith("<B>")) {
+					// Parse section
+					i += 3;
+					start = html.indexOf('<', i);
+					sectionString = html.substring(i, start);
+					end = html.indexOf('<', start + 1);
+					end = html.indexOf('>', end + 1);
+					i = end + 1;
+				} else {
+					start = html.indexOf('<', i);
+					end = html.indexOf('>', start);
+					sectionString = html.substring(i, start);
+					i = end + 1;
+				}
+                        } else if (tag.equalsIgnoreCase("/strong")) {
+				continue;
+                        } else if (tag.equalsIgnoreCase("i")) {
+				continue;
+                        } else if (tag.equalsIgnoreCase("/i")) {
+				continue;
+                        } else {
+				str.append("<" + tag + ">");
 			}
+                }
 
-			mSections.add(new DescriptionSection(title, body));
+		if (sectionString != null && str.length() > 0) {
+			mSections.add(new DescriptionSection(sectionString, str.toString().trim()));
+			str = new StringBuilder();
+			sectionString = null;
 		}
 	}
 
