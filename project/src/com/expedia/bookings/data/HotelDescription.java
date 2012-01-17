@@ -44,9 +44,12 @@ public class HotelDescription {
 	 */
         public void parseDescription(String html) {
                 // See MOHotelDescription.m
-
 		String bullet = "<br/>" + mContext.getString(R.string.bullet_point) + " ";
 		String justBullet = mContext.getString(R.string.bullet_point) + " ";
+
+		// Reset sections
+		mSections = new ArrayList<DescriptionSection>();
+
                 StringBuilder str = new StringBuilder();
                 String tag;
 		String sectionString = null;
