@@ -122,15 +122,13 @@ public class BookingFormFragment extends DialogFragment {
 	// is the selected country - only the user can get this out of alignment, thus causing tracking.
 	private int mSelectedCountryPosition;
 
+	private BookingInfoValidation mBookingInfoValidation;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mValidationProcessor = new ValidationProcessor();
-
-		if (savedInstanceState == null) {
-			InstanceFragment instance = getInstance();
-			Tracker.trackAppHotelsCheckoutPayment(getActivity(), instance.mProperty, instance.mBookingInfoValidation);
-		}
+		mBookingInfoValidation = new BookingInfoValidation();
 	}
 
 	@Override
@@ -184,7 +182,6 @@ public class BookingFormFragment extends DialogFragment {
 		// Retrieve some data we keep using
 		Resources r = getResources();
 		mCountryCodes = r.getStringArray(R.array.country_codes);
-		BookingInfoValidation bookingInfoValidation = instance.mBookingInfoValidation;
 		configureForm();
 
 		if (getBillingInfo().doesExistOnDisk()) {
@@ -192,11 +189,11 @@ public class BookingFormFragment extends DialogFragment {
 
 			checkSectionsCompleted(false);
 
-			if (!bookingInfoValidation.isGuestsSectionCompleted()) {
+			if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
 				expandGuestsForm(false);
 			}
 
-			if (!bookingInfoValidation.isBillingSectionCompleted()) {
+			if (!mBookingInfoValidation.isBillingSectionCompleted()) {
 				expandBillingForm(false);
 			}
 
@@ -216,6 +213,10 @@ public class BookingFormFragment extends DialogFragment {
 		dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 
 		mReceiptWidget.updateData(instance.mProperty, instance.mSearchParams, instance.mRate);
+
+		if (savedInstanceState == null) {
+			Tracker.trackAppHotelsCheckoutPayment(getActivity(), instance.mProperty, mBookingInfoValidation);
+		}
 
 		return dialog;
 	}
@@ -750,7 +751,7 @@ public class BookingFormFragment extends DialogFragment {
 
 	private void checkSectionsCompleted(boolean trackCompletion) {
 		Context context = (trackCompletion) ? getActivity() : null;
-		getInstance().mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor, context);
+		mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor, context);
 	}
 
 	private void dismissKeyboard(View view) {

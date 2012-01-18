@@ -28,7 +28,6 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
-import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.server.AvailabilityResponseHandler;
 import com.expedia.bookings.server.ExpediaServices;
@@ -109,9 +108,6 @@ public class BookingFragmentActivity extends Activity {
 				}
 			}
 
-			// Initialize some variables in the instance for later use
-			mInstance.mBookingInfoValidation = new BookingInfoValidation();
-
 			// Attempt to load the saved billing info
 			mInstance.mBillingInfo = new BillingInfo();
 			mInstance.mBillingInfo.load(this);
@@ -177,7 +173,6 @@ public class BookingFragmentActivity extends Activity {
 		public Rate mRate;
 
 		public BillingInfo mBillingInfo;
-		public BookingInfoValidation mBookingInfoValidation;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
