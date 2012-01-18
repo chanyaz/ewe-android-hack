@@ -500,24 +500,49 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	//////////////////////////////////////////////////////////////////////////////
 	// Private methods
 
-	void calculateMeasurements() {
-		mTagWidth = SIZE_TAG_WIDTH * mScaledDensity;
-		mTagHeight = SIZE_TAG_HEIGHT * mScaledDensity;
-		mKnobBgWidth = SIZE_KNOB_BG_WIDTH * mScaledDensity;
-		mKnobBgHeight = SIZE_KNOB_BG_HEIGHT * mScaledDensity;
-		mKnobWidth = SIZE_KNOB_WIDTH * mScaledDensity;
-		mKnobHeight = SIZE_KNOB_HEIGHT * mScaledDensity;
-		mRingWidth = SIZE_RING_WIDTH * mScaledDensity;
-		mRingHeight = SIZE_RING_HEIGHT * mScaledDensity;
-		mRingFillWidth = SIZE_RING_FILL_WIDTH * mScaledDensity;
-		mRingFillHeight = SIZE_RING_FILL_HEIGHT * mScaledDensity;
+	private boolean updateScaledDensity() {
+		DisplayMetrics metrics = new DisplayMetrics();
+		((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		float newDensity = metrics.scaledDensity;
 
+		if (newDensity != mScaledDensity) {
+			mScaledDensity = newDensity;
+			mTagWidth = SIZE_TAG_WIDTH * mScaledDensity;
+			mTagHeight = SIZE_TAG_HEIGHT * mScaledDensity;
+			mKnobBgWidth = SIZE_KNOB_BG_WIDTH * mScaledDensity;
+			mKnobBgHeight = SIZE_KNOB_BG_HEIGHT * mScaledDensity;
+			mKnobWidth = SIZE_KNOB_WIDTH * mScaledDensity;
+			mKnobHeight = SIZE_KNOB_HEIGHT * mScaledDensity;
+			mRingWidth = SIZE_RING_WIDTH * mScaledDensity;
+			mRingHeight = SIZE_RING_HEIGHT * mScaledDensity;
+			mRingFillWidth = SIZE_RING_FILL_WIDTH * mScaledDensity;
+			mRingFillHeight = SIZE_RING_FILL_HEIGHT * mScaledDensity;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	private void calculateMeasurements() {
 		// NOTE: A few of these measurements are pretty arbitrary, definitely
 		// making this view a one time use kind of view.
 
-		mOffsetY = (float) mHeight * 0.15f;
+		boolean changed = updateScaledDensity();
+		float newOffsetY;
 		if (mOrientation == Surface.ROTATION_90 || mOrientation == Surface.ROTATION_270) {
-			mOffsetY = mHeight * 0.25f;
+			newOffsetY = mHeight * 0.25f;
+		}
+		else {
+			newOffsetY = mHeight * 0.15f;
+		}
+
+		if (newOffsetY != mOffsetY) {
+			changed = true;
+		}
+
+		if (!changed) {
+			return;
 		}
 
 		mRingMargin = (mTagWidth - mRingWidth) / 2;
