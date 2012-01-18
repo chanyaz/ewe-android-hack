@@ -3,6 +3,7 @@ package com.expedia.bookings.data;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -30,7 +31,7 @@ public class SearchParams implements JSONable {
 	private Calendar mCheckInDate;
 	private Calendar mCheckOutDate;
 	private int mNumAdults;
-	private int[] mChildren;
+	private List<Integer> mChildren;
 	private Set<String> mPropertyIds;
 
 	// These may be out of sync with freeform location; make sure to sync before
@@ -246,16 +247,16 @@ public class SearchParams implements JSONable {
 		return mNumAdults;
 	}
 
-	public void setChildren(int[] children) {
+	public void setChildren(List<Integer> children) {
 		mChildren = children;
 	}
 
-	public int[] getChildren() {
+	public List<Integer> getChildren() {
 		return mChildren;
 	}
 
 	public int getNumChildren() {
-		return mChildren == null ? 0 : mChildren.length;
+		return mChildren == null ? 0 : mChildren.size();
 	}
 
 	public void setSearchLatLon(double latitude, double longitude) {
@@ -294,7 +295,7 @@ public class SearchParams implements JSONable {
 		}
 
 		mNumAdults = obj.optInt("numAdults", 0);
-		mChildren = JSONUtils.getIntArray(obj, "children");
+		mChildren = JSONUtils.getIntList(obj, "children");
 
 		mSearchType = SearchType.valueOf(obj.optString("searchType"));
 
@@ -333,7 +334,7 @@ public class SearchParams implements JSONable {
 				obj.put("checkoutDate", mCheckOutDate.getTimeInMillis());
 			}
 			obj.put("numAdults", mNumAdults);
-			JSONUtils.putIntArray(obj, "children", mChildren);
+			JSONUtils.putIntList(obj, "children", mChildren);
 
 			obj.put("searchType", mSearchType);
 

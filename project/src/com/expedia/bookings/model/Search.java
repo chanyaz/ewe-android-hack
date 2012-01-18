@@ -27,7 +27,22 @@ public class Search extends ActiveRecordBase<Search> {
 		mCheckOutDate = searchParams.getCheckOutDate();
 		mNumAdults = searchParams.getNumAdults();
 		mNumChildren = searchParams.getNumChildren();
-		mChildren = searchParams.getChildren();
+		
+		// This overcomes a shortcoming of ActiveAndroid that doesn't allow
+		// mChildren to be defined as a more generic List<Integer>
+		List<Integer> children = searchParams.getChildren();
+		if (children == null) {
+			mChildren = null;
+		}
+		else if (children instanceof ArrayList<?>) {
+			mChildren = (ArrayList<Integer>)children;
+		}
+		else {
+			mChildren = new ArrayList<Integer>(children.size());
+			for (Integer a : children) {
+				mChildren.add(a);
+			}
+		}
 	}
 
 	@Column(name = "DestinationId")
@@ -49,7 +64,7 @@ public class Search extends ActiveRecordBase<Search> {
 	private int mNumChildren;
 
 	@Column(name = "Children")
-	private int[] mChildren;
+	private ArrayList<Integer> mChildren;
 
 	public SearchParams getSearchParams() {
 		SearchParams searchParams = new SearchParams();
@@ -63,9 +78,9 @@ public class Search extends ActiveRecordBase<Search> {
 
 		// Legacy support
 		if (mChildren == null && mNumChildren > 0) {
-			int[] children = new int[mNumChildren];
+			ArrayList<Integer> children = new ArrayList<Integer>(mNumChildren);
 			for (int i = 0; i < mNumChildren; i++) {
-				children[i] = 12;
+				children.add(12);
 			}
 			searchParams.setChildren(children);
 		}

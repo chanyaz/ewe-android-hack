@@ -192,9 +192,9 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 					//TODO: add actual ages
 					int numChildren = mChildrenNumberPicker.getValue();
-					int[] children = new int[numChildren];
+					ArrayList<Integer> children = new ArrayList<Integer>(numChildren);
 					for(int i = 0; i < numChildren; i++) {
-						children[i] = 12;
+						children.add(12);
 					}
 					searchParams.setChildren(children);
 				}

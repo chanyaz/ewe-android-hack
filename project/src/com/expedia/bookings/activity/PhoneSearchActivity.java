@@ -2702,9 +2702,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 			//TODO: add actual ages
 			int numChildren = mChildrenNumberPicker.getCurrent();
-			int[] children = new int[numChildren];
+			ArrayList<Integer> children = new ArrayList<Integer>(numChildren);
 			for (int i = 0; i < numChildren; i++) {
-				children[i] = i + 2;
+				children.add(i + 2);
 			}
 			mSearchParams.setChildren(children);
 

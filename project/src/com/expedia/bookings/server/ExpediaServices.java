@@ -197,7 +197,7 @@ public class ExpediaServices implements DownloadListener {
 
 		StringBuilder guests = new StringBuilder();
 		guests.append(params.getNumAdults());
-		int[] children = params.getChildren();
+		List<Integer> children = params.getChildren();
 		if (children != null) {
 			for (int child : children) {
 				guests.append("," + child);
