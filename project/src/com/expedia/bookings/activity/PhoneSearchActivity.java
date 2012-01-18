@@ -362,8 +362,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				enablePanelHandle();
 			}
 			else if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0
-					&& mSearchResponse.getLocations() != null
-					&& mSearchResponse.getLocations().size() > 0) {
+					&& mSearchResponse.getLocations() != null && mSearchResponse.getLocations().size() > 0) {
 				showDialog(DIALOG_LOCATION_SUGGESTIONS);
 			}
 			else {
@@ -1070,8 +1069,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			@Override
 			public void onClick(View v) {
 				Toast.makeText(PhoneSearchActivity.this, getString(R.string.widget_add_instructions),
-						Toast.LENGTH_SHORT)
-						.show();
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 
@@ -2233,8 +2231,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		Calendar start = new GregorianCalendar(startYear, checkIn.get(Calendar.MONTH),
 				checkIn.get(Calendar.DAY_OF_MONTH));
-		Calendar end = new GregorianCalendar(endYear, checkOut.get(Calendar.MONTH),
-				checkOut.get(Calendar.DAY_OF_MONTH));
+		Calendar end = new GregorianCalendar(endYear, checkOut.get(Calendar.MONTH), checkOut.get(Calendar.DAY_OF_MONTH));
 
 		String startFormatter = FORMAT_HEADER;
 		String endFormatter = FORMAT_HEADER;
