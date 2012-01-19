@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <integer name="max_summarized_rate_rows">3</integer>
-    <bool name="show_from">true</bool>
     <bool name="widgetEnabled">true</bool>
-
 </resources>

@@ -113,7 +113,7 @@
 
         <!-- Widget stuff -->
         <receiver
-            android:enabled="@bool/api11OrLower"
+            android:enabled="@bool/widgetEnabled"
             android:name="com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider" >
             <intent-filter >
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
