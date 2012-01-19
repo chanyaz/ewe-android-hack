@@ -219,10 +219,9 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 		setListAdapter(mAdapter);
 
-		List<String> commonValueAdds = response.getCommonValueAdds();
+		CharSequence commonValueAdds = response.getCommonValueAddsString(this);
 		if (commonValueAdds != null) {
-			mFooterTextView.setText(Html.fromHtml(getString(R.string.common_value_add_template,
-					FormatUtils.series(this, commonValueAdds, ",", Conjunction.AND))));
+			mFooterTextView.setText(commonValueAdds);
 			mFooterTextView.setVisibility(View.VISIBLE);
 		}
 

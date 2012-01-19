@@ -23,6 +23,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 
 	private RoomsAndRatesAdapter mAdapter;
 	private TextView mMessageTextView;
+	private TextView mFooterTextView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,22 @@ public class RoomsAndRatesFragment extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_availability_list, container, false);
 		mMessageTextView = (TextView) view.findViewById(android.R.id.empty);
+
+		// Setup the ListView
+		View footer = inflater.inflate(R.layout.footer_rooms_and_rates, null);
+		mFooterTextView = (TextView) footer.findViewById(R.id.footer_text_view);
+		((ListView) view.findViewById(android.R.id.list)).addFooterView(footer, null, false);
+
+		BookingFragmentActivity.InstanceFragment instance = ((BookingFragmentActivity) getActivity()).mInstance;
+		mFooterTextView.setVisibility(View.GONE);
+		if (instance.mAvailabilityResponse != null) {
+			CharSequence commonValueAdds = instance.mAvailabilityResponse.getCommonValueAddsString(getActivity());
+			if (commonValueAdds != null) {
+				mFooterTextView.setText(commonValueAdds);
+				mFooterTextView.setVisibility(View.VISIBLE);
+			}
+		}
+
 		return view;
 	}
 

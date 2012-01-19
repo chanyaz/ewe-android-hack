@@ -6,8 +6,14 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.text.Html;
+
+import com.expedia.bookings.R;
 import com.expedia.bookings.widget.SummarizedRoomRates;
+import com.mobiata.android.FormatUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.json.JSONUtils;
 
 public class AvailabilityResponse extends Response {
@@ -78,6 +84,16 @@ public class AvailabilityResponse extends Response {
 		}
 
 		return null;
+	}
+
+	public CharSequence getCommonValueAddsString(Context context) {
+		List<String> commonValueAdds = getCommonValueAdds();
+		if (commonValueAdds == null || commonValueAdds.size() == 0) {
+			return null;
+		}
+
+		return Html.fromHtml(context.getString(R.string.common_value_add_template,
+				FormatUtils.series(context, commonValueAdds, ",", Conjunction.AND)));
 	}
 
 	@Override
