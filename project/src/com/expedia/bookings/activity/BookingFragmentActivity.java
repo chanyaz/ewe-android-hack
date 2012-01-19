@@ -33,6 +33,7 @@ import com.expedia.bookings.server.AvailabilityResponseHandler;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -188,6 +189,8 @@ public class BookingFragmentActivity extends Activity {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setTitle(R.string.booking_information_title);
 
+		DebugMenu.onCreateOptionsMenu(this, menu);
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -202,9 +205,13 @@ public class BookingFragmentActivity extends Activity {
 			startActivity(intent);
 			return true;
 		}
-		default:
-			return super.onOptionsItemSelected(item);
 		}
+
+		if (DebugMenu.onOptionsItemSelected(this, item)) {
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

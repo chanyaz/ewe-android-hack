@@ -61,6 +61,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.widget.SummarizedRoomRates;
@@ -381,6 +382,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			mGuestsTextView = (TextView) actionView.findViewById(R.id.guests_text_view);
 		}
 
+		DebugMenu.onCreateOptionsMenu(this, menu);
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -408,6 +411,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		mDatesMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_nights, numNights, numNights));
 
 		mFilterMenuItem.setEnabled(mInstance.mSearchResponse != null && !mInstance.mSearchResponse.hasErrors());
+
+		DebugMenu.onPrepareOptionsMenu(this, menu);
 
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -437,9 +442,13 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			startActivity(intent);
 			return true;
 		}
-		default:
-			return super.onOptionsItemSelected(item);
 		}
+
+		if (DebugMenu.onOptionsItemSelected(this, item)) {
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

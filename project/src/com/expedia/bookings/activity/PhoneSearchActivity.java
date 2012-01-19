@@ -98,6 +98,7 @@ import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
+import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.SearchUtils;
@@ -360,7 +361,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 				enablePanelHandle();
 			}
-			else if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0 && mSearchResponse.getLocations() != null
+			else if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0
+					&& mSearchResponse.getLocations() != null
 					&& mSearchResponse.getLocations().size() > 0) {
 				showDialog(DIALOG_LOCATION_SUGGESTIONS);
 			}
@@ -821,6 +823,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_search, menu);
+		DebugMenu.onCreateOptionsMenu(this, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -842,6 +845,10 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			startActivity(intent);
 			break;
 		}
+		}
+
+		if (DebugMenu.onOptionsItemSelected(this, item)) {
+			return true;
 		}
 
 		return super.onOptionsItemSelected(item);

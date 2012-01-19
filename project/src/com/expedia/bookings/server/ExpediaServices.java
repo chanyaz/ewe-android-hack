@@ -214,7 +214,7 @@ public class ExpediaServices implements DownloadListener {
 		int maxPage = (int) Math.ceil(property.getTotalReviews() / (double) REVIEWS_PER_PAGE);
 		return maxPage >= page;
 	}
-	
+
 	public ReviewsResponse reviews(Property property, int pageNumber, ReviewSort sort) {
 		return reviews(property, pageNumber, sort, REVIEWS_PER_PAGE);
 	}
@@ -289,8 +289,7 @@ public class ExpediaServices implements DownloadListener {
 				LocaleUtils.getDefaultPointOfSale(mContext));
 		builder.append(pointOfSale);
 
-		if (!AndroidUtils.isRelease(mContext)
-				&& SettingUtils.get(mContext, mContext.getString(R.string.preference_use_dev_api), false)) {
+		if (useTestServer(mContext)) {
 			builder.append(".chelwebestr37.bgb.karmalab.net");
 		}
 
@@ -412,6 +411,11 @@ public class ExpediaServices implements DownloadListener {
 		public Socket createSocket() throws IOException {
 			return sslContext.getSocketFactory().createSocket();
 		}
+	}
+
+	public static boolean useTestServer(Context context) {
+		return !AndroidUtils.isRelease(context)
+				&& SettingUtils.get(context, context.getString(R.string.preference_use_dev_api), false);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

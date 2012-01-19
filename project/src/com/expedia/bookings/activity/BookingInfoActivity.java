@@ -63,6 +63,7 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.ReceiptWidget;
@@ -450,6 +451,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_booking, menu);
+		DebugMenu.onCreateOptionsMenu(this, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -459,6 +461,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		case R.id.clear_private_data:
 			showDialog(DIALOG_CLEAR_PRIVATE_DATA);
 			break;
+		}
+
+		if (DebugMenu.onOptionsItemSelected(this, item)) {
+			return true;
 		}
 
 		return super.onOptionsItemSelected(item);

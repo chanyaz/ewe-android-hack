@@ -23,6 +23,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.ConfirmationUtils;
+import com.expedia.bookings.utils.DebugMenu;
 import com.google.android.maps.MapActivity;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -144,6 +145,8 @@ public class ConfirmationFragmentActivity extends MapActivity {
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
+		DebugMenu.onCreateOptionsMenu(this, menu);
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -158,9 +161,13 @@ public class ConfirmationFragmentActivity extends MapActivity {
 			startActivity(intent);
 			return true;
 		}
-		default:
-			return super.onOptionsItemSelected(item);
 		}
+
+		if (DebugMenu.onOptionsItemSelected(this, item)) {
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
