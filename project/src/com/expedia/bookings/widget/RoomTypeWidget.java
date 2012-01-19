@@ -62,7 +62,7 @@ public class RoomTypeWidget {
 	// We may want to add clickable rows outside of the handler, to expand the tap area; this allows
 	// you to do that.  Warning, destroys existing OnClickListener (if were any on the View).
 	public void addClickableView(View view) {
-		if (mIsExpandable) {
+		if (mIsExpandable && view != null) {
 			view.setOnClickListener(mOnRowClickListener);
 		}
 	}
