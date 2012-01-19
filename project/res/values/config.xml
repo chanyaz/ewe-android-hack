@@ -3,5 +3,6 @@
 
     <integer name="max_summarized_rate_rows">3</integer>
     <bool name="show_from">true</bool>
+    <bool name="api11OrLower">true</bool>
 
 </resources>
