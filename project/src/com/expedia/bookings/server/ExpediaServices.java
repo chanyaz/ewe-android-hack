@@ -171,6 +171,7 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("creditCardNumber", billingInfo.getNumber()));
 		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
+		query.add(new BasicNameValuePair("sendEmailConfirmation", "true"));
 
 		DateFormat expFormatter = new SimpleDateFormat("MMyy");
 		query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
