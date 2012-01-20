@@ -8,6 +8,7 @@ import android.content.Context;
 import com.expedia.bookings.R;
 
 public class ServerError {
+	private ErrorCode mErrorCode;
 	private String mCode;
 	private String mMessage;
 
@@ -27,6 +28,7 @@ public class ServerError {
 
 	public void setCode(String code) {
 		this.mCode = code;
+		this.mErrorCode = ErrorCode.valueOf(code);
 	}
 
 	public String getMessage() {
@@ -94,9 +96,27 @@ public class ServerError {
 		}
 	};
 
+	public static enum ErrorCode {
+		HOTEL_SERVICE_FATAL_FAILURE, UNKNOWN_ERROR, INVALID_INPUT_UNKNOWN, INVALID_INPUT, HOTEL_ROOM_UNAVAILABLE, HOTEL_OFFER_UNAVAILABLE, USER_SERVICE_FATAL_FAILURE, BOOKING_FAILED, PAYMENT_FAILED
+	}
+
+	public static enum Field {
+		LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION
+	}
+
 	// Use the presentation message, except in special circumstances of lacking data
 	// or when the data needs some gentle massaging
 	public String getPresentableMessage(Context context) {
+		// Handle special cases
+		switch (mErrorCode) {
+		case INVALID_INPUT: {
+			if (mExtras.containsKey(Field.LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION)) {
+				return context.getString(R.string.ean_error_no_results);
+			}
+			break;
+		}
+		}
+
 		String message = mPresentationMessage;
 		if (message == null) {
 			message = mVerboseMessage;
