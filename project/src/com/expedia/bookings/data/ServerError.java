@@ -107,16 +107,6 @@ public class ServerError {
 	// Use the presentation message, except in special circumstances of lacking data
 	// or when the data needs some gentle massaging
 	public String getPresentableMessage(Context context) {
-		// Handle special cases
-		switch (mErrorCode) {
-		case INVALID_INPUT: {
-			if (mExtras.containsKey(Field.LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION)) {
-				return context.getString(R.string.ean_error_no_results);
-			}
-			break;
-		}
-		}
-
 		String message = mPresentationMessage;
 		if (message == null) {
 			message = mVerboseMessage;
@@ -138,6 +128,16 @@ public class ServerError {
 		}
 		else if (ERRORS.containsKey(message)) {
 			message = context.getString(ERRORS.get(message));
+		}
+
+		// Handle special cases
+		switch (mErrorCode) {
+		case INVALID_INPUT: {
+			if (mExtras.containsKey(Field.LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION)) {
+				message = context.getString(R.string.ean_error_no_results);
+			}
+			break;
+		}
 		}
 
 		return message;
