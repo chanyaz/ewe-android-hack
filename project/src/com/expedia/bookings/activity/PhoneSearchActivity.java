@@ -45,6 +45,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Surface;
@@ -63,6 +64,7 @@ import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -74,6 +76,7 @@ import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
@@ -103,6 +106,7 @@ import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.widget.ChildAgeSpinnerAdapter;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
 import com.expedia.bookings.widget.gl.GLTagProgressBarRenderer.OnDrawStartedListener;
@@ -189,9 +193,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 	private static final long ANIMATION_PANEL_DISMISS_SPEED = 150;
 
-	private static final int MAX_GUESTS_TOTAL = 5;
-	private static final int MAX_GUEST_NUM = 4;
-
 	// the offset is to ensure that the list loads before the animation
 	// is played to make it flow smoother and also to grab the user's attention.
 	private static final long WIDGET_NOTIFICATION_BAR_ANIMATION_DELAY = 2000L;
@@ -240,6 +241,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private View mDatesLayout;
 	private View mFocusLayout;
 	private View mGuestsLayout;
+	private View mChildAgesLayout;
+	private ViewGroup mChildAgesListLayout;
 	private View mPanelDismissView;
 	private View mSortPopupDismissView;
 	private View mRefinementDismissView;
@@ -558,8 +561,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		mAdultsNumberPicker.setTextEnabled(false);
 		mChildrenNumberPicker.setTextEnabled(false);
-		mAdultsNumberPicker.setRange(1, 4);
-		mChildrenNumberPicker.setRange(0, 4);
+		mAdultsNumberPicker.setRange(1, GuestsPickerUtils.getMaxPerType());
+		mChildrenNumberPicker.setRange(0, GuestsPickerUtils.getMaxPerType());
 		mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
 		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
 
@@ -1021,6 +1024,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		mDatesLayout = findViewById(R.id.dates_layout);
 		mDatesCalendarDatePicker = (CalendarDatePicker) findViewById(R.id.dates_date_picker);
 		mGuestsLayout = findViewById(R.id.guests_layout);
+		mChildAgesLayout = findViewById(R.id.child_ages_layout);
+		mChildAgesListLayout = (ViewGroup) findViewById(R.id.child_ages_list_layout);
 		mAdultsNumberPicker = (NumberPicker) findViewById(R.id.adults_number_picker);
 		mChildrenNumberPicker = (NumberPicker) findViewById(R.id.children_number_picker);
 
@@ -1835,8 +1840,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 
 		setSearchEditViews();
-		setRefinementInfo();
-		setBookingInfoText();
+		displayRefinementInfo();
+		setActionBarBookingInfoText();
 		setFilterInfoText();
 	}
 
@@ -2249,13 +2254,13 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				android.text.format.DateFormat.format(endFormatter, end)));
 	}
 
-	private void setBookingInfoText() {
+	private void setActionBarBookingInfoText() {
 		int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
-		int adults = mSearchParams.getNumAdults();
-		int children = mSearchParams.getNumChildren();
+		int numAdults = mSearchParams.getNumAdults();
+		int numChildren = mSearchParams.getNumChildren();
 
 		mDatesTextView.setText(String.valueOf(startDay));
-		mGuestsTextView.setText(String.valueOf((adults + children)));
+		mGuestsTextView.setText(String.valueOf((numAdults + numChildren)));
 	}
 
 	private void setDrawerViews() {
@@ -2395,20 +2400,48 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 	}
 
-	private void setRefinementInfo() {
+	private void displayRefinementInfo() {
 		if (mDisplayType == DisplayType.CALENDAR) {
 			mRefinementInfoTextView.setText(CalendarUtils.getCalendarDatePickerTitle(this, mDatesCalendarDatePicker));
 		}
 		else if (mDisplayType == DisplayType.GUEST_PICKER) {
-			final int adults = mAdultsNumberPicker.getCurrent();
-			final int children = mChildrenNumberPicker.getCurrent();
-			mRefinementInfoTextView.setText(StrUtils.formatGuests(this, adults, children));
+			final int numAdults = mSearchParams.getNumAdults();
+			final int numChildren = mSearchParams.getNumChildren();
+			mRefinementInfoTextView.setText(StrUtils.formatGuests(this, numAdults, numChildren));
+
+			if (numChildren == 0) {
+				mChildAgesLayout.setVisibility(View.GONE);
+				return;
+			}
+
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			List<Integer> children = mSearchParams.getChildren();
+
+			for (int i = 0; i < GuestsPickerUtils.getMaxPerType(); i++) {
+				View row = mChildAgesListLayout.getChildAt(i);
+				if (row == null && i < numChildren) {
+					row = inflater.inflate(R.layout.include_child_age_row, null);
+					mChildAgesListLayout.addView(row);
+
+					TextView label = (TextView) row.findViewById(R.id.child_x_text);
+					label.setText(getString(R.string.child_x, i + 1));
+
+					Spinner spinner = (Spinner) row.findViewById(R.id.child_x_age_spinner);
+					spinner.setAdapter(new ChildAgeSpinnerAdapter(this));
+					spinner.setSelection(children.get(i) - 1);
+					spinner.setOnItemSelectedListener(mChildAgeSelectedListener);
+				}
+				else if (row != null) {
+					row.setVisibility(i < numChildren ? View.VISIBLE : View.GONE);
+				}
+			}
+
+			mChildAgesLayout.setVisibility(View.VISIBLE);
+			setChildrenSearchParam();
 		}
 		else {
 			mRefinementInfoTextView.setText(null);
 		}
-
-		setBookingInfoText();
 	}
 
 	private void setSearchEditViews() {
@@ -2469,7 +2502,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			}
 		});
 
-		setBookingInfoText();
+		setActionBarBookingInfoText();
 	}
 
 	private void determineWhetherExactLocationSpecified(Address location) {
@@ -2673,7 +2706,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				syncDatesFromPicker();
 			}
 
-			setRefinementInfo();
+			displayRefinementInfo();
+			setActionBarBookingInfoText();
 		}
 	};
 
@@ -2702,19 +2736,51 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private final NumberPicker.OnChangedListener mNumberPickerChangedListener = new NumberPicker.OnChangedListener() {
 		@Override
 		public void onChanged(NumberPicker picker, int oldVal, int newVal) {
-			mSearchParams.setNumAdults(mAdultsNumberPicker.getCurrent());
+			int numAdults = mAdultsNumberPicker.getCurrent();
+			mSearchParams.setNumAdults(numAdults);
 
-			//TODO: add actual ages
 			int numChildren = mChildrenNumberPicker.getCurrent();
-			ArrayList<Integer> children = new ArrayList<Integer>(numChildren);
-			for (int i = 0; i < numChildren; i++) {
-				children.add(i + 2);
+			List<Integer> children = mSearchParams.getChildren();
+			if (children == null) {
+				children = new ArrayList<Integer>(numChildren);
+				mSearchParams.setChildren(children);
 			}
-			mSearchParams.setChildren(children);
+			while (children.size() > numChildren) {
+				children.remove(children.size() - 1);
+			}
+			while (children.size() < numChildren) {
+				children.add(12);
+			}
+			Log.e("mSearchParams.children = " + children.toString());
 
 			GuestsPickerUtils.configureAndUpdateDisplayedValues(mContext, mAdultsNumberPicker, mChildrenNumberPicker);
-			setRefinementInfo();
+			displayRefinementInfo();
+			setActionBarBookingInfoText();
 		}
+	};
+
+	private final void setChildrenSearchParam() {
+		List<Integer> children = mSearchParams.getChildren();
+		for (int i = 0; i < mSearchParams.getNumChildren(); i++) {
+			View row = mChildAgesListLayout.getChildAt(i);
+			if (row != null) {
+				Spinner ageSpinner = (Spinner) row.findViewById(R.id.child_x_age_spinner);
+				Integer age = (Integer) ageSpinner.getSelectedItem();
+				children.set(i, age);
+			}
+		}
+	}
+
+	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
+
+	    public void onItemSelected(AdapterView<?> parent,
+	        View view, int pos, long id) {
+			setChildrenSearchParam();
+	    }
+
+	    public void onNothingSelected(AdapterView parent) {
+	      // Do nothing.
+	    }
 	};
 
 	private final Panel.OnPanelListener mPanelListener = new Panel.OnPanelListener() {

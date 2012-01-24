@@ -53,6 +53,10 @@ public class GuestsPickerUtils {
 		childrenNumberPicker.setMaxValue(getMaxChildren(adultsNumberPicker.getValue()));
 	}
 
+	public static int getMaxPerType() {
+		return MAX_PER_TYPE;
+	}
+
 	private static int getMaxAdults(int numChildren) {
 		return Math.min(MAX_PER_TYPE, MAX_GUESTS - numChildren);
 	}

@@ -19,6 +19,20 @@
 	<string name="drag_to_extend_your_stay">&lt;b&gt;Drag&lt;/b&gt; to extend your stay.</string>
 	<!--  Label for picking guests for hotel booking -->
 	<string name="who_is_going">&lt;b&gt;Who&lt;/b&gt; is going?</string>
+	<!--  Label for child age selection prompt -->
+	<string name="prompt_please_specify_childrens_ages">Please specify children\'s ages</string>
+	<!--  Title of "select child age" spinner dialog box -->
+	<string name="prompt_select_child_age">Select Child Age (1 - 12)</string>
+	<!--  Label for child's age on search refinements -->
+	<string name="child_x">Child %1$s</string>
+	<!--  Text for child's age on search refinements and in spinner -->
+	<plurals name="child_age">
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; years old</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; year old</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; years old</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; years old</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; years old</item>
+	</plurals>
 	
 	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
 	<!-- Suggestion to search Times Square -->

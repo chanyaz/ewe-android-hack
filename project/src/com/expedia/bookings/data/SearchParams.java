@@ -388,7 +388,7 @@ public class SearchParams implements JSONable {
 
 	// **WARNING: USE FOR TESTING PURPOSES ONLY**
 	public void fillWithTestData() throws JSONException {
-		String data = "{\"hasLatLon\":true,\"userFreeformLocation\":\"Minneapolis, MN\",\"numChildren\":1,\"longitude\":-93.2638361,\"freeformLocation\":\"Minneapolis, MN\",\"searchType\":\"FREEFORM\",\"checkinDate\":1325224800000,\"latitude\":44.9799654,\"propertyIds\":[],\"numAdults\":2,\"checkoutDate\":1325570400000}";
+		String data = "{\"hasLatLon\":true,\"userFreeformLocation\":\"Minneapolis, MN\",\"children\":[4,5,6],\"longitude\":-93.2638361,\"freeformLocation\":\"Minneapolis, MN\",\"searchType\":\"FREEFORM\",\"checkinDate\":1325224800000,\"latitude\":44.9799654,\"propertyIds\":[],\"numAdults\":2,\"checkoutDate\":1325570400000}";
 		JSONObject obj = new JSONObject(data);
 		fromJson(obj);
 	}
