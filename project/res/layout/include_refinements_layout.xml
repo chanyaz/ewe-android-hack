@@ -54,7 +54,7 @@
 				android:padding="5dp"
 				android:gravity="center_vertical"
 				android:textColor="@android:color/black"
-				android:background="#FFE9E9E9"
+				android:background="@drawable/bg_port_child_picker_header"
 				/>
 
 		    <LinearLayout
