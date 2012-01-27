@@ -7,20 +7,21 @@
 	
 	<TextView
 		android:id="@+id/child_x_text"
-		android:layout_width="0px"
+		android:layout_width="wrap_content"
 		android:layout_weight="1"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center_vertical"
-		android:layout_margin="5dp"
+		android:layout_marginLeft="10dp"
 		android:textColor="@android:color/black"
 		android:textStyle="bold" />
       
 	<Spinner 
 		android:id="@+id/child_x_age_spinner"
-		android:layout_width="0px"
-		android:layout_weight="1"
+		android:layout_width="150dp"
 		android:layout_height="wrap_content"
-		android:layout_margin="2dp"
+		android:layout_marginRight="5dp"
+		android:layout_marginTop="2dp"
+		android:layout_marginBottom="2dp"
 		android:prompt="@string/prompt_select_child_age" />
 		    
 </LinearLayout>

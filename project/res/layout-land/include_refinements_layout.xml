@@ -8,8 +8,7 @@
     android:layout_height="wrap_content"
     android:layout_below="@id/search_bar_layout"
     android:layout_alignParentBottom="true"
-    android:weightSum="100"
-    android:gravity="center">
+    >
     
     <LinearLayout
     	android:id="@+id/dates_layout"
@@ -37,24 +36,26 @@
     
     <LinearLayout
     	android:id="@+id/guests_layout"
-    	android:orientation="horizontal"
-    	android:layout_width="0dp"
+    	android:orientation="vertical"
+    	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
-    	android:layout_weight="65"
-    	android:background="@drawable/popup_full_bright"
+    	android:background="@android:color/white"
     	android:visibility="gone">
 	    
 	    <LinearLayout
 	    	android:orientation="horizontal"
 	    	android:layout_width="fill_parent"
 	    	android:layout_height="wrap_content"
-	    	android:padding="6dp">
+	    	android:padding="6dp"
+	    	android:background="@android:color/white">
 	    	
 		    <com.mobiata.android.widget.NumberPicker
 				android:id="@+id/adults_number_picker"
 		    	android:layout_width="0dp"
 		    	android:layout_height="wrap_content"
 		    	android:layout_weight="1"
+		    	android:orientation="horizontal"
+		    	android:padding="6dp"
 		    	android:textSize="14dp" />
 		    	
 		    <com.mobiata.android.widget.NumberPicker
@@ -62,10 +63,84 @@
 		    	android:layout_width="0dp"
 		    	android:layout_height="wrap_content"
 		    	android:layout_weight="1"
+		    	android:orientation="horizontal"
+		    	android:padding="6dp"
 		    	android:textSize="14dp" />
 		    	
 		</LinearLayout>
     
+	    <LinearLayout
+	        android:id="@+id/child_ages_layout"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        android:visibility="visible" 
+	        android:background="#ffeeeeee">
+
+			<TextView
+				android:text="@string/prompt_please_specify_childrens_ages"
+				android:layout_width="fill_parent"
+				android:layout_height="40dp"
+				android:padding="5dp"
+				android:gravity="center"
+				android:textColor="@android:color/black"
+				android:textStyle="bold"
+				/>
+
+
+		    <LinearLayout
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:weightSum="100"
+		        android:gravity="center_horizontal"
+	            >
+	
+			    <LinearLayout
+			        android:layout_width="0px"
+			        android:layout_weight="50"
+			        android:layout_height="wrap_content"
+			        android:orientation="vertical"
+		            >
+		            
+		            <include 
+		            	layout="@layout/include_child_age_row" 
+		            	android:id="@+id/child_1_age_layout" 
+		            	android:visibility="gone"
+		            	/>
+		            
+		            <include 
+		            	layout="@layout/include_child_age_row" 
+		            	android:id="@+id/child_2_age_layout" 
+		            	android:visibility="gone" 
+		            	/>
+		            	
+				</LinearLayout>
+
+			    <LinearLayout
+			        android:layout_width="0px"
+			        android:layout_weight="50"
+			        android:layout_height="wrap_content"
+			        android:orientation="vertical"
+		            >
+		            
+		            <include 
+		            	layout="@layout/include_child_age_row" 
+		            	android:id="@+id/child_3_age_layout" 
+		            	android:visibility="gone" 
+		            	/>
+		            
+		            <include 
+		            	layout="@layout/include_child_age_row" 
+		            	android:id="@+id/child_4_age_layout" 
+		            	android:visibility="gone" 
+		            	/>
+
+		        </LinearLayout>
+
+            </LinearLayout>
+
+	    </LinearLayout>
+	    
     </LinearLayout>
     
 </LinearLayout>

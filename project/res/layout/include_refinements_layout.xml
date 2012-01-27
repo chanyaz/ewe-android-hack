@@ -41,31 +41,49 @@
         android:visibility="gone" >
 
 	    <LinearLayout
-	        android:id="@+id/child_ages_layout"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:orientation="vertical"
-	        android:visibility="visible" >
+			android:id="@+id/child_ages_layout"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:visibility="visible" 
+			android:background="@android:color/white"
+	        >
 
 			<TextView
 				android:text="@string/prompt_please_specify_childrens_ages"
 				android:layout_width="fill_parent"
 				android:layout_height="40dp"
-				android:padding="5dp"
+				android:layout_marginBottom="5dp"
+				android:padding="10dp"
 				android:gravity="center_vertical"
 				android:textColor="@android:color/black"
+				android:textStyle="bold"
 				android:background="@drawable/bg_port_child_picker_header"
 				/>
-
-		    <LinearLayout
-		        android:id="@+id/child_ages_list_layout"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:orientation="vertical"
-				android:background="@android:color/white"
-	            />
-
-	            <!-- include_child_age_row.xml will be included in child_ages_list_layout dynamically -->
+		            
+            <include 
+            	layout="@layout/include_child_age_row" 
+            	android:id="@+id/child_1_age_layout" 
+            	android:visibility="gone" 
+            	/>
+            
+            <include 
+            	layout="@layout/include_child_age_row" 
+            	android:id="@+id/child_2_age_layout" 
+            	android:visibility="gone" 
+            	/>
+            
+            <include 
+            	layout="@layout/include_child_age_row" 
+            	android:id="@+id/child_3_age_layout" 
+            	android:visibility="gone" 
+            	/>
+            
+            <include 
+            	layout="@layout/include_child_age_row" 
+            	android:id="@+id/child_4_age_layout" 
+            	android:visibility="gone" 
+            	/>
 
 	    </LinearLayout>
 

@@ -45,7 +45,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Surface;
@@ -242,7 +241,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private View mFocusLayout;
 	private View mGuestsLayout;
 	private View mChildAgesLayout;
-	private ViewGroup mChildAgesListLayout;
 	private View mPanelDismissView;
 	private View mSortPopupDismissView;
 	private View mRefinementDismissView;
@@ -631,6 +629,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		setSearchEditViews();
 		setBottomBarOptions();
 		GuestsPickerUtils.configureAndUpdateDisplayedValues(this, mAdultsNumberPicker, mChildrenNumberPicker);
+		displayRefinementInfo();
+		setActionBarBookingInfoText();
 
 		// #9103: Must add this after onResume(); otherwise it gets called when mSearchEditText
 		// automagically restores its previous state.
@@ -1025,7 +1025,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		mDatesCalendarDatePicker = (CalendarDatePicker) findViewById(R.id.dates_date_picker);
 		mGuestsLayout = findViewById(R.id.guests_layout);
 		mChildAgesLayout = findViewById(R.id.child_ages_layout);
-		mChildAgesListLayout = (ViewGroup) findViewById(R.id.child_ages_list_layout);
 		mAdultsNumberPicker = (NumberPicker) findViewById(R.id.adults_number_picker);
 		mChildrenNumberPicker = (NumberPicker) findViewById(R.id.children_number_picker);
 
@@ -2409,20 +2408,33 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			final int numChildren = mSearchParams.getNumChildren();
 			mRefinementInfoTextView.setText(StrUtils.formatGuests(this, numAdults, numChildren));
 
+			if (mChildAgesLayout == null) {
+				return;
+			}
+			
 			if (numChildren == 0) {
 				mChildAgesLayout.setVisibility(View.GONE);
 				return;
 			}
 
-			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			List<Integer> children = mSearchParams.getChildren();
 
 			for (int i = 0; i < GuestsPickerUtils.getMaxPerType(); i++) {
-				View row = mChildAgesListLayout.getChildAt(i);
-				if (row == null && i < numChildren) {
-					row = inflater.inflate(R.layout.include_child_age_row, null);
-					mChildAgesListLayout.addView(row);
+				View row = GuestsPickerUtils.getChildAgeLayout(mChildAgesLayout, i);
+				int visibility = i < numChildren ? View.VISIBLE : View.GONE;
+				row.setVisibility(visibility);
 
+				// This is needed for landscape view
+				if (row.getParent() instanceof ViewGroup) {
+					ViewGroup parent = ((ViewGroup) row.getParent());
+					if (parent.getChildAt(0) == row) {
+						parent.setVisibility(visibility);
+					}
+				}
+
+				if (i < numChildren && row.getTag() == null) {
+					// Use the row's Tag to determine if we've initialized this label/spinner yet.
+					row.setTag(1);
 					TextView label = (TextView) row.findViewById(R.id.child_x_text);
 					label.setText(getString(R.string.child_x, i + 1));
 
@@ -2431,13 +2443,10 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 					spinner.setSelection(children.get(i) - 1);
 					spinner.setOnItemSelectedListener(mChildAgeSelectedListener);
 				}
-				else if (row != null) {
-					row.setVisibility(i < numChildren ? View.VISIBLE : View.GONE);
-				}
 			}
 
 			mChildAgesLayout.setVisibility(View.VISIBLE);
-			setChildrenSearchParam();
+			GuestsPickerUtils.setChildrenSearchParamFromSpinners(mChildAgesLayout, mSearchParams);
 		}
 		else {
 			mRefinementInfoTextView.setText(null);
@@ -2737,48 +2746,22 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		@Override
 		public void onChanged(NumberPicker picker, int oldVal, int newVal) {
 			int numAdults = mAdultsNumberPicker.getCurrent();
-			mSearchParams.setNumAdults(numAdults);
-
 			int numChildren = mChildrenNumberPicker.getCurrent();
-			List<Integer> children = mSearchParams.getChildren();
-			if (children == null) {
-				children = new ArrayList<Integer>(numChildren);
-				mSearchParams.setChildren(children);
-			}
-			while (children.size() > numChildren) {
-				children.remove(children.size() - 1);
-			}
-			while (children.size() < numChildren) {
-				children.add(12);
-			}
-			Log.e("mSearchParams.children = " + children.toString());
-
+			GuestsPickerUtils.updateSearchParamsGuestCounts(mSearchParams, numAdults, numChildren);
 			GuestsPickerUtils.configureAndUpdateDisplayedValues(mContext, mAdultsNumberPicker, mChildrenNumberPicker);
 			displayRefinementInfo();
 			setActionBarBookingInfoText();
 		}
 	};
-
-	private final void setChildrenSearchParam() {
-		List<Integer> children = mSearchParams.getChildren();
-		for (int i = 0; i < mSearchParams.getNumChildren(); i++) {
-			View row = mChildAgesListLayout.getChildAt(i);
-			if (row != null) {
-				Spinner ageSpinner = (Spinner) row.findViewById(R.id.child_x_age_spinner);
-				Integer age = (Integer) ageSpinner.getSelectedItem();
-				children.set(i, age);
-			}
-		}
-	}
-
+	
 	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
 
 	    public void onItemSelected(AdapterView<?> parent,
 	        View view, int pos, long id) {
-			setChildrenSearchParam();
+			GuestsPickerUtils.setChildrenSearchParamFromSpinners(mChildAgesLayout, mSearchParams);
 	    }
 
-	    public void onNothingSelected(AdapterView parent) {
+	    public void onNothingSelected(AdapterView<?> parent) {
 	      // Do nothing.
 	    }
 	};
