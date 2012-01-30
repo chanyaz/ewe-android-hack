@@ -68,9 +68,8 @@ public class ExpediaServices implements DownloadListener {
 	public static final int REVIEWS_PER_PAGE = 25;
 
 	public enum ReviewSort {
-		NEWEST_REVIEW_FIRST("NewestReviewFirst"),
-		HIGHEST_RATING_FIRST("HighestRatingFirst"),
-		LOWEST_RATING_FIRST("LowestRatingFirst");
+		NEWEST_REVIEW_FIRST("NewestReviewFirst"), HIGHEST_RATING_FIRST("HighestRatingFirst"), LOWEST_RATING_FIRST(
+				"LowestRatingFirst");
 
 		private String mKey;
 
@@ -124,6 +123,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("resultsPerPage", "25"));
 		query.add(new BasicNameValuePair("pageIndex", "0"));
 		query.add(new BasicNameValuePair("filterUnavailable", "true"));
+		query.add(new BasicNameValuePair("wantTotalRecommendations", "true"));
 
 		SearchResponseHandler rh = new SearchResponseHandler(mContext);
 		rh.setNumNights(params.getStayDuration());
@@ -276,8 +276,8 @@ public class ExpediaServices implements DownloadListener {
 		return doRequest(post, responseHandler, flags);
 	}
 
-	private Object doRequest(String targetUrl, List<BasicNameValuePair> params,
-			ResponseHandler<?> responseHandler, int flags) {
+	private Object doRequest(String targetUrl, List<BasicNameValuePair> params, ResponseHandler<?> responseHandler,
+			int flags) {
 
 		// Determine the target URL
 		StringBuilder builder = new StringBuilder();
