@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Spinner;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
+import com.mobiata.android.util.SettingUtils;
 
 public class GuestsPickerUtils {
 
@@ -85,7 +88,8 @@ public class GuestsPickerUtils {
 		childrenNumberPicker.setCurrent(numChildren);
 	}
 
-	public static void updateSearchParamsGuestCounts(SearchParams searchParams, int numAdults, int numChildren) {
+	public static void updateSearchParamsGuestCounts(Context context, SearchParams searchParams, int numAdults,
+			int numChildren) {
 		searchParams.setNumAdults(numAdults);
 		List<Integer> children = searchParams.getChildren();
 		if (children == null) {
@@ -96,11 +100,24 @@ public class GuestsPickerUtils {
 			children.remove(children.size() - 1);
 		}
 		while (children.size() < numChildren) {
-			children.add(DEFAULT_CHILD_AGE);
+			children.add(getDefaultChildAge(context, children.size()));
 		}
 	}
 
-	public static void setChildrenSearchParamFromSpinners(View parent, SearchParams searchParams) {
+	public static int getDefaultChildAge(Context context, int index) {
+		return SettingUtils.get(context, "default_child_age_" + index, DEFAULT_CHILD_AGE);
+	}
+
+	public static void updateDefaultChildAges(Context context, List<Integer> children) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = prefs.edit();
+		for (int i = 0; i < children.size(); i++) {
+			editor.putInt("default_child_age_" + i, children.get(i));
+		}
+		SettingUtils.commitOrApply(editor);
+	}
+
+	public static void setChildrenSearchParamFromSpinners(Context context, View parent, SearchParams searchParams) {
 		List<Integer> children = searchParams.getChildren();
 		for (int i = 0; i < searchParams.getNumChildren(); i++) {
 			View row = getChildAgeLayout(parent, i);
@@ -116,8 +133,9 @@ public class GuestsPickerUtils {
 			Integer age = (Integer) ageSpinner.getSelectedItem();
 			children.set(i, age);
 		}
+		updateDefaultChildAges(context, children);
 	}
-	
+
 	public static View getChildAgeLayout(View parent, int index) {
 		int resId = -1;
 		switch (index) {

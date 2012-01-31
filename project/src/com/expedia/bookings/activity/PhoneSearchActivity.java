@@ -2429,7 +2429,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			}
 
 			mChildAgesLayout.setVisibility(View.VISIBLE);
-			GuestsPickerUtils.setChildrenSearchParamFromSpinners(mChildAgesLayout, mSearchParams);
+			GuestsPickerUtils.setChildrenSearchParamFromSpinners(PhoneSearchActivity.this, mChildAgesLayout, mSearchParams);
 		}
 		else {
 			mRefinementInfoTextView.setText(null);
@@ -2733,7 +2733,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		public void onChanged(NumberPicker picker, int oldVal, int newVal) {
 			int numAdults = mAdultsNumberPicker.getCurrent();
 			int numChildren = mChildrenNumberPicker.getCurrent();
-			GuestsPickerUtils.updateSearchParamsGuestCounts(mSearchParams, numAdults, numChildren);
+			GuestsPickerUtils.updateSearchParamsGuestCounts(PhoneSearchActivity.this, mSearchParams, numAdults, numChildren);
 			GuestsPickerUtils.configureAndUpdateDisplayedValues(mContext, mAdultsNumberPicker, mChildrenNumberPicker);
 			displayRefinementInfo();
 			setActionBarBookingInfoText();
@@ -2743,7 +2743,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			GuestsPickerUtils.setChildrenSearchParamFromSpinners(mChildAgesLayout, mSearchParams);
+			GuestsPickerUtils.setChildrenSearchParamFromSpinners(PhoneSearchActivity.this, mChildAgesLayout, mSearchParams);
 		}
 
 		public void onNothingSelected(AdapterView<?> parent) {
