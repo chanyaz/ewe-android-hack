@@ -421,7 +421,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		@Override
 		public void onSearchParamsChanged(SearchParams searchParams) {
-			setSearchParams(searchParams);
+			mSearchParams = searchParams;
+			mSearchParams.ensureValidCheckInDate();
 			mStartSearchOnResume = true;
 		}
 	};
@@ -513,24 +514,10 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 		else {
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-			String searchParamsJson = prefs.getString("searchParams", null);
+			mSearchParams = new SearchParams(prefs);
 			String filterJson = prefs.getString("filter", null);
 			mTag = prefs.getString("tag", mTag);
 			mShowDistance = prefs.getBoolean("showDistance", true);
-
-			if (searchParamsJson != null) {
-				try {
-					JSONObject obj = new JSONObject(searchParamsJson);
-					setSearchParams(new SearchParams(obj));
-				}
-				catch (JSONException e) {
-					Log.e("Failed to load saved search params.");
-				}
-			}
-			else {
-				mSearchParams = new SearchParams();
-				mSearchParams.setNumAdults(1);
-			}
 
 			if (filterJson != null) {
 				try {
@@ -1280,8 +1267,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private void saveParams() {
 		Log.d("Saving search parameters, filter and tag...");
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		mSearchParams.saveToSharedPreferences(prefs);
 		Editor editor = prefs.edit();
-		editor.putString("searchParams", mSearchParams.toJson().toString());
 		editor.putString("filter", mFilter.toJson().toString());
 		editor.putString("tag", mTag);
 		editor.putBoolean("showDistance", mShowDistance);
@@ -1303,11 +1290,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 
 		mSearchParams.setSearchLatLon(latitde, longitude);
-	}
-
-	private void setSearchParams(SearchParams searchParams) {
-		mSearchParams = searchParams;
-		mSearchParams.ensureValidCheckInDate();
 	}
 
 	private void startSearch() {
@@ -1333,6 +1315,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		setDisplayType(DisplayType.NONE);
 		disablePanelHandle();
 		hideBottomBar();
+		saveParams();
 
 		switch (mSearchParams.getSearchType()) {
 		case FREEFORM: {
@@ -2411,7 +2394,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			if (mChildAgesLayout == null) {
 				return;
 			}
-			
+
 			if (numChildren == 0) {
 				mChildAgesLayout.setVisibility(View.GONE);
 				return;
@@ -2701,7 +2684,10 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				mSearchParams.setSearchType(SearchType.MY_LOCATION);
 			}
 			else {
-				setSearchParams((SearchParams) mSearchSuggestionAdapter.getItem(position));
+				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(PhoneSearchActivity.this);
+				mSearchParams = new SearchParams(prefs);
+				Search search = (Search) mSearchSuggestionAdapter.getItem(position);
+				mSearchParams.setLocationAndDestinationId(search);
 			}
 
 			setDisplayType(DisplayType.CALENDAR);
@@ -2753,17 +2739,16 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			setActionBarBookingInfoText();
 		}
 	};
-	
+
 	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
 
-	    public void onItemSelected(AdapterView<?> parent,
-	        View view, int pos, long id) {
+		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			GuestsPickerUtils.setChildrenSearchParamFromSpinners(mChildAgesLayout, mSearchParams);
-	    }
+		}
 
-	    public void onNothingSelected(AdapterView<?> parent) {
-	      // Do nothing.
-	    }
+		public void onNothingSelected(AdapterView<?> parent) {
+			// Do nothing.
+		}
 	};
 
 	private final Panel.OnPanelListener mPanelListener = new Panel.OnPanelListener() {

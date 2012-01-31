@@ -11,14 +11,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.location.Address;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.android.util.SettingUtils;
 
 public class SearchParams implements JSONable {
 
@@ -49,6 +53,29 @@ public class SearchParams implements JSONable {
 	private String mUserFreeformLocation;
 
 	public SearchParams() {
+		init();
+	}
+
+	/**
+	 * Creates a new SearchParams object populated with the globally stored defaults from the passed SharedPreferences object.
+	 * @param prefs
+	 */
+	public SearchParams(SharedPreferences prefs) {
+		init();
+		String searchParamsJson = prefs.getString("searchParams", null);
+		if (searchParamsJson != null) {
+			try {
+				JSONObject obj = new JSONObject(searchParamsJson);
+				fromJson(obj);
+				ensureValidCheckInDate();
+			}
+			catch (JSONException e) {
+				Log.e("Failed to load saved search params.");
+			}
+		}
+	}
+
+	private void init() {
 		mSearchLatLonUpToDate = false;
 
 		setDefaultStay();
@@ -145,6 +172,12 @@ public class SearchParams implements JSONable {
 
 	public boolean hasDestinationId() {
 		return mDestinationId != null && mDestinationId.length() > 0;
+	}
+
+	public void setLocationAndDestinationId(Search search) {
+		setSearchType(SearchType.FREEFORM);
+		setDestinationId(search.getDestinationId());
+		setFreeformLocation(search.getFreeformLocation());
 	}
 
 	public void addPropertyId(String propertyId) {
@@ -373,6 +406,12 @@ public class SearchParams implements JSONable {
 					&& (this.mChildren == null ? other.getChildren() == null : mChildren.equals(other.getChildren()));
 		}
 		return false;
+	}
+	
+	public void saveToSharedPreferences(SharedPreferences prefs) {
+		Editor editor = prefs.edit();
+		editor.putString("searchParams", toJson().toString());
+		SettingUtils.commitOrApply(editor);
 	}
 
 	@Override

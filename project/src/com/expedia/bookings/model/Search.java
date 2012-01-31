@@ -1,7 +1,5 @@
 package com.expedia.bookings.model;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
@@ -23,26 +21,6 @@ public class Search extends ActiveRecordBase<Search> {
 
 		mDestinationId = searchParams.getDestinationId();
 		mFreeformLocation = searchParams.getFreeformLocation().trim();
-		mCheckInDate = searchParams.getCheckInDate();
-		mCheckOutDate = searchParams.getCheckOutDate();
-		mNumAdults = searchParams.getNumAdults();
-		mNumChildren = searchParams.getNumChildren();
-		
-		// This overcomes a shortcoming of ActiveAndroid that doesn't allow
-		// mChildren to be defined as a more generic List<Integer>
-		List<Integer> children = searchParams.getChildren();
-		if (children == null) {
-			mChildren = null;
-		}
-		else if (children instanceof ArrayList<?>) {
-			mChildren = (ArrayList<Integer>)children;
-		}
-		else {
-			mChildren = new ArrayList<Integer>(children.size());
-			for (Integer a : children) {
-				mChildren.add(a);
-			}
-		}
 	}
 
 	@Column(name = "DestinationId")
@@ -51,59 +29,22 @@ public class Search extends ActiveRecordBase<Search> {
 	@Column(name = "FreeFormLocation")
 	private String mFreeformLocation;
 
-	@Column(name = "CheckInDate")
-	private Calendar mCheckInDate;
-
-	@Column(name = "CheckOutDate")
-	private Calendar mCheckOutDate;
-
-	@Column(name = "NumAdults")
-	private int mNumAdults;
-
-	@Column(name = "NumChildren")
-	private int mNumChildren;
-
-	@Column(name = "Children")
-	private ArrayList<Integer> mChildren;
-
-	public SearchParams getSearchParams() {
-		SearchParams searchParams = new SearchParams();
-		searchParams.setSearchType(SearchType.FREEFORM);
-		searchParams.setDestinationId(mDestinationId);
-		searchParams.setFreeformLocation(mFreeformLocation);
-		searchParams.setCheckInDate(mCheckInDate);
-		searchParams.setCheckOutDate(mCheckOutDate);
-		searchParams.setNumAdults(mNumAdults);
-		searchParams.setChildren(mChildren);
-
-		// Legacy support
-		if (mChildren == null && mNumChildren > 0) {
-			ArrayList<Integer> children = new ArrayList<Integer>(mNumChildren);
-			for (int i = 0; i < mNumChildren; i++) {
-				children.add(12);
-			}
-			searchParams.setChildren(children);
-		}
-
-		return searchParams;
+	public String getDestinationId() {
+		return mDestinationId;
 	}
 
-	public static List<SearchParams> getAllSearchParams(Context context) {
+	public String getFreeformLocation() {
+		return mFreeformLocation;
+	}
+
+	public static List<Search> getAllSearchParams(Context context) {
 		List<Search> searches = query(context, Search.class, null, null, "Id DESC");
-		return convertSearches(searches);
+		return searches;
 	}
 
-	public static List<SearchParams> getRecentSearches(Context context, int maxSearches) {
+	public static List<Search> getRecentSearches(Context context, int maxSearches) {
 		List<Search> searches = query(context, Search.class, null, null, "Id DESC", maxSearches + "");
-		return convertSearches(searches);
-	}
-
-	private static List<SearchParams> convertSearches(List<Search> searches) {
-		List<SearchParams> searchParams = new ArrayList<SearchParams>();
-		for (Search search : searches) {
-			searchParams.add(search.getSearchParams());
-		}
-		return searchParams;
+		return searches;
 	}
 
 	public static void add(Context context, SearchParams searchParams) {

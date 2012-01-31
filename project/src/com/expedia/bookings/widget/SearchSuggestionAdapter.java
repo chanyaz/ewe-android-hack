@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.model.Search;
 
 public class SearchSuggestionAdapter extends BaseAdapter {
@@ -19,7 +18,7 @@ public class SearchSuggestionAdapter extends BaseAdapter {
 
 	private Context mContext;
 	private LayoutInflater mInflater;
-	private List<SearchParams> mSearchParams;
+	private List<Search> mSearches;
 	private int mCurrentLocationColor;
 
 	public SearchSuggestionAdapter(Context context) {
@@ -31,14 +30,14 @@ public class SearchSuggestionAdapter extends BaseAdapter {
 	}
 
 	public void refreshData() {
-		mSearchParams = Search.getAllSearchParams(mContext);
+		mSearches = Search.getAllSearchParams(mContext);
 		notifyDataSetChanged();
 	}
 
 	@Override
 	public int getCount() {
-		if (mSearchParams != null) {
-			return mSearchParams.size() + 1;
+		if (mSearches != null) {
+			return mSearches.size() + 1;
 		}
 		return 1;
 	}
@@ -48,7 +47,7 @@ public class SearchSuggestionAdapter extends BaseAdapter {
 		if (position == 0) {
 
 		}
-		return mSearchParams.get(position - 1);
+		return mSearches.get(position - 1);
 	}
 
 	@Override
@@ -92,8 +91,8 @@ public class SearchSuggestionAdapter extends BaseAdapter {
 
 		}
 		else if (viewType == TYPE_SEARCH_PARAM) {
-			SearchParams searchParams = (SearchParams) getItem(position);
-			holder.suggestionTextView.setText(searchParams.getFreeformLocation());
+			Search search = (Search) getItem(position);
+			holder.suggestionTextView.setText(search.getFreeformLocation());
 		}
 
 		return convertView;

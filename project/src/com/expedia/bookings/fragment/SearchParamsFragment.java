@@ -171,8 +171,8 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 		// Add history to top
 		List<String> searchHistory = new ArrayList<String>();
-		for (SearchParams searchParams : Search.getRecentSearches(getActivity(), 5)) {
-			searchHistory.add(searchParams.getFreeformLocation());
+		for (Search search : Search.getRecentSearches(getActivity(), 5)) {
+			searchHistory.add(search.getFreeformLocation());
 		}
 		mSuggestions.addAll(0, searchHistory);
 

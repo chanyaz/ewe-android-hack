@@ -4,7 +4,9 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,9 +57,12 @@ public class QuickSearchFragment extends Fragment implements EventHandler {
 		mFeaturedDestinationsLayout = (ViewGroup) view.findViewById(R.id.featured_destinations_layout);
 
 		// Get recent searches
-		List<SearchParams> searches = Search.getRecentSearches(getActivity(), MAX_RECENT_SEARCHES);
-		for (SearchParams params : searches) {
-			addRecentSearch(params);
+		List<Search> searches = Search.getRecentSearches(getActivity(), MAX_RECENT_SEARCHES);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		for (Search search : searches) {
+			SearchParams searchParams = new SearchParams(prefs);
+			searchParams.setLocationAndDestinationId(search);
+			addRecentSearch(searchParams);
 		}
 
 		// Add some preset featured destinations
@@ -83,10 +88,8 @@ public class QuickSearchFragment extends Fragment implements EventHandler {
 	//////////////////////////////////////////////////////////////////////////
 	// Adding quick searches
 
-	public void addRecentSearch(final SearchParams searchParams) {
+	private void addRecentSearch(final SearchParams searchParams) {
 		mRecentSearchesContainer.setVisibility(View.VISIBLE);
-
-		searchParams.ensureValidCheckInDate();
 
 		String location = searchParams.getFreeformLocation();
 		String thumbnailUrl = GoogleServices.getStaticMapUrl(300, 300, 12, MapType.ROADMAP, location);

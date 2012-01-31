@@ -1,1 +1,0 @@
-ALTER TABLE Searches ADD COLUMN Children TEXT;

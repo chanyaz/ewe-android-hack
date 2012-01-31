@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.model.Search;
 import com.mobiata.android.Log;
 import com.mobiata.android.services.GoogleServices;
@@ -61,8 +60,8 @@ public class AutocompleteProvider extends ContentProvider {
 			cursor.addRow(row);
 
 			// Then suggest history
-			for (SearchParams searchParams : Search.getRecentSearches(getContext(), 5)) {
-				final String freeformLocation = searchParams.getFreeformLocation();
+			for (Search search : Search.getRecentSearches(getContext(), 5)) {
+				final String freeformLocation = search.getFreeformLocation();
 				final Object[] historyRow = { id, freeformLocation, freeformLocation, R.drawable.autocomplete_pin };
 				cursor.addRow(historyRow);
 			}
