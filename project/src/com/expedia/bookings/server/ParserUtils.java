@@ -87,6 +87,7 @@ public class ParserUtils {
 				JSONObject error = arr.getJSONObject(a);
 				ServerError serverError = new ServerError();
 				serverError.setCode(error.getString("errorCode"));
+				serverError.setDiagnosticFullText(error.optString("diagnosticFullText"));
 
 				JSONObject info = error.getJSONObject("errorInfo");
 				serverError.addExtra("field", info.optString("field", null));

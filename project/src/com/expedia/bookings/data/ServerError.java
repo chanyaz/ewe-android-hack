@@ -12,6 +12,8 @@ public class ServerError {
 	private String mCode;
 	private String mMessage;
 
+	private String mDiagnosticFullText;
+
 	// Expedia-specific items
 	private String mVerboseMessage;
 	private String mPresentationMessage;
@@ -29,6 +31,14 @@ public class ServerError {
 	public void setCode(String code) {
 		this.mCode = code;
 		this.mErrorCode = ErrorCode.valueOf(code);
+	}
+
+	public String getDiagnosticFullText() {
+		return mDiagnosticFullText;
+	}
+
+	public void setDiagnosticFullText(String diagnosticFullText) {
+		mDiagnosticFullText = diagnosticFullText;
 	}
 
 	public String getMessage() {
@@ -128,6 +138,12 @@ public class ServerError {
 		}
 		else if (ERRORS.containsKey(message)) {
 			message = context.getString(ERRORS.get(message));
+		}
+
+		if (mDiagnosticFullText != null) {
+			if (mDiagnosticFullText.contains("Phone number!")) {
+				message = "Please enter a valid phone number";
+			}
 		}
 
 		// Handle special cases
