@@ -311,7 +311,7 @@ public class HotelActivity extends AsyncLoadActivity {
 
 		TextView titleTextView = (TextView) detailsSection.findViewById(R.id.title_description_text_view);
 		if (title != null && title != "") {
-			titleTextView.setText(Html.fromHtml(title.trim()));
+			titleTextView.setText(Html.fromHtml(title));
 
 			// add the hotel rating to the hotel features section
 			if (title.contains("Features")) {
@@ -324,7 +324,7 @@ public class HotelActivity extends AsyncLoadActivity {
 		}
 
 		TextView bodyTextView = (TextView) detailsSection.findViewById(R.id.body_description_text_view);
-		bodyTextView.setText(Html.fromHtml(body.trim()));
+		bodyTextView.setText(Html.fromHtml(body));
 
 		detailsContainer.addView(detailsSection);
 
