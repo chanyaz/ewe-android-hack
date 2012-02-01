@@ -13,6 +13,8 @@ import com.expedia.bookings.R;
 
 
 public class ChildAgeSpinnerAdapter extends BaseAdapter {
+	private static final int MINIMUM_CHILD_AGE = 0;
+	private static final int MAXIMUM_CHILD_AGE = 17;
 
 	private LayoutInflater mInflater;
 	private Resources mResources;
@@ -42,7 +44,7 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 
 		TextView text = (TextView) view;
 
-		int age = position + 1;
+		int age = position + MINIMUM_CHILD_AGE;
 		String str = mResources.getQuantityString(R.plurals.child_age, age, age);
 		text.setText(Html.fromHtml(str));
 
@@ -59,17 +61,17 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return 12;
+		return MAXIMUM_CHILD_AGE - MINIMUM_CHILD_AGE + 1;
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return new Integer(position + 1);
+		return new Integer(position + MINIMUM_CHILD_AGE);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		return position + 1;
+		return position + MINIMUM_CHILD_AGE;
 	}
 }
 
