@@ -478,7 +478,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 				descriptionTitle.setText(section.title);
 
 				TextView descriptionBody = (TextView) descriptionSection.findViewById(R.id.body_description_text_view);
-				descriptionBody.setText(section.description);
+				descriptionBody.setText(Html.fromHtml(section.description));
 
 				columns.get(i % columns.size()).addView(descriptionSection);
 
