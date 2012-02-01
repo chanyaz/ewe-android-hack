@@ -60,6 +60,8 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 			}
 		});
 
+		addHiringPitch(appSection);
+
 		// Section about some of our other apps
 		ViewGroup otherAppsSection = addSection(getString(R.string.travel_smart));
 		addAppAbout(otherAppsSection, APP_FLIGHTTRACK, 0, new OnClickListener() {

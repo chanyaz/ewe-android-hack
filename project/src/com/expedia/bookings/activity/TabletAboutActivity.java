@@ -67,6 +67,8 @@ public class TabletAboutActivity extends HoneycombAboutActivity {
 					}
 				});
 
+		addHiringPitch(standardSection);
+
 		// Add rules & restrictions
 		final LinkedHashMap<String, String> map = RulesRestrictionsUtils.getInfoData(this);
 		for (final String label : map.keySet()) {
