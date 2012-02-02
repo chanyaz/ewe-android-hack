@@ -5,7 +5,17 @@
     android:background="@drawable/bg_summarized_room_rates"
     android:orientation="vertical" >
 
+    <!--
+    	Single line views
+    
+    	The availability header is actually two sets of headers - one for single-line views,
+    	the second for dual-line (if there's too much text).  I tried to make it dynamic, but
+    	there are some weird rendering bugs that one runs into when doing that.  So instead the
+    	Views are duplicated here and below, and copy each other.
+    -->
+
     <RelativeLayout
+        android:id="@+id/availability_header"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:gravity="center"
@@ -49,8 +59,60 @@
             style="@style/DropShadowText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/from_text_view"
+            android:layout_alignBaseline="@+id/sale_rate_text_view"
             android:layout_toRightOf="@+id/sale_rate_text_view"
+            android:textColor="@android:color/black" />
+    </RelativeLayout>
+
+    <!-- Dual-line views -->
+
+    <RelativeLayout
+        android:id="@+id/availability_header_two_line"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:gravity="center"
+        android:paddingBottom="3dp"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/from_text_view_two_line"
+            style="@style/DropShadowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="@string/from"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/base_rate_text_view_two_line"
+            style="@style/DropShadowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/from_text_view_two_line"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/from_text_view_two_line"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/sale_rate_text_view_two_line"
+            style="@style/DropShadowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/from_text_view_two_line"
+            android:textColor="@color/hotel_price_text_color"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/rate_qualifier_text_view_two_line"
+            style="@style/DropShadowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/sale_rate_text_view_two_line"
+            android:layout_toRightOf="@+id/sale_rate_text_view_two_line"
             android:textColor="@android:color/black" />
     </RelativeLayout>
 

@@ -8,6 +8,8 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLayoutChangeListener;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,7 +23,7 @@ import com.expedia.bookings.data.Rate.BedTypeId;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 
-public class AvailabilitySummaryWidget {
+public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 
 	// Controlled by max_summarized_rate_rows (via config.xml)
 	private int mMaxRateRows;
@@ -32,10 +34,16 @@ public class AvailabilitySummaryWidget {
 	private Context mContext;
 
 	// Cached views.  These may or may not be present, based on the layout being used.
+	private ViewGroup mHeaderViewGroup;
+	private ViewGroup mHeaderViewGroupTwoLine;
 	private TextView mFromTextView;
 	private TextView mBaseRateTextView;
 	private TextView mSaleRateTextView;
 	private TextView mRateQualifierTextView;
+	private TextView mFromTextViewTwoLine;
+	private TextView mBaseRateTextViewTwoLine;
+	private TextView mSaleRateTextViewTwoLine;
+	private TextView mRateQualifierTextViewTwoLine;
 	private TextView mErrorTextView;
 	private ProgressBar mProgressBar;
 	private LinearLayout mRatesContainer;
@@ -51,10 +59,17 @@ public class AvailabilitySummaryWidget {
 	}
 
 	public void init(View rootView) {
+		mHeaderViewGroup = (ViewGroup) rootView.findViewById(R.id.availability_header);
 		mFromTextView = (TextView) rootView.findViewById(R.id.from_text_view);
 		mBaseRateTextView = (TextView) rootView.findViewById(R.id.base_rate_text_view);
 		mSaleRateTextView = (TextView) rootView.findViewById(R.id.sale_rate_text_view);
 		mRateQualifierTextView = (TextView) rootView.findViewById(R.id.rate_qualifier_text_view);
+
+		mHeaderViewGroupTwoLine = (ViewGroup) rootView.findViewById(R.id.availability_header_two_line);
+		mFromTextViewTwoLine = (TextView) rootView.findViewById(R.id.from_text_view_two_line);
+		mBaseRateTextViewTwoLine = (TextView) rootView.findViewById(R.id.base_rate_text_view_two_line);
+		mSaleRateTextViewTwoLine = (TextView) rootView.findViewById(R.id.sale_rate_text_view_two_line);
+		mRateQualifierTextViewTwoLine = (TextView) rootView.findViewById(R.id.rate_qualifier_text_view_two_line);
 
 		mErrorTextView = (TextView) rootView.findViewById(R.id.error_text_view);
 
@@ -84,38 +99,65 @@ public class AvailabilitySummaryWidget {
 				}
 			});
 		}
+
+		if (mHeaderViewGroup != null) {
+			mHeaderViewGroup.addOnLayoutChangeListener(this);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data updates
 
 	public void updateProperty(Property property) {
-		Rate lowestRate = property.getLowestRate();
-
-		// We use the "show from" value to conditionally determine whether to show "From" - it's a suggestion here.
-		if (mFromTextView != null && !mShowFrom) {
-			mFromTextView.setVisibility(lowestRate.isOnSale() ? View.GONE : View.VISIBLE);
+		if (mNeedsTwoLines && property.getLowestRate().isOnSale()) {
+			configureTwoLine();
+		}
+		else {
+			configureSingleLine();
 		}
 
-		if (mBaseRateTextView != null) {
+		Rate lowestRate = property.getLowestRate();
+
+		configureFromTextView(lowestRate, mFromTextView);
+		configureFromTextView(lowestRate, mFromTextViewTwoLine);
+
+		configureBaseRateTextView(lowestRate, mBaseRateTextView);
+		configureBaseRateTextView(lowestRate, mBaseRateTextViewTwoLine);
+
+		configureSaleRateTextView(lowestRate, mSaleRateTextView);
+		configureSaleRateTextView(lowestRate, mSaleRateTextViewTwoLine);
+
+		setRateQualifierTextView(lowestRate, mRateQualifierTextView);
+		setRateQualifierTextView(lowestRate, mRateQualifierTextViewTwoLine);
+	}
+
+	private void configureFromTextView(Rate lowestRate, TextView fromTextView) {
+		// We use the "show from" value to conditionally determine whether to show "From" - it's a suggestion here.
+		if (fromTextView != null && !mShowFrom) {
+			fromTextView.setVisibility(lowestRate.isOnSale() ? View.GONE : View.VISIBLE);
+		}
+	}
+
+	private void configureBaseRateTextView(Rate lowestRate, TextView baseRateTextView) {
+		if (baseRateTextView != null) {
 			if (lowestRate.isOnSale()) {
-				mBaseRateTextView.setVisibility(View.VISIBLE);
-				mBaseRateTextView.setText(Html.fromHtml(
+				baseRateTextView.setVisibility(View.VISIBLE);
+				baseRateTextView.setText(Html.fromHtml(
 						mContext.getString(R.string.strike_template,
 								StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
 						new StrikethroughTagHandler()));
 			}
 			else {
-				mBaseRateTextView.setVisibility(View.GONE);
+				baseRateTextView.setVisibility(View.GONE);
 			}
 		}
+	}
 
-		if (mSaleRateTextView != null) {
+	private void configureSaleRateTextView(Rate lowestRate, TextView saleRateTextView) {
+		if (saleRateTextView != null) {
 			String displayRate = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
-			mSaleRateTextView.setText(displayRate);
+			saleRateTextView.setText(displayRate);
 		}
-
-		setRateQualifierTextView(lowestRate, mRateQualifierTextView);
 	}
 
 	public void showProgressBar() {
@@ -284,6 +326,45 @@ public class AvailabilitySummaryWidget {
 			else {
 				textView.setVisibility(View.GONE);
 			}
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnLayoutChangeListener
+
+	private boolean mNeedsTwoLines;
+
+	@Override
+	public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight,
+			int oldBottom) {
+		boolean fits = true;
+		int len = mHeaderViewGroup.getChildCount();
+		for (int a = 0; a < len; a++) {
+			TextView child = (TextView) mHeaderViewGroup.getChildAt(a);
+			if (child.getVisibility() != View.GONE && (child.getWidth() == 0 || child.getLineCount() > 1)) {
+				fits = false;
+				break;
+			}
+		}
+
+		if (!fits) {
+			mNeedsTwoLines = true;
+
+			configureTwoLine();
+		}
+	}
+
+	private void configureSingleLine() {
+		if (mHeaderViewGroup != null && mHeaderViewGroupTwoLine != null) {
+			mHeaderViewGroup.setVisibility(View.VISIBLE);
+			mHeaderViewGroupTwoLine.setVisibility(View.GONE);
+		}
+	}
+
+	private void configureTwoLine() {
+		if (mHeaderViewGroup != null && mHeaderViewGroupTwoLine != null) {
+			mHeaderViewGroup.setVisibility(View.GONE);
+			mHeaderViewGroupTwoLine.setVisibility(View.VISIBLE);
 		}
 	}
 }
