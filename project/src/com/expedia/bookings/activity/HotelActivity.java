@@ -64,6 +64,8 @@ public class HotelActivity extends AsyncLoadActivity {
 
 	private static final int MAX_IMAGES_LOADED = 10;
 
+	private static final int BODY_LENGTH_CUTOFF = 300;
+
 	private Context mContext;
 	private ExpediaBookingApp mApp;
 
@@ -305,26 +307,44 @@ public class HotelActivity extends AsyncLoadActivity {
 		}
 	}
 
-	private View addSection(String title, String body, ViewGroup detailsContainer) {
+	private View addSection(String title, final String body, ViewGroup detailsContainer) {
 		RelativeLayout detailsSection = (RelativeLayout) getLayoutInflater().inflate(
 				R.layout.snippet_hotel_description_section, null);
 
 		TextView titleTextView = (TextView) detailsSection.findViewById(R.id.title_description_text_view);
-		if (title != null && title != "") {
+
+		if (title != null && title.length() > 0) {
 			titleTextView.setText(Html.fromHtml(title));
-
-			// add the hotel rating to the hotel features section
-			if (title.contains("Features")) {
-				addHotelRating(detailsSection);
-			}
-
 		}
-		else {
+		else if (title.length() > 0) {
+			title = "";
 			titleTextView.setVisibility(View.GONE);
 		}
 
 		TextView bodyTextView = (TextView) detailsSection.findViewById(R.id.body_description_text_view);
-		bodyTextView.setText(Html.fromHtml(body));
+
+		if (title.contains("Features")) {
+			addHotelRating(detailsSection);
+		}
+		else if (title.contains("Amenities")) {
+			if (body.length() > BODY_LENGTH_CUTOFF) {
+				bodyTextView.setText(Html.fromHtml(body.substring(0, BODY_LENGTH_CUTOFF)) + "...");
+
+				TextView expanderTextView = (TextView) detailsSection.findViewById(R.id.read_more_description_text_view);
+				expanderTextView.setVisibility(View.VISIBLE);
+				expanderTextView.setOnClickListener(new OnClickListener (){
+					public void onClick (View v) {
+						v.setVisibility(View.GONE);
+						RelativeLayout p = (RelativeLayout) v.getParent();
+						TextView bodyTextView = (TextView) p.findViewById(R.id.body_description_text_view);
+						bodyTextView.setText(Html.fromHtml(body));
+					}
+				});
+			}
+		}
+		else {
+			bodyTextView.setText(Html.fromHtml(body));
+		}
 
 		detailsContainer.addView(detailsSection);
 
