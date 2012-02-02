@@ -70,15 +70,12 @@
                 android:id="@+id/user_review_read_more_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawableRight="@drawable/btn_user_review_read_more_triangle"
+                android:drawablePadding="6dp"
                 android:text="@string/user_review_read_more"
                 android:textColor="@color/user_review_read_more"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:src="@drawable/btn_user_review_read_more_triangle" />
         </LinearLayout>
 
         <TextView
