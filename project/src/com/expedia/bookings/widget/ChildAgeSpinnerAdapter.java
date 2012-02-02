@@ -10,12 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.GuestsPickerUtils;
 
 
 public class ChildAgeSpinnerAdapter extends BaseAdapter {
-	private static final int MINIMUM_CHILD_AGE = 0;
-	private static final int MAXIMUM_CHILD_AGE = 17;
-
 	private LayoutInflater mInflater;
 	private Resources mResources;
 
@@ -44,7 +42,7 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 
 		TextView text = (TextView) view;
 
-		int age = position + MINIMUM_CHILD_AGE;
+		int age = position + GuestsPickerUtils.MIN_CHILD_AGE;
 		String str = mResources.getQuantityString(R.plurals.child_age, age, age);
 		text.setText(Html.fromHtml(str));
 
@@ -61,17 +59,17 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return MAXIMUM_CHILD_AGE - MINIMUM_CHILD_AGE + 1;
+		return GuestsPickerUtils.MAX_CHILD_AGE - GuestsPickerUtils.MIN_CHILD_AGE + 1;
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return new Integer(position + MINIMUM_CHILD_AGE);
+		return new Integer(position + GuestsPickerUtils.MIN_CHILD_AGE);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		return position + MINIMUM_CHILD_AGE;
+		return position + GuestsPickerUtils.MIN_CHILD_AGE;
 	}
 }
 

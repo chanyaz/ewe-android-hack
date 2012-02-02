@@ -2422,6 +2422,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 					label.setText(getString(R.string.child_x, i + 1));
 
 					Spinner spinner = (Spinner) row.findViewById(R.id.child_x_age_spinner);
+					spinner.setPrompt(getString(R.string.prompt_select_child_age, GuestsPickerUtils.MIN_CHILD_AGE,
+							GuestsPickerUtils.MAX_CHILD_AGE));
 					spinner.setAdapter(new ChildAgeSpinnerAdapter(this));
 					spinner.setSelection(children.get(i) - 1);
 					spinner.setOnItemSelectedListener(mChildAgeSelectedListener);

@@ -24,7 +24,7 @@
 	<!--  Label for child age selection prompt -->
 	<string name="prompt_please_specify_childrens_ages">Please specify children\'s ages.</string>
 	<!--  Title of "select child age" spinner dialog box -->
-	<string name="prompt_select_child_age">Select Child Age (0 - 17)</string>
+	<string name="prompt_select_child_age">Select Child Age (%1$s - %2$s)</string>
 	<!--  Label for child's age on search refinements -->
 	<string name="child_x">Child %1$s</string>
 	<!--  Text for child's age on search refinements and in spinner -->
