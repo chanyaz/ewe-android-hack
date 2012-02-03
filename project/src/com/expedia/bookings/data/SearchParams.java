@@ -1,5 +1,6 @@
 package com.expedia.bookings.data;
 
+import java.lang.StringBuilder;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -423,6 +424,30 @@ public class SearchParams implements JSONable {
 		catch (JSONException e) {
 			return obj.toString();
 		}
+	}
+
+	public String toExpediaUrl() {
+		StringBuilder str = new StringBuilder(128);
+		// chkin
+		str.append("?chkin=");
+		str.append(mCheckInDate.get((Calendar.MONTH) + 1)
+			+ "/" + mCheckInDate.get(Calendar.DAY_OF_MONTH)
+			+ "/" + mCheckInDate.get(Calendar.YEAR));
+		// chkout
+		str.append("&chkout=");
+		str.append(mCheckOutDate.get((Calendar.MONTH) + 1)
+			+ "/" + mCheckOutDate.get(Calendar.DAY_OF_MONTH)
+			+ "/" + mCheckOutDate.get(Calendar.YEAR));
+		// rooms and occupant info
+		str.append("&rm1=a");
+		str.append(mNumAdults);
+
+		for (int age : mChildren) {
+			str.append(":c");
+			str.append(age);
+		}
+
+		return str.toString();
 	}
 
 	// **WARNING: USE FOR TESTING PURPOSES ONLY**

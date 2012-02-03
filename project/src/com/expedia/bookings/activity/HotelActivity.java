@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -429,6 +430,7 @@ public class HotelActivity extends AsyncLoadActivity {
 		if (response == null) {
 			// Use short description (if available)
 			description = mProperty.getDescriptionText();
+			setupExpediaUrl(mProperty, mSearchParams);
 		}
 		else if (response.hasErrors()) {
 			// TODO: At a later junction, remove the error display and
@@ -443,11 +445,24 @@ public class HotelActivity extends AsyncLoadActivity {
 
 			setupGallery(property);
 			setupAmenities(property);
+			setupExpediaUrl(property, mSearchParams);
 		}
 
 		if (description != null && description.length() > 0) {
 			layoutDescription(mDescriptionContainer, description);
 		}
+	}
+
+	private void setupExpediaUrl(final Property property, final SearchParams params) {
+		TextView button = (TextView) findViewById(R.id.view_on_expedia_button);
+		button.setVisibility(View.VISIBLE);
+		button.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Uri hotelUrl = Uri.parse(property.toExpediaUrl() + params.toExpediaUrl());
+				Intent launchExpedia = new Intent(Intent.ACTION_VIEW, hotelUrl);
+				startActivity(launchExpedia);
+			}
+		});
 	}
 
 	private void setupGallery(Property property) {

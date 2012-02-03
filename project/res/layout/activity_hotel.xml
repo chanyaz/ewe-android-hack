@@ -99,9 +99,19 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
 						android:indeterminate="true"
 						style="@android:style/Widget.ProgressBar.Large.Inverse" />
 				</LinearLayout>
+                <Button
+                    android:id="@+id/view_on_expedia_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="@string/view_this_hotel_on_expedia"
+                    android:textColor="@color/hotel_details_text_color"
+                    android:textSize="@dimen/hotel_description_body_text_size"
+                    android:visibility="gone" />
 			</LinearLayout>
 
 			<ImageView
