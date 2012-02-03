@@ -18,10 +18,10 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="56dp"
+        android:layout_height="57dp"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:paddingBottom="6dp" >
+        android:paddingBottom="5dp" >
 
         <TextView
             android:id="@+id/where_text_view"
@@ -52,8 +52,8 @@
         android:layout_height="0dp"
         android:layout_weight="@integer/search_params_input_weight"
         android:orientation="horizontal"
-        android:paddingBottom="32dp"
-        android:paddingTop="4dp" >
+        android:paddingBottom="15dp"
+        android:paddingTop="3dp" >
 
         <!-- Search location fields -->
 
@@ -70,8 +70,8 @@
         <include
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
             android:layout_weight="1"
             layout="@layout/include_calendar" />
 
@@ -82,8 +82,8 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_marginBottom="3dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="50dp"
             android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
@@ -93,14 +93,28 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:layout_marginBottom="0px"
+                android:layout_marginTop="-5dp"
                 layout="@layout/include_guests" />
+
+            <Button
+                android:id="@+id/child_ages_button"
+                style="@style/Widget.Button.ChildAges"
+                android:layout_width="fill_parent"
+                android:layout_height="58dp"
+                android:layout_marginBottom="-5dp"
+                android:text="@string/button_enter_childrens_ages"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                />
 
             <Button
                 android:id="@+id/search_button"
                 style="@style/Widget.Button.Yellow.Search"
                 android:layout_width="fill_parent"
-                android:layout_height="96dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="90dp"
+                android:layout_marginTop="-5dp"
+                android:layout_marginBottom="-10dp"
                 android:text="@string/search_for_hotels"
                 android:textSize="24sp"
                 android:textStyle="bold" />

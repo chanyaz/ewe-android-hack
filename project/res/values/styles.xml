@@ -169,6 +169,13 @@
 		<item name="android:shadowDy">1</item>
 	</style>
 
+	<style name="Widget.Button.ChildAges" parent="@android:style/Widget.Button">
+		<item name="android:background">@drawable/btn_child_ages</item>
+		<item name="android:textColor">#FF000000</item>
+		<item name="android:layout_marginLeft">5dp</item>
+		<item name="android:layout_marginRight">5dp</item>
+	</style>
+
 	<style name="ConfirmationButtonText">
 		<item name="android:textColor">#232323</item>
 		<item name="android:shadowColor">#a5ffffff</item>
