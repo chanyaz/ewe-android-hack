@@ -293,12 +293,18 @@ public class HotelActivity extends AsyncLoadActivity {
 		// Try to add the address as the third section
 		int addressSection = 2;
 
-		for (DescriptionSection section : mDescription.getSections()) {
-			addSection(section.title, section.description, descriptionContainer);
-			// Check if we should add address here or not
-			addressSection--;
-			if (addressSection == 0) {
-				addAddressSection(descriptionContainer);
+		if (mDescription.getSections().size() == 0) {
+			// Just display the description we were given
+			addSection("", description, descriptionContainer);
+		}
+		else {
+			for (DescriptionSection section : mDescription.getSections()) {
+				addSection(section.title, section.description, descriptionContainer);
+				// Check if we should add address here or not
+				addressSection--;
+				if (addressSection == 0) {
+					addAddressSection(descriptionContainer);
+				}
 			}
 		}
 
