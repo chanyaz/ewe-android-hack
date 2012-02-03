@@ -3,7 +3,7 @@
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/bg_search_vertical"
+    android:background="@drawable/bg_search_portrait"
     android:orientation="vertical" >
 
     <!-- This is a dummy View to keep the EditText from first grabbing focus -->
