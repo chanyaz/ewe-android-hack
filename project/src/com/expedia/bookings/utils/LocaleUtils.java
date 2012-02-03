@@ -47,7 +47,7 @@ public class LocaleUtils {
 		Locale locale = Locale.getDefault();
 		String country = locale.getCountry();
 		int resId = POINT_OF_SALE_RES_ID.containsKey(country) ? POINT_OF_SALE_RES_ID.get(country)
-				: R.string.point_of_sale_us;
+				: R.string.point_of_sale_gb;
 		return context.getString(resId);
 	}
 
