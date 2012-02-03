@@ -681,6 +681,8 @@
 	<string name="ean_error_no_results">Sorry, we could not find any available hotels at this time. Please try different dates or another location.</string>
 	<!-- Replaces "result was null" for no result search -->
 	<string name="ean_error_connect_unavailable">Unable to connect to the selected hotel to find available rooms.</string>
+	<!-- Error message displayed when the phone number sent via booking is invalid -->
+	<string name="ean_error_invalid_phone_number">Please enter a valid phone number</string>
 
 	<!-- Currency names -->
 	<string name="currency_aud">Australian Dollar</string>

@@ -142,7 +142,7 @@ public class ServerError {
 
 		if (mDiagnosticFullText != null) {
 			if (mDiagnosticFullText.contains("Phone number!")) {
-				message = "Please enter a valid phone number";
+				message = context.getString(R.string.ean_error_invalid_phone_number);
 			}
 		}
 
