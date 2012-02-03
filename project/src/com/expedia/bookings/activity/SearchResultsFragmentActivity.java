@@ -1,6 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -635,7 +634,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		FragmentManager fm = getFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_guests_dialog)) == null) {
 			DialogFragment newFragment = GuestsDialogFragment.newInstance(mInstance.mSearchParams.getNumAdults(),
-					mInstance.mSearchParams.getNumChildren());
+					mInstance.mSearchParams.getChildren());
 			newFragment.show(fm, getString(R.string.tag_guests_dialog));
 		}
 	}
@@ -697,16 +696,10 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		mEventManager.notifyEventHandlers(EVENT_SEARCH_PARAMS_CHANGED, null);
 	}
 
-	public void setGuests(int numAdults, int numChildren) {
-		Log.d("Setting guests: " + numAdults + " adult(s), " + numChildren + " child(ren)");
+	public void setGuests(int numAdults, List<Integer> children) {
+		Log.d("Setting guests: " + numAdults + " adult(s), " + children.size() + " child(ren)");
 
 		mInstance.mSearchParams.setNumAdults(numAdults);
-
-		//TODO: add actual ages
-		ArrayList<Integer> children = new ArrayList<Integer>(numChildren);
-		for (int i = 0; i < numChildren; i++) {
-			children.add(12);
-		}
 		mInstance.mSearchParams.setChildren(children);
 
 		invalidateOptionsMenu();

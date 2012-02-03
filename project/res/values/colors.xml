@@ -13,6 +13,10 @@
 
 	<!-- The color for text hints on input -->
 	<color name="hint_color">#808080</color>
+	
+	<!-- Divider on tablet dialog box (not public accessible)
+	https://github.com/android/platform_frameworks_base/blob/master/core/res/res/drawable-hdpi/divider_strong_holo.9.png -->
+	<color name="divider_strong_holo">#72a3ff</color>
 
 	<color name="suggestion_row_divider">#FFE5E5E5</color>
 
