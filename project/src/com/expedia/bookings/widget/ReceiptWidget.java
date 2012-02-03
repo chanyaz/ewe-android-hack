@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.util.SettingUtils;
@@ -208,7 +209,7 @@ public class ReceiptWidget {
 
 	// Mandatory fees should only be displayed in IT and DE
 	private boolean shouldDisplayMandatoryFees() {
-		String pos = SettingUtils.get(mContext, mContext.getString(R.string.PointOfSaleKey), null);
+		String pos = LocaleUtils.getPointOfSale(mContext);
 		if (pos == null) {
 			return false;
 		}

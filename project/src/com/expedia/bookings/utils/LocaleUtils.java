@@ -7,6 +7,7 @@ import java.util.Map;
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.util.SettingUtils;
 
 public class LocaleUtils {
 
@@ -14,7 +15,7 @@ public class LocaleUtils {
 	private static final Map<String, Integer> POINT_OF_SALE_RES_ID = new HashMap<String, Integer>() {
 		{
 			put("US", R.string.point_of_sale_us);
-			put("UK", R.string.point_of_sale_uk);
+			put("UK", R.string.point_of_sale_gb);
 			put("AU", R.string.point_of_sale_au);
 			put("FR", R.string.point_of_sale_fr);
 			put("DE", R.string.point_of_sale_de);
@@ -48,5 +49,9 @@ public class LocaleUtils {
 		int resId = POINT_OF_SALE_RES_ID.containsKey(country) ? POINT_OF_SALE_RES_ID.get(country)
 				: R.string.point_of_sale_us;
 		return context.getString(resId);
+	}
+
+	public static String getPointOfSale(Context context) {
+		return SettingUtils.get(context, context.getString(R.string.PointOfSaleKey), getDefaultPointOfSale(context));
 	}
 }

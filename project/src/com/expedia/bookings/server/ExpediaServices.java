@@ -286,8 +286,7 @@ public class ExpediaServices implements DownloadListener {
 
 		builder.append("www.");
 
-		String pointOfSale = SettingUtils.get(mContext, mContext.getString(R.string.PointOfSaleKey),
-				LocaleUtils.getDefaultPointOfSale(mContext));
+		String pointOfSale = LocaleUtils.getPointOfSale(mContext);
 		builder.append(pointOfSale);
 
 		if (useTestServer(mContext)) {

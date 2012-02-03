@@ -1,7 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.LinkedHashMap;
-
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -70,14 +68,16 @@ public class TabletAboutActivity extends HoneycombAboutActivity {
 		addHiringPitch(standardSection);
 
 		// Add rules & restrictions
-		final LinkedHashMap<String, String> map = RulesRestrictionsUtils.getInfoData(this);
-		for (final String label : map.keySet()) {
-			addSimpleRow(standardSection, label, new OnClickListener() {
-				public void onClick(View v) {
-					SocialUtils.openSite(mContext, map.get(label));
-				}
-			});
-		}
+		addSimpleRow(standardSection, getString(R.string.info_label_terms_conditions), new OnClickListener() {
+			public void onClick(View v) {
+				SocialUtils.openSite(mContext, RulesRestrictionsUtils.getTermsAndConditionsUrl(mContext));
+			}
+		});
+		addSimpleRow(standardSection, getString(R.string.info_label_privacy_policy), new OnClickListener() {
+			public void onClick(View v) {
+				SocialUtils.openSite(mContext, RulesRestrictionsUtils.getPrivacyPolicyUrl(mContext));
+			}
+		});
 
 		addMobiataLogo(standardSection);
 

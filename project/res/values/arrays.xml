@@ -48,7 +48,19 @@
         <item>@string/point_of_sale_sg</item>
         <item>@string/point_of_sale_th</item>
         <item>@string/point_of_sale_tw</item>
-        <item>@string/point_of_sale_uk</item>
+        <item>@string/point_of_sale_gb</item>
+        <item>@string/point_of_sale_vn</item>
+    </string-array>
+    
+    <!-- POSes that require a rules & restrictions checkbox -->
+    <string-array name="pos_requires_checkbox">
+        <item>@string/point_of_sale_fr</item>
+        <item>@string/point_of_sale_it</item>
+        <item>@string/point_of_sale_es</item>
+        <item>@string/point_of_sale_no</item>
+        <item>@string/point_of_sale_ca</item>
+        <item>@string/point_of_sale_mx</item>
+        <item>@string/point_of_sale_br</item>
         <item>@string/point_of_sale_vn</item>
     </string-array>
 

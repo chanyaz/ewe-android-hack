@@ -327,7 +327,7 @@ public class BookingFormFragment extends DialogFragment {
 		mCardNumberEditText.setCompoundDrawablePadding(Math.round(6 * getResources().getDisplayMetrics().density));
 
 		// Only display the checkbox if we're in a locale that requires its display
-		if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox()) {
+		if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox(getActivity())) {
 			mRulesRestrictionsCheckbox.setVisibility(View.VISIBLE);
 			mRulesRestrictionsCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -493,7 +493,7 @@ public class BookingFormFragment extends DialogFragment {
 		}));
 		mValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
 			public int validate(CheckBox obj) {
-				if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
+				if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox(getActivity()) && !obj.isChecked()) {
 					return BookingInfoValidation.ERROR_NO_TERMS_CONDITIONS_AGREEMEMT;
 				}
 				return 0;

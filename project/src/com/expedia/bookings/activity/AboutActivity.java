@@ -1,7 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.LinkedHashMap;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -76,14 +74,16 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		});
 
 		ViewGroup rulesRestrictionsSection = addSection();
-		final LinkedHashMap<String, String> map = RulesRestrictionsUtils.getInfoData(this);
-		for (final String label : map.keySet()) {
-			addSimpleRow(rulesRestrictionsSection, label, new OnClickListener() {
-				public void onClick(View v) {
-					SocialUtils.openSite(mContext, map.get(label));
-				}
-			});
-		}
+		addSimpleRow(rulesRestrictionsSection, getString(R.string.info_label_terms_conditions), new OnClickListener() {
+			public void onClick(View v) {
+				SocialUtils.openSite(mContext, RulesRestrictionsUtils.getTermsAndConditionsUrl(mContext));
+			}
+		});
+		addSimpleRow(rulesRestrictionsSection, getString(R.string.info_label_privacy_policy), new OnClickListener() {
+			public void onClick(View v) {
+				SocialUtils.openSite(mContext, RulesRestrictionsUtils.getPrivacyPolicyUrl(mContext));
+			}
+		});
 
 		// Tracking
 		if (savedInstanceState == null) {
