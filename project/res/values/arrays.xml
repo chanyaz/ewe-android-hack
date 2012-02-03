@@ -64,6 +64,27 @@
         <item>@string/point_of_sale_vn</item>
     </string-array>
 
+    <!-- POSes that require inclusive pricing (i.e., total price instead of per/night price) -->
+    <string-array name="pos_inclusive_pricing">
+        <item>@string/point_of_sale_at</item>
+        <item>@string/point_of_sale_au</item>
+        <item>@string/point_of_sale_be</item>
+        <item>@string/point_of_sale_de</item>
+        <item>@string/point_of_sale_dk</item>
+        <item>@string/point_of_sale_es</item>
+        <item>@string/point_of_sale_fr</item>
+        <item>@string/point_of_sale_gb</item>
+        <item>@string/point_of_sale_ie</item>
+        <item>@string/point_of_sale_it</item>
+        <item>@string/point_of_sale_kr</item>
+        <item>@string/point_of_sale_nl</item>
+        <item>@string/point_of_sale_no</item>
+        <item>@string/point_of_sale_nz</item>
+        <item>@string/point_of_sale_se</item>
+        <item>@string/point_of_sale_th</item>
+        <item>@string/point_of_sale_vn</item>
+    </string-array>
+
 	<string-array name="country_names">
 		<item>@string/country_af</item>
 		<item>@string/country_al</item>

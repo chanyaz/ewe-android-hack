@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LocaleUtils;
@@ -41,6 +42,9 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 			ExceptionHandler.register(this, "http://www.mobiata.com/appsupport/ftandroid/trace.php");
 		}
 
+		// Initialize some parts of the code that require a Context
+		Rate.initInclusivePrices(this);
+
 		// Fill POS based on locale if it's not already filled.
 		// Do it here so it becomes a sticky preference, i.e. it won't
 		// change magically if the user changes his locale. Chances are, he wants
@@ -50,6 +54,7 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 			SettingUtils.save(this, posKey, LocaleUtils.getDefaultPointOfSale(this));
 		}
 
+		LocaleUtils.onPointOfSaleChanged(this);
 	}
 
 	@Override

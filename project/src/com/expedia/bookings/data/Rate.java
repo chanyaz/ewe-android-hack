@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ParserUtils;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -442,22 +444,22 @@ public class Rate implements JSONable {
 	//////////////////////////////////////////////////////////////////////////
 	// Inclusive rates
 
-	// For all European countries, we need to display the price as the
-	// base/average rate PLUS the surcharges.  So for all displaying of rates,
-	// use the methods below.
+	// An array of POSes that use inclusive pricing (aka, showing the full
+	// stay's price instead per/night)
 
-	private static String[] BAIT_N_SWITCH_COUNTRY_CODES = new String[] { "EU", "AD", "AL", "AT", "BA", "BE", "BG",
-			"BY", "CH", "CZ", "DE", "DK", "EE", "ES", "FI", "FO", "FR", "FX", "GB", "GI", "GR", "HR", "HU", "IE", "IS",
-			"IT", "LI", "LT", "LU", "LV", "MC", "MD", "MK", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SJ", "SK",
-			"SM", "UA", "VA", "CS" };
+	private static String[] sInclusivePricingPointOfSales;
 
-	// Ensure BAIT_N_SWITCH_COUNTRY_CODES is sorted, for binary search
-	static {
-		Arrays.sort(BAIT_N_SWITCH_COUNTRY_CODES);
+	public static void initInclusivePrices(Context context) {
+		sInclusivePricingPointOfSales = context.getResources().getStringArray(R.array.pos_inclusive_pricing);
+		Arrays.sort(sInclusivePricingPointOfSales);
 	}
 
 	public static boolean showInclusivePrices() {
-		return Arrays.binarySearch(BAIT_N_SWITCH_COUNTRY_CODES, Locale.getDefault().getCountry()) >= 0;
+		if (sInclusivePricingPointOfSales == null) {
+			throw new RuntimeException("Need to call initInclusivePrices() on app start");
+		}
+
+		return Arrays.binarySearch(sInclusivePricingPointOfSales, LocaleUtils.getPointOfSale()) >= 0;
 	}
 
 	public Money getInclusiveBaseRate() {

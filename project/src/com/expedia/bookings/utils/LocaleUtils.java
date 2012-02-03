@@ -51,7 +51,38 @@ public class LocaleUtils {
 		return context.getString(resId);
 	}
 
+	private static String sCachedPointOfSale;
+
+	/**
+	 * Gets the current POS.  By providing the context, you refresh the POS cache and guarantee that
+	 * you have the correct POS returend.
+	 */
 	public static String getPointOfSale(Context context) {
-		return SettingUtils.get(context, context.getString(R.string.PointOfSaleKey), getDefaultPointOfSale(context));
+		sCachedPointOfSale = SettingUtils.get(context, context.getString(R.string.PointOfSaleKey),
+				getDefaultPointOfSale(context));
+		return sCachedPointOfSale;
+	}
+
+	/**
+	 * This returns the last known point of sale.  It is available so you can get the POS without
+	 * having to pass around a Context.  Only works if you call onPointOfSaleChanged() whenever
+	 * the POS changes.
+	 */
+	public static String getPointOfSale() {
+		if (sCachedPointOfSale == null) {
+			throw new RuntimeException("getLastPointOfSale() called before POS filled in by system");
+		}
+		return sCachedPointOfSale;
+	}
+
+	/**
+	 * Call this liberally, whenever you think the POS may have changed.
+	 */
+	public static void onPointOfSaleChanged(Context context) {
+		getPointOfSale(context);
+	}
+
+	public static void onPointOfSaleChanged(String newValue) {
+		sCachedPointOfSale = newValue;
 	}
 }

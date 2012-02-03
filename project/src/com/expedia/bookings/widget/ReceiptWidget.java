@@ -27,7 +27,6 @@ import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
-import com.mobiata.android.util.SettingUtils;
 
 // Support class for receipt layouts
 // Works well with include_receipt.xml, but can also be used if you provide
