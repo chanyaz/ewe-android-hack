@@ -109,6 +109,8 @@ public class ExpediaServices implements DownloadListener {
 	public SearchResponse search(SearchParams params, int sortType) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		addPOSParams(query);
+
 		if (params.hasSearchLatLon()) {
 			query.add(new BasicNameValuePair("latitude", params.getSearchLatitude() + ""));
 			query.add(new BasicNameValuePair("longitude", params.getSearchLongitude() + ""));
@@ -137,6 +139,8 @@ public class ExpediaServices implements DownloadListener {
 	public AvailabilityResponse availability(SearchParams params, Property property, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		addPOSParams(query);
+
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 
 		addBasicParams(query, params);
@@ -151,6 +155,9 @@ public class ExpediaServices implements DownloadListener {
 
 	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addPOSParams(query);
+
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
 
@@ -183,6 +190,9 @@ public class ExpediaServices implements DownloadListener {
 
 	public SignInResponse signIn(String email, String password) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addPOSParams(query);
+
 		query.add(new BasicNameValuePair("email", email));
 		query.add(new BasicNameValuePair("password", password));
 
@@ -206,6 +216,13 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		query.add(new BasicNameValuePair("room1", guests.toString()));
+	}
+
+	private void addPOSParams(List<BasicNameValuePair> query) {
+		String langId = LocaleUtils.getDualLanguageId(mContext);
+		if (langId != null) {
+			query.add(new BasicNameValuePair("langid", langId));
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
