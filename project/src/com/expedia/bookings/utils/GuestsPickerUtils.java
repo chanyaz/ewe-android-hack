@@ -8,10 +8,14 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.widget.ChildAgeSpinnerAdapter;
 import com.mobiata.android.util.SettingUtils;
 
 public class GuestsPickerUtils {
@@ -91,6 +95,58 @@ public class GuestsPickerUtils {
 		childrenNumberPicker.setCurrent(numChildren);
 	}
 
+	public static void showOrHideChildAgeSpinners(Context context, List<Integer>children, View container, OnItemSelectedListener listener) {
+		if (container == null) {
+			return;
+		}
+
+		int numChildren = children == null ? 0 : children.size();
+
+		if (numChildren == 0) {
+			container.setVisibility(View.GONE);
+			return;
+		}
+
+		for (int i = 0; i < GuestsPickerUtils.getMaxPerType(); i++) {
+			View row = GuestsPickerUtils.getChildAgeLayout(container, i);
+			int visibility = i < numChildren ? View.VISIBLE : View.GONE;
+			row.setVisibility(visibility);
+
+			// This is needed for landscape view
+			if (row.getParent() instanceof ViewGroup) {
+				ViewGroup parent = ((ViewGroup) row.getParent());
+				if (parent.getChildAt(0) == row) {
+					parent.setVisibility(visibility);
+				}
+			}
+
+			if (i < numChildren && row.getTag() == null) {
+				// Use the row's Tag to determine if we've initialized this label/spinner yet.
+				row.setTag(i);
+				TextView label = (TextView) row.findViewById(R.id.child_x_text);
+				label.setText(context.getString(R.string.child_x, i + 1));
+
+				Spinner spinner = (Spinner) row.findViewById(R.id.child_x_age_spinner);
+				spinner.setPrompt(context.getString(R.string.prompt_select_child_age, GuestsPickerUtils.MIN_CHILD_AGE,
+						GuestsPickerUtils.MAX_CHILD_AGE));
+				spinner.setAdapter(new ChildAgeSpinnerAdapter(context));
+				spinner.setSelection(children.get(i) - MIN_CHILD_AGE);
+				spinner.setOnItemSelectedListener(listener);
+			}
+		}
+
+		container.setVisibility(View.VISIBLE);
+	}
+
+	public static void resizeChildrenList(Context context, List<Integer>children, int count) {
+		while (children.size() > count) {
+			children.remove(children.size() - 1);
+		}
+		while (children.size() < count) {
+			children.add(getDefaultChildAge(context, children.size()));
+		}
+	}
+	
 	public static void updateSearchParamsGuestCounts(Context context, SearchParams searchParams, int numAdults,
 			int numChildren) {
 		searchParams.setNumAdults(numAdults);
@@ -99,12 +155,7 @@ public class GuestsPickerUtils {
 			children = new ArrayList<Integer>(numChildren);
 			searchParams.setChildren(children);
 		}
-		while (children.size() > numChildren) {
-			children.remove(children.size() - 1);
-		}
-		while (children.size() < numChildren) {
-			children.add(getDefaultChildAge(context, children.size()));
-		}
+		resizeChildrenList(context, children, numChildren);
 	}
 
 	public static int getDefaultChildAge(Context context, int index) {
@@ -119,11 +170,10 @@ public class GuestsPickerUtils {
 		}
 		SettingUtils.commitOrApply(editor);
 	}
-
-	public static void setChildrenSearchParamFromSpinners(Context context, View parent, SearchParams searchParams) {
-		List<Integer> children = searchParams.getChildren();
-		for (int i = 0; i < searchParams.getNumChildren(); i++) {
-			View row = getChildAgeLayout(parent, i);
+	
+	public static void setChildrenFromSpinners(Context context, View container, List<Integer>children) {
+		for (int i = 0; i < children.size(); i++) {
+			View row = getChildAgeLayout(container, i);
 			if (row == null) {
 				continue;
 			}
@@ -136,7 +186,6 @@ public class GuestsPickerUtils {
 			Integer age = (Integer) ageSpinner.getSelectedItem();
 			children.set(i, age);
 		}
-		updateDefaultChildAges(context, children);
 	}
 
 	public static View getChildAgeLayout(View parent, int index) {

@@ -75,7 +75,6 @@ import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
@@ -105,7 +104,6 @@ import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.widget.ChildAgeSpinnerAdapter;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
 import com.expedia.bookings.widget.gl.GLTagProgressBarRenderer.OnDrawStartedListener;
@@ -2391,47 +2389,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			final int numChildren = mSearchParams.getNumChildren();
 			mRefinementInfoTextView.setText(StrUtils.formatGuests(this, numAdults, numChildren));
 
-			if (mChildAgesLayout == null) {
-				return;
-			}
-
-			if (numChildren == 0) {
-				mChildAgesLayout.setVisibility(View.GONE);
-				return;
-			}
-
 			List<Integer> children = mSearchParams.getChildren();
-
-			for (int i = 0; i < GuestsPickerUtils.getMaxPerType(); i++) {
-				View row = GuestsPickerUtils.getChildAgeLayout(mChildAgesLayout, i);
-				int visibility = i < numChildren ? View.VISIBLE : View.GONE;
-				row.setVisibility(visibility);
-
-				// This is needed for landscape view
-				if (row.getParent() instanceof ViewGroup) {
-					ViewGroup parent = ((ViewGroup) row.getParent());
-					if (parent.getChildAt(0) == row) {
-						parent.setVisibility(visibility);
-					}
-				}
-
-				if (i < numChildren && row.getTag() == null) {
-					// Use the row's Tag to determine if we've initialized this label/spinner yet.
-					row.setTag(1);
-					TextView label = (TextView) row.findViewById(R.id.child_x_text);
-					label.setText(getString(R.string.child_x, i + 1));
-
-					Spinner spinner = (Spinner) row.findViewById(R.id.child_x_age_spinner);
-					spinner.setPrompt(getString(R.string.prompt_select_child_age, GuestsPickerUtils.MIN_CHILD_AGE,
-							GuestsPickerUtils.MAX_CHILD_AGE));
-					spinner.setAdapter(new ChildAgeSpinnerAdapter(this));
-					spinner.setSelection(children.get(i) - 1);
-					spinner.setOnItemSelectedListener(mChildAgeSelectedListener);
-				}
-			}
-
-			mChildAgesLayout.setVisibility(View.VISIBLE);
-			GuestsPickerUtils.setChildrenSearchParamFromSpinners(PhoneSearchActivity.this, mChildAgesLayout, mSearchParams);
+			
+			GuestsPickerUtils.showOrHideChildAgeSpinners(PhoneSearchActivity.this, children, mChildAgesLayout, mChildAgeSelectedListener);
 		}
 		else {
 			mRefinementInfoTextView.setText(null);
@@ -2745,7 +2705,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			GuestsPickerUtils.setChildrenSearchParamFromSpinners(PhoneSearchActivity.this, mChildAgesLayout, mSearchParams);
+			GuestsPickerUtils.setChildrenFromSpinners(PhoneSearchActivity.this, mChildAgesLayout, mSearchParams.getChildren());
+			GuestsPickerUtils.updateDefaultChildAges(PhoneSearchActivity.this, mSearchParams.getChildren());
 		}
 
 		public void onNothingSelected(AdapterView<?> parent) {
