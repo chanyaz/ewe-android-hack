@@ -147,9 +147,9 @@ public class GuestsDialogFragment extends DialogFragment {
 
 		public void onClick(DialogInterface dialog, int which) {
 			SearchResultsFragmentActivity activity = (SearchResultsFragmentActivity) getActivity();
-			GuestsPickerUtils.updateDefaultChildAges(activity, mChildren);
 			activity.setGuests(mAdultCount, mChildren);
 			activity.startSearch();
+			GuestsPickerUtils.updateDefaultChildAges(activity, mChildren);
 		}
 
 	};

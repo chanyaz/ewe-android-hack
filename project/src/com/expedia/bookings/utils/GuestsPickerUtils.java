@@ -1,6 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -14,7 +13,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.widget.ChildAgeSpinnerAdapter;
 import com.mobiata.android.util.SettingUtils;
 
@@ -145,17 +143,6 @@ public class GuestsPickerUtils {
 		while (children.size() < count) {
 			children.add(getDefaultChildAge(context, children.size()));
 		}
-	}
-	
-	public static void updateSearchParamsGuestCounts(Context context, SearchParams searchParams, int numAdults,
-			int numChildren) {
-		searchParams.setNumAdults(numAdults);
-		List<Integer> children = searchParams.getChildren();
-		if (children == null) {
-			children = new ArrayList<Integer>(numChildren);
-			searchParams.setChildren(children);
-		}
-		resizeChildrenList(context, children, numChildren);
 	}
 
 	public static int getDefaultChildAge(Context context, int index) {

@@ -1,6 +1,6 @@
 package com.expedia.bookings.data;
 
-import java.lang.StringBuilder;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -286,6 +286,10 @@ public class SearchParams implements JSONable {
 	}
 
 	public List<Integer> getChildren() {
+		if (mChildren == null) {
+			mChildren = new ArrayList<Integer>();
+		}
+
 		return mChildren;
 	}
 

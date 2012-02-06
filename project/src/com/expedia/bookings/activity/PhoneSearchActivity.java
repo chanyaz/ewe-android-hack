@@ -2695,7 +2695,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		public void onChanged(NumberPicker picker, int oldVal, int newVal) {
 			int numAdults = mAdultsNumberPicker.getCurrent();
 			int numChildren = mChildrenNumberPicker.getCurrent();
-			GuestsPickerUtils.updateSearchParamsGuestCounts(PhoneSearchActivity.this, mSearchParams, numAdults, numChildren);
+			mSearchParams.setNumAdults(numAdults);
+			GuestsPickerUtils.resizeChildrenList(PhoneSearchActivity.this, mSearchParams.getChildren(), numChildren);
 			GuestsPickerUtils.configureAndUpdateDisplayedValues(mContext, mAdultsNumberPicker, mChildrenNumberPicker);
 			displayRefinementInfo();
 			setActionBarBookingInfoText();

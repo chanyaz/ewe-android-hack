@@ -21,6 +21,8 @@
 	<string name="who_is_going">&lt;b&gt;Who&lt;/b&gt; is going?</string>
 	<!--  Label for tablet age selection popup button -->
 	<string name="button_enter_childrens_ages">Enter Children\'s Ages</string>
+	<!-- Child age dialog button -->
+	<string name="button_done">Done</string>
 	<!--  Label for child age selection prompt -->
 	<string name="prompt_please_specify_childrens_ages">Please specify children\'s ages.</string>
 	<!--  Title of "select child age" spinner dialog box -->

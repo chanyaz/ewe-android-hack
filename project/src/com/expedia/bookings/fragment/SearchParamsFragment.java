@@ -29,6 +29,8 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -71,6 +73,8 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
 	private TextView mSuggestionErrorTextView;
+	private View mChildAgesLayout;
+
 
 	// #10978: Tracks when an autocomplete row was just clicked, so that we don't
 	// automatically start a new autocomplete query.
@@ -105,6 +109,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		mAdultsNumberPicker = (NumberPicker) view.findViewById(R.id.adults_number_picker);
 		mChildrenNumberPicker = (NumberPicker) view.findViewById(R.id.children_number_picker);
 		mSuggestionErrorTextView = (TextView) view.findViewById(R.id.suggestion_error_text_view);
+		mChildAgesLayout = view.findViewById(R.id.child_ages_layout);
 
 		// Need to set temporary max values for number pickers, or updateViews() won't work (since a picker value
 		// must be within its valid range to be set)
@@ -184,26 +189,10 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 		// Configure the number pickers
 		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
-		OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
-			public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-				if (!isHidden()) {
-					SearchParams searchParams = getInstance().mSearchParams;
-					searchParams.setNumAdults(mAdultsNumberPicker.getValue());
-
-					//TODO: add actual ages
-					int numChildren = mChildrenNumberPicker.getValue();
-					ArrayList<Integer> children = new ArrayList<Integer>(numChildren);
-					for(int i = 0; i < numChildren; i++) {
-						children.add(12);
-					}
-					searchParams.setChildren(children);
-				}
-
-				GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
-			}
-		};
-		mAdultsNumberPicker.setOnValueChangedListener(valueChangeListener);
-		mChildrenNumberPicker.setOnValueChangedListener(valueChangeListener);
+		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), getInstance().mSearchParams.getChildren(),
+				mChildAgesLayout, mChildAgeSelectedListener);
+		mAdultsNumberPicker.setOnValueChangedListener(mPersonCountChangeListener);
+		mChildrenNumberPicker.setOnValueChangedListener(mPersonCountChangeListener);
 
 		// Block NumberPickers from being editable
 		mAdultsNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -216,6 +205,23 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 				startSearch();
 			}
 		});
+
+		// Configure the "choose children's ages" button
+		OnClickListener showChildAgesListener = new OnClickListener() {
+			public void onClick(View v) {
+				mChildAgesLayout.setVisibility(View.VISIBLE);
+			}
+		};
+		view.findViewById(R.id.child_ages_button).setOnClickListener(showChildAgesListener);
+
+		// Configure the "x" and "done" buttons
+		OnClickListener hideChildAgesListener = new OnClickListener() {
+			public void onClick(View v) {
+				mChildAgesLayout.setVisibility(View.GONE);
+			}
+		};
+		view.findViewById(R.id.done_button).setOnClickListener(hideChildAgesListener);
+		view.findViewById(R.id.button_x).setOnClickListener(hideChildAgesListener);
 
 		return view;
 	}
@@ -316,6 +322,48 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			searchParams.setCheckInDate(checkIn);
 			searchParams.setCheckOutDate(checkOut);
 		}
+	};
+
+	// Configure number pickers to dynamically change the layout on value changes
+	private final OnValueChangeListener mPersonCountChangeListener = new OnValueChangeListener() {
+
+		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+			if (!isHidden()) {
+				SearchParams searchParams = getInstance().mSearchParams;
+				List<Integer> children = searchParams.getChildren();
+				searchParams.setNumAdults(mAdultsNumberPicker.getValue());
+				Activity activity = getActivity();
+				GuestsPickerUtils.resizeChildrenList(activity, children, mChildrenNumberPicker.getValue());
+				boolean wasPopupGone = mChildAgesLayout.getVisibility() == View.GONE;
+				GuestsPickerUtils.showOrHideChildAgeSpinners(activity, children, mChildAgesLayout, mChildAgeSelectedListener);
+
+				// showOrHideChildAgeSpinners may automatically show the popup. We don't want that in this case.
+				if (wasPopupGone) {
+					mChildAgesLayout.setVisibility(View.GONE);
+				}
+
+				activity.findViewById(R.id.child_ages_button).setEnabled(children.size() != 0);
+			}
+
+			GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
+
+		}
+
+	};
+
+	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
+
+		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+			Context context = getActivity();
+			List<Integer> children = getInstance().mSearchParams.getChildren();
+			GuestsPickerUtils.setChildrenFromSpinners(context, mChildAgesLayout, children);
+			GuestsPickerUtils.updateDefaultChildAges(context, children);
+		}
+
+		public void onNothingSelected(AdapterView<?> parent) {
+			// Do nothing.
+		}
+
 	};
 
 	//////////////////////////////////////////////////////////////////////////
