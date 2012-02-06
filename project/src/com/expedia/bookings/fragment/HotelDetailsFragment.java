@@ -154,7 +154,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		mAmenitiesContainer.setVisibility(View.GONE);
 		mAmenitiesNoneText.setVisibility(View.GONE);
 
-		updateViews(getInstance().mProperty, view);
+		updateViews(getInstance().mProperty, view, true);
 
 		return view;
 	}
@@ -176,10 +176,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	// VIEWS
 
 	public void updateViews(Property property) {
-		updateViews(property, getView());
+		updateViews(property, getView(), false);
 	}
 
-	public void updateViews(final Property property, final View view) {
+	public void updateViews(final Property property, final View view, boolean firstLoad) {
 		mHotelNameTextView.setText(property.getName());
 		String hotelAddressWithNewLine = StrUtils.formatAddress(property.getLocation(), StrUtils.F_STREET_ADDRESS
 				+ StrUtils.F_CITY + StrUtils.F_STATE_CODE);
@@ -187,6 +187,34 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		mHotelLocationTextView.setText(hotelAddressWithNewLine.replace("\n", ", "));
 		mCollageHandler.updateCollage(property);
 
+		mUserRating.setRating((float) property.getAverageExpediaRating());
+
+		setupAvailabilityContainer(property);
+		updateAmenities(property);
+		addHotelDescription(property);
+
+		if (getInstance().mSearchParams != null) {
+			setupExpediaUrl(property, getInstance().mSearchParams);
+		}
+
+		if (firstLoad) {
+			updateReviews(property);
+		}
+
+		// post a message to the event queue to be run on the
+		// next event loop to scroll up to the top of the view
+		// the purpose of posting this to the message queue versus
+		// running it immediately is to enable smooth scrolling animation
+		mHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				mHotelDetailsScrollView.smoothScrollTo(0, 0);
+			}
+		});
+	}
+
+	private void updateReviews(final Property property) {
 		if (mReviewsTitleLong != null) {
 			mReviewsTitleLong.setText(getString(R.string.reviews_recommended_template,
 					property.getTotalRecommendations(), property.getTotalReviews()));
@@ -196,8 +224,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			mReviewsTitleShort.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_reviews,
 					reviewsCount, reviewsCount)));
 		}
-
-		mUserRating.setRating((float) property.getAverageExpediaRating());
 
 		if (property.hasExpediaReviews()) {
 			mReviewsSection.setVisibility(View.VISIBLE);
@@ -216,46 +242,27 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 					}
 				}
 			});
+
+			int numReviewRows = getResources().getInteger(R.integer.num_review_rows);
+			float heightPerReviewRow = getResources().getDimension(R.dimen.min_height_per_row_review);
+			float minHeight = 0.0f;
+			if ((property.getTotalReviews() / numReviewRows) > 1) {
+				minHeight = heightPerReviewRow * numReviewRows;
+			}
+			else {
+				minHeight = heightPerReviewRow * (property.getTotalReviews() % numReviewRows);
+			}
+
+			mReviewsContainer.setMinimumHeight((int) minHeight);
+			mReviewsLoadingContainer.setVisibility(View.VISIBLE);
+
+			addReviews(((SearchResultsFragmentActivity) getActivity()).getReviewsForProperty());
 		}
 		else {
 			mSeeAllReviewsButton.setVisibility(View.GONE);
 			mReviewsLoadingContainer.setVisibility(View.GONE);
 			mReviewsSection.setVisibility(View.GONE);
 		}
-
-		setupAvailabilityContainer(property);
-
-		int numReviewRows = getResources().getInteger(R.integer.num_review_rows);
-		float heightPerReviewRow = getResources().getDimension(R.dimen.min_height_per_row_review);
-		float minHeight = 0.0f;
-		if ((property.getTotalReviews() / numReviewRows) > 1) {
-			minHeight = heightPerReviewRow * numReviewRows;
-		}
-		else {
-			minHeight = heightPerReviewRow * (property.getTotalReviews() % numReviewRows);
-		}
-
-		mReviewsContainer.setMinimumHeight((int) minHeight);
-		mReviewsLoadingContainer.setVisibility(View.VISIBLE);
-
-		addReviews(((SearchResultsFragmentActivity) getActivity()).getReviewsForProperty());
-		updateAmenities(property);
-		addHotelDescription(property);
-		if (getInstance().mSearchParams != null) {
-			setupExpediaUrl(property, getInstance().mSearchParams);
-		}
-
-		// post a message to the event queue to be run on the
-		// next event loop to scroll up to the top of the view
-		// the purpose of posting this to the message queue versus
-		// running it immediately is to enable smooth scrolling animation
-		mHandler.post(new Runnable() {
-
-			@Override
-			public void run() {
-				mHotelDetailsScrollView.smoothScrollTo(0, 0);
-			}
-		});
 	}
 
 	private void updateAmenities(Property property) {
