@@ -243,6 +243,10 @@
 	<string name="see_all_reviews">Vis alle anmeldelser</string>
 	<!-- Label for button that brings users to the room selection page -->
 	<string name="select_room">Velg rom</string>
+    <!-- Section names for matching sections we should show from expedia description -->
+    <string name="section_property_amenities">Stedets fasiliteter</string>
+    <string name="section_rooms">Rom</string>
+    <string name="section_policies">Regler</string>
 
 	<!-- Amenity strings -->
 	<!-- Business center amenity -->

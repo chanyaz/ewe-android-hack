@@ -243,6 +243,10 @@
 	<string name="see_all_reviews">全レビューを表示</string>
 	<!-- Label for button that brings users to the room selection page -->
 	<string name="select_room">部屋を選択</string>
+    <!-- Section names for matching sections we should show from expedia description -->
+    <string name="section_property_amenities">施設の設備</string>
+    <string name="section_rooms">部屋</string>
+    <string name="section_policies">ポリシー</string>
 
 	<!-- Amenity strings -->
 	<!-- Business center amenity -->

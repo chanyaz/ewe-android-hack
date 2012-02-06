@@ -67,7 +67,8 @@ public class HotelActivity extends AsyncLoadActivity {
 
 	private static final int MAX_IMAGES_LOADED = 10;
 
-	private static final int BODY_LENGTH_CUTOFF = 300;
+	private static final int BODY_LENGTH_CUTOFF = 400;
+	private static final int BODY_LENGTH_TRUNCATE = 300;
 
 	private Context mContext;
 	private ExpediaBookingApp mApp;
@@ -308,12 +309,13 @@ public class HotelActivity extends AsyncLoadActivity {
 
 		TextView bodyTextView = (TextView) detailsSection.findViewById(R.id.body_description_text_view);
 
+		// TODO: Is this ever called? No description seems to have "Features"
 		if (title.contains("Features")) {
 			addHotelRating(detailsSection);
 		}
-		else if (title.contains("Amenities")) {
+		else if (title.contains(getString(R.string.section_property_amenities))) {
 			if (body.length() > BODY_LENGTH_CUTOFF) {
-				bodyTextView.setText(Html.fromHtml(body.substring(0, BODY_LENGTH_CUTOFF)) + "...");
+				bodyTextView.setText(Html.fromHtml(body.substring(0, BODY_LENGTH_TRUNCATE)) + "...");
 
 				TextView expanderTextView = (TextView) detailsSection
 						.findViewById(R.id.read_more_description_text_view);

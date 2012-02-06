@@ -45,6 +45,7 @@ public class HotelDescription {
 		// Reset sections
 		mSections = new ArrayList<DescriptionSection>();
 
+		boolean isFirstSection = true;
 		StringBuilder str = new StringBuilder(2048);
 		String tag;
 		String sectionString = null;
@@ -89,7 +90,14 @@ public class HotelDescription {
 			case 's': // strong
 				if (tag.equals("strong")) {
 					if (sectionString != null && str.length() > 0) {
-						mSections.add(new DescriptionSection(sectionString, str.toString().trim()));
+						if (isFirstSection
+							|| sectionString.contains(mContext.getString(R.string.section_property_amenities))
+							|| sectionString.contains(mContext.getString(R.string.section_policies))
+							|| sectionString.contains(mContext.getString(R.string.section_rooms))
+							) {
+							mSections.add(new DescriptionSection(sectionString, str.toString().trim()));
+							isFirstSection = false;
+						}
 						str = str.delete(0, str.length());
 						sectionString = null;
 					}

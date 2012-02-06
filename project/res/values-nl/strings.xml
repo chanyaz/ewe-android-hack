@@ -243,6 +243,10 @@
 	<string name="see_all_reviews">Alle reviews zien</string>
 	<!-- Label for button that brings users to the room selection page -->
 	<string name="select_room">Kamer selecteren</string>
+    <!-- Section names for matching sections we should show from expedia description -->
+    <string name="section_property_amenities">Accommodatievoorzieningen</string>
+    <string name="section_rooms">Kamers</string>
+    <string name="section_policies">Beleid</string>
 
 	<!-- Amenity strings -->
 	<!-- Business center amenity -->

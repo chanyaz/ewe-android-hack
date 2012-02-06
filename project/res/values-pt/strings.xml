@@ -243,6 +243,10 @@
 	<string name="see_all_reviews">Ver Comentários</string>
 	<!-- Label for button that brings users to the room selection page -->
 	<string name="select_room">Selecionar Quarto</string>
+    <!-- Section names for matching sections we should show from expedia description -->
+    <string name="section_property_amenities">Conveniências do estabelecimento</string>
+    <string name="section_rooms">Quartos</string>
+    <string name="section_policies">Políticas</string>
 
 	<!-- Amenity strings -->
 	<!-- Business center amenity -->

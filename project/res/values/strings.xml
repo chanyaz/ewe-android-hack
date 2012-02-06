@@ -209,7 +209,7 @@
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
     <!-- Label to view hotel in on expedia.com -->
-    <string name="view_this_hotel_on_expedia">View This Hotel on Expedia.com</string>
+    <string name="view_this_hotel_on_expedia">View This Hotel on Expedia.com &gt;</string>
 	
 	<!--  Hotel Details Fragment -->
 	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
@@ -224,6 +224,10 @@
 	<string name="see_all_reviews">See All Reviews</string>
 	<!-- Label for button that brings users to the room selection page -->
 	<string name="select_room">Select Room</string>
+    <!-- Section names for matching sections we should show from expedia description -->
+    <string name="section_property_amenities">Property Amenities</string>
+    <string name="section_rooms">Rooms</string>
+    <string name="section_policies">Policies</string>
 
 	<!-- Amenity strings -->
 	<!-- Text that indicates no amenities at this property -->
