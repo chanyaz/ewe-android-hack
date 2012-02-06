@@ -1,14 +1,11 @@
 package com.expedia.bookings.activity;
 
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -30,8 +27,6 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
-import com.mobiata.android.FormatUtils;
-import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.AsyncLoadListActivity;
@@ -52,9 +47,6 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
 
-	// #9770: Add an hour of buffer so that the date range is always > the number of days
-	private static final int DATE_RANGE_BUFFER = 1000 * 60 * 60; // 1 hour
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -70,8 +62,6 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 				Property.class);
 		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
 				SearchParams.class);
-		mAvailabilityResponse = (AvailabilityResponse) JSONUtils.parseJSONableFromIntent(intent,
-				Codes.AVAILABILITY_RESPONSE, AvailabilityResponse.class);
 
 		// This code allows us to test the RoomsAndRatesListActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
@@ -186,7 +176,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		}
 		else {
 			ExpediaServices services = new ExpediaServices(this);
-			return services.availability(mSearchParams, mProperty, 0);
+			return services.availability(mSearchParams, mProperty, ExpediaServices.F_EXPENSIVE);
 		}
 	}
 

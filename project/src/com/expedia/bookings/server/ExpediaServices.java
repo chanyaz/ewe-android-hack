@@ -86,7 +86,7 @@ public class ExpediaServices implements DownloadListener {
 	private static final int F_SECURE_REQUEST = 1;
 
 	// Flags for availability()
-	private static final int F_EXPENSIVE = 4;
+	public static final int F_EXPENSIVE = 4;
 
 	private Context mContext;
 

@@ -61,6 +61,8 @@ public class HotelActivity extends AsyncLoadActivity {
 	// This is the position in the list that the hotel had when the user clicked on it 
 	public static final String EXTRA_POSITION = "EXTRA_POSITION";
 
+	private static final String INSTANCE_GALLERY_FLIPPING = "INSTANCE_GALLERY_FLIPPING";
+
 	private static final float MAX_AMENITY_TEXT_WIDTH_IN_DP = 60.0f;
 
 	private static final int MAX_IMAGES_LOADED = 10;
@@ -75,14 +77,14 @@ public class HotelActivity extends AsyncLoadActivity {
 	private Gallery mGallery;
 	private ViewGroup mDescriptionContainer;
 	private ProgressBar mProgressBar;
-	private TextView mBookButton;
 
 	private SearchParams mSearchParams;
 	private Property mProperty;
-	private AvailabilityResponse mAvailabilityResponse;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
+
+	private boolean mGalleryFlipping = true;
 
 	private HotelDescription mDescription;
 
@@ -104,6 +106,10 @@ public class HotelActivity extends AsyncLoadActivity {
 		mApp = (ExpediaBookingApp) getApplicationContext();
 		final Intent intent = getIntent();
 
+		if (savedInstanceState != null) {
+			mGalleryFlipping = savedInstanceState.getBoolean(INSTANCE_GALLERY_FLIPPING, true);
+		}
+
 		setContentView(R.layout.activity_hotel);
 
 		// Retrieve data to build this with
@@ -114,16 +120,12 @@ public class HotelActivity extends AsyncLoadActivity {
 
 		mDescription = new HotelDescription(this);
 
-		mBookButton = (TextView) findViewById(R.id.book_now_button);
-		mBookButton.setEnabled(false);
-
 		// This code allows us to test the HotelActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
 		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
 			try {
 				property = mProperty = new Property();
 				mProperty.fillWithTestData();
-				mBookButton.setEnabled(true);
 			}
 			catch (JSONException e) {
 				Log.e("Couldn't create dummy data!", e);
@@ -133,9 +135,7 @@ public class HotelActivity extends AsyncLoadActivity {
 		// Fill in header views
 		OnClickListener onBookNowClick = new OnClickListener() {
 			public void onClick(View v) {
-				if (mBookButton.isEnabled()) {
-					startRoomRatesActivity();
-				}
+				startRoomRatesActivity();
 			}
 		};
 
@@ -220,29 +220,9 @@ public class HotelActivity extends AsyncLoadActivity {
 	}
 
 	@Override
-	public Object onRetainNonConfigurationInstance() {
-		Instance instance = new Instance();
-		instance.mGalleryFlipping = mGallery.isFlipping();
-		return instance;
-	}
-
-	private static class Instance {
-		private boolean mGalleryFlipping;
-
-		private Object asyncLoadObj;
-	}
-
-	@Override
-	public Object getLastNonConfigurationInstance() {
-		Instance instance = (Instance) super.getLastNonConfigurationInstance();
-		if (instance != null) {
-			return instance.asyncLoadObj;
-		}
-		return null;
-	}
-
-	public Object getLastNonConfigurationInstanceWrapper() {
-		return super.getLastNonConfigurationInstance();
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(INSTANCE_GALLERY_FLIPPING, mGallery.isFlipping());
 	}
 
 	@Override
@@ -280,8 +260,6 @@ public class HotelActivity extends AsyncLoadActivity {
 	public void startRoomRatesActivity() {
 		Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
 		roomsRatesIntent.fillIn(getIntent(), 0);
-		if (mAvailabilityResponse != null)
-			roomsRatesIntent.putExtra(Codes.AVAILABILITY_RESPONSE, mAvailabilityResponse.toJson().toString());
 		startActivity(roomsRatesIntent);
 	}
 
@@ -337,10 +315,11 @@ public class HotelActivity extends AsyncLoadActivity {
 			if (body.length() > BODY_LENGTH_CUTOFF) {
 				bodyTextView.setText(Html.fromHtml(body.substring(0, BODY_LENGTH_CUTOFF)) + "...");
 
-				TextView expanderTextView = (TextView) detailsSection.findViewById(R.id.read_more_description_text_view);
+				TextView expanderTextView = (TextView) detailsSection
+						.findViewById(R.id.read_more_description_text_view);
 				expanderTextView.setVisibility(View.VISIBLE);
-				expanderTextView.setOnClickListener(new OnClickListener (){
-					public void onClick (View v) {
+				expanderTextView.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
 						v.setVisibility(View.GONE);
 						RelativeLayout p = (RelativeLayout) v.getParent();
 						TextView bodyTextView = (TextView) p.findViewById(R.id.body_description_text_view);
@@ -423,13 +402,12 @@ public class HotelActivity extends AsyncLoadActivity {
 	@Override
 	public Object downloadImpl() {
 		ExpediaServices services = new ExpediaServices(this);
-		return services.availability(mSearchParams, mProperty);
+		return services.availability(mSearchParams, mProperty, 0);
 	}
 
 	@Override
 	public void onResults(Object results) {
 		mProgressBar.setVisibility(View.GONE);
-		mBookButton.setEnabled(true);
 
 		AvailabilityResponse response = (AvailabilityResponse) results;
 		String description;
@@ -444,7 +422,6 @@ public class HotelActivity extends AsyncLoadActivity {
 			description = response.getErrors().get(0).getPresentableMessage(this);
 		}
 		else {
-			mAvailabilityResponse = response;
 			Property property = response.getProperty();
 
 			description = property.getDescriptionText();
@@ -543,13 +520,7 @@ public class HotelActivity extends AsyncLoadActivity {
 				}
 			});
 
-			boolean startFlipping = true;
-			Instance instance = (Instance) getLastNonConfigurationInstanceWrapper();
-			if (instance != null) {
-				startFlipping = instance.mGalleryFlipping;
-			}
-
-			if (startFlipping) {
+			if (mGalleryFlipping) {
 				mGallery.startFlipping();
 			}
 
@@ -567,7 +538,7 @@ public class HotelActivity extends AsyncLoadActivity {
 			mGallery.setVisibility(View.GONE);
 		}
 	}
-	
+
 	private void setupAmenities(Property property) {
 		ViewGroup amenitiesContainer = (ViewGroup) findViewById(R.id.amenities_table_row);
 		amenitiesContainer.removeAllViews();
@@ -580,7 +551,7 @@ public class HotelActivity extends AsyncLoadActivity {
 		else {
 			findViewById(R.id.amenities_none_text).setVisibility(View.VISIBLE);
 		}
-		
+
 		findViewById(R.id.amenities_scroll_view).setVisibility(View.VISIBLE);
 		findViewById(R.id.amenities_divider).setVisibility(View.VISIBLE);
 	}
