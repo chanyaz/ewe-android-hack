@@ -317,10 +317,14 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			mIsSearchError = true;
 			break;
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
-			mAvailabilityWidget.setButtonEnabled(true);
-			mAvailabilityWidget.showRates((AvailabilityResponse) data);
-
-			updateViews(getInstance().mProperty);
+			AvailabilityResponse response = (AvailabilityResponse) data;
+			if (!response.canRequestMoreData()) {
+				mAvailabilityWidget.setButtonEnabled(true);
+				mAvailabilityWidget.showRates(response);
+			}
+			else {
+				updateViews(getInstance().mProperty);
+			}
 			break;
 		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
 			updateViews((Property) data);

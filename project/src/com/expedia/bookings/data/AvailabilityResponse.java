@@ -22,6 +22,19 @@ public class AvailabilityResponse extends Response {
 
 	private SummarizedRoomRates mSummarizedRoomRates;
 
+	/**
+	 * Tells you whether or not the "expensive" version of the call was used to retrieve the
+	 * data in this AvailabilityResponse.  If not, you may want to update to better data
+	 * for more info!
+	 * 
+	 * (This is the result of HotelOffers having a cheap vs. expensive version of the call.)
+	 * 
+	 * Right now it uses a heuristic to figure out if the expensive call was made.
+	 */
+	public boolean canRequestMoreData() {
+		return !hasErrors() && mRates.size() != 0 && mRates.get(0).getBedTypes() == null;
+	}
+
 	public void addRate(Rate rate) {
 		if (mRates == null) {
 			mRates = new ArrayList<Rate>();

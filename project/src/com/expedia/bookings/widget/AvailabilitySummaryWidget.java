@@ -165,16 +165,17 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 	}
 
 	public void showRates(AvailabilityResponse response) {
-		setSingleViewVisible(mRatesContainer, mProgressBar, mErrorTextView);
-
 		if (response == null) {
 			showError(mContext.getString(R.string.ean_error_connect_unavailable));
 		}
 		else if (response.hasErrors()) {
 			showError(response.getErrors().get(0).getPresentableMessage(mContext));
 		}
-		else {
+		else if (!response.canRequestMoreData()) {
+			// Only show data if we're using expensive data
 			if (mRatesContainer != null) {
+				setSingleViewVisible(mRatesContainer, mProgressBar, mErrorTextView);
+
 				SummarizedRoomRates summarizedRates = response.getSummarizedRoomRates();
 				int numSummarizedRates = summarizedRates.numSummarizedRates();
 				for (int a = 0; a < mMaxRateRows; a++) {

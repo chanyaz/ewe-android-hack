@@ -126,8 +126,13 @@ public class MiniDetailsFragment extends Fragment implements EventHandler, Avail
 			mAvailabilitySummary.showError((String) data);
 			break;
 		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
-			mAvailabilitySummary.showRates((AvailabilityResponse) data);
-			updateViews(getInstance().mProperty);
+			AvailabilityResponse response = (AvailabilityResponse) data;
+			if (!response.canRequestMoreData()) {
+				mAvailabilitySummary.showRates(response);
+			}
+			else {
+				updateViews(getInstance().mProperty);
+			}
 			break;
 		}
 	}

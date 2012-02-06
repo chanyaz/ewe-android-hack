@@ -477,6 +477,10 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			showHotelDetailsFragment();
 		}
 
+		// Tells you whether the full hotel details will be showing - whether because it already existed, or
+		// because we're just opening it now.
+		boolean showingFullDetails = (!selectionChanged && !detailsShowing) || (selectionChanged && detailsShowing);
+
 		// When the selected property changes, a few things need to be done.
 		if (selectionChanged) {
 			// Clear out the previous property's images from the cache
@@ -495,7 +499,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			// ahead of time (from when it might actually be needed) so that 
 			// the results are instantly displayed in the hotel details view to the user
 			startRoomsAndRatesDownload(mInstance.mProperty);
-			startReviewsDownload();
 
 			// notify the necessary components only after starting the 
 			// downloads so that the right downlaod information (such as  is picked up by the components
@@ -503,8 +506,13 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
 		}
 
+		// Only start the reviews download if the full page is being shown
+		if (showingFullDetails) {
+			startReviewsDownload();
+		}
+
 		// Track what was just pressed
-		if ((!selectionChanged && !detailsShowing) || (selectionChanged && detailsShowing)) {
+		if (showingFullDetails) {
 			// Track that the full details has a pageload
 			Log.d("Tracking \"App.Hotels.Details\" pageLoad");
 
@@ -998,25 +1006,30 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	// Hotel Details
 
 	private void startRoomsAndRatesDownload(Property property) {
-		// If we have rates cached, don't bother downloading
-		if (getRoomsAndRatesAvailability() != null) {
+		// If we have the proper rates cached, don't bother downloading; otherwise, 
+		AvailabilityResponse previousResponse = getRoomsAndRatesAvailability();
+		if (previousResponse != null && !previousResponse.canRequestMoreData()) {
 			return;
 		}
+
+		final boolean requestMoreData = previousResponse != null && previousResponse.canRequestMoreData();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
 		bd.cancelDownload(KEY_AVAILABILITY_SEARCH);
-		bd.startDownload(KEY_AVAILABILITY_SEARCH, mRoomAvailabilityDownload, mRoomAvailabilityCallback);
+
+		Download roomAvailabilityDownload = new Download() {
+			public Object doDownload() {
+				ExpediaServices services = new ExpediaServices(mContext);
+				BackgroundDownloader.getInstance().addDownloadListener(KEY_AVAILABILITY_SEARCH, services);
+				return services.availability(mInstance.mSearchParams, mInstance.mProperty,
+						requestMoreData ? ExpediaServices.F_EXPENSIVE : 0);
+			}
+		};
+
+		bd.startDownload(KEY_AVAILABILITY_SEARCH, roomAvailabilityDownload, mRoomAvailabilityCallback);
 		mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_STARTED, null);
 	}
-
-	private Download mRoomAvailabilityDownload = new Download() {
-		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext);
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_AVAILABILITY_SEARCH, services);
-			return services.availability(mInstance.mSearchParams, mInstance.mProperty);
-		}
-	};
 
 	private OnDownloadComplete mRoomAvailabilityCallback = new OnDownloadComplete() {
 		public void onDownload(Object results) {
@@ -1038,6 +1051,11 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 					mInstance.mProperty.updateFrom(availabilityResponse.getProperty());
 
 					mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
+
+					// Immediately kick off another (more expensive) request to get more data (if possible)
+					if (availabilityResponse.canRequestMoreData()) {
+						startRoomsAndRatesDownload(mInstance.mProperty);
+					}
 				}
 			}
 		}
