@@ -73,10 +73,6 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 						url = "http://media.expedia.com" + url;
 					}
 
-					// Hack-ish: replace the trailing _l.jpg with _b.jpg for bigger pictures
-					// This is the same way that we handle it on iOS ~ddm
-					url = url.replace("_l.jpg", "_b.jpg");
-
 					Media media = new Media(Media.TYPE_STILL_IMAGE, url);
 					property.addMedia(media);
 				}
