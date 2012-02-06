@@ -442,9 +442,11 @@ public class SearchParams implements JSONable {
 		str.append("&rm1=a");
 		str.append(mNumAdults);
 
-		for (int age : mChildren) {
-			str.append(":c");
-			str.append(age);
+		if (mChildren != null) {
+			for (int age : mChildren) {
+				str.append(":c");
+				str.append(age);
+			}
 		}
 
 		return str.toString();
