@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:drawableRight="@drawable/btn_user_review_read_more_triangle"
+    android:drawablePadding="6dp"
+    android:text="@string/user_review_read_more"
+    android:textColor="@color/hotel_details_text_color"
+    android:textSize="@dimen/hotel_description_body_text_size"
+    android:textStyle="bold"
+    android:visibility="gone" />

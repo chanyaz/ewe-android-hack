@@ -21,17 +21,5 @@
 		android:layout_alignParentLeft="true"
 		android:textColor="@color/hotel_details_text_color"
 		android:textSize="@dimen/hotel_description_body_text_size"/>
-    <TextView
-        android:id="@+id/read_more_description_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/body_description_text_view"
-        android:layout_alignParentRight="true"
-        android:drawableRight="@drawable/btn_user_review_read_more_triangle"
-        android:drawablePadding="6dp"
-        android:text="@string/user_review_read_more"
-        android:textColor="@color/hotel_details_text_color"
-        android:textSize="@dimen/hotel_description_body_text_size"
-        android:visibility="gone" />
 
 </RelativeLayout>
