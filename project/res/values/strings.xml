@@ -31,12 +31,13 @@
 	<string name="child_x">Child %1$s</string>
 	<!--  Text for child's age on search refinements and in spinner -->
 	<plurals name="child_age">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; years old</item>
 		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; year old</item>
 		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; years old</item>
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; years old</item>
 		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; years old</item>
 	</plurals>
+	<!-- Android doesn't handle "zero" as a special case in English. So we'll do it manually -->
+	<string name="child_age_less_than_one">&lt;b&gt;Less than 1&lt;/b&gt; year old</string>
 	
 	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
 	<!-- Suggestion to search Times Square -->

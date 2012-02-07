@@ -43,7 +43,13 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 		TextView text = (TextView) view;
 
 		int age = position + GuestsPickerUtils.MIN_CHILD_AGE;
-		String str = mResources.getQuantityString(R.plurals.child_age, age, age);
+		String str = null;
+		if (age == 0) {
+			str = mResources.getString(R.string.child_age_less_than_one);
+		}
+		else {
+			str = mResources.getQuantityString(R.plurals.child_age, age, age);
+		}
 		text.setText(Html.fromHtml(str));
 
 		return view;
