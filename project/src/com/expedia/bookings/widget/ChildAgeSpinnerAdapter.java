@@ -48,14 +48,14 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 
 		return view;
 	}
-	
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return createViewFromResource(position, convertView, parent, android.R.layout.simple_spinner_dropdown_item);
-    }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public View getDropDownView(int position, View convertView, ViewGroup parent) {
+		return createViewFromResource(position, convertView, parent, android.R.layout.simple_spinner_dropdown_item);
+	}
 
 	@Override
 	public int getCount() {
