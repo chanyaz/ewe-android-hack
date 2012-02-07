@@ -20,7 +20,6 @@
 	<string name="rules_restrictions_disclaimer_dk">Ved at gennemføre reservationen bekræfter jeg, at jeg har læst og accepteret regler og begrænsninger, &lt;a href="%1$s"&gt;vilkår og betingelser&lt;/a&gt; samt &lt;a href="%2$s"&gt;fortrolighedspolitik&lt;/a&gt;.</string>
 	<string name="rules_restrictions_disclaimer_es">He leído y acepto las reglas y restricciones, los &lt;a href="%1$s"&gt;términos y condiciones de la reserva&lt;/a&gt;, y la &lt;a href="%2$s"&gt;directiva de privacidad&lt;/a&gt;.</string>
 	<string name="rules_restrictions_disclaimer_fr">J\'ai lu et j\'accepte les conditions et restrictions, les &lt;a href="%1$s"&gt;conditions d\'utilisation&lt;/a&gt; et &lt;a href="%2$s"&gt;la charte de confidentialité&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_gb">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms and Conditions&lt;/a&gt; and the &lt;a href="%2$s"&gt;privacy policy&lt;/a&gt;.</string>
 	<string name="rules_restrictions_disclaimer_hk_en">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s"&gt;terms of use&lt;/a&gt;, and &lt;a href="%2$s"&gt;privacy policy&lt;/a&gt;.</string>
 	<string name="rules_restrictions_disclaimer_hk_zh">完成此項預訂，即表示我同意我已閱讀與接受上述「規則與限制」、&lt;a href="%1$s"&gt;使用條款&lt;/a&gt;以及&lt;a href="%2$s"&gt;私隱權政策&lt;/a&gt;。</string>
 	<string name="rules_restrictions_disclaimer_id">Dengan menyelesaikan pemesanan ini, saya menegaskan bahwa saya telah membaca dan menerima Aturan dan Pembatasan di atas, &lt;a href="%1$s"&gt;syarat penggunaan&lt;/a&gt;, dan &lt;a href="%2$s"&gt;kebijakan privasi&lt;/a&gt;.</string>
@@ -41,6 +40,7 @@
 	<string name="rules_restrictions_disclaimer_sg">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
 	<string name="rules_restrictions_disclaimer_th">โดยการจองนี้ ข้าพเจ้ายอมรับว่าได้อ่านและยอมรับกฎและข้อจำกัดข้างต้น &lt;a href="%1$s"&gt;ข้อตกลงการใช้งาน&lt;/a&gt; และ &lt;a href="%2$s"&gt;นโยบายความเป็นส่วนตัว&lt;/a&gt;</string>
 	<string name="rules_restrictions_disclaimer_tw">選取完成此預訂，即代表我已閱讀並接受 上述規則和限制、 &lt;a href="%1$s"&gt;條款與細則&lt;/a&gt; 及 &lt;a href="%2$s"&gt;隱私權政策&lt;/a&gt;。</string>
+	<string name="rules_restrictions_disclaimer_uk">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms and Conditions&lt;/a&gt; and the &lt;a href="%2$s"&gt;privacy policy&lt;/a&gt;.</string>
 	<string name="rules_restrictions_disclaimer_us">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
 	<string name="rules_restrictions_disclaimer_vn">Tôi đã đọc và chấp nhận các quy tắc và giới hạn ở trên, &lt;a href="%1$s"&gt;điều khoản &amp; điều kiện&lt;/a&gt; và &lt;a href="%2$s"&gt;chính sách quyền riêng tư&lt;/a&gt;.</string>
 
@@ -57,7 +57,6 @@
 		<item>@string/point_of_sale_dk</item><item>@string/rules_restrictions_disclaimer_dk</item>
 		<item>@string/point_of_sale_es</item><item>@string/rules_restrictions_disclaimer_es</item>
 		<item>@string/point_of_sale_fr</item><item>@string/rules_restrictions_disclaimer_fr</item>
-		<item>@string/point_of_sale_gb</item><item>@string/rules_restrictions_disclaimer_gb</item>
 		<item>@string/point_of_sale_hk</item><item>@string/rules_restrictions_disclaimer_hk_en</item>
 		<item>@string/point_of_sale_id</item><item>@string/rules_restrictions_disclaimer_id</item>
 		<item>@string/point_of_sale_ie</item><item>@string/rules_restrictions_disclaimer_ie</item>
@@ -75,6 +74,7 @@
 		<item>@string/point_of_sale_sg</item><item>@string/rules_restrictions_disclaimer_sg</item>
 		<item>@string/point_of_sale_th</item><item>@string/rules_restrictions_disclaimer_th</item>
 		<item>@string/point_of_sale_tw</item><item>@string/rules_restrictions_disclaimer_tw</item>
+		<item>@string/point_of_sale_uk</item><item>@string/rules_restrictions_disclaimer_uk</item>
 		<item>@string/point_of_sale_us</item><item>@string/rules_restrictions_disclaimer_us</item>
 		<item>@string/point_of_sale_vn</item><item>@string/rules_restrictions_disclaimer_vn</item>
 	</string-array>
@@ -93,7 +93,6 @@
 	<string name="terms_conditions_url_dk">http://www.expedia.dk/dk/tandc.aspx</string>
 	<string name="terms_conditions_url_es">http://www.expedia.es/terminos-y-condiciones-generales-para-reservas.aspx</string>
 	<string name="terms_conditions_url_fr">http://www.expedia.fr/daily/services/legal/cvg.aspx</string>
-	<string name="terms_conditions_url_gb">https://www.expedia.co.uk/information/general-booking-conditions.asp</string>
 	<string name="terms_conditions_url_hk_en">http://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_hk_zh">https://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_id">https://www.expedia.co.id/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
@@ -114,6 +113,7 @@
 	<string name="terms_conditions_url_sg">https://www.expedia.com.sg/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_th">https://www.expedia.co.th/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_tw">https://www.expedia.com.tw/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_uk">https://www.expedia.co.uk/information/general-booking-conditions.asp</string>
 	<string name="terms_conditions_url_us">http://www.expedia.com/p/info-other/legal.htm</string>
 	<string name="terms_conditions_url_vn">https://www.expedia.com.vn/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 
@@ -130,7 +130,6 @@
 		<item>@string/point_of_sale_dk</item><item>@string/terms_conditions_url_dk</item>
 		<item>@string/point_of_sale_es</item><item>@string/terms_conditions_url_es</item>
 		<item>@string/point_of_sale_fr</item><item>@string/terms_conditions_url_fr</item>
-		<item>@string/point_of_sale_gb</item><item>@string/terms_conditions_url_gb</item>
 		<item>@string/point_of_sale_hk</item><item>@string/terms_conditions_url_hk_en</item>
 		<item>@string/point_of_sale_id</item><item>@string/terms_conditions_url_id</item>
 		<item>@string/point_of_sale_ie</item><item>@string/terms_conditions_url_ie</item>
@@ -148,6 +147,7 @@
 		<item>@string/point_of_sale_sg</item><item>@string/terms_conditions_url_sg</item>
 		<item>@string/point_of_sale_th</item><item>@string/terms_conditions_url_th</item>
 		<item>@string/point_of_sale_tw</item><item>@string/terms_conditions_url_tw</item>
+		<item>@string/point_of_sale_uk</item><item>@string/terms_conditions_url_uk</item>
 		<item>@string/point_of_sale_us</item><item>@string/terms_conditions_url_us</item>
 		<item>@string/point_of_sale_vn</item><item>@string/terms_conditions_url_vn</item>
 	</string-array>
@@ -166,7 +166,6 @@
 	<string name="privacy_policy_url_de">http://www.expedia.de/service/safecc.aspx</string>
 	<string name="privacy_policy_url_dk">http://www.expedia.dk/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_fr">http://www.expedia.fr/daily/services/legal/charte-conf.aspx</string>
-	<string name="privacy_policy_url_gb">https://www.expedia.co.uk/daily/service/privacy.asp</string>
 	<string name="privacy_policy_url_hk_en">http://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_hk_zh">https://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_id">https://www.expedia.co.id/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
@@ -188,6 +187,7 @@
 	<string name="privacy_policy_url_th">https://www.expedia.co.th/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_tw">https://www.expedia.com.tw/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_us">http://www.expedia.com/daily/service/privacy.asp</string>
+	<string name="privacy_policy_url_uk">https://www.expedia.co.uk/daily/service/privacy.asp</string>
 	<string name="privacy_policy_url_vn">https://www.expedia.com.vn/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 
 	<!-- Map of POS to privacy policy.  Provides default for dual-language POSes (but should be handled carefully) -->
@@ -203,7 +203,6 @@
 		<item>@string/point_of_sale_dk</item><item>@string/privacy_policy_url_dk</item>
 		<item>@string/point_of_sale_es</item><item>@string/privacy_policy_url_es</item>
 		<item>@string/point_of_sale_fr</item><item>@string/privacy_policy_url_fr</item>
-		<item>@string/point_of_sale_gb</item><item>@string/privacy_policy_url_gb</item>
 		<item>@string/point_of_sale_hk</item><item>@string/privacy_policy_url_hk_en</item>
 		<item>@string/point_of_sale_id</item><item>@string/privacy_policy_url_id</item>
 		<item>@string/point_of_sale_ie</item><item>@string/privacy_policy_url_ie</item>
@@ -221,6 +220,7 @@
 		<item>@string/point_of_sale_sg</item><item>@string/privacy_policy_url_sg</item>
 		<item>@string/point_of_sale_th</item><item>@string/privacy_policy_url_th</item>
 		<item>@string/point_of_sale_tw</item><item>@string/privacy_policy_url_tw</item>
+		<item>@string/point_of_sale_uk</item><item>@string/privacy_policy_url_uk</item>
 		<item>@string/point_of_sale_us</item><item>@string/privacy_policy_url_us</item>
 		<item>@string/point_of_sale_vn</item><item>@string/privacy_policy_url_vn</item>
 	</string-array>

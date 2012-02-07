@@ -381,7 +381,6 @@
     <string name="point_of_sale_dk">expedia.dk</string>
     <string name="point_of_sale_es">expedia.es</string>
     <string name="point_of_sale_fr">expedia.fr</string>
-    <string name="point_of_sale_gb">expedia.co.uk</string>
     <string name="point_of_sale_hk">expedia.com.hk</string>
     <string name="point_of_sale_id">expedia.co.id</string>
     <string name="point_of_sale_ie">expedia.ie</string>
@@ -399,6 +398,7 @@
     <string name="point_of_sale_sg">expedia.com.sg</string>
     <string name="point_of_sale_th">expedia.co.th</string>
     <string name="point_of_sale_tw">expedia.com.tw</string>
+    <string name="point_of_sale_uk">expedia.co.uk</string>
     <string name="point_of_sale_us">expedia.com</string>
     <string name="point_of_sale_vn">expedia.com.vn</string>
 

@@ -48,7 +48,7 @@
         <item>@string/point_of_sale_sg</item>
         <item>@string/point_of_sale_th</item>
         <item>@string/point_of_sale_tw</item>
-        <item>@string/point_of_sale_gb</item>
+        <item>@string/point_of_sale_uk</item>
         <item>@string/point_of_sale_vn</item>
     </string-array>
     
@@ -73,7 +73,7 @@
         <item>@string/point_of_sale_dk</item>
         <item>@string/point_of_sale_es</item>
         <item>@string/point_of_sale_fr</item>
-        <item>@string/point_of_sale_gb</item>
+        <item>@string/point_of_sale_uk</item>
         <item>@string/point_of_sale_ie</item>
         <item>@string/point_of_sale_it</item>
         <item>@string/point_of_sale_kr</item>
@@ -98,7 +98,6 @@
 		<item>@string/point_of_sale_dk</item><item>67</item>
 		<item>@string/point_of_sale_es</item><item>9</item>
 		<item>@string/point_of_sale_fr</item><item>20</item>
-		<item>@string/point_of_sale_gb</item><item>3</item>
 		<item>@string/point_of_sale_hk</item><item>18</item>
 		<item>@string/point_of_sale_id</item><item>61</item>
 		<item>@string/point_of_sale_ie</item><item>63</item>
@@ -116,6 +115,7 @@
 		<item>@string/point_of_sale_sg</item><item>14</item>
 		<item>@string/point_of_sale_th</item><item>17</item>
 		<item>@string/point_of_sale_tw</item><item>62</item>
+		<item>@string/point_of_sale_uk</item><item>3</item>
 		<item>@string/point_of_sale_us</item><item>1</item>
 		<item>@string/point_of_sale_vn</item><item>71</item>
 	</string-array>

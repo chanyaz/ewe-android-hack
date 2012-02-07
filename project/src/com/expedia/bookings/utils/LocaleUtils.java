@@ -15,7 +15,7 @@ public class LocaleUtils {
 	private static final Map<String, Integer> POINT_OF_SALE_RES_ID = new HashMap<String, Integer>() {
 		{
 			put("US", R.string.point_of_sale_us);
-			put("UK", R.string.point_of_sale_gb);
+			put("UK", R.string.point_of_sale_uk);
 			put("AU", R.string.point_of_sale_au);
 			put("FR", R.string.point_of_sale_fr);
 			put("DE", R.string.point_of_sale_de);
@@ -46,7 +46,7 @@ public class LocaleUtils {
 	private static final Map<Integer, Integer> POINT_OF_SALE_COUNTRY = new HashMap<Integer, Integer>() {
 		{
 			put(R.string.point_of_sale_us, R.string.country_us);
-			put(R.string.point_of_sale_gb, R.string.country_gb);
+			put(R.string.point_of_sale_uk, R.string.country_gb);
 			put(R.string.point_of_sale_au, R.string.country_au);
 			put(R.string.point_of_sale_fr, R.string.country_fr);
 			put(R.string.point_of_sale_de, R.string.country_de);
@@ -78,7 +78,7 @@ public class LocaleUtils {
 		Locale locale = Locale.getDefault();
 		String country = locale.getCountry();
 		int resId = POINT_OF_SALE_RES_ID.containsKey(country) ? POINT_OF_SALE_RES_ID.get(country)
-				: R.string.point_of_sale_gb;
+				: R.string.point_of_sale_uk;
 		return context.getString(resId);
 	}
 
@@ -86,7 +86,7 @@ public class LocaleUtils {
 		Locale locale = Locale.getDefault();
 		String country = locale.getCountry();
 		int resId = POINT_OF_SALE_RES_ID.containsKey(country) ? POINT_OF_SALE_RES_ID.get(country)
-				: R.string.point_of_sale_gb;
+				: R.string.point_of_sale_uk;
 
 		return POINT_OF_SALE_COUNTRY.get(resId);
 	}
