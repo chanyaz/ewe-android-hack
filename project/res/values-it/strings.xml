@@ -243,10 +243,6 @@
 	<string name="see_all_reviews">Mostre tutte</string>
 	<!-- Label for button that brings users to the room selection page -->
 	<string name="select_room">Scegli la camera</string>
-    <!-- Section names for matching sections we should show from expedia description -->
-    <string name="section_property_amenities">Servizi struttura</string>
-    <string name="section_rooms">Camere</string>
-    <string name="section_policies">Regolamenti</string>
 
 	<!-- Amenity strings -->
 	<!-- Business center amenity -->

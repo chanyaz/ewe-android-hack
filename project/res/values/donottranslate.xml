@@ -402,4 +402,9 @@
     <string name="point_of_sale_us">expedia.com</string>
     <string name="point_of_sale_vn">expedia.com.vn</string>
 
+    <!-- Section names for matching sections we should show from expedia description -->
+    <string name="section_property_amenities">Property Amenities</string>
+    <string name="section_rooms">Rooms</string>
+    <string name="section_policies">Policies</string>
+
 </resources>

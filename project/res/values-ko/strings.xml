@@ -243,10 +243,6 @@
 	<string name="see_all_reviews">모든 이용후기 보기</string>
 	<!-- Label for button that brings users to the room selection page -->
 	<string name="select_room">객실 선택</string>
-    <!-- Section names for matching sections we should show from expedia description -->
-    <string name="section_property_amenities">객실</string>
-    <string name="section_rooms">부대시설 및 서비스</string>
-    <string name="section_policies">정책</string>
 
 	<!-- Amenity strings -->
 	<!-- Business center amenity -->

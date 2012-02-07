@@ -226,10 +226,6 @@
 	<string name="see_all_reviews">See All Reviews</string>
 	<!-- Label for button that brings users to the room selection page -->
 	<string name="select_room">Select Room</string>
-    <!-- Section names for matching sections we should show from expedia description -->
-    <string name="section_property_amenities">Property Amenities</string>
-    <string name="section_rooms">Rooms</string>
-    <string name="section_policies">Policies</string>
 
 	<!-- Amenity strings -->
 	<!-- Text that indicates no amenities at this property -->
