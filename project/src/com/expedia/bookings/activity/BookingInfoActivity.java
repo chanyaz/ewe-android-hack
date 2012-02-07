@@ -64,6 +64,7 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.ReceiptWidget;
@@ -411,12 +412,14 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			builder.setMessage(R.string.dialog_clear_private_data_msg);
 			builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
+					final int countryResId = LocaleUtils.getDefaultCountryResId(BookingInfoActivity.this);
+
 					// Delete private data and clear form
 					mBillingInfo.delete(mContext);
 
 					mFirstNameEditText.setText(null);
 					mLastNameEditText.setText(null);
-					setSpinnerSelection(mTelephoneCountryCodeSpinner, getString(R.string.country_us));
+					setSpinnerSelection(mTelephoneCountryCodeSpinner, getString(countryResId));
 					mTelephoneEditText.setText(null);
 					mEmailEditText.setText(null);
 					mAddress1EditText.setText(null);
@@ -424,7 +427,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 					mCityEditText.setText(null);
 					mPostalCodeEditText.setText(null);
 					mStateEditText.setText(null);
-					setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
+					setSpinnerSelection(mCountrySpinner, getString(countryResId));
 					mCardNumberEditText.setText(null);
 					mExpirationMonthEditText.setText(null);
 					mExpirationYearEditText.setText(null);
@@ -549,8 +552,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			}
 		});
 
-		// Set the default country as USA
-		setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
+		// Set the default country as locale country
+		final String targetCountry = getString(LocaleUtils.getDefaultCountryResId(this));
+		setSpinnerSelection(mTelephoneCountryCodeSpinner, targetCountry);
+		setSpinnerSelection(mCountrySpinner, targetCountry);
 		mCountrySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				// Adjust the postal code textview.  Do this regardless of how the country spinner changed selection
@@ -935,7 +940,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		mBillingInfo.setFirstName(mFirstNameEditText.getText().toString());
 		mBillingInfo.setLastName(mLastNameEditText.getText().toString());
-		mBillingInfo.setTelephoneCountryCode(mTelephoneCountryCodeSpinner.getSelectedItem().toString());
+		mBillingInfo.setTelephoneCountryCode(mCountryCodes[mCountrySpinner.getSelectedItemPosition()]);
 		mBillingInfo.setTelephone(mTelephoneEditText.getText().toString());
 		mBillingInfo.setEmail(mEmailEditText.getText().toString());
 
@@ -991,7 +996,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		// Sync the editable guest fields
 		mFirstNameEditText.setText(firstName);
 		mLastNameEditText.setText(lastName);
-		//mTelephoneCountryCodeSpinner.setSelection(mBillingInfo.getTelephoneCountryCode());
 		mTelephoneEditText.setText(mBillingInfo.getTelephone());
 		mEmailEditText.setText(mBillingInfo.getEmail());
 
