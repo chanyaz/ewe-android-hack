@@ -9,9 +9,8 @@ import android.content.Context;
 import com.expedia.bookings.R;
 import com.mobiata.android.util.SettingUtils;
 
+@SuppressWarnings("serial")
 public class LocaleUtils {
-
-	@SuppressWarnings("serial")
 	private static final Map<String, Integer> POINT_OF_SALE_RES_ID = new HashMap<String, Integer>() {
 		{
 			put("US", R.string.point_of_sale_us);
@@ -43,12 +42,52 @@ public class LocaleUtils {
 		}
 	};
 
+	private static final Map<Integer, Integer> POINT_OF_SALE_COUNTRY = new HashMap<Integer, Integer>() {
+		{
+			put(R.string.point_of_sale_us, R.string.country_us);
+			put(R.string.point_of_sale_gb, R.string.country_gb);
+			put(R.string.point_of_sale_au, R.string.country_au);
+			put(R.string.point_of_sale_fr, R.string.country_fr);
+			put(R.string.point_of_sale_de, R.string.country_de);
+			put(R.string.point_of_sale_it, R.string.country_it);
+			put(R.string.point_of_sale_nl, R.string.country_nl);
+			put(R.string.point_of_sale_es, R.string.country_es);
+			put(R.string.point_of_sale_no, R.string.country_no);
+			put(R.string.point_of_sale_dk, R.string.country_dk);
+			put(R.string.point_of_sale_se, R.string.country_se);
+			put(R.string.point_of_sale_ie, R.string.country_ie);
+			put(R.string.point_of_sale_be, R.string.country_be);
+			put(R.string.point_of_sale_ca, R.string.country_ca);
+			put(R.string.point_of_sale_nz, R.string.country_nz);
+			put(R.string.point_of_sale_jp, R.string.country_jp);
+			put(R.string.point_of_sale_mx, R.string.country_mx);
+			put(R.string.point_of_sale_sg, R.string.country_sg);
+			put(R.string.point_of_sale_my, R.string.country_my);
+			put(R.string.point_of_sale_kr, R.string.country_kr);
+			put(R.string.point_of_sale_th, R.string.country_th);
+			put(R.string.point_of_sale_ph, R.string.country_ph);
+			put(R.string.point_of_sale_id, R.string.country_id);
+			put(R.string.point_of_sale_br, R.string.country_br);
+			put(R.string.point_of_sale_hk, R.string.country_hk);
+			put(R.string.point_of_sale_tw, R.string.country_tw);
+		}
+	};
+
 	public static String getDefaultPointOfSale(Context context) {
 		Locale locale = Locale.getDefault();
 		String country = locale.getCountry();
 		int resId = POINT_OF_SALE_RES_ID.containsKey(country) ? POINT_OF_SALE_RES_ID.get(country)
 				: R.string.point_of_sale_gb;
 		return context.getString(resId);
+	}
+
+	public static int getDefaultCountryResId(Context context) {
+		Locale locale = Locale.getDefault();
+		String country = locale.getCountry();
+		int resId = POINT_OF_SALE_RES_ID.containsKey(country) ? POINT_OF_SALE_RES_ID.get(country)
+				: R.string.point_of_sale_gb;
+
+		return POINT_OF_SALE_COUNTRY.get(resId);
 	}
 
 	private static String sCachedPointOfSale;
