@@ -67,6 +67,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.ReceiptWidget;
+import com.expedia.bookings.widget.TelephoneSpinner;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -124,7 +125,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private ViewGroup mGuestFormLayout;
 	private EditText mFirstNameEditText;
 	private EditText mLastNameEditText;
-	private EditText mTelephoneCountryCodeEditText;
+	private TelephoneSpinner mTelephoneCountryCodeSpinner;
 	private EditText mTelephoneEditText;
 	private EditText mEmailEditText;
 	private ViewGroup mBillingSavedLayout;
@@ -228,7 +229,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mGuestFormLayout = (ViewGroup) findViewById(R.id.guest_info_layout);
 		mFirstNameEditText = (EditText) findViewById(R.id.first_name_edit_text);
 		mLastNameEditText = (EditText) findViewById(R.id.last_name_edit_text);
-		mTelephoneCountryCodeEditText = (EditText) findViewById(R.id.telephone_country_code_edit_text);
+		mTelephoneCountryCodeSpinner = (TelephoneSpinner) findViewById(R.id.telephone_country_code_spinner);
 		mTelephoneEditText = (EditText) findViewById(R.id.telephone_edit_text);
 		mEmailEditText = (EditText) findViewById(R.id.email_edit_text);
 		mBillingSavedLayout = (ViewGroup) findViewById(R.id.saved_billing_info_layout);
@@ -415,7 +416,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 					mFirstNameEditText.setText(null);
 					mLastNameEditText.setText(null);
-					mTelephoneCountryCodeEditText.setText(null);
+					setSpinnerSelection(mTelephoneCountryCodeSpinner, getString(R.string.country_us));
 					mTelephoneEditText.setText(null);
 					mEmailEditText.setText(null);
 					mAddress1EditText.setText(null);
@@ -680,7 +681,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		// Add all the validators
 		mValidationProcessor.add(mFirstNameEditText, requiredFieldValidator);
 		mValidationProcessor.add(mLastNameEditText, requiredFieldValidator);
-		mValidationProcessor.add(mTelephoneCountryCodeEditText, new TextViewValidator(new TelephoneValidator()));
 		mValidationProcessor.add(mTelephoneEditText, new TextViewValidator(new TelephoneValidator()));
 		mValidationProcessor.add(mEmailEditText, new TextViewValidator(new EmailValidator()));
 		mValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
@@ -725,7 +725,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		}));
 		mValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
 			public int validate(CheckBox obj) {
-				if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox(BookingInfoActivity.this) && !obj.isChecked()) {
+				if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox(BookingInfoActivity.this)
+						&& !obj.isChecked()) {
 					return BookingInfoValidation.ERROR_NO_TERMS_CONDITIONS_AGREEMEMT;
 				}
 				return 0;
@@ -793,7 +794,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		mFirstNameEditText.setOnFocusChangeListener(l);
 		mLastNameEditText.setOnFocusChangeListener(l);
-		mTelephoneCountryCodeEditText.setOnFocusChangeListener(l);
+		mTelephoneCountryCodeSpinner.setOnFocusChangeListener(l);
 		mTelephoneEditText.setOnFocusChangeListener(l);
 		mEmailEditText.setOnFocusChangeListener(l);
 		mAddress1EditText.setOnFocusChangeListener(l);
@@ -934,7 +935,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		mBillingInfo.setFirstName(mFirstNameEditText.getText().toString());
 		mBillingInfo.setLastName(mLastNameEditText.getText().toString());
-		mBillingInfo.setTelephoneCountryCode(mTelephoneCountryCodeEditText.getText().toString());
+		mBillingInfo.setTelephoneCountryCode(mTelephoneCountryCodeSpinner.getSelectedItem().toString());
 		mBillingInfo.setTelephone(mTelephoneEditText.getText().toString());
 		mBillingInfo.setEmail(mEmailEditText.getText().toString());
 
@@ -990,7 +991,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		// Sync the editable guest fields
 		mFirstNameEditText.setText(firstName);
 		mLastNameEditText.setText(lastName);
-		mTelephoneCountryCodeEditText.setText(mBillingInfo.getTelephoneCountryCode());
+		//mTelephoneCountryCodeSpinner.setSelection(mBillingInfo.getTelephoneCountryCode());
 		mTelephoneEditText.setText(mBillingInfo.getTelephone());
 		mEmailEditText.setText(mBillingInfo.getEmail());
 
@@ -1012,6 +1013,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			TextView addressView = (TextView) findViewById(R.id.address_text_view);
 			addressView.setText(address);
 		}
+
+		// Sync the telephone country code spinner
+		setSpinnerSelection(mTelephoneCountryCodeSpinner, mCountryCodes, loc.getCountryCode());
 
 		// Sync the editable billing info fields
 		mAddress1EditText.setText(loc.getStreetAddress().get(0));
@@ -1064,5 +1068,4 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	public void onPageLoad() {
 		Tracker.trackAppHotelsCheckoutPayment(this, mProperty, mBookingInfoValidation);
 	}
-
 }

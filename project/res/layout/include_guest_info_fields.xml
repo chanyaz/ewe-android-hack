@@ -48,20 +48,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <com.expedia.bookings.widget.CustomEditText
-            android:id="@+id/telephone_country_code_edit_text"
-            android:layout_width="60dp"
+        <com.expedia.bookings.widget.TelephoneSpinner
+            android:id="@+id/telephone_country_code_spinner"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_telephone_country_code"
-            android:imeOptions="flagNoExtractUi"
-            android:inputType="phone"
-            android:maxLength="2"
             android:nextFocusDown="@+id/telephone_edit_text"
             android:nextFocusLeft="@+id/last_name_edit_text"
             android:nextFocusRight="@+id/telephone_edit_text"
-            android:nextFocusUp="@+id/last_name_edit_text"
-            android:textColorHint="@color/hint_color"
-            mobiata:useClearFieldDrawable="false" />
+            android:nextFocusUp="@+id/last_name_edit_text" />
 
         <com.expedia.bookings.widget.CustomEditText
             android:id="@+id/telephone_edit_text"
