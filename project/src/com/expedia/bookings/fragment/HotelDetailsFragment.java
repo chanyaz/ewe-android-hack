@@ -39,6 +39,7 @@ import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
+import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget;
@@ -513,6 +514,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			public void onClick(View v) {
 				Intent launchExpedia = new Intent(Intent.ACTION_VIEW, hotelUrl);
 				startActivity(launchExpedia);
+
+				Tracker.trackOpenExpediaCom(getActivity());
 			}
 		});
 	}

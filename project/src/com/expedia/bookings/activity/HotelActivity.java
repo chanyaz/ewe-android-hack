@@ -41,6 +41,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -450,6 +451,8 @@ public class HotelActivity extends AsyncLoadActivity {
 				Uri hotelUrl = Uri.parse(property.toExpediaUrl() + params.toExpediaUrl());
 				Intent launchExpedia = new Intent(Intent.ACTION_VIEW, hotelUrl);
 				startActivity(launchExpedia);
+
+				Tracker.trackOpenExpediaCom(mContext);
 			}
 		});
 	}

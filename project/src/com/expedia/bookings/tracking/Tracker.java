@@ -267,4 +267,9 @@ public class Tracker {
 		Log.d("Tracking \"new search\" onClick");
 		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", "CKO.CP.StartNewSearch");
 	}
+
+	public static void trackOpenExpediaCom(Context context) {
+		Log.d("Tracking \"open on expedia com\" onClick");
+		TrackingUtils.trackSimpleEvent(context, null, null, null, "App.Link.View.Hotel.Fullsite");
+	}
 }
