@@ -538,6 +538,7 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		}
 
 		if (newOffsetY != mOffsetY) {
+			mOffsetY = newOffsetY;
 			changed = true;
 		}
 
@@ -551,11 +552,11 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mTagCenterX = mWidth / 2;
 		mTagCenterY = mOffsetY + (mTagWidth / 2);
 
-		final float knobTopOffset = (mKnobHeight * 0.09f);
+		final float knobTopOffset = (mKnobHeight * 0.10f);
 
 		// DEST RECTS
 		mTagDestRect = new RectF();
-		mTagDestRect.top = mTagCenterY - (mTagWidth * 0.38f);
+		mTagDestRect.top = mTagCenterY - (mTagHeight * 0.16f);
 		mTagDestRect.bottom = mTagDestRect.top + mTagHeight;
 		mTagDestRect.left = (mTagCenterX - (mTagWidth / 2));
 		mTagDestRect.right = mTagDestRect.left + mTagWidth;
