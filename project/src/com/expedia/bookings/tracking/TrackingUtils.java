@@ -27,6 +27,7 @@ import com.expedia.bookings.data.Filter.Sort;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
@@ -132,6 +133,9 @@ public class TrackingUtils {
 
 		// Experience segmentation
 		s.eVar50 = (usingTabletInterface) ? "app.tablet.android" : "app.android";
+
+		// TPID
+		s.prop7 = LocaleUtils.getTPID(context);
 
 		// hashed email
 		// Normally we store this in a setting; in 1.0 we stored this in BillingInfo, but

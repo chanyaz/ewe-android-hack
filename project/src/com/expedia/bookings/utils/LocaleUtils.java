@@ -7,6 +7,7 @@ import java.util.Map;
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.util.ResourceUtils;
 import com.mobiata.android.util.SettingUtils;
 
 @SuppressWarnings("serial")
@@ -174,5 +175,15 @@ public class LocaleUtils {
 
 		// Not a dual-langauge POS or no valid language found, return null
 		return null;
+	}
+
+	private static Map<String, String> sTPIDs;
+
+	public static String getTPID(Context context) {
+		if (sTPIDs == null) {
+			sTPIDs = ResourceUtils.getStringMap(context, R.array.tpid_map);
+		}
+
+		return sTPIDs.get(getPointOfSale());
 	}
 }

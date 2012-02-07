@@ -85,6 +85,41 @@
         <item>@string/point_of_sale_vn</item>
     </string-array>
 
+    <!-- Mapping of POS to TPID -->
+
+	<string-array name="tpid_map">
+		<item>@string/point_of_sale_ar</item><item>70</item>
+		<item>@string/point_of_sale_at</item><item>6</item>
+		<item>@string/point_of_sale_au</item><item>25</item>
+		<item>@string/point_of_sale_be</item><item>64</item>
+		<item>@string/point_of_sale_br</item><item>69</item>
+		<item>@string/point_of_sale_ca</item><item>4</item>
+		<item>@string/point_of_sale_de</item><item>6</item>
+		<item>@string/point_of_sale_dk</item><item>67</item>
+		<item>@string/point_of_sale_es</item><item>9</item>
+		<item>@string/point_of_sale_fr</item><item>20</item>
+		<item>@string/point_of_sale_gb</item><item>3</item>
+		<item>@string/point_of_sale_hk</item><item>18</item>
+		<item>@string/point_of_sale_id</item><item>61</item>
+		<item>@string/point_of_sale_ie</item><item>63</item>
+		<item>@string/point_of_sale_in</item><item>27</item>
+		<item>@string/point_of_sale_it</item><item>8</item>
+		<item>@string/point_of_sale_jp</item><item>28</item>
+		<item>@string/point_of_sale_kr</item><item>16</item>
+		<item>@string/point_of_sale_mx</item><item>12</item>
+		<item>@string/point_of_sale_my</item><item>15</item>
+		<item>@string/point_of_sale_nl</item><item>11</item>
+		<item>@string/point_of_sale_no</item><item>66</item>
+		<item>@string/point_of_sale_nz</item><item>29</item>
+		<item>@string/point_of_sale_ph</item><item>68</item>
+		<item>@string/point_of_sale_se</item><item>65</item>
+		<item>@string/point_of_sale_sg</item><item>14</item>
+		<item>@string/point_of_sale_th</item><item>17</item>
+		<item>@string/point_of_sale_tw</item><item>62</item>
+		<item>@string/point_of_sale_us</item><item>1</item>
+		<item>@string/point_of_sale_vn</item><item>71</item>
+	</string-array>
+
 	<string-array name="country_names">
 		<item>@string/country_af</item>
 		<item>@string/country_al</item>
