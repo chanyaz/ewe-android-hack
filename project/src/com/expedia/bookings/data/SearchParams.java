@@ -430,7 +430,7 @@ public class SearchParams implements JSONable {
 		}
 	}
 
-	public String toExpediaUrl() {
+	public String toUrl() {
 		StringBuilder str = new StringBuilder(128);
 		// chkin
 		str.append("?chkin=");

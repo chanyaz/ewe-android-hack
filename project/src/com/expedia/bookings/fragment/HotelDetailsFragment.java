@@ -41,6 +41,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget.AvailabilitySummaryListener;
@@ -86,7 +87,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	private ProgressBar mProgressBar;
 	private boolean mIsSearchError;
 	private ViewGroup mHotelDescriptionContainer;
-	private TextView mExpediaWebsiteButton;
+	private TextView mWebsiteButton;
 	private View mSeeAllReviewsButton;
 	private ScrollView mHotelDetailsScrollView;
 
@@ -139,7 +140,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
 		mReviewsLoadingContainer = view.findViewById(R.id.reviews_loading_container);
-		mExpediaWebsiteButton = (TextView) view.findViewById(R.id.view_on_expedia_button);
+		mWebsiteButton = (TextView) view.findViewById(R.id.view_on_website_button);
 
 		mAvailabilityWidget.init(view);
 		mAvailabilityWidget.setButtonText(R.string.select_room);
@@ -195,7 +196,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		addHotelDescription(property);
 
 		if (getInstance().mSearchParams != null) {
-			setupExpediaUrl(property, getInstance().mSearchParams);
+			setupHotelUrl(property, getInstance().mSearchParams);
 		}
 
 		if (firstLoad) {
@@ -507,13 +508,16 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 
 	}
 
-	private void setupExpediaUrl(final Property property, final SearchParams params) {
-		final Uri hotelUrl = Uri.parse(property.toExpediaUrl() + params.toExpediaUrl());
-		mExpediaWebsiteButton.setVisibility(View.VISIBLE);
-		mExpediaWebsiteButton.setOnClickListener(new OnClickListener() {
+	private void setupHotelUrl(final Property property, final SearchParams params) {
+		final Uri hotelUrl = Uri.parse("http://www." + LocaleUtils.getPointOfSale() + property.toUrl() + params.toUrl());
+
+		String text = getString(R.string.view_this_hotel_on_website_template, LocaleUtils.getPointOfSale());
+		mWebsiteButton.setText(text);
+		mWebsiteButton.setVisibility(View.VISIBLE);
+		mWebsiteButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent launchExpedia = new Intent(Intent.ACTION_VIEW, hotelUrl);
-				startActivity(launchExpedia);
+				Intent launchWebsite = new Intent(Intent.ACTION_VIEW, hotelUrl);
+				startActivity(launchWebsite);
 
 				Tracker.trackOpenExpediaCom(getActivity());
 			}

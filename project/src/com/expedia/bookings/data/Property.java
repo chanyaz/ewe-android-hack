@@ -337,10 +337,8 @@ public class Property implements JSONable {
 		}
 	}
 
-	public String toExpediaUrl() {
-		return "http://www.expedia.com/h"
-			+ mPropertyId
-			+ ".Hotel-Information";
+	public String toUrl() {
+		return "/h" + mPropertyId + ".Hotel-Information";
 	}
 
 	/**

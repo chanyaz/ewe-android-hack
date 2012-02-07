@@ -44,6 +44,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AdapterView;
 import com.expedia.bookings.widget.AdapterView.OnItemSelectedListener;
@@ -421,7 +422,7 @@ public class HotelActivity extends AsyncLoadActivity {
 		if (response == null) {
 			// Use short description (if available)
 			description = mProperty.getDescriptionText();
-			setupExpediaUrl(mProperty, mSearchParams);
+			setupHotelUrl(mProperty, mSearchParams);
 		}
 		else if (response.hasErrors()) {
 			// TODO: At a later junction, remove the error display and
@@ -435,7 +436,7 @@ public class HotelActivity extends AsyncLoadActivity {
 
 			setupGallery(property);
 			setupAmenities(property);
-			setupExpediaUrl(property, mSearchParams);
+			setupHotelUrl(property, mSearchParams);
 		}
 
 		if (description != null && description.length() > 0) {
@@ -443,12 +444,15 @@ public class HotelActivity extends AsyncLoadActivity {
 		}
 	}
 
-	private void setupExpediaUrl(final Property property, final SearchParams params) {
-		TextView button = (TextView) findViewById(R.id.view_on_expedia_button);
+	private void setupHotelUrl(final Property property, final SearchParams params) {
+		TextView button = (TextView) findViewById(R.id.view_on_website_button);
+		final Uri hotelUrl = Uri.parse("http://www." + LocaleUtils.getPointOfSale(mContext) + property.toUrl() + params.toUrl());
+
+		String text = getString(R.string.view_this_hotel_on_website_template, LocaleUtils.getPointOfSale(mContext));
+		button.setText(text);
 		button.setVisibility(View.VISIBLE);
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Uri hotelUrl = Uri.parse(property.toExpediaUrl() + params.toExpediaUrl());
 				Intent launchExpedia = new Intent(Intent.ACTION_VIEW, hotelUrl);
 				startActivity(launchExpedia);
 

@@ -212,7 +212,7 @@
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
     <!-- Label to view hotel in on expedia.com -->
-    <string name="view_this_hotel_on_expedia">View This Hotel on Expedia.com &gt;</string>
+    <string name="view_this_hotel_on_website_template">View This Hotel on %s &gt;</string>
 	
 	<!--  Hotel Details Fragment -->
 	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
