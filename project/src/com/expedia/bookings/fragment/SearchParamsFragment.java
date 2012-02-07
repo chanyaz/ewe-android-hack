@@ -342,7 +342,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 					mChildAgesLayout.setVisibility(View.GONE);
 				}
 
-				activity.findViewById(R.id.child_ages_button).setEnabled(children.size() != 0);
+				activity.findViewById(R.id.child_ages_button).setVisibility(children.size() != 0 ? View.VISIBLE : View.GONE);
 			}
 
 			GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
