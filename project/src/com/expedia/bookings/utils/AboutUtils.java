@@ -168,6 +168,11 @@ public class AboutUtils {
 		Log.d("Tracking \"flightboard\" onClick");
 		TrackingUtils.trackSimpleEvent(mActivity, null, null, null, "App.Link.FlightBoard");
 	}
+	
+	public void trackHiringLink() {
+		Log.d("Tracking \"hiring\" onClick");
+		TrackingUtils.trackSimpleEvent(mActivity, null, null, null, "App.Link.Mobiata.Jobs");
+	}
 
 	public void trackFeedbackPageLoad() {
 		Log.d("Tracking \"App.Feedback\" pageLoad");

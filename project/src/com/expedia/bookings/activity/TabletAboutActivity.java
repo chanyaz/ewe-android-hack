@@ -65,7 +65,11 @@ public class TabletAboutActivity extends HoneycombAboutActivity {
 					}
 				});
 
-		addHiringPitch(standardSection);
+		addHiringPitch(standardSection, new OnClickListener() {
+			public void onClick(View v) {
+				mUtils.trackHiringLink();
+			}
+		});
 
 		// Add rules & restrictions
 		addSimpleRow(standardSection, getString(R.string.info_label_terms_conditions), new OnClickListener() {
