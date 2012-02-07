@@ -30,7 +30,13 @@ public class ServerError {
 
 	public void setCode(String code) {
 		this.mCode = code;
-		this.mErrorCode = ErrorCode.valueOf(code);
+
+		try {
+			this.mErrorCode = ErrorCode.valueOf(code);
+		}
+		catch (Exception e) {
+			this.mErrorCode = ErrorCode.UNKNOWN_ERROR;
+		}
 	}
 
 	public String getDiagnosticFullText() {
