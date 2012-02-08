@@ -129,7 +129,7 @@ public class ExpediaServices implements DownloadListener {
 
 		SearchResponseHandler rh = new SearchResponseHandler(mContext);
 		rh.setNumNights(params.getStayDuration());
-		return (SearchResponse) doRequest("/MobileHotel/Webapp/SearchResults", query, rh, 0);
+		return (SearchResponse) doRequest("SearchResults", query, rh, 0);
 	}
 
 	public AvailabilityResponse availability(SearchParams params, Property property) {
@@ -149,7 +149,7 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("makeExpensiveRealtimeCall", "true"));
 		}
 
-		return (AvailabilityResponse) doRequest("/MobileHotel/Webapp/HotelOffers", query,
+		return (AvailabilityResponse) doRequest("HotelOffers", query,
 				new AvailabilityResponseHandler(mContext, params, property), 0);
 	}
 
@@ -184,7 +184,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
 				.getTime())));
 
-		return (BookingResponse) doRequest("/MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(mContext),
+		return (BookingResponse) doRequest("Checkout", query, new BookingResponseHandler(mContext),
 				F_SECURE_REQUEST);
 	}
 
@@ -196,7 +196,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("email", email));
 		query.add(new BasicNameValuePair("password", password));
 
-		return (SignInResponse) doRequest("/MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext),
+		return (SignInResponse) doRequest("SignIn", query, new SignInResponseHandler(mContext),
 				F_SECURE_REQUEST);
 	}
 
@@ -295,24 +295,7 @@ public class ExpediaServices implements DownloadListener {
 
 	private Object doRequest(String targetUrl, List<BasicNameValuePair> params, ResponseHandler<?> responseHandler,
 			int flags) {
-
-		// Determine the target URL
-		StringBuilder builder = new StringBuilder();
-
-		builder.append((flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
-
-		builder.append("www.");
-
-		String pointOfSale = LocaleUtils.getPointOfSale(mContext);
-		builder.append(pointOfSale);
-
-		if (useTestServer(mContext)) {
-			builder.append(".chelwebestr37.bgb.karmalab.net");
-		}
-
-		builder.append(targetUrl);
-
-		String serverUrl = builder.toString();
+		String serverUrl = getE3Url(flags) + targetUrl;
 
 		// Create the request
 		HttpPost post = NetUtils.createHttpPost(serverUrl, params);
@@ -428,6 +411,42 @@ public class ExpediaServices implements DownloadListener {
 		public Socket createSocket() throws IOException {
 			return sslContext.getSocketFactory().createSocket();
 		}
+	}
+
+	/**
+	 * Returns the base E3 server url, based on dev settings
+	 * @param context
+	 * @return
+	 */
+	public String getE3Url(int flags) {
+		StringBuilder builder = new StringBuilder();
+
+		builder.append((flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
+
+		boolean usingProxyServer = !AndroidUtils.isRelease(mContext)
+				&& SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_enabled), false);
+		if (usingProxyServer) {
+			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
+					"localhost:3000") + "/");
+		}
+		else {
+			builder.append("www.");
+		}
+
+		builder.append(LocaleUtils.getPointOfSale(mContext));
+
+		if (!usingProxyServer) {
+			if (useTestServer(mContext)) {
+				builder.append(".chelwebestr37.bgb.karmalab.net");
+			}
+			builder.append("/MobileHotel/Webapp");
+		}
+
+		builder.append("/");
+
+		String e3url = builder.toString();
+		Log.d("e3 url: " + e3url);
+		return e3url;
 	}
 
 	public static boolean useTestServer(Context context) {
