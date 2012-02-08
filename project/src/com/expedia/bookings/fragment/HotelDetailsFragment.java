@@ -156,7 +156,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		mAmenitiesContainer.setVisibility(View.GONE);
 		mAmenitiesNoneText.setVisibility(View.GONE);
 
-		updateViews(getInstance().mProperty, view, true);
+		updateViews(getInstance().mProperty, view);
 
 		return view;
 	}
@@ -178,10 +178,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	// VIEWS
 
 	public void updateViews(Property property) {
-		updateViews(property, getView(), false);
+		updateViews(property, getView());
 	}
 
-	public void updateViews(final Property property, final View view, boolean firstLoad) {
+	public void updateViews(final Property property, final View view) {
 		mHotelNameTextView.setText(property.getName());
 		String hotelAddressWithNewLine = StrUtils.formatAddress(property.getLocation(), StrUtils.F_STREET_ADDRESS
 				+ StrUtils.F_CITY + StrUtils.F_STATE_CODE);
@@ -199,9 +199,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			setupHotelUrl(property, getInstance().mSearchParams);
 		}
 
-		if (firstLoad) {
-			updateReviews(property);
-		}
+		updateReviews(property);
 
 		// post a message to the event queue to be run on the
 		// next event loop to scroll up to the top of the view
@@ -258,7 +256,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			mReviewsContainer.setMinimumHeight((int) minHeight);
 			mReviewsLoadingContainer.setVisibility(View.VISIBLE);
 
-			addReviews(((SearchResultsFragmentActivity) getActivity()).getReviewsForProperty());
+			ReviewsResponse reviews = ((SearchResultsFragmentActivity) getActivity()).getReviewsForProperty();
+			if (reviews != null) {
+				addReviews(reviews);
+			}
 		}
 		else {
 			mSeeAllReviewsButton.setVisibility(View.GONE);
