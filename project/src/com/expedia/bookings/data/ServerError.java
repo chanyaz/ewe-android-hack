@@ -116,9 +116,7 @@ public class ServerError {
 		SIMULATED, HOTEL_SERVICE_FATAL_FAILURE, UNKNOWN_ERROR, INVALID_INPUT_UNKNOWN, INVALID_INPUT, HOTEL_ROOM_UNAVAILABLE, HOTEL_OFFER_UNAVAILABLE, USER_SERVICE_FATAL_FAILURE, BOOKING_FAILED, PAYMENT_FAILED
 	}
 
-	public static enum Field {
-		LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION
-	}
+	private static String LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION = "LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION";
 
 	// Use the presentation message, except in special circumstances of lacking data
 	// or when the data needs some gentle massaging
@@ -155,8 +153,11 @@ public class ServerError {
 		// Handle special cases
 		switch (mErrorCode) {
 		case INVALID_INPUT: {
-			if (mExtras.containsKey(Field.LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION)) {
-				message = context.getString(R.string.ean_error_no_results);
+			if (mExtras.containsKey("field")) {
+				String field = mExtras.get("field");
+				if (field.equals(LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION)) {
+					message = context.getString(R.string.ean_error_no_results);
+				}
 			}
 			break;
 		}
