@@ -434,12 +434,12 @@ public class SearchParams implements JSONable {
 		StringBuilder str = new StringBuilder(128);
 		// chkin
 		str.append("?chkin=");
-		str.append(mCheckInDate.get((Calendar.MONTH) + 1)
+		str.append((mCheckInDate.get(Calendar.MONTH) + 1)
 			+ "/" + mCheckInDate.get(Calendar.DAY_OF_MONTH)
 			+ "/" + mCheckInDate.get(Calendar.YEAR));
 		// chkout
 		str.append("&chkout=");
-		str.append(mCheckOutDate.get((Calendar.MONTH) + 1)
+		str.append((mCheckOutDate.get(Calendar.MONTH) + 1)
 			+ "/" + mCheckOutDate.get(Calendar.DAY_OF_MONTH)
 			+ "/" + mCheckOutDate.get(Calendar.YEAR));
 		// rooms and occupant info
