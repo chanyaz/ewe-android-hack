@@ -64,6 +64,7 @@ public class HotelActivity extends AsyncLoadActivity {
 	public static final String EXTRA_POSITION = "EXTRA_POSITION";
 
 	private static final String INSTANCE_GALLERY_FLIPPING = "INSTANCE_GALLERY_FLIPPING";
+	private static final String INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED = "INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED";
 
 	private static final float MAX_AMENITY_TEXT_WIDTH_IN_DP = 60.0f;
 
@@ -88,6 +89,7 @@ public class HotelActivity extends AsyncLoadActivity {
 	private boolean mWasStopped;
 
 	private boolean mGalleryFlipping = true;
+	private boolean mIsAmenitiesExpanded;
 
 	private HotelDescription mDescription;
 
@@ -95,6 +97,9 @@ public class HotelActivity extends AsyncLoadActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setupHotelActivity(savedInstanceState);
+		if (savedInstanceState != null && savedInstanceState.containsKey(INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED)) {
+			mIsAmenitiesExpanded = savedInstanceState.getBoolean(INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED);
+		}
 	}
 
 	@Override
@@ -226,6 +231,7 @@ public class HotelActivity extends AsyncLoadActivity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(INSTANCE_GALLERY_FLIPPING, mGallery.isFlipping());
+		outState.putBoolean(INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED, mIsAmenitiesExpanded);
 	}
 
 	@Override
@@ -316,7 +322,7 @@ public class HotelActivity extends AsyncLoadActivity {
 			addHotelRating(detailsSection);
 		}
 		else if (title.contains(getString(R.string.section_property_amenities))) {
-			if (body.length() > BODY_LENGTH_CUTOFF) {
+			if (mIsAmenitiesExpanded == false && body.length() > BODY_LENGTH_CUTOFF) {
 				bodyTextView.setText(Html.fromHtml(body.substring(0, BODY_LENGTH_TRUNCATE)) + "...");
 
 				TextView expanderTextView = (TextView) getLayoutInflater().inflate(R.layout.include_read_more_button, null);
@@ -327,6 +333,7 @@ public class HotelActivity extends AsyncLoadActivity {
 						RelativeLayout p = (RelativeLayout) v.getParent();
 						TextView bodyTextView = (TextView) p.findViewById(R.id.body_description_text_view);
 						bodyTextView.setText(Html.fromHtml(body));
+						mIsAmenitiesExpanded = true;
 					}
 				});
 
@@ -334,6 +341,9 @@ public class HotelActivity extends AsyncLoadActivity {
 				lp.addRule(RelativeLayout.BELOW, R.id.body_description_text_view);
 				lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
 				detailsSection.addView(expanderTextView, lp);
+			}
+			else {
+				bodyTextView.setText(Html.fromHtml(body));
 			}
 		}
 		else {
