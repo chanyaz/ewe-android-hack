@@ -89,7 +89,6 @@
                 android:layout_marginBottom="3dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="50dp"
-                android:layout_marginTop="3dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:orientation="vertical" >
@@ -98,7 +97,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="0px"
-                    android:layout_marginTop="-5dp"
                     android:layout_weight="1"
                     layout="@layout/include_guests" />
 
@@ -106,7 +104,7 @@
                     android:id="@+id/child_ages_button"
                     style="@style/Widget.Button.ChildAges"
                     android:layout_width="fill_parent"
-                    android:layout_height="58dp"
+                    android:layout_height="60dp"
                     android:layout_marginBottom="-5dp"
                     android:text="@string/button_enter_childrens_ages"
                     android:textSize="20sp"
@@ -116,7 +114,7 @@
                     android:id="@+id/search_button"
                     style="@style/Widget.Button.Yellow.Search"
                     android:layout_width="fill_parent"
-                    android:layout_height="90dp"
+                    android:layout_height="85dp"
                     android:layout_marginBottom="-10dp"
                     android:layout_marginTop="-5dp"
                     android:text="@string/search_for_hotels"
@@ -134,6 +132,94 @@
             android:src="@drawable/expedia_logo_large" />
     </LinearLayout>
 
-    <include layout="@layout/include_child_ages_layout" />
+    <LinearLayout
+        android:id="@+id/child_ages_layout"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/bg_popup_dialog"
+        android:orientation="vertical"
+        android:padding="30dp" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/prompt_please_specify_childrens_ages"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/button_x"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/btn_x" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/titleDivider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="15dp"
+            android:background="@color/divider_strong_holo" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:weightSum="100" >
+
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:orientation="vertical" >
+
+                <include
+                    android:id="@+id/child_1_age_layout"
+                    layout="@layout/include_child_age_row"
+                    android:visibility="visible" />
+
+                <include
+                    android:id="@+id/child_2_age_layout"
+                    layout="@layout/include_child_age_row"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:orientation="vertical" >
+
+                <include
+                    android:id="@+id/child_3_age_layout"
+                    layout="@layout/include_child_age_row"
+                    android:visibility="visible" />
+
+                <include
+                    android:id="@+id/child_4_age_layout"
+                    layout="@layout/include_child_age_row"
+                    android:visibility="visible" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/done_button"
+            style="@style/Widget.Button.Yellow"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="@string/button_done"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </RelativeLayout>
