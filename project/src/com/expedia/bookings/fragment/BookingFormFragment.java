@@ -453,7 +453,6 @@ public class BookingFormFragment extends DialogFragment {
 		// Add all the validators
 		mValidationProcessor.add(mFirstNameEditText, requiredFieldValidator);
 		mValidationProcessor.add(mLastNameEditText, requiredFieldValidator);
-		mValidationProcessor.add(mTelephoneCountryCodeSpinner, new TextViewValidator(new TelephoneValidator()));
 		mValidationProcessor.add(mTelephoneEditText, new TextViewValidator(new TelephoneValidator()));
 		mValidationProcessor.add(mEmailEditText, new TextViewValidator(new EmailValidator()));
 		mValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
