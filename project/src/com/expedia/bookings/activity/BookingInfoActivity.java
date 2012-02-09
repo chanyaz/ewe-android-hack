@@ -69,6 +69,7 @@ import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.ReceiptWidget;
 import com.expedia.bookings.widget.TelephoneSpinner;
+import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -823,14 +824,21 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	}
 
 	private void setSpinnerSelection(Spinner spinner, String target) {
-		mSelectedCountryPosition = findAdapterIndex(spinner.getAdapter(), target);
-		spinner.setSelection(mSelectedCountryPosition);
+		final int position = findAdapterIndex(spinner.getAdapter(), target);
+		if (!(spinner instanceof TelephoneSpinner)) {
+			mSelectedCountryPosition = position;
+		}
+		spinner.setSelection(position);
 	}
 
 	private int findAdapterIndex(SpinnerAdapter adapter, String target) {
+		boolean isTelephoneAdapter = (adapter instanceof TelephoneSpinnerAdapter);
+
 		int numItems = adapter.getCount();
 		for (int n = 0; n < numItems; n++) {
-			String name = (String) adapter.getItem(n);
+			String name = isTelephoneAdapter ? ((TelephoneSpinnerAdapter) adapter).getCountryName(n) : (String) adapter
+					.getItem(n);
+
 			if (name.equalsIgnoreCase(target)) {
 				return n;
 			}
@@ -841,7 +849,9 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private void setSpinnerSelection(Spinner spinner, String[] codes, String targetCode) {
 		for (int n = 0; n < codes.length; n++) {
 			if (targetCode.equals(codes[n])) {
-				mSelectedCountryPosition = n;
+				if (!(spinner instanceof TelephoneSpinner)) {
+					mSelectedCountryPosition = n;
+				}
 				spinner.setSelection(n);
 				return;
 			}
@@ -940,7 +950,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		mBillingInfo.setFirstName(mFirstNameEditText.getText().toString());
 		mBillingInfo.setLastName(mLastNameEditText.getText().toString());
-		mBillingInfo.setTelephoneCountryCode(mCountryCodes[mCountrySpinner.getSelectedItemPosition()]);
+		mBillingInfo.setTelephoneCountryCode(mCountryCodes[mTelephoneCountryCodeSpinner.getSelectedItemPosition()]);
 		mBillingInfo.setTelephone(mTelephoneEditText.getText().toString());
 		mBillingInfo.setEmail(mEmailEditText.getText().toString());
 

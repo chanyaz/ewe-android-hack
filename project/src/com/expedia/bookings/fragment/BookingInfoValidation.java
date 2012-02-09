@@ -32,18 +32,16 @@ public class BookingInfoValidation {
 		for (ValidationError error : validationProcessor.validate()) {
 			View view = (View) error.getObject();
 			if (view.getId() == R.id.first_name_edit_text || view.getId() == R.id.last_name_edit_text
-					|| view.getId() == R.id.telephone_country_code_edit_text
-					|| view.getId() == R.id.telephone_edit_text || view.getId() == R.id.email_edit_text) {
+					|| view.getId() == R.id.telephone_country_code_spinner || view.getId() == R.id.telephone_edit_text
+					|| view.getId() == R.id.email_edit_text) {
 				guestsCompleted = false;
 			}
 			else if (view.getId() == R.id.address1_edit_text || view.getId() == R.id.city_edit_text
-					|| view.getId() == R.id.state_edit_text
-					|| view.getId() == R.id.postal_code_edit_text) {
+					|| view.getId() == R.id.state_edit_text || view.getId() == R.id.postal_code_edit_text) {
 				billingCompleted = false;
 			}
 			else if (view.getId() == R.id.card_number_edit_text || view.getId() == R.id.expiration_month_edit_text
-					|| view.getId() == R.id.expiration_year_edit_text
-					|| view.getId() == R.id.security_code_edit_text) {
+					|| view.getId() == R.id.expiration_year_edit_text || view.getId() == R.id.security_code_edit_text) {
 				cardCompleted = false;
 			}
 		}

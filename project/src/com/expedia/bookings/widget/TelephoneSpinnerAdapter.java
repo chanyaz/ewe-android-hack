@@ -34,12 +34,16 @@ public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
 
 	@Override
 	public String getItem(int position) {
+		return String.format("%s (+%d)", getCountryName(position), getCountryCode(position));
+	}
+
+	public String getCountryName(int position) {
 		return mCountryNames[position];
 	}
 
 	public int getCountryCode(int position) {
-		if (COUNTRY_CODES.containsKey(getItem(position))) {
-			return COUNTRY_CODES.get(getItem(position));
+		if (COUNTRY_CODES.containsKey(getCountryName(position))) {
+			return COUNTRY_CODES.get(getCountryName(position));
 		}
 
 		return mCountryPhoneCodes[position];

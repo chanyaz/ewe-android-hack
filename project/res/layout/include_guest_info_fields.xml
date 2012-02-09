@@ -36,9 +36,9 @@
             android:hint="@string/LastName"
             android:imeOptions="flagNoExtractUi"
             android:inputType="textPersonName|textCapWords"
-            android:nextFocusDown="@+id/telephone_country_code_edit_text"
+            android:nextFocusDown="@+id/telephone_country_code_spinner"
             android:nextFocusLeft="@+id/first_name_edit_text"
-            android:nextFocusRight="@+id/telephone_country_code_edit_text"
+            android:nextFocusRight="@+id/telephone_country_code_spinner"
             android:nextFocusUp="@+id/first_name_edit_text"
             android:textColorHint="@color/hint_color" />
     </LinearLayout>
@@ -66,9 +66,9 @@
             android:imeOptions="flagNoExtractUi"
             android:inputType="phone"
             android:nextFocusDown="@+id/email_edit_text"
-            android:nextFocusLeft="@+id/telephone_country_code_edit_text"
+            android:nextFocusLeft="@+id/telephone_country_code_spinner"
             android:nextFocusRight="@+id/email_edit_text"
-            android:nextFocusUp="@+id/telephone_country_code_edit_text"
+            android:nextFocusUp="@+id/telephone_country_code_spinner"
             android:textColorHint="@color/hint_color" />
     </LinearLayout>
 

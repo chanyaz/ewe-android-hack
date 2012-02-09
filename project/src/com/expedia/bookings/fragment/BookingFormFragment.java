@@ -48,9 +48,12 @@ import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.ReceiptWidget;
+import com.expedia.bookings.widget.TelephoneSpinner;
+import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
@@ -73,7 +76,7 @@ public class BookingFormFragment extends DialogFragment {
 	private ViewGroup mGuestFormLayout;
 	private EditText mFirstNameEditText;
 	private EditText mLastNameEditText;
-	private EditText mTelephoneCountryCodeEditText;
+	private TelephoneSpinner mTelephoneCountryCodeSpinner;
 	private EditText mTelephoneEditText;
 	private EditText mEmailEditText;
 	private ViewGroup mBillingSavedLayout;
@@ -145,7 +148,7 @@ public class BookingFormFragment extends DialogFragment {
 		mGuestFormLayout = (ViewGroup) view.findViewById(R.id.guest_info_layout);
 		mFirstNameEditText = (EditText) view.findViewById(R.id.first_name_edit_text);
 		mLastNameEditText = (EditText) view.findViewById(R.id.last_name_edit_text);
-		mTelephoneCountryCodeEditText = (EditText) view.findViewById(R.id.telephone_country_code_edit_text);
+		mTelephoneCountryCodeSpinner = (TelephoneSpinner) view.findViewById(R.id.telephone_country_code_spinner);
 		mTelephoneEditText = (EditText) view.findViewById(R.id.telephone_edit_text);
 		mEmailEditText = (EditText) view.findViewById(R.id.email_edit_text);
 		mBillingSavedLayout = (ViewGroup) view.findViewById(R.id.saved_billing_info_layout);
@@ -255,8 +258,10 @@ public class BookingFormFragment extends DialogFragment {
 			}
 		});
 
-		// Set the default country as USA
-		setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
+		// Set the default country as locale country
+		final String targetCountry = getString(LocaleUtils.getDefaultCountryResId(getActivity()));
+		setSpinnerSelection(mTelephoneCountryCodeSpinner, targetCountry);
+		setSpinnerSelection(mCountrySpinner, targetCountry);
 		mCountrySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				// Adjust the postal code textview.  Do this regardless of how the country spinner changed selection
@@ -448,7 +453,7 @@ public class BookingFormFragment extends DialogFragment {
 		// Add all the validators
 		mValidationProcessor.add(mFirstNameEditText, requiredFieldValidator);
 		mValidationProcessor.add(mLastNameEditText, requiredFieldValidator);
-		mValidationProcessor.add(mTelephoneCountryCodeEditText, new TextViewValidator(new TelephoneValidator()));
+		mValidationProcessor.add(mTelephoneCountryCodeSpinner, new TextViewValidator(new TelephoneValidator()));
 		mValidationProcessor.add(mTelephoneEditText, new TextViewValidator(new TelephoneValidator()));
 		mValidationProcessor.add(mEmailEditText, new TextViewValidator(new EmailValidator()));
 		mValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
@@ -517,7 +522,7 @@ public class BookingFormFragment extends DialogFragment {
 
 		mFirstNameEditText.setOnFocusChangeListener(l);
 		mLastNameEditText.setOnFocusChangeListener(l);
-		mTelephoneCountryCodeEditText.setOnFocusChangeListener(l);
+		mTelephoneCountryCodeSpinner.setOnFocusChangeListener(l);
 		mTelephoneEditText.setOnFocusChangeListener(l);
 		mEmailEditText.setOnFocusChangeListener(l);
 		mAddress1EditText.setOnFocusChangeListener(l);
@@ -588,14 +593,21 @@ public class BookingFormFragment extends DialogFragment {
 	}
 
 	private void setSpinnerSelection(Spinner spinner, String target) {
-		mSelectedCountryPosition = findAdapterIndex(spinner.getAdapter(), target);
-		spinner.setSelection(mSelectedCountryPosition);
+		final int position = findAdapterIndex(spinner.getAdapter(), target);
+		if (!(spinner instanceof TelephoneSpinner)) {
+			mSelectedCountryPosition = position;
+		}
+		spinner.setSelection(position);
 	}
 
 	private int findAdapterIndex(SpinnerAdapter adapter, String target) {
+		boolean isTelephoneAdapter = (adapter instanceof TelephoneSpinnerAdapter);
+
 		int numItems = adapter.getCount();
 		for (int n = 0; n < numItems; n++) {
-			String name = (String) adapter.getItem(n);
+			String name = isTelephoneAdapter ? ((TelephoneSpinnerAdapter) adapter).getCountryName(n) : (String) adapter
+					.getItem(n);
+
 			if (name.equalsIgnoreCase(target)) {
 				return n;
 			}
@@ -606,7 +618,9 @@ public class BookingFormFragment extends DialogFragment {
 	private void setSpinnerSelection(Spinner spinner, String[] codes, String targetCode) {
 		for (int n = 0; n < codes.length; n++) {
 			if (targetCode.equals(codes[n])) {
-				mSelectedCountryPosition = n;
+				if (!(spinner instanceof TelephoneSpinner)) {
+					mSelectedCountryPosition = n;
+				}
 				spinner.setSelection(n);
 				return;
 			}
@@ -631,7 +645,7 @@ public class BookingFormFragment extends DialogFragment {
 
 		billingInfo.setFirstName(mFirstNameEditText.getText().toString());
 		billingInfo.setLastName(mLastNameEditText.getText().toString());
-		billingInfo.setTelephoneCountryCode(mTelephoneCountryCodeEditText.getText().toString());
+		billingInfo.setTelephoneCountryCode(mCountryCodes[mTelephoneCountryCodeSpinner.getSelectedItemPosition()]);
 		billingInfo.setTelephone(mTelephoneEditText.getText().toString());
 		billingInfo.setEmail(mEmailEditText.getText().toString());
 
@@ -695,7 +709,6 @@ public class BookingFormFragment extends DialogFragment {
 		// Sync the editable guest fields
 		mFirstNameEditText.setText(firstName);
 		mLastNameEditText.setText(lastName);
-		mTelephoneCountryCodeEditText.setText(billingInfo.getTelephoneCountryCode());
 		mTelephoneEditText.setText(billingInfo.getTelephone());
 		mEmailEditText.setText(billingInfo.getEmail());
 
@@ -713,6 +726,8 @@ public class BookingFormFragment extends DialogFragment {
 					}
 				}
 			}
+
+			setSpinnerSelection(mTelephoneCountryCodeSpinner, mCountryCodes, loc.getCountryCode());
 
 			TextView addressView = (TextView) view.findViewById(R.id.address_text_view);
 			addressView.setText(address);
