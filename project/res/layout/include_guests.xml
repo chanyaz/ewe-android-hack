@@ -44,8 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="0px"
+            style="@style/WhiteLabelGlowText"
             android:text="@string/adults"
-            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -89,8 +89,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="0px"
+            style="@style/WhiteLabelGlowText"
             android:text="@string/children"
-            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>

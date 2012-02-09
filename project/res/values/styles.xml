@@ -303,5 +303,13 @@
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">1</item>
     </style>
+    
+    <style name="WhiteLabelGlowText">
+        <item name="android:shadowColor">#a5000000</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 
 </resources>
