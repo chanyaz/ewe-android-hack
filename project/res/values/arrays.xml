@@ -366,6 +366,42 @@
 		<item>@string/country_ax</item>
 	</string-array>
 
+    <!--
+         List of Country Names that map to Expedia POSs
+    -->
+    <string-array name="country_names_match_to_points_of_sale">
+        <item>@string/country_us</item>
+        <item>@string/country_ar</item>
+        <item>@string/country_at</item>
+        <item>@string/country_au</item>
+        <item>@string/country_be</item>
+        <item>@string/country_br</item>
+        <item>@string/country_ca</item>
+        <item>@string/country_de</item>
+        <item>@string/country_dk</item>
+        <item>@string/country_es</item>
+        <item>@string/country_fr</item>
+        <item>@string/country_hk</item>
+        <item>@string/country_id</item>
+        <item>@string/country_ie</item>
+        <item>@string/country_in</item>
+        <item>@string/country_it</item>
+        <item>@string/country_jp</item>
+        <item>@string/country_kr</item>
+        <item>@string/country_mx</item>
+        <item>@string/country_my</item>
+        <item>@string/country_nl</item>
+        <item>@string/country_no</item>
+        <item>@string/country_nz</item>
+        <item>@string/country_ph</item>
+        <item>@string/country_se</item>
+        <item>@string/country_sg</item>
+        <item>@string/country_th</item>
+        <item>@string/country_tw</item>
+        <item>@string/country_gb</item>
+        <item>@string/country_vn</item>
+    </string-array>
+
 	<string-array name="country_codes">
 		<item>@string/country_code_af</item>
 		<item>@string/country_code_al</item>
