@@ -27,7 +27,7 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		return createViewFromResource(position, convertView, parent, android.R.layout.simple_spinner_item);
+		return createViewFromResource(position, convertView, parent, R.layout.simple_spinner_item);
 	}
 
 	private View createViewFromResource(int position, View convertView, ViewGroup parent, int resource) {

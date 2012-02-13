@@ -7,8 +7,8 @@
 	
 	<TextView
 		android:id="@+id/child_x_text"
-		android:layout_width="wrap_content"
-		android:layout_weight="1"
+		android:layout_width="0dp"
+		android:layout_weight="4"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center_vertical"
 		android:layout_marginLeft="10dp"
@@ -17,7 +17,8 @@
       
 	<Spinner 
 		android:id="@+id/child_x_age_spinner"
-		android:layout_width="150dp"
+		android:layout_width="0dp"
+		android:layout_weight="6"
 		android:layout_height="wrap_content"
 		android:layout_marginRight="5dp"
 		android:layout_marginTop="2dp"
