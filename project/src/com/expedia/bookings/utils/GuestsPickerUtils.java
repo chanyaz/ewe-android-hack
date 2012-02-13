@@ -26,7 +26,6 @@ public class GuestsPickerUtils {
 	public static final int MIN_CHILD_AGE = 0;
 	public static final int MAX_CHILD_AGE = 17;
 
-
 	public static void configureDisplayedValues(Context context, android.widget.NumberPicker adultsNumberPicker,
 			android.widget.NumberPicker childrenNumberPicker) {
 		adultsNumberPicker.setDisplayedValues(getAdultsDisplayedValues(context));
@@ -93,7 +92,8 @@ public class GuestsPickerUtils {
 		childrenNumberPicker.setCurrent(numChildren);
 	}
 
-	public static void showOrHideChildAgeSpinners(Context context, List<Integer>children, View container, OnItemSelectedListener listener) {
+	public static void showOrHideChildAgeSpinners(Context context, List<Integer> children, View container,
+			OnItemSelectedListener listener) {
 		if (container == null) {
 			return;
 		}
@@ -136,7 +136,7 @@ public class GuestsPickerUtils {
 		container.setVisibility(View.VISIBLE);
 	}
 
-	public static void resizeChildrenList(Context context, List<Integer>children, int count) {
+	public static void resizeChildrenList(Context context, List<Integer> children, int count) {
 		while (children.size() > count) {
 			children.remove(children.size() - 1);
 		}
@@ -157,8 +157,8 @@ public class GuestsPickerUtils {
 		}
 		SettingUtils.commitOrApply(editor);
 	}
-	
-	public static void setChildrenFromSpinners(Context context, View container, List<Integer>children) {
+
+	public static void setChildrenFromSpinners(Context context, View container, List<Integer> children) {
 		for (int i = 0; i < children.size(); i++) {
 			View row = getChildAgeLayout(container, i);
 			if (row == null) {
