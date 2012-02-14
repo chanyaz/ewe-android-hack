@@ -295,7 +295,7 @@ public class ExpediaServices implements DownloadListener {
 
 	private Object doRequest(String targetUrl, List<BasicNameValuePair> params, ResponseHandler<?> responseHandler,
 			int flags) {
-		String serverUrl = getE3Url(flags) + targetUrl;
+		String serverUrl = getEndpointUrl(flags) + targetUrl;
 
 		// Create the request
 		HttpPost post = NetUtils.createHttpPost(serverUrl, params);
@@ -413,20 +413,25 @@ public class ExpediaServices implements DownloadListener {
 		}
 	}
 
+	public enum EndPoint {
+		PRODUCTION,
+		TEST,
+		PROXY
+	}
+
 	/**
 	 * Returns the base E3 server url, based on dev settings
 	 * @param context
 	 * @return
 	 */
-	public String getE3Url(int flags) {
+	public String getEndpointUrl(int flags) {
+		EndPoint endPoint = getEndPoint(mContext);
+
 		StringBuilder builder = new StringBuilder();
 
-		boolean usingProxyServer = !AndroidUtils.isRelease(mContext)
-				&& SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_enabled), false);
+		builder.append(endPoint != EndPoint.PROXY && (flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
 
-		builder.append(!usingProxyServer && (flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
-
-		if (usingProxyServer) {
+		if (endPoint == EndPoint.PROXY) {
 			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
 					"localhost:3000") + "/");
 		}
@@ -436,8 +441,8 @@ public class ExpediaServices implements DownloadListener {
 
 		builder.append(LocaleUtils.getPointOfSale(mContext));
 
-		if (!usingProxyServer) {
-			if (useTestServer(mContext)) {
+		if (endPoint != EndPoint.PROXY) {
+			if (endPoint == EndPoint.TEST) {
 				builder.append(".chelwebestr37.bgb.karmalab.net");
 			}
 			builder.append("/MobileHotel/Webapp");
@@ -450,9 +455,24 @@ public class ExpediaServices implements DownloadListener {
 		return e3url;
 	}
 
-	public static boolean useTestServer(Context context) {
-		return !AndroidUtils.isRelease(context)
-				&& SettingUtils.get(context, context.getString(R.string.preference_use_dev_api), false);
+	public static EndPoint getEndPoint(Context context) {
+		boolean isRelease = AndroidUtils.isRelease(context);
+		boolean useTestServer = SettingUtils.get(context, context.getString(R.string.preference_use_dev_api), false);
+		boolean proxyEnabled = SettingUtils.get(context, context.getString(R.string.preference_proxy_server_enabled),
+				false);
+
+		if (!isRelease) {
+			// Proxy takes precedence over test server
+			if (proxyEnabled) {
+				return EndPoint.PROXY;
+			}
+			else if (useTestServer) {
+				return EndPoint.TEST;
+			}
+		}
+
+		// By default, hit prod server
+		return EndPoint.PRODUCTION;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -29,7 +29,7 @@ public class DebugMenu {
 		updateStatus(context, menu);
 	}
 
-	public static boolean onOptionsItemSelected(Context context,MenuItem item) {
+	public static boolean onOptionsItemSelected(Context context, MenuItem item) {
 		// Do nothing for now, except consume debug item clicks
 		switch (item.getItemId()) {
 		case R.id.debug_menu_item:
@@ -41,11 +41,19 @@ public class DebugMenu {
 	private static void updateStatus(Context context, Menu menu) {
 		MenuItem statusMenuItem = menu.findItem(R.id.debug_menu_item);
 		if (statusMenuItem != null) {
-			if (ExpediaServices.useTestServer(context)) {
-				statusMenuItem.setTitle("Server: Test");
-			}
-			else {
+			switch (ExpediaServices.getEndPoint(context)) {
+			case PRODUCTION:
 				statusMenuItem.setTitle("Server: Production");
+				break;
+			case TEST:
+				statusMenuItem.setTitle("Server: Test");
+				break;
+			case PROXY:
+				statusMenuItem.setTitle("Server: Proxy");
+				break;
+			default:
+				statusMenuItem.setTitle("Server: Unknown");
+				break;
 			}
 		}
 	}
