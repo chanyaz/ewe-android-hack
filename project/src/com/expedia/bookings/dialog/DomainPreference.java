@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.RadioButton;
 
 import com.expedia.bookings.R;
 
@@ -83,6 +84,7 @@ public class DomainPreference extends ListPreference {
 			// View stuff
 			TextView mNameTextView;
 			TextView mDomainTextView;
+			RadioButton mRadioButton;
 		}
 
 		public class DomainTuple {
@@ -123,6 +125,7 @@ public class DomainPreference extends ListPreference {
 				holder = new DomainViewHolder();
 				holder.mNameTextView = (TextView) convertView.findViewById(R.id.country_name_text_view);
 				holder.mDomainTextView = (TextView) convertView.findViewById(R.id.domain_name_text_view);
+				holder.mRadioButton = (RadioButton) convertView.findViewById(R.id.domain_radio_button);
 				convertView.setTag(holder);
 			}
 			else {
@@ -130,10 +133,10 @@ public class DomainPreference extends ListPreference {
 			}
 
 			if (position == mSelected) {
-				convertView.setBackgroundColor(0xFFFFA500);
+				holder.mRadioButton.setChecked(true);
 			}
 			else {
-				convertView.setBackgroundColor(Color.WHITE);
+				holder.mRadioButton.setChecked(false);
 			}
 
 			DomainTuple d = (DomainTuple) getItem(position);
