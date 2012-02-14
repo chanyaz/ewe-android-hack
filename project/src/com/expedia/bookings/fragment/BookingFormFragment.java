@@ -96,6 +96,7 @@ public class BookingFormFragment extends DialogFragment {
 
 	// Cached data from arrays
 	private String[] mCountryCodes;
+	private int[] mCountryPhoneCodes;
 
 	// Cached views (non-interactive)
 	private ScrollView mScrollView;
@@ -626,6 +627,18 @@ public class BookingFormFragment extends DialogFragment {
 		}
 	}
 
+	private void setSpinnerSelection(Spinner spinner, int[] codes, int targetCode) {
+		for (int n = 0; n < codes.length; n++) {
+			if (targetCode == codes[n]) {
+				if (!(spinner instanceof TelephoneSpinner)) {
+					mSelectedCountryPosition = n;
+				}
+				spinner.setSelection(n);
+				return;
+			}
+		}
+	}
+
 	// Focusing the rules & restrictions is special for two reasons:
 	// 1. It needs to focus the containing layout, so users can view the entire rules & restrictions.
 	// 2. It doesn't need to open the soft keyboard.
@@ -726,7 +739,8 @@ public class BookingFormFragment extends DialogFragment {
 				}
 			}
 
-			setSpinnerSelection(mTelephoneCountryCodeSpinner, mCountryCodes, loc.getCountryCode());
+			setSpinnerSelection(mTelephoneCountryCodeSpinner, mCountryPhoneCodes,
+					Integer.parseInt(billingInfo.getTelephoneCountryCode()));
 
 			TextView addressView = (TextView) view.findViewById(R.id.address_text_view);
 			addressView.setText(address);

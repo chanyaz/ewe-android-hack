@@ -121,6 +121,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	// Cached data from arrays
 	private String[] mCountryCodes;
+	private int[] mCountryPhoneCodes;
 
 	// Cached views
 	private ViewGroup mGuestSavedLayout;
@@ -225,6 +226,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		// Retrieve some data we keep using
 		Resources r = getResources();
 		mCountryCodes = r.getStringArray(R.array.country_codes);
+		mCountryPhoneCodes = r.getIntArray(R.array.country_phone_codes);
 
 		// Retrieve views that we need for the form fields
 		mGuestSavedLayout = (ViewGroup) findViewById(R.id.saved_guest_info_layout);
@@ -858,6 +860,18 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		}
 	}
 
+	private void setSpinnerSelection(Spinner spinner, int[] codes, int targetCode) {
+		for (int n = 0; n < codes.length; n++) {
+			if (targetCode == codes[n]) {
+				if (!(spinner instanceof TelephoneSpinner)) {
+					mSelectedCountryPosition = n;
+				}
+				spinner.setSelection(n);
+				return;
+			}
+		}
+	}
+
 	private void onFormFieldFocus() {
 		if (!mFormHasBeenFocused) {
 			// Change the button text
@@ -1029,7 +1043,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		}
 
 		// Sync the telephone country code spinner
-		setSpinnerSelection(mTelephoneCountryCodeSpinner, mCountryCodes, loc.getCountryCode());
+		setSpinnerSelection(mTelephoneCountryCodeSpinner, mCountryPhoneCodes,
+				Integer.parseInt(mBillingInfo.getTelephoneCountryCode()));
 
 		// Sync the editable billing info fields
 		mAddress1EditText.setText(loc.getStreetAddress().get(0));
