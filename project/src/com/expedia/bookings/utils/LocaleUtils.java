@@ -15,7 +15,7 @@ public class LocaleUtils {
 	private static final Map<String, Integer> POINT_OF_SALE_RES_ID = new HashMap<String, Integer>() {
 		{
 			put("US", R.string.point_of_sale_us);
-			put("UK", R.string.point_of_sale_uk);
+			put("GB", R.string.point_of_sale_uk);
 			put("AU", R.string.point_of_sale_au);
 			put("FR", R.string.point_of_sale_fr);
 			put("DE", R.string.point_of_sale_de);
