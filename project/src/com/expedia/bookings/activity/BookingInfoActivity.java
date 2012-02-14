@@ -950,7 +950,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		mBillingInfo.setFirstName(mFirstNameEditText.getText().toString());
 		mBillingInfo.setLastName(mLastNameEditText.getText().toString());
-		mBillingInfo.setTelephoneCountryCode(mCountryCodes[mTelephoneCountryCodeSpinner.getSelectedItemPosition()]);
+		mBillingInfo.setTelephoneCountryCode(mTelephoneCountryCodeSpinner.getSelectedTelephoneCountryCode() + "");
 		mBillingInfo.setTelephone(mTelephoneEditText.getText().toString());
 		mBillingInfo.setEmail(mEmailEditText.getText().toString());
 

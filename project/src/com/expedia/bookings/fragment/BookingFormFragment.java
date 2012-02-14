@@ -644,7 +644,7 @@ public class BookingFormFragment extends DialogFragment {
 
 		billingInfo.setFirstName(mFirstNameEditText.getText().toString());
 		billingInfo.setLastName(mLastNameEditText.getText().toString());
-		billingInfo.setTelephoneCountryCode(mCountryCodes[mTelephoneCountryCodeSpinner.getSelectedItemPosition()]);
+		billingInfo.setTelephoneCountryCode(mTelephoneCountryCodeSpinner.getSelectedTelephoneCountryCode() + "");
 		billingInfo.setTelephone(mTelephoneEditText.getText().toString());
 		billingInfo.setEmail(mEmailEditText.getText().toString());
 

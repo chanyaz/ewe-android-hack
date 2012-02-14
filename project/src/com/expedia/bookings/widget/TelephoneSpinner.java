@@ -23,8 +23,12 @@ public class TelephoneSpinner extends Spinner {
 
 		View child = getChildAt(0);
 		if (child instanceof TextView) {
-			final int code = ((TelephoneSpinnerAdapter) getAdapter()).getCountryCode(getSelectedItemPosition());
+			final int code = getSelectedTelephoneCountryCode();
 			((TextView) child).setText(String.format("+%d", code));
 		}
+	}
+
+	public int getSelectedTelephoneCountryCode() {
+		return ((TelephoneSpinnerAdapter) getAdapter()).getCountryCode(getSelectedItemPosition());
 	}
 }
