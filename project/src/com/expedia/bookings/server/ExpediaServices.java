@@ -421,10 +421,11 @@ public class ExpediaServices implements DownloadListener {
 	public String getE3Url(int flags) {
 		StringBuilder builder = new StringBuilder();
 
-		builder.append((flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
-
 		boolean usingProxyServer = !AndroidUtils.isRelease(mContext)
 				&& SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_enabled), false);
+
+		builder.append(!usingProxyServer && (flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
+
 		if (usingProxyServer) {
 			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
 					"localhost:3000") + "/");
