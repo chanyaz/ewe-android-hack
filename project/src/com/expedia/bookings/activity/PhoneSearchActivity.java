@@ -2389,9 +2389,14 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			final int numChildren = mSearchParams.getNumChildren();
 			mRefinementInfoTextView.setText(StrUtils.formatGuests(this, numAdults, numChildren));
 
-			List<Integer> children = mSearchParams.getChildren();
-			
-			GuestsPickerUtils.showOrHideChildAgeSpinners(PhoneSearchActivity.this, children, mChildAgesLayout, mChildAgeSelectedListener);
+			if (numChildren == 0) {
+				mChildAgesLayout.setVisibility(View.GONE);
+			}
+			else {
+				GuestsPickerUtils.showOrHideChildAgeSpinners(PhoneSearchActivity.this, mSearchParams.getChildren(),
+						mChildAgesLayout, mChildAgeSelectedListener);
+				mChildAgesLayout.setVisibility(View.VISIBLE);
+			}
 		}
 		else {
 			mRefinementInfoTextView.setText(null);
@@ -2706,7 +2711,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			GuestsPickerUtils.setChildrenFromSpinners(PhoneSearchActivity.this, mChildAgesLayout, mSearchParams.getChildren());
+			GuestsPickerUtils.setChildrenFromSpinners(PhoneSearchActivity.this, mChildAgesLayout,
+					mSearchParams.getChildren());
 			GuestsPickerUtils.updateDefaultChildAges(PhoneSearchActivity.this, mSearchParams.getChildren());
 		}
 

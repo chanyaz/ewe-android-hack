@@ -101,7 +101,6 @@ public class GuestsPickerUtils {
 		int numChildren = children == null ? 0 : children.size();
 
 		if (numChildren == 0) {
-			container.setVisibility(View.GONE);
 			return;
 		}
 
@@ -132,8 +131,6 @@ public class GuestsPickerUtils {
 				spinner.setOnItemSelectedListener(listener);
 			}
 		}
-
-		container.setVisibility(View.VISIBLE);
 	}
 
 	public static void resizeChildrenList(Context context, List<Integer> children, int count) {

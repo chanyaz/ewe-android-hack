@@ -119,6 +119,7 @@ public class GuestsDialogFragment extends DialogFragment {
 		}
 		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
 		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), mChildren, mChildAgesLayout, mChildAgeSelectedListener);
+		mChildAgesLayout.setVisibility(mChildren != null && mChildren.size() > 0 ? View.VISIBLE : View.GONE);
 	}
 
 	// Configure number pickers to dynamically change the layout on value changes

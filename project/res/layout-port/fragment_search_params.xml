@@ -6,7 +6,6 @@
     android:background="@drawable/bg_search_portrait" >
 
     <LinearLayout
-        android:id="@+id/all_search_params"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" >
@@ -110,7 +109,9 @@
                     android:id="@+id/child_ages_button"
                     style="@style/Widget.Button.ChildAges"
                     android:layout_width="fill_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="5dp"
+                    android:layout_marginBottom="-5dp"
+                    android:alpha="0"
                     android:text="@string/button_enter_childrens_ages"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -134,8 +135,11 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/bg_popup_dialog"
+        android:clickable="true"
+        android:focusable="true"
         android:orientation="vertical"
-        android:padding="30dp" >
+        android:padding="30dp"
+        android:visibility="gone" >
 
         <LinearLayout
             android:layout_width="fill_parent"

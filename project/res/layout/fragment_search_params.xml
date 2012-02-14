@@ -6,7 +6,6 @@
     android:background="@drawable/bg_search" >
 
     <LinearLayout
-        android:id="@+id/all_search_params"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" >
@@ -83,7 +82,6 @@
             <!-- Number of adults/kids, plus search button -->
 
             <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_marginBottom="3dp"
@@ -104,8 +102,9 @@
                     android:id="@+id/child_ages_button"
                     style="@style/Widget.Button.ChildAges"
                     android:layout_width="fill_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="5dp"
                     android:layout_marginBottom="-5dp"
+                    android:alpha="0"
                     android:text="@string/button_enter_childrens_ages"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -134,13 +133,16 @@
 
     <LinearLayout
         android:id="@+id/child_ages_layout"
-        android:layout_width="500dp"
+        android:layout_width="600dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/bg_popup_dialog"
+        android:clickable="true"
+        android:focusable="true"
         android:orientation="vertical"
-        android:padding="30dp" >
+        android:padding="30dp"
+        android:visibility="gone" >
 
         <LinearLayout
             android:layout_width="fill_parent"
