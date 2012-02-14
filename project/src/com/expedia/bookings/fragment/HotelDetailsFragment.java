@@ -359,7 +359,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 
 		AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
 				.getRoomsAndRatesAvailability();
-		mAvailabilityWidget.setButtonEnabled(availabilityResponse != null && !availabilityResponse.hasErrors());
+		mAvailabilityWidget.setButtonEnabled(availabilityResponse != null && !availabilityResponse.hasErrors()
+				&& !availabilityResponse.canRequestMoreData());
 
 		if (availabilityResponse != null) {
 			mAvailabilityWidget.showRates(availabilityResponse);
