@@ -511,7 +511,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	}
 
 	private void setupHotelUrl(final Property property, final SearchParams params) {
-		final Uri hotelUrl = Uri.parse("http://www." + LocaleUtils.getPointOfSale() + property.toUrl() + params.toUrl());
+		final String domain = LocaleUtils.getPointOfSale();
+		final Uri hotelUrl = Uri.parse("http://www." + domain + property.toUrl() + params.toUrl(domain));
 
 		String text = getString(R.string.view_this_hotel_on_website_template, LocaleUtils.getPointOfSale());
 		mWebsiteButton.setText(text);

@@ -456,7 +456,8 @@ public class HotelActivity extends AsyncLoadActivity {
 
 	private void setupHotelUrl(final Property property, final SearchParams params) {
 		TextView button = (TextView) findViewById(R.id.view_on_website_button);
-		final Uri hotelUrl = Uri.parse("http://www." + LocaleUtils.getPointOfSale(mContext) + property.toUrl() + params.toUrl());
+		final String domain = LocaleUtils.getPointOfSale(mContext);
+		final Uri hotelUrl = Uri.parse("http://www." + domain + property.toUrl() + params.toUrl(domain));
 
 		String text = getString(R.string.view_this_hotel_on_website_template, LocaleUtils.getPointOfSale(mContext));
 		button.setText(text);
