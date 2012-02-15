@@ -116,6 +116,7 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.hockey.helper.HockeyAppUtil;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
@@ -564,6 +565,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			// Mark that we've read the change
 			SettingUtils.save(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
 		}
+		
+		// HockeyApp update
+		HockeyAppUtil.checkForUpdatesHockeyApp(mContext, this, Codes.HOCKEY_APP_ID);
 	}
 
 	@Override
@@ -653,6 +657,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 
 		mIsActivityResumed = true;
+		
+		//HockeyApp crash
+		HockeyAppUtil.checkForCrashesHockeyApp(mContext, Codes.HOCKEY_APP_ID);
 	}
 
 	@Override

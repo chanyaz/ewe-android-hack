@@ -26,4 +26,7 @@ public class Codes {
 
 	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
 	public static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
+	
+	// HockeyApp app id, used for uploading builds to HockeyApp
+	public static final String HOCKEY_APP_ID = "4d9aae3faac40c74443772c8bebd5aaf";
 }
