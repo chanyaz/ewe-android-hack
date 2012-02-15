@@ -1,14 +1,11 @@
 package com.expedia.bookings.server;
 
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 
 import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.ServerError;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
 
@@ -24,17 +21,13 @@ public class BookingResponseHandler extends JsonResponseHandler<BookingResponse>
 	public BookingResponse handleJson(JSONObject response) {
 		BookingResponse bookingResponse = new BookingResponse();
 		try {
-			// Check for errors, return if found
-			List<ServerError> errors = ParserUtils.parseErrors(mContext, response);
-			if (errors != null) {
-				for (ServerError error : errors) {
-					bookingResponse.addError(error);
-				}
-				return bookingResponse;
-			}
+			// Check for errors
+			bookingResponse.addErrors(ParserUtils.parseErrors(mContext, response));
 
-			bookingResponse.setConfNumber(response.optString("hotelConfirmationNumber", null));
-			bookingResponse.setItineraryId(response.optString("itineraryNumber", null));
+			if (bookingResponse.isSuccess() || bookingResponse.succeededWithErrors()) {
+				bookingResponse.setConfNumber(response.optString("hotelConfirmationNumber", null));
+				bookingResponse.setItineraryId(response.optString("itineraryNumber", null));
+			}
 		}
 		catch (JSONException e) {
 			Log.e("Could not parse JSON reservation response.", e);

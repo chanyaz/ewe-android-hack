@@ -3,11 +3,21 @@ package com.expedia.bookings.data;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.json.JSONable;
 
-public class ServerError {
+public class ServerError implements JSONable {
+
+	public static final String FLAG_ITINERARY_BOOKED = "itineraryBooked";
+
 	private ErrorCode mErrorCode;
 	private String mCode;
 	private String mMessage;
@@ -37,6 +47,17 @@ public class ServerError {
 		catch (Exception e) {
 			this.mErrorCode = ErrorCode.UNKNOWN_ERROR;
 		}
+	}
+
+	/**
+	 * We are defining "succeeded" in this case as itineraryBooked == true. There are other flags 
+	 * we could use: "itenerarySaved", "emailSent". Also, this really only applies to 
+	 * results from BookingResponse.
+	 * @return
+	 */
+	public boolean succeededWithErrors() {
+		return mErrorCode == ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS && getExtra(FLAG_ITINERARY_BOOKED) != null
+				&& getExtra(FLAG_ITINERARY_BOOKED).equals("true");
 	}
 
 	public String getDiagnosticFullText() {
@@ -113,7 +134,7 @@ public class ServerError {
 	};
 
 	public static enum ErrorCode {
-		SIMULATED, HOTEL_SERVICE_FATAL_FAILURE, UNKNOWN_ERROR, INVALID_INPUT_UNKNOWN, INVALID_INPUT, HOTEL_ROOM_UNAVAILABLE, HOTEL_OFFER_UNAVAILABLE, USER_SERVICE_FATAL_FAILURE, BOOKING_FAILED, PAYMENT_FAILED
+		SIMULATED, HOTEL_SERVICE_FATAL_FAILURE, UNKNOWN_ERROR, INVALID_INPUT_UNKNOWN, INVALID_INPUT, HOTEL_ROOM_UNAVAILABLE, HOTEL_OFFER_UNAVAILABLE, USER_SERVICE_FATAL_FAILURE, BOOKING_FAILED, PAYMENT_FAILED, BOOKING_SUCCEEDED_WITH_ERRORS
 	}
 
 	private static String LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION = "LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION";
@@ -122,22 +143,22 @@ public class ServerError {
 	// or when the data needs some gentle massaging
 	public String getPresentableMessage(Context context) {
 		String message = mPresentationMessage;
-		if (message == null) {
+		if (TextUtils.isEmpty(message)) {
 			message = mVerboseMessage;
-			if (message == null) {
+			if (TextUtils.isEmpty(message)) {
 				message = mMessage;
-				if (message == null) {
-					if (mExtras != null && mExtras.containsKey("summary")) {
-						message = mExtras.get("summary");
-					}
-					else {
-						return null;
-					}
-				}
 			}
 		}
 
-		if (message.equals("TravelNow.com cannot service this request.") && mVerboseMessage != null) {
+		if (TextUtils.isEmpty(message)) {
+			return null;
+		}
+
+		if (mExtras.containsKey("emailSent") && mExtras.get("emailSent").equals("unknown")) {
+			// This is a special case for E3
+			message = context.getString(R.string.error_unable_to_send_email);
+		}
+		else if (message.equals("TravelNow.com cannot service this request.") && mVerboseMessage != null) {
 			message = mVerboseMessage.replace("Data in this request could not be validated: ", "");
 		}
 		else if (ERRORS.containsKey(message)) {
@@ -164,5 +185,44 @@ public class ServerError {
 		}
 
 		return message;
+	}
+
+	@Override
+	public JSONObject toJson() {
+		try {
+			JSONObject obj = new JSONObject();
+			obj.putOpt("code", mCode);
+			obj.putOpt("message", mMessage);
+			obj.putOpt("diagnosticFullText", mDiagnosticFullText);
+			obj.putOpt("verboseMessage", mVerboseMessage);
+			obj.putOpt("presentationMessage", mPresentationMessage);
+			obj.putOpt("category", mCategory);
+			obj.putOpt("handling", mHandling);
+			JSONUtils.putStringMap(obj, "extras", mExtras);
+
+			Log.e("doug: storing ServerError: " + obj.toString());
+
+			return obj;
+		}
+		catch (JSONException e) {
+			Log.e("Could not convert ServerError to JSON", e);
+			return null;
+		}
+	}
+
+	@Override
+	public boolean fromJson(JSONObject obj) {
+		setCode(obj.optString("code")); // handles mCode, mErrorCode
+		mMessage = obj.optString("message");
+		mDiagnosticFullText = obj.optString("diagnosticFullText");
+		mVerboseMessage = obj.optString("verboseMessage");
+		mPresentationMessage = obj.optString("presentationMessage");
+		mCategory = obj.optString("category");
+		mHandling = obj.optString("handling");
+		mExtras = JSONUtils.getStringMap(obj, "extras");
+
+		Log.e("doug: loading ServerError: " + obj.toString());
+
+		return true;
 	}
 }

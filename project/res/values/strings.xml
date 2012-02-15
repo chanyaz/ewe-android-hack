@@ -468,6 +468,10 @@
 	<string name="error_booking_title">Error</string>
 	<!-- Error message when we couldn't get a response -->
 	<string name="error_booking_null">Could not connect to Expedia servers.  Please check your connection and try again.</string>
+	<!-- Error message when booking completed with errors -->
+	<string name="error_booking_succeeded_with_errors">Your hotel room has been booked and reserved. However, there were the following errors: %s</string>
+	<!-- Error message when booking completed with errors - specifically if email was not sent -->
+	<string name="error_unable_to_send_email">We are unable to send a confirmation email.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$s on %2$s</string>
 	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->

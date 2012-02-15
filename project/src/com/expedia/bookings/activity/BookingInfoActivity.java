@@ -491,7 +491,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		}
 
 		BookingResponse response = (BookingResponse) results;
-		if (response.hasErrors()) {
+		if (!response.isSuccess() && !response.succeededWithErrors()) {
 			mErrors = response.getErrors();
 			showDialog(BookingInfoUtils.DIALOG_BOOKING_ERROR);
 			TrackingUtils.trackErrorPage(this, "ReservationRequestFailed");

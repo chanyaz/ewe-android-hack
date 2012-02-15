@@ -13,11 +13,27 @@ import com.mobiata.android.json.JSONable;
 public class Response implements JSONable {
 	private List<ServerError> mErrors;
 
+	public boolean isSuccess() {
+		return !hasErrors();
+	}
+
 	public void addError(ServerError error) {
+		if (error == null) {
+			return;
+		}
 		if (mErrors == null) {
 			mErrors = new ArrayList<ServerError>();
 		}
 		mErrors.add(error);
+	}
+
+	public void addErrors(List<ServerError> errors) {
+		if (errors == null) {
+			return;
+		}
+		for (ServerError error : errors) {
+			addError(error);
+		}
 	}
 
 	public List<ServerError> getErrors() {

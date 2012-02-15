@@ -22,7 +22,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.RateRules;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.ServerError;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.Log;
@@ -47,11 +46,8 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 		AvailabilityResponse availResponse = new AvailabilityResponse();
 		try {
 			// Check for errors, return if found
-			List<ServerError> errors = ParserUtils.parseErrors(mContext, response);
-			if (errors != null) {
-				for (ServerError error : errors) {
-					availResponse.addError(error);
-				}
+			availResponse.addErrors(ParserUtils.parseErrors(mContext, response));
+			if (!availResponse.isSuccess()) {
 				return availResponse;
 			}
 

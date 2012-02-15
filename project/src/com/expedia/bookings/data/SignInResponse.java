@@ -18,8 +18,9 @@ public class SignInResponse extends Response implements JSONable {
 		mSuccess = success;
 	}
 
+	@Override
 	public boolean isSuccess() {
-		return mSuccess;
+		return !hasErrors() && mSuccess;
 	}
 
 	public void setUser(User user) {

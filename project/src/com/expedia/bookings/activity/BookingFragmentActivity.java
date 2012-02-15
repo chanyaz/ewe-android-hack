@@ -269,7 +269,7 @@ public class BookingFragmentActivity extends Activity {
 
 			BookingResponse response = (BookingResponse) results;
 
-			if (response.hasErrors()) {
+			if (!response.isSuccess() && !response.succeededWithErrors()) {
 				// Gather the error message
 				String errorMsg = "";
 				int numErrors = response.getErrors().size();

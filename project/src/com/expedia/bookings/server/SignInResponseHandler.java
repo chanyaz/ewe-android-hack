@@ -1,13 +1,10 @@
 package com.expedia.bookings.server;
 
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.mobiata.android.Log;
@@ -25,19 +22,11 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 	public SignInResponse handleJson(JSONObject response) {
 		SignInResponse signInResponse = new SignInResponse();
 		try {
-			// Check for errors, return if found
-			List<ServerError> errors = ParserUtils.parseErrors(mContext, response);
-			if (errors != null) {
-				for (ServerError error : errors) {
-					signInResponse.addError(error);
-				}
-				return signInResponse;
-			}
+			// Check for errors
+			signInResponse.addErrors(ParserUtils.parseErrors(mContext, response));
+			signInResponse.setSuccess(response.optBoolean("success"));
 
-			boolean success = response.optBoolean("success");
-			signInResponse.setSuccess(success);
-
-			if (success) {
+			if (signInResponse.isSuccess()) {
 				User user = new User();
 				signInResponse.setUser(user);
 

@@ -7,19 +7,25 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
 public class BookingResponse extends Response implements JSONable {
-	private boolean mSuccess;
+
 	private String mConfNumber;
 	private String mHotelConfNumber;
 
 	// For Expedia
 	private String mItineraryId;
 
-	public boolean isSuccess() {
-		return mSuccess;
-	}
+	public boolean succeededWithErrors() {
+		if (!hasErrors()) {
+			return false;
+		}
 
-	public void setSuccess(boolean success) {
-		this.mSuccess = success;
+		for (ServerError error : getErrors()) {
+			if (error.succeededWithErrors()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public String getConfNumber() {
@@ -49,8 +55,7 @@ public class BookingResponse extends Response implements JSONable {
 	@Override
 	public JSONObject toJson() {
 		try {
-			JSONObject obj = new JSONObject();
-			obj.putOpt("success", mSuccess);
+			JSONObject obj = super.toJson();
 			obj.putOpt("confNumber", mConfNumber);
 			obj.putOpt("hotelConfNumber", mHotelConfNumber);
 			obj.putOpt("itineraryId", mItineraryId);
@@ -64,7 +69,7 @@ public class BookingResponse extends Response implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mSuccess = obj.optBoolean("success", false);
+		super.fromJson(obj);
 		mConfNumber = obj.optString("confNumber", null);
 		mHotelConfNumber = obj.optString("hotelConfNumber", null);
 		mItineraryId = obj.optString("itineraryId", null);

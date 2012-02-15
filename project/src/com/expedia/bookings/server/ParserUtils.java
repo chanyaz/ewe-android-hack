@@ -90,8 +90,10 @@ public class ParserUtils {
 				serverError.setDiagnosticFullText(error.optString("diagnosticFullText"));
 
 				JSONObject info = error.getJSONObject("errorInfo");
+				serverError.setMessage(info.optString("summary", null));
 				serverError.addExtra("field", info.optString("field", null));
-				serverError.addExtra("summary", info.optString("summary", null));
+				serverError.addExtra("itineraryBooked", info.optString("itineraryBooked", null));
+				serverError.addExtra("emailSent", info.optString("emailSent", null));
 
 				errors.add(serverError);
 			}

@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,7 +27,9 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.tracking.Tracker;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.expedia.bookings.widget.ReceiptWidget;
@@ -38,6 +41,7 @@ import com.google.android.maps.Overlay;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.util.IoUtils;
 
 public class ConfirmationActivity extends MapActivity {
@@ -136,6 +140,10 @@ public class ConfirmationActivity extends MapActivity {
 			}
 		}
 
+		if (mBookingResponse.succeededWithErrors() && savedInstanceState == null) {
+			showDialog(BookingInfoUtils.DIALOG_BOOKING_ERROR);
+		}
+
 		mReceiptWidget = new ReceiptWidget(this, findViewById(R.id.receipt), true);
 		mReceiptWidget.restoreInstanceState(savedInstanceState);
 
@@ -180,6 +188,7 @@ public class ConfirmationActivity extends MapActivity {
 
 		//////////////////////////////////////////////////
 		// Button bar configuration
+
 		ImageButton shareButton = (ImageButton) findViewById(R.id.share_button);
 		shareButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -279,6 +288,30 @@ public class ConfirmationActivity extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case BookingInfoUtils.DIALOG_BOOKING_ERROR: {
+			// Gather the error message
+			String errorMsg = "";
+			List<ServerError> errors = mBookingResponse.getErrors();
+			int numErrors = errors.size();
+			for (int a = 0; a < numErrors; a++) {
+				if (a > 0) {
+					errorMsg += "\n";
+				}
+				errorMsg += errors.get(a).getPresentableMessage(this);
+			}
+
+			errorMsg = getString(R.string.error_booking_succeeded_with_errors, errorMsg);
+
+			return DialogUtils.createSimpleDialog(this, BookingInfoUtils.DIALOG_BOOKING_ERROR,
+					getString(R.string.error_booking_title), errorMsg);
+		}
+		}
+		return super.onCreateDialog(id);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

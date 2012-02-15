@@ -331,7 +331,7 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 						serverError.addExtra("field", parser.getText());
 					}
 					else if (name2.equals("summary")) {
-						serverError.addExtra("summary", parser.getText());
+						serverError.setMessage(parser.getText());
 					}
 				}
 			}
