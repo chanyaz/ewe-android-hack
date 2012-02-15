@@ -1,5 +1,7 @@
 package com.expedia.bookings.data;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -432,30 +434,21 @@ public class SearchParams implements JSONable {
 
 	public String toUrl(String pointOfSales) {
 		StringBuilder str = new StringBuilder(128);
-		if (pointOfSales.equals("www.expedia.com")) {
-			// chkin
-			str.append("?chkin=");
-			str.append((mCheckInDate.get(Calendar.MONTH) + 1)
-				+ "/" + mCheckInDate.get(Calendar.DAY_OF_MONTH)
-				+ "/" + mCheckInDate.get(Calendar.YEAR));
-			// chkout
-			str.append("&chkout=");
-			str.append((mCheckOutDate.get(Calendar.MONTH) + 1)
-				+ "/" + mCheckOutDate.get(Calendar.DAY_OF_MONTH)
-				+ "/" + mCheckOutDate.get(Calendar.YEAR));
+		DateFormat dformat;
+		if (pointOfSales.equals("expedia.com")) {
+			dformat = new SimpleDateFormat("MM/dd/yyyy");
 		}
 		else {
-			// chkin
-			str.append("?chkin=");
-			str.append(mCheckInDate.get(Calendar.DAY_OF_MONTH)
-				+ "/" + (mCheckInDate.get(Calendar.MONTH) + 1)
-				+ "/" + mCheckInDate.get(Calendar.YEAR));
-			// chkout
-			str.append("&chkout=");
-			str.append(mCheckOutDate.get(Calendar.DAY_OF_MONTH)
-				+ "/" + (mCheckOutDate.get(Calendar.MONTH) + 1)
-				+ "/" + mCheckOutDate.get(Calendar.YEAR));
+			dformat = new SimpleDateFormat("dd/MM/yyyy");
 		}
+
+		// chkin
+		str.append("?chkin=");
+		str.append(dformat.format(mCheckInDate.getTime()));
+		// chkout
+		str.append("&chkout=");
+		str.append(dformat.format(mCheckOutDate.getTime()));
+
 		// rooms and occupant info
 		str.append("&rm1=a");
 		str.append(mNumAdults);
