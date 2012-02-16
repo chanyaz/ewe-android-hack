@@ -442,6 +442,8 @@ public class HotelActivity extends AsyncLoadActivity {
 		else {
 			Property property = response.getProperty();
 
+			mProperty.setMediaList(property.getMediaList());
+
 			description = property.getDescriptionText();
 
 			setupGallery(property);

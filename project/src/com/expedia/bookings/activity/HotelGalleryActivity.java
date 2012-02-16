@@ -31,6 +31,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
 public class HotelGalleryActivity extends FragmentActivity {
@@ -122,6 +123,21 @@ public class HotelGalleryActivity extends FragmentActivity {
 		int position = (mSelectedMedia == null) ? 0 : mAdapter.getPositionOfMedia(mSelectedMedia);
 		mSelectedMedia = (mSelectedMedia == null) ? (Media) mAdapter.getItem(0) : mSelectedMedia;
 		mHotelGallery.setSelection(position);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (isFinishing() && mProperty.getMediaCount() > 0) {
+			// In order to avoid memory issues, clear the cache of images we might've loaded in this activity
+			Log.d("Clearing out images from property.");
+
+			for (Media image : mProperty.getMediaList()) {
+				String imageUrl = image.getUrl();
+				ImageCache.removeImage(imageUrl, true);
+			}
+		}
 	}
 
 	public Media getHotelMedia(int position) {
@@ -237,17 +253,17 @@ public class HotelGalleryActivity extends FragmentActivity {
 			final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.hotel_image_progress_bar);
 			Media hotelMedia = ((HotelGalleryActivity) getActivity()).getHotelMedia(position);
 			hotelMedia.loadHighResImage(imageView, new OnImageLoaded() {
-				
+
 				@Override
 				public void onImageLoaded(String url, Bitmap bitmap) {
 					progressBar.setVisibility(View.GONE);
 					imageView.setVisibility(View.VISIBLE);
 				}
-				
+
 				@Override
 				public void onImageLoadFailed(String url) {
 					progressBar.setVisibility(View.GONE);
-					imageView.setVisibility(View.VISIBLE);					
+					imageView.setVisibility(View.VISIBLE);
 				}
 			});
 
