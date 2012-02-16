@@ -32,6 +32,15 @@ public class DomainPreference extends ListPreference {
 		this(context, null);
 	}
 
+	void setSelectedOption(int v) {
+		if (v < 0 || v > super.getEntryValues().length) {
+			mSelectedOption = 0;
+		}
+		else {
+			mSelectedOption = v;
+		}
+	}
+
 	@Override
 	protected void onPrepareDialogBuilder(Builder builder) {
 		DomainAdapter mDomainAdapter = new DomainAdapter(mContext);
@@ -58,7 +67,9 @@ public class DomainPreference extends ListPreference {
 
 	@Override
 	protected void onSetInitialValue(boolean restore, Object defaultValue) {
-		super.setValue(restore ? getPersistedString(mValue) : (String) defaultValue);
+		String v = restore ? getPersistedString(mValue) : (String) defaultValue;
+		setSelectedOption(super.findIndexOfValue(v));
+		super.setValue(v);
 	}
 
 	public class DomainAdapter extends BaseAdapter {
