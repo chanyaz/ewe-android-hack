@@ -6,6 +6,9 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.text.TextUtils;
+
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -45,6 +48,27 @@ public class Response implements JSONable {
 			return false;
 		}
 		return (mErrors.size() > 0);
+	}
+
+	public String gatherErrorMessage(Context context) {
+		if (mErrors == null) {
+			return null;
+		}
+
+		StringBuilder builder = new StringBuilder();
+		for (ServerError error : mErrors) {
+			String msg = error.getPresentableMessage(context);
+			if (!TextUtils.isEmpty(msg)) {
+				builder.append(msg);
+				builder.append("\n");
+			}
+		}
+
+		if (builder.length() == 0) {
+			return null;
+		}
+
+		return builder.substring(0, builder.length() - 1);
 	}
 
 	@Override

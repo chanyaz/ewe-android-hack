@@ -1,7 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +23,6 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.EventManager;
@@ -270,16 +267,7 @@ public class BookingFragmentActivity extends Activity {
 			BookingResponse response = (BookingResponse) results;
 
 			if (!response.isSuccess() && !response.succeededWithErrors()) {
-				// Gather the error message
-				String errorMsg = "";
-				int numErrors = response.getErrors().size();
-				List<ServerError> errors = response.getErrors();
-				for (int a = 0; a < numErrors; a++) {
-					if (a > 0) {
-						errorMsg += "\n";
-					}
-					errorMsg += errors.get(a).getPresentableMessage(BookingFragmentActivity.this);
-				}
+				String errorMsg = response.gatherErrorMessage(BookingFragmentActivity.this);
 
 				showErrorDialog(errorMsg);
 

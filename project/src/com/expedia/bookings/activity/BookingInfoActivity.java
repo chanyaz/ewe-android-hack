@@ -55,7 +55,6 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
@@ -109,6 +108,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private SearchParams mSearchParams;
 	private Property mProperty;
 	private Rate mRate;
+	private BookingResponse mResponse;
 
 	// The data that the user has entered for billing info
 	private BillingInfo mBillingInfo;
@@ -168,9 +168,6 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
 
-	// Errors from a bad booking
-	List<ServerError> mErrors;
-
 	// Instance keys
 	private static final int INSTANCE_BILLING_INFO = 1;
 	private static final int INSTANCE_FORM_HAS_BEEN_FOCUSED = 2;
@@ -179,7 +176,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private static final int INSTANCE_GUESTS_COMPLETED = 5;
 	private static final int INSTANCE_BILLING_COMPLETED = 6;
 	private static final int INSTANCE_CARD_COMPLETED = 7;
-	private static final int INSTANCE_ERRORS = 8;
+	private static final int INSTANCE_BOOKING_RESPONSE = 8;
 
 	private BookingInfoValidation mBookingInfoValidation;
 
@@ -276,7 +273,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			mBookingInfoValidation.setGuestsSectionCompleted((Boolean) lastInstance.get(INSTANCE_GUESTS_COMPLETED));
 			mBookingInfoValidation.setBillingSectionCompleted((Boolean) lastInstance.get(INSTANCE_BILLING_COMPLETED));
 			mBookingInfoValidation.setCardSectionCompleted((Boolean) lastInstance.get(INSTANCE_CARD_COMPLETED));
-			this.mErrors = (List<ServerError>) lastInstance.get(INSTANCE_ERRORS);
+			this.mResponse = (BookingResponse) lastInstance.get(INSTANCE_BOOKING_RESPONSE);
 
 			if ((Boolean) lastInstance.get(INSTANCE_FORM_HAS_BEEN_FOCUSED)) {
 				onFormFieldFocus();
@@ -333,7 +330,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		instance.put(INSTANCE_GUESTS_COMPLETED, mBookingInfoValidation.isGuestsSectionCompleted());
 		instance.put(INSTANCE_BILLING_COMPLETED, mBookingInfoValidation.isBillingSectionCompleted());
 		instance.put(INSTANCE_CARD_COMPLETED, mBookingInfoValidation.isCardSectionCompleted());
-		instance.put(INSTANCE_ERRORS, mErrors);
+		instance.put(INSTANCE_BOOKING_RESPONSE, mResponse);
 
 		return instance;
 	}
@@ -396,15 +393,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 					R.string.error_booking_title, R.string.error_booking_null);
 		}
 		case BookingInfoUtils.DIALOG_BOOKING_ERROR: {
-			// Gather the error message
-			String errorMsg = "";
-			int numErrors = mErrors.size();
-			for (int a = 0; a < numErrors; a++) {
-				if (a > 0) {
-					errorMsg += "\n";
-				}
-				errorMsg += mErrors.get(a).getPresentableMessage(this);
-			}
+			String errorMsg = mResponse.gatherErrorMessage(this);
 
 			return DialogUtils.createSimpleDialog(this, BookingInfoUtils.DIALOG_BOOKING_ERROR,
 					getString(R.string.error_booking_title), errorMsg);
@@ -490,9 +479,8 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 			return;
 		}
 
-		BookingResponse response = (BookingResponse) results;
-		if (!response.isSuccess() && !response.succeededWithErrors()) {
-			mErrors = response.getErrors();
+		mResponse = (BookingResponse) results;
+		if (!mResponse.isSuccess() && !mResponse.succeededWithErrors()) {
 			showDialog(BookingInfoUtils.DIALOG_BOOKING_ERROR);
 			TrackingUtils.trackErrorPage(this, "ReservationRequestFailed");
 			return;
@@ -500,7 +488,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 		Intent intent = new Intent(this, ConfirmationActivity.class);
 		intent.fillIn(getIntent(), 0);
-		intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
+		intent.putExtra(Codes.BOOKING_RESPONSE, mResponse.toJson().toString());
 
 		// Create a BillingInfo that lacks the user's security code (for safety)
 		JSONObject billingJson = mBillingInfo.toJson();

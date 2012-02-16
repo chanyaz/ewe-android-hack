@@ -27,7 +27,6 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
@@ -294,18 +293,8 @@ public class ConfirmationActivity extends MapActivity {
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case BookingInfoUtils.DIALOG_BOOKING_ERROR: {
-			// Gather the error message
-			String errorMsg = "";
-			List<ServerError> errors = mBookingResponse.getErrors();
-			int numErrors = errors.size();
-			for (int a = 0; a < numErrors; a++) {
-				if (a > 0) {
-					errorMsg += "\n";
-				}
-				errorMsg += errors.get(a).getPresentableMessage(this);
-			}
-
-			errorMsg = getString(R.string.error_booking_succeeded_with_errors, errorMsg);
+			String errorMsg = getString(R.string.error_booking_succeeded_with_errors,
+					mBookingResponse.gatherErrorMessage(this));
 
 			return DialogUtils.createSimpleDialog(this, BookingInfoUtils.DIALOG_BOOKING_ERROR,
 					getString(R.string.error_booking_title), errorMsg);

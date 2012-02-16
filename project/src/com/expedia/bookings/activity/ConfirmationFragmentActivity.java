@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -26,6 +27,7 @@ import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.google.android.maps.MapActivity;
 import com.mobiata.android.Log;
+import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.IoUtils;
 
@@ -106,6 +108,10 @@ public class ConfirmationFragmentActivity extends MapActivity {
 		}
 
 		setContentView(R.layout.activity_confirmation_fragment);
+
+		if (mInstance.mBookingResponse.succeededWithErrors() && savedInstanceState == null) {
+			showSucceededWithErrorsDialog();
+		}
 
 		// Track page load
 		if (savedInstanceState == null) {
@@ -225,6 +231,19 @@ public class ConfirmationFragmentActivity extends MapActivity {
 		intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
 		startActivity(intent);
 		finish();
+	}
+
+	public void showSucceededWithErrorsDialog() {
+		FragmentManager fm = getFragmentManager();
+		String dialogTag = getString(R.string.tag_simple_dialog);
+		if (fm.findFragmentByTag(dialogTag) == null) {
+			String title = getString(R.string.error_booking_title);
+			String message = getString(R.string.error_booking_succeeded_with_errors,
+					mInstance.mBookingResponse.gatherErrorMessage(this));
+
+			DialogFragment newFragment = SimpleDialogFragment.newInstance(title, message);
+			newFragment.show(getFragmentManager(), dialogTag);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -199,9 +199,6 @@ public class ServerError implements JSONable {
 			obj.putOpt("category", mCategory);
 			obj.putOpt("handling", mHandling);
 			JSONUtils.putStringMap(obj, "extras", mExtras);
-
-			Log.e("doug: storing ServerError: " + obj.toString());
-
 			return obj;
 		}
 		catch (JSONException e) {
@@ -220,9 +217,6 @@ public class ServerError implements JSONable {
 		mCategory = obj.optString("category");
 		mHandling = obj.optString("handling");
 		mExtras = JSONUtils.getStringMap(obj, "extras");
-
-		Log.e("doug: loading ServerError: " + obj.toString());
-
 		return true;
 	}
 }
