@@ -831,7 +831,7 @@
 	<string name="country_ke">Kenya</string>
 	<string name="country_ki">Kiribati</string>
 	<string name="country_kp">Korea, Democratic People\'s Republic of</string>
-	<string name="country_kr">Korea, Republic of</string>
+	<string name="country_kr">Korea</string>
 	<string name="country_kw">Kuwait</string>
 	<string name="country_kg">Kyrgyzstan</string>
 	<string name="country_la">Lao People\'s Democratic Republic</string>
@@ -929,7 +929,7 @@
 	<string name="country_se">Sweden</string>
 	<string name="country_ch">Switzerland</string>
 	<string name="country_sy">Syrian Arab Republic</string>
-	<string name="country_tw">Taiwan, Province of China</string>
+	<string name="country_tw">Taiwan</string>
 	<string name="country_tj">Tajikistan</string>
 	<string name="country_tz">Tanzania, United Republic of</string>
 	<string name="country_th">Thailand</string>
