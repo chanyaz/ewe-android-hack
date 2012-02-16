@@ -154,7 +154,7 @@ public class ServerError implements JSONable {
 			return null;
 		}
 
-		if (mExtras.containsKey("emailSent") && mExtras.get("emailSent").equals("unknown")) {
+		if (mExtras != null && mExtras.containsKey("emailSent") && mExtras.get("emailSent").equals("unknown")) {
 			// This is a special case for E3
 			message = context.getString(R.string.error_unable_to_send_email);
 		}
@@ -174,7 +174,7 @@ public class ServerError implements JSONable {
 		// Handle special cases
 		switch (mErrorCode) {
 		case INVALID_INPUT: {
-			if (mExtras.containsKey("field")) {
+			if (mExtras != null && mExtras.containsKey("field")) {
 				String field = mExtras.get("field");
 				if (field.equals(LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION)) {
 					message = context.getString(R.string.ean_error_no_results);
