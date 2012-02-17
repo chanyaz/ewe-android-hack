@@ -132,7 +132,7 @@ public class TrackingUtils {
 		s.eVar31 = Locale.getDefault().getCountry();
 
 		// Experience segmentation
-		s.eVar50 = (usingTabletInterface) ? "app.tablet.android" : "app.android";
+		s.eVar50 = (usingTabletInterface) ? "app.tablet.android" : "app.phone.android";
 
 		// TPID
 		s.prop7 = LocaleUtils.getTPID(context);
