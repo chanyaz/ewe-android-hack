@@ -114,14 +114,15 @@ public class GuestsDialogFragment extends DialogFragment {
 			mChildren.add(i);
 		}
 	}
-	
+
 	private void displayGuestCountViews() {
 		Dialog dialog = getDialog();
 		if (dialog != null) {
 			dialog.setTitle(getTitleText());
 		}
 		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
-		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), mChildren, mChildAgesLayout, mChildAgeSelectedListener);
+		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), mChildren, mChildAgesLayout,
+				mChildAgeSelectedListener);
 		mChildAgesLayout.setVisibility(mChildren != null && mChildren.size() > 0 ? View.VISIBLE : View.GONE);
 
 		String labelSelectEachChildsAge = getResources().getQuantityString(R.plurals.select_each_childs_age,
