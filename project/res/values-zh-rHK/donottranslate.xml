@@ -4,5 +4,6 @@
     <string name="section_property_amenities">酒店設施</string>
     <string name="section_rooms">房間</string>
     <string name="section_policies">政策</string>
+    <string name="section_fees">費用</string>
 
 </resources>

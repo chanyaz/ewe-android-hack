@@ -4,5 +4,6 @@
     <string name="section_property_amenities">Fasilitas Properti</string>
     <string name="section_rooms">Kamar</string>
     <string name="section_policies">Kebijakan</string>
+    <string name="section_fees">Biaya</string>
 
 </resources>

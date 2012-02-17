@@ -4,5 +4,6 @@
     <string name="section_property_amenities">施設の設備</string>
     <string name="section_rooms">部屋</string>
     <string name="section_policies">ポリシー</string>
+    <string name="section_fees">サービス料</string>
 
 </resources>

@@ -4,5 +4,6 @@
     <string name="section_property_amenities">Servicios del alojamiento</string>
     <string name="section_rooms">Habitaciones</string>
     <string name="section_policies">Directivas</string>
+    <string name="section_fees">Tasas</string>
 
 </resources>

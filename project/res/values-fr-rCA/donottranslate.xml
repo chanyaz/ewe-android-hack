@@ -4,5 +4,6 @@
     <string name="section_property_amenities">Commodités de l\'établissement</string>
     <string name="section_rooms">Chambres</string>
     <string name="section_policies">Politiques</string>
+    <string name="section_fees">Frais</string>
 
 </resources>

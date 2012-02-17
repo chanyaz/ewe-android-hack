@@ -4,5 +4,6 @@
     <string name="section_property_amenities">Servizi struttura</string>
     <string name="section_rooms">Camere</string>
     <string name="section_policies">Regolamenti</string>
+    <string name="section_fees">Tariffe</string>
 
 </resources>

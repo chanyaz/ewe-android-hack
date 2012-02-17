@@ -4,5 +4,6 @@
     <string name="section_property_amenities">Hotelausstattung</string>
     <string name="section_rooms">Zimmer</string>
     <string name="section_policies">Richtlinien</string>
+    <string name="section_fees">Gebühren</string>
 
 </resources>
