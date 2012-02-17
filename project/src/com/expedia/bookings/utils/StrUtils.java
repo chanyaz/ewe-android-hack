@@ -1,9 +1,7 @@
 package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -14,9 +12,7 @@ import android.text.style.StrikethroughSpan;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.mobiata.android.LocationServices;
 
@@ -178,41 +174,5 @@ public class StrUtils {
 		StrikethroughSpan strikeThroughSpan = new StrikethroughSpan();
 		strSpannable.setSpan(strikeThroughSpan, 0, str.length(), 0);
 		return strSpannable;
-	}
-	
-	public static List<String> getImageUrls(Property property) {
-		List<String> urls = new ArrayList<String>(property.getMediaCount());
-		Set<String> usedUrls = new HashSet<String>();
-		
-		if(property.getMediaList() == null) {
-			return urls;
-		}
-		
-		for (Media media : property.getMediaList()) {
-			String url = media.getUrl();
-			if (!usedUrls.contains(url)) {
-				urls.add(url);
-				usedUrls.add(url);
-			}
-		}
-		return urls;
-	}
-	
-	public static List<Media> getUniqueMediaList(Property property) {
-		List<Media> uniqueMediaList = new ArrayList<Media>(property.getMediaCount());
-		Set<Media> usedMedia = new HashSet<Media>();
-		
-		if(property.getMediaList() == null) {
-			return uniqueMediaList;
-		}
-		
-		for(Media media : property.getMediaList()) {
-			if(!usedMedia.contains(media)) {
-				uniqueMediaList.add(media);
-				usedMedia.add(media);
-			}
-		}
-		
-		return uniqueMediaList;
 	}
 }

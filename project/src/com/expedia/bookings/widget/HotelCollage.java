@@ -24,7 +24,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 
 public class HotelCollage {
@@ -71,7 +70,7 @@ public class HotelCollage {
 
 	public void updateCollage(Property property) {
 		mCurrentIndex = 0;
-		mPropertyMediaList = StrUtils.getUniqueMediaList(property);
+		mPropertyMediaList = property.getMediaList();
 
 		// remove any pending messages in the queue since new ones
 		// will be scheduled for the cascading effect
