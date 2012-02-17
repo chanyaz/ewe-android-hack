@@ -614,6 +614,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		setSearchEditViews();
 		setBottomBarOptions();
 		GuestsPickerUtils.configureAndUpdateDisplayedValues(this, mAdultsNumberPicker, mChildrenNumberPicker);
+
 		displayRefinementInfo();
 		setActionBarBookingInfoText();
 
@@ -2389,14 +2390,10 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			final int numChildren = mSearchParams.getNumChildren();
 			mRefinementInfoTextView.setText(StrUtils.formatGuests(this, numAdults, numChildren));
 
-			if (numChildren == 0) {
-				mChildAgesLayout.setVisibility(View.GONE);
-			}
-			else {
-				GuestsPickerUtils.showOrHideChildAgeSpinners(PhoneSearchActivity.this, mSearchParams.getChildren(),
-						mChildAgesLayout, mChildAgeSelectedListener);
-				mChildAgesLayout.setVisibility(View.VISIBLE);
-			}
+			mChildAgesLayout.setVisibility(numChildren == 0 ? View.GONE : View.VISIBLE);
+
+			GuestsPickerUtils.showOrHideChildAgeSpinners(PhoneSearchActivity.this, mSearchParams.getChildren(),
+					mChildAgesLayout, mChildAgeSelectedListener);
 		}
 		else {
 			mRefinementInfoTextView.setText(null);
