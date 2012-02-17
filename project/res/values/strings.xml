@@ -19,12 +19,15 @@
 	<string name="drag_to_extend_your_stay">&lt;b&gt;Drag&lt;/b&gt; to extend your stay.</string>
 	<!--  Label for picking guests for hotel booking -->
 	<string name="who_is_going">&lt;b&gt;Who&lt;/b&gt; is going?</string>
-	<!--  Label for tablet age selection popup button -->
-	<string name="button_enter_childrens_ages">Enter Children\'s Ages</string>
 	<!-- Child age dialog button -->
 	<string name="button_done">Done</string>
 	<!--  Label for child age selection prompt -->
-	<string name="prompt_please_specify_childrens_ages">Please specify children\'s ages.</string>
+	<plurals name="select_each_childs_age">
+	    <item quantity="one">Select the child\'s age</item>
+	    <item quantity="two">Select each child\'s age</item>
+	    <item quantity="many">Select each child\'s age</item>
+	    <item quantity="other">Select each child\'s age</item>
+	</plurals>
 	<!--  Title of "select child age" spinner dialog box -->
 	<string name="prompt_select_child_age">Select Child Age (%1$s - %2$s)</string>
 	<!--  Label for child's age on search refinements -->

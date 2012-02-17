@@ -49,13 +49,14 @@
             android:visibility="visible" >
 
             <TextView
+                android:id="@+id/label_select_each_childs_age"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/bg_port_child_picker_header"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-                android:text="@string/prompt_please_specify_childrens_ages"
+                android:text="@plurals/select_each_childs_age"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
 

@@ -233,6 +233,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private TextView mFilterInfoTextView;
 	private TextView mGuestsTextView;
 	private TextView mRefinementInfoTextView;
+	private TextView mSelectChildAgeTextView;
 	private TextView mSortTypeTextView;
 	private View mButtonBarLayout;
 	private View mDatesLayout;
@@ -1016,6 +1017,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		mButtonBarLayout = findViewById(R.id.button_bar_layout);
 		mRefinementInfoTextView = (TextView) findViewById(R.id.refinement_info_text_view);
+		mSelectChildAgeTextView = (TextView) findViewById(R.id.label_select_each_childs_age);
 		mSearchButton = findViewById(R.id.search_button);
 
 		mProgressBarLayout = (ViewGroup) findViewById(R.id.search_progress_layout);
@@ -2391,6 +2393,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			mRefinementInfoTextView.setText(StrUtils.formatGuests(this, numAdults, numChildren));
 
 			mChildAgesLayout.setVisibility(numChildren == 0 ? View.GONE : View.VISIBLE);
+			mSelectChildAgeTextView.setText(getResources().getQuantityString(R.plurals.select_each_childs_age,
+					numChildren));
 
 			GuestsPickerUtils.showOrHideChildAgeSpinners(PhoneSearchActivity.this, mSearchParams.getChildren(),
 					mChildAgesLayout, mChildAgeSelectedListener);

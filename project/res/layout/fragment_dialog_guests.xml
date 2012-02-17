@@ -31,9 +31,10 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/label_select_each_childs_age"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/prompt_please_specify_childrens_ages"
+            android:text="@plurals/select_each_childs_age"
             android:textStyle="bold" />
 
         <View

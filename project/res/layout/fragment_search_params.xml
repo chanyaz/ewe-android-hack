@@ -105,7 +105,7 @@
                     android:layout_height="5dp"
                     android:layout_marginBottom="-5dp"
                     android:alpha="0"
-                    android:text="@string/button_enter_childrens_ages"
+                    android:text="@plurals/select_each_childs_age"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -149,10 +149,11 @@
             android:layout_height="wrap_content" >
 
             <TextView
+                android:id="@+id/label_select_each_childs_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/prompt_please_specify_childrens_ages"
+                android:text="@plurals/select_each_childs_age"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

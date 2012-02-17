@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchResultsFragmentActivity;
@@ -30,6 +31,7 @@ public class GuestsDialogFragment extends DialogFragment {
 
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
+	private TextView mSelectChildAgeTextView;
 	private View mChildAgesLayout;
 
 	private int mAdultCount;
@@ -50,6 +52,7 @@ public class GuestsDialogFragment extends DialogFragment {
 		View parent = inflater.inflate(R.layout.fragment_dialog_guests, null);
 		mAdultsNumberPicker = (NumberPicker) parent.findViewById(R.id.adults_number_picker);
 		mChildrenNumberPicker = (NumberPicker) parent.findViewById(R.id.children_number_picker);
+		mSelectChildAgeTextView = (TextView) parent.findViewById(R.id.label_select_each_childs_age);
 		mChildAgesLayout = parent.findViewById(R.id.child_ages_layout);
 		builder.setView(parent);
 
@@ -120,6 +123,11 @@ public class GuestsDialogFragment extends DialogFragment {
 		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
 		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), mChildren, mChildAgesLayout, mChildAgeSelectedListener);
 		mChildAgesLayout.setVisibility(mChildren != null && mChildren.size() > 0 ? View.VISIBLE : View.GONE);
+
+		String labelSelectEachChildsAge = getResources().getQuantityString(R.plurals.select_each_childs_age,
+				mChildren.size());
+		mSelectChildAgeTextView.setText(labelSelectEachChildsAge);
+
 	}
 
 	// Configure number pickers to dynamically change the layout on value changes

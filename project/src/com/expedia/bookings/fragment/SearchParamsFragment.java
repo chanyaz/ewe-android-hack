@@ -85,6 +85,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
 	private TextView mSuggestionErrorTextView;
+	private TextView mSelectChildAgeTextView;
 	private View mChildAgesLayout;
 	private Button mChildAgesButton;
 
@@ -121,6 +122,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		mAdultsNumberPicker = (NumberPicker) view.findViewById(R.id.adults_number_picker);
 		mChildrenNumberPicker = (NumberPicker) view.findViewById(R.id.children_number_picker);
 		mSuggestionErrorTextView = (TextView) view.findViewById(R.id.suggestion_error_text_view);
+		mSelectChildAgeTextView = (TextView) view.findViewById(R.id.label_select_each_childs_age);
 		mChildAgesLayout = view.findViewById(R.id.child_ages_layout);
 		mChildAgesButton = (Button) view.findViewById(R.id.child_ages_button);
 
@@ -325,6 +327,11 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			layout.height = dpToPx(getActivity(), 60);
 			mChildAgesButton.setLayoutParams(layout);
 		}
+
+		String labelSelectEachChildsAge = getResources().getQuantityString(R.plurals.select_each_childs_age,
+				params.getNumChildren());
+		mSelectChildAgeTextView.setText(labelSelectEachChildsAge);
+		mChildAgesButton.setText(labelSelectEachChildsAge);
 	}
 
 	private void setHtmlTextView(View container, int textViewId, int strId) {
@@ -355,6 +362,11 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 				searchParams.setNumAdults(mAdultsNumberPicker.getValue());
 				Activity activity = getActivity();
 				GuestsPickerUtils.resizeChildrenList(activity, children, mChildrenNumberPicker.getValue());
+
+				String labelSelectEachChildsAge = getResources().getQuantityString(R.plurals.select_each_childs_age,
+						searchParams.getNumChildren());
+				mSelectChildAgeTextView.setText(labelSelectEachChildsAge);
+				mChildAgesButton.setText(labelSelectEachChildsAge);
 
 				GuestsPickerUtils.showOrHideChildAgeSpinners(activity, children, mChildAgesLayout,
 						mChildAgeSelectedListener);
