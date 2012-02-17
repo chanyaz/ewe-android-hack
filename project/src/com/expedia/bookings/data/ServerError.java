@@ -112,7 +112,9 @@ public class ServerError implements JSONable {
 		if (mExtras == null) {
 			mExtras = new HashMap<String, String>();
 		}
-		mExtras.put(key, value);
+		if (value != null) {
+			mExtras.put(key, value);
+		}
 	}
 
 	public String getExtra(String key) {
