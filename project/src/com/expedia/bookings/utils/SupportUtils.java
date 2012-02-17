@@ -139,7 +139,7 @@ public class SupportUtils {
 			}
 		}
 		else if (countryCode.equals("MX")) {
-			return "http://www.expedia.com.mx/pub/agent.dll?qscr=hgen&hfnm=CustSrvc.htx";
+			return "http://www.expedia.mx/pub/agent.dll?qscr=hgen&hfnm=CustSrvc.htx";
 		}
 		else if (countryCode.equals("NL")) {
 			return "http://multiscutatus.esturgeons.jmsp.net/support/ccilexpedia/selfservice/expedia/index.jsp?lang=nl";
@@ -240,7 +240,7 @@ public class SupportUtils {
 			}
 		}
 		else if (countryCode.equals("MX")) {
-			return "http://www.expedia.com.mx/?rfrr=app.android";
+			return "http://www.expedia.mx/?rfrr=app.android";
 		}
 		else if (countryCode.equals("NL")) {
 			return "http://www.expedia.nl/?rfrr=app.android";
@@ -365,7 +365,7 @@ public class SupportUtils {
 			return "http://www.expedia.com.my/?rfrr=app.android";
 		}
 		else if (countryCode.equals("MX")) {
-			return "http://www.expedia.com.mx/?rfrr=app.android";
+			return "http://www.expedia.mx/?rfrr=app.android";
 		}
 		else if (countryCode.equals("NL")) {
 			return "http://www.expedia.nl/?rfrr=app.android";
