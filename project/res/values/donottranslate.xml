@@ -409,5 +409,6 @@
     <string name="section_property_amenities">Property Amenities</string>
     <string name="section_rooms">Rooms</string>
     <string name="section_policies">Policies</string>
+    <string name="section_fees">Fees</string>
 
 </resources>

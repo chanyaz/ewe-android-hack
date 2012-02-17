@@ -35,7 +35,7 @@ public class HotelDescription {
 	 * when you dig deeper into nested tags. Allows pruning of empty leaves
 	 * easily as well.
 	 *
-	 * FIXME: May have out-of-bounds issues with the indexOf operations.
+	 * FIXME: May have out-of-bounds exceptions with the indexOf operations.
 	 */
 	public void parseDescription(String html) {
 		// See MOHotelDescription.m
@@ -45,7 +45,11 @@ public class HotelDescription {
 		// Reset sections
 		mSections = new ArrayList<DescriptionSection>();
 
-		boolean isFirstSection = true;
+		DescriptionSection firstSection = null;
+		DescriptionSection amenitiesSection = null;
+		DescriptionSection policiesSection = null;
+		DescriptionSection feesSection = null;
+
 		StringBuilder str = new StringBuilder(2048);
 		String tag;
 		String sectionString = null;
@@ -90,14 +94,19 @@ public class HotelDescription {
 			case 's': // strong
 				if (tag.equals("strong")) {
 					if (sectionString != null && str.length() > 0) {
-						if (isFirstSection
-							|| sectionString.contains(mContext.getString(R.string.section_property_amenities))
-							|| sectionString.contains(mContext.getString(R.string.section_policies))
-							|| sectionString.contains(mContext.getString(R.string.section_rooms))
-							) {
-							mSections.add(new DescriptionSection(sectionString, str.toString().trim()));
-							isFirstSection = false;
+						if (firstSection == null) {
+							firstSection = new DescriptionSection(sectionString, str.toString().trim());
 						}
+						else if (sectionString.contains(mContext.getString(R.string.section_property_amenities))) {
+							amenitiesSection = new DescriptionSection(sectionString, str.toString().trim());
+						}
+						else if (sectionString.contains(mContext.getString(R.string.section_policies))) {
+							policiesSection = new DescriptionSection(sectionString, str.toString().trim());
+						}
+						else if (sectionString.contains(mContext.getString(R.string.section_fees))) {
+							feesSection = new DescriptionSection(sectionString, str.toString().trim());
+						}
+
 						str = str.delete(0, str.length());
 						sectionString = null;
 					}
@@ -139,7 +148,31 @@ public class HotelDescription {
 		}
 
 		if (sectionString != null && str.length() > 0) {
-			mSections.add(new DescriptionSection(sectionString, str.toString().trim()));
+			if (firstSection == null) {
+				firstSection = new DescriptionSection(sectionString, str.toString().trim());
+			}
+			else if (sectionString.contains(mContext.getString(R.string.section_property_amenities))) {
+				amenitiesSection = new DescriptionSection(sectionString, str.toString().trim());
+			}
+			else if (sectionString.contains(mContext.getString(R.string.section_policies))) {
+				policiesSection = new DescriptionSection(sectionString, str.toString().trim());
+			}
+			else if (sectionString.contains(mContext.getString(R.string.section_fees))) {
+				feesSection = new DescriptionSection(sectionString, str.toString().trim());
+			}
+		}
+
+		if (firstSection != null) {
+			mSections.add(firstSection);
+		}
+		if (amenitiesSection != null) {
+			mSections.add(amenitiesSection);
+		}
+		if (policiesSection != null) {
+			mSections.add(policiesSection);
+		}
+		if (feesSection != null) {
+			mSections.add(feesSection);
 		}
 	}
 
