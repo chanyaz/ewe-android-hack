@@ -625,7 +625,7 @@
 	<!-- Category name for general preferences -->
 	<string name="preference_category_general">General</string>
 	<!-- Title for point of sale setting -->
-	<string name="preference_point_of_sale_title">Domain</string>
+	<string name="preference_point_of_sale_title">Country</string>
 	<!-- Template for default point of sale -->
 	<string name="default_point_of_sale_template">Default (%s)</string>
 
