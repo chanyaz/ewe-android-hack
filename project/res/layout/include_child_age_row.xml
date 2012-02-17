@@ -23,6 +23,7 @@
 		android:layout_marginRight="5dp"
 		android:layout_marginTop="2dp"
 		android:layout_marginBottom="2dp"
+		android:saveEnabled="false"
 		android:prompt="@string/prompt_select_child_age" />
 		    
 </LinearLayout>
