@@ -30,9 +30,6 @@ public class Media implements JSONable {
 	private int mHeight;
 	private int mWidth;
 
-	// Contains the last known active url - the one that we might have downloaded to an ImageView 
-	private String mActiveUrl;
-
 	public Media() {
 		// Default constructor
 	}
@@ -58,15 +55,6 @@ public class Media implements JSONable {
 		return mUrl.substring(0, mUrl.length() - SUFFIX_LENGTH) + suffix;
 	}
 
-	public String getActiveUrl() {
-		if (mActiveUrl != null) {
-			return mActiveUrl;
-		}
-		else {
-			return mUrl;
-		}
-	}
-
 	public void setUrl(String url) {
 		this.mUrl = url;
 	}
@@ -87,21 +75,10 @@ public class Media implements JSONable {
 		this.mWidth = width;
 	}
 
-	/*
-	 * This method compares the url without the 
-	 * suffix (z.jpg, b.jpg, etc). This is helpful 
-	 * when attempting to compare whether the urls belong
-	 * to the same piece of media, irrespective of resolution.
-	 * 
-	 * This is under the assumption that the urls follow a 
-	 * common format where the last 5 characters in the string represent 
-	 * the image format and the code for the resolution of the image
-	 * as described in https://team.mobiata.com/wiki/EAN_Servers#Expedia_Hotels_Image_Derivatives
-	 */
-	public boolean isUrlForThisMedia(String url) {
-		String urlWithoutSuffix = url.substring(0, url.length() - SUFFIX_LENGTH);
-		String myUrlWithoutSuffix = mUrl.substring(0, mUrl.length() - SUFFIX_LENGTH);
-		return urlWithoutSuffix.equals(myUrlWithoutSuffix);
+	public void removeFromImageCache() {
+		ImageCache.removeImage(mUrl, true);
+		ImageCache.removeImage(getUrl(IMAGE_BIG_SUFFIX), true);
+		ImageCache.removeImage(getUrl(IMAGE_LARGE_SUFFIX), true);
 	}
 
 	/**
@@ -113,8 +90,7 @@ public class Media implements JSONable {
 	 * @param callback
 	 */
 	public void loadHighResImage(ImageView imageView, OnImageLoaded callback) {
-		mActiveUrl = getUrl(IMAGE_LARGE_SUFFIX);
-		ImageCache.loadImage(mActiveUrl, getImageLoadedCallback(imageView, callback));
+		ImageCache.loadImage(getUrl(IMAGE_LARGE_SUFFIX), getImageLoadedCallback(imageView, callback));
 	}
 
 	/**
@@ -142,8 +118,7 @@ public class Media implements JSONable {
 			public void onImageLoadFailed(String url) {
 				if (url.equals(getUrl(IMAGE_LARGE_SUFFIX))) {
 					Log.v("** Falling back from " + IMAGE_LARGE_SUFFIX + " to " + IMAGE_BIG_SUFFIX);
-					mActiveUrl = getUrl(IMAGE_BIG_SUFFIX);
-					ImageCache.loadImage(mActiveUrl, getImageLoadedCallback(imageView, additionCallback));
+					ImageCache.loadImage(getUrl(IMAGE_BIG_SUFFIX), getImageLoadedCallback(imageView, additionCallback));
 				}
 				else {
 					Log.v("** No sizes available");

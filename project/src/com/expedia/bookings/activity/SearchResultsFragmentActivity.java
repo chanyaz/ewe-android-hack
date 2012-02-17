@@ -486,8 +486,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			if (mInstance.mProperty != null) {
 				if (mInstance.mProperty.getMediaCount() > 0) {
 					for (Media media : mInstance.mProperty.getMediaList()) {
-						ImageCache.removeImage(media.getActiveUrl(), true);
-						ImageCache.removeImage(media.getUrl(), true);
+						media.removeFromImageCache();
 					}
 				}
 			}
