@@ -139,7 +139,11 @@ public class ConfirmationActivity extends MapActivity {
 			}
 		}
 
-		if (mBookingResponse.succeededWithErrors() && savedInstanceState == null) {
+		// We don't want to display the "succeeded with errors" dialog box if:
+		// 1. It's not the first launch of the activity (savedInstanceState != null)
+		// 2. We're re-launching the activity with saved confirmation data
+		if (mBookingResponse.succeededWithErrors() && savedInstanceState == null
+				&& !ConfirmationUtils.hasSavedConfirmationData(this)) {
 			showDialog(BookingInfoUtils.DIALOG_BOOKING_ERROR);
 		}
 
