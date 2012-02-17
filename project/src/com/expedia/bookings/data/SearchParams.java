@@ -1,7 +1,5 @@
 package com.expedia.bookings.data;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -430,37 +428,6 @@ public class SearchParams implements JSONable {
 		catch (JSONException e) {
 			return obj.toString();
 		}
-	}
-
-	public String toUrl(String pointOfSales) {
-		StringBuilder str = new StringBuilder(128);
-		DateFormat dformat;
-		if (pointOfSales.equals("expedia.com")) {
-			dformat = new SimpleDateFormat("MM/dd/yyyy");
-		}
-		else {
-			dformat = new SimpleDateFormat("dd/MM/yyyy");
-		}
-
-		// chkin
-		str.append("?chkin=");
-		str.append(dformat.format(mCheckInDate.getTime()));
-		// chkout
-		str.append("&chkout=");
-		str.append(dformat.format(mCheckOutDate.getTime()));
-
-		// rooms and occupant info
-		str.append("&rm1=a");
-		str.append(mNumAdults);
-
-		if (mChildren != null) {
-			for (int age : mChildren) {
-				str.append(":c");
-				str.append(age);
-			}
-		}
-
-		return str.toString();
 	}
 
 	// **WARNING: USE FOR TESTING PURPOSES ONLY**

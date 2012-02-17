@@ -337,10 +337,6 @@ public class Property implements JSONable {
 		}
 	}
 
-	public String toUrl() {
-		return "/h" + mPropertyId + ".Hotel-Information";
-	}
-
 	/**
 	 * Can be used to compare two properties based on lowest rate
 	 */

@@ -145,17 +145,6 @@
                             android:layout_height="wrap_content"
                             android:indeterminate="true" />
                     </LinearLayout>
-
-                    <Button
-                        android:id="@+id/view_on_website_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:textColor="@color/hotel_details_text_color"
-                        android:textSize="@dimen/hotel_description_body_text_size"
-                        android:visibility="gone" />
                 </LinearLayout>
             </ScrollView>
         </RelativeLayout>

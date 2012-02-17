@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -37,11 +36,9 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewsResponse;
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget.AvailabilitySummaryListener;
@@ -87,7 +84,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	private ProgressBar mProgressBar;
 	private boolean mIsSearchError;
 	private ViewGroup mHotelDescriptionContainer;
-	private TextView mWebsiteButton;
 	private View mSeeAllReviewsButton;
 	private ScrollView mHotelDetailsScrollView;
 
@@ -140,7 +136,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		mHotelDescriptionContainer = (ViewGroup) view.findViewById(R.id.hotel_description_section);
 		mSeeAllReviewsButton = view.findViewById(R.id.see_all_reviews_button);
 		mReviewsLoadingContainer = view.findViewById(R.id.reviews_loading_container);
-		mWebsiteButton = (TextView) view.findViewById(R.id.view_on_website_button);
 
 		mAvailabilityWidget.init(view);
 		mAvailabilityWidget.setButtonText(R.string.select_room);
@@ -194,10 +189,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		setupAvailabilityContainer(property);
 		updateAmenities(property);
 		addHotelDescription(property);
-
-		if (getInstance().mSearchParams != null) {
-			setupHotelUrl(property, getInstance().mSearchParams);
-		}
 
 		updateReviews(property);
 
@@ -508,23 +499,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			}
 		}
 
-	}
-
-	private void setupHotelUrl(final Property property, final SearchParams params) {
-		final String domain = LocaleUtils.getPointOfSale();
-		final Uri hotelUrl = Uri.parse("http://www." + domain + property.toUrl() + params.toUrl(domain));
-
-		String text = getString(R.string.view_this_hotel_on_website_template, LocaleUtils.getPointOfSale());
-		mWebsiteButton.setText(text);
-		mWebsiteButton.setVisibility(View.VISIBLE);
-		mWebsiteButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				Intent launchWebsite = new Intent(Intent.ACTION_VIEW, hotelUrl);
-				startActivity(launchWebsite);
-
-				Tracker.trackOpenExpediaCom(getActivity());
-			}
-		});
 	}
 
 	//////////////////////////////////////////////////////////////////////////
