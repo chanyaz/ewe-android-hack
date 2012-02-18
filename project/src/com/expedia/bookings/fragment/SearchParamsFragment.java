@@ -35,6 +35,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -74,6 +75,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	private static final int NUM_SUGGESTIONS = 5;
 
 	private static final String KEY_AUTOCOMPLETE_DOWNLOAD = "KEY_AUTOCOMPLETE_DOWNLOAD";
+	private static final String KEY_CHILD_AGES_POPUP_VISIBLE = "KEY_CHILD_AGES_POPUP_VISIBLE";
 
 	public static SearchParamsFragment newInstance() {
 		return new SearchParamsFragment();
@@ -125,6 +127,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		mSelectChildAgeTextView = (TextView) view.findViewById(R.id.label_select_each_childs_age);
 		mChildAgesLayout = view.findViewById(R.id.child_ages_layout);
 		mChildAgesButton = (Button) view.findViewById(R.id.child_ages_button);
+		mChildAgesButton.addOnLayoutChangeListener(mChildAgesButtonLayoutChangeListener);
 
 		// Need to set temporary max values for number pickers, or updateViews() won't work (since a picker value
 		// must be within its valid range to be set)
@@ -132,6 +135,20 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		mChildrenNumberPicker.setMaxValue(100);
 
 		updateViews();
+
+		if (getInstance().mSearchParams.getNumChildren() == 0) {
+			hideChildAgesButton(false);
+		}
+		else {
+			showChildAgesButton(false);
+		}
+
+		if (savedInstanceState != null && savedInstanceState.getBoolean(KEY_CHILD_AGES_POPUP_VISIBLE)) {
+			showChildAgesPopup(false);
+		}
+		else {
+			hideChildAgesPopup(false);
+		}
 
 		// Configure the location EditText
 		mLocationEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -222,7 +239,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		// Configure the "choose children's ages" button
 		OnClickListener showChildAgesListener = new OnClickListener() {
 			public void onClick(View v) {
-				showChildAgesPopup();
+				showChildAgesPopup(true);
 			}
 		};
 		mChildAgesButton.setOnClickListener(showChildAgesListener);
@@ -230,13 +247,20 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		// Configure the "x" and "done" buttons
 		OnClickListener hideChildAgesListener = new OnClickListener() {
 			public void onClick(View v) {
-				hideChildAgesPopup();
+				hideChildAgesPopup(true);
 			}
 		};
 		mChildAgesLayout.findViewById(R.id.done_button).setOnClickListener(hideChildAgesListener);
 		mChildAgesLayout.findViewById(R.id.button_x).setOnClickListener(hideChildAgesListener);
 
 		return view;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putBoolean(KEY_CHILD_AGES_POPUP_VISIBLE, isChildAgesPopupVisible());
 	}
 
 	@Override
@@ -372,16 +396,26 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 						mChildAgeSelectedListener);
 
 				if (children.size() != 0 && mChildAgesButton.getAlpha() == 0) {
-					showChildAgesButton();
+					showChildAgesButton(true);
 				}
 				else if (children.size() == 0 && mChildAgesButton.getAlpha() > 0) {
-					hideChildAgesButton();
+					hideChildAgesButton(true);
 				}
 			}
 
 			GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
 		}
+	};
 
+	private OnLayoutChangeListener mChildAgesButtonLayoutChangeListener = new OnLayoutChangeListener() {
+		@Override
+		public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop,
+				int oldRight, int oldBottom) {
+			if (mChildAgesLayout.getVisibility() == View.GONE) {
+				return;
+			}
+			showChildAgesPopup(false);
+		}
 	};
 
 	private static int dpToPx(Context context, int dp) {
@@ -418,6 +452,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
 
+		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			Context context = getActivity();
 			List<Integer> children = getInstance().mSearchParams.getChildren();
@@ -425,44 +460,53 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			GuestsPickerUtils.updateDefaultChildAges(context, children);
 		}
 
+		@Override
 		public void onNothingSelected(AdapterView<?> parent) {
-			// Do nothing.
 		}
 
 	};
 
-	private void showChildAgesButton() {
+	private void showChildAgesButton(final boolean animated) {
 		int height = dpToPx(getActivity(), 60);
-		ObjectAnimator animAlpha = ObjectAnimator.ofFloat(mChildAgesButton, "alpha", 1f);
-		ValueAnimator animHeight = HeightEvaluator.getAnimator(mChildAgesButton, height);
-		AnimatorSet animSet = new AnimatorSet();
-		animSet.playTogether(animAlpha, animHeight);
-		animSet.addListener(new AnimatorListener() {
+		if (animated) {
+			ObjectAnimator animAlpha = ObjectAnimator.ofFloat(mChildAgesButton, "alpha", 1f);
+			ValueAnimator animHeight = HeightEvaluator.getAnimator(mChildAgesButton, height);
+			AnimatorSet animSet = new AnimatorSet();
+			animSet.playTogether(animAlpha, animHeight);
+			animSet.addListener(new AnimatorListener() {
 
-			@Override
-			public void onAnimationCancel(Animator animation) {
-				// Intentionally blank
-			}
+				@Override
+				public void onAnimationCancel(Animator animation) {
+					// Intentionally blank
+				}
 
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				showChildAgesPopup();
-			}
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					showChildAgesPopup(animated);
+				}
 
-			@Override
-			public void onAnimationRepeat(Animator animation) {
-				// Intentionally blank
-			}
+				@Override
+				public void onAnimationRepeat(Animator animation) {
+					// Intentionally blank
+				}
 
-			@Override
-			public void onAnimationStart(Animator animation) {
-				// Intentionally blank
-			}
-		});
-		animSet.start();
+				@Override
+				public void onAnimationStart(Animator animation) {
+					// Intentionally blank
+				}
+			});
+			animSet.start();
+		}
+		else {
+			ViewGroup.LayoutParams layout = mChildAgesButton.getLayoutParams();
+			layout.height = height;
+			mChildAgesButton.setLayoutParams(layout);
+			mChildAgesButton.setAlpha(1f);
+			showChildAgesPopup(animated);
+		}
 	}
 
-	private void hideChildAgesButton() {
+	private void hideChildAgesButton(boolean animated) {
 		int height = dpToPx(getActivity(), 5);
 		ObjectAnimator animAlpha = ObjectAnimator.ofFloat(mChildAgesButton, "alpha", 0f);
 		ValueAnimator animHeight = HeightEvaluator.getAnimator(mChildAgesButton, height);
@@ -470,13 +514,19 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		animSet.playTogether(animAlpha, animHeight);
 		animSet.start();
 		if (mChildAgesLayout.getVisibility() == View.VISIBLE) {
-			hideChildAgesPopup();
+			hideChildAgesPopup(animated);
 		}
 	}
 
-	private void showChildAgesPopup() {
-		Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
-		mChildAgesLayout.startAnimation(fadeIn);
+	private boolean isChildAgesPopupVisible() {
+		return mChildAgesLayout.getVisibility() == View.VISIBLE;
+	}
+
+	private void showChildAgesPopup(boolean animated) {
+		if (animated) {
+			Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
+			mChildAgesLayout.startAnimation(fadeIn);
+		}
 		mChildAgesLayout.setVisibility(View.VISIBLE);
 
 		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), getInstance().mSearchParams.getChildren(),
@@ -492,9 +542,11 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		params.rightMargin = outRect.width() - location[0] - mChildAgesButton.getWidth() - 10;
 	}
 
-	private void hideChildAgesPopup() {
-		Animation fadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
-		mChildAgesLayout.startAnimation(fadeOut);
+	private void hideChildAgesPopup(boolean animated) {
+		if (animated) {
+			Animation fadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
+			mChildAgesLayout.startAnimation(fadeOut);
+		}
 		mChildAgesLayout.setVisibility(View.GONE);
 	}
 
