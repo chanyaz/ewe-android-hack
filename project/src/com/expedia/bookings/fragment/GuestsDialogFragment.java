@@ -135,6 +135,7 @@ public class GuestsDialogFragment extends DialogFragment {
 	private final OnValueChangeListener mPersonCountChangeListener = new OnValueChangeListener() {
 
 		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+			mAdultCount = mAdultsNumberPicker.getValue();
 			GuestsPickerUtils.resizeChildrenList(getActivity(), mChildren, mChildrenNumberPicker.getValue());
 			displayGuestCountViews();
 		}
