@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 
@@ -14,13 +14,30 @@
 	<!-- Label for button that starts search -->
 	<string name="search_for_hotels">搜尋飯店</string>
 	<!--  Label for picking search location -->
-	<string name="where_are_you_going">您想去&lt;b&gt;哪裡&lt;/b&gt;？</string>
+	<string name="where_are_you_going">&lt;b&gt;您&lt;/b&gt;您想去哪裡？</string>
 	<!--  Label for picking checkin/checkout dates -->
 	<string name="drag_to_extend_your_stay">&lt;b&gt;拖曳&lt;/b&gt;以延長住宿天數。</string>
-	<!--  Label for picking checkin/checkout dates -->
-	<string name="where_are_you_staying">您想在&lt;b&gt;哪裡&lt;/b&gt;住宿？</string>
 	<!--  Label for picking guests for hotel booking -->
 	<string name="who_is_going">&lt;b&gt;誰&lt;/b&gt;要同行？</string>
+	<!--  Label for tablet age selection popup button -->
+	<string name="button_enter_childrens_ages">請輸入兒童的年齡</string>
+	<!-- Child age dialog button -->
+	<string name="button_done">完成</string>
+	<!--  Label for child age selection prompt -->
+	<string name="prompt_please_specify_childrens_ages">請列明兒童的年齡。</string>
+	<!--  Title of "select child age" spinner dialog box -->
+	<string name="prompt_select_child_age">請選擇兒童的年齡 (%1$s - %2$s)</string>
+	<!--  Label for child's age on search refinements -->
+	<string name="child_x">兒童 %1$s</string>
+	<!--  Text for child's age on search refinements and in spinner -->
+	<plurals name="child_age">
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; 歲</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; 歲</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; 歲</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; 歲</item>
+	</plurals>
+	<!-- Android doesn't handle "zero" as a special case in English. So we'll do it manually -->
+	<string name="child_age_less_than_one">&lt;b&gt;1&lt;/b&gt; 歲以下</string>
 	
 	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
 	<!-- Suggestion to search Times Square -->
@@ -44,7 +61,7 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; 到 &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt; 至 &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
 		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 間符合的飯店</item>
@@ -55,8 +72,6 @@
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">依飯店名稱篩選</string>
-	<!-- Label to show hotels with any TripAdvisor rating -->
-	<string name="tripadvisor_rating_all">顯示所有飯店</string>
 	<!-- Label indicating that there are no results matching their current filter -->
 	<string name="no_filter_results">很抱歉，沒有符合您目前搜尋條件的飯店。</string>
 	<!-- Label indicating that geolocation failed -->
@@ -72,9 +87,9 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">正在載入先前的搜尋結果...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"排序： "</string>
+	<string name="sort_hotels">「排序：」</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-	<string name="sort_hotels_template">&lt;b&gt;排序&lt;/b&gt;： %s</string>
+	<string name="sort_hotels_template">&lt;b&gt;排序&lt;/b&gt;：%s</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">篩選飯店</string>
 	<!-- A number of results -->
@@ -87,7 +102,7 @@
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">您必須先到「設定」開啟「地點來源」，才能使用「我的地點」。\n現在就前往「設定」以開啟定位功能？</string>
+	<string name="EnableLocationSettings">如要使用「我的地點」，您須先於「設定」啟用「地點」來源。\n要立刻到「設定」啟用它嗎？</string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
 	<string name="ProviderDisabled">您的定位功能已停用。請重新啟用，以根據您的地點進行搜尋。</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
@@ -120,7 +135,7 @@
 	<!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
 	<string name="filter_stars_five">5</string>
 	<!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
-	<string name="filter_distance_miles_template">%s 英里</string>
+	<string name="filter_distance_miles_template">%s 哩</string>
 	<!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
 	<string name="filter_distance_kilometers_template">%s 公里</string>
 
@@ -142,13 +157,13 @@
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
 	<string name="from">起價</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">&lt;strike&gt;%s&lt;/strike&gt; 元起</string>
+	<string name="from_template">起價 &lt;strike&gt;%s&lt;/strike&gt;</string>
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">元/每夜</string>
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">未評等</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-	<string name="percent_off_template">%2.0f%% 折扣</string>
+	<string name="percent_off_template">%2.0f %% 折扣</string>
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">篩選結果</string>
@@ -157,7 +172,7 @@
 
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-	<string name="map_snippet_price_template">%s 元起</string>
+	<string name="map_snippet_price_template">起價 %s</string>
 
 	<!-- Mini-details fragment -->
 	<!-- Label for "see details" button on the mini details fragment -->
@@ -170,52 +185,19 @@
 	<string name="widget_savings_template">節省 %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">點一下重新整理</string>
-	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
-	<string name="tap_to_start_new_search">點一下以開始新的搜尋</string>
-	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
-	<string name="tap_to_see_booking">點一下以查看您的預訂</string>
-	<!--  Title for the widget configuration activity -->
-	<string name="widget_config_title">飯店特惠小工具</string>
-	<!--  Label for button to add widget to home screen from configuration activity -->
-	<string name="add_widget">新增小工具</string>
 	<!--  Instructions on how to add widget to home screen -->
 	<string name="widget_add_instructions">點選主螢幕並按住不放即可新增「飯店雷達」小工具。</string>
-	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description">顯示下列鄰近地點的飯店特惠：</string>
-	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
-	<string name="last_hotel_search">上一個 App 搜尋</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">沒有網際網路連線</string>
 	<!--  Widget Branding title -->
 	<string name="hotel_radar">飯店雷達</string>
 	<!--  Widget Branding description -->
 	<string name="book_a_room_tonight">預訂今晚的客房。</string>
-	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
-	<string name="save_upto_template">最多節省 %2.0f%%</string>
-	<!--  Widget error for search that is considered "in the past" due to time differences -->
-	<string name="error_search_in_past">今日特惠已發完。請明天再來查看熱門特惠。</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short_1">&lt;b&gt;新增「飯店雷達」小工具。&lt;/b&gt;</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
 	<string name="widget_upsell_short_2">&lt;b&gt;取得附近飯店的每晚特惠！&lt;/b&gt;</string>
-	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
-	<string name="enjoy_your_stay">祝您住宿愉快！</string>
-	
-	<!--  Hotel names for widget preview -->
-	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_wynn">Wynn (拉斯維加斯)</string>
-	<!-- Name of Bellagio hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_bellagio">Bellagio</string>
-	<!-- Name of Flamingo Las Vegas hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_flamingo">Flamingo (拉斯維加斯)</string>
-	<!-- Name of Venetian Resort Hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_caesers_palace">Caesars Palace</string>
-	<!-- Name of Harrah's hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_paris">Paris (拉斯維加斯)</string>
-	
-	<!--  Location of all hotels in widget preview -->
-	<string name="preview_hotel_location">內華達州拉斯維加斯</string>
-	
+
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
 	<string name="book_now">立即預訂</string>
@@ -229,12 +211,14 @@
 	<string name="address">地址</string>
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
+    <!-- Label to view hotel in on expedia.com -->
+    <string name="view_this_hotel_on_website_template">於 %s 查看此飯店&gt;</string>
 	
 	<!--  Hotel Details Fragment -->
 	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
-	<string name="min_room_price_template">%s 起</string>
+	<string name="min_room_price_template">起價%s</string>
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
-	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; 起</string>
+	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt;起</string>
 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
 	<string name="reviews_recommended_template">%1$d 位房客推薦 (共 %2$d 位)</string>
 	<!--  Title for the amenities section in the hotel details fragment -->
@@ -245,6 +229,8 @@
 	<string name="select_room">選取客房</string>
 
 	<!-- Amenity strings -->
+	<!-- Text that indicates no amenities at this property -->
+	<string name="AmenityNone">不提供飯店設施</string>
 	<!-- Business center amenity -->
 	<string name="AmenityBusinessCenter">商務中心</string>
 	<!-- Fitness center amenity -->
@@ -318,14 +304,14 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; 位房客 (共 &lt;b&gt;%2$d&lt;/b&gt; 位) 推薦這間飯店。</string>
+	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d 位房客&lt;/b&gt;&lt;b&gt; (共 %2$d 位) &lt;/b&gt;推薦這間飯店。</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
-		<item quantity="zero">%d 則評語</item>
-		<item quantity="one">%d 則評語</item>
-		<item quantity="two">%d 則評語</item>
-		<item quantity="many">%d 則評語</item>
-		<item quantity="other">%d 則評語</item>
+		<item quantity="zero">%d 評語</item>
+		<item quantity="one">%d 評語</item>
+		<item quantity="two">%d 評語</item>
+		<item quantity="many">%d 評語</item>
+		<item quantity="other">%d 評語</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
@@ -364,23 +350,23 @@
 		<item quantity="other">只剩下 %d 間客房！</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">節省\n %2.0f%%</string>
+	<string name="savings_template">節省 \n%2.0f %%</string>
 	<!-- Label for free nights -->
 	<string name="free">免費！</string>
 	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-	<string name="value_add_template">包含%s</string>
+	<string name="value_add_template">包含 %s</string>
 	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
-	<string name="common_value_add_template">所有客房都包含%s</string>
+	<string name="common_value_add_template">所有客房都包含 %s</string>
 	<!--  Instruction as the header of the list to select a room from the list -->
 	<string name="select_a_room_instruction">選取客房</string>
 	
 	<!-- Gallery -->
 	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
-	<string name="gallery_title_template">&lt;b&gt;%1$s&lt;/b&gt;的照片</string>
+	<string name="gallery_title_template">&lt;b&gt;%1$s&lt;/b&gt; 的圖片</string>
 	    
 	<!-- Booking info -->
 	<!-- edit label -->
-	<string name="edit">編輯</string>
+	<string name="edit">修改</string>
 	<!-- Label for room type -->
 	<string name="room_type">客房類型</string>
 	<!-- Error if we couldn't load the room type details -->
@@ -397,7 +383,7 @@
 		<item quantity="other">%d 晚</item>
 	</plurals>
 	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
-	<string name="room_rate_template">%s 的客房價格</string>
+	<string name="room_rate_template">客房價格 %s</string>
 	<!-- Label for the extra guest charge -->
 	<string name="extra_guest_charge">額外房客費用</string>
 	<!-- Label for total cost of hotel stay -->
@@ -408,6 +394,8 @@
 	<string name="FirstName">名字</string>
 	<!-- The "last name" booking info field.  -->
 	<string name="LastName">姓氏</string>
+	<!-- Hint for "telephone country code" field (e.g., "+44") -->
+	<string name="hint_telephone_country_code">##</string>
 	<!-- The "telephone" booking info field.  -->
 	<string name="Telephone">電話</string>
 	<!-- The "email for booking confirmation" booking info field.  -->
@@ -445,7 +433,7 @@
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
 	<string name="EnterBookingInfo">輸入預訂資訊</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
-	<string name="charge_details_template">我們將向您的信用卡收取 %s 元</string>
+	<string name="charge_details_template">我們將向您的信用卡收取 %s</string>
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">確認並預訂</string>
 	<!-- Label for clearing private data -->
@@ -471,7 +459,7 @@
 	<!-- Error if an invalid security code was entered -->
 	<string name="invalid_security_code">請輸入 3 或 4 碼的安全碼</string>
 	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">很抱歉，美國運通不支援以此幣別 (%s) 付款。請使用另一張信用卡。</string>
+	<string name="invalid_currency_for_amex">很抱歉，美國運通不支援以此幣別 %s 付款。請使用另一張信用卡。</string>
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">您必須接受所有條款才能預訂</string>
 	<!-- Message to display to user while booking is in progress -->
@@ -522,10 +510,14 @@
 	<string name="GuestsLabel">旅客人數</string>
 	<!-- Label for the taxes & fees for this booking. -->
 	<string name="TaxesAndFees">稅金與費用</string>
+	<!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+	<string name="MandatoryFees">飯店費用 (已於飯店支付)</string>
 	<!-- Label for the rate per room per night. -->
 	<string name="RatePerRoomPerNight">每間客房每晚價格</string>
 	<!-- Label for the total cost of the booking. -->
 	<string name="Total">總計</string>
+	<!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
+	<string name="PayToExpedia">支付予 Expedia</string>
 	<!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
 	<string name="CheckIn">入住</string>
 	<!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
@@ -541,9 +533,19 @@
 	<!-- Policy displayed to user when a guarantee is required -->
 	<string name="PolicyGuaranteeRequired">我們需要您的信用卡資訊以保證您的訂房。在您抵達飯店或超過取消期限之後，我們才會向您的信用卡收費。</string>
 	<!-- Expedia merchant hotel policies -->
-	<string name="PolicyExpediaMerchant">繼續訂房程序即表示您同意所有條款及條件，包括「取消政策」，以及「使用者協議」中所含之所有條款及條件。\n\n您同意支付訂房費用。若您未支付此款項，導致我們必須透過收款機構、律師或其他法律程序予以追討，您同意支付因此收款程序衍生之所有合理成本或費用，包括律師費用和法院訴訟費用等。</string>
+	<string name="PolicyExpediaMerchant">於作出預訂後，即表示您已同意所有條款及條件，包括取消政策及用戶協議所載的所有條款及條件。\n\n您同意支付預訂成本。若您未支付此款項，導致我們必須透過收款機構、律師或其他法律程序予以追討，您同意支付因此收款程序衍生之所有合理成本或費用，包括律師費用和法院訴訟費用等。</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">您預訂的物業不提供折扣。除非特別註明，否則所有顯示價格均為雙人房每房每晚價格。請詳閱客房說明與價格規定，以確定所選客房能容納所有同團成員入住。部分價格可能有身分限制。我們的預訂費用、稅金和其他由飯店收取的附加費用不包含在此價格中。若入住的成人或兒童超出該客房的表定入住人數，物業可自行決定向您收取額外費用。\n\n若要求的入住人數超過 2 人，或超過所選價格規定的人數，此類要求仍會寄送給飯店，但不保證可成功預訂。如果飯店接受訂房，飯店可自行決定向您收取額外費用。</string>
+	<string name="PolicyExpediaAgent">您預訂的物業不提供折扣。除非特別註明，否則所有顯示價格均為雙人房每房每晚價格。請詳閱客房說明與價格規定，以確定所選客房能容納所有同團成員入住。部分價格可能有身分限制。我們的預訂費用、稅金和其他由飯店收取的附加費用不包含在此價格中。任何超出客房所列房客人數的成人或兒童均可能須付飯店規定的附加費。\n\n多於 2 人或所選房價顯示的房客人數的要求將發送至飯店，但不保證可獲達成。如果飯店接受訂房，飯店可自行決定向您收取額外費用。</string>
+
+	<!-- Expedia Accounts -->
+	<!-- Label for menu item to log into account -->
+	<string name="log_in">登入 Expedia</string>
+	<!-- Hint for user to enter password into a field -->
+	<string name="hint_password">密碼</string>
+	<!-- Progress dialog text when we are logging the user into Expedia -->
+	<string name="logging_in">登入中...</string>
+	<!-- Message that tells user they successfully logged in -->
+	<string name="login_success">成功！您現已登入。</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -583,7 +585,7 @@
 	<!-- Extra description for "app feedback" button, when space allows -->
 	<string name="app_feedback_description">讓我們知道您對本 App 的意見。</string>
 	<!-- Label for "app support" button in info page -->
-	<string name="app_support">應用程式支援</string>
+	<string name="app_support">App 支援</string>
 	<!-- Extra description for "app support" button, when space allows -->
 	<string name="app_support_description">與我們聯絡，我們會給您回覆。</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
@@ -599,17 +601,17 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">隱私權政策</string>
 	<!-- Copyright information -->
-	<string name="copyright">© 2011-2012 Expedia, Inc. 著作權所有，\n保留一切權利。</string>
+	<string name="copyright">© 2011-2012 Expedia, Inc. 版權所有，\n保留一切權利。</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
 	<string name="send_feedback">傳送意見</string>
 	<!-- Header title -->
-	<string name="app_feedback">應用程式意見</string>
+	<string name="app_feedback">App 意見</string>
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">請為我們打個分數</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">技術提供：Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">隱私權政策</a></string>
+	<string name="powered_by_opinion_lab">由 Opinion Lab 支援 <a href="http://mobile.opinionlab.com/static/privacy.html">隱私權政策</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">電子郵件地址</string>
 	<!-- Hint to type in comments -->
@@ -620,12 +622,10 @@
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
 	<string name="preference_category_general">一般設定</string>
-	<!-- Title for currency setting -->
-	<string name="preference_currency_title">貨幣</string>
-	<!-- Summary for currency setting.  E.g., "US Dollars (USD)" -->
-	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
-	<!-- Template for default currency -->
-	<string name="default_currency_template">預設 (%s)</string>
+	<!-- Title for point of sale setting -->
+	<string name="preference_point_of_sale_title">網域</string>
+	<!-- Template for default point of sale -->
+	<string name="default_point_of_sale_template">預設 (%s)</string>
 
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
@@ -646,11 +646,11 @@
 	</plurals>
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
-		<item quantity="zero">%d 位房客</item>
-		<item quantity="one">%d 位房客</item>
-		<item quantity="two">%d 位房客</item>
-		<item quantity="many">%d 位房客</item>
-		<item quantity="other">%d 位房客</item>
+		<item quantity="zero">%d 位旅客</item>
+		<item quantity="one">%d 位旅客</item>
+		<item quantity="two">%d 位旅客</item>
+		<item quantity="many">%d 位旅客</item>
+		<item quantity="other">%d 位旅客</item>
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">
@@ -667,7 +667,7 @@
 	<!-- Abbreviated kilometers (used in distance_template) -->
 	<string name="unit_kilometers">公里</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-	<string name="distance_template">距離 %1$s %2$s</string>
+	<string name="distance_template">%1$s%2$s 遠</string>
 	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
 	<string name="distance_template_short">%1$s %2$s</string>
 
@@ -686,6 +686,8 @@
 	<string name="ean_error_no_results">很抱歉，目前無法找到任何有空房的飯店。請試試不同的日期或其他地點。</string>
 	<!-- Replaces "result was null" for no result search -->
 	<string name="ean_error_connect_unavailable">無法連線至所選飯店尋找空房。</string>
+	<!-- Error message displayed when the phone number sent via booking is invalid -->
+	<string name="ean_error_invalid_phone_number">請輸入有效的電話號碼</string>
 
 	<!-- Currency names -->
 	<string name="currency_aud">澳幣</string>
@@ -697,7 +699,7 @@
 	<string name="currency_eur">歐元</string>
 	<string name="currency_hkd">港幣</string>
 	<string name="currency_inr">印度盧比</string>
-	<string name="currency_ils">以色列新謝克爾</string>
+	<string name="currency_ils">以色列新謝克爾 </string>
 	<string name="currency_jpy">日圓</string>
 	<string name="currency_krw">韓圜</string>
 	<string name="currency_mxn">墨西哥披索</string>

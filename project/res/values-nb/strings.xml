@@ -1,10 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">Oppgi sted ...</string>
+	<string name="enter_search_location">Oppgi sted...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Søk etter sted</string>
 	<!-- Label for recent searches user has made -->
@@ -14,13 +14,30 @@
 	<!-- Label for button that starts search -->
 	<string name="search_for_hotels">Søk etter hoteller</string>
 	<!--  Label for picking search location -->
-	<string name="where_are_you_going">&lt;b&gt;Hvor&lt;/b&gt; vil du reise?</string>
+	<string name="where_are_you_going">&lt;b&gt;Hvor&lt;/b&gt; skal du reise?</string>
 	<!--  Label for picking checkin/checkout dates -->
-	<string name="drag_to_extend_your_stay">&lt;b&gt;Dra&lt;/b&gt; for å forlenge oppholdet.</string>
-	<!--  Label for picking checkin/checkout dates -->
-	<string name="where_are_you_staying">&lt;b&gt;Når&lt;/b&gt; vil du overnatte på hotell?</string>
+	<string name="drag_to_extend_your_stay">&lt;b&gt;Dra&lt;/b&gt; for å utvide oppholdet ditt.</string>
 	<!--  Label for picking guests for hotel booking -->
 	<string name="who_is_going">&lt;b&gt;Hvem&lt;/b&gt; skal reise?</string>
+	<!--  Label for tablet age selection popup button -->
+	<string name="button_enter_childrens_ages">Skriv inn barnets/barnas alder</string>
+	<!-- Child age dialog button -->
+	<string name="button_done">Fullført</string>
+	<!--  Label for child age selection prompt -->
+	<string name="prompt_please_specify_childrens_ages">Spesifiser barnas alder</string>
+	<!--  Title of "select child age" spinner dialog box -->
+	<string name="prompt_select_child_age">Velg barnets alder (%1$s - %2$s)</string>
+	<!--  Label for child's age on search refinements -->
+	<string name="child_x"> Barn %1$s</string>
+	<!--  Text for child's age on search refinements and in spinner -->
+	<plurals name="child_age">
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; år gammel</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; år gammel</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; år gammel</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; år gammel</item>
+	</plurals>
+	<!-- Android doesn't handle "zero" as a special case in English. So we'll do it manually -->
+	<string name="child_age_less_than_one">&lt;b&gt;Yngre enn 1&lt;/b&gt; år gammel</string>
 	
 	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
 	<!-- Suggestion to search Times Square -->
@@ -44,50 +61,48 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; til &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; to &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; passende hoteller </item>
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; passende hotell </item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; passende hoteller </item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; passende hoteller </item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; passende hoteller </item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; matchende hoteller</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; matchende hoteller</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; matchende hoteller</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; matchende hoteller</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; matchende hoteller</item>
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filtrer etter hotellnavn</string>
-	<!-- Label to show hotels with any TripAdvisor rating -->
-	<string name="tripadvisor_rating_all">Vis alle hoteller</string>
 	<!-- Label indicating that there are no results matching their current filter -->
-	<string name="no_filter_results">Det er dessverre ingen hoteller som passer med filtreringene dine.</string>
+	<string name="no_filter_results">Dessverre er det ingen hoteller som matcher filtrene dine.</string>
 	<!-- Label indicating that geolocation failed -->
 	<string name="geolocation_failed">Finner ikke søkeposisjon.</string>
 	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
-	<string name="NoGeocodingResults">Kunne ikke finne %s.</string>
+	<string name="NoGeocodingResults">Finner ikke posisjonen til %s.</string>
 	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-	<string name="ChooseLocation">Mente du ...</string>
+	<string name="ChooseLocation">Mente du...</string>
 	<!-- Button label for upgrading the app -->
 	<string name="upgrade">Oppgrader</string>
 	<!-- Button label for searching the visible map area -->
-	<string name="map_search_button">Søk i kartet</string>
+	<string name="map_search_button">Søk i kart</string>
 	<!-- Message when app is loading saved search results -->
-	<string name="loading_previous">Laster inn tidligere søkeresultater ...</string>
+	<string name="loading_previous">Laster inn tidligere søkeresultater...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">Sorter: "</string>
+	<string name="sort_hotels">&quot;Sorter:&quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-	<string name="sort_hotels_template">&lt;b&gt;Sorter&lt;/b&gt;: %s</string>
+	<string name="sort_hotels_template">&lt;b&gt;Sort&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">Filtrer hotellene</string>
 	<!-- A number of results -->
 	<plurals name="number_of_results">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; resultater </item>
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; resultat</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; resultater </item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; resultater </item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; resultater </item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; Resultater</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; Resultater</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; Resultater</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; Resultater</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; Resultater</item>
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">For å bruke «Min posisjon», må du først gå til «Innstillinger» og slå på en posisjonskilde.\nVil du gå til «Innstillinger» og slå den på nå?</string>
+	<string name="EnableLocationSettings">For å bruke Min posisjon, må du skru på Min Plassering i Innstillinger.\n Gå til Innstillinger og skru det på nå?</string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
 	<string name="ProviderDisabled">Posisjoneringssystemet er ikke slått på. Slå den på for å utføre et søk basert på posisjonen din.</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
@@ -103,7 +118,7 @@
 	<!-- Sort by price label -->
 	<string name="sort_description_price">Pris</string>
 	<!-- Sort by user rating label -->
-	<string name="sort_description_rating">Brukernes rangering</string>
+	<string name="sort_description_rating">Brukerrangering</string>
 	
 	<!-- Filter option for "show all" -->
 	<string name="all">Alle</string>
@@ -120,23 +135,23 @@
 	<!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
 	<string name="filter_stars_five">5</string>
 	<!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
-	<string name="filter_distance_miles_template">%s mi</string>
+	<string name="filter_distance_miles_template">%s engelske mil</string>
 	<!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
 	<string name="filter_distance_kilometers_template">%s km</string>
 
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">Søker etter nåværende posisjon ...</string>
+	<string name="progress_finding_location">Søker etter nåværende posisjon...</string>
 	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">Søker etter hoteller ...</string>
+	<string name="progress_searching_hotels">Søker etter hoteller...</string>
 	<!-- Message displayed when search comes up with zero results -->
-	<string name="progress_search_failed">Ingen hoteller ble funnet</string>
+	<string name="progress_search_failed">Ingen hoteller funnet</string>
 	
 	<!-- Suggestion adapter -->
 	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
 	<string name="current_location">Nåværende posisjon</string>
 	<!-- Suggestion to search the currently visible map area on the screen -->
-	<string name="visible_map_area">Kartområde</string>
+	<string name="visible_map_area">Synlig kartområde</string>
 
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
@@ -148,7 +163,7 @@
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">Ikke rangert</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-	<string name="percent_off_template">%2.0f %% rabatt</string>
+	<string name="percent_off_template">%2.0f%% RABATT</string>
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">Filtrer resultatene</string>
@@ -165,57 +180,24 @@
 
 	<!-- Widget -->
 	<!--  Default Loading message for widget -->
-	<string name="loading_hotels">Laster inn hoteller ...</string>
+	<string name="loading_hotels">Laster inn hoteller...</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">Spar %2.0f %%</string>
+	<string name="widget_savings_template">Spar %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Trykk for å oppdatere</string>
-	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
-	<string name="tap_to_start_new_search">TrykkTrykk for å starte et nytt søk</string>
-	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
-	<string name="tap_to_see_booking">Trykk for å se bestillingen</string>
-	<!--  Title for the widget configuration activity -->
-	<string name="widget_config_title">Miniprogram for hotelltilbud</string>
-	<!--  Label for button to add widget to home screen from configuration activity -->
-	<string name="add_widget">Legg til miniprogram</string>
 	<!--  Instructions on how to add widget to home screen -->
-	<string name="widget_add_instructions">Trykk og hold på hjemmeskjermen for å legge til miniprogrammet Hotel Radar.</string>
-	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description">Vis hotelltilbud nær:</string>
-	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
-	<string name="last_hotel_search">Siste søk i program</string>
+	<string name="widget_add_instructions">Trykk og hold på hjem-skjermen for å legge til miniprogrammet Hotel Radar.</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">Ingen internettforbindelse</string>
 	<!--  Widget Branding title -->
 	<string name="hotel_radar">Hotel Radar</string>
 	<!--  Widget Branding description -->
 	<string name="book_a_room_tonight">Bestill et rom i kveld.</string>
-	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
-	<string name="save_upto_template">Spar opptil %2.0f %%</string>
-	<!--  Widget error for search that is considered "in the past" due to time differences -->
-	<string name="error_search_in_past">Vi har ingen tilbud igjen i dag. Se etter nye topptilbud i morgen.</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short_1">&lt;b&gt;Legg til miniprogrammet Hotel Radar.&lt;/b&gt;</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
 	<string name="widget_upsell_short_2">&lt;b&gt;Motta tilbud nær deg!&lt;/b&gt;</string>
-	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
-	<string name="enjoy_your_stay">Ha et hyggelig opphold!</string>
-	
-	<!--  Hotel names for widget preview -->
-	<!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_wynn">Wynn Las Vegas</string>
-	<!-- Name of Bellagio hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_bellagio">Bellagio</string>
-	<!-- Name of Flamingo Las Vegas hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_flamingo">Flamingo Las Vegas</string>
-	<!-- Name of Venetian Resort Hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_caesers_palace">Caesars Palace</string>
-	<!-- Name of Harrah's hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_paris">Paris Las Vegas</string>
-	
-	<!--  Location of all hotels in widget preview -->
-	<string name="preview_hotel_location">Las Vegas, NV</string>
-	
+
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
 	<string name="book_now">Bestill nå</string>
@@ -224,11 +206,13 @@
 	<!--  Title for star rating in hotel description section -->
 	<string name="star_rating_title">Stjernerangering:</string>
 	<!-- Label for the hotel's trip advisor rating  -->
-	<string name="user_rating">Brukernes rangering</string>
+	<string name="user_rating">Brukerrangering</string>
 	<!-- Label for the address section of the description  -->
 	<string name="address">Adresse</string>
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
+    <!-- Label to view hotel in on expedia.com -->
+    <string name="view_this_hotel_on_website_template">Se dette hotellet på %s &gt;</string>
 	
 	<!--  Hotel Details Fragment -->
 	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
@@ -240,15 +224,17 @@
 	<!--  Title for the amenities section in the hotel details fragment -->
 	<string name="amenities">Fasiliteter</string>
 	<!--  Label for button to see all reviews as a modal dialog -->
-	<string name="see_all_reviews">Vis alle anmeldelser</string>
+	<string name="see_all_reviews">Se alle anmeldelser</string>
 	<!-- Label for button that brings users to the room selection page -->
 	<string name="select_room">Velg rom</string>
 
 	<!-- Amenity strings -->
+	<!-- Text that indicates no amenities at this property -->
+	<string name="AmenityNone">Ingen fasiliteter tilbys </string>
 	<!-- Business center amenity -->
 	<string name="AmenityBusinessCenter">Forretningssenter</string>
 	<!-- Fitness center amenity -->
-	<string name="AmenityFitnessCenter">Treningssenter</string>
+	<string name="AmenityFitnessCenter">Treningsstudio</string>
 	<!-- Hot tub on-site amenity -->
 	<string name="AmenityHotTub">Boblebad</string>
 	<!-- Internet access amenity -->
@@ -284,15 +270,15 @@
 	<!-- Roll-in shower amenity -->
 	<string name="AmenityRollInShower">Dusj tilpasset funksjonshemmede</string>
 	<!-- Handicapped parking amenity -->
-	<string name="AmenityHandicappedParking">Handikapparkering</string>
+	<string name="AmenityHandicappedParking">Parkering for funksjonshemmede</string>
 	<!-- In-room accessibility amenity -->
 	<string name="AmenityInRoomAccessibility">Rom tilpasset funksjonshemmede</string>
 	<!-- Accessibility equipment for the deaf amenity -->
 	<string name="AmenityDeafAccessibilityEquipment">Tilpasset hørselshemmede</string>
 	<!-- Braille or raised signage amenity -->
-	<string name="AmenityBrailleSignage">Skilt med blindeskrift</string>
+	<string name="AmenityBrailleSignage">Punktskriftskilt</string>
 	<!-- Free airport shuttle amenity -->
-	<string name="AmenityFreeAirportShuttle">Flyplasstransport</string>
+	<string name="AmenityFreeAirportShuttle">Transport til/fra flyplass</string>
 	<!-- Indoor pool amenity -->
 	<string name="AmenityPoolIndoor">Innendørs basseng</string>
 	<!-- Outdoor pool amenity -->
@@ -304,28 +290,28 @@
 
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
-	<string name="user_review_loading_text">Laster inn brukernes anmeldelser ...</string>
+	<string name="user_review_loading_text">Laster inn brukernes anmeldelser...</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Nylige</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_favorable">Positive</string>
 	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_critical">Negative</string>
+	<string name="user_review_sort_button_critical">Kritiske</string>
 	<!-- Loading more reviews -->
-	<string name="user_review_loading_more_reviews">Laster inn flere anmeldelser ...</string>
+	<string name="user_review_loading_more_reviews">Laster inn flere anmeldelser...</string>
 	<!-- Read more of the review -->
 	<string name="user_review_read_more">Les mer</string>
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; av &lt;b&gt;%2$d&lt;/b&gt; gjester anbefaler dette hotellet.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b&gt; %1$d&lt;/b&gt; av &lt;b&gt; %2$d&lt;/b&gt; gjester anbefaler dette hotellet.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
-		<item quantity="zero">%d anmeldelser</item>
-		<item quantity="one">%d anmeldelse</item>
-		<item quantity="two">%d anmeldelser</item>
-		<item quantity="many">%d anmeldelser</item>
-		<item quantity="other">%d anmeldelser</item>
+		<item quantity="zero">%d Anmeldelser</item>
+		<item quantity="one">%d Anmeldelse</item>
+		<item quantity="two">%d Anmeldelser</item>
+		<item quantity="many">%d Anmeldelser</item>
+		<item quantity="other">%d Anmeldelser</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
@@ -341,20 +327,20 @@
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
 	<plurals name="staying_nights">
-		<item quantity="zero">For %d netter</item>
-		<item quantity="one">For %d natt</item>
-		<item quantity="two">For %d netter</item>
-		<item quantity="many">For %d netter</item>
-		<item quantity="other">For %d netter</item>
+		<item quantity="zero">For %d overnattinger</item>
+		<item quantity="one">For %d overnatting</item>
+		<item quantity="two">For %d overnattinger</item>
+		<item quantity="many">For %d overnattinger</item>
+		<item quantity="other">For %d overnattinger</item>
 	</plurals>
 	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">Søker etter ledige rom ...</string>
+	<string name="room_rates_loading">Søker etter ledige rom...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">Kunne ikke laste ned rom- og prisopplysninger.  Kontroller internettforbindelsen og prøv på nytt.</string>
+	<string name="error_no_response_room_rates">Kunne ikke laste ned rom- og prisopplysninger.  Kontroller tilkoblingen og prøv på nytt.</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">per natt</string>
 	<!-- Rate price displayed "average per night" -->
-	<string name="rate_avg_per_night">i snitt per natt</string>
+	<string name="rate_avg_per_night">gjennomsnitt per natt</string>
 	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
 	<plurals name="number_of_rooms_left">
 		<item quantity="zero">Ingen rom igjen!</item>
@@ -364,13 +350,13 @@
 		<item quantity="other">Kun %d rom igjen!</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">Spar\n %2.0f %%</string>
+	<string name="savings_template">Spar\n %2.0f%%</string>
 	<!-- Label for free nights -->
 	<string name="free">GRATIS!</string>
 	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
 	<string name="value_add_template">Inkluderer %s</string>
 	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
-	<string name="common_value_add_template">Alle rommene er inkludert %s</string>
+	<string name="common_value_add_template">Alle rommene inkluderer %s</string>
 	<!--  Instruction as the header of the list to select a room from the list -->
 	<string name="select_a_room_instruction">Velg et rom</string>
 	
@@ -384,13 +370,13 @@
 	<!-- Label for room type -->
 	<string name="room_type">Romtype</string>
 	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">Vi kunne dessverre ikke laste ned romopplysningene.   Kontroller internettforbindelsen og prøv på nytt.</string>
+	<string name="error_room_type_load">Vi kunne dessverre ikke laste ned romopplysningene.  Kontroller internettforbindelsen og prøv på nytt.</string>
 	<!-- Error if we couldn't find the room type details -->
 	<string name="error_room_type_nonexistant">Vi kunne dessverre ikke finne tilleggsopplysninger om dette rommet.</string>
 	<!-- Label for bed type -->
 	<string name="bed_type">Sengetype</string>
 	<!-- Label for length of stay -->
-	<string name="stay_duration">Lengden på oppholdet</string>
+	<string name="stay_duration">Lengde på oppholdet</string>
 	<!-- Quantity for the length of stay -->
 	<plurals name="length_of_stay">
 		<item quantity="one">1 natt</item>
@@ -408,12 +394,14 @@
 	<string name="FirstName">Fornavn</string>
 	<!-- The "last name" booking info field.  -->
 	<string name="LastName">Etternavn</string>
+	<!-- Hint for "telephone country code" field (e.g., "+44") -->
+	<string name="hint_telephone_country_code">##</string>
 	<!-- The "telephone" booking info field.  -->
 	<string name="Telephone">Telefon</string>
 	<!-- The "email for booking confirmation" booking info field.  -->
-	<string name="EmailForConf">E-postadresse for bekreftelse</string>
+	<string name="EmailForConf">E-postbekreftelse</string>
 	<!-- Label for "billing info" form field section -->
-	<string name="billing_info">Faktureringsadresse</string>
+	<string name="billing_info">Faktureringsopplysninger</string>
 	<!-- Address line 1 form field hint -->
 	<string name="hint_address1">Adresselinje 1</string>
 	<!-- Address line 2 form field hint -->
@@ -441,7 +429,7 @@
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">Regler og begrensninger</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">Dersom du har en Expedia Rewards-konto, må du bestille med den samme e-postadressen for at poengene dine automatisk skal bli lagt til etter endt opphold. Vær oppmerksom på at det kan ta opptil 30 dager før poengene dine vises.</string>
+	<string name="disclaimer_expedia_points">Dersom du har en Expedia Rewards-konto, må du bestille med den samme e-postadressen, slik at poengene dine automatisk vil bli lagt til etter endt opphold. Vær oppmerksom på at det kan ta opptil 30 dager før poengene dine vises.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
 	<string name="EnterBookingInfo">Oppgi bestillingsopplysninger</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -449,11 +437,11 @@
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">Bekreft og bestill</string>
 	<!-- Label for clearing private data -->
-	<string name="clear_private_data">Fjern private opplysninger</string>
+	<string name="clear_private_data">Slett private opplysninger</string>
 	<!-- Title for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_title">Fjerne private opplysninger?</string>
+	<string name="dialog_clear_private_data_title">Slette private opplysninger?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_msg">Alle lagrede fakturerings- og kontaktopplysninger vil bli fjernet.</string>
+	<string name="dialog_clear_private_data_msg">Dette gjør at alle lagrede fakturerings- og kontaktopplysninger blir slettet.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">De private opplysningene ble fjernet</string>
 	<!-- Error message if field was required but not entered -->
@@ -471,15 +459,15 @@
 	<!-- Error if an invalid security code was entered -->
 	<string name="invalid_security_code">Oppgi en sikkerhetskode på tre eller fire sifre</string>
 	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">American Express støtter dessverre ikke betalinger i denne valutaen (%s). Vennligst bruk et annet kredittkort.</string>
+	<string name="invalid_currency_for_amex">Dessverre støtter ikke American Express betalinger i denne valutaen (%s). Vennligst bruk et annet kredittkort.</string>
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">Du må akseptere vilkårene for å kunne bestille</string>
 	<!-- Message to display to user while booking is in progress -->
-	<string name="booking_loading">Bestiller ...</string>
+	<string name="booking_loading">Bestiller...</string>
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Feil</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">Kunne ikke koble til Expedias servere. Kontroller internettforbindelsen og prøv på nytt.</string>
+	<string name="error_booking_null">Kunne ikke koble til Expedias servere.  Kontroller tilkoblingen og prøv på nytt.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$s den %2$s</string>
 	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
@@ -503,7 +491,7 @@
 	<!-- Label for starting a new search -->
 	<string name="new_search">Nytt søk</string>
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
-	<string name="contact_phone_template">Ring Expedia.com på %s dersom du har spørsmål vedrørende bestillingen.</string>
+	<string name="contact_phone_template">Har du spørsmål vedrørende bestillingen, kan du ringe Expedia.com på %s.</string>
 	<!-- Contact info for China  where 1$ represents the number by CN NetCom and 2$ represents the number from CN Telecom-->
 	<string name="contact_phone_china_template">Ring Expedia.com på %1$s (CN NetCom) eller %2$s (CN Telecom) dersom du har spørsmål vedrørende bestillingen.</string>
 	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
@@ -522,10 +510,14 @@
 	<string name="GuestsLabel">Gjester</string>
 	<!-- Label for the taxes & fees for this booking. -->
 	<string name="TaxesAndFees">Skatter og avgifter</string>
+	<!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+	<string name="MandatoryFees">Hotellgebyrer (Betales på hotell)</string>
 	<!-- Label for the rate per room per night. -->
 	<string name="RatePerRoomPerNight">Pris per rom og per natt</string>
 	<!-- Label for the total cost of the booking. -->
 	<string name="Total">Totalt</string>
+	<!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
+	<string name="PayToExpedia">Betal til Expedia</string>
 	<!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
 	<string name="CheckIn">Innsjekking</string>
 	<!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
@@ -541,13 +533,23 @@
 	<!-- Policy displayed to user when a guarantee is required -->
 	<string name="PolicyGuaranteeRequired">Kredittkortopplysningene kreves for at vi skal kunne sikre bestillingen din. Kredittkortet ditt vil bli belastet først når du ankommer hotellet eller når avbestillingsfristen er utløpt.</string>
 	<!-- Expedia merchant hotel policies -->
-	<string name="PolicyExpediaMerchant">Fortsetter du med bestillingen, godtar du alle vilkårene, og herunder avbestillingsvilkårene og alle vilkårene i brukeravtalen.\n\nDu samtykker i å betale bestillingsbeløpet. Dersom du ikke betaler denne fordringen og den drives inn via et inkassobyrå, en advokat eller andre instanser, samtykker du i å betale alle rimelige kostnader og gebyrer, inklusive advokathonorarer og saksomkostninger som påløper i forbindelse med inndrivingen.</string>
+	<string name="PolicyExpediaMerchant">Ved å fortsette med denne bestillingen godtar du alle vilkår, inkludert vår avbestillingspolicy og alle betingelser og vilkår i brukeravtalen.\n\n Du samtykker til å betale prisen for bestillingen din. Dersom du ikke betaler denne fordringen og den drives inn via et inkassobyrå, en advokat eller andre instanser, samtykker du i å betale alle rimelige kostnader og gebyrer, inklusive advokathonorarer og saksomkostninger som påløper i forbindelse med inndrivingen.</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">Du er i ferd med å bestille et ikke-rabattert overnattingssted. Alle priser gjelder per overnatting og for et dobbeltrom, såfremt ikke noe annet er spesifisert. Kontroller rombeskrivelsene og prisreglene for å være sikker på at rommet du velger har plass til hele reisefølget ditt. I forbindelse med enkelte av prisene kan det være påkrevd å fremvise en spesiell type legitimasjon. Bestillingsgebyret vårt, skatter og andre tilleggsgebyrer fra hotellets side er ikke inkludert. En ekstra voksen eller et ekstra barn som overskrider rommets oppgitte kapasitet, kan måtte betale tilleggsgebyrer til hotellet.\n\nForespørsler som gjelder mer enn to personer eller flere romgjester enn prisen på det valgte rommet ditt viser, vil bli sendt til hotellet, men de kan ikke garanteres oppfylt. Dersom de aksepteres, vil hotellet fastsette eventuelle tilleggsgebyrer.</string>
+	<string name="PolicyExpediaAgent">Du er i ferd med å bestille et ikke-rabattert overnattingssted. Alle priser gjelder per overnatting og for et dobbeltrom, såfremt ikke noe annet er spesifisert. Kontroller rombeskrivelsene og prisreglene for å være sikker på at rommet du velger har plass til hele reisefølget ditt. I forbindelse med enkelte av prisene kan det være påkrevd å fremvise en spesiell type legitimasjon. Bestillingsgebyret vårt, skatter og andre tilleggsgebyrer fra hotellets side er ikke inkludert. Dersom det er ekstra gjester (voksne eller barn) utover antallet bestilt på rommet, blir det muligens lagt til et ekstragebyr.\n\nForespørsler for fler enn 2 personer, eller for flere gjester enn din valgte pris indikerer, vil bli sendt til hotellet, men kan ikke garanteres. Dersom de aksepteres, vil hotellet fastsette eventuelle tilleggsgebyrer.</string>
+
+	<!-- Expedia Accounts -->
+	<!-- Label for menu item to log into account -->
+	<string name="log_in">Logg inn på Expedia</string>
+	<!-- Hint for user to enter password into a field -->
+	<string name="hint_password">Passord</string>
+	<!-- Progress dialog text when we are logging the user into Expedia -->
+	<string name="logging_in">Logger på…</string>
+	<!-- Message that tells user they successfully logged in -->
+	<string name="login_success">Suksess!  Du er nå logget på.</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-	<string name="share_subject_template">Expedia-reiserute – %1$s (%2$s – %3$s)</string>
+	<string name="share_subject_template">Expedia-reiserute – %1$s (%2$s - %3$s)</string>
 	<!-- Preset at the top of the share body message -->
 	<string name="share_body_start">Her er mine bestillingsopplysninger:</string>
 	<!-- Name of user -->
@@ -567,7 +569,7 @@
 	<!-- Extra description for "contact Expedia" button, when space allows -->
 	<string name="contact_expedia_description">Vi er tilgjengelige døgnet rundt.</string>
 	<!-- Title for different ways to connect to Expedia -->
-	<string name="contact_expedia_via">Kontakt Expedia via ...</string>
+	<string name="contact_expedia_via">Kontakt Expedia via...</string>
 	<!-- Contact Expedia via phone -->
 	<string name="contact_expedia_phone">Telefon</string>
 	<!-- Contact Expedia via email -->
@@ -593,7 +595,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hei,\n\nPrøv Expedia Hotels for iPhone og Android-telefoner. Det er GRATIS, og du kan enkelt og greit søke og bestille rom på mer enn 130 000 hoteller verden over. Dette er den enkleste måten å bestille hotellrom via telefonen din på.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hei,\n\nPrøv Expedia Hotels for iPhone og Android-telefoner. Det er GRATIS, og du kan enkelt og greit søke og bestille rom på mer enn 130 000 hoteller verden over. Det er den enkleste måten å bestille hoteller på telefonen din\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Vilkår</string>
 	<!-- Label for link to privacy policy -->
@@ -605,7 +607,7 @@
 	<!-- Text within submit button in header -->
 	<string name="send_feedback">Send tilbakemelding</string>
 	<!-- Header title -->
-	<string name="app_feedback">Tilbakemeldinger om program</string>
+	<string name="app_feedback">Tilbakemeldinger om programmet</string>
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Ranger oss</string>
 	<!-- Footer for the view -->
@@ -620,50 +622,48 @@
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
 	<string name="preference_category_general">Generelt</string>
-	<!-- Title for currency setting -->
-	<string name="preference_currency_title">Valuta</string>
-	<!-- Summary for currency setting.  E.g., "US Dollars (USD)" -->
-	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
-	<!-- Template for default currency -->
-	<string name="default_currency_template">Standard (%s)</string>
+	<!-- Title for point of sale setting -->
+	<string name="preference_point_of_sale_title">Domene</string>
+	<!-- Template for default point of sale -->
+	<string name="default_point_of_sale_template">Standard (%s)</string>
 
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-		<item quantity="zero">%d voksne</item>
-		<item quantity="one">%d voksen</item>
-		<item quantity="two">%d voksne</item>
-		<item quantity="many">%d voksne</item>
-		<item quantity="other">%d voksne</item>
+		<item quantity="zero">%d Voksne</item>
+		<item quantity="one">%d Voksen</item>
+		<item quantity="two">%d Voksne</item>
+		<item quantity="many">%d Voksne</item>
+		<item quantity="other">%d Voksne</item>
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-		<item quantity="zero">%d barn</item>
-		<item quantity="one">%d barn</item>
-		<item quantity="two">%d barn</item>
-		<item quantity="many">%d barn</item>
-		<item quantity="other">%d barn</item>
+		<item quantity="zero">%d Barn</item>
+		<item quantity="one">%d Barn</item>
+		<item quantity="two">%d Barn</item>
+		<item quantity="many">%d Barn</item>
+		<item quantity="other">%d Barn</item>
 	</plurals>
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
-		<item quantity="zero">%d gjester</item>
-		<item quantity="one">%d gjest</item>
-		<item quantity="two">%d gjester</item>
-		<item quantity="many">%d gjester</item>
-		<item quantity="other">%d gjester</item>
+		<item quantity="zero">%d Gjester</item>
+		<item quantity="one">%d Gjest</item>
+		<item quantity="two">%d Gjester</item>
+		<item quantity="many">%d Gjester</item>
+		<item quantity="other">%d Gjester</item>
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">
-		<item quantity="zero">%d netter</item>
-		<item quantity="one">%d natt</item>
-		<item quantity="two">%d netter</item>
-		<item quantity="many">%d netter</item>
-		<item quantity="other">%d netter</item>
+		<item quantity="zero">%d Netter</item>
+		<item quantity="one">%d Natt</item>
+		<item quantity="two">%d Netter</item>
+		<item quantity="many">%d Netter</item>
+		<item quantity="other">%d Netter</item>
 	</plurals>
 
 	<!-- Distance strings -->
 	<!-- Abbreviated miles (used in distance_template) -->
-	<string name="unit_miles">mi</string>
+	<string name="unit_miles"> engelske mil</string>
 	<!-- Abbreviated kilometers (used in distance_template) -->
 	<string name="unit_kilometers">km</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
@@ -686,6 +686,8 @@
 	<string name="ean_error_no_results">Vi kunne dessverre ikke finne noen tilgjengelige hoteller på dette tidspunkt. Prøv på nytt med andre datoer eller et annet sted.</string>
 	<!-- Replaces "result was null" for no result search -->
 	<string name="ean_error_connect_unavailable">Kunne ikke koble til det valgte hotellet for å finne ledige rom.</string>
+	<!-- Error message displayed when the phone number sent via booking is invalid -->
+	<string name="ean_error_invalid_phone_number">Skriv inn et gyldig telefonnummer</string>
 
 	<!-- Currency names -->
 	<string name="currency_aud">Australske dollar</string>
@@ -806,7 +808,7 @@
 	<string name="country_hm">Heardøya og McDonaldøyene</string>
 	<string name="country_va">Den hellige stol (Vatikanstaten)</string>
 	<string name="country_hn">Honduras</string>
-	<string name="country_hk">Hong Kong</string>
+	<string name="country_hk">Hongkong</string>
 	<string name="country_hu">Ungarn</string>
 	<string name="country_is">Island</string>
 	<string name="country_in">India</string>

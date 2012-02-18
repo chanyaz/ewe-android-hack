@@ -1,27 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 
-	<!-- Search Fragment --><!-- Initial hint for the search location field - invites the user to enter information here -->
+	<!-- Search Fragment -->
+	<!-- Initial hint for the search location field - invites the user to enter information here -->
 	<string name="enter_search_location">Masukkan lokasi pencarian...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Cari Lokasi</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Pencarian Terbaru</string>
 	<!-- Label for searches that the user can make that are featured -->
-	<string name="featured_destinations">Tujuan Utama</string>
+	<string name="featured_destinations">Tujuan Unggulan</string>
 	<!-- Label for button that starts search -->
 	<string name="search_for_hotels">Cari Hotel</string>
 	<!--  Label for picking search location -->
 	<string name="where_are_you_going">&lt;b&gt;Ke mana&lt;/b&gt; tujuan Anda?</string>
 	<!--  Label for picking checkin/checkout dates -->
-	<string name="drag_to_extend_your_stay">&lt;b&gt;Tarik&lt;/b&gt; untuk memperpanjang masa menginap.</string>
-	<!--  Label for picking checkin/checkout dates -->
-	<string name="where_are_you_staying">&lt;b&gt;Di mana&lt;/b&gt; Anda akan menginap?</string>
+	<string name="drag_to_extend_your_stay">&lt;b&gt;Tarik&lt;/b&gt; untuk perpanjang masa inap.</string>
 	<!--  Label for picking guests for hotel booking -->
-	<string name="who_is_going">&lt;b&gt;Siapa&lt;/b&gt; yang akan berangkat?</string>
+	<string name="who_is_going">&lt;b&gt;Siapa&lt;/b&gt; saja yang ikut?</string>
+	<!--  Label for tablet age selection popup button -->
+	<string name="button_enter_childrens_ages">Masukkan Umur Anak</string>
+	<!-- Child age dialog button -->
+	<string name="button_done">Selesai</string>
+	<!--  Label for child age selection prompt -->
+	<string name="prompt_please_specify_childrens_ages">Sebutkan umur anak.</string>
+	<!--  Title of "select child age" spinner dialog box -->
+	<string name="prompt_select_child_age">Pilih Umur Anak (%1$s - %2$s)</string>
+	<!--  Label for child's age on search refinements -->
+	<string name="child_x">Anak %1$s</string>
+	<!--  Text for child's age on search refinements and in spinner -->
+	<plurals name="child_age">
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; tahun</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; tahun</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; tahun</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; tahun</item>
+	</plurals>
+	<!-- Android doesn't handle "zero" as a special case in English. So we'll do it manually -->
+	<string name="child_age_less_than_one">&lt;b&gt;Kurang dari 1&lt;/b&gt; tahun</string>
 	
-	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) --><!-- Suggestion to search Times Square -->
+	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
+	<!-- Suggestion to search Times Square -->
 	<string name="suggestion_times_square">Times Square, New York, NY</string>
 	<string name="suggestion_boston">Boston, MA</string>
 	<string name="suggestion_los_angeles">Los Angeles, CA</string>
@@ -33,7 +52,8 @@
 	<string name="suggestion_minneapolis">Minneapolis, MN</string>
 	<string name="suggestion_san_francisco">San Francisco, CA</string>
 
-	<!-- Search Activity --><!-- Label for "start search" button -->
+	<!-- Search Activity -->
+	<!-- Label for "start search" button -->
 	<string name="search">Cari</string>
 	<!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
 	    1$ - The search address
@@ -41,7 +61,7 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; hingga &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; sampai &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
 		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; hotel yang cocok</item>
@@ -52,8 +72,6 @@
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filter berdasarkan nama hotel</string>
-	<!-- Label to show hotels with any TripAdvisor rating -->
-	<string name="tripadvisor_rating_all">Hotel semua peringkat</string>
 	<!-- Label indicating that there are no results matching their current filter -->
 	<string name="no_filter_results">Maaf, tidak ada hotel yang cocok dengan filter Anda saat ini.</string>
 	<!-- Label indicating that geolocation failed -->
@@ -84,22 +102,23 @@
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">Untuk menggunakan Lokasi Saya, Anda harus mengaktifkan terlebih dulu sumber Lokasi di Pengaturan.\nBuka Pengaturan dan mengaktifkannya sekarang?</string>
+	<string name="EnableLocationSettings">Untuk menggunakan Lokasi Saya, Anda harus mengaktifkan sumber Lokasi di Pengaturan.\nBuka Pengaturan dan aktifkan sekarang?</string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
-	<string name="ProviderDisabled">Penyedia lokasi Anda telah dinonaktifkan. Silakan aktifkan kembali sebelum melakukan pencarian berdasarkan lokasi Anda.</string>
+	<string name="ProviderDisabled">Penyedia lokasi Anda telah dinonaktifkan. Aktifkan kembali untuk melakukan pencarian berdasarkan lokasi Anda.</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
 	<string name="ProviderOutOfService">Penyedia lokasi Anda berada di luar jangkauan. Coba lagi nanti.</string>
 	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">Penyedia lokasi Anda untuk sementara tidak tersedia. Coba lagi setelah beberapa menit.</string>
+	<string name="ProviderTemporarilyUnavailable">Penyedia lokasi Anda untuk sementara tidak tersedia.  Coba lagi setelah beberapa menit.</string>
 
-	<!-- Sort descriptions, e.g. Sorted by "description" --><!-- Sort by distance label -->
+	<!-- Sort descriptions, e.g. Sorted by "description" -->
+	<!-- Sort by distance label -->
 	<string name="sort_description_distance">Jarak</string>
 	<!-- Sort by popularity label -->
 	<string name="sort_description_popular">Popularitas</string>
 	<!-- Sort by price label -->
 	<string name="sort_description_price">Harga</string>
 	<!-- Sort by user rating label -->
-	<string name="sort_description_rating">Peringkat oleh Pengguna</string>
+	<string name="sort_description_rating">Peringkat Pengguna</string>
 	
 	<!-- Filter option for "show all" -->
 	<string name="all">Semua</string>
@@ -120,19 +139,22 @@
 	<!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
 	<string name="filter_distance_kilometers_template">%s km</string>
 
-	<!-- Progress messages --><!-- Message displayed when app is trying to find where it is (via network/GPS) -->
+	<!-- Progress messages -->	
+	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">Mencari Lokasi Saat Ini...</string>
 	<!-- Message displayed when app is searching a location for hotels -->
 	<string name="progress_searching_hotels">Mencari Hotel...</string>
 	<!-- Message displayed when search comes up with zero results -->
-	<string name="progress_search_failed">Tidak Ditemukan Hotel</string>
+	<string name="progress_search_failed">Hotel Tidak Ditemukan</string>
 	
-	<!-- Suggestion adapter --><!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+	<!-- Suggestion adapter -->
+	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
 	<string name="current_location">Lokasi Saat Ini</string>
 	<!-- Suggestion to search the currently visible map area on the screen -->
 	<string name="visible_map_area">Area Tampilan Peta</string>
 
-	<!-- Search list adapter --><!-- The label for how much hotels cost - "from $120/night", for example -->
+	<!-- Search list adapter -->
+	<!-- The label for how much hotels cost - "from $120/night", for example -->
 	<string name="from">Mulai</string>
 	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
 	<string name="from_template">Mulai &lt;strike&gt;%s&lt;/strike&gt;</string>
@@ -141,84 +163,59 @@
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">Tanpa Peringkat</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-	<string name="percent_off_template">HEMAT %2.0f%%</string>
+	<string name="percent_off_template">DISKON %2.0f%%</string>
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">Filter Hasil</string>
 	<!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
 	<string name="filter">Filter</string>
 
-	<!-- Map --><!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
+	<!-- Map -->
+	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
 	<string name="map_snippet_price_template">Mulai %s</string>
 
-	<!-- Mini-details fragment --><!-- Label for "see details" button on the mini details fragment -->
+	<!-- Mini-details fragment -->
+	<!-- Label for "see details" button on the mini details fragment -->
 	<string name="see_details">Lihat Detail</string>
 
-	<!-- Widget --><!--  Default Loading message for widget -->
+	<!-- Widget -->
+	<!--  Default Loading message for widget -->
 	<string name="loading_hotels">Memuat hotel...</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
 	<string name="widget_savings_template">Hemat %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Ketuk untuk memperbarui</string>
-	<!--  Indicator to user to tap the widget to start a new serach if no hotels are found -->
-	<string name="tap_to_start_new_search">Ketuk untuk memulai pencarian baru</string>
-	<!--  Indicator to user to tap the widget to see their booking confirmation when a booking is completed -->
-	<string name="tap_to_see_booking">Ketuk untuk melihat pemesanan Anda</string>
-	<!--  Title for the widget configuration activity -->
-	<string name="widget_config_title">Widget Tawaran Hotel</string>
-	<!--  Label for button to add widget to home screen from configuration activity -->
-	<string name="add_widget">Tambah Widget</string>
 	<!--  Instructions on how to add widget to home screen -->
-	<string name="widget_add_instructions">Ketuk dan tahan pada layar awal untuk menambah widget Hotel Radar.</string>
-	<!--  Title for configuration options section in the widget config activity -->
-	<string name="config_options_description">Tampilkan tawaran hotel dekat:</string>
-	<!--  Widget config option for configuring widget to pick up hotels based on last search -->
-	<string name="last_hotel_search">Pencarian App Terakhir</string>
+	<string name="widget_add_instructions">Ketuk dan tahan pada layar awal untuk menambah widget Radar Hotel.</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">Tidak Ada Konektivitas Internet</string>
+	<string name="widget_error_no_internet">Tidak Ada Koneksi Internet</string>
 	<!--  Widget Branding title -->
-	<string name="hotel_radar">Hotel Radar</string>
+	<string name="hotel_radar">Radar Hotel</string>
 	<!--  Widget Branding description -->
 	<string name="book_a_room_tonight">Pesan kamar malam ini.</string>
-	<!--  Widget branding for max savings based on deals being shown. %2.0f represents the max. savings (rounded up) represented by any one hotel in the widget-->
-	<string name="save_upto_template">Hemat hingga %2.0f%%</string>
-	<!--  Widget error for search that is considered "in the past" due to time differences -->
-	<string name="error_search_in_past">Kami tidak memiliki tawaran lagi untuk hari ini. Lihat tawaran teratas besok.</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">&lt;b&gt;Tambah Widget Hotel Radar.&lt;/b&gt;</string>
+	<string name="widget_upsell_short_1">&lt;b&gt;Tambah Widget Radar Hotel.&lt;/b&gt;</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">&lt;b&gt;Dapatkan tawaran setiap malam dekat lokasi Anda!&lt;/b&gt;</string>
-	<!--  Widget booking confirmation text. This is displayed in the widget when the user has an active confirmation-->
-	<string name="enjoy_your_stay">Selamat menginap!</string>
-	
-	<!--  Hotel names for widget preview --><!-- Name of Hard Rock Hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_wynn">Wynn Las Vegas</string>
-	<!-- Name of Bellagio hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_bellagio">Bellagio</string>
-	<!-- Name of Flamingo Las Vegas hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_flamingo">Flamingo Las Vegas</string>
-	<!-- Name of Venetian Resort Hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_caesers_palace">Caesars Palace</string>
-	<!-- Name of Harrah's hotel in Las Vegas (for widget preview) -->
-	<string name="preview_hotel_paris">Paris Las Vegas</string>
-	
-	<!--  Location of all hotels in widget preview -->
-	<string name="preview_hotel_location">Las Vegas, NV</string>
-	
-	<!-- Hotel Activity --><!-- Label for button to book the hotel -->
+	<string name="widget_upsell_short_2">&lt;b&gt;Dapatkan tawaran malam ini di dekat Anda!&lt;/b&gt;</string>
+
+	<!-- Hotel Activity -->
+	<!-- Label for button to book the hotel -->
 	<string name="book_now">Pesan Sekarang</string>
 	<!-- Label for the hotel's star rating -->
 	<string name="star_rating">Peringkat Bintang</string>
 	<!--  Title for star rating in hotel description section -->
 	<string name="star_rating_title">Peringkat Bintang:</string>
 	<!-- Label for the hotel's trip advisor rating  -->
-	<string name="user_rating">Peringkat oleh Pengguna</string>
+	<string name="user_rating">Peringkat Pengguna</string>
 	<!-- Label for the address section of the description  -->
 	<string name="address">Alamat</string>
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
+    <!-- Label to view hotel in on expedia.com -->
+    <string name="view_this_hotel_on_website_template">Lihat Hotel Ini di %s&gt;</string>
 	
-	<!--  Hotel Details Fragment --><!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
+	<!--  Hotel Details Fragment -->
+	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
 	<string name="min_room_price_template">Mulai %s</string>
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
 	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; mulai</string>
@@ -231,12 +228,15 @@
 	<!-- Label for button that brings users to the room selection page -->
 	<string name="select_room">Pilih Kamar</string>
 
-	<!-- Amenity strings --><!-- Business center amenity -->
+	<!-- Amenity strings -->
+	<!-- Text that indicates no amenities at this property -->
+	<string name="AmenityNone">Tidak Ada Fasilitas yang Ditawarkan</string>
+	<!-- Business center amenity -->
 	<string name="AmenityBusinessCenter">Pusat Bisnis</string>
 	<!-- Fitness center amenity -->
-	<string name="AmenityFitnessCenter">Gimnasium</string>
+	<string name="AmenityFitnessCenter">Tempat Fitnes</string>
 	<!-- Hot tub on-site amenity -->
-	<string name="AmenityHotTub">Mandi Air Panas</string>
+	<string name="AmenityHotTub">Air Panas</string>
 	<!-- Internet access amenity -->
 	<string name="AmenityInternet">Internet</string>
 	<!-- Kids' activities amenity -->
@@ -254,7 +254,7 @@
 	<!-- Whirlpool bath amenity -->
 	<string name="AmenityWhirlpoolBath">Whirlpool</string>
 	<!-- Breakfast amenity -->
-	<string name="AmenityBreakfast">Makan Pagi</string>
+	<string name="AmenityBreakfast">Sarapan</string>
 	<!-- Babysitting amenity -->
 	<string name="AmenityBabysitting">Pengasuhan Anak</string>
 	<!-- Jacuzzi amenity -->
@@ -264,19 +264,19 @@
 	<!-- Room service amenity -->
 	<string name="AmenityRoomService">Layanan Kamar</string>
 	<!-- Accessible path of travel amenity -->
-	<string name="AmenityAccessiblePaths">Jalur Kursi Roda</string>
+	<string name="AmenityAccessiblePaths">Akses Difabel</string>
 	<!-- Accessible bathroom amenity -->
-	<string name="AmenityAccessibleBathroom">Kamar Mandi Ketunaan</string>
+	<string name="AmenityAccessibleBathroom">Kamar Mandi Difabel</string>
 	<!-- Roll-in shower amenity -->
-	<string name="AmenityRollInShower">Roll-In Shower</string>
+	<string name="AmenityRollInShower">Shower Kursi Roda</string>
 	<!-- Handicapped parking amenity -->
-	<string name="AmenityHandicappedParking">Parkir Ketunaan</string>
+	<string name="AmenityHandicappedParking">Parkir Difabel</string>
 	<!-- In-room accessibility amenity -->
-	<string name="AmenityInRoomAccessibility">Kamar Ketunaan</string>
+	<string name="AmenityInRoomAccessibility">Kamar Difabel</string>
 	<!-- Accessibility equipment for the deaf amenity -->
-	<string name="AmenityDeafAccessibilityEquipment">Fasilitas untuk Tunarungu</string>
+	<string name="AmenityDeafAccessibilityEquipment">Akses Tunarungu</string>
 	<!-- Braille or raised signage amenity -->
-	<string name="AmenityBrailleSignage">Plang Braille</string>
+	<string name="AmenityBrailleSignage">Papan Informasi Braille</string>
 	<!-- Free airport shuttle amenity -->
 	<string name="AmenityFreeAirportShuttle">Antar-Jemput Bandara</string>
 	<!-- Indoor pool amenity -->
@@ -288,14 +288,15 @@
 	<!-- Free parking amenity -->
 	<string name="AmenityFreeParking">Parkir Gratis</string>
 
-	<!-- User Reviews list strings --><!-- Loading text prompt -->
+	<!-- User Reviews list strings -->
+	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Memuat ulasan pengguna...</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Terbaru</string>
 	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_favorable">Favorit</string>
+	<string name="user_review_sort_button_favorable">Positif</string>
 	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_critical">Kritikal</string>
+	<string name="user_review_sort_button_critical">Kritis</string>
 	<!-- Loading more reviews -->
 	<string name="user_review_loading_more_reviews">Memuat ulasan lainnya...</string>
 	<!-- Read more of the review -->
@@ -317,13 +318,14 @@
 		2$ is the place they are from -->
 	<string name="user_review_name_and_location_signature">%1$s dari %2$s</string>
 	<!-- User review no critical reviews -->
-	<string name="user_review_no_critical_reviews">Tidak ada ulasan kritikal untuk hotel ini</string>
+	<string name="user_review_no_critical_reviews">Tidak ada ulasan kritis untuk hotel ini</string>
 	<!-- User review no favorable reviews -->
-	<string name="user_review_no_favorable_reviews">Tidak ada ulasan favorit untuk hotel ini</string>
+	<string name="user_review_no_favorable_reviews">Tidak ada ulasan positif untuk hotel ini</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">Tidak ada ulasan terbaru untuk hotel ini</string>
 	
-	<!-- Room and rates list --><!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+	<!-- Room and rates list -->
+	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
 	<plurals name="staying_nights">
 		<item quantity="zero">Menginap %d malam</item>
 		<item quantity="one">Menginap %d malam</item>
@@ -334,7 +336,7 @@
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Mencari kamar yang tersedia...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">Tidak dapat mengunduh informasi kamar &amp; tarif. Periksa sambungan internet Anda dan coba lagi.</string>
+	<string name="error_no_response_room_rates">Tidak dapat mengunduh informasi kamar &amp; tarif.  Periksa koneksi internet Anda dan coba lagi.</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">per malam</string>
 	<!-- Rate price displayed "average per night" -->
@@ -343,34 +345,36 @@
 	<plurals name="number_of_rooms_left">
 		<item quantity="zero">Kamar habis!</item>
 		<item quantity="one">Hanya tersisa 1 kamar!</item>
-		<item quantity="two">Hanya tersisa %d kamar!</item>
-		<item quantity="many">Hanya tersisa %d kamar!</item>
-		<item quantity="other">Hanya tersisa %d kamar!</item>
+		<item quantity="two">Hanya sisa %d kamar!</item>
+		<item quantity="many">Hanya sisa %d kamar!</item>
+		<item quantity="other">Hanya sisa %d kamar!</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">Hemat\n %2.0f%%</string>
+	<string name="savings_template">Hemat\n%2.0f%%</string>
 	<!-- Label for free nights -->
 	<string name="free">GRATIS!</string>
 	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-	<string name="value_add_template">Mencakup %s</string>
+	<string name="value_add_template">Termasuk %s</string>
 	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
-	<string name="common_value_add_template">Semua kamar mencakup %s</string>
+	<string name="common_value_add_template">Semua kamar termasuk %s</string>
 	<!--  Instruction as the header of the list to select a room from the list -->
 	<string name="select_a_room_instruction">Pilih Kamar</string>
 	
-	<!-- Gallery --><!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
+	<!-- Gallery -->
+	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
 	<string name="gallery_title_template">Foto &lt;b&gt;%1$s&lt;/b&gt;</string>
 	    
-	<!-- Booking info --><!-- edit label -->
+	<!-- Booking info -->
+	<!-- edit label -->
 	<string name="edit">Edit</string>
 	<!-- Label for room type -->
 	<string name="room_type">Jenis Kamar</string>
 	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">Maaf, kami tidak dapat memuat detail kamar. Periksa koneksi internet Anda dan coba lagi.</string>
+	<string name="error_room_type_load">Maaf, kami tidak dapat memuat detail kamar.  Periksa koneksi internet Anda dan coba lagi.</string>
 	<!-- Error if we couldn't find the room type details -->
 	<string name="error_room_type_nonexistant">Maaf, kami tidak dapat menemukan detail tambahan mengenai kamar ini.</string>
 	<!-- Label for bed type -->
-	<string name="bed_type">Jenis Tempat Tidur</string>
+	<string name="bed_type">Jenis Ranjang</string>
 	<!-- Label for length of stay -->
 	<string name="stay_duration">Lama Menginap</string>
 	<!-- Quantity for the length of stay -->
@@ -381,7 +385,7 @@
 	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
 	<string name="room_rate_template">Tarif Kamar %s</string>
 	<!-- Label for the extra guest charge -->
-	<string name="extra_guest_charge">Biaya Penginap Tambahan</string>
+	<string name="extra_guest_charge">Biaya Tamu Tambahan</string>
 	<!-- Label for total cost of hotel stay -->
 	<string name="total_cost">Biaya Total</string>
 	<!-- Label for "guest info" form field section -->
@@ -389,11 +393,13 @@
 	<!-- The "first name" booking info field.  -->
 	<string name="FirstName">Nama Depan</string>
 	<!-- The "last name" booking info field.  -->
-	<string name="LastName">Name Belakang</string>
+	<string name="LastName">Nama Belakang</string>
+	<!-- Hint for "telephone country code" field (e.g., "+44") -->
+	<string name="hint_telephone_country_code">##</string>
 	<!-- The "telephone" booking info field.  -->
 	<string name="Telephone">Telepon</string>
 	<!-- The "email for booking confirmation" booking info field.  -->
-	<string name="EmailForConf">E-mail untuk Konfirmasi</string>
+	<string name="EmailForConf">Email untuk Konfirmasi</string>
 	<!-- Label for "billing info" form field section -->
 	<string name="billing_info">Info Penagihan</string>
 	<!-- Address line 1 form field hint -->
@@ -423,11 +429,11 @@
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">Aturan &amp; Pembatasan</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">Jika Anda memiliki akun Expedia Rewards, lakukan pemesanan dengan alamat e-mail yang sama dan poin akan dikirim secara otomatis di akhir masa menginap Anda. Perhatikan bahwa kemungkinan diperlukan waktu hingga 30 hari untuk dapat melihat poin Anda.</string>
+	<string name="disclaimer_expedia_points">Jika Anda memiliki akun Expedia Rewards, lakukan pemesanan dengan alamat email yang sama dan poin akan dikirim secara otomatis setelah masa menginap Anda. Perhatikan bahwa kemungkinan perlu waktu hingga 30 hari untuk dapat melihat poin Anda.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
 	<string name="EnterBookingInfo">Masukkan Info Pemesanan</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
-	<string name="charge_details_template">Kartu kredit Anda akan dikenakan %s</string>
+	<string name="charge_details_template">Kartu kredit Anda akan dikenai %s</string>
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">Konfirmasikan &amp; Pesan</string>
 	<!-- Label for clearing private data -->
@@ -443,17 +449,17 @@
 	<!-- Error message if field had data entered but was invalid -->
 	<string name="invalid_field">Isi kolom ini dengan nilai yang valid.</string>
 	<!-- Error if an invalid card number was entered -->
-	<string name="invalid_card_number">Nomor kartu kredit yang Anda masukkan tidak valid, coba lagi.</string>
+	<string name="invalid_card_number">Nomor kartu kredit yang Anda masukkan tidak valid. Coba lagi.</string>
 	<!-- Error if an invalid credit card type was entered -->
-	<string name="invalid_card_type">Kami tidak dapat mendeteksi jenis kartu kredit Anda, masukkan kartu kredit yang valid.</string>
+	<string name="invalid_card_type">Kami tidak dapat mendeteksi jenis kartu kredit Anda. Masukkan kartu kredit yang valid.</string>
 	<!-- Error if an invalid month (not 1-12) was entered -->
 	<string name="invalid_month">Masukkan nilai antara 1 hingga 12</string>
 	<!-- Error if an invalid year was entered -->
-	<string name="invalid_expiration_year">Masukkan tahun yang belum lampau</string>
+	<string name="invalid_expiration_year">Masukkan tahun yang belum lewat</string>
 	<!-- Error if an invalid security code was entered -->
 	<string name="invalid_security_code">Masukkan kode keamanan tiga atau empat digit</string>
 	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">Maaf, pembayaran dalam mata uang (%s) ini tidak didukung oleh American Express. Harap gunakan kartu kredit lain.</string>
+	<string name="invalid_currency_for_amex">Maaf, pembayaran dalam mata uang ini (%s) tidak didukung oleh American Express. Harap gunakan kartu kredit lain.</string>
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">Anda harus menerima syarat ini sebelum memesan</string>
 	<!-- Message to display to user while booking is in progress -->
@@ -461,7 +467,7 @@
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Kesalahan</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">Tidak dapat tersambung ke server Expedia. Periksa sambungan internet Anda dan coba lagi.</string>
+	<string name="error_booking_null">Tidak dapat terhubung ke server Expedia.  Periksa koneksi internet Anda dan coba lagi.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$s tanggal %2$s</string>
 	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
@@ -471,16 +477,17 @@
 	<!-- Title for dialog where the user is prompted to enter booking booking information -->
 	<string name="booking_information_dialog_title">Selesaikan Pemesanan Anda</string>
 	
-	<!-- Confirmation activity --><!-- Format for a first/last name -->
+	<!-- Confirmation activity -->
+	<!-- Format for a first/last name -->
 	<string name="name_template">%1$s %2$s</string>
 	<!-- Reservation summary label -->
 	<string name="reservation_summary">Ringkasan Reservasi</string>
 	<!-- Confirmation number label -->
-	<string name="confirmation_number">Konfirmasi #</string>
+	<string name="confirmation_number">No. Konfirmasi</string>
 	<!-- Itinerary number label -->
-	<string name="itinerary_number">Rencana Perjalanan #</string>
+	<string name="itinerary_number">No. Rencana Perjalanan</string>
 	<!-- Confirmation email label -->
-	<string name="confirmation_email">E-mail Konfirmasi</string>
+	<string name="confirmation_email">Email Konfirmasi</string>
 	<!-- Label for starting a new search -->
 	<string name="new_search">Pencarian Baru</string>
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
@@ -490,41 +497,59 @@
 	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
 	<string name="contact_phone_default_template">Jika Anda memiliki pertanyaan tentang reservasi Anda, hubungi Expedia.com di %1$s untuk AS/Kanada atau %2$s untuk Eropa.</string>
 
-	<!--  Confirmation Fragment --><!-- Label to share booking information after a booking confirmation -->
-	<string name="share_booking_info">Bagi Info Pemesanan</string>
+	<!--  Confirmation Fragment -->
+	<!-- Label to share booking information after a booking confirmation -->
+	<string name="share_booking_info">Bagikan Info Pemesanan</string>
 	<!-- Label to start a new search from a confirmation screen  -->
 	<string name="start_new_search">Mulai Pencarian Baru</string>
 	<!-- Label to view hotel in google maps to get directions from a confirmation screen -->
-	<string name="show_on_map">Tampilkan di Peta</string>
+	<string name="show_on_map">Tampilkan dalam Peta</string>
 	
-	<!-- Rate template strings --><!-- Label for the number of guests the booking is for. -->
+	<!-- Rate template strings -->
+	<!-- Label for the number of guests the booking is for. -->
 	<string name="GuestsLabel">Tamu</string>
 	<!-- Label for the taxes & fees for this booking. -->
 	<string name="TaxesAndFees">Pajak &amp; Biaya</string>
+	<!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+	<string name="MandatoryFees">Biaya Hotel (Dibayar di hotel)</string>
 	<!-- Label for the rate per room per night. -->
 	<string name="RatePerRoomPerNight">Tarif per Kamar per Malam</string>
 	<!-- Label for the total cost of the booking. -->
 	<string name="Total">Total</string>
+	<!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
+	<string name="PayToExpedia">Bayar ke Expedia</string>
 	<!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
 	<string name="CheckIn">Check In</string>
 	<!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
 	<string name="CheckOut">Check Out</string>
 
-	<!-- Expedia policy strings --><!-- Policy displayed to user when an immediate charge is required -->
-	<string name="PolicyImmediateChargeRequired">Kartu kredit Anda akan dikenakan biaya secara langsung sejumlah biaya reservasi pada saat pemesanan.</string>
+	<!-- Expedia policy strings -->
+	<!-- Policy displayed to user when an immediate charge is required -->
+	<string name="PolicyImmediateChargeRequired">Kartu kredit Anda akan langsung dikenai biaya sejumlah biaya reservasi pada saat pemesanan.</string>
 	<!-- Policy displayed to user when the room is non-refundable -->
-	<string name="PolicyNonRefundable">Kami menawarkan tarif yang sangat rendah untuk properti ini. Karenanya, tarif ini tidak dapat diuangkan kembali. Jika Anda memutuskan untuk membatalkan reservasi ini, Anda tidak akan menerima pengembalian dana yang telah dibayarkan.</string>
+	<string name="PolicyNonRefundable">Kami menawarkan tarif yang sangat rendah untuk properti ini. Karenanya, pembayaran untuk tarif ini tidak dapat dikembalikan. Jika Anda memutuskan untuk membatalkan reservasi ini, Anda tidak akan menerima pengembalian pembayaran.</string>
 	<!-- Policy displayed to user when a deposit is required -->
-	<string name="PolicyDepositRequired">Kartu kredit Anda akan dikenakan deposit untuk reservasi Anda. Kartu kredit Anda akan dikenakan secara langsung oleh hotel saat reservasi dilakukan.</string>
+	<string name="PolicyDepositRequired">Kartu kredit Anda akan dikenai deposit untuk reservasi Anda. Kartu kredit Anda akan dikenai deposit ini oleh hotel langsung saat reservasi dilakukan.</string>
 	<!-- Policy displayed to user when a guarantee is required -->
-	<string name="PolicyGuaranteeRequired">Informasi kartu kredit diperlukan agar kami dapat menjamin reservasi Anda. Kartu kredit Anda tidak akan dikenakan sampai kedatangan Anda di hotel atau tenggat waktu pembatalan terlampaui.</string>
+	<string name="PolicyGuaranteeRequired">Informasi kartu kredit diperlukan agar kami dapat menjamin reservasi Anda. Kartu kredit Anda tidak akan dikenai biaya sampai kedatangan Anda di hotel atau tenggat waktu pembatalan terlampaui.</string>
 	<!-- Expedia merchant hotel policies -->
-	<string name="PolicyExpediaMerchant">Dengan melakukan reservasi ini, Anda menyetujui semua syarat dan ketentuan, yang mencakup Kebijakan Pembatalan serta semua syarat dan ketentuan yang terdapat dalam Perjanjian Pengguna.\n\nAnda menyetujui untuk membayar biaya reservasi. Jika Anda tidak membayar tagihan ini dan biaya ditagihkan melalui jasa agen penagihan, pengacara, atau melalui prosedur beracara lainnya, Anda menyetujui untuk membayar semua biaya atau pengeluaran yang wajar, termasuk biaya pengacara dan ongkos pengadilan, yang dikeluarkan terkait dengan upaya penagihan tersebut.</string>
+	<string name="PolicyExpediaMerchant">Dengan melanjutkan proses reservasi ini, Anda berarti menyetujui semua syarat dan ketentuan, yang mencakup Kebijakan Pembatalan dan semua syarat dan ketentuan yang tercantum dalam Perjanjian Pengguna.\n\nAnda setuju untuk membayar biaya reservasi Anda. Jika Anda tidak membayar tagihan ini dan biaya ditagihkan melalui jasa agen penagihan, pengacara, atau melalui prosedur hukum lainnya, Anda menyetujui untuk membayar semua biaya atau pengeluaran yang wajar, termasuk biaya pengacara dan pengadilan, yang dikeluarkan terkait dengan upaya penagihan tersebut.</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">Anda memesan properti non diskon. Semua tarif ditampilkan per malam, dan berdasarkan hunian dobel per kamar kecuali ditentukan lain. Tinjau deskripsi kamar dan aturan tarif secara saksama untuk memastikan kamar yang Anda pilih dapat mengakomodasi jumlah penginap. Beberapa tarif memerlukan identifikasi khusus. Biaya pemesanan, pajak, dan biaya tambahan lainnya yang ditagih oleh hotel tidak termasuk. Tambahan penginap dewasa atau anak-anak melebihi jumlah hunian kamar yang tertera dapat dikenai biaya tambahan atas kebijaksanaan properti.\n\nPermintaan untuk jumlah penginap lebih dari 2 orang, atau jumlah penginap melebihi dari yang tertera pada tarif pilihan Anda, akan disampaikan kepada hotel namun tidak dijamin. Jika diterima, mereka akan dikenakan biaya tambahan atas kebijaksanaan properti.</string>
+	<string name="PolicyExpediaAgent">Anda memesan properti non-diskon. Semua tarif ditampilkan per malam, dan untuk digunakan oleh dua orang per kamar kecuali ditentukan lain. Tinjau deskripsi kamar dan aturan tarif secara saksama untuk memastikan kamar yang Anda pilih dapat mengakomodasi seluruh tamu. Beberapa tarif memerlukan identifikasi khusus. Tidak termasuk biaya pemesanan kami, pajak, dan biaya tambahan lainnya yang dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu yang ditentukan untuk kamar tersebut dapat dikenai biaya tambahan berdasarkan pertimbangan hotel.\n\nPermintaan untuk lebih dari 2 orang, atau lebih dari yang ditentukan oleh tarif yang Anda pilih, akan dikirim ke hotel tapi tidak dijamin. Jika diterima, pemesanan ini akan dikenai biaya tambahan berdasarkan pertimbangan hotel.</string>
 
-	<!-- Sharing bookings via email --><!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-	<string name="share_subject_template">Rencana Perjalanan Expedia - %1$s (%2$s - %3$s)</string>
+	<!-- Expedia Accounts -->
+	<!-- Label for menu item to log into account -->
+	<string name="log_in">Masuk ke Expedia</string>
+	<!-- Hint for user to enter password into a field -->
+	<string name="hint_password">Kata Sandi</string>
+	<!-- Progress dialog text when we are logging the user into Expedia -->
+	<string name="logging_in">Sedang Masuk...</string>
+	<!-- Message that tells user they successfully logged in -->
+	<string name="login_success">Berhasil!  Anda sekarang sudah masuk.</string>
+
+	<!-- Sharing bookings via email -->
+	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
+	<string name="share_subject_template">Rencana Perjalanan Expedia - %1$s (%2$s - %3$s</string>
 	<!-- Preset at the top of the share body message -->
 	<string name="share_body_start">Berikut adalah informasi reservasi hotel saya:</string>
 	<!-- Name of user -->
@@ -538,18 +563,19 @@
 	<!-- Cancellation policy label -->
 	<string name="cancellation_policy">Kebijakan Pembatalan</string>
 	
-	<!-- About activity --><!-- Label for "contact Expedia" button in info page -->
-	<string name="contact_expedia">Kontak Expedia</string>
+	<!-- About activity -->
+	<!-- Label for "contact Expedia" button in info page -->
+	<string name="contact_expedia">Hubungi Expedia</string>
 	<!-- Extra description for "contact Expedia" button, when space allows -->
-	<string name="contact_expedia_description">Kami siap melayani Anda selama 24 jam dalam sehari.</string>
+	<string name="contact_expedia_description">Kami siap melayani Anda selama 24 jam sehari.</string>
 	<!-- Title for different ways to connect to Expedia -->
 	<string name="contact_expedia_via">Hubungi Expedia Melalui...</string>
 	<!-- Contact Expedia via phone -->
 	<string name="contact_expedia_phone">Telepon</string>
 	<!-- Contact Expedia via email -->
-	<string name="contact_expedia_email">E-mail</string>
+	<string name="contact_expedia_email">Email</string>
 	<!-- Contact Expedia via email subject -->
-	<string name="contact_expedia_email_subject">Dukungan Reservasi Expedia</string>
+	<string name="contact_expedia_email_subject">Layanan Reservasi Expedia</string>
 	<!-- Contact Expedia via website -->
 	<string name="contact_expedia_website">Situs Web</string>
 	<!-- Label for "Expedia website" button in info page -->
@@ -559,49 +585,50 @@
 	<!-- Extra description for "app feedback" button, when space allows -->
 	<string name="app_feedback_description">Sampaikan pendapat Anda tentang aplikasi ini.</string>
 	<!-- Label for "app support" button in info page -->
-	<string name="app_support">Dukungan App</string>
+	<string name="app_support">Dukungan Aplikasi</string>
 	<!-- Extra description for "app support" button, when space allows -->
 	<string name="app_support_description">Sampaikan pertanyaan Anda dan kami akan menghubungi Anda kembali.</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">Suka dengan tawaran hotel yang menakjubkan? Beritahukan teman Anda tentang aplikasi ini.</string>
+	<string name="tell_a_friend_description">Suka dengan tawaran hotel yang menakjubkan? Beri tahu teman Anda tentang aplikasi ini.</string>
 	<!-- Section header for other apps by Mobiata -->
 	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hai,\n\nMari lihat Expedia Hotels untuk telepon iPhone dan Android. Aplikasi ini GRATIS dan Anda dapat mencari serta memesan kamar dengan mudah di lebih dari 130.000 hotel di seluruh dunia. Inilah cara termudah untuk memesan kamar hotel dari telepon Anda.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Halo,\n\nSilakan coba Expedia Hotels untuk ponsel iPhone dan Android. Aplikasi ini GRATIS dan Anda dapat mencari serta memesan kamar dengan mudah di lebih dari 130.000 hotel di seluruh dunia. Ini cara termudah untuk memesan kamar hotel dari ponsel Anda.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Syarat dan Ketentuan</string>
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Kebijakan Privasi</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Hak cipta 2011-2012 Expedia, Inc.\nSemua hak dilindungi undang-undang.</string>
+	<string name="copyright">© Hak cipta 2011-2012 Expedia, Inc.\nHak cipta dilindungi undang-undang.</string>
 	
-	<!--  App Feedback Activity --><!-- Text within submit button in header -->
+	<!--  App Feedback Activity -->
+	<!-- Text within submit button in header -->
 	<string name="send_feedback">Kirim Umpan Balik</string>
 	<!-- Header title -->
-	<string name="app_feedback">Umpan Balik App</string>
+	<string name="app_feedback">Umpan Balik Aplikasi</string>
 	<!-- Section header for rating (1-5 stars) -->
-	<string name="oosdk_rating_overall_header">Peringkatkan Kami</string>
+	<string name="oosdk_rating_overall_header">Beri Kami Nilai</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Didukung oleh Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Kebijakan Privasi</a></string>
+	<string name="powered_by_opinion_lab">Dimotori oleh OpinionLab <a href="http://mobile.opinionlab.com/static/privacy.html">Kebijakan Privasi</a></string>
 	<!-- Hint to type in email address -->
-	<string name="email_address">Alamat E-mail</string>
+	<string name="email_address">Alamat Email</string>
 	<!-- Hint to type in comments -->
-	<string name="feedback_hint">Apa yang bisa kita lakukan dengan lebih baik?</string>
+	<string name="feedback_hint">Apa yang bisa kami lakukan dengan lebih baik?</string>
 	<!-- Message displayed to users after they submit feedback -->
 	<string name="oosdk_thanks_txt">Terima kasih telah mengirimkan pendapat Anda. Kami sangat menghargai umpan balik pelanggan.</string>
 	
-	<!-- Preferences --><!-- Category name for general preferences -->
+	<!-- Preferences -->
+	<!-- Category name for general preferences -->
 	<string name="preference_category_general">Umum</string>
-	<!-- Title for currency setting -->
-	<string name="preference_currency_title">Mata Uang</string>
-	<!-- Summary for currency setting.  E.g., "US Dollars (USD)" -->
-	<string name="preference_currency_summary_template">%1$s (%2$s)</string>
-	<!-- Template for default currency -->
-	<string name="default_currency_template">Standar (%s)</string>
+	<!-- Title for point of sale setting -->
+	<string name="preference_point_of_sale_title">Domain</string>
+	<!-- Template for default point of sale -->
+	<string name="default_point_of_sale_template">Default (%s)</string>
 
-	<!-- Strings used a lot of places --><!-- A number of adults -->
+	<!-- Strings used a lot of places -->
+	<!-- A number of adults -->
 	<plurals name="number_of_adults">
 		<item quantity="zero">%d Dewasa</item>
 		<item quantity="one">%d Dewasa</item>
@@ -634,27 +661,33 @@
 		<item quantity="other">%d Malam</item>
 	</plurals>
 
-	<!-- Distance strings --><!-- Abbreviated miles (used in distance_template) -->
+	<!-- Distance strings -->
+	<!-- Abbreviated miles (used in distance_template) -->
 	<string name="unit_miles">mi</string>
 	<!-- Abbreviated kilometers (used in distance_template) -->
 	<string name="unit_kilometers">km</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-	<string name="distance_template">berjarak %1$s %2$s</string>
+	<string name="distance_template">%1$s %2$s</string>
 	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
 	<string name="distance_template_short">%1$s %2$s</string>
 
-	<!-- Menu strings --><!-- Label for "settings" menu item. -->
+	<!-- Menu strings -->
+	<!-- Label for "settings" menu item. -->
 	<string name="Settings">Pengaturan</string>
 	<!-- Label for "about this app" menu item. -->
 	<string name="About">Tentang</string>
 
-	<!-- Preferences strings --><!-- String for default preference setting (for any given preference) -->
-	<string name="Default">Standar</string>
+	<!-- Preferences strings -->
+	<!-- String for default preference setting (for any given preference) -->
+	<string name="Default">Default</string>
 	
-	<!-- Error strings - replacements for default EAN errors --><!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_no_results">Maaf, kami tidak dapat menemukan hotel yang tersedia saat ini. Coba untuk tanggal atau lokasi yang lain.</string>
+	<!-- Error strings - replacements for default EAN errors -->
+	<!-- Replaces "result was null" for no result search -->
+	<string name="ean_error_no_results">Maaf, kami tidak dapat menemukan hotel yang tersedia saat ini. Silakan coba tanggal atau lokasi yang lain.</string>
 	<!-- Replaces "result was null" for no result search -->
 	<string name="ean_error_connect_unavailable">Tidak dapat terhubung ke hotel yang dipilih untuk menemukan kamar yang tersedia.</string>
+	<!-- Error message displayed when the phone number sent via booking is invalid -->
+	<string name="ean_error_invalid_phone_number">Masukkan nomor telepon yang valid</string>
 
 	<!-- Currency names -->
 	<string name="currency_aud">Dollar Australia</string>
@@ -694,7 +727,7 @@
 	<string name="country_au">Australia</string>
 	<string name="country_at">Austria</string>
 	<string name="country_az">Azerbaijan</string>
-	<string name="country_bs">Bahamas</string>
+	<string name="country_bs">Bahama</string>
 	<string name="country_bh">Bahrain</string>
 	<string name="country_bd">Bangladesh</string>
 	<string name="country_bb">Barbados</string>
@@ -735,7 +768,7 @@
 	<string name="country_cu">Kuba</string>
 	<string name="country_cy">Siprus</string>
 	<string name="country_cz">Republik Ceko</string>
-	<string name="country_ci">Côte d\'Ivoire</string>
+	<string name="country_ci">Côte d\&apos;Ivoire</string>
 	<string name="country_dk">Denmark</string>
 	<string name="country_dj">Jibuti</string>
 	<string name="country_dm">Dominika</string>
@@ -894,7 +927,7 @@
 	<string name="country_sy">Republik Arab Suriah</string>
 	<string name="country_tw">Taiwan, Provinsi Cina</string>
 	<string name="country_tj">Tajikistan</string>
-	<string name="country_tz">Republik Persatuan Tanzania</string>
+	<string name="country_tz">Tanzania, Republik Serikat</string>
 	<string name="country_th">Thailand</string>
 	<string name="country_tl">Timor Leste</string>
 	<string name="country_tg">Togo</string>
