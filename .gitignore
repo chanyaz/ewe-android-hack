@@ -6,3 +6,4 @@ gen/
 .DS_Store
 project/.DS_Store
 local.properties
+build.xml
