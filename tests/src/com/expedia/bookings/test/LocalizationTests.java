@@ -33,6 +33,7 @@ public class LocalizationTests extends AndroidTestCase {
 			new Locale("in"),
 			new Locale("ms"),
 			new Locale("tl"),
+			new Locale("th"),
 			new Locale("nl"),
 			new Locale("zh"),
 			new Locale("en", "UK"),
@@ -145,41 +146,50 @@ public class LocalizationTests extends AndroidTestCase {
 			setLocale(locale);
 
 			// ExpediaBookings
+			testString("prompt_select_child_age", 33, 65);
+			testString("child_x", 12);
 			testString("booking_info_template", "Chicago, IL", "Aug 24", "Aug 25, 2011");
 			testString("NoGeocodingResults", "San Francisco");
+			testString("sort_hotels_template", "Distance");
 			testString("filter_distance_miles_template", 5);
 			testString("filter_distance_kilometers_template", 5);
 			testString("from_template", "$150");
+			testString("percent_off_template", 15.24f);
 			testString("map_snippet_price_template", "$3.50");
 			testString("widget_savings_template", 30.24f);
-			testString("save_upto_template", 30.24f);
+			testString("min_room_price_template", "$125");
+			testString("bed_type_start_value_template", "2 Kings Bed");
+			testString("reviews_recommended_template", 10, 20);
 			testString("user_review_recommendation_tag_text", 5, 10);
-			testPlural("number_of_reviews");
 			testString("user_review_name_and_location_signature", "Daniel", "Minneapolis");
-			testPlural("number_of_rooms_left");
 			testString("savings_template", 12.45);
 			testString("value_add_template", "a new car!");
 			testString("common_value_add_template", "Bees");
-			testPlural("length_of_stay");
-			testPlural("staying_nights");
+			testString("gallery_title_template", "Kwuality Inn");
 			testString("room_rate_template", "10/24/2011");
 			testString("charge_details_template", "$50.12");
 			testString("invalid_currency_for_amex", "USD");
+			testString("error_booking_succeeded_with_errors", "THE SERVER IS ON FIRE");
 			testString("check_in_out_time_template", "3:00 PM", "Thursday");
 			testString("name_template", "Dan", "Lew");
 			testString("contact_phone_template", "12345680");
 			testString("contact_phone_china_template", "12345680", "12345680");
 			testString("contact_phone_default_template", "12345680", "12345680");
 			testString("share_subject_template", "My Hotel", "3/21", "3/24");
-			testString("preference_currency_summary_template", "US Dollars", "USD");
-			testString("default_currency_template", "USD");
+			testString("default_point_of_sale_template", "CANADIA");
+			testString("distance_template", "5", "miles");
+			testString("distance_template_short", "2", "miles");
+
+			testPlural("select_each_childs_age");
+			testPlural("child_age");
+			testPlural("number_of_matching_hotels");
+			testPlural("number_of_results");
+			testPlural("number_of_reviews");
+			testPlural("staying_nights");
+			testPlural("number_of_rooms_left");
+			testPlural("length_of_stay");
 			testPlural("number_of_adults");
 			testPlural("number_of_children");
-			testString("distance_template", "5", "miles");
-			testString("percent_off_template", 15.24f);
-			testString("min_room_price_template", "$125");
-			testString("bed_type_start_value_template", "2 Kings Bed");
-			testString("reviews_recommended_template", 10, 20);
 			testPlural("number_of_guests");
 			testPlural("number_of_nights");
 
@@ -213,7 +223,7 @@ public class LocalizationTests extends AndroidTestCase {
 			mFailed = true;
 		}
 		catch (Exception e) {
-			fail("Something wonky happened: " + e.getMessage());
+			fail("Something wonky happened in locale " + r.getConfiguration().locale + ": " + e.getMessage());
 		}
 	}
 
@@ -232,7 +242,7 @@ public class LocalizationTests extends AndroidTestCase {
 			mFailed = true;
 		}
 		catch (Exception e) {
-			fail("Something wonky happened");
+			fail("Something wonky happened in locale " + r.getConfiguration().locale);
 		}
 	}
 }
