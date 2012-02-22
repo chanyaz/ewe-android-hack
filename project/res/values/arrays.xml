@@ -120,6 +120,146 @@
 		<item>@string/point_of_sale_vn</item><item>71</item>
 	</string-array>
 
+	<!-- Mapping of POS to Support URL -->
+
+	<string-array name="pos_app_support_url_map">
+		<item>@string/point_of_sale_ar</item><item>@string/app_support_url_ar</item>
+		<item>@string/point_of_sale_at</item><item>@string/app_support_url_at</item>
+		<item>@string/point_of_sale_au</item><item>@string/app_support_url_au</item>
+		<item>@string/point_of_sale_be</item><item>@string/app_support_url_be</item>
+		<item>@string/point_of_sale_br</item><item>@string/app_support_url_br</item>
+		<item>@string/point_of_sale_ca</item><item>@string/app_support_url_ca</item>
+		<item>@string/point_of_sale_de</item><item>@string/app_support_url_de</item>
+		<item>@string/point_of_sale_dk</item><item>@string/app_support_url_dk</item>
+		<item>@string/point_of_sale_es</item><item>@string/app_support_url_es</item>
+		<item>@string/point_of_sale_fr</item><item>@string/app_support_url_fr</item>
+		<item>@string/point_of_sale_hk</item><item>@string/app_support_url_hk</item>
+		<item>@string/point_of_sale_id</item><item>@string/app_support_url_id</item>
+		<item>@string/point_of_sale_ie</item><item>@string/app_support_url_ie</item>
+		<item>@string/point_of_sale_in</item><item>@string/app_support_url_in</item>
+		<item>@string/point_of_sale_it</item><item>@string/app_support_url_it</item>
+		<item>@string/point_of_sale_jp</item><item>@string/app_support_url_jp</item>
+		<item>@string/point_of_sale_kr</item><item>@string/app_support_url_kr</item>
+		<item>@string/point_of_sale_mx</item><item>@string/app_support_url_mx</item>
+		<item>@string/point_of_sale_my</item><item>@string/app_support_url_my</item>
+		<item>@string/point_of_sale_nl</item><item>@string/app_support_url_nl</item>
+		<item>@string/point_of_sale_no</item><item>@string/app_support_url_no</item>
+		<item>@string/point_of_sale_nz</item><item>@string/app_support_url_nz</item>
+		<item>@string/point_of_sale_ph</item><item>@string/app_support_url_ph</item>
+		<item>@string/point_of_sale_se</item><item>@string/app_support_url_se</item>
+		<item>@string/point_of_sale_sg</item><item>@string/app_support_url_sg</item>
+		<item>@string/point_of_sale_th</item><item>@string/app_support_url_th</item>
+		<item>@string/point_of_sale_tw</item><item>@string/app_support_url_tw</item>
+		<item>@string/point_of_sale_uk</item><item>@string/app_support_url_uk</item>
+		<item>@string/point_of_sale_us</item><item>@string/app_support_url_us</item>
+		<item>@string/point_of_sale_vn</item><item>@string/app_support_url_vn</item>
+	</string-array>
+
+	<!-- Mapping of POS to Contact Expedia URL -->
+
+	<string-array name="pos_contact_expedia_url_map">
+		<item>@string/point_of_sale_ar</item><item>@string/contact_expedia_url_ar</item>
+		<item>@string/point_of_sale_at</item><item>@string/contact_expedia_url_at</item>
+		<item>@string/point_of_sale_au</item><item>@string/contact_expedia_url_au</item>
+		<item>@string/point_of_sale_be</item><item>@string/contact_expedia_url_be</item>
+		<item>@string/point_of_sale_br</item><item>@string/contact_expedia_url_br</item>
+		<item>@string/point_of_sale_ca</item><item>@string/contact_expedia_url_ca</item>
+		<item>@string/point_of_sale_de</item><item>@string/contact_expedia_url_de</item>
+		<item>@string/point_of_sale_dk</item><item>@string/contact_expedia_url_dk</item>
+		<item>@string/point_of_sale_es</item><item>@string/contact_expedia_url_es</item>
+		<item>@string/point_of_sale_fr</item><item>@string/contact_expedia_url_fr</item>
+		<item>@string/point_of_sale_hk</item><item>@string/contact_expedia_url_hk</item>
+		<item>@string/point_of_sale_id</item><item>@string/contact_expedia_url_id</item>
+		<item>@string/point_of_sale_ie</item><item>@string/contact_expedia_url_ie</item>
+		<item>@string/point_of_sale_in</item><item>@string/contact_expedia_url_in</item>
+		<item>@string/point_of_sale_it</item><item>@string/contact_expedia_url_it</item>
+		<item>@string/point_of_sale_jp</item><item>@string/contact_expedia_url_jp</item>
+		<item>@string/point_of_sale_kr</item><item>@string/contact_expedia_url_kr</item>
+		<item>@string/point_of_sale_mx</item><item>@string/contact_expedia_url_mx</item>
+		<item>@string/point_of_sale_my</item><item>@string/contact_expedia_url_my</item>
+		<item>@string/point_of_sale_nl</item><item>@string/contact_expedia_url_nl</item>
+		<item>@string/point_of_sale_no</item><item>@string/contact_expedia_url_no</item>
+		<item>@string/point_of_sale_nz</item><item>@string/contact_expedia_url_nz</item>
+		<item>@string/point_of_sale_ph</item><item>@string/contact_expedia_url_ph</item>
+		<item>@string/point_of_sale_se</item><item>@string/contact_expedia_url_se</item>
+		<item>@string/point_of_sale_sg</item><item>@string/contact_expedia_url_sg</item>
+		<item>@string/point_of_sale_th</item><item>@string/contact_expedia_url_th</item>
+		<item>@string/point_of_sale_tw</item><item>@string/contact_expedia_url_tw</item>
+		<item>@string/point_of_sale_uk</item><item>@string/contact_expedia_url_uk</item>
+		<item>@string/point_of_sale_us</item><item>@string/contact_expedia_url_us</item>
+		<item>@string/point_of_sale_vn</item><item>@string/contact_expedia_url_vn</item>
+	</string-array>
+
+	<!-- Mapping of POS to Info Telephone Number -->
+
+	<string-array name="pos_info_support_number_map">
+		<item>@string/point_of_sale_ar</item><item>@string/info_support_number_ar</item>
+		<item>@string/point_of_sale_at</item><item>@string/info_support_number_at</item>
+		<item>@string/point_of_sale_au</item><item>@string/info_support_number_au</item>
+		<item>@string/point_of_sale_be</item><item>@string/info_support_number_be</item>
+		<item>@string/point_of_sale_br</item><item>@string/info_support_number_br</item>
+		<item>@string/point_of_sale_ca</item><item>@string/info_support_number_ca</item>
+		<item>@string/point_of_sale_de</item><item>@string/info_support_number_de</item>
+		<item>@string/point_of_sale_dk</item><item>@string/info_support_number_dk</item>
+		<item>@string/point_of_sale_es</item><item>@string/info_support_number_es</item>
+		<item>@string/point_of_sale_fr</item><item>@string/info_support_number_fr</item>
+		<item>@string/point_of_sale_hk</item><item>@string/info_support_number_hk</item>
+		<item>@string/point_of_sale_id</item><item>@string/info_support_number_id</item>
+		<item>@string/point_of_sale_ie</item><item>@string/info_support_number_ie</item>
+		<item>@string/point_of_sale_in</item><item>@string/info_support_number_in</item>
+		<item>@string/point_of_sale_it</item><item>@string/info_support_number_it</item>
+		<item>@string/point_of_sale_jp</item><item>@string/info_support_number_jp</item>
+		<item>@string/point_of_sale_kr</item><item>@string/info_support_number_kr</item>
+		<item>@string/point_of_sale_mx</item><item>@string/info_support_number_mx</item>
+		<item>@string/point_of_sale_my</item><item>@string/info_support_number_my</item>
+		<item>@string/point_of_sale_nl</item><item>@string/info_support_number_nl</item>
+		<item>@string/point_of_sale_no</item><item>@string/info_support_number_no</item>
+		<item>@string/point_of_sale_nz</item><item>@string/info_support_number_nz</item>
+		<item>@string/point_of_sale_ph</item><item>@string/info_support_number_ph</item>
+		<item>@string/point_of_sale_se</item><item>@string/info_support_number_se</item>
+		<item>@string/point_of_sale_sg</item><item>@string/info_support_number_sg</item>
+		<item>@string/point_of_sale_th</item><item>@string/info_support_number_th</item>
+		<item>@string/point_of_sale_tw</item><item>@string/info_support_number_tw</item>
+		<item>@string/point_of_sale_uk</item><item>@string/info_support_number_uk</item>
+		<item>@string/point_of_sale_us</item><item>@string/info_support_number_us</item>
+		<item>@string/point_of_sale_vn</item><item>@string/info_support_number_vn</item>
+	</string-array>
+
+	<!-- Mapping of POS to Support Telephone Number -->
+
+	<string-array name="pos_conf_support_number_map">
+		<item>@string/point_of_sale_ar</item><item>@string/conf_support_number_ar</item>
+		<item>@string/point_of_sale_at</item><item>@string/conf_support_number_at</item>
+		<item>@string/point_of_sale_au</item><item>@string/conf_support_number_au</item>
+		<item>@string/point_of_sale_be</item><item>@string/conf_support_number_be</item>
+		<item>@string/point_of_sale_br</item><item>@string/conf_support_number_br</item>
+		<item>@string/point_of_sale_ca</item><item>@string/conf_support_number_ca</item>
+		<item>@string/point_of_sale_de</item><item>@string/conf_support_number_de</item>
+		<item>@string/point_of_sale_dk</item><item>@string/conf_support_number_dk</item>
+		<item>@string/point_of_sale_es</item><item>@string/conf_support_number_es</item>
+		<item>@string/point_of_sale_fr</item><item>@string/conf_support_number_fr</item>
+		<item>@string/point_of_sale_hk</item><item>@string/conf_support_number_hk</item>
+		<item>@string/point_of_sale_id</item><item>@string/conf_support_number_id</item>
+		<item>@string/point_of_sale_ie</item><item>@string/conf_support_number_ie</item>
+		<item>@string/point_of_sale_in</item><item>@string/conf_support_number_in</item>
+		<item>@string/point_of_sale_it</item><item>@string/conf_support_number_it</item>
+		<item>@string/point_of_sale_jp</item><item>@string/conf_support_number_jp</item>
+		<item>@string/point_of_sale_kr</item><item>@string/conf_support_number_kr</item>
+		<item>@string/point_of_sale_mx</item><item>@string/conf_support_number_mx</item>
+		<item>@string/point_of_sale_my</item><item>@string/conf_support_number_my</item>
+		<item>@string/point_of_sale_nl</item><item>@string/conf_support_number_nl</item>
+		<item>@string/point_of_sale_no</item><item>@string/conf_support_number_no</item>
+		<item>@string/point_of_sale_nz</item><item>@string/conf_support_number_nz</item>
+		<item>@string/point_of_sale_ph</item><item>@string/conf_support_number_ph</item>
+		<item>@string/point_of_sale_se</item><item>@string/conf_support_number_se</item>
+		<item>@string/point_of_sale_sg</item><item>@string/conf_support_number_sg</item>
+		<item>@string/point_of_sale_th</item><item>@string/conf_support_number_th</item>
+		<item>@string/point_of_sale_tw</item><item>@string/conf_support_number_tw</item>
+		<item>@string/point_of_sale_uk</item><item>@string/conf_support_number_uk</item>
+		<item>@string/point_of_sale_us</item><item>@string/conf_support_number_us</item>
+		<item>@string/point_of_sale_vn</item><item>@string/conf_support_number_vn</item>
+	</string-array>
+
 	<string-array name="country_names">
 		<item>@string/country_af</item>
 		<item>@string/country_al</item>

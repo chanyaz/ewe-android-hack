@@ -99,11 +99,11 @@ public class AboutUtils {
 
 	public void contactViaPhone() {
 		trackCallSupport();
-		SocialUtils.call(mActivity, SupportUtils.getInfoSupportNumber());
+		SocialUtils.call(mActivity, SupportUtils.getInfoSupportNumber(mActivity));
 	}
 
 	public void contactViaWeb() {
-		SocialUtils.openSite(mActivity, SupportUtils.getContactExpediaUrl());
+		SocialUtils.openSite(mActivity, SupportUtils.getContactExpediaUrl(mActivity));
 	}
 
 	public void contactViaEmail() {
@@ -126,7 +126,7 @@ public class AboutUtils {
 	}
 
 	public void openAppSupport() {
-		SocialUtils.openSite(mActivity, SupportUtils.getSupportUrl());
+		SocialUtils.openSite(mActivity, SupportUtils.getAppSupportUrl(mActivity));
 	}
 
 	public void tellAFriend() {

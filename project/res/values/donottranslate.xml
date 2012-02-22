@@ -405,6 +405,136 @@
     <string name="point_of_sale_us">expedia.com</string>
     <string name="point_of_sale_vn">expedia.com.vn</string>
 
+	<!-- App Support URLs for each POS -->
+	<!-- If the App Support URL is empty for this POS, we will fall back to the contact_expedia_url -->
+	<string name="app_support_url_ar"></string>
+	<string name="app_support_url_at"></string>
+	<string name="app_support_url_au"></string>
+	<string name="app_support_url_be"></string>
+	<string name="app_support_url_br"></string>
+	<string name="app_support_url_ca"></string>
+	<string name="app_support_url_de"></string>
+	<string name="app_support_url_dk"></string>
+	<string name="app_support_url_es"></string>
+	<string name="app_support_url_fr"></string>
+	<string name="app_support_url_hk"></string>
+	<string name="app_support_url_id"></string>
+	<string name="app_support_url_ie"></string>
+	<string name="app_support_url_in"></string>
+	<string name="app_support_url_it"></string>
+	<string name="app_support_url_jp"></string>
+	<string name="app_support_url_kr"></string>
+	<string name="app_support_url_mx"></string>
+	<string name="app_support_url_my"></string>
+	<string name="app_support_url_nl"></string>
+	<string name="app_support_url_no"></string>
+	<string name="app_support_url_nz"></string>
+	<string name="app_support_url_ph"></string>
+	<string name="app_support_url_se"></string>
+	<string name="app_support_url_sg"></string>
+	<string name="app_support_url_th"></string>
+	<string name="app_support_url_tw"></string>
+	<string name="app_support_url_uk"></string>
+	<string name="app_support_url_us"></string>
+	<string name="app_support_url_vn"></string>
+
+	<!-- Contact Expedia URL for each POS -->
+	<string name="contact_expedia_url_ar">http://support.expedia.com.ar</string>
+	<string name="contact_expedia_url_at">http://support.expedia.at</string>
+	<string name="contact_expedia_url_au">http://support.expedia.com.au</string>
+	<string name="contact_expedia_url_be">http://support.expedia.be</string>
+	<string name="contact_expedia_url_br">http://support.expedia.com.br</string>
+	<string name="contact_expedia_url_ca">http://support.expedia.ca</string>
+	<string name="contact_expedia_url_de">http://m.expedia.de/mt/support.expedia.de/app/home/p/532</string>
+	<string name="contact_expedia_url_dk">http://support.expedia.dk</string>
+	<string name="contact_expedia_url_es">http://support.expedia.es</string>
+	<string name="contact_expedia_url_fr">http://support.expedia.fr</string>
+	<string name="contact_expedia_url_hk">http://faq.expedia.com.hk</string>
+	<string name="contact_expedia_url_id">http://faq.expedia.co.id</string>
+	<string name="contact_expedia_url_ie">http://support.expedia.ie</string>
+	<string name="contact_expedia_url_in">http://faq.expedia.co.in</string>
+	<string name="contact_expedia_url_it">http://m.expedia.it/mt/support.expedia.it/app/home/p/532</string>
+	<string name="contact_expedia_url_jp">http://support.expedia.co.jp</string>
+	<string name="contact_expedia_url_kr">http://faq.expedia.co.kr</string>
+	<string name="contact_expedia_url_mx">http://support.expedia.mx</string>
+	<string name="contact_expedia_url_my">http://faq.expedia.com.my</string>
+	<string name="contact_expedia_url_nl">http://support.expedia.nl</string>
+	<string name="contact_expedia_url_no">http://support.expedia.no</string>
+	<string name="contact_expedia_url_nz">http://support.expedia.co.nz</string>
+	<string name="contact_expedia_url_ph">http://faq.expedia.com.ph</string>
+	<string name="contact_expedia_url_se">http://support.expedia.se</string>
+	<string name="contact_expedia_url_sg">http://faq.expedia.com.sg</string>
+	<string name="contact_expedia_url_th">http://faq.expedia.co.th</string>
+	<string name="contact_expedia_url_tw">http://faq.expedia.com.tw</string>
+	<string name="contact_expedia_url_uk">http://support.expedia.co.uk</string>
+	<string name="contact_expedia_url_us">http://m.expedia.com/mt/support.expedia.com/app/home?un_jtt_redirect</string>
+	<string name="contact_expedia_url_vn">http://faq.expedia.com.vn</string>
+
+	<!-- Info support telephone numbers. These go on the info screen. -->
+	<string name="info_support_number_ar">0-800-444-9888</string>
+	<string name="info_support_number_at">0820-600630</string>
+	<string name="info_support_number_au">13-38-10</string>
+	<string name="info_support_number_be">02 200 63 72</string>
+	<string name="info_support_number_br">0800-761-0770</string>
+	<string name="info_support_number_ca">1-888-EXPEDIA</string>
+	<string name="info_support_number_de">01805-007146</string>
+	<string name="info_support_number_dk">80200088</string>
+	<string name="info_support_number_es">901 01 01 14</string>
+	<string name="info_support_number_fr">0892 301 300</string>
+	<string name="info_support_number_hk">2525 5696</string>
+	<string name="info_support_number_id">007-803-011-0463</string>
+	<string name="info_support_number_ie">0330 123 1235</string>
+	<string name="info_support_number_in">1800 419 1919</string>
+	<string name="info_support_number_it">+39 02 91483685</string>
+	<string name="info_support_number_jp">0120-142-650</string>
+	<string name="info_support_number_kr">02-2076-8343</string>
+	<string name="info_support_number_mx">001-8003157301</string>
+	<string name="info_support_number_my">1-800-815676</string>
+	<string name="info_support_number_nl">0900-397-3342</string>
+	<string name="info_support_number_no">800 36 401</string>
+	<string name="info_support_number_nz">0800-998-799</string>
+	<string name="info_support_number_ph">1 800 1 114 2468</string>
+	<string name="info_support_number_se">0200 810 341</string>
+	<string name="info_support_number_sg">800-120-5806</string>
+	<string name="info_support_number_th">001-800-12-0667078</string>
+	<string name="info_support_number_tw">00801-13-6291</string>
+	<string name="info_support_number_uk">0330 123 1235</string>
+	<string name="info_support_number_us">1-800-780-5733</string>
+	<string name="info_support_number_vn">120 65 125</string>
+
+	<!-- Confirmation support telephone numbers. These go on the confirmation screen. -->
+	<!-- If this number is not specified, the info_support_number_* will be shown on the confirmation screen instead. -->
+	<string name="conf_support_number_ar"></string>
+	<string name="conf_support_number_at"></string>
+	<string name="conf_support_number_au"></string>
+	<string name="conf_support_number_be"></string>
+	<string name="conf_support_number_br"></string>
+	<string name="conf_support_number_ca"></string>
+	<string name="conf_support_number_de"></string>
+	<string name="conf_support_number_dk"></string>
+	<string name="conf_support_number_es"></string>
+	<string name="conf_support_number_fr"></string>
+	<string name="conf_support_number_hk"></string>
+	<string name="conf_support_number_id"></string>
+	<string name="conf_support_number_ie"></string>
+	<string name="conf_support_number_in"></string>
+	<string name="conf_support_number_it"></string>
+	<string name="conf_support_number_jp"></string>
+	<string name="conf_support_number_kr"></string>
+	<string name="conf_support_number_mx"></string>
+	<string name="conf_support_number_my"></string>
+	<string name="conf_support_number_nl"></string>
+	<string name="conf_support_number_no"></string>
+	<string name="conf_support_number_nz"></string>
+	<string name="conf_support_number_ph"></string>
+	<string name="conf_support_number_se"></string>
+	<string name="conf_support_number_sg"></string>
+	<string name="conf_support_number_th"></string>
+	<string name="conf_support_number_tw"></string>
+	<string name="conf_support_number_uk"></string>
+	<string name="conf_support_number_us"></string>
+	<string name="conf_support_number_vn"></string>
+
     <!-- Section names for matching sections we should show from expedia description -->
     <string name="section_property_amenities">Property Amenities</string>
     <string name="section_rooms">Rooms</string>
