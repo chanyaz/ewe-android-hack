@@ -567,7 +567,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 		
 		// HockeyApp update
-		HockeyAppUtil.checkForUpdatesHockeyApp(mContext, this, Codes.HOCKEY_APP_ID);
+		if (!AndroidUtils.isRelease(mContext)) {
+			HockeyAppUtil.checkForUpdatesHockeyApp(mContext, this, Codes.HOCKEY_APP_ID);
+		}
 	}
 
 	@Override
@@ -659,7 +661,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		mIsActivityResumed = true;
 		
 		//HockeyApp crash
-		HockeyAppUtil.checkForCrashesHockeyApp(mContext, Codes.HOCKEY_APP_ID);
+		if (!AndroidUtils.isRelease(mContext)){
+			HockeyAppUtil.checkForCrashesHockeyApp(mContext, Codes.HOCKEY_APP_ID);
+		}
 	}
 
 	@Override

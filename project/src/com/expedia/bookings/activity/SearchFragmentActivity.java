@@ -16,6 +16,7 @@ import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.model.Search;
 import com.mobiata.android.hockey.helper.HockeyAppUtil;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.util.NetUtils;
 
@@ -64,7 +65,9 @@ public class SearchFragmentActivity extends Activity {
 		setContentView(R.layout.activity_search_fragment);
 
 		// HockeyApp update
-		HockeyAppUtil.checkForUpdatesHockeyApp(this, this, Codes.HOCKEY_APP_ID);
+		if (!AndroidUtils.isRelease(this)) {
+			HockeyAppUtil.checkForUpdatesHockeyApp(this, this, Codes.HOCKEY_APP_ID);
+		}
 	}
 
 	@Override
@@ -83,7 +86,9 @@ public class SearchFragmentActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		//HockeyApp crash
-		HockeyAppUtil.checkForCrashesHockeyApp(this, Codes.HOCKEY_APP_ID);
+		if (!AndroidUtils.isRelease(this)) {
+			HockeyAppUtil.checkForCrashesHockeyApp(this, Codes.HOCKEY_APP_ID);
+		}
 	}
 
 	@Override
