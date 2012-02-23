@@ -276,11 +276,11 @@ public class ExpediaServices implements DownloadListener {
 		boolean isRelease = AndroidUtils.isRelease(mContext);
 		if ((flags & F_SECURE_REQUEST) != 0) {
 			serverUrl = (isRelease) ? "https://hotelpal.mobiata.com/appsupport/ean_api/service"
-					: "https://70.42.224.108/appsupport/ean_api/service";
+					: "https://karmalab.mobiata.com/appsupport/ean_api/service";
 		}
 		else {
 			serverUrl = (isRelease) ? "http://hotelpal.mobiata.com/appsupport/ean_api/service"
-					: "http://70.42.224.108/appsupport/ean_api/service";
+					: "http://karmalab.mobiata.com/appsupport/ean_api/service";
 		}
 
 		// Create the request
