@@ -104,6 +104,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	private static final int REQUEST_CODE_SETTINGS = 1;
 
+	private static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
+
 	//////////////////////////////////////////////////////////////////////////
 	// Member vars
 
@@ -150,6 +152,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	@Override
 	public void onNewIntent(Intent newIntent) {
+
 		if (Intent.ACTION_SEARCH.equals(newIntent.getAction())) {
 			String query = newIntent.getStringExtra(SearchManager.QUERY);
 			if (query.equals(getString(R.string.current_location))) {
@@ -258,6 +261,12 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			}
 			if (bd.isDownloading(KEY_REVIEWS)) {
 				bd.registerDownloadCallback(KEY_REVIEWS, mReviewsCallback);
+			}
+			if (mInstance.mLastSearchTime != -1
+					&& mInstance.mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
+				Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
+				mInstance.mSearchParams.ensureValidCheckInDate();
+				startSearch();
 			}
 		}
 		else {
@@ -567,6 +576,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		public Filter mFilter = new Filter();
 		public Map<String, AvailabilityResponse> mAvailabilityResponses = new HashMap<String, AvailabilityResponse>();
 		public Map<String, ReviewsResponse> mReviewsResponses = new HashMap<String, ReviewsResponse>();
+
+		// So we can detect if these search results are stale
+		public long mLastSearchTime = -1;
 
 		// For tracking purposes only
 		public SearchParams mLastSearchParams;
@@ -907,6 +919,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 				}
 
 				mEventManager.notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
+				mInstance.mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 
 				if (initialLoad) {
 					onSearchResultsChanged();
