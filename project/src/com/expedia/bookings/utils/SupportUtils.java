@@ -10,20 +10,12 @@ import com.mobiata.android.util.ResourceUtils;
 
 public class SupportUtils {
 
-	private static Map<String, String> sAppSupportUrls;
 	private static Map<String, String> sContactExpediaUrls;
 	private static Map<String, String> sInfoSupportNumbers;
 	private static Map<String, String> sConfSupportNumbers;
 
 	public static String getAppSupportUrl(Context context) {
-		if (sAppSupportUrls == null) {
-			sAppSupportUrls = ResourceUtils.getStringMap(context, R.array.pos_app_support_url_map);
-		}
-		String url = sAppSupportUrls.get(LocaleUtils.getPointOfSale());
-		if (TextUtils.isEmpty(url)) {
-			return getContactExpediaUrl(context);
-		}
-		return url;
+		return getContactExpediaUrl(context);
 	}
 
 	public static String getContactExpediaUrl(Context context) {

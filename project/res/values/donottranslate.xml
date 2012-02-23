@@ -405,39 +405,6 @@
     <string name="point_of_sale_us">expedia.com</string>
     <string name="point_of_sale_vn">expedia.com.vn</string>
 
-	<!-- App Support URLs for each POS -->
-	<!-- If the App Support URL is empty for this POS, we will fall back to the contact_expedia_url -->
-	<string name="app_support_url_ar"></string>
-	<string name="app_support_url_at"></string>
-	<string name="app_support_url_au"></string>
-	<string name="app_support_url_be"></string>
-	<string name="app_support_url_br"></string>
-	<string name="app_support_url_ca"></string>
-	<string name="app_support_url_de"></string>
-	<string name="app_support_url_dk"></string>
-	<string name="app_support_url_es"></string>
-	<string name="app_support_url_fr"></string>
-	<string name="app_support_url_hk"></string>
-	<string name="app_support_url_id"></string>
-	<string name="app_support_url_ie"></string>
-	<string name="app_support_url_in"></string>
-	<string name="app_support_url_it"></string>
-	<string name="app_support_url_jp"></string>
-	<string name="app_support_url_kr"></string>
-	<string name="app_support_url_mx"></string>
-	<string name="app_support_url_my"></string>
-	<string name="app_support_url_nl"></string>
-	<string name="app_support_url_no"></string>
-	<string name="app_support_url_nz"></string>
-	<string name="app_support_url_ph"></string>
-	<string name="app_support_url_se"></string>
-	<string name="app_support_url_sg"></string>
-	<string name="app_support_url_th"></string>
-	<string name="app_support_url_tw"></string>
-	<string name="app_support_url_uk"></string>
-	<string name="app_support_url_us"></string>
-	<string name="app_support_url_vn"></string>
-
 	<!-- Contact Expedia URL for each POS -->
 	<string name="contact_expedia_url_ar">http://support.expedia.com.ar</string>
 	<string name="contact_expedia_url_at">http://support.expedia.at</string>
