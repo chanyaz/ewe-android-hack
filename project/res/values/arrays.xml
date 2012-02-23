@@ -1037,7 +1037,7 @@
     <string-array name="api_names">
         <item>Production</item>
         <item>Dev</item>
-        <item>Staging</item>
+        <item>Integration</item>
         <item>Proxy</item>
     </string-array>
 </resources>

@@ -416,7 +416,7 @@ public class ExpediaServices implements DownloadListener {
 	public enum EndPoint {
 		PRODUCTION,
 		TEST,
-		STAGING,
+		INTEGRATION,
 		PROXY
 	}
 
@@ -438,7 +438,7 @@ public class ExpediaServices implements DownloadListener {
 			builder.append("/MobileHotel/Webapp/");
 			break;
 		}
-		case STAGING: {
+		case INTEGRATION: {
 			builder.append("www");
 			for (String s : LocaleUtils.getPointOfSale(mContext).split("\\.")) {
 				builder.append(s);
@@ -480,8 +480,8 @@ public class ExpediaServices implements DownloadListener {
 		else if (which.equals("Proxy")) {
 			return EndPoint.PROXY;
 		}
-		else if (which.equals("Staging")) {
-			return EndPoint.STAGING;
+		else if (which.equals("Integration")) {
+			return EndPoint.INTEGRATION;
 		}
 		else {
 			return EndPoint.PRODUCTION;
