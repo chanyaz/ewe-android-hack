@@ -1033,4 +1033,11 @@
 		<item>@integer/country_phone_code_zw</item>
 		<item>@integer/country_phone_code_ax</item>
 	</integer-array>
+
+    <string-array name="api_names">
+        <item>Production</item>
+        <item>Dev</item>
+        <item>Staging</item>
+        <item>Proxy</item>
+    </string-array>
 </resources>

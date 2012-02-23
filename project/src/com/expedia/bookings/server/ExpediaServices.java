@@ -416,6 +416,7 @@ public class ExpediaServices implements DownloadListener {
 	public enum EndPoint {
 		PRODUCTION,
 		TEST,
+		STAGING,
 		PROXY
 	}
 
@@ -426,29 +427,38 @@ public class ExpediaServices implements DownloadListener {
 	 */
 	public String getEndpointUrl(int flags) {
 		EndPoint endPoint = getEndPoint(mContext);
-
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(endPoint != EndPoint.PROXY && (flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
 
-		if (endPoint == EndPoint.PROXY) {
-			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
-					"localhost:3000") + "/");
-		}
-		else {
+		switch (endPoint) {
+		case PRODUCTION: {
 			builder.append("www.");
+			builder.append(LocaleUtils.getPointOfSale(mContext));
+			builder.append("/MobileHotel/Webapp/");
+			break;
 		}
-
-		builder.append(LocaleUtils.getPointOfSale(mContext));
-
-		if (endPoint != EndPoint.PROXY) {
-			if (endPoint == EndPoint.TEST) {
-				builder.append(".chelwebestr37.bgb.karmalab.net");
+		case STAGING: {
+			builder.append("www");
+			for (String s : LocaleUtils.getPointOfSale(mContext).split("\\.")) {
+				builder.append(s);
 			}
-			builder.append("/MobileHotel/Webapp");
+			builder.append(".integration.sb.karmalab.net/MobileHotel/");
+			break;
 		}
-
-		builder.append("/");
+		case TEST: {
+			builder.append("www.");
+			builder.append(LocaleUtils.getPointOfSale(mContext));
+			builder.append(".chelwebestr37.bgb.karmalab.net");
+			builder.append("/MobileHotel/Webapp/");
+			break;
+		}
+		case PROXY: {
+			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000"));
+			builder.append("/");
+			break;
+		}
+		}
 
 		String e3url = builder.toString();
 		Log.d("e3 url: " + e3url);
@@ -457,22 +467,25 @@ public class ExpediaServices implements DownloadListener {
 
 	public static EndPoint getEndPoint(Context context) {
 		boolean isRelease = AndroidUtils.isRelease(context);
-		boolean useTestServer = SettingUtils.get(context, context.getString(R.string.preference_use_dev_api), false);
-		boolean proxyEnabled = SettingUtils.get(context, context.getString(R.string.preference_proxy_server_enabled),
-				false);
-
-		if (!isRelease) {
-			// Proxy takes precedence over test server
-			if (proxyEnabled) {
-				return EndPoint.PROXY;
-			}
-			else if (useTestServer) {
-				return EndPoint.TEST;
-			}
+		if (isRelease) {
+			// Fastpath
+			return EndPoint.PRODUCTION;
 		}
 
-		// By default, hit prod server
-		return EndPoint.PRODUCTION;
+		String which = SettingUtils.get(context, context.getString(R.string.preference_which_api_to_use_key), "");
+
+		if (which.equals("Dev")) {
+			return EndPoint.TEST;
+		}
+		else if (which.equals("Proxy")) {
+			return EndPoint.PROXY;
+		}
+		else if (which.equals("Staging")) {
+			return EndPoint.STAGING;
+		}
+		else {
+			return EndPoint.PRODUCTION;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
