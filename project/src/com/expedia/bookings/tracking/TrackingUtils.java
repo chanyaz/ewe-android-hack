@@ -210,21 +210,7 @@ public class TrackingUtils {
 	public static void addProducts(AppMeasurement s, Property property) {
 		// Determine supplier type
 		String supplierType = property.getSupplierType();
-		String supplier = null;
-		if (supplierType.equals("E")) {
-			supplier = "Merchant";
-		}
-		else if (supplierType.equals("S")) {
-			supplier = "Sabre";
-		}
-		else if (supplierType.equals("W")) {
-			supplier = "Worldspan";
-		}
-		else {
-			supplier = "Unknown";
-		}
-
-		s.products = "Hotel;" + supplier + " Hotel:" + property.getPropertyId();
+		s.products = "Hotel;" + supplierType + " Hotel:" + property.getPropertyId();
 	}
 
 	public static void addProducts(AppMeasurement s, Property property, int numNights, double totalCost) {
