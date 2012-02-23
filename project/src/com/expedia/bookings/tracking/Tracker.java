@@ -54,6 +54,9 @@ public class Tracker {
 
 				// GreyStripe tracking
 				GreystripeTracking.trackDownload(context);
+
+				// Flurry tracking
+				FlurryTracking.trackConversion(context);
 			}
 		}).start();
 
