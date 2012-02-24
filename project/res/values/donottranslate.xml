@@ -469,39 +469,6 @@
 	<string name="info_support_number_us">1-800-780-5733</string>
 	<string name="info_support_number_vn">120 65 125</string>
 
-	<!-- Confirmation support telephone numbers. These go on the confirmation screen. -->
-	<!-- If this number is not specified, the info_support_number_* will be shown on the confirmation screen instead. -->
-	<string name="conf_support_number_ar"></string>
-	<string name="conf_support_number_at"></string>
-	<string name="conf_support_number_au"></string>
-	<string name="conf_support_number_be"></string>
-	<string name="conf_support_number_br"></string>
-	<string name="conf_support_number_ca"></string>
-	<string name="conf_support_number_de"></string>
-	<string name="conf_support_number_dk"></string>
-	<string name="conf_support_number_es"></string>
-	<string name="conf_support_number_fr"></string>
-	<string name="conf_support_number_hk"></string>
-	<string name="conf_support_number_id"></string>
-	<string name="conf_support_number_ie"></string>
-	<string name="conf_support_number_in"></string>
-	<string name="conf_support_number_it"></string>
-	<string name="conf_support_number_jp"></string>
-	<string name="conf_support_number_kr"></string>
-	<string name="conf_support_number_mx"></string>
-	<string name="conf_support_number_my"></string>
-	<string name="conf_support_number_nl"></string>
-	<string name="conf_support_number_no"></string>
-	<string name="conf_support_number_nz"></string>
-	<string name="conf_support_number_ph"></string>
-	<string name="conf_support_number_se"></string>
-	<string name="conf_support_number_sg"></string>
-	<string name="conf_support_number_th"></string>
-	<string name="conf_support_number_tw"></string>
-	<string name="conf_support_number_uk"></string>
-	<string name="conf_support_number_us"></string>
-	<string name="conf_support_number_vn"></string>
-
     <!-- Section names for matching sections we should show from expedia description -->
     <string name="section_property_amenities">Property Amenities</string>
     <string name="section_rooms">Rooms</string>

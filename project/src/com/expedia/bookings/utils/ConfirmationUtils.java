@@ -211,7 +211,7 @@ public class ConfirmationUtils {
 	}
 
 	public static String determineContactText(Context context) {
-		return SupportUtils.determineContactText(context);
+		return context.getString(R.string.contact_phone_template, SupportUtils.getInfoSupportNumber(context));
 	}
 
 	public static void configureContactView(Context context, TextView contactView, String contactText) {

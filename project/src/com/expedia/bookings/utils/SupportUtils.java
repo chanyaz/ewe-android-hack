@@ -12,7 +12,6 @@ public class SupportUtils {
 
 	private static Map<String, String> sContactExpediaUrls;
 	private static Map<String, String> sInfoSupportNumbers;
-	private static Map<String, String> sConfSupportNumbers;
 
 	public static String getAppSupportUrl(Context context) {
 		return getContactExpediaUrl(context);
@@ -40,23 +39,5 @@ public class SupportUtils {
 
 	public static boolean hasInfoSupportNumber(Context context) {
 		return !TextUtils.isEmpty(getInfoSupportNumber(context));
-	}
-
-	public static String getConfSupportNumber(Context context) {
-		if (sConfSupportNumbers == null) {
-			sConfSupportNumbers = ResourceUtils.getStringMap(context, R.array.pos_conf_support_number_map);
-		}
-		return sConfSupportNumbers.get(LocaleUtils.getPointOfSale());
-	}
-
-	public static boolean hasConfSupportNumber(Context context) {
-		return !TextUtils.isEmpty(getConfSupportNumber(context));
-	}
-
-	public static String determineContactText(Context context) {
-		if (hasConfSupportNumber(context)) {
-			return context.getString(R.string.contact_phone_template, getConfSupportNumber(context));
-		}
-		return context.getString(R.string.contact_phone_template, getInfoSupportNumber(context));
 	}
 }
