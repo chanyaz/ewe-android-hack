@@ -186,6 +186,7 @@ public class BookingFormFragment extends DialogFragment {
 		// Retrieve some data we keep using
 		Resources r = getResources();
 		mCountryCodes = r.getStringArray(R.array.country_codes);
+		mCountryPhoneCodes = r.getIntArray(R.array.country_phone_codes);
 		configureForm();
 
 		if (getBillingInfo().doesExistOnDisk()) {
