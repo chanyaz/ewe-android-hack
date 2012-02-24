@@ -473,9 +473,7 @@ public class Rate implements JSONable {
 
 	public Money getInclusiveRate() {
 		if (mInclusiveRate == null) {
-			double rate = mAverageRate.getAmount() * mNumberOfNights;
-			mInclusiveRate = ParserUtils.createMoney(rate, mAverageRate.getCurrency());
-			mInclusiveRate.add(mTotalSurcharge);
+			mInclusiveRate = mTotalPriceWithMandatoryFees;
 		}
 		return mInclusiveRate;
 	}
