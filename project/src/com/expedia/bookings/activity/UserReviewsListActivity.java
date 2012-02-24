@@ -628,7 +628,8 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 		// Track which reviews are visible, add them to the list
 		ListAdapter adapter = view.getAdapter();
-		for (int a = 0; a < visibleItemCount; a++) {
+		int count = adapter.getCount();
+		for (int a = 0; a < visibleItemCount && firstVisibleItem + a < count ; a++) {
 			Object item = adapter.getItem(firstVisibleItem + a);
 			if (item instanceof ReviewWrapper) {
 				mViewedReviews.add(((ReviewWrapper) item).review.getReviewId());

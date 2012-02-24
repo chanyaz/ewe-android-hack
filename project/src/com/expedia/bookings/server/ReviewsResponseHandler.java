@@ -37,7 +37,12 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 
 			reviewsResponse.setIndex(body.getInt("index"));
 
-			JSONArray reviews = body.getJSONArray("hotels").getJSONObject(0).getJSONArray("reviews");
+			JSONArray hotels = body.getJSONArray("hotels");
+			if (hotels.length() == 0) {
+				return reviewsResponse;
+			}
+
+			JSONArray reviews = hotels.getJSONObject(0).getJSONArray("reviews");
 			int len = reviews.length();
 			for (int a = 0; a < len; a++) {
 				JSONObject reviewJson = reviews.getJSONObject(a);
