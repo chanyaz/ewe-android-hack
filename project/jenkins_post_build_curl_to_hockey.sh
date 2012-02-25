@@ -18,6 +18,6 @@ curl \
 -F "notify=1" \
 -F "notes=$MSG" \
 -F "notes_type=0" \
--F "ipa=@project/bin/ExpediaBookings-debug.apk" \
+-F "ipa=@project/bin/ExpediaBookings-release.apk" \
 -H "X-HockeyAppToken: bf8e54b34dcb40c4bee1364a75be509f" \
 https://rink.hockeyapp.net/api/2/apps/4d9aae3faac40c74443772c8bebd5aaf/app_versions
