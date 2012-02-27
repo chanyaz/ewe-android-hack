@@ -23,15 +23,13 @@
 	<string name="button_done">Done</string>
 	<!--  Label for child age selection prompt -->
 	<plurals name="select_each_childs_age">
-	    <item quantity="one">Select the child\'s age</item>
+	    <item quantity="one">Select child\'s age</item>
 	    <item quantity="two">Select each child\'s age</item>
 	    <item quantity="many">Select each child\'s age</item>
 	    <item quantity="other">Select each child\'s age</item>
 	</plurals>
 	<!--  Title of "select child age" spinner dialog box -->
 	<string name="prompt_select_child_age">Select Child Age (%1$s - %2$s)</string>
-	<!--  Label for child's age on search refinements -->
-	<string name="child_x">Child %1$s</string>
 	<!--  Text for child's age on search refinements and in spinner -->
 	<plurals name="child_age">
 		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; year old</item>

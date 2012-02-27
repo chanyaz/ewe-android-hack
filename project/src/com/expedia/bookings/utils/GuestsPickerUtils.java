@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.ChildAgeSpinnerAdapter;
@@ -120,10 +119,7 @@ public class GuestsPickerUtils {
 			if (i < numChildren && row.getTag() == null) {
 				// Use the row's Tag to determine if we've initialized this label/spinner yet.
 				row.setTag(i);
-				TextView label = (TextView) row.findViewById(R.id.child_x_text);
-				label.setText(context.getString(R.string.child_x, i + 1));
-
-				Spinner spinner = (Spinner) row.findViewById(R.id.child_x_age_spinner);
+				Spinner spinner = (Spinner)row;
 				spinner.setPrompt(context.getString(R.string.prompt_select_child_age, GuestsPickerUtils.MIN_CHILD_AGE,
 						GuestsPickerUtils.MAX_CHILD_AGE));
 				spinner.setAdapter(new ChildAgeSpinnerAdapter(context));

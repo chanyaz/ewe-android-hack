@@ -125,7 +125,7 @@
 
     <LinearLayout
         android:id="@+id/child_ages_layout"
-        android:layout_width="600dp"
+        android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
