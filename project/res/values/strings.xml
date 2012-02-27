@@ -39,7 +39,7 @@
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; years old</item>
 		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; years old</item>
 	</plurals>
-	<!-- Android doesn't handle "zero" as a special case in English. So we'll do it manually -->
+	<!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
 	<string name="child_age_less_than_one">&lt;b&gt;Less than 1&lt;/b&gt; year old</string>
 	
 	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
