@@ -679,10 +679,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mValidationProcessor.add(mLastNameEditText, requiredFieldValidator);
 		mValidationProcessor.add(mTelephoneEditText, new TextViewValidator(new TelephoneValidator()));
 		mValidationProcessor.add(mEmailEditText, new TextViewValidator(new EmailValidator()));
-		mValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
-		mValidationProcessor.add(mCityEditText, requiredFieldValidator);
-		mValidationProcessor.add(mStateEditText, usValidator);
-		mValidationProcessor.add(mPostalCodeEditText, usValidator);
+		//mValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
+		//mValidationProcessor.add(mCityEditText, requiredFieldValidator);
+		//mValidationProcessor.add(mStateEditText, usValidator);
+		//mValidationProcessor.add(mPostalCodeEditText, usValidator);
 		mValidationProcessor.add(mCardNumberEditText, new TextViewValidator(new Validator<CharSequence>() {
 			public int validate(CharSequence number) {
 				if (mCreditCardType == null) {
