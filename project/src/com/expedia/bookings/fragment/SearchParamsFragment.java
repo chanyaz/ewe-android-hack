@@ -32,10 +32,12 @@ import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLayoutChangeListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -150,6 +152,27 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			hideChildAgesPopup(false);
 		}
 
+		// We need to modify the OS touch event handling. Without this, the Location EditText
+		// grabs focus right away, and also keeps focus even when the user has shifted his focus to the
+		// date picker or the guest count spinners.
+		final View touchInterceptor = view.findViewById(R.id.touch_interceptor);
+		touchInterceptor.requestFocus();
+		touchInterceptor.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					if (mLocationEditText.isFocused()) {
+						Rect outRect = new Rect();
+						mLocationEditText.getGlobalVisibleRect(outRect);
+						if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+							touchInterceptor.requestFocus();
+						}
+					}
+				}
+				return false;
+			}
+		});
+
 		// Configure the location EditText
 		mLocationEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -161,6 +184,11 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 							|| text.equals(getString(R.string.enter_search_location))) {
 						mLocationEditText.setText("");
 					}
+				}
+				else {
+					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+							Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(mLocationEditText.getWindowToken(), 0);
 				}
 			}
 		});
