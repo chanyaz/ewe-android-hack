@@ -125,6 +125,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 	public boolean moreCriticalPages = true;
 	public boolean moreFavorablePages = true;
+	private boolean mMoreNewestReviewsToLoad = true;
 
 	// Tracking data structures
 	private Set<String> mViewedReviews;
@@ -263,6 +264,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			else {
 				//send message to remove loading footer
 				mHandler.sendMessage(prepareMessage(false, thisReviewSort));
+				mMoreNewestReviewsToLoad = false;
 
 				if (response == null || response.hasErrors()) {
 					TrackingUtils.trackErrorPage(mContext, "UserReviewLoadFailed");
@@ -604,7 +606,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 						mLowestRatingFirstDownloadCallback);
 				showLoadingIndicator = true;
 			}
-			else if (mCurrentReviewSort == ReviewSort.NEWEST_REVIEW_FIRST) {
+			else if (mCurrentReviewSort == ReviewSort.NEWEST_REVIEW_FIRST && mMoreNewestReviewsToLoad) {
 				mReviewsDownloader.startDownload(KEY_REVIEWS_NEWEST, mNewestReviewFirstDownload,
 						mNewestReviewFirstDownloadCallback);
 				showLoadingIndicator = true;
