@@ -125,6 +125,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("resultsPerPage", "25"));
 		query.add(new BasicNameValuePair("pageIndex", "0"));
 		query.add(new BasicNameValuePair("filterUnavailable", "true"));
+		query.add(new BasicNameValuePair("filterInventoryType", "MERCHANT"));
 		query.add(new BasicNameValuePair("wantTotalRecommendations", "true"));
 
 		SearchResponseHandler rh = new SearchResponseHandler(mContext);
