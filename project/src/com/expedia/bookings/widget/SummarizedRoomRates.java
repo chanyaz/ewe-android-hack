@@ -56,7 +56,8 @@ public class SummarizedRoomRates {
 		TWIN_BEDS,
 		FULL_BEDS,
 		SINGLE_BEDS,
-		REMAINING; // Unknown remaining bed types
+		OTHER,
+		UNKNOWN;
 	}
 
 	private static final Map<BedTypeGrouping, Set<BedTypeId>> BED_TYPE_GROUPINGS;
@@ -68,20 +69,35 @@ public class SummarizedRoomRates {
 		BED_TYPE_GROUPINGS = new HashMap<SummarizedRoomRates.BedTypeGrouping, Set<BedTypeId>>();
 
 		BED_TYPE_GROUPINGS.put(BedTypeGrouping.KING_BEDS,
-				createBedTypeGrouping(BedTypeId.ONE_KING_BED, BedTypeId.TWO_KING_BEDS));
+				createBedTypeGrouping(BedTypeId.ONE_KING_BED, BedTypeId.TWO_KING_BEDS, BedTypeId.THREE_KING_BEDS,
+						BedTypeId.FOUR_KING_BEDS, BedTypeId.ONE_KING_ONE_SOFA));
+
 		BED_TYPE_GROUPINGS.put(BedTypeGrouping.QUEEN_BEDS,
-				createBedTypeGrouping(BedTypeId.ONE_QUEEN_BED, BedTypeId.TWO_QUEEN_BEDS));
+				createBedTypeGrouping(BedTypeId.ONE_QUEEN_BED, BedTypeId.TWO_QUEEN_BEDS, BedTypeId.THREE_QUEEN_BEDS,
+						BedTypeId.FOUR_QUEEN_BEDS, BedTypeId.ONE_QUEEN_ONE_SOFA));
+
 		BED_TYPE_GROUPINGS.put(BedTypeGrouping.DOUBLE_BEDS,
-				createBedTypeGrouping(BedTypeId.ONE_DOUBLE_BED, BedTypeId.TWO_DOUBLE_BEDS));
+				createBedTypeGrouping(BedTypeId.ONE_DOUBLE_BED, BedTypeId.TWO_DOUBLE_BEDS,
+						BedTypeId.ONE_DOUBLE_ONE_SINGLE, BedTypeId.ONE_DOUBLE_TWO_SINGLES));
+
 		BED_TYPE_GROUPINGS.put(BedTypeGrouping.TWIN_BEDS,
 				createBedTypeGrouping(BedTypeId.ONE_TWIN_BED, BedTypeId.TWO_TWIN_BEDS, BedTypeId.THREE_TWIN_BEDS,
 						BedTypeId.FOUR_TWIN_BEDS));
+
 		BED_TYPE_GROUPINGS.put(BedTypeGrouping.FULL_BEDS,
 				createBedTypeGrouping(BedTypeId.ONE_FULL_BED, BedTypeId.TWO_FULL_BEDS));
+
 		BED_TYPE_GROUPINGS.put(BedTypeGrouping.SINGLE_BEDS,
 				createBedTypeGrouping(BedTypeId.ONE_SINGLE_BED, BedTypeId.TWO_SINGLE_BEDS, BedTypeId.THREE_SINGLE_BEDS,
 						BedTypeId.FOUR_SINGLE_BEDS));
-		BED_TYPE_GROUPINGS.put(BedTypeGrouping.REMAINING, new HashSet<BedTypeId>());
+
+		BED_TYPE_GROUPINGS.put(BedTypeGrouping.OTHER,
+				createBedTypeGrouping(BedTypeId.ONE_BED, BedTypeId.TWO_BEDS, BedTypeId.THREE_BEDS, BedTypeId.FOUR_BEDS,
+						BedTypeId.ONE_TRUNDLE_BED, BedTypeId.ONE_MURPHY_BED, BedTypeId.ONE_BUNK_BED,
+						BedTypeId.ONE_SLEEPER_SOFA, BedTypeId.TWO_SLEEPER_SOFAS, BedTypeId.THREE_SLEEPER_SOFAS,
+						BedTypeId.JAPENESE_FUTON));
+
+		BED_TYPE_GROUPINGS.put(BedTypeGrouping.UNKNOWN, createBedTypeGrouping(BedTypeId.UNKNOWN));
 	}
 
 	private static Set<BedTypeId> createBedTypeGrouping(BedTypeId... bedTypeIds) {
@@ -178,7 +194,6 @@ public class SummarizedRoomRates {
 	 */
 	private void clusterByBedType() {
 		for (BedTypeId id : mBedTypeToMinRateMap.keySet()) {
-			boolean added = false;
 			for (BedTypeGrouping grouping : BedTypeGrouping.values()) {
 				if (BED_TYPE_GROUPINGS.get(grouping).contains(id)) {
 					PriorityQueue<BedTypeId> queue = mAvailableBedTypes.get(grouping);
@@ -189,15 +204,8 @@ public class SummarizedRoomRates {
 					}
 
 					queue.add(id);
-
-					added = true;
 					break;
 				}
-			}
-
-			// If not added to any other group, add to the "remaining" group
-			if (!added) {
-				BED_TYPE_GROUPINGS.get(BedTypeGrouping.REMAINING).add(id);
 			}
 		}
 	}

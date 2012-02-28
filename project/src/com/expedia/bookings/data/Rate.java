@@ -85,18 +85,26 @@ public class Rate implements JSONable {
 		 */
 		ONE_KING_BED(new String[] { "KG", "4", "14" }),
 		TWO_KING_BEDS(new String[] { "2KG", "22" }),
+		THREE_KING_BEDS(new String[] { "56" }),
+		FOUR_KING_BEDS(new String[] { "59" }),
+		ONE_KING_ONE_SOFA(new String[] { "67" }),
 
 		/*
 		 * Queen bed types in order of priority
 		 */
 		ONE_QUEEN_BED(new String[] { "QN", "3", "15" }),
 		TWO_QUEEN_BEDS(new String[] { "2QN", "7", "23" }),
+		THREE_QUEEN_BEDS(new String[] { "57" }),
+		FOUR_QUEEN_BEDS(new String[] { "60" }),
+		ONE_QUEEN_ONE_SOFA(new String[] { "68" }),
 
 		/*
 		 * Double beds in order of priority
 		 */
 		ONE_DOUBLE_BED(new String[] { "DD", "2", "13" }),
 		TWO_DOUBLE_BEDS(new String[] { "2DD", "6", "21" }),
+		ONE_DOUBLE_ONE_SINGLE(new String[] { "63" }),
+		ONE_DOUBLE_TWO_SINGLES(new String[] { "66" }),
 
 		/*
 		 * Twin beds in order of priority
@@ -130,7 +138,15 @@ public class Rate implements JSONable {
 		ONE_BUNK_BED(new String[] { "50" }),
 		ONE_SLEEPER_SOFA(new String[] { "51" }),
 		TWO_SLEEPER_SOFAS(new String[] { "52" }),
-		THREE_SLEEPER_SOFAS(new String[] { "53" });
+		THREE_SLEEPER_SOFAS(new String[] { "53" }),
+		JAPENESE_FUTON(new String[] { "54" }),
+		THREE_BEDS(new String[] { "55" }),
+		FOUR_BEDS(new String[] { "58" }),
+
+		/*
+		 * Handles all unknown bed type cases
+		 */
+		UNKNOWN(new String[] {});
 
 		private Set<String> mIds;
 
@@ -147,7 +163,7 @@ public class Rate implements JSONable {
 					return bedTypeId;
 				}
 			}
-			return null;
+			return UNKNOWN;
 		}
 	}
 
