@@ -29,7 +29,7 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 	public ReviewsResponse handleJson(JSONObject response) {
 		ReviewsResponse reviewsResponse = new ReviewsResponse();
 		try {
-			if (ParserUtils.parseServerErrors(mContext, response, reviewsResponse)) {
+			if (ParserUtils.parseServerErrors(mContext, null, response, reviewsResponse)) {
 				return reviewsResponse;
 			}
 

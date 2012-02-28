@@ -23,7 +23,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 		SignInResponse signInResponse = new SignInResponse();
 		try {
 			// Check for errors
-			signInResponse.addErrors(ParserUtils.parseErrors(mContext, response));
+			signInResponse.addErrors(ParserUtils.parseErrors(mContext, null, response));
 			signInResponse.setSuccess(response.optBoolean("success"));
 
 			if (signInResponse.isSuccess()) {

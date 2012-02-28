@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
 
@@ -22,7 +23,7 @@ public class BookingResponseHandler extends JsonResponseHandler<BookingResponse>
 		BookingResponse bookingResponse = new BookingResponse();
 		try {
 			// Check for errors
-			bookingResponse.addErrors(ParserUtils.parseErrors(mContext, response));
+			bookingResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.CHECKOUT, response));
 
 			if (bookingResponse.isSuccess() || bookingResponse.succeededWithErrors()) {
 				bookingResponse.setConfNumber(response.optString("hotelConfirmationNumber", null));

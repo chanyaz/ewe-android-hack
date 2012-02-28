@@ -565,7 +565,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			// Mark that we've read the change
 			SettingUtils.save(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
 		}
-		
+
 		// HockeyApp update
 		if (!AndroidUtils.isRelease(mContext)) {
 			HockeyAppUtil.checkForUpdatesHockeyApp(mContext, this, Codes.HOCKEY_APP_ID);
@@ -659,9 +659,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 
 		mIsActivityResumed = true;
-		
+
 		//HockeyApp crash
-		if (!AndroidUtils.isRelease(mContext)){
+		if (!AndroidUtils.isRelease(mContext)) {
 			HockeyAppUtil.checkForCrashesHockeyApp(mContext, Codes.HOCKEY_APP_ID);
 		}
 	}

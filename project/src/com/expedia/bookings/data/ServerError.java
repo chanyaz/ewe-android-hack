@@ -14,10 +14,75 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
+@SuppressWarnings("serial")
 public class ServerError implements JSONable {
+	public static enum ApiMethod {
+		CHECKOUT, SEARCH_RESULTS, HOTEL_OFFERS, HOTEL_PRODUCT, HOTEL_INFORMATION
+	}
+
+	public static enum ErrorCode {
+		BOOKING_FAILED, BOOKING_SUCCEEDED_WITH_ERRORS, HOTEL_OFFER_UNAVAILABLE, HOTEL_SERVICE_FATAL_FAILURE, HOTEL_ROOM_UNAVAILABLE, INVALID_INPUT, INVALID_INPUT_UNKNOWN, PAYMENT_FAILED, SIMULATED, UNKNOWN_ERROR, USER_SERVICE_FATAL_FAILURE
+	}
 
 	public static final String FLAG_ITINERARY_BOOKED = "itineraryBooked";
 
+	private static final String LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION = "LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION";
+
+	// This is for replacing (bad) EAN error messages with better ones
+	public static final HashMap<String, Integer> ERRORS = new HashMap<String, Integer>() {
+		{
+			put("Result was null", R.string.ean_error_no_results);
+			put("Results NULL", R.string.ean_error_no_results);
+			put("No Results Available", R.string.ean_error_no_results);
+			put("Direct connect property unavailable.", R.string.ean_error_connect_unavailable);
+		}
+	};
+
+	public static final HashMap<ErrorCode, Integer> ERROR_MAP_CHECKOUT = new HashMap<ErrorCode, Integer>() {
+		{
+			put(ErrorCode.BOOKING_FAILED, R.string.e3_error_checkout_booking_failed);
+			put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors);
+			put(ErrorCode.HOTEL_ROOM_UNAVAILABLE, R.string.e3_error_checkout_hotel_room_unavailable);
+			put(ErrorCode.INVALID_INPUT, R.string.e3_error_checkout_invalid_input);
+			put(ErrorCode.PAYMENT_FAILED, R.string.e3_error_checkout_payment_failed);
+		}
+	};
+
+	public static final HashMap<ErrorCode, Integer> ERROR_MAP_SEARCH_RESULTS = new HashMap<ErrorCode, Integer>() {
+		{
+			put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_search_results_hotel_service_failure);
+			put(ErrorCode.INVALID_INPUT, R.string.e3_error_search_results_invalid_input);
+			put(ErrorCode.INVALID_INPUT_UNKNOWN, R.string.e3_error_search_results_invalid_input_unknown);
+			put(ErrorCode.UNKNOWN_ERROR, R.string.e3_error_search_results_unknown_error);
+		}
+	};
+
+	public static final HashMap<ErrorCode, Integer> ERROR_MAP_HOTEL_OFFERS = new HashMap<ErrorCode, Integer>() {
+		{
+			put(ErrorCode.HOTEL_OFFER_UNAVAILABLE, R.string.e3_error_hotel_offers_hotel_offer_unavailable);
+			put(ErrorCode.HOTEL_ROOM_UNAVAILABLE, R.string.e3_error_hotel_offers_hotel_room_unavailable);
+			put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure);
+			put(ErrorCode.INVALID_INPUT, R.string.e3_error_hotel_offers_invalid_input);
+			put(ErrorCode.UNKNOWN_ERROR, R.string.e3_error_hotel_offers_unknown_error);
+		}
+	};
+
+	public static final HashMap<ErrorCode, Integer> ERROR_MAP_HOTEL_PRODUCT = new HashMap<ErrorCode, Integer>() {
+		{
+			put(ErrorCode.INVALID_INPUT, R.string.e3_error_hotel_product_invalid_input);
+			put(ErrorCode.UNKNOWN_ERROR, R.string.e3_error_hotel_product_unknown_error);
+		}
+	};
+
+	public static final HashMap<ErrorCode, Integer> ERROR_MAP_HOTEL_INFORMATION = new HashMap<ErrorCode, Integer>() {
+		{
+			put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_information_hotel_service_failure);
+			put(ErrorCode.INVALID_INPUT, R.string.e3_error_hotel_information_invalid_input);
+			put(ErrorCode.UNKNOWN_ERROR, R.string.e3_error_hotel_information_unknown_error);
+		}
+	};
+
+	private ApiMethod mApiMethod = null;
 	private ErrorCode mErrorCode;
 	private String mCode;
 	private String mMessage;
@@ -33,6 +98,21 @@ public class ServerError implements JSONable {
 	private String mHandling;
 
 	private Map<String, String> mExtras;
+
+	public ServerError() {
+	}
+
+	public ServerError(ApiMethod apiMethod) {
+		mApiMethod = apiMethod;
+	}
+
+	public ApiMethod getApiMethod() {
+		return mApiMethod;
+	}
+
+	public void setApiMethod(ApiMethod apiMethod) {
+		mApiMethod = apiMethod;
+	}
 
 	public String getCode() {
 		return mCode;
@@ -124,26 +204,44 @@ public class ServerError implements JSONable {
 		return mExtras.get(key);
 	}
 
-	// This is for replacing (bad) EAN error messages with better ones
-	@SuppressWarnings("serial")
-	public static final HashMap<String, Integer> ERRORS = new HashMap<String, Integer>() {
-		{
-			put("Result was null", R.string.ean_error_no_results);
-			put("Results NULL", R.string.ean_error_no_results);
-			put("No Results Available", R.string.ean_error_no_results);
-			put("Direct connect property unavailable.", R.string.ean_error_connect_unavailable);
-		}
-	};
-
-	public static enum ErrorCode {
-		SIMULATED, HOTEL_SERVICE_FATAL_FAILURE, UNKNOWN_ERROR, INVALID_INPUT_UNKNOWN, INVALID_INPUT, HOTEL_ROOM_UNAVAILABLE, HOTEL_OFFER_UNAVAILABLE, USER_SERVICE_FATAL_FAILURE, BOOKING_FAILED, PAYMENT_FAILED, BOOKING_SUCCEEDED_WITH_ERRORS
-	}
-
-	private static String LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION = "LODGING_SERVICE_REQUEST_VALIDATION_EXCEPTION";
-
 	// Use the presentation message, except in special circumstances of lacking data
 	// or when the data needs some gentle massaging
 	public String getPresentableMessage(Context context) {
+		if (mApiMethod != null && mErrorCode != null) {
+			switch (mApiMethod) {
+			case CHECKOUT: {
+				if (ERROR_MAP_CHECKOUT.containsKey(mErrorCode)) {
+					return context.getString(ERROR_MAP_CHECKOUT.get(mErrorCode));
+				}
+				break;
+			}
+			case SEARCH_RESULTS: {
+				if (ERROR_MAP_SEARCH_RESULTS.containsKey(mErrorCode)) {
+					return context.getString(ERROR_MAP_SEARCH_RESULTS.get(mErrorCode));
+				}
+				break;
+			}
+			case HOTEL_OFFERS: {
+				if (ERROR_MAP_HOTEL_OFFERS.containsKey(mErrorCode)) {
+					return context.getString(ERROR_MAP_HOTEL_OFFERS.get(mErrorCode));
+				}
+				break;
+			}
+			case HOTEL_PRODUCT: {
+				if (ERROR_MAP_HOTEL_PRODUCT.containsKey(mErrorCode)) {
+					return context.getString(ERROR_MAP_HOTEL_PRODUCT.get(mErrorCode));
+				}
+				break;
+			}
+			case HOTEL_INFORMATION: {
+				if (ERROR_MAP_HOTEL_INFORMATION.containsKey(mErrorCode)) {
+					return context.getString(ERROR_MAP_HOTEL_INFORMATION.get(mErrorCode));
+				}
+				break;
+			}
+			}
+		}
+
 		String message = mPresentationMessage;
 		if (TextUtils.isEmpty(message)) {
 			message = mVerboseMessage;

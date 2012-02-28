@@ -687,6 +687,35 @@
 	<string name="ean_error_connect_unavailable">Unable to connect to the selected hotel to find available rooms.</string>
 	<!-- Error message displayed when the phone number sent via booking is invalid -->
 	<string name="ean_error_invalid_phone_number">Please enter a valid phone number</string>
+	
+	<!-- Checkout API method -->
+	<string name="e3_error_checkout_booking_failed">An error prevented us from completing your booking. Please try again.</string>
+	<string name="e3_error_checkout_booking_succeeded_with_errors">You successfully booked your hotel! If you need an itinerary immediately, please call Expedia Customer Support.</string>
+	<string name="e3_error_checkout_hotel_room_unavailable">We\'re sorry, but the room you requested is no longer available.</string>
+	<string name="e3_error_checkout_invalid_input">Please fix the invalid information.</string>
+	<string name="e3_error_checkout_payment_failed">We\'re sorry, but we were unable to process your payment. Please verify that you entered your information correctly.</string>
+	
+	<!-- SearchResults API method -->
+	<string name="e3_error_search_results_hotel_service_failure">We\'re sorry, but we couldn\'t complete your search. Please try again.</string>
+	<string name="e3_error_search_results_invalid_input">We\'re sorry, but we couldn\'t return results for your search terms. Please try again.</string>
+	<string name="e3_error_search_results_invalid_input_unknown">We\'re sorry, but we couldn\'t return results for your search terms. Please try again.</string>
+	<string name="e3_error_search_results_unknown_error">We\'re sorry, but we couldn\'t complete your search. Please try again.</string>
+	
+	<!-- HotelOffers API method -->
+	<string name="e3_error_hotel_offers_hotel_offer_unavailable">We\'re sorry! The promotion for this room ended, but there are other offers available.</string>
+	<string name="e3_error_hotel_offers_hotel_room_unavailable">We\'re sorry, but the room you requested is no longer available.</string>
+	<string name="e3_error_hotel_offers_hotel_service_failure">We\'re sorry, but we couldn\'t connect to Expedia. Please try again.</string>
+	<string name="e3_error_hotel_offers_invalid_input">We\'re sorry! The promotion for this room ended, but there are other offers available.</string>
+	<string name="e3_error_hotel_offers_unknown_error">We\'re sorry! The promotion for this room ended, but there are other offers available.</string>
+	
+	<!-- HotelProduct API method -->
+	<string name="e3_error_hotel_product_unknown_error">An unknown error occurred.</string>
+	<string name="e3_error_hotel_product_invalid_input">An unknown error occurred.</string>
+	
+	<!-- HotelInformation API method -->
+	<string name="e3_error_hotel_information_hotel_service_failure">An unknown error occurred.</string>
+	<string name="e3_error_hotel_information_unknown_error">An unknown error occurred.</string>
+	<string name="e3_error_hotel_information_invalid_input">An unknown error occurred.</string>
 
 	<!-- Currency names -->
 	<string name="currency_aud">Australian Dollar</string>

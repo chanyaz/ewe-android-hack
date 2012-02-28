@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.AndroidHttpClient;
 
@@ -309,7 +310,7 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 	}
 
 	private void readServerError(JsonParser parser, Response response) throws IOException {
-		ServerError serverError = new ServerError();
+		ServerError serverError = new ServerError(ApiMethod.SEARCH_RESULTS);
 
 		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
 			throw new IOException("Expected readServerError() to start with an Object, started with "
