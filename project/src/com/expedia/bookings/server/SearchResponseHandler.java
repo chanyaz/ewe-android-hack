@@ -16,6 +16,7 @@ import android.content.Context;
 import android.text.Html;
 
 import com.expedia.bookings.data.Distance;
+import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
@@ -175,8 +176,13 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			else if (name.equals("hotelGuestRating")) {
 				property.setAverageExpediaRating(parser.getValueAsDouble());
 			}
-			else if (name.equals("proximityDistanceInMiles")) {
-				property.setDistanceFromUser(new Distance(parser.getValueAsDouble(), Distance.DistanceUnit.MILES));
+			else if (name.equals("proximityDistanceInMiles")
+					&& DistanceUnit.getDefaultDistanceUnit() == DistanceUnit.MILES) {
+				property.setDistanceFromUser(new Distance(parser.getValueAsDouble(), DistanceUnit.MILES));
+			}
+			else if (name.equals("proximityDistanceInKiloMeters")
+					&& DistanceUnit.getDefaultDistanceUnit() == DistanceUnit.KILOMETERS) {
+				property.setDistanceFromUser(new Distance(parser.getValueAsDouble(), DistanceUnit.KILOMETERS));
 			}
 			else if (name.equals("address")) {
 				List<String> streetAddress = new ArrayList<String>();
