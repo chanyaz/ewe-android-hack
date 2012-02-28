@@ -444,7 +444,7 @@ public class ExpediaServices implements DownloadListener {
 			for (String s : LocaleUtils.getPointOfSale(mContext).split("\\.")) {
 				builder.append(s);
 			}
-			builder.append(".integration.sb.karmalab.net/MobileHotel/");
+			builder.append(".integration.sb.karmalab.net/MobileHotel/Webapp/");
 			break;
 		}
 		case TEST: {
@@ -456,6 +456,8 @@ public class ExpediaServices implements DownloadListener {
 		}
 		case PROXY: {
 			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000"));
+			builder.append("/");
+			builder.append(LocaleUtils.getPointOfSale(mContext));
 			builder.append("/");
 			break;
 		}
