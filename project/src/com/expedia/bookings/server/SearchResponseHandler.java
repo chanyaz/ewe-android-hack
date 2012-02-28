@@ -177,13 +177,13 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			else if (name.equals("hotelGuestRating")) {
 				property.setAverageExpediaRating(parser.getValueAsDouble());
 			}
-			else if (name.equals("proximityDistanceInMiles")
-					&& DistanceUnit.getDefaultDistanceUnit() == DistanceUnit.MILES) {
-				property.setDistanceFromUser(new Distance(parser.getValueAsDouble(), DistanceUnit.MILES));
-			}
-			else if (name.equals("proximityDistanceInKiloMeters")
-					&& DistanceUnit.getDefaultDistanceUnit() == DistanceUnit.KILOMETERS) {
+			// E3 is calculating miles by converting from km and then rounding; i.e. the km result is more accurate.
+			else if (name.equals("proximityDistanceInKiloMeters")) {
 				property.setDistanceFromUser(new Distance(parser.getValueAsDouble(), DistanceUnit.KILOMETERS));
+			}
+			// Use proximityDistanceInMiles as a backup in case proximityDistanceInKiloMeters isn't available.
+			else if (name.equals("proximityDistanceInMiles") && property.getDistanceFromUser() == null) {
+				property.setDistanceFromUser(new Distance(parser.getValueAsDouble(), DistanceUnit.MILES));
 			}
 			else if (name.equals("address")) {
 				List<String> streetAddress = new ArrayList<String>();

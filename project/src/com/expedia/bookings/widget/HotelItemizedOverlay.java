@@ -54,13 +54,13 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 		mProperties = properties;
 		mMarkerSale = context.getResources().getDrawable(R.drawable.map_pin_sale);
 		mTappedPropertyId = null;
+		mDistanceUnit = DistanceUnit.getDefaultDistanceUnit();
+
 		populate();
 
 		boundCenterBottom(mMarkerSale);
 
 		setBalloonAdapter(new HotelBalloonAdapter());
-
-		mDistanceUnit = DistanceUnit.getDefaultDistanceUnit();
 	}
 
 	public void setProperties(SearchResponse searchResponse) {
