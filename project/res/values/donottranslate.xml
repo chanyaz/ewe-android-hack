@@ -412,7 +412,7 @@
 	<string name="contact_expedia_url_be">http://support.expedia.be</string>
 	<string name="contact_expedia_url_br">http://support.expedia.com.br</string>
 	<string name="contact_expedia_url_ca">http://support.expedia.ca</string>
-	<string name="contact_expedia_url_de">http://m.expedia.de/mt/support.expedia.de/app/home/p/532</string>
+	<string name="contact_expedia_url_de">http://support.expedia.de</string>
 	<string name="contact_expedia_url_dk">http://support.expedia.dk</string>
 	<string name="contact_expedia_url_es">http://support.expedia.es</string>
 	<string name="contact_expedia_url_fr">http://support.expedia.fr</string>
@@ -420,7 +420,7 @@
 	<string name="contact_expedia_url_id">http://faq.expedia.co.id</string>
 	<string name="contact_expedia_url_ie">http://support.expedia.ie</string>
 	<string name="contact_expedia_url_in">http://faq.expedia.co.in</string>
-	<string name="contact_expedia_url_it">http://m.expedia.it/mt/support.expedia.it/app/home/p/532</string>
+	<string name="contact_expedia_url_it">http://support.expedia.it</string>
 	<string name="contact_expedia_url_jp">http://support.expedia.co.jp</string>
 	<string name="contact_expedia_url_kr">http://faq.expedia.co.kr</string>
 	<string name="contact_expedia_url_mx">http://support.expedia.mx</string>
@@ -434,7 +434,7 @@
 	<string name="contact_expedia_url_th">http://faq.expedia.co.th</string>
 	<string name="contact_expedia_url_tw">http://faq.expedia.com.tw</string>
 	<string name="contact_expedia_url_uk">http://support.expedia.co.uk</string>
-	<string name="contact_expedia_url_us">http://m.expedia.com/mt/support.expedia.com/app/home?un_jtt_redirect</string>
+	<string name="contact_expedia_url_us">http://support.expedia.com</string>
 	<string name="contact_expedia_url_vn">http://faq.expedia.com.vn</string>
 
 	<!-- Info support telephone numbers. These go on the info screen. -->
