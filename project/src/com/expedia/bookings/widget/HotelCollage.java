@@ -70,7 +70,10 @@ public class HotelCollage {
 
 	public void updateCollage(Property property) {
 		mCurrentIndex = 0;
-		mPropertyMediaList = property.getMediaList();
+		mPropertyMediaList.clear();
+		if (property.getMediaList() != null) {
+			mPropertyMediaList.addAll(property.getMediaList());
+		}
 
 		// remove any pending messages in the queue since new ones
 		// will be scheduled for the cascading effect
