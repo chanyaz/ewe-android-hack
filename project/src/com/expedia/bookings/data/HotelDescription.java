@@ -1,6 +1,8 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +17,9 @@ public class HotelDescription {
 
 	private ArrayList<DescriptionSection> mSections = new ArrayList<DescriptionSection>();
 	private Context mContext;
+	private static HashSet<String> sPropertyAmenitiesStrings;
+	private static HashSet<String> sFeesStrings;
+	private static HashSet<String> sPoliciesStrings;
 
 	public static class DescriptionSection {
 		public String title;
@@ -28,6 +33,15 @@ public class HotelDescription {
 
 	public HotelDescription(Context context) {
 		mContext = context;
+		if (sPropertyAmenitiesStrings == null) {
+			sPropertyAmenitiesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_property_amenities)));
+		}
+		if (sFeesStrings == null) {
+			sFeesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_fees)));
+		}
+		if (sPoliciesStrings == null) {
+			sPoliciesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_policies)));
+		}
 	}
 
 	/* Preliminary version of this parser. To get it to be a little more
@@ -97,13 +111,13 @@ public class HotelDescription {
 						if (firstSection == null) {
 							firstSection = new DescriptionSection(sectionString, str.toString().trim());
 						}
-						else if (sectionString.contains(mContext.getString(R.string.section_property_amenities))) {
+						else if (sPropertyAmenitiesStrings.contains(sectionString)) {
 							amenitiesSection = new DescriptionSection(sectionString, str.toString().trim());
 						}
-						else if (sectionString.contains(mContext.getString(R.string.section_policies))) {
+						else if (sPoliciesStrings.contains(sectionString)) {
 							policiesSection = new DescriptionSection(sectionString, str.toString().trim());
 						}
-						else if (sectionString.contains(mContext.getString(R.string.section_fees))) {
+						else if (sFeesStrings.contains(sectionString)) {
 							feesSection = new DescriptionSection(sectionString, str.toString().trim());
 						}
 
@@ -151,13 +165,13 @@ public class HotelDescription {
 			if (firstSection == null) {
 				firstSection = new DescriptionSection(sectionString, str.toString().trim());
 			}
-			else if (sectionString.contains(mContext.getString(R.string.section_property_amenities))) {
+			else if (sPropertyAmenitiesStrings.contains(sectionString)) {
 				amenitiesSection = new DescriptionSection(sectionString, str.toString().trim());
 			}
-			else if (sectionString.contains(mContext.getString(R.string.section_policies))) {
+			else if (sPoliciesStrings.contains(sectionString)) {
 				policiesSection = new DescriptionSection(sectionString, str.toString().trim());
 			}
-			else if (sectionString.contains(mContext.getString(R.string.section_fees))) {
+			else if (sFeesStrings.contains(sectionString)) {
 				feesSection = new DescriptionSection(sectionString, str.toString().trim());
 			}
 		}

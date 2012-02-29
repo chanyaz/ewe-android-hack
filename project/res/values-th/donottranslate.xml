@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Section names for matching sections we should show from expedia description -->
-    <string name="section_property_amenities">สิ่งอำนวยความสะดวกของสถานที่</string>
-    <string name="section_policies">นโยบาย</string>
-    <string name="section_fees">ค่าธรรมเนียม</string>
-
-</resources>
-

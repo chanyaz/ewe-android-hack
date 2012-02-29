@@ -970,4 +970,72 @@
         <item>Integration</item>
         <item>Proxy</item>
     </string-array>
+
+    <string-array name="section_strings_property_amenities">
+        <item>Property Amenities</item>
+        <item>Faciliteter på indlogeringsstedet</item>
+        <item>Hotelausstattung</item>
+        <item>Servicios del hotel</item>
+        <item>Servicios del alojamiento</item>
+        <item>Commodités de l\'établissement</item>
+        <item>Services de l\'établissement</item>
+        <item>Fasilitas Properti</item>
+        <item>Servizi struttura</item>
+        <item>施設の設備</item>
+        <item>객실</item>
+        <item>Kemudahan Harta</item>
+        <item>Stedets fasiliteter</item>
+        <item>Accommodatievoorzieningen</item>
+        <item>Conveniências do estabelecimento</item>
+        <item>Hotelltjänster</item>
+        <item>สิ่งอำนวยความสะดวกของสถานที่</item>
+        <item>Tiện nghi khách sạn</item>
+        <item>酒店設施</item>
+        <item>物業設施</item>
+    </string-array>
+    <string-array name="section_strings_fees">
+        <item>Fees</item>
+        <item>Regler</item>
+        <item>Gebühren</item>
+        <item>Cargos</item>
+        <item>Tasas</item>
+        <item>Frais</item>
+        <item>Frais</item>
+        <item>Biaya</item>
+        <item>Tariffe</item>
+        <item>サービス料</item>
+        <item>요금</item>
+        <item>Bayaran</item>
+        <item>Gebyrer</item>
+        <item>Toeslagen</item>
+        <item>Taxas</item>
+        <item>Avgifter</item>
+        <item>ค่าธรรมเนียม</item>
+        <item>Phí</item>
+        <item>費用</item>
+        <item>費用</item>
+    </string-array>
+    <string-array name="section_strings_policies">
+        <item>Policies</item>
+        <item>Gebyrer</item>
+        <item>Richtlinien</item>
+        <item>Políticas</item>
+        <item>Directivas</item>
+        <item>Politiques</item>
+        <item>Politiques</item>
+        <item>Kebijakan</item>
+        <item>Regolamenti</item>
+        <item>ポリシー</item>
+        <item>정책</item>
+        <item>Dasar</item>
+        <item>Regler</item>
+        <item>Beleid</item>
+        <item>Políticas</item>
+        <item>Regler</item>
+        <item>นโยบาย</item>
+        <item>Chính sách</item>
+        <item>政策</item>
+        <item>政策</item>
+    </string-array>
+
 </resources>

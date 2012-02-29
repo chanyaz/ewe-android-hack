@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Section names for matching sections we should show from expedia description -->
-    <string name="section_property_amenities">Faciliteter på indlogeringsstedet</string>
-    <string name="section_policies">Gebyrer</string>
-    <string name="section_fees">Regler</string>
-
-</resources>
