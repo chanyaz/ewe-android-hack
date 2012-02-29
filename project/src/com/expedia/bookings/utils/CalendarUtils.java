@@ -25,7 +25,9 @@ public class CalendarUtils {
 	 */
 	public static long getDaysBetween(Calendar start, Calendar end) {
 		boolean reverse = false;
-		if (start.after(end)) {
+		if (start.get(Calendar.YEAR) > end.get(Calendar.YEAR)
+				|| (start.get(Calendar.YEAR) == end.get(Calendar.YEAR) && start.get(Calendar.DAY_OF_YEAR) > end
+						.get(Calendar.DAY_OF_YEAR))) {
 			Calendar tmp = end;
 			end = start;
 			start = tmp;
