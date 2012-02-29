@@ -32,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.Scroller;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Media;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
@@ -210,7 +211,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		setStaticTransformationsEnabled(true);
 	}
 
-	public void setUrls(List<String> urls) {
+	public void setMedia(List<Media> media) {
 		Adapter currAdapter = getAdapter();
 		if (currAdapter != null && !(currAdapter instanceof ImageAdapter)) {
 			throw new UnsupportedOperationException("Can't use Gallery with both an Adapter and a list of URLs.");
@@ -218,10 +219,10 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 		if (currAdapter != null) {
 			ImageAdapter adapter = (ImageAdapter) currAdapter;
-			adapter.setUrls(urls);
+			adapter.setMedia(media);
 		}
 		else {
-			ImageAdapter adapter = new ImageAdapter(getContext(), urls);
+			ImageAdapter adapter = new ImageAdapter(getContext(), media);
 			setAdapter(adapter);
 		}
 	}
@@ -1491,31 +1492,31 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	private class ImageAdapter extends BaseAdapter {
 
 		private LayoutInflater mInflater;
-		private List<String> mUrls;
+		private List<Media> mMedia;
 
 		private final LinearLayout.LayoutParams LAYOUT_WIDE = new LinearLayout.LayoutParams(
 				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 		private final LinearLayout.LayoutParams LAYOUT_TALL = new LinearLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT);
 
-		public ImageAdapter(Context context, List<String> urls) {
+		public ImageAdapter(Context context, List<Media> media) {
 			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			mUrls = urls;
+			mMedia = media;
 		}
 
-		public void setUrls(List<String> urls) {
-			mUrls = urls;
+		public void setMedia(List<Media> media) {
+			mMedia = media;
 			notifyDataSetChanged();
 		}
 
 		@Override
 		public int getCount() {
-			return mUrls.size();
+			return mMedia.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			return mUrls.get(position);
+			return mMedia.get(position);
 		}
 
 		@Override
@@ -1539,7 +1540,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 			}
 
 			ImageView imageView = holder.item;
-			String url = (String) getItem(position);
+			Media media = (Media) getItem(position);
 
 			// Don't depend on the callback to set the ImageView - just refresh the adapter with new data
 			OnImageLoaded callback = new OnImageLoaded() {
@@ -1551,6 +1552,14 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 					// Do nothing
 				}
 			};
+
+			String url = media.getUrl(Media.IMAGE_LARGE_SUFFIX);
+			if (!ImageCache.containsImage(url)) {
+				url = media.getUrl(Media.IMAGE_BIG_SUFFIX);
+				if (!ImageCache.containsImage(url)) {
+					url = media.getUrl();
+				}
+			}
 
 			if (ImageCache.containsImage(url)) {
 				Bitmap bitmap = ImageCache.getImage(url);
@@ -1570,7 +1579,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 				imageView.setImageResource(R.drawable.ic_image_placeholder);
 				imageView.setLayoutParams(LAYOUT_WIDE);
 				imageView.setBackgroundDrawable(null);
-				ImageCache.loadImage(toString() + url, url, callback);
+				media.loadHighResImage(null, callback);
 			}
 
 			return convertView;

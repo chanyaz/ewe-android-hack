@@ -2,10 +2,7 @@ package com.expedia.bookings.activity;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.json.JSONException;
 
@@ -40,7 +37,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -48,7 +44,6 @@ import com.expedia.bookings.widget.AdapterView;
 import com.expedia.bookings.widget.AdapterView.OnItemSelectedListener;
 import com.expedia.bookings.widget.Gallery;
 import com.expedia.bookings.widget.Gallery.OnScrollListener;
-import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.AsyncLoadActivity;
@@ -241,8 +236,7 @@ public class HotelActivity extends AsyncLoadActivity {
 			Log.d("Clearing out images from property.");
 
 			for (Media image : mProperty.getMediaList()) {
-				String imageUrl = image.getUrl();
-				ImageCache.removeImage(imageUrl, true);
+				image.removeFromImageCache();
 			}
 		}
 	}
@@ -455,87 +449,82 @@ public class HotelActivity extends AsyncLoadActivity {
 	private void setupGallery(Property property) {
 		if (property.getMediaCount() > 0) {
 			mGallery.setVisibility(View.VISIBLE);
-			final List<String> urls = new ArrayList<String>(property.getMediaCount());
-			Set<String> usedUrls = new HashSet<String>();
-			for (Media media : property.getMediaList()) {
-				String url = media.getUrl();
-				if (!usedUrls.contains(url)) {
-					urls.add(url);
-					usedUrls.add(url);
-				}
-			}
-			mGallery.setUrls(urls);
+			final List<Media> media = property.getMediaList();
 
-			mGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					// Pre-load images around the currently selected image, until we have MAX_IMAGES_LOADED
-					// loading.  Then cancel downloads on all the rest.
-					int left = position;
-					int right = position;
-					int loaded = 1;
-					int len = urls.size();
-					OnImageLoaded doNothing = new OnImageLoaded() {
-						public void onImageLoaded(String url, Bitmap bitmap) {
-							// Do nothing.  In the future, ImageCache should have 
-							// the ability to simply preload, but this is a fix 
-							// for #8401 for the 1.0.2 release and I don't want to
-							// have to update/branch Utils.
+			if (media != null) {
+				mGallery.setMedia(media);
+
+				mGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
+					@Override
+					public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+						// Pre-load images around the currently selected image, until we have MAX_IMAGES_LOADED
+						// loading.  Then cancel downloads on all the rest.
+						int left = position;
+						int right = position;
+						int loaded = 1;
+						int len = media.size();
+						OnImageLoaded doNothing = new OnImageLoaded() {
+							public void onImageLoaded(String url, Bitmap bitmap) {
+								// Do nothing.  In the future, ImageCache should have 
+								// the ability to simply preload, but this is a fix 
+								// for #8401 for the 1.0.2 release and I don't want to
+								// have to update/branch Utils.
+							}
+
+							public void onImageLoadFailed(String url) {
+								// Do nothing.
+							}
+						};
+						boolean hasMore = true;
+						while (loaded < MAX_IMAGES_LOADED && hasMore) {
+							hasMore = false;
+							if (left > 0) {
+								left--;
+								media.get(left).loadHighResImage(null, doNothing);
+								loaded++;
+								hasMore = true;
+							}
+							if (loaded == MAX_IMAGES_LOADED) {
+								break;
+							}
+							if (right < len - 1) {
+								right++;
+								media.get(right).loadHighResImage(null, doNothing);
+								loaded++;
+								hasMore = true;
+							}
 						}
 
-						public void onImageLoadFailed(String url) {
-							// Do nothing.
-						}
-					};
-					boolean hasMore = true;
-					while (loaded < MAX_IMAGES_LOADED && hasMore) {
-						hasMore = false;
-						if (left > 0) {
+						// Clear images a few to the right/left of the bounds.
+						while (left > 0) {
 							left--;
-							ImageCache.loadImage(urls.get(left), doNothing);
-							loaded++;
-							hasMore = true;
+							media.get(left).removeFromImageCache();
 						}
-						if (loaded == MAX_IMAGES_LOADED) {
-							break;
-						}
-						if (right < len - 1) {
+						while (right < len - 1) {
 							right++;
-							ImageCache.loadImage(urls.get(right), doNothing);
-							loaded++;
-							hasMore = true;
+							media.get(right).removeFromImageCache();
 						}
 					}
 
-					// Clear images a few to the right/left of the bounds.
-					while (left > 0) {
-						left--;
-						ImageCache.removeImage(urls.get(left), true);
-					}
-					while (right < len - 1) {
-						right++;
-						ImageCache.removeImage(urls.get(right), true);
-					}
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					// Do nothing
-				}
-			});
-
-			if (mGalleryFlipping) {
-				mGallery.startFlipping();
-			}
-
-			// Set it up so that we scroll to the top whenever user scrolls the gallery
-			// ONLY do this is not landscape
-			if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-				mGallery.setOnScrollListener(new OnScrollListener() {
-					public void onScroll() {
-						mScrollView.smoothScrollTo(0, 0);
+					@Override
+					public void onNothingSelected(AdapterView<?> parent) {
+						// Do nothing
 					}
 				});
+
+				if (mGalleryFlipping) {
+					mGallery.startFlipping();
+				}
+
+				// Set it up so that we scroll to the top whenever user scrolls the gallery
+				// ONLY do this is not landscape
+				if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+					mGallery.setOnScrollListener(new OnScrollListener() {
+						public void onScroll() {
+							mScrollView.smoothScrollTo(0, 0);
+						}
+					});
+				}
 			}
 		}
 		else {

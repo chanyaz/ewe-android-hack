@@ -106,7 +106,10 @@ public class Media implements JSONable {
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				if (bitmap != null) {
 					Log.v("** Loading image with url = " + url);
-					imageView.setImageBitmap(bitmap);
+
+					if (imageView != null) {
+						imageView.setImageBitmap(bitmap);
+					}
 
 					if (additionCallback != null) {
 						additionCallback.onImageLoaded(url, bitmap);
