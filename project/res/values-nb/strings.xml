@@ -599,7 +599,7 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Personvernbestemmelser</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011 Expedia, Inc.\nAlle rettigheter forbeholdt.</string>
+	<string name="copyright">© Copyright 2011-2012 Expedia, Inc.\nAlle rettigheter forbeholdt.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
