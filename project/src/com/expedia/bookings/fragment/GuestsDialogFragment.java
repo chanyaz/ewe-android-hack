@@ -54,7 +54,6 @@ public class GuestsDialogFragment extends DialogFragment {
 		mChildrenNumberPicker = (NumberPicker) parent.findViewById(R.id.children_number_picker);
 		mSelectChildAgeTextView = (TextView) parent.findViewById(R.id.label_select_each_childs_age);
 		mChildAgesLayout = parent.findViewById(R.id.child_ages_layout);
-		builder.setView(parent);
 
 		// Block NumberPickers from being editable
 		mAdultsNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -82,8 +81,13 @@ public class GuestsDialogFragment extends DialogFragment {
 		builder.setPositiveButton(R.string.search, mOkButtonClickListener);
 		builder.setNegativeButton(android.R.string.cancel, null);
 
-		Dialog dialog = builder.create();
+		AlertDialog dialog = builder.create();
 		dialog.setCanceledOnTouchOutside(true);
+
+		// Set the view of the dialog instead of through the builder, to be able to use
+		// the extra viewSpacing* arguments which are not available through the builder.
+		int spacing = getResources().getDimensionPixelOffset(R.dimen.dialog_view_spacing);
+		dialog.setView(parent, spacing, spacing, spacing, spacing);
 
 		return dialog;
 	}

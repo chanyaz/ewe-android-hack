@@ -32,15 +32,19 @@
 
         <TextView
             android:id="@+id/label_select_each_childs_age"
+            style="@android:style/TextAppearance.DialogWindowTitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@plurals/select_each_childs_age"
-            android:textStyle="bold" />
+            android:layout_marginBottom="9dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp"
+            android:text="@plurals/select_each_childs_age" />
 
         <View
             android:id="@+id/titleDivider"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="4dp"
             android:background="@color/divider_strong_holo" />
 
         <LinearLayout
