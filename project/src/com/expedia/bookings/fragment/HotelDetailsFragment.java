@@ -37,7 +37,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
-import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget;
@@ -45,7 +44,6 @@ import com.expedia.bookings.widget.AvailabilitySummaryWidget.AvailabilitySummary
 import com.expedia.bookings.widget.HotelCollage;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
 import com.expedia.bookings.widget.SummarizedRoomRates;
-
 import com.mobiata.android.Log;
 
 public class HotelDetailsFragment extends Fragment implements EventHandler, AvailabilitySummaryListener {
@@ -100,6 +98,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	// Used to prevent click-happy jerks from opening the user reviews activity with
 	// fast clicks to the button.
 	private boolean mOpeningUserReviews;
+
+	private boolean mLoadedReviews;
 
 	//////////////////////////////////////////////////////////////////////////
 	// LIFECYCLE EVENTS
@@ -206,6 +206,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	}
 
 	private void updateReviews(final Property property) {
+		if (mLoadedReviews) {
+			return;
+		}
+
 		if (mReviewsTitleLong != null) {
 			mReviewsTitleLong.setText(getString(R.string.reviews_recommended_template,
 					property.getTotalRecommendations(), property.getTotalReviews()));
@@ -328,6 +332,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			}
 			break;
 		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
+			mLoadedReviews = false;
 			updateViews((Property) data);
 			break;
 		case SearchResultsFragmentActivity.EVENT_REVIEWS_QUERY_STARTED:
@@ -359,6 +364,10 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	}
 
 	private void addReviews(ReviewsResponse reviewsResponse) {
+		if (mLoadedReviews) {
+			return;
+		}
+
 		mSomeReviewsContainer.removeAllViews();
 		mSomeReviewsContainer.setVisibility(View.GONE);
 
@@ -442,6 +451,8 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			ObjectAnimator animator = ObjectAnimator.ofFloat(mSomeReviewsContainer, "alpha", 0, 1);
 			animator.setDuration(ANIMATION_SPEED);
 			animator.start();
+
+			mLoadedReviews = true;
 		}
 	}
 
