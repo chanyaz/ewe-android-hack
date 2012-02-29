@@ -62,4 +62,8 @@
 	<dimen name="max_height_room_details_container">400dp</dimen>
 
 	<dimen name="dialog_view_spacing">16dp</dimen>
+
+	<!-- The child ages button gets animated in height from 5dp to 60dp -->
+	<dimen name="child_ages_button_height_minimized">5dp</dimen>
+	<dimen name="child_ages_button_height_restored">60dp</dimen>
 </resources>

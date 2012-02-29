@@ -19,7 +19,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -29,7 +28,6 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -376,7 +374,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		else {
 			mChildAgesButton.setAlpha(1f);
 			ViewGroup.LayoutParams layout = mChildAgesButton.getLayoutParams();
-			layout.height = dpToPx(getActivity(), 60);
+			layout.height = getResources().getDimensionPixelSize(R.dimen.child_ages_button_height_restored);
 			mChildAgesButton.setLayoutParams(layout);
 		}
 
@@ -446,12 +444,6 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		}
 	};
 
-	private static int dpToPx(Context context, int dp) {
-		Resources r = context.getResources();
-		int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
-		return px;
-	}
-
 	private static class HeightEvaluator implements TypeEvaluator<Integer> {
 
 		public static ValueAnimator getAnimator(View v, int to) {
@@ -495,7 +487,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	};
 
 	private void showChildAgesButton(final boolean animated) {
-		int height = dpToPx(getActivity(), 60);
+		int height = getResources().getDimensionPixelSize(R.dimen.child_ages_button_height_restored);
 		if (animated) {
 			ObjectAnimator animAlpha = ObjectAnimator.ofFloat(mChildAgesButton, "alpha", 1f);
 			ValueAnimator animHeight = HeightEvaluator.getAnimator(mChildAgesButton, height);
@@ -535,7 +527,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	}
 
 	private void hideChildAgesButton(boolean animated) {
-		int height = dpToPx(getActivity(), 5);
+		int height = getResources().getDimensionPixelSize(R.dimen.child_ages_button_height_minimized);
 		ObjectAnimator animAlpha = ObjectAnimator.ofFloat(mChildAgesButton, "alpha", 0f);
 		ValueAnimator animHeight = HeightEvaluator.getAnimator(mChildAgesButton, height);
 		AnimatorSet animSet = new AnimatorSet();
