@@ -474,6 +474,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			mHotelDescriptionContainer.addView(column);
 		}
 
+		HotelDescription.SectionStrings.initSectionStrings(getActivity());
 		HotelDescription hotelDescription = new HotelDescription(getActivity());
 
 		if (property.hasDescriptionText()) {

@@ -119,6 +119,7 @@ public class HotelActivity extends AsyncLoadActivity {
 		Property property = mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
 				Property.class);
 
+		HotelDescription.SectionStrings.initSectionStrings(this);
 		mDescription = new HotelDescription(this);
 
 		// This code allows us to test the HotelActivity standalone, for layout purposes.
@@ -313,7 +314,8 @@ public class HotelActivity extends AsyncLoadActivity {
 		if (title.contains("Features")) {
 			addHotelRating(detailsSection);
 		}
-		else if (title.contains(getString(R.string.section_property_amenities))) {
+		//else if (title.contains(getString(R.string.section_property_amenities))) {
+		else if (HotelDescription.SectionStrings.isValidPropertyAmenitiesString(title)) {
 			if (mIsAmenitiesExpanded == false && body.length() > BODY_LENGTH_CUTOFF) {
 				bodyTextView.setText(Html.fromHtml(body.substring(0, BODY_LENGTH_TRUNCATE)) + "...");
 

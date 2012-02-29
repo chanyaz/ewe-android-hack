@@ -17,10 +17,6 @@ public class HotelDescription {
 
 	private ArrayList<DescriptionSection> mSections = new ArrayList<DescriptionSection>();
 	private Context mContext;
-	private static HashSet<String> sPropertyAmenitiesStrings;
-	private static HashSet<String> sFeesStrings;
-	private static HashSet<String> sPoliciesStrings;
-
 	public static class DescriptionSection {
 		public String title;
 		public String description;
@@ -31,17 +27,34 @@ public class HotelDescription {
 		}
 	}
 
+	public static class SectionStrings {
+		private static HashSet<String> sPropertyAmenitiesStrings;
+		private static HashSet<String> sFeesStrings;
+		private static HashSet<String> sPoliciesStrings;
+		private static Context sContext;
+
+		public static void initSectionStrings(Context context) {
+			if (context != sContext || sContext == null) {
+				sContext = context;
+				sPropertyAmenitiesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_property_amenities)));
+				sFeesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_fees)));
+				sPoliciesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_policies)));
+			}
+		}
+
+		public static boolean isValidPropertyAmenitiesString(String str) {
+			return sPropertyAmenitiesStrings == null ? false : sPropertyAmenitiesStrings.contains(str);
+		}
+		public static boolean isValidFeesString(String str) {
+			return sFeesStrings == null ? false : sFeesStrings.contains(str);
+		}
+		public static boolean isValidPoliciesString(String str) {
+			return sPoliciesStrings == null ? false : sPoliciesStrings.contains(str);
+		}
+	}
+
 	public HotelDescription(Context context) {
 		mContext = context;
-		if (sPropertyAmenitiesStrings == null) {
-			sPropertyAmenitiesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_property_amenities)));
-		}
-		if (sFeesStrings == null) {
-			sFeesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_fees)));
-		}
-		if (sPoliciesStrings == null) {
-			sPoliciesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_policies)));
-		}
 	}
 
 	/* Preliminary version of this parser. To get it to be a little more
@@ -111,13 +124,13 @@ public class HotelDescription {
 						if (firstSection == null) {
 							firstSection = new DescriptionSection(sectionString, str.toString().trim());
 						}
-						else if (sPropertyAmenitiesStrings.contains(sectionString)) {
+						else if (SectionStrings.isValidPropertyAmenitiesString(sectionString)) {
 							amenitiesSection = new DescriptionSection(sectionString, str.toString().trim());
 						}
-						else if (sPoliciesStrings.contains(sectionString)) {
+						else if (SectionStrings.isValidPoliciesString(sectionString)) {
 							policiesSection = new DescriptionSection(sectionString, str.toString().trim());
 						}
-						else if (sFeesStrings.contains(sectionString)) {
+						else if (SectionStrings.isValidFeesString(sectionString)) {
 							feesSection = new DescriptionSection(sectionString, str.toString().trim());
 						}
 
@@ -165,13 +178,13 @@ public class HotelDescription {
 			if (firstSection == null) {
 				firstSection = new DescriptionSection(sectionString, str.toString().trim());
 			}
-			else if (sPropertyAmenitiesStrings.contains(sectionString)) {
+			else if (SectionStrings.isValidPropertyAmenitiesString(sectionString)) {
 				amenitiesSection = new DescriptionSection(sectionString, str.toString().trim());
 			}
-			else if (sPoliciesStrings.contains(sectionString)) {
+			else if (SectionStrings.isValidPoliciesString(sectionString)) {
 				policiesSection = new DescriptionSection(sectionString, str.toString().trim());
 			}
-			else if (sFeesStrings.contains(sectionString)) {
+			else if (SectionStrings.isValidFeesString(sectionString)) {
 				feesSection = new DescriptionSection(sectionString, str.toString().trim());
 			}
 		}
