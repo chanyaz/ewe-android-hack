@@ -88,7 +88,7 @@
 	<string name="terms_conditions_url_be_nl">http://www.expedia.be/nl-BE/reserveringsvoorwaarden.aspx</string>
 	<string name="terms_conditions_url_br">http://www.expedia.com.br/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_ca_en">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
-	<string name="terms_conditions_url_ca_fr">http://www.expedia.ca/daily/frc3084/service/legal.asp</string>
+	<string name="terms_conditions_url_ca_fr">http://www.expedia.ca/daily/frc3084/service/legal.asp?stop_mobi=yes</string>
 	<string name="terms_conditions_url_de">http://www.expedia.de/daily/service/agb.aspx</string>
 	<string name="terms_conditions_url_dk">http://www.expedia.dk/dk/tandc.aspx</string>
 	<string name="terms_conditions_url_es">http://www.expedia.es/terminos-y-condiciones-generales-para-reservas.aspx</string>
@@ -161,7 +161,7 @@
 	<string name="privacy_policy_url_be_nl">http://www.expedia.be/nl-BE/privacyverklaring.aspx</string>
 	<string name="privacy_policy_url_br">http://www.expedia.com.br/pub/agent.dll?qscr=hgen&amp;hfnm=privacyPol.htx</string>
 	<string name="privacy_policy_url_ca_en">http://www.expedia.ca/daily/enc4105/service/privacy.asp</string>
-	<string name="privacy_policy_url_ca_fr">http://www.expedia.ca/daily/frc3084/service/privacy.asp</string>
+	<string name="privacy_policy_url_ca_fr">http://www.expedia.ca/daily/frc3084/service/privacy.asp?stop_mobi=yes</string>
 	<string name="privacy_policy_url_es">http://www.expedia.es/politica-de-privacidad.aspx</string>
 	<string name="privacy_policy_url_de">http://www.expedia.de/service/safecc.aspx</string>
 	<string name="privacy_policy_url_dk">http://www.expedia.dk/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
