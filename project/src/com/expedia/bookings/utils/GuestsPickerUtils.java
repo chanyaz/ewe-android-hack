@@ -158,7 +158,7 @@ public class GuestsPickerUtils {
 				continue;
 			}
 
-			Spinner ageSpinner = (Spinner) row.findViewById(R.id.child_x_age_spinner);
+			Spinner ageSpinner = (Spinner) row;
 			if (ageSpinner == null) {
 				continue;
 			}
