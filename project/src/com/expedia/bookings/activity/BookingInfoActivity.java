@@ -807,7 +807,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	}
 
 	private void configureFooter() {
-		BookingInfoUtils.determineExpediaPointsDisclaimer(mScrollView);
+		BookingInfoUtils.determineExpediaPointsDisclaimer(this, mScrollView);
 
 		// Configure the cancellation policy
 		ConfirmationUtils.determineCancellationPolicy(mRate, mScrollView);

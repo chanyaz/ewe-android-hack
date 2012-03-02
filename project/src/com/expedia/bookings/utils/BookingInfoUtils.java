@@ -1,7 +1,6 @@
 package com.expedia.bookings.utils;
 
 import java.util.HashMap;
-import java.util.Locale;
 
 import android.content.Context;
 import android.view.View;
@@ -40,10 +39,11 @@ public class BookingInfoUtils {
 		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", "CKO.BD.Confirm");
 	}
 
-	public static void determineExpediaPointsDisclaimer(View view) {
-		// 9226: Only display the Expedia Points disclaimer if the user is in the US.
-		// (This may change in the future as more countries support points.)
-		int visibility = ("us".equals(Locale.getDefault().getCountry().toLowerCase())) ? View.VISIBLE : View.GONE;
+	public static void determineExpediaPointsDisclaimer(Context context, View view) {
+		// #12652: Only display Expedia Points disclaimer if user is the in US POS.
+		// (This may change in the future as more POSes support points.)
+		int visibility = LocaleUtils.getPointOfSale().equals(context.getString(R.string.point_of_sale_us)) ? View.VISIBLE
+				: View.GONE;
 		TextView pointsDisclaimerView = (TextView) view.findViewById(R.id.expedia_points_disclaimer_text_view);
 		pointsDisclaimerView.setVisibility(visibility);
 	}

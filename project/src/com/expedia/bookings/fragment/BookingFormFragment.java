@@ -219,6 +219,8 @@ public class BookingFormFragment extends DialogFragment {
 
 		mReceiptWidget.updateData(instance.mProperty, instance.mSearchParams, instance.mRate);
 
+		BookingInfoUtils.determineExpediaPointsDisclaimer(getActivity(), view);
+
 		if (savedInstanceState == null) {
 			Tracker.trackAppHotelsCheckoutPayment(getActivity(), instance.mProperty, mBookingInfoValidation);
 		}
