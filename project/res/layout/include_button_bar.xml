@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_above="@id/refinements_layout"
     android:background="@drawable/button_bar_bg"
+    android:clickable="true"
     android:orientation="horizontal"
     android:padding="6dp"
     android:visibility="gone" >

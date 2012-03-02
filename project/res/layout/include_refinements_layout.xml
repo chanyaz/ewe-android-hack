@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:background="#FF999999"
+    android:clickable="true"
     android:gravity="center"
     android:orientation="horizontal" >
 
