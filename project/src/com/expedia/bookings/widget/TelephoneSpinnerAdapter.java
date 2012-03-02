@@ -22,7 +22,7 @@ public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
 		mCountryPhoneCodes = res.getIntArray(R.array.country_phone_codes);
 		mCountryNames = res.getStringArray(R.array.country_names);
 
-		setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
 		fillCountryCodes(context);
 	}
