@@ -157,6 +157,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 
 	// Validation
 	private ValidationProcessor mValidationProcessor;
+	private ValidationProcessor mAddressValidationProcessor;
 	private TextViewErrorHandler mErrorHandler;
 
 	// This is a tracking variable to solve a nasty problem.  The problem is that Spinner.onItemSelectedListener()
@@ -193,6 +194,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mContext = this;
 
 		mValidationProcessor = new ValidationProcessor();
+		mAddressValidationProcessor = new ValidationProcessor();
 		mBookingInfoValidation = new BookingInfoValidation();
 
 		setContentView(R.layout.activity_booking_info);
@@ -302,7 +304,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 					expandGuestsForm(false);
 				}
 
-				if (!mBookingInfoValidation.isBillingSectionCompleted()) {
+				if (!checkAddressCompleted()) {
 					expandBillingForm(false);
 				}
 			}
@@ -679,10 +681,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mValidationProcessor.add(mLastNameEditText, requiredFieldValidator);
 		mValidationProcessor.add(mTelephoneEditText, new TextViewValidator(new TelephoneValidator()));
 		mValidationProcessor.add(mEmailEditText, new TextViewValidator(new EmailValidator()));
-		//mValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
-		//mValidationProcessor.add(mCityEditText, requiredFieldValidator);
-		//mValidationProcessor.add(mStateEditText, usValidator);
-		//mValidationProcessor.add(mPostalCodeEditText, usValidator);
+		mAddressValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
+		mAddressValidationProcessor.add(mCityEditText, requiredFieldValidator);
+		mAddressValidationProcessor.add(mStateEditText, usValidator);
+		mAddressValidationProcessor.add(mPostalCodeEditText, usValidator);
 		mValidationProcessor.add(mCardNumberEditText, new TextViewValidator(new Validator<CharSequence>() {
 			public int validate(CharSequence number) {
 				if (mCreditCardType == null) {
@@ -1077,6 +1079,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	private void checkSectionsCompleted(boolean trackCompletion) {
 		Context context = (trackCompletion) ? this : null;
 		mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor, context);
+	}
+
+	private boolean checkAddressCompleted() {
+		return mAddressValidationProcessor.validate().size() == 0;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

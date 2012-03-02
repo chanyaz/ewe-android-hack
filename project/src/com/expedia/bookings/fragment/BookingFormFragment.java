@@ -108,6 +108,7 @@ public class BookingFormFragment extends DialogFragment {
 
 	// Validation
 	private ValidationProcessor mValidationProcessor;
+	private ValidationProcessor mAddressValidationProcessor;
 	private TextViewErrorHandler mErrorHandler;
 
 	// The data that the user has entered for billing info
@@ -132,6 +133,7 @@ public class BookingFormFragment extends DialogFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mValidationProcessor = new ValidationProcessor();
+		mAddressValidationProcessor = new ValidationProcessor();
 		mBookingInfoValidation = new BookingInfoValidation();
 	}
 
@@ -198,7 +200,7 @@ public class BookingFormFragment extends DialogFragment {
 				expandGuestsForm(false);
 			}
 
-			if (!mBookingInfoValidation.isBillingSectionCompleted()) {
+			if (!checkAddressCompleted()) {
 				expandBillingForm(false);
 			}
 
@@ -459,10 +461,10 @@ public class BookingFormFragment extends DialogFragment {
 		mValidationProcessor.add(mLastNameEditText, requiredFieldValidator);
 		mValidationProcessor.add(mTelephoneEditText, new TextViewValidator(new TelephoneValidator()));
 		mValidationProcessor.add(mEmailEditText, new TextViewValidator(new EmailValidator()));
-		//mValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
-		//mValidationProcessor.add(mCityEditText, requiredFieldValidator);
-		//mValidationProcessor.add(mStateEditText, usValidator);
-		//mValidationProcessor.add(mPostalCodeEditText, usValidator);
+		mAddressValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
+		mAddressValidationProcessor.add(mCityEditText, requiredFieldValidator);
+		mAddressValidationProcessor.add(mStateEditText, usValidator);
+		mAddressValidationProcessor.add(mPostalCodeEditText, usValidator);
 		mValidationProcessor.add(mCardNumberEditText, new TextViewValidator(new Validator<CharSequence>() {
 			public int validate(CharSequence number) {
 				if (mCreditCardType == null) {
@@ -783,6 +785,10 @@ public class BookingFormFragment extends DialogFragment {
 	private void checkSectionsCompleted(boolean trackCompletion) {
 		Context context = (trackCompletion) ? getActivity() : null;
 		mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor, context);
+	}
+
+	private boolean checkAddressCompleted() {
+		return mAddressValidationProcessor.validate().size() == 0;
 	}
 
 	private void dismissKeyboard(View view) {
