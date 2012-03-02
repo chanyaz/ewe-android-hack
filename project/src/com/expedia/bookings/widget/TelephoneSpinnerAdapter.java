@@ -16,7 +16,7 @@ public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
 	private String[] mCountryNames;
 
 	public TelephoneSpinnerAdapter(Context context) {
-		super(context, android.R.layout.simple_spinner_item);
+		super(context, R.layout.simple_spinner_item);
 
 		final Resources res = context.getResources();
 		mCountryPhoneCodes = res.getIntArray(R.array.country_phone_codes);
