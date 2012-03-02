@@ -65,9 +65,10 @@ public class HotelDescription {
 	 * FIXME: May have out-of-bounds exceptions with the indexOf operations.
 	 */
 	public void parseDescription(String html) {
+		Log.d("HERE " +html);
 		// See MOHotelDescription.m
-		String bullet = "<br/>" + mContext.getString(R.string.bullet_point) + " ";
-		String justBullet = mContext.getString(R.string.bullet_point) + " ";
+		final String bullet = "<br/>" + mContext.getString(R.string.bullet_point) + " ";
+		final String justBullet = mContext.getString(R.string.bullet_point) + " ";
 
 		// Reset sections
 		mSections = new ArrayList<DescriptionSection>();
@@ -145,7 +146,7 @@ public class HotelDescription {
 						end = html.indexOf('<', start + 1);
 						end = html.indexOf('>', end + 1);
 						i = end + 1;
-					} else if (html.substring(i).startsWith("<B>")) {
+					} else if (html.substring(i).startsWith("<B>") || html.substring(i).startsWith("<b>")) {
 						// Parse section
 						i += 3;
 						start = html.indexOf('<', i);
