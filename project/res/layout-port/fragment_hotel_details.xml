@@ -149,8 +149,7 @@
             <RelativeLayout
                 android:id="@+id/reviews_container"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:layout_height="wrap_content" >
 
                 <LinearLayout
                     android:id="@+id/reviews_loading_container"
@@ -180,13 +179,21 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
+
+                <ViewStub
+                    android:id="@+id/stub_reviews_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout="@layout/stub_reviews_error"
+                    android:visibility="gone" />
             </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal" >
 
             <ProgressBar
                 android:id="@+id/remaining_info_progress_bar"

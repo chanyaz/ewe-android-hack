@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewStub;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -74,6 +75,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	private View mReviewsContainer;
 	private ViewGroup mSomeReviewsContainer;
 	private View mReviewsLoadingContainer;
+	private TextView mReviewsErrorTextView;
 	private TextView mAmenitiesTitle;
 	private ViewGroup mAmenitiesContainer;
 	private View mAmenitiesNoneText;
@@ -251,9 +253,17 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			mReviewsContainer.setMinimumHeight((int) minHeight);
 			mReviewsLoadingContainer.setVisibility(View.VISIBLE);
 
+			if (mReviewsErrorTextView != null) {
+				mReviewsErrorTextView.setVisibility(View.GONE);
+			}
+
 			ReviewsResponse reviews = ((SearchResultsFragmentActivity) getActivity()).getReviewsForProperty();
 			if (reviews != null) {
 				addReviews(reviews);
+
+				if (mReviewsErrorTextView != null) {
+					mReviewsErrorTextView.setMinimumHeight((int) minHeight);
+				}
 			}
 		}
 		else {
@@ -339,6 +349,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			mSomeReviewsContainer.removeAllViews();
 			mSomeReviewsContainer.setVisibility(View.GONE);
 			mReviewsLoadingContainer.setVisibility(View.VISIBLE);
+			if (mReviewsErrorTextView != null) {
+				mReviewsErrorTextView.setVisibility(View.GONE);
+			}
 			break;
 		case SearchResultsFragmentActivity.EVENT_REVIEWS_QUERY_COMPLETE:
 			ReviewsResponse reviewsResposne = (ReviewsResponse) data;
@@ -453,6 +466,17 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			animator.start();
 
 			mLoadedReviews = true;
+		}
+		else {
+			mReviewsLoadingContainer.setVisibility(View.GONE);
+
+			if (mReviewsErrorTextView == null) {
+				ViewStub stub = (ViewStub) mReviewsContainer.findViewById(R.id.stub_reviews_error);
+				mReviewsErrorTextView = (TextView) stub.inflate();
+			}
+
+			mReviewsErrorTextView.setVisibility(View.VISIBLE);
+			mReviewsErrorTextView.setMinimumHeight(mReviewsContainer.getHeight());
 		}
 	}
 
