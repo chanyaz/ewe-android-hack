@@ -10,10 +10,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.graphics.Shader.TileMode;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.Html;
 import android.text.TextPaint;
 import android.text.format.DateUtils;
 import android.util.TypedValue;
@@ -34,6 +35,7 @@ import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Property.Amenity;
+import com.expedia.bookings.data.Rate;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 
@@ -232,5 +234,19 @@ public class LayoutUtils {
 		medDf.setTimeZone(TimeZone.getTimeZone("UTC"));
 		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_MEDIUM) + ", "
 				+ medDf.format(cal.getTime());
+	}
+
+	public static void layoutRoomLongDescription(Context context, Rate rate, TextView roomDetailsTextView) {
+		CharSequence longDescription = rate.getRoomLongDescription();
+		if (longDescription != null) {
+			// Do a bit of formatting on it...
+			longDescription = longDescription.toString().replace("<strong>", "").replace("</strong>", ". ")
+					.replace(". .", ".");
+			longDescription = Html.fromHtml(longDescription.toString());
+		}
+		else {
+			longDescription = context.getString(R.string.error_room_type_nonexistant);
+		}
+		roomDetailsTextView.setText(longDescription);
 	}
 }

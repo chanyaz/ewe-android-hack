@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.widget.TiltedImageView;
 
 public class RoomTypeWidget {
@@ -84,15 +85,7 @@ public class RoomTypeWidget {
 
 	public void updateRate(Rate rate) {
 		mRoomTypeTextView.setText(Html.fromHtml(rate.getRoomDescription()));
-
-		CharSequence longDescription = rate.getRoomLongDescription();
-		if (longDescription != null) {
-			longDescription = Html.fromHtml(longDescription.toString());
-		}
-		else {
-			longDescription = mContext.getString(R.string.error_room_type_nonexistant);
-		}
-		mRoomDetailsTextView.setText(longDescription);
+		LayoutUtils.layoutRoomLongDescription(mContext, rate, mRoomDetailsTextView);
 	}
 
 	public void saveInstanceState(Bundle outState) {

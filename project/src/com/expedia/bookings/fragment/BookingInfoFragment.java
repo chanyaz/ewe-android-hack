@@ -19,6 +19,7 @@ import com.expedia.bookings.activity.BookingFragmentActivity.InstanceFragment;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.ConfirmationUtils;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.ReceiptWidget;
 
 public class BookingInfoFragment extends Fragment implements EventHandler {
@@ -123,22 +124,11 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 		}
 
 		Rate rate = getInstance().mRate;
-		String roomTypeDescription = rate.getRoomLongDescription();
 		TextView roomTypeDescriptionTitleTextView = (TextView) view.findViewById(R.id.room_type_description_title_view);
 		roomTypeDescriptionTitleTextView.setText(rate.getRatePlanName());
 
-		//11479: It's possible for there to not exist a long description for a particular rate. In such a situation, 
-		// load up a message saying that the description is not available.
-		String longDescription = rate.getRoomLongDescription();
-		if (longDescription != null) {
-			roomTypeDescription = Html.fromHtml(longDescription).toString().trim();
-		}
-		else {
-			roomTypeDescription = getString(R.string.error_room_type_nonexistant);
-		}
-
 		TextView roomTypeDescriptionTextView = (TextView) view.findViewById(R.id.room_type_description_text_view);
-		roomTypeDescriptionTextView.setText(roomTypeDescription);
+		LayoutUtils.layoutRoomLongDescription(getActivity(), rate, roomTypeDescriptionTextView);
 	}
 	
 	private void updateReceipt() {
