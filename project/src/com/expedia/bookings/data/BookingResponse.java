@@ -8,7 +8,6 @@ import com.mobiata.android.json.JSONable;
 
 public class BookingResponse extends Response implements JSONable {
 
-	private String mConfNumber;
 	private String mHotelConfNumber;
 
 	// For Expedia
@@ -26,14 +25,6 @@ public class BookingResponse extends Response implements JSONable {
 		}
 
 		return false;
-	}
-
-	public String getConfNumber() {
-		return mConfNumber;
-	}
-
-	public void setConfNumber(String confNumber) {
-		this.mConfNumber = confNumber;
 	}
 
 	public String getHotelConfNumber() {
@@ -56,7 +47,6 @@ public class BookingResponse extends Response implements JSONable {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = super.toJson();
-			obj.putOpt("confNumber", mConfNumber);
 			obj.putOpt("hotelConfNumber", mHotelConfNumber);
 			obj.putOpt("itineraryId", mItineraryId);
 			return obj;
@@ -70,7 +60,6 @@ public class BookingResponse extends Response implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
-		mConfNumber = obj.optString("confNumber", null);
 		mHotelConfNumber = obj.optString("hotelConfNumber", null);
 		mItineraryId = obj.optString("itineraryId", null);
 		return true;

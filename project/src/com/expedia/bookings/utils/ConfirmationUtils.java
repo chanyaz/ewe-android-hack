@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.view.View;
 import android.widget.TextView;
@@ -61,8 +62,10 @@ public class ConfirmationUtils {
 		body.append(StrUtils.formatAddress(property.getLocation()));
 		body.append("\n\n");
 
-		appendLabelValue(context, body, R.string.confirmation_number, bookingResponse.getConfNumber());
-		body.append("\n");
+		if (!TextUtils.isEmpty(bookingResponse.getHotelConfNumber())) {
+			appendLabelValue(context, body, R.string.confirmation_number, bookingResponse.getHotelConfNumber());
+			body.append("\n");
+		}
 		appendLabelValue(context, body, R.string.itinerary_number, bookingResponse.getItineraryId());
 		body.append("\n\n");
 

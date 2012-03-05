@@ -26,7 +26,7 @@ public class BookingResponseHandler extends JsonResponseHandler<BookingResponse>
 			bookingResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.CHECKOUT, response));
 
 			if (bookingResponse.isSuccess() || bookingResponse.succeededWithErrors()) {
-				bookingResponse.setConfNumber(response.optString("hotelConfirmationNumber", null));
+				bookingResponse.setHotelConfNumber(response.optString("hotelConfirmationNumber", null));
 				bookingResponse.setItineraryId(response.optString("itineraryNumber", null));
 			}
 		}

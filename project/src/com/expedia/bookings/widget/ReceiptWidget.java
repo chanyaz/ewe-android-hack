@@ -7,6 +7,7 @@ import java.util.Date;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,7 +100,9 @@ public class ReceiptWidget {
 
 		// Configure the details
 		if (billingInfo != null && bookingResponse != null) {
-			addRow(mDetailsLayout, R.string.confirmation_number, bookingResponse.getConfNumber());
+			if (!TextUtils.isEmpty(bookingResponse.getHotelConfNumber())) {
+				addRow(mDetailsLayout, R.string.confirmation_number, bookingResponse.getHotelConfNumber());
+			}
 			addRow(mDetailsLayout, R.string.itinerary_number, bookingResponse.getItineraryId());
 			addRow(mDetailsLayout, R.string.confirmation_email, billingInfo.getEmail());
 		}
