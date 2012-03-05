@@ -246,15 +246,13 @@ public class ExpediaServices implements DownloadListener {
 	public ReviewsResponse reviews(Property property, int pageNumber, ReviewSort sort, int reviewCount) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-		String localeString = Locale.getDefault().toString();
-
 		query.add(new BasicNameValuePair("apiversion", BAZAAR_VOICE_API_VERSION));
 		query.add(new BasicNameValuePair("passkey", BAZAAR_VOICE_API_TOKEN));
 		query.add(new BasicNameValuePair("limit", Integer.toString(REVIEWS_PER_PAGE)));
 		query.add(new BasicNameValuePair("offset", Integer.toString(pageNumber * REVIEWS_PER_PAGE)));
 
 		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
-		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localeString));
+		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + LocaleUtils.getBazaarVoiceContentLocales(mContext)));
 
 		// emulate the expedia.com esktop website way of displaying reviews
 		switch (sort) {

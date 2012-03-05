@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
 
@@ -71,6 +72,27 @@ public class LocaleUtils {
 			put(R.string.point_of_sale_br, R.string.country_br);
 			put(R.string.point_of_sale_hk, R.string.country_hk);
 			put(R.string.point_of_sale_tw, R.string.country_tw);
+		}
+	};
+
+	private static final Map<String, String> LANGUAGE_CODE_TO_CONTENT_LOCALE = new HashMap<String, String>() {
+		{
+			put("da", "da,da_DK");
+			put("de", "de_DE, de_AT");
+			put("en", "en,en_US,en_AU,en_CA,en_GB,en_ID,en_IE,en_IN,en_MY,en_NZ,en_PH,en_SG");
+			put("es", "es,es_ES,es_AR,es_MX");
+			put("fr", "fr,fr_FR,fr_BE,fr_CA");
+			put("id", "id,id_ID");
+			put("it", "it,it_IT");
+			put("ja", "ja,ja_JP");
+			put("ko", "ko,ko_KR");
+			put("ms", "ms,ms_MY");
+			put("nl", "nl,nl_NL,nl_BE");
+			put("no", "no,no_NO");
+			put("pt", "pt,pt_BR");
+			put("sv", "sv,sv_SE");
+			put("th", "th,th_TH");
+			put("zh", "zh,zh_HK,zh_TW");
 		}
 	};
 
@@ -175,6 +197,156 @@ public class LocaleUtils {
 
 		// Not a dual-langauge POS or no valid language found, return null
 		return null;
+	}
+	
+	private static String sCachedLanguageCode;
+	
+	public static void invalidateLanguageCodeCache() {
+		sCachedLanguageCode = null;
+	}
+
+	/**
+	 * Determine the locales to request for reviews. BazaarVoice API works such that you can send a set of locale codes
+	 * and it will retrieve all of the reviews that are in each locale bucket.
+	 * 
+	 * The inspiration for this method comes from https://team.mobiata.com/wiki/Expedia/Review_Behavior which in turn was
+	 * inspired by the way in which Expedia desktop (www.expedia.com.*) handles the displaying of reviews.
+	 * 
+	 * @param context
+	 * @return set of locales for BazaarVoice
+	 */
+
+	public static String getBazaarVoiceContentLocales(Context context) {
+		LinkedList<String> languageCodes = new LinkedList<String>();
+		
+		// ensure cache is filled
+		if (null == sCachedPointOfSale) {
+			sCachedPointOfSale = getDefaultPointOfSale(context);
+		}
+		
+		if (null == sCachedLanguageCode) {
+			sCachedLanguageCode = Locale.getDefault().getLanguage();
+		}
+
+		// grab the language codes
+		if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_dk))) {
+			languageCodes.add("da");
+			languageCodes.add("en");
+
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_at))) {
+			languageCodes.add("de");
+			languageCodes.add("en");
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_de))) {
+			languageCodes.add("de");
+			languageCodes.add("en");
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_ca))) {
+			if (sCachedLanguageCode.equals("fr")) {
+				languageCodes.add("fr");
+			}
+			else {
+				languageCodes.add("fr");
+				languageCodes.add("en");
+			}
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_ar))) {
+			languageCodes.add("en");
+			languageCodes.add("pt");
+			languageCodes.add("es");
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_es))) {
+			languageCodes.add("es");
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_mx))) {
+			languageCodes.add("es");
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_be))) {
+			if (sCachedLanguageCode.equals("fr")) {
+				languageCodes.add("fr");
+				languageCodes.add("en");
+			}
+			else {
+				languageCodes.add("nl");
+				languageCodes.add("en");
+			}
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_id))) {
+			languageCodes.add("id");
+			languageCodes.add("en");
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_fr))) {
+			languageCodes.add("fr");
+			languageCodes.add("en");
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_it))) {
+			languageCodes.add("it");
+			languageCodes.add("en");
+
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_jp))) {
+			languageCodes.add("ja");
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_kr))) {
+			languageCodes.add("ko");
+			languageCodes.add("en");
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_my))) {
+			languageCodes.add("ms");
+			languageCodes.add("en");
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_nl))) {
+			languageCodes.add("nl");
+			languageCodes.add("en");
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_no))) {
+			languageCodes.add("no");
+			languageCodes.add("en");
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_br))) {
+			languageCodes.add("pt");
+			languageCodes.add("es");
+
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_se))) {
+			languageCodes.add("sv");
+			languageCodes.add("en");
+
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_th))) {
+			languageCodes.add("th");
+			languageCodes.add("en");
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_hk))) {
+			languageCodes.add("zh");
+		}
+		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_tw))) {
+			if (sCachedLanguageCode.equals("zh")) {
+				languageCodes.add("zh");
+			}
+			else {
+				languageCodes.add("en");
+				languageCodes.add("zh");
+			}
+		}
+		else {
+			languageCodes.add("en");
+		}
+
+		return formatLanguageCodes(languageCodes);
+	}
+
+	private static String formatLanguageCodes(LinkedList<String> codes) {
+		StringBuilder sb = new StringBuilder();
+		String prefix = "";
+		for (String code : codes) {
+			sb.append(prefix);
+			prefix = ",";
+			sb.append(LANGUAGE_CODE_TO_CONTENT_LOCALE.get(code));
+		}
+
+		return sb.toString();
 	}
 
 	private static Map<String, String> sTPIDs;
