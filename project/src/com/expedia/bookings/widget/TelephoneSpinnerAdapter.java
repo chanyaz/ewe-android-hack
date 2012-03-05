@@ -34,7 +34,7 @@ public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
 
 	@Override
 	public String getItem(int position) {
-		return String.format("%s (+%d)", getCountryName(position), getCountryCode(position));
+		return String.format("%s (%d)", getCountryName(position), getCountryCode(position));
 	}
 
 	public String getCountryName(int position) {
