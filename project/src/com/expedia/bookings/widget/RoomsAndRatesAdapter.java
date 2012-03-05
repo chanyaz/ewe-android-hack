@@ -55,6 +55,12 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 		mRates = response.getRates();
 
+		// #12669: Somehow we're getting back null rates.  At the very least, we just want to show *no* results
+		// rather than a crash.  Easiest to just have an empty List to indicate zero results.
+		if (mRates == null) {
+			mRates = new ArrayList<Rate>();
+		}
+
 		// Calculate the individual value-adds for each row, based on the common value-adds
 		List<String> common = response.getCommonValueAdds();
 		mValueAdds = new ArrayList<CharSequence>(mRates.size());
