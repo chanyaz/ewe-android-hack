@@ -315,11 +315,21 @@ public class LocaleUtils {
 
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_th))) {
-			languageCodes.add("th");
-			languageCodes.add("en");
+			if (sCachedLanguageCode.equals("th")) {
+				languageCodes.add("th");
+				languageCodes.add("en");
+			}
+			else {
+				languageCodes.add("en");
+			}
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_hk))) {
-			languageCodes.add("zh");
+			if (sCachedLanguageCode.equals("zh")) {
+				languageCodes.add("zh");
+			}
+			else {
+				languageCodes.add("en");
+			}
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_tw))) {
 			if (sCachedLanguageCode.equals("zh")) {
