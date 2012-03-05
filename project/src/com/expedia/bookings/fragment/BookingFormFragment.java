@@ -71,6 +71,9 @@ public class BookingFormFragment extends DialogFragment {
 		return dialog;
 	}
 
+	private static String GUESTS_EXPANDED = "GUESTS_EXPANDED";
+	private static String BILLING_EXPANDED = "BILLING_EXPANDED";
+
 	// Cached views
 	private ViewGroup mGuestSavedLayout;
 	private ViewGroup mGuestFormLayout;
@@ -194,14 +197,24 @@ public class BookingFormFragment extends DialogFragment {
 		if (getBillingInfo().doesExistOnDisk()) {
 			syncFormFields(view);
 
-			checkSectionsCompleted(false);
-
-			if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
-				expandGuestsForm(false);
+			if (savedInstanceState != null) {
+				if (savedInstanceState.getBoolean(GUESTS_EXPANDED)) {
+					expandGuestsForm(false);
+				}
+				if (savedInstanceState.getBoolean(BILLING_EXPANDED)) {
+					expandBillingForm(false);
+				}
 			}
+			else {
+				checkSectionsCompleted(false);
 
-			if (!checkAddressCompleted()) {
-				expandBillingForm(false);
+				if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
+					expandGuestsForm(false);
+				}
+
+				if (!checkAddressCompleted()) {
+					expandBillingForm(false);
+				}
 			}
 
 		}
@@ -228,6 +241,12 @@ public class BookingFormFragment extends DialogFragment {
 		}
 
 		return dialog;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean(GUESTS_EXPANDED, mGuestsExpanded);
+		outState.putBoolean(BILLING_EXPANDED, mBillingExpanded);
 	}
 
 	private void configureForm() {
