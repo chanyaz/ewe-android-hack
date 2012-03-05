@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewRating;
 import com.expedia.bookings.data.ReviewsResponse;
@@ -17,44 +16,33 @@ import com.mobiata.android.util.AndroidUtils;
 
 public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse> {
 
-	private Context mContext;
-
 	private static final int SDK_VERSION = AndroidUtils.getSdkVersion();
 
 	public ReviewsResponseHandler(Context context) {
-		mContext = context;
 	}
 
 	@Override
 	public ReviewsResponse handleJson(JSONObject response) {
 		ReviewsResponse reviewsResponse = new ReviewsResponse();
+
 		try {
-			if (ParserUtils.parseServerErrors(mContext, null, response, reviewsResponse)) {
+			if (response.getBoolean("HasErrors")) {
 				return reviewsResponse;
 			}
 
-			JSONObject body = response.optJSONObject("body");
-
-			reviewsResponse.setIndex(body.getInt("index"));
-
-			JSONArray hotels = body.getJSONArray("hotels");
-			if (hotels.length() == 0) {
-				return reviewsResponse;
-			}
-
-			JSONArray reviews = hotels.getJSONObject(0).getJSONArray("reviews");
+			JSONArray reviews = response.getJSONArray("Results");
 			int len = reviews.length();
 			for (int a = 0; a < len; a++) {
 				JSONObject reviewJson = reviews.getJSONObject(a);
 				Review review = new Review();
 
-				review.setReviewId(reviewJson.optString("ReviewID", null));
+				review.setReviewId(reviewJson.optString("Id", null));
 				review.setTitle(reviewJson.optString("Title", null));
-				review.setBody(reviewJson.optString("Body", null));
-				review.setRecommended(reviewJson.optBoolean("Recommended"));
+				review.setBody(reviewJson.optString("ReviewText", null));
+				review.setRecommended(reviewJson.optBoolean("IsRecommended"));
 
 				Time submissionDate = new Time();
-				String submissionDateStr = reviewJson.getString("SubmissionDate");
+				String submissionDateStr = reviewJson.getString("SubmissionTime");
 				if (SDK_VERSION <= 7 && submissionDateStr.length() == 25) {
 					// #11403: Need to massage the data here to get Android to properly parse it
 					submissionDateStr = submissionDateStr.substring(0, 19) + ".000" + submissionDateStr.substring(19);
@@ -62,45 +50,37 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 				submissionDate.parse3339(submissionDateStr);
 				review.setSubmissionDate(submissionDate);
 
-				JSONObject reviewerJson = reviewJson.getJSONObject("ReviewerDetails");
-				if (reviewerJson.optBoolean("DisplayName")) {
-					String firstName = reviewerJson.optString("FirstName", null);
-					String lastName = reviewerJson.optString("LastName", null);
-					if (firstName != null && lastName != null) {
-						review.setReviewerName(mContext.getString(R.string.name_template, firstName, lastName));
-					}
-					else if (firstName != null) {
-						review.setReviewerName(firstName);
-					}
-					else if (lastName != null) {
-						review.setReviewerName(lastName);
-					}
+				if (!reviewJson.isNull("UserNickname")) {
+					review.setReviewerName(reviewJson.getString("UserNickname"));
 				}
 
-				review.setReviewerLocation(reviewerJson.optString("Location", null));
+				if (!reviewJson.isNull("UserLocation")) {
+					review.setReviewerLocation(reviewJson.getString("UserLocation"));
+				}
 
-				Object ratingObj = reviewJson.opt("HotelReviewRatings");
+				Object ratingObj = reviewJson.opt("SecondaryRatings");
 				if (ratingObj instanceof JSONObject) {
 					JSONObject ratingJson = (JSONObject) ratingObj;
 					ReviewRating rating = new ReviewRating();
 					review.setRating(rating);
-					rating.setConvenienceOfLocation(ratingJson.optInt("ConvenienceOfLocation"));
-					rating.setHotelCondition(ratingJson.optInt("HotelCondition"));
-					rating.setQualityOfService(ratingJson.optInt("QualityOfService"));
-					rating.setRoomCleanliness(ratingJson.optInt("RoomCleanliness"));
-					rating.setRoomComfort(ratingJson.optInt("RoomComfort"));
-					rating.setOverallSatisfaction(ratingJson.optInt("OverallSatisfaction"));
-					rating.setNeighborhoodSatisfaction(ratingJson.optInt("NeighborhoodSatisfaction"));
+					ratingJson.getJSONObject("Service").optInt("Value");
+					rating.setOverallSatisfaction(reviewJson.optInt("Rating"));
+					rating.setQualityOfService(ratingJson.getJSONObject("Service").optInt("Value"));
+					rating.setRoomComfort(ratingJson.getJSONObject("RoomComfort").optInt("Value"));
+					rating.setRoomCleanliness(ratingJson.getJSONObject("RoomCleanliness").optInt("Value"));
+					rating.setHotelCondition(ratingJson.getJSONObject("HotelCondition").optInt("Value"));
+					// no more convenience of location or neighborhood satisfaction rating
 				}
 
 				reviewsResponse.addReview(review);
 			}
+
 		}
 		catch (JSONException e) {
-			Log.e("Could not parse JSON reviews response.", e);
-			return null;
+			Log.d("Could not parse JSON reviews response.", e);
 		}
 
 		return reviewsResponse;
 	}
+
 }

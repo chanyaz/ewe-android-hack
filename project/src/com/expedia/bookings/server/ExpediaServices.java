@@ -21,6 +21,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.ClientContext;
@@ -64,6 +65,10 @@ import com.mobiata.android.util.SettingUtils;
 public class ExpediaServices implements DownloadListener {
 
 	private static final String COOKIES_FILE = "cookies.dat";
+	
+	private static final String BAZAAR_VOICE_BASE_URL = "http://reviews.expedia.com/data/reviews.json";
+	private static final String BAZAAR_VOICE_API_TOKEN = "tq2es494c5r0o2443tc4byu2q";
+	private static final String BAZAAR_VOICE_API_VERSION = "5.0";
 
 	public static final int REVIEWS_PER_PAGE = 25;
 
@@ -227,45 +232,50 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	//// TRS (reviews) API
+	//// BazaarVoice (Reviews) API
 
 	public static boolean hasMoreReviews(Property property, int page) {
-		int maxPage = (int) Math.ceil(property.getTotalReviews() / (double) REVIEWS_PER_PAGE);
+		int maxPage = ((int) Math.ceil(property.getTotalReviews() / (double) REVIEWS_PER_PAGE)) - 1;
 		return maxPage >= page;
 	}
-
+	
 	public ReviewsResponse reviews(Property property, int pageNumber, ReviewSort sort) {
 		return reviews(property, pageNumber, sort, REVIEWS_PER_PAGE);
 	}
 
 	public ReviewsResponse reviews(Property property, int pageNumber, ReviewSort sort, int reviewCount) {
-		// Check that there are more reviews to add; if there aren't, just return null
-		if (!hasMoreReviews(property, pageNumber)) {
-			return null;
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		String localeString = Locale.getDefault().toString();
+
+		query.add(new BasicNameValuePair("apiversion", BAZAAR_VOICE_API_VERSION));
+		query.add(new BasicNameValuePair("passkey", BAZAAR_VOICE_API_TOKEN));
+		query.add(new BasicNameValuePair("limit", Integer.toString(REVIEWS_PER_PAGE)));
+		query.add(new BasicNameValuePair("offset", Integer.toString(pageNumber * REVIEWS_PER_PAGE)));
+
+		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
+		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localeString));
+
+		// emulate the expedia.com esktop website way of displaying reviews
+		switch (sort) {
+		case NEWEST_REVIEW_FIRST:
+			query.add(new BasicNameValuePair("Sort", "SubmissionTime:desc"));
+			break;
+		case HIGHEST_RATING_FIRST:
+			query.add(new BasicNameValuePair("Sort", "Rating:desc"));
+			query.add(new BasicNameValuePair("Sort", "IsFeatured:desc"));
+			query.add(new BasicNameValuePair("Sort", "SubmissionTime:desc"));
+			break;
+		case LOWEST_RATING_FIRST:
+			query.add(new BasicNameValuePair("Sort", "Rating:asc"));
+			query.add(new BasicNameValuePair("Sort", "IsFeatured:desc"));
+			query.add(new BasicNameValuePair("Sort", "SubmissionTime:desc"));
+			break;
 		}
 
-		if (sort == null) {
-			sort = ReviewSort.NEWEST_REVIEW_FIRST;
-		}
+		query.add(new BasicNameValuePair("include", "products"));
 
-		JSONObject request = new JSONObject();
-		try {
-			addStandardRequestFields(request, "reviews_by_page");
-
-			JSONObject body = new JSONObject();
-			request.put("body", body);
-
-			body.put("sort", sort.getKey());
-			body.put("count", reviewCount);
-			body.put("propertyId", property.getPropertyId() + "");
-			body.put("index", pageNumber);
-		}
-		catch (JSONException e) {
-			Log.e("Could not construct JSON reviews object.", e);
-			return null;
-		}
-
-		return (ReviewsResponse) doRequest(request, new ReviewsResponseHandler(mContext), 0);
+		return (ReviewsResponse) doRequest(query, new ReviewsResponseHandler(mContext));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -292,6 +302,14 @@ public class ExpediaServices implements DownloadListener {
 		Log.d("Request: " + request.toString());
 
 		return doRequest(post, responseHandler, flags);
+	}
+	
+	private Object doRequest(List<BasicNameValuePair> params, ResponseHandler<?> responseHandler) {
+		HttpGet get = NetUtils.createHttpGet(BAZAAR_VOICE_BASE_URL, params);
+		
+		Log.d("Bazaar reviews request:  " + get.getURI().toString());
+
+		return doRequest(get, responseHandler, 0);
 	}
 
 	private Object doRequest(String targetUrl, List<BasicNameValuePair> params, ResponseHandler<?> responseHandler,

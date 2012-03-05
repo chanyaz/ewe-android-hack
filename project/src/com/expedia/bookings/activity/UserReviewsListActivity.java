@@ -162,13 +162,13 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			mReviewsDownloader.addDownloadListener(KEY_REVIEWS_HIGHEST, services);
-			int pageNumber = 1;
+			int pageNumber = 0;
 
 			if (mPageNumberMap.get(mReviewSort) != null) {
 				pageNumber = mPageNumberMap.get(mReviewSort).intValue();
 			}
 			else {
-				mPageNumberMap.put(mReviewSort, new Integer(1));
+				mPageNumberMap.put(mReviewSort, new Integer(0));
 			}
 
 			return services.reviews(mProperty, pageNumber, mReviewSort);

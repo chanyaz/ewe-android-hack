@@ -1088,7 +1088,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_REVIEWS, services);
-			return services.reviews(mInstance.mProperty, 1, ReviewSort.HIGHEST_RATING_FIRST, MAX_SUMMARIZED_REVIEWS);
+			return services.reviews(mInstance.mProperty, 0, ReviewSort.HIGHEST_RATING_FIRST, MAX_SUMMARIZED_REVIEWS);
 		}
 	};
 
