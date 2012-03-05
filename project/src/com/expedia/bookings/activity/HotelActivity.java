@@ -59,6 +59,7 @@ public class HotelActivity extends AsyncLoadActivity {
 	public static final String EXTRA_POSITION = "EXTRA_POSITION";
 
 	private static final String INSTANCE_GALLERY_FLIPPING = "INSTANCE_GALLERY_FLIPPING";
+	private static final String INSTANCE_GALLERY_POSITION = "INSTANCE_GALLERY_POSITION";
 	private static final String INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED = "INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED";
 
 	private static final float MAX_AMENITY_TEXT_WIDTH_IN_DP = 60.0f;
@@ -84,6 +85,7 @@ public class HotelActivity extends AsyncLoadActivity {
 	private boolean mWasStopped;
 
 	private boolean mGalleryFlipping = true;
+	private int mGalleryPosition = 0;
 	private boolean mIsAmenitiesExpanded;
 
 	private HotelDescription mDescription;
@@ -111,6 +113,7 @@ public class HotelActivity extends AsyncLoadActivity {
 
 		if (savedInstanceState != null) {
 			mGalleryFlipping = savedInstanceState.getBoolean(INSTANCE_GALLERY_FLIPPING, true);
+			mGalleryPosition = savedInstanceState.getInt(INSTANCE_GALLERY_POSITION, 0);
 		}
 
 		setContentView(R.layout.activity_hotel);
@@ -227,6 +230,7 @@ public class HotelActivity extends AsyncLoadActivity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(INSTANCE_GALLERY_FLIPPING, mGallery.isFlipping());
+		outState.putInt(INSTANCE_GALLERY_POSITION, mGallery.getSelectedItemPosition());
 		outState.putBoolean(INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED, mIsAmenitiesExpanded);
 	}
 
@@ -515,6 +519,10 @@ public class HotelActivity extends AsyncLoadActivity {
 						// Do nothing
 					}
 				});
+
+				if (mGalleryPosition > 0 && media.size() > mGalleryPosition) {
+					mGallery.setSelection(mGalleryPosition);
+				}
 
 				if (mGalleryFlipping) {
 					mGallery.startFlipping();
