@@ -325,7 +325,8 @@ public class HotelActivity extends AsyncLoadActivity {
 			if (mIsAmenitiesExpanded == false && body.length() > BODY_LENGTH_CUTOFF) {
 				bodyTextView.setText(Html.fromHtml(body.substring(0, BODY_LENGTH_TRUNCATE)) + "...");
 
-				TextView expanderTextView = (TextView) getLayoutInflater().inflate(R.layout.include_read_more_button, null);
+				TextView expanderTextView = (TextView) getLayoutInflater().inflate(R.layout.include_read_more_button,
+						null);
 				expanderTextView.setVisibility(View.VISIBLE);
 				expanderTextView.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
@@ -337,7 +338,8 @@ public class HotelActivity extends AsyncLoadActivity {
 					}
 				});
 
-				RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+						LayoutParams.WRAP_CONTENT);
 				lp.addRule(RelativeLayout.BELOW, R.id.body_description_text_view);
 				lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
 				detailsSection.addView(expanderTextView, lp);
