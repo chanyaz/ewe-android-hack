@@ -416,8 +416,8 @@ public class ExpediaServices implements DownloadListener {
 
 	public enum EndPoint {
 		PRODUCTION,
-		TEST,
 		INTEGRATION,
+		DEV,
 		PROXY
 	}
 
@@ -447,7 +447,7 @@ public class ExpediaServices implements DownloadListener {
 			builder.append(".integration.sb.karmalab.net/MobileHotel/Webapp/");
 			break;
 		}
-		case TEST: {
+		case DEV: {
 			builder.append("www.");
 			builder.append(LocaleUtils.getPointOfSale(mContext));
 			builder.append(".chelwebestr37.bgb.karmalab.net");
@@ -478,7 +478,7 @@ public class ExpediaServices implements DownloadListener {
 		String which = SettingUtils.get(context, context.getString(R.string.preference_which_api_to_use_key), "");
 
 		if (which.equals("Dev")) {
-			return EndPoint.TEST;
+			return EndPoint.DEV;
 		}
 		else if (which.equals("Proxy")) {
 			return EndPoint.PROXY;

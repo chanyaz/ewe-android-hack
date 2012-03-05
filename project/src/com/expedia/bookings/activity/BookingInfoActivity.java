@@ -454,6 +454,12 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 	}
 
 	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		DebugMenu.onPrepareOptionsMenu(this, menu);
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.clear_private_data:

@@ -45,11 +45,14 @@ public class DebugMenu {
 			case PRODUCTION:
 				statusMenuItem.setTitle("Server: Production");
 				break;
-			case TEST:
-				statusMenuItem.setTitle("Server: Test");
+			case DEV:
+				statusMenuItem.setTitle("Server: Dev");
 				break;
 			case PROXY:
 				statusMenuItem.setTitle("Server: Proxy");
+				break;
+			case INTEGRATION:
+				statusMenuItem.setTitle("Server: Integration");
 				break;
 			default:
 				statusMenuItem.setTitle("Server: Unknown");

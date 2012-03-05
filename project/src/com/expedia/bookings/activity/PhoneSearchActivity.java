@@ -828,6 +828,12 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	}
 
 	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		DebugMenu.onPrepareOptionsMenu(this, menu);
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.log_in: {

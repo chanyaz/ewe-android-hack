@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -25,6 +26,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 import com.mobiata.android.ImageCache;
@@ -219,4 +221,20 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 			TrackingUtils.trackErrorPage(this, "HotelHasNoRoomsAvailable");
 		}
 	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Options menu (just for debug)
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		DebugMenu.onCreateOptionsMenu(this, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		DebugMenu.onPrepareOptionsMenu(this, menu);
+		return super.onPrepareOptionsMenu(menu);
+	}
+
 }

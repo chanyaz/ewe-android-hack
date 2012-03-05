@@ -12,6 +12,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AdapterView;
@@ -582,6 +584,21 @@ public class HotelActivity extends AsyncLoadActivity {
 
 		// Send the tracking data
 		s.track();
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Options menu (just for debug)
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		DebugMenu.onCreateOptionsMenu(this, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		DebugMenu.onPrepareOptionsMenu(this, menu);
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 }
