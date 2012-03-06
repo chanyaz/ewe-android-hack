@@ -95,7 +95,7 @@
         android:layout_alignTop="@+id/user_rating_bar"
         android:gravity="center"
         android:text="@string/not_rated"
-        android:textStyle="bold"
+        android:textColor="@color/light_gray"
         android:visibility="gone" />
 
     <TextView
