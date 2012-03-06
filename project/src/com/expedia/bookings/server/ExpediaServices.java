@@ -51,6 +51,8 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
@@ -150,8 +152,23 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("makeExpensiveRealtimeCall", "true"));
 		}
 
-		return (AvailabilityResponse) doRequest("HotelOffers", query,
-				new AvailabilityResponseHandler(mContext, params, property), 0);
+		AvailabilityResponseHandler responseHandler = new AvailabilityResponseHandler(mContext, params, property);
+		AvailabilityResponse response = (AvailabilityResponse) doRequest("HotelOffers", query, responseHandler, 0);
+
+		// #12701: Often times, Atlantis cache screws up and returns the error "Hotel product's PIID that is 
+		// provided by Atlantis has expired."  This error only happens once - the next request is usually fine.
+		// As a result, the workaround here is to immediately make a second identical request if the first one
+		// fails (for ONLY that reason).
+		if (response.hasErrors()) {
+			ServerError error = response.getErrors().get(0);
+			if (error.getErrorCode() == ErrorCode.HOTEL_ROOM_UNAVAILABLE
+					&& "Hotel product\u0027s PIID that is provided by Atlantis has expired".equals(error.getMessage())) {
+				Log.w("Atlantis PIID expired, automatically retrying HotelOffers request once.");
+				response = (AvailabilityResponse) doRequest("HotelOffers", query, responseHandler, 0);
+			}
+		}
+
+		return response;
 	}
 
 	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo) {
