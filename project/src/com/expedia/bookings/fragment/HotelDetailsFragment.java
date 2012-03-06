@@ -313,6 +313,19 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 				((SearchResultsFragmentActivity) getActivity()).startHotelGalleryActivity(media);
 			}
 		}
+
+		@Override
+		public void onPromotionClicked() {
+			SummarizedRoomRates summarizedRoomRates = ((SearchResultsFragmentActivity) getActivity())
+					.getSummarizedRoomRates();
+
+			if (summarizedRoomRates != null) {
+				Rate startRate = summarizedRoomRates.getStartingRate();
+				if (startRate != null) {
+					((SearchResultsFragmentActivity) getActivity()).bookRoom(startRate, false);
+				}
+			}
+		}
 	};
 
 	//////////////////////////////////////////////////////////////////////////

@@ -594,7 +594,12 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	}
 
 	public SummarizedRoomRates getSummarizedRoomRates() {
-		return getRoomsAndRatesAvailability().getSummarizedRoomRates();
+		AvailabilityResponse response = getRoomsAndRatesAvailability();
+		if (response == null) {
+			return null;
+		}
+
+		return response.getSummarizedRoomRates();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

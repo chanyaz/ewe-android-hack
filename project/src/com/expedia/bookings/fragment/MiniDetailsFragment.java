@@ -18,6 +18,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget;
+import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget.AvailabilitySummaryListener;
 import com.expedia.bookings.widget.HotelCollage;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
@@ -79,6 +80,19 @@ public class MiniDetailsFragment extends Fragment implements EventHandler, Avail
 	private OnCollageImageClickedListener mOnImageClickedListener = new OnCollageImageClickedListener() {
 		public void onImageClicked(Media media) {
 			((SearchResultsFragmentActivity) getActivity()).startHotelGalleryActivity(media);
+		}
+
+		@Override
+		public void onPromotionClicked() {
+			SummarizedRoomRates summarizedRoomRates = ((SearchResultsFragmentActivity) getActivity())
+					.getSummarizedRoomRates();
+
+			if (summarizedRoomRates != null) {
+				Rate startRate = summarizedRoomRates.getStartingRate();
+				if (startRate != null) {
+					((SearchResultsFragmentActivity) getActivity()).bookRoom(startRate, false);
+				}
+			}
 		}
 	};
 

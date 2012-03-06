@@ -48,6 +48,14 @@ public class HotelCollage {
 		addViewToListIfExists(R.id.property_image_view_4, view);
 
 		mPromoDescriptionTextView = (TextView) view.findViewById(R.id.promo_description_text_view);
+		mPromoDescriptionTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mListener != null) {
+					mListener.onPromotionClicked();
+				}
+			}
+		});
 
 		// Setup the background images
 		for (int i = 0; i < mPropertyImageViews.size(); i++) {
@@ -117,6 +125,8 @@ public class HotelCollage {
 
 	public interface OnCollageImageClickedListener {
 		public void onImageClicked(Media media);
+
+		public void onPromotionClicked();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
