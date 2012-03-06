@@ -19,13 +19,13 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class Rate implements JSONable {
-	// Travelocity rate types
-	public static final int TYPE_REGULAR = 1;
-	public static final int TYPE_HOTRATE = 2;
-	public static final int TYPE_SPECIAL = 3;
 
-	// Expedia rate types (also uses TYPE_REGULAR)
-	public static final int TYPE_IMMEDIATE = 2; // User is charged immediately
+	// The types of display rates
+	public enum UserPriceType {
+		RATE_FOR_WHOLE_STAY_WITH_TAXES,
+		PER_NIGHT_RATE_NO_TAXES,
+		UNKNOWN;
+	}
 
 	// Common fields between HotelPal and StayHIP
 	private String mRatePlanCode; // In Expedia, this is just rateCode
@@ -49,6 +49,9 @@ public class Rate implements JSONable {
 	private Money mExtraGuestFee;
 	private Money mTotalMandatoryFees; // "bait & switch" fees
 	private Money mTotalPriceWithMandatoryFees;
+
+	// Display prices
+	private UserPriceType mUserPriceType;
 	private Money mPriceToShowUsers;
 	private Money mStrikethroughPriceToShowUsers;
 
@@ -371,6 +374,29 @@ public class Rate implements JSONable {
 		mTotalPriceWithMandatoryFees = totalPriceWithMandatoryFees;
 	}
 
+	public void setUserPriceType(String userPriceType) {
+		if ("RateForWholeStayWithTaxes".equals(userPriceType)) {
+			mUserPriceType = UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES;
+		}
+		else if ("PerNightRateNoTaxes".equals(userPriceType)) {
+			mUserPriceType = UserPriceType.PER_NIGHT_RATE_NO_TAXES;
+		}
+		else {
+			mUserPriceType = UserPriceType.UNKNOWN;
+		}
+	}
+
+	public void setUserPriceType(UserPriceType userPriceType) {
+		mUserPriceType = userPriceType;
+	}
+
+	public UserPriceType getUserPriceType() {
+		if (mUserPriceType == null) {
+			return UserPriceType.UNKNOWN;
+		}
+		return mUserPriceType;
+	}
+
 	public void setPriceToShowUsers(Money m) {
 		mPriceToShowUsers = m;
 	}
@@ -560,6 +586,7 @@ public class Rate implements JSONable {
 			JSONUtils.putJSONable(obj, "totalSurcharge", mTotalSurcharge);
 			JSONUtils.putJSONable(obj, "totalMandatoryFees", mTotalMandatoryFees);
 			JSONUtils.putJSONable(obj, "totalPriceWithMandatoryFees", mTotalPriceWithMandatoryFees);
+			obj.putOpt("userPriceType", getUserPriceType().ordinal());
 			JSONUtils.putJSONable(obj, "priceToShowUsers", mPriceToShowUsers);
 			JSONUtils.putJSONable(obj, "strikethroughPriceToShowUsers", mStrikethroughPriceToShowUsers);
 			obj.putOpt("numberOfNights", mNumberOfNights);
@@ -605,6 +632,7 @@ public class Rate implements JSONable {
 		mTotalSurcharge = (Money) JSONUtils.getJSONable(obj, "totalSurcharge", Money.class);
 		mTotalMandatoryFees = (Money) JSONUtils.getJSONable(obj, "totalMandatoryFees", Money.class);
 		mTotalPriceWithMandatoryFees = (Money) JSONUtils.getJSONable(obj, "totalPriceWithMandatoryFees", Money.class);
+		mUserPriceType = UserPriceType.values()[obj.optInt("userPriceType", UserPriceType.UNKNOWN.ordinal())];
 		mPriceToShowUsers = (Money) JSONUtils.getJSONable(obj, "priceToShowUsers", Money.class);
 		mStrikethroughPriceToShowUsers = (Money) JSONUtils.getJSONable(obj, "strikethroughPriceToShowUsers", Money.class);
 		mNumberOfNights = obj.optInt("numberOfNights", 0);
