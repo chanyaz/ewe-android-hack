@@ -469,7 +469,7 @@ public class Rate implements JSONable {
 	 * @return the qualifier for this rate
 	 */
 	public int getQualifier(boolean shortVersion) {
-		if (!Rate.showInclusivePrices()) {
+		if (!showInclusivePrices()) {
 			List<RateBreakdown> rateBreakdown = getRateBreakdownList();
 			if (rateBreakdown == null) {
 				// If rateBreakdown is null, we assume that this is a per/night hotel
@@ -506,7 +506,15 @@ public class Rate implements JSONable {
 		Arrays.sort(sInclusivePricingPointOfSales);
 	}
 
-	public static boolean showInclusivePrices() {
+	public boolean showInclusivePrices() {
+		switch (getUserPriceType()) {
+		case PER_NIGHT_RATE_NO_TAXES:
+			return false;
+		case RATE_FOR_WHOLE_STAY_WITH_TAXES:
+			return true;
+		}
+
+		// If the type is unknown, fall back on our old system (just in case) 
 		if (sInclusivePricingPointOfSales == null) {
 			throw new RuntimeException("Need to call initInclusivePrices() on app start");
 		}

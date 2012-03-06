@@ -231,7 +231,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		holder.price.setText(StrUtils.formatHotelPrice(lowestRate.getDisplayRate()));
 
-		if (Rate.showInclusivePrices()) {
+		if (lowestRate.showInclusivePrices()) {
 			holder.perNight.setVisibility(View.GONE);
 		}
 		else {
