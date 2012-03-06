@@ -64,7 +64,7 @@ public class HotelActivity extends AsyncLoadActivity {
 
 	private static final float MAX_AMENITY_TEXT_WIDTH_IN_DP = 60.0f;
 
-	private static final int MAX_IMAGES_LOADED = 10;
+	private static final int MAX_IMAGES_LOADED = 5;
 
 	private static final int BODY_LENGTH_CUTOFF = 400;
 	private static final int BODY_LENGTH_TRUNCATE = 300;
