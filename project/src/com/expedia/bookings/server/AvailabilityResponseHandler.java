@@ -309,6 +309,12 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			rate.setTotalAmountAfterTax(total);
 			rate.setTotalSurcharge(surchargeTotalForEntireStay);
 
+			Money priceToShowUsers = ParserUtils.createMoney(chargeableRateInfo.getString("priceToShowUsers"), currencyCode);
+			Money strikethroughPriceToShowUsers = ParserUtils.createMoney(chargeableRateInfo.getString("strikethroughPriceToShowUsers"), currencyCode);
+
+			rate.setPriceToShowUsers(priceToShowUsers);
+			rate.setStrikethroughPriceToShowUsers(strikethroughPriceToShowUsers);
+
 			if (jsonRate.has("taxRate")) {
 				rate.setTaxesAndFeesPerRoom(ParserUtils.createMoney(jsonRate.getDouble("taxRate"), currencyCode));
 			}

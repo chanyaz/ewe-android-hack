@@ -49,6 +49,8 @@ public class Rate implements JSONable {
 	private Money mExtraGuestFee;
 	private Money mTotalMandatoryFees; // "bait & switch" fees
 	private Money mTotalPriceWithMandatoryFees;
+	private Money mPriceToShowUsers;
+	private Money mStrikethroughPriceToShowUsers;
 
 	// StayHIP unique fields
 	private String mBookingCode;
@@ -369,6 +371,14 @@ public class Rate implements JSONable {
 		mTotalPriceWithMandatoryFees = totalPriceWithMandatoryFees;
 	}
 
+	public void setPriceToShowUsers(Money m) {
+		mPriceToShowUsers = m;
+	}
+
+	public void setStrikethroughPriceToShowUsers(Money m) {
+		mStrikethroughPriceToShowUsers = m;
+	}
+
 	public int getNumberOfNights() {
 		return mNumberOfNights;
 	}
@@ -495,17 +505,27 @@ public class Rate implements JSONable {
 	}
 
 	public Money getDisplayBaseRate() {
-		if (showInclusivePrices()) {
+		if (mStrikethroughPriceToShowUsers != null) {
+			return mStrikethroughPriceToShowUsers;
+		}
+		else if (showInclusivePrices()) {
 			return getInclusiveBaseRate();
 		}
-		return mAverageBaseRate;
+		else {
+			return mAverageBaseRate;
+		}
 	}
 
 	public Money getDisplayRate() {
-		if (showInclusivePrices()) {
+		if (mPriceToShowUsers != null) {
+			return mPriceToShowUsers;
+		}
+		else if (showInclusivePrices()) {
 			return getInclusiveRate();
 		}
-		return mAverageRate;
+		else {
+			return mAverageRate;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -540,6 +560,8 @@ public class Rate implements JSONable {
 			JSONUtils.putJSONable(obj, "totalSurcharge", mTotalSurcharge);
 			JSONUtils.putJSONable(obj, "totalMandatoryFees", mTotalMandatoryFees);
 			JSONUtils.putJSONable(obj, "totalPriceWithMandatoryFees", mTotalPriceWithMandatoryFees);
+			JSONUtils.putJSONable(obj, "priceToShowUsers", mPriceToShowUsers);
+			JSONUtils.putJSONable(obj, "strikethroughPriceToShowUsers", mStrikethroughPriceToShowUsers);
 			obj.putOpt("numberOfNights", mNumberOfNights);
 			obj.putOpt("numRoomsLeft", mNumRoomsLeft);
 			JSONUtils.putStringList(obj, "valueAdds", mValueAdds);
@@ -583,6 +605,8 @@ public class Rate implements JSONable {
 		mTotalSurcharge = (Money) JSONUtils.getJSONable(obj, "totalSurcharge", Money.class);
 		mTotalMandatoryFees = (Money) JSONUtils.getJSONable(obj, "totalMandatoryFees", Money.class);
 		mTotalPriceWithMandatoryFees = (Money) JSONUtils.getJSONable(obj, "totalPriceWithMandatoryFees", Money.class);
+		mPriceToShowUsers = (Money) JSONUtils.getJSONable(obj, "priceToShowUsers", Money.class);
+		mStrikethroughPriceToShowUsers = (Money) JSONUtils.getJSONable(obj, "strikethroughPriceToShowUsers", Money.class);
 		mNumberOfNights = obj.optInt("numberOfNights", 0);
 		mNumRoomsLeft = obj.optInt("numRoomsLeft", 0);
 		mValueAdds = JSONUtils.getStringList(obj, "valueAdds");

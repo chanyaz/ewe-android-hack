@@ -267,6 +267,8 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		double surchargeTotalForEntireStay = 0;
 		double totalMandatoryFees = 0;
 		double totalPriceWithMandatoryFees = 0;
+		double strikethroughPriceToShowUsers = 0.0d;
+		double priceToShowUsers = 0.0d;
 
 		String name;
 		JsonToken token;
@@ -295,6 +297,12 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			else if (name.equals("currencyCode")) {
 				currencyCode = parser.getText();
 			}
+			else if (name.equals("strikethroughPriceToShowUsers")) {
+				strikethroughPriceToShowUsers = parser.getValueAsDouble();
+			}
+			else if (name.equals("priceToShowUsers")) {
+				priceToShowUsers = parser.getValueAsDouble();
+			}
 			else {
 				parser.skipChildren();
 			}
@@ -306,6 +314,8 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		rate.setTotalSurcharge(ParserUtils.createMoney(surchargeTotalForEntireStay, currencyCode));
 		rate.setTotalMandatoryFees(ParserUtils.createMoney(totalMandatoryFees, currencyCode));
 		rate.setTotalPriceWithMandatoryFees(ParserUtils.createMoney(totalPriceWithMandatoryFees, currencyCode));
+		rate.setPriceToShowUsers(ParserUtils.createMoney(priceToShowUsers, currencyCode));
+		rate.setStrikethroughPriceToShowUsers(ParserUtils.createMoney(strikethroughPriceToShowUsers, currencyCode));
 		return rate;
 	}
 
