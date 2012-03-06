@@ -260,14 +260,10 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("Sort", "SubmissionTime:desc"));
 			break;
 		case HIGHEST_RATING_FIRST:
-			query.add(new BasicNameValuePair("Sort", "Rating:desc"));
-			query.add(new BasicNameValuePair("Sort", "IsFeatured:desc"));
-			query.add(new BasicNameValuePair("Sort", "SubmissionTime:desc"));
+			query.add(new BasicNameValuePair("Sort", "Rating:desc,SubmissionTime:desc"));
 			break;
 		case LOWEST_RATING_FIRST:
-			query.add(new BasicNameValuePair("Sort", "Rating:asc"));
-			query.add(new BasicNameValuePair("Sort", "IsFeatured:desc"));
-			query.add(new BasicNameValuePair("Sort", "SubmissionTime:desc"));
+			query.add(new BasicNameValuePair("Sort", "Rating:asc,SubmissionTime:desc"));
 			break;
 		}
 
