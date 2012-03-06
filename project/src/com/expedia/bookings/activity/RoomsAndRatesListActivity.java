@@ -150,7 +150,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 	@Override
 	public String getUniqueKey() {
-		return "com.expedia.booking.details.offer";
+		return "com.expedia.booking.details.offer.full";
 	}
 
 	@Override
