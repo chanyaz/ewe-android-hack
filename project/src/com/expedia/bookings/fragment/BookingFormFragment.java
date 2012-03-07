@@ -73,6 +73,7 @@ public class BookingFormFragment extends DialogFragment {
 
 	private static String GUESTS_EXPANDED = "GUESTS_EXPANDED";
 	private static String BILLING_EXPANDED = "BILLING_EXPANDED";
+	private static String RULES_RESTRICTIONS_CHECKED = "RULES_RESTRICTIONS_CHECKED";
 
 	// Cached views
 	private ViewGroup mGuestSavedLayout;
@@ -204,6 +205,7 @@ public class BookingFormFragment extends DialogFragment {
 				if (savedInstanceState.getBoolean(BILLING_EXPANDED)) {
 					expandBillingForm(false);
 				}
+				mRulesRestrictionsCheckbox.setChecked(savedInstanceState.getBoolean(RULES_RESTRICTIONS_CHECKED));
 			}
 			else {
 				checkSectionsCompleted(false);
@@ -247,6 +249,7 @@ public class BookingFormFragment extends DialogFragment {
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putBoolean(GUESTS_EXPANDED, mGuestsExpanded);
 		outState.putBoolean(BILLING_EXPANDED, mBillingExpanded);
+		outState.putBoolean(RULES_RESTRICTIONS_CHECKED, mRulesRestrictionsCheckbox.isChecked());
 	}
 
 	private void configureForm() {
