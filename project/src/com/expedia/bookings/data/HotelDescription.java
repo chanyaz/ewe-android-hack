@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
@@ -32,15 +31,16 @@ public class HotelDescription {
 		private static HashSet<String> sPropertyAmenitiesStrings;
 		private static HashSet<String> sFeesStrings;
 		private static HashSet<String> sPoliciesStrings;
-		private static Resources sResources;
 
 		public static void initSectionStrings(Context context) {
-			Resources r = context.getResources();
-			if (sResources == null || sResources != r) {
-				sResources = r;
-				sPropertyAmenitiesStrings = new HashSet<String>(Arrays.asList(r.getStringArray(R.array.section_strings_property_amenities)));
-				sFeesStrings = new HashSet<String>(Arrays.asList(r.getStringArray(R.array.section_strings_fees)));
-				sPoliciesStrings = new HashSet<String>(Arrays.asList(r.getStringArray(R.array.section_strings_policies)));
+			if (sPropertyAmenitiesStrings == null) {
+				sPropertyAmenitiesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_property_amenities)));
+			}
+			if (sFeesStrings == null) {
+				sFeesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_fees)));
+			}
+			if (sPoliciesStrings == null) {
+				sPoliciesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_policies)));
 			}
 		}
 
