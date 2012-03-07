@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,17 +56,22 @@ public class Response implements JSONable {
 			return null;
 		}
 
-		StringBuilder builder = new StringBuilder();
+		TreeSet<String> errorStrings = new TreeSet<String>();
 		for (ServerError error : mErrors) {
 			String msg = error.getPresentableMessage(context);
 			if (!TextUtils.isEmpty(msg)) {
-				builder.append(msg);
-				builder.append("\n");
+				errorStrings.add(msg);
 			}
 		}
 
-		if (builder.length() == 0) {
+		if (errorStrings.size() == 0) {
 			return null;
+		}
+
+		StringBuilder builder = new StringBuilder();
+		for (String msg : errorStrings) {
+			builder.append(msg);
+			builder.append("\n");
 		}
 
 		return builder.substring(0, builder.length() - 1);
