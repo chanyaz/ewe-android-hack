@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
 
@@ -19,16 +19,17 @@
 	<string name="drag_to_extend_your_stay">&lt;b&gt;Drag&lt;/b&gt; to extend your stay.</string>
 	<!--  Label for picking guests for hotel booking -->
 	<string name="who_is_going">&lt;b&gt;Who&lt;/b&gt; is going?</string>
-	<!--  Label for tablet age selection popup button -->
-	<string name="button_enter_childrens_ages">Enter Children\'s Ages</string>
 	<!-- Child age dialog button -->
 	<string name="button_done">Done</string>
 	<!--  Label for child age selection prompt -->
-	<string name="prompt_please_specify_childrens_ages">Please specify children\'s ages.</string>
+	<plurals name="select_each_childs_age">
+	    <item quantity="one">Select child\&apos;s age</item>
+	    <item quantity="two">Select each child\&apos;s age</item>
+	    <item quantity="many">Select each child\&apos;s age</item>
+	    <item quantity="other">Select each child\&apos;s age</item>
+	</plurals>
 	<!--  Title of "select child age" spinner dialog box -->
 	<string name="prompt_select_child_age">Select Child Age (%1$s - %2$s)</string>
-	<!--  Label for child's age on search refinements -->
-	<string name="child_x">Child %1$s</string>
 	<!--  Text for child's age on search refinements and in spinner -->
 	<plurals name="child_age">
 		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; year old</item>
@@ -36,7 +37,7 @@
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; years old</item>
 		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; years old</item>
 	</plurals>
-	<!-- Android doesn't handle "zero" as a special case in English. So we'll do it manually -->
+	<!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
 	<string name="child_age_less_than_one">&lt;b&gt;Less than 1&lt;/b&gt; year old</string>
 	
 	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
@@ -87,7 +88,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Loading previous search results...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">&quot;Sort: &quot;</string>
+	<string name="sort_hotels">\&quot;Sort: \&quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;Sort&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
@@ -108,7 +109,7 @@
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
 	<string name="ProviderOutOfService">Your location provider is out of service. Please try again later.</string>
 	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">Your location provider is temporarily unavailable.  Please try again in a few minutes.</string>
+	<string name="ProviderTemporarilyUnavailable">Your location provider is temporarily unavailable. Please try again in a few minutes.</string>
 
 	<!-- Sort descriptions, e.g. Sorted by "description" -->
 	<!-- Sort by distance label -->
@@ -123,11 +124,11 @@
 	<!-- Filter option for "show all" -->
 	<string name="all">All</string>
 	<!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_cheap">$</string>
+	<string name="filter_price_cheap">£</string>
 	<!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_moderate">$$</string>
+	<string name="filter_price_moderate">££</string>
 	<!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_expensive">$$$</string>
+	<string name="filter_price_expensive">£££</string>
 	<!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
 	<string name="filter_stars_three">3+</string>
 	<!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
@@ -211,8 +212,6 @@
 	<string name="address">Address</string>
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
-    <!-- Label to view hotel in on expedia.com -->
-    <string name="view_this_hotel_on_website_template">View This Hotel on %s &gt;</string>
 	
 	<!--  Hotel Details Fragment -->
 	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
@@ -307,11 +306,11 @@
 	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; out of &lt;b&gt;%2$d&lt;/b&gt; guests recommend this hotel.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
-		<item quantity="zero">%d Reviews</item>
-		<item quantity="one">%d Review</item>
-		<item quantity="two">%d Reviews</item>
-		<item quantity="many">%d Reviews</item>
-		<item quantity="other">%d Reviews</item>
+		<item quantity="zero">%dReviews</item>
+		<item quantity="one">%dReview</item>
+		<item quantity="two">%dReviews</item>
+		<item quantity="many">%dReviews</item>
+		<item quantity="other">%dReviews</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
@@ -336,7 +335,7 @@
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Finding available rooms...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">Could not download rooms and rates information.  Please check your connection and try again.</string>
+	<string name="error_no_response_room_rates">Could not download rooms &amp; rates information. Please check your connection and try again.</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">per night</string>
 	<!-- Rate price displayed "average per night" -->
@@ -370,9 +369,9 @@
 	<!-- Label for room type -->
 	<string name="room_type">Room Type</string>
 	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">We\'re sorry, we could not load room details.  Check your Internet connection and try again.</string>
+	<string name="error_room_type_load">We\&apos;re sorry, we could not load room details. Check your Internet connection and try again.</string>
 	<!-- Error if we couldn't find the room type details -->
-	<string name="error_room_type_nonexistant">We\'re sorry, we could not find extra details on this room.</string>
+	<string name="error_room_type_nonexistant">We\&apos;re sorry, we could not find extra details on this room.</string>
 	<!-- Label for bed type -->
 	<string name="bed_type">Bed Type</string>
 	<!-- Label for length of stay -->
@@ -427,7 +426,7 @@
 	<!-- Security code tip (if code is on front of card) -->
 	<string name="security_code_tip_back">See back of credit card</string>
 	<!-- Rules & restrictions section header -->
-	<string name="rules_restrictions">Rules and Restrictions</string>
+	<string name="rules_restrictions">Rules &amp; Restrictions</string>
 	<!-- Disclaimer about how to earn expedia points -->
 	<string name="disclaimer_expedia_points">If you have an Expedia Rewards account, please book with the same email address and your points will automatically post after your stay. Please note that it may take up to 30 days for your points to appear.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
@@ -435,7 +434,7 @@
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">Your credit card will be charged %s</string>
 	<!-- Button label for confirming your booking -->
-	<string name="confirm_book">Confirm and Book</string>
+	<string name="confirm_book">Confirm &amp; Book</string>
 	<!-- Label for clearing private data -->
 	<string name="clear_private_data">Clear Private Data</string>
 	<!-- Title for dialog confirming the clearing of private data -->
@@ -455,11 +454,11 @@
 	<!-- Error if an invalid month (not 1-12) was entered -->
 	<string name="invalid_month">Please enter a value between 1 and 12</string>
 	<!-- Error if an invalid year was entered -->
-	<string name="invalid_expiration_year">Please enter a year that hasn\'t already passed</string>
+	<string name="invalid_expiration_year">Please enter a year that hasn\&apos;t already passed</string>
 	<!-- Error if an invalid security code was entered -->
 	<string name="invalid_security_code">Please enter a three or four digit security code</string>
 	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">Sorry, payments in this currency (%s) are not supported by American Express. Please use a different credit card.</string>
+	<string name="invalid_currency_for_amex">Sorry, payments in this currency (%s) are not supported by American Express.  Please use a different credit card.</string>
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">You must accept the terms to book</string>
 	<!-- Message to display to user while booking is in progress -->
@@ -467,7 +466,11 @@
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Error</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">Could not connect to Expedia servers.  Please check your connection and try again.</string>
+	<string name="error_booking_null">Could not connect to Expedia servers. Please check your connection and try again.</string>
+	<!-- Error message when booking completed with errors -->
+	<string name="error_booking_succeeded_with_errors">Your hotel room has been booked and reserved. However, there were the following errors: %s</string>
+	<!-- Error message when booking completed with errors - specifically if email was not sent -->
+	<string name="error_unable_to_send_email">We are unable to send a confirmation email.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$s on %2$s</string>
 	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
@@ -491,11 +494,7 @@
 	<!-- Label for starting a new search -->
 	<string name="new_search">New Search</string>
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
-	<string name="contact_phone_template">If you have questions about your reservation, please call Expedia.com at %s.</string>
-	<!-- Contact info for China  where 1$ represents the number by CN NetCom and 2$ represents the number from CN Telecom-->
-	<string name="contact_phone_china_template">If you have questions about your reservation, please call Expedia.com at %1$s (CN NetCom) or %2$s (CN Telecom).</string>
-	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
-	<string name="contact_phone_default_template">If you have questions about your reservation, please call Expedia.com at %1$s in the US/Canada or %2$s in Europe.</string>
+	<string name="contact_phone_template">If you have questions about your reservation, please call Expedia at %s.</string>
 
 	<!--  Confirmation Fragment -->
 	<!-- Label to share booking information after a booking confirmation -->
@@ -509,7 +508,7 @@
 	<!-- Label for the number of guests the booking is for. -->
 	<string name="GuestsLabel">Guests</string>
 	<!-- Label for the taxes & fees for this booking. -->
-	<string name="TaxesAndFees">Taxes and Fees</string>
+	<string name="TaxesAndFees">Taxes &amp; Fees</string>
 	<!-- Label for the "Mandatory Fees" (bait & switch fees) -->
 	<string name="MandatoryFees">Hotel Fees (Paid at hotel)</string>
 	<!-- Label for the rate per room per night. -->
@@ -535,7 +534,7 @@
 	<!-- Expedia merchant hotel policies -->
 	<string name="PolicyExpediaMerchant">By proceeding with this reservation, you agree to all terms and conditions, which include the Cancellation Policy and all terms and conditions contained in the User Agreement.\n\nYou agree to pay the cost of your reservation. If you do not pay this debt and it is collected through the use of a collection agency, a lawyer or through other legal proceedings, you agree to pay all reasonable costs or fees, including legal fees and court costs, incurred in connection with such collection efforts.</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">You are booking a non-discounted property. All rates displayed are nightly, and based on double occupancy per room unless otherwise specified. Carefully review the room descriptions and rate rules to ensure that the room you select can accommodate your entire party. Some rates may require special identification. Our booking fee, taxes and other surcharges imposed by the hotel are not included. Any extra adults or children above the room\'s listed occupancy may be subject to additional charges at the property\'s discretion.\n\nRequests for more than 2 people, or for more occupants than your selected rate indicates, will be sent to the hotel but are not guaranteed. If accepted, they will be subject to additional charges at the property\'s discretion.</string>
+	<string name="PolicyExpediaAgent">You are booking a non-discounted property. All rates displayed are nightly, and based on double occupancy per room unless otherwise specified. Carefully review the room descriptions and rate rules to ensure that the room you select can accommodate your entire party. Some rates may require special identification. Our booking fee, taxes and other surcharges imposed by the hotel are not included. Any extra adults or children above the room\&apos;s listed occupancy may be subject to additional charges at the property\&apos;s discretion.\n\nRequests for more than 2 people, or for more occupants than your selected rate indicates, will be sent to the hotel but are not guaranteed. If accepted, they will be subject to additional charges at the property\&apos;s discretion.</string>
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
@@ -567,7 +566,7 @@
 	<!-- Label for "contact Expedia" button in info page -->
 	<string name="contact_expedia">Contact Expedia</string>
 	<!-- Extra description for "contact Expedia" button, when space allows -->
-	<string name="contact_expedia_description">We\'re here for you 24 hours a day.</string>
+	<string name="contact_expedia_description">We\&apos;re here for you 24 hours a day.</string>
 	<!-- Title for different ways to connect to Expedia -->
 	<string name="contact_expedia_via">Contact Expedia Via...</string>
 	<!-- Contact Expedia via phone -->
@@ -587,7 +586,7 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">App Support</string>
 	<!-- Extra description for "app support" button, when space allows -->
-	<string name="app_support_description">Drop us a line and we\'ll get back to you.</string>
+	<string name="app_support_description">Drop us a line and we\&apos;ll get back to you.</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
 	<string name="tell_a_friend_description">Like amazing hotel deals? Tell your friends about the app.</string>
 	<!-- Section header for other apps by Mobiata -->
@@ -595,7 +594,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hi there,\n\nTake a look at Expedia Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 130,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hi there,\n\nTry out Expedia Hotels for iPhone and Android phones. It\&apos;s FREE and you can easily search and book rooms from over 130,000 hotels all over the world. It\&apos;s the easiest way to book hotel rooms on your phone.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Terms and Conditions</string>
 	<!-- Label for link to privacy policy -->
@@ -611,46 +610,46 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Please Give Us A Rating</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Powered by Opinion Lab &lt;a href=&quot;http://mobile.opinionlab.com/static/privacy.html&quot;&gt;Privacy Policy&lt;/a&gt;</string>
+	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privacy Policy</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">Email Address</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">What could we do better?</string>
 	<!-- Message displayed to users after they submit feedback -->
-	<string name="oosdk_thanks_txt">Thank you for submitting your opinion. We value our customers\' feedback.</string>
+	<string name="oosdk_thanks_txt">Thank you for submitting your opinion. We value our customers\&apos; feedback.</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
 	<string name="preference_category_general">General</string>
 	<!-- Title for point of sale setting -->
-	<string name="preference_point_of_sale_title">Domain</string>
+	<string name="preference_point_of_sale_title">Country</string>
 	<!-- Template for default point of sale -->
 	<string name="default_point_of_sale_template">Default (%s)</string>
 
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-		<item quantity="zero">%d Adults</item>
+		<item quantity="zero">%dAdults</item>
 		<item quantity="one">%d Adult</item>
-		<item quantity="two">%d Adults</item>
-		<item quantity="many">%d Adults</item>
-		<item quantity="other">%d Adults</item>
+		<item quantity="two">%dAdults</item>
+		<item quantity="many">%dAdults</item>
+		<item quantity="other">%dAdults</item>
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-		<item quantity="zero">%d Children</item>
+		<item quantity="zero">%dChildren</item>
 		<item quantity="one">%d Child</item>
-		<item quantity="two">%d Children</item>
-		<item quantity="many">%d Children</item>
-		<item quantity="other">%d Children</item>
+		<item quantity="two">%dChildren</item>
+		<item quantity="many">%dChildren</item>
+		<item quantity="other">%dChildren</item>
 	</plurals>
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
-		<item quantity="zero">%d Guests</item>
+		<item quantity="zero">%dGuests</item>
 		<item quantity="one">%d Guest</item>
-		<item quantity="two">%d Guests</item>
-		<item quantity="many">%d Guests</item>
-		<item quantity="other">%d Guests</item>
+		<item quantity="two">%dGuests</item>
+		<item quantity="many">%dGuests</item>
+		<item quantity="other">%dGuests</item>
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">
@@ -688,6 +687,49 @@
 	<string name="ean_error_connect_unavailable">Unable to connect to the selected hotel to find available rooms.</string>
 	<!-- Error message displayed when the phone number sent via booking is invalid -->
 	<string name="ean_error_invalid_phone_number">Please enter a valid phone number</string>
+	
+	<!-- Checkout API method -->
+	<!-- The hotel booking failed -->
+	<string name="e3_error_checkout_booking_failed">An error prevented us from completing your booking. Please try again.</string>
+	<!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
+	<string name="e3_error_checkout_booking_succeeded_with_errors">You successfully booked your hotel! If you need an itinerary immediately, please call Expedia Customer Support.</string>
+	<!-- The hotel room is no longer available -->
+	<string name="e3_error_checkout_hotel_room_unavailable">We\&apos;re sorry, but the room that you requested is no longer available.</string>
+	<!-- There is invalid input in the hotel booking form. Please fix it. -->
+	<string name="e3_error_checkout_invalid_input">Please fix the invalid information.</string>
+	<!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
+	<string name="e3_error_checkout_payment_failed">We\&apos;re sorry, but we were unable to process your payment. Please verify that you entered your information correctly.</string>
+	
+	<!-- SearchResults API method -->
+	<!-- For some reason the API failed and we couldn't complete the search -->
+	<string name="e3_error_search_results_hotel_service_failure">We\&apos;re sorry, but we couldn\&apos;t complete your search. Please try again.</string>
+	<!-- There were no results matching the input -->
+	<string name="e3_error_search_results_invalid_input">We\&apos;re sorry, but we couldn\&apos;t return results for your search terms. Please try again.</string>
+	<!-- There were no results matching the input -->
+	<string name="e3_error_search_results_invalid_input_unknown">We\&apos;re sorry, but we couldn\&apos;t return results for your search terms. Please try again.</string>
+	<!-- For some reason the API failed and we couldn't complete the search -->
+	<string name="e3_error_search_results_unknown_error">We\&apos;re sorry, but we couldn\&apos;t complete your search. Please try again.</string>
+	
+	<!-- HotelOffers API method -->
+	<!-- The hotel offer is no longer available -->
+	<string name="e3_error_hotel_offers_hotel_offer_unavailable">We\&apos;re sorry! The promotion for this room ended, but there are other offers available.</string>
+	
+	<string name="e3_error_hotel_offers_hotel_room_unavailable">We\&apos;re sorry, but the room that you requested is no longer available.</string>
+	<!-- For some reason the API failed and we couldn't complete the search -->
+	<string name="e3_error_hotel_offers_hotel_service_failure">We\&apos;re sorry, but we couldn\&apos;t connect to Expedia. Please try again.</string>
+	<!-- There are no longer any rooms for the hotel offer -->
+	<string name="e3_error_hotel_offers_invalid_input">We\&apos;re sorry! The promotion for this room ended, but there are other offers available.</string>
+	<!-- There are no longer any rooms for the hotel offer -->
+	<string name="e3_error_hotel_offers_unknown_error">We\&apos;re sorry! The promotion for this room ended, but there are other offers available.</string>
+	
+	<!-- HotelProduct API method -->
+	<string name="e3_error_hotel_product_unknown_error">An unknown error occurred.</string>
+	<string name="e3_error_hotel_product_invalid_input">An unknown error occurred.</string>
+	
+	<!-- HotelInformation API method -->
+	<string name="e3_error_hotel_information_hotel_service_failure">An unknown error occurred.</string>
+	<string name="e3_error_hotel_information_unknown_error">An unknown error occurred.</string>
+	<string name="e3_error_hotel_information_invalid_input">An unknown error occurred.</string>
 
 	<!-- Currency names -->
 	<string name="currency_aud">Australian Dollar</string>
@@ -768,7 +810,7 @@
 	<string name="country_cu">Cuba</string>
 	<string name="country_cy">Cyprus</string>
 	<string name="country_cz">Czech Republic</string>
-	<string name="country_ci">Côte d\'Ivoire</string>
+	<string name="country_ci">Côte d\&apos;Ivoire</string>
 	<string name="country_dk">Denmark</string>
 	<string name="country_dj">Djibouti</string>
 	<string name="country_dm">Dominica</string>
@@ -826,11 +868,11 @@
 	<string name="country_kz">Kazakhstan</string>
 	<string name="country_ke">Kenya</string>
 	<string name="country_ki">Kiribati</string>
-	<string name="country_kp">Korea, Democratic People\'s Republic of</string>
-	<string name="country_kr">Korea, Republic of</string>
+	<string name="country_kp">Korea, Democratic People\&apos;s Republic of</string>
+	<string name="country_kr">Korea</string>
 	<string name="country_kw">Kuwait</string>
 	<string name="country_kg">Kyrgyzstan</string>
-	<string name="country_la">Lao People\'s Democratic Republic</string>
+	<string name="country_la">Lao People\&apos;s Democratic Republic</string>
 	<string name="country_lv">Latvia</string>
 	<string name="country_lb">Lebanon</string>
 	<string name="country_ls">Lesotho</string>
@@ -925,7 +967,7 @@
 	<string name="country_se">Sweden</string>
 	<string name="country_ch">Switzerland</string>
 	<string name="country_sy">Syrian Arab Republic</string>
-	<string name="country_tw">Taiwan, Province of China</string>
+	<string name="country_tw">Taiwan</string>
 	<string name="country_tj">Tajikistan</string>
 	<string name="country_tz">Tanzania, United Republic of</string>
 	<string name="country_th">Thailand</string>

@@ -4,9 +4,9 @@
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">Ingresa una ubicación para realizar la búsqueda</string>
+	<string name="enter_search_location">Ingresa un sitio para realizar la búsqueda</string>
 	<!-- Hint for "search location" field -->
-	<string name="hint_search_location">Busca una ubicación</string>
+	<string name="hint_search_location">Busca un sitio</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Búsquedas recientes</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -19,16 +19,17 @@
 	<string name="drag_to_extend_your_stay">&lt;b&gt;Arrastra&lt;/b&gt; para extender tu estancia.</string>
 	<!--  Label for picking guests for hotel booking -->
 	<string name="who_is_going">&lt;b&gt;¿Quién&lt;/b&gt;viaja?</string>
-	<!--  Label for tablet age selection popup button -->
-	<string name="button_enter_childrens_ages">Ingresa la edad de los niños</string>
 	<!-- Child age dialog button -->
 	<string name="button_done">Listo</string>
 	<!--  Label for child age selection prompt -->
-	<string name="prompt_please_specify_childrens_ages">Especifica por favor la edad de los niños.</string>
+	<plurals name="select_each_childs_age">
+	    <item quantity="one">Selecciona la edad del niño</item>
+	    <item quantity="two">Selecciona la edad de cada niño</item>
+	    <item quantity="many">Selecciona la edad de cada niño</item>
+	    <item quantity="other">Selecciona la edad de cada niño</item>
+	</plurals>
 	<!--  Title of "select child age" spinner dialog box -->
 	<string name="prompt_select_child_age">Selecciona la edad de los niños (%1$s - %2$s)</string>
-	<!--  Label for child's age on search refinements -->
-	<string name="child_x">Niño %1$s</string>
 	<!--  Text for child's age on search refinements and in spinner -->
 	<plurals name="child_age">
 		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; año</item>
@@ -36,13 +37,13 @@
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; años</item>
 		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; años</item>
 	</plurals>
-	<!-- Android doesn't handle "zero" as a special case in English. So we'll do it manually -->
+	<!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
 	<string name="child_age_less_than_one">&lt;b&gt;Menos de&lt;/b&gt; año</string>
 	
 	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
 	<!-- Suggestion to search Times Square -->
 	<string name="suggestion_times_square">Times Square, Nueva York, NY</string>
-	<string name="suggestion_boston">Boston, Massachusets</string>
+	<string name="suggestion_boston">Boston, Massachusetts</string>
 	<string name="suggestion_los_angeles">Los Ángeles, California</string>
 	<string name="suggestion_venice">Venice Beach Park, Venice, California</string>
 	<string name="suggestion_miami">Miami, Florida</string>
@@ -75,19 +76,19 @@
 	<!-- Label indicating that there are no results matching their current filter -->
 	<string name="no_filter_results">Lo sentimos, no hay hoteles que coincidan con los filtros seleccionados.</string>
 	<!-- Label indicating that geolocation failed -->
-	<string name="geolocation_failed">No se pudo detectar la ubicación de la búsqueda.</string>
+	<string name="geolocation_failed">No se pudo detectar el sitio de la búsqueda.</string>
 	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
 	<string name="NoGeocodingResults">No se pudo encontrar la ubicación de %s.</string>
 	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
 	<string name="ChooseLocation">¿Quisiste decir ...?</string>
 	<!-- Button label for upgrading the app -->
-	<string name="upgrade">Cambia</string>
+	<string name="upgrade">Mejora</string>
 	<!-- Button label for searching the visible map area -->
 	<string name="map_search_button">Busca en el mapa</string>
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Cargando los resultados de la búsqueda anterior...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">&quot;Ordenar:&quot;</string>
+	<string name="sort_hotels">\&quot;Ordenar:\&quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;Ordenar&lt;/b&gt;:%s</string>
 	<!-- Label for filter hotels button in bottom bar -->
@@ -95,7 +96,7 @@
 	<!-- A number of results -->
 	<plurals name="number_of_results">
 		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; Resultados</item>
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; Resultados</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; Resultado</item>
 		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; Resultados</item>
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; Resultados</item>
 		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; Resultados</item>
@@ -118,7 +119,7 @@
 	<!-- Sort by price label -->
 	<string name="sort_description_price">Precio</string>
 	<!-- Sort by user rating label -->
-	<string name="sort_description_rating">Clasificación</string>
+	<string name="sort_description_rating">Clasificación de los usuarios</string>
 	
 	<!-- Filter option for "show all" -->
 	<string name="all">Todos</string>
@@ -161,7 +162,7 @@
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/noche</string>
 	<!-- Label shown when a hotel has no user ratings -->
-	<string name="not_rated">No ha sido calificado</string>
+	<string name="not_rated">No ha sido clasificado</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
 	<string name="percent_off_template">%2.0f%% de descuento</string>
 
@@ -188,7 +189,7 @@
 	<!--  Instructions on how to add widget to home screen -->
 	<string name="widget_add_instructions">Presiona y mantén presionado el dedo en tu pantalla principal para agregar el widget de radar de hoteles</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">No hay conexión a internet</string>
+	<string name="widget_error_no_internet">No tienes conexión a internet</string>
 	<!--  Widget Branding title -->
 	<string name="hotel_radar">Radar de hoteles</string>
 	<!--  Widget Branding description -->
@@ -196,7 +197,7 @@
 	<!--  First string for widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short_1">&lt;b&gt;Añade el widget de radar de hoteles&lt;/b&gt;</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">&lt;b&gt;Recibe &lt;/b&gt;</string>
+	<string name="widget_upsell_short_2">&lt;b&gt;Recibe ofertas cerca de ti ¡cada noche!&lt;/b&gt;</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
@@ -211,8 +212,6 @@
 	<string name="address">Dirección</string>
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
-    <!-- Label to view hotel in on expedia.com -->
-    <string name="view_this_hotel_on_website_template">Ver este hotel en %s&gt;</string>
 	
 	<!--  Hotel Details Fragment -->
 	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
@@ -248,7 +247,7 @@
 	<!-- Pool amenity -->
 	<string name="AmenityPool">Alberca</string>
 	<!-- Restaurant on-site amenity -->
-	<string name="AmenityRestaurant">Comer</string>
+	<string name="AmenityRestaurant">Restaurantes</string>
 	<!-- Spa on-site amenity -->
 	<string name="AmenitySpa">Spa</string>
 	<!-- Whirlpool bath amenity -->
@@ -264,15 +263,15 @@
 	<!-- Room service amenity -->
 	<string name="AmenityRoomService">Servicio en la habitación</string>
 	<!-- Accessible path of travel amenity -->
-	<string name="AmenityAccessiblePaths">Camino accesible</string>
+	<string name="AmenityAccessiblePaths">Camino accesible en silla de ruedas</string>
 	<!-- Accessible bathroom amenity -->
-	<string name="AmenityAccessibleBathroom">Baño accesible</string>
+	<string name="AmenityAccessibleBathroom">Baño accesible en silla de ruedas</string>
 	<!-- Roll-in shower amenity -->
-	<string name="AmenityRollInShower">Regadera con acceso para silla de ruedas</string>
+	<string name="AmenityRollInShower">Regadera accesible en silla de ruedas</string>
 	<!-- Handicapped parking amenity -->
 	<string name="AmenityHandicappedParking">Estacionamiento para minusválidos</string>
 	<!-- In-room accessibility amenity -->
-	<string name="AmenityInRoomAccessibility">Habitación accesible</string>
+	<string name="AmenityInRoomAccessibility">Habitación accesible en silla de ruedas</string>
 	<!-- Accessibility equipment for the deaf amenity -->
 	<string name="AmenityDeafAccessibilityEquipment">Accesible a los sordos</string>
 	<!-- Braille or raised signage amenity -->
@@ -429,7 +428,7 @@
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">Reglas y restricciones</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">Si tienes una cuenta de Expedia Rewards, favor de reservar con el mismo correo electrónico y tus puntos aparecerán automáticamente después de tu estancia. Favor de notar que pueden pasar hasta 30 días para que los puntos aparezcan.</string>
+	<string name="disclaimer_expedia_points">Si tienes una cuenta de Expedia Rewards, favor de reservar con el mismo correo electrónico, y tus puntos aparecerán automáticamente después de tu estancia. Favor de notar que pueden pasar hasta 30 días para que los puntos aparezcan.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
 	<string name="EnterBookingInfo">Ingresar la información de la reservación</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -468,6 +467,10 @@
 	<string name="error_booking_title">Error</string>
 	<!-- Error message when we couldn't get a response -->
 	<string name="error_booking_null">No se logró la conexión con los servidores de Expedia.  Favor de controlar tu conexión e intentar de nuevo.</string>
+	<!-- Error message when booking completed with errors -->
+	<string name="error_booking_succeeded_with_errors">Tu habitación ha sido apartada y reservada. Sin embargo surgieron los siguientes errores: %s</string>
+	<!-- Error message when booking completed with errors - specifically if email was not sent -->
+	<string name="error_unable_to_send_email">No pudimos enviarte una confirmación por correo electrónico.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$s en %2$s</string>
 	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
@@ -491,11 +494,7 @@
 	<!-- Label for starting a new search -->
 	<string name="new_search">Nueva búsqueda</string>
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
-	<string name="contact_phone_template">Si tienes preguntas sobre tu reservación, por favor llama a Expedia.mx al %s.</string>
-	<!-- Contact info for China  where 1$ represents the number by CN NetCom and 2$ represents the number from CN Telecom-->
-	<string name="contact_phone_china_template">Si tienes preguntas sobre tu reservación, por favor llama a Expedia.com al %1$s (CN NetCom) o %2$s (CN Telecom).</string>
-	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
-	<string name="contact_phone_default_template">Si tienes preguntas sobre tu reservación, por favor llama a Expedia.mx al %1$s en Estados Unidos/Canada o %2$s en Europa.</string>
+	<string name="contact_phone_template">Si tienes preguntas con respecto a tu reservación, por favor llama a Expedia al %s.</string>
 
 	<!--  Confirmation Fragment -->
 	<!-- Label to share booking information after a booking confirmation -->
@@ -507,7 +506,7 @@
 	
 	<!-- Rate template strings -->
 	<!-- Label for the number of guests the booking is for. -->
-	<string name="GuestsLabel"> Huéspedes</string>
+	<string name="GuestsLabel">Huéspedes</string>
 	<!-- Label for the taxes & fees for this booking. -->
 	<string name="TaxesAndFees">Impuestos y cargos</string>
 	<!-- Label for the "Mandatory Fees" (bait & switch fees) -->
@@ -535,7 +534,7 @@
 	<!-- Expedia merchant hotel policies -->
 	<string name="PolicyExpediaMerchant">Al proceder con esta reservación, estás de acuerdo con los términos y condiciones, los cuales incluyen la política de cancelación, así como los términos y condiciones incluidos en el Acuerdo del usuario.\n\nEstás de acuerdo en pagar el costo de tu reservación. Si no pagas esta deuda y debe cobrarse a través de una agencia de cobros, un abogado, o cualquier otro procedimiento legal, estás de acuerdo en pagar los costos o cargos razonables, incluyendo honorarios de abogados y judiciales, en los que se haya incurrido debido al cobro de esta deuda.</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">Estás reservando una propiedad que no tiene descuentos. Todas las tarifas mostradas son por noche, y por habitación, basadas en ocupación doble, salvo si se especifica lo contrario. Lee cuidadosamente la descripción de las habitaciones, así como las reglas de la tarifa, para asegurarte que la habitación que elijas es suficientemente grande para alojar a todo el grupo. Algunas tarifas necesitarán una identificación especial. Nuestra comisión, los impuestos y otros cargos impuestos por el hotel no están incluidos. Toda persona adicional, ya sea adulto o niño, que sobrepase la capacidad mencionada para la habitación, puede ser sujeta a cargos adicionales, a discreción de la propiedad. \n\n La solicitud de alojar a más de 2 personas, o más de las que la tarifa mencionada indica, será enviada al hotel sin embargo no se puede garantizar. Si es aceptada, estará sujeta a cargos adicionales, a discreción de la propiedad.</string>
+	<string name="PolicyExpediaAgent">Estás reservando una propiedad que no tiene descuentos. Todas las tarifas mostradas son por noche, y por habitación, basadas en ocupación doble, salvo si se especifica lo contrario. Lee cuidadosamente la descripción de las habitaciones, así como las reglas de la tarifa, para asegurarte que la habitación que elijas es suficientemente grande para alojar a todo el grupo. Algunas tarifas necesitarán una identificación especial. Nuestra comisión, los impuestos y otros cargos aplicados por el hotel no están incluidos. Toda persona adicional, ya sea adulto o niño, que sobrepase la capacidad mencionada para la habitación, puede ser sujeta a cargos adicionales, a discreción de la propiedad. \n\n La solicitud de alojar a más de 2 personas, o más de las que la tarifa mencionada indica, será enviada al hotel sin embargo no se puede garantizar. Si es aceptada, estará sujeta a cargos adicionales, a discreción de la propiedad.</string>
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
@@ -545,7 +544,7 @@
 	<!-- Progress dialog text when we are logging the user into Expedia -->
 	<string name="logging_in">Iniciando sesión...</string>
 	<!-- Message that tells user they successfully logged in -->
-	<string name="login_success">¡Se logró con éxito!  Haz iniciado la sesión</string>
+	<string name="login_success">¡Se logró con éxito!  Haz iniciado sesión</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -589,7 +588,7 @@
 	<!-- Extra description for "app support" button, when space allows -->
 	<string name="app_support_description">Escríbenos y te contestaremos.</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">¿Te gustan las ofertas fabulosas? Cuentales a tus amigos sobre la aplicación.</string>
+	<string name="tell_a_friend_description">¿Te gustan las ofertas fabulosas? Cuéntales a tus amigos sobre la aplicación.</string>
 	<!-- Section header for other apps by Mobiata -->
 	<string name="travel_smart">Viaja inteligentemente</string>
 	<!-- Subject line for "tell a friend" feature -->
@@ -623,7 +622,7 @@
 	<!-- Category name for general preferences -->
 	<string name="preference_category_general">General</string>
 	<!-- Title for point of sale setting -->
-	<string name="preference_point_of_sale_title">Dominio</string>
+	<string name="preference_point_of_sale_title">País</string>
 	<!-- Template for default point of sale -->
 	<string name="default_point_of_sale_template">Predeterminado (%s)</string>
 
@@ -688,6 +687,49 @@
 	<string name="ean_error_connect_unavailable">No pudimos conectarnos con el hotel seleccionado para encontrar habitaciones disponibles.</string>
 	<!-- Error message displayed when the phone number sent via booking is invalid -->
 	<string name="ean_error_invalid_phone_number">Favor de ingresar un número de teléfono válido</string>
+	
+	<!-- Checkout API method -->
+	<!-- The hotel booking failed -->
+	<string name="e3_error_checkout_booking_failed">Un error no nos ha permitido completar tu reservación. Favor de intentarlo de nuevo.</string>
+	<!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
+	<string name="e3_error_checkout_booking_succeeded_with_errors">¡Ya has reservado tu habitación de hotel! Si necesitas un itinerario de inmediato, favor de llamar a Servicio a Clientes.</string>
+	<!-- The hotel room is no longer available -->
+	<string name="e3_error_checkout_hotel_room_unavailable">Lo sentimos pero la haitación que has solicitado ya no está disponible.</string>
+	<!-- There is invalid input in the hotel booking form. Please fix it. -->
+	<string name="e3_error_checkout_invalid_input">Favor de corregir la información incorrecta.</string>
+	<!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
+	<string name="e3_error_checkout_payment_failed">Lo sentimos pero no pudimos procesar tu pago. Favor de verificar que la información ingresada sea la correcta.</string>
+	
+	<!-- SearchResults API method -->
+	<!-- For some reason the API failed and we couldn't complete the search -->
+	<string name="e3_error_search_results_hotel_service_failure">Lo sentimos pero no pudimos completar tu búsqueda. Favor de intentarlo de nuevo.</string>
+	<!-- There were no results matching the input -->
+	<string name="e3_error_search_results_invalid_input">Lo sentimos pero no pudimos encontrar resultados para los términos de tu búsqueda. Favor de intentarlo de nuevo.</string>
+	<!-- There were no results matching the input -->
+	<string name="e3_error_search_results_invalid_input_unknown">Lo sentimos pero no pudimos encontrar resultados para los términos de tu búsqueda. Favor de intentarlo de nuevo.</string>
+	<!-- For some reason the API failed and we couldn't complete the search -->
+	<string name="e3_error_search_results_unknown_error">Lo sentimos pero no pudimos completar tu búsqueda. Favor de intentarlo de nuevo.</string>
+	
+	<!-- HotelOffers API method -->
+	<!-- The hotel offer is no longer available -->
+	<string name="e3_error_hotel_offers_hotel_offer_unavailable">¡Lo sentimos! La promoción para esta habitación ha terminado, sin embargo hay otras opciones disponibles.</string>
+	
+	<string name="e3_error_hotel_offers_hotel_room_unavailable">Lo sentimos pero la habitación que has solicitado ya no está disponible.</string>
+	<!-- For some reason the API failed and we couldn't complete the search -->
+	<string name="e3_error_hotel_offers_hotel_service_failure">Lo sentimos pero no pudimos conectarnos a Expedia. Favor de intentarlo de nuevo.</string>
+	<!-- There are no longer any rooms for the hotel offer -->
+	<string name="e3_error_hotel_offers_invalid_input">¡Lo sentimos! La promoción para esta habitación ha terminado, sin embargo hay otras opciones disponibles.</string>
+	<!-- There are no longer any rooms for the hotel offer -->
+	<string name="e3_error_hotel_offers_unknown_error">¡Lo sentimos! La promoción para esta habitación ha terminado, sin embargo hay otras opciones disponibles.</string>
+	
+	<!-- HotelProduct API method -->
+	<string name="e3_error_hotel_product_unknown_error">Ha surgido un error desconocido.</string>
+	<string name="e3_error_hotel_product_invalid_input">Ha surgido un error desconocido.</string>
+	
+	<!-- HotelInformation API method -->
+	<string name="e3_error_hotel_information_hotel_service_failure">Ha surgido un error desconocido.</string>
+	<string name="e3_error_hotel_information_unknown_error">Ha surgido un error desconocido.</string>
+	<string name="e3_error_hotel_information_invalid_input">Ha surgido un error desconocido.</string>
 
 	<!-- Currency names -->
 	<string name="currency_aud">Dólar australiano</string>
@@ -827,7 +869,7 @@
 	<string name="country_ke">Kenia</string>
 	<string name="country_ki">Kiribati</string>
 	<string name="country_kp">Corea, República Popular Democrática de</string>
-	<string name="country_kr">República de Corea</string>
+	<string name="country_kr">Corea</string>
 	<string name="country_kw">Kuwait</string>
 	<string name="country_kg">Kirguistán</string>
 	<string name="country_la">Laos, República Democrática Popular</string>
@@ -925,7 +967,7 @@
 	<string name="country_se">Suecia</string>
 	<string name="country_ch">Suiza</string>
 	<string name="country_sy">Siria, República Árabe</string>
-	<string name="country_tw">Taiwán, Provincia de China</string>
+	<string name="country_tw">Taiwán</string>
 	<string name="country_tj">Tayikistán</string>
 	<string name="country_tz">Tanzania, República Unida de </string>
 	<string name="country_th">Tailandia</string>

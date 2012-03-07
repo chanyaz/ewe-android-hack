@@ -147,7 +147,6 @@ public class LocalizationTests extends AndroidTestCase {
 
 			// ExpediaBookings
 			testString("prompt_select_child_age", 33, 65);
-			testString("child_x", 12);
 			testString("booking_info_template", "Chicago, IL", "Aug 24", "Aug 25, 2011");
 			testString("NoGeocodingResults", "San Francisco");
 			testString("sort_hotels_template", "Distance");
@@ -173,8 +172,6 @@ public class LocalizationTests extends AndroidTestCase {
 			testString("check_in_out_time_template", "3:00 PM", "Thursday");
 			testString("name_template", "Dan", "Lew");
 			testString("contact_phone_template", "12345680");
-			testString("contact_phone_china_template", "12345680", "12345680");
-			testString("contact_phone_default_template", "12345680", "12345680");
 			testString("share_subject_template", "My Hotel", "3/21", "3/24");
 			testString("default_point_of_sale_template", "CANADIA");
 			testString("distance_template", "5", "miles");

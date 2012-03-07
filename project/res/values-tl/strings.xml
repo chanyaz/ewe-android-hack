@@ -4,39 +4,40 @@
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">Ipasok ang lokasyon ng paghahanap...</string>
+	<string name="enter_search_location">Ipasok ang paghahanapan</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Maghanap ng Lokasyon</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Mga Kamakailang Paghahanap</string>
 	<!-- Label for searches that the user can make that are featured -->
-	<string name="featured_destinations">Mga Itinatampok na Destinasyon</string>
+	<string name="featured_destinations">Mga Itinatampok na Patutunguhan</string>
 	<!-- Label for button that starts search -->
 	<string name="search_for_hotels">Maghanap ng Mga Hotel</string>
 	<!--  Label for picking search location -->
-	<string name="where_are_you_going">&lt;b&gt; Saan &lt;/b&gt; kayo pupunta?</string>
+	<string name="where_are_you_going">&lt;b&gt;Saan&lt;/b&gt; kayo pupunta?</string>
 	<!--  Label for picking checkin/checkout dates -->
-	<string name="drag_to_extend_your_stay">&lt;b&gt;I-drag&lt;/b&gt; para patagalin ang inyong pananatili.</string>
+	<string name="drag_to_extend_your_stay">&lt;b&gt;I-drag&lt;/b&gt; sa tagal ng inyong pananatili.</string>
 	<!--  Label for picking guests for hotel booking -->
-	<string name="who_is_going">&lt;b&gt; Sino &lt;/b&gt; ang kasama?</string>
-	<!--  Label for tablet age selection popup button -->
-	<string name="button_enter_childrens_ages">Ipasok ang mga Edad ng (mga) Bata</string>
+	<string name="who_is_going">&lt;b&gt;Sino&lt;/b&gt; ang pupunta?</string>
 	<!-- Child age dialog button -->
-	<string name="button_done">Tapos na</string>
+	<string name="button_done">Tapos na </string>
 	<!--  Label for child age selection prompt -->
-	<string name="prompt_please_specify_childrens_ages">Mangyaring tukuyin ang mga edad ng (mga) bata.</string>
+	<plurals name="select_each_childs_age">
+	    <item quantity="one">Piliin ang edad ng (mga) bata</item>
+	    <item quantity="two">Piliin ang bawat edad ng (mga) bata</item>
+	    <item quantity="many">Piliin ang bawat edad ng (mga) bata</item>
+	    <item quantity="other">Piliin ang bawat edad ng (mga) bata</item>
+	</plurals>
 	<!--  Title of "select child age" spinner dialog box -->
-	<string name="prompt_select_child_age">Piliin ang Edad ng Bata %1$s - %2$s</string>
-	<!--  Label for child's age on search refinements -->
-	<string name="child_x">Bata %1$s</string>
+	<string name="prompt_select_child_age">Piliin ang Edad ng Bata (%1$s - %2$s)</string>
 	<!--  Text for child's age on search refinements and in spinner -->
 	<plurals name="child_age">
 		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; taong gulang</item>
-		<item quantity="two">&lt;b&gt; %d &lt;/b&gt; taong gulang</item>
-		<item quantity="many">&lt;b&gt; %d &lt;/b&gt; taong gulang</item>
-		<item quantity="other">&lt;b&gt; %d &lt;/b&gt; taong gulang</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; taong gulang</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; taong gulang</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; taong gulang</item>
 	</plurals>
-	<!-- Android doesn't handle "zero" as a special case in English. So we'll do it manually -->
+	<!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
 	<string name="child_age_less_than_one">&lt;b&gt;Mas bata sa 1&lt;/b&gt; taong gulang</string>
 	
 	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
@@ -61,23 +62,23 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt; to &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b&gt; %1$s &lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt; hanggang &lt;b&gt; %3$s &lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
-		<item quantity="zero">&lt;b&gt; %d &lt;/b&gt; katugmang mga hotel</item>
-		<item quantity="one">&lt;b&gt; %d &lt;/b&gt; katugmang mga hotel</item>
-		<item quantity="two">&lt;b&gt; %d &lt;/b&gt; katugmang mga hotel</item>
-		<item quantity="many">&lt;b&gt; %d &lt;/b&gt; katugmang mga hotel</item>
-		<item quantity="other">&lt;b&gt; %d &lt;/b&gt; katugmang mga hotel</item>
+		<item quantity="zero">&lt;b&gt; %d &lt;/b&gt; magkakatugmang hotel</item>
+		<item quantity="one">&lt;b&gt; %d &lt;/b&gt; magkakatugmang hotel</item>
+		<item quantity="two">&lt;b&gt; %d &lt;/b&gt; magkakatugmang hotel</item>
+		<item quantity="many">&lt;b&gt; %d &lt;/b&gt; magkakatugmang hotel</item>
+		<item quantity="other">&lt;b&gt; %d &lt;/b&gt; magkakatugmang hotel</item>
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">I-filter ayon sa pangalan ng hotel</string>
 	<!-- Label indicating that there are no results matching their current filter -->
 	<string name="no_filter_results">Pasensiya na, walang tumutugmang hotel sa inyong mga kasalukuyang filter.</string>
 	<!-- Label indicating that geolocation failed -->
-	<string name="geolocation_failed">Hindi matukoy ang lokasyon sa paghahanap.</string>
+	<string name="geolocation_failed">Hindi matukoy kung saang lokasyon maghahanap.</string>
 	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
-	<string name="NoGeocodingResults">Hindi mahanap ang lokasyon ng %s</string>
+	<string name="NoGeocodingResults">Hindi mahanap ang kinaroroonan ng %s.</string>
 	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
 	<string name="ChooseLocation">Ang ibig ba ninyong sabihin ay...</string>
 	<!-- Button label for upgrading the app -->
@@ -85,30 +86,30 @@
 	<!-- Button label for searching the visible map area -->
 	<string name="map_search_button">Maghanap sa Mapa</string>
 	<!-- Message when app is loading saved search results -->
-	<string name="loading_previous">Nilo-load ang nakaraang mga resulta ng paghahanap...</string>
+	<string name="loading_previous">Nilo-load ang mga nakaraang paghahanap...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">&quot;Uriin.&quot;</string>
+	<string name="sort_hotels">\&quot;Uriin:\&quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-	<string name="sort_hotels_template">&lt;b&gt;Uriin&lt;/b&gt;: %s</string>
+	<string name="sort_hotels_template">&lt;b&gt; Uriin &lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">I-filter ang Mga Hotel</string>
 	<!-- A number of results -->
 	<plurals name="number_of_results">
 		<item quantity="zero">&lt;b&gt; %d &lt;/b&gt; Mga Resulta</item>
-		<item quantity="one">&lt;b&gt; %d &lt;/b&gt; Mga Resulta</item>
+		<item quantity="one">&lt;b&gt; %d &lt;/b&gt; Resulta</item>
 		<item quantity="two">&lt;b&gt; %d &lt;/b&gt; Mga Resulta</item>
 		<item quantity="many">&lt;b&gt; %d &lt;/b&gt; Mga Resulta</item>
-		<item quantity="other">&lt;b&gt; %d &lt;/b&gt; Mga Resulta </item>
+		<item quantity="other">&lt;b&gt; %d &lt;/b&gt; Mga Resulta</item>
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">Para gamitin ang Aking Lokasyon, kailangan muna ninyong paganahin ang Panggagalingang lokasyon sa Mga Setting.\n Pumunta na ngayon sa Mga Setting at paganahin ito?</string>
+	<string name="EnableLocationSettings">Para gamitin ang Ang Aking Lokasyon, dapat munang mapagana ang Lokasyong pinanggagalingan sa Mga Settings.\nPumunta sa Mga Settings at paganahin na ngayon? </string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
-	<string name="ProviderDisabled">Hindi pinagana ang provider ng inyong lokasyon. Mangyaring muling paganahin ito upang maghanap ayon sa inyong lokasyon.</string>
+	<string name="ProviderDisabled">Hindi pinagana ang provider sa inyong lokasyon. Mangyaring paganahing ulit ito upang maghanap ayon sa inyong lokasyon.</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-	<string name="ProviderOutOfService">Hindi gumagana ang provider ng inyong lokasyon. Pakisubukang muli sa ibang pagkakataon.</string>
+	<string name="ProviderOutOfService">Hindi gumagana ang provider ng inyong lokasyon. Mangyaring saka na muling subukan.</string>
 	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">Pansamantalang hindi available ang provider sa inyong lokasyon.  Pakisubukang muli sa loob ng ilang minuto.</string>
+	<string name="ProviderTemporarilyUnavailable">Pansamantalang hindi available ang provider sa inyong lokasyon.  Pakisubukang muli pagkaraan ng ilang minuto.</string>
 
 	<!-- Sort descriptions, e.g. Sorted by "description" -->
 	<!-- Sort by distance label -->
@@ -163,7 +164,7 @@
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">Hindi Na-Rate</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-	<string name="percent_off_template">%2.0f%% OFF</string>
+	<string name="percent_off_template">%2.0f%%OFF</string>
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">I-filter ang Mga Resulta</string>
@@ -182,25 +183,25 @@
 	<!--  Default Loading message for widget -->
 	<string name="loading_hotels">Naglo-load ng mga hotel...</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">Magtipid ng %2.0f%%</string>
+	<string name="widget_savings_template">Makakatipid ng %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">Tapikin upang i-refresh</string>
 	<!--  Instructions on how to add widget to home screen -->
-	<string name="widget_add_instructions">Tapikin at ipindot nang matagal sa inyong home screen para maidagdag ang widget ng Hotel Radar.</string>
+	<string name="widget_add_instructions">Pindutin nang matagal ang inyong home screen upang idagdag ang widget ng Hotel Radar.</string>
 	<!--  Error string for widget when internet connection is unavailable -->
 	<string name="widget_error_no_internet">Walang Pagkakakonekta sa Internet</string>
 	<!--  Widget Branding title -->
 	<string name="hotel_radar">Hotel Radar</string>
 	<!--  Widget Branding description -->
-	<string name="book_a_room_tonight">Mag-book ng kwarto ngayong gabi.</string>
+	<string name="book_a_room_tonight">Mag-book ng kuwarto ngayong gabi.</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">&lt;b&gt; Idagdag ang Hotel Radar Widget.&lt;/b&gt;</string>
+	<string name="widget_upsell_short_1">&lt;b&gt;Idadag ang Hotel Radar Widget.&lt;/b&gt;</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">&lt;b&gt; Tumanggap gabi-gabi ng mga deal na malapit sa inyo!&lt;/b&gt;</string>
+	<string name="widget_upsell_short_2">&lt;b&gt;Tumanggap sa malapit kinaroroonan ninyo na mga deal sa bawat gabi! &lt;/b&gt;</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
-	<string name="book_now">Mag-book Na</string>
+	<string name="book_now">Mag-book Ngayon</string>
 	<!-- Label for the hotel's star rating -->
 	<string name="star_rating">Star Rating</string>
 	<!--  Title for star rating in hotel description section -->
@@ -211,8 +212,6 @@
 	<string name="address">Address</string>
 	<!-- Bullet point for list items  -->
 	<string name="bullet_point">•</string>
-    <!-- Label to view hotel in on expedia.com -->
-    <string name="view_this_hotel_on_website_template">Tingnan ang Hotel na ito sa %s &gt;</string>
 	
 	<!--  Hotel Details Fragment -->
 	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
@@ -224,13 +223,13 @@
 	<!--  Title for the amenities section in the hotel details fragment -->
 	<string name="amenities">Mga Amenity</string>
 	<!--  Label for button to see all reviews as a modal dialog -->
-	<string name="see_all_reviews">Tingnan ang Lahat ng mga Review</string>
+	<string name="see_all_reviews">Basahin ang Lahat ng Review</string>
 	<!-- Label for button that brings users to the room selection page -->
-	<string name="select_room">Pumili ng Kwarto</string>
+	<string name="select_room">Piliin ang Kuwarto</string>
 
 	<!-- Amenity strings -->
 	<!-- Text that indicates no amenities at this property -->
-	<string name="AmenityNone">Walang Amenity ang Iniaalok</string>
+	<string name="AmenityNone">Walang Amenity na Maiaalok</string>
 	<!-- Business center amenity -->
 	<string name="AmenityBusinessCenter">Business Center</string>
 	<!-- Fitness center amenity -->
@@ -240,11 +239,11 @@
 	<!-- Internet access amenity -->
 	<string name="AmenityInternet">Internet</string>
 	<!-- Kids' activities amenity -->
-	<string name="AmenityKidsActivities">Mga Aktibidad na Pambata</string>
+	<string name="AmenityKidsActivities">Mga Aktibidad ng Mga Bata</string>
 	<!-- Kitchen/kitchenette amenity -->
 	<string name="AmenityKitchen">Kusina</string>
 	<!-- Pets allowed amenity -->
-	<string name="AmenityPetsAllowed">Mga Alagang Hayop</string>
+	<string name="AmenityPetsAllowed">Mga Alaga</string>
 	<!-- Pool amenity -->
 	<string name="AmenityPool">Pool</string>
 	<!-- Restaurant on-site amenity -->
@@ -270,19 +269,19 @@
 	<!-- Roll-in shower amenity -->
 	<string name="AmenityRollInShower">Roll-In Shower</string>
 	<!-- Handicapped parking amenity -->
-	<string name="AmenityHandicappedParking">Paradahan para sa May Kapansanan</string>
+	<string name="AmenityHandicappedParking">Paradahan ng May Kapansanan</string>
 	<!-- In-room accessibility amenity -->
 	<string name="AmenityInRoomAccessibility">Madaling Mapuntahang Kwarto</string>
 	<!-- Accessibility equipment for the deaf amenity -->
-	<string name="AmenityDeafAccessibilityEquipment">Madaling Magamit ng May Kapansanan sa Pandinig</string>
+	<string name="AmenityDeafAccessibilityEquipment">Madaling Magamit ng may Kapansanan sa Pandinig</string>
 	<!-- Braille or raised signage amenity -->
 	<string name="AmenityBrailleSignage">Braille Signage</string>
 	<!-- Free airport shuttle amenity -->
 	<string name="AmenityFreeAirportShuttle">Airport Shuttle</string>
 	<!-- Indoor pool amenity -->
-	<string name="AmenityPoolIndoor">Pool sa Loob</string>
+	<string name="AmenityPoolIndoor">Indoor Pool</string>
 	<!-- Outdoor pool amenity -->
-	<string name="AmenityPoolOutdoor">Pool sa Labas</string>
+	<string name="AmenityPoolOutdoor">Outdoor Pool</string>
 	<!-- Extended parking amenity -->
 	<string name="AmenityExtendedParking">Extended na Paradahan</string>
 	<!-- Free parking amenity -->
@@ -290,21 +289,21 @@
 
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
-	<string name="user_review_loading_text">Inilo-load ang mga review ng user...</string>
+	<string name="user_review_loading_text">Naglo-load ng mga review ng user...</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Kamakailan</string>
 	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_favorable">Nakakabuti</string>
+	<string name="user_review_sort_button_favorable">Maganda</string>
 	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_critical">Kritikal</string>
+	<string name="user_review_sort_button_critical">Puna</string>
 	<!-- Loading more reviews -->
-	<string name="user_review_loading_more_reviews">Inilo-load pa ang mga ibang review...</string>
+	<string name="user_review_loading_more_reviews">Naglo-load ng mga mas marami pang review...</string>
 	<!-- Read more of the review -->
-	<string name="user_review_read_more">Magbasa ng mas marami pa</string>
+	<string name="user_review_read_more">Magbasa na mas marami pa</string>
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; ng &lt;b &gt;%2$d&lt;/b&gt; (na) bisita ang nagrerekomenda ng hotel ng ito.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; sa &lt;b&gt;%2$d&lt;/b&gt; na mga bisita ang nagrerekomenda ng hotel ng na ito.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d Mga Review</item>
@@ -318,51 +317,51 @@
 		2$ is the place they are from -->
 	<string name="user_review_name_and_location_signature">%1$smula%2$s</string>
 	<!-- User review no critical reviews -->
-	<string name="user_review_no_critical_reviews">Walang mga kritikal na review para sa hotel na ito</string>
+	<string name="user_review_no_critical_reviews">Walang puna na review para sa hotel na ito</string>
 	<!-- User review no favorable reviews -->
-	<string name="user_review_no_favorable_reviews">Walang mga nakakabuting review para sa hotel na ito</string>
+	<string name="user_review_no_favorable_reviews">Walang magandang review para sa hotel na ito</string>
 	<!-- User review no recent reviews -->
-	<string name="user_review_no_recent_reviews">Walang mga kamakailang review para sa hotel na ito</string>
+	<string name="user_review_no_recent_reviews">Walang kamakailang review para sa hotel na ito</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
 	<plurals name="staying_nights">
-		<item quantity="zero">Mananatili ng  %d (na) gabi</item>
+		<item quantity="zero">Mananatili ng %d gabi</item>
 		<item quantity="one">Mananatili ng %d gabi</item>
-		<item quantity="two">Mananatili ng %d (na) gabi</item>
-		<item quantity="many">Mananatili ng %d (na) gabi</item>
-		<item quantity="other">Mananatili ng %d (na) gabi</item>
+		<item quantity="two">Mananatili ng %d gabi</item>
+		<item quantity="many">Mananatili ng %d gabi</item>
+		<item quantity="other">Mananatili ng %d gabi</item>
 	</plurals>
 	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">Naghahanap ng mga bakanteng kwarto...</string>
+	<string name="room_rates_loading">Naghahanap ng mga available na kuwarto...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">Hindi ma-download ang mga impormasyon sa kwarto &amp; rate.  Pakitingnan ang inyong koneksyon at subukang muli.</string>
+	<string name="error_no_response_room_rates">Hindi ma-download ang impormasyon ng mga kuwarto &amp; rate.  Pakitingnan ang inyong koneksyon at subukang muli.</string>
 	<!-- Rate price displayed "per night" -->
-	<string name="rate_per_night">sa bawat gabi</string>
+	<string name="rate_per_night">bawat gabi</string>
 	<!-- Rate price displayed "average per night" -->
 	<string name="rate_avg_per_night">avg/gabi</string>
 	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
 	<plurals name="number_of_rooms_left">
-		<item quantity="zero">Wala nang mga kwartong natira!</item>
+		<item quantity="zero">Wala nang mga natirang kuwarto!</item>
 		<item quantity="one">1 kwarto na lamang ang natitira!</item>
-		<item quantity="two">%d (na) kwarto na lamang ang natitira!</item>
-		<item quantity="many">%d (na) kwarto na lamang ang natitira!</item>
-		<item quantity="other">%d (na) kwarto na lamang ang natitira!</item>
+		<item quantity="two">%d na lamang ang natitira!</item>
+		<item quantity="many">%d na lamang ang natitira!</item>
+		<item quantity="other">%d na lamang ang natitira!</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">Magtipid ng \n %2.0f%%</string>
+	<string name="savings_template">Makakatipid ng \n %2.0f%%</string>
 	<!-- Label for free nights -->
 	<string name="free">LIBRE!</string>
 	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
 	<string name="value_add_template">Kasama ang %s</string>
 	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
-	<string name="common_value_add_template">Kasama ang lahat ng mga kwarto%s</string>
+	<string name="common_value_add_template">Kasama lahat ng mga kuwarto %s</string>
 	<!--  Instruction as the header of the list to select a room from the list -->
 	<string name="select_a_room_instruction">Pumili ng Kwarto</string>
 	
 	<!-- Gallery -->
 	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
-	<string name="gallery_title_template">Mga litrato ng &lt;b&gt; %1$s &lt;/b&gt;</string>
+	<string name="gallery_title_template">Litrato ng &lt;b&gt; %1$s &lt;/b&gt;</string>
 	    
 	<!-- Booking info -->
 	<!-- edit label -->
@@ -370,9 +369,9 @@
 	<!-- Label for room type -->
 	<string name="room_type">Uri ng Kwarto</string>
 	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">Humihingi kami ng paumanhin, hindi namin mai-load ang mga detalye ng kwarto.  Suriin ang inyong koneksyon sa internet at subukang muli.</string>
+	<string name="error_room_type_load">Humihingi kami ng paumanhin, hindi kami makapag-load ng mga detalye ng kuwarto.  Suriin ang inyong koneksyon sa internet at subukang muli.</string>
 	<!-- Error if we couldn't find the room type details -->
-	<string name="error_room_type_nonexistant">Humihingi kami ng paumanhin, hindi kami makahanap ng mga karagdagang detalye sa kwartong ito.</string>
+	<string name="error_room_type_nonexistant">Humihingi kami ng paumanhin, hindi kami makahanap ng mga karagdagang detalye sa kuwartong ito.</string>
 	<!-- Label for bed type -->
 	<string name="bed_type">Uri ng Kama</string>
 	<!-- Label for length of stay -->
@@ -380,12 +379,12 @@
 	<!-- Quantity for the length of stay -->
 	<plurals name="length_of_stay">
 		<item quantity="one">1 gabi</item>
-		<item quantity="other">%d (na) gabi</item>
+		<item quantity="other">%d mga gabi</item>
 	</plurals>
 	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
-	<string name="room_rate_template">Rate ng Kwarto %s</string>
+	<string name="room_rate_template">Rate ng Kuwarto %s</string>
 	<!-- Label for the extra guest charge -->
-	<string name="extra_guest_charge">Bayarin sa Dagdag na Bisita</string>
+	<string name="extra_guest_charge">Bayarin sa Karagdagang Bisita</string>
 	<!-- Label for total cost of hotel stay -->
 	<string name="total_cost">Kabuuang Gastos</string>
 	<!-- Label for "guest info" form field section -->
@@ -427,13 +426,13 @@
 	<!-- Security code tip (if code is on front of card) -->
 	<string name="security_code_tip_back">Tingnan ang likod ng credit card</string>
 	<!-- Rules & restrictions section header -->
-	<string name="rules_restrictions">Mga Panuntunan &amp; Paghihigpit</string>
+	<string name="rules_restrictions">Mga Panuntunan &amp; Restriksiyon</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">Kung mayroon kayong Expedia Rewards account, mangyaring mag-book gamit ang parehong email address at awtomatikong mapo-post ang inyong points pagkatapos ng inyong pananatili. Pakitandaan na maaaring tumagal ng hanggang 30 araw para lumitaw ang inyong points.</string>
+	<string name="disclaimer_expedia_points">Kung mayroon kayong Expedia Rewards account, mangyaring mag-book gamit ang parehong email address at awtomatikong mapo-post ang inyong points pagkatapos ng inyong pananatili. Pakitandaan na maaaring tumagal nang hanggang 30 araw upang lumitaw ang inyong points.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
 	<string name="EnterBookingInfo">Ipasok ang Impormasyon ng Booking</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
-	<string name="charge_details_template">Masisingil ang iyong credit card %s</string>
+	<string name="charge_details_template">Masisingil ang inyong credit card %s</string>
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">Kumpirmahin &amp; I-book</string>
 	<!-- Label for clearing private data -->
@@ -441,7 +440,7 @@
 	<!-- Title for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_title">I-clear ang Pribadong Data?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_msg">Inaalis nito ang lahat ng mga naka-save na impormasyon sa pagsisingil at contact.</string>
+	<string name="dialog_clear_private_data_msg">Inaalis nito ang lahat ng naka-save na impormasyon ng pagsingil at contact.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Na-clear ang pribadong data</string>
 	<!-- Error message if field was required but not entered -->
@@ -449,29 +448,33 @@
 	<!-- Error message if field had data entered but was invalid -->
 	<string name="invalid_field">Mangyaring maglagay ng wastong halaga para sa field na ito.</string>
 	<!-- Error if an invalid card number was entered -->
-	<string name="invalid_card_number">Hindi wasto ang inilagay ninyong numero ng credit card, pakisubukang muli.</string>
+	<string name="invalid_card_number">Di wasto ang inilagay ninyong numero ng credit card, pakisubukang muli.</string>
 	<!-- Error if an invalid credit card type was entered -->
 	<string name="invalid_card_type">Hindi namin matukoy ang uri ng inyong credit card, mangyaring maglagay ng wastong credit card.</string>
 	<!-- Error if an invalid month (not 1-12) was entered -->
-	<string name="invalid_month">Mangyaring maglagay ng numero sa pagitan ng 1 at 12</string>
+	<string name="invalid_month">Mangyaring maglagay ng halaga sa pagitan ng 1 at 12</string>
 	<!-- Error if an invalid year was entered -->
 	<string name="invalid_expiration_year">Mangyaring maglagay ng taon na hindi pa nakakalipas</string>
 	<!-- Error if an invalid security code was entered -->
-	<string name="invalid_security_code">Mangyaring maglagay ng tatlo o apat na digit ng code na pangseguridad.</string>
+	<string name="invalid_security_code">Mangyaring maglagay ng tatlo o apat na digit ng code ng seguridad</string>
 	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">Ipagpaumanhin ninyo, ang mga kabayaran sa perang ito (%s) ay hindi suportado ng American Express. Mangyaring gumamit ng ibang credit card.</string>
+	<string name="invalid_currency_for_amex">Pasensiya na, ang mga kabayaran sa perang ito (%s) ay hindi ginagamit sa American Express. Mangyaring gumamit ng ibang credit card.</string>
 	<!-- Error if user agreement needs to be checked but is not -->
-	<string name="error_no_user_agreement">Dapat ninyong tanggapin ang mga tuntunin para makapag-book</string>
+	<string name="error_no_user_agreement">Dapat ninyong tanggapin ang mga tuntunin upang mag-book</string>
 	<!-- Message to display to user while booking is in progress -->
 	<string name="booking_loading">Binu-book...</string>
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Error</string>
 	<!-- Error message when we couldn't get a response -->
 	<string name="error_booking_null">Hindi makakonekta sa mga server ng Expedia.  Pakitingnan ang inyong koneksyon at subukang muli.</string>
+	<!-- Error message when booking completed with errors -->
+	<string name="error_booking_succeeded_with_errors">Ang inyong kuwarto sa hotel ay nai-book at naireserba na. Gayun pa man, may mga sumusunod na errors: %s</string>
+	<!-- Error message when booking completed with errors - specifically if email was not sent -->
+	<string name="error_unable_to_send_email">Hindi kami makapagpadala ng email na pangkumpirma</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$ssa%2$s</string>
 	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
-	<string name="enter_booking_info">Ipasok ang mga Impormasyon ng Booking</string>
+	<string name="enter_booking_info">Ipasok ang Impormasyon ng Booking</string>
 	<!--  Title for action bar when the user is on the booking info screen -->
 	<string name="booking_information_title">Impormasyon ng Booking</string>
 	<!-- Title for dialog where the user is prompted to enter booking booking information -->
@@ -487,15 +490,11 @@
 	<!-- Itinerary number label -->
 	<string name="itinerary_number"># ng Itinerary</string>
 	<!-- Confirmation email label -->
-	<string name="confirmation_email">Email sa Pagkumpirma</string>
+	<string name="confirmation_email">Email na Pagkumpirma</string>
 	<!-- Label for starting a new search -->
 	<string name="new_search">Bagong Paghahanap</string>
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
-	<string name="contact_phone_template">Kung kayo ay may anumang katanungan tungkol sa inyong pagpapareserba, mangyaring tawagan ang Expedia.com sa%s</string>
-	<!-- Contact info for China  where 1$ represents the number by CN NetCom and 2$ represents the number from CN Telecom-->
-	<string name="contact_phone_china_template">Kung kayo ay may anumang katanungan tungkol sa inyong pagpapareserba, mangyaring tawagan ang Expedia.com sa %1$s (CN NetCom) o  %2$s (CN Telecom).</string>
-	<!-- Contact info, unknown country where 1$ represents phone number in USA and 2$ represents phone number in Europe-->
-	<string name="contact_phone_default_template"> Kung kayo ay may anumang katanungan tungkol sa inyong pagpapareserba, mangyaring tawagan ang Expedia.com sa %1$s sa US/Canada o %2$s sa Europa.</string>
+	<string name="contact_phone_template">Kung may mga katanungan kayo tungkol sa inyong pagpapareserba, pakitawagan ang Expedia sa%s.</string>
 
 	<!--  Confirmation Fragment -->
 	<!-- Label to share booking information after a booking confirmation -->
@@ -511,13 +510,13 @@
 	<!-- Label for the taxes & fees for this booking. -->
 	<string name="TaxesAndFees">Mga Buwis &amp; Bayarin</string>
 	<!-- Label for the "Mandatory Fees" (bait & switch fees) -->
-	<string name="MandatoryFees">Mga Bayarin sa Hotel (Babayaran sa hotel)</string>
+	<string name="MandatoryFees">Mga Babayarin sa Hotel (Babayaran sa hotel)</string>
 	<!-- Label for the rate per room per night. -->
-	<string name="RatePerRoomPerNight">Rate bawat Kwarto bawat Gabi</string>
+	<string name="RatePerRoomPerNight">Rate bawat Kuwarto bawat Gabi</string>
 	<!-- Label for the total cost of the booking. -->
 	<string name="Total">Kabuuan</string>
 	<!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
-	<string name="PayToExpedia">Bayaran sa Expedia</string>
+	<string name="PayToExpedia">Magbayad sa Expedia</string>
 	<!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
 	<string name="CheckIn">Check In</string>
 	<!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
@@ -529,33 +528,33 @@
 	<!-- Policy displayed to user when the room is non-refundable -->
 	<string name="PolicyNonRefundable">Nag-aalok kami ng isang napakababang rate sa property na ito. Upang magawa ito, dapat namin itong gawing isang hindi nare-refund na rate. Kung pinili ninyong kanselahin ang pagpapareserbang ito, hindi mare-refund sa inyo ang anuman sa mga pagbabayad.</string>
 	<!-- Policy displayed to user when a deposit is required -->
-	<string name="PolicyDepositRequired">Sisingilin ang inyong credit card ng deposito para sa inyong pagpapareserba. Direktang sisingilin ng hotel ang inyong credit card kapag inilagay na ang inyong pagpapareserba.</string>
+	<string name="PolicyDepositRequired">Sisingilin ang inyong credit card ng deposito para sa inyong pagpapareserba. Sisingilin ng hotel ang inyong credit card nang direkta kapag inilagay na ang inyong pagpapareserba.</string>
 	<!-- Policy displayed to user when a guarantee is required -->
-	<string name="PolicyGuaranteeRequired">Kinakailangan ang impormasyon ng credit card upang magarantiya namin ang inyong pagpapareserba. Hindi sisingilin ang inyong credit card hanggang sa pagdating ninyo sa hotel o pagkalipas ng deadline para sa pagkansela.</string>
+	<string name="PolicyGuaranteeRequired">Kinakailangan ang impormasyon ng credit card upang magarantiya namin ang inyong pagpapareserba. Hindi sisingilin ang inyong credit card hanggang sa pagdating ninyo sa hotel o nakalipas na ang deadline sa pagkansela.</string>
 	<!-- Expedia merchant hotel policies -->
-	<string name="PolicyExpediaMerchant">Sa pagpapatuloy ng pagpapareserbang ito, kayo ay sumasang-ayon sa lahat ng mga takda at kondisyon, na kasama ang Patakaran sa Pagkakasenla at ang lahat ng mga takda at kondisyon na nakasaas sa Kasunduan ng User.\n\n Sumasang-ayon kayong bayaran ang singil ng inyong pagpapareserba. Kung hindi ninyo babayaran ang utang na ito at nakolekta ito sa pamamagitan ng paggamit ng ahensyang naniningil, ng isang abugado, o sa pamamagitan ng mga ibang legal na pamamaraan, sumasang-ayon kayong bayaran ang lahat ng makatuwirang gastos o bayarin, kasama na ang mga bayarin sa abugado at mga gastos sa hukuman, na naipon kaugnay ng nasabing pagsusumikap sa paniningil.</string>
+	<string name="PolicyExpediaMerchant">Sa pagpapatuloy ng pagpapareserbang ito, sumasang-ayon kayo sa lahat ng mga tuntunin at kondisyon, na kasama sa Patakaran sa Pagkakansela at lahat ng mga tuntunin at kondisyon na nakasaad sa Kasunduan ng User.\n \n Sumasang-ayon kayong bayaran ang singil sa inyong pagpapareserba. Kung hindi ninyo babayaran ang utang na ito at nakolekta ito sa pamamagitan ng paggamit ng ahensya sa pagkolekta, ng isang abogado, o sa pamamagitan ng ibang mga legal na pamamaraan, sumasang-ayon kayong bayaran ang lahat ng makatuwirang gastos o bayarin, kabilang ang mga bayarin sa abogado at mga gastos sa hukuman, na kaugnay ng nasabing pagsusumikap sa pagkolekta.</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">Nagbo-book kayo ng isang property na walang diskwento. Ang lahat ng ipinapakitang rate ay para sa bawat gabi, at pandalawahan sa bawat kwarto maliban kung iba ang tinukoy. Suriing mabuti ang mga paglalarawan sa kwarto at mga panuntunan ng rate para matiyak na magkakasya ang lahat sa inyong partido sa pinili ninyong kwarto. Ang ilang mga rate  ay malamang na mangailangan ng ibang pagkakakilanlan. Hindi kasama ang aming singil sa booking, mga buwis, at mga ibang singilin na isisingil ng hotel. Ang sinumang ekstrang nasa tamang edad na o mga bata na sumubra sa nakalista sa mananatili sa kuwarto ay maaaring masingil ng karagdagang bayarin ayon sa sariling pagpapasya ng property.\n\n Ang mga Kahilingan para sa mahigit sa 2 tao, o para sa mas marami kaysa sa naitakda para sa inyong napiling rate, ay ipapadala sa hotel ngunit hindi ito ginagarantiyahan. Kung tinanggap, masisingil sila ng karagdagang singil sa alinsunod sa sariling pagdedesisyon ng property.</string>
+	<string name="PolicyExpediaAgent">Nagbo-book kayo ng isang property na walang diskwento. Ang lahat ng ipinapakitang rate ay bawat gabi, at batay sa pandalawahan sa bawat kuwarto maliban kung iba ang tinukoy. Basahing mabuti ang mga paglalarawan ng kuwarto at mga panuntunan ng rate upang matiyak na ang pinili ninyong kuwarto ay kakasya sa inyong buong partido. Maaaring kakailanganin ng espesyal na pagkakakilanlan ang ilang mga rate. Hindi kasama ang aming singil sa booking, mga buwis, at ibang mga surcharge na sisingilin ng hotel. Sinumang ekstrang nasa edad o bata na nakalista na mananatili sa kuwarto ay maaaring masingil ng karagdagang singil alinsunod sa desisyon ng property.\n \nAng mga kahilingan para sa mahigit sa 2 tao, o para sa mas marami pa kaysa sa nakasaad sa inyong piniling rate, ay ipapadala sa hotel ngunit hindi ito ginagarantiyahan. Kung tinanggap, masisingil sila ng mga karagdagang singil ayon sa desisyon ng property.</string>
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
-	<string name="log_in">Mag Log in sa Expedia</string>
+	<string name="log_in">Mag-log in sa Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Password</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->
-	<string name="logging_in">Nagla-log in...</string>
+	<string name="logging_in">Nagla-log in ...</string>
 	<!-- Message that tells user they successfully logged in -->
-	<string name="login_success">Matagumpay!  Naka-log in ka na.</string>
+	<string name="login_success">Tagumpay!  Nakalog-in ka nan.</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-	<string name="share_subject_template">Itinerary sa Expedia - %1$s%2$s%3$s</string>
+	<string name="share_subject_template">Expedia Itinerary - %1$s (%2$s - %3$s)</string>
 	<!-- Preset at the top of the share body message -->
 	<string name="share_body_start">Narito ang impormasyon ng aking reservation ng hotel:</string>
 	<!-- Name of user -->
 	<string name="name">Pangalan</string>
 	<!-- Number of adults label -->
-	<string name="adults">Mga Nasa tamang edad</string>
+	<string name="adults">Mga Nasa Edad na</string>
 	<!-- Number of children label -->
 	<string name="children">Mga Bata</string>
 	<!-- Subtotal label -->
@@ -569,7 +568,7 @@
 	<!-- Extra description for "contact Expedia" button, when space allows -->
 	<string name="contact_expedia_description">Nandito kami para sa inyo 24 na oras sa isang araw.</string>
 	<!-- Title for different ways to connect to Expedia -->
-	<string name="contact_expedia_via">Makipag-ugnayan sa Expedia Sa...</string>
+	<string name="contact_expedia_via">Makipag-ugnayan sa Expedia sa...</string>
 	<!-- Contact Expedia via phone -->
 	<string name="contact_expedia_phone">Telepono</string>
 	<!-- Contact Expedia via email -->
@@ -581,27 +580,27 @@
 	<!-- Label for "Expedia website" button in info page -->
 	<string name="expedia_website">Website ng Expedia</string>
 	<!-- Extra description for "Expedia website" button, when space allows -->
-	<string name="expedia_website_description">Bisitahin ang website upang makapag-book ng mga flight, kotse, package at marami pang iba.</string>
+	<string name="expedia_website_description">Bisitahin ang website upang mag-book ng mga flight, kotse, package at iba pa.</string>
 	<!-- Extra description for "app feedback" button, when space allows -->
-	<string name="app_feedback_description">Ipaalam sa amin kung ano ang inyong palagay sa app.</string>
+	<string name="app_feedback_description">Ipaalam sa amin kung ano ang inyong palagay tungkol sa app.</string>
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">Suporta sa App</string>
 	<!-- Extra description for "app support" button, when space allows -->
-	<string name="app_support_description">Magpadala kayo ng mensahe sa amin para matugunan namin kayo.</string>
+	<string name="app_support_description">Magpadala ng mensahe sa amin nang matugunan namin kayo.</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">Gusto ninyo ng mga nakakagulat na deal sa hotel? Ipamalita sa inyong mga kaibigan ang tungkol sa app.</string>
+	<string name="tell_a_friend_description">Gusto ng mga nakakagulat na deal sa hotel? Ipamalita sa inyong mga kaibigan ang tungkol sa app.</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Maglakbay nang mas matipid</string>
+	<string name="travel_smart">Maglakbay nang Mahusay</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Mga Hotel ng Expedia</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hello, \n\n Tingnan ang mga Expedia Hotel para sa tepeono na iPhone at Android. LIBRE ito at madali kayong makakahanap at makakapag-book ng mga kwarto sa mahigit na 130,000 hotel sa buong mundo. Ito ang pinakamadaling paraan ng pagpapa-book sa inyong telepono ng mga kwarto sa hotel.\n \nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hello, \n \n Tingnan ang Expedia Hotels para sa iPhone at Andriod na telepono LIBRE ito at madali kayong makakahanap at makakapag-book ng mga kuwarto mula sa mahigit sa 130,000 na hotel sa buong mundo. Napakadaling magpa-book ng kuwarto sa hotel gamit ang inyong telepono.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
-	<string name="info_label_terms_conditions">Mga Tadhana at Kondisyon</string>
+	<string name="info_label_terms_conditions">Mga Tuntunin at Kondisyon</string>
 	<!-- Label for link to privacy policy -->
-	<string name="info_label_privacy_policy">Patakaran sa Pagiging Pribado</string>
+	<string name="info_label_privacy_policy">Patakaran sa Privacy</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Karapatang-ari 2011-2012 Expedia, Inc.\n Ang lahat ng mga karapatan ay inilalaan at pinanghahawakan.</string>
+	<string name="copyright">© Karapatang-ari 2011-2012 Expedia, Inc.\nLahat ng mga karapatan ay pinanghahawakan at inilalaan.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
@@ -611,61 +610,61 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Mangyaring Bigyan Kami Ng Rating</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Pinagana ng Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Patakaran sa Pagiging Pribado</a></string>
+	<string name="powered_by_opinion_lab">Pinagana ng Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Patakaran sa Pagkapribado</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">Email Address</string>
 	<!-- Hint to type in comments -->
-	<string name="feedback_hint">Ano ang mapapahusay namin?</string>
+	<string name="feedback_hint">Ano pa ang mas mapapahusay namin?</string>
 	<!-- Message displayed to users after they submit feedback -->
-	<string name="oosdk_thanks_txt">Salamat sa pagsusumite ng inyong opinyon. Pinahahalagahan namin ang feedback ng aming mga customer.</string>
+	<string name="oosdk_thanks_txt">Maraming salamat sa pagsusumite ng inyong opinyon. Pinahahalagahan namin ang feedback ng aming mga customer.</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
 	<string name="preference_category_general">Pangkalahatan</string>
 	<!-- Title for point of sale setting -->
-	<string name="preference_point_of_sale_title">Domain</string>
+	<string name="preference_point_of_sale_title">Bansa</string>
 	<!-- Template for default point of sale -->
-	<string name="default_point_of_sale_template">Default %s</string>
+	<string name="default_point_of_sale_template">Default (%s)</string>
 
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-		<item quantity="zero">%d Mga Nasa Edad na</item>
-		<item quantity="one">%d Nasa Edad na</item>
-		<item quantity="two">%d Mga Nasa Edad na</item>
-		<item quantity="many">%d Mga Nasa Edad na</item>
-		<item quantity="other">%d Mga Nasa Edad na</item>
+		<item quantity="zero">%dMga Nasa Edad Na</item>
+		<item quantity="one">%d Nasa Edad Na</item>
+		<item quantity="two">%dMga Nasa Edad Na</item>
+		<item quantity="many">%dMga Nasa Edad Na</item>
+		<item quantity="other">%dMga Nasa Edad Na</item>
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-		<item quantity="zero">%d Mga Bata</item>
+		<item quantity="zero">%dMga Bata</item>
 		<item quantity="one">%d Bata</item>
-		<item quantity="two">%d Mga Bata</item>
-		<item quantity="many">%d Mga Bata</item>
-		<item quantity="other">%d Mga Bata</item>
+		<item quantity="two">%dMga Bata</item>
+		<item quantity="many">%dMga Bata</item>
+		<item quantity="other">%dMga Bata</item>
 	</plurals>
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
-		<item quantity="zero">%d Mga Bisita</item>
-		<item quantity="one">%d Bisita</item>
-		<item quantity="two">%d Mga Bisita</item>
-		<item quantity="many">%d Mga Bisita</item>
-		<item quantity="other">%d Mga Bisita</item>
+		<item quantity="zero">%dMga Bisita</item>
+		<item quantity="one">%dBisita</item>
+		<item quantity="two">%dMga Bisita</item>
+		<item quantity="many">%dMga Bisita</item>
+		<item quantity="other">%dMga Bisita</item>
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">
-		<item quantity="zero">%d Mga Gabi</item>
-		<item quantity="one">%d Gabi</item>
-		<item quantity="two">%d Mga Gabi</item>
-		<item quantity="many">%d Mga Gabi</item>
-		<item quantity="other">%d Mga Gabi</item>
+		<item quantity="zero">%dMga Gabi</item>
+		<item quantity="one">%dGabi</item>
+		<item quantity="two">%dMga Gabi</item>
+		<item quantity="many">%dMga Gabi</item>
+		<item quantity="other">%dMga Gabi</item>
 	</plurals>
 
 	<!-- Distance strings -->
 	<!-- Abbreviated miles (used in distance_template) -->
 	<string name="unit_miles">mi</string>
 	<!-- Abbreviated kilometers (used in distance_template) -->
-	<string name="unit_kilometers">ki</string>
+	<string name="unit_kilometers">km</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
 	<string name="distance_template">%1$s %2$s ang layo</string>
 	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
@@ -675,7 +674,7 @@
 	<!-- Label for "settings" menu item. -->
 	<string name="Settings">Mga Setting</string>
 	<!-- Label for "about this app" menu item. -->
-	<string name="About">Tungkol sa</string>
+	<string name="About">Impormasyon</string>
 
 	<!-- Preferences strings -->
 	<!-- String for default preference setting (for any given preference) -->
@@ -683,11 +682,54 @@
 	
 	<!-- Error strings - replacements for default EAN errors -->
 	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_no_results">Ipagpaumanhin ninyo, wala kaming mahanap na anumang mga bakanteng hotel sa oras na ito. Mangyaring subukan ang ibang mga petsa o isa pang lokasyon.</string>
+	<string name="ean_error_no_results">Pasensiya na, wala kaming mahanap na bakanteng hotel sa oras na ito. Pakisubukan ang mga ibang petsa o lokasyon.</string>
 	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_connect_unavailable">Hindi makakonekta sa piniling hotel para makahanap ng mga bakanteng kwarto.</string>
+	<string name="ean_error_connect_unavailable">Hindi makakonekta sa piniling hotel para makahanap ng bakanteng kuwarto.</string>
 	<!-- Error message displayed when the phone number sent via booking is invalid -->
-	<string name="ean_error_invalid_phone_number">Maglagay ng tamang numero ng telepono</string>
+	<string name="ean_error_invalid_phone_number">Pakilagay ang tamang numero ng telepono</string>
+	
+	<!-- Checkout API method -->
+	<!-- The hotel booking failed -->
+	<string name="e3_error_checkout_booking_failed">May pumipigil na error sa aming pagkumpleto ng inyong booking. Pakisubukan muli.</string>
+	<!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
+	<string name="e3_error_checkout_booking_succeeded_with_errors">Matagumpay ninyong nai-book ang inyong hotel! Kung kailangan ninyo kaagad ang itinerary, pakitawagan ang Expedia Customer Support.</string>
+	<!-- The hotel room is no longer available -->
+	<string name="e3_error_checkout_hotel_room_unavailable">Pasensiya na, ang inyong hinihiling na kuwarto ay hindi na bakante.</string>
+	<!-- There is invalid input in the hotel booking form. Please fix it. -->
+	<string name="e3_error_checkout_invalid_input">Pakiayos ang maling impormasyon.</string>
+	<!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
+	<string name="e3_error_checkout_payment_failed">Pasensiya na, hindi namin maproseso ang inyong pagbabayad. Pakitiyak na tama ang inyong inilagay na impormasyon.</string>
+	
+	<!-- SearchResults API method -->
+	<!-- For some reason the API failed and we couldn't complete the search -->
+	<string name="e3_error_search_results_hotel_service_failure">Pasensiya na, hindi namin makumpleto ang inyong paghahanap. Pakisubukan muli.</string>
+	<!-- There were no results matching the input -->
+	<string name="e3_error_search_results_invalid_input">Pasensiya na, hindi namin mapalitaw ang mga resulta ng inyong hinahanap. Pakisubukan muli.</string>
+	<!-- There were no results matching the input -->
+	<string name="e3_error_search_results_invalid_input_unknown">Pasensiya na, hindi namin mapalitaw ang mga resulta ng inyong hinahanap. Pakisubukan muli.</string>
+	<!-- For some reason the API failed and we couldn't complete the search -->
+	<string name="e3_error_search_results_unknown_error">Pasensiya na, hindi namin makumpleto ang inyong paghahanap. Pakisubukan muli.</string>
+	
+	<!-- HotelOffers API method -->
+	<!-- The hotel offer is no longer available -->
+	<string name="e3_error_hotel_offers_hotel_offer_unavailable">Pasensiya na! Natapos na ang promo sa kuwartong ito, pero may iba pang promo.</string>
+	
+	<string name="e3_error_hotel_offers_hotel_room_unavailable">Pasensiya na, ang inyong hinihiling na kuwarto ay hindi na bakante.</string>
+	<!-- For some reason the API failed and we couldn't complete the search -->
+	<string name="e3_error_hotel_offers_hotel_service_failure">Pasensiya na, hindi kami makakonekta sa Expedia. Pakisubukan muli.</string>
+	<!-- There are no longer any rooms for the hotel offer -->
+	<string name="e3_error_hotel_offers_invalid_input">Pasensiya na! Natapos na ang promo sa kuwartong ito, pero may iba pang promo.</string>
+	<!-- There are no longer any rooms for the hotel offer -->
+	<string name="e3_error_hotel_offers_unknown_error">Pasensiya na! Natapos na ang promo sa kuwartong ito, pero may iba pang promo.</string>
+	
+	<!-- HotelProduct API method -->
+	<string name="e3_error_hotel_product_unknown_error">May naganap na di matukoy na error.</string>
+	<string name="e3_error_hotel_product_invalid_input">May naganap na di matukoy na error.</string>
+	
+	<!-- HotelInformation API method -->
+	<string name="e3_error_hotel_information_hotel_service_failure">May naganap na di matukoy na error.</string>
+	<string name="e3_error_hotel_information_unknown_error">May naganap na di matukoy na error.</string>
+	<string name="e3_error_hotel_information_invalid_input">May naganap na di matukoy na error.</string>
 
 	<!-- Currency names -->
 	<string name="currency_aud">Australian Dollar</string>
@@ -827,7 +869,7 @@
 	<string name="country_ke">Kenya</string>
 	<string name="country_ki">Kiribati</string>
 	<string name="country_kp">Korea, Democratic People\&apos;s Republic of</string>
-	<string name="country_kr">Korea, Republic of</string>
+	<string name="country_kr">Korea</string>
 	<string name="country_kw">Kuwait</string>
 	<string name="country_kg">Kyrgyzstan</string>
 	<string name="country_la">Lao People\&apos;s Democratic Republic</string>
@@ -925,7 +967,7 @@
 	<string name="country_se">Sweden</string>
 	<string name="country_ch">Switzerland</string>
 	<string name="country_sy">Syrian Arab Republic</string>
-	<string name="country_tw">Taiwan, Province of China</string>
+	<string name="country_tw">Taiwan</string>
 	<string name="country_tj">Tajikistan</string>
 	<string name="country_tz">Tanzania, United Republic of</string>
 	<string name="country_th">Thailand</string>
