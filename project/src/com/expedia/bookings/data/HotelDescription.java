@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
@@ -31,14 +32,15 @@ public class HotelDescription {
 		private static HashSet<String> sPropertyAmenitiesStrings;
 		private static HashSet<String> sFeesStrings;
 		private static HashSet<String> sPoliciesStrings;
-		private static Context sContext;
+		private static Resources sResources;
 
 		public static void initSectionStrings(Context context) {
-			if (context != sContext || sContext == null) {
-				sContext = context;
-				sPropertyAmenitiesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_property_amenities)));
-				sFeesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_fees)));
-				sPoliciesStrings = new HashSet<String>(Arrays.asList(context.getResources().getStringArray(R.array.section_strings_policies)));
+			Resources r = context.getResources();
+			if (sResources == null || sResources != r) {
+				sResources = r;
+				sPropertyAmenitiesStrings = new HashSet<String>(Arrays.asList(r.getStringArray(R.array.section_strings_property_amenities)));
+				sFeesStrings = new HashSet<String>(Arrays.asList(r.getStringArray(R.array.section_strings_fees)));
+				sPoliciesStrings = new HashSet<String>(Arrays.asList(r.getStringArray(R.array.section_strings_policies)));
 			}
 		}
 
@@ -65,7 +67,6 @@ public class HotelDescription {
 	 * FIXME: May have out-of-bounds exceptions with the indexOf operations.
 	 */
 	public void parseDescription(String html) {
-		Log.d("HERE " +html);
 		// See MOHotelDescription.m
 		final String bullet = "<br/>" + mContext.getString(R.string.bullet_point) + " ";
 		final String justBullet = mContext.getString(R.string.bullet_point) + " ";
