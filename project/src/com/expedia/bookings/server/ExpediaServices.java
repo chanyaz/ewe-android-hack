@@ -297,8 +297,10 @@ public class ExpediaServices implements DownloadListener {
 					: "https://karmalab.mobiata.com/appsupport/ean_api/service";
 		}
 		else {
-			serverUrl = (isRelease) ? "http://hotelpal.mobiata.com/appsupport/ean_api/service"
-					: "http://karmalab.mobiata.com/appsupport/ean_api/service";
+			// doRequest() is only used for TRS reviews() at this point, and the dev
+			// server is falling over.  As a result, we're going to just use the prod
+			// reviews service.
+			serverUrl = "http://hotelpal.mobiata.com/appsupport/ean_api/service";
 		}
 
 		// Create the request
