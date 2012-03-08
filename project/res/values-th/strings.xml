@@ -164,7 +164,7 @@
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">ไม่มีคะแนนมาตรฐาน </string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-	<string name="percent_off_template">ลด %2.0f%</string>
+	<string name="percent_off_template">ลด %2.0f%%</string>
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">จำกัดผลลัพธ์</string>
@@ -183,7 +183,7 @@
 	<!--  Default Loading message for widget -->
 	<string name="loading_hotels">กำลังโหลดโรงแรม... </string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">ลด %2.0f%</string>
+	<string name="widget_savings_template">ลด %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">แตะเพื่อรีเฟรช </string>
 	<!--  Instructions on how to add widget to home screen -->
@@ -349,7 +349,7 @@
 		<item quantity="other">เหลือเพียง %d ห้อง</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">ลด \n %2.0f%</string>
+	<string name="savings_template">ลด \n %2.0f%%</string>
 	<!-- Label for free nights -->
 	<string name="free">ฟรี!</string>
 	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->

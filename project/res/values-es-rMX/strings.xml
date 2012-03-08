@@ -219,7 +219,7 @@
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
 	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; de</string>
 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
-	<string name="reviews_recommended_template">Recomendado por %1$d de %2$ huéspedes</string>
+	<string name="reviews_recommended_template">Recomendado por %1$d de %2$d huéspedes</string>
 	<!--  Title for the amenities section in the hotel details fragment -->
 	<string name="amenities">Amenidades</string>
 	<!--  Label for button to see all reviews as a modal dialog -->
