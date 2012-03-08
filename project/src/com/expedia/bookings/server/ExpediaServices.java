@@ -526,39 +526,11 @@ public class ExpediaServices implements DownloadListener {
 	// We need to find replacements for these calls in E3
 
 	@Deprecated
-	@SuppressWarnings("unchecked")
-	public List<CreditCardBrand> paymentInfo() {
-		// Construct the request
-		JSONObject request = new JSONObject();
-		try {
-			addStandardRequestFields(request, "payment_info");
-
-			// Construct the body
-			JSONObject body = new JSONObject();
-			request.put("body", body);
-
-			body.put("locale", Locale.getDefault().toString());
-			addCurrencyCode(body);
-		}
-		catch (JSONException e) {
-			Log.e("Could not construct JSON payment info object.", e);
-			return null;
-		}
-
-		return (List<CreditCardBrand>) doRequest(request, new PaymentInfoResponseHandler(), 0);
-	}
-
-	@Deprecated
 	private void addStandardRequestFields(JSONObject request, String type) throws JSONException {
 		request.put("type", type);
 		if (!AndroidUtils.isRelease(mContext)) {
 			request.put("echoRequest", true);
 		}
 		request.put("cid", 345106);
-	}
-
-	@Deprecated
-	private void addCurrencyCode(JSONObject body) throws JSONException {
-		//body.put("currencyCode", CurrencyUtils.getCurrencyCode(mContext));
 	}
 }
