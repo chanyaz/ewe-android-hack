@@ -184,7 +184,7 @@
         <Button
             android:id="@+id/done_button"
             style="@style/Widget.Button.Yellow"
-            android:layout_width="150dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
