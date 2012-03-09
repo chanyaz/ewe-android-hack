@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,7 +24,7 @@ import com.expedia.bookings.widget.ReceiptWidget;
 public class BookingInfoFragment extends Fragment implements EventHandler {
 
 	private View mCompleteBookingInfoButton;
-	
+
 	private ReceiptWidget mReceiptWidget;
 
 	public static BookingInfoFragment newInstance() {
@@ -50,13 +49,8 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 				((BookingFragmentActivity) getActivity()).enterBookingInfo();
 			}
 		});
-		
-		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), false);
 
-		/*
-		 * Configuring the policy cancellation section
-		 */
-		ConfirmationUtils.determineCancellationPolicy(getInstance().mRate, view);
+		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), false);
 
 		TextView contactView = (TextView) view.findViewById(R.id.contact_text_view);
 		String contactText = ConfirmationUtils.determineContactText(getActivity());
@@ -64,6 +58,7 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 
 		updateReceipt();
 		updateRoomDescription(view);
+		ConfirmationUtils.determineCancellationPolicy(getInstance().mRate, view);
 
 		final View receipt = view.findViewById(R.id.receipt);
 		final View roomDetailsContainer = view.findViewById(R.id.room_details_container_right);
@@ -113,6 +108,7 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 		case BookingFragmentActivity.EVENT_RATE_SELECTED:
 			updateReceipt();
 			updateRoomDescription(getView());
+			ConfirmationUtils.determineCancellationPolicy(getInstance().mRate, getView());
 			break;
 		}
 
@@ -130,7 +126,7 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 		TextView roomTypeDescriptionTextView = (TextView) view.findViewById(R.id.room_type_description_text_view);
 		LayoutUtils.layoutRoomLongDescription(getActivity(), rate, roomTypeDescriptionTextView);
 	}
-	
+
 	private void updateReceipt() {
 		InstanceFragment instance = getInstance();
 		mReceiptWidget.updateData(instance.mProperty, instance.mSearchParams, instance.mRate);
