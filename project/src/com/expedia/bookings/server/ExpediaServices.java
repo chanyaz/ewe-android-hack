@@ -14,7 +14,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -44,7 +43,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.CreditCardBrand;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -68,6 +66,8 @@ public class ExpediaServices implements DownloadListener {
 	private static final String COOKIES_FILE = "cookies.dat";
 
 	public static final int REVIEWS_PER_PAGE = 25;
+	
+	public static final int HOTEL_MAX_RESULTS = 200;
 
 	public enum ReviewSort {
 		NEWEST_REVIEW_FIRST("NewestReviewFirst"), HIGHEST_RATING_FIRST("HighestRatingFirst"), LOWEST_RATING_FIRST(
@@ -124,7 +124,7 @@ public class ExpediaServices implements DownloadListener {
 		addBasicParams(query, params);
 
 		// These values are always the same (for now)
-		query.add(new BasicNameValuePair("resultsPerPage", "25"));
+		query.add(new BasicNameValuePair("resultsPerPage", HOTEL_MAX_RESULTS + ""));
 		query.add(new BasicNameValuePair("pageIndex", "0"));
 		query.add(new BasicNameValuePair("filterUnavailable", "true"));
 		query.add(new BasicNameValuePair("filterInventoryType", "MERCHANT"));
