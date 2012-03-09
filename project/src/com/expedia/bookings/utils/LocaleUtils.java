@@ -1,13 +1,17 @@
 package com.expedia.bookings.utils;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Queue;
 
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.mobiata.android.util.ResourceUtils;
 import com.mobiata.android.util.SettingUtils;
 
@@ -93,6 +97,49 @@ public class LocaleUtils {
 			put("sv", "sv,sv_SE");
 			put("th", "th,th_TH");
 			put("zh", "zh,zh_HK,zh_TW");
+		}
+	};
+
+	private static final Map<String, LinkedList<String>> LOCALE_TO_EXPEDIA_PRIORITY_LIST = new HashMap<String, LinkedList<String>>() {
+		{
+			put("da_DK", new LinkedList<String>(Arrays.asList("da", "en")));
+			put("de_AT", new LinkedList<String>(Arrays.asList("de", "en")));
+			put("de_DE", new LinkedList<String>(Arrays.asList("de", "en")));
+			put("en_CA", new LinkedList<String>(Arrays.asList("en", "fr")));
+			put("en_ID", new LinkedList<String>(Arrays.asList("en", "id")));
+			put("en_MY", new LinkedList<String>(Arrays.asList("en", "ms")));
+			put("es_AR", new LinkedList<String>(Arrays.asList("en", "pt", "es")));
+			put("es_ES", new LinkedList<String>(Arrays.asList("es")));
+			put("es_MX", new LinkedList<String>(Arrays.asList("es")));
+			put("fr_BE", new LinkedList<String>(Arrays.asList("fr", "en")));
+			put("fr_CA", new LinkedList<String>(Arrays.asList("fr")));
+			put("fr_FR", new LinkedList<String>(Arrays.asList("fr", "en")));
+			put("id_ID", new LinkedList<String>(Arrays.asList("id", "en")));
+			put("it_IT", new LinkedList<String>(Arrays.asList("it", "en")));
+			put("ja_JP", new LinkedList<String>(Arrays.asList("ja")));
+			put("ko_KR", new LinkedList<String>(Arrays.asList("ko", "en")));
+			put("ms_MY", new LinkedList<String>(Arrays.asList("ms", "en")));
+			put("nl_BE", new LinkedList<String>(Arrays.asList("nl", "en")));
+			put("nl_NL", new LinkedList<String>(Arrays.asList("nl", "en")));
+			put("no_NO", new LinkedList<String>(Arrays.asList("no", "en")));
+			put("pt_BR", new LinkedList<String>(Arrays.asList("pt", "es")));
+			put("sv_SE", new LinkedList<String>(Arrays.asList("sv", "en")));
+			put("th_TH", new LinkedList<String>(Arrays.asList("th", "en")));
+			put("zh_HK", new LinkedList<String>(Arrays.asList("zh")));
+			put("zh_TW", new LinkedList<String>(Arrays.asList("zh")));
+
+			//			All other en displays: All English
+			//
+			//			no_NO: All Norwegian and English
+			//
+			//			pt_BR: All Portuguese and Spanish
+			//
+			//			sv_SE: All Swedish and English
+			//
+			//			th_TH: All Thai and English
+			//
+			//			zh_HK: All Chinese
+			//			zh_TW: All Chinese
 		}
 	};
 
@@ -198,11 +245,18 @@ public class LocaleUtils {
 		// Not a dual-langauge POS or no valid language found, return null
 		return null;
 	}
-	
+
 	private static String sCachedLanguageCode;
-	
+
 	public static void invalidateLanguageCodeCache() {
 		sCachedLanguageCode = null;
+	}
+
+	public static String ensureCachedLanguageCodeFilled() {
+		if (sCachedLanguageCode == null) {
+			sCachedLanguageCode = Locale.getDefault().getLanguage();
+		}
+		return sCachedLanguageCode;
 	}
 
 	/**
@@ -216,29 +270,32 @@ public class LocaleUtils {
 	 * @return set of locales for BazaarVoice
 	 */
 
-	public static String getBazaarVoiceContentLocales(Context context) {
+	public static String getBazaarVoiceContentLocales(Context context, ReviewSort sort) {
 		LinkedList<String> languageCodes = new LinkedList<String>();
-		
+
 		// ensure cache is filled
 		if (null == sCachedPointOfSale) {
 			sCachedPointOfSale = getDefaultPointOfSale(context);
 		}
-		
+
 		if (null == sCachedLanguageCode) {
 			sCachedLanguageCode = Locale.getDefault().getLanguage();
 		}
 
 		// grab the language codes
 		if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_dk))) {
+			// DANISH -> ENGLISH
 			languageCodes.add("da");
 			languageCodes.add("en");
 
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_at))) {
+			// GERMAN -> ENGLISH
 			languageCodes.add("de");
 			languageCodes.add("en");
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_de))) {
+			// GERMAN -> ENGLISH
 			languageCodes.add("de");
 			languageCodes.add("en");
 		}
@@ -247,11 +304,13 @@ public class LocaleUtils {
 				languageCodes.add("fr");
 			}
 			else {
+				// FRENCH -> ENGLISH
 				languageCodes.add("fr");
 				languageCodes.add("en");
 			}
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_ar))) {
+			// LUMPED TOGETHER
 			languageCodes.add("en");
 			languageCodes.add("pt");
 			languageCodes.add("es");
@@ -264,23 +323,28 @@ public class LocaleUtils {
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_be))) {
 			if (sCachedLanguageCode.equals("fr")) {
+				// FRENCH -> ENGLISH
 				languageCodes.add("fr");
 				languageCodes.add("en");
 			}
 			else {
+				// NL -> ENGLISH
 				languageCodes.add("nl");
 				languageCodes.add("en");
 			}
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_id))) {
+			// INDONESIAN -> ENGLISH
 			languageCodes.add("id");
 			languageCodes.add("en");
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_fr))) {
+			// FRENCH -> ENGLISH
 			languageCodes.add("fr");
 			languageCodes.add("en");
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_it))) {
+			// ITALIAN -> ENGLISH
 			languageCodes.add("it");
 			languageCodes.add("en");
 
@@ -289,33 +353,40 @@ public class LocaleUtils {
 			languageCodes.add("ja");
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_kr))) {
+			// KOREAN -> ENGLISH
 			languageCodes.add("ko");
 			languageCodes.add("en");
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_my))) {
+			// MALAYSIAN -> ENGLISH
 			languageCodes.add("ms");
 			languageCodes.add("en");
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_nl))) {
+			// NEDERLANDS -> ENGLISH
 			languageCodes.add("nl");
 			languageCodes.add("en");
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_no))) {
+			// NORWEGIAN -> ENGLISH
 			languageCodes.add("no");
 			languageCodes.add("en");
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_br))) {
+			// PORTUGEUESE -> SPANISH
 			languageCodes.add("pt");
 			languageCodes.add("es");
 
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_se))) {
+			// SWEDISH -> ENGLISH
 			languageCodes.add("sv");
 			languageCodes.add("en");
 
 		}
 		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_th))) {
 			if (sCachedLanguageCode.equals("th")) {
+				// THAI -> ENGLISH
 				languageCodes.add("th");
 				languageCodes.add("en");
 			}
@@ -336,16 +407,136 @@ public class LocaleUtils {
 				languageCodes.add("zh");
 			}
 			else {
+				// ENGLISH -> CHINESE
 				languageCodes.add("en");
 				languageCodes.add("zh");
 			}
 		}
 		else {
+			// FALLBACK TO ENGLISH DEFAULT?
 			languageCodes.add("en");
 		}
 
-		return formatLanguageCodes(languageCodes);
+		String codes = formatLanguageCodes(languageCodes);
+
+		// add flag to end of the string to denote that this list of language codes
+		// has a priority, so request reviews by a certain language, then the next language
+		// instead of grouping all of the languages at once
+		if (sort == ReviewSort.NEWEST_REVIEW_FIRST) {
+
+		}
+
+		return codes;
 	}
+
+	/**
+	 * The purpose of this class is to contain all of the bookkeeping related to the paging of reviews
+	 * for a priority list of languages. For instance, using the language priority algorithm for the recent
+	 * sort order, this instances of this class will store the pageNumber, the totalCount, localeCode
+	 * 
+	 * The UserReviewsListActivity will create a list of ReviewLanguageSet objects that are relevant to its POS
+	 * and device language. Some POS will have only one object in its list, if there is no priority exhibited
+	 * in the Expedia behavior. This makes the implementation extensible for all configurations that Expedia could
+	 * possibly throw our way.
+	 * 
+	 * @author brad
+	 *
+	 */
+	public static class ReviewLanguageSet {
+
+		private String localesString;
+
+		private int totalCount;
+
+		private int pageNumber;
+
+		public ReviewLanguageSet() {
+			this.pageNumber = 0;
+		}
+
+		/**
+		 * Function returns true if there are more reviews to be requested, i.e. another network call should be made
+		 * @return
+		 */
+		public boolean hasMore() {
+			// determine the number of reviews collected so far
+			int numberCollected = pageNumber * ExpediaServices.REVIEWS_PER_PAGE;
+
+			if (numberCollected >= totalCount) {
+				return false;
+			}
+
+			return true;
+		}
+
+		public void setTotalCount(int count) {
+			this.totalCount = count;
+		}
+
+		public void addLanguage(String languageCode) {
+			if (localesString != null) {
+				localesString += ",";
+			}
+			localesString += LANGUAGE_CODE_TO_CONTENT_LOCALE.get(languageCode);
+		}
+
+		public void setLocalesString(String localesString) {
+			this.localesString = localesString;
+		}
+	}
+
+	public static HashMap<ReviewSort, LinkedList<ReviewLanguageSet>> getRequestListMap(Context context) {
+		ensurePOSCountryCodesCacheFilled(context);
+		ensurePOSDefaultLocalesCacheFilled(context);
+
+		HashMap<ReviewSort, LinkedList<ReviewLanguageSet>> map = new HashMap<ReviewSort, LinkedList<ReviewLanguageSet>>();
+
+		// construct the device locale based on device language and device POS
+		String locale = sCachedLanguageCode;
+		locale += "_";
+		locale += sPOSCountryCodes.get(sCachedPointOfSale);
+
+		// set locale to default if the constructed locale is bunk
+		if (!LOCALE_TO_EXPEDIA_PRIORITY_LIST.containsKey(locale)) {
+			locale = sPOSDefaultLocales.get(sCachedPointOfSale);
+		}
+
+		// iterate through the list of language code, and create the proper ReviewLanguageSet meta object(s)
+		// for each map to be store in list of ReviewLangaugeSet
+
+		LinkedList<String> languages = LOCALE_TO_EXPEDIA_PRIORITY_LIST.get(locale);
+
+		// RECENT SORT ORDER
+		LinkedList<ReviewLanguageSet> recentReviewLanguageSet = new LinkedList<ReviewLanguageSet>();
+		for (String languageCode : languages) {
+			ReviewLanguageSet rls = new ReviewLanguageSet();
+			rls.addLanguage(languageCode);
+			recentReviewLanguageSet.add(rls);
+		}
+		map.put(ReviewSort.NEWEST_REVIEW_FIRST, recentReviewLanguageSet);
+
+		// FAVORABLE SORT ORDER
+		LinkedList<ReviewLanguageSet> favorableReviewLanguageSet = new LinkedList<ReviewLanguageSet>();
+		ReviewLanguageSet frls = new ReviewLanguageSet();
+		frls.setLocalesString(formatLanguageCodes(languages));
+		favorableReviewLanguageSet.add(frls);
+		map.put(ReviewSort.HIGHEST_RATING_FIRST, favorableReviewLanguageSet);
+
+		// CRITICAL SORT ORDER
+		LinkedList<ReviewLanguageSet> criticalReviewLanguageSet = new LinkedList<ReviewLanguageSet>();
+		ReviewLanguageSet crls = new ReviewLanguageSet();
+		crls.setLocalesString(formatLanguageCodes(languages));
+		criticalReviewLanguageSet.add(crls);
+		map.put(ReviewSort.LOWEST_RATING_FIRST, criticalReviewLanguageSet);
+
+		return map;
+	}
+	
+
+	// perhaps come with a new format language code function that will attach a flag
+	// at the end in order to maintain the correct state... whether or not to lump the
+	// codes together, or page through them. this will upkeep the flag in the listview
+	// hasMoreRecentReviews
 
 	private static String formatLanguageCodes(LinkedList<String> codes) {
 		StringBuilder sb = new StringBuilder();
@@ -357,6 +548,21 @@ public class LocaleUtils {
 		}
 
 		return sb.toString();
+	}
+
+	private static Map<String, String> sPOSCountryCodes;
+	private static Map<String, String> sPOSDefaultLocales;
+
+	private static void ensurePOSCountryCodesCacheFilled(Context context) {
+		if (sPOSCountryCodes == null) {
+			sPOSCountryCodes = ResourceUtils.getStringMap(context, R.array.pos_country_code_map);
+		}
+	}
+
+	private static void ensurePOSDefaultLocalesCacheFilled(Context context) {
+		if (sPOSDefaultLocales == null) {
+			sPOSDefaultLocales = ResourceUtils.getStringMap(context, R.array.pos_default_locale);
+		}
 	}
 
 	private static Map<String, String> sTPIDs;

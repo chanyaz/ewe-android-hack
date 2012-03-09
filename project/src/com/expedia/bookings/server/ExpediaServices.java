@@ -65,7 +65,7 @@ import com.mobiata.android.util.SettingUtils;
 public class ExpediaServices implements DownloadListener {
 
 	private static final String COOKIES_FILE = "cookies.dat";
-	
+
 	private static final String BAZAAR_VOICE_BASE_URL = "http://reviews.expedia.com/data/reviews.json";
 	private static final String BAZAAR_VOICE_API_TOKEN = "tq2es494c5r0o2443tc4byu2q";
 	private static final String BAZAAR_VOICE_API_VERSION = "5.0";
@@ -155,8 +155,8 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("makeExpensiveRealtimeCall", "true"));
 		}
 
-		return (AvailabilityResponse) doRequest("HotelOffers", query,
-				new AvailabilityResponseHandler(mContext, params, property), 0);
+		return (AvailabilityResponse) doRequest("HotelOffers", query, new AvailabilityResponseHandler(mContext, params,
+				property), 0);
 	}
 
 	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo) {
@@ -190,8 +190,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
 				.getTime())));
 
-		return (BookingResponse) doRequest("Checkout", query, new BookingResponseHandler(mContext),
-				F_SECURE_REQUEST);
+		return (BookingResponse) doRequest("Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	public SignInResponse signIn(String email, String password) {
@@ -202,8 +201,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("email", email));
 		query.add(new BasicNameValuePair("password", password));
 
-		return (SignInResponse) doRequest("SignIn", query, new SignInResponseHandler(mContext),
-				F_SECURE_REQUEST);
+		return (SignInResponse) doRequest("SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {
@@ -238,7 +236,7 @@ public class ExpediaServices implements DownloadListener {
 		int maxPage = ((int) Math.ceil(property.getTotalReviews() / (double) REVIEWS_PER_PAGE)) - 1;
 		return maxPage >= page;
 	}
-	
+
 	public ReviewsResponse reviews(Property property, int pageNumber, ReviewSort sort) {
 		return reviews(property, pageNumber, sort, REVIEWS_PER_PAGE);
 	}
@@ -252,7 +250,9 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("offset", Integer.toString(pageNumber * REVIEWS_PER_PAGE)));
 
 		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
-		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + LocaleUtils.getBazaarVoiceContentLocales(mContext)));
+
+		query.add(new BasicNameValuePair("Filter", "ContentLocale:"
+				+ LocaleUtils.getBazaarVoiceContentLocales(mContext, sort)));
 
 		// emulate the expedia.com esktop website way of displaying reviews
 		switch (sort) {
@@ -297,10 +297,10 @@ public class ExpediaServices implements DownloadListener {
 
 		return doRequest(post, responseHandler, flags);
 	}
-	
+
 	private Object doRequest(List<BasicNameValuePair> params, ResponseHandler<?> responseHandler) {
 		HttpGet get = NetUtils.createHttpGet(BAZAAR_VOICE_BASE_URL, params);
-		
+
 		Log.d("Bazaar reviews request:  " + get.getURI().toString());
 
 		return doRequest(get, responseHandler, 0);
@@ -427,10 +427,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public enum EndPoint {
-		PRODUCTION,
-		TEST,
-		INTEGRATION,
-		PROXY
+		PRODUCTION, TEST, INTEGRATION, PROXY
 	}
 
 	/**
@@ -467,7 +464,8 @@ public class ExpediaServices implements DownloadListener {
 			break;
 		}
 		case PROXY: {
-			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000"));
+			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
+					"localhost:3000"));
 			builder.append("/");
 			builder.append(LocaleUtils.getPointOfSale(mContext));
 			builder.append("/");

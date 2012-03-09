@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -40,6 +41,7 @@ import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.UserReviewsAdapter;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -126,12 +128,19 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	public boolean moreCriticalPages = true;
 	public boolean moreFavorablePages = true;
 	private boolean mMoreNewestReviewsToLoad = true;
+	
+	/*
+	 * this map keeps track of the page numbers for each of the request per language set. a language set consists of one
+	 * logical block of locale codes that we use to request BV for reviews
+	 */
+	private HashMap<ReviewSort, LinkedList<LocaleUtils.ReviewLanguageSet>> mRequestMap;
 
 	// Tracking data structures
 	private Set<String> mViewedReviews;
 
 	// Downloading tasks and callbacks
 	private BackgroundDownloader mReviewsDownloader = BackgroundDownloader.getInstance();
+	private ExpediaServices mExpediaServices;
 
 	private Download mHighestRatingFirstDownload = new ReviewDownloadTask(ReviewSort.HIGHEST_RATING_FIRST);
 	private OnDownloadComplete mHighestRatingFirstDownloadCallback = new ReviewDownloadCallback(
@@ -149,6 +158,12 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	 * These private classes are the task/callback method for the BackgroundDownloader
 	 * They exist so that code can be reused for the different sort API calls
 	 */
+	
+	private void ensureExpediaServicesCacheFilled() {
+		if (mExpediaServices == null) {
+			mExpediaServices = new ExpediaServices(mContext);
+		}
+	}
 
 	private class ReviewDownloadTask implements Download {
 
@@ -160,8 +175,11 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 		@Override
 		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext);
-			mReviewsDownloader.addDownloadListener(KEY_REVIEWS_HIGHEST, services);
+			
+			ensureExpediaServicesCacheFilled();
+
+			mReviewsDownloader.addDownloadListener(KEY_REVIEWS_HIGHEST, mExpediaServices);
+			
 			int pageNumber = 0;
 
 			if (mPageNumberMap.get(mReviewSort) != null) {
@@ -171,7 +189,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				mPageNumberMap.put(mReviewSort, new Integer(0));
 			}
 
-			return services.reviews(mProperty, pageNumber, mReviewSort);
+			return mExpediaServices.reviews(mProperty, pageNumber, mReviewSort);
 		}
 	}
 
@@ -352,6 +370,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				Log.e("Couldn't create dummy data!", e);
 			}
 		}
+		
+		// Construct the ReviewSort -> requestList map for keeping track of page numbers, has more, etc..
+		mRequestMap = LocaleUtils.getRequestListMap(mContext);
 
 		// Load the three different lists as the adapter is being constructed
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
