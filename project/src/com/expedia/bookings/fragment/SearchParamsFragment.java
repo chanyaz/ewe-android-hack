@@ -391,14 +391,26 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-			Calendar checkIn = new GregorianCalendar(mCalendarDatePicker.getStartYear(),
-					mCalendarDatePicker.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
-			Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(),
-					mCalendarDatePicker.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
+			Calendar startCalendar = Calendar.getInstance(CalendarUtils.getFormatTimeZone());
+			Calendar endCalendar = Calendar.getInstance(CalendarUtils.getFormatTimeZone());
+
+			final int startYear = mCalendarDatePicker.getStartYear();
+			final int startMonth = mCalendarDatePicker.getStartMonth();
+			final int startDay = mCalendarDatePicker.getStartDayOfMonth();
+
+			final int endYear = mCalendarDatePicker.getEndYear();
+			final int endMonth = mCalendarDatePicker.getEndMonth();
+			final int endDay = mCalendarDatePicker.getEndDayOfMonth();
+
+			startCalendar.set(startYear, startMonth, startDay, 0, 0, 0);
+			endCalendar.set(endYear, endMonth, endDay, 0, 0, 0);
+
+			startCalendar.set(Calendar.MILLISECOND, 0);
+			endCalendar.set(Calendar.MILLISECOND, 0);
 
 			SearchParams searchParams = getInstance().mSearchParams;
-			searchParams.setCheckInDate(checkIn);
-			searchParams.setCheckOutDate(checkOut);
+			searchParams.setCheckInDate(startCalendar);
+			searchParams.setCheckOutDate(endCalendar);
 		}
 	};
 
