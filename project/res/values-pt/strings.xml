@@ -88,7 +88,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Carregando os resultados da pesquisa anterior...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">\&quot;Ordenar por:\&quot;</string>
+	<string name="sort_hotels">"Ordenar por: "</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;Ordenar&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->

@@ -88,7 +88,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">過去の検索結果を読み込んでいます…</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">\&quot;並べ替え： \&quot;</string>
+	<string name="sort_hotels">"並べ替え： "</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;並べ替え&lt;/b&gt;：%s</string>
 	<!-- Label for filter hotels button in bottom bar -->

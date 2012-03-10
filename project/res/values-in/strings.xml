@@ -88,7 +88,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Memuat hasil pencarian sebelumnya...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">\&quot;Urutkan: \&quot;</string>
+	<string name="sort_hotels">"Urutkan: "</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;Urutkan&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
