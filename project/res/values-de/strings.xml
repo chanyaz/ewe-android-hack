@@ -90,7 +90,7 @@
 	<!-- Label for sort hotels button in bottom bar -->
 	<string name="sort_hotels">\&quot;Sortieren: \&quot; </string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-	<string name="sort_hotels_template">&lt;b&gt;Sortieren&lt;/b&gt;: %s </string>
+	<string name="sort_hotels_template">&lt;b&gt;Sortieren&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
 	<string name="filter_hotels">Hotels filtern</string>
 	<!-- A number of results -->
@@ -306,11 +306,11 @@
 	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; von &lt;b&gt;%2$d&lt;/b&gt; Gästen empfehlen dieses Hotel. </string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
-		<item quantity="zero">%dBewertungen</item>
-		<item quantity="one">%dBewertung</item>
-		<item quantity="two">%dBewertungen</item>
-		<item quantity="many">%dBewertungen</item>
-		<item quantity="other">%dBewertungen</item>
+		<item quantity="zero">%d Bewertungen</item>
+		<item quantity="one">%d Bewertung</item>
+		<item quantity="two">%d Bewertungen</item>
+		<item quantity="many">%d Bewertungen</item>
+		<item quantity="other">%d Bewertungen</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
