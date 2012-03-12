@@ -28,6 +28,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
@@ -802,7 +803,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		setWidgetPropertyViewVisibility(widgetContents, View.VISIBLE);
 
 		widgetContents.setTextViewText(R.id.hotel_name_text_view, property.getName());
-		String location = property.getDistanceFromUser().formatDistance(this);
+		String location = property.getDistanceFromUser().formatDistance(this, DistanceUnit.getDefaultDistanceUnit());
 		widgetContents.setTextViewText(R.id.location_text_view, location);
 
 		if (property.getLowestRate().isOnSale()) {
