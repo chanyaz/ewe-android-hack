@@ -248,6 +248,9 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 				}
 				property.setAmenityMask(amenityMask);
 			}
+			else {
+				property.setAmenityMask(0);
+			}
 		}
 		catch (JSONException e) {
 			Log.e("Could not parse JSON availability response.", e);
