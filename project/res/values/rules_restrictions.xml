@@ -96,7 +96,7 @@
 	<string name="terms_conditions_url_hk_en">http://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_hk_zh">https://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_id">https://www.expedia.co.id/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_ie">http://www.expedia.ie/en-IE/reservations-terms-and-conditions.aspx</string>
+	<string name="terms_conditions_url_ie">http://www.expedia.ie/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_in">https://www.expedia.co.in/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_it">http://www.expedia.it/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_jp">https://www.expedia.co.jp/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
@@ -113,7 +113,7 @@
 	<string name="terms_conditions_url_sg">https://www.expedia.com.sg/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_th">https://www.expedia.co.th/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 	<string name="terms_conditions_url_tw">https://www.expedia.com.tw/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_uk">https://www.expedia.co.uk/information/general-booking-conditions.asp</string>
+	<string name="terms_conditions_url_uk">https://m.expedia.co.uk/mt/www.expedia.co.uk/information/general-booking-conditions.aspx</string>
 	<string name="terms_conditions_url_us">http://www.expedia.com/p/info-other/legal.htm</string>
 	<string name="terms_conditions_url_vn">https://www.expedia.com.vn/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 
@@ -169,7 +169,7 @@
 	<string name="privacy_policy_url_hk_en">http://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_hk_zh">https://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_id">https://www.expedia.co.id/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_ie">http://www.expedia.ie/en-IE/privacy-policy.aspx</string>
+	<string name="privacy_policy_url_ie">http://www.expedia.ie/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_in">https://www.expedia.co.in/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_it">http://www.expedia.it/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_jp">https://www.expedia.co.jp/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
@@ -187,7 +187,7 @@
 	<string name="privacy_policy_url_th">https://www.expedia.co.th/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_tw">https://www.expedia.com.tw/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 	<string name="privacy_policy_url_us">http://www.expedia.com/daily/service/privacy.asp</string>
-	<string name="privacy_policy_url_uk">https://www.expedia.co.uk/daily/service/privacy.asp</string>
+	<string name="privacy_policy_url_uk">https://m.expedia.co.uk/mt/www.expedia.co.uk/daily/service/privacy.asp</string>
 	<string name="privacy_policy_url_vn">https://www.expedia.com.vn/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 
 	<!-- Map of POS to privacy policy.  Provides default for dual-language POSes (but should be handled carefully) -->
