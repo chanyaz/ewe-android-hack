@@ -7,6 +7,8 @@ public class ReviewsResponse extends Response {
 	private int mIndex;
 
 	private List<Review> mReviews;
+	
+	private int mTotalCount;
 
 	public ReviewsResponse() {
 		mReviews = new ArrayList<Review>();
@@ -14,6 +16,14 @@ public class ReviewsResponse extends Response {
 
 	public void setIndex(int index) {
 		mIndex = index;
+	}
+	
+	public void setTotalCount(int totalCount) {
+		mTotalCount = totalCount;
+	}
+	
+	public int getTotalCount() {
+		return mTotalCount;
 	}
 
 	public int getIndex() {

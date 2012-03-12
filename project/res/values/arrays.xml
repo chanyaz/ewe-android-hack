@@ -231,14 +231,14 @@
    		<item>@string/point_of_sale_ar</item><item>es_AR</item>
 		<item>@string/point_of_sale_at</item><item>de_AT</item>
 		<item>@string/point_of_sale_au</item><item>en_AU</item>
-		<item>@string/point_of_sale_be</item><item>nl_BE</item> <!-- ??? -->
+		<item>@string/point_of_sale_be</item><item>nl_BE</item>
 		<item>@string/point_of_sale_br</item><item>pt_BR</item>
-		<item>@string/point_of_sale_ca</item><item>en_CA</item> <!-- default to english, desktop prompts user -->
+		<item>@string/point_of_sale_ca</item><item>en_CA</item>
 		<item>@string/point_of_sale_de</item><item>de_DE</item>
 		<item>@string/point_of_sale_dk</item><item>da_DK</item>
 		<item>@string/point_of_sale_es</item><item>es_ES</item>
 		<item>@string/point_of_sale_fr</item><item>fr_FR</item>
-		<item>@string/point_of_sale_hk</item><item>zh_HK</item> <!-- ???? -->
+		<item>@string/point_of_sale_hk</item><item>zh_HK</item>
 		<item>@string/point_of_sale_id</item><item>id_ID</item>
 		<item>@string/point_of_sale_ie</item><item>en_IE</item>
 		<item>@string/point_of_sale_in</item><item>en_IN</item>
@@ -246,7 +246,7 @@
 		<item>@string/point_of_sale_jp</item><item>ja_JP</item>
 		<item>@string/point_of_sale_kr</item><item>ko_KR</item>
 		<item>@string/point_of_sale_mx</item><item>es_MX</item>
-		<item>@string/point_of_sale_my</item><item>ms_MY</item>	<!-- ???? -->
+		<item>@string/point_of_sale_my</item><item>ms_MY</item>
 		<item>@string/point_of_sale_nl</item><item>nl_NL</item>
 		<item>@string/point_of_sale_no</item><item>no_NO</item>
 		<item>@string/point_of_sale_nz</item><item>en_NZ</item>
@@ -254,10 +254,10 @@
 		<item>@string/point_of_sale_se</item><item>sv_SE</item>
 		<item>@string/point_of_sale_sg</item><item>en_SG</item>
 		<item>@string/point_of_sale_th</item><item>th_TH</item>
-		<item>@string/point_of_sale_tw</item><item>zh_TW</item> <!-- "" -->
+		<item>@string/point_of_sale_tw</item><item>zh_TW</item>
 		<item>@string/point_of_sale_uk</item><item>en_GB</item>
 		<item>@string/point_of_sale_us</item><item>en_US</item>
-		<item>@string/point_of_sale_vn</item><item>en_US</item> <!--  ?? -->
+		<item>@string/point_of_sale_vn</item><item>en_US</item>
 	</string-array>
 
 	<string-array name="country_names">

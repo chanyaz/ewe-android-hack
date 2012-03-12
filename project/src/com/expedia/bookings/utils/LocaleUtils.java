@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Queue;
 
 import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.ResourceUtils;
 import com.mobiata.android.util.SettingUtils;
 
@@ -129,17 +129,15 @@ public class LocaleUtils {
 			put("zh_TW", new LinkedList<String>(Arrays.asList("zh")));
 
 			//			All other en displays: All English
-			//
-			//			no_NO: All Norwegian and English
-			//
-			//			pt_BR: All Portuguese and Spanish
-			//
-			//			sv_SE: All Swedish and English
-			//
-			//			th_TH: All Thai and English
-			//
-			//			zh_HK: All Chinese
-			//			zh_TW: All Chinese
+			put("en_US", new LinkedList<String>(Arrays.asList("en")));
+			put("en_GB", new LinkedList<String>(Arrays.asList("en")));
+			put("en_PH", new LinkedList<String>(Arrays.asList("en")));
+			put("en_SG", new LinkedList<String>(Arrays.asList("en")));
+			put("en_NZ", new LinkedList<String>(Arrays.asList("en")));
+			put("en_IN", new LinkedList<String>(Arrays.asList("en")));
+			put("en_IE", new LinkedList<String>(Arrays.asList("en")));
+			put("en_AU", new LinkedList<String>(Arrays.asList("en")));
+
 		}
 	};
 
@@ -450,8 +448,11 @@ public class LocaleUtils {
 
 		private int pageNumber;
 
+		private boolean attemptedDownload;
+
 		public ReviewLanguageSet() {
 			this.pageNumber = 0;
+			this.attemptedDownload = false;
 		}
 
 		/**
@@ -483,13 +484,31 @@ public class LocaleUtils {
 		public void setLocalesString(String localesString) {
 			this.localesString = localesString;
 		}
+
+		public int getPageNumber() {
+			return pageNumber;
+		}
+
+		public void incrementPageNumber() {
+			pageNumber++;
+		}
+
+		public String getLocalesString() {
+			return localesString;
+		}
+
+		public boolean getAttemptedDownload() {
+			return attemptedDownload;
+		}
+
+		public void setAttemptedDownload(boolean attempted) {
+			this.attemptedDownload = attempted;
+		}
 	}
 
-	public static HashMap<ReviewSort, LinkedList<ReviewLanguageSet>> getRequestListMap(Context context) {
+	public static LinkedList<String> getLanguages(Context context) {
 		ensurePOSCountryCodesCacheFilled(context);
 		ensurePOSDefaultLocalesCacheFilled(context);
-
-		HashMap<ReviewSort, LinkedList<ReviewLanguageSet>> map = new HashMap<ReviewSort, LinkedList<ReviewLanguageSet>>();
 
 		// construct the device locale based on device language and device POS
 		String locale = sCachedLanguageCode;
@@ -504,41 +523,16 @@ public class LocaleUtils {
 		// iterate through the list of language code, and create the proper ReviewLanguageSet meta object(s)
 		// for each map to be store in list of ReviewLangaugeSet
 
-		LinkedList<String> languages = LOCALE_TO_EXPEDIA_PRIORITY_LIST.get(locale);
-
-		// RECENT SORT ORDER
-		LinkedList<ReviewLanguageSet> recentReviewLanguageSet = new LinkedList<ReviewLanguageSet>();
-		for (String languageCode : languages) {
-			ReviewLanguageSet rls = new ReviewLanguageSet();
-			rls.addLanguage(languageCode);
-			recentReviewLanguageSet.add(rls);
-		}
-		map.put(ReviewSort.NEWEST_REVIEW_FIRST, recentReviewLanguageSet);
-
-		// FAVORABLE SORT ORDER
-		LinkedList<ReviewLanguageSet> favorableReviewLanguageSet = new LinkedList<ReviewLanguageSet>();
-		ReviewLanguageSet frls = new ReviewLanguageSet();
-		frls.setLocalesString(formatLanguageCodes(languages));
-		favorableReviewLanguageSet.add(frls);
-		map.put(ReviewSort.HIGHEST_RATING_FIRST, favorableReviewLanguageSet);
-
-		// CRITICAL SORT ORDER
-		LinkedList<ReviewLanguageSet> criticalReviewLanguageSet = new LinkedList<ReviewLanguageSet>();
-		ReviewLanguageSet crls = new ReviewLanguageSet();
-		crls.setLocalesString(formatLanguageCodes(languages));
-		criticalReviewLanguageSet.add(crls);
-		map.put(ReviewSort.LOWEST_RATING_FIRST, criticalReviewLanguageSet);
-
-		return map;
+		Log.d("attempting to retrive priority list from locale code: " + locale);
+		return LOCALE_TO_EXPEDIA_PRIORITY_LIST.get(locale);
 	}
-	
 
 	// perhaps come with a new format language code function that will attach a flag
 	// at the end in order to maintain the correct state... whether or not to lump the
 	// codes together, or page through them. this will upkeep the flag in the listview
 	// hasMoreRecentReviews
 
-	private static String formatLanguageCodes(LinkedList<String> codes) {
+	public static String formatLanguageCodes(LinkedList<String> codes) {
 		StringBuilder sb = new StringBuilder();
 		String prefix = "";
 		for (String code : codes) {

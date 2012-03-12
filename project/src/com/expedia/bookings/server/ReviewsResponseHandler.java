@@ -29,6 +29,8 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 			if (response.getBoolean("HasErrors")) {
 				return reviewsResponse;
 			}
+			
+			reviewsResponse.setTotalCount(response.getInt("TotalResults"));
 
 			JSONArray reviews = response.getJSONArray("Results");
 			int len = reviews.length();

@@ -237,6 +237,38 @@ public class ExpediaServices implements DownloadListener {
 		return maxPage >= page;
 	}
 
+	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, String localesString) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		query.add(new BasicNameValuePair("apiversion", BAZAAR_VOICE_API_VERSION));
+		query.add(new BasicNameValuePair("passkey", BAZAAR_VOICE_API_TOKEN));
+		query.add(new BasicNameValuePair("limit", Integer.toString(REVIEWS_PER_PAGE)));
+		query.add(new BasicNameValuePair("offset", Integer.toString(pageNumber * REVIEWS_PER_PAGE)));
+
+		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
+
+		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
+
+		// emulate the expedia.com esktop website way of displaying reviews
+		switch (sort) {
+		case NEWEST_REVIEW_FIRST:
+			query.add(new BasicNameValuePair("Sort", "SubmissionTime:desc"));
+			break;
+		case HIGHEST_RATING_FIRST:
+			query.add(new BasicNameValuePair("Filter", "Rating:gte:3"));
+			query.add(new BasicNameValuePair("Sort", "Rating:desc,SubmissionTime:desc"));
+			break;
+		case LOWEST_RATING_FIRST:
+			query.add(new BasicNameValuePair("Filter", "Rating:lte:2"));
+			query.add(new BasicNameValuePair("Sort", "Rating:asc,SubmissionTime:desc"));
+			break;
+		}
+
+		query.add(new BasicNameValuePair("include", "products"));
+
+		return (ReviewsResponse) doRequest(query, new ReviewsResponseHandler(mContext));
+	}
+
 	public ReviewsResponse reviews(Property property, int pageNumber, ReviewSort sort) {
 		return reviews(property, pageNumber, sort, REVIEWS_PER_PAGE);
 	}

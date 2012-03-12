@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.json.JSONException;
@@ -36,12 +37,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Review;
-import com.expedia.bookings.data.ReviewRating;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.LocaleUtils.ReviewLanguageSet;
 import com.expedia.bookings.widget.UserReviewsAdapter;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -53,12 +54,15 @@ import com.mobiata.android.widget.SegmentedControlGroup;
 
 public class UserReviewsListActivity extends Activity implements OnScrollListener {
 
-	// CONSTANTS
-	private static final String KEY_REVIEWS_HIGHEST = "KEY_REVEWS_HIGHEST";
-	private static final String KEY_REVIEWS_LOWEST = "KEY_REVIEWS_LOWEST";
-	private static final String KEY_REVIEWS_NEWEST = "KEY_REVIEWS_NEWEST";
-	private static final int FAVORABLE_REVIEW_CUTOFF = 3;
-	private static final int CRITICAL_REVIEW_CUTOFF = 2;
+	@SuppressWarnings("serial")
+	private static final Map<ReviewSort, String> SORT_BGDL_KEY = new HashMap<ReviewSort, String>() {
+		{
+			put(ReviewSort.HIGHEST_RATING_FIRST, "KEY_REVIEWS_HIGHEST");
+			put(ReviewSort.LOWEST_RATING_FIRST, "KEY_REVIEWS_LOWEST");
+			put(ReviewSort.NEWEST_REVIEW_FIRST, "KEY_REVIEWS_NEWEST");
+		}
+	};
+
 	private static final int THUMB_CUTOFF_INCLUSIVE = 5;
 	private static final int BODY_LENGTH_CUTOFF = 270;
 
@@ -90,7 +94,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 	// Review data structures
 	private ReviewSort mCurrentReviewSort = ReviewSort.NEWEST_REVIEW_FIRST;
-	private HashMap<ReviewSort, ArrayList<ReviewWrapper>> mReviewsMapWrapped = new HashMap<ReviewSort, ArrayList<ReviewWrapper>>();
 
 	/* 
 	 * keeps a mapping of the different containers holding the list views (and empty views) for each review sort type
@@ -106,13 +109,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	private HashMap<ReviewSort, UserReviewsAdapter> mListAdaptersMap = new HashMap<ReviewSort, UserReviewsAdapter>();
 
 	/*
-	 * keeps track of whether an attempt has been made to start the download of a particular 
-	 * review type. This helps to know whether or not to start a download (in a chained manner)
-	 * for a particular review sort type
-	 */
-	private HashMap<ReviewSort, Boolean> mReviewSortDownloadAttemptedMap = new HashMap<ReviewSort, Boolean>();
-
-	/*
 	 * keeps track of whether the loading indicator is showing as the footer in the list view.
 	 * This bookkeeping is not preserved across orientation change so as to re-show the loading
 	 * indicator on orientation change if there are more reviews to display
@@ -120,20 +116,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	private HashSet<ReviewSort> isLoadingIndicatorShowingForReviewSort = new HashSet<ReviewSort>();
 
 	/*
-	 * keeps track of the current pageNumber the list pertaining to each review sort type is on.
-	 * This helps to understand whether or not to load more reviews.
+	 * this map keeps track of different sorts, that are stored in separate tabs
 	 */
-	private HashMap<ReviewSort, Integer> mPageNumberMap = new HashMap<ReviewSort, Integer>();
-
-	public boolean moreCriticalPages = true;
-	public boolean moreFavorablePages = true;
-	private boolean mMoreNewestReviewsToLoad = true;
-	
-	/*
-	 * this map keeps track of the page numbers for each of the request per language set. a language set consists of one
-	 * logical block of locale codes that we use to request BV for reviews
-	 */
-	private HashMap<ReviewSort, LinkedList<LocaleUtils.ReviewLanguageSet>> mRequestMap;
+	private HashMap<ReviewSort, TabSort> mTabMap;
 
 	// Tracking data structures
 	private Set<String> mViewedReviews;
@@ -142,174 +127,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	private BackgroundDownloader mReviewsDownloader = BackgroundDownloader.getInstance();
 	private ExpediaServices mExpediaServices;
 
-	private Download mHighestRatingFirstDownload = new ReviewDownloadTask(ReviewSort.HIGHEST_RATING_FIRST);
-	private OnDownloadComplete mHighestRatingFirstDownloadCallback = new ReviewDownloadCallback(
-			ReviewSort.HIGHEST_RATING_FIRST);
-
-	private Download mLowestRatingFirstDownload = new ReviewDownloadTask(ReviewSort.LOWEST_RATING_FIRST);
-	private OnDownloadComplete mLowestRatingFirstDownloadCallback = new ReviewDownloadCallback(
-			ReviewSort.LOWEST_RATING_FIRST);
-
-	private Download mNewestReviewFirstDownload = new ReviewDownloadTask(ReviewSort.NEWEST_REVIEW_FIRST);
-	private OnDownloadComplete mNewestReviewFirstDownloadCallback = new ReviewDownloadCallback(
-			ReviewSort.NEWEST_REVIEW_FIRST);
-
-	/**
-	 * These private classes are the task/callback method for the BackgroundDownloader
-	 * They exist so that code can be reused for the different sort API calls
-	 */
-	
 	private void ensureExpediaServicesCacheFilled() {
 		if (mExpediaServices == null) {
 			mExpediaServices = new ExpediaServices(mContext);
-		}
-	}
-
-	private class ReviewDownloadTask implements Download {
-
-		private ReviewSort mReviewSort;
-
-		public ReviewDownloadTask(ReviewSort sort) {
-			mReviewSort = sort;
-		}
-
-		@Override
-		public Object doDownload() {
-			
-			ensureExpediaServicesCacheFilled();
-
-			mReviewsDownloader.addDownloadListener(KEY_REVIEWS_HIGHEST, mExpediaServices);
-			
-			int pageNumber = 0;
-
-			if (mPageNumberMap.get(mReviewSort) != null) {
-				pageNumber = mPageNumberMap.get(mReviewSort).intValue();
-			}
-			else {
-				mPageNumberMap.put(mReviewSort, new Integer(0));
-			}
-
-			return mExpediaServices.reviews(mProperty, pageNumber, mReviewSort);
-		}
-	}
-
-	private class ReviewDownloadCallback implements OnDownloadComplete {
-
-		private ReviewSort thisReviewSort;
-
-		public ReviewDownloadCallback(ReviewSort sort) {
-			thisReviewSort = sort;
-		}
-
-		@Override
-		public void onDownload(Object results) {
-			ReviewsResponse response = (ReviewsResponse) results;
-			mReviewSortDownloadAttemptedMap.put(thisReviewSort, true);
-
-			UserReviewsAdapter adapter = mListAdaptersMap.get(thisReviewSort);
-			ViewGroup listViewContainer = mListViewContainersMap.get(thisReviewSort);
-
-			if (response != null && response.getReviewCount() > 0) {
-				ArrayList<ReviewWrapper> previouslyLoadedReviewsWrapped = mReviewsMapWrapped.get(thisReviewSort);
-				ArrayList<ReviewWrapper> newlyLoadedReviewsWrapped = reviewWrapperListInit(response.getReviews());
-				ArrayList<ReviewWrapper> filteredReviewsWrapped = new ArrayList<ReviewWrapper>();
-
-				// increment the page count once we have downloaded a new 
-				// set of reviews. The reason to increment it on download
-				// and not when the download starts is to ensure that we
-				// know when and when not to show the loading indicator
-				// in the footer of the list view. If a screen rotation takes place
-				// and the download is still in progress, the pageNumber is what
-				// indicates if we need to re-register the callback for the 
-				// download and thereby show the loading indicator
-				int pageNumber = mPageNumberMap.get(thisReviewSort).intValue();
-				mPageNumberMap.put(thisReviewSort, new Integer(pageNumber + 1));
-
-				boolean reviewsFiltered = false;
-
-				for (ReviewWrapper review : newlyLoadedReviewsWrapped) {
-					ReviewRating reviewRating = review.review.getRating();
-					if (reviewRating != null) {
-						int ratingNumber = reviewRating.getOverallSatisfaction();
-
-						if (thisReviewSort == ReviewSort.HIGHEST_RATING_FIRST) {
-							if (ratingNumber >= FAVORABLE_REVIEW_CUTOFF) {
-								filteredReviewsWrapped.add(review);
-								reviewsFiltered = true;
-							}
-							else {
-								moreFavorablePages = false;
-							}
-						}
-						else if (thisReviewSort == ReviewSort.LOWEST_RATING_FIRST) {
-							if (ratingNumber <= CRITICAL_REVIEW_CUTOFF) {
-								filteredReviewsWrapped.add(review);
-								reviewsFiltered = true;
-							}
-							else {
-								moreCriticalPages = false;
-							}
-						}
-					}
-				}
-
-				if (thisReviewSort == ReviewSort.NEWEST_REVIEW_FIRST) {
-					reviewsFiltered = true; // no reviews filtered for recent, set flag true
-				}
-
-				if (filteredReviewsWrapped.size() > 0 && reviewsFiltered) {
-					filteredReviewsWrapped.trimToSize();
-					newlyLoadedReviewsWrapped = filteredReviewsWrapped;
-				}
-				else if (!reviewsFiltered) {
-					newlyLoadedReviewsWrapped = new ArrayList<ReviewWrapper>();
-				}
-
-				if (previouslyLoadedReviewsWrapped != null) {
-					//send message to remove loading footer
-					mHandler.sendMessage(prepareMessage(false, thisReviewSort));
-
-					previouslyLoadedReviewsWrapped.addAll(newlyLoadedReviewsWrapped);
-				}
-				else {
-					previouslyLoadedReviewsWrapped = newlyLoadedReviewsWrapped;
-				}
-
-				mReviewsMapWrapped.put(thisReviewSort, previouslyLoadedReviewsWrapped);
-				adapter.setUserReviews(previouslyLoadedReviewsWrapped);
-				adapter.notifyDataSetChanged();
-			}
-			else {
-				//send message to remove loading footer
-				mHandler.sendMessage(prepareMessage(false, thisReviewSort));
-				mMoreNewestReviewsToLoad = false;
-
-				if (response == null || response.hasErrors()) {
-					TrackingUtils.trackErrorPage(mContext, "UserReviewLoadFailed");
-				}
-			}
-
-			isLoadingIndicatorShowingForReviewSort.remove(thisReviewSort);
-
-			if (thisReviewSort == mCurrentReviewSort) {
-				bringContainerToFront(listViewContainer);
-			}
-			showListOrEmptyView(listViewContainer, adapter);
-
-			// chain the downloads in the callback, if the download has not been attempted, make sure to start the download
-			if (!mReviewSortDownloadAttemptedMap.get(ReviewSort.HIGHEST_RATING_FIRST)) {
-				mReviewsDownloader.startDownload(KEY_REVIEWS_HIGHEST, mHighestRatingFirstDownload,
-						mHighestRatingFirstDownloadCallback);
-			}
-			else if (!mReviewSortDownloadAttemptedMap.get(ReviewSort.LOWEST_RATING_FIRST) && moreCriticalPages) {
-				mReviewsDownloader.startDownload(KEY_REVIEWS_LOWEST, mLowestRatingFirstDownload,
-						mLowestRatingFirstDownloadCallback);
-			}
-			else if (!mReviewSortDownloadAttemptedMap.get(ReviewSort.NEWEST_REVIEW_FIRST)) {
-				mReviewsDownloader.startDownload(KEY_REVIEWS_NEWEST, mNewestReviewFirstDownload,
-						mNewestReviewFirstDownloadCallback);
-			}
-
 		}
 	}
 
@@ -370,64 +190,45 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				Log.e("Couldn't create dummy data!", e);
 			}
 		}
-		
-		// Construct the ReviewSort -> requestList map for keeping track of page numbers, has more, etc..
-		mRequestMap = LocaleUtils.getRequestListMap(mContext);
+
+		// init the map of objects storing the reviews for each tab
+		mTabMap = getTabMap();
 
 		// Load the three different lists as the adapter is being constructed
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state == null) {
 			// Cancel any existing downloads
-			mReviewsDownloader.cancelDownload(KEY_REVIEWS_HIGHEST);
-			mReviewsDownloader.cancelDownload(KEY_REVIEWS_NEWEST);
-			mReviewsDownloader.cancelDownload(KEY_REVIEWS_LOWEST);
-
-			// Initialize the ReviewSort attempted download map
-			mReviewSortDownloadAttemptedMap.put(ReviewSort.HIGHEST_RATING_FIRST, false);
-			mReviewSortDownloadAttemptedMap.put(ReviewSort.LOWEST_RATING_FIRST, false);
-			mReviewSortDownloadAttemptedMap.put(ReviewSort.NEWEST_REVIEW_FIRST, false);
+			mReviewsDownloader.cancelDownload(SORT_BGDL_KEY.get(ReviewSort.HIGHEST_RATING_FIRST));
+			mReviewsDownloader.cancelDownload(SORT_BGDL_KEY.get(ReviewSort.NEWEST_REVIEW_FIRST));
+			mReviewsDownloader.cancelDownload(SORT_BGDL_KEY.get(ReviewSort.LOWEST_RATING_FIRST));
 
 			configureHeader();
 
-			if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST) {
-				mReviewsDownloader.startDownload(KEY_REVIEWS_HIGHEST, mHighestRatingFirstDownload,
-						mHighestRatingFirstDownloadCallback);
-			}
-			else if (mCurrentReviewSort == ReviewSort.NEWEST_REVIEW_FIRST) {
-				mReviewsDownloader.startDownload(KEY_REVIEWS_NEWEST, mNewestReviewFirstDownload,
-						mNewestReviewFirstDownloadCallback);
-			}
-			else if (mCurrentReviewSort == ReviewSort.LOWEST_RATING_FIRST && moreCriticalPages) {
-				mReviewsDownloader.startDownload(KEY_REVIEWS_LOWEST, mLowestRatingFirstDownload,
-						mLowestRatingFirstDownloadCallback);
-			}
+			// start the downloads based on the currently selected sort option
+			String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
+			TabSort tab = mTabMap.get(mCurrentReviewSort);
+			mReviewsDownloader.cancelDownload(key);
+			mReviewsDownloader.startDownload(key, tab.mDownloadTask, tab.mDownloadCallback);
 
 			mViewedReviews = new HashSet<String>();
 		}
 		else {
 			extractActivityState(state);
 			configureHeader();
-			if (mReviewsMapWrapped.get(mCurrentReviewSort) != null) {
+			if (mTabMap.get(mCurrentReviewSort).mReviewsWrapped != null) {
 				ViewGroup listViewContainer = mListViewContainersMap.get(mCurrentReviewSort);
 				UserReviewsAdapter adapter = mListAdaptersMap.get(mCurrentReviewSort);
-				adapter.setUserReviews(new ArrayList<ReviewWrapper>(mReviewsMapWrapped.get(mCurrentReviewSort)));
+				adapter.setUserReviews(new ArrayList<ReviewWrapper>(mTabMap.get(mCurrentReviewSort).mReviewsWrapped));
 				adapter.notifyDataSetChanged();
 				bringContainerToFront(listViewContainer);
 				showListOrEmptyView(listViewContainer, adapter);
 			}
 			else {
-				if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST) {
-					mReviewsDownloader.startDownload(KEY_REVIEWS_HIGHEST, mHighestRatingFirstDownload,
-							mHighestRatingFirstDownloadCallback);
-				}
-				else if (mCurrentReviewSort == ReviewSort.NEWEST_REVIEW_FIRST) {
-					mReviewsDownloader.startDownload(KEY_REVIEWS_NEWEST, mNewestReviewFirstDownload,
-							mNewestReviewFirstDownloadCallback);
-				}
-				else if (mCurrentReviewSort == ReviewSort.LOWEST_RATING_FIRST && moreCriticalPages) {
-					mReviewsDownloader.startDownload(KEY_REVIEWS_LOWEST, mLowestRatingFirstDownload,
-							mLowestRatingFirstDownloadCallback);
-				}
+				// start the downloads based on the currently selected sort option
+				String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
+				TabSort tab = mTabMap.get(mCurrentReviewSort);
+				mReviewsDownloader.cancelDownload(key);
+				mReviewsDownloader.startDownload(key, tab.mDownloadTask, tab.mDownloadCallback);
 			}
 
 		}
@@ -472,30 +273,20 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	protected void onResume() {
 		super.onResume();
 
-		if (mReviewsMapWrapped.get(mCurrentReviewSort) == null
-				&& !mReviewSortDownloadAttemptedMap.get(mCurrentReviewSort)) {
-			if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST) {
-				mReviewsDownloader.startDownload(KEY_REVIEWS_HIGHEST, mHighestRatingFirstDownload,
-						mHighestRatingFirstDownloadCallback);
-			}
-			else if (mCurrentReviewSort == ReviewSort.NEWEST_REVIEW_FIRST
-					&& !mReviewSortDownloadAttemptedMap.get(mCurrentReviewSort)) {
-				mReviewsDownloader.startDownload(KEY_REVIEWS_NEWEST, mNewestReviewFirstDownload,
-						mNewestReviewFirstDownloadCallback);
-			}
-			else if (mCurrentReviewSort == ReviewSort.LOWEST_RATING_FIRST && moreCriticalPages
-					&& !mReviewSortDownloadAttemptedMap.get(mCurrentReviewSort)) {
-				mReviewsDownloader.startDownload(KEY_REVIEWS_LOWEST, mLowestRatingFirstDownload,
-						mLowestRatingFirstDownloadCallback);
-			}
+		// start the downloads based on the currently selected sort option
+		TabSort tab = mTabMap.get(mCurrentReviewSort);
+		if (tab.mReviewsWrapped == null && tab.attemptedDownload) {
+			String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
+			mReviewsDownloader.cancelDownload(key);
+			mReviewsDownloader.startDownload(key, tab.mDownloadTask, tab.mDownloadCallback);
 		}
 	}
 
 	@Override
 	protected void onPause() {
-		mReviewsDownloader.unregisterDownloadCallback(KEY_REVIEWS_HIGHEST);
-		mReviewsDownloader.unregisterDownloadCallback(KEY_REVIEWS_LOWEST);
-		mReviewsDownloader.unregisterDownloadCallback(KEY_REVIEWS_NEWEST);
+		mReviewsDownloader.unregisterDownloadCallback(SORT_BGDL_KEY.get(ReviewSort.HIGHEST_RATING_FIRST));
+		mReviewsDownloader.unregisterDownloadCallback(SORT_BGDL_KEY.get(ReviewSort.LOWEST_RATING_FIRST));
+		mReviewsDownloader.unregisterDownloadCallback(SORT_BGDL_KEY.get(ReviewSort.NEWEST_REVIEW_FIRST));
 
 		super.onPause();
 	}
@@ -506,9 +297,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 		if (isFinishing()) {
 			// Cancel all current review downloads
-			mReviewsDownloader.cancelDownload(KEY_REVIEWS_HIGHEST);
-			mReviewsDownloader.cancelDownload(KEY_REVIEWS_LOWEST);
-			mReviewsDownloader.cancelDownload(KEY_REVIEWS_NEWEST);
+			mReviewsDownloader.cancelDownload(SORT_BGDL_KEY.get(ReviewSort.HIGHEST_RATING_FIRST));
+			mReviewsDownloader.cancelDownload(SORT_BGDL_KEY.get(ReviewSort.LOWEST_RATING_FIRST));
+			mReviewsDownloader.cancelDownload(SORT_BGDL_KEY.get(ReviewSort.NEWEST_REVIEW_FIRST));
 
 			// Track # of reviews seen
 			int numReviewsSeen = mViewedReviews.size();
@@ -570,7 +361,8 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 				ViewGroup listViewContainer = mListViewContainersMap.get(mCurrentReviewSort);
 				UserReviewsAdapter adapter = mListAdaptersMap.get(mCurrentReviewSort);
-				adapter.setUserReviews(mReviewsMapWrapped.get(mCurrentReviewSort));
+				Log.d("bradley", "setting " + mCurrentReviewSort.toString() + " reviews on button click");
+				adapter.setUserReviews(mTabMap.get(mCurrentReviewSort).mReviewsWrapped);
 				bringContainerToFront(listViewContainer);
 				showListOrEmptyView(listViewContainer, adapter);
 			}
@@ -614,24 +406,20 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
 		boolean showLoadingIndicator = false;
 
-		List<ReviewWrapper> reviews = mReviewsMapWrapped.get(mCurrentReviewSort);
-		if (loadMore && reviews != null
-				&& ExpediaServices.hasMoreReviews(mProperty, mPageNumberMap.get(mCurrentReviewSort).intValue())) {
-			if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST && moreFavorablePages) {
-				mReviewsDownloader.startDownload(KEY_REVIEWS_HIGHEST, mHighestRatingFirstDownload,
-						mHighestRatingFirstDownloadCallback);
-				showLoadingIndicator = true;
-			}
-			else if (mCurrentReviewSort == ReviewSort.LOWEST_RATING_FIRST && moreCriticalPages) {
-				mReviewsDownloader.startDownload(KEY_REVIEWS_LOWEST, mLowestRatingFirstDownload,
-						mLowestRatingFirstDownloadCallback);
-				showLoadingIndicator = true;
-			}
-			else if (mCurrentReviewSort == ReviewSort.NEWEST_REVIEW_FIRST && mMoreNewestReviewsToLoad) {
-				mReviewsDownloader.startDownload(KEY_REVIEWS_NEWEST, mNewestReviewFirstDownload,
-						mNewestReviewFirstDownloadCallback);
-				showLoadingIndicator = true;
-			}
+		List<ReviewWrapper> reviews = mTabMap.get(mCurrentReviewSort).mReviewsWrapped;
+
+		boolean hasMore = false;
+		LinkedList<ReviewLanguageSet> list = mTabMap.get(mCurrentReviewSort).mLanguageList;
+		if (list != null && list.size() > 0) {
+			hasMore = true;
+		}
+
+		if (loadMore && reviews != null && hasMore) {
+			// start the downloads based on the currently selected sort option
+			String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
+			TabSort tab = mTabMap.get(mCurrentReviewSort);
+			mReviewsDownloader.cancelDownload(key);
+			mReviewsDownloader.startDownload(key, tab.mDownloadTask, tab.mDownloadCallback);
 
 			// only show the loading indicator if its not as yet shown. 
 			// Note that we keep track of whether or not the loading indicator is shown 
@@ -642,17 +430,17 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			// while a download does not need to be restarted; instead a callback can just be 
 			// re-registered
 			if (showLoadingIndicator && !isLoadingIndicatorShowingForReviewSort.contains(mCurrentReviewSort)) {
+				//			if (showLoadingIndicator) {
 				//send message to put loading footer
 				mHandler.sendMessage(prepareMessage(true, mCurrentReviewSort));
 				isLoadingIndicatorShowingForReviewSort.add(mCurrentReviewSort);
 			}
-
 		}
 
 		// Track which reviews are visible, add them to the list
 		ListAdapter adapter = view.getAdapter();
 		int count = adapter.getCount();
-		for (int a = 0; a < visibleItemCount && firstVisibleItem + a < count ; a++) {
+		for (int a = 0; a < visibleItemCount && firstVisibleItem + a < count; a++) {
 			Object item = adapter.getItem(firstVisibleItem + a);
 			if (item instanceof ReviewWrapper) {
 				mViewedReviews.add(((ReviewWrapper) item).review.getReviewId());
@@ -662,6 +450,200 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
+	}
+
+	public class TabSort {
+
+		public ReviewSort mReviewSort;
+
+		public LinkedList<ReviewLanguageSet> mLanguageList;
+
+		public ArrayList<ReviewWrapper> mReviewsWrapped;
+
+		public boolean attemptedDownload;
+
+		public ReviewDownloadTask mDownloadTask;
+
+		public ReviewDownloadCallback mDownloadCallback;
+
+		//DOWNLOAD OBJECTS
+
+		public TabSort(ReviewSort sort, LinkedList<ReviewLanguageSet> languageList) {
+			this.mDownloadTask = new ReviewDownloadTask();
+			this.mDownloadCallback = new ReviewDownloadCallback();
+
+			this.mReviewSort = sort;
+			this.mLanguageList = languageList;
+			this.mReviewsWrapped = new ArrayList<ReviewWrapper>();
+			this.attemptedDownload = false;
+		}
+
+		private class ReviewDownloadTask implements Download {
+
+			public ReviewDownloadTask() {
+			}
+
+			@Override
+			public Object doDownload() {
+
+				ensureExpediaServicesCacheFilled();
+
+				mReviewsDownloader.addDownloadListener(SORT_BGDL_KEY.get(mReviewSort), mExpediaServices);
+
+				// grab the correct page number
+				ReviewLanguageSet meta = mLanguageList.getFirst();
+				int pageNumber = meta.getPageNumber();
+				String localesString = meta.getLocalesString();
+
+				return mExpediaServices.reviews(mProperty, mReviewSort, pageNumber, localesString);
+			}
+		}
+
+		private class ReviewDownloadCallback implements OnDownloadComplete {
+
+			public ReviewDownloadCallback() {
+			}
+
+			@Override
+			public void onDownload(Object results) {
+				ReviewsResponse response = (ReviewsResponse) results;
+
+				ReviewLanguageSet rls;
+
+				// update attempted download flag
+				if (mLanguageList != null && mLanguageList.size() > 0) {
+					rls = mLanguageList.pop();
+					rls.setAttemptedDownload(true);
+					mLanguageList.push(rls);
+				}
+				attemptedDownload = true;
+
+				Log.d("bradley", "adapter: " + mReviewSort.toString());
+				UserReviewsAdapter adapter = mListAdaptersMap.get(mReviewSort);
+				ViewGroup listViewContainer = mListViewContainersMap.get(mReviewSort);
+
+				if (response != null) {
+
+					// grab the meta object from the list within the map for modification(s)
+					rls = mLanguageList.pop();
+
+					if (response.getReviewCount() > 0) {
+						rls.setTotalCount(response.getTotalCount());
+						ArrayList<ReviewWrapper> newlyLoadedReviewsWrapped = reviewWrapperListInit(response
+								.getReviews());
+
+						// increment the page count once we have downloaded a new 
+						// set of reviews. The reason to increment it on download
+						// and not when the download starts is to ensure that we
+						// know when and when not to show the loading indicator
+						// in the footer of the list view. If a screen rotation takes place
+						// and the download is still in progress, the pageNumber is what
+						// indicates if we need to re-register the callback for the 
+						// download and thereby show the loading indicator
+
+						rls.incrementPageNumber();
+
+						// re-attach the meta object to the map
+						// BUT ONLY REATTACH OBJECT IF IT HAS MORE REVIEWS TO PULL????
+						if (rls.hasMore()) {
+							mLanguageList.push(rls);
+						}
+
+						// append the new reviews to old collection, remove loading view, refresh
+						if (mReviewsWrapped != null) {
+							//send message to remove loading footer
+							mHandler.sendMessage(prepareMessage(false, mReviewSort));
+
+							mReviewsWrapped.addAll(newlyLoadedReviewsWrapped);
+						}
+						else {
+							mReviewsWrapped = newlyLoadedReviewsWrapped;
+						}
+
+						Log.d("bradley", "set adapter " + mReviewSort.toString());
+						adapter.setUserReviews(mTabMap.get(mReviewSort).mReviewsWrapped);
+						adapter.notifyDataSetChanged();
+					}
+				}
+				else {
+					//send message to remove loading footer
+					mHandler.sendMessage(prepareMessage(false, mReviewSort));
+
+					if (response == null || response.hasErrors()) {
+						TrackingUtils.trackErrorPage(mContext, "UserReviewLoadFailed");
+					}
+				}
+
+				isLoadingIndicatorShowingForReviewSort.remove(mReviewSort);
+
+				if (mReviewSort == mCurrentReviewSort) {
+					bringContainerToFront(listViewContainer);
+				}
+				showListOrEmptyView(listViewContainer, adapter);
+
+				// chain the downloads in the callback, if the download has not been attempted, make sure to start the download
+				String key;
+				TabSort nextTab;
+				if (!mTabMap.get(ReviewSort.NEWEST_REVIEW_FIRST).attemptedDownload) {
+					key = SORT_BGDL_KEY.get(ReviewSort.NEWEST_REVIEW_FIRST);
+					nextTab = mTabMap.get(ReviewSort.NEWEST_REVIEW_FIRST);
+					mReviewsDownloader.cancelDownload(key);
+					mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
+				}
+				else if (!mTabMap.get(ReviewSort.HIGHEST_RATING_FIRST).attemptedDownload) {
+					key = SORT_BGDL_KEY.get(ReviewSort.HIGHEST_RATING_FIRST);
+					nextTab = mTabMap.get(ReviewSort.HIGHEST_RATING_FIRST);
+					mReviewsDownloader.cancelDownload(key);
+					mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
+				}
+				else if (!mTabMap.get(ReviewSort.LOWEST_RATING_FIRST).attemptedDownload) {
+					key = SORT_BGDL_KEY.get(ReviewSort.LOWEST_RATING_FIRST);
+					nextTab = mTabMap.get(ReviewSort.LOWEST_RATING_FIRST);
+					mReviewsDownloader.cancelDownload(key);
+					mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
+				}
+			}
+		}
+	}
+
+	public HashMap<ReviewSort, TabSort> getTabMap() {
+		HashMap<ReviewSort, TabSort> map = new HashMap<ReviewSort, TabSort>();
+
+		LinkedList<String> languages = LocaleUtils.getLanguages(mContext);
+
+		// RECENT SORT ORDER
+		LinkedList<ReviewLanguageSet> recentReviewLanguageSet = new LinkedList<ReviewLanguageSet>();
+		for (String languageCode : languages) {
+			ReviewLanguageSet rls = new ReviewLanguageSet();
+			rls.addLanguage(languageCode);
+			recentReviewLanguageSet.add(rls);
+		}
+
+		TabSort recentTabSort = new TabSort(ReviewSort.NEWEST_REVIEW_FIRST, recentReviewLanguageSet);
+
+		map.put(ReviewSort.NEWEST_REVIEW_FIRST, recentTabSort);
+
+		// FAVORABLE SORT ORDER
+		LinkedList<ReviewLanguageSet> favorableReviewLanguageSet = new LinkedList<ReviewLanguageSet>();
+		ReviewLanguageSet frls = new ReviewLanguageSet();
+		frls.setLocalesString(LocaleUtils.formatLanguageCodes(languages));
+		favorableReviewLanguageSet.add(frls);
+
+		TabSort favorableTabSort = new TabSort(ReviewSort.HIGHEST_RATING_FIRST, favorableReviewLanguageSet);
+
+		map.put(ReviewSort.HIGHEST_RATING_FIRST, favorableTabSort);
+
+		// CRITICAL SORT ORDER
+		LinkedList<ReviewLanguageSet> criticalReviewLanguageSet = new LinkedList<ReviewLanguageSet>();
+		ReviewLanguageSet crls = new ReviewLanguageSet();
+		crls.setLocalesString(LocaleUtils.formatLanguageCodes(languages));
+		criticalReviewLanguageSet.add(crls);
+
+		TabSort criticalTabSort = new TabSort(ReviewSort.LOWEST_RATING_FIRST, criticalReviewLanguageSet);
+
+		map.put(ReviewSort.LOWEST_RATING_FIRST, criticalTabSort);
+
+		return map;
 	}
 
 	// store the read more state in a wrapper class
@@ -707,27 +689,18 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 	private ActivityState buildActivityState() {
 		ActivityState state = new ActivityState();
+
+		state.tabMap = mTabMap;
+
 		state.mCurrentReviewSort = mCurrentReviewSort;
 
-		UserReviewsAdapter adapter = mListAdaptersMap.get(mCurrentReviewSort);
-		// make sure to save the read more state from the adapter
-		mReviewsMapWrapped.put(mCurrentReviewSort, adapter.mLoadedReviews);
-		state.reviewsMapWrapped = mReviewsMapWrapped;
-		state.reviewsAttemptDownloadMap = mReviewSortDownloadAttemptedMap;
-		state.pageNumberMap = mPageNumberMap;
-		state.moreCriticalPages = moreCriticalPages;
-		state.moreFavorablePages = moreFavorablePages;
 		state.viewedReviews = mViewedReviews;
 		return state;
 	}
 
 	private void extractActivityState(ActivityState state) {
 		mCurrentReviewSort = state.mCurrentReviewSort;
-		mReviewsMapWrapped = state.reviewsMapWrapped;
-		mReviewSortDownloadAttemptedMap = state.reviewsAttemptDownloadMap;
-		mPageNumberMap = state.pageNumberMap;
-		moreCriticalPages = state.moreCriticalPages;
-		moreFavorablePages = state.moreFavorablePages;
+		mTabMap = state.tabMap;
 		mViewedReviews = state.viewedReviews;
 	}
 
@@ -741,7 +714,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	}
 
 	private void showListOrEmptyView(ViewGroup listViewContainer, UserReviewsAdapter adapter) {
-		if (adapter.getCount() == 0 && mReviewSortDownloadAttemptedMap.get(mCurrentReviewSort)) {
+		if (adapter.getCount() == 0 && mTabMap.get(mCurrentReviewSort).attemptedDownload) {
 			TextView emptyTextView = (TextView) listViewContainer.findViewById(R.id.empty_text_view);
 			ProgressBar progressBar = (ProgressBar) listViewContainer.findViewById(R.id.progress_bar);
 			progressBar.setVisibility(View.GONE);
@@ -760,7 +733,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			}
 			emptyTextView.setText(text);
 		}
-		else if (mReviewSortDownloadAttemptedMap.get(mCurrentReviewSort)) {
+		else if (mTabMap.get(mCurrentReviewSort).attemptedDownload) {
 			getListView(listViewContainer).setVisibility(View.VISIBLE);
 			listViewContainer.findViewById(R.id.user_reviews_list_empty_view).setVisibility(View.GONE);
 		}
@@ -768,11 +741,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 	private static class ActivityState {
 		public ReviewSort mCurrentReviewSort;
-		public HashMap<ReviewSort, ArrayList<ReviewWrapper>> reviewsMapWrapped;
-		public HashMap<ReviewSort, Boolean> reviewsAttemptDownloadMap;
-		public HashMap<ReviewSort, Integer> pageNumberMap;
-		public boolean moreCriticalPages;
-		public boolean moreFavorablePages;
+		public HashMap<ReviewSort, TabSort> tabMap;
 		public Set<String> viewedReviews;
 	}
 
