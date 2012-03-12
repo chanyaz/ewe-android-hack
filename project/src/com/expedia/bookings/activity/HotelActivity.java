@@ -554,13 +554,17 @@ public class HotelActivity extends AsyncLoadActivity {
 		// Hide the text that indicated no amenities because there are amenities
 		if (property.hasAmenities()) {
 			findViewById(R.id.amenities_none_text).setVisibility(View.GONE);
+
+			findViewById(R.id.amenities_scroll_view).setVisibility(View.VISIBLE);
+			findViewById(R.id.amenities_divider).setVisibility(View.VISIBLE);
 		}
 		else {
-			findViewById(R.id.amenities_none_text).setVisibility(View.VISIBLE);
+			//findViewById(R.id.amenities_none_text).setVisibility(View.VISIBLE);
+
+			findViewById(R.id.amenities_scroll_view).setVisibility(View.GONE);
+			findViewById(R.id.amenities_divider).setVisibility(View.GONE);
 		}
 
-		findViewById(R.id.amenities_scroll_view).setVisibility(View.VISIBLE);
-		findViewById(R.id.amenities_divider).setVisibility(View.VISIBLE);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
