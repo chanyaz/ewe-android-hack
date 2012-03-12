@@ -589,7 +589,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		am.cancel(operation);
 
 		// Schedule update
-		Log.d("Scheduling rotation to occur in " + (ROTATE_INTERVAL / 1000) + " seconds.");
+		Log.v("Scheduling rotation to occur in " + (ROTATE_INTERVAL / 1000) + " seconds.");
 		am.set(AlarmManager.RTC, System.currentTimeMillis() + rotateInterval, operation);
 	}
 
