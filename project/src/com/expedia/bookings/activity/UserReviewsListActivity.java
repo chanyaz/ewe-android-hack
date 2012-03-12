@@ -75,11 +75,15 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
+			Log.d("bradley", "handling meessage");
+
 			Object[] data = (Object[]) msg.obj;
 			Boolean addFooter = (Boolean) data[0];
 			ReviewSort reviewSort = ReviewSort.valueOf((String) data[1]);
+			Log.d("bradley", addFooter + " - " + reviewSort);
 			ListView listView = getListView(mListViewContainersMap.get(reviewSort));
 			if (addFooter) {
+				Log.d("bradley", "show the loading footer!!");
 				listView.addFooterView(mFooterLoadingMore, null, false);
 			}
 			else {
@@ -404,7 +408,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
-		boolean showLoadingIndicator = false;
 
 		List<ReviewWrapper> reviews = mTabMap.get(mCurrentReviewSort).mReviewsWrapped;
 
@@ -429,8 +432,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			// we need to be able to re-show the loading indicator in the footer of the list view
 			// while a download does not need to be restarted; instead a callback can just be 
 			// re-registered
-			if (showLoadingIndicator && !isLoadingIndicatorShowingForReviewSort.contains(mCurrentReviewSort)) {
-				//			if (showLoadingIndicator) {
+			if (!isLoadingIndicatorShowingForReviewSort.contains(mCurrentReviewSort)) {
 				//send message to put loading footer
 				mHandler.sendMessage(prepareMessage(true, mCurrentReviewSort));
 				isLoadingIndicatorShowingForReviewSort.add(mCurrentReviewSort);
