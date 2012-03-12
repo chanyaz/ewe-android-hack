@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.animation.Animator;
@@ -369,13 +368,10 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		mChildrenNumberPicker.setValue(params.getNumChildren());
 
 		if (params.getNumChildren() == 0) {
-			mChildAgesButton.setAlpha(0f);
+			hideChildAgesButton(false);
 		}
 		else {
-			mChildAgesButton.setAlpha(1f);
-			ViewGroup.LayoutParams layout = mChildAgesButton.getLayoutParams();
-			layout.height = getResources().getDimensionPixelSize(R.dimen.child_ages_button_height_restored);
-			mChildAgesButton.setLayoutParams(layout);
+			showChildAgesButton(false);
 		}
 
 		String labelSelectEachChildsAge = getResources().getQuantityString(R.plurals.select_each_childs_age,
@@ -540,11 +536,19 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 	private void hideChildAgesButton(boolean animated) {
 		int height = getResources().getDimensionPixelSize(R.dimen.child_ages_button_height_minimized);
-		ObjectAnimator animAlpha = ObjectAnimator.ofFloat(mChildAgesButton, "alpha", 0f);
-		ValueAnimator animHeight = HeightEvaluator.getAnimator(mChildAgesButton, height);
-		AnimatorSet animSet = new AnimatorSet();
-		animSet.playTogether(animAlpha, animHeight);
-		animSet.start();
+		if (animated) {
+			ObjectAnimator animAlpha = ObjectAnimator.ofFloat(mChildAgesButton, "alpha", 0f);
+			ValueAnimator animHeight = HeightEvaluator.getAnimator(mChildAgesButton, height);
+			AnimatorSet animSet = new AnimatorSet();
+			animSet.playTogether(animAlpha, animHeight);
+			animSet.start();
+		}
+		else {
+			ViewGroup.LayoutParams layout = mChildAgesButton.getLayoutParams();
+			layout.height = height;
+			mChildAgesButton.setLayoutParams(layout);
+			mChildAgesButton.setAlpha(0f);
+		}
 		if (mChildAgesLayout.getVisibility() == View.VISIBLE) {
 			hideChildAgesPopup(animated);
 		}
