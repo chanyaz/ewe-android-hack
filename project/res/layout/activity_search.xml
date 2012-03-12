@@ -107,82 +107,6 @@
     </com.mobiata.android.widget.Panel>
 
     <View
-        android:id="@+id/refinement_dismiss_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/dismiss"
-        android:visibility="gone" />
-
-    <RelativeLayout
-        android:id="@+id/widget_notification_bar_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/search_bar_layout"
-        android:background="@drawable/widget_notification_bg"
-        android:clickable="true"
-        android:paddingLeft="10dp"
-        android:paddingTop="3dp"
-        android:visibility="gone" >
-
-        <com.mobiata.android.widget.WorkingViewFlipper
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/widget_notification_close_btn"
-            android:autoStart="true"
-            android:flipInterval="2000"
-            android:inAnimation="@anim/push_up_in"
-            android:outAnimation="@anim/push_up_out"
-            android:paddingBottom="10dp" >
-
-            <TextView
-                android:id="@+id/widget_notification_text_view_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="@string/widget_upsell_short_1"
-                android:textColor="#333333" />
-
-            <TextView
-                android:id="@+id/widget_notification_text_view_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="@string/widget_upsell_short_2"
-                android:textColor="#333333" />
-        </com.mobiata.android.widget.WorkingViewFlipper>
-
-        <ImageView
-            android:id="@+id/widget_notification_close_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingBottom="10dp"
-            android:scaleType="center"
-            android:src="@drawable/widget_notification_close_btn" />
-    </RelativeLayout>
-
-    <include
-        android:id="@id/search_bar_layout"
-        layout="@layout/include_search_bar" />
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_bar_layout"
-        android:background="@drawable/actionbar_shadow" />
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottombar_divider"
-        android:background="@drawable/bottombar_shadow" />
-
-    <View
         android:id="@+id/bottombar_divider"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/two_pixels"
@@ -356,6 +280,82 @@
             android:background="@null"
             android:src="@drawable/btn_actionbar_map" />
     </RelativeLayout>
+    
+    <View
+        android:id="@+id/refinement_dismiss_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/dismiss"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/widget_notification_bar_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_bar_layout"
+        android:background="@drawable/widget_notification_bg"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingTop="3dp"
+        android:visibility="gone" >
+
+        <com.mobiata.android.widget.WorkingViewFlipper
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/widget_notification_close_btn"
+            android:autoStart="true"
+            android:flipInterval="2000"
+            android:inAnimation="@anim/push_up_in"
+            android:outAnimation="@anim/push_up_out"
+            android:paddingBottom="10dp" >
+
+            <TextView
+                android:id="@+id/widget_notification_text_view_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/widget_upsell_short_1"
+                android:textColor="#333333" />
+
+            <TextView
+                android:id="@+id/widget_notification_text_view_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/widget_upsell_short_2"
+                android:textColor="#333333" />
+        </com.mobiata.android.widget.WorkingViewFlipper>
+
+        <ImageView
+            android:id="@+id/widget_notification_close_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="10dp"
+            android:scaleType="center"
+            android:src="@drawable/widget_notification_close_btn" />
+    </RelativeLayout>
+
+    <include
+        android:id="@id/search_bar_layout"
+        layout="@layout/include_search_bar" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_bar_layout"
+        android:background="@drawable/actionbar_shadow" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottombar_divider"
+        android:background="@drawable/bottombar_shadow" />
 
     <ListView
         android:id="@+id/search_suggestions_list_view"
