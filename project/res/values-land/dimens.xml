@@ -2,4 +2,6 @@
 <resources>
 	<!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
 	<dimen name="gallery_size">250dp</dimen>
+
+	<dimen name="hotel_row_price_text_view_max_width">350dp</dimen>
 </resources>

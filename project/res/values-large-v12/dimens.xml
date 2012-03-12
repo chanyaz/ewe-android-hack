@@ -7,4 +7,5 @@
     <dimen name="booking_form_saved_field_text_size">16sp</dimen>
     <dimen name="booking_form_saved_section_padding">10dp</dimen>
     <dimen name="hotel_description_title_text_size">22sp</dimen>
+    <dimen name="hotel_row_price_text_view_max_width">150dp</dimen>
 </resources>

@@ -5,7 +5,11 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.text.Html;
+import android.text.TextPaint;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +32,7 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.ViewUtils;
 
 public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
@@ -51,6 +56,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private DistanceUnit mDistanceUnit;
 
 	private float mSaleTextSize;
+	private float mPriceTextSize;
 
 	private int mSelectedPosition = -1;
 
@@ -114,12 +120,28 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 				properties.remove(mCachedProperties[i]);
 			}
 
+			String longestPrice = "";
 			for (Property property : properties) {
 				Media thumbnail = property.getThumbnail();
 				if (thumbnail != null && thumbnail.getUrl() != null) {
 					ImageCache.removeImage(thumbnail.getUrl(), true);
 				}
+
+				String displayPrice = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
+				if (longestPrice.length() < displayPrice.length()) {
+					longestPrice = displayPrice;
+				}
 			}
+
+			// Determine the price text size based on longest price
+			Resources r = mContext.getResources();
+			DisplayMetrics dm = r.getDisplayMetrics();
+			float maxTextSize = r.getDimension(R.dimen.hotel_row_price_text_size) / dm.scaledDensity;
+			float maxViewWidthdp = r.getDimension(R.dimen.hotel_row_price_text_view_max_width) / dm.density;
+			TextPaint textPaint = new TextPaint();
+			textPaint.setTypeface(Typeface.DEFAULT_BOLD);
+			mPriceTextSize = ViewUtils.getTextSizeForMaxLines(mContext, longestPrice, textPaint, maxViewWidthdp, 1,
+					maxTextSize, 5);
 		}
 
 		notifyDataSetChanged();
@@ -229,6 +251,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.saleText.setVisibility(View.GONE);
 		}
 
+		holder.price.setTextSize(mPriceTextSize);
 		holder.price.setText(StrUtils.formatHotelPrice(lowestRate.getDisplayRate()));
 
 		if (lowestRate.showInclusivePrices()) {
