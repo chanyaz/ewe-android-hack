@@ -159,7 +159,7 @@ public class ExpediaServices implements DownloadListener {
 		// provided by Atlantis has expired."  This error only happens once - the next request is usually fine.
 		// As a result, the workaround here is to immediately make a second identical request if the first one
 		// fails (for ONLY that reason).
-		if (response.hasErrors()) {
+		if (response != null && response.hasErrors()) {
 			ServerError error = response.getErrors().get(0);
 			if (error.getErrorCode() == ErrorCode.HOTEL_ROOM_UNAVAILABLE
 					&& "Hotel product\u0027s PIID that is provided by Atlantis has expired".equals(error.getMessage())) {
