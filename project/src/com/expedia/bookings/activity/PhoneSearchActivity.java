@@ -2466,16 +2466,15 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 
-		mAdultsNumberPicker.post(new Runnable() {
+		mGuestsLayout.post(new Runnable() {
 			@Override
 			public void run() {
-				mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
-			}
-		});
-		mChildrenNumberPicker.post(new Runnable() {
-			@Override
-			public void run() {
-				mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
+				int numAdults = mSearchParams.getNumAdults();
+				int numChildren = mSearchParams.getNumChildren();
+				mAdultsNumberPicker.setRange(numAdults, numAdults);
+				mChildrenNumberPicker.setRange(numChildren, numChildren);
+				GuestsPickerUtils.configureAndUpdateDisplayedValues(PhoneSearchActivity.this, mAdultsNumberPicker,
+						mChildrenNumberPicker);
 			}
 		});
 
