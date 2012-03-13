@@ -97,7 +97,7 @@ public class CalendarUtils {
 	public static String formatDateRange(Context context, SearchParams searchParams) {
 		return DateUtils.formatDateRange(context, searchParams.getCheckInDate().getTimeInMillis(),
 				searchParams.getCheckOutDate().getTimeInMillis() + DATE_RANGE_BUFFER,
-				DateUtils.FORMAT_NUMERIC_DATE);
+				DateUtils.FORMAT_NUMERIC_DATE + DateUtils.FORMAT_UTC);
 	}
 
 	public static CharSequence getCalendarDatePickerTitle(Context context, CalendarDatePicker calendarDatePicker) {
