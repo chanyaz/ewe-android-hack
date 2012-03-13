@@ -41,8 +41,11 @@ public class ConfirmationUtils {
 		Resources res = context.getResources();
 
 		DateFormat dateFormatter = new SimpleDateFormat("MM/dd");
+		dateFormatter.setTimeZone(CalendarUtils.getFormatTimeZone());
 		DateFormat fullDateFormatter = android.text.format.DateFormat.getMediumDateFormat(context);
+		fullDateFormatter.setTimeZone(CalendarUtils.getFormatTimeZone());
 		DateFormat dayFormatter = new SimpleDateFormat("EEE");
+		dayFormatter.setTimeZone(CalendarUtils.getFormatTimeZone());
 
 		Date checkIn = searchParams.getCheckInDate().getTime();
 		Date checkOut = searchParams.getCheckOutDate().getTime();
