@@ -5,13 +5,18 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.ResourceUtils;
 import com.mobiata.android.util.SettingUtils;
 
 @SuppressWarnings("serial")
 public class LocaleUtils {
+
+	public static final String ACTION_POS_CHANGED = "com.expedia.bookings.action.pos_changed";
+
 	private static final Map<String, Integer> POINT_OF_SALE_RES_ID = new HashMap<String, Integer>() {
 		{
 			put("US", R.string.point_of_sale_us);
@@ -116,14 +121,17 @@ public class LocaleUtils {
 	}
 
 	/**
-	 * Call this liberally, whenever you think the POS may have changed.
+	 * Call this when the POS has changed.
 	 */
 	public static void onPointOfSaleChanged(Context context) {
-		getPointOfSale(context);
-	}
+		Log.i("onPointOfSaleChanged() called");
 
-	public static void onPointOfSaleChanged(String newValue) {
-		sCachedPointOfSale = newValue;
+		// Update the cache
+		getPointOfSale(context);
+
+		// Notify app of POS change
+		Intent intent = new Intent(ACTION_POS_CHANGED);
+		context.sendBroadcast(intent);
 	}
 
 	/**

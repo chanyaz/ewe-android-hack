@@ -32,7 +32,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity {
 		pointOfSalePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				configurePointOfSalePreferenceSummary((String) newValue);
-				LocaleUtils.onPointOfSaleChanged((String) newValue);
+				LocaleUtils.onPointOfSaleChanged(ExpediaBookingPreferenceActivity.this);
 				return true;
 			}
 		});

@@ -10,8 +10,10 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
@@ -34,6 +36,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -149,6 +152,26 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			}
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// POS CHANGE DETECTOR
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	BroadcastReceiver mPosChangeReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.i("Widget detected POS change, starting a new search...");
+
+			// Cancel any current searches, update widget with "loading" text, and do a new search
+			mSearchDownloader.cancelDownload(WIDGET_KEY_SEARCH);
+			updateAllWidgetsWithText(getString(R.string.loading_hotels), null, null);
+			startSearchForWidgets();
+		}
+	};
+
+	private IntentFilter getPosChangeIntentFilter() {
+		return new IntentFilter(LocaleUtils.ACTION_POS_CHANGED);
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// LOCATION METHODS
@@ -418,6 +441,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+
+		unregisterReceiver(mPosChangeReceiver);
 	}
 
 	@Override
@@ -543,6 +568,9 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+		registerReceiver(mPosChangeReceiver, getPosChangeIntentFilter());
+
 		startSearchForWidgets();
 	}
 
@@ -814,7 +842,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
 
 			widgetContents.setViewVisibility(R.id.sale_text_view, View.VISIBLE);
-			widgetContents.setTextColor(R.id.price_text_view, getResources().getColor(R.color.hotel_price_sale_text_color));
+			widgetContents.setTextColor(R.id.price_text_view,
+					getResources().getColor(R.color.hotel_price_sale_text_color));
 			widgetContents.setViewVisibility(R.id.sale_image_view, View.VISIBLE);
 		}
 		else {
