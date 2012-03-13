@@ -2635,7 +2635,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			}
 			else if (len > 0) {
 				mSearchParams.setSearchType(SearchType.FREEFORM);
-				mSearchParams.setFreeformLocation(s.toString());
+				mSearchParams.setFreeformLocation(str);
 			}
 		}
 	};
@@ -2855,6 +2855,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private final View.OnClickListener mMapSearchButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			mSearchParams.invalidateFreeformLocation();
+
 			if (mMapViewListener != null) {
 				GeoPoint center = mMapViewListener.onRequestMapCenter();
 				mSearchParams.setDestinationId(null);

@@ -127,6 +127,11 @@ public class SearchParams implements JSONable {
 		mSearchLatLonUpToDate = false;
 	}
 
+	public void invalidateFreeformLocation() {
+		mFreeformLocation = null;
+		mSearchLatLonUpToDate = false;
+	}
+
 	public void setFreeformLocation(Address address) {
 		setFreeformLocation(LocationServices.formatAddress(address));
 	}
