@@ -50,9 +50,9 @@ public class UserReviewsAdapter extends BaseAdapter {
 	public boolean isEmpty() {
 		return (mLoadedReviews == null || mLoadedReviews.isEmpty());
 	}
- 
+
 	@Override
-	public Object getItem(int position) {
+	public ReviewWrapper getItem(int position) {
 		return mLoadedReviews.get(position);
 	}
 
@@ -172,16 +172,6 @@ public class UserReviewsAdapter extends BaseAdapter {
 		public TextView submissionDate;
 		public TextView body;
 		public View readMore;
-	}
-
-	public void addUserReviews(ArrayList<ReviewWrapper> reviews) {
-		if (mLoadedReviews == null) {
-			mLoadedReviews = reviews;
-		}
-		else {
-			mLoadedReviews.addAll(reviews);
-		}
-		notifyDataSetChanged();
 	}
 
 	public void setUserReviews(ArrayList<ReviewWrapper> reviews) {
