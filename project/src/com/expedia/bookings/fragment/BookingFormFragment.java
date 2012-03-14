@@ -404,31 +404,9 @@ public class BookingFormFragment extends DialogFragment {
 				saveBillingInfo();
 
 				List<ValidationError> errors = mValidationProcessor.validate();
-				int numErrors = errors.size();
 
-				if (!mFormHasBeenFocused) {
-					// Since the user hasn't even focused the form yet, instead push them towards the first
-					// invalid field to enter
-					if (numErrors > 0) {
-						View firstErrorView = (View) errors.get(0).getObject();
-						BookingInfoUtils.focusAndOpenKeyboard(getActivity(), firstErrorView);
-					}
-					return;
-				}
-
-				if (numErrors > 0) {
-					for (ValidationError error : errors) {
-						mErrorHandler.handleError(error);
-					}
-
-					// Request focus on the first field that was invalid
-					View firstErrorView = (View) errors.get(0).getObject();
-					if (firstErrorView == mRulesRestrictionsCheckbox) {
-						focusRulesRestrictions();
-					}
-					else {
-						BookingInfoUtils.focusAndOpenKeyboard(getActivity(), (View) errors.get(0).getObject());
-					}
+				if (errors.size() > 0) {
+					handleFormErrors(errors);
 				}
 				else {
 					dismissKeyboard(v);
@@ -569,6 +547,31 @@ public class BookingFormFragment extends DialogFragment {
 		mSecurityCodeEditText.setOnFocusChangeListener(l);
 		mConfirmBookButton.setOnFocusChangeListener(l);
 
+	}
+
+	/**
+	 * This could be used from the internal InputValidation errors, 
+	 * or by the results of an E3 "checkout" call.
+	 * @param errors
+	 */
+	public void handleFormErrors(List<ValidationError> errors) {
+		// If the user hasn't even focused the form yet, don't innundate them with 
+		// a ton of error messages. Instead just push them towards the first
+		// invalid field.
+		if (mFormHasBeenFocused) {
+			for (ValidationError error : errors) {
+				mErrorHandler.handleError(error);
+			}
+		}
+
+		// Request focus on the first field that was invalid
+		View firstErrorView = (View) errors.get(0).getObject();
+		if (firstErrorView == mRulesRestrictionsCheckbox) {
+			focusRulesRestrictions();
+		}
+		else {
+			BookingInfoUtils.focusAndOpenKeyboard(getActivity(), (View) errors.get(0).getObject());
+		}
 	}
 
 	private void expandGuestsForm(boolean animateAndFocus) {

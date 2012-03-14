@@ -7,12 +7,16 @@ import java.util.TreeSet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.View;
 
+import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.android.validation.ValidationError;
 
 public class Response implements JSONable {
 	private List<ServerError> mErrors;
@@ -75,6 +79,39 @@ public class Response implements JSONable {
 		}
 
 		return builder.substring(0, builder.length() - 1);
+	}
+
+	/**
+	 * Special handling for certain errors that contain a field name (for known fields).
+	 * @param activity
+	 * @return
+	 */
+	public List<ValidationError> checkForInvalidFields(Dialog parent) {
+		if (parent == null) {
+			Log.e("View parent is null");
+			return null;
+		}
+		ArrayList<ValidationError> errors = new ArrayList<ValidationError>();
+		for (ServerError error : mErrors) {
+			String field = error.getExtra("field");
+			if (field != null) {
+				if ("cvv".equals(field)) {
+					View v = parent.findViewById(R.id.security_code_edit_text);
+					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
+				}
+				else if ("creditCardNumber".equals(field)) {
+					View v = parent.findViewById(R.id.card_number_edit_text);
+					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
+				}
+				else if ("expirationDate".equals(field)) {
+					View v = parent.findViewById(R.id.expiration_month_edit_text);
+					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
+					v = parent.findViewById(R.id.expiration_year_edit_text);
+					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
+				}
+			}
+		}
+		return errors;
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,6 +40,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.validation.ValidationError;
 
 public class BookingFragmentActivity extends Activity {
 
@@ -266,18 +269,26 @@ public class BookingFragmentActivity extends Activity {
 
 			BookingResponse response = (BookingResponse) results;
 
+			BookingFormFragment bookingFormFragment = (BookingFormFragment) getFragmentManager().findFragmentByTag(
+					getString(R.string.tag_booking_form));
+
 			if (!response.isSuccess() && !response.succeededWithErrors()) {
 				String errorMsg = response.gatherErrorMessage(BookingFragmentActivity.this);
-
 				showErrorDialog(errorMsg);
+
+				// Highlight erroneous fields, if that exists
+				List<ValidationError> errors = response.checkForInvalidFields(bookingFormFragment.getDialog());
+				if (errors != null && errors.size() > 0) {
+					if (bookingFormFragment != null) {
+						bookingFormFragment.handleFormErrors(errors);
+					}
+				}
 
 				TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
 
 				return;
 			}
 
-			DialogFragment bookingFormFragment = (DialogFragment) getFragmentManager().findFragmentByTag(
-					getString(R.string.tag_booking_form));
 			if (bookingFormFragment != null) {
 				bookingFormFragment.dismiss();
 			}
