@@ -13,6 +13,7 @@ import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,6 +51,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsResponse;
+import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.SignInResponse;
@@ -232,9 +234,8 @@ public class ExpediaServices implements DownloadListener {
 	//////////////////////////////////////////////////////////////////////////
 	//// BazaarVoice (Reviews) API
 
-	public static boolean hasMoreReviews(Property property, int page) {
-		int maxPage = ((int) Math.ceil(property.getTotalReviews() / (double) REVIEWS_PER_PAGE)) - 1;
-		return maxPage >= page;
+	public ReviewsResponse reviews(Property property, int pageNumber, ReviewSort sort) {
+		return reviews(property, pageNumber, sort, REVIEWS_PER_PAGE);
 	}
 
 	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, String localesString) {
@@ -269,10 +270,6 @@ public class ExpediaServices implements DownloadListener {
 		return (ReviewsResponse) doRequest(query, new ReviewsResponseHandler(mContext));
 	}
 
-	public ReviewsResponse reviews(Property property, int pageNumber, ReviewSort sort) {
-		return reviews(property, pageNumber, sort, REVIEWS_PER_PAGE);
-	}
-
 	public ReviewsResponse reviews(Property property, int pageNumber, ReviewSort sort, int reviewCount) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
@@ -283,8 +280,10 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
 
-		query.add(new BasicNameValuePair("Filter", "ContentLocale:"
-				+ LocaleUtils.getBazaarVoiceContentLocales(mContext, sort)));
+		LinkedList<String> languages = LocaleUtils.getLanguages(mContext);
+		String localesString = LocaleUtils.formatLanguageCodes(languages);
+
+		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
 
 		// emulate the expedia.com esktop website way of displaying reviews
 		switch (sort) {
@@ -302,6 +301,35 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("include", "products"));
 
 		return (ReviewsResponse) doRequest(query, new ReviewsResponseHandler(mContext));
+	}
+
+	/*
+	 * Method for retrieving reviews statistics. Historically, the number of reviews AND number of recommended
+	 * reviews returned by Expedia on the property is outdated and malformed. Correct for this by grabbing these
+	 * numbers from the BV aPI using the "Stats" param
+	 */
+	public ReviewsStatisticsResponse reviewsStatistics(Property property) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		query.add(new BasicNameValuePair("apiversion", BAZAAR_VOICE_API_VERSION));
+		query.add(new BasicNameValuePair("passkey", BAZAAR_VOICE_API_TOKEN));
+		query.add(new BasicNameValuePair("limit", "1"));
+
+		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
+
+		LinkedList<String> languages = LocaleUtils.getLanguages(mContext);
+		String localesString = LocaleUtils.formatLanguageCodes(languages);
+
+		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
+
+		query.add(new BasicNameValuePair("Filter", "IsRecommended:true"));
+
+		query.add(new BasicNameValuePair("Stats", "Reviews"));
+
+		query.add(new BasicNameValuePair("Include", "Products"));
+
+		return (ReviewsStatisticsResponse) doRequest(query, new ReviewsStatisticsResponseHandler(mContext));
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////

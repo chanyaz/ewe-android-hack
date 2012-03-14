@@ -258,176 +258,6 @@ public class LocaleUtils {
 	}
 
 	/**
-	 * Determine the locales to request for reviews. BazaarVoice API works such that you can send a set of locale codes
-	 * and it will retrieve all of the reviews that are in each locale bucket.
-	 * 
-	 * The inspiration for this method comes from https://team.mobiata.com/wiki/Expedia/Review_Behavior which in turn was
-	 * inspired by the way in which Expedia desktop (www.expedia.com.*) handles the displaying of reviews.
-	 * 
-	 * @param context
-	 * @return set of locales for BazaarVoice
-	 */
-
-	public static String getBazaarVoiceContentLocales(Context context, ReviewSort sort) {
-		LinkedList<String> languageCodes = new LinkedList<String>();
-
-		// ensure cache is filled
-		if (null == sCachedPointOfSale) {
-			sCachedPointOfSale = getDefaultPointOfSale(context);
-		}
-
-		if (null == sCachedLanguageCode) {
-			sCachedLanguageCode = Locale.getDefault().getLanguage();
-		}
-
-		// grab the language codes
-		if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_dk))) {
-			// DANISH -> ENGLISH
-			languageCodes.add("da");
-			languageCodes.add("en");
-
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_at))) {
-			// GERMAN -> ENGLISH
-			languageCodes.add("de");
-			languageCodes.add("en");
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_de))) {
-			// GERMAN -> ENGLISH
-			languageCodes.add("de");
-			languageCodes.add("en");
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_ca))) {
-			if (sCachedLanguageCode.equals("fr")) {
-				languageCodes.add("fr");
-			}
-			else {
-				// FRENCH -> ENGLISH
-				languageCodes.add("fr");
-				languageCodes.add("en");
-			}
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_ar))) {
-			// LUMPED TOGETHER
-			languageCodes.add("en");
-			languageCodes.add("pt");
-			languageCodes.add("es");
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_es))) {
-			languageCodes.add("es");
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_mx))) {
-			languageCodes.add("es");
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_be))) {
-			if (sCachedLanguageCode.equals("fr")) {
-				// FRENCH -> ENGLISH
-				languageCodes.add("fr");
-				languageCodes.add("en");
-			}
-			else {
-				// NL -> ENGLISH
-				languageCodes.add("nl");
-				languageCodes.add("en");
-			}
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_id))) {
-			// INDONESIAN -> ENGLISH
-			languageCodes.add("id");
-			languageCodes.add("en");
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_fr))) {
-			// FRENCH -> ENGLISH
-			languageCodes.add("fr");
-			languageCodes.add("en");
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_it))) {
-			// ITALIAN -> ENGLISH
-			languageCodes.add("it");
-			languageCodes.add("en");
-
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_jp))) {
-			languageCodes.add("ja");
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_kr))) {
-			// KOREAN -> ENGLISH
-			languageCodes.add("ko");
-			languageCodes.add("en");
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_my))) {
-			// MALAYSIAN -> ENGLISH
-			languageCodes.add("ms");
-			languageCodes.add("en");
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_nl))) {
-			// NEDERLANDS -> ENGLISH
-			languageCodes.add("nl");
-			languageCodes.add("en");
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_no))) {
-			// NORWEGIAN -> ENGLISH
-			languageCodes.add("no");
-			languageCodes.add("en");
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_br))) {
-			// PORTUGEUESE -> SPANISH
-			languageCodes.add("pt");
-			languageCodes.add("es");
-
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_se))) {
-			// SWEDISH -> ENGLISH
-			languageCodes.add("sv");
-			languageCodes.add("en");
-
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_th))) {
-			if (sCachedLanguageCode.equals("th")) {
-				// THAI -> ENGLISH
-				languageCodes.add("th");
-				languageCodes.add("en");
-			}
-			else {
-				languageCodes.add("en");
-			}
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_hk))) {
-			if (sCachedLanguageCode.equals("zh")) {
-				languageCodes.add("zh");
-			}
-			else {
-				languageCodes.add("en");
-			}
-		}
-		else if (sCachedPointOfSale.equals(context.getString(R.string.point_of_sale_tw))) {
-			if (sCachedLanguageCode.equals("zh")) {
-				languageCodes.add("zh");
-			}
-			else {
-				// ENGLISH -> CHINESE
-				languageCodes.add("en");
-				languageCodes.add("zh");
-			}
-		}
-		else {
-			// FALLBACK TO ENGLISH DEFAULT?
-			languageCodes.add("en");
-		}
-
-		String codes = formatLanguageCodes(languageCodes);
-
-		// add flag to end of the string to denote that this list of language codes
-		// has a priority, so request reviews by a certain language, then the next language
-		// instead of grouping all of the languages at once
-		if (sort == ReviewSort.NEWEST_REVIEW_FIRST) {
-
-		}
-
-		return codes;
-	}
-
-	/**
 	 * The purpose of this class is to contain all of the bookkeeping related to the paging of reviews
 	 * for a priority list of languages. For instance, using the language priority algorithm for the recent
 	 * sort order, this instances of this class will store the pageNumber, the totalCount, localeCode
@@ -532,6 +362,13 @@ public class LocaleUtils {
 	// codes together, or page through them. this will upkeep the flag in the listview
 	// hasMoreRecentReviews
 
+	/**
+	 * Converts a list of languages codes into a BV/Expedia formatted list of language codes for use in pulling
+	 * all reviews of a set of languages (one or more langauages, where each language is a set of locale codes)
+	 * 
+	 * @param a simple string list of language codes
+	 * @return
+	 */
 	public static String formatLanguageCodes(LinkedList<String> codes) {
 		StringBuilder sb = new StringBuilder();
 		String prefix = "";
