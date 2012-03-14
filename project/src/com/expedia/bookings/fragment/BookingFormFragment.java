@@ -218,13 +218,18 @@ public class BookingFormFragment extends DialogFragment {
 					expandBillingForm(false);
 				}
 			}
-
 		}
 		else {
 			expandGuestsForm(false);
 			expandBillingForm(false);
 		}
 		mFormHasBeenFocused = false;
+
+		if (savedInstanceState == null) {
+			// 12810: Clear out the credit card info if it happens to exist by this point.
+			mCardNumberEditText.setText("");
+			mSecurityCodeEditText.setText("");
+		}
 
 		dialog.setCanceledOnTouchOutside(false);
 
