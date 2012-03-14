@@ -410,7 +410,7 @@
 	<!-- The "postal code" booking info field.  -->
 	<string name="PostalCode">Kode Pos</string>
 	<!-- State code hint -->
-	<string name="hint_state_code">Provinsi</string>
+	<string name="hint_state_code">Prov.</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Info Kartu Kredit</string>
 	<!-- Card number form field hint -->

@@ -410,7 +410,7 @@
 	<!-- The "postal code" booking info field.  -->
 	<string name="PostalCode">CAP</string>
 	<!-- State code hint -->
-	<string name="hint_state_code">Provincia</string>
+	<string name="hint_state_code">Prov.</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Dati carta di credito</string>
 	<!-- Card number form field hint -->
