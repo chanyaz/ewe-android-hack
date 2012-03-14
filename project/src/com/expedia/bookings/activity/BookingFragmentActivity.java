@@ -277,7 +277,8 @@ public class BookingFragmentActivity extends Activity {
 				showErrorDialog(errorMsg);
 
 				// Highlight erroneous fields, if that exists
-				List<ValidationError> errors = response.checkForInvalidFields(bookingFormFragment.getDialog());
+				List<ValidationError> errors = response.checkForInvalidFields(bookingFormFragment.getDialog()
+						.getWindow());
 				if (errors != null && errors.size() > 0) {
 					if (bookingFormFragment != null) {
 						bookingFormFragment.handleFormErrors(errors);

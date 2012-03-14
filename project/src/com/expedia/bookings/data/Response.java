@@ -7,10 +7,11 @@ import java.util.TreeSet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Dialog;
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.Log;
@@ -86,11 +87,12 @@ public class Response implements JSONable {
 	 * @param activity
 	 * @return
 	 */
-	public List<ValidationError> checkForInvalidFields(Dialog parent) {
+	public List<ValidationError> checkForInvalidFields(Window parent) {
 		if (parent == null) {
-			Log.e("View parent is null");
+			Log.d("Window parent is null");
 			return null;
 		}
+		Activity a;
 		ArrayList<ValidationError> errors = new ArrayList<ValidationError>();
 		for (ServerError error : mErrors) {
 			String field = error.getExtra("field");

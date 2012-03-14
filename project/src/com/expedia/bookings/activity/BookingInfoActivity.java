@@ -490,6 +490,13 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mResponse = (BookingResponse) results;
 		if (!mResponse.isSuccess() && !mResponse.succeededWithErrors()) {
 			showDialog(BookingInfoUtils.DIALOG_BOOKING_ERROR);
+
+			// Highlight erroneous fields, if that exists
+			List<ValidationError> errors = mResponse.checkForInvalidFields(getWindow());
+			if (errors != null && errors.size() > 0) {
+				handleFormErrors(errors);
+			}
+
 			TrackingUtils.trackErrorPage(this, "ReservationRequestFailed");
 			return;
 		}
@@ -760,18 +767,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 				}
 
 				if (numErrors > 0) {
-					for (ValidationError error : errors) {
-						mErrorHandler.handleError(error);
-					}
-
-					// Request focus on the first field that was invalid
-					View firstErrorView = (View) errors.get(0).getObject();
-					if (firstErrorView == mRulesRestrictionsCheckbox) {
-						focusRulesRestrictions();
-					}
-					else {
-						BookingInfoUtils.focusAndOpenKeyboard(BookingInfoActivity.this, firstErrorView);
-					}
+					handleFormErrors(errors);
 				}
 				else {
 					BookingInfoUtils.onClickSubmit(BookingInfoActivity.this);
@@ -812,6 +808,26 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mExpirationYearEditText.setOnFocusChangeListener(l);
 		mSecurityCodeEditText.setOnFocusChangeListener(l);
 		mConfirmationButton.setOnFocusChangeListener(l);
+	}
+
+	/**
+	 * This could be used from the internal InputValidation errors, 
+	 * or by the results of an E3 "checkout" call.
+	 * @param errors
+	 */
+	private void handleFormErrors(List<ValidationError> errors) {
+		for (ValidationError error : errors) {
+			mErrorHandler.handleError(error);
+		}
+
+		// Request focus on the first field that was invalid
+		View firstErrorView = (View) errors.get(0).getObject();
+		if (firstErrorView == mRulesRestrictionsCheckbox) {
+			focusRulesRestrictions();
+		}
+		else {
+			BookingInfoUtils.focusAndOpenKeyboard(this, firstErrorView);
+		}
 	}
 
 	private void configureFooter() {
