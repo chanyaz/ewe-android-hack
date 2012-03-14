@@ -116,15 +116,17 @@ public class GuestsPickerUtils {
 				}
 			}
 
-			if (i < numChildren && row.getTag() == null) {
-				// Use the row's Tag to determine if we've initialized this label/spinner yet.
-				row.setTag(i);
-				Spinner spinner = (Spinner)row;
-				spinner.setPrompt(context.getString(R.string.prompt_select_child_age, GuestsPickerUtils.MIN_CHILD_AGE,
-						GuestsPickerUtils.MAX_CHILD_AGE));
-				spinner.setAdapter(new ChildAgeSpinnerAdapter(context));
+			if (i < numChildren) {
+				Spinner spinner = (Spinner) row;
+				if (row.getTag() == null) {
+					// Use the row's Tag to determine if we've initialized this label/spinner yet.
+					row.setTag(i);
+					spinner.setPrompt(context.getString(R.string.prompt_select_child_age,
+							GuestsPickerUtils.MIN_CHILD_AGE, GuestsPickerUtils.MAX_CHILD_AGE));
+					spinner.setAdapter(new ChildAgeSpinnerAdapter(context));
+					spinner.setOnItemSelectedListener(listener);
+				}
 				spinner.setSelection(children.get(i) - MIN_CHILD_AGE);
-				spinner.setOnItemSelectedListener(listener);
 			}
 		}
 	}

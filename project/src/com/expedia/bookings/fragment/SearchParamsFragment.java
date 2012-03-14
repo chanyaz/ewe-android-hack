@@ -366,6 +366,8 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 		mAdultsNumberPicker.setValue(params.getNumAdults());
 		mChildrenNumberPicker.setValue(params.getNumChildren());
+		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), params.getChildren(), mChildAgesLayout,
+				mChildAgeSelectedListener);
 
 		if (params.getNumChildren() == 0) {
 			hideChildAgesButton(false);
