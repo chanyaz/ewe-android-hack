@@ -61,7 +61,14 @@ public class PersistantCookieStore extends BasicCookieStore {
 		}
 
 		try {
-			JSONArray arr = new JSONArray(IoUtils.readStringFromFile(fileName, context));
+			String data = IoUtils.readStringFromFile(fileName, context);
+
+			if (data == null) {
+				Log.w("Could not load cookie file, thread interrupted during read.");
+				return;
+			}
+
+			JSONArray arr = new JSONArray(data);
 			int len = arr.length();
 			for (int a = 0; a < len; a++) {
 				JSONObject cookieObj = arr.getJSONObject(a);
