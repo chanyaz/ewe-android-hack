@@ -70,7 +70,7 @@ public class ExpediaServices implements DownloadListener {
 
 	private static final String BAZAAR_VOICE_BASE_URL = "http://reviews.expedia.com/data/reviews.json";
 	private static final String BAZAAR_VOICE_API_TOKEN = "tq2es494c5r0o2443tc4byu2q";
-	private static final String BAZAAR_VOICE_API_VERSION = "5.0";
+	private static final String BAZAAR_VOICE_API_VERSION = "5.1";
 
 	public static final int REVIEWS_PER_PAGE = 25;
 
@@ -322,9 +322,7 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
 
-		query.add(new BasicNameValuePair("Filter", "IsRecommended:true"));
-
-		query.add(new BasicNameValuePair("Stats", "Reviews"));
+		query.add(new BasicNameValuePair("FilteredStats", "Reviews"));
 
 		query.add(new BasicNameValuePair("Include", "Products"));
 

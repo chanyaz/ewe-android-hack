@@ -27,7 +27,7 @@ public class ReviewsStatisticsResponseHandler extends JsonResponseHandler<Review
 
 			String key = (String) products.keys().next();
 
-			JSONObject stats = products.getJSONObject(key).getJSONObject("ReviewStatistics");
+			JSONObject stats = products.getJSONObject(key).getJSONObject("FilteredReviewStatistics");
 
 			reviewsStatisticsResponse.setRecommendedCount(stats.getInt("RecommendedCount"));
 			reviewsStatisticsResponse.setTotalReviewCount(stats.getInt("TotalReviewCount"));
