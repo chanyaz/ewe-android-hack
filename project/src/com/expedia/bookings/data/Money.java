@@ -197,6 +197,9 @@ public class Money implements JSONable {
 	// #12791 - PHP (Philippine Peso) doesn't display correctly on SGS2 Gingerbread, so fix it here.
 	private static final String PHP_UNICODE = "₱";
 
+	// #12855 - Indonesian POS shows the generic money symbol instead of Rp
+	private static final String GENERIC_UNICODE = "¤";
+
 	private static String formatRate(double amount, String currencyCode, int flags) {
 		// We use the default user locale for both of these, as it should
 		// be properly set by the Android system.
@@ -235,6 +238,15 @@ public class Money implements JSONable {
 			else if (formatted.endsWith(PHP_UNICODE)) {
 				formatted = formatted.substring(0, formatted.length() - PHP_UNICODE.length()) + currencyCode;
 			}
+		}
+		else if (currencyCode.equals("IDR")) {
+			if (formatted.startsWith(GENERIC_UNICODE)) {
+				formatted = "Rp" + formatted.substring(GENERIC_UNICODE.length());
+			}
+			else if (formatted.endsWith(GENERIC_UNICODE)) {
+				formatted = formatted.substring(0, formatted.length() - GENERIC_UNICODE.length()) + "Rp";
+			}
+			
 		}
 
 		return formatted;
