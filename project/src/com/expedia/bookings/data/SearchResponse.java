@@ -1,5 +1,6 @@
 package com.expedia.bookings.data;
 
+import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.regex.Pattern;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Filter.PriceRange;
@@ -294,7 +296,8 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 			for (Property property : mExpediaSortedProperties) {
 				// Filter search radius
 				if (searchDistance != null) {
-					Distance distanceFromUser = property.getDistanceFromUser();
+					Distance distanceFromUser = new Distance(property.getDistanceFromUser().getDistance(), property.getDistanceFromUser().getUnit());
+					distanceFromUser.setDistance(Math.rint(distanceFromUser.getDistance() * 10.0d) / 10.0d);
 					if (distanceFromUser == null || distanceFromUser.compareTo(searchDistance) > 0) {
 						continue;
 					}
