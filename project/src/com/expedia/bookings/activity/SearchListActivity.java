@@ -23,7 +23,9 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Constants
 
-	private static final int MAX_THUMBNAILS = 100;
+	// MAX_THUMBNAILS is not often hit, due to how the algorithm works.  More often,
+	// the # of thumbnails is somewhere between MAX_THUMBNAILS / 2 and MAX_THUMBNAILS.
+	private static final int MAX_THUMBNAILS = 50;
 
 	private static final String STATE_POSITION = "STATE_POSITION";
 
