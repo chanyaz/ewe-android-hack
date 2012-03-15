@@ -71,7 +71,7 @@ public class WidgetDeals implements JSONable {
 		long start = System.currentTimeMillis();
 		List<Property> relevantProperties = new ArrayList<Property>();
 
-		if (response == null || response.hasErrors()) {
+		if (response == null || response.hasErrors() || response.getPropertiesCount() == 0) {
 			mDeals = null;
 			refreshCount++;
 			return;
