@@ -1,6 +1,5 @@
 package com.expedia.bookings.data;
 
-import java.lang.Math;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -145,11 +144,9 @@ public class Distance implements JSONable, Comparable<Distance> {
 
 	@Override
 	public int compareTo(Distance other) {
-		double thisDistance = Math.rint(mDistance * 10.0d) / 10.0d;
-		double otherDistance = Math.rint(other.getDistance() * 10.0d) / 10.0d;
-
-		double myMiles = (mUnit == DistanceUnit.KILOMETERS) ? MapUtils.kilometersToMiles(thisDistance) : thisDistance;
-		double otherMiles = (other.getUnit() == DistanceUnit.KILOMETERS) ? MapUtils.kilometersToMiles(otherDistance) : otherDistance;
+		double myMiles = (mUnit == DistanceUnit.KILOMETERS) ? MapUtils.kilometersToMiles(mDistance) : mDistance;
+		double otherMiles = (other.getUnit() == DistanceUnit.KILOMETERS) ? MapUtils.kilometersToMiles(other
+				.getDistance()) : other.getDistance();
 
 		if (myMiles > otherMiles) {
 			return 1;
