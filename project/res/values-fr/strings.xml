@@ -630,7 +630,7 @@
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
 		<item quantity="zero">%d adultes</item>
-		<item quantity="one">%d adulte</item>
+		<item quantity="one">%d adulte</item>
 		<item quantity="two">%d adultes</item>
 		<item quantity="many">%d adultes</item>
 		<item quantity="other">%d adultes</item>
@@ -638,7 +638,7 @@
 	<!-- A number of children -->
 	<plurals name="number_of_children">
 		<item quantity="zero">%d enfants</item>
-		<item quantity="one">%d enfant</item>
+		<item quantity="one">%d enfant</item>
 		<item quantity="two">%d enfants</item>
 		<item quantity="many">%d enfants</item>
 		<item quantity="other">%d enfants</item>

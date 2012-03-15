@@ -65,11 +65,11 @@
 	<string name="booking_info_template">&lt;b&gt; %1$s &lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt; hanggang &lt;b&gt; %3$s &lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
-		<item quantity="zero">&lt;b&gt; %d &lt;/b&gt; magkakatugmang hotel</item>
-		<item quantity="one">&lt;b&gt; %d &lt;/b&gt; magkakatugmang hotel</item>
-		<item quantity="two">&lt;b&gt; %d &lt;/b&gt; magkakatugmang hotel</item>
-		<item quantity="many">&lt;b&gt; %d &lt;/b&gt; magkakatugmang hotel</item>
-		<item quantity="other">&lt;b&gt; %d &lt;/b&gt; magkakatugmang hotel</item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; magkakatugmang hotel</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; magkakatugmang hotel</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; magkakatugmang hotel</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; magkakatugmang hotel</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; magkakatugmang hotel</item>
 	</plurals>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">I-filter ayon sa pangalan ng hotel</string>
@@ -95,11 +95,11 @@
 	<string name="filter_hotels">I-filter ang Mga Hotel</string>
 	<!-- A number of results -->
 	<plurals name="number_of_results">
-		<item quantity="zero">&lt;b&gt; %d &lt;/b&gt; Mga Resulta</item>
-		<item quantity="one">&lt;b&gt; %d &lt;/b&gt; Resulta</item>
-		<item quantity="two">&lt;b&gt; %d &lt;/b&gt; Mga Resulta</item>
-		<item quantity="many">&lt;b&gt; %d &lt;/b&gt; Mga Resulta</item>
-		<item quantity="other">&lt;b&gt; %d &lt;/b&gt; Mga Resulta</item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; Mga Resulta</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; Resulta</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; Mga Resulta</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; Mga Resulta</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; Mga Resulta</item>
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
@@ -629,35 +629,35 @@
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-		<item quantity="zero">%dMga Nasa Edad Na</item>
+		<item quantity="zero">%d Mga Nasa Edad Na</item>
 		<item quantity="one">%d Nasa Edad Na</item>
-		<item quantity="two">%dMga Nasa Edad Na</item>
-		<item quantity="many">%dMga Nasa Edad Na</item>
-		<item quantity="other">%dMga Nasa Edad Na</item>
+		<item quantity="two">%d Mga Nasa Edad Na</item>
+		<item quantity="many">%d Mga Nasa Edad Na</item>
+		<item quantity="other">%d Mga Nasa Edad Na</item>
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-		<item quantity="zero">%dMga Bata</item>
+		<item quantity="zero">%d Mga Bata</item>
 		<item quantity="one">%d Bata</item>
-		<item quantity="two">%dMga Bata</item>
-		<item quantity="many">%dMga Bata</item>
-		<item quantity="other">%dMga Bata</item>
+		<item quantity="two">%d Mga Bata</item>
+		<item quantity="many">%d Mga Bata</item>
+		<item quantity="other">%d Mga Bata</item>
 	</plurals>
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
-		<item quantity="zero">%dMga Bisita</item>
-		<item quantity="one">%dBisita</item>
-		<item quantity="two">%dMga Bisita</item>
-		<item quantity="many">%dMga Bisita</item>
-		<item quantity="other">%dMga Bisita</item>
+		<item quantity="zero">%d Mga Bisita</item>
+		<item quantity="one">%d Bisita</item>
+		<item quantity="two">%d Mga Bisita</item>
+		<item quantity="many">%d Mga Bisita</item>
+		<item quantity="other">%d Mga Bisita</item>
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">
-		<item quantity="zero">%dMga Gabi</item>
-		<item quantity="one">%dGabi</item>
-		<item quantity="two">%dMga Gabi</item>
-		<item quantity="many">%dMga Gabi</item>
-		<item quantity="other">%dMga Gabi</item>
+		<item quantity="zero">%d Mga Gabi</item>
+		<item quantity="one">%d Gabi</item>
+		<item quantity="two">%d Mga Gabi</item>
+		<item quantity="many">%d Mga Gabi</item>
+		<item quantity="other">%d Mga Gabi</item>
 	</plurals>
 
 	<!-- Distance strings -->

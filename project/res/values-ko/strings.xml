@@ -306,11 +306,11 @@
 	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt;명의 고객이(총 &lt;b&gt;%2$d&lt;/b&gt;명 중) 이 호텔을 추천하셨습니다.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
-		<item quantity="zero">%d개의 이용 후기</item>
-		<item quantity="one">%d개의 이용 후기</item>
-		<item quantity="two">%d개의 이용 후기</item>
-		<item quantity="many">%d개의 이용 후기</item>
-		<item quantity="other">%d개의 이용 후기</item>
+		<item quantity="zero">%d 개의 이용 후기</item>
+		<item quantity="one">%d 개의 이용 후기</item>
+		<item quantity="two">%d 개의 이용 후기</item>
+		<item quantity="many">%d 개의 이용 후기</item>
+		<item quantity="other">%d 개의 이용 후기</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
@@ -326,11 +326,11 @@
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
 	<plurals name="staying_nights">
-		<item quantity="zero">%d박 숙박 중</item>
-		<item quantity="one">%d박 숙박 중</item>
-		<item quantity="two">%d박 숙박 중</item>
-		<item quantity="many">%d박 숙박 중</item>
-		<item quantity="other">%d박 숙박 중</item>
+		<item quantity="zero">%d 박 숙박 중</item>
+		<item quantity="one">%d 박 숙박 중</item>
+		<item quantity="two">%d 박 숙박 중</item>
+		<item quantity="many">%d 박 숙박 중</item>
+		<item quantity="other">%d 박 숙박 중</item>
 	</plurals>
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">남은 객실 검색 중...</string>
@@ -344,9 +344,9 @@
 	<plurals name="number_of_rooms_left">
 		<item quantity="zero">남은 객실이 없습니다!</item>
 		<item quantity="one">1개 객실만 남았습니다!</item>
-		<item quantity="two">객실이 %d개 남았습니다!</item>
-		<item quantity="many">객실이 %d개 남았습니다!</item>
-		<item quantity="other">객실이 %d개 남았습니다!</item>
+		<item quantity="two">객실이 %d 개 남았습니다!</item>
+		<item quantity="many">객실이 %d 개 남았습니다!</item>
+		<item quantity="other">객실이 %d 개 남았습니다!</item>
 	</plurals>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
 	<string name="savings_template">할인\n %2.0f%%</string>

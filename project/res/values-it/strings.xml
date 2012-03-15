@@ -629,27 +629,27 @@
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-		<item quantity="zero">%dadulti</item>
+		<item quantity="zero">%d adulti</item>
 		<item quantity="one">%d adulto</item>
-		<item quantity="two">%dadulti</item>
-		<item quantity="many">%dadulti</item>
-		<item quantity="other">%dadulti</item>
+		<item quantity="two">%d adulti</item>
+		<item quantity="many">%d adulti</item>
+		<item quantity="other">%d adulti</item>
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-		<item quantity="zero">%dbambini</item>
+		<item quantity="zero">%d bambini</item>
 		<item quantity="one">%d bambino</item>
-		<item quantity="two">%dbambini</item>
-		<item quantity="many">%dbambini</item>
-		<item quantity="other">%dbambini</item>
+		<item quantity="two">%d bambini</item>
+		<item quantity="many">%d bambini</item>
+		<item quantity="other">%d bambini</item>
 	</plurals>
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
-		<item quantity="zero">%dospiti</item>
+		<item quantity="zero">%d ospiti</item>
 		<item quantity="one">%d ospite</item>
-		<item quantity="two">%dospiti</item>
-		<item quantity="many">%dospiti</item>
-		<item quantity="other">%dospiti</item>
+		<item quantity="two">%d ospiti</item>
+		<item quantity="many">%d ospiti</item>
+		<item quantity="other">%d ospiti</item>
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">

@@ -629,27 +629,27 @@
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-		<item quantity="zero">%d成人人數</item>
+		<item quantity="zero">%d 成人人數</item>
 		<item quantity="one">%d 位成人</item>
-		<item quantity="two">%d成人人數</item>
-		<item quantity="many">%d成人人數</item>
-		<item quantity="other">%d成人人數</item>
+		<item quantity="two">%d 成人人數</item>
+		<item quantity="many">%d 成人人數</item>
+		<item quantity="other">%d 成人人數</item>
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-		<item quantity="zero">%d兒童人數</item>
+		<item quantity="zero">%d 兒童人數</item>
 		<item quantity="one">%d 位兒童</item>
-		<item quantity="two">%d兒童人數</item>
-		<item quantity="many">%d兒童人數</item>
-		<item quantity="other">%d兒童人數</item>
+		<item quantity="two">%d 兒童人數</item>
+		<item quantity="many">%d 兒童人數</item>
+		<item quantity="other">%d 兒童人數</item>
 	</plurals>
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
-		<item quantity="zero">%d旅客人數</item>
+		<item quantity="zero">%d 旅客人數</item>
 		<item quantity="one">%d 位旅客</item>
-		<item quantity="two">%d旅客人數</item>
-		<item quantity="many">%d旅客人數</item>
-		<item quantity="other">%d旅客人數</item>
+		<item quantity="two">%d 旅客人數</item>
+		<item quantity="many">%d 旅客人數</item>
+		<item quantity="other">%d 旅客人數</item>
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">

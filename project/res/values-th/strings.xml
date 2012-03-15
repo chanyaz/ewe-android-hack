@@ -630,7 +630,7 @@
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
 		<item quantity="zero">ผู้ใหญ่ %d</item>
-		<item quantity="one">ผู้ใหญ่ %d </item>
+		<item quantity="one">ผู้ใหญ่ %d</item>
 		<item quantity="two">ผู้ใหญ่ %d</item>
 		<item quantity="many">ผู้ใหญ่ %d</item>
 		<item quantity="other">ผู้ใหญ่ %d</item>

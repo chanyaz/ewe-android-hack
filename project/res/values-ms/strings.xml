@@ -306,11 +306,11 @@
 	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt;daripada &lt;b&gt;%2$d&lt;/b&gt; tetamu mengesyorkan hotel ini.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
-		<item quantity="zero">%dUlasan</item>
-		<item quantity="one">%dUlasan</item>
-		<item quantity="two">%dUlasan</item>
-		<item quantity="many">%dUlasan</item>
-		<item quantity="other">%dUlasan</item>
+		<item quantity="zero">%d Ulasan</item>
+		<item quantity="one">%d Ulasan</item>
+		<item quantity="two">%d Ulasan</item>
+		<item quantity="many">%d Ulasan</item>
+		<item quantity="other">%d Ulasan</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
@@ -629,27 +629,27 @@
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-		<item quantity="zero">%dDewasa</item>
+		<item quantity="zero">%d Dewasa</item>
 		<item quantity="one">%d Dewasa</item>
-		<item quantity="two">%dDewasa</item>
-		<item quantity="many">%dDewasa</item>
-		<item quantity="other">%dDewasa</item>
+		<item quantity="two">%d Dewasa</item>
+		<item quantity="many">%d Dewasa</item>
+		<item quantity="other">%d Dewasa</item>
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-		<item quantity="zero">%dKanak-kanak</item>
+		<item quantity="zero">%d Kanak-kanak</item>
 		<item quantity="one">%d Kanak-kanak</item>
-		<item quantity="two">%dKanak-kanak</item>
-		<item quantity="many">%dKanak-kanak</item>
-		<item quantity="other">%dKanak-kanak</item>
+		<item quantity="two">%d Kanak-kanak</item>
+		<item quantity="many">%d Kanak-kanak</item>
+		<item quantity="other">%d Kanak-kanak</item>
 	</plurals>
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
-		<item quantity="zero">%dTetamu</item>
+		<item quantity="zero">%d Tetamu</item>
 		<item quantity="one">%d Tetamu</item>
-		<item quantity="two">%dTetamu</item>
-		<item quantity="many">%dTetamu</item>
-		<item quantity="other">%dTetamu</item>
+		<item quantity="two">%d Tetamu</item>
+		<item quantity="many">%d Tetamu</item>
+		<item quantity="other">%d Tetamu</item>
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">

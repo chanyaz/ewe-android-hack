@@ -629,27 +629,27 @@
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-		<item quantity="zero">%dVolwassenen</item>
+		<item quantity="zero">%d Volwassenen</item>
 		<item quantity="one">%d Volwassene</item>
-		<item quantity="two">%dVolwassenen</item>
-		<item quantity="many">%dVolwassenen</item>
-		<item quantity="other">%dVolwassenen</item>
+		<item quantity="two">%d Volwassenen</item>
+		<item quantity="many">%d Volwassenen</item>
+		<item quantity="other">%d Volwassenen</item>
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-		<item quantity="zero">%dKinderen</item>
+		<item quantity="zero">%d Kinderen</item>
 		<item quantity="one">%d Kind</item>
-		<item quantity="two">%dKinderen</item>
-		<item quantity="many">%dKinderen</item>
-		<item quantity="other">%dKinderen</item>
+		<item quantity="two">%d Kinderen</item>
+		<item quantity="many">%d Kinderen</item>
+		<item quantity="other">%d Kinderen</item>
 	</plurals>
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
-		<item quantity="zero">%dGasten</item>
+		<item quantity="zero">%d Gasten</item>
 		<item quantity="one">%d Gast</item>
-		<item quantity="two">%dGasten</item>
-		<item quantity="many">%dGasten</item>
-		<item quantity="other">%dGasten</item>
+		<item quantity="two">%d Gasten</item>
+		<item quantity="many">%d Gasten</item>
+		<item quantity="other">%d Gasten</item>
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">
