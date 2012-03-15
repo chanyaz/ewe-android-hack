@@ -331,6 +331,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		public void onLocationChanged(Location location) {
 			Log.i("location changed for current location widgets listener");
 
+			// Ignore location changes if we haven't ever completed a search.
+			if (mLastUpdatedTimeInMillis == 0) {
+				return;
+			}
+
 			Location lastSearchedLocation = new Location(location);
 
 			/*
@@ -358,8 +363,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			Log.i("Time between checks = " + timeBetweenChecks);
 			Log.i("Distance from location last searched = " + distanceFromLastSearchedLocation);
 			Log.i("Provider = " + location.getProvider());
-			if (mLastUpdatedTimeInMillis == 0
-					|| ((timeBetweenChecks > TIME_THRESHOLD_FOR_DISTANCE_TRAVELLED) && (distanceFromLastSearchedLocation >= MIN_DISTANCE_BEFORE_UPDATE))) {
+			if (timeBetweenChecks > TIME_THRESHOLD_FOR_DISTANCE_TRAVELLED && distanceFromLastSearchedLocation >= MIN_DISTANCE_BEFORE_UPDATE) {
 				Log.i("Starting download for current location widgets since location has changed");
 				mWidgetDeals.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
 				startSearchDownloader();
@@ -666,6 +670,16 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void startSearchDownloader() {
+		// Somehow, the code is starting WAY too many concurrent searches.  This will prevent
+		// the code from doing a search if one is already underway (which is reasonable, because
+		// a search will never take more than a minute, since it'll time out in the worst
+		// case scenario).
+		if (mSearchDownloader.isDownloading(WIDGET_KEY_SEARCH)) {
+			return;
+		}
+
+		Log.i("Starting search downloader (for widgets).");
+
 		// search for 1 guest by default
 		mWidgetDeals.getSearchParams().setNumAdults(1);
 
