@@ -296,10 +296,12 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 			for (Property property : mExpediaSortedProperties) {
 				// Filter search radius
 				if (searchDistance != null) {
-					Distance distanceFromUser = new Distance(property.getDistanceFromUser().getDistance(), property.getDistanceFromUser().getUnit());
-					distanceFromUser.setDistance(Math.rint(distanceFromUser.getDistance() * 10.0d) / 10.0d);
-					if (distanceFromUser == null || distanceFromUser.compareTo(searchDistance) > 0) {
-						continue;
+					if (property.getDistanceFromUser() != null) {
+						Distance distanceFromUser = new Distance(property.getDistanceFromUser().getDistance(), property.getDistanceFromUser().getUnit());
+						distanceFromUser.setDistance(Math.rint(distanceFromUser.getDistance() * 10.0d) / 10.0d);
+						if (distanceFromUser == null || distanceFromUser.compareTo(searchDistance) > 0) {
+							continue;
+						}
 					}
 				}
 
