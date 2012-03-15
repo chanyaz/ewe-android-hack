@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.android.util.AndroidUtils;
 
 public class Money implements JSONable {
 
@@ -193,6 +194,9 @@ public class Money implements JSONable {
 	// #7012 - INR on Android 2.1 is messed up, so we have to fix it here.
 	private static final String INR_MESSED_UP = "=0#Rs.|1#Re.|1<Rs.";
 
+	// #12791 - PHP (Philippine Peso) doesn't display correctly on SGS2 Gingerbread, so fix it here.
+	private static final String PHP_UNICODE = "₱";
+
 	private static String formatRate(double amount, String currencyCode, int flags) {
 		// We use the default user locale for both of these, as it should
 		// be properly set by the Android system.
@@ -220,6 +224,16 @@ public class Money implements JSONable {
 			}
 			else if (formatted.endsWith(INR_MESSED_UP)) {
 				formatted = formatted.substring(0, formatted.length() - INR_MESSED_UP.length()) + "Rs";
+			}
+		}
+
+		// #12791 - PHP (Philippine Peso) doesn't display correctly on SGS2 Gingerbread, so fix it here.
+		else if (currencyCode.equals("PHP") && AndroidUtils.isGalaxyS2() && AndroidUtils.getSdkVersion() <= 10) {
+			if (formatted.startsWith(PHP_UNICODE)) {
+				formatted = currencyCode + formatted.substring(PHP_UNICODE.length());
+			}
+			else if (formatted.endsWith(PHP_UNICODE)) {
+				formatted = formatted.substring(0, formatted.length() - PHP_UNICODE.length()) + currencyCode;
 			}
 		}
 
