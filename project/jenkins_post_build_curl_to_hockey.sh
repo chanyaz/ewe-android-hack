@@ -1,6 +1,6 @@
 # create change notes
 SHA_VALUE=`git log -n 1 --oneline | awk '{print \$1}'`
-OLD_SHA_VALUE=`tail -n 1 ~/VersionHistory/${JOB_NAME}.txt 2>dev/null | awk '{print \$2}'`
+OLD_SHA_VALUE=`tail -n 1 ~/VersionHistory/${JOB_NAME}.txt 2>/dev/null | awk '{print \$2}'`
 
 if [ "$OLD_SHA_VALUE" ]; then
 	if [ "$OLD_SHA_VALUE" != "$SHA_VALUE" ]; then
