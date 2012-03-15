@@ -127,6 +127,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 	private int mTotalReviewCount = -1;
 	private int mRecommendedReviewCount = -1;
+	private float mAverageOverallRating = -1;
 
 	// Downloading tasks and callbacks
 	private BackgroundDownloader mReviewsDownloader = BackgroundDownloader.getInstance();
@@ -209,12 +210,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 			configureHeader();
 
-			if (mTotalReviewCount == -1) {
-				mHandler.postDelayed(mReviewStatisticsDownloadTask, 0);
-			}
-
-			//startReviewsDownload();
-
 			mViewedReviews = new HashSet<String>();
 		}
 		else {
@@ -233,7 +228,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				// start the downloads based on the currently selected sort option
 				String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
 				TabSort tab = mTabMap.get(mCurrentReviewSort);
-				mReviewsDownloader.cancelDownload(key);
+
 				mReviewsDownloader.startDownload(key, tab.mDownloadTask, tab.mDownloadCallback);
 			}
 		}
@@ -261,9 +256,14 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 	}
 
+	/**
+	 * Configure the bottom bar with the book now button
+	 * @param visible - whether or not to set the bottom bar visible or not
+	 */
 	public void configureBottomBar() {
 		View bottomBar = findViewById(R.id.bottom_bar);
 		if (bottomBar != null) {
+
 			// Configure the book now button
 			TextView bookNowButton = (TextView) findViewById(R.id.book_now_button);
 			bookNowButton.setOnClickListener(new OnClickListener() {
@@ -279,7 +279,14 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 					mTotalReviewCount));
 
 			RatingBar bottomRatingBar = (RatingBar) findViewById(R.id.user_review_rating_bar_bottom);
-			bottomRatingBar.setRating((float) mProperty.getAverageExpediaRating());
+			bottomRatingBar.setRating(mAverageOverallRating);
+
+			if (mTotalReviewCount == -1) {
+				bottomBar.setVisibility(View.GONE);
+			}
+			else {
+				bottomBar.setVisibility(View.VISIBLE);
+			}
 		}
 	}
 
@@ -287,7 +294,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		// start the downloads based on the currently selected sort option
 		String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
 		TabSort tab = mTabMap.get(mCurrentReviewSort);
-		mReviewsDownloader.cancelDownload(key);
+		//		mReviewsDownloader.cancelDownload(key);
 		mReviewsDownloader.startDownload(key, tab.mDownloadTask, tab.mDownloadCallback);
 	}
 
@@ -296,14 +303,12 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		super.onResume();
 
 		// start the downloads based on the currently selected sort option
-		TabSort tab = mTabMap.get(mCurrentReviewSort);
-		if (tab.mReviewsWrapped == null && tab.attemptedDownload) {
-			String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
-			mReviewsDownloader.cancelDownload(key);
-			mReviewsDownloader.startDownload(key, tab.mDownloadTask, tab.mDownloadCallback);
-		}
-
-		//mReviewsDownloader.r
+		//		TabSort tab = mTabMap.get(mCurrentReviewSort);
+		//		if (tab.mReviewsWrapped == null && !tab.attemptedDownload) {
+		//			String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
+		//			mReviewsDownloader.cancelDownload(key);
+		//			mReviewsDownloader.startDownload(key, tab.mDownloadTask, tab.mDownloadCallback);
+		//		}
 	}
 
 	@Override
@@ -411,7 +416,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	 * called after the BV request has been made
 	 */
 	public void updateReviewNumbers() {
-		Log.d("bradley", "updateListHeader");
 		if (mRecommendedReviewCount != -1 && mTotalReviewCount != -1) {
 			for (ViewGroup viewContainer : mListViewContainersMap.values()) {
 				TextView recommendText = (TextView) viewContainer.findViewById(R.id.user_reviews_recommendation_tag);
@@ -451,7 +455,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			// start the downloads based on the currently selected sort option
 			String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
 			TabSort tab = mTabMap.get(mCurrentReviewSort);
-			mReviewsDownloader.cancelDownload(key);
 			mReviewsDownloader.startDownload(key, tab.mDownloadTask, tab.mDownloadCallback);
 
 			// only show the loading indicator if its not as yet shown. 
@@ -615,7 +618,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 								.get(ReviewSort.NEWEST_REVIEW_FIRST))) {
 					key = SORT_BGDL_KEY.get(ReviewSort.NEWEST_REVIEW_FIRST);
 					nextTab = mActivity.mTabMap.get(ReviewSort.NEWEST_REVIEW_FIRST);
-					mActivity.mReviewsDownloader.cancelDownload(key);
+					//					mActivity.mReviewsDownloader.cancelDownload(key);
 					mActivity.mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
 				}
 				else if (!mActivity.mTabMap.get(ReviewSort.HIGHEST_RATING_FIRST).attemptedDownload
@@ -623,7 +626,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 								.get(ReviewSort.HIGHEST_RATING_FIRST))) {
 					key = SORT_BGDL_KEY.get(ReviewSort.HIGHEST_RATING_FIRST);
 					nextTab = mActivity.mTabMap.get(ReviewSort.HIGHEST_RATING_FIRST);
-					mActivity.mReviewsDownloader.cancelDownload(key);
+					//					mActivity.mReviewsDownloader.cancelDownload(key);
 					mActivity.mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
 				}
 				else if (!mActivity.mTabMap.get(ReviewSort.LOWEST_RATING_FIRST).attemptedDownload
@@ -631,7 +634,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 								.get(ReviewSort.LOWEST_RATING_FIRST))) {
 					key = SORT_BGDL_KEY.get(ReviewSort.LOWEST_RATING_FIRST);
 					nextTab = mActivity.mTabMap.get(ReviewSort.LOWEST_RATING_FIRST);
-					mActivity.mReviewsDownloader.cancelDownload(key);
+					//					mActivity.mReviewsDownloader.cancelDownload(key);
 					mActivity.mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
 				}
 			}
@@ -692,8 +695,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 		@Override
 		public Object doDownload() {
-			Log.d("bradley", "stats download");
-
 			ensureExpediaServicesCacheFilled();
 
 			mReviewsDownloader.addDownloadListener(REVIEWS_STATISTICS_DOWNLOAD, mExpediaServices);
@@ -707,12 +708,11 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 		@Override
 		public void onDownload(Object results) {
-			Log.d("bradley", "stats callback");
-
 			ReviewsStatisticsResponse response = (ReviewsStatisticsResponse) results;
 			if (response != null) {
 				mRecommendedReviewCount = response.getRecommendedCount();
 				mTotalReviewCount = response.getTotalReviewCount();
+				mAverageOverallRating = response.getAverageOverallRating();
 
 				mHandler.removeCallbacks(mUpdateListHeaderTask);
 				mHandler.post(mUpdateListHeaderTask);
@@ -726,18 +726,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		public void run() {
 			//update the header
 			updateReviewNumbers();
-
-			// download the reviews after the header info has been downloaded (and constructed)
-			mHandler.post(mDownloadReviewsTask);
-		}
-
-	};
-
-	private Runnable mDownloadReviewsTask = new Runnable() {
-
-		@Override
-		public void run() {
-			startReviewsDownload();
 		}
 
 	};
@@ -792,6 +780,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 		state.mRecommendedReviewCount = mRecommendedReviewCount;
 		state.mTotalReviewCount = mTotalReviewCount;
+		state.mAverageOverallRating = mAverageOverallRating;
 
 		state.viewedReviews = mViewedReviews;
 		return state;
@@ -810,6 +799,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		mRecommendedReviewCount = state.mRecommendedReviewCount;
 		mTotalReviewCount = state.mTotalReviewCount;
 		mViewedReviews = state.viewedReviews;
+		mAverageOverallRating = state.mAverageOverallRating;
 	}
 
 	private Message prepareMessage(boolean addFooter, ReviewSort reviewSort) {
@@ -852,6 +842,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 		public int mRecommendedReviewCount;
 		public int mTotalReviewCount;
+		public float mAverageOverallRating;
 
 		public HashMap<ReviewSort, TabSort> tabMap;
 		public Set<String> viewedReviews;
