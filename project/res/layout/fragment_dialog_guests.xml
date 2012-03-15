@@ -39,7 +39,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="6dp"
-            android:text="@plurals/select_each_childs_age" />
+            android:text="" />
 
         <View
             android:id="@+id/titleDivider"
