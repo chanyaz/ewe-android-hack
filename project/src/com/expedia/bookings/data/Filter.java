@@ -17,7 +17,7 @@ public class Filter implements JSONable {
 	public static final double HIGH_USER_RATING = 4.5;
 
 	public enum SearchRadius {
-		SMALL(2, 2.54), MEDIUM(5, 7.54), LARGE(10, 15), ALL(-1, -1);
+		SMALL(2, 2.5), MEDIUM(5, 7.5), LARGE(10, 15), ALL(-1, -1);
 
 		private final double miles;
 		private final double kilometers;
