@@ -992,6 +992,7 @@
         <item>Tiện nghi khách sạn</item>
         <item>酒店設施</item>
         <item>物業設施</item>
+        <item>Mga Amenity sa Ari-arian</item>
     </string-array>
     <string-array name="section_strings_fees">
         <item>Fees</item>
@@ -1014,6 +1015,7 @@
         <item>Phí</item>
         <item>費用</item>
         <item>費用</item>
+        <item>Mga Bayarin</item>
     </string-array>
     <string-array name="section_strings_policies">
         <item>Policies</item>
@@ -1036,6 +1038,7 @@
         <item>Chính sách</item>
         <item>政策</item>
         <item>政策</item>
+        <item>Mga Patakaran</item>
     </string-array>
 
 </resources>
