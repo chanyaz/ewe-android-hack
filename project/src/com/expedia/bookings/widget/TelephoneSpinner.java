@@ -30,4 +30,8 @@ public class TelephoneSpinner extends Spinner {
 	public int getSelectedTelephoneCountryCode() {
 		return ((TelephoneSpinnerAdapter) getAdapter()).getCountryCode(getSelectedItemPosition());
 	}
+
+	public String getSelectedTelephoneCountry() {
+		return ((TelephoneSpinnerAdapter) getAdapter()).getCountryName(getSelectedItemPosition());
+	}
 }

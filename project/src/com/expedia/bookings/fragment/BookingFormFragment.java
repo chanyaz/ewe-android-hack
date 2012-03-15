@@ -693,6 +693,7 @@ public class BookingFormFragment extends DialogFragment {
 		billingInfo.setFirstName(mFirstNameEditText.getText().toString());
 		billingInfo.setLastName(mLastNameEditText.getText().toString());
 		billingInfo.setTelephoneCountryCode(mTelephoneCountryCodeSpinner.getSelectedTelephoneCountryCode() + "");
+		billingInfo.setTelephoneCountry(mTelephoneCountryCodeSpinner.getSelectedTelephoneCountry());
 		billingInfo.setTelephone(mTelephoneEditText.getText().toString());
 		billingInfo.setEmail(mEmailEditText.getText().toString());
 
@@ -774,8 +775,7 @@ public class BookingFormFragment extends DialogFragment {
 				}
 			}
 
-			setSpinnerSelection(mTelephoneCountryCodeSpinner, mCountryPhoneCodes,
-					Integer.parseInt(billingInfo.getTelephoneCountryCode()));
+			setSpinnerSelection(mTelephoneCountryCodeSpinner, billingInfo.getTelephoneCountry());
 
 			TextView addressView = (TextView) view.findViewById(R.id.address_text_view);
 			addressView.setText(address);

@@ -25,6 +25,7 @@ public class BillingInfo implements JSONable {
 	private String mFirstName;
 	private String mLastName;
 	private String mTelephoneCountryCode;
+	private String mTelephoneCountry;
 	private String mTelephone;
 	private String mEmail;
 	private Location mLocation;
@@ -33,7 +34,7 @@ public class BillingInfo implements JSONable {
 	private String mNumber;
 	private String mSecurityCode;
 	private Calendar mExpirationDate;
-	
+
 	private boolean mExistsOnDisk = false;
 
 	public BillingInfo() {
@@ -61,6 +62,14 @@ public class BillingInfo implements JSONable {
 
 	public void setTelephoneCountryCode(String telephoneCountryCode) {
 		this.mTelephoneCountryCode = telephoneCountryCode;
+	}
+
+	public String getTelephoneCountry() {
+		return this.mTelephoneCountry;
+	}
+
+	public void setTelephoneCountry(String telephoneCountry) {
+		this.mTelephoneCountry = telephoneCountry;
 	}
 
 	public String getTelephone() {
@@ -146,7 +155,7 @@ public class BillingInfo implements JSONable {
 		data.remove("securityCode");
 
 		mExistsOnDisk = true;
-		
+
 		return fileCipher.saveSecureData(context.getFileStreamPath(SAVED_INFO_FILENAME), data.toString());
 	}
 
@@ -184,11 +193,11 @@ public class BillingInfo implements JSONable {
 			return false;
 		}
 	}
-	
+
 	public boolean doesExistOnDisk() {
 		return mExistsOnDisk;
 	}
-	
+
 	// Returns true if the file does not exist by the end of the method;
 	// If it didn't exist at the beginning, it doesn't matter.
 	public boolean delete(Context context) {
@@ -228,6 +237,7 @@ public class BillingInfo implements JSONable {
 			obj.putOpt("firstName", mFirstName);
 			obj.putOpt("lastName", mLastName);
 			obj.putOpt("telephoneCountryCode", mTelephoneCountryCode);
+			obj.putOpt("telephoneCountry", mTelephoneCountry);
 			obj.putOpt("telephone", mTelephone);
 			obj.putOpt("email", mEmail);
 			JSONUtils.putJSONable(obj, "location", mLocation);
@@ -253,6 +263,7 @@ public class BillingInfo implements JSONable {
 		mFirstName = obj.optString("firstName", null);
 		mLastName = obj.optString("lastName", null);
 		mTelephoneCountryCode = obj.optString("telephoneCountryCode", null);
+		mTelephoneCountry = obj.optString("telephoneCountry", null);
 		mTelephone = obj.optString("telephone", null);
 		mEmail = obj.optString("email", null);
 		mLocation = (Location) JSONUtils.getJSONable(obj, "location", Location.class);

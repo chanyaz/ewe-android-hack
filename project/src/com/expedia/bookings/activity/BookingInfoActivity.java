@@ -977,6 +977,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		mBillingInfo.setFirstName(mFirstNameEditText.getText().toString());
 		mBillingInfo.setLastName(mLastNameEditText.getText().toString());
 		mBillingInfo.setTelephoneCountryCode(mTelephoneCountryCodeSpinner.getSelectedTelephoneCountryCode() + "");
+		mBillingInfo.setTelephoneCountry(mTelephoneCountryCodeSpinner.getSelectedTelephoneCountry());
 		mBillingInfo.setTelephone(mTelephoneEditText.getText().toString());
 		mBillingInfo.setEmail(mEmailEditText.getText().toString());
 
@@ -1055,8 +1056,7 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		}
 
 		// Sync the telephone country code spinner
-		setSpinnerSelection(mTelephoneCountryCodeSpinner, mCountryPhoneCodes,
-				Integer.parseInt(mBillingInfo.getTelephoneCountryCode()));
+		setSpinnerSelection(mTelephoneCountryCodeSpinner, mBillingInfo.getTelephoneCountry());
 
 		// Sync the editable billing info fields
 		mAddress1EditText.setText(loc.getStreetAddress().get(0));
