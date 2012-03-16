@@ -730,12 +730,19 @@ public class BookingFormFragment extends DialogFragment {
 
 		TextView telephoneView = (TextView) view.findViewById(R.id.telephone_text_view);
 		String telephoneCountryCode = billingInfo.getTelephoneCountryCode();
-		if (telephoneCountryCode.startsWith("+")) {
-			telephoneView.setText(telephoneCountryCode + " " + billingInfo.getTelephone());
+		StringBuilder telephoneString = new StringBuilder();
+		if (telephoneCountryCode != null) {
+			if (telephoneCountryCode.startsWith("+")) {
+				telephoneString.append(telephoneCountryCode + " ");
+			}
+			else {
+				telephoneString.append("+" + telephoneCountryCode + " ");
+			}
 		}
-		else {
-			telephoneView.setText("+" + telephoneCountryCode + " " + billingInfo.getTelephone());
+		if (billingInfo.getTelephone() != null) {
+			telephoneString.append(billingInfo.getTelephone());
 		}
+		telephoneView.setText(telephoneString.toString());
 
 		TextView emailView = (TextView) view.findViewById(R.id.email_text_view);
 		emailView.setText(billingInfo.getEmail());
