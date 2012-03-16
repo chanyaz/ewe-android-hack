@@ -1011,7 +1011,20 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		}
 
 		TextView telephoneView = (TextView) findViewById(R.id.telephone_text_view);
-		telephoneView.setText("+" + mBillingInfo.getTelephoneCountryCode() + " " + mBillingInfo.getTelephone());
+		String telephoneCountryCode = mBillingInfo.getTelephoneCountryCode();
+		StringBuilder telephoneString = new StringBuilder();
+		if (telephoneCountryCode != null) {
+			if (telephoneCountryCode.startsWith("+")) {
+				telephoneString.append(telephoneCountryCode + " ");
+			}
+			else {
+				telephoneString.append("+" + telephoneCountryCode + " ");
+			}
+		}
+		if (mBillingInfo.getTelephone() != null) {
+			telephoneString.append(mBillingInfo.getTelephone());
+		}
+		telephoneView.setText(telephoneString.toString());
 
 		TextView emailView = (TextView) findViewById(R.id.email_text_view);
 		emailView.setText(mBillingInfo.getEmail());
