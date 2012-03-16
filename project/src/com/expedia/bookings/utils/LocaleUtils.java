@@ -10,7 +10,6 @@ import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.ResourceUtils;
 import com.mobiata.android.util.SettingUtils;
 
@@ -107,7 +106,7 @@ public class LocaleUtils {
 			put("en_CA", new LinkedList<String>(Arrays.asList("en", "fr")));
 			put("en_ID", new LinkedList<String>(Arrays.asList("en", "id")));
 			put("en_MY", new LinkedList<String>(Arrays.asList("en", "ms")));
-			put("es_AR", new LinkedList<String>(Arrays.asList("en", "pt", "es")));
+			put("es_AR", new LinkedList<String>(Arrays.asList("es", "pt", "en")));
 			put("es_ES", new LinkedList<String>(Arrays.asList("es", "en")));
 			put("es_MX", new LinkedList<String>(Arrays.asList("es", "en")));
 			put("fr_BE", new LinkedList<String>(Arrays.asList("fr", "en")));
@@ -243,18 +242,18 @@ public class LocaleUtils {
 		return null;
 	}
 
-	private static String sCachedLanguageCode;
+	private static Map<String, String> sTPIDs;
 
-	public static void invalidateLanguageCodeCache() {
-		sCachedLanguageCode = null;
-	}
-
-	public static String ensureCachedLanguageCodeFilled() {
-		if (sCachedLanguageCode == null) {
-			sCachedLanguageCode = Locale.getDefault().getLanguage();
+	public static String getTPID(Context context) {
+		if (sTPIDs == null) {
+			sTPIDs = ResourceUtils.getStringMap(context, R.array.tpid_map);
 		}
-		return sCachedLanguageCode;
+
+		return sTPIDs.get(getPointOfSale());
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	// BazaarVoice Reviews/LanguageCode stuff
 
 	/**
 	 * The purpose of this class is to contain all of the bookkeeping related to the paging of reviews
@@ -272,11 +271,8 @@ public class LocaleUtils {
 	public static class ReviewLanguageSet {
 
 		private String localesString;
-
 		private int totalCount;
-
 		private int pageNumber;
-
 		private boolean attemptedDownload;
 
 		public ReviewLanguageSet() {
@@ -286,16 +282,11 @@ public class LocaleUtils {
 
 		/**
 		 * Function returns true if there are more reviews to be requested, i.e. another network call should be made
-		 * @return
 		 */
 		public boolean hasMore() {
-			// determine the number of reviews collected so far
-			int numberCollected = pageNumber * ExpediaServices.REVIEWS_PER_PAGE;
-
-			if (numberCollected >= totalCount) {
+			if (pageNumber * ExpediaServices.REVIEWS_PER_PAGE >= totalCount) {
 				return false;
 			}
-
 			return true;
 		}
 
@@ -338,35 +329,27 @@ public class LocaleUtils {
 	public static LinkedList<String> getLanguages(Context context) {
 		ensurePOSCountryCodesCacheFilled(context);
 		ensurePOSDefaultLocalesCacheFilled(context);
+		ensureLanguageCodeCacheFilled();
 
 		// construct the device locale based on device language and device POS
 		String locale = sCachedLanguageCode;
 		locale += "_";
 		locale += sPOSCountryCodes.get(sCachedPointOfSale);
 
-		// set locale to default if the constructed locale is bunk
+		// set locale to default if the constructed locale does not make sense
 		if (!LOCALE_TO_EXPEDIA_PRIORITY_LIST.containsKey(locale)) {
 			locale = sPOSDefaultLocales.get(sCachedPointOfSale);
 		}
 
-		// iterate through the list of language code, and create the proper ReviewLanguageSet meta object(s)
-		// for each map to be store in list of ReviewLangaugeSet
-
-		Log.d("attempting to retrive priority list from locale code: " + locale);
 		return LOCALE_TO_EXPEDIA_PRIORITY_LIST.get(locale);
 	}
-
-	// perhaps come with a new format language code function that will attach a flag
-	// at the end in order to maintain the correct state... whether or not to lump the
-	// codes together, or page through them. this will upkeep the flag in the listview
-	// hasMoreRecentReviews
 
 	/**
 	 * Converts a list of languages codes into a BV/Expedia formatted list of language codes for use in pulling
 	 * all reviews of a set of languages (one or more langauages, where each language is a set of locale codes)
 	 * 
 	 * @param a simple string list of language codes
-	 * @return
+	 * @return a formatted list of locale codes to be used as param by BV request
 	 */
 	public static String formatLanguageCodes(LinkedList<String> codes) {
 		StringBuilder sb = new StringBuilder();
@@ -380,8 +363,20 @@ public class LocaleUtils {
 		return sb.toString();
 	}
 
+	private static String sCachedLanguageCode;
 	private static Map<String, String> sPOSCountryCodes;
 	private static Map<String, String> sPOSDefaultLocales;
+
+	public static void invalidateLanguageCodeCache() {
+		sCachedLanguageCode = null;
+	}
+
+	public static String ensureLanguageCodeCacheFilled() {
+		if (sCachedLanguageCode == null) {
+			sCachedLanguageCode = Locale.getDefault().getLanguage();
+		}
+		return sCachedLanguageCode;
+	}
 
 	private static void ensurePOSCountryCodesCacheFilled(Context context) {
 		if (sPOSCountryCodes == null) {
@@ -393,15 +388,5 @@ public class LocaleUtils {
 		if (sPOSDefaultLocales == null) {
 			sPOSDefaultLocales = ResourceUtils.getStringMap(context, R.array.pos_default_locale);
 		}
-	}
-
-	private static Map<String, String> sTPIDs;
-
-	public static String getTPID(Context context) {
-		if (sTPIDs == null) {
-			sTPIDs = ResourceUtils.getStringMap(context, R.array.tpid_map);
-		}
-
-		return sTPIDs.get(getPointOfSale());
 	}
 }
