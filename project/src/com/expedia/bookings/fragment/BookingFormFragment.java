@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
@@ -100,7 +101,6 @@ public class BookingFormFragment extends DialogFragment {
 
 	// Cached data from arrays
 	private String[] mCountryCodes;
-	private int[] mCountryPhoneCodes;
 
 	// Cached views (non-interactive)
 	private ScrollView mScrollView;
@@ -192,7 +192,6 @@ public class BookingFormFragment extends DialogFragment {
 		// Retrieve some data we keep using
 		Resources r = getResources();
 		mCountryCodes = r.getStringArray(R.array.country_codes);
-		mCountryPhoneCodes = r.getIntArray(R.array.country_phone_codes);
 		configureForm();
 
 		if (getBillingInfo().doesExistOnDisk()) {
@@ -662,18 +661,6 @@ public class BookingFormFragment extends DialogFragment {
 		}
 	}
 
-	private void setSpinnerSelection(Spinner spinner, int[] codes, int targetCode) {
-		for (int n = 0; n < codes.length; n++) {
-			if (targetCode == codes[n]) {
-				if (!(spinner instanceof TelephoneSpinner)) {
-					mSelectedCountryPosition = n;
-				}
-				spinner.setSelection(n);
-				return;
-			}
-		}
-	}
-
 	// Focusing the rules & restrictions is special for two reasons:
 	// 1. It needs to focus the containing layout, so users can view the entire rules & restrictions.
 	// 2. It doesn't need to open the soft keyboard.
@@ -775,7 +762,11 @@ public class BookingFormFragment extends DialogFragment {
 				}
 			}
 
-			setSpinnerSelection(mTelephoneCountryCodeSpinner, billingInfo.getTelephoneCountry());
+			String telephoneCountry = billingInfo.getTelephoneCountry();
+			if (TextUtils.isEmpty(telephoneCountry)) {
+				telephoneCountry = getString(LocaleUtils.getDefaultCountryResId(getActivity()));
+			}
+			setSpinnerSelection(mTelephoneCountryCodeSpinner, telephoneCountry);
 
 			TextView addressView = (TextView) view.findViewById(R.id.address_text_view);
 			addressView.setText(address);
