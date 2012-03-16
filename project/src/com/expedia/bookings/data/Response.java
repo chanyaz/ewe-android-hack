@@ -7,7 +7,6 @@ import java.util.TreeSet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
@@ -92,7 +91,6 @@ public class Response implements JSONable {
 			Log.d("Window parent is null");
 			return null;
 		}
-		Activity a;
 		ArrayList<ValidationError> errors = new ArrayList<ValidationError>();
 		for (ServerError error : mErrors) {
 			String field = error.getExtra("field");
@@ -109,6 +107,22 @@ public class Response implements JSONable {
 					View v = parent.findViewById(R.id.expiration_month_edit_text);
 					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
 					v = parent.findViewById(R.id.expiration_year_edit_text);
+					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
+				}
+				else if ("streetAddress".equals(field)) {
+					View v = parent.findViewById(R.id.address1_edit_text);
+					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
+				}
+				else if ("city".equals(field)) {
+					View v = parent.findViewById(R.id.city_edit_text);
+					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
+				}
+				else if ("state".equals(field)) {
+					View v = parent.findViewById(R.id.state_edit_text);
+					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
+				}
+				else if ("postalCode".equals(field)) {
+					View v = parent.findViewById(R.id.postal_code_edit_text);
 					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
 				}
 			}
