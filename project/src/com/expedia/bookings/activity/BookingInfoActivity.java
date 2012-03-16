@@ -21,7 +21,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.util.SparseArray;
@@ -1043,11 +1042,14 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		}
 
 		// Sync the telephone country code spinner
-		String telephoneCountry = mBillingInfo.getTelephoneCountry();
-		if (TextUtils.isEmpty(telephoneCountry)) {
-			telephoneCountry = getString(LocaleUtils.getDefaultCountryResId(this));
+		SpinnerAdapter adapter = mTelephoneCountryCodeSpinner.getAdapter();
+		int position = findAdapterIndex(adapter, mBillingInfo.getTelephoneCountry());
+		if (position == -1) {
+			position = findAdapterIndex(adapter, getString(LocaleUtils.getDefaultCountryResId(this)));
 		}
-		setSpinnerSelection(mTelephoneCountryCodeSpinner, telephoneCountry);
+		if (position != -1) {
+			mTelephoneCountryCodeSpinner.setSelection(position);
+		}
 
 		// Sync the editable billing info fields
 		mAddress1EditText.setText(loc.getStreetAddress().get(0));

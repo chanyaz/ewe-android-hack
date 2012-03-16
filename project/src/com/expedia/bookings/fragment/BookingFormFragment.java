@@ -14,7 +14,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
@@ -762,11 +761,15 @@ public class BookingFormFragment extends DialogFragment {
 				}
 			}
 
-			String telephoneCountry = billingInfo.getTelephoneCountry();
-			if (TextUtils.isEmpty(telephoneCountry)) {
-				telephoneCountry = getString(LocaleUtils.getDefaultCountryResId(getActivity()));
+			// Sync the telephone country code spinner
+			SpinnerAdapter adapter = mTelephoneCountryCodeSpinner.getAdapter();
+			int position = findAdapterIndex(adapter, billingInfo.getTelephoneCountry());
+			if (position == -1) {
+				position = findAdapterIndex(adapter, getString(LocaleUtils.getDefaultCountryResId(getActivity())));
 			}
-			setSpinnerSelection(mTelephoneCountryCodeSpinner, telephoneCountry);
+			if (position != -1) {
+				mTelephoneCountryCodeSpinner.setSelection(position);
+			}
 
 			TextView addressView = (TextView) view.findViewById(R.id.address_text_view);
 			addressView.setText(address);

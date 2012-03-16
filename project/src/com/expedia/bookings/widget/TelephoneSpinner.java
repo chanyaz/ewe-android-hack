@@ -28,10 +28,18 @@ public class TelephoneSpinner extends Spinner {
 	}
 
 	public int getSelectedTelephoneCountryCode() {
-		return ((TelephoneSpinnerAdapter) getAdapter()).getCountryCode(getSelectedItemPosition());
+		int position = getSelectedItemPosition();
+		if (position == AdapterView.INVALID_POSITION) {
+			return AdapterView.INVALID_POSITION;
+		}
+		return ((TelephoneSpinnerAdapter) getAdapter()).getCountryCode(position);
 	}
 
 	public String getSelectedTelephoneCountry() {
-		return ((TelephoneSpinnerAdapter) getAdapter()).getCountryName(getSelectedItemPosition());
+		int position = getSelectedItemPosition();
+		if (position == AdapterView.INVALID_POSITION) {
+			return null;
+		}
+		return ((TelephoneSpinnerAdapter) getAdapter()).getCountryName(position);
 	}
 }
