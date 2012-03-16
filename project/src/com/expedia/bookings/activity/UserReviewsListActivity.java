@@ -93,9 +93,12 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	// Member variables
 	private Context mContext;
 	private Property mProperty;
-
-	// Review data structures
 	private ReviewSort mCurrentReviewSort = ReviewSort.NEWEST_REVIEW_FIRST;
+
+	// Stores the counts retrieved from BazaarVoice using FilteredStats param
+	private int mTotalReviewCount = -1;
+	private int mRecommendedReviewCount = -1;
+	private float mAverageOverallRating = -1;
 
 	/* 
 	 * keeps a mapping of the different containers holding the list views (and empty views) for each review sort type
@@ -125,20 +128,11 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	// Tracking data structures
 	private Set<String> mViewedReviews;
 
-	private int mTotalReviewCount = -1;
-	private int mRecommendedReviewCount = -1;
-	private float mAverageOverallRating = -1;
-
-	// Downloading tasks and callbacks
+	// Network classes
 	private BackgroundDownloader mReviewsDownloader = BackgroundDownloader.getInstance();
 	private ExpediaServices mExpediaServices;
 
-	private void ensureExpediaServicesCacheFilled() {
-		if (mExpediaServices == null) {
-			mExpediaServices = new ExpediaServices(mContext);
-		}
-	}
-
+	/////////////////////////////////////////////////////////////////////////////////////
 	// Lifecycle events
 
 	@Override
@@ -234,7 +228,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		}
 
 		if (mTotalReviewCount == -1) {
-			mHandler.postDelayed(mReviewStatisticsDownloadTask, 0);
+			mHandler.post(mReviewStatisticsDownloadTask);
 		}
 
 		ListView recentReviewsListView = getListView(recentReviewsListViewContainer);
@@ -256,68 +250,23 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 	}
 
-	/**
-	 * Configure the bottom bar with the book now button
-	 * @param visible - whether or not to set the bottom bar visible or not
-	 */
-	public void configureBottomBar() {
-		View bottomBar = findViewById(R.id.bottom_bar);
-		if (bottomBar != null) {
-
-			// Configure the book now button
-			TextView bookNowButton = (TextView) findViewById(R.id.book_now_button);
-			bookNowButton.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					Intent newIntent = new Intent(mContext, RoomsAndRatesListActivity.class);
-					newIntent.fillIn(getIntent(), 0);
-					startActivity(newIntent);
-				}
-			});
-
-			TextView totalReviews = (TextView) findViewById(R.id.user_review_total_reviews);
-			totalReviews.setText(getResources().getQuantityString(R.plurals.number_of_reviews, mTotalReviewCount,
-					mTotalReviewCount));
-
-			RatingBar bottomRatingBar = (RatingBar) findViewById(R.id.user_review_rating_bar_bottom);
-			bottomRatingBar.setRating(mAverageOverallRating);
-
-			if (mTotalReviewCount == -1) {
-				bottomBar.setVisibility(View.GONE);
-			}
-			else {
-				bottomBar.setVisibility(View.VISIBLE);
-			}
-		}
-	}
-
-	public void startReviewsDownload() {
-		// start the downloads based on the currently selected sort option
-		String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
-		TabSort tab = mTabMap.get(mCurrentReviewSort);
-		//		mReviewsDownloader.cancelDownload(key);
-		mReviewsDownloader.startDownload(key, tab.mDownloadTask, tab.mDownloadCallback);
-	}
-
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		// start the downloads based on the currently selected sort option
-		//		TabSort tab = mTabMap.get(mCurrentReviewSort);
-		//		if (tab.mReviewsWrapped == null && !tab.attemptedDownload) {
-		//			String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
-		//			mReviewsDownloader.cancelDownload(key);
-		//			mReviewsDownloader.startDownload(key, tab.mDownloadTask, tab.mDownloadCallback);
-		//		}
+		mReviewsDownloader.registerDownloadCallback(REVIEWS_STATISTICS_DOWNLOAD, mReviewStatisticsDownloadCallback);
+		for (ReviewSort sort : SORT_BGDL_KEY.keySet()) {
+			mReviewsDownloader.registerDownloadCallback(SORT_BGDL_KEY.get(sort), mTabMap.get(sort).mDownloadCallback);
+		}
 	}
 
 	@Override
 	protected void onPause() {
-		mReviewsDownloader.unregisterDownloadCallback(SORT_BGDL_KEY.get(ReviewSort.HIGHEST_RATING_FIRST));
-		mReviewsDownloader.unregisterDownloadCallback(SORT_BGDL_KEY.get(ReviewSort.LOWEST_RATING_FIRST));
-		mReviewsDownloader.unregisterDownloadCallback(SORT_BGDL_KEY.get(ReviewSort.NEWEST_REVIEW_FIRST));
-
 		super.onPause();
+		mReviewsDownloader.unregisterDownloadCallback(REVIEWS_STATISTICS_DOWNLOAD);
+
+		for (ReviewSort sort : SORT_BGDL_KEY.keySet()) {
+			mReviewsDownloader.unregisterDownloadCallback(SORT_BGDL_KEY.get(sort));
+		}
 	}
 
 	@Override
@@ -325,10 +274,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		super.onDestroy();
 
 		if (isFinishing()) {
-			// Cancel all current review downloads
-			mReviewsDownloader.cancelDownload(SORT_BGDL_KEY.get(ReviewSort.HIGHEST_RATING_FIRST));
-			mReviewsDownloader.cancelDownload(SORT_BGDL_KEY.get(ReviewSort.LOWEST_RATING_FIRST));
-			mReviewsDownloader.cancelDownload(SORT_BGDL_KEY.get(ReviewSort.NEWEST_REVIEW_FIRST));
+			for (ReviewSort sort : SORT_BGDL_KEY.keySet()) {
+				mReviewsDownloader.cancelDownload(SORT_BGDL_KEY.get(sort));
+			}
 
 			// Track # of reviews seen
 			int numReviewsSeen = mViewedReviews.size();
@@ -336,6 +284,81 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			String referrerId = "App.Hotels.Reviews." + numReviewsSeen + "ReviewsViewed";
 			TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", referrerId);
 		}
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////
+	// OnScrollListener interface implementation
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
+
+		List<ReviewWrapper> reviews = mTabMap.get(mCurrentReviewSort).mReviewsWrapped;
+
+		boolean hasMore = false;
+		LinkedList<ReviewLanguageSet> list = mTabMap.get(mCurrentReviewSort).mLanguageList;
+		if (list != null && list.size() > 0) {
+			hasMore = true;
+		}
+
+		if (loadMore && reviews != null && hasMore) {
+			// start the downloads based on the currently selected sort option
+			String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
+			TabSort tab = mTabMap.get(mCurrentReviewSort);
+			mReviewsDownloader.startDownload(key, tab.mDownloadTask, tab.mDownloadCallback);
+
+			// only show the loading indicator if its not as yet shown. 
+			// Note that we keep track of whether or not the loading indicator is shown 
+			// independently of starting a download as doDownload is only called
+			// if a new download needs to be started, not when re-registerng the callback 
+			// for a download thats in progress. Consequently, on orientation change,
+			// we need to be able to re-show the loading indicator in the footer of the list view
+			// while a download does not need to be restarted; instead a callback can just be 
+			// re-registered
+			if (!isLoadingIndicatorShowingForReviewSort.contains(mCurrentReviewSort)) {
+				//send message to put loading footer
+				mHandler.sendMessage(prepareMessage(true, mCurrentReviewSort));
+				isLoadingIndicatorShowingForReviewSort.add(mCurrentReviewSort);
+			}
+		}
+
+		// Track which reviews are visible, add them to the list
+		ListAdapter adapter = view.getAdapter();
+		int count = adapter.getCount();
+		for (int a = 0; a < visibleItemCount && firstVisibleItem + a < count; a++) {
+			Object item = adapter.getItem(firstVisibleItem + a);
+			if (item instanceof ReviewWrapper) {
+				mViewedReviews.add(((ReviewWrapper) item).review.getReviewId());
+			}
+		}
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////
+	// Private helper methods
+
+	private void ensureExpediaServicesCacheFilled() {
+		if (mExpediaServices == null) {
+			mExpediaServices = new ExpediaServices(mContext);
+		}
+	}
+
+	/**
+	 * Create the message to be sent to the handler from the DL callback
+	 * @param addFooter - true if footer should be added, false if footer should be removed
+	 * @param reviewSort - which ListView to perform add/remove the footer
+	 * @return
+	 */
+	private Message prepareMessage(boolean addFooter, ReviewSort reviewSort) {
+		Object[] data = new Object[2];
+		Message msg = Message.obtain(mHandler);
+		data[0] = addFooter;
+		data[1] = reviewSort.toString();
+		msg.obj = data;
+		return msg;
 	}
 
 	private ListView getListView(ViewGroup listViewContainer) {
@@ -354,7 +377,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		}
 	}
 
-	public void configureHeader() {
+	private void configureHeader() {
 		if (mLayoutInflater == null) {
 			mLayoutInflater = getLayoutInflater();
 		}
@@ -415,7 +438,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	 * Populates the list header with the correct review total + recommendation total, and the footer with number of reviews
 	 * called after the BV request has been made
 	 */
-	public void updateReviewNumbers() {
+	private void updateReviewNumbers() {
 		if (mRecommendedReviewCount != -1 && mTotalReviewCount != -1) {
 			for (ViewGroup viewContainer : mListViewContainersMap.values()) {
 				TextView recommendText = (TextView) viewContainer.findViewById(R.id.user_reviews_recommendation_tag);
@@ -438,69 +461,70 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		}
 	}
 
-	// Scroll listener infinite loading implementation
-	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
+	/**
+	 * Configure the bottom bar with the book now button
+	 * @param visible - whether or not to set the bottom bar visible or not
+	 */
+	private void configureBottomBar() {
+		View bottomBar = findViewById(R.id.bottom_bar);
+		if (bottomBar != null) {
 
-		List<ReviewWrapper> reviews = mTabMap.get(mCurrentReviewSort).mReviewsWrapped;
+			// Configure the book now button
+			TextView bookNowButton = (TextView) findViewById(R.id.book_now_button);
+			bookNowButton.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					Intent newIntent = new Intent(mContext, RoomsAndRatesListActivity.class);
+					newIntent.fillIn(getIntent(), 0);
+					startActivity(newIntent);
+				}
+			});
 
-		boolean hasMore = false;
-		LinkedList<ReviewLanguageSet> list = mTabMap.get(mCurrentReviewSort).mLanguageList;
-		if (list != null && list.size() > 0) {
-			hasMore = true;
-		}
+			TextView totalReviews = (TextView) findViewById(R.id.user_review_total_reviews);
+			totalReviews.setText(getResources().getQuantityString(R.plurals.number_of_reviews, mTotalReviewCount,
+					mTotalReviewCount));
 
-		if (loadMore && reviews != null && hasMore) {
-			// start the downloads based on the currently selected sort option
-			String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
-			TabSort tab = mTabMap.get(mCurrentReviewSort);
-			mReviewsDownloader.startDownload(key, tab.mDownloadTask, tab.mDownloadCallback);
+			RatingBar bottomRatingBar = (RatingBar) findViewById(R.id.user_review_rating_bar_bottom);
+			bottomRatingBar.setRating(mAverageOverallRating);
 
-			// only show the loading indicator if its not as yet shown. 
-			// Note that we keep track of whether or not the loading indicator is shown 
-			// independently of starting a download as doDownload is only called
-			// if a new download needs to be started, not when re-registerng the callback 
-			// for a download thats in progress. Consequently, on orientation change,
-			// we need to be able to re-show the loading indicator in the footer of the list view
-			// while a download does not need to be restarted; instead a callback can just be 
-			// re-registered
-			if (!isLoadingIndicatorShowingForReviewSort.contains(mCurrentReviewSort)) {
-				//send message to put loading footer
-				mHandler.sendMessage(prepareMessage(true, mCurrentReviewSort));
-				isLoadingIndicatorShowingForReviewSort.add(mCurrentReviewSort);
+			if (mTotalReviewCount == -1) {
+				bottomBar.setVisibility(View.GONE);
 			}
-		}
-
-		// Track which reviews are visible, add them to the list
-		ListAdapter adapter = view.getAdapter();
-		int count = adapter.getCount();
-		for (int a = 0; a < visibleItemCount && firstVisibleItem + a < count; a++) {
-			Object item = adapter.getItem(firstVisibleItem + a);
-			if (item instanceof ReviewWrapper) {
-				mViewedReviews.add(((ReviewWrapper) item).review.getReviewId());
+			else {
+				bottomBar.setVisibility(View.VISIBLE);
 			}
 		}
 	}
 
-	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-	}
+	/////////////////////////////////////////////////////////////////////////////////////
+	// Reviews model + controller stuff
 
-	public static class TabSort {
+	/**
+	 * This class is used to encapsulate all of the data + network controls pertaining to a given review sort
+	 * I had originally designed this activity to store all of this data in separate maps. Unfortunately, this 
+	 * started to get out of control as more and more data needed to be stored. Instead of having multiple maps
+	 * to store all of these data points, there is now one map that stores instances of this class (which store
+	 * the data points)
+	 * 
+	 * Note: This class is declared static for a very important reason that may not be obvious to all. Instances of
+	 * TabSort are stored across orientation changes because it stores all of the reviews, etc... Additionally, this
+	 * inner class access objects from its enclosing class, UserReviewsListActivity. By declaring the class as static,
+	 * the enclosing class must be explicitly declared, and updated across orientation changes in order to access the
+	 * correct objects from the enclosing class.
+	 * 
+	 * @author brad
+	 *
+	 */
+	private static class TabSort {
 
 		public UserReviewsListActivity mActivity;
 
 		public ReviewSort mReviewSort;
-
 		public LinkedList<ReviewLanguageSet> mLanguageList;
-
 		public ArrayList<ReviewWrapper> mReviewsWrapped;
 
 		public boolean attemptedDownload;
 
 		public ReviewDownloadTask mDownloadTask;
-
 		public ReviewDownloadCallback mDownloadCallback;
 
 		//DOWNLOAD OBJECTS
@@ -516,11 +540,15 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			this.attemptedDownload = false;
 		}
 
+		/**
+		 * Call this function after orientation change in order to refer to the correct activity instance
+		 * @param activity - current activity, enclosing class
+		 */
 		public void setActivity(UserReviewsListActivity activity) {
 			this.mActivity = activity;
 		}
 
-		private class ReviewDownloadTask implements Download {
+		public class ReviewDownloadTask implements Download {
 
 			public ReviewDownloadTask() {
 			}
@@ -541,7 +569,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			}
 		}
 
-		private class ReviewDownloadCallback implements OnDownloadComplete {
+		public class ReviewDownloadCallback implements OnDownloadComplete {
 
 			public ReviewDownloadCallback() {
 			}
@@ -641,6 +669,10 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		}
 	}
 
+	/**
+	 * Helper class that constructs the map of the three different TabSort objects
+	 * @return
+	 */
 	private HashMap<ReviewSort, TabSort> getTabMap() {
 		HashMap<ReviewSort, TabSort> map = new HashMap<ReviewSort, TabSort>();
 
@@ -680,6 +712,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 		return map;
 	}
+
+	/////////////////////////////////////////////////////////////////////////////////////
+	// Reviews statistics code
 
 	private Runnable mReviewStatisticsDownloadTask = new Runnable() {
 
@@ -730,7 +765,15 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 	};
 
-	// store the read more state in a wrapper class
+	/////////////////////////////////////////////////////////////////////////////////////
+	// ReviewWrapper meta data
+
+	/**
+	 * Wrapper class that stores the review and also extra book-keeping related to how it is displayed
+	 * from within the applications, such as whether or not the review is expanded, and the reduced body
+	 * @author brad
+	 *
+	 */
 	public class ReviewWrapper {
 		public Review review;
 		public boolean bodyWasReduced;
@@ -763,6 +806,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		return loadedReviews;
 	}
 
+	/////////////////////////////////////////////////////////////////////////////////////
 	// Configuration change code
 
 	@Override
@@ -800,15 +844,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		mTotalReviewCount = state.mTotalReviewCount;
 		mViewedReviews = state.viewedReviews;
 		mAverageOverallRating = state.mAverageOverallRating;
-	}
-
-	private Message prepareMessage(boolean addFooter, ReviewSort reviewSort) {
-		Object[] data = new Object[2];
-		Message msg = Message.obtain(mHandler);
-		data[0] = addFooter;
-		data[1] = reviewSort.toString();
-		msg.obj = data;
-		return msg;
 	}
 
 	private void showListOrEmptyView(ViewGroup listViewContainer, UserReviewsAdapter adapter) {
