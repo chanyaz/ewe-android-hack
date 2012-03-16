@@ -10,7 +10,6 @@ import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ResourceUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -109,10 +108,10 @@ public class LocaleUtils {
 			put("en_ID", new LinkedList<String>(Arrays.asList("en", "id")));
 			put("en_MY", new LinkedList<String>(Arrays.asList("en", "ms")));
 			put("es_AR", new LinkedList<String>(Arrays.asList("en", "pt", "es")));
-			put("es_ES", new LinkedList<String>(Arrays.asList("es")));
-			put("es_MX", new LinkedList<String>(Arrays.asList("es")));
+			put("es_ES", new LinkedList<String>(Arrays.asList("es", "en")));
+			put("es_MX", new LinkedList<String>(Arrays.asList("es", "en")));
 			put("fr_BE", new LinkedList<String>(Arrays.asList("fr", "en")));
-			put("fr_CA", new LinkedList<String>(Arrays.asList("fr")));
+			put("fr_CA", new LinkedList<String>(Arrays.asList("fr", "en")));
 			put("fr_FR", new LinkedList<String>(Arrays.asList("fr", "en")));
 			put("id_ID", new LinkedList<String>(Arrays.asList("id", "en")));
 			put("it_IT", new LinkedList<String>(Arrays.asList("it", "en")));
@@ -122,13 +121,13 @@ public class LocaleUtils {
 			put("nl_BE", new LinkedList<String>(Arrays.asList("nl", "en")));
 			put("nl_NL", new LinkedList<String>(Arrays.asList("nl", "en")));
 			put("no_NO", new LinkedList<String>(Arrays.asList("no", "en")));
-			put("pt_BR", new LinkedList<String>(Arrays.asList("pt", "es")));
+			put("pt_BR", new LinkedList<String>(Arrays.asList("pt", "es", "en")));
 			put("sv_SE", new LinkedList<String>(Arrays.asList("sv", "en")));
 			put("th_TH", new LinkedList<String>(Arrays.asList("th", "en")));
-			put("zh_HK", new LinkedList<String>(Arrays.asList("zh")));
-			put("zh_TW", new LinkedList<String>(Arrays.asList("zh")));
+			put("zh_HK", new LinkedList<String>(Arrays.asList("zh", "en")));
+			put("zh_TW", new LinkedList<String>(Arrays.asList("zh", "en")));
 
-			//			All other en displays: All English
+			// All other en displays: All English
 			put("en_US", new LinkedList<String>(Arrays.asList("en")));
 			put("en_GB", new LinkedList<String>(Arrays.asList("en")));
 			put("en_PH", new LinkedList<String>(Arrays.asList("en")));
