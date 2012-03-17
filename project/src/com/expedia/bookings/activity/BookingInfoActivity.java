@@ -1098,6 +1098,24 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		BillingInfo tmpInfo = new BillingInfo();
 		if (tmpInfo.load(this)) {
 			mBillingInfo = tmpInfo;
+
+			// When upgrading from 1.2.1 to 1.3, country code isn't present. So let's just use the default country.
+			if (mBillingInfo.getTelephoneCountryCode() == null) {
+				String defaultCountryName = getString(LocaleUtils.getDefaultCountryResId(this));
+
+				Resources r = getResources();
+				String[] countryNames = r.getStringArray(R.array.country_names);
+				int[] countryPhoneCodes = r.getIntArray(R.array.country_phone_codes);
+
+				for (int n = 0; n < mCountryCodes.length; n++) {
+					if (defaultCountryName.equals(countryNames[n])) {
+						mBillingInfo.setTelephoneCountry(mCountryCodes[n]);
+						mBillingInfo.setTelephoneCountryCode(Integer.toString(countryPhoneCodes[n]));
+						break;
+					}
+				}
+			}
+
 			return true;
 		}
 
