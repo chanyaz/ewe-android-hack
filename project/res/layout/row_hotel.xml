@@ -103,7 +103,7 @@
             android:layout_marginRight="3dp"
             android:singleLine="true"
             android:ellipsize="end"
-            android:gravity="center"
+            android:gravity="left"
             android:text="@string/not_rated"
             android:textColor="@color/light_gray"
             android:visibility="gone" />
