@@ -200,6 +200,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private static final int DEFAULT_PRICE_RADIO_GROUP_CHILD = R.id.price_all_button;
 
 	public static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
+	private static final String SEARCH_RESULTS_VERSION_FILE = "savedsearch-version.dat";
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
 
 	private static final int F_NO_DIVIDERS = 1;
@@ -402,6 +403,24 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 	};
 
+	private int getAppCodeFromFilePath(String filePath) {
+		File file = getFileStreamPath(filePath);
+		if (file.exists()) {
+			try {
+				int code = Integer.parseInt(IoUtils.readStringFromFile(filePath, mContext));
+				Log.d("Read app code from search response version file " + code);
+				return code;
+			}
+			catch (IOException e) {
+				Log.w("Couldn't find saved search results version file.", e);
+				return 0;
+			}
+		}
+		else {
+			return 0;
+		}
+	}
+
 	private OnDownloadComplete mLoadSavedResultsCallback = new OnDownloadComplete() {
 		@Override
 		public void onDownload(Object results) {
@@ -532,8 +551,12 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				mFilter = new Filter();
 			}
 
+			boolean versionGood = false;
+			if (getAppCodeFromFilePath(SEARCH_RESULTS_VERSION_FILE) >= AndroidUtils.APP_CODE_E3) {
+				versionGood = true;
+			}
 			// Attempt to load saved search results; if we fail, start a new search
-			if (!localeChanged) {
+			if (!localeChanged && versionGood) {
 				BackgroundDownloader.getInstance().startDownload(KEY_LOADING_PREVIOUS, mLoadSavedResults,
 						mLoadSavedResultsCallback);
 				broadcastSearchStarted();
@@ -708,6 +731,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			else if (mSearchResponse != null && !mSearchResponse.hasErrors() && !savedSearchResults.exists()) {
 				try {
 					long start = System.currentTimeMillis();
+					IoUtils.writeStringToFile(SEARCH_RESULTS_VERSION_FILE, "" + AndroidUtils.getAppCode(mContext), this);
 					IoUtils.writeStringToFile(SEARCH_RESULTS_FILE, mSearchResponse.toJson().toString(0), this);
 					Log.i("Saved current search results, time taken: " + (System.currentTimeMillis() - start) + " ms");
 				}
