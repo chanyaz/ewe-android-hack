@@ -3,6 +3,7 @@ package com.expedia.bookings.utils;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -278,7 +279,7 @@ public class LocaleUtils {
 	 * @param a simple string list of language codes
 	 * @return a formatted list of locale codes to be used as param by BV request
 	 */
-	public static String formatLanguageCodes(LinkedList<String> codes) {
+	public static String formatLanguageCodes(List<String> codes) {
 		StringBuilder sb = new StringBuilder();
 		String prefix = "";
 		for (String code : codes) {

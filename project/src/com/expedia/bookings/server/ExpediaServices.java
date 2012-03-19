@@ -13,7 +13,6 @@ import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -237,7 +236,7 @@ public class ExpediaServices implements DownloadListener {
 	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, String localesString) {
 		return reviews(property, sort, pageNumber, localesString, REVIEWS_PER_PAGE);
 	}
-	
+
 	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, String localesString, int number) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
@@ -284,7 +283,7 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
 
-		LinkedList<String> languages = LocaleUtils.getLanguages(mContext);
+		List<String> languages = LocaleUtils.getLanguages(mContext);
 		String localesString = LocaleUtils.formatLanguageCodes(languages);
 
 		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
