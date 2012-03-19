@@ -95,9 +95,11 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	private ReviewSort mCurrentReviewSort = ReviewSort.NEWEST_REVIEW_FIRST;
 
 	// Stores the counts retrieved from BazaarVoice using FilteredStats param
-	private int mTotalReviewCount = -1;
-	private int mRecommendedReviewCount = -1;
-	private float mAverageOverallRating = -1;
+	private int mTotalReviewCount;
+	private int mRecommendedReviewCount;
+	private float mAverageOverallRating;
+
+	private boolean mHasReviewStats = false;
 
 	/* 
 	 * keeps a mapping of the different containers holding the list views (and empty views) for each review sort type
@@ -226,7 +228,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			}
 		}
 
-		if (mTotalReviewCount == -1) {
+		if (!mHasReviewStats) {
 			mHandler.post(mReviewStatisticsDownloadTask);
 		}
 
@@ -300,7 +302,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			hasMore = true;
 		}
 
-		if (loadMore && reviews != null && hasMore) {
+		if (loadMore && reviews != null && hasMore && mHasReviewStats) {
 			// start the downloads based on the currently selected sort option
 			String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
 			TabSort tab = mTabMap.get(mCurrentReviewSort);
@@ -438,7 +440,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	 * called after the BV request has been made
 	 */
 	private void updateReviewNumbers() {
-		if (mRecommendedReviewCount != -1 && mTotalReviewCount != -1) {
+		if (mHasReviewStats) {
 			for (ViewGroup viewContainer : mListViewContainersMap.values()) {
 				TextView recommendText = (TextView) viewContainer.findViewById(R.id.user_reviews_recommendation_tag);
 
@@ -485,11 +487,11 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			RatingBar bottomRatingBar = (RatingBar) findViewById(R.id.user_review_rating_bar_bottom);
 			bottomRatingBar.setRating(mAverageOverallRating);
 
-			if (mTotalReviewCount == -1) {
-				bottomBar.setVisibility(View.GONE);
+			if (mHasReviewStats) {
+				bottomBar.setVisibility(View.VISIBLE);
 			}
 			else {
-				bottomBar.setVisibility(View.VISIBLE);
+				bottomBar.setVisibility(View.GONE);
 			}
 		}
 	}
@@ -747,6 +749,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				mRecommendedReviewCount = response.getRecommendedCount();
 				mTotalReviewCount = response.getTotalReviewCount();
 				mAverageOverallRating = response.getAverageOverallRating();
+				mHasReviewStats = true;
 
 				mHandler.removeCallbacks(mUpdateListHeaderTask);
 				mHandler.post(mUpdateListHeaderTask);
@@ -895,6 +898,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		state.mRecommendedReviewCount = mRecommendedReviewCount;
 		state.mTotalReviewCount = mTotalReviewCount;
 		state.mAverageOverallRating = mAverageOverallRating;
+		state.mHasReviewStats = mHasReviewStats;
 
 		state.viewedReviews = mViewedReviews;
 		return state;
@@ -912,8 +916,10 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 		mRecommendedReviewCount = state.mRecommendedReviewCount;
 		mTotalReviewCount = state.mTotalReviewCount;
-		mViewedReviews = state.viewedReviews;
 		mAverageOverallRating = state.mAverageOverallRating;
+		mHasReviewStats = state.mHasReviewStats;
+
+		mViewedReviews = state.viewedReviews;
 	}
 
 	private void showListOrEmptyView(ViewGroup listViewContainer, UserReviewsAdapter adapter) {
@@ -948,6 +954,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		public int mRecommendedReviewCount;
 		public int mTotalReviewCount;
 		public float mAverageOverallRating;
+		public boolean mHasReviewStats;
 
 		public HashMap<ReviewSort, TabSort> tabMap;
 		public Set<String> viewedReviews;
