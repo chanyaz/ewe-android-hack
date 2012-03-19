@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
@@ -15,9 +14,6 @@ public class LocaleChangeReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.i("Locale changed!");
-		
-		LocaleUtils.invalidateLanguageCodeCache();
-
 		SettingUtils.save(context, KEY_LOCALE_CHANGED, true);
 	}
 }

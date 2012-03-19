@@ -257,10 +257,9 @@ public class LocaleUtils {
 	public static LinkedList<String> getLanguages(Context context) {
 		ensurePOSCountryCodesCacheFilled(context);
 		ensurePOSDefaultLocalesCacheFilled(context);
-		ensureLanguageCodeCacheFilled();
 
 		// construct the device locale based on device language and device POS
-		String locale = sCachedLanguageCode;
+		String locale = Locale.getDefault().getLanguage();
 		locale += "_";
 		locale += sPOSCountryCodes.get(sCachedPointOfSale);
 
@@ -291,20 +290,8 @@ public class LocaleUtils {
 		return sb.toString();
 	}
 
-	private static String sCachedLanguageCode;
 	private static Map<String, String> sPOSCountryCodes;
 	private static Map<String, String> sPOSDefaultLocales;
-
-	public static void invalidateLanguageCodeCache() {
-		sCachedLanguageCode = null;
-	}
-
-	public static String ensureLanguageCodeCacheFilled() {
-		if (sCachedLanguageCode == null) {
-			sCachedLanguageCode = Locale.getDefault().getLanguage();
-		}
-		return sCachedLanguageCode;
-	}
 
 	private static void ensurePOSCountryCodesCacheFilled(Context context) {
 		if (sPOSCountryCodes == null) {
