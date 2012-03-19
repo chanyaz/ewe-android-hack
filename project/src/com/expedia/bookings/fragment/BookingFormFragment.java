@@ -250,6 +250,7 @@ public class BookingFormFragment extends DialogFragment {
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 		outState.putBoolean(GUESTS_EXPANDED, mGuestsExpanded);
 		outState.putBoolean(BILLING_EXPANDED, mBillingExpanded);
 		outState.putBoolean(RULES_RESTRICTIONS_CHECKED, mRulesRestrictionsCheckbox.isChecked());
