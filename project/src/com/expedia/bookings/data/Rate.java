@@ -533,7 +533,14 @@ public class Rate implements JSONable {
 
 	public Money getInclusiveRate() {
 		if (mInclusiveRate == null) {
-			mInclusiveRate = mTotalPriceWithMandatoryFees;
+			if (mTotalPriceWithMandatoryFees != null) {
+				mInclusiveRate = mTotalPriceWithMandatoryFees;
+			}
+			else {
+				double rate = mAverageRate.getAmount() * mNumberOfNights;
+				mInclusiveRate = ParserUtils.createMoney(rate, mAverageRate.getCurrency());
+				mInclusiveRate.add(mTotalSurcharge);
+			}
 		}
 		return mInclusiveRate;
 	}
@@ -638,6 +645,10 @@ public class Rate implements JSONable {
 		mAverageRate = (Money) JSONUtils.getJSONable(obj, "averageRate", Money.class);
 		mAverageBaseRate = (Money) JSONUtils.getJSONable(obj, "averageBaseRate", Money.class);
 		mTotalSurcharge = (Money) JSONUtils.getJSONable(obj, "totalSurcharge", Money.class);
+		if (mTotalSurcharge == null) {
+			// Try surcharge from EAN
+			mTotalSurcharge = (Money) JSONUtils.getJSONable(obj, "surcharge", Money.class);
+		}
 		mTotalMandatoryFees = (Money) JSONUtils.getJSONable(obj, "totalMandatoryFees", Money.class);
 		mTotalPriceWithMandatoryFees = (Money) JSONUtils.getJSONable(obj, "totalPriceWithMandatoryFees", Money.class);
 		mUserPriceType = UserPriceType.values()[obj.optInt("userPriceType", UserPriceType.UNKNOWN.ordinal())];

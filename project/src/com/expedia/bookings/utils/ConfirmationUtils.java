@@ -182,13 +182,8 @@ public class ConfirmationUtils {
 	}
 
 	public static boolean hasSavedConfirmationData(Context context) {
-		if (AndroidUtils.getAppCodeFromFilePath(ConfirmationUtils.CONFIRMATION_DATA_VERSION_FILE, context) >= AndroidUtils.APP_CODE_E3) {
-			File savedConfResults = context.getFileStreamPath(ConfirmationUtils.CONFIRMATION_DATA_FILE);
-			return savedConfResults.exists();
-		}
-		else {
-			return false;
-		}
+		File savedConfResults = context.getFileStreamPath(ConfirmationUtils.CONFIRMATION_DATA_FILE);
+		return savedConfResults.exists();
 	}
 
 	public static boolean deleteSavedConfirmationData(Context context) {
