@@ -9,7 +9,6 @@ import java.util.Map;
 import android.content.Context;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.util.ResourceUtils;
 import com.mobiata.android.util.SettingUtils;
 
@@ -77,7 +76,7 @@ public class LocaleUtils {
 		}
 	};
 
-	private static final Map<String, String> LANGUAGE_CODE_TO_CONTENT_LOCALE = new HashMap<String, String>() {
+	public static final Map<String, String> LANGUAGE_CODE_TO_CONTENT_LOCALE = new HashMap<String, String>() {
 		{
 			put("da", "da,da_DK");
 			put("de", "de_DE, de_AT");
@@ -254,77 +253,6 @@ public class LocaleUtils {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// BazaarVoice Reviews/LanguageCode stuff
-
-	/**
-	 * The purpose of this class is to contain all of the bookkeeping related to the paging of reviews
-	 * for a priority list of languages. For instance, using the language priority algorithm for the recent
-	 * sort order, this instances of this class will store the pageNumber, the totalCount, localeCode
-	 * 
-	 * The UserReviewsListActivity will create a list of ReviewLanguageSet objects that are relevant to its POS
-	 * and device language. Some POS will have only one object in its list, if there is no priority exhibited
-	 * in the Expedia behavior. This makes the implementation extensible for all configurations that Expedia could
-	 * possibly throw our way.
-	 * 
-	 * @author brad
-	 *
-	 */
-	public static class ReviewLanguageSet {
-
-		private String localesString;
-		private int totalCount;
-		private int pageNumber;
-		private boolean attemptedDownload;
-
-		public ReviewLanguageSet() {
-			this.pageNumber = 0;
-			this.attemptedDownload = false;
-		}
-
-		/**
-		 * Function returns true if there are more reviews to be requested, i.e. another network call should be made
-		 */
-		public boolean hasMore() {
-			if (pageNumber * ExpediaServices.REVIEWS_PER_PAGE >= totalCount) {
-				return false;
-			}
-			return true;
-		}
-
-		public void setTotalCount(int count) {
-			this.totalCount = count;
-		}
-
-		public void addLanguage(String languageCode) {
-			if (localesString != null) {
-				localesString += ",";
-			}
-			localesString += LANGUAGE_CODE_TO_CONTENT_LOCALE.get(languageCode);
-		}
-
-		public void setLocalesString(String localesString) {
-			this.localesString = localesString;
-		}
-
-		public int getPageNumber() {
-			return pageNumber;
-		}
-
-		public void incrementPageNumber() {
-			pageNumber++;
-		}
-
-		public String getLocalesString() {
-			return localesString;
-		}
-
-		public boolean getAttemptedDownload() {
-			return attemptedDownload;
-		}
-
-		public void setAttemptedDownload(boolean attempted) {
-			this.attemptedDownload = attempted;
-		}
-	}
 
 	public static LinkedList<String> getLanguages(Context context) {
 		ensurePOSCountryCodesCacheFilled(context);
