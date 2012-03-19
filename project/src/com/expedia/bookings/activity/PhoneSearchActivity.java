@@ -403,24 +403,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 	};
 
-	private int getAppCodeFromFilePath(String filePath) {
-		File file = getFileStreamPath(filePath);
-		if (file.exists()) {
-			try {
-				int code = Integer.parseInt(IoUtils.readStringFromFile(filePath, mContext));
-				Log.d("Read app code from search response version file " + code);
-				return code;
-			}
-			catch (IOException e) {
-				Log.w("Couldn't find saved search results version file.", e);
-				return 0;
-			}
-		}
-		else {
-			return 0;
-		}
-	}
-
 	private OnDownloadComplete mLoadSavedResultsCallback = new OnDownloadComplete() {
 		@Override
 		public void onDownload(Object results) {
@@ -552,7 +534,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			}
 
 			boolean versionGood = false;
-			if (getAppCodeFromFilePath(SEARCH_RESULTS_VERSION_FILE) >= AndroidUtils.APP_CODE_E3) {
+			if (AndroidUtils.getAppCodeFromFilePath(SEARCH_RESULTS_VERSION_FILE, mContext) >= AndroidUtils.APP_CODE_E3) {
 				versionGood = true;
 			}
 			// Attempt to load saved search results; if we fail, start a new search

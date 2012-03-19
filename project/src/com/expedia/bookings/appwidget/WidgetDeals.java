@@ -17,6 +17,7 @@ import com.expedia.bookings.data.SearchResponse;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 
 /**
@@ -36,6 +37,7 @@ public class WidgetDeals implements JSONable {
 
 	private static WidgetDeals singleton;
 
+	public static final String WIDGET_DEALS_VERSION_FILE = "widgetDeals-version.dat";
 	public static final String WIDGET_DEALS_FILE = "widgetDeals.dat";
 	private static final int MAX_DEALS = 5;
 	public static final long WIDGET_DEALS_EXPIRATION = 1000 * 60 * 60; // 1 hour
@@ -154,6 +156,7 @@ public class WidgetDeals implements JSONable {
 		if (!widgetDealsFile.exists()) {
 			try {
 				long start = System.currentTimeMillis();
+				IoUtils.writeStringToFile(WIDGET_DEALS_VERSION_FILE, Integer.toString(AndroidUtils.getAppCode(mContext)), mContext);
 				IoUtils.writeStringToFile(WIDGET_DEALS_FILE, toJson().toString(0), mContext);
 				Log.i("Saved widget deals, time taken: " + (System.currentTimeMillis() - start) + " ms");
 				results = true;

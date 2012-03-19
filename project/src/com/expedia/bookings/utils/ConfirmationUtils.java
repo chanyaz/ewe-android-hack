@@ -35,6 +35,7 @@ import com.mobiata.android.util.IoUtils;
 
 public class ConfirmationUtils {
 	public static final String CONFIRMATION_DATA_FILE = "confirmation.dat";
+	public static final String CONFIRMATION_DATA_VERSION_FILE = "confirmation-version.dat";
 
 	public static void share(Context context, SearchParams searchParams, Property property,
 			BookingResponse bookingResponse, BillingInfo billingInfo, Rate rate, String contactText) {
@@ -169,6 +170,7 @@ public class ConfirmationUtils {
 			data.put(Codes.BILLING_INFO, billingInfo.toJson());
 			data.put(Codes.BOOKING_RESPONSE, bookingResponse.toJson());
 
+			IoUtils.writeStringToFile(CONFIRMATION_DATA_VERSION_FILE, Integer.toString(AndroidUtils.getAppCode(context)), context);
 			IoUtils.writeStringToFile(CONFIRMATION_DATA_FILE, data.toString(0), context);
 
 			return true;
@@ -180,8 +182,13 @@ public class ConfirmationUtils {
 	}
 
 	public static boolean hasSavedConfirmationData(Context context) {
-		File savedConfResults = context.getFileStreamPath(ConfirmationUtils.CONFIRMATION_DATA_FILE);
-		return savedConfResults.exists();
+		if (AndroidUtils.getAppCodeFromFilePath(ConfirmationUtils.CONFIRMATION_DATA_VERSION_FILE, context) >= AndroidUtils.APP_CODE_E3) {
+			File savedConfResults = context.getFileStreamPath(ConfirmationUtils.CONFIRMATION_DATA_FILE);
+			return savedConfResults.exists();
+		}
+		else {
+			return false;
+		}
 	}
 
 	public static boolean deleteSavedConfirmationData(Context context) {
