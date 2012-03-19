@@ -557,9 +557,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				// grab the correct page number
 				ReviewLanguageSet meta = mLanguageList.getFirst();
 				int pageNumber = meta.getPageNumber();
-				String localesString = meta.getLocalesString();
+				LinkedList<String> languages = meta.getLanguageCodes();
 
-				return mActivity.mExpediaServices.reviews(mActivity.mProperty, mReviewSort, pageNumber, localesString);
+				return mActivity.mExpediaServices.reviews(mActivity.mProperty, mReviewSort, pageNumber, languages);
 			}
 		}
 
@@ -671,7 +671,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		LinkedList<ReviewLanguageSet> recentReviewLanguageSet = new LinkedList<ReviewLanguageSet>();
 		for (String languageCode : languages) {
 			ReviewLanguageSet rls = new ReviewLanguageSet();
-			rls.addLanguage(languageCode);
+			LinkedList<String> codes = new LinkedList<String>();
+			codes.add(languageCode);
+			rls.addLanguageCodes(codes);
 			recentReviewLanguageSet.add(rls);
 		}
 
@@ -682,7 +684,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		// FAVORABLE SORT ORDER
 		LinkedList<ReviewLanguageSet> favorableReviewLanguageSet = new LinkedList<ReviewLanguageSet>();
 		ReviewLanguageSet frls = new ReviewLanguageSet();
-		frls.setLocalesString(LocaleUtils.formatLanguageCodes(languages));
+		frls.addLanguageCodes(languages);
 		favorableReviewLanguageSet.add(frls);
 
 		TabSort favorableTabSort = new TabSort(this, ReviewSort.HIGHEST_RATING_FIRST, favorableReviewLanguageSet);
@@ -692,7 +694,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		// CRITICAL SORT ORDER
 		LinkedList<ReviewLanguageSet> criticalReviewLanguageSet = new LinkedList<ReviewLanguageSet>();
 		ReviewLanguageSet crls = new ReviewLanguageSet();
-		crls.setLocalesString(LocaleUtils.formatLanguageCodes(languages));
+		crls.addLanguageCodes(languages);
 		criticalReviewLanguageSet.add(crls);
 
 		TabSort criticalTabSort = new TabSort(this, ReviewSort.LOWEST_RATING_FIRST, criticalReviewLanguageSet);
@@ -811,12 +813,14 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	 */
 	public static class ReviewLanguageSet {
 
-		private String mLocalesString;
+		private LinkedList<String> mLanguageCodes;
+
 		private int mTotalCount;
 		private int mPageNumber;
 		private boolean mAttemptedDownload;
 
 		public ReviewLanguageSet() {
+			this.mLanguageCodes = new LinkedList<String>();
 			this.mPageNumber = 0;
 			this.mAttemptedDownload = false;
 		}
@@ -835,15 +839,8 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			this.mTotalCount = count;
 		}
 
-		public void addLanguage(String languageCode) {
-			if (mLocalesString != null) {
-				mLocalesString += ",";
-			}
-			mLocalesString += LocaleUtils.LANGUAGE_CODE_TO_CONTENT_LOCALE.get(languageCode);
-		}
-
-		public void setLocalesString(String localesString) {
-			this.mLocalesString = localesString;
+		public void addLanguageCodes(LinkedList<String> codes) {
+			mLanguageCodes.addAll(codes);
 		}
 
 		public int getPageNumber() {
@@ -854,8 +851,8 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			mPageNumber++;
 		}
 
-		public String getLocalesString() {
-			return mLocalesString;
+		public LinkedList<String> getLanguageCodes() {
+			return mLanguageCodes;
 		}
 
 		public boolean getAttemptedDownload() {

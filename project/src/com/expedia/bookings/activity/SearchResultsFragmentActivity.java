@@ -1092,9 +1092,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_REVIEWS, services);
 
 			LinkedList<String> languages = LocaleUtils.getLanguages(mContext);
-			String localesString = LocaleUtils.formatLanguageCodes(languages);
 
-			return services.reviews(mInstance.mProperty, ReviewSort.HIGHEST_RATING_FIRST, 0, localesString,
+			return services.reviews(mInstance.mProperty, ReviewSort.HIGHEST_RATING_FIRST, 0, languages,
 					MAX_SUMMARIZED_REVIEWS);
 		}
 	};
