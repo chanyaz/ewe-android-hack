@@ -20,7 +20,6 @@ import com.mobiata.android.util.IoUtils;
 public class BillingInfo implements JSONable {
 
 	private static final String SAVED_INFO_FILENAME = "billing.dat";
-	private static final String SAVED_INFO_VERSION_FILENAME = "billing-version.dat";
 
 	// Kind of pointless when this is just stored as a static field, but at least protects
 	// against someone getting the plaintext file but not the app itself.
@@ -160,22 +159,11 @@ public class BillingInfo implements JSONable {
 
 		mExistsOnDisk = true;
 
-		try {
-			IoUtils.writeStringToFile(SAVED_INFO_VERSION_FILENAME, Integer.toString(AndroidUtils.getAppCode(context)), context);
-		}
-		catch (IOException e) {
-			Log.e("Could not write billing info version file", e);
-		}
 		return fileCipher.saveSecureData(context.getFileStreamPath(SAVED_INFO_FILENAME), data.toString());
 	}
 
 	public boolean load(Context context) {
 		Log.d("Loading saved billing info.");
-
-		// Check billing info version
-		if (AndroidUtils.getAppCodeFromFilePath(SAVED_INFO_VERSION_FILENAME, context) < AndroidUtils.APP_CODE_E3) {
-			return false;
-		}
 
 		// Check that the saved billing info file exists
 		File f = context.getFileStreamPath(SAVED_INFO_FILENAME);
