@@ -173,7 +173,7 @@ public class BillingInfo implements JSONable {
 		Log.d("Loading saved billing info.");
 
 		// Check billing info version
-		if (AndroidUtils.getAppCodeFromFilePath(SAVED_INFO_VERSION_FILENAME, context) >= AndroidUtils.APP_CODE_E3) {
+		if (AndroidUtils.getAppCodeFromFilePath(SAVED_INFO_VERSION_FILENAME, context) < AndroidUtils.APP_CODE_E3) {
 			return false;
 		}
 
