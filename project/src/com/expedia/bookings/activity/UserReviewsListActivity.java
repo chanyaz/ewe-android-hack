@@ -635,7 +635,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 								.get(ReviewSort.NEWEST_REVIEW_FIRST))) {
 					key = SORT_BGDL_KEY.get(ReviewSort.NEWEST_REVIEW_FIRST);
 					nextTab = mActivity.mTabMap.get(ReviewSort.NEWEST_REVIEW_FIRST);
-					//					mActivity.mReviewsDownloader.cancelDownload(key);
 					mActivity.mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
 				}
 				else if (!mActivity.mTabMap.get(ReviewSort.HIGHEST_RATING_FIRST).mAttemptedDownload
@@ -643,7 +642,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 								.get(ReviewSort.HIGHEST_RATING_FIRST))) {
 					key = SORT_BGDL_KEY.get(ReviewSort.HIGHEST_RATING_FIRST);
 					nextTab = mActivity.mTabMap.get(ReviewSort.HIGHEST_RATING_FIRST);
-					//					mActivity.mReviewsDownloader.cancelDownload(key);
 					mActivity.mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
 				}
 				else if (!mActivity.mTabMap.get(ReviewSort.LOWEST_RATING_FIRST).mAttemptedDownload
@@ -651,7 +649,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 								.get(ReviewSort.LOWEST_RATING_FIRST))) {
 					key = SORT_BGDL_KEY.get(ReviewSort.LOWEST_RATING_FIRST);
 					nextTab = mActivity.mTabMap.get(ReviewSort.LOWEST_RATING_FIRST);
-					//					mActivity.mReviewsDownloader.cancelDownload(key);
 					mActivity.mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
 				}
 			}
