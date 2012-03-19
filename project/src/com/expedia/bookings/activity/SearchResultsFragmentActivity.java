@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -62,6 +63,7 @@ import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.google.android.maps.MapActivity;
@@ -1088,7 +1090,12 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_REVIEWS, services);
-			return services.reviews(mInstance.mProperty, 0, ReviewSort.HIGHEST_RATING_FIRST, MAX_SUMMARIZED_REVIEWS);
+
+			LinkedList<String> languages = LocaleUtils.getLanguages(mContext);
+			String localesString = LocaleUtils.formatLanguageCodes(languages);
+
+			return services.reviews(mInstance.mProperty, ReviewSort.HIGHEST_RATING_FIRST, 0, localesString,
+					MAX_SUMMARIZED_REVIEWS);
 		}
 	};
 
