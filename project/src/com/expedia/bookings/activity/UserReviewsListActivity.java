@@ -199,9 +199,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		if (state == null) {
 			// Cancel any existing downloads
-			mReviewsDownloader.cancelDownload(SORT_BGDL_KEY.get(ReviewSort.HIGHEST_RATING_FIRST));
-			mReviewsDownloader.cancelDownload(SORT_BGDL_KEY.get(ReviewSort.NEWEST_REVIEW_FIRST));
-			mReviewsDownloader.cancelDownload(SORT_BGDL_KEY.get(ReviewSort.LOWEST_RATING_FIRST));
+			for (ReviewSort sort : SORT_BGDL_KEY.keySet()) {
+				mReviewsDownloader.cancelDownload(SORT_BGDL_KEY.get(sort));
+			}
 
 			configureHeader();
 
@@ -211,21 +211,15 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			extractActivityState(state);
 			configureHeader();
 			updateReviewNumbers();
-			if (mTabMap.get(mCurrentReviewSort).mReviewsWrapped != null) {
-				ViewGroup listViewContainer = mListViewContainersMap.get(mCurrentReviewSort);
-				UserReviewsAdapter adapter = mListAdaptersMap.get(mCurrentReviewSort);
-				adapter.setUserReviews(new ArrayList<ReviewWrapper>(mTabMap.get(mCurrentReviewSort).mReviewsWrapped));
-				adapter.notifyDataSetChanged();
-				bringContainerToFront(listViewContainer);
-				showListOrEmptyView(listViewContainer, adapter);
-			}
-			else {
-				// start the downloads based on the currently selected sort option
-				String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
-				TabSort tab = mTabMap.get(mCurrentReviewSort);
 
-				mReviewsDownloader.startDownload(key, tab.mDownloadTask, tab.mDownloadCallback);
-			}
+			ViewGroup listViewContainer = mListViewContainersMap.get(mCurrentReviewSort);
+			UserReviewsAdapter adapter = mListAdaptersMap.get(mCurrentReviewSort);
+
+			adapter.setUserReviews(new ArrayList<ReviewWrapper>(mTabMap.get(mCurrentReviewSort).mReviewsWrapped));
+			adapter.notifyDataSetChanged();
+
+			bringContainerToFront(listViewContainer);
+			showListOrEmptyView(listViewContainer, adapter);
 		}
 
 		if (!mHasReviewStats) {
@@ -293,16 +287,15 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
-
-		List<ReviewWrapper> reviews = mTabMap.get(mCurrentReviewSort).mReviewsWrapped;
-
 		boolean hasMore = false;
+
 		LinkedList<ReviewLanguageSet> list = mTabMap.get(mCurrentReviewSort).mLanguageList;
+
 		if (list != null && list.size() > 0) {
 			hasMore = true;
 		}
 
-		if (loadMore && reviews != null && hasMore && mHasReviewStats) {
+		if (loadMore && hasMore && mHasReviewStats) {
 			// start the downloads based on the currently selected sort option
 			String key = SORT_BGDL_KEY.get(mCurrentReviewSort);
 			TabSort tab = mTabMap.get(mCurrentReviewSort);
@@ -610,12 +603,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 						}
 
 						// append the new reviews to old collection, remove loading view, refresh
-						if (mReviewsWrapped != null) {
-							mReviewsWrapped.addAll(newlyLoadedReviewsWrapped);
-						}
-						else {
-							mReviewsWrapped = newlyLoadedReviewsWrapped;
-						}
+						mReviewsWrapped.addAll(newlyLoadedReviewsWrapped);
 
 						//send message to remove loading footer
 						mActivity.mHandler.sendMessage(mActivity.prepareMessage(false, mReviewSort));
