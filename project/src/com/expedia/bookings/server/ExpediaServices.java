@@ -139,7 +139,7 @@ public class ExpediaServices implements DownloadListener {
 
 		SearchResponseHandler rh = new SearchResponseHandler(mContext);
 		rh.setNumNights(params.getStayDuration());
-		return (SearchResponse) doRequest("SearchResults", query, rh, 0);
+		return (SearchResponse) doE3Request("SearchResults", query, rh, 0);
 	}
 
 	public AvailabilityResponse availability(SearchParams params, Property property) {
@@ -160,7 +160,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		AvailabilityResponseHandler responseHandler = new AvailabilityResponseHandler(mContext, params, property);
-		AvailabilityResponse response = (AvailabilityResponse) doRequest("HotelOffers", query, responseHandler, 0);
+		AvailabilityResponse response = (AvailabilityResponse) doE3Request("HotelOffers", query, responseHandler, 0);
 
 		// #12701: Often times, Atlantis cache screws up and returns the error "Hotel product's PIID that is 
 		// provided by Atlantis has expired."  This error only happens once - the next request is usually fine.
@@ -171,7 +171,7 @@ public class ExpediaServices implements DownloadListener {
 			if (error.getErrorCode() == ErrorCode.HOTEL_ROOM_UNAVAILABLE
 					&& "Hotel product\u0027s PIID that is provided by Atlantis has expired".equals(error.getMessage())) {
 				Log.w("Atlantis PIID expired, automatically retrying HotelOffers request once.");
-				response = (AvailabilityResponse) doRequest("HotelOffers", query, responseHandler, 0);
+				response = (AvailabilityResponse) doE3Request("HotelOffers", query, responseHandler, 0);
 			}
 		}
 
@@ -209,7 +209,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
 				.getTime())));
 
-		return (BookingResponse) doRequest("Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
+		return (BookingResponse) doE3Request("Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	public SignInResponse signIn(String email, String password) {
@@ -220,7 +220,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("email", email));
 		query.add(new BasicNameValuePair("password", password));
 
-		return (SignInResponse) doRequest("SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
+		return (SignInResponse) doE3Request("SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {
@@ -328,9 +328,9 @@ public class ExpediaServices implements DownloadListener {
 		return doRequest(get, responseHandler, 0);
 	}
 
-	private Object doRequest(String targetUrl, List<BasicNameValuePair> params, ResponseHandler<?> responseHandler,
+	private Object doE3Request(String targetUrl, List<BasicNameValuePair> params, ResponseHandler<?> responseHandler,
 			int flags) {
-		String serverUrl = getEndpointUrl(flags) + targetUrl;
+		String serverUrl = getE3EndpointUrl(flags) + targetUrl;
 
 		// Create the request
 		HttpPost post = NetUtils.createHttpPost(serverUrl, params);
@@ -457,7 +457,7 @@ public class ExpediaServices implements DownloadListener {
 	 * @param context
 	 * @return
 	 */
-	public String getEndpointUrl(int flags) {
+	public String getE3EndpointUrl(int flags) {
 		EndPoint endPoint = getEndPoint(mContext);
 		StringBuilder builder = new StringBuilder();
 
