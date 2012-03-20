@@ -287,7 +287,7 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("include", "products"));
 
-		return (ReviewsResponse) doRequest(query, new ReviewsResponseHandler(mContext));
+		return (ReviewsResponse) doBazaarRequest(query, new ReviewsResponseHandler(mContext));
 	}
 
 	/*
@@ -313,14 +313,14 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("Include", "Products"));
 
-		return (ReviewsStatisticsResponse) doRequest(query, new ReviewsStatisticsResponseHandler(mContext));
+		return (ReviewsStatisticsResponse) doBazaarRequest(query, new ReviewsStatisticsResponseHandler(mContext));
 
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	//// Request code
 
-	private Object doRequest(List<BasicNameValuePair> params, ResponseHandler<?> responseHandler) {
+	private Object doBazaarRequest(List<BasicNameValuePair> params, ResponseHandler<?> responseHandler) {
 		HttpGet get = NetUtils.createHttpGet(BAZAAR_VOICE_BASE_URL, params);
 
 		Log.d("Bazaar reviews request:  " + get.getURI().toString());
