@@ -320,31 +320,6 @@ public class ExpediaServices implements DownloadListener {
 	//////////////////////////////////////////////////////////////////////////
 	//// Request code
 
-	private Object doRequest(JSONObject request, ResponseHandler<?> responseHandler, int flags) {
-		// Determine the target URL
-		String serverUrl;
-		boolean isRelease = AndroidUtils.isRelease(mContext);
-		if ((flags & F_SECURE_REQUEST) != 0) {
-			serverUrl = (isRelease) ? "https://hotelpal.mobiata.com/appsupport/ean_api/service"
-					: "https://karmalab.mobiata.com/appsupport/ean_api/service";
-		}
-		else {
-			// doRequest() is only used for TRS reviews() at this point, and the dev
-			// server is falling over.  As a result, we're going to just use the prod
-			// reviews service.
-			serverUrl = "http://hotelpal.mobiata.com/appsupport/ean_api/service";
-		}
-
-		// Create the request
-		HttpPost post = NetUtils.createHttpPost(serverUrl, request.toString());
-
-		// Some logging before passing the request along
-		Log.d("Sending request to " + serverUrl);
-		Log.d("Request: " + request.toString());
-
-		return doRequest(post, responseHandler, flags);
-	}
-
 	private Object doRequest(List<BasicNameValuePair> params, ResponseHandler<?> responseHandler) {
 		HttpGet get = NetUtils.createHttpGet(BAZAAR_VOICE_BASE_URL, params);
 
@@ -565,6 +540,7 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// We need to find replacements for these calls in E3
 
+	@SuppressWarnings("unused")
 	@Deprecated
 	private void addStandardRequestFields(JSONObject request, String type) throws JSONException {
 		request.put("type", type);
