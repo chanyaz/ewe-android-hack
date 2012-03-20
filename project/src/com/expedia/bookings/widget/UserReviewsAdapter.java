@@ -50,9 +50,9 @@ public class UserReviewsAdapter extends BaseAdapter {
 	public boolean isEmpty() {
 		return (mLoadedReviews == null || mLoadedReviews.isEmpty());
 	}
- 
+
 	@Override
-	public Object getItem(int position) {
+	public ReviewWrapper getItem(int position) {
 		return mLoadedReviews.get(position);
 	}
 
@@ -86,8 +86,8 @@ public class UserReviewsAdapter extends BaseAdapter {
 		viewHolder.readMore.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				viewHolder.body.setText(userReviewLoaded.review.getBody());
-				userReviewLoaded.isDisplayingFull = true;
+				viewHolder.body.setText(userReviewLoaded.mReview.getBody());
+				userReviewLoaded.mIsDisplayingFull = true;
 				setupFullReviewDisplay(viewHolder);
 
 				// #8783: If the review would be off the screen, scroll it into view.
@@ -99,29 +99,29 @@ public class UserReviewsAdapter extends BaseAdapter {
 			}
 		});
 
-		viewHolder.title.setText(userReviewLoaded.review.getTitle());
+		viewHolder.title.setText(userReviewLoaded.mReview.getTitle());
 
-		ReviewRating rating = userReviewLoaded.review.getRating();
+		ReviewRating rating = userReviewLoaded.mReview.getRating();
 		if (rating != null) {
 			viewHolder.ratingBar.setRating((float) rating.getOverallSatisfaction());
 		}
 
-		if (userReviewLoaded.isDisplayingFull) {
+		if (userReviewLoaded.mIsDisplayingFull) {
 			setupFullReviewDisplay(viewHolder);
-			viewHolder.body.setText(userReviewLoaded.review.getBody());
+			viewHolder.body.setText(userReviewLoaded.mReview.getBody());
 		}
-		else if (userReviewLoaded.bodyWasReduced) {
+		else if (userReviewLoaded.mBodyWasReduced) {
 			setupReducedReviewDisplay(viewHolder);
-			viewHolder.body.setText(userReviewLoaded.bodyReduced);
+			viewHolder.body.setText(userReviewLoaded.mBodyReduced);
 		}
 		else {
 			setupFullReviewDisplay(viewHolder);
-			viewHolder.body.setText(userReviewLoaded.review.getBody());
+			viewHolder.body.setText(userReviewLoaded.mReview.getBody());
 		}
 
 		String nameAndLocationText = "";
-		String name = userReviewLoaded.review.getReviewerName();
-		String location = userReviewLoaded.review.getReviewerLocation();
+		String name = userReviewLoaded.mReview.getReviewerName();
+		String location = userReviewLoaded.mReview.getReviewerLocation();
 
 		if (name != null && location != null) {
 			nameAndLocationText = String.format(mContext.getString(R.string.user_review_name_and_location_signature),
@@ -137,7 +137,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 		viewHolder.nameAndLocation.setText(nameAndLocationText);
 
 		// This code ensure that the date is displayed according to the current locale
-		Time date = userReviewLoaded.review.getSubmissionDate();
+		Time date = userReviewLoaded.mReview.getSubmissionDate();
 		Date submissionDate = new Date(date.year - 1900, date.month, date.monthDay); //Y2K is going to end the world! (years since 1900)
 		java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
 		String submissionDateText = dateFormat.format(submissionDate);
@@ -172,16 +172,6 @@ public class UserReviewsAdapter extends BaseAdapter {
 		public TextView submissionDate;
 		public TextView body;
 		public View readMore;
-	}
-
-	public void addUserReviews(ArrayList<ReviewWrapper> reviews) {
-		if (mLoadedReviews == null) {
-			mLoadedReviews = reviews;
-		}
-		else {
-			mLoadedReviews.addAll(reviews);
-		}
-		notifyDataSetChanged();
 	}
 
 	public void setUserReviews(ArrayList<ReviewWrapper> reviews) {

@@ -69,8 +69,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 
 	private TextView mHotelLocationTextView;
 	private TextView mHotelNameTextView;
-	private TextView mReviewsTitleLong;
-	private TextView mReviewsTitleShort;
+	private TextView mReviewsTitle;
 	private View mReviewsSection;
 	private View mReviewsContainer;
 	private ViewGroup mSomeReviewsContainer;
@@ -124,8 +123,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		mHotelNameTextView = (TextView) view.findViewById(R.id.hotel_name_text_view);
 		mHotelLocationTextView = (TextView) view.findViewById(R.id.hotel_address_text_view);
 		mCollageHandler = new HotelCollage(view, mPictureClickedListener);
-		mReviewsTitleLong = (TextView) view.findViewById(R.id.reviews_title);
-		mReviewsTitleShort = (TextView) view.findViewById(R.id.reviews_title_short);
+		mReviewsTitle = (TextView) view.findViewById(R.id.reviews_title);
 		mUserRating = (RatingBar) view.findViewById(R.id.user_rating_bar);
 		mStarRating = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
 		mSomeReviewsContainer = (ViewGroup) view.findViewById(R.id.some_reviews_container);
@@ -212,15 +210,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			return;
 		}
 
-		if (mReviewsTitleLong != null) {
-			mReviewsTitleLong.setText(getString(R.string.reviews_recommended_template,
-					property.getTotalRecommendations(), property.getTotalReviews()));
-		}
-		else if (mReviewsTitleShort != null) {
-			int reviewsCount = property.getTotalReviews();
-			mReviewsTitleShort.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_reviews,
-					reviewsCount, reviewsCount)));
-		}
+		int reviewsCount = property.getTotalReviews();
+		mReviewsTitle.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_reviews, reviewsCount,
+				reviewsCount)));
 
 		if (property.hasExpediaReviews()) {
 			mReviewsSection.setVisibility(View.VISIBLE);

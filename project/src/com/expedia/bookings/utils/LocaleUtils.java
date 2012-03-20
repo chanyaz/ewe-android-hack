@@ -1,6 +1,9 @@
 package com.expedia.bookings.utils;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -76,6 +79,68 @@ public class LocaleUtils {
 			put(R.string.point_of_sale_br, R.string.country_br);
 			put(R.string.point_of_sale_hk, R.string.country_hk);
 			put(R.string.point_of_sale_tw, R.string.country_tw);
+		}
+	};
+
+	public static final Map<String, String> LANGUAGE_CODE_TO_CONTENT_LOCALE = new HashMap<String, String>() {
+		{
+			put("da", "da,da_DK");
+			put("de", "de_DE, de_AT");
+			put("en", "en,en_US,en_AU,en_CA,en_GB,en_ID,en_IE,en_IN,en_MY,en_NZ,en_PH,en_SG");
+			put("es", "es,es_ES,es_AR,es_MX");
+			put("fr", "fr,fr_FR,fr_BE,fr_CA");
+			put("id", "id,id_ID");
+			put("it", "it,it_IT");
+			put("ja", "ja,ja_JP");
+			put("ko", "ko,ko_KR");
+			put("ms", "ms,ms_MY");
+			put("nl", "nl,nl_NL,nl_BE");
+			put("no", "no,no_NO");
+			put("pt", "pt,pt_BR");
+			put("sv", "sv,sv_SE");
+			put("th", "th,th_TH");
+			put("zh", "zh,zh_HK,zh_TW");
+		}
+	};
+
+	private static final Map<String, LinkedList<String>> LOCALE_TO_EXPEDIA_PRIORITY_LIST = new HashMap<String, LinkedList<String>>() {
+		{
+			put("da_DK", new LinkedList<String>(Arrays.asList("da", "en")));
+			put("de_AT", new LinkedList<String>(Arrays.asList("de", "en")));
+			put("de_DE", new LinkedList<String>(Arrays.asList("de", "en")));
+			put("en_CA", new LinkedList<String>(Arrays.asList("en", "fr")));
+			put("en_ID", new LinkedList<String>(Arrays.asList("en", "id")));
+			put("en_MY", new LinkedList<String>(Arrays.asList("en", "ms")));
+			put("es_AR", new LinkedList<String>(Arrays.asList("es", "pt", "en")));
+			put("es_ES", new LinkedList<String>(Arrays.asList("es", "en")));
+			put("es_MX", new LinkedList<String>(Arrays.asList("es", "en")));
+			put("fr_BE", new LinkedList<String>(Arrays.asList("fr", "en")));
+			put("fr_CA", new LinkedList<String>(Arrays.asList("fr", "en")));
+			put("fr_FR", new LinkedList<String>(Arrays.asList("fr", "en")));
+			put("id_ID", new LinkedList<String>(Arrays.asList("id", "en")));
+			put("it_IT", new LinkedList<String>(Arrays.asList("it", "en")));
+			put("ja_JP", new LinkedList<String>(Arrays.asList("ja")));
+			put("ko_KR", new LinkedList<String>(Arrays.asList("ko", "en")));
+			put("ms_MY", new LinkedList<String>(Arrays.asList("ms", "en")));
+			put("nl_BE", new LinkedList<String>(Arrays.asList("nl", "en")));
+			put("nl_NL", new LinkedList<String>(Arrays.asList("nl", "en")));
+			put("no_NO", new LinkedList<String>(Arrays.asList("no", "en")));
+			put("pt_BR", new LinkedList<String>(Arrays.asList("pt", "es", "en")));
+			put("sv_SE", new LinkedList<String>(Arrays.asList("sv", "en")));
+			put("th_TH", new LinkedList<String>(Arrays.asList("th", "en")));
+			put("zh_HK", new LinkedList<String>(Arrays.asList("zh", "en")));
+			put("zh_TW", new LinkedList<String>(Arrays.asList("zh", "en")));
+
+			// All other en displays: All English
+			put("en_US", new LinkedList<String>(Arrays.asList("en")));
+			put("en_GB", new LinkedList<String>(Arrays.asList("en")));
+			put("en_PH", new LinkedList<String>(Arrays.asList("en")));
+			put("en_SG", new LinkedList<String>(Arrays.asList("en")));
+			put("en_NZ", new LinkedList<String>(Arrays.asList("en")));
+			put("en_IN", new LinkedList<String>(Arrays.asList("en")));
+			put("en_IE", new LinkedList<String>(Arrays.asList("en")));
+			put("en_AU", new LinkedList<String>(Arrays.asList("en")));
+
 		}
 	};
 
@@ -193,5 +258,59 @@ public class LocaleUtils {
 		}
 
 		return sTPIDs.get(getPointOfSale());
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	// BazaarVoice Reviews/LanguageCode stuff
+
+	public static LinkedList<String> getLanguages(Context context) {
+		ensurePOSCountryCodesCacheFilled(context);
+		ensurePOSDefaultLocalesCacheFilled(context);
+
+		// construct the device locale based on device language and device POS
+		String locale = Locale.getDefault().getLanguage();
+		locale += "_";
+		locale += sPOSCountryCodes.get(sCachedPointOfSale);
+
+		// set locale to default if the constructed locale does not make sense
+		if (!LOCALE_TO_EXPEDIA_PRIORITY_LIST.containsKey(locale)) {
+			locale = sPOSDefaultLocales.get(sCachedPointOfSale);
+		}
+
+		return LOCALE_TO_EXPEDIA_PRIORITY_LIST.get(locale);
+	}
+
+	/**
+	 * Converts a list of languages codes into a BV/Expedia formatted list of language codes for use in pulling
+	 * all reviews of a set of languages (one or more langauages, where each language is a set of locale codes)
+	 * 
+	 * @param a simple string list of language codes
+	 * @return a formatted list of locale codes to be used as param by BV request
+	 */
+	public static String formatLanguageCodes(List<String> codes) {
+		StringBuilder sb = new StringBuilder();
+		String prefix = "";
+		for (String code : codes) {
+			sb.append(prefix);
+			prefix = ",";
+			sb.append(LANGUAGE_CODE_TO_CONTENT_LOCALE.get(code));
+		}
+
+		return sb.toString();
+	}
+
+	private static Map<String, String> sPOSCountryCodes;
+	private static Map<String, String> sPOSDefaultLocales;
+
+	private static void ensurePOSCountryCodesCacheFilled(Context context) {
+		if (sPOSCountryCodes == null) {
+			sPOSCountryCodes = ResourceUtils.getStringMap(context, R.array.pos_country_code_map);
+		}
+	}
+
+	private static void ensurePOSDefaultLocalesCacheFilled(Context context) {
+		if (sPOSDefaultLocales == null) {
+			sPOSDefaultLocales = ResourceUtils.getStringMap(context, R.array.pos_default_locale);
+		}
 	}
 }

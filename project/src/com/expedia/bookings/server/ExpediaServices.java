@@ -13,6 +13,7 @@ import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.net.ssl.SSLContext;
@@ -20,6 +21,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.ClientContext;
@@ -47,6 +49,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsResponse;
+import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
@@ -65,8 +68,12 @@ public class ExpediaServices implements DownloadListener {
 
 	private static final String COOKIES_FILE = "cookies.dat";
 
+	private static final String BAZAAR_VOICE_BASE_URL = "http://reviews.expedia.com/data/reviews.json";
+	private static final String BAZAAR_VOICE_API_TOKEN = "tq2es494c5r0o2443tc4byu2q";
+	private static final String BAZAAR_VOICE_API_VERSION = "5.1";
+
 	public static final int REVIEWS_PER_PAGE = 25;
-	
+
 	public static final int HOTEL_MAX_RESULTS = 200;
 
 	public enum ReviewSort {
@@ -202,8 +209,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
 				.getTime())));
 
-		return (BookingResponse) doRequest("Checkout", query, new BookingResponseHandler(mContext),
-				F_SECURE_REQUEST);
+		return (BookingResponse) doRequest("Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	public SignInResponse signIn(String email, String password) {
@@ -214,8 +220,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("email", email));
 		query.add(new BasicNameValuePair("password", password));
 
-		return (SignInResponse) doRequest("SignIn", query, new SignInResponseHandler(mContext),
-				F_SECURE_REQUEST);
+		return (SignInResponse) doRequest("SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {
@@ -244,45 +249,72 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	//// TRS (reviews) API
+	//// BazaarVoice (Reviews) API
 
-	public static boolean hasMoreReviews(Property property, int page) {
-		int maxPage = (int) Math.ceil(property.getTotalReviews() / (double) REVIEWS_PER_PAGE);
-		return maxPage >= page;
+	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, LinkedList<String> languages) {
+		return reviews(property, sort, pageNumber, languages, REVIEWS_PER_PAGE);
 	}
 
-	public ReviewsResponse reviews(Property property, int pageNumber, ReviewSort sort) {
-		return reviews(property, pageNumber, sort, REVIEWS_PER_PAGE);
+	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, LinkedList<String> languages,
+			int number) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		query.add(new BasicNameValuePair("apiversion", BAZAAR_VOICE_API_VERSION));
+		query.add(new BasicNameValuePair("passkey", BAZAAR_VOICE_API_TOKEN));
+		query.add(new BasicNameValuePair("limit", Integer.toString(number)));
+		query.add(new BasicNameValuePair("offset", Integer.toString(pageNumber * number)));
+
+		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
+
+		String localesString = LocaleUtils.formatLanguageCodes(languages);
+
+		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
+
+		// emulate the expedia.com esktop website way of displaying reviews
+		switch (sort) {
+		case NEWEST_REVIEW_FIRST:
+			query.add(new BasicNameValuePair("Sort", "SubmissionTime:desc"));
+			break;
+		case HIGHEST_RATING_FIRST:
+			query.add(new BasicNameValuePair("Filter", "Rating:gte:3"));
+			query.add(new BasicNameValuePair("Sort", "Rating:desc,SubmissionTime:desc"));
+			break;
+		case LOWEST_RATING_FIRST:
+			query.add(new BasicNameValuePair("Filter", "Rating:lte:2"));
+			query.add(new BasicNameValuePair("Sort", "Rating:asc,SubmissionTime:desc"));
+			break;
+		}
+
+		query.add(new BasicNameValuePair("include", "products"));
+
+		return (ReviewsResponse) doRequest(query, new ReviewsResponseHandler(mContext));
 	}
 
-	public ReviewsResponse reviews(Property property, int pageNumber, ReviewSort sort, int reviewCount) {
-		// Check that there are more reviews to add; if there aren't, just return null
-		if (!hasMoreReviews(property, pageNumber)) {
-			return null;
-		}
+	/*
+	 * Method for retrieving reviews statistics. Historically, the number of reviews AND number of recommended
+	 * reviews returned by Expedia on the property is outdated and malformed. Correct for this by grabbing these
+	 * numbers from the BV aPI using the "Stats" param
+	 */
+	public ReviewsStatisticsResponse reviewsStatistics(Property property) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-		if (sort == null) {
-			sort = ReviewSort.NEWEST_REVIEW_FIRST;
-		}
+		query.add(new BasicNameValuePair("apiversion", BAZAAR_VOICE_API_VERSION));
+		query.add(new BasicNameValuePair("passkey", BAZAAR_VOICE_API_TOKEN));
+		query.add(new BasicNameValuePair("limit", "1"));
 
-		JSONObject request = new JSONObject();
-		try {
-			addStandardRequestFields(request, "reviews_by_page");
+		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
 
-			JSONObject body = new JSONObject();
-			request.put("body", body);
+		List<String> languages = LocaleUtils.getLanguages(mContext);
+		String localesString = LocaleUtils.formatLanguageCodes(languages);
 
-			body.put("sort", sort.getKey());
-			body.put("count", reviewCount);
-			body.put("propertyId", property.getPropertyId() + "");
-			body.put("index", pageNumber);
-		}
-		catch (JSONException e) {
-			Log.e("Could not construct JSON reviews object.", e);
-			return null;
-		}
+		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
 
-		return (ReviewsResponse) doRequest(request, new ReviewsResponseHandler(mContext), 0);
+		query.add(new BasicNameValuePair("FilteredStats", "Reviews"));
+
+		query.add(new BasicNameValuePair("Include", "Products"));
+
+		return (ReviewsStatisticsResponse) doRequest(query, new ReviewsStatisticsResponseHandler(mContext));
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -311,6 +343,14 @@ public class ExpediaServices implements DownloadListener {
 		Log.d("Request: " + request.toString());
 
 		return doRequest(post, responseHandler, flags);
+	}
+
+	private Object doRequest(List<BasicNameValuePair> params, ResponseHandler<?> responseHandler) {
+		HttpGet get = NetUtils.createHttpGet(BAZAAR_VOICE_BASE_URL, params);
+
+		Log.d("Bazaar reviews request:  " + get.getURI().toString());
+
+		return doRequest(get, responseHandler, 0);
 	}
 
 	private Object doRequest(String targetUrl, List<BasicNameValuePair> params, ResponseHandler<?> responseHandler,
@@ -434,10 +474,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public enum EndPoint {
-		PRODUCTION,
-		INTEGRATION,
-		DEV,
-		PROXY
+		PRODUCTION, DEV, INTEGRATION, PROXY
 	}
 
 	/**
@@ -474,7 +511,8 @@ public class ExpediaServices implements DownloadListener {
 			break;
 		}
 		case PROXY: {
-			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000"));
+			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
+					"localhost:3000"));
 			builder.append("/");
 			builder.append(LocaleUtils.getPointOfSale(mContext));
 			builder.append("/");

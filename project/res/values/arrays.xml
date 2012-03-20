@@ -189,6 +189,76 @@
 		<item>@string/point_of_sale_us</item><item>@string/info_support_number_us</item>
 		<item>@string/point_of_sale_vn</item><item>@string/info_support_number_vn</item>
 	</string-array>
+	
+	<!-- Mapping from POS to country code for reviews request construction -->
+	<string-array name="pos_country_code_map">
+		<item>@string/point_of_sale_ar</item><item>@string/country_code_ar</item>
+		<item>@string/point_of_sale_at</item><item>@string/country_code_at</item>
+		<item>@string/point_of_sale_au</item><item>@string/country_code_au</item>
+		<item>@string/point_of_sale_be</item><item>@string/country_code_be</item>
+		<item>@string/point_of_sale_br</item><item>@string/country_code_br</item>
+		<item>@string/point_of_sale_ca</item><item>@string/country_code_ca</item>
+		<item>@string/point_of_sale_de</item><item>@string/country_code_de</item>
+		<item>@string/point_of_sale_dk</item><item>@string/country_code_dk</item>
+		<item>@string/point_of_sale_es</item><item>@string/country_code_es</item>
+		<item>@string/point_of_sale_fr</item><item>@string/country_code_fr</item>
+		<item>@string/point_of_sale_hk</item><item>@string/country_code_hk</item>
+		<item>@string/point_of_sale_id</item><item>@string/country_code_id</item>
+		<item>@string/point_of_sale_ie</item><item>@string/country_code_ie</item>
+		<item>@string/point_of_sale_in</item><item>@string/country_code_in</item>
+		<item>@string/point_of_sale_it</item><item>@string/country_code_it</item>
+		<item>@string/point_of_sale_jp</item><item>@string/country_code_jp</item>
+		<item>@string/point_of_sale_kr</item><item>@string/country_code_kr</item>
+		<item>@string/point_of_sale_mx</item><item>@string/country_code_mx</item>
+		<item>@string/point_of_sale_my</item><item>@string/country_code_my</item>
+		<item>@string/point_of_sale_nl</item><item>@string/country_code_nl</item>
+		<item>@string/point_of_sale_no</item><item>@string/country_code_no</item>
+		<item>@string/point_of_sale_nz</item><item>@string/country_code_nz</item>
+		<item>@string/point_of_sale_ph</item><item>@string/country_code_ph</item>
+		<item>@string/point_of_sale_se</item><item>@string/country_code_se</item>
+		<item>@string/point_of_sale_sg</item><item>@string/country_code_sg</item>
+		<item>@string/point_of_sale_th</item><item>@string/country_code_th</item>
+		<item>@string/point_of_sale_tw</item><item>@string/country_code_tw</item>
+		<item>@string/point_of_sale_uk</item><item>@string/country_code_gb</item>
+		<item>@string/point_of_sale_us</item><item>@string/country_code_us</item>
+		<item>@string/point_of_sale_vn</item><item>@string/country_code_vn</item>
+	</string-array>
+	
+	<!-- In the event that a user is viewing a POS with an atypical language, default to 
+			pull reviews in that expedia.* desktop defaults to (unknown how this happens) -->
+	
+	<string-array name="pos_default_locale">
+   		<item>@string/point_of_sale_ar</item><item>es_AR</item>
+		<item>@string/point_of_sale_at</item><item>de_AT</item>
+		<item>@string/point_of_sale_au</item><item>en_AU</item>
+		<item>@string/point_of_sale_be</item><item>nl_BE</item>
+		<item>@string/point_of_sale_br</item><item>pt_BR</item>
+		<item>@string/point_of_sale_ca</item><item>en_CA</item>
+		<item>@string/point_of_sale_de</item><item>de_DE</item>
+		<item>@string/point_of_sale_dk</item><item>da_DK</item>
+		<item>@string/point_of_sale_es</item><item>es_ES</item>
+		<item>@string/point_of_sale_fr</item><item>fr_FR</item>
+		<item>@string/point_of_sale_hk</item><item>zh_HK</item>
+		<item>@string/point_of_sale_id</item><item>id_ID</item>
+		<item>@string/point_of_sale_ie</item><item>en_IE</item>
+		<item>@string/point_of_sale_in</item><item>en_IN</item>
+		<item>@string/point_of_sale_it</item><item>it_IT</item>
+		<item>@string/point_of_sale_jp</item><item>ja_JP</item>
+		<item>@string/point_of_sale_kr</item><item>ko_KR</item>
+		<item>@string/point_of_sale_mx</item><item>es_MX</item>
+		<item>@string/point_of_sale_my</item><item>ms_MY</item>
+		<item>@string/point_of_sale_nl</item><item>nl_NL</item>
+		<item>@string/point_of_sale_no</item><item>no_NO</item>
+		<item>@string/point_of_sale_nz</item><item>en_NZ</item>
+		<item>@string/point_of_sale_ph</item><item>en_PH</item>
+		<item>@string/point_of_sale_se</item><item>sv_SE</item>
+		<item>@string/point_of_sale_sg</item><item>en_SG</item>
+		<item>@string/point_of_sale_th</item><item>th_TH</item>
+		<item>@string/point_of_sale_tw</item><item>zh_TW</item>
+		<item>@string/point_of_sale_uk</item><item>en_GB</item>
+		<item>@string/point_of_sale_us</item><item>en_US</item>
+		<item>@string/point_of_sale_vn</item><item>en_US</item>
+	</string-array>
 
 	<string-array name="country_names">
 		<item>@string/country_af</item>

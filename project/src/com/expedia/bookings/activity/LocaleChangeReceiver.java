@@ -14,7 +14,6 @@ public class LocaleChangeReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.i("Locale changed!");
-
 		SettingUtils.save(context, KEY_LOCALE_CHANGED, true);
 	}
 }
