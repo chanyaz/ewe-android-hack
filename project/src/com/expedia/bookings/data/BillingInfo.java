@@ -267,7 +267,11 @@ public class BillingInfo implements JSONable {
 		mLastName = obj.optString("lastName", null);
 		mTelephoneCountryCode = obj.optString("telephoneCountryCode", null);
 		mTelephoneCountry = obj.optString("telephoneCountry", null);
-		mTelephone = obj.optString("telephone", null);
+		if (mTelephoneCountryCode != null) {
+			// Blow away the telephone number in case we are upgrading and now ask the user for the country code
+			// This handles cases where they put the country code in the phone number to begin with
+			mTelephone = obj.optString("telephone", null);
+		}
 		mEmail = obj.optString("email", null);
 		mLocation = (Location) JSONUtils.getJSONable(obj, "location", Location.class);
 		mBrandName = obj.optString("brandName", null);
