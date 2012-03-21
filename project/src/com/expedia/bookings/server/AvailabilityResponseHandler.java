@@ -279,6 +279,8 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 		rate.setNumRoomsLeft(jsonRate.optInt("currentAllotment", 0));
 		rate.setNumberOfNights(numberOfNights);
 
+		rate.setNonRefundable(jsonRate.optBoolean("nonRefundable", false));
+
 		if (!mProperty.isMerchant()) {
 			rate.setRatePlanName(jsonRate.getString("rateDescription"));
 		}

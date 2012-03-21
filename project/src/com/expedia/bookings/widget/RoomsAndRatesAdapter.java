@@ -21,6 +21,7 @@ import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.mobiata.android.Log;
 
 public class RoomsAndRatesAdapter extends BaseAdapter {
 
@@ -200,11 +201,14 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 		String bedText = rate.getRatePlanName();
 
+		if (rate.isNonRefundable()) {
+			bedText += "\n" + mResources.getString(R.string.non_refundable);
+		}
 		// If there are < ROOMS_LEFT_CUTOFF rooms left, show a warning to the user
-		if (showRoomsLeft(rate)) {
+		else if (showRoomsLeft(rate)) {
 			int numRoomsLeft = rate.getNumRoomsLeft();
 			bedText += "\n" + mResources.getQuantityString(R.plurals.number_of_rooms_left, numRoomsLeft, numRoomsLeft);
-			
+
 			// move the sale label up so as to accomodate the multiple lines for the bed text
 			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL, 0);
 			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).topMargin = (int) mContext.getResources().getDimension(R.dimen.margin_top_sale_ribbon_room_rates);

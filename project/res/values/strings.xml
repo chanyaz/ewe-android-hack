@@ -348,6 +348,8 @@
 		<item quantity="many">Only %d rooms left!</item>
 		<item quantity="other">Only %d rooms left!</item>
 	</plurals>
+    <!-- The text we use to message that the room in non-refundable -->
+    <string name="non_refundable">Non-refundable</string>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
 	<string name="savings_template">Save\n %2.0f%%</string>
 	<!-- Label for free nights -->
