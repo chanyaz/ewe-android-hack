@@ -324,6 +324,8 @@
 	<string name="user_review_no_favorable_reviews">There are no favorable reviews for this hotel</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">There are no recent reviews for this hotel</string>
+	<!-- User reviews server/parsing error -->
+	<string name="user_review_unavailable">Reviews are temporarily unavailable</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
