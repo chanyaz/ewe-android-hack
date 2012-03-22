@@ -1,0 +1,2 @@
+ALTER TABLE Searches ADD COLUMN Longitude REAL;
+ALTER TABLE Searches ADD COLUMN Latitude REAL;

@@ -19,8 +19,16 @@ public class Search extends ActiveRecordBase<Search> {
 	public Search(Context context, SearchParams searchParams) {
 		super(context);
 
-		mDestinationId = searchParams.getDestinationId();
-		mFreeformLocation = searchParams.getFreeformLocation().trim();
+		if (searchParams.hasDestinationId()) {
+			mDestinationId = searchParams.getDestinationId();
+		}
+		if (searchParams.hasFreeformLocation()) {
+			mFreeformLocation = searchParams.getFreeformLocation().trim();
+		}
+		if (searchParams.hasSearchLatLon()) {
+			mLatitude = searchParams.getSearchLatitude();
+			mLongitude = searchParams.getSearchLongitude();
+		}
 	}
 
 	@Column(name = "DestinationId")
@@ -29,12 +37,30 @@ public class Search extends ActiveRecordBase<Search> {
 	@Column(name = "FreeFormLocation")
 	private String mFreeformLocation;
 
+	@Column(name = "Latitude")
+	private Double mLatitude;
+
+	@Column(name = "Longitude")
+	private Double mLongitude;
+
 	public String getDestinationId() {
 		return mDestinationId;
 	}
 
 	public String getFreeformLocation() {
 		return mFreeformLocation;
+	}
+
+	public double getLatitude() {
+		return mLatitude;
+	}
+
+	public double getLongitude() {
+		return mLongitude;
+	}
+
+	public boolean hasLatLng() {
+		return mLatitude != null && mLongitude != null;
 	}
 
 	public static List<Search> getAllSearchParams(Context context) {
