@@ -139,7 +139,7 @@ public class ExpediaServices implements DownloadListener {
 				+ searchParams.getFreeformLocation());
 
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("type", "14")); // city & multi-city & neighborhood
+		params.add(new BasicNameValuePair("type", "30")); // city & multi-city & neighborhood & POI
 
 		HttpGet get = NetUtils.createHttpGet(url, params);
 		get.addHeader("Accept", "application/json");
