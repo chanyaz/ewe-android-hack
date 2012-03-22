@@ -117,14 +117,21 @@ public class SearchParams implements JSONable {
 		mSearchType = searchType;
 	}
 
-	public void setFreeformLocation(String freeformLocation) {
+	/**
+	 * Sets the freeform location for this SearchParams object. Also marks the (latitude, longitude) 
+	 * position as not up to date. Returns false if the location passed was the same as before.
+	 * @param freeformLocation
+	 * @return
+	 */
+	public boolean setFreeformLocation(String freeformLocation) {
 		if (mFreeformLocation != null && mFreeformLocation.equals(freeformLocation)) {
 			Log.v("Not resetting freeform location; already searching this spot: " + freeformLocation);
-			return;
+			return false;
 		}
 
 		mFreeformLocation = freeformLocation;
 		mSearchLatLonUpToDate = false;
+		return true;
 	}
 
 	public void invalidateFreeformLocation() {
@@ -180,10 +187,13 @@ public class SearchParams implements JSONable {
 		return mDestinationId != null && mDestinationId.length() > 0;
 	}
 
-	public void setLocationAndDestinationId(Search search) {
+	public void fillFromSearch(Search search) {
 		setSearchType(SearchType.FREEFORM);
 		setDestinationId(search.getDestinationId());
 		setFreeformLocation(search.getFreeformLocation());
+		if (search.hasLatLng()) {
+			setSearchLatLon(search.getLatitude(), search.getLongitude());
+		}
 	}
 
 	public void addPropertyId(String propertyId) {

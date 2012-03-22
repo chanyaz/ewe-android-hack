@@ -61,7 +61,7 @@ public class QuickSearchFragment extends Fragment implements EventHandler {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		for (Search search : searches) {
 			SearchParams searchParams = new SearchParams(prefs);
-			searchParams.setLocationAndDestinationId(search);
+			searchParams.fillFromSearch(search);
 			addRecentSearch(searchParams);
 		}
 

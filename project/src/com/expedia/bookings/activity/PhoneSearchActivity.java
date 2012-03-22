@@ -2677,7 +2677,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(PhoneSearchActivity.this);
 				mSearchParams = new SearchParams(prefs);
 				Search search = (Search) mSearchSuggestionAdapter.getItem(position);
-				mSearchParams.setLocationAndDestinationId(search);
+				mSearchParams.fillFromSearch(search);
 			}
 
 			setDisplayType(DisplayType.CALENDAR);
