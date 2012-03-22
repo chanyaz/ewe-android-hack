@@ -23,6 +23,9 @@ import com.mobiata.android.util.AndroidUtils;
 public class UserReviewsAdapter extends BaseAdapter {
 
 	// CONSTANTS
+	private static final int TYPE_REVIEW = 0;
+	private static final int TYPE_DIVIDER = 1;
+	private static final int NUM_VIEW_TYPES = 2;
 
 	// Private members
 	private Context mContext;
@@ -32,11 +35,17 @@ public class UserReviewsAdapter extends BaseAdapter {
 
 	private ListView mListView;
 
+	public boolean mAddDivider;
+
 	public UserReviewsAdapter(Context context, Property property, ListView listView) {
 		mContext = context;
 		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mListView = listView;
+		mAddDivider = false;
 	}
+
+	////////////////////////////////////////////////////////////////////////////
+	// Overrides
 
 	@Override
 	public int getCount() {
@@ -44,6 +53,11 @@ public class UserReviewsAdapter extends BaseAdapter {
 			return 0;
 		}
 		return mLoadedReviews.size();
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return NUM_VIEW_TYPES;
 	}
 
 	@Override
@@ -62,26 +76,106 @@ public class UserReviewsAdapter extends BaseAdapter {
 	}
 
 	@Override
+	public int getItemViewType(int position) {
+		ReviewWrapper rw = getItem(position);
+		if (rw.mIsDivider) {
+			return TYPE_DIVIDER;
+		}
+		return TYPE_REVIEW;
+	}
+
+	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		final UserReviewHolder viewHolder;
 		final ReviewWrapper userReviewLoaded = (ReviewWrapper) getItem(position);
+		int type = getItemViewType(position);
 
-		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.row_user_review, parent, false);
-			viewHolder = new UserReviewHolder();
-			viewHolder.title = (TextView) convertView.findViewById(R.id.user_review_title_text_view);
-			viewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.user_review_rating_bar);
-			viewHolder.body = (TextView) convertView.findViewById(R.id.user_review_body_text_view);
-			viewHolder.readMore = convertView.findViewById(R.id.read_more_layout);
-			viewHolder.nameAndLocation = (TextView) convertView
-					.findViewById(R.id.user_review_name_and_location_text_view);
-			viewHolder.submissionDate = (TextView) convertView.findViewById(R.id.user_review_date_text_view);
-			convertView.setTag(viewHolder);
+		if (type == TYPE_REVIEW) {
+			if (convertView == null) {
+				convertView = mInflater.inflate(R.layout.row_user_review, parent, false);
+				UserReviewViewHolder holder = getUserReviewViewHolder(convertView);
+				convertView.setTag(holder);
+				populateUserReviewsView(holder, userReviewLoaded, position);
+			}
+			else {
+				UserReviewViewHolder holder = (UserReviewViewHolder) convertView.getTag();
+				populateUserReviewsView(holder, userReviewLoaded, position);
+			}
 		}
-		else {
-			viewHolder = (UserReviewHolder) convertView.getTag();
+		else if (type == TYPE_DIVIDER) {
+			if (convertView == null) {
+				convertView = mInflater.inflate(R.layout.divider_user_reviews_list, parent, false);
+				DividerViewHolder holderDiv = getDividerViewHolder(convertView);
+				convertView.setTag(holderDiv);
+				populateDividerView(holderDiv, userReviewLoaded);
+			}
+			else {
+				DividerViewHolder holder = (DividerViewHolder) convertView.getTag();
+				populateDividerView(holder, userReviewLoaded);
+			}
 		}
+		return convertView;
+	}
 
+	// These two enabled overrides ensure that the ListView can not have focus, 
+	// i.e. now cannot change color during a scroll and look ugly
+
+	@Override
+	public boolean areAllItemsEnabled() {
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled(int position) {
+		return false;
+	}
+
+	/**
+	 * public method used within the list activity to add a divider to the list at appropriate times
+	 */
+	public void addDivider() {
+		ReviewWrapper divider = new ReviewWrapper(true);
+		mLoadedReviews.add(divider);
+		notifyDataSetChanged();
+	}
+
+	private static class UserReviewViewHolder {
+		public TextView title;
+		public RatingBar ratingBar;
+		public TextView nameAndLocation;
+		public TextView submissionDate;
+		public TextView body;
+		public View readMore;
+	}
+
+	private static class DividerViewHolder {
+		public TextView title;
+	}
+
+	public UserReviewViewHolder getUserReviewViewHolder(View convertView) {
+		UserReviewViewHolder viewHolder = new UserReviewViewHolder();
+		viewHolder.title = (TextView) convertView.findViewById(R.id.user_review_title_text_view);
+		viewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.user_review_rating_bar);
+		viewHolder.body = (TextView) convertView.findViewById(R.id.user_review_body_text_view);
+		viewHolder.readMore = convertView.findViewById(R.id.read_more_layout);
+		viewHolder.nameAndLocation = (TextView) convertView
+				.findViewById(R.id.user_review_name_and_location_text_view);
+		viewHolder.submissionDate = (TextView) convertView.findViewById(R.id.user_review_date_text_view);
+		return viewHolder;
+	}
+
+	public DividerViewHolder getDividerViewHolder(View convertView) {
+		DividerViewHolder holder = new DividerViewHolder();
+		holder.title = (TextView) convertView.findViewById(R.id.user_review_divider_text);
+		return holder;
+	}
+
+	private void populateDividerView(final DividerViewHolder holder, ReviewWrapper reviewWrapped) {
+		TextView tv = holder.title;
+		tv.setText("Reviews in other languages");
+	}
+
+	private void populateUserReviewsView(final UserReviewViewHolder viewHolder, final ReviewWrapper userReviewLoaded,
+			final int position) {
 		// This click listener is set outside of the convertView so that it displays the right data
 		viewHolder.readMore.setOnClickListener(new OnClickListener() {
 			@Override
@@ -143,35 +237,12 @@ public class UserReviewsAdapter extends BaseAdapter {
 		String submissionDateText = dateFormat.format(submissionDate);
 		viewHolder.submissionDate.setText(submissionDateText);
 
-		return convertView;
 	}
 
-	private void setupReducedReviewDisplay(final UserReviewHolder viewHolder) {
+	private void setupReducedReviewDisplay(final UserReviewViewHolder viewHolder) {
 		viewHolder.readMore.setVisibility(View.VISIBLE);
 		viewHolder.nameAndLocation.setVisibility(View.GONE);
 		viewHolder.submissionDate.setVisibility(View.GONE);
-	}
-
-	// These two enabled overrides ensure that the ListView can not have focus, 
-	// i.e. now cannot change color during a scroll and look ugly
-
-	@Override
-	public boolean areAllItemsEnabled() {
-		return false;
-	}
-
-	@Override
-	public boolean isEnabled(int position) {
-		return false;
-	}
-
-	private static class UserReviewHolder {
-		public TextView title;
-		public RatingBar ratingBar;
-		public TextView nameAndLocation;
-		public TextView submissionDate;
-		public TextView body;
-		public View readMore;
 	}
 
 	public void setUserReviews(ArrayList<ReviewWrapper> reviews) {
@@ -179,7 +250,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	private void setupFullReviewDisplay(final UserReviewHolder viewHolder) {
+	private void setupFullReviewDisplay(final UserReviewViewHolder viewHolder) {
 		viewHolder.readMore.setVisibility(View.GONE);
 		viewHolder.submissionDate.setVisibility(View.VISIBLE);
 		viewHolder.nameAndLocation.setVisibility(View.VISIBLE);

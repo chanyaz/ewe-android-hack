@@ -310,7 +310,14 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			// while a download does not need to be restarted; instead a callback can just be 
 			// re-registered
 			if (!mIsLoadingIndicatorShowingForReviewSort.contains(mCurrentReviewSort)) {
-				//send message to put loading footer
+				// add a divider ?
+				UserReviewsAdapter adapter = mListAdaptersMap.get(mCurrentReviewSort);
+				if (adapter.mAddDivider) {
+					adapter.addDivider();
+					adapter.mAddDivider = false;
+				}
+
+				// send message to put loading footer
 				mHandler.sendMessage(prepareMessage(true, mCurrentReviewSort));
 				mIsLoadingIndicatorShowingForReviewSort.add(mCurrentReviewSort);
 			}
@@ -321,7 +328,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		int count = adapter.getCount();
 		for (int a = 0; a < visibleItemCount && firstVisibleItem + a < count; a++) {
 			Object item = adapter.getItem(firstVisibleItem + a);
-			if (item instanceof ReviewWrapper) {
+			if (item instanceof ReviewWrapper && !((ReviewWrapper) item).mIsDivider) {
 				mViewedReviews.add(((ReviewWrapper) item).mReview.getReviewId());
 			}
 		}
@@ -601,6 +608,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 						if (rls.hasMore()) {
 							mLanguageList.push(rls);
 						}
+						else {
+							adapter.mAddDivider = true;
+						}
 
 						// append the new reviews to old collection, remove loading view, refresh
 						mReviewsWrapped.addAll(newlyLoadedReviewsWrapped);
@@ -763,11 +773,21 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	 * @author brad
 	 *
 	 */
-	public class ReviewWrapper {
+	public static class ReviewWrapper {
 		public Review mReview;
 		public boolean mBodyWasReduced;
 		public boolean mIsDisplayingFull;
 		public String mBodyReduced;
+
+		public boolean mIsDivider = false;
+
+		public ReviewWrapper() {
+			mIsDivider = false;
+		}
+
+		public ReviewWrapper(boolean isDivider) {
+			mIsDivider = isDivider;
+		}
 	}
 
 	private ArrayList<ReviewWrapper> reviewWrapperListInit(List<Review> reviews) {

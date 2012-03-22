@@ -290,6 +290,8 @@
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Loading user reviews...</string>
+	<!-- Header for reviews of the non-native language -->
+	<string name="user_review_other_languages_title">Reviews in other languages</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Recent</string>
 	<!-- The text for the sort button, recent -->
