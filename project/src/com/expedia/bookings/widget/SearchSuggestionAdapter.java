@@ -34,7 +34,7 @@ public class SearchSuggestionAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void refreshDatazzzz(List<Search> suggestions) {
+	public void refreshData(List<Search> suggestions) {
 		mSearches = suggestions;
 		notifyDataSetChanged();
 	}
