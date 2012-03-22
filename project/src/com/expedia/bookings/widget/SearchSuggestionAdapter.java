@@ -34,6 +34,11 @@ public class SearchSuggestionAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+	public void refreshDatazzzz(List<Search> suggestions) {
+		mSearches = suggestions;
+		notifyDataSetChanged();
+	}
+
 	@Override
 	public int getCount() {
 		if (mSearches != null) {

@@ -92,6 +92,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
@@ -173,6 +174,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private static final String ACTIVITY_SEARCH_LIST = SearchListActivity.class.getCanonicalName();
 	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
 
+	private static final String KEY_SUGGEST = "KEY_SUGGEST";
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
 	public static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_LOADING_PREVIOUS = "KEY_LOADING_PREVIOUS";
@@ -319,6 +321,28 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	//----------------------------------
 	// THREADS/CALLBACKS
 	//----------------------------------
+
+	private Download mSuggestDownload = new Download() {
+		@Override
+		public Object doDownload() {
+			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_SUGGEST, services);
+			return services.suggest(mSearchParams);
+		}
+	};
+
+	private OnDownloadComplete mSuggestCallback = new OnDownloadComplete() {
+		@Override
+		public void onDownload(Object results) {
+			if (results == null) {
+				mSearchSuggestionAdapter.refreshData();
+			}
+			else {
+				SuggestResponse response = (SuggestResponse) results;
+				mSearchSuggestionAdapter.refreshData(response.getSuggestions());
+			}
+		}
+	};
 
 	private Download mSearchDownload = new Download() {
 		@Override
@@ -601,6 +625,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		if (!isFinishing()) {
 			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
+			downloader.unregisterDownloadCallback(KEY_SUGGEST);
 			downloader.unregisterDownloadCallback(KEY_GEOCODE);
 			downloader.unregisterDownloadCallback(KEY_LOADING_PREVIOUS);
 			downloader.unregisterDownloadCallback(KEY_SEARCH);
@@ -650,6 +675,10 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				Log.d("Already loading previous search results, resuming the load...");
 				downloader.registerDownloadCallback(KEY_LOADING_PREVIOUS, mLoadSavedResultsCallback);
 				showLoading(true, R.string.loading_previous);
+			}
+			else if (downloader.isDownloading(KEY_SUGGEST)) {
+				Log.d("Already downloading suggestions, resuming the search...");
+				downloader.registerDownloadCallback(KEY_SUGGEST, mSuggestCallback);
 			}
 			else if (downloader.isDownloading(KEY_GEOCODE)) {
 				Log.d("Already geocoding, resuming the search...");
@@ -1325,6 +1354,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		broadcastSearchStarted();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.cancelDownload(KEY_SUGGEST);
 		bd.cancelDownload(KEY_GEOCODE);
 		bd.cancelDownload(KEY_SEARCH);
 
@@ -2640,7 +2670,12 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			}
 			else if (len > 0) {
 				mSearchParams.setSearchType(SearchType.FREEFORM);
-				mSearchParams.setFreeformLocation(str);
+				boolean changed = mSearchParams.setFreeformLocation(str);
+				if (changed) {
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					bd.cancelDownload(KEY_SUGGEST);
+					bd.startDownload(KEY_SUGGEST, mSuggestDownload, mSuggestCallback);
+				}
 			}
 		}
 	};
