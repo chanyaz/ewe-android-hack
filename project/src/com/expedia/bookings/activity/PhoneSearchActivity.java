@@ -2899,7 +2899,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 			if (mMapViewListener != null) {
 				GeoPoint center = mMapViewListener.onRequestMapCenter();
-				mSearchParams.setDestinationId(null);
 				mSearchParams.setSearchType(SearchType.PROXIMITY);
 
 				double lat = MapUtils.getLatitude(center);

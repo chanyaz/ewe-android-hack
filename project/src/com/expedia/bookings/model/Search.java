@@ -19,9 +19,6 @@ public class Search extends ActiveRecordBase<Search> {
 	public Search(Context context, SearchParams searchParams) {
 		super(context);
 
-		if (searchParams.hasDestinationId()) {
-			mDestinationId = searchParams.getDestinationId();
-		}
 		if (searchParams.hasFreeformLocation()) {
 			mFreeformLocation = searchParams.getFreeformLocation().trim();
 		}
@@ -34,9 +31,6 @@ public class Search extends ActiveRecordBase<Search> {
 		}
 	}
 
-	@Column(name = "DestinationId")
-	private String mDestinationId;
-
 	@Column(name = "FreeFormLocation")
 	private String mFreeformLocation;
 
@@ -48,10 +42,6 @@ public class Search extends ActiveRecordBase<Search> {
 
 	@Column(name = "RegionId")
 	private String mRegionId;
-
-	public String getDestinationId() {
-		return mDestinationId;
-	}
 
 	public String getFreeformLocation() {
 		return mFreeformLocation;

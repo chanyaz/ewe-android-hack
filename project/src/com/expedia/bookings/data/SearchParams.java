@@ -44,10 +44,9 @@ public class SearchParams implements JSONable {
 	private double mSearchLatitude;
 	private double mSearchLongitude;
 	private boolean mSearchLatLonUpToDate;
-	private String mRegionId;
 
-	// This is used in our geocoding disambiguation; it prevents infinite disambiguation
-	private String mDestinationId;
+	// This might get filled as a result of an autosuggestion
+	private String mRegionId;
 
 	// The variables below are just for analytics
 	// mUserFreeformLocation is what the user entered for a freeform location.  We may disambiguate or
@@ -176,21 +175,9 @@ public class SearchParams implements JSONable {
 		}
 	}
 
-	public void setDestinationId(String destinationId) {
-		mDestinationId = destinationId;
-	}
-
-	public String getDestinationId() {
-		return mDestinationId;
-	}
-
-	public boolean hasDestinationId() {
-		return mDestinationId != null && mDestinationId.length() > 0;
-	}
-
 	public void fillFromSearch(Search search) {
 		setSearchType(SearchType.FREEFORM);
-		setDestinationId(search.getDestinationId());
+		setRegionId(search.getRegionId());
 		setFreeformLocation(search.getFreeformLocation());
 		if (search.hasLatLng()) {
 			setSearchLatLon(search.getLatitude(), search.getLongitude());
@@ -331,6 +318,10 @@ public class SearchParams implements JSONable {
 		return mSearchLatLonUpToDate;
 	}
 
+	public void setRegionId(String regionId) {
+		mRegionId = regionId;
+	}
+
 	public String getRegionId() {
 		return mRegionId;
 	}
@@ -361,7 +352,6 @@ public class SearchParams implements JSONable {
 
 		mSearchType = SearchType.valueOf(obj.optString("searchType"));
 
-		mDestinationId = obj.optString("destinationId", null);
 		mRegionId = obj.optString("regionId", null);
 
 		mUserFreeformLocation = obj.optString("userFreeformLocation", null);
@@ -407,7 +397,6 @@ public class SearchParams implements JSONable {
 			}
 			obj.put("propertyIds", propertyIds);
 
-			obj.put("destinationId", mDestinationId);
 			obj.put("regionId", mRegionId);
 
 			obj.put("userFreeformLocation", mUserFreeformLocation);

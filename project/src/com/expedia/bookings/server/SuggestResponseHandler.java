@@ -45,11 +45,11 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 				String locationName = responseSuggestion.getString("f");
 				//String cityName = responseSuggestion.getString("s");
 				//String countryName = responseSuggestion.getString("c");
-				String locationId = responseSuggestion.getString("id");
+				String regionId = responseSuggestion.getString("id");
 				
 				SearchParams searchParams = new SearchParams();
 				searchParams.setFreeformLocation(locationName);
-				searchParams.setDestinationId(locationId);
+				searchParams.setRegionId(regionId);
 
 				JSONObject latlng = responseSuggestion.optJSONObject("ll");
 				if (latlng != null) {

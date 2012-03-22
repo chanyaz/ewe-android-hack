@@ -159,7 +159,10 @@ public class ExpediaServices implements DownloadListener {
 
 		addPOSParams(query);
 
-		if (params.hasSearchLatLon()) {
+		if (params.hasRegionId()) {
+			query.add(new BasicNameValuePair("regionId", params.getRegionId()));
+		}
+		else if (params.hasSearchLatLon()) {
 			query.add(new BasicNameValuePair("latitude", params.getSearchLatitude() + ""));
 			query.add(new BasicNameValuePair("longitude", params.getSearchLongitude() + ""));
 		}
