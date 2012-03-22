@@ -44,6 +44,7 @@ public class SearchParams implements JSONable {
 	private double mSearchLatitude;
 	private double mSearchLongitude;
 	private boolean mSearchLatLonUpToDate;
+	private String mRegionId;
 
 	// This is used in our geocoding disambiguation; it prevents infinite disambiguation
 	private String mDestinationId;
@@ -330,6 +331,14 @@ public class SearchParams implements JSONable {
 		return mSearchLatLonUpToDate;
 	}
 
+	public String getRegionId() {
+		return mRegionId;
+	}
+
+	public boolean hasRegionId() {
+		return mRegionId != null;
+	}
+
 	public boolean fromJson(JSONObject obj) {
 		mFreeformLocation = obj.optString("freeformLocation", null);
 		mSearchLatitude = obj.optDouble("latitude");
@@ -353,6 +362,7 @@ public class SearchParams implements JSONable {
 		mSearchType = SearchType.valueOf(obj.optString("searchType"));
 
 		mDestinationId = obj.optString("destinationId", null);
+		mRegionId = obj.optString("regionId", null);
 
 		mUserFreeformLocation = obj.optString("userFreeformLocation", null);
 
@@ -398,6 +408,7 @@ public class SearchParams implements JSONable {
 			obj.put("propertyIds", propertyIds);
 
 			obj.put("destinationId", mDestinationId);
+			obj.put("regionId", mRegionId);
 
 			obj.put("userFreeformLocation", mUserFreeformLocation);
 		}
@@ -427,7 +438,7 @@ public class SearchParams implements JSONable {
 		}
 		return false;
 	}
-	
+
 	public void saveToSharedPreferences(SharedPreferences prefs) {
 		Editor editor = prefs.edit();
 		editor.putString("searchParams", toJson().toString());

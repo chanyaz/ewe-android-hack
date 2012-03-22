@@ -29,6 +29,9 @@ public class Search extends ActiveRecordBase<Search> {
 			mLatitude = searchParams.getSearchLatitude();
 			mLongitude = searchParams.getSearchLongitude();
 		}
+		if (searchParams.hasRegionId()) {
+			mRegionId = searchParams.getRegionId();
+		}
 	}
 
 	@Column(name = "DestinationId")
@@ -42,6 +45,9 @@ public class Search extends ActiveRecordBase<Search> {
 
 	@Column(name = "Longitude")
 	private Double mLongitude;
+
+	@Column(name = "RegionId")
+	private String mRegionId;
 
 	public String getDestinationId() {
 		return mDestinationId;
@@ -57,6 +63,10 @@ public class Search extends ActiveRecordBase<Search> {
 
 	public double getLongitude() {
 		return mLongitude;
+	}
+
+	public String getRegionId() {
+		return mRegionId;
 	}
 
 	public boolean hasLatLng() {

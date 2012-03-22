@@ -22,7 +22,7 @@
         android:theme="@style/Theme" >
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="4" />
+            android:value="6" />
 
         <uses-library android:name="com.google.android.maps" />
 
