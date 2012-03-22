@@ -171,7 +171,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 
 	private void populateDividerView(final DividerViewHolder holder, ReviewWrapper reviewWrapped) {
 		TextView tv = holder.title;
-		tv.setText("Reviews in other languages");
+		tv.setText(mContext.getResources().getString(R.string.user_review_other_languages_title));
 	}
 
 	private void populateUserReviewsView(final UserReviewViewHolder viewHolder, final ReviewWrapper userReviewLoaded,
