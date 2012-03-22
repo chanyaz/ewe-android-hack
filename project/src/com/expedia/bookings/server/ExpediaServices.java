@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -55,6 +56,7 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
@@ -71,6 +73,8 @@ public class ExpediaServices implements DownloadListener {
 	private static final String BAZAAR_VOICE_BASE_URL = "http://reviews.expedia.com/data/reviews.json";
 	private static final String BAZAAR_VOICE_API_TOKEN = "tq2es494c5r0o2443tc4byu2q";
 	private static final String BAZAAR_VOICE_API_VERSION = "5.1";
+
+	private static final String EXPEDIA_SUGGEST_BASE_URL = "http://suggest.expedia.com/hint/es/v1/ac/";
 
 	public static final int REVIEWS_PER_PAGE = 25;
 
@@ -108,6 +112,41 @@ public class ExpediaServices implements DownloadListener {
 
 	public ExpediaServices(Context context) {
 		mContext = context;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	//// Expedia Suggest API
+
+	// Documentation:
+	// http://confluence/display/POS/Expedia+Suggest+%28Type+Ahead%29+API+Family
+	//
+	// Examples:
+	// http://suggest.expedia.com/hint/es/v1/ac/en_US/bellagio?type=31
+	// http://suggest.expedia.com/hint/es/v1/ac/es_MX/seattle?type=31
+
+	public SuggestResponse suggest(SearchParams searchParams) {
+		if (!searchParams.hasFreeformLocation()) {
+			return null;
+		}
+		if (searchParams.getFreeformLocation().length() < 3) {
+			return null;
+		}
+
+		// We're displaying data to the user, so use his default locale.
+		String localeString = Locale.getDefault().toString();
+
+		String url = NetUtils.formatUrl(EXPEDIA_SUGGEST_BASE_URL + localeString + "/"
+				+ searchParams.getFreeformLocation());
+
+		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+		params.add(new BasicNameValuePair("type", "14")); // city & multi-city & neighborhood
+
+		HttpGet get = NetUtils.createHttpGet(url, params);
+		get.addHeader("Accept", "application/json");
+
+		SuggestResponseHandler responseHandler = new SuggestResponseHandler(mContext);
+
+		return (SuggestResponse) doRequest(get, responseHandler, 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
