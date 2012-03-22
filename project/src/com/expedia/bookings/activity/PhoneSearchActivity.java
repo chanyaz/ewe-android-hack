@@ -1413,8 +1413,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			}
 			else if (mAddresses != null && mAddresses.size() > 0) {
 				Address address = mAddresses.get(0);
-				String formattedAddress = LocationServices.formatAddress(address);
-				formattedAddress = formattedAddress.replace(", USA", "");
+				String formattedAddress = StrUtils.removeUSAFromAddress(address);
 
 				mSearchParams.setFreeformLocation(formattedAddress);
 				setSearchEditViews();
