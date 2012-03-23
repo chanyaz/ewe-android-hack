@@ -1,7 +1,5 @@
 package com.expedia.bookings.content;
 
-import java.util.List;
-
 import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -11,15 +9,17 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.model.Search;
+import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
-import com.mobiata.android.services.GoogleServices;
-import com.mobiata.android.services.Suggestion;
 
 public class AutocompleteProvider extends ContentProvider {
 
 	private static final String[] COLUMNS = { BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1,
-			SearchManager.SUGGEST_COLUMN_QUERY, SearchManager.SUGGEST_COLUMN_ICON_1 };
+			SearchManager.SUGGEST_COLUMN_QUERY, SearchManager.SUGGEST_COLUMN_INTENT_EXTRA_DATA,
+			SearchManager.SUGGEST_COLUMN_ICON_1 };
 
 	@Override
 	public boolean onCreate() {
@@ -42,11 +42,20 @@ public class AutocompleteProvider extends ContentProvider {
 
 			Log.d("Autocomplete query: " + query);
 
-			GoogleServices services = new GoogleServices(getContext());
-			List<Suggestion> suggestions = services.getSuggestions(query, "geocode");
-			if (suggestions != null && suggestions.size() > 0) {
-				for (Suggestion suggestion : suggestions) {
-					Object[] row = { id, suggestion.mSuggestion, suggestion.mSuggestion, R.drawable.autocomplete_pin };
+			SearchParams params = new SearchParams();
+			params.setFreeformLocation(query);
+
+			ExpediaServices services = new ExpediaServices(getContext());
+			SuggestResponse response = services.suggest(params);
+
+			if (response != null) {
+				for (Search search : response.getSuggestions()) {
+
+					SearchParams p = new SearchParams();
+					p.fillFromSearch(search);
+
+					String freeformLocation = search.getFreeformLocation();
+					Object[] row = { id, freeformLocation, freeformLocation, p.toJson(), R.drawable.autocomplete_pin };
 					cursor.addRow(row);
 					id++;
 				}
@@ -56,19 +65,24 @@ public class AutocompleteProvider extends ContentProvider {
 		}
 		else {
 			// If there is nothing to query, suggest "current location"
-			final Object[] row = { id, currentLocation, currentLocation, R.drawable.autocomplete_location };
+			final Object[] row = { id, currentLocation, currentLocation, null, R.drawable.autocomplete_location };
 			cursor.addRow(row);
 
 			// Then suggest history
 			for (Search search : Search.getRecentSearches(getContext(), 5)) {
+
+				SearchParams p = new SearchParams();
+				p.fillFromSearch(search);
+
 				final String freeformLocation = search.getFreeformLocation();
-				final Object[] historyRow = { id, freeformLocation, freeformLocation, R.drawable.autocomplete_pin };
+				final Object[] historyRow = { id, freeformLocation, freeformLocation, p.toJson(),
+						R.drawable.autocomplete_pin };
 				cursor.addRow(historyRow);
 			}
 
 			// Then suggest from array
 			for (String suggestion : getContext().getResources().getStringArray(R.array.suggestions)) {
-				final Object[] suggestionRow = { id, suggestion, suggestion, R.drawable.autocomplete_pin };
+				final Object[] suggestionRow = { id, suggestion, suggestion, null, R.drawable.autocomplete_pin };
 				cursor.addRow(suggestionRow);
 			}
 

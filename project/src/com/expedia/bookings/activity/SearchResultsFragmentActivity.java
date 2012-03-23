@@ -6,6 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.ActionBar;
 import android.app.DialogFragment;
 import android.app.Fragment;
@@ -157,8 +160,20 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		if (Intent.ACTION_SEARCH.equals(newIntent.getAction())) {
 			String query = newIntent.getStringExtra(SearchManager.QUERY);
+			String searchParamsJson = newIntent.getStringExtra(SearchManager.EXTRA_DATA_KEY);
 			if (query.equals(getString(R.string.current_location))) {
 				setMyLocationSearch();
+			}
+			else if (searchParamsJson != null) {
+				try {
+					SearchParams params = new SearchParams();
+					params.fromJson(new JSONObject(searchParamsJson));
+					mInstance.mSearchParams = params;
+				}
+				catch (JSONException e) {
+					Log.w("Can't parse search JSON. Setting freeform location instead");
+					setFreeformLocation(query);
+				}
 			}
 			else {
 				setFreeformLocation(query);
