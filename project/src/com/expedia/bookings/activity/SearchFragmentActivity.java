@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
@@ -153,5 +155,7 @@ public class SearchFragmentActivity extends Activity {
 		public SearchParams mSearchParams;
 
 		public boolean mHasFocusedSearchField = false;
+
+		public List<Search> mSuggestions;
 	}
 }

@@ -119,7 +119,8 @@ public class SearchParams implements JSONable {
 
 	/**
 	 * Sets the freeform location for this SearchParams object. Also marks the (latitude, longitude) 
-	 * position as not up to date. Returns false if the location passed was the same as before.
+	 * position as not up to date and clears the regionId. Returns false if the location passed was 
+	 * the same as before.
 	 * @param freeformLocation
 	 * @return
 	 */
@@ -131,6 +132,7 @@ public class SearchParams implements JSONable {
 
 		mFreeformLocation = freeformLocation;
 		mSearchLatLonUpToDate = false;
+		mRegionId = null;
 		return true;
 	}
 
@@ -177,8 +179,8 @@ public class SearchParams implements JSONable {
 
 	public void fillFromSearch(Search search) {
 		setSearchType(SearchType.FREEFORM);
-		setRegionId(search.getRegionId());
 		setFreeformLocation(search.getFreeformLocation());
+		setRegionId(search.getRegionId());
 		if (search.hasLatLng()) {
 			setSearchLatLon(search.getLatitude(), search.getLongitude());
 		}

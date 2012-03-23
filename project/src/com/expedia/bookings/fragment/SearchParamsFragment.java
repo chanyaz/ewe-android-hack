@@ -54,8 +54,10 @@ import com.expedia.bookings.activity.SearchFragmentActivity;
 import com.expedia.bookings.activity.SearchFragmentActivity.InstanceFragment;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.model.Search;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.widget.NumberPicker;
@@ -64,8 +66,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.services.GoogleServices;
-import com.mobiata.android.services.Suggestion;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 
@@ -641,13 +641,14 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			// Configure "my location" separately
 			SuggestionRow currentLocationRow = mSuggestionRows.get(0);
 			currentLocationRow.setVisibility(View.VISIBLE);
-			currentLocationRow.mRow.setOnClickListener(createRowOnClickListener(getString(R.string.current_location)));
+			currentLocationRow.mRow.setOnClickListener(createRowOnClickListener(getString(R.string.current_location),
+					null));
 			currentLocationRow.mLocation.setText(R.string.current_location);
 			currentLocationRow.mLocation.setTypeface(Typeface.DEFAULT_BOLD);
 			currentLocationRow.mIcon.setImageResource(R.drawable.autocomplete_location);
 
 			for (int a = 1; a < mSuggestionRows.size(); a++) {
-				configureSuggestionRow(mSuggestionRows.get(a), mSuggestions.get(a));
+				configureSuggestionRow(mSuggestionRows.get(a), mSuggestions.get(a), null);
 			}
 		}
 		else {
@@ -661,22 +662,37 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		}
 	}
 
-	private void configureSuggestionRow(SuggestionRow row, String suggestion) {
+	/**
+	 * Expects that sometimes search might == null.
+	 * @param row
+	 * @param search
+	 * @param suggestion
+	 */
+	private void configureSuggestionRow(SuggestionRow row, String suggestion, Search search) {
 		row.setVisibility(View.VISIBLE);
 
-		row.mRow.setOnClickListener(createRowOnClickListener(suggestion));
+		row.mRow.setOnClickListener(createRowOnClickListener(suggestion, search));
 
 		row.mLocation.setText(suggestion);
 		row.mIcon.setImageResource(R.drawable.autocomplete_pin);
 	}
 
-	private OnClickListener createRowOnClickListener(final String suggestion) {
+	/**
+	 * Expects that sometimes search might == null.
+	 * @param search
+	 * @param suggestion
+	 * @return
+	 */
+	private OnClickListener createRowOnClickListener(final String suggestion, final Search search) {
 		return new OnClickListener() {
 			public void onClick(View v) {
 				mAutocompleteClicked = true;
 
 				mLocationEditText.setText(suggestion);
 				mLocationEditText.clearFocus();
+				if (search != null) {
+					getInstance().mSearchParams.fillFromSearch(search);
+				}
 
 				// Hide the IME
 				InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
@@ -689,16 +705,25 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	@SuppressWarnings("unchecked")
 	private OnDownloadComplete mAutocompleteCallback = new OnDownloadComplete() {
 		public void onDownload(Object results) {
-			List<Suggestion> suggestions = (List<Suggestion>) results;
-			if (suggestions == null) {
-				suggestions = new ArrayList<Suggestion>();
+			SuggestResponse response = (SuggestResponse) results;
+			List<Search> suggestions = getInstance().mSuggestions;
+			if (response == null) {
+				suggestions = new ArrayList<Search>();
+			}
+			else {
+				suggestions = response.getSuggestions();
+				if (suggestions == null) {
+					suggestions = new ArrayList<Search>();
+				}
 			}
 
 			int numSuggestions = suggestions.size();
 			for (int a = 0; a < mSuggestionRows.size(); a++) {
 				SuggestionRow row = mSuggestionRows.get(a);
 				if (a < numSuggestions) {
-					configureSuggestionRow(row, suggestions.get(a).mSuggestion);
+					Search search = suggestions.get(a);
+					String location = search.getFreeformLocation();
+					configureSuggestionRow(row, location, search);
 				}
 				else {
 					row.setVisibility(View.INVISIBLE);
@@ -773,9 +798,9 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 				final Download download = new Download() {
 					public Object doDownload() {
-						GoogleServices services = new GoogleServices(getActivity());
+						ExpediaServices services = new ExpediaServices(getActivity());
 						BackgroundDownloader.getInstance().addDownloadListener(KEY_AUTOCOMPLETE_DOWNLOAD, services);
-						return services.getSuggestions(query, "geocode");
+						return services.suggest(query);
 					}
 				};
 

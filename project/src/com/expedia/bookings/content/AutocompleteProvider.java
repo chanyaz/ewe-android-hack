@@ -42,11 +42,8 @@ public class AutocompleteProvider extends ContentProvider {
 
 			Log.d("Autocomplete query: " + query);
 
-			SearchParams params = new SearchParams();
-			params.setFreeformLocation(query);
-
 			ExpediaServices services = new ExpediaServices(getContext());
-			SuggestResponse response = services.suggest(params);
+			SuggestResponse response = services.suggest(query);
 
 			if (response != null) {
 				for (Search search : response.getSuggestions()) {

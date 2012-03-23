@@ -124,19 +124,15 @@ public class ExpediaServices implements DownloadListener {
 	// http://suggest.expedia.com/hint/es/v1/ac/en_US/bellagio?type=31
 	// http://suggest.expedia.com/hint/es/v1/ac/es_MX/seattle?type=31
 
-	public SuggestResponse suggest(SearchParams searchParams) {
-		if (!searchParams.hasFreeformLocation()) {
-			return null;
-		}
-		if (searchParams.getFreeformLocation().length() < 3) {
+	public SuggestResponse suggest(String query) {
+		if (query == null || query.length() < 3) {
 			return null;
 		}
 
 		// We're displaying data to the user, so use his default locale.
 		String localeString = Locale.getDefault().toString();
 
-		String url = NetUtils.formatUrl(EXPEDIA_SUGGEST_BASE_URL + localeString + "/"
-				+ searchParams.getFreeformLocation());
+		String url = NetUtils.formatUrl(EXPEDIA_SUGGEST_BASE_URL + localeString + "/" + query);
 
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
 		params.add(new BasicNameValuePair("type", "30")); // city & multi-city & neighborhood & POI
