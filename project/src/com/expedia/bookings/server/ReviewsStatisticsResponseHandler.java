@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
+import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
 
@@ -20,6 +22,8 @@ public class ReviewsStatisticsResponseHandler extends JsonResponseHandler<Review
 
 		try {
 			if (response.getBoolean("HasErrors")) {
+				ServerError error = new ServerError(ApiMethod.BAZAAR_REVIEWS);
+				reviewsStatisticsResponse.addError(error);
 				return reviewsStatisticsResponse;
 			}
 
@@ -31,11 +35,15 @@ public class ReviewsStatisticsResponseHandler extends JsonResponseHandler<Review
 
 			reviewsStatisticsResponse.setRecommendedCount(stats.getInt("RecommendedCount"));
 			reviewsStatisticsResponse.setTotalReviewCount(stats.getInt("TotalReviewCount"));
-			reviewsStatisticsResponse.setAverageOverallRating((new Float(stats.getString("AverageOverallRating"))).floatValue());
+			reviewsStatisticsResponse.setAverageOverallRating((new Float(stats.getString("AverageOverallRating")))
+					.floatValue());
 
 		}
 		catch (JSONException e) {
 			Log.d("Could not parse JSON reviews statistics response.", e);
+			ServerError error = new ServerError(ApiMethod.BAZAAR_REVIEWS);
+			reviewsStatisticsResponse.addError(error);
+			return reviewsStatisticsResponse;
 		}
 
 		return reviewsStatisticsResponse;

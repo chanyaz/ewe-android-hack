@@ -65,6 +65,14 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 	};
 
 	private static final int THUMB_CUTOFF_INCLUSIVE = 5;
+	@SuppressWarnings("serial")
+	private static final Map<ReviewSort, Integer> SORT_NO_RESULTS_MESSAGE = new HashMap<ReviewSort, Integer>() {
+		{
+			put(ReviewSort.NEWEST_REVIEW_FIRST, R.string.user_review_no_recent_reviews);
+			put(ReviewSort.HIGHEST_RATING_FIRST, R.string.user_review_no_favorable_reviews);
+			put(ReviewSort.LOWEST_RATING_FIRST, R.string.user_review_no_critical_reviews);
+		}
+	};
 	private static final int BODY_LENGTH_CUTOFF = 270;
 
 	// Views
@@ -219,7 +227,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			adapter.notifyDataSetChanged();
 
 			bringContainerToFront(listViewContainer);
-			showListOrEmptyView(listViewContainer, adapter);
+			showListOrEmptyView(mCurrentReviewSort, listViewContainer, adapter);
 		}
 
 		if (!mHasReviewStats) {
@@ -416,7 +424,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				UserReviewsAdapter adapter = mListAdaptersMap.get(mCurrentReviewSort);
 				adapter.setUserReviews(mTabMap.get(mCurrentReviewSort).mReviewsWrapped);
 				bringContainerToFront(listViewContainer);
-				showListOrEmptyView(listViewContainer, adapter);
+				showListOrEmptyView(mCurrentReviewSort, listViewContainer, adapter);
 			}
 
 		});
@@ -458,8 +466,8 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				}
 				recommendText.setText(styledText);
 			}
-			configureBottomBar();
 		}
+		configureBottomBar();
 	}
 
 	/**
@@ -480,19 +488,20 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				}
 			});
 
-			TextView totalReviews = (TextView) findViewById(R.id.user_review_total_reviews);
-			totalReviews.setText(getResources().getQuantityString(R.plurals.number_of_reviews, mTotalReviewCount,
-					mTotalReviewCount));
-
-			RatingBar bottomRatingBar = (RatingBar) findViewById(R.id.user_review_rating_bar_bottom);
-			bottomRatingBar.setRating(mAverageOverallRating);
-
 			if (mHasReviewStats) {
-				bottomBar.setVisibility(View.VISIBLE);
+				TextView totalReviews = (TextView) findViewById(R.id.user_review_total_reviews);
+				totalReviews.setText(getResources().getQuantityString(R.plurals.number_of_reviews, mTotalReviewCount,
+						mTotalReviewCount));
+
+				RatingBar bottomRatingBar = (RatingBar) findViewById(R.id.user_review_rating_bar_bottom);
+				bottomRatingBar.setRating(mAverageOverallRating);
+				bottomRatingBar.setVisibility(View.VISIBLE);
 			}
 			else {
-				bottomBar.setVisibility(View.GONE);
+				RatingBar bottomRatingBar = (RatingBar) findViewById(R.id.user_review_rating_bar_bottom);
+				bottomRatingBar.setVisibility(View.GONE);
 			}
+
 		}
 	}
 
@@ -522,6 +531,8 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		public ReviewSort mReviewSort;
 		public LinkedList<ReviewLanguageSet> mLanguageList;
 		public ArrayList<ReviewWrapper> mReviewsWrapped;
+
+		public String mStatusMessage;
 
 		public boolean mAttemptedDownload;
 
@@ -594,32 +605,56 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 				if (response != null) {
 
-					// grab the meta object from the list within the map for modification(s)
-					rls = mLanguageList.pop();
+					if (response.hasErrors()) {
+						mStatusMessage = mActivity.getResources().getString(R.string.user_review_unavailable);
 
-					if (response.getReviewCount() > 0) {
-						rls.setTotalCount(response.getTotalCount());
-						ArrayList<ReviewWrapper> newlyLoadedReviewsWrapped = mActivity.reviewWrapperListInit(response
-								.getReviews());
+						mActivity.mIsLoadingIndicatorShowingForReviewSort.remove(mReviewSort);
+						if (mReviewSort == mActivity.mCurrentReviewSort) {
+							mActivity.bringContainerToFront(listViewContainer);
+						}
+						mActivity.showListOrEmptyView(mReviewSort, listViewContainer, adapter);
 
-						rls.incrementPageNumber();
+					}
+					else {
+						// grab the meta object from the list within the map for modification(s)
+						rls = mLanguageList.pop();
 
-						// push object back if there are more pages to download
-						if (rls.hasMore()) {
-							mLanguageList.push(rls);
+						if (response.getReviewCount() > 0) {
+							rls.setTotalCount(response.getTotalCount());
+							ArrayList<ReviewWrapper> newlyLoadedReviewsWrapped = mActivity
+									.reviewWrapperListInit(response
+											.getReviews());
+
+							rls.incrementPageNumber();
+
+							// push object back if there are more pages to download
+							if (rls.hasMore()) {
+								mLanguageList.push(rls);
+							}
+							else {
+								adapter.mAddDivider = true;
+							}
+
+							// append the new reviews to old collection, remove loading view, refresh
+							mReviewsWrapped.addAll(newlyLoadedReviewsWrapped);
+
+							//send message to remove loading footer
+							mActivity.mHandler.sendMessage(mActivity.prepareMessage(false, mReviewSort));
+
+							adapter.setUserReviews(mReviewsWrapped);
 						}
 						else {
-							adapter.mAddDivider = true;
+							mStatusMessage = mActivity.getResources().getString(
+									SORT_NO_RESULTS_MESSAGE.get(mReviewSort));
 						}
 
-						// append the new reviews to old collection, remove loading view, refresh
-						mReviewsWrapped.addAll(newlyLoadedReviewsWrapped);
-
-						//send message to remove loading footer
-						mActivity.mHandler.sendMessage(mActivity.prepareMessage(false, mReviewSort));
-
-						adapter.setUserReviews(mReviewsWrapped);
+						mActivity.mIsLoadingIndicatorShowingForReviewSort.remove(mReviewSort);
+						if (mReviewSort == mActivity.mCurrentReviewSort) {
+							mActivity.bringContainerToFront(listViewContainer);
+						}
+						mActivity.showListOrEmptyView(mReviewSort, listViewContainer, adapter);
 					}
+
 				}
 				else {
 					//send message to remove loading footer
@@ -628,14 +663,13 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 					if (response == null || response.hasErrors()) {
 						TrackingUtils.trackErrorPage(mActivity.mContext, "UserReviewLoadFailed");
 					}
-				}
 
-				mActivity.mIsLoadingIndicatorShowingForReviewSort.remove(mReviewSort);
-
-				if (mReviewSort == mActivity.mCurrentReviewSort) {
-					mActivity.bringContainerToFront(listViewContainer);
+					mActivity.mIsLoadingIndicatorShowingForReviewSort.remove(mReviewSort);
+					if (mReviewSort == mActivity.mCurrentReviewSort) {
+						mActivity.bringContainerToFront(listViewContainer);
+					}
+					mActivity.showListOrEmptyView(mReviewSort, listViewContainer, adapter);
 				}
-				mActivity.showListOrEmptyView(listViewContainer, adapter);
 
 				// chain the downloads in the callback, if the download has not been attempted, make sure to start the download
 				String key;
@@ -743,10 +777,25 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		public void onDownload(Object results) {
 			ReviewsStatisticsResponse response = (ReviewsStatisticsResponse) results;
 			if (response != null) {
-				mRecommendedReviewCount = response.getRecommendedCount();
-				mTotalReviewCount = response.getTotalReviewCount();
-				mAverageOverallRating = response.getAverageOverallRating();
-				mHasReviewStats = true;
+				if (!response.hasErrors()) {
+					mRecommendedReviewCount = response.getRecommendedCount();
+					mTotalReviewCount = response.getTotalReviewCount();
+					mAverageOverallRating = response.getAverageOverallRating();
+					mHasReviewStats = true;
+				}
+				else {
+					for (ReviewSort sort : mListViewContainersMap.keySet()) {
+						TabSort tab = mTabMap.get(sort);
+
+						// force this flag to true so that error message displaying code will support this exception to the rule
+						tab.mAttemptedDownload = true;
+						tab.mStatusMessage = mContext.getResources().getString(R.string.user_review_unavailable);
+
+						ViewGroup listViewContainer = mListViewContainersMap.get(sort);
+						UserReviewsAdapter adapter = mListAdaptersMap.get(sort);
+						showListOrEmptyView(sort, listViewContainer, adapter);
+					}
+				}
 
 				mHandler.removeCallbacks(mUpdateListHeaderTask);
 				mHandler.post(mUpdateListHeaderTask);
@@ -924,7 +973,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		mViewedReviews = state.viewedReviews;
 	}
 
-	private void showListOrEmptyView(ViewGroup listViewContainer, UserReviewsAdapter adapter) {
+	private void showListOrEmptyView(ReviewSort sort, ViewGroup listViewContainer, UserReviewsAdapter adapter) {
 		if (adapter.getCount() == 0 && mTabMap.get(mCurrentReviewSort).mAttemptedDownload) {
 			TextView emptyTextView = (TextView) listViewContainer.findViewById(R.id.empty_text_view);
 			ProgressBar progressBar = (ProgressBar) listViewContainer.findViewById(R.id.progress_bar);
@@ -933,14 +982,8 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			if (!NetUtils.isOnline(getApplicationContext())) {
 				text = getString(R.string.widget_error_no_internet);
 			}
-			else if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST) {
-				text = getString(R.string.user_review_no_favorable_reviews);
-			}
-			else if (mCurrentReviewSort == ReviewSort.LOWEST_RATING_FIRST) {
-				text = getString(R.string.user_review_no_critical_reviews);
-			}
 			else {
-				text = getString(R.string.user_review_no_recent_reviews);
+				text = mTabMap.get(sort).mStatusMessage;
 			}
 			emptyTextView.setText(text);
 		}

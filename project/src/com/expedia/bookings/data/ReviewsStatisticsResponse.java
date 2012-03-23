@@ -7,7 +7,6 @@ public class ReviewsStatisticsResponse extends Response {
 	private float averageOverallRating = -1;
 
 	public ReviewsStatisticsResponse() {
-
 	}
 
 	public void setTotalReviewCount(int total) {
@@ -17,7 +16,7 @@ public class ReviewsStatisticsResponse extends Response {
 	public void setRecommendedCount(int recommended) {
 		recommendedCount = recommended;
 	}
-	
+
 	public void setAverageOverallRating(float avg) {
 		averageOverallRating = avg;
 	}
@@ -29,9 +28,8 @@ public class ReviewsStatisticsResponse extends Response {
 	public int getRecommendedCount() {
 		return recommendedCount;
 	}
-	
+
 	public float getAverageOverallRating() {
 		return averageOverallRating;
 	}
-
 }

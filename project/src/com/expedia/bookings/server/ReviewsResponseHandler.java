@@ -9,6 +9,8 @@ import android.content.Context;
 import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewRating;
 import com.expedia.bookings.data.ReviewsResponse;
+import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
 import com.mobiata.android.text.format.Time;
@@ -27,9 +29,11 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 
 		try {
 			if (response.getBoolean("HasErrors")) {
+				ServerError error = new ServerError(ApiMethod.BAZAAR_REVIEWS);
+				reviewsResponse.addError(error);
 				return reviewsResponse;
 			}
-			
+
 			reviewsResponse.setTotalCount(response.getInt("TotalResults"));
 
 			JSONArray reviews = response.getJSONArray("Results");
@@ -80,6 +84,9 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 		}
 		catch (JSONException e) {
 			Log.d("Could not parse JSON reviews response.", e);
+			ServerError error = new ServerError(ApiMethod.BAZAAR_REVIEWS);
+			reviewsResponse.addError(error);
+			return reviewsResponse;
 		}
 
 		return reviewsResponse;
