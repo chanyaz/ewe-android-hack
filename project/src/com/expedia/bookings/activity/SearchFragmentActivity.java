@@ -156,6 +156,7 @@ public class SearchFragmentActivity extends Activity {
 
 		public boolean mHasFocusedSearchField = false;
 
-		public List<Search> mSuggestions;
+		public List<Search> mAutosuggestions;
+		public String mAutosuggestQuery;
 	}
 }
