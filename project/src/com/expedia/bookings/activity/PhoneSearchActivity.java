@@ -1409,15 +1409,13 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private void startGeocode() {
 		showLoading(true, R.string.progress_searching_hotels);
 
-		Log.d("Geocoding: " + mSearchParams.getFreeformLocation());
-
-		// Determine if the freeform location has changed; if it has not, then we can
-		// skip the geocoding and go straight to the download
-		if (mSearchParams.hasSearchLatLon()) {
-			Log.d("User already has search lat/lng for freeform location, skipping geocoding.");
+		if (mSearchParams.hasEnoughToSearch()) {
+			Log.d("User already has region id or lat/lng for freeform location, skipping geocoding.");
 			startSearchDownloader();
 			return;
 		}
+
+		Log.d("Geocoding: " + mSearchParams.getFreeformLocation());
 
 		mSearchParams.setUserFreeformLocation(mSearchParams.getFreeformLocation());
 

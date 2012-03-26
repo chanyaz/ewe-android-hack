@@ -162,6 +162,18 @@ public class SearchParams implements JSONable {
 	}
 
 	/**
+	 * Returns whether this SearchParams object has enough information to query E3.
+	 * It has enough information if it:
+	 * 1. Has a regionId
+	 * -or-
+	 * 2. Has Lat/Lng
+	 * @return
+	 */
+	public boolean hasEnoughToSearch() {
+		return hasRegionId() || hasSearchLatLon();
+	}
+
+	/**
 	 * @return the search string to display to user based on current params
 	 */
 	public String getSearchDisplayText(Context context) {

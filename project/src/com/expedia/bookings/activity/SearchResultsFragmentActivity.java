@@ -799,7 +799,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		// Determine search type, conduct search
 		switch (mInstance.mSearchParams.getSearchType()) {
 		case FREEFORM:
-			if (mInstance.mSearchParams.hasSearchLatLon()) {
+			if (mInstance.mSearchParams.hasEnoughToSearch()) {
 				startSearchDownloader();
 			}
 			else {
