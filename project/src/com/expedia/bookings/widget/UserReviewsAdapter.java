@@ -138,6 +138,19 @@ public class UserReviewsAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+	/**
+	 * Remove the divider in the event that it is a "dangling" divider with no reviews below itself
+	 */
+	public void removeDivider() {
+		if (mLoadedReviews != null) {
+			int pos = mLoadedReviews.size() - 1;
+			ReviewWrapper last = mLoadedReviews.get(pos);
+			if (last.mIsDivider) {
+				mLoadedReviews.remove(mLoadedReviews.size() - 1);
+			}
+		}
+	}
+
 	private static class UserReviewViewHolder {
 		public TextView title;
 		public RatingBar ratingBar;

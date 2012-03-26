@@ -666,6 +666,12 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 								}
 								mActivity.showListOrEmptyView(mReviewSort, listViewContainer, adapter);
 							}
+
+							// remove divider
+							adapter.removeDivider();
+
+							// send message to remove loading footer
+							mActivity.mHandler.sendMessage(mActivity.prepareMessage(false, mReviewSort));
 						}
 					}
 
