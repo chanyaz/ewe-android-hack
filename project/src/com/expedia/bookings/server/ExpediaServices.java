@@ -139,6 +139,7 @@ public class ExpediaServices implements DownloadListener {
 
 		HttpGet get = NetUtils.createHttpGet(url, params);
 		get.addHeader("Accept", "application/json");
+		get.addHeader("Accept-Encoding", "gzip");
 
 		SuggestResponseHandler responseHandler = new SuggestResponseHandler(mContext);
 
