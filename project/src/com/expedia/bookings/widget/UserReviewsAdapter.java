@@ -143,10 +143,13 @@ public class UserReviewsAdapter extends BaseAdapter {
 	 */
 	public void removeDivider() {
 		if (mLoadedReviews != null) {
-			int pos = mLoadedReviews.size() - 1;
-			ReviewWrapper last = mLoadedReviews.get(pos);
-			if (last.mIsDivider) {
-				mLoadedReviews.remove(mLoadedReviews.size() - 1);
+			int size = mLoadedReviews.size();
+			if (size > 0) {
+				int pos = size - 1;
+				ReviewWrapper last = mLoadedReviews.get(pos);
+				if (last.mIsDivider) {
+					mLoadedReviews.remove(mLoadedReviews.size() - 1);
+				}
 			}
 		}
 	}
