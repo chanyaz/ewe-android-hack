@@ -19,6 +19,7 @@ public class SearchSuggestionAdapter extends BaseAdapter {
 	private Context mContext;
 	private LayoutInflater mInflater;
 	private List<Search> mSearches;
+	private List<Search> mAutosuggestions;
 	private int mCurrentLocationColor;
 
 	public SearchSuggestionAdapter(Context context) {
@@ -30,13 +31,19 @@ public class SearchSuggestionAdapter extends BaseAdapter {
 	}
 
 	public void refreshData() {
-		mSearches = Search.getAllSearchParams(mContext);
+		if (mAutosuggestions != null && mAutosuggestions.size() > 0) {
+			mSearches = mAutosuggestions;
+		}
+		else {
+			mSearches = Search.getAllSearchParams(mContext);
+		}
+
 		notifyDataSetChanged();
 	}
 
-	public void refreshData(List<Search> suggestions) {
-		mSearches = suggestions;
-		notifyDataSetChanged();
+	public void setAutosuggestions(List<Search> autosuggestions) {
+		mAutosuggestions = autosuggestions;
+		refreshData();
 	}
 
 	@Override

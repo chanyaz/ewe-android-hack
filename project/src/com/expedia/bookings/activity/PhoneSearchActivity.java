@@ -307,6 +307,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private boolean mIsWidgetNotificationShowing;
 
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
+	private List<Search> mAutosuggestions;
 
 	private boolean mIsActivityResumed = false;
 
@@ -335,11 +336,12 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		@Override
 		public void onDownload(Object results) {
 			if (results == null) {
-				mSearchSuggestionAdapter.refreshData();
+				mSearchSuggestionAdapter.setAutosuggestions(null);
 			}
 			else {
 				SuggestResponse response = (SuggestResponse) results;
-				mSearchSuggestionAdapter.refreshData(response.getSuggestions());
+				mAutosuggestions = response.getSuggestions();
+				mSearchSuggestionAdapter.setAutosuggestions(mAutosuggestions);
 			}
 		}
 	};
@@ -535,6 +537,10 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 					}
 					toBroadcastSearchCompleted = true;
 				}
+			}
+
+			if (mAutosuggestions != null) {
+				mSearchSuggestionAdapter.setAutosuggestions(mAutosuggestions);
 			}
 		}
 		else {
@@ -1505,6 +1511,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		state.isWidgetNotificationShowing = mIsWidgetNotificationShowing;
 		state.searchTextSelectionStart = mSearchEditText.getSelectionStart();
 		state.searchTextSelectionEnd = mSearchEditText.getSelectionEnd();
+		state.autosuggestions = mAutosuggestions;
 
 		// #9733: You cannot keep displaying a PopupWindow on rotation.  Since it's not essential the popup
 		// stay visible, it's easier here just to hide it between activity shifts.
@@ -1544,6 +1551,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		mIsWidgetNotificationShowing = state.isWidgetNotificationShowing;
 		mSearchTextSelectionStart = state.searchTextSelectionStart;
 		mSearchTextSelectionEnd = state.searchTextSelectionEnd;
+		mAutosuggestions = state.autosuggestions;
 	}
 
 	//----------------------------------
@@ -2668,7 +2676,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				mSearchParams.setSearchType(SearchType.PROXIMITY);
 				mSearchParams.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
 			}
-			else if (len > 0) {
+			else {
 				mSearchParams.setSearchType(SearchType.FREEFORM);
 				boolean changed = mSearchParams.setFreeformLocation(str);
 				if (changed) {
@@ -3026,6 +3034,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		public SearchParams originalSearchParams;
 		public boolean startSearchOnResume;
 		public boolean isWidgetNotificationShowing;
+		public List<Search> autosuggestions;
 
 		public DisplayType displayType;
 		public long lastSearchTime;
