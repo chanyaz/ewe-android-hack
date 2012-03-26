@@ -147,10 +147,12 @@ public class HotelActivity extends AsyncLoadActivity {
 		};
 
 		OnClickListener onReviewsClick = (!property.hasExpediaReviews()) ? null : new OnClickListener() {
-			public void onClick(View v) {
+			public synchronized void onClick(View v) {
+				v.setClickable(false);
 				Intent newIntent = new Intent(mContext, UserReviewsListActivity.class);
 				newIntent.fillIn(intent, 0);
 				startActivity(newIntent);
+				v.setClickable(true);
 			}
 		};
 		LayoutUtils.configureHeader(this, property, onBookNowClick, onReviewsClick);
