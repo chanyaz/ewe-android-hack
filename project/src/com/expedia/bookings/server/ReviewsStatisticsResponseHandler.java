@@ -27,6 +27,13 @@ public class ReviewsStatisticsResponseHandler extends JsonResponseHandler<Review
 				return reviewsStatisticsResponse;
 			}
 
+			if (response.getInt("TotalResults") == 0) {
+				reviewsStatisticsResponse.setAverageOverallRating(0);
+				reviewsStatisticsResponse.setRecommendedCount(0);
+				reviewsStatisticsResponse.setTotalReviewCount(0);
+				return reviewsStatisticsResponse;
+			}
+
 			JSONObject products = response.getJSONObject("Includes").getJSONObject("Products");
 
 			String key = (String) products.keys().next();

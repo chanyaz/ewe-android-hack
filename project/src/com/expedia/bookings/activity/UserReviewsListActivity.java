@@ -294,6 +294,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		Log.d("bradley", "onScroll");
 		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
 		boolean hasMore = false;
 
@@ -458,13 +459,15 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 				ImageView thumbView = (ImageView) findViewById(R.id.user_reviews_thumb);
 
-				if (mRecommendedReviewCount * 10 / mTotalReviewCount >= THUMB_CUTOFF_INCLUSIVE) {
-					thumbView.setImageResource(R.drawable.review_thumbs_up);
+				if (mTotalReviewCount > 0) {
+					if (mRecommendedReviewCount * 10 / mTotalReviewCount >= THUMB_CUTOFF_INCLUSIVE) {
+						thumbView.setImageResource(R.drawable.review_thumbs_up);
+					}
+					else {
+						thumbView.setImageResource(R.drawable.review_thumbs_down);
+					}
+					recommendText.setText(styledText);
 				}
-				else {
-					thumbView.setImageResource(R.drawable.review_thumbs_down);
-				}
-				recommendText.setText(styledText);
 			}
 		}
 		configureBottomBar();
@@ -802,6 +805,20 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 					mTotalReviewCount = response.getTotalReviewCount();
 					mAverageOverallRating = response.getAverageOverallRating();
 					mHasReviewStats = true;
+
+					if (mTotalReviewCount == 0) {
+						for (ReviewSort sort : mListViewContainersMap.keySet()) {
+							TabSort tab = mTabMap.get(sort);
+
+							// force this flag to true so that error message displaying code will support this exception to the rule
+							tab.mAttemptedDownload = true;
+							tab.mStatusMessage = getResources().getString(
+									SORT_NO_RESULTS_MESSAGE.get(sort));
+							ViewGroup listViewContainer = mListViewContainersMap.get(sort);
+							UserReviewsAdapter adapter = mListAdaptersMap.get(sort);
+							showListOrEmptyView(sort, listViewContainer, adapter);
+						}
+					}
 				}
 				else {
 					for (ReviewSort sort : mListViewContainersMap.keySet()) {
