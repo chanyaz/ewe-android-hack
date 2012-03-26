@@ -2,20 +2,19 @@ package com.expedia.bookings.activity;
 
 import java.util.List;
 
-import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.os.Parcelable;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -32,7 +31,7 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.json.JSONUtils;
 
-public class HotelGalleryActivity extends FragmentActivity {
+public class PhoneHotelGalleryActivity extends Activity {
 
 	private Gallery mHotelGallery;
 	private ImageAdapter mAdapter;
@@ -44,8 +43,7 @@ public class HotelGalleryActivity extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-		setContentView(R.layout.activity_hotel_gallery);
+		setContentView(R.layout.activity_phone_hotel_gallery);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(Codes.PROPERTY)
 				&& savedInstanceState.containsKey(Codes.SELECTED_IMAGE)) {
@@ -53,29 +51,25 @@ public class HotelGalleryActivity extends FragmentActivity {
 			mSelectedMedia = JSONUtils.parseJSONObjectFromBundle(savedInstanceState, Codes.SELECTED_IMAGE, Media.class);
 		}
 		else {
-			mProperty = JSONUtils.parseJSONableFromIntent(this.getIntent(), Codes.PROPERTY, Property.class);
-			mSelectedMedia = JSONUtils.parseJSONableFromIntent(this.getIntent(), Codes.SELECTED_IMAGE, Media.class);
+			mProperty = JSONUtils.parseJSONableFromIntent(getIntent(), Codes.PROPERTY, Property.class);
+			mSelectedMedia = JSONUtils.parseJSONableFromIntent(getIntent(), Codes.SELECTED_IMAGE, Media.class);
 		}
 
+		mAdapter = new ImageAdapter((Context) this);
+		mAdapter.setMedia(mProperty.getMediaList());
+
 		// setup the ViewPager
-		HotelImagePagerAdapter pagerAdapter = new HotelImagePagerAdapter(getSupportFragmentManager());
+		HotelImagePagerAdapter pagerAdapter = new HotelImagePagerAdapter((Context) this, mAdapter);
 		mPager = (ViewPager) findViewById(R.id.big_image_pager);
 		mPager.setAdapter(pagerAdapter);
-
-		ActionBar actionBar = getActionBar();
-		actionBar.setTitle(Html.fromHtml(getString(R.string.gallery_title_template, mProperty.getName())));
-		actionBar.setDisplayHomeAsUpEnabled(true);
-
-		mAdapter = new ImageAdapter();
-		mAdapter.setMedia(mProperty.getMediaList());
 
 		mHotelGallery = (Gallery) findViewById(R.id.hotel_gallery);
 		mHotelGallery.setAdapter(mAdapter);
 		mHotelGallery.setCallbackDuringFling(false);
-		mHotelGallery.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+		//mHotelGallery.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 
 		/*
-		 * setup all the event listeners 
+		 * setup all the event listeners
 		 */
 
 		mPager.setOnPageChangeListener(new OnPageChangeListener() {
@@ -128,19 +122,6 @@ public class HotelGalleryActivity extends FragmentActivity {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home: {
-			onBackPressed();
-			return true;
-		}
-		default: {
-			return super.onOptionsItemSelected(item);
-		}
-		}
-	}
-
-	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		if (mProperty != null) {
@@ -153,6 +134,11 @@ public class HotelGalleryActivity extends FragmentActivity {
 
 	private class ImageAdapter extends BaseAdapter {
 		private List<Media> mMedia;
+		private LayoutInflater mInflater;
+
+		public ImageAdapter(Context context) {
+			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		}
 
 		public void setMedia(List<Media> media) {
 			mMedia = media;
@@ -187,12 +173,8 @@ public class HotelGalleryActivity extends FragmentActivity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ImageView imageView = (ImageView) convertView;
 			if (convertView == null) {
-				convertView = getLayoutInflater().inflate(R.layout.gallery_item, null);
+				convertView = mInflater.inflate(R.layout.phone_gallery_item, null);
 				imageView = (ImageView) convertView.findViewById(R.id.image);
-			}
-
-			if (!ImageCache.loadImage(mMedia.get(position).getUrl(), imageView)) {
-				imageView.setImageResource(R.drawable.ic_row_thumb_placeholder);
 			}
 
 			return convertView;
@@ -201,40 +183,27 @@ public class HotelGalleryActivity extends FragmentActivity {
 
 	private static final String IMAGE_POSITION = "POSITION";
 
-	public class HotelImagePagerAdapter extends FragmentStatePagerAdapter {
+	public class HotelImagePagerAdapter extends PagerAdapter {
+		LayoutInflater mInflater;
+		ImageAdapter mAdapter;
 
-		public HotelImagePagerAdapter(android.support.v4.app.FragmentManager fragmentManager) {
-			super(fragmentManager);
+		public HotelImagePagerAdapter (Context context, ImageAdapter a) {
+			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			mAdapter = a;
 		}
 
 		@Override
-		public Fragment getItem(int position) {
-			return HotelImageFragment.newInstance(position);
+		public boolean isViewFromObject(View view, Object object) {
+			return view == object;
 		}
 
 		@Override
-		public int getCount() {
-			return mHotelGallery.getCount();
-		}
-	}
-
-	public static class HotelImageFragment extends Fragment {
-
-		public static HotelImageFragment newInstance(int position) {
-			HotelImageFragment imageFragment = new HotelImageFragment();
-			Bundle args = new Bundle();
-			args.putInt(IMAGE_POSITION, position);
-			imageFragment.setArguments(args);
-			return imageFragment;
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			View view = inflater.inflate(R.layout.fragment_pager_hotel_image, container, false);
-			int position = getArguments().getInt(IMAGE_POSITION);
+		public Object instantiateItem(View collection, int position) {
+			View view = mInflater.inflate(R.layout.phone_pager_hotel_image, (ViewGroup) collection, false);
+			((ViewPager) collection).addView(view);
 			final ImageView imageView = (ImageView) view.findViewById(R.id.big_image_view);
 			final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.hotel_image_progress_bar);
-			Media hotelMedia = ((HotelGalleryActivity) getActivity()).getHotelMedia(position);
+			Media hotelMedia = (Media) mAdapter.getItem(position);
 			hotelMedia.loadHighResImage(imageView, new OnImageLoaded() {
 
 				@Override
@@ -253,5 +222,33 @@ public class HotelGalleryActivity extends FragmentActivity {
 			return view;
 		}
 
+		@Override
+		public int getCount() {
+			return mAdapter.getCount();
+		}
+
+		@Override
+		public void destroyItem(View collection, int position, Object view) {
+			((ViewPager) collection).removeView((View) view);
+		}
+
+		// The rest are fairly useless
+
+		@Override
+		public Parcelable saveState() {
+			return null;
+		}
+
+		@Override
+		public void restoreState(Parcelable arg0, ClassLoader arg1) {
+		}
+
+		@Override
+		public void startUpdate(View arg0) {
+		}
+
+		@Override
+		public void finishUpdate(View arg0) {
+		}
 	}
 }

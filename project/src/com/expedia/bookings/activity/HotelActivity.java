@@ -43,6 +43,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AdapterView;
+import com.expedia.bookings.widget.AdapterView.OnItemClickListener;
 import com.expedia.bookings.widget.AdapterView.OnItemSelectedListener;
 import com.expedia.bookings.widget.Gallery;
 import com.expedia.bookings.widget.Gallery.OnScrollListener;
@@ -473,6 +474,16 @@ public class HotelActivity extends AsyncLoadActivity {
 
 			if (media != null) {
 				mGallery.setMedia(media);
+
+				mGallery.setOnItemClickListener(new OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+						Intent intent = new Intent(mContext, PhoneHotelGalleryActivity.class);
+						intent.putExtra(Codes.PROPERTY, mProperty.toString());
+						intent.putExtra(Codes.SELECTED_IMAGE, ((AdapterView<Media>) parent).getSelectedItem().toString());
+						startActivity(intent);
+					}
+				});
 
 				mGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 					@Override

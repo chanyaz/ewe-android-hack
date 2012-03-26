@@ -36,6 +36,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.PhoneHotelGalleryActivity" />
         <activity android:name=".activity.PhoneSearchActivity" />
         <activity
             android:name=".activity.SearchFragmentActivity"
@@ -57,6 +58,8 @@
         <activity
             android:name=".activity.HotelGalleryActivity"
             android:theme="@style/Theme.Tablet.Dark" />
+        <activity
+            android:name=".activity.HotelGalleryActivity" />
         <activity
             android:name=".activity.BookingFragmentActivity"
             android:theme="@style/Theme.Tablet"
