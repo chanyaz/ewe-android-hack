@@ -642,17 +642,31 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 							mActivity.mHandler.sendMessage(mActivity.prepareMessage(false, mReviewSort));
 
 							adapter.setUserReviews(mReviewsWrapped);
+
+							mActivity.mIsLoadingIndicatorShowingForReviewSort.remove(mReviewSort);
+							if (mReviewSort == mActivity.mCurrentReviewSort) {
+								mActivity.bringContainerToFront(listViewContainer);
+							}
+							mActivity.showListOrEmptyView(mReviewSort, listViewContainer, adapter);
+
 						}
 						else {
-							mStatusMessage = mActivity.getResources().getString(
-									SORT_NO_RESULTS_MESSAGE.get(mReviewSort));
+							// download more reviews in the event that there is another language set, otherwise display status message
+							if (mLanguageList != null && mLanguageList.size() > 0) {
+								String key = SORT_BGDL_KEY.get(ReviewSort.NEWEST_REVIEW_FIRST);
+								key += mLanguageList.toString();
+								mActivity.mReviewsDownloader.startDownload(key, mDownloadTask, mDownloadCallback);
+							}
+							else {
+								mStatusMessage = mActivity.getResources().getString(
+										SORT_NO_RESULTS_MESSAGE.get(mReviewSort));
+								mActivity.mIsLoadingIndicatorShowingForReviewSort.remove(mReviewSort);
+								if (mReviewSort == mActivity.mCurrentReviewSort) {
+									mActivity.bringContainerToFront(listViewContainer);
+								}
+								mActivity.showListOrEmptyView(mReviewSort, listViewContainer, adapter);
+							}
 						}
-
-						mActivity.mIsLoadingIndicatorShowingForReviewSort.remove(mReviewSort);
-						if (mReviewSort == mActivity.mCurrentReviewSort) {
-							mActivity.bringContainerToFront(listViewContainer);
-						}
-						mActivity.showListOrEmptyView(mReviewSort, listViewContainer, adapter);
 					}
 
 				}
