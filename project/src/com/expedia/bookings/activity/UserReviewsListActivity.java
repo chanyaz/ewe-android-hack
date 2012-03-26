@@ -597,9 +597,10 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 				// update attempted download flag
 				if (mLanguageList != null && mLanguageList.size() > 0) {
-					rls = mLanguageList.pop();
+					// 13012 - droid2 does not have version of java with LinkedList.pop/push in the impl
+					// We were doing a pop, then push anyways, this is better
+					rls = mLanguageList.getLast();
 					rls.setAttemptedDownload(true);
-					mLanguageList.push(rls);
 				}
 				mAttemptedDownload = true;
 
@@ -620,7 +621,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 					}
 					else {
 						// grab the meta object from the list within the map for modification(s)
-						rls = mLanguageList.pop();
+						// 13012 - droid2 does not have version of java with LinkedList.pop/push in the impl
+						rls = mLanguageList.getLast();
+						mLanguageList.removeLast();
 
 						if (response.getReviewCount() > 0) {
 							rls.setTotalCount(response.getTotalCount());
@@ -632,7 +635,8 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 							// push object back if there are more pages to download
 							if (rls.hasMore()) {
-								mLanguageList.push(rls);
+								// 13012 - droid2 does not have version of java with LinkedList.pop/push in the impl
+								mLanguageList.addLast(rls);
 							}
 							else {
 								adapter.mAddDivider = true;
