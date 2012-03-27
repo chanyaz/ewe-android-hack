@@ -173,7 +173,7 @@
 
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-	<string name="map_snippet_price_template">Da%s</string>
+	<string name="map_snippet_price_template">Da %s</string>
 
 	<!-- Mini-details fragment -->
 	<!-- Label for "see details" button on the mini details fragment -->
@@ -215,7 +215,7 @@
 	
 	<!--  Hotel Details Fragment -->
 	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
-	<string name="min_room_price_template">Da%s</string>
+	<string name="min_room_price_template">Da %s</string>
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
 	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; da</string>
 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
@@ -290,6 +290,8 @@
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Caricamento recensioni in corso...</string>
+	<!-- Header for reviews of the non-native language -->
+    <string name="user_review_other_languages_title">Recensioni in altre lingue</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Recenti</string>
 	<!-- The text for the sort button, recent -->
@@ -315,13 +317,15 @@
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
 		2$ is the place they are from -->
-	<string name="user_review_name_and_location_signature">%1$sda%2$s</string>
+	<string name="user_review_name_and_location_signature">%1$s da %2$s</string>
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">Nessuna recensione negativa su questo hotel</string>
 	<!-- User review no favorable reviews -->
 	<string name="user_review_no_favorable_reviews">Nessuna recensione positiva su questo hotel</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">Nessuna recensione recente su questo hotel</string>
+	<!-- User reviews server/parsing error -->
+    <string name="user_review_unavailable">Al momento le recensioni non sono disponibili</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -348,6 +352,8 @@
 		<item quantity="many">Rimangono solo %d camere!</item>
 		<item quantity="other">Rimangono solo %d camere!</item>
 	</plurals>
+    <!-- The text we use to message that the room in non-refundable -->
+    <string name="non_refundable">Non rimborsabile</string>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
 	<string name="savings_template">Risparmia il \n %2.0f%%</string>
 	<!-- Label for free nights -->

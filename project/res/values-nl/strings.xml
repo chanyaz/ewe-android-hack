@@ -290,6 +290,8 @@
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Bezig met laden van gebruikersbeoordelingen...</string>
+    <!-- Header for reviews of the non-native language -->
+    <string name="user_review_other_languages_title">Beoordelingen in andere talen</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Recent</string>
 	<!-- The text for the sort button, recent -->
@@ -315,14 +317,16 @@
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
 		2$ is the place they are from -->
-	<string name="user_review_name_and_location_signature">%1$svan%2$s</string>
+	<string name="user_review_name_and_location_signature">%1$s van %2$s</string>
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">Er zijn geen negatieve beoordelingen voor dit hotel</string>
 	<!-- User review no favorable reviews -->
 	<string name="user_review_no_favorable_reviews">Er zijn geen negatieve beoordelingen voor dit hotel</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">Er zijn geen negatieve beoordelingen voor dit hotel</string>
-	
+    <!-- User reviews server/parsing error -->
+    <string name="user_review_unavailable">De beoordelingen zijn voorlopig niet beschikbaar</string>
+
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
 	<plurals name="staying_nights">
@@ -348,6 +352,8 @@
 		<item quantity="many">Nog maar %d kamers over!</item>
 		<item quantity="other">Nog maar %d kamers over!</item>
 	</plurals>
+    <!-- The text we use to message that the room in non-refundable -->
+    <string name="non_refundable">Geen restitutie</string>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
 	<string name="savings_template">Bespaar\n %2.0f%%</string>
 	<!-- Label for free nights -->

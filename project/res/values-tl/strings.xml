@@ -315,13 +315,15 @@
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
 		2$ is the place they are from -->
-	<string name="user_review_name_and_location_signature">%1$smula%2$s</string>
+	<string name="user_review_name_and_location_signature">%1$s mula %2$s</string>
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">Walang puna na review para sa hotel na ito</string>
 	<!-- User review no favorable reviews -->
 	<string name="user_review_no_favorable_reviews">Walang magandang review para sa hotel na ito</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">Walang kamakailang review para sa hotel na ito</string>
+    <!-- User reviews server/parsing error -->
+    <string name="user_review_unavailable">Panandaliang hindi mababasa ang mga review sa ngayon</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -348,6 +350,8 @@
 		<item quantity="many">%d na lamang ang natitira!</item>
 		<item quantity="other">%d na lamang ang natitira!</item>
 	</plurals>
+    <!-- The text we use to message that the room in non-refundable -->
+    <string name="non_refundable">Hindi maire-refund</string>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
 	<string name="savings_template">Makakatipid ng \n %2.0f%%</string>
 	<!-- Label for free nights -->

@@ -290,6 +290,8 @@
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">正在加载用户评价...</string>
+	<!-- Header for reviews of the non-native language -->
+	<string name="user_review_other_languages_title">其他语言的评价</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">最近</string>
 	<!-- The text for the sort button, recent -->
@@ -322,6 +324,8 @@
 	<string name="user_review_no_favorable_reviews">没有对此酒店的好评</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">最近没有对此酒店的评价</string>
+    <!-- User reviews server/parsing error -->
+    <string name="user_review_unavailable">暂时无法进行评价</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -348,6 +352,8 @@
 		<item quantity="many">只剩 %d 间房了！</item>
 		<item quantity="other">只剩 %d 间房了！</item>
 	</plurals>
+    <!-- The text we use to message that the room in non-refundable -->
+    <string name="non_refundable">不可退款</string>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
 	<string name="savings_template">节省\n %2.0f%%</string>
 	<!-- Label for free nights -->

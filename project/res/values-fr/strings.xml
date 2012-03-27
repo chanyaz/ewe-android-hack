@@ -290,6 +290,8 @@
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Chargement avis voyageurs en cours...</string>
+	<!-- Header for reviews of the non-native language -->
+    <string name="user_review_other_languages_title">Avis dans d\&apos;autres langues</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Récents</string>
 	<!-- The text for the sort button, recent -->
@@ -315,13 +317,15 @@
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
 		2$ is the place they are from -->
-	<string name="user_review_name_and_location_signature">%1$sde%2$s</string>
+	<string name="user_review_name_and_location_signature">%1$s de %2$s</string>
 	<!-- User review no critical reviews -->
 	<string name="user_review_no_critical_reviews">Aucun avis négatif sur cet hôtel</string>
 	<!-- User review no favorable reviews -->
 	<string name="user_review_no_favorable_reviews">Aucun avis positif sur cet hôtel</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">Aucun avis récent sur cet hôtel</string>
+	<!-- User reviews server/parsing error -->
+    <string name="user_review_unavailable">Les avis ne sont temporairement pas disponibles</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -348,6 +352,8 @@
 		<item quantity="many">Il reste %d chambres !</item>
 		<item quantity="other">Il reste %d chambres !</item>
 	</plurals>
+    <!-- The text we use to message that the room in non-refundable -->
+    <string name="non_refundable">Non remboursable</string>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
 	<string name="savings_template">PROMO \n%2.0f%%</string>
 	<!-- Label for free nights -->

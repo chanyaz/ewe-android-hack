@@ -290,6 +290,8 @@
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Đang tải đánh giá người dùng...</string>
+    <!-- Header for reviews of the non-native language -->
+    <string name="user_review_other_languages_title">Những nhận xét bằng ngôn ngữ khác</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Gần đây</string>
 	<!-- The text for the sort button, recent -->
@@ -322,6 +324,8 @@
 	<string name="user_review_no_favorable_reviews">Không có nhận xét tích cực về khách sạn này.</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">Gần đây không có nhận xét nào về khách sạn này.</string>
+    <!-- User reviews server/parsing error -->
+    <string name="user_review_unavailable">Phần nhận xét tạm thời không hoạt động</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -348,6 +352,8 @@
 		<item quantity="many">Chỉ còn %d phòng!</item>
 		<item quantity="other">Chỉ còn %d phòng!</item>
 	</plurals>
+    <!-- The text we use to message that the room in non-refundable -->
+    <string name="non_refundable">Không hoàn tiền</string>
 	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
 	<string name="savings_template">Tiết kiệm\n %2.0f%%</string>
 	<!-- Label for free nights -->
