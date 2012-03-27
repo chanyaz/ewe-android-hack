@@ -731,12 +731,18 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 		// RECENT SORT ORDER
 		LinkedList<ReviewLanguageSet> recentReviewLanguageSet = new LinkedList<ReviewLanguageSet>();
-		for (String languageCode : languages) {
-			ReviewLanguageSet rls = new ReviewLanguageSet();
-			LinkedList<String> codes = new LinkedList<String>();
-			codes.add(languageCode);
-			rls.addLanguageCodes(codes);
+		ReviewLanguageSet rls = new ReviewLanguageSet();
+		if (languages.size() == 3) {
+			rls.addLanguageCodes(languages);
 			recentReviewLanguageSet.add(rls);
+		}
+		else {
+			for (String languageCode : languages) {
+				LinkedList<String> codes = new LinkedList<String>();
+				codes.add(languageCode);
+				rls.addLanguageCodes(codes);
+				recentReviewLanguageSet.add(rls);
+			}
 		}
 
 		TabSort recentTabSort = new TabSort(this, ReviewSort.NEWEST_REVIEW_FIRST, recentReviewLanguageSet);
