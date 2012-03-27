@@ -114,6 +114,9 @@ public class SearchParams implements JSONable {
 	}
 
 	public void setSearchType(SearchType searchType) {
+		if (searchType != SearchType.FREEFORM) {
+			invalidateFreeformLocation();
+		}
 		mSearchType = searchType;
 	}
 
@@ -139,6 +142,7 @@ public class SearchParams implements JSONable {
 	public void invalidateFreeformLocation() {
 		mFreeformLocation = null;
 		mSearchLatLonUpToDate = false;
+		mRegionId = null;
 	}
 
 	public void setFreeformLocation(Address address) {
