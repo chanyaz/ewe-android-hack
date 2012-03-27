@@ -43,8 +43,21 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 				Review review = new Review();
 
 				review.setReviewId(reviewJson.optString("Id", null));
-				review.setTitle(reviewJson.optString("Title", null));
-				review.setBody(reviewJson.optString("ReviewText", null));
+
+				if (!reviewJson.isNull("Title")) {
+					review.setTitle(reviewJson.optString("Title", null));
+				}
+				else {
+					review.setTitle("");
+				}
+
+				if (!reviewJson.isNull("ReviewText")) {
+					review.setBody(reviewJson.optString("ReviewText", null));
+				}
+				else {
+					review.setBody("");
+				}
+
 				review.setRecommended(reviewJson.optBoolean("IsRecommended"));
 
 				Time submissionDate = new Time();
