@@ -294,7 +294,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		Log.d("bradley", "onScroll");
 		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
 		boolean hasMore = false;
 
@@ -658,13 +657,8 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 						}
 						else {
-							// download more reviews in the event that there is another language set, otherwise display status message
-							if (mLanguageList != null && mLanguageList.size() > 0) {
-								String key = SORT_BGDL_KEY.get(ReviewSort.NEWEST_REVIEW_FIRST);
-								key += mLanguageList.toString();
-								mActivity.mReviewsDownloader.startDownload(key, mDownloadTask, mDownloadCallback);
-							}
-							else {
+							// there are no reviews in the response, only display results if there are no more to attempt to DL
+							if (mLanguageList == null || (mLanguageList != null && mLanguageList.size() < 1)) {
 								mStatusMessage = mActivity.getResources().getString(
 										SORT_NO_RESULTS_MESSAGE.get(mReviewSort));
 								mActivity.mIsLoadingIndicatorShowingForReviewSort.remove(mReviewSort);
