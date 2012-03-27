@@ -598,7 +598,7 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 				if (mLanguageList != null && mLanguageList.size() > 0) {
 					// 13012 - droid2 does not have version of java with LinkedList.pop/push in the impl
 					// We were doing a pop, then push anyways, this is better
-					rls = mLanguageList.getLast();
+					rls = mLanguageList.getFirst();
 					rls.setAttemptedDownload(true);
 				}
 				mAttemptedDownload = true;
