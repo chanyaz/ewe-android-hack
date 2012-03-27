@@ -58,6 +58,11 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 					review.setBody("");
 				}
 
+				// do not add review to list if it has no content
+				if (review.getBody().equals("") && review.getTitle().equals("")) {
+					continue;
+				}
+
 				review.setRecommended(reviewJson.optBoolean("IsRecommended"));
 
 				Time submissionDate = new Time();
