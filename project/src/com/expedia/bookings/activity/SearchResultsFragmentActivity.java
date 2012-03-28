@@ -870,7 +870,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		setLatLng(address.getLatitude(), address.getLongitude());
 
-		mInstance.mShowDistance = SearchUtils.isExactLocation(address);
+		// #13072: Always show as if it was an exact location search for geocodes
+		// Used to use SearchUtils.isExactLocation(address).
+		mInstance.mShowDistance = true;
 
 		startSearchDownloader();
 	}

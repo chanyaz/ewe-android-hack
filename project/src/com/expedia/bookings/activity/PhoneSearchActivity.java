@@ -2522,19 +2522,15 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		setActionBarBookingInfoText();
 	}
 
+	// #13072: As you can tell, there's very little "determined" here nowadays. 
+	// The logic has changed such that we should basically always show distance
+	// (except when we completely lack this information).  I've kept this method
+	// in anticipation of someday needing it back again (once we can suss out
+	// the difference between autocomplete searches and geocodes).
 	private void determineWhetherExactLocationSpecified(Address location) {
 		Log.d("determineWhetherExactLocationSpecified(): " + location);
-
-		if (SearchUtils.isExactLocation(location)) {
-			setShowDistance(true);
-
-			showExactLocation(location.getLatitude(), location.getLongitude(), StrUtils.removeUSAFromAddress(location));
-		}
-		else {
-			setShowDistance(false);
-
-			dontShowExactLocation();
-		}
+		setShowDistance(true);
+		showExactLocation(location.getLatitude(), location.getLongitude(), StrUtils.removeUSAFromAddress(location));
 	}
 
 	private void showExactLocation(double latitude, double longitude, String address) {
