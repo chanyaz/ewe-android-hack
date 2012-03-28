@@ -2976,7 +2976,16 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 					});
 				}
 				else {
-					mSearchEditText.selectAll();
+					if (AndroidUtils.getSdkVersion() >= 14) {
+						// #13062 - in ICS and beyond, EditText's have an entire new action mode for editing.
+						// As a result, selectAll() doesn't work (and it drastically changes the UI to properly
+						// activate the selection mode).  This is an interim fix that at least starts the cursor
+						// at the END of the input rather than the start to make it easier to delete the text.
+						mSearchEditText.setSelection(mSearchEditText.length());
+					}
+					else {
+						mSearchEditText.selectAll();
+					}
 				}
 			}
 		}
