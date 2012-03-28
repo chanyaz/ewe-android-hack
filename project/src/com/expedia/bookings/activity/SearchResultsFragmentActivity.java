@@ -160,15 +160,15 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		if (Intent.ACTION_SEARCH.equals(newIntent.getAction())) {
 			String query = newIntent.getStringExtra(SearchManager.QUERY);
-			String searchParamsJson = newIntent.getStringExtra(SearchManager.EXTRA_DATA_KEY);
+			String searchJson = newIntent.getStringExtra(SearchManager.EXTRA_DATA_KEY);
 			if (query.equals(getString(R.string.current_location))) {
 				setMyLocationSearch();
 			}
-			else if (searchParamsJson != null) {
+			else if (searchJson != null) {
 				try {
-					SearchParams params = new SearchParams();
-					params.fromJson(new JSONObject(searchParamsJson));
-					mInstance.mSearchParams = params;
+					Search search = new Search(this);
+					search.fromJson(new JSONObject(searchJson));
+					mInstance.mSearchParams.fillFromSearch(search);
 				}
 				catch (JSONException e) {
 					Log.w("Can't parse search JSON. Setting freeform location instead");
@@ -721,8 +721,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	public void setFreeformLocation(String freeformLocation) {
 		Log.d("Setting freeform location: " + freeformLocation);
 
-		mInstance.mSearchParams.setFreeformLocation(freeformLocation);
 		mInstance.mSearchParams.setSearchType(SearchType.FREEFORM);
+		mInstance.mSearchParams.setFreeformLocation(freeformLocation);
 
 		invalidateOptionsMenu();
 

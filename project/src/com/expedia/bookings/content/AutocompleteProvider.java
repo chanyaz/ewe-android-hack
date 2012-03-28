@@ -1,5 +1,7 @@
 package com.expedia.bookings.content;
 
+import org.json.JSONObject;
+
 import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -47,12 +49,9 @@ public class AutocompleteProvider extends ContentProvider {
 
 			if (response != null) {
 				for (Search search : response.getSuggestions()) {
-
-					SearchParams p = new SearchParams();
-					p.fillFromSearch(search);
-
 					String freeformLocation = search.getFreeformLocation();
-					Object[] row = { id, freeformLocation, freeformLocation, p.toJson(), R.drawable.autocomplete_pin };
+					JSONObject json = search.toJson();
+					Object[] row = { id, freeformLocation, freeformLocation, json, R.drawable.autocomplete_pin };
 					cursor.addRow(row);
 					id++;
 				}
