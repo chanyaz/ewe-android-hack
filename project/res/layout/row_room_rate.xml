@@ -72,6 +72,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/room_description_text_view"
         android:layout_marginRight="10dp"
+        android:layout_marginLeft="8dp"
         android:layout_toRightOf="@+id/price_layout"
         android:gravity="right"
         android:paddingBottom="3dp"
