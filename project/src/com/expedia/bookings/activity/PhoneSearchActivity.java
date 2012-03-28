@@ -2578,6 +2578,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				showDistanceListener.onSetShowDistance(showDistance);
 			}
 		}
+
+		// Hide/reveal the distance filter
+		mRadiusButtonGroup.setVisibility(visibility);
 	}
 
 	private void setSortTypeText() {
