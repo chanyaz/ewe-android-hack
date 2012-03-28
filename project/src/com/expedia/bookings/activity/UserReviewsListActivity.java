@@ -534,6 +534,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		public ReviewDownloadTask mDownloadTask;
 		public ReviewDownloadCallback mDownloadCallback;
 
+		// do not chain tab downloads in interesting of clearing up a bad bug 13048
+		private boolean mChainDownload = false;
+
 		//DOWNLOAD OBJECTS
 
 		public TabSort(UserReviewsListActivity activity, ReviewSort sort, LinkedList<ReviewLanguageSet> languageList) {
@@ -692,30 +695,36 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 					mActivity.showListOrEmptyView(mReviewSort, listViewContainer, adapter);
 				}
 
-				// chain the downloads in the callback, if the download has not been attempted, make sure to start the download
-				String key;
-				TabSort nextTab;
-				if (!mActivity.mTabMap.get(ReviewSort.NEWEST_REVIEW_FIRST).mAttemptedDownload
-						&& !mActivity.mReviewsDownloader.isDownloading(SORT_BGDL_KEY
-								.get(ReviewSort.NEWEST_REVIEW_FIRST))) {
-					key = SORT_BGDL_KEY.get(ReviewSort.NEWEST_REVIEW_FIRST);
-					nextTab = mActivity.mTabMap.get(ReviewSort.NEWEST_REVIEW_FIRST);
-					mActivity.mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
+				if (mChainDownload) {
+					chainTabDownloads();
 				}
-				else if (!mActivity.mTabMap.get(ReviewSort.HIGHEST_RATING_FIRST).mAttemptedDownload
-						&& !mActivity.mReviewsDownloader.isDownloading(SORT_BGDL_KEY
-								.get(ReviewSort.HIGHEST_RATING_FIRST))) {
-					key = SORT_BGDL_KEY.get(ReviewSort.HIGHEST_RATING_FIRST);
-					nextTab = mActivity.mTabMap.get(ReviewSort.HIGHEST_RATING_FIRST);
-					mActivity.mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
-				}
-				else if (!mActivity.mTabMap.get(ReviewSort.LOWEST_RATING_FIRST).mAttemptedDownload
-						&& !mActivity.mReviewsDownloader.isDownloading(SORT_BGDL_KEY
-								.get(ReviewSort.LOWEST_RATING_FIRST))) {
-					key = SORT_BGDL_KEY.get(ReviewSort.LOWEST_RATING_FIRST);
-					nextTab = mActivity.mTabMap.get(ReviewSort.LOWEST_RATING_FIRST);
-					mActivity.mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
-				}
+			}
+		}
+
+		public void chainTabDownloads() {
+			// chain the downloads in the callback, if the download has not been attempted, make sure to start the download
+			String key;
+			TabSort nextTab;
+			if (!mActivity.mTabMap.get(ReviewSort.NEWEST_REVIEW_FIRST).mAttemptedDownload
+					&& !mActivity.mReviewsDownloader.isDownloading(SORT_BGDL_KEY
+							.get(ReviewSort.NEWEST_REVIEW_FIRST))) {
+				key = SORT_BGDL_KEY.get(ReviewSort.NEWEST_REVIEW_FIRST);
+				nextTab = mActivity.mTabMap.get(ReviewSort.NEWEST_REVIEW_FIRST);
+				mActivity.mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
+			}
+			else if (!mActivity.mTabMap.get(ReviewSort.HIGHEST_RATING_FIRST).mAttemptedDownload
+					&& !mActivity.mReviewsDownloader.isDownloading(SORT_BGDL_KEY
+							.get(ReviewSort.HIGHEST_RATING_FIRST))) {
+				key = SORT_BGDL_KEY.get(ReviewSort.HIGHEST_RATING_FIRST);
+				nextTab = mActivity.mTabMap.get(ReviewSort.HIGHEST_RATING_FIRST);
+				mActivity.mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
+			}
+			else if (!mActivity.mTabMap.get(ReviewSort.LOWEST_RATING_FIRST).mAttemptedDownload
+					&& !mActivity.mReviewsDownloader.isDownloading(SORT_BGDL_KEY
+							.get(ReviewSort.LOWEST_RATING_FIRST))) {
+				key = SORT_BGDL_KEY.get(ReviewSort.LOWEST_RATING_FIRST);
+				nextTab = mActivity.mTabMap.get(ReviewSort.LOWEST_RATING_FIRST);
+				mActivity.mReviewsDownloader.startDownload(key, nextTab.mDownloadTask, nextTab.mDownloadCallback);
 			}
 		}
 	}
