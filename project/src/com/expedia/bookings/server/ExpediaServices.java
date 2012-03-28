@@ -157,13 +157,16 @@ public class ExpediaServices implements DownloadListener {
 		addPOSParams(query);
 
 		if (params.hasRegionId()) {
+			Log.d("Searching by regionId...");
 			query.add(new BasicNameValuePair("regionId", params.getRegionId()));
 		}
 		else if (params.hasSearchLatLon()) {
+			Log.d("Searching by latitude/longitude...");
 			query.add(new BasicNameValuePair("latitude", params.getSearchLatitude() + ""));
 			query.add(new BasicNameValuePair("longitude", params.getSearchLongitude() + ""));
 		}
 		else if (params.hasFreeformLocation()) {
+			Log.d("Searching by city...");
 			query.add(new BasicNameValuePair("city", params.getFreeformLocation()));
 		}
 
@@ -177,6 +180,9 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("wantTotalRecommendations", "true"));
 
 		SearchResponseHandler rh = new SearchResponseHandler(mContext);
+		if (params.hasSearchLatLon()) {
+			rh.setLatLng(params.getSearchLatitude(), params.getSearchLongitude());
+		}
 		rh.setNumNights(params.getStayDuration());
 		return (SearchResponse) doE3Request("SearchResults", query, rh, 0);
 	}

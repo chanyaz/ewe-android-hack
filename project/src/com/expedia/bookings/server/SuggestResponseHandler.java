@@ -53,6 +53,7 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 
 				JSONObject latlng = responseSuggestion.optJSONObject("ll");
 				if (latlng != null) {
+					Log.d("Got latitude/longitude from suggest response");
 					double latitude = latlng.getDouble("lat");
 					double longitude = latlng.getDouble("lng");
 					searchParams.setSearchLatLon(latitude, longitude);

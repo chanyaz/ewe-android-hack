@@ -32,6 +32,9 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 
 	private int mNumNights = 1;
 
+	private double mLatitude;
+	private double mLongitude;
+
 	public SearchResponseHandler(Context context) {
 		// Purposefully leaving this constructor, because I can definitely
 		// foresee us wanting the context in this handler someday.
@@ -39,6 +42,11 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 
 	public void setNumNights(int numNights) {
 		mNumNights = numNights;
+	}
+
+	public void setLatLng(double latitude, double longitude) {
+		mLatitude = latitude;
+		mLongitude = longitude;
 	}
 
 	@Override
@@ -245,6 +253,15 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 
 		if (promoDesc != null && property.getLowestRate() != null) {
 			property.getLowestRate().setPromoDescription(promoDesc);
+		}
+
+		// If we didn't get a distance but we have a search latitude/longitude,
+		// calculate the distance based on the params.
+		Distance distanceFromUser = property.getDistanceFromUser();
+		if ((distanceFromUser == null || distanceFromUser.getDistance() == 0) && mLatitude != 0 && mLongitude != 0
+				&& location.getLatitude() != 0 && location.getLongitude() != 0) {
+			property.setDistanceFromUser(new Distance(mLatitude, mLongitude, location.getLatitude(), location
+					.getLongitude(), DistanceUnit.getDefaultDistanceUnit()));
 		}
 
 		// TODO: For now, we only support merchant hotels.  In the future, we will

@@ -103,7 +103,6 @@ import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
@@ -1403,6 +1402,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 			break;
 		}
+		// TODO: Add "region" search once enum is added.
 		}
 	}
 
@@ -1411,6 +1411,17 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		if (mSearchParams.hasEnoughToSearch()) {
 			Log.d("User already has region id or lat/lng for freeform location, skipping geocoding.");
+
+			if (mSearchParams.hasSearchLatLon()) {
+				setShowDistance(true);
+				showExactLocation(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude(),
+						mSearchParams.getFreeformLocation());
+			}
+			else {
+				setShowDistance(false);
+				dontShowExactLocation();
+			}
+
 			startSearchDownloader();
 			return;
 		}

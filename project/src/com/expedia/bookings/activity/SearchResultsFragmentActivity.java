@@ -67,7 +67,6 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
-import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.google.android.maps.MapActivity;
 import com.mobiata.android.BackgroundDownloader;
@@ -800,6 +799,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		switch (mInstance.mSearchParams.getSearchType()) {
 		case FREEFORM:
 			if (mInstance.mSearchParams.hasEnoughToSearch()) {
+				mInstance.mShowDistance = mInstance.mSearchParams.hasSearchLatLon();
 				startSearchDownloader();
 			}
 			else {
@@ -821,6 +821,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			}
 			break;
 		}
+		// TODO: Add REGION when enumerated properly
 	}
 
 	public void startGeocode() {
