@@ -83,6 +83,7 @@ public class HotelActivity extends AsyncLoadActivity {
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
+	private boolean mIsStartingReviewsActivity = false;
 
 	private boolean mGalleryFlipping = true;
 	private int mGalleryPosition = 0;
@@ -104,6 +105,12 @@ public class HotelActivity extends AsyncLoadActivity {
 		super.onNewIntent(intent);
 		setIntent(intent);
 		setupHotelActivity(null);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mIsStartingReviewsActivity = false;
 	}
 
 	private void setupHotelActivity(Bundle savedInstanceState) {
@@ -147,12 +154,13 @@ public class HotelActivity extends AsyncLoadActivity {
 		};
 
 		OnClickListener onReviewsClick = (!property.hasExpediaReviews()) ? null : new OnClickListener() {
-			public synchronized void onClick(View v) {
-				v.setClickable(false);
-				Intent newIntent = new Intent(mContext, UserReviewsListActivity.class);
-				newIntent.fillIn(intent, 0);
-				startActivity(newIntent);
-				v.setClickable(true);
+			public synchronized void onClick(final View v) {
+				if (!mIsStartingReviewsActivity) {
+					mIsStartingReviewsActivity = true;
+					Intent newIntent = new Intent(mContext, UserReviewsListActivity.class);
+					newIntent.fillIn(intent, 0);
+					startActivity(newIntent);
+				}
 			}
 		};
 		LayoutUtils.configureHeader(this, property, onBookNowClick, onReviewsClick);
