@@ -318,13 +318,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 			// while a download does not need to be restarted; instead a callback can just be 
 			// re-registered
 			if (!mIsLoadingIndicatorShowingForReviewSort.contains(mCurrentReviewSort)) {
-				// add a divider ?
-				UserReviewsAdapter adapter = mListAdaptersMap.get(mCurrentReviewSort);
-				if (adapter.mAddDivider) {
-					adapter.addDivider();
-					adapter.mAddDivider = false;
-				}
-
 				// send message to put loading footer
 				mHandler.sendMessage(prepareMessage(true, mCurrentReviewSort));
 				mIsLoadingIndicatorShowingForReviewSort.add(mCurrentReviewSort);
@@ -632,17 +625,24 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 							rls.incrementPageNumber();
 
+							boolean addDivider = false;
 							// push object back if there are more pages to download
 							if (rls.hasMore()) {
 								// 13012 - droid2 does not have version of java with LinkedList.pop/push in the impl
 								mLanguageList.addFirst(rls);
 							}
 							else {
-								adapter.mAddDivider = true;
+								if (mLanguageList.size() > 0) {
+									addDivider = true;
+								}
 							}
 
 							// append the new reviews to old collection, remove loading view, refresh
 							mReviewsWrapped.addAll(newlyLoadedReviewsWrapped);
+
+							if (addDivider) {
+								adapter.addDivider();
+							}
 
 							//send message to remove loading footer
 							mActivity.mHandler.sendMessage(mActivity.prepareMessage(false, mReviewSort));
@@ -668,9 +668,9 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 								mActivity.showListOrEmptyView(mReviewSort, listViewContainer, adapter);
 							}
 
-							// remove divider
-							adapter.removeDivider();
-
+							if (mLanguageList.size() > 0) {
+								adapter.addDivider();
+							}
 							// send message to remove loading footer
 							mActivity.mHandler.sendMessage(mActivity.prepareMessage(false, mReviewSort));
 						}
