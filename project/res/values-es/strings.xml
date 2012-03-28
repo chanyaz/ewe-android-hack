@@ -305,7 +305,7 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; clientes de&lt;b&gt;%2$d&lt;/b&gt; recomiendan este hotel.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; clientes de &lt;b&gt;%2$d&lt;/b&gt; recomiendan este hotel.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d Opiniones</item>
