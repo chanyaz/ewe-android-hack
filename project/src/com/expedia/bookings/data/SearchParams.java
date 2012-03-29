@@ -350,9 +350,9 @@ public class SearchParams implements JSONable {
 
 	public boolean fromJson(JSONObject obj) {
 		mFreeformLocation = obj.optString("freeformLocation", null);
-		mSearchLatitude = obj.optDouble("latitude");
-		mSearchLongitude = obj.optDouble("longitude");
 		mSearchLatLonUpToDate = obj.optBoolean("hasLatLon", false);
+		mSearchLatitude = obj.optDouble("latitude", 0);
+		mSearchLongitude = obj.optDouble("longitude", 0);
 
 		long checkinMillis = obj.optLong("checkinDate", -1);
 		if (checkinMillis != -1) {
@@ -368,7 +368,9 @@ public class SearchParams implements JSONable {
 		mNumAdults = obj.optInt("numAdults", 0);
 		mChildren = JSONUtils.getIntList(obj, "children");
 
-		mSearchType = SearchType.valueOf(obj.optString("searchType"));
+		if (obj.has("searchType")) {
+			mSearchType = SearchType.valueOf(obj.optString("searchType"));
+		}
 
 		mRegionId = obj.optString("regionId", null);
 
@@ -395,9 +397,11 @@ public class SearchParams implements JSONable {
 		JSONObject obj = new JSONObject();
 		try {
 			obj.put("freeformLocation", mFreeformLocation);
-			obj.put("latitude", mSearchLatitude);
-			obj.put("longitude", mSearchLongitude);
-			obj.put("hasLatLon", mSearchLatLonUpToDate);
+			if (mSearchLatLonUpToDate) {
+				obj.put("hasLatLon", mSearchLatLonUpToDate);
+				obj.put("latitude", mSearchLatitude);
+				obj.put("longitude", mSearchLongitude);
+			}
 			if (mCheckInDate != null) {
 				obj.put("checkinDate", mCheckInDate.getTimeInMillis());
 			}
@@ -407,7 +411,9 @@ public class SearchParams implements JSONable {
 			obj.put("numAdults", mNumAdults);
 			JSONUtils.putIntList(obj, "children", mChildren);
 
-			obj.put("searchType", mSearchType);
+			if (mSearchType != null) {
+				obj.put("searchType", mSearchType);
+			}
 
 			JSONArray propertyIds = new JSONArray();
 			for (String propertyId : mPropertyIds) {
