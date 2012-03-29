@@ -468,7 +468,7 @@
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">Du måste acceptera villkoren för att boka</string>
 	<!-- Message to display to user while booking is in progress -->
-	<string name="booking_loading">Bokar....</string>
+	<string name="booking_loading">Bokar...</string>
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Det uppstod ett fel</string>
 	<!-- Error message when we couldn't get a response -->

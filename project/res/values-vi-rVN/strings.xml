@@ -142,7 +142,7 @@
 
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">Đang tìm địa điểm hiện tại....</string>
+	<string name="progress_finding_location">Đang tìm địa điểm hiện tại...</string>
 	<!-- Message displayed when app is searching a location for hotels -->
 	<string name="progress_searching_hotels">Đang tìm khách sạn...</string>
 	<!-- Message displayed when search comes up with zero results -->
