@@ -359,8 +359,9 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			}
 			break;
 		case SearchResultsFragmentActivity.EVENT_REVIEWS_QUERY_COMPLETE:
-			ReviewsResponse reviewsResposne = (ReviewsResponse) data;
-			addReviews(reviewsResposne);
+		case SearchResultsFragmentActivity.EVENT_REVIEWS_QUERY_ERROR:
+			ReviewsResponse reviewsResponse = (ReviewsResponse) data;
+			addReviews(reviewsResponse);
 			break;
 		}
 	}
@@ -390,6 +391,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		mSomeReviewsContainer.setVisibility(View.GONE);
 
 		if (reviewsResponse == null) {
+			showReviewsError();
 			return;
 		}
 
@@ -473,16 +475,20 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 			mLoadedReviews = true;
 		}
 		else {
-			mReviewsLoadingContainer.setVisibility(View.GONE);
-
-			if (mReviewsErrorTextView == null) {
-				ViewStub stub = (ViewStub) mReviewsContainer.findViewById(R.id.stub_reviews_error);
-				mReviewsErrorTextView = (TextView) stub.inflate();
-			}
-
-			mReviewsErrorTextView.setVisibility(View.VISIBLE);
-			mReviewsErrorTextView.setMinimumHeight(mReviewsContainer.getHeight());
+			showReviewsError();
 		}
+	}
+
+	private void showReviewsError() {
+		mReviewsLoadingContainer.setVisibility(View.GONE);
+
+		if (mReviewsErrorTextView == null) {
+			ViewStub stub = (ViewStub) mReviewsContainer.findViewById(R.id.stub_reviews_error);
+			mReviewsErrorTextView = (TextView) stub.inflate();
+		}
+
+		mReviewsErrorTextView.setVisibility(View.VISIBLE);
+		mReviewsErrorTextView.setMinimumHeight(mReviewsContainer.getHeight());
 	}
 
 	private void addHotelDescription(Property property) {
