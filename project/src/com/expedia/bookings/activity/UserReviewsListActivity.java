@@ -660,6 +660,13 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 
 						}
 						else {
+							if (mLanguageList.size() > 0) {
+								adapter.addDivider();
+							}
+							else {
+								adapter.removeDivider();
+							}
+
 							// there are no reviews in the response, only display results if there are no more to attempt to DL
 							if (mLanguageList == null || (mLanguageList != null && mLanguageList.size() < 1)) {
 								mStatusMessage = mActivity.getResources().getString(
@@ -671,9 +678,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 								mActivity.showListOrEmptyView(mReviewSort, listViewContainer, adapter);
 							}
 
-							if (mLanguageList.size() > 0) {
-								adapter.addDivider();
-							}
 							// send message to remove loading footer
 							mActivity.mHandler.sendMessage(mActivity.prepareMessage(false, mReviewSort));
 						}
