@@ -108,8 +108,10 @@ public class Search extends ActiveRecordBase<Search> implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mFreeformLocation = obj.optString("freeformLocation", null);
-		mLatitude = obj.optDouble("latitude");
-		mLongitude = obj.optDouble("longitude");
+		if (obj.has("latitude") && obj.has("longitude")) {
+			mLatitude = obj.optDouble("latitude");
+			mLongitude = obj.optDouble("longitude");
+		}
 		mRegionId = obj.optString("regionId", null);
 
 		return true;
