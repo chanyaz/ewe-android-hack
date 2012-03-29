@@ -20,13 +20,14 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/placeholder_hanging_tag"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="12dp"
         android:indeterminate="true"
         android:indeterminateDrawable="@drawable/placeholder_progress_throbber"
         android:maxHeight="@dimen/placeholder_throbber_size"
         android:maxWidth="@dimen/placeholder_throbber_size"
         android:minHeight="@dimen/placeholder_throbber_size"
-        android:minWidth="@dimen/placeholder_throbber_size" />
+        android:minWidth="@dimen/placeholder_throbber_size"
+        android:paddingLeft="5dp" />
 
     <TextView
         android:id="@+id/placeholder_progress_text_view"
