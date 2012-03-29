@@ -42,7 +42,7 @@
 	<string name="rules_restrictions_disclaimer_tw">選取完成此預訂，即代表我已閱讀並接受 上述規則和限制、 &lt;a href="%1$s"&gt;條款與細則&lt;/a&gt; 及 &lt;a href="%2$s"&gt;隱私權政策&lt;/a&gt;。</string>
 	<string name="rules_restrictions_disclaimer_uk">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms and Conditions&lt;/a&gt; and the &lt;a href="%2$s"&gt;privacy policy&lt;/a&gt;.</string>
 	<string name="rules_restrictions_disclaimer_us">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_vn">Tôi đã đọc và chấp nhận các quy tắc và giới hạn ở trên, &lt;a href="%1$s"&gt;điều khoản &amp; điều kiện&lt;/a&gt; và &lt;a href="%2$s"&gt;chính sách quyền riêng tư&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_vn">Tôi đã đọc và chấp nhận các quy tắc và giới hạn ở trên, &lt;a href="%1$s"&gt;điều khoản &amp; điều kiện&lt;/a&gt; và &lt;a href="%2$s"&gt;chính sách quyền riêng tư&lt;/a&gt;.</string>
 
 	<!-- Map of POS to disclaimer.  Provides default for dual-language POSes (but should be handled carefully) -->
 
