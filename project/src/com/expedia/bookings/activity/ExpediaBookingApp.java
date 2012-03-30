@@ -6,10 +6,13 @@ import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -55,6 +58,22 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 		}
 
 		LocaleUtils.onPointOfSaleChanged(this);
+
+		// #13097: We need a way to disable the widget on ICS tablets.  This is a hacky way of doing so, 
+		// in that it requires the app to be launched at least once before it can be disabled, but it's
+		// the best we can do for the time being.
+		if (AndroidUtils.isHoneycombTablet(this)) {
+			try {
+				PackageManager pm = getPackageManager();
+				ComponentName cn = new ComponentName(this, ExpediaBookingsWidgetProvider.class);
+				pm.setComponentEnabledSetting(cn, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+						PackageManager.DONT_KILL_APP);
+			}
+			catch (Exception e) {
+				// Just in case, PM can be touchy
+				Log.w("PackageManager blew up.", e);
+			}
+		}
 	}
 
 	@Override
