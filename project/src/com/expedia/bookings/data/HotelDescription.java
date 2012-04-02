@@ -98,6 +98,10 @@ public class HotelDescription {
 			i = end + 1;
 			tag = html.substring(start + 1, end);
 
+			if (tag.length() == 0) {
+				continue; // drop the tag, it is empty
+			}
+
 			switch(tag.charAt(0)){
 			case 'l': // li
 				if ('i' == tag.charAt(1) && tag.length() == 2) {
