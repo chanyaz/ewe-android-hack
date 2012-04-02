@@ -171,12 +171,9 @@ public class PhoneHotelGalleryActivity extends Activity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ImageView imageView = (ImageView) convertView;
 			if (convertView == null) {
 				convertView = mInflater.inflate(R.layout.phone_gallery_item, null);
-				imageView = (ImageView) convertView.findViewById(R.id.image);
 			}
-
 			return convertView;
 		}
 	}
@@ -185,11 +182,9 @@ public class PhoneHotelGalleryActivity extends Activity {
 
 	public class HotelImagePagerAdapter extends PagerAdapter {
 		LayoutInflater mInflater;
-		ImageAdapter mAdapter;
 
 		public HotelImagePagerAdapter (Context context, ImageAdapter a) {
 			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			mAdapter = a;
 		}
 
 		@Override
