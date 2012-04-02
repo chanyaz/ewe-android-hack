@@ -6,7 +6,7 @@
     <ProgressBar
         android:id="@+id/hotel_image_progress_bar"
         style="@android:style/Widget.ProgressBar.Large.Inverse"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminate="true"
