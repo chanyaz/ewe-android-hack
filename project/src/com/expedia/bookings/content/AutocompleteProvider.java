@@ -1,5 +1,7 @@
 package com.expedia.bookings.content;
 
+import java.net.URLDecoder;
+
 import org.json.JSONObject;
 
 import android.app.SearchManager;
@@ -19,9 +21,19 @@ import com.mobiata.android.Log;
 
 public class AutocompleteProvider extends ContentProvider {
 
-	private static final String[] COLUMNS = { BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1,
+	public static final String[] COLUMNS = { BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1,
 			SearchManager.SUGGEST_COLUMN_QUERY, SearchManager.SUGGEST_COLUMN_INTENT_EXTRA_DATA,
 			SearchManager.SUGGEST_COLUMN_ICON_1 };
+
+	public static Uri generateSearchUri(String query, int limit) {
+		Uri.Builder builder = new Uri.Builder();
+		builder.scheme("content");
+		builder.authority("com.expedia.booking.autocomplete");
+		builder.appendPath("search_suggest_query");
+		builder.appendPath(query);
+		builder.appendQueryParameter("limit", Integer.toString(limit));
+		return builder.build();
+	}
 
 	@Override
 	public boolean onCreate() {
@@ -35,7 +47,7 @@ public class AutocompleteProvider extends ContentProvider {
 		MatrixCursor cursor = new MatrixCursor(COLUMNS);
 		int id = 1;
 		if (uri.getPathSegments().size() > 1) {
-			String query = uri.getLastPathSegment();
+			String query = URLDecoder.decode(uri.getLastPathSegment());
 
 			// Ignore string if it's just "current location"
 			if (query.equals(currentLocation)) {
