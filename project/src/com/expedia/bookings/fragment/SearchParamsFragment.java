@@ -108,6 +108,11 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 	// how the autocomplete suggestions get displayed.
 	private boolean mHasFocusedSearchField = false;
 
+	// This is a copy of the last search params we used to update the Views.
+	// It is only used so that we don't needlessly keep updating Views; it
+	// should not be used for anything else.
+	private SearchParams mLastSearchParams = null;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
@@ -276,6 +281,20 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+
+		// If the search params changed since last time we updated the views, update the views
+		if (!Db.getSearchParams().equals(mLastSearchParams)) {
+			Log.d("SearchParamsFragment: Detected change in SearchParams, updating views.");
+			mHasFocusedSearchField = true;
+
+			updateViews();
+			startAutocomplete(Db.getSearchParams().getFreeformLocation());
+		}
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 
@@ -316,13 +335,6 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 	public void updateViews() {
 		SearchParams params = Db.getSearchParams();
 
-		// #11468: Not sure how we get into this state, but let's just try to prevent a crash for now.
-		if (params == null) {
-			Log.w("Somehow, params are null.  Resetting them to default to avoid problems.");
-			params = Db.resetSearchParams();
-			mHasFocusedSearchField = false;
-		}
-
 		if (mHasFocusedSearchField) {
 			mLocationEditText.setText(params.getSearchDisplayText(getActivity()));
 		}
@@ -359,6 +371,8 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 				params.getNumChildren());
 		mSelectChildAgeTextView.setText(labelSelectEachChildsAge);
 		mChildAgesButton.setText(labelSelectEachChildsAge);
+
+		mLastSearchParams = params.copy();
 	}
 
 	private void setHtmlTextView(View container, int textViewId, int strId) {
@@ -830,7 +844,6 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
 		case SearchFragmentActivity.EVENT_RESET_PARAMS:
-		case SearchFragmentActivity.EVENT_UPDATE_PARAMS:
 			SearchParams searchParams = (SearchParams) data;
 			startAutocomplete(searchParams.getFreeformLocation());
 			break;

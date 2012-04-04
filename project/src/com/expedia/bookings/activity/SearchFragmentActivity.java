@@ -28,9 +28,6 @@ public class SearchFragmentActivity extends Activity {
 	// Constants
 
 	public static final int EVENT_RESET_PARAMS = 1;
-	public static final int EVENT_UPDATE_PARAMS = 2;
-
-	public static final int REQUEST_SEARCH = 1;
 
 	public static final int DIALOG_NO_INTERNET = 1;
 
@@ -92,17 +89,6 @@ public class SearchFragmentActivity extends Activity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (resultCode == RESULT_OK && requestCode == REQUEST_SEARCH) {
-			// TODO: Currently this is how the Fragment knows to update itself because it could
-			// have new information - perhaps we should do this in a better manner?
-			mEventManager.notifyEventHandlers(EVENT_UPDATE_PARAMS, Db.getSearchParams());
-		}
-	}
-
-	@Override
 	protected Dialog onCreateDialog(int id, Bundle args) {
 		switch (id) {
 		case DIALOG_NO_INTERNET:
@@ -126,7 +112,7 @@ public class SearchFragmentActivity extends Activity {
 		}
 
 		Intent intent = new Intent(this, SearchResultsFragmentActivity.class);
-		startActivityForResult(intent, REQUEST_SEARCH);
+		startActivity(intent);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
