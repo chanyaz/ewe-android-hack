@@ -126,7 +126,6 @@ public class SearchFragmentActivity extends Activity {
 		}
 
 		Intent intent = new Intent(this, SearchResultsFragmentActivity.class);
-		intent.putExtra(Codes.SEARCH_PARAMS, params.toJson().toString());
 		startActivityForResult(intent, REQUEST_SEARCH);
 	}
 

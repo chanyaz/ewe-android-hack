@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchResultsFragmentActivity;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
@@ -172,7 +173,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		}
 
 		// Only show exact location overlay if we have a search lat/lng, and we're showing distance
-		SearchParams params = getInstance().mSearchParams;
+		SearchParams params = Db.getSearchParams();
 		if (mExactLocationOverlay != null) {
 			if (params.hasSearchLatLon() && getInstance().mShowDistance) {
 				mExactLocationOverlay.setExactLocation(params.getSearchLatitude(), params.getSearchLongitude(),
@@ -186,7 +187,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 
 	private void animateToSearchLocation() {
 		if (mMapView != null) {
-			SearchParams params = getInstance().mSearchParams;
+			SearchParams params = Db.getSearchParams();
 			GeoPoint searchPoint = MapUtils.convertToGeoPoint(params.getSearchLatitude(), params.getSearchLongitude());
 			MapController mc = mMapView.getController();
 			mc.animateTo(searchPoint);

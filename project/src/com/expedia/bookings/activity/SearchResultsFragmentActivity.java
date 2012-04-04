@@ -40,6 +40,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Filter.SearchRadius;
@@ -75,7 +76,6 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
-import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.omniture.AppMeasurement;
@@ -136,11 +136,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			FragmentTransaction ft = fm.beginTransaction();
 			ft.add(mInstance, InstanceFragment.TAG);
 			ft.commit();
-
-			// Fill in data from calling intent
-			Intent intent = getIntent();
-			mInstance.mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
-					SearchParams.class);
 		}
 
 		setContentView(R.layout.activity_search_results_fragment);
@@ -167,7 +162,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 				try {
 					Search search = new Search();
 					search.fromJson(new JSONObject(searchJson));
-					mInstance.mSearchParams.fillFromSearch(search);
+					Db.getSearchParams().fillFromSearch(search);
 				}
 				catch (JSONException e) {
 					Log.w("Can't parse search JSON. Setting freeform location instead");
@@ -235,7 +230,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 					}
 				}
 				else {
-					mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(mContext), false);
+					mSearchView.setQuery(Db.getSearchParams().getSearchDisplayText(mContext), false);
 				}
 			}
 		});
@@ -281,7 +276,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			if (mInstance.mLastSearchTime != -1
 					&& mInstance.mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
 				Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
-				mInstance.mSearchParams.ensureValidCheckInDate();
+				Db.getSearchParams().ensureValidCheckInDate();
 				startSearch();
 			}
 		}
@@ -327,9 +322,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	@Override
 	public void finish() {
 		// Store the search params going backwards, for the SearchFragmentActivity to use
-		Intent data = new Intent();
-		data.putExtra(Codes.SEARCH_PARAMS, mInstance.mSearchParams.toString());
-		setResult(RESULT_OK, data);
+		setResult(RESULT_OK, null);
 
 		super.finish();
 	}
@@ -418,12 +411,14 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		if (mSearchView == null) {
 			return super.onPrepareOptionsMenu(menu);
 		}
+		
+		SearchParams params = Db.getSearchParams();
 
 		if (!mSearchViewFocused) {
-			mSearchView.setQuery(mInstance.mSearchParams.getSearchDisplayText(this), false);
+			mSearchView.setQuery(params.getSearchDisplayText(this), false);
 		}
 
-		int numGuests = mInstance.mSearchParams.getNumAdults() + mInstance.mSearchParams.getNumChildren();
+		int numGuests = params.getNumAdults() + params.getNumChildren();
 		if (mUseCondensedActionBar) {
 			mGuestsTextView.setText(numGuests + "");
 		}
@@ -431,7 +426,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			mGuestsMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_guests, numGuests, numGuests));
 		}
 
-		int numNights = mInstance.mSearchParams.getStayDuration();
+		int numNights = params.getStayDuration();
 		mDatesMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_nights, numNights, numNights));
 
 		mFilterMenuItem.setEnabled(mInstance.mSearchResponse != null && !mInstance.mSearchResponse.hasErrors());
@@ -584,7 +579,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			return fragment;
 		}
 
-		public SearchParams mSearchParams = new SearchParams();
 		public String mSearchStatus;
 		public boolean mShowDistance;
 		public SearchResponse mSearchResponse;
@@ -665,8 +659,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private void showGuestsDialog() {
 		FragmentManager fm = getFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_guests_dialog)) == null) {
-			DialogFragment newFragment = GuestsDialogFragment.newInstance(mInstance.mSearchParams.getNumAdults(),
-					mInstance.mSearchParams.getChildren());
+			DialogFragment newFragment = GuestsDialogFragment.newInstance(Db.getSearchParams().getNumAdults(),
+					Db.getSearchParams().getChildren());
 			newFragment.show(fm, getString(R.string.tag_guests_dialog));
 		}
 	}
@@ -674,8 +668,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private void showCalendarDialog() {
 		FragmentManager fm = getFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_calendar_dialog)) == null) {
-			DialogFragment newFragment = CalendarDialogFragment.newInstance(mInstance.mSearchParams.getCheckInDate(),
-					mInstance.mSearchParams.getCheckOutDate());
+			DialogFragment newFragment = CalendarDialogFragment.newInstance(Db.getSearchParams().getCheckInDate(),
+					Db.getSearchParams().getCheckOutDate());
 			newFragment.show(getFragmentManager(), getString(R.string.tag_calendar_dialog));
 		}
 	}
@@ -710,7 +704,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	public void setMyLocationSearch() {
 		Log.d("Setting search to use 'my location'");
 
-		mInstance.mSearchParams.setSearchType(SearchType.MY_LOCATION);
+		Db.getSearchParams().setSearchType(SearchType.MY_LOCATION);
 
 		invalidateOptionsMenu();
 
@@ -720,8 +714,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	public void setFreeformLocation(String freeformLocation) {
 		Log.d("Setting freeform location: " + freeformLocation);
 
-		mInstance.mSearchParams.setSearchType(SearchType.FREEFORM);
-		mInstance.mSearchParams.setFreeformLocation(freeformLocation);
+		Db.getSearchParams().setSearchType(SearchType.FREEFORM);
+		Db.getSearchParams().setFreeformLocation(freeformLocation);
 
 		invalidateOptionsMenu();
 
@@ -731,8 +725,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	public void setGuests(int numAdults, List<Integer> children) {
 		Log.d("Setting guests: " + numAdults + " adult(s), " + children.size() + " child(ren)");
 
-		mInstance.mSearchParams.setNumAdults(numAdults);
-		mInstance.mSearchParams.setChildren(children);
+		Db.getSearchParams().setNumAdults(numAdults);
+		Db.getSearchParams().setChildren(children);
 
 		invalidateOptionsMenu();
 
@@ -742,8 +736,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	public void setDates(Calendar checkIn, Calendar checkOut) {
 		Log.d("Setting dates: " + checkIn.getTimeInMillis() + " to " + checkOut.getTimeInMillis());
 
-		mInstance.mSearchParams.setCheckInDate(checkIn);
-		mInstance.mSearchParams.setCheckOutDate(checkOut);
+		Db.getSearchParams().setCheckInDate(checkIn);
+		Db.getSearchParams().setCheckOutDate(checkOut);
 
 		invalidateOptionsMenu();
 
@@ -753,14 +747,14 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	public void setLatLng(double latitude, double longitude) {
 		Log.d("Setting lat/lng: lat=" + latitude + ", lng=" + longitude);
 
-		mInstance.mSearchParams.setSearchLatLon(latitude, longitude);
+		Db.getSearchParams().setSearchLatLon(latitude, longitude);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Search
 
 	public void startSearch() {
-		Log.i("startSearch(): " + mInstance.mSearchParams.toJson().toString());
+		Log.i("startSearch(): " + Db.getSearchParams().toJson().toString());
 
 		// Remove existing search results (and references to it)
 		mInstance.mSearchResponse = null;
@@ -796,10 +790,10 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		}
 
 		// Determine search type, conduct search
-		switch (mInstance.mSearchParams.getSearchType()) {
+		switch (Db.getSearchParams().getSearchType()) {
 		case FREEFORM:
-			if (mInstance.mSearchParams.hasEnoughToSearch()) {
-				mInstance.mShowDistance = mInstance.mSearchParams.hasSearchLatLon();
+			if (Db.getSearchParams().hasEnoughToSearch()) {
+				mInstance.mShowDistance = Db.getSearchParams().hasSearchLatLon();
 				startSearchDownloader();
 			}
 			else {
@@ -825,9 +819,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	}
 
 	public void startGeocode() {
-		Log.i("startGeocode(): " + mInstance.mSearchParams.getFreeformLocation());
+		Log.i("startGeocode(): " + Db.getSearchParams().getFreeformLocation());
 
-		mInstance.mSearchParams.setUserFreeformLocation(mInstance.mSearchParams.getFreeformLocation());
+		Db.getSearchParams().setUserFreeformLocation(Db.getSearchParams().getFreeformLocation());
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.startDownload(KEY_GEOCODE, mGeocodeDownload, mGeocodeCallback);
@@ -835,7 +829,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	private Download mGeocodeDownload = new Download() {
 		public Object doDownload() {
-			return LocationServices.geocode(mContext, mInstance.mSearchParams.getFreeformLocation());
+			return LocationServices.geocode(mContext, Db.getSearchParams().getFreeformLocation());
 		}
 	};
 
@@ -866,7 +860,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	};
 
 	public void onGeocodeSuccess(Address address) {
-		mInstance.mSearchParams.setFreeformLocation(address);
+		Db.getSearchParams().setFreeformLocation(address);
 		invalidateOptionsMenu();
 
 		setLatLng(address.getLatitude(), address.getLongitude());
@@ -898,8 +892,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		mEventManager.notifyEventHandlers(EVENT_SEARCH_LOCATION_FOUND, null);
 
 		// Save this as a "recent search" if it is a freeform search
-		if (mInstance.mSearchParams.getSearchType() == SearchType.FREEFORM) {
-			Search.add(this, mInstance.mSearchParams);
+		if (Db.getSearchParams().getSearchType() == SearchType.FREEFORM) {
+			Search.add(this, Db.getSearchParams());
 		}
 
 		BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
@@ -909,7 +903,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
-			return services.search(mInstance.mSearchParams, 0);
+			return services.search(Db.getSearchParams(), 0);
 		}
 	};
 
@@ -1052,7 +1046,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			public Object doDownload() {
 				ExpediaServices services = new ExpediaServices(mContext);
 				BackgroundDownloader.getInstance().addDownloadListener(KEY_AVAILABILITY_SEARCH, services);
-				return services.availability(mInstance.mSearchParams, mInstance.mProperty,
+				return services.availability(Db.getSearchParams(), mInstance.mProperty,
 						requestMoreData ? ExpediaServices.F_EXPENSIVE : 0);
 			}
 		};
@@ -1157,14 +1151,14 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	// Tracking
 
 	public void onSearchResultsChanged() {
-		String refinements = TrackingUtils.getRefinements(mInstance.mSearchParams, mInstance.mLastSearchParams,
+		String refinements = TrackingUtils.getRefinements(Db.getSearchParams(), mInstance.mLastSearchParams,
 				mInstance.mFilter, mInstance.mLastFilter);
 
 		// Update the last filter/search params we used to track refinements 
-		mInstance.mLastSearchParams = mInstance.mSearchParams.copy();
+		mInstance.mLastSearchParams = Db.getSearchParams().copy();
 		mInstance.mLastFilter = mInstance.mFilter.copy();
 
-		Tracker.trackAppHotelsSearch(this, mInstance.mSearchParams, mInstance.mSearchResponse, refinements);
+		Tracker.trackAppHotelsSearch(this, Db.getSearchParams(), mInstance.mSearchResponse, refinements);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1181,7 +1175,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	public void bookRoom(Rate rate, boolean specificRateClicked) {
 		Intent intent = new Intent(this, BookingFragmentActivity.class);
-		intent.putExtra(Codes.SEARCH_PARAMS, mInstance.mSearchParams.toJson().toString());
+		intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toJson().toString());
 		intent.putExtra(Codes.PROPERTY, mInstance.mProperty.toJson().toString());
 		intent.putExtra(Codes.AVAILABILITY_RESPONSE, getRoomsAndRatesAvailability().toJson().toString());
 		intent.putExtra(Codes.RATE, rate.toJson().toString());
