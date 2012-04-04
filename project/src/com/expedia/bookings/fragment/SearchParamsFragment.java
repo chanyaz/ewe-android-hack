@@ -59,8 +59,8 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchFragmentActivity;
-import com.expedia.bookings.activity.SearchFragmentActivity.InstanceFragment;
 import com.expedia.bookings.content.AutocompleteProvider;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
@@ -78,6 +78,8 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 	private static final int NUM_SUGGESTIONS = 5;
 
 	private static final String KEY_CHILD_AGES_POPUP_VISIBLE = "KEY_CHILD_AGES_POPUP_VISIBLE";
+
+	private static final String INSTANCE_HAS_FOCUSED_SEARCH_FIELD = "INSTANCE_HAS_FOCUSED_SEARCH_FIELD";
 
 	public static SearchParamsFragment newInstance() {
 		return new SearchParamsFragment();
@@ -102,8 +104,21 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 	// the initial registration.
 	private boolean mDetectedInitialConnectivity;
 
+	// Whether or not the search field has ever had focus.  This determines
+	// how the autocomplete suggestions get displayed.
+	private boolean mHasFocusedSearchField = false;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState != null) {
+			mHasFocusedSearchField = savedInstanceState.getBoolean(INSTANCE_HAS_FOCUSED_SEARCH_FIELD, false);
+		}
+	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -138,7 +153,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 
 		updateViews();
 
-		if (getInstance().mSearchParams.getNumChildren() == 0) {
+		if (Db.getSearchParams().getNumChildren() == 0) {
 			hideChildAgesButton(false);
 		}
 		else {
@@ -177,7 +192,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 		mLocationEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
-					getInstance().mHasFocusedSearchField = true;
+					mHasFocusedSearchField = true;
 
 					String text = mLocationEditText.getText().toString();
 					if (text.equals(getString(R.string.current_location))
@@ -257,6 +272,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(KEY_CHILD_AGES_POPUP_VISIBLE, isChildAgesPopupVisible());
+		outState.putBoolean(INSTANCE_HAS_FOCUSED_SEARCH_FIELD, mHasFocusedSearchField);
 	}
 
 	@Override
@@ -298,17 +314,16 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 	// Views
 
 	public void updateViews() {
-		InstanceFragment instance = getInstance();
-		SearchParams params = instance.mSearchParams;
+		SearchParams params = Db.getSearchParams();
 
 		// #11468: Not sure how we get into this state, but let's just try to prevent a crash for now.
 		if (params == null) {
 			Log.w("Somehow, params are null.  Resetting them to default to avoid problems.");
-			instance.mSearchParams = params = new SearchParams();
-			instance.mHasFocusedSearchField = false;
+			params = Db.resetSearchParams();
+			mHasFocusedSearchField = false;
 		}
 
-		if (instance.mHasFocusedSearchField) {
+		if (mHasFocusedSearchField) {
 			mLocationEditText.setText(params.getSearchDisplayText(getActivity()));
 		}
 		else {
@@ -370,7 +385,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 			startCalendar.set(Calendar.MILLISECOND, 0);
 			endCalendar.set(Calendar.MILLISECOND, 0);
 
-			SearchParams searchParams = getInstance().mSearchParams;
+			SearchParams searchParams = Db.getSearchParams();
 			searchParams.setCheckInDate(startCalendar);
 			searchParams.setCheckOutDate(endCalendar);
 		}
@@ -381,7 +396,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 
 		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 			if (!isHidden()) {
-				SearchParams searchParams = getInstance().mSearchParams;
+				SearchParams searchParams = Db.getSearchParams();
 				List<Integer> children = searchParams.getChildren();
 				searchParams.setNumAdults(mAdultsNumberPicker.getValue());
 				Activity activity = getActivity();
@@ -449,7 +464,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			Context context = getActivity();
-			List<Integer> children = getInstance().mSearchParams.getChildren();
+			List<Integer> children = Db.getSearchParams().getChildren();
 			GuestsPickerUtils.setChildrenFromSpinners(context, mChildAgesLayout, children);
 			GuestsPickerUtils.updateDefaultChildAges(context, children);
 		}
@@ -531,7 +546,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 		}
 		mChildAgesLayout.setVisibility(View.VISIBLE);
 
-		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), getInstance().mSearchParams.getChildren(),
+		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), Db.getSearchParams().getChildren(),
 				mChildAgesLayout, mChildAgeSelectedListener);
 
 		int[] location = new int[2];
@@ -625,7 +640,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 					mLocationEditText.setText(suggestion);
 					mLocationEditText.clearFocus();
 					if (search != null) {
-						getInstance().mSearchParams.fillFromSearch(search);
+						Db.getSearchParams().fillFromSearch(search);
 					}
 
 					// Hide the IME
@@ -736,10 +751,10 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 	private TextWatcher mLocationTextWatcher = new TextWatcher() {
 
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			getInstance().mHasFocusedSearchField = true;
+			mHasFocusedSearchField = true;
 
 			String location = s.toString().trim();
-			SearchParams searchParams = getInstance().mSearchParams;
+			SearchParams searchParams = Db.getSearchParams();
 			if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
 				searchParams.setSearchType(SearchType.MY_LOCATION);
 				startAutocomplete("");
@@ -751,7 +766,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 				// If we have a query string, kick off a suggestions request
 				// Do it on a delay though - we don't want to update suggestions every time user is edits a single
 				// char on the text. 
-				if (getInstance().mHasFocusedSearchField && !mAutocompleteItemClicked) {
+				if (mHasFocusedSearchField && !mAutocompleteItemClicked) {
 					mHandler.removeMessages(WHAT_AUTOCOMPLETE);
 					Message msg = new Message();
 					msg.obj = location;
@@ -781,7 +796,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 		public void onReceive(Context context, Intent intent) {
 			if (mDetectedInitialConnectivity) {
 				// Kick off a new suggestion query based on the current text.
-				startAutocomplete(getInstance().mSearchParams.getFreeformLocation());
+				startAutocomplete(Db.getSearchParams().getFreeformLocation());
 			}
 			else {
 				mDetectedInitialConnectivity = true;

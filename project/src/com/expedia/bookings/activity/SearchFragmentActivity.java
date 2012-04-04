@@ -12,12 +12,12 @@ import android.os.Bundle;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.model.Search;
 import com.mobiata.android.hockey.helper.HockeyAppUtil;
-import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.util.NetUtils;
@@ -58,7 +58,6 @@ public class SearchFragmentActivity extends Activity {
 		mInstance = (InstanceFragment) fm.findFragmentByTag(InstanceFragment.TAG);
 		if (mInstance == null) {
 			mInstance = InstanceFragment.newInstance();
-			mInstance.mSearchParams = new SearchParams();
 			FragmentTransaction ft = fm.beginTransaction();
 			ft.add(mInstance, InstanceFragment.TAG);
 			ft.commit();
@@ -77,10 +76,9 @@ public class SearchFragmentActivity extends Activity {
 		super.onNewIntent(intent);
 
 		if (intent.hasExtra(Codes.EXTRA_NEW_SEARCH)) {
-			mInstance.mSearchParams = new SearchParams();
-			mInstance.mHasFocusedSearchField = false;
+			Db.resetSearchParams();
 
-			mEventManager.notifyEventHandlers(EVENT_RESET_PARAMS, mInstance.mSearchParams);
+			mEventManager.notifyEventHandlers(EVENT_RESET_PARAMS, Db.getSearchParams());
 		}
 	}
 
@@ -97,16 +95,10 @@ public class SearchFragmentActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (resultCode == RESULT_OK && requestCode == REQUEST_SEARCH && data != null
-				&& data.hasExtra(Codes.SEARCH_PARAMS)) {
-			// #11468: Not sure if this is the root cause of the problem, but trying to prevent crash here
-			SearchParams params = JSONUtils.parseJSONableFromIntent(data, Codes.SEARCH_PARAMS, SearchParams.class);
-			if (params != null) {
-				mInstance.mSearchParams = params;
-			}
-			mInstance.mHasFocusedSearchField = true;
-
-			mEventManager.notifyEventHandlers(EVENT_UPDATE_PARAMS, mInstance.mSearchParams);
+		if (resultCode == RESULT_OK && requestCode == REQUEST_SEARCH) {
+			// TODO: Currently this is how the Fragment knows to update itself because it could
+			// have new information - perhaps we should do this in a better manner?
+			mEventManager.notifyEventHandlers(EVENT_UPDATE_PARAMS, Db.getSearchParams());
 		}
 	}
 
@@ -127,12 +119,14 @@ public class SearchFragmentActivity extends Activity {
 			return;
 		}
 
-		if (getInstance().mSearchParams.getSearchType() == SearchType.FREEFORM) {
-			Search.add(this, getInstance().mSearchParams);
+		SearchParams params = Db.getSearchParams();
+
+		if (params.getSearchType() == SearchType.FREEFORM) {
+			Search.add(this, params);
 		}
 
 		Intent intent = new Intent(this, SearchResultsFragmentActivity.class);
-		intent.putExtra(Codes.SEARCH_PARAMS, getInstance().mSearchParams.toJson().toString());
+		intent.putExtra(Codes.SEARCH_PARAMS, params.toJson().toString());
 		startActivityForResult(intent, REQUEST_SEARCH);
 	}
 
@@ -151,10 +145,6 @@ public class SearchFragmentActivity extends Activity {
 			fragment.setRetainInstance(true);
 			return fragment;
 		}
-
-		public SearchParams mSearchParams;
-
-		public boolean mHasFocusedSearchField = false;
 
 		public List<Search> mAutosuggestions;
 		public String mAutosuggestQuery;
