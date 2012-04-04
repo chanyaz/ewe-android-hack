@@ -58,8 +58,18 @@ public class AutocompleteProvider extends ContentProvider {
 
 		Log.d("Autocomplete query: '" + query + "'");
 
-		// Don't bother using network if it's just "current location"
-		if (!query.equals(currentLocation) && !query.equals("")) {
+		// First check if the query exists in recent searches
+		List<Search> recentSearches = Search.getRecentSearches(getContext(), 5);
+		boolean recentSearchesContainsQuery = false;
+		for (Search search : recentSearches) {
+			if (search.getFreeformLocation().equals(query)) {
+				recentSearchesContainsQuery = true;
+				break;
+			}
+		}
+
+		// Don't bother hitting the network in some cases
+		if (!recentSearchesContainsQuery && !query.equals(currentLocation) && !query.equals("")) {
 			ExpediaServices services = new ExpediaServices(getContext());
 			SuggestResponse response = services.suggest(query);
 
@@ -83,7 +93,7 @@ public class AutocompleteProvider extends ContentProvider {
 
 		// Then suggest history
 		if (id <= 5) {
-			for (Search search : Search.getRecentSearches(getContext(), 5)) {
+			for (Search search : recentSearches) {
 
 				SearchParams p = new SearchParams();
 				p.fillFromSearch(search);
