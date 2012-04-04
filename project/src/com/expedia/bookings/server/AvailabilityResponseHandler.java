@@ -56,6 +56,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			Property property = new Property();
 			availResponse.setProperty(property);
 			property.setDescriptionText(response.optString("longDescription", null));
+			property.setPropertyId(response.optString("hotelId", null));
 
 			int len;
 			JSONArray photos = response.optJSONArray("photos");
