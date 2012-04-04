@@ -1,10 +1,11 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
@@ -14,18 +15,25 @@ import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.LoaderManager;
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.Loader;
+import android.database.Cursor;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -52,28 +60,23 @@ import android.widget.TextView.OnEditorActionListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchFragmentActivity;
 import com.expedia.bookings.activity.SearchFragmentActivity.InstanceFragment;
+import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
-import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.model.Search;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.widget.NumberPicker;
 import com.expedia.bookings.widget.NumberPicker.OnValueChangeListener;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 
-public class SearchParamsFragment extends Fragment implements EventHandler {
+public class SearchParamsFragment extends Fragment implements EventHandler, LoaderManager.LoaderCallbacks<Cursor> {
 
 	private static final int NUM_SUGGESTIONS = 5;
 
-	private static final String KEY_AUTOCOMPLETE_DOWNLOAD = "KEY_AUTOCOMPLETE_DOWNLOAD";
 	private static final String KEY_CHILD_AGES_POPUP_VISIBLE = "KEY_CHILD_AGES_POPUP_VISIBLE";
 
 	public static SearchParamsFragment newInstance() {
@@ -206,26 +209,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			}
 		});
 
-		// Configure suggestions
-		ViewGroup suggestionsContainer = (ViewGroup) view.findViewById(R.id.suggestions_layout);
-		mSuggestionRows = new ArrayList<SuggestionRow>();
-		for (int a = 0; a < NUM_SUGGESTIONS; a++) {
-			ViewGroup suggestionRow = (ViewGroup) inflater.inflate(R.layout.snippet_suggestion, suggestionsContainer,
-					false);
-			SuggestionRow row = new SuggestionRow();
-			row.mRow = suggestionRow;
-			row.mIcon = (ImageView) suggestionRow.findViewById(R.id.icon);
-			row.mLocation = (TextView) suggestionRow.findViewById(R.id.location);
-			mSuggestionRows.add(row);
-			suggestionsContainer.addView(suggestionRow);
-
-			if (a + 1 < NUM_SUGGESTIONS) {
-				row.mDivider = inflater.inflate(R.layout.snippet_autocomplete_divider, suggestionsContainer, false);
-				suggestionsContainer.addView(row.mDivider);
-			}
-		}
-
-		configureSuggestions();
+		initSuggestionViews(view, inflater);
 
 		// Configure the calendar
 		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker);
@@ -279,11 +263,6 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	public void onResume() {
 		super.onResume();
 
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_AUTOCOMPLETE_DOWNLOAD)) {
-			bd.registerDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD, mAutocompleteCallback);
-		}
-
 		mLocationEditText.addTextChangedListener(mLocationTextWatcher);
 
 		mDetectedInitialConnectivity = false;
@@ -296,8 +275,6 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	@Override
 	public void onPause() {
 		super.onPause();
-
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_AUTOCOMPLETE_DOWNLOAD);
 
 		mLocationEditText.removeTextChangedListener(mLocationTextWatcher);
 
@@ -578,18 +555,6 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	//////////////////////////////////////////////////////////////////////////
 	// Suggestion/autocomplete stuff
 
-	private List<Object> mSuggestions;
-
-	private static List<String> sStaticSuggestions;
-
-	private List<String> getStaticSuggestions() {
-		if (sStaticSuggestions == null) {
-			sStaticSuggestions = Arrays.asList(getResources().getStringArray(R.array.suggestions));
-			Collections.shuffle(sStaticSuggestions); // Randomly shuffle them for each launch
-		}
-		return sStaticSuggestions;
-	}
-
 	private class SuggestionRow {
 		public ViewGroup mRow;
 		public View mDivider;
@@ -617,9 +582,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 		/**
 		 * Expects that sometimes search might == null.
-		 * @param row
-		 * @param search
-		 * @param suggestion
+		 * @param query either a Search object or a String
 		 */
 		public void configure(Object query) {
 			Search search = null;
@@ -675,16 +638,57 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 	}
 
-	/**
-	 * Configures a list of suggestions. Concatenates the list in this order:
-	 * 1. Any suggestions generated by the expedia suggestion engine
-	 * 2. Past queries
-	 * 3. A random selection from R.array.suggestions
-	 * @param query
-	 */
-	private void configureSuggestions() {
-		InstanceFragment instance = getInstance();
+	private void initSuggestionViews(View parent, LayoutInflater inflater) {
+		// Configure suggestions
+		ViewGroup suggestionsContainer = (ViewGroup) parent.findViewById(R.id.suggestions_layout);
+		mSuggestionRows = new ArrayList<SuggestionRow>();
+		for (int a = 0; a < NUM_SUGGESTIONS; a++) {
+			ViewGroup suggestionRow = (ViewGroup) inflater.inflate(R.layout.snippet_suggestion, suggestionsContainer,
+					false);
+			SuggestionRow row = new SuggestionRow();
+			row.mRow = suggestionRow;
+			row.mIcon = (ImageView) suggestionRow.findViewById(R.id.icon);
+			row.mLocation = (TextView) suggestionRow.findViewById(R.id.location);
+			mSuggestionRows.add(row);
+			suggestionsContainer.addView(suggestionRow);
 
+			if (a + 1 < NUM_SUGGESTIONS) {
+				row.mDivider = inflater.inflate(R.layout.snippet_autocomplete_divider, suggestionsContainer, false);
+				suggestionsContainer.addView(row.mDivider);
+			}
+		}
+
+		configureSuggestions(null);
+		startAutocomplete("");
+	}
+
+	private void startAutocomplete(String query) {
+		Log.d("Querying autocomplete for: " + query);
+
+		Bundle args = new Bundle();
+		args.putString("QUERY", query);
+		getLoaderManager().restartLoader(0, args, this);
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		// We only have one Loader, so we don't care about the ID.
+		Uri suggestUri = AutocompleteProvider.generateSearchUri(args.getString("QUERY", ""), 5);
+
+		return new CursorLoader(getActivity(), suggestUri, AutocompleteProvider.COLUMNS, null, null, "");
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		configureSuggestions(data);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+		configureSuggestions(null);
+	}
+
+	private void configureSuggestions(Cursor data) {
 		if (!NetUtils.isOnline(getActivity())) {
 			// Hide all of the current suggestion rows
 			for (SuggestionRow row : mSuggestionRows) {
@@ -695,46 +699,39 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			mSuggestionErrorTextView.setText(R.string.error_no_internet);
 			return;
 		}
+		else if (data == null) {
+			mSuggestionErrorTextView.setVisibility(View.VISIBLE);
+			mSuggestionErrorTextView.setText("Loading..."); //TODO: string-ize
+			return;
+		}
 		else {
 			mSuggestionErrorTextView.setVisibility(View.GONE);
 		}
 
-		mSuggestions = new ArrayList<Object>();
-
-		// 1. Suggestions generated from the expedia suggestion engine
-		if (instance.mAutosuggestions != null) {
-			mSuggestions.addAll(instance.mAutosuggestions);
-		}
-		else {
-			mSuggestions.add(getString(R.string.current_location));
-		}
-
-		// 2. Past queries
-		mSuggestions.addAll(Search.getRecentSearches(getActivity(), 5));
-
-		// 3. A random selection from R.array.suggestions
-		mSuggestions.addAll(getStaticSuggestions());
-
-		for (int a = 0; a < mSuggestionRows.size(); a++) {
-			mSuggestionRows.get(a).configure(mSuggestions.get(a));
+		data.moveToFirst();
+		int a = 0;
+		int jsonIndex = data.getColumnIndex(SearchManager.SUGGEST_COLUMN_INTENT_EXTRA_DATA);
+		int textIndex = data.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1);
+		while (a < mSuggestionRows.size() && !data.isAfterLast()) {
+			try {
+				String searchJson = data.getString(jsonIndex);
+				if (!TextUtils.isEmpty(searchJson)) {
+					Search search = new Search(getActivity());
+					search.fromJson(new JSONObject(searchJson));
+					mSuggestionRows.get(a).configure(search);
+				}
+				else {
+					String text = data.getString(textIndex);
+					mSuggestionRows.get(a).configure(text);
+				}
+				a++;
+				data.moveToNext();
+			}
+			catch (JSONException e) {
+				Log.e("Unable to parse Search object");
+			}
 		}
 	}
-
-	private OnDownloadComplete mAutocompleteCallback = new OnDownloadComplete() {
-		public void onDownload(Object results) {
-			SuggestResponse response = (SuggestResponse) results;
-			if (response == null) {
-				getInstance().mAutosuggestions = new ArrayList<Search>();
-			}
-			else {
-				getInstance().mAutosuggestions = response.getSuggestions();
-				if (getInstance().mAutosuggestions == null) {
-					getInstance().mAutosuggestions = new ArrayList<Search>();
-				}
-			}
-			configureSuggestions();
-		}
-	};
 
 	private TextWatcher mLocationTextWatcher = new TextWatcher() {
 
@@ -745,7 +742,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 			SearchParams searchParams = getInstance().mSearchParams;
 			if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
 				searchParams.setSearchType(SearchType.MY_LOCATION);
-				location = null;
+				startAutocomplete("");
 			}
 			else if (!location.equals(searchParams.getFreeformLocation())) {
 				searchParams.setFreeformLocation(location);
@@ -753,24 +750,19 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 
 				// If we have a query string, kick off a suggestions request
 				// Do it on a delay though - we don't want to update suggestions every time user is edits a single
-				// char on the text
-				if (location.length() >= 3 && getInstance().mHasFocusedSearchField && !mAutocompleteItemClicked) {
+				// char on the text. 
+				if (getInstance().mHasFocusedSearchField && !mAutocompleteItemClicked) {
 					mHandler.removeMessages(WHAT_AUTOCOMPLETE);
 					Message msg = new Message();
 					msg.obj = location;
 					msg.what = WHAT_AUTOCOMPLETE;
-					mHandler.sendMessageDelayed(msg, 1000);
-				}
-				else if (location.length() < 3) {
-					getInstance().mAutosuggestions = null;
-				}
-			}
 
-			if (!mAutocompleteItemClicked) {
-				configureSuggestions();
-			}
-			else {
-				mAutocompleteItemClicked = false;
+					// It's actually ok to do it immediately if the length is short, we know 
+					// that the provider won't do a network request in this case.
+					int delay = location.length() < 3 ? 0 : 1000;
+
+					mHandler.sendMessageDelayed(msg, delay);
+				}
 			}
 		}
 
@@ -789,7 +781,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		public void onReceive(Context context, Intent intent) {
 			if (mDetectedInitialConnectivity) {
 				// Kick off a new suggestion query based on the current text.
-				configureSuggestions();
+				startAutocomplete(getInstance().mSearchParams.getFreeformLocation());
 			}
 			else {
 				mDetectedInitialConnectivity = true;
@@ -810,20 +802,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 		public void handleMessage(Message msg) {
 			if (msg.what == WHAT_AUTOCOMPLETE) {
 				final String query = (String) msg.obj;
-
-				Log.d("Querying autocomplete for: " + query);
-
-				final Download download = new Download() {
-					public Object doDownload() {
-						ExpediaServices services = new ExpediaServices(getActivity());
-						BackgroundDownloader.getInstance().addDownloadListener(KEY_AUTOCOMPLETE_DOWNLOAD, services);
-						return services.suggest(query);
-					}
-				};
-
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				bd.cancelDownload(KEY_AUTOCOMPLETE_DOWNLOAD);
-				bd.startDownload(KEY_AUTOCOMPLETE_DOWNLOAD, download, mAutocompleteCallback);
+				startAutocomplete(query);
 			}
 			super.handleMessage(msg);
 		}
@@ -836,14 +815,9 @@ public class SearchParamsFragment extends Fragment implements EventHandler {
 	public void handleEvent(int eventCode, Object data) {
 		switch (eventCode) {
 		case SearchFragmentActivity.EVENT_RESET_PARAMS:
-			updateViews();
-			BackgroundDownloader.getInstance().cancelDownload(KEY_AUTOCOMPLETE_DOWNLOAD);
-			configureSuggestions();
-			break;
 		case SearchFragmentActivity.EVENT_UPDATE_PARAMS:
-			BackgroundDownloader.getInstance().cancelDownload(KEY_AUTOCOMPLETE_DOWNLOAD);
-			updateViews();
-			configureSuggestions();
+			SearchParams searchParams = (SearchParams) data;
+			startAutocomplete(searchParams.getFreeformLocation());
 			break;
 		}
 	}

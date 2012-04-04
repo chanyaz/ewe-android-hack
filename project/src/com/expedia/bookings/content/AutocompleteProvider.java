@@ -1,6 +1,9 @@
 package com.expedia.bookings.content;
 
 import java.net.URLDecoder;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.json.JSONObject;
 
@@ -46,16 +49,17 @@ public class AutocompleteProvider extends ContentProvider {
 
 		MatrixCursor cursor = new MatrixCursor(COLUMNS);
 		int id = 1;
+
+		String query = "";
+
 		if (uri.getPathSegments().size() > 1) {
-			String query = URLDecoder.decode(uri.getLastPathSegment());
+			query = URLDecoder.decode(uri.getLastPathSegment());
+		}
 
-			// Ignore string if it's just "current location"
-			if (query.equals(currentLocation)) {
-				return null;
-			}
+		Log.d("Autocomplete query: '" + query + "'");
 
-			Log.d("Autocomplete query: " + query);
-
+		// Don't bother using network if it's just "current location"
+		if (!query.equals(currentLocation) && !query.equals("")) {
 			ExpediaServices services = new ExpediaServices(getContext());
 			SuggestResponse response = services.suggest(query);
 
@@ -67,16 +71,18 @@ public class AutocompleteProvider extends ContentProvider {
 					cursor.addRow(row);
 					id++;
 				}
-
-				return cursor;
 			}
 		}
-		else {
-			// If there is nothing to query, suggest "current location"
+
+		// If there were no autosuggestions, then suggest "current location"
+		if (id == 1) {
 			final Object[] row = { id, currentLocation, currentLocation, null, R.drawable.autocomplete_location };
 			cursor.addRow(row);
+			id++;
+		}
 
-			// Then suggest history
+		// Then suggest history
+		if (id <= 5) {
 			for (Search search : Search.getRecentSearches(getContext(), 5)) {
 
 				SearchParams p = new SearchParams();
@@ -86,18 +92,30 @@ public class AutocompleteProvider extends ContentProvider {
 				final Object[] historyRow = { id, freeformLocation, freeformLocation, p.toJson(),
 						R.drawable.autocomplete_pin };
 				cursor.addRow(historyRow);
+				id++;
 			}
+		}
 
-			// Then suggest from array
-			for (String suggestion : getContext().getResources().getStringArray(R.array.suggestions)) {
+		// Then suggest from array of random cool cities
+		if (id <= 5) {
+			for (String suggestion : getStaticSuggestions()) {
 				final Object[] suggestionRow = { id, suggestion, suggestion, null, R.drawable.autocomplete_pin };
 				cursor.addRow(suggestionRow);
+				id++;
 			}
-
-			id++;
 		}
 
 		return cursor;
+	}
+
+	private static List<String> sStaticSuggestions;
+
+	private List<String> getStaticSuggestions() {
+		if (sStaticSuggestions == null) {
+			sStaticSuggestions = Arrays.asList(getContext().getResources().getStringArray(R.array.suggestions));
+			Collections.shuffle(sStaticSuggestions); // Randomly shuffle them for each launch
+		}
+		return sStaticSuggestions;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
