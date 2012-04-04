@@ -480,7 +480,7 @@ public class HotelActivity extends AsyncLoadActivity {
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 						Intent intent = new Intent(mContext, PhoneHotelGalleryActivity.class);
 						intent.putExtra(Codes.PROPERTY, mProperty.toString());
-						intent.putExtra(Codes.SELECTED_IMAGE, ((AdapterView<Media>) parent).getSelectedItem().toString());
+						intent.putExtra(Codes.SELECTED_IMAGE, parent.getSelectedItem().toString());
 						startActivity(intent);
 					}
 				});
