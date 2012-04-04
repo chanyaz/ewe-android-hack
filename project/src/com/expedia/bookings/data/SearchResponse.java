@@ -1,6 +1,5 @@
 package com.expedia.bookings.data;
 
-import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,7 +10,6 @@ import java.util.regex.Pattern;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Filter.PriceRange;
@@ -25,7 +23,10 @@ import com.mobiata.android.json.JSONable;
 
 public class SearchResponse extends Response implements OnFilterChangedListener, JSONable {
 	private SearchType mSearchType;
+
+	// We keep both a list of properties (for ordering) and a map (for easy id lookup)
 	private List<Property> mProperties;
+	private Map<String, Property> mPropertyMap;
 
 	// For paging through results
 	private boolean mLastPage;
@@ -57,11 +58,37 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 		return mProperties.get(index);
 	}
 
+	public Property getProperty(String id) {
+		if (id == null || id.length() == 0) {
+			return null;
+		}
+
+		// We don't bother initializing this until it's used, since it's
+		// just a different data representation of the property list.
+		if (mPropertyMap == null) {
+			mPropertyMap = new HashMap<String, Property>();
+
+			if (mProperties != null) {
+				for (Property property : mProperties) {
+					mPropertyMap.put(property.getPropertyId(), property);
+				}
+			}
+		}
+
+		return mPropertyMap.get(id);
+	}
+
 	public void addProperty(Property property) {
 		if (mProperties == null) {
 			mProperties = new ArrayList<Property>();
 		}
+
 		mProperties.add(property);
+
+		// If we've already loaded the property map, add there as well
+		if (mPropertyMap != null) {
+			mPropertyMap.put(property.getPropertyId(), property);
+		}
 
 		clearCache();
 	}
