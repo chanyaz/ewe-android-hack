@@ -1,7 +1,9 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,12 +14,14 @@ import android.text.Html;
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.mobiata.android.FormatUtils;
-import com.mobiata.android.Log;
 import com.mobiata.android.FormatUtils.Conjunction;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
 public class AvailabilityResponse extends Response {
 	private List<Rate> mRates;
+	private Map<String, Rate> mRateMap;
+
 	private Property mProperty;
 
 	private SummarizedRoomRates mSummarizedRoomRates;
@@ -40,6 +44,11 @@ public class AvailabilityResponse extends Response {
 			mRates = new ArrayList<Rate>();
 		}
 		mRates.add(rate);
+
+		// If ratemap is already initialized, add it here as well
+		if (mRateMap != null) {
+			mRateMap.put(rate.getRateKey(), rate);
+		}
 	}
 
 	public int getRateCount() {
@@ -54,6 +63,26 @@ public class AvailabilityResponse extends Response {
 			return null;
 		}
 		return mRates.get(index);
+	}
+
+	public Rate getRate(String rateKey) {
+		if (rateKey == null || rateKey.length() == 0) {
+			return null;
+		}
+
+		// We don't bother initializing this until it's used, since it's
+		// just a different data representation of the rate list.
+		if (mRateMap == null) {
+			mRateMap = new HashMap<String, Rate>();
+
+			if (mRates != null) {
+				for (Rate rate : mRates) {
+					mRateMap.put(rate.getRateKey(), rate);
+				}
+			}
+		}
+
+		return mRateMap.get(rateKey);
 	}
 
 	public List<Rate> getRates() {
