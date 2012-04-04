@@ -1,10 +1,8 @@
 package com.expedia.bookings.activity;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,7 +66,6 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
-import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.google.android.maps.MapActivity;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -144,8 +141,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		findViewById(R.id.search_results_list_shadow).setBackgroundDrawable(LayoutUtils.getDividerDrawable(this));
 
 		// Load initial data, if it already exists (aka, screen rotated)
-		if (mInstance.mSearchResponse != null) {
-			loadSearchResponse(mInstance.mSearchResponse, false);
+		if (Db.getSearchResponse() != null) {
+			loadSearchResponse(Db.getSearchResponse(), false);
 		}
 	}
 
@@ -266,7 +263,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		else if (bd.isDownloading(KEY_SEARCH)) {
 			bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
 		}
-		else if (mInstance.mSearchResponse != null) {
+		else if (Db.getSearchResponse() != null) {
 			if (bd.isDownloading(KEY_AVAILABILITY_SEARCH)) {
 				bd.registerDownloadCallback(KEY_AVAILABILITY_SEARCH, mRoomAvailabilityCallback);
 			}
@@ -403,7 +400,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		if (mSearchView == null) {
 			return super.onPrepareOptionsMenu(menu);
 		}
-		
+
 		SearchParams params = Db.getSearchParams();
 
 		if (!mSearchViewFocused) {
@@ -421,7 +418,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		int numNights = params.getStayDuration();
 		mDatesMenuItem.setTitle(mResources.getQuantityString(R.plurals.number_of_nights, numNights, numNights));
 
-		mFilterMenuItem.setEnabled(mInstance.mSearchResponse != null && !mInstance.mSearchResponse.hasErrors());
+		SearchResponse searchResponse = Db.getSearchResponse();
+		mFilterMenuItem.setEnabled(searchResponse != null && !searchResponse.hasErrors());
 
 		DebugMenu.onPrepareOptionsMenu(this, menu);
 
@@ -472,7 +470,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	public void propertySelected(Property property, int source) {
 		Log.v("propertySelected(): " + property.getName());
 
-		boolean selectionChanged = (mInstance.mProperty != property);
+		Property selectedProperty = Db.getSelectedProperty();
+		boolean selectionChanged = (selectedProperty != property);
 
 		// Ensure that the proper view is being displayed.
 		//
@@ -495,20 +494,20 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		// When the selected property changes, a few things need to be done.
 		if (selectionChanged) {
 			// Clear out the previous property's images from the cache
-			if (mInstance.mProperty != null) {
-				if (mInstance.mProperty.getMediaCount() > 0) {
-					for (Media media : mInstance.mProperty.getMediaList()) {
+			if (selectedProperty != null) {
+				if (selectedProperty.getMediaCount() > 0) {
+					for (Media media : selectedProperty.getMediaList()) {
 						media.removeFromImageCache();
 					}
 				}
 			}
 
-			mInstance.mProperty = property;
+			Db.setSelectedProperty(property);
 
 			// start downloading the availability response for this property
 			// ahead of time (from when it might actually be needed) so that 
 			// the results are instantly displayed in the hotel details view to the user
-			startRoomsAndRatesDownload(mInstance.mProperty);
+			startRoomsAndRatesDownload(property);
 
 			// notify the necessary components only after starting the 
 			// downloads so that the right downlaod information (such as  is picked up by the components
@@ -556,7 +555,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	}
 
 	public void moreDetailsForPropertySelected(int source) {
-		propertySelected(mInstance.mProperty, source);
+		propertySelected(Db.getSelectedProperty(), source);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -573,11 +572,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		public String mSearchStatus;
 		public boolean mShowDistance;
-		public SearchResponse mSearchResponse;
-		public Property mProperty;
 		public Filter mFilter = new Filter();
-		public Map<String, AvailabilityResponse> mAvailabilityResponses = new HashMap<String, AvailabilityResponse>();
-		public Map<String, ReviewsResponse> mReviewsResponses = new HashMap<String, ReviewsResponse>();
 
 		// So we can detect if these search results are stale
 		public long mLastSearchTime = -1;
@@ -585,23 +580,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		// For tracking purposes only
 		public SearchParams mLastSearchParams;
 		public Filter mLastFilter;
-	}
-
-	public AvailabilityResponse getRoomsAndRatesAvailability() {
-		return mInstance.mAvailabilityResponses.get(mInstance.mProperty.getPropertyId());
-	}
-
-	public ReviewsResponse getReviewsForProperty() {
-		return mInstance.mReviewsResponses.get(mInstance.mProperty.getPropertyId());
-	}
-
-	public SummarizedRoomRates getSummarizedRoomRates() {
-		AvailabilityResponse response = getRoomsAndRatesAvailability();
-		if (response == null) {
-			return null;
-		}
-
-		return response.getSummarizedRoomRates();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -749,10 +727,10 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		Log.i("startSearch(): " + Db.getSearchParams().toJson().toString());
 
 		// Remove existing search results (and references to it)
-		mInstance.mSearchResponse = null;
+		Db.setSearchResponse(null);
 		mInstance.mFilter.setOnDataListener(null);
-		mInstance.mAvailabilityResponses.clear();
-		mInstance.mReviewsResponses.clear();
+		Db.clearAvailabilityResponses();
+		Db.clearReviewsResponses();
 
 		// Reset the filter on each search
 		mInstance.mFilter.reset();
@@ -906,7 +884,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	};
 
 	private void loadSearchResponse(SearchResponse response, boolean initialLoad) {
-		mInstance.mSearchResponse = response;
+		Db.setSearchResponse(response);
 
 		if (response == null) {
 			mInstance.mSearchStatus = getString(R.string.progress_search_failed);
@@ -922,11 +900,11 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			else {
 				response.setFilter(mInstance.mFilter);
 
-				Property[] properties = mInstance.mSearchResponse.getFilteredAndSortedProperties();
+				Property[] properties = response.getFilteredAndSortedProperties();
 				if (properties != null && properties.length <= 10) {
 					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
 					mInstance.mFilter.setSearchRadius(SearchRadius.ALL);
-					mInstance.mSearchResponse.clearCache();
+					response.clearCache();
 				}
 
 				mEventManager.notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
@@ -1023,7 +1001,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	private void startRoomsAndRatesDownload(Property property) {
 		// If we have the proper rates cached, don't bother downloading; otherwise, 
-		AvailabilityResponse previousResponse = getRoomsAndRatesAvailability();
+		AvailabilityResponse previousResponse = Db.getSelectedAvailabilityResponse();
 		if (previousResponse != null && !previousResponse.canRequestMoreData()) {
 			return;
 		}
@@ -1038,7 +1016,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			public Object doDownload() {
 				ExpediaServices services = new ExpediaServices(mContext);
 				BackgroundDownloader.getInstance().addDownloadListener(KEY_AVAILABILITY_SEARCH, services);
-				return services.availability(Db.getSearchParams(), mInstance.mProperty,
+				return services.availability(Db.getSearchParams(), Db.getSelectedProperty(),
 						requestMoreData ? ExpediaServices.F_EXPENSIVE : 0);
 			}
 		};
@@ -1050,7 +1028,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private OnDownloadComplete mRoomAvailabilityCallback = new OnDownloadComplete() {
 		public void onDownload(Object results) {
 			AvailabilityResponse availabilityResponse = (AvailabilityResponse) results;
-			mInstance.mAvailabilityResponses.put(mInstance.mProperty.getPropertyId(), availabilityResponse);
+			Db.addAvailabilityResponse(availabilityResponse);
 
 			if (availabilityResponse == null) {
 				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR,
@@ -1064,13 +1042,13 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 					TrackingUtils.trackErrorPage(mContext, "RatesListRequestFailed");
 				}
 				else {
-					mInstance.mProperty.updateFrom(availabilityResponse.getProperty());
+					Db.getSelectedProperty().updateFrom(availabilityResponse.getProperty());
 
 					mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
 
 					// Immediately kick off another (more expensive) request to get more data (if possible)
 					if (availabilityResponse.canRequestMoreData()) {
-						startRoomsAndRatesDownload(mInstance.mProperty);
+						startRoomsAndRatesDownload(Db.getSelectedProperty());
 					}
 				}
 			}
@@ -1082,7 +1060,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	private void startReviewsDownload() {
 		// Don't download the reviews if we already have them
-		if (getReviewsForProperty() != null) {
+		if (Db.getSelectedReviewsResponse() != null) {
 			return;
 		}
 
@@ -1102,7 +1080,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 			LinkedList<String> languages = LocaleUtils.getLanguages(mContext);
 
-			return services.reviews(mInstance.mProperty, ReviewSort.HIGHEST_RATING_FIRST, 0, languages,
+			return services.reviews(Db.getSelectedProperty(), ReviewSort.HIGHEST_RATING_FIRST, 0, languages,
 					MAX_SUMMARIZED_REVIEWS);
 		}
 	};
@@ -1112,7 +1090,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		@Override
 		public void onDownload(Object results) {
 			ReviewsResponse reviewResponse = (ReviewsResponse) results;
-			mInstance.mReviewsResponses.put(mInstance.mProperty.getPropertyId(), reviewResponse);
+			Db.addReviewsResponse(reviewResponse);
 
 			if (results == null) {
 				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, null);
@@ -1150,7 +1128,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		mInstance.mLastSearchParams = Db.getSearchParams().copy();
 		mInstance.mLastFilter = mInstance.mFilter.copy();
 
-		Tracker.trackAppHotelsSearch(this, Db.getSearchParams(), mInstance.mSearchResponse, refinements);
+		Tracker.trackAppHotelsSearch(this, Db.getSearchParams(), Db.getSearchResponse(), refinements);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1158,7 +1136,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	public void startHotelGalleryActivity(Media media) {
 		Intent intent = new Intent(this, HotelGalleryActivity.class);
-		intent.putExtra(Codes.PROPERTY, mInstance.mProperty.toString());
+		intent.putExtra(Codes.PROPERTY, Db.getSelectedProperty().toString());
 		intent.putExtra(Codes.SELECTED_IMAGE, media.toString());
 		startActivity(intent);
 	}
@@ -1168,8 +1146,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	public void bookRoom(Rate rate, boolean specificRateClicked) {
 		Intent intent = new Intent(this, BookingFragmentActivity.class);
 		intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toJson().toString());
-		intent.putExtra(Codes.PROPERTY, mInstance.mProperty.toJson().toString());
-		intent.putExtra(Codes.AVAILABILITY_RESPONSE, getRoomsAndRatesAvailability().toJson().toString());
+		intent.putExtra(Codes.PROPERTY, Db.getSelectedProperty().toJson().toString());
+		intent.putExtra(Codes.AVAILABILITY_RESPONSE, Db.getSelectedAvailabilityResponse().toJson().toString());
 		intent.putExtra(Codes.RATE, rate.toJson().toString());
 
 		if (specificRateClicked) {

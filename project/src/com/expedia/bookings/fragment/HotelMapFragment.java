@@ -165,7 +165,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 	private void updateView() {
 		// only update the view if the map view exists
 		// and if there are overlay items to show on the map
-		SearchResponse searchResponse = getInstance().mSearchResponse;
+		SearchResponse searchResponse = Db.getSearchResponse();
 		if (mHotelOverlay != null && mMapView != null && searchResponse != null) {
 			mHotelOverlay.setShowDistance(getInstance().mShowDistance);
 			mHotelOverlay.setProperties(searchResponse);
@@ -212,7 +212,7 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		// only select a balloon to be displayed over an overlay
 		// item if there is a property whose overlay to display
 		// and if there is view in which to display
-		Property property = getInstance().mProperty;
+		Property property = Db.getSelectedProperty();
 		if (mHotelOverlay != null && property != null) {
 			mHotelOverlay.showBalloon(property.getPropertyId(), BalloonItemizedOverlay.getDefaultFlags()
 					+ BalloonItemizedOverlay.F_SILENCE_LISTENER);

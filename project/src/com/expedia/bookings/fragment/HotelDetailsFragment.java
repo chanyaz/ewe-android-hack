@@ -32,6 +32,7 @@ import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelDescription.DescriptionSection;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -151,7 +152,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		mAmenitiesContainer.setVisibility(View.GONE);
 		mAmenitiesNoneText.setVisibility(View.GONE);
 
-		updateViews(getInstance().mProperty, view);
+		updateViews(Db.getSelectedProperty(), view);
 
 		return view;
 	}
@@ -249,7 +250,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 				mReviewsErrorTextView.setVisibility(View.GONE);
 			}
 
-			ReviewsResponse reviews = ((SearchResultsFragmentActivity) getActivity()).getReviewsForProperty();
+			ReviewsResponse reviews = Db.getSelectedReviewsResponse();
 			if (reviews != null) {
 				addReviews(reviews);
 
@@ -301,15 +302,14 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	private OnCollageImageClickedListener mPictureClickedListener = new OnCollageImageClickedListener() {
 		@Override
 		public void onImageClicked(Media media) {
-			if (getInstance().mProperty.getMediaCount() > 0) {
+			if (Db.getSelectedProperty().getMediaCount() > 0) {
 				((SearchResultsFragmentActivity) getActivity()).startHotelGalleryActivity(media);
 			}
 		}
 
 		@Override
 		public void onPromotionClicked() {
-			SummarizedRoomRates summarizedRoomRates = ((SearchResultsFragmentActivity) getActivity())
-					.getSummarizedRoomRates();
+			SummarizedRoomRates summarizedRoomRates = Db.getSelectedSummarizedRoomRates();
 
 			if (summarizedRoomRates != null) {
 				Rate startRate = summarizedRoomRates.getStartingRate();
@@ -343,7 +343,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 				mAvailabilityWidget.showRates(response);
 			}
 			else {
-				updateViews(getInstance().mProperty);
+				updateViews(Db.getSelectedProperty());
 			}
 			break;
 		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
@@ -372,8 +372,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	private void setupAvailabilityContainer(Property property) {
 		mAvailabilityWidget.updateProperty(property);
 
-		AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
-				.getRoomsAndRatesAvailability();
+		AvailabilityResponse availabilityResponse = Db.getSelectedAvailabilityResponse();
 		mAvailabilityWidget.setButtonEnabled(availabilityResponse != null && !availabilityResponse.hasErrors()
 				&& !availabilityResponse.canRequestMoreData());
 
@@ -558,8 +557,7 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 
 	@Override
 	public void onButtonClicked() {
-		SummarizedRoomRates summarizedRoomRates = ((SearchResultsFragmentActivity) getActivity())
-				.getSummarizedRoomRates();
+		SummarizedRoomRates summarizedRoomRates = Db.getSelectedSummarizedRoomRates();
 
 		((SearchResultsFragmentActivity) getActivity()).bookRoom(summarizedRoomRates.getStartingRate(), false);
 	}

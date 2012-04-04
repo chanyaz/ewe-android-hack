@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchResultsFragmentActivity;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
@@ -163,7 +164,7 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	}
 
 	private void updateViews() {
-		SearchResponse response = getInstance().mSearchResponse;
+		SearchResponse response = Db.getSearchResponse();
 		if (response == null) {
 			displaySearchStatus();
 		}
@@ -195,11 +196,11 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	}
 
 	private void updateSearchResults() {
-		SearchResponse response = getInstance().mSearchResponse;
+		SearchResponse response = Db.getSearchResponse();
 		mAdapter.setSearchResponse(response);
 
 		// In case there is a currently selected property, select it on the screen.
-		mAdapter.setSelectedPosition(getPositionOfProperty(getInstance().mProperty));
+		mAdapter.setSelectedPosition(getPositionOfProperty(Db.getSelectedProperty()));
 
 		if (response.getPropertiesCount() == 0) {
 			setHeaderVisibility(View.GONE);

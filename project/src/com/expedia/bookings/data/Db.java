@@ -3,6 +3,8 @@ package com.expedia.bookings.data;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.expedia.bookings.widget.SummarizedRoomRates;
+
 import android.content.Context;
 
 /**
@@ -104,6 +106,18 @@ public class Db {
 
 	public static AvailabilityResponse getSelectedAvailabilityResponse() {
 		return sDb.mAvailabilityResponses.get(sDb.mSelectedPropertyId);
+	}
+
+	public static SummarizedRoomRates getSummarizedRoomRates(String propertyId) {
+		AvailabilityResponse response = getAvailabilityResponse(propertyId);
+		if (response == null) {
+			return null;
+		}
+		return response.getSummarizedRoomRates();
+	}
+
+	public static SummarizedRoomRates getSelectedSummarizedRoomRates() {
+		return getSummarizedRoomRates(sDb.mSelectedPropertyId);
 	}
 
 	public static Rate getRate(String propertyId, String rateKey) {

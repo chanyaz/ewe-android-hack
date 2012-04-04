@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -63,7 +64,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler, Avail
 
 		mAvailabilitySummary.init(view);
 
-		updateViews(getInstance().mProperty, view);
+		updateViews(Db.getSelectedProperty(), view);
 
 		return view;
 	}
@@ -84,8 +85,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler, Avail
 
 		@Override
 		public void onPromotionClicked() {
-			SummarizedRoomRates summarizedRoomRates = ((SearchResultsFragmentActivity) getActivity())
-					.getSummarizedRoomRates();
+			SummarizedRoomRates summarizedRoomRates = Db.getSelectedSummarizedRoomRates();
 
 			if (summarizedRoomRates != null) {
 				Rate startRate = summarizedRoomRates.getStartingRate();
@@ -114,8 +114,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler, Avail
 
 			mAvailabilitySummary.updateProperty(property);
 
-			AvailabilityResponse availabilityResponse = ((SearchResultsFragmentActivity) getActivity())
-					.getRoomsAndRatesAvailability();
+			AvailabilityResponse availabilityResponse = Db.getSelectedAvailabilityResponse();
 
 			if (availabilityResponse != null) {
 				mAvailabilitySummary.showRates(availabilityResponse);
@@ -145,7 +144,7 @@ public class MiniDetailsFragment extends Fragment implements EventHandler, Avail
 				mAvailabilitySummary.showRates(response);
 			}
 			else {
-				updateViews(getInstance().mProperty);
+				updateViews(Db.getSelectedProperty());
 			}
 			break;
 		}

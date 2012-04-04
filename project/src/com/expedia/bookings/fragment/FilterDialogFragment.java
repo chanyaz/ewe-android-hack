@@ -21,11 +21,11 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchResultsFragmentActivity;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.widget.SegmentedControlGroup;
@@ -61,13 +61,13 @@ public class FilterDialogFragment extends DialogFragment implements EventHandler
 		mPriceButtonGroup = (SegmentedControlGroup) view.findViewById(R.id.price_filter_button_group);
 
 		// Configure labels
-		LayoutUtils.configureRadiusFilterLabels(getActivity(), mRadiusButtonGroup, getSearchResponse().getFilter());
+		LayoutUtils.configureRadiusFilterLabels(getActivity(), mRadiusButtonGroup, Db.getSearchResponse().getFilter());
 
 		// Need to set title in constructor or it will never show up
 		builder.setTitle(getTitle());
 
 		// Configure initial settings (based on the filter)
-		Filter filter = getSearchResponse().getFilter();
+		Filter filter = Db.getSearchResponse().getFilter();
 		mHotelNameEditText.setText(filter.getHotelName());
 
 		int checkId;
@@ -157,13 +157,9 @@ public class FilterDialogFragment extends DialogFragment implements EventHandler
 	}
 
 	public CharSequence getTitle() {
-		Property[] properties = getSearchResponse().getFilteredAndSortedProperties(); 
+		Property[] properties = Db.getSearchResponse().getFilteredAndSortedProperties(); 
 		int count = properties == null ? 0 : properties.length;
 		return Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_matching_hotels, count, count));
-	}
-
-	public SearchResponse getSearchResponse() {
-		return ((SearchResultsFragmentActivity) getActivity()).mInstance.mSearchResponse;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -171,7 +167,7 @@ public class FilterDialogFragment extends DialogFragment implements EventHandler
 
 	private final TextWatcher mHotelNameTextWatcher = new TextWatcher() {
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			Filter filter = getSearchResponse().getFilter();
+			Filter filter = Db.getSearchResponse().getFilter();
 			filter.setHotelName(s.toString());
 			filter.notifyFilterChanged();
 		}
@@ -208,7 +204,7 @@ public class FilterDialogFragment extends DialogFragment implements EventHandler
 			}
 			}
 
-			Filter filter = getSearchResponse().getFilter();
+			Filter filter = Db.getSearchResponse().getFilter();
 			filter.setSearchRadius(searchRadius);
 			filter.notifyFilterChanged();
 		}
@@ -237,7 +233,7 @@ public class FilterDialogFragment extends DialogFragment implements EventHandler
 			}
 			}
 
-			Filter filter = getSearchResponse().getFilter();
+			Filter filter = Db.getSearchResponse().getFilter();
 			filter.setMinimumStarRating(minStarRating);
 			filter.notifyFilterChanged();
 		}
@@ -266,7 +262,7 @@ public class FilterDialogFragment extends DialogFragment implements EventHandler
 			}
 			}
 
-			Filter filter = getSearchResponse().getFilter();
+			Filter filter = Db.getSearchResponse().getFilter();
 			filter.setPriceRange(priceRange);
 			filter.notifyFilterChanged();
 		}
