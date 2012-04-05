@@ -3,7 +3,7 @@ package com.expedia.bookings.activity;
 import java.util.List;
 
 import android.app.ActionBar;
-import android.content.Context;;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
