@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.BookingFragmentActivity;
-import com.expedia.bookings.activity.BookingFragmentActivity.InstanceFragment;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.ConfirmationUtils;
@@ -58,7 +58,7 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 
 		updateReceipt();
 		updateRoomDescription(view);
-		ConfirmationUtils.determineCancellationPolicy(getInstance().mRate, view);
+		ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), view);
 
 		final View receipt = view.findViewById(R.id.receipt);
 		final View roomDetailsContainer = view.findViewById(R.id.room_details_container_right);
@@ -108,7 +108,7 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 		case BookingFragmentActivity.EVENT_RATE_SELECTED:
 			updateReceipt();
 			updateRoomDescription(getView());
-			ConfirmationUtils.determineCancellationPolicy(getInstance().mRate, getView());
+			ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), getView());
 			break;
 		}
 
@@ -119,7 +119,7 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 			return;
 		}
 
-		Rate rate = getInstance().mRate;
+		Rate rate = Db.getSelectedRate();
 		TextView roomTypeDescriptionTitleTextView = (TextView) view.findViewById(R.id.room_type_description_title_view);
 		roomTypeDescriptionTitleTextView.setText(rate.getRatePlanName());
 
@@ -128,14 +128,6 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 	}
 
 	private void updateReceipt() {
-		InstanceFragment instance = getInstance();
-		mReceiptWidget.updateData(instance.mProperty, instance.mSearchParams, instance.mRate);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Convenience method
-
-	public BookingFragmentActivity.InstanceFragment getInstance() {
-		return ((BookingFragmentActivity) getActivity()).mInstance;
+		mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
 	}
 }

@@ -310,6 +310,10 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			bd.cancelDownload(KEY_SEARCH);
 			bd.cancelDownload(KEY_AVAILABILITY_SEARCH);
 			bd.cancelDownload(KEY_REVIEWS);
+
+			Db.setSearchResponse(null);
+			Db.clearAvailabilityResponses();
+			Db.clearReviewsResponses();
 		}
 	}
 
@@ -1145,10 +1149,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	public void bookRoom(Rate rate, boolean specificRateClicked) {
 		Intent intent = new Intent(this, BookingFragmentActivity.class);
-		intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toJson().toString());
-		intent.putExtra(Codes.PROPERTY, Db.getSelectedProperty().toJson().toString());
-		intent.putExtra(Codes.AVAILABILITY_RESPONSE, Db.getSelectedAvailabilityResponse().toJson().toString());
-		intent.putExtra(Codes.RATE, rate.toJson().toString());
+		Db.setSelectedRate(rate);
 
 		if (specificRateClicked) {
 			intent.putExtra(BookingFragmentActivity.EXTRA_SPECIFIC_RATE, true);

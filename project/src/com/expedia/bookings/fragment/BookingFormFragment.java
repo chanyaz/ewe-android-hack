@@ -40,9 +40,9 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.BookingFragmentActivity;
-import com.expedia.bookings.activity.BookingFragmentActivity.InstanceFragment;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -186,14 +186,12 @@ public class BookingFormFragment extends DialogFragment {
 		mBillingSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		view.findViewById(R.id.credit_card_security_code_container).setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
-		InstanceFragment instance = getInstance();
-
 		// Retrieve some data we keep using
 		Resources r = getResources();
 		mCountryCodes = r.getStringArray(R.array.country_codes);
 		configureForm();
 
-		if (getBillingInfo().doesExistOnDisk()) {
+		if (Db.getBillingInfo().doesExistOnDisk()) {
 			syncFormFields(view);
 
 			if (savedInstanceState != null) {
@@ -237,12 +235,12 @@ public class BookingFormFragment extends DialogFragment {
 		dialog.getWindow().setBackgroundDrawable(drawable);
 		dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 
-		mReceiptWidget.updateData(instance.mProperty, instance.mSearchParams, instance.mRate);
+		mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
 
 		BookingInfoUtils.determineExpediaPointsDisclaimer(getActivity(), view);
 
 		if (savedInstanceState == null) {
-			Tracker.trackAppHotelsCheckoutPayment(getActivity(), instance.mProperty, mBookingInfoValidation);
+			Tracker.trackAppHotelsCheckoutPayment(getActivity(), Db.getSelectedProperty(), mBookingInfoValidation);
 		}
 
 		return dialog;
@@ -440,7 +438,7 @@ public class BookingFormFragment extends DialogFragment {
 		TextViewValidator requiredFieldValidator = new TextViewValidator();
 		Validator<TextView> usValidator = new Validator<TextView>() {
 			public int validate(TextView obj) {
-				if (getBillingInfo().getLocation().getCountryCode().equals("US")) {
+				if (Db.getBillingInfo().getLocation().getCountryCode().equals("US")) {
 					return RequiredValidator.getInstance().validate(obj.getText());
 				}
 				return 0;
@@ -675,7 +673,7 @@ public class BookingFormFragment extends DialogFragment {
 	 */
 	private void syncBillingInfo() {
 		// Start off with a clean slate
-		BillingInfo billingInfo = getInstance().mBillingInfo = new BillingInfo();
+		BillingInfo billingInfo = Db.resetBillingInfo();
 
 		billingInfo.setFirstName(mFirstNameEditText.getText().toString());
 		billingInfo.setLastName(mLastNameEditText.getText().toString());
@@ -719,7 +717,7 @@ public class BookingFormFragment extends DialogFragment {
 	 * restoring the Activity.
 	 */
 	private void syncFormFields(View view) {
-		BillingInfo billingInfo = getBillingInfo();
+		BillingInfo billingInfo = Db.getBillingInfo();
 
 		// Sync the saved guest fields
 		String firstName = billingInfo.getFirstName();
@@ -809,9 +807,9 @@ public class BookingFormFragment extends DialogFragment {
 		syncBillingInfo();
 
 		// Save the hashed email, just for tracking purposes
-		TrackingUtils.saveEmailForTracking(getActivity(), getBillingInfo().getEmail());
+		TrackingUtils.saveEmailForTracking(getActivity(), Db.getBillingInfo().getEmail());
 
-		return getBillingInfo().save(getActivity());
+		return Db.getBillingInfo().save(getActivity());
 	}
 
 	private void checkSectionsCompleted(boolean trackCompletion) {
@@ -826,16 +824,5 @@ public class BookingFormFragment extends DialogFragment {
 	private void dismissKeyboard(View view) {
 		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Convenience method
-
-	public BookingFragmentActivity.InstanceFragment getInstance() {
-		return ((BookingFragmentActivity) getActivity()).mInstance;
-	}
-
-	public BillingInfo getBillingInfo() {
-		return getInstance().mBillingInfo;
 	}
 }

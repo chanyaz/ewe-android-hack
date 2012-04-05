@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.BookingFragmentActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 
@@ -29,11 +30,10 @@ public class RoomsAndRatesFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		BookingFragmentActivity.InstanceFragment instance = ((BookingFragmentActivity) getActivity()).mInstance;
-		AvailabilityResponse response = instance.mAvailabilityResponse;
+		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
 		if (response != null) {
 			mAdapter = new RoomsAndRatesAdapter(getActivity(), response);
-			mAdapter.setSelectedPosition(getPositionOfRate(instance.mRate));
+			mAdapter.setSelectedPosition(getPositionOfRate(Db.getSelectedRate()));
 			setListAdapter(mAdapter);
 		}
 		else {
@@ -51,10 +51,10 @@ public class RoomsAndRatesFragment extends ListFragment {
 		mFooterTextView = (TextView) footer.findViewById(R.id.footer_text_view);
 		((ListView) view.findViewById(android.R.id.list)).addFooterView(footer, null, false);
 
-		BookingFragmentActivity.InstanceFragment instance = ((BookingFragmentActivity) getActivity()).mInstance;
+		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
 		mFooterTextView.setVisibility(View.GONE);
-		if (instance.mAvailabilityResponse != null) {
-			CharSequence commonValueAdds = instance.mAvailabilityResponse.getCommonValueAddsString(getActivity());
+		if (response != null) {
+			CharSequence commonValueAdds = response.getCommonValueAddsString(getActivity());
 			if (commonValueAdds != null) {
 				mFooterTextView.setText(commonValueAdds);
 				mFooterTextView.setVisibility(View.VISIBLE);

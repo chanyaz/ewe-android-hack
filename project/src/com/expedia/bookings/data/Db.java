@@ -97,7 +97,7 @@ public class Db {
 	}
 
 	public static void addAvailabilityResponse(AvailabilityResponse availabilityResponse) {
-		sDb.mAvailabilityResponses.put(availabilityResponse.getProperty().getPropertyId(), availabilityResponse);
+		sDb.mAvailabilityResponses.put(sDb.mSelectedPropertyId, availabilityResponse);
 	}
 
 	public static AvailabilityResponse getAvailabilityResponse(String propertyId) {
@@ -159,9 +159,14 @@ public class Db {
 		return getReviewsResponse(sDb.mSelectedPropertyId);
 	}
 
-	public static void loadBillingInfo(Context context) {
+	public static boolean loadBillingInfo(Context context) {
 		sDb.mBillingInfo = new BillingInfo();
-		sDb.mBillingInfo.load(context);
+		return sDb.mBillingInfo.load(context);
+	}
+
+	public static BillingInfo resetBillingInfo() {
+		sDb.mBillingInfo = new BillingInfo();
+		return sDb.mBillingInfo;
 	}
 
 	public static BillingInfo getBillingInfo() {

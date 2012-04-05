@@ -2,15 +2,10 @@ package com.expedia.bookings.activity;
 
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -19,17 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.EventManager;
-import com.expedia.bookings.server.AvailabilityResponseHandler;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -39,9 +31,7 @@ import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
-import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.validation.ValidationError;
 
 public class BookingFragmentActivity extends Activity {
@@ -62,8 +52,6 @@ public class BookingFragmentActivity extends Activity {
 
 	public EventManager mEventManager = new EventManager();
 
-	public InstanceFragment mInstance;
-
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
@@ -73,44 +61,7 @@ public class BookingFragmentActivity extends Activity {
 
 		mContext = this;
 
-		FragmentManager fm = getFragmentManager();
-		mInstance = (InstanceFragment) fm.findFragmentByTag(InstanceFragment.TAG);
-		if (mInstance == null) {
-			mInstance = InstanceFragment.newInstance();
-			FragmentTransaction ft = fm.beginTransaction();
-			ft.add(mInstance, InstanceFragment.TAG);
-			ft.commit();
-
-			// Construct data for activity 
-			Intent intent = getIntent();
-			mInstance.mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
-					SearchParams.class);
-			mInstance.mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
-			mInstance.mAvailabilityResponse = (AvailabilityResponse) JSONUtils.parseJSONableFromIntent(intent,
-					Codes.AVAILABILITY_RESPONSE, AvailabilityResponse.class);
-			mInstance.mRate = (Rate) JSONUtils.parseJSONableFromIntent(intent, Codes.RATE, Rate.class);
-
-			// This code allows us to test the BookingFragmentActivity standalone, for layout purposes.
-			// Just point the default launcher activity towards this instead of SearchActivity
-			if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
-				try {
-					mInstance.mSearchParams = new SearchParams();
-					mInstance.mSearchParams.fillWithTestData();
-					mInstance.mProperty = new Property();
-					mInstance.mProperty.fillWithTestData();
-					mInstance.mRate = new Rate();
-					mInstance.mRate.fillWithTestData();
-
-					JSONObject obj = new JSONObject(getString(R.string.sample_availability_response));
-					AvailabilityResponseHandler handler = new AvailabilityResponseHandler(this,
-							mInstance.mSearchParams, mInstance.mProperty);
-					mInstance.mAvailabilityResponse = (AvailabilityResponse) handler.handleJson(obj);
-				}
-				catch (JSONException e) {
-					Log.e("Couldn't create dummy data!", e);
-				}
-			}
-
+		if (savedInstanceState == null) {
 			loadSavedBillingInfo();
 		}
 
@@ -123,7 +74,7 @@ public class BookingFragmentActivity extends Activity {
 			String referrer = getIntent().getBooleanExtra(EXTRA_SPECIFIC_RATE, false) ? "App.Hotels.ViewSpecificRoom"
 					: "App.Hotels.ViewAllRooms";
 
-			Tracker.trackAppHotelsRoomsRates(this, mInstance.mProperty, referrer);
+			Tracker.trackAppHotelsRoomsRates(this, Db.getSelectedProperty(), referrer);
 		}
 	}
 
@@ -153,27 +104,6 @@ public class BookingFragmentActivity extends Activity {
 		super.onPause();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_BOOKING, mBookingCallback);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// InstanceFragment
-
-	public static final class InstanceFragment extends Fragment {
-		public static final String TAG = "INSTANCE";
-
-		public static InstanceFragment newInstance() {
-			InstanceFragment fragment = new InstanceFragment();
-			fragment.setRetainInstance(true);
-			return fragment;
-		}
-
-		public SearchParams mSearchParams;
-		public Property mProperty;
-
-		public AvailabilityResponse mAvailabilityResponse;
-		public Rate mRate;
-
-		public BillingInfo mBillingInfo;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -218,7 +148,7 @@ public class BookingFragmentActivity extends Activity {
 	// Actions
 
 	public void rateSelected(Rate rate) {
-		mInstance.mRate = rate;
+		Db.setSelectedRate(rate);
 
 		mEventManager.notifyEventHandlers(EVENT_RATE_SELECTED, rate);
 	}
@@ -244,8 +174,8 @@ public class BookingFragmentActivity extends Activity {
 	private Download mBookingDownload = new Download() {
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
-			return services.reservation(mInstance.mSearchParams, mInstance.mProperty, mInstance.mRate,
-					mInstance.mBillingInfo);
+			return services.reservation(Db.getSearchParams(), Db.getSelectedProperty(), Db.getSelectedRate(),
+					Db.getBillingInfo());
 		}
 	};
 
@@ -296,11 +226,11 @@ public class BookingFragmentActivity extends Activity {
 
 			// Start the conf activity
 			Intent intent = new Intent(mContext, ConfirmationFragmentActivity.class);
-			intent.putExtra(Codes.SEARCH_PARAMS, mInstance.mSearchParams.toJson().toString());
-			intent.putExtra(Codes.PROPERTY, mInstance.mProperty.toJson().toString());
-			intent.putExtra(Codes.RATE, mInstance.mRate.toJson().toString());
+			intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toJson().toString());
+			intent.putExtra(Codes.PROPERTY, Db.getSelectedProperty().toJson().toString());
+			intent.putExtra(Codes.RATE, Db.getSelectedRate().toJson().toString());
 			intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
-			intent.putExtra(Codes.BILLING_INFO, mInstance.mBillingInfo.toJson().toString());
+			intent.putExtra(Codes.BILLING_INFO, Db.getBillingInfo().toJson().toString());
 			startActivity(intent);
 		}
 	};
@@ -312,13 +242,13 @@ public class BookingFragmentActivity extends Activity {
 
 	private boolean loadSavedBillingInfo() {
 		// Attempt to load the saved billing info
-		mInstance.mBillingInfo = new BillingInfo();
-
 		// TODO: revisit this whole section
-		if (mInstance.mBillingInfo.load(this)) {
+		if (Db.loadBillingInfo(this)) {
+
+			BillingInfo billingInfo = Db.getBillingInfo();
 
 			// When upgrading from 1.2.1 to 1.3, country code isn't present. So let's just use the default country.
-			if (mInstance.mBillingInfo.getTelephoneCountryCode() == null) {
+			if (billingInfo.getTelephoneCountryCode() == null) {
 
 				Resources r = getResources();
 				String[] countryCodes = r.getStringArray(R.array.country_codes);
@@ -329,8 +259,8 @@ public class BookingFragmentActivity extends Activity {
 
 				for (int n = 0; n < countryCodes.length; n++) {
 					if (defaultCountryName.equals(countryNames[n])) {
-						mInstance.mBillingInfo.setTelephoneCountry(countryCodes[n]);
-						mInstance.mBillingInfo.setTelephoneCountryCode(Integer.toString(countryPhoneCodes[n]));
+						billingInfo.setTelephoneCountry(countryCodes[n]);
+						billingInfo.setTelephoneCountryCode(Integer.toString(countryPhoneCodes[n]));
 						break;
 					}
 				}
