@@ -102,8 +102,8 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 	// All-app utilities
 
 	public static boolean useTabletInterface(Context context) {
-		return AndroidUtils.getSdkVersion() >= 12 && (context.getResources().getConfiguration().screenLayout &
-				Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+		return AndroidUtils.getSdkVersion() >= 12
+				&& (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -118,29 +118,29 @@ public class ExpediaBookingApp extends com.activeandroid.Application implements 
 	public interface OnSearchParamsChangedInWidgetListener {
 		public void onSearchParamsChanged(SearchParams searchParams);
 	};
-	
+
 	private ArrayList<OnSearchParamsChangedInWidgetListener> mListeners;
-	
+
 	public void registerSearchParamsChangedInWidgetListener(OnSearchParamsChangedInWidgetListener listener) {
-		if(mListeners == null) {
+		if (mListeners == null) {
 			mListeners = new ArrayList<OnSearchParamsChangedInWidgetListener>();
 		}
 		mListeners.add(listener);
 	}
-	
+
 	public void unregisterSearchParamsChangedInWidgetListener(OnSearchParamsChangedInWidgetListener listener) {
-		if(mListeners == null) {
+		if (mListeners == null) {
 			return;
 		}
 		mListeners.remove(listener);
 	}
-	
+
 	public void broadcastSearchParamsChangedInWidget(SearchParams searchParams) {
-		if(mListeners != null) {
-			for(OnSearchParamsChangedInWidgetListener listener : mListeners) {
+		if (mListeners != null) {
+			for (OnSearchParamsChangedInWidgetListener listener : mListeners) {
 				listener.onSearchParamsChanged(searchParams);
 			}
 		}
 	}
-	
+
 }
