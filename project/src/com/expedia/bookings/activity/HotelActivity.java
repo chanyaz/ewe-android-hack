@@ -478,7 +478,7 @@ public class HotelActivity extends AsyncLoadActivity {
 				mGallery.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-						Intent intent = new Intent(mContext, PhoneHotelGalleryActivity.class);
+						Intent intent = new Intent(mContext, HotelGalleryActivity.class);
 						intent.putExtra(Codes.PROPERTY, mProperty.toString());
 						intent.putExtra(Codes.SELECTED_IMAGE, parent.getSelectedItem().toString());
 						startActivity(intent);

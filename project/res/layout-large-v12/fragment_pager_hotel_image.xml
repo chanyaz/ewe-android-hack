@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
     <ProgressBar
         android:id="@+id/hotel_image_progress_bar"
         style="@android:style/Widget.ProgressBar.Large.Inverse"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminate="true"
@@ -22,10 +22,9 @@
         android:layout_height="fill_parent"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
-        android:background="@drawable/bg_gallery_photo_normal"
-        android:padding="0dp"
-        android:scaleType="centerCrop"
+        android:cropToPadding="true"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_image_placeholder"
         android:visibility="gone" />
 
-</LinearLayout>
+</FrameLayout>

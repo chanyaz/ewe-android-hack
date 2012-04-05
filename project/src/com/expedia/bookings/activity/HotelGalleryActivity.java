@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.content.Context;;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,7 @@ import com.expedia.bookings.data.Property;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.AndroidUtils;
 
 public class HotelGalleryActivity extends FragmentActivity {
 
@@ -39,10 +41,12 @@ public class HotelGalleryActivity extends FragmentActivity {
 	private Property mProperty;
 	private Media mSelectedMedia;
 	private ViewPager mPager;
+	private Context mContext;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mContext = (Context) this;
 
 		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		setContentView(R.layout.activity_hotel_gallery);
@@ -62,9 +66,11 @@ public class HotelGalleryActivity extends FragmentActivity {
 		mPager = (ViewPager) findViewById(R.id.big_image_pager);
 		mPager.setAdapter(pagerAdapter);
 
-		ActionBar actionBar = getActionBar();
-		actionBar.setTitle(Html.fromHtml(getString(R.string.gallery_title_template, mProperty.getName())));
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		if (AndroidUtils.isTablet(mContext)) {
+			ActionBar actionBar = getActionBar();
+			actionBar.setTitle(Html.fromHtml(getString(R.string.gallery_title_template, mProperty.getName())));
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
 
 		mAdapter = new ImageAdapter();
 		mAdapter.setMedia(mProperty.getMediaList());
@@ -74,8 +80,12 @@ public class HotelGalleryActivity extends FragmentActivity {
 		mHotelGallery.setCallbackDuringFling(false);
 		mHotelGallery.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 
+		int position = (mSelectedMedia == null) ? 0 : mAdapter.getPositionOfMedia(mSelectedMedia);
+		mSelectedMedia = (mSelectedMedia == null) ? (Media) mAdapter.getItem(0) : mSelectedMedia;
+		mHotelGallery.setSelection(position);
+
 		/*
-		 * setup all the event listeners 
+		 * setup all the event listeners
 		 */
 
 		mPager.setOnPageChangeListener(new OnPageChangeListener() {
@@ -117,10 +127,6 @@ public class HotelGalleryActivity extends FragmentActivity {
 				mPager.setCurrentItem(0);
 			}
 		});
-
-		int position = (mSelectedMedia == null) ? 0 : mAdapter.getPositionOfMedia(mSelectedMedia);
-		mSelectedMedia = (mSelectedMedia == null) ? (Media) mAdapter.getItem(0) : mSelectedMedia;
-		mHotelGallery.setSelection(position);
 	}
 
 	public Media getHotelMedia(int position) {
@@ -191,7 +197,7 @@ public class HotelGalleryActivity extends FragmentActivity {
 				imageView = (ImageView) convertView.findViewById(R.id.image);
 			}
 
-			if (!ImageCache.loadImage(mMedia.get(position).getUrl(), imageView)) {
+			if (AndroidUtils.isTablet(mContext) && !ImageCache.loadImage(mMedia.get(position).getUrl(), imageView)) {
 				imageView.setImageResource(R.drawable.ic_row_thumb_placeholder);
 			}
 
