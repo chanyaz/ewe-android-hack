@@ -1,22 +1,19 @@
 package com.expedia.bookings.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.Assert;
 import android.content.Context;
 
-import com.activeandroid.ActiveRecordBase;
+import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 @Table(name = "WidgetConfigurations")
-public class WidgetConfigurationState extends ActiveRecordBase<WidgetConfigurationState> {
+public class WidgetConfigurationState extends Model {
 
 	public static final String AppWidgetId = "AppWidgetId";
-
-	public WidgetConfigurationState(Context context) {
-		super(context);
-	}
 
 	@Column(name = "AppWidgetId")
 	private int appWidgetId;
@@ -63,8 +60,9 @@ public class WidgetConfigurationState extends ActiveRecordBase<WidgetConfigurati
 	}
 
 	public static WidgetConfigurationState getWidgetConfiguration(Context context, int appWidgetId) {
-		ArrayList<Object> results = WidgetConfigurationState.query(context, WidgetConfigurationState.class, null,
-				AppWidgetId + "=" + Integer.toString(appWidgetId));
+		List<WidgetConfigurationState> results = new Select().from(WidgetConfigurationState.class)
+				.where(AppWidgetId + "=?", appWidgetId).execute();
+
 		if (results.isEmpty()) {
 			return null;
 		}
@@ -78,12 +76,12 @@ public class WidgetConfigurationState extends ActiveRecordBase<WidgetConfigurati
 		return null;
 	}
 
-	public static ArrayList<Object> getAll(Context context) {
-		return WidgetConfigurationState.query(context, WidgetConfigurationState.class);
+	public static List<WidgetConfigurationState> getAll() {
+		return new Select().from(WidgetConfigurationState.class).execute();
 	}
 
 	public static void deleteWidgetConfigState(Context context, int appWidgetId) {
-		WidgetConfigurationState.delete(context, WidgetConfigurationState.class,
+		WidgetConfigurationState.delete(WidgetConfigurationState.class,
 				AppWidgetId + "=" + Integer.toString(appWidgetId));
 	}
 
@@ -107,8 +105,8 @@ public class WidgetConfigurationState extends ActiveRecordBase<WidgetConfigurati
 			appWidgetIds += ")";
 		}
 
-		ArrayList<Object> orphanedConfigStates = WidgetConfigurationState.query(context,
-				WidgetConfigurationState.class, null, AppWidgetId + " not in " + appWidgetIds);
+		List<WidgetConfigurationState> orphanedConfigStates = new Select().from(WidgetConfigurationState.class)
+				.where(AppWidgetId + " not in ?", appWidgetIds).execute();
 
 		// delete all the widget configurations that are orphaned
 		for (Object config : orphanedConfigStates) {

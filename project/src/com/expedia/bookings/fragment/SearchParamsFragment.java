@@ -716,7 +716,7 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 			try {
 				String searchJson = data.getString(jsonIndex);
 				if (!TextUtils.isEmpty(searchJson)) {
-					Search search = new Search(getActivity());
+					Search search = new Search();
 					search.fromJson(new JSONObject(searchJson));
 					mSuggestionRows.get(a).configure(search);
 				}

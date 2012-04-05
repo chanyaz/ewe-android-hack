@@ -7,22 +7,24 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
-import com.activeandroid.ActiveRecordBase;
+import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
 @Table(name = "Searches")
-public class Search extends ActiveRecordBase<Search> implements JSONable {
-	public Search(Context context) {
-		super(context);
+public class Search extends Model implements JSONable {
+
+	public Search() {
+		super();
 	}
 
-	public Search(Context context, SearchParams searchParams) {
-		super(context);
+	public Search(SearchParams searchParams) {
+		super();
 
 		if (searchParams.hasFreeformLocation()) {
 			mFreeformLocation = searchParams.getFreeformLocation().trim();
@@ -69,12 +71,12 @@ public class Search extends ActiveRecordBase<Search> implements JSONable {
 	}
 
 	public static List<Search> getAllSearchParams(Context context) {
-		List<Search> searches = query(context, Search.class, null, null, "Id DESC");
+		List<Search> searches = new Select().from(Search.class).orderBy("Id DESC").execute();
 		return searches;
 	}
 
 	public static List<Search> getRecentSearches(Context context, int maxSearches) {
-		List<Search> searches = query(context, Search.class, null, null, "Id DESC", maxSearches + "");
+		List<Search> searches = new Select().from(Search.class).orderBy("Id DESC").limit(maxSearches + "").execute();
 		return searches;
 	}
 
@@ -84,9 +86,10 @@ public class Search extends ActiveRecordBase<Search> implements JSONable {
 			return;
 		}
 
-		Search.delete(context, Search.class, "lower(FreeFormLocation) = " + "\""
+		Search.delete(Search.class, "lower(FreeFormLocation) = " + "\""
 				+ searchParams.getFreeformLocation().toLowerCase().trim() + "\"");
-		new Search(context, searchParams).save();
+
+		new Search(searchParams).save();
 	}
 
 	@Override

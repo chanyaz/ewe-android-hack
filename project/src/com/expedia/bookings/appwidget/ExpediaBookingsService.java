@@ -1,8 +1,8 @@
 package com.expedia.bookings.appwidget;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -775,9 +775,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private void loadWidgets() {
 		mWidgets = new HashMap<Integer, ExpediaBookingsService.WidgetState>();
 
-		ArrayList<Object> widgetConfigs = WidgetConfigurationState.getAll(this);
-		for (Object config : widgetConfigs) {
-			WidgetConfigurationState cs = (WidgetConfigurationState) config;
+		List<WidgetConfigurationState> widgetConfigs = WidgetConfigurationState.getAll();
+		for (WidgetConfigurationState cs : widgetConfigs) {
 			Integer appWidgetIdInteger = new Integer(cs.getAppWidgetId());
 			WidgetState widget = new WidgetState();
 			widget.appWidgetIdInteger = appWidgetIdInteger;

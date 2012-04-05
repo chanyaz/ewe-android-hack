@@ -88,7 +88,7 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 	}
 	
 	private void saveLastSearchOrCurrentLocationOption(Context context, int mAppWidgetId) {
-		WidgetConfigurationState cs = new WidgetConfigurationState(context);
+		WidgetConfigurationState cs = new WidgetConfigurationState();
 		cs.setAppWidgetId(mAppWidgetId);
 		cs.setExactSearchLocation(null);
 		cs.save();

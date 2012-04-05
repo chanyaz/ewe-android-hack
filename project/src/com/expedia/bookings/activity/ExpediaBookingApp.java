@@ -6,11 +6,13 @@ import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 
+import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 
+import com.activeandroid.ActiveAndroid;
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.data.Rate;
@@ -24,13 +26,15 @@ import com.mobiata.android.util.SettingUtils;
 import com.nullwire.trace.ExceptionHandler;
 import com.omniture.AppMeasurement;
 
-public class ExpediaBookingApp extends com.activeandroid.Application implements UncaughtExceptionHandler {
+public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
 
 	private UncaughtExceptionHandler mOriginalUncaughtExceptionHandler;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+		ActiveAndroid.initialize(this);
 
 		boolean isRelease = AndroidUtils.isRelease(this);
 		boolean isLogEnablerInstalled = DebugUtils.isLogEnablerInstalled(this);

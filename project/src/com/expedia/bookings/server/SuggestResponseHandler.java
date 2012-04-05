@@ -59,7 +59,7 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 					searchParams.setSearchLatLon(latitude, longitude);
 				}
 
-				found.add(new Search(mContext, searchParams));
+				found.add(new Search(searchParams));
 			}
 			catch (JSONException e) {
 				Log.d("Could not parse JSON autosuggest response item.", e);

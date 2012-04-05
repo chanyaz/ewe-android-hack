@@ -165,7 +165,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			}
 			else if (searchJson != null) {
 				try {
-					Search search = new Search(this);
+					Search search = new Search();
 					search.fromJson(new JSONObject(searchJson));
 					mInstance.mSearchParams.fillFromSearch(search);
 				}

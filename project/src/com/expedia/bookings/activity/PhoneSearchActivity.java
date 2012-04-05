@@ -1694,7 +1694,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	}
 
 	private boolean areWidgetsInstalled() {
-		ArrayList<Object> widgetConfigs = WidgetConfigurationState.getAll(this);
+		List<WidgetConfigurationState> widgetConfigs = WidgetConfigurationState.getAll();
 		return !widgetConfigs.isEmpty();
 	}
 
