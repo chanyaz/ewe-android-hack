@@ -1,13 +1,10 @@
 package com.expedia.bookings.activity;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
@@ -33,7 +31,6 @@ import com.mobiata.android.util.IoUtils;
 
 public class ConfirmationFragmentActivity extends MapActivity {
 
-	public InstanceFragment mInstance;
 	private Context mContext;
 	public EventManager mEventManager = new EventManager();
 
@@ -43,16 +40,7 @@ public class ConfirmationFragmentActivity extends MapActivity {
 
 		mContext = this;
 
-		Intent intent = getIntent();
-
-		FragmentManager fm = getFragmentManager();
-		mInstance = (InstanceFragment) fm.findFragmentByTag(InstanceFragment.TAG);
-		if (mInstance == null) {
-			mInstance = InstanceFragment.newInstance();
-			FragmentTransaction ft = fm.beginTransaction();
-			ft.add(mInstance, InstanceFragment.TAG);
-			ft.commit();
-
+		if (savedInstanceState == null) {
 			if (ConfirmationUtils.hasSavedConfirmationData(this)) {
 				// Load saved data from disk
 				if (!loadSavedConfirmationData()) {
@@ -64,46 +52,14 @@ public class ConfirmationFragmentActivity extends MapActivity {
 				}
 			}
 			else {
-				// Load data from Intent
-				mInstance.mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
-						SearchParams.class);
-				mInstance.mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
-						Property.class);
-				mInstance.mRate = (Rate) JSONUtils.parseJSONableFromIntent(intent, Codes.RATE, Rate.class);
-				mInstance.mBillingInfo = (BillingInfo) JSONUtils.parseJSONableFromIntent(intent, Codes.BILLING_INFO,
-						BillingInfo.class);
-				mInstance.mBookingResponse = (BookingResponse) JSONUtils.parseJSONableFromIntent(intent,
-						Codes.BOOKING_RESPONSE, BookingResponse.class);
-
-				// This code allows us to test the ConfirmationFragmentActivity standalone, for layout purposes.
-				// Just point the default launcher activity towards this instead of SearchActivity
-				if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
-					try {
-						mInstance.mSearchParams = new SearchParams();
-						mInstance.mSearchParams.fillWithTestData();
-						mInstance.mProperty = new Property();
-						mInstance.mProperty.fillWithTestData();
-						mInstance.mRate = new Rate();
-						mInstance.mRate.fillWithTestData();
-						mInstance.mBookingResponse = new BookingResponse();
-						mInstance.mBookingResponse.fillWithTestData();
-						mInstance.mBillingInfo = new BillingInfo();
-						mInstance.mBillingInfo.fillWithTestData();
+				// Start a background thread to save this data to the disk
+				new Thread(new Runnable() {
+					public void run() {
+						ConfirmationUtils.saveConfirmationData(mContext, Db.getSearchParams(),
+								Db.getSelectedProperty(), Db.getSelectedRate(), Db.getBillingInfo(),
+								Db.getBookingResponse());
 					}
-					catch (JSONException e) {
-						Log.e("Couldn't create dummy data!", e);
-					}
-				}
-				else {
-					// Start a background thread to save this data to the disk
-					new Thread(new Runnable() {
-						public void run() {
-							ConfirmationUtils.saveConfirmationData(mContext, mInstance.mSearchParams,
-									mInstance.mProperty,
-									mInstance.mRate, mInstance.mBillingInfo, mInstance.mBookingResponse);
-						}
-					}).start();
-				}
+				}).start();
 			}
 		}
 
@@ -112,15 +68,15 @@ public class ConfirmationFragmentActivity extends MapActivity {
 		// We don't want to display the "succeeded with errors" dialog box if:
 		// 1. It's not the first launch of the activity (savedInstanceState != null)
 		// 2. We're re-launching the activity with saved confirmation data
-		if (mInstance.mBookingResponse.succeededWithErrors() && savedInstanceState == null
+		if (Db.getBookingResponse().succeededWithErrors() && savedInstanceState == null
 				&& !ConfirmationUtils.hasSavedConfirmationData(this)) {
 			showSucceededWithErrorsDialog();
 		}
 
 		// Track page load
 		if (savedInstanceState == null) {
-			Tracker.trackAppHotelsCheckoutConfirmation(this, mInstance.mSearchParams, mInstance.mProperty,
-					mInstance.mBillingInfo, mInstance.mRate, mInstance.mBookingResponse);
+			Tracker.trackAppHotelsCheckoutConfirmation(this, Db.getSearchParams(), Db.getSelectedProperty(),
+					Db.getBillingInfo(), Db.getSelectedRate(), Db.getBookingResponse());
 		}
 	}
 
@@ -187,38 +143,18 @@ public class ConfirmationFragmentActivity extends MapActivity {
 		Log.i("Loading saved confirmation data...");
 		try {
 			JSONObject data = new JSONObject(IoUtils.readStringFromFile(ConfirmationUtils.CONFIRMATION_DATA_FILE, this));
-			mInstance.mSearchParams = (SearchParams) JSONUtils.getJSONable(data, Codes.SEARCH_PARAMS,
-					SearchParams.class);
-			mInstance.mProperty = (Property) JSONUtils.getJSONable(data, Codes.PROPERTY, Property.class);
-			mInstance.mRate = (Rate) JSONUtils.getJSONable(data, Codes.RATE, Rate.class);
-			mInstance.mBillingInfo = (BillingInfo) JSONUtils.getJSONable(data, Codes.BILLING_INFO, BillingInfo.class);
-			mInstance.mBookingResponse = (BookingResponse) JSONUtils.getJSONable(data, Codes.BOOKING_RESPONSE,
-					BookingResponse.class);
+			Db.setSearchParams((SearchParams) JSONUtils.getJSONable(data, Codes.SEARCH_PARAMS, SearchParams.class));
+			Db.setSelectedProperty((Property) JSONUtils.getJSONable(data, Codes.PROPERTY, Property.class));
+			Db.setSelectedRate((Rate) JSONUtils.getJSONable(data, Codes.RATE, Rate.class));
+			Db.setBillingInfo((BillingInfo) JSONUtils.getJSONable(data, Codes.BILLING_INFO, BillingInfo.class));
+			Db.setBookingResponse((BookingResponse) JSONUtils.getJSONable(data, Codes.BOOKING_RESPONSE,
+					BookingResponse.class));
 			return true;
 		}
 		catch (Exception e) {
 			Log.e("Could not load ConfirmationFragmentActivity state.", e);
 			return false;
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// InstanceFragment
-
-	public static final class InstanceFragment extends Fragment {
-		public static final String TAG = "INSTANCE";
-
-		public static InstanceFragment newInstance() {
-			InstanceFragment fragment = new InstanceFragment();
-			fragment.setRetainInstance(true);
-			return fragment;
-		}
-
-		public SearchParams mSearchParams;
-		public Property mProperty;
-		public Rate mRate;
-		public BillingInfo mBillingInfo;
-		public BookingResponse mBookingResponse;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -242,8 +178,8 @@ public class ConfirmationFragmentActivity extends MapActivity {
 		String dialogTag = getString(R.string.tag_simple_dialog);
 		if (fm.findFragmentByTag(dialogTag) == null) {
 			String title = getString(R.string.error_booking_title);
-			String message = getString(R.string.error_booking_succeeded_with_errors,
-					mInstance.mBookingResponse.gatherErrorMessage(this));
+			String message = getString(R.string.error_booking_succeeded_with_errors, Db.getBookingResponse()
+					.gatherErrorMessage(this));
 
 			DialogFragment newFragment = SimpleDialogFragment.newInstance(title, message);
 			newFragment.show(getFragmentManager(), dialogTag);

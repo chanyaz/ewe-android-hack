@@ -13,7 +13,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ConfirmationFragmentActivity;
-import com.expedia.bookings.activity.ConfirmationFragmentActivity.InstanceFragment;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.ConfirmationUtils;
@@ -42,7 +42,7 @@ public class BookingConfirmationFragment extends Fragment {
 		mapViewLayout.addView(mMapView);
 		mMapView.setEnabled(false);
 
-		Property property = getInstance().mProperty;
+		Property property = Db.getSelectedProperty();
 		List<Property> properties = new ArrayList<Property>(1);
 		properties.add(property);
 		List<Overlay> overlays = mMapView.getOverlays();
@@ -78,9 +78,8 @@ public class BookingConfirmationFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				String contactText = ConfirmationUtils.determineContactText(getActivity());
-				InstanceFragment instance = getInstance();
-				ConfirmationUtils.share(getActivity(), instance.mSearchParams, instance.mProperty,
-						instance.mBookingResponse, instance.mBillingInfo, instance.mRate, contactText);
+				ConfirmationUtils.share(getActivity(), Db.getSearchParams(), Db.getSelectedProperty(),
+						Db.getBookingResponse(), Db.getBillingInfo(), Db.getSelectedRate(), contactText);
 			}
 		});
 
@@ -89,8 +88,7 @@ public class BookingConfirmationFragment extends Fragment {
 			public void onClick(View v) {
 				Tracker.trackViewOnMap(getActivity());
 
-				Property property = getInstance().mProperty;
-				startActivity(ConfirmationUtils.generateIntentToShowPropertyOnMap(property));
+				startActivity(ConfirmationUtils.generateIntentToShowPropertyOnMap(Db.getSelectedProperty()));
 			}
 		});
 
@@ -116,10 +114,6 @@ public class BookingConfirmationFragment extends Fragment {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Convenience method
-
-	public ConfirmationFragmentActivity.InstanceFragment getInstance() {
-		return ((ConfirmationFragmentActivity) getActivity()).mInstance;
-	}
 
 	private GeoPoint getAdjustedCenter(MapView mapView) {
 		GeoPoint center = mapView.getMapCenter();

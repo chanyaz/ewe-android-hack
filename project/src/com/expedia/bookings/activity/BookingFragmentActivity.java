@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.BookingFormFragment;
@@ -198,6 +197,7 @@ public class BookingFragmentActivity extends Activity {
 			}
 
 			BookingResponse response = (BookingResponse) results;
+			Db.setBookingResponse(response);
 
 			BookingFormFragment bookingFormFragment = (BookingFormFragment) getFragmentManager().findFragmentByTag(
 					getString(R.string.tag_booking_form));
@@ -226,11 +226,6 @@ public class BookingFragmentActivity extends Activity {
 
 			// Start the conf activity
 			Intent intent = new Intent(mContext, ConfirmationFragmentActivity.class);
-			intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toJson().toString());
-			intent.putExtra(Codes.PROPERTY, Db.getSelectedProperty().toJson().toString());
-			intent.putExtra(Codes.RATE, Db.getSelectedRate().toJson().toString());
-			intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
-			intent.putExtra(Codes.BILLING_INFO, Db.getBillingInfo().toJson().toString());
 			startActivity(intent);
 		}
 	};

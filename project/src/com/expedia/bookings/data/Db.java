@@ -50,11 +50,21 @@ public class Db {
 	// The billing info.  Make sure to properly clear this out when requested 
 	private BillingInfo mBillingInfo;
 
+	// The booking response.  Make sure to properly clear this out after finishing booking.
+	private BookingResponse mBookingResponse;
+
 	// The "currently selected" property/rate is not strictly necessary, but
 	// provide a useful shorthand for commonly used functionality.  Note that
 	// these will only work if you properly set them on selection.
 	private String mSelectedPropertyId;
 	private String mSelectedRateKey;
+
+	// Thesea are here in the case that a single property/rate is loaded
+	// (without the corresponding SearchResponse/AvailabilityResponse).
+	// This can happen when reloading a single saved piece of info (such
+	// as on the confirmation page).
+	private Property mSelectedProperty;
+	private Rate mSelectedRate;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
@@ -62,6 +72,10 @@ public class Db {
 	public static SearchParams resetSearchParams() {
 		sDb.mSearchParams = new SearchParams();
 		return sDb.mSearchParams;
+	}
+
+	public static void setSearchParams(SearchParams searchParams) {
+		sDb.mSearchParams = searchParams;
 	}
 
 	public static SearchParams getSearchParams() {
@@ -81,6 +95,7 @@ public class Db {
 	}
 
 	public static void setSelectedProperty(Property property) {
+		sDb.mSelectedProperty = property;
 		setSelectedProperty(property.getPropertyId());
 	}
 
@@ -89,6 +104,9 @@ public class Db {
 	}
 
 	public static Property getSelectedProperty() {
+		if (sDb.mSelectedProperty != null) {
+			return sDb.mSelectedProperty;
+		}
 		return getProperty(sDb.mSelectedPropertyId);
 	}
 
@@ -128,6 +146,7 @@ public class Db {
 	}
 
 	public static void setSelectedRate(Rate rate) {
+		sDb.mSelectedRate = rate;
 		setSelectedRate(rate.getRateKey());
 	}
 
@@ -136,6 +155,9 @@ public class Db {
 	}
 
 	public static Rate getSelectedRate() {
+		if (sDb.mSelectedRate != null) {
+			return sDb.mSelectedRate;
+		}
 		return getRate(sDb.mSelectedPropertyId, sDb.mSelectedRateKey);
 	}
 
@@ -169,6 +191,10 @@ public class Db {
 		return sDb.mBillingInfo;
 	}
 
+	public static void setBillingInfo(BillingInfo billingInfo) {
+		sDb.mBillingInfo = billingInfo;
+	}
+
 	public static BillingInfo getBillingInfo() {
 		if (sDb.mBillingInfo == null) {
 			throw new RuntimeException("Need to call Database.loadBillingInfo() before attempting to use BillingInfo.");
@@ -181,5 +207,13 @@ public class Db {
 		if (sDb.mBillingInfo != null) {
 			sDb.mBillingInfo.delete(context);
 		}
+	}
+
+	public static void setBookingResponse(BookingResponse bookingResponse) {
+		sDb.mBookingResponse = bookingResponse;
+	}
+
+	public static BookingResponse getBookingResponse() {
+		return sDb.mBookingResponse;
 	}
 }
