@@ -71,6 +71,10 @@ public class HotelGalleryActivity extends FragmentActivity {
 			actionBar.setTitle(Html.fromHtml(getString(R.string.gallery_title_template, mProperty.getName())));
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
+		else {
+			ActionBar actionBar = getActionBar();
+			actionBar.hide();
+		}
 
 		mAdapter = new ImageAdapter();
 		mAdapter.setMedia(mProperty.getMediaList());
