@@ -63,7 +63,6 @@ import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
-import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -73,7 +72,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 
-public class SearchParamsFragment extends Fragment implements EventHandler, LoaderManager.LoaderCallbacks<Cursor> {
+public class SearchParamsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	private static final int NUM_SUGGESTIONS = 5;
 
@@ -123,12 +122,6 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 		if (savedInstanceState != null) {
 			mHasFocusedSearchField = savedInstanceState.getBoolean(INSTANCE_HAS_FOCUSED_SEARCH_FIELD, false);
 		}
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((SearchFragmentActivity) activity).mEventManager.registerEventHandler(this);
 	}
 
 	@Override
@@ -314,12 +307,6 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 		mLocationEditText.removeTextChangedListener(mLocationTextWatcher);
 
 		getActivity().unregisterReceiver(mConnectivityReceiver);
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		((SearchFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
 	}
 
 	public void startSearch() {
@@ -838,16 +825,10 @@ public class SearchParamsFragment extends Fragment implements EventHandler, Load
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// EventHandler implementation
-
-	@Override
-	public void handleEvent(int eventCode, Object data) {
-		switch (eventCode) {
-		case SearchFragmentActivity.EVENT_RESET_PARAMS:
-			SearchParams searchParams = (SearchParams) data;
-			startAutocomplete(searchParams.getFreeformLocation());
-			break;
-		}
+	// Fragment control
+	
+	public void onResetParams() {
+		startAutocomplete(Db.getSearchParams().getFreeformLocation());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
