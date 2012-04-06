@@ -135,6 +135,13 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			ft.commit();
 		}
 
+		// If this is the first launch, clear the db
+		if (icicle == null) {
+			Db.setSearchResponse(null);
+			Db.clearAvailabilityResponses();
+			Db.clearReviewsResponses();
+		}
+
 		setContentView(R.layout.activity_search_results_fragment);
 
 		// Need to set this BG from code so we can make it just repeat vertically

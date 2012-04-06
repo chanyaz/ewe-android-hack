@@ -92,6 +92,15 @@ public class ConfirmationFragmentActivity extends MapActivity {
 	}
 
 	@Override
+	protected void onStop() {
+		super.onStop();
+
+		if (isFinishing()) {
+			Db.setBookingResponse(null);
+		}
+	}
+
+	@Override
 	public void onBackPressed() {
 		finish();
 		Intent i = new Intent(this, SearchFragmentActivity.class);
