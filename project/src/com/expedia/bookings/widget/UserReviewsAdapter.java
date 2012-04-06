@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import android.content.Context;
 import android.text.format.Time;
@@ -15,9 +16,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.UserReviewsListActivity.ReviewWrapper;
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ReviewRating;
+import com.expedia.bookings.fragment.UserReviewsFragment.ReviewWrapper;
 import com.mobiata.android.util.AndroidUtils;
 
 public class UserReviewsAdapter extends BaseAdapter {
@@ -31,13 +31,13 @@ public class UserReviewsAdapter extends BaseAdapter {
 	private Context mContext;
 	private LayoutInflater mInflater;
 
-	public ArrayList<ReviewWrapper> mLoadedReviews;
+	public List<ReviewWrapper> mLoadedReviews;
 
 	private ListView mListView;
 
 	public boolean mAddDivider;
 
-	public UserReviewsAdapter(Context context, Property property, ListView listView) {
+	public UserReviewsAdapter(Context context, ListView listView) {
 		mContext = context;
 		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mListView = listView;
@@ -134,6 +134,9 @@ public class UserReviewsAdapter extends BaseAdapter {
 	 */
 	public void addDivider() {
 		ReviewWrapper divider = new ReviewWrapper(true);
+		if (mLoadedReviews == null) {
+			mLoadedReviews = new ArrayList<ReviewWrapper>();
+		}
 		mLoadedReviews.add(divider);
 		notifyDataSetChanged();
 	}
@@ -149,6 +152,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 				ReviewWrapper last = mLoadedReviews.get(pos);
 				if (last.mIsDivider) {
 					mLoadedReviews.remove(mLoadedReviews.size() - 1);
+					notifyDataSetChanged();
 				}
 			}
 		}
@@ -261,7 +265,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 		viewHolder.submissionDate.setVisibility(View.GONE);
 	}
 
-	public void setUserReviews(ArrayList<ReviewWrapper> reviews) {
+	public void setUserReviews(List<ReviewWrapper> reviews) {
 		mLoadedReviews = reviews;
 		notifyDataSetChanged();
 	}

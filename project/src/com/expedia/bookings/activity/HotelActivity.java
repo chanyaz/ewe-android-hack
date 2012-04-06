@@ -158,7 +158,7 @@ public class HotelActivity extends AsyncLoadActivity {
 			public synchronized void onClick(final View v) {
 				if (!mIsStartingReviewsActivity) {
 					mIsStartingReviewsActivity = true;
-					Intent newIntent = new Intent(mContext, UserReviewsListActivity.class);
+					Intent newIntent = new Intent(mContext, UserReviewsActivity.class);
 					newIntent.fillIn(intent, 0);
 					startActivity(newIntent);
 				}

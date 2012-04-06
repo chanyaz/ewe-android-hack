@@ -39,6 +39,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
+import com.expedia.bookings.fragment.UserReviewsFragment.ReviewWrapper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -169,11 +170,11 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		listsContainer.addView(favorableReviewsListViewContainer);
 		listsContainer.addView(recentReviewsListViewContainer);
 
-		UserReviewsAdapter recentReviewsAdapter = new UserReviewsAdapter(mContext, mProperty,
+		UserReviewsAdapter recentReviewsAdapter = new UserReviewsAdapter(mContext,
 				getListView(recentReviewsListViewContainer));
-		UserReviewsAdapter criticalReviewsAdapter = new UserReviewsAdapter(mContext, mProperty,
+		UserReviewsAdapter criticalReviewsAdapter = new UserReviewsAdapter(mContext,
 				getListView(criticalReviewsListViewContainer));
-		UserReviewsAdapter favorableReviewsAdapter = new UserReviewsAdapter(mContext, mProperty,
+		UserReviewsAdapter favorableReviewsAdapter = new UserReviewsAdapter(mContext,
 				getListView(favorableReviewsListViewContainer));
 
 		mListViewContainersMap.put(ReviewSort.HIGHEST_RATING_FIRST, favorableReviewsListViewContainer);
@@ -867,32 +868,6 @@ public class UserReviewsListActivity extends Activity implements OnScrollListene
 		}
 
 	};
-
-	/////////////////////////////////////////////////////////////////////////////////////
-	// ReviewWrapper meta data
-
-	/**
-	 * Wrapper class that stores the review and also extra book-keeping related to how it is displayed
-	 * from within the applications, such as whether or not the review is expanded, and the reduced body
-	 * @author brad
-	 *
-	 */
-	public static class ReviewWrapper {
-		public Review mReview;
-		public boolean mBodyWasReduced;
-		public boolean mIsDisplayingFull;
-		public String mBodyReduced;
-
-		public boolean mIsDivider = false;
-
-		public ReviewWrapper() {
-			mIsDivider = false;
-		}
-
-		public ReviewWrapper(boolean isDivider) {
-			mIsDivider = isDivider;
-		}
-	}
 
 	private ArrayList<ReviewWrapper> reviewWrapperListInit(List<Review> reviews) {
 		ArrayList<ReviewWrapper> loadedReviews = new ArrayList<ReviewWrapper>();

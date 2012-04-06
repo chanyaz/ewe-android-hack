@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/bg_default" >
+
+    <com.mobiata.android.widget.SegmentedControlGroup
+        android:id="@+id/user_review_sort_group"
+        style="@style/Widget.SegmentedControlGroup.UserReviews"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_header"
+        android:orientation="horizontal"
+        android:padding="8dp" >
+
+        <RadioButton
+            android:id="@+id/user_review_button_recent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/user_review_sort_button_recent" />
+
+        <RadioButton
+            android:id="@+id/user_review_button_favorable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/user_review_sort_button_favorable" />
+
+        <RadioButton
+            android:id="@+id/user_review_button_critical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/user_review_sort_button_critical" />
+    </com.mobiata.android.widget.SegmentedControlGroup>
+
+    <FrameLayout
+        android:id="@+id/user_review_content_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/user_review_sort_group"
+        android:paddingBottom="@dimen/bottom_bar_padding" >
+    </FrameLayout>
+
+    <!-- Bottom button bar -->
+
+    <RelativeLayout
+        android:id="@+id/bottom_bar"
+        style="@android:style/ButtonBar"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/bottom_bar_height"
+        android:layout_alignParentBottom="true"
+        android:background="#C000"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/user_review_total_reviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="4dp"
+            android:textColor="@color/user_reviews_text_color"
+            android:textStyle="bold" />
+
+        <RatingBar
+            android:id="@+id/user_review_rating_bar_bottom"
+            style="@style/RatingBarSmall.Shadowed.UserReview.Dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/user_review_total_reviews"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:stepSize="0.5" />
+
+        <com.mobiata.android.widget.AutoResizeTextView
+            android:id="@+id/book_now_button"
+            style="@style/Widget.Button.Orange"
+            android:layout_width="@dimen/header_button_width"
+            android:layout_height="@dimen/action_bar_button_height"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical|right"
+            android:maxLines="1"
+            mobiata:maxTextSize="15dp"
+            android:text="@string/book_now"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</RelativeLayout>

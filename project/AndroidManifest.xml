@@ -71,6 +71,7 @@
             android:launchMode="singleTask"
             android:name=".activity.HotelActivity" />
         <activity android:name=".activity.HotelMapActivity" />
+        <activity android:name=".activity.UserReviewsActivity" />
         <activity android:name=".activity.UserReviewsListActivity" />
         <activity
             android:name=".activity.TabletUserReviewsListActivity"

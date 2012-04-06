@@ -296,11 +296,11 @@ public class ExpediaServices implements DownloadListener {
 	//////////////////////////////////////////////////////////////////////////
 	//// BazaarVoice (Reviews) API
 
-	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, LinkedList<String> languages) {
+	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, List<String> languages) {
 		return reviews(property, sort, pageNumber, languages, REVIEWS_PER_PAGE);
 	}
 
-	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, LinkedList<String> languages,
+	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, List<String> languages,
 			int number) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
