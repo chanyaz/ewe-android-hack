@@ -19,7 +19,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
@@ -32,7 +31,6 @@ import com.mobiata.android.util.IoUtils;
 public class ConfirmationFragmentActivity extends MapActivity {
 
 	private Context mContext;
-	public EventManager mEventManager = new EventManager();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
