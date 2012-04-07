@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,12 +15,11 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.BookingFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.ReceiptWidget;
 
-public class BookingInfoFragment extends Fragment implements EventHandler {
+public class BookingInfoFragment extends Fragment {
 
 	private View mCompleteBookingInfoButton;
 
@@ -30,13 +28,6 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 	public static BookingInfoFragment newInstance() {
 		BookingInfoFragment fragment = new BookingInfoFragment();
 		return fragment;
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		((BookingFragmentActivity) activity).mEventManager.registerEventHandler(this);
 	}
 
 	@Override
@@ -95,25 +86,6 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 		return view;
 	}
 
-	@Override
-	public void onDetach() {
-		((BookingFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
-		super.onDetach();
-	}
-
-	@Override
-	public void handleEvent(int eventCode, Object data) {
-		switch (eventCode) {
-
-		case BookingFragmentActivity.EVENT_RATE_SELECTED:
-			updateReceipt();
-			updateRoomDescription(getView());
-			ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), getView());
-			break;
-		}
-
-	}
-
 	private void updateRoomDescription(View view) {
 		if (view == null) {
 			return;
@@ -129,5 +101,14 @@ public class BookingInfoFragment extends Fragment implements EventHandler {
 
 	private void updateReceipt() {
 		mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Fragment control
+
+	public void notifyRateSelected() {
+		updateReceipt();
+		updateRoomDescription(getView());
+		ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), getView());
 	}
 }

@@ -20,7 +20,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
-import com.expedia.bookings.fragment.EventManager;
+import com.expedia.bookings.fragment.BookingInfoFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -31,14 +31,13 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.app.SimpleDialogFragment;
+import com.mobiata.android.util.Ui;
 import com.mobiata.android.validation.ValidationError;
 
 public class BookingFragmentActivity extends Activity {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
-
-	public static final int EVENT_RATE_SELECTED = 4;
 
 	private static final String KEY_BOOKING = "KEY_BOOKING";
 
@@ -49,7 +48,7 @@ public class BookingFragmentActivity extends Activity {
 
 	private Context mContext;
 
-	public EventManager mEventManager = new EventManager();
+	private BookingInfoFragment mBookingInfoFragment;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -65,6 +64,8 @@ public class BookingFragmentActivity extends Activity {
 		}
 
 		setContentView(R.layout.activity_booking_fragment);
+
+		mBookingInfoFragment = Ui.findFragment(this, getString(R.string.tag_booking_info));
 
 		// Need to set this BG from code so we can make it just repeat vertically
 		findViewById(R.id.search_results_list_shadow).setBackgroundDrawable(LayoutUtils.getDividerDrawable(this));
@@ -149,7 +150,7 @@ public class BookingFragmentActivity extends Activity {
 	public void rateSelected(Rate rate) {
 		Db.setSelectedRate(rate);
 
-		mEventManager.notifyEventHandlers(EVENT_RATE_SELECTED, rate);
+		mBookingInfoFragment.notifyRateSelected();
 	}
 
 	public void enterBookingInfo() {
