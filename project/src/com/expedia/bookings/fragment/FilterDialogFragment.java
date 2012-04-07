@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -20,17 +19,15 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.widget.SegmentedControlGroup;
 
-public class FilterDialogFragment extends DialogFragment implements EventHandler {
+public class FilterDialogFragment extends DialogFragment {
 
 	private EditText mHotelNameEditText;;
 	private SegmentedControlGroup mRadiusButtonGroup;
@@ -39,12 +36,6 @@ public class FilterDialogFragment extends DialogFragment implements EventHandler
 
 	public static FilterDialogFragment newInstance() {
 		return new FilterDialogFragment();
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((SearchResultsFragmentActivity) getActivity()).mEventManager.registerEventHandler(this);
 	}
 
 	@Override
@@ -148,12 +139,6 @@ public class FilterDialogFragment extends DialogFragment implements EventHandler
 		dialog.setCanceledOnTouchOutside(true);
 	 
 		return dialog;
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		((SearchResultsFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
 	}
 
 	public CharSequence getTitle() {
@@ -269,14 +254,9 @@ public class FilterDialogFragment extends DialogFragment implements EventHandler
 	};
 
 	//////////////////////////////////////////////////////////////////////////
-	// EventHandler implementation
-
-	@Override
-	public void handleEvent(int eventCode, Object data) {
-		switch (eventCode) {
-		case SearchResultsFragmentActivity.EVENT_FILTER_CHANGED:
-			getDialog().setTitle(getTitle());
-			break;
-		}
+	// Fragment control
+	
+	public void notifyFilterChanged() {
+		getDialog().setTitle(getTitle());
 	}
 }

@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.text.Html;
@@ -17,11 +16,10 @@ import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
-import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
 
-public class HotelListFragment extends ListFragment implements EventHandler {
+public class HotelListFragment extends ListFragment {
 
 	private HotelAdapter mAdapter;
 
@@ -37,12 +35,6 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((SearchResultsFragmentActivity) getActivity()).mEventManager.registerEventHandler(this);
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -81,13 +73,6 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 		updateViews();
 	}
 
-	@Override
-	public void onDetach() {
-		super.onDetach();
-
-		((SearchResultsFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// ListFragment overrides
 
@@ -100,34 +85,34 @@ public class HotelListFragment extends ListFragment implements EventHandler {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// EventHandler implementation
+	// Fragment control
 
-	@Override
-	public void handleEvent(int eventCode, Object data) {
-		switch (eventCode) {
-		case SearchResultsFragmentActivity.EVENT_SEARCH_STARTED:
-			mAdapter.setSelectedPosition(-1);
-			displaySearchStatus();
-			break;
-		case SearchResultsFragmentActivity.EVENT_SEARCH_PROGRESS:
-			displaySearchStatus();
-			break;
-		case SearchResultsFragmentActivity.EVENT_SEARCH_COMPLETE:
-			updateSearchResults();
-			break;
-		case SearchResultsFragmentActivity.EVENT_SEARCH_ERROR:
-			displaySearchError();
-			break;
-		case SearchResultsFragmentActivity.EVENT_FILTER_CHANGED:
-			updateSearchResults();
-			break;
-		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
-			int position = getPositionOfProperty((Property) data);
-			if (position != mAdapter.getSelectedPosition()) {
-				mAdapter.setSelectedPosition(position);
-				mAdapter.notifyDataSetChanged();
-			}
-			break;
+	public void notifySearchStarted() {
+		mAdapter.setSelectedPosition(-1);
+		displaySearchStatus();
+	}
+
+	public void notifySearchProgress() {
+		displaySearchStatus();
+	}
+
+	public void notifySearchComplete() {
+		updateSearchResults();
+	}
+
+	public void notifySearchError() {
+		displaySearchError();
+	}
+
+	public void notifyFilterChanged() {
+		updateSearchResults();
+	}
+
+	public void notifyPropertySelected() {
+		int position = getPositionOfProperty(Db.getSelectedProperty());
+		if (position != mAdapter.getSelectedPosition()) {
+			mAdapter.setSelectedPosition(position);
+			mAdapter.notifyDataSetChanged();
 		}
 	}
 

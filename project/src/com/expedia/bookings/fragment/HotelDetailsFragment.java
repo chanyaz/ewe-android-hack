@@ -30,15 +30,14 @@ import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.activity.TabletUserReviewsListActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelDescription.DescriptionSection;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewsResponse;
-import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget;
@@ -46,9 +45,8 @@ import com.expedia.bookings.widget.AvailabilitySummaryWidget.AvailabilitySummary
 import com.expedia.bookings.widget.HotelCollage;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
 import com.expedia.bookings.widget.SummarizedRoomRates;
-import com.mobiata.android.Log;
 
-public class HotelDetailsFragment extends Fragment implements EventHandler, AvailabilitySummaryListener {
+public class HotelDetailsFragment extends Fragment implements AvailabilitySummaryListener {
 
 	public static HotelDetailsFragment newInstance() {
 		HotelDetailsFragment fragment = new HotelDetailsFragment();
@@ -109,7 +107,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		((SearchResultsFragmentActivity) getActivity()).mEventManager.registerEventHandler(this);
 
 		mAvailabilityWidget = new AvailabilitySummaryWidget(activity);
 		mAvailabilityWidget.setListener(this);
@@ -162,12 +159,6 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 		super.onResume();
 
 		mOpeningUserReviews = false;
-	}
-
-	@Override
-	public void onDetach() {
-		((SearchResultsFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
-		super.onDetach();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -321,49 +312,50 @@ public class HotelDetailsFragment extends Fragment implements EventHandler, Avai
 	};
 
 	//////////////////////////////////////////////////////////////////////////
-	// EVENTHANDLER IMPLEMENTATION
+	// Fragment Control
 
-	@Override
-	public void handleEvent(int eventCode, Object data) {
-		switch (eventCode) {
-		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
-			mAvailabilityWidget.setButtonEnabled(false);
-			mAvailabilityWidget.showProgressBar();
-			Log.d("HERE SEARCH_STARTED");
-			break;
-		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
-			mAvailabilityWidget.setButtonEnabled(false);
-			mAvailabilityWidget.showError((String) data);
-			mIsSearchError = true;
-			break;
-		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
-			AvailabilityResponse response = (AvailabilityResponse) data;
-			if (!response.canRequestMoreData()) {
-				mAvailabilityWidget.setButtonEnabled(true);
-				mAvailabilityWidget.showRates(response);
-			}
-			else {
-				updateViews(Db.getSelectedProperty());
-			}
-			break;
-		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
-			mLoadedReviews = false;
-			updateViews((Property) data);
-			break;
-		case SearchResultsFragmentActivity.EVENT_REVIEWS_QUERY_STARTED:
-			mSomeReviewsContainer.removeAllViews();
-			mSomeReviewsContainer.setVisibility(View.GONE);
-			mReviewsLoadingContainer.setVisibility(View.VISIBLE);
-			if (mReviewsErrorTextView != null) {
-				mReviewsErrorTextView.setVisibility(View.GONE);
-			}
-			break;
-		case SearchResultsFragmentActivity.EVENT_REVIEWS_QUERY_COMPLETE:
-		case SearchResultsFragmentActivity.EVENT_REVIEWS_QUERY_ERROR:
-			ReviewsResponse reviewsResponse = (ReviewsResponse) data;
-			addReviews(reviewsResponse);
-			break;
+	public void notifyPropertySelected() {
+		mLoadedReviews = false;
+		updateViews(Db.getSelectedProperty());
+	}
+
+	public void notifyAvailabilityQueryStarted() {
+		mAvailabilityWidget.setButtonEnabled(false);
+		mAvailabilityWidget.showProgressBar();
+	}
+
+	public void notifyAvailabilityQueryError(String errMsg) {
+		mAvailabilityWidget.setButtonEnabled(false);
+		mAvailabilityWidget.showError(errMsg);
+		mIsSearchError = true;
+	}
+
+	public void notifyAvailabilityQueryComplete() {
+		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
+		if (!response.canRequestMoreData()) {
+			mAvailabilityWidget.setButtonEnabled(true);
+			mAvailabilityWidget.showRates(response);
 		}
+		else {
+			updateViews(Db.getSelectedProperty());
+		}
+	}
+
+	public void notifyReviewsQueryStarted() {
+		mSomeReviewsContainer.removeAllViews();
+		mSomeReviewsContainer.setVisibility(View.GONE);
+		mReviewsLoadingContainer.setVisibility(View.VISIBLE);
+		if (mReviewsErrorTextView != null) {
+			mReviewsErrorTextView.setVisibility(View.GONE);
+		}
+	}
+
+	public void notifyReviewsQueryError() {
+		showReviewsError();
+	}
+
+	public void notifyReviewsQueryComplete() {
+		addReviews(Db.getSelectedReviewsResponse());
 	}
 
 	//////////////////////////////////////////////////////////////////////////

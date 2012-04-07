@@ -16,15 +16,14 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget;
-import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget.AvailabilitySummaryListener;
 import com.expedia.bookings.widget.HotelCollage;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
+import com.expedia.bookings.widget.SummarizedRoomRates;
 
-public class MiniDetailsFragment extends Fragment implements EventHandler, AvailabilitySummaryListener {
+public class MiniDetailsFragment extends Fragment implements AvailabilitySummaryListener {
 
 	public static MiniDetailsFragment newInstance() {
 		return new MiniDetailsFragment();
@@ -44,7 +43,6 @@ public class MiniDetailsFragment extends Fragment implements EventHandler, Avail
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		((SearchResultsFragmentActivity) getActivity()).mEventManager.registerEventHandler(this);
 
 		mAvailabilitySummary = new AvailabilitySummaryWidget(activity);
 		mAvailabilitySummary.setListener(this);
@@ -67,12 +65,6 @@ public class MiniDetailsFragment extends Fragment implements EventHandler, Avail
 		updateViews(Db.getSelectedProperty(), view);
 
 		return view;
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		((SearchResultsFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -124,29 +116,27 @@ public class MiniDetailsFragment extends Fragment implements EventHandler, Avail
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// EventHandler implementation
+	// Fragment control
 
-	@Override
-	public void handleEvent(int eventCode, Object data) {
-		switch (eventCode) {
-		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
-			updateViews((Property) data);
-			break;
-		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_STARTED:
-			mAvailabilitySummary.showProgressBar();
-			break;
-		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_ERROR:
-			mAvailabilitySummary.showError((String) data);
-			break;
-		case SearchResultsFragmentActivity.EVENT_AVAILABILITY_SEARCH_COMPLETE:
-			AvailabilityResponse response = (AvailabilityResponse) data;
-			if (!response.canRequestMoreData()) {
-				mAvailabilitySummary.showRates(response);
-			}
-			else {
-				updateViews(Db.getSelectedProperty());
-			}
-			break;
+	public void notifyPropertySelected() {
+		updateViews(Db.getSelectedProperty());
+	}
+
+	public void notifyAvailabilityQueryStarted() {
+		mAvailabilitySummary.showProgressBar();
+	}
+
+	public void notifyAvailabilityQueryError(String errMsg) {
+		mAvailabilitySummary.showError(errMsg);
+	}
+
+	public void notifyAvailabilityQueryComplete() {
+		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
+		if (!response.canRequestMoreData()) {
+			mAvailabilitySummary.showRates(response);
+		}
+		else {
+			updateViews(Db.getSelectedProperty());
 		}
 	}
 

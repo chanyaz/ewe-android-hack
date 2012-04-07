@@ -51,11 +51,12 @@ import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
-import com.expedia.bookings.fragment.EventManager;
 import com.expedia.bookings.fragment.FilterDialogFragment;
 import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
 import com.expedia.bookings.fragment.HotelDetailsFragment;
+import com.expedia.bookings.fragment.HotelListFragment;
+import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
 import com.expedia.bookings.fragment.SortDialogFragment;
 import com.expedia.bookings.model.Search;
@@ -75,28 +76,13 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
+import com.mobiata.android.util.Ui;
 import com.omniture.AppMeasurement;
 
 public class SearchResultsFragmentActivity extends MapActivity implements LocationListener, OnFilterChangedListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
-
-	public static final int EVENT_SEARCH_STARTED = 1;
-	public static final int EVENT_SEARCH_PROGRESS = 2;
-	public static final int EVENT_SEARCH_COMPLETE = 3;
-	public static final int EVENT_SEARCH_ERROR = 4;
-	public static final int EVENT_PROPERTY_SELECTED = 5;
-	public static final int EVENT_AVAILABILITY_SEARCH_STARTED = 6;
-	public static final int EVENT_AVAILABILITY_SEARCH_COMPLETE = 7;
-	public static final int EVENT_AVAILABILITY_SEARCH_ERROR = 8;
-	public static final int EVENT_FILTER_CHANGED = 9;
-	public static final int EVENT_SEARCH_PARAMS_CHANGED = 10;
-	public static final int EVENT_REVIEWS_QUERY_STARTED = 11;
-	public static final int EVENT_REVIEWS_QUERY_COMPLETE = 12;
-	public static final int EVENT_REVIEWS_QUERY_ERROR = 13;
-	public static final int EVENT_SEARCH_LOCATION_FOUND = 14;
-	public static final int EVENT_SETTINGS_CHANGED = 15;
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_AVAILABILITY_SEARCH = "KEY_AVAILABILITY_SEARCH";
@@ -113,8 +99,13 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private Context mContext;
 	private Resources mResources;
 
-	public EventManager mEventManager = new EventManager();
 	public InstanceFragment mInstance;
+
+	private HotelListFragment mHotelListFragment;
+	private HotelMapFragment mHotelMapFragment;
+	private MiniDetailsFragment mMiniDetailsFragment;
+	private HotelDetailsFragment mHotelDetailsFragment;
+	private FilterDialogFragment mFilterDialogFragment;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -143,6 +134,12 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		}
 
 		setContentView(R.layout.activity_search_results_fragment);
+
+		mHotelMapFragment = Ui.findFragment(this, getString(R.string.tag_hotel_map));
+		mHotelListFragment = Ui.findFragment(this, getString(R.string.tag_hotel_list));
+		mMiniDetailsFragment = Ui.findFragment(this, getString(R.string.tag_mini_details));
+		mHotelDetailsFragment = Ui.findFragment(this, getString(R.string.tag_details));
+		mFilterDialogFragment = Ui.findFragment(this, getString(R.string.tag_filter_dialog));
 
 		// Need to set this BG from code so we can make it just repeat vertically
 		findViewById(R.id.search_results_list_shadow).setBackgroundDrawable(LayoutUtils.getDividerDrawable(this));
@@ -335,7 +332,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		if (requestCode == REQUEST_CODE_SETTINGS && resultCode == RESULT_OK) {
 			Log.i("Detected currency settings change.");
 			startSearch();
-			mEventManager.notifyEventHandlers(EVENT_SETTINGS_CHANGED, null);
 		}
 	}
 
@@ -523,7 +519,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			// notify the necessary components only after starting the 
 			// downloads so that the right downlaod information (such as  is picked up by the components
 			// when notified of the change in property
-			mEventManager.notifyEventHandlers(EVENT_PROPERTY_SELECTED, property);
+			notifyPropertySelected();
 		}
 
 		// Only start the reviews download if the full page is being shown
@@ -666,8 +662,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private void showFilterDialog() {
 		FragmentManager fm = getFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_filter_dialog)) == null) {
-			DialogFragment newFragment = FilterDialogFragment.newInstance();
-			newFragment.show(getFragmentManager(), getString(R.string.tag_filter_dialog));
+			mFilterDialogFragment = FilterDialogFragment.newInstance();
+			mFilterDialogFragment.show(getFragmentManager(), getString(R.string.tag_filter_dialog));
 		}
 	}
 
@@ -688,8 +684,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		Db.getSearchParams().setSearchType(SearchType.MY_LOCATION);
 
 		invalidateOptionsMenu();
-
-		mEventManager.notifyEventHandlers(EVENT_SEARCH_PARAMS_CHANGED, null);
 	}
 
 	public void setFreeformLocation(String freeformLocation) {
@@ -699,8 +693,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		Db.getSearchParams().setFreeformLocation(freeformLocation);
 
 		invalidateOptionsMenu();
-
-		mEventManager.notifyEventHandlers(EVENT_SEARCH_PARAMS_CHANGED, null);
 	}
 
 	public void setGuests(int numAdults, List<Integer> children) {
@@ -710,8 +702,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		Db.getSearchParams().setChildren(children);
 
 		invalidateOptionsMenu();
-
-		mEventManager.notifyEventHandlers(EVENT_SEARCH_PARAMS_CHANGED, null);
 	}
 
 	public void setDates(Calendar checkIn, Calendar checkOut) {
@@ -721,8 +711,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		Db.getSearchParams().setCheckOutDate(checkOut);
 
 		invalidateOptionsMenu();
-
-		mEventManager.notifyEventHandlers(EVENT_SEARCH_PARAMS_CHANGED, null);
 	}
 
 	public void setLatLng(double latitude, double longitude) {
@@ -747,7 +735,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		mInstance.mFilter.reset();
 
 		mInstance.mSearchStatus = getString(R.string.loading_hotels);
-		mEventManager.notifyEventHandlers(EVENT_SEARCH_STARTED, null);
+
+		notifySearchStarted();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
@@ -870,7 +859,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		// This method essentially signifies that we've found the location to search;
 		// take this opportunity to notify handlers that we know where we're looking.
-		mEventManager.notifyEventHandlers(EVENT_SEARCH_LOCATION_FOUND, null);
+		notifySearchLocationFound();
 
 		// Save this as a "recent search" if it is a freeform search
 		if (Db.getSearchParams().getSearchType() == SearchType.FREEFORM) {
@@ -899,13 +888,13 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		if (response == null) {
 			mInstance.mSearchStatus = getString(R.string.progress_search_failed);
-			mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, null);
+			notifySearchError();
 			TrackingUtils.trackErrorPage(this, "HotelListRequestFailed");
 		}
 		else {
 			if (response.hasErrors()) {
 				mInstance.mSearchStatus = response.getErrors().get(0).getPresentableMessage(mContext);
-				mEventManager.notifyEventHandlers(EVENT_SEARCH_ERROR, null);
+				notifySearchError();
 				TrackingUtils.trackErrorPage(this, "HotelListRequestFailed");
 			}
 			else {
@@ -918,7 +907,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 					response.clearCache();
 				}
 
-				mEventManager.notifyEventHandlers(EVENT_SEARCH_COMPLETE, response);
+				notifySearchComplete();
 				mInstance.mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 
 				if (initialLoad) {
@@ -945,7 +934,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	private void startLocationListener() {
 		mInstance.mSearchStatus = getString(R.string.progress_finding_location);
-		mEventManager.notifyEventHandlers(EVENT_SEARCH_PROGRESS, null);
+
+		notifySearchProgress();
 
 		// Prefer network location (because it's faster).  Otherwise use GPS
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -1033,7 +1023,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		};
 
 		bd.startDownload(KEY_AVAILABILITY_SEARCH, roomAvailabilityDownload, mRoomAvailabilityCallback);
-		mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_STARTED, null);
+
+		notifyAvailabilityQueryStarted();
 	}
 
 	private OnDownloadComplete mRoomAvailabilityCallback = new OnDownloadComplete() {
@@ -1042,20 +1033,19 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			Db.addAvailabilityResponse(availabilityResponse);
 
 			if (availabilityResponse == null) {
-				mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR,
-						getString(R.string.error_no_response_room_rates));
+				notifyAvailabilityQueryError(getString(R.string.error_no_response_room_rates));
 				TrackingUtils.trackErrorPage(mContext, "RatesListRequestFailed");
 			}
 			else {
 				if (availabilityResponse.hasErrors()) {
-					mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_ERROR, availabilityResponse.getErrors()
-							.get(0).getPresentableMessage(mContext));
+					notifyAvailabilityQueryError(availabilityResponse.getErrors().get(0)
+							.getPresentableMessage(mContext));
 					TrackingUtils.trackErrorPage(mContext, "RatesListRequestFailed");
 				}
 				else {
 					Db.getSelectedProperty().updateFrom(availabilityResponse.getProperty());
 
-					mEventManager.notifyEventHandlers(EVENT_AVAILABILITY_SEARCH_COMPLETE, availabilityResponse);
+					notifyAvailabilityQueryComplete();
 
 					// Immediately kick off another (more expensive) request to get more data (if possible)
 					if (availabilityResponse.canRequestMoreData()) {
@@ -1078,7 +1068,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_REVIEWS);
 		bd.startDownload(KEY_REVIEWS, mReviewsDownload, mReviewsCallback);
-		mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_STARTED, null);
+
+		notifyReviewsQueryStarted();
 	}
 
 	private static final int MAX_SUMMARIZED_REVIEWS = 4;
@@ -1103,17 +1094,12 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			ReviewsResponse reviewResponse = (ReviewsResponse) results;
 			Db.addReviewsResponse(reviewResponse);
 
-			if (results == null) {
-				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, null);
-				TrackingUtils.trackErrorPage(mContext, "UserReviewLoadFailed");
-			}
-			else if (reviewResponse.hasErrors()) {
-				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_ERROR, reviewResponse.getErrors().get(0)
-						.getPresentableMessage(mContext));
+			if (results == null || reviewResponse.hasErrors()) {
+				notifyReviewsQueryError(null);
 				TrackingUtils.trackErrorPage(mContext, "UserReviewLoadFailed");
 			}
 			else {
-				mEventManager.notifyEventHandlers(EVENT_REVIEWS_QUERY_COMPLETE, reviewResponse);
+				notifyReviewsQueryComplete();
 			}
 		}
 	};
@@ -1123,9 +1109,100 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	@Override
 	public void onFilterChanged() {
-		mEventManager.notifyEventHandlers(EVENT_FILTER_CHANGED, null);
+		mHotelListFragment.notifyFilterChanged();
+		mHotelMapFragment.notifyFilterChanged();
+
+		if (mFilterDialogFragment != null) {
+			mFilterDialogFragment.notifyFilterChanged();
+		}
 
 		onSearchResultsChanged();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Fragment communication
+
+	private void notifySearchStarted() {
+		mHotelListFragment.notifySearchStarted();
+		mHotelMapFragment.notifySearchStarted();
+	}
+
+	private void notifySearchLocationFound() {
+		mHotelMapFragment.notifySearchLocationFound();
+	}
+
+	private void notifySearchProgress() {
+		mHotelListFragment.notifySearchProgress();
+	}
+
+	private void notifySearchComplete() {
+		mHotelListFragment.notifySearchComplete();
+		mHotelMapFragment.notifySearchComplete();
+	}
+
+	private void notifySearchError() {
+		mHotelListFragment.notifySearchError();
+	}
+
+	private void notifyPropertySelected() {
+		mHotelListFragment.notifyPropertySelected();
+		mHotelMapFragment.notifyPropertySelected();
+
+		if (mMiniDetailsFragment != null) {
+			mMiniDetailsFragment.notifyPropertySelected();
+		}
+
+		if (mHotelDetailsFragment != null) {
+			mHotelDetailsFragment.notifyPropertySelected();
+		}
+	}
+
+	private void notifyAvailabilityQueryStarted() {
+		if (mMiniDetailsFragment != null) {
+			mMiniDetailsFragment.notifyAvailabilityQueryStarted();
+		}
+
+		if (mHotelDetailsFragment != null) {
+			mHotelDetailsFragment.notifyAvailabilityQueryStarted();
+		}
+	}
+
+	private void notifyAvailabilityQueryComplete() {
+		if (mMiniDetailsFragment != null) {
+			mMiniDetailsFragment.notifyAvailabilityQueryComplete();
+		}
+
+		if (mHotelDetailsFragment != null) {
+			mHotelDetailsFragment.notifyAvailabilityQueryComplete();
+		}
+	}
+
+	private void notifyAvailabilityQueryError(String errMsg) {
+		if (mMiniDetailsFragment != null) {
+			mMiniDetailsFragment.notifyAvailabilityQueryError(errMsg);
+		}
+
+		if (mHotelDetailsFragment != null) {
+			mHotelDetailsFragment.notifyAvailabilityQueryError(errMsg);
+		}
+	}
+
+	private void notifyReviewsQueryStarted() {
+		if (mHotelDetailsFragment != null) {
+			mHotelDetailsFragment.notifyReviewsQueryStarted();
+		}
+	}
+
+	private void notifyReviewsQueryComplete() {
+		if (mHotelDetailsFragment != null) {
+			mHotelDetailsFragment.notifyReviewsQueryComplete();
+		}
+	}
+
+	private void notifyReviewsQueryError(String message) {
+		if (mHotelDetailsFragment != null) {
+			mHotelDetailsFragment.notifyReviewsQueryError();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

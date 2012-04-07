@@ -17,7 +17,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
-import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.expedia.bookings.widget.SimpleBalloonAdapter;
 import com.google.android.maps.GeoPoint;
@@ -31,7 +30,7 @@ import com.mobiata.android.widget.DoubleTapToZoomListenerOverlay;
 import com.mobiata.android.widget.ExactLocationItemizedOverlay;
 import com.mobiata.android.widget.StandardBalloonAdapter;
 
-public class HotelMapFragment extends Fragment implements EventHandler {
+public class HotelMapFragment extends Fragment {
 
 	public static HotelMapFragment newInstance() {
 		return new HotelMapFragment();
@@ -47,12 +46,6 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((SearchResultsFragmentActivity) getActivity()).mEventManager.registerEventHandler(this);
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -129,37 +122,30 @@ public class HotelMapFragment extends Fragment implements EventHandler {
 		super.onDestroyView();
 	}
 
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		((SearchResultsFragmentActivity) getActivity()).mEventManager.unregisterEventHandler(this);
+	//////////////////////////////////////////////////////////////////////////
+	// Fragment control
+
+	public void notifySearchStarted() {
+		if (mHotelOverlay != null) {
+			mHotelOverlay.setProperties(null);
+		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// EventHandler implementation
+	public void notifySearchLocationFound() {
+		animateToSearchLocation();
+	}
+	
+	public void notifySearchComplete() {
+		updateView();
+		showAllResults();
+	}
 
-	@Override
-	public void handleEvent(int eventCode, Object data) {
-		switch (eventCode) {
-		case SearchResultsFragmentActivity.EVENT_SEARCH_STARTED:
-			if (mHotelOverlay != null) {
-				mHotelOverlay.setProperties(null);
-			}
-			break;
-		case SearchResultsFragmentActivity.EVENT_SEARCH_LOCATION_FOUND:
-			animateToSearchLocation();
-			break;
-		case SearchResultsFragmentActivity.EVENT_SEARCH_COMPLETE:
-			updateView();
-			showAllResults();
-			break;
-		case SearchResultsFragmentActivity.EVENT_PROPERTY_SELECTED:
-			selectBalloonForProperty();
-			break;
-		case SearchResultsFragmentActivity.EVENT_FILTER_CHANGED:
-			updateView();
-			break;
-		}
+	public void notifyPropertySelected() {
+		selectBalloonForProperty();
+	}
+
+	public void notifyFilterChanged() {
+		updateView();
 	}
 
 	private void updateView() {
