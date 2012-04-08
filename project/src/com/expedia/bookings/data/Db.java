@@ -41,6 +41,10 @@ public class Db {
 	// has changed).
 	private SearchResponse mSearchResponse;
 
+	// The filter applied to SearchResponse.  Note that this Filter can cause a memory leak;
+	// One has to be sure to change the listeners on the Filter whenever appropriate.
+	private Filter mFilter = new Filter();
+
 	// Mapping of Property ID --> AvailabilityResponse
 	private Map<String, AvailabilityResponse> mAvailabilityResponses = new HashMap<String, AvailabilityResponse>();
 
@@ -88,6 +92,15 @@ public class Db {
 
 	public static SearchResponse getSearchResponse() {
 		return sDb.mSearchResponse;
+	}
+
+	public static void resetFilter() {
+		sDb.mFilter.reset();
+		sDb.mFilter.clearOnFilterChangedListeners();
+	}
+
+	public static Filter getFilter() {
+		return sDb.mFilter;
 	}
 
 	public static Property getProperty(String propertyId) {

@@ -42,6 +42,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Filter.SearchRadius;
+import com.expedia.bookings.data.Filter.Sort;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -59,6 +60,7 @@ import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
 import com.expedia.bookings.fragment.SortDialogFragment;
+import com.expedia.bookings.fragment.SortDialogFragment.SortDialogFragmentListener;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
@@ -79,7 +81,8 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.Ui;
 import com.omniture.AppMeasurement;
 
-public class SearchResultsFragmentActivity extends MapActivity implements LocationListener, OnFilterChangedListener {
+public class SearchResultsFragmentActivity extends MapActivity implements LocationListener, OnFilterChangedListener,
+		SortDialogFragmentListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -143,6 +146,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		// If this is the first launch, clear the db
 		if (icicle == null) {
 			Db.setSearchResponse(null);
+			Db.resetFilter();
 			Db.clearAvailabilityResponses();
 			Db.clearReviewsResponses();
 		}
@@ -273,7 +277,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			}
 		});
 
-		mInstance.mFilter.addOnFilterChangedListener(this);
+		Db.getFilter().addOnFilterChangedListener(this);
 	}
 
 	@Override
@@ -330,7 +334,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	protected void onStop() {
 		super.onStop();
 
-		mInstance.mFilter.removeOnFilterChangedListener(this);
+		Db.getFilter().removeOnFilterChangedListener(this);
 	}
 
 	@Override
@@ -345,6 +349,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			bd.cancelDownload(KEY_REVIEWS);
 
 			Db.setSearchResponse(null);
+			Db.resetFilter();
 			Db.clearAvailabilityResponses();
 			Db.clearReviewsResponses();
 		}
@@ -605,8 +610,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			fragment.setRetainInstance(true);
 			return fragment;
 		}
-
-		public Filter mFilter = new Filter();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -747,12 +750,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		// Remove existing search results (and references to it)
 		Db.setSearchResponse(null);
-		mInstance.mFilter.setOnDataListener(null);
+		Db.resetFilter();
 		Db.clearAvailabilityResponses();
 		Db.clearReviewsResponses();
-
-		// Reset the filter on each search
-		mInstance.mFilter.reset();
 
 		mHotelListFragment.updateStatus(getString(R.string.loading_hotels), true);
 
@@ -916,12 +916,12 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 				TrackingUtils.trackErrorPage(this, "HotelListRequestFailed");
 			}
 			else {
-				response.setFilter(mInstance.mFilter);
+				response.setFilter(Db.getFilter());
 
 				Property[] properties = response.getFilteredAndSortedProperties();
 				if (properties != null && properties.length <= 10) {
 					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
-					mInstance.mFilter.setSearchRadius(SearchRadius.ALL);
+					Db.getFilter().setSearchRadius(SearchRadius.ALL);
 					response.clearCache();
 				}
 
@@ -1240,12 +1240,12 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			Log.w("Could not restore last search params/filter for tracking", e);
 		}
 
-		String refinements = TrackingUtils.getRefinements(Db.getSearchParams(), lastSearchParams, mInstance.mFilter,
-				lastFilter);
+		Filter filter = Db.getFilter();
+		String refinements = TrackingUtils.getRefinements(Db.getSearchParams(), lastSearchParams, filter, lastFilter);
 
 		// Update the last filter/search params we used to track refinements
 		mLastSearchParamsJson = Db.getSearchParams().toJson().toString();
-		mLastFilterJson = mInstance.mFilter.toJson().toString();
+		mLastFilterJson = filter.toJson().toString();
 
 		Tracker.trackAppHotelsSearch(this, Db.getSearchParams(), Db.getSearchResponse(), refinements);
 	}
@@ -1274,11 +1274,20 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// SortDialogFragmentListener
+
+	@Override
+	public void onSortChanged(Sort newSort) {
+		Filter filter = Db.getFilter();
+		filter.setSort(newSort);
+		filter.notifyFilterChanged();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// MapActivity
 
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-
 }

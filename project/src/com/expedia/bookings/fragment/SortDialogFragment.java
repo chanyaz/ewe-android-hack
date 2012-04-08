@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -12,8 +13,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchResultsFragmentActivity;
-import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.Sort;
 
 /**
@@ -25,8 +24,10 @@ import com.expedia.bookings.data.Filter.Sort;
  * 2. Unify the sort options with PhoneSearchActivity
  */
 public class SortDialogFragment extends DialogFragment {
-	
+
 	private static final String ARG_SHOW_DISTANCES = "ARG_SHOW_DISTANCES";
+
+	private SortDialogFragmentListener mListener;
 
 	public static SortDialogFragment newInstance(boolean showDistances) {
 		SortDialogFragment fragment = new SortDialogFragment();
@@ -34,6 +35,17 @@ public class SortDialogFragment extends DialogFragment {
 		args.putBoolean(ARG_SHOW_DISTANCES, showDistances);
 		fragment.setArguments(args);
 		return fragment;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof SortDialogFragmentListener)) {
+			throw new RuntimeException("SortDialogFragment Activity must implement SortDialogFragmentListener!");
+		}
+
+		mListener = (SortDialogFragmentListener) activity;
 	}
 
 	@Override
@@ -67,12 +79,23 @@ public class SortDialogFragment extends DialogFragment {
 					break;
 				}
 
-				Filter filter = ((SearchResultsFragmentActivity) getActivity()).mInstance.mFilter;
-				filter.setSort(newSort);
-				filter.notifyFilterChanged();
+				mListener.onSortChanged(newSort);
 			}
 		});
 
 		return builder.create();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		mListener = null;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface SortDialogFragmentListener {
+		public void onSortChanged(Sort newSort);
 	}
 }
