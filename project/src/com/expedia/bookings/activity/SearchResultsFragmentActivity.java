@@ -89,6 +89,10 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
 	private static final String KEY_REVIEWS = "KEY_REVIEWS";
 
+	private static final String INSTANCE_LAST_SEARCH_TIME = "INSTANCE_LAST_SEARCH_TIME";
+	private static final String INSTANCE_LAST_SEARCH_PARAMS = "INSTANCE_LAST_SEARCH_PARAMS";
+	private static final String INSTANCE_LAST_FILTER = "INSTANCE_LAST_FILTER";
+
 	private static final int REQUEST_CODE_SETTINGS = 1;
 
 	private static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
@@ -100,6 +104,13 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private Resources mResources;
 
 	public InstanceFragment mInstance;
+
+	// So we can detect if these search results are stale
+	private long mLastSearchTime;
+
+	// Used for tracking purposes only
+	private String mLastSearchParamsJson;
+	private String mLastFilterJson;
 
 	private HotelListFragment mHotelListFragment;
 	private HotelMapFragment mHotelMapFragment;
@@ -131,6 +142,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			Db.setSearchResponse(null);
 			Db.clearAvailabilityResponses();
 			Db.clearReviewsResponses();
+		}
+		else {
+			mLastSearchTime = icicle.getLong(INSTANCE_LAST_SEARCH_TIME, -1);
 		}
 
 		setContentView(R.layout.activity_search_results_fragment);
@@ -274,8 +288,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			if (bd.isDownloading(KEY_REVIEWS)) {
 				bd.registerDownloadCallback(KEY_REVIEWS, mReviewsCallback);
 			}
-			if (mInstance.mLastSearchTime != -1
-					&& mInstance.mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
+			if (mLastSearchTime != -1
+					&& mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
 				Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
 				Db.getSearchParams().ensureValidCheckInDate();
 				startSearch();
@@ -284,6 +298,14 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		else {
 			startSearch();
 		}
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putLong(INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
+		outState.putString(INSTANCE_LAST_SEARCH_PARAMS, mLastSearchParamsJson);
+		outState.putString(INSTANCE_LAST_FILTER, mLastFilterJson);
 	}
 
 	@Override
@@ -580,13 +602,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		public String mSearchStatus;
 		public boolean mShowDistance;
 		public Filter mFilter = new Filter();
-
-		// So we can detect if these search results are stale
-		public long mLastSearchTime = -1;
-
-		// For tracking purposes only
-		public SearchParams mLastSearchParams;
-		public Filter mLastFilter;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -908,7 +923,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 				}
 
 				notifySearchComplete();
-				mInstance.mLastSearchTime = Calendar.getInstance().getTimeInMillis();
+				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 
 				if (initialLoad) {
 					onSearchResultsChanged();
@@ -1209,12 +1224,28 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	// Tracking
 
 	public void onSearchResultsChanged() {
-		String refinements = TrackingUtils.getRefinements(Db.getSearchParams(), mInstance.mLastSearchParams,
-				mInstance.mFilter, mInstance.mLastFilter);
+		SearchParams lastSearchParams = null;
+		Filter lastFilter = null;
 
-		// Update the last filter/search params we used to track refinements 
-		mInstance.mLastSearchParams = Db.getSearchParams().copy();
-		mInstance.mLastFilter = mInstance.mFilter.copy();
+		try {
+			if (mLastSearchParamsJson != null) {
+				lastSearchParams = new SearchParams(new JSONObject(mLastSearchParamsJson));
+			}
+
+			if (mLastFilterJson != null) {
+				lastFilter = new Filter(new JSONObject(mLastFilterJson));
+			}
+		}
+		catch (JSONException e) {
+			Log.w("Could not restore last search params/filter for tracking", e);
+		}
+
+		String refinements = TrackingUtils.getRefinements(Db.getSearchParams(), lastSearchParams, mInstance.mFilter,
+				lastFilter);
+
+		// Update the last filter/search params we used to track refinements
+		mLastSearchParamsJson = Db.getSearchParams().toJson().toString();
+		mLastFilterJson = mInstance.mFilter.toJson().toString();
 
 		Tracker.trackAppHotelsSearch(this, Db.getSearchParams(), Db.getSearchResponse(), refinements);
 	}
