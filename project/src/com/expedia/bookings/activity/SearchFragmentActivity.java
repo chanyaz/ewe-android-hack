@@ -11,6 +11,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.fragment.SearchParamsFragment;
+import com.expedia.bookings.fragment.SearchParamsFragment.SearchParamsFragmentListener;
 import com.expedia.bookings.model.Search;
 import com.mobiata.android.hockey.helper.HockeyAppUtil;
 import com.mobiata.android.util.AndroidUtils;
@@ -18,7 +19,7 @@ import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.Ui;
 
-public class SearchFragmentActivity extends Activity {
+public class SearchFragmentActivity extends Activity implements SearchParamsFragmentListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -100,5 +101,13 @@ public class SearchFragmentActivity extends Activity {
 
 		Intent intent = new Intent(this, SearchResultsFragmentActivity.class);
 		startActivity(intent);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SearchParamsFragmentListener
+
+	@Override
+	public void onSearch() {
+		startSearch();
 	}
 }

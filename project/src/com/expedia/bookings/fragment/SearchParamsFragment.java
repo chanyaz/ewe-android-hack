@@ -58,7 +58,6 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchFragmentActivity;
 import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchParams;
@@ -94,6 +93,8 @@ public class SearchParamsFragment extends Fragment implements LoaderManager.Load
 	private View mChildAgesLayout;
 	private Button mChildAgesButton;
 
+	private SearchParamsFragmentListener mListener;
+
 	// #10978: Tracks when an autocomplete row was just clicked, so that we don't
 	// automatically start a new autocomplete query.
 	private boolean mAutocompleteItemClicked = false;
@@ -122,6 +123,17 @@ public class SearchParamsFragment extends Fragment implements LoaderManager.Load
 		if (savedInstanceState != null) {
 			mHasFocusedSearchField = savedInstanceState.getBoolean(INSTANCE_HAS_FOCUSED_SEARCH_FIELD, false);
 		}
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof SearchParamsFragmentListener)) {
+			throw new RuntimeException("SearchParamsFragment Activity must implement SearchParamsFragmentListener!");
+		}
+
+		mListener = (SearchParamsFragmentListener) activity;
 	}
 
 	@Override
@@ -310,7 +322,7 @@ public class SearchParamsFragment extends Fragment implements LoaderManager.Load
 	}
 
 	public void startSearch() {
-		((SearchFragmentActivity) getActivity()).startSearch();
+		mListener.onSearch();
 
 		// Do this so that when the user clicks back, they aren't focused on the location edit text immediately
 		mLocationEditText.clearFocus();
@@ -826,8 +838,15 @@ public class SearchParamsFragment extends Fragment implements LoaderManager.Load
 
 	//////////////////////////////////////////////////////////////////////////
 	// Fragment control
-	
+
 	public void onResetParams() {
 		startAutocomplete(Db.getSearchParams().getFreeformLocation());
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface SearchParamsFragmentListener {
+		public void onSearch();
 	}
 }
