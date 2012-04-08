@@ -3,13 +3,13 @@ package com.expedia.bookings.activity;
 import java.util.List;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -30,14 +30,14 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.app.SimpleDialogFragment;
-import com.mobiata.android.util.Ui;
 import com.mobiata.android.validation.ValidationError;
 
-public class BookingFragmentActivity extends Activity implements RoomsAndRatesFragmentListener,
+public class BookingFragmentActivity extends FragmentActivity implements RoomsAndRatesFragmentListener,
 		BookingInfoFragmentListener, BookingFormFragmentListener {
 
 	//////////////////////////////////////////////////////////////////////////
@@ -163,7 +163,7 @@ public class BookingFragmentActivity extends Activity implements RoomsAndRatesFr
 
 		@Override
 		public void onDownload(Object results) {
-			DialogFragment bookingProgressFragment = (DialogFragment) getFragmentManager().findFragmentByTag(
+			DialogFragment bookingProgressFragment = (DialogFragment) getSupportFragmentManager().findFragmentByTag(
 					getString(R.string.tag_booking_progress));
 			if (bookingProgressFragment != null) {
 				bookingProgressFragment.dismiss();
@@ -180,8 +180,8 @@ public class BookingFragmentActivity extends Activity implements RoomsAndRatesFr
 			BookingResponse response = (BookingResponse) results;
 			Db.setBookingResponse(response);
 
-			BookingFormFragment bookingFormFragment = (BookingFormFragment) getFragmentManager().findFragmentByTag(
-					getString(R.string.tag_booking_form));
+			BookingFormFragment bookingFormFragment = (BookingFormFragment) getSupportFragmentManager()
+					.findFragmentByTag(getString(R.string.tag_booking_form));
 
 			if (!response.isSuccess() && !response.succeededWithErrors()) {
 				String errorMsg = response.gatherErrorMessage(BookingFragmentActivity.this);
@@ -263,9 +263,9 @@ public class BookingFragmentActivity extends Activity implements RoomsAndRatesFr
 
 	@Override
 	public void onEnterBookingInfoClick() {
-		FragmentManager fm = getFragmentManager();
+		FragmentManager fm = getSupportFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_booking_form)) == null) {
-			BookingFormFragment.newInstance().show(getFragmentManager(), getString(R.string.tag_booking_form));
+			BookingFormFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.tag_booking_form));
 		}
 	}
 
@@ -274,7 +274,7 @@ public class BookingFragmentActivity extends Activity implements RoomsAndRatesFr
 
 	@Override
 	public void onCheckout() {
-		BookingInProgressDialogFragment.newInstance().show(getFragmentManager(),
+		BookingInProgressDialogFragment.newInstance().show(getSupportFragmentManager(),
 				getString(R.string.tag_booking_progress));
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_BOOKING);

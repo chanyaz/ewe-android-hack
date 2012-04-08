@@ -14,15 +14,11 @@ import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.LoaderManager;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Rect;
 import android.graphics.Typeface;
@@ -31,6 +27,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -71,7 +71,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 
-public class SearchParamsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cursor> {
 
 	private static final int NUM_SUGGESTIONS = 5;
 

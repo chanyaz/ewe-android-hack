@@ -7,10 +7,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.location.Address;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.StrUtils;

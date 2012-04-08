@@ -9,9 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +21,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentMapActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -77,9 +78,9 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
 import com.expedia.bookings.widget.SummarizedRoomRates;
-import com.google.android.maps.MapActivity;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -88,13 +89,12 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
-import com.mobiata.android.util.Ui;
 import com.omniture.AppMeasurement;
 
-public class SearchResultsFragmentActivity extends MapActivity implements LocationListener, OnFilterChangedListener,
-		SortDialogFragmentListener, CalendarDialogFragmentListener, GeocodeDisambiguationDialogFragmentListener,
-		GuestsDialogFragmentListener, HotelDetailsFragmentListener, OnCollageImageClickedListener,
-		MiniDetailsFragmentListener, HotelMapFragmentListener, HotelListFragmentListener {
+public class SearchResultsFragmentActivity extends FragmentMapActivity implements LocationListener,
+		OnFilterChangedListener, SortDialogFragmentListener, CalendarDialogFragmentListener,
+		GeocodeDisambiguationDialogFragmentListener, GuestsDialogFragmentListener, HotelDetailsFragmentListener,
+		OnCollageImageClickedListener, MiniDetailsFragmentListener, HotelMapFragmentListener, HotelListFragmentListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -536,7 +536,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		//
 		// If the user isn't viewing anything, bring up mini details.  If some details are up, either expand to
 		// full details or just changed the selected property (based on the state when this property is selected).
-		FragmentManager fm = getFragmentManager();
+		FragmentManager fm = getSupportFragmentManager();
 		boolean miniDetailsShowing = fm.findFragmentByTag(getString(R.string.tag_mini_details)) != null;
 		boolean detailsShowing = fm.findFragmentByTag(getString(R.string.tag_details)) != null;
 		if (!miniDetailsShowing && !detailsShowing) {
@@ -625,7 +625,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	public void showMiniDetailsFragment() {
 		mMiniDetailsFragment = MiniDetailsFragment.newInstance();
 
-		FragmentManager fragmentManager = getFragmentManager();
+		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction ft = fragmentManager.beginTransaction();
 		if (AndroidUtils.getSdkVersion() >= 13) {
 			ft.setCustomAnimations(R.animator.fragment_mini_details_slide_enter,
@@ -638,7 +638,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	}
 
 	public void showHotelDetailsFragment() {
-		FragmentManager fm = getFragmentManager();
+		FragmentManager fm = getSupportFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_details)) == null) {
 			mHotelDetailsFragment = HotelDetailsFragment.newInstance();
 
@@ -656,7 +656,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	}
 
 	public void hideDetails() {
-		FragmentManager fm = getFragmentManager();
+		FragmentManager fm = getSupportFragmentManager();
 		fm.popBackStack(MINI_DETAILS_PUSH, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 	}
 
@@ -664,7 +664,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	// Dialogs
 
 	private void showGuestsDialog() {
-		FragmentManager fm = getFragmentManager();
+		FragmentManager fm = getSupportFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_guests_dialog)) == null) {
 			DialogFragment newFragment = GuestsDialogFragment.newInstance(Db.getSearchParams().getNumAdults(), Db
 					.getSearchParams().getChildren());
@@ -673,35 +673,35 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	}
 
 	private void showCalendarDialog() {
-		FragmentManager fm = getFragmentManager();
+		FragmentManager fm = getSupportFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_calendar_dialog)) == null) {
-			DialogFragment newFragment = CalendarDialogFragment.newInstance(Db.getSearchParams().getCheckInDate(), Db
-					.getSearchParams().getCheckOutDate());
-			newFragment.show(getFragmentManager(), getString(R.string.tag_calendar_dialog));
+			DialogFragment newFragment = CalendarDialogFragment.newInstance(Db.getSearchParams().getCheckInDate(),
+					Db.getSearchParams().getCheckOutDate());
+			newFragment.show(getSupportFragmentManager(), getString(R.string.tag_calendar_dialog));
 		}
 	}
 
 	private void showGeocodeDisambiguationDialog(List<Address> addresses) {
-		FragmentManager fm = getFragmentManager();
+		FragmentManager fm = getSupportFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_geocode_disambiguation_dialog)) == null) {
 			DialogFragment newFragment = GeocodeDisambiguationDialogFragment.newInstance(addresses);
-			newFragment.show(getFragmentManager(), getString(R.string.tag_geocode_disambiguation_dialog));
+			newFragment.show(getSupportFragmentManager(), getString(R.string.tag_geocode_disambiguation_dialog));
 		}
 	}
 
 	private void showFilterDialog() {
-		FragmentManager fm = getFragmentManager();
+		FragmentManager fm = getSupportFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_filter_dialog)) == null) {
 			mFilterDialogFragment = FilterDialogFragment.newInstance();
-			mFilterDialogFragment.show(getFragmentManager(), getString(R.string.tag_filter_dialog));
+			mFilterDialogFragment.show(getSupportFragmentManager(), getString(R.string.tag_filter_dialog));
 		}
 	}
 
 	public void showSortDialog() {
-		FragmentManager fm = getFragmentManager();
+		FragmentManager fm = getSupportFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_sort_dialog)) == null) {
 			DialogFragment newFragment = SortDialogFragment.newInstance(mShowDistances);
-			newFragment.show(getFragmentManager(), getString(R.string.tag_sort_dialog));
+			newFragment.show(getSupportFragmentManager(), getString(R.string.tag_sort_dialog));
 		}
 	}
 
