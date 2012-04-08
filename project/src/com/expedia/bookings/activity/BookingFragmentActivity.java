@@ -19,8 +19,11 @@ import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.BookingFormFragment;
+import com.expedia.bookings.fragment.BookingFormFragment.BookingFormFragmentListener;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.BookingInfoFragment;
+import com.expedia.bookings.fragment.BookingInfoFragment.BookingInfoFragmentListener;
+import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -34,7 +37,8 @@ import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.validation.ValidationError;
 
-public class BookingFragmentActivity extends Activity {
+public class BookingFragmentActivity extends Activity implements RoomsAndRatesFragmentListener,
+		BookingInfoFragmentListener, BookingFormFragmentListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -145,31 +149,7 @@ public class BookingFragmentActivity extends Activity {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Actions
-
-	public void rateSelected(Rate rate) {
-		Db.setSelectedRate(rate);
-
-		mBookingInfoFragment.notifyRateSelected();
-	}
-
-	public void enterBookingInfo() {
-		FragmentManager fm = getFragmentManager();
-		if (fm.findFragmentByTag(getString(R.string.tag_booking_form)) == null) {
-			BookingFormFragment.newInstance().show(getFragmentManager(), getString(R.string.tag_booking_form));
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// Booking
-
-	public void bookingCompleted() {
-		BookingInProgressDialogFragment.newInstance().show(getFragmentManager(),
-				getString(R.string.tag_booking_progress));
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.cancelDownload(KEY_BOOKING);
-		bd.startDownload(KEY_BOOKING, mBookingDownload, mBookingCallback);
-	}
 
 	private Download mBookingDownload = new Download() {
 		public Object doDownload() {
@@ -266,5 +246,38 @@ public class BookingFragmentActivity extends Activity {
 		}
 
 		return false;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// RoomsAndRatesFragmentListener
+
+	@Override
+	public void onRateSelected(Rate rate) {
+		Db.setSelectedRate(rate);
+
+		mBookingInfoFragment.notifyRateSelected();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// BookingInfoFragmentListener
+
+	@Override
+	public void onEnterBookingInfoClick() {
+		FragmentManager fm = getFragmentManager();
+		if (fm.findFragmentByTag(getString(R.string.tag_booking_form)) == null) {
+			BookingFormFragment.newInstance().show(getFragmentManager(), getString(R.string.tag_booking_form));
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// BookingFormFragmentListener
+
+	@Override
+	public void onCheckout() {
+		BookingInProgressDialogFragment.newInstance().show(getFragmentManager(),
+				getString(R.string.tag_booking_progress));
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.cancelDownload(KEY_BOOKING);
+		bd.startDownload(KEY_BOOKING, mBookingDownload, mBookingCallback);
 	}
 }

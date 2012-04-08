@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.BookingFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.ConfirmationUtils;
@@ -25,9 +25,22 @@ public class BookingInfoFragment extends Fragment {
 
 	private ReceiptWidget mReceiptWidget;
 
+	private BookingInfoFragmentListener mListener;
+
 	public static BookingInfoFragment newInstance() {
 		BookingInfoFragment fragment = new BookingInfoFragment();
 		return fragment;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof BookingInfoFragmentListener)) {
+			throw new RuntimeException("BookingInfoFragment Activity must implement BookingInfoFragmentListener!");
+		}
+
+		mListener = (BookingInfoFragmentListener) activity;
 	}
 
 	@Override
@@ -37,7 +50,7 @@ public class BookingInfoFragment extends Fragment {
 		mCompleteBookingInfoButton = view.findViewById(R.id.complete_booking_info_button);
 		mCompleteBookingInfoButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				((BookingFragmentActivity) getActivity()).enterBookingInfo();
+				mListener.onEnterBookingInfoClick();
 			}
 		});
 
@@ -110,5 +123,12 @@ public class BookingInfoFragment extends Fragment {
 		updateReceipt();
 		updateRoomDescription(getView());
 		ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), getView());
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface BookingInfoFragmentListener {
+		public void onEnterBookingInfoClick();
 	}
 }

@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +10,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.BookingFragmentActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
@@ -21,6 +21,8 @@ public class RoomsAndRatesFragment extends ListFragment {
 		RoomsAndRatesFragment fragment = new RoomsAndRatesFragment();
 		return fragment;
 	}
+
+	private RoomsAndRatesFragmentListener mListener;
 
 	private RoomsAndRatesAdapter mAdapter;
 	private TextView mMessageTextView;
@@ -39,6 +41,17 @@ public class RoomsAndRatesFragment extends ListFragment {
 		else {
 			mMessageTextView.setText(getString(R.string.room_rates_loading));
 		}
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof RoomsAndRatesFragmentListener)) {
+			throw new RuntimeException("RoomsAndRatesFragment Activity must implement RoomsAndRatesFragmentListener!");
+		}
+
+		mListener = (RoomsAndRatesFragmentListener) activity;
 	}
 
 	@Override
@@ -68,7 +81,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		((BookingFragmentActivity) getActivity()).rateSelected((Rate) mAdapter.getItem(position));
+		mListener.onRateSelected((Rate) mAdapter.getItem(position));
 
 		mAdapter.setSelectedPosition(position);
 		mAdapter.notifyDataSetChanged();
@@ -85,5 +98,12 @@ public class RoomsAndRatesFragment extends ListFragment {
 			}
 		}
 		return -1;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface RoomsAndRatesFragmentListener {
+		public void onRateSelected(Rate rate);
 	}
 }

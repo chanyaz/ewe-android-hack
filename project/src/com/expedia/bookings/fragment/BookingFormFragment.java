@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
@@ -39,7 +40,6 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.BookingFragmentActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
@@ -132,12 +132,25 @@ public class BookingFormFragment extends DialogFragment {
 
 	private BookingInfoValidation mBookingInfoValidation;
 
+	private BookingFormFragmentListener mListener;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mValidationProcessor = new ValidationProcessor();
 		mAddressValidationProcessor = new ValidationProcessor();
 		mBookingInfoValidation = new BookingInfoValidation();
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof BookingFormFragmentListener)) {
+			throw new RuntimeException("BookingFormFragment Activity must implement BookingFormFragmentListener!");
+		}
+
+		mListener = (BookingFormFragmentListener) activity;
 	}
 
 	@Override
@@ -408,9 +421,8 @@ public class BookingFormFragment extends DialogFragment {
 				else {
 					dismissKeyboard(v);
 					BookingInfoUtils.onClickSubmit(getActivity());
-					((BookingFragmentActivity) getActivity()).bookingCompleted();
+					mListener.onCheckout();
 				}
-
 			}
 		});
 
@@ -824,5 +836,12 @@ public class BookingFormFragment extends DialogFragment {
 	private void dismissKeyboard(View view) {
 		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface BookingFormFragmentListener {
+		public void onCheckout();
 	}
 }
