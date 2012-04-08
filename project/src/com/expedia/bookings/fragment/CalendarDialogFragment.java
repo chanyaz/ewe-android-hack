@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -15,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
@@ -31,6 +31,8 @@ public class CalendarDialogFragment extends DialogFragment {
 
 	private CalendarDatePicker mCalendarDatePicker;
 
+	private CalendarDialogFragmentListener mListener;
+
 	private Calendar mInitialStartDate;
 	private Calendar mInitialEndDate;
 
@@ -38,6 +40,17 @@ public class CalendarDialogFragment extends DialogFragment {
 		CalendarDialogFragment dialog = new CalendarDialogFragment();
 		dialog.setInitialDates(startDate, endDate);
 		return dialog;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof CalendarDialogFragmentListener)) {
+			throw new RuntimeException("CalendarDialogFragment Activity must implement CalendarDialogFragmentListener!");
+		}
+
+		mListener = (CalendarDialogFragmentListener) activity;
 	}
 
 	@Override
@@ -82,9 +95,7 @@ public class CalendarDialogFragment extends DialogFragment {
 				Calendar checkOut = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
 						.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
 
-				SearchResultsFragmentActivity activity = (SearchResultsFragmentActivity) getActivity();
-				activity.setDates(checkIn, checkOut);
-				activity.startSearch();
+				mListener.onChangeDates(checkIn, checkOut);
 			}
 		});
 		builder.setNegativeButton(android.R.string.cancel, null);
@@ -117,5 +128,12 @@ public class CalendarDialogFragment extends DialogFragment {
 	private void setInitialDates(Calendar startDate, Calendar endDate) {
 		mInitialStartDate = startDate;
 		mInitialEndDate = endDate;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface CalendarDialogFragmentListener {
+		public void onChangeDates(Calendar start, Calendar end);
 	}
 }

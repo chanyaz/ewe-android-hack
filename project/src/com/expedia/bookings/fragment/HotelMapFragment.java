@@ -12,7 +12,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
@@ -41,6 +40,8 @@ public class HotelMapFragment extends Fragment {
 
 	private static final String INSTANCE_SHOW_DISTANCES = "INSTANCE_SHOW_DISTANCES";
 
+	private HotelMapFragmentListener mListener;
+
 	private MapView mMapView;
 	private HotelItemizedOverlay mHotelOverlay;
 	private DoubleTapToZoomListenerOverlay mDoubleTapToZoomOverlay;
@@ -58,6 +59,17 @@ public class HotelMapFragment extends Fragment {
 		if (savedInstanceState != null) {
 			mShowDistances = savedInstanceState.getBoolean(INSTANCE_SHOW_DISTANCES);
 		}
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof HotelMapFragmentListener)) {
+			throw new RuntimeException("HotelMapFragment Activity must implement HotelMapFragmentListener!");
+		}
+
+		mListener = (HotelMapFragmentListener) activity;
 	}
 
 	@Override
@@ -87,14 +99,12 @@ public class HotelMapFragment extends Fragment {
 		mHotelOverlay.setBalloonListener(new BalloonListener() {
 			@Override
 			public void onBalloonShown(int index) {
-				((SearchResultsFragmentActivity) getActivity()).propertySelected(mHotelOverlay.getProperty(index),
-						SearchResultsFragmentActivity.SOURCE_MAP);
+				mListener.onBalloonShown(mHotelOverlay.getProperty(index));
 			}
 
 			@Override
 			public void onBalloonClicked(int index) {
-				((SearchResultsFragmentActivity) getActivity())
-						.moreDetailsForPropertySelected(SearchResultsFragmentActivity.SOURCE_MAP);
+				mListener.onBalloonClicked();
 			}
 
 			@Override
@@ -226,5 +236,14 @@ public class HotelMapFragment extends Fragment {
 			mHotelOverlay.showBalloon(property.getPropertyId(), BalloonItemizedOverlay.getDefaultFlags()
 					+ BalloonItemizedOverlay.F_SILENCE_LISTENER);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface HotelMapFragmentListener {
+		public void onBalloonShown(Property property);
+
+		public void onBalloonClicked();
 	}
 }

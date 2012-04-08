@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,13 +52,20 @@ import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
+import com.expedia.bookings.fragment.CalendarDialogFragment.CalendarDialogFragmentListener;
 import com.expedia.bookings.fragment.FilterDialogFragment;
 import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment;
+import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment.GeocodeDisambiguationDialogFragmentListener;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
+import com.expedia.bookings.fragment.GuestsDialogFragment.GuestsDialogFragmentListener;
 import com.expedia.bookings.fragment.HotelDetailsFragment;
+import com.expedia.bookings.fragment.HotelDetailsFragment.HotelDetailsFragmentListener;
 import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelMapFragment;
+import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
+import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
+import com.expedia.bookings.fragment.MiniDetailsFragment.MiniDetailsFragmentListener;
 import com.expedia.bookings.fragment.SortDialogFragment;
 import com.expedia.bookings.fragment.SortDialogFragment.SortDialogFragmentListener;
 import com.expedia.bookings.model.Search;
@@ -66,8 +74,11 @@ import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
+import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.google.android.maps.MapActivity;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -81,7 +92,9 @@ import com.mobiata.android.util.Ui;
 import com.omniture.AppMeasurement;
 
 public class SearchResultsFragmentActivity extends MapActivity implements LocationListener, OnFilterChangedListener,
-		SortDialogFragmentListener {
+		SortDialogFragmentListener, CalendarDialogFragmentListener, GeocodeDisambiguationDialogFragmentListener,
+		GuestsDialogFragmentListener, HotelDetailsFragmentListener, OnCollageImageClickedListener,
+		MiniDetailsFragmentListener, HotelMapFragmentListener, HotelListFragmentListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -1256,6 +1269,110 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		Filter filter = Db.getFilter();
 		filter.setSort(newSort);
 		filter.notifyFilterChanged();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// CalendarDialogFragmentListener
+
+	@Override
+	public void onChangeDates(Calendar start, Calendar end) {
+		setDates(start, end);
+		startSearch();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// GeocodeDisambiguationDialogFragmentListener
+
+	@Override
+	public void onLocationPicked(Address address) {
+		onGeocodeSuccess(address);
+	}
+
+	@Override
+	public void onGeocodeDisambiguationFailure() {
+		onGeocodeFailure();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// GuestsDialogFragmentListener
+
+	@Override
+	public void onGuestsChanged(int numAdults, ArrayList<Integer> numChildren) {
+		setGuests(numAdults, numChildren);
+		startSearch();
+		GuestsPickerUtils.updateDefaultChildAges(this, numChildren);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// MiniDetailsFragmentListener
+
+	@Override
+	public void onMiniDetailsRateClicked(Rate rate) {
+		bookRoom(rate, true);
+	}
+
+	@Override
+	public void onMoreDetailsClicked() {
+		moreDetailsForPropertySelected(SOURCE_MINI_DETAILS);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// HotelDetailsFragmentListener
+
+	@Override
+	public void onDetailsRateClicked(Rate rate) {
+		bookRoom(rate, true);
+	}
+
+	@Override
+	public void onBookNowClicked() {
+		SummarizedRoomRates summarizedRoomRates = Db.getSelectedSummarizedRoomRates();
+		bookRoom(summarizedRoomRates.getStartingRate(), false);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnCollageImageClickedListener
+
+	@Override
+	public void onImageClicked(Media media) {
+		if (Db.getSelectedProperty().getMediaCount() > 0) {
+			startHotelGalleryActivity(media);
+		}
+	}
+
+	@Override
+	public void onPromotionClicked() {
+		SummarizedRoomRates summarizedRoomRates = Db.getSelectedSummarizedRoomRates();
+
+		if (summarizedRoomRates != null) {
+			bookRoom(summarizedRoomRates.getStartingRate(), false);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// HotelMapFragmentListener
+
+	@Override
+	public void onBalloonShown(Property property) {
+		propertySelected(property, SOURCE_MAP);
+	}
+
+	@Override
+	public void onBalloonClicked() {
+		moreDetailsForPropertySelected(SOURCE_MAP);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// HotelListFragmentListener
+
+	@Override
+	public void onSortButtonClicked() {
+		showSortDialog();
+	}
+
+	@Override
+	public void onListItemClicked(Property property) {
+		propertySelected(property, SOURCE_LIST);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

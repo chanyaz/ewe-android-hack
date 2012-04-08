@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -12,7 +13,6 @@ import android.location.Address;
 import android.os.Bundle;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.utils.StrUtils;
 
 public class GeocodeDisambiguationDialogFragment extends DialogFragment {
@@ -25,7 +25,21 @@ public class GeocodeDisambiguationDialogFragment extends DialogFragment {
 		return fragment;
 	}
 
+	private GeocodeDisambiguationDialogFragmentListener mListener;
+
 	private List<Address> mAddresses;
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof GeocodeDisambiguationDialogFragmentListener)) {
+			throw new RuntimeException("GeocodeDisambiguationDialogFragment Activity "
+					+ "must implement GeocodeDisambiguationDialogFragmentListener!");
+		}
+
+		mListener = (GeocodeDisambiguationDialogFragmentListener) activity;
+	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -40,12 +54,12 @@ public class GeocodeDisambiguationDialogFragment extends DialogFragment {
 		builder.setTitle(R.string.ChooseLocation);
 		builder.setItems(freeformLocations, new Dialog.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				((SearchResultsFragmentActivity) getActivity()).onGeocodeSuccess(mAddresses.get(which));
+				mListener.onLocationPicked(mAddresses.get(which));
 			}
 		});
 		builder.setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				((SearchResultsFragmentActivity) getActivity()).onGeocodeFailure();
+				mListener.onGeocodeDisambiguationFailure();
 			}
 		});
 
@@ -68,6 +82,15 @@ public class GeocodeDisambiguationDialogFragment extends DialogFragment {
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
 
-		((SearchResultsFragmentActivity) getActivity()).onGeocodeFailure();
+		mListener.onGeocodeDisambiguationFailure();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface GeocodeDisambiguationDialogFragmentListener {
+		public void onLocationPicked(Address address);
+
+		public void onGeocodeDisambiguationFailure();
 	}
 }

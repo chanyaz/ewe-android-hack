@@ -10,10 +10,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.StrUtils;
@@ -21,7 +19,6 @@ import com.expedia.bookings.widget.AvailabilitySummaryWidget;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget.AvailabilitySummaryListener;
 import com.expedia.bookings.widget.HotelCollage;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
-import com.expedia.bookings.widget.SummarizedRoomRates;
 
 public class MiniDetailsFragment extends Fragment implements AvailabilitySummaryListener {
 
@@ -35,6 +32,8 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 
 	private HotelCollage mCollageHandler;
 
+	private MiniDetailsFragmentListener mListener;
+
 	private AvailabilitySummaryWidget mAvailabilitySummary;
 
 	//////////////////////////////////////////////////////////////////////////
@@ -43,6 +42,15 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
+
+		if (!(activity instanceof MiniDetailsFragmentListener)) {
+			throw new RuntimeException("MiniDetailsFragment Activity must implement MiniDetailsFragmentListener!");
+		}
+		else if (!(activity instanceof OnCollageImageClickedListener)) {
+			throw new RuntimeException("MiniDetailsFragment Activity must implement OnCollageImageClickedListener!");
+		}
+
+		mListener = (MiniDetailsFragmentListener) activity;
 
 		mAvailabilitySummary = new AvailabilitySummaryWidget(activity);
 		mAvailabilitySummary.setListener(this);
@@ -58,7 +66,7 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 		mNameTextView = (TextView) view.findViewById(R.id.name_text_view);
 		mLocationTextView = (TextView) view.findViewById(R.id.location_text_view);
 		mRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
-		mCollageHandler = new HotelCollage(view, mOnImageClickedListener);
+		mCollageHandler = new HotelCollage(view, (OnCollageImageClickedListener) getActivity());
 
 		mAvailabilitySummary.init(view);
 
@@ -66,27 +74,6 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 
 		return view;
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Callbacks
-
-	private OnCollageImageClickedListener mOnImageClickedListener = new OnCollageImageClickedListener() {
-		public void onImageClicked(Media media) {
-			((SearchResultsFragmentActivity) getActivity()).startHotelGalleryActivity(media);
-		}
-
-		@Override
-		public void onPromotionClicked() {
-			SummarizedRoomRates summarizedRoomRates = Db.getSelectedSummarizedRoomRates();
-
-			if (summarizedRoomRates != null) {
-				Rate startRate = summarizedRoomRates.getStartingRate();
-				if (startRate != null) {
-					((SearchResultsFragmentActivity) getActivity()).bookRoom(startRate, false);
-				}
-			}
-		}
-	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Views
@@ -145,12 +132,20 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 
 	@Override
 	public void onRateClicked(Rate rate) {
-		((SearchResultsFragmentActivity) getActivity()).bookRoom(rate, true);
+		mListener.onMiniDetailsRateClicked(rate);
 	}
 
 	@Override
 	public void onButtonClicked() {
-		((SearchResultsFragmentActivity) getActivity())
-				.moreDetailsForPropertySelected(SearchResultsFragmentActivity.SOURCE_MINI_DETAILS);
+		mListener.onMoreDetailsClicked();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface MiniDetailsFragmentListener {
+		public void onMiniDetailsRateClicked(Rate rate);
+
+		public void onMoreDetailsClicked();
 	}
 }

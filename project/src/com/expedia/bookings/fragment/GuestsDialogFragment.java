@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -20,7 +21,6 @@ import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.StrUtils;
 
@@ -37,10 +37,23 @@ public class GuestsDialogFragment extends DialogFragment {
 	private int mAdultCount;
 	private ArrayList<Integer> mChildren;
 
+	private GuestsDialogFragmentListener mListener;
+
 	public static GuestsDialogFragment newInstance(int initialAdultCount, List<Integer> initialChildren) {
 		GuestsDialogFragment dialog = new GuestsDialogFragment();
 		dialog.initializeGuests(initialAdultCount, initialChildren);
 		return dialog;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof GuestsDialogFragmentListener)) {
+			throw new RuntimeException("GuestsDialogFragment Activity must implement GuestsDialogFragmentListener!");
+		}
+
+		mListener = (GuestsDialogFragmentListener) activity;
 	}
 
 	@Override
@@ -161,12 +174,15 @@ public class GuestsDialogFragment extends DialogFragment {
 	private final OnClickListener mOkButtonClickListener = new OnClickListener() {
 
 		public void onClick(DialogInterface dialog, int which) {
-			SearchResultsFragmentActivity activity = (SearchResultsFragmentActivity) getActivity();
-			activity.setGuests(mAdultCount, mChildren);
-			activity.startSearch();
-			GuestsPickerUtils.updateDefaultChildAges(activity, mChildren);
+			mListener.onGuestsChanged(mAdultCount, mChildren);
 		}
 
 	};
 
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface GuestsDialogFragmentListener {
+		public void onGuestsChanged(int numAdults, ArrayList<Integer> numChildren);
+	}
 }

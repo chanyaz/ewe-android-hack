@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.text.Html;
@@ -12,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
@@ -36,6 +36,8 @@ public class HotelListFragment extends ListFragment {
 
 	private PlaceholderTagProgressBar mSearchProgressBar;
 
+	private HotelListFragmentListener mListener;
+
 	public static HotelListFragment newInstance() {
 		return new HotelListFragment();
 	}
@@ -57,6 +59,17 @@ public class HotelListFragment extends ListFragment {
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof HotelListFragmentListener)) {
+			throw new RuntimeException("HotelListFragment Activity must implement HotelListFragmentListener!");
+		}
+
+		mListener = (HotelListFragmentListener) activity;
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_list, container, false);
 
@@ -72,7 +85,7 @@ public class HotelListFragment extends ListFragment {
 
 		mSortTypeTextView.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				((SearchResultsFragmentActivity) getActivity()).showSortDialog();
+				mListener.onSortButtonClicked();
 			}
 		});
 
@@ -99,8 +112,7 @@ public class HotelListFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		((SearchResultsFragmentActivity) getActivity()).propertySelected((Property) mAdapter.getItem(position),
-				SearchResultsFragmentActivity.SOURCE_LIST);
+		mListener.onListItemClicked((Property) mAdapter.getItem(position));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -223,5 +235,14 @@ public class HotelListFragment extends ListFragment {
 		if (mHeaderLayout != null) {
 			mHeaderLayout.setVisibility(visibility);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface HotelListFragmentListener {
+		public void onSortButtonClicked();
+
+		public void onListItemClicked(Property property);
 	}
 }

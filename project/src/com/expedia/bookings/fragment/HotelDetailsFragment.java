@@ -26,14 +26,12 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.activity.TabletUserReviewsListActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelDescription.DescriptionSection;
-import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Review;
@@ -44,7 +42,6 @@ import com.expedia.bookings.widget.AvailabilitySummaryWidget;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget.AvailabilitySummaryListener;
 import com.expedia.bookings.widget.HotelCollage;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
-import com.expedia.bookings.widget.SummarizedRoomRates;
 
 public class HotelDetailsFragment extends Fragment implements AvailabilitySummaryListener {
 
@@ -90,6 +87,9 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 	//----------------------------------
 	// OTHERS
 	//----------------------------------
+
+	private HotelDetailsFragmentListener mListener;
+
 	private LayoutInflater mInflater;
 	private HotelCollage mCollageHandler;
 
@@ -108,6 +108,15 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
+		if (!(activity instanceof HotelDetailsFragmentListener)) {
+			throw new RuntimeException("HotelDetailsFragment Activity must implement HotelDetailsFragmentListener!");
+		}
+		else if (!(activity instanceof OnCollageImageClickedListener)) {
+			throw new RuntimeException("HotelDetailsFragment Activity must implement OnCollageImageClickedListener!");
+		}
+
+		mListener = (HotelDetailsFragmentListener) activity;
+
 		mAvailabilityWidget = new AvailabilitySummaryWidget(activity);
 		mAvailabilityWidget.setListener(this);
 	}
@@ -120,7 +129,7 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 		mHotelDetailsScrollView = (ScrollView) view.findViewById(R.id.hotel_details_scroll_view);
 		mHotelNameTextView = (TextView) view.findViewById(R.id.hotel_name_text_view);
 		mHotelLocationTextView = (TextView) view.findViewById(R.id.hotel_address_text_view);
-		mCollageHandler = new HotelCollage(view, mPictureClickedListener);
+		mCollageHandler = new HotelCollage(view, (OnCollageImageClickedListener) getActivity());
 		mReviewsTitle = (TextView) view.findViewById(R.id.reviews_title);
 		mUserRating = (RatingBar) view.findViewById(R.id.user_rating_bar);
 		mStarRating = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
@@ -286,30 +295,6 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 			mAmenitiesNoneText.setVisibility(View.GONE);
 		}
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// CALLBACKS
-
-	private OnCollageImageClickedListener mPictureClickedListener = new OnCollageImageClickedListener() {
-		@Override
-		public void onImageClicked(Media media) {
-			if (Db.getSelectedProperty().getMediaCount() > 0) {
-				((SearchResultsFragmentActivity) getActivity()).startHotelGalleryActivity(media);
-			}
-		}
-
-		@Override
-		public void onPromotionClicked() {
-			SummarizedRoomRates summarizedRoomRates = Db.getSelectedSummarizedRoomRates();
-
-			if (summarizedRoomRates != null) {
-				Rate startRate = summarizedRoomRates.getStartingRate();
-				if (startRate != null) {
-					((SearchResultsFragmentActivity) getActivity()).bookRoom(startRate, false);
-				}
-			}
-		}
-	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Fragment Control
@@ -540,17 +525,24 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Convenience method
+	// AvailabilitySummaryListener
 
 	@Override
 	public void onRateClicked(Rate rate) {
-		((SearchResultsFragmentActivity) getActivity()).bookRoom(rate, true);
+		mListener.onDetailsRateClicked(rate);
 	}
 
 	@Override
 	public void onButtonClicked() {
-		SummarizedRoomRates summarizedRoomRates = Db.getSelectedSummarizedRoomRates();
+		mListener.onBookNowClicked();
+	}
 
-		((SearchResultsFragmentActivity) getActivity()).bookRoom(summarizedRoomRates.getStartingRate(), false);
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface HotelDetailsFragmentListener {
+		public void onDetailsRateClicked(Rate rate);
+
+		public void onBookNowClicked();
 	}
 }
