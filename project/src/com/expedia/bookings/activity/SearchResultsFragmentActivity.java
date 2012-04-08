@@ -89,6 +89,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
 	private static final String KEY_REVIEWS = "KEY_REVIEWS";
 
+	private static final String INSTANCE_SHOW_DISTANCES = "INSTANCE_SHOW_DISTANCES";
 	private static final String INSTANCE_LAST_SEARCH_TIME = "INSTANCE_LAST_SEARCH_TIME";
 	private static final String INSTANCE_LAST_SEARCH_PARAMS = "INSTANCE_LAST_SEARCH_PARAMS";
 	private static final String INSTANCE_LAST_FILTER = "INSTANCE_LAST_FILTER";
@@ -104,6 +105,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private Resources mResources;
 
 	public InstanceFragment mInstance;
+
+	private boolean mShowDistances;
 
 	// So we can detect if these search results are stale
 	private long mLastSearchTime;
@@ -144,6 +147,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			Db.clearReviewsResponses();
 		}
 		else {
+			mShowDistances = icicle.getBoolean(INSTANCE_SHOW_DISTANCES);
 			mLastSearchTime = icicle.getLong(INSTANCE_LAST_SEARCH_TIME, -1);
 			mLastSearchParamsJson = icicle.getString(INSTANCE_LAST_SEARCH_PARAMS, null);
 			mLastFilterJson = icicle.getString(INSTANCE_LAST_FILTER, null);
@@ -305,6 +309,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+		outState.putBoolean(INSTANCE_SHOW_DISTANCES, mShowDistances);
 		outState.putLong(INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
 		outState.putString(INSTANCE_LAST_SEARCH_PARAMS, mLastSearchParamsJson);
 		outState.putString(INSTANCE_LAST_FILTER, mLastFilterJson);
@@ -601,7 +606,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			return fragment;
 		}
 
-		public boolean mShowDistance;
 		public Filter mFilter = new Filter();
 	}
 
@@ -686,7 +690,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	public void showSortDialog() {
 		FragmentManager fm = getFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_sort_dialog)) == null) {
-			DialogFragment newFragment = SortDialogFragment.newInstance();
+			DialogFragment newFragment = SortDialogFragment.newInstance(mShowDistances);
 			newFragment.show(getFragmentManager(), getString(R.string.tag_sort_dialog));
 		}
 	}
@@ -779,7 +783,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		switch (Db.getSearchParams().getSearchType()) {
 		case FREEFORM:
 			if (Db.getSearchParams().hasEnoughToSearch()) {
-				mInstance.mShowDistance = Db.getSearchParams().hasSearchLatLon();
+				setShowDistances(Db.getSearchParams().hasSearchLatLon());
 				startSearchDownloader();
 			}
 			else {
@@ -853,7 +857,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		// #13072: Always show as if it was an exact location search for geocodes
 		// Used to use SearchUtils.isExactLocation(address).
-		mInstance.mShowDistance = true;
+		setShowDistances(true);
 
 		startSearchDownloader();
 	}
@@ -866,7 +870,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	public void onMyLocationFound(Location location) {
 		setLatLng(location.getLatitude(), location.getLongitude());
-		mInstance.mShowDistance = true;
+		setShowDistances(true);
 		startSearchDownloader();
 	}
 
@@ -1133,6 +1137,13 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	//////////////////////////////////////////////////////////////////////////
 	// Fragment communication
+
+	private void setShowDistances(boolean showDistances) {
+		mShowDistances = showDistances;
+
+		mHotelListFragment.setShowDistances(showDistances);
+		mHotelMapFragment.setShowDistances(showDistances);
+	}
 
 	private void notifySearchStarted() {
 		mHotelListFragment.notifySearchStarted();

@@ -22,8 +22,11 @@ import com.expedia.bookings.widget.PlaceholderTagProgressBar;
 public class HotelListFragment extends ListFragment {
 
 	private static final String INSTANCE_STATUS = "INSTANCE_STATUS";
+	private static final String INSTANCE_SHOW_DISTANCES = "INSTANCE_SHOW_DISTANCES";
 
 	private String mStatus;
+
+	private boolean mShowDistances;
 
 	private HotelAdapter mAdapter;
 
@@ -46,6 +49,7 @@ public class HotelListFragment extends ListFragment {
 
 		if (savedInstanceState != null) {
 			mStatus = savedInstanceState.getString(INSTANCE_STATUS, null);
+			mShowDistances = savedInstanceState.getBoolean(INSTANCE_SHOW_DISTANCES);
 		}
 
 		mAdapter = new HotelAdapter(getActivity());
@@ -85,6 +89,7 @@ public class HotelListFragment extends ListFragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(INSTANCE_STATUS, mStatus);
+		outState.putBoolean(INSTANCE_SHOW_DISTANCES, mShowDistances);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -100,6 +105,14 @@ public class HotelListFragment extends ListFragment {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Fragment control
+
+	public void setShowDistances(boolean showDistances) {
+		mShowDistances = showDistances;
+
+		if (mAdapter != null) {
+			mAdapter.setShowDistance(mShowDistances);
+		}
+	}
 
 	private void updateStatus(boolean showProgressBar) {
 		updateStatus(mStatus, showProgressBar);
@@ -202,7 +215,7 @@ public class HotelListFragment extends ListFragment {
 			updateNumHotels();
 			updateSortLabel(response);
 			setHeaderVisibility(View.VISIBLE);
-			mAdapter.setShowDistance(getInstance().mShowDistance);
+			mAdapter.setShowDistance(mShowDistances);
 		}
 	}
 

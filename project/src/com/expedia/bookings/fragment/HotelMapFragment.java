@@ -39,13 +39,26 @@ public class HotelMapFragment extends Fragment {
 	//////////////////////////////////////////////////////////////////////////
 	// Member variables
 
+	private static final String INSTANCE_SHOW_DISTANCES = "INSTANCE_SHOW_DISTANCES";
+
 	private MapView mMapView;
 	private HotelItemizedOverlay mHotelOverlay;
 	private DoubleTapToZoomListenerOverlay mDoubleTapToZoomOverlay;
 	private ExactLocationItemizedOverlay mExactLocationOverlay;
 
+	private boolean mShowDistances;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState != null) {
+			mShowDistances = savedInstanceState.getBoolean(INSTANCE_SHOW_DISTANCES);
+		}
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,6 +120,12 @@ public class HotelMapFragment extends Fragment {
 	}
 
 	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(INSTANCE_SHOW_DISTANCES, mShowDistances);
+	}
+
+	@Override
 	public void onDestroyView() {
 		// remove the map view from the container so that its
 		// view is not destroyed by the os to enable re-use
@@ -125,6 +144,10 @@ public class HotelMapFragment extends Fragment {
 	//////////////////////////////////////////////////////////////////////////
 	// Fragment control
 
+	public void setShowDistances(boolean showDistances) {
+		mShowDistances = showDistances;
+	}
+
 	public void notifySearchStarted() {
 		if (mHotelOverlay != null) {
 			mHotelOverlay.setProperties(null);
@@ -134,7 +157,7 @@ public class HotelMapFragment extends Fragment {
 	public void notifySearchLocationFound() {
 		animateToSearchLocation();
 	}
-	
+
 	public void notifySearchComplete() {
 		updateView();
 		showAllResults();
@@ -153,7 +176,7 @@ public class HotelMapFragment extends Fragment {
 		// and if there are overlay items to show on the map
 		SearchResponse searchResponse = Db.getSearchResponse();
 		if (mHotelOverlay != null && mMapView != null && searchResponse != null) {
-			mHotelOverlay.setShowDistance(getInstance().mShowDistance);
+			mHotelOverlay.setShowDistance(mShowDistances);
 			mHotelOverlay.setProperties(searchResponse);
 			mMapView.invalidate();
 		}
@@ -161,7 +184,7 @@ public class HotelMapFragment extends Fragment {
 		// Only show exact location overlay if we have a search lat/lng, and we're showing distance
 		SearchParams params = Db.getSearchParams();
 		if (mExactLocationOverlay != null) {
-			if (params.hasSearchLatLon() && getInstance().mShowDistance) {
+			if (params.hasSearchLatLon() && mShowDistances) {
 				mExactLocationOverlay.setExactLocation(params.getSearchLatitude(), params.getSearchLongitude(),
 						params.getSearchDisplayText(getActivity()));
 			}

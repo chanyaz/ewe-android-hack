@@ -25,9 +25,15 @@ import com.expedia.bookings.data.Filter.Sort;
  * 2. Unify the sort options with PhoneSearchActivity
  */
 public class SortDialogFragment extends DialogFragment {
+	
+	private static final String ARG_SHOW_DISTANCES = "ARG_SHOW_DISTANCES";
 
-	public static SortDialogFragment newInstance() {
-		return new SortDialogFragment();
+	public static SortDialogFragment newInstance(boolean showDistances) {
+		SortDialogFragment fragment = new SortDialogFragment();
+		Bundle args = new Bundle();
+		args.putBoolean(ARG_SHOW_DISTANCES, showDistances);
+		fragment.setArguments(args);
+		return fragment;
 	}
 
 	@Override
@@ -39,7 +45,7 @@ public class SortDialogFragment extends DialogFragment {
 		items.add(getString(R.string.sort_description_price));
 		items.add(getString(R.string.sort_description_rating));
 
-		if (((SearchResultsFragmentActivity) getActivity()).mInstance.mShowDistance) {
+		if (getArguments().getBoolean(ARG_SHOW_DISTANCES)) {
 			items.add(getString(R.string.sort_description_distance));
 		}
 
