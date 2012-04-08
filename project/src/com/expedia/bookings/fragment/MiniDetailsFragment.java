@@ -153,11 +153,4 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 		((SearchResultsFragmentActivity) getActivity())
 				.moreDetailsForPropertySelected(SearchResultsFragmentActivity.SOURCE_MINI_DETAILS);
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Convenience method
-
-	public SearchResultsFragmentActivity.InstanceFragment getInstance() {
-		return ((SearchResultsFragmentActivity) getActivity()).mInstance;
-	}
 }

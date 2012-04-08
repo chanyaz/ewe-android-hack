@@ -227,11 +227,4 @@ public class HotelMapFragment extends Fragment {
 					+ BalloonItemizedOverlay.F_SILENCE_LISTENER);
 		}
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Convenience method
-
-	public SearchResultsFragmentActivity.InstanceFragment getInstance() {
-		return ((SearchResultsFragmentActivity) getActivity()).mInstance;
-	}
 }

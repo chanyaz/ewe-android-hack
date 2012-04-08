@@ -553,11 +553,4 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 
 		((SearchResultsFragmentActivity) getActivity()).bookRoom(summarizedRoomRates.getStartingRate(), false);
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Convenience method
-
-	public SearchResultsFragmentActivity.InstanceFragment getInstance() {
-		return ((SearchResultsFragmentActivity) getActivity()).mInstance;
-	}
 }

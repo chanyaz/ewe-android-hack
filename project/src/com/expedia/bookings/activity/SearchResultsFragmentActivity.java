@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
@@ -107,8 +106,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private Context mContext;
 	private Resources mResources;
 
-	public InstanceFragment mInstance;
-
 	private boolean mShowDistances;
 
 	// So we can detect if these search results are stale
@@ -133,15 +130,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		mContext = this;
 		mResources = getResources();
-
-		FragmentManager fm = getFragmentManager();
-		mInstance = (InstanceFragment) fm.findFragmentByTag(InstanceFragment.TAG);
-		if (mInstance == null) {
-			mInstance = InstanceFragment.newInstance();
-			FragmentTransaction ft = fm.beginTransaction();
-			ft.add(mInstance, InstanceFragment.TAG);
-			ft.commit();
-		}
 
 		// If this is the first launch, clear the db
 		if (icicle == null) {
@@ -597,19 +585,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 	public void moreDetailsForPropertySelected(int source) {
 		propertySelected(Db.getSelectedProperty(), source);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Data access / InstanceFragment
-
-	public static final class InstanceFragment extends Fragment {
-		public static final String TAG = "INSTANCE";
-
-		public static InstanceFragment newInstance() {
-			InstanceFragment fragment = new InstanceFragment();
-			fragment.setRetainInstance(true);
-			return fragment;
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

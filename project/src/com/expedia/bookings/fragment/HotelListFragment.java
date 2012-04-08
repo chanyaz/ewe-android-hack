@@ -224,11 +224,4 @@ public class HotelListFragment extends ListFragment {
 			mHeaderLayout.setVisibility(visibility);
 		}
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Convenience method
-
-	public SearchResultsFragmentActivity.InstanceFragment getInstance() {
-		return ((SearchResultsFragmentActivity) getActivity()).mInstance;
-	}
 }
