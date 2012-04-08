@@ -21,6 +21,10 @@ import com.expedia.bookings.widget.PlaceholderTagProgressBar;
 
 public class HotelListFragment extends ListFragment {
 
+	private static final String INSTANCE_STATUS = "INSTANCE_STATUS";
+
+	private String mStatus;
+
 	private HotelAdapter mAdapter;
 
 	private ViewGroup mHeaderLayout;
@@ -39,6 +43,10 @@ public class HotelListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState != null) {
+			mStatus = savedInstanceState.getString(INSTANCE_STATUS, null);
+		}
 
 		mAdapter = new HotelAdapter(getActivity());
 		setListAdapter(mAdapter);
@@ -73,6 +81,12 @@ public class HotelListFragment extends ListFragment {
 		updateViews();
 	}
 
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString(INSTANCE_STATUS, mStatus);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// ListFragment overrides
 
@@ -87,21 +101,27 @@ public class HotelListFragment extends ListFragment {
 	//////////////////////////////////////////////////////////////////////////
 	// Fragment control
 
-	public void notifySearchStarted() {
-		mAdapter.setSelectedPosition(-1);
-		displaySearchStatus();
+	private void updateStatus(boolean showProgressBar) {
+		updateStatus(mStatus, showProgressBar);
 	}
 
-	public void notifySearchProgress() {
-		displaySearchStatus();
+	public void updateStatus(String status, boolean showProgressBar) {
+		mStatus = status;
+
+		if (mSearchProgressBar != null && mAdapter != null) {
+			mSearchProgressBar.setText(status);
+			mSearchProgressBar.setShowProgress(showProgressBar);
+			setHeaderVisibility(View.GONE);
+			mAdapter.setSearchResponse(null);
+		}
+	}
+
+	public void notifySearchStarted() {
+		mAdapter.setSelectedPosition(-1);
 	}
 
 	public void notifySearchComplete() {
 		updateSearchResults();
-	}
-
-	public void notifySearchError() {
-		displaySearchError();
 	}
 
 	public void notifyFilterChanged() {
@@ -151,32 +171,13 @@ public class HotelListFragment extends ListFragment {
 	private void updateViews() {
 		SearchResponse response = Db.getSearchResponse();
 		if (response == null) {
-			displaySearchStatus();
+			updateStatus(true);
 		}
 		else if (response.hasErrors()) {
-			displaySearchError();
+			updateStatus(false);
 		}
 		else {
 			updateSearchResults();
-		}
-	}
-
-	private void displaySearchStatus() {
-		if (mSearchProgressBar != null && mAdapter != null) {
-			mSearchProgressBar.setText(getInstance().mSearchStatus);
-			mSearchProgressBar.setShowProgress(true);
-			setHeaderVisibility(View.GONE);
-			mAdapter.setSearchResponse(null);
-		}
-	}
-
-	private void displaySearchError() {
-		if (mSearchProgressBar != null && mAdapter != null) {
-			String errorMsg = getInstance().mSearchStatus;
-			mSearchProgressBar.setText(errorMsg);
-			mSearchProgressBar.setShowProgress(false);
-			setHeaderVisibility(View.GONE);
-			mAdapter.setSearchResponse(null);
 		}
 	}
 

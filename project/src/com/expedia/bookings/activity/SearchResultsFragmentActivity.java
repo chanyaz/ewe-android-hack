@@ -145,6 +145,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		}
 		else {
 			mLastSearchTime = icicle.getLong(INSTANCE_LAST_SEARCH_TIME, -1);
+			mLastSearchParamsJson = icicle.getString(INSTANCE_LAST_SEARCH_PARAMS, null);
+			mLastFilterJson = icicle.getString(INSTANCE_LAST_FILTER, null);
 		}
 
 		setContentView(R.layout.activity_search_results_fragment);
@@ -599,7 +601,6 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			return fragment;
 		}
 
-		public String mSearchStatus;
 		public boolean mShowDistance;
 		public Filter mFilter = new Filter();
 	}
@@ -749,7 +750,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		// Reset the filter on each search
 		mInstance.mFilter.reset();
 
-		mInstance.mSearchStatus = getString(R.string.loading_hotels);
+		mHotelListFragment.updateStatus(getString(R.string.loading_hotels), true);
 
 		notifySearchStarted();
 
@@ -902,14 +903,12 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		Db.setSearchResponse(response);
 
 		if (response == null) {
-			mInstance.mSearchStatus = getString(R.string.progress_search_failed);
-			notifySearchError();
+			mHotelListFragment.updateStatus(getString(R.string.progress_search_failed), false);
 			TrackingUtils.trackErrorPage(this, "HotelListRequestFailed");
 		}
 		else {
 			if (response.hasErrors()) {
-				mInstance.mSearchStatus = response.getErrors().get(0).getPresentableMessage(mContext);
-				notifySearchError();
+				mHotelListFragment.updateStatus(response.getErrors().get(0).getPresentableMessage(mContext), false);
 				TrackingUtils.trackErrorPage(this, "HotelListRequestFailed");
 			}
 			else {
@@ -948,9 +947,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	// Location
 
 	private void startLocationListener() {
-		mInstance.mSearchStatus = getString(R.string.progress_finding_location);
-
-		notifySearchProgress();
+		mHotelListFragment.updateStatus(getString(R.string.progress_finding_location), true);
 
 		// Prefer network location (because it's faster).  Otherwise use GPS
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -1146,17 +1143,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		mHotelMapFragment.notifySearchLocationFound();
 	}
 
-	private void notifySearchProgress() {
-		mHotelListFragment.notifySearchProgress();
-	}
-
 	private void notifySearchComplete() {
 		mHotelListFragment.notifySearchComplete();
 		mHotelMapFragment.notifySearchComplete();
-	}
-
-	private void notifySearchError() {
-		mHotelListFragment.notifySearchError();
 	}
 
 	private void notifyPropertySelected() {
