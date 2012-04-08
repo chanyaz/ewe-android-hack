@@ -830,11 +830,4 @@ public class SearchParamsFragment extends Fragment implements LoaderManager.Load
 	public void onResetParams() {
 		startAutocomplete(Db.getSearchParams().getFreeformLocation());
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Convenience method
-
-	public SearchFragmentActivity.InstanceFragment getInstance() {
-		return ((SearchFragmentActivity) getActivity()).getInstance();
-	}
 }

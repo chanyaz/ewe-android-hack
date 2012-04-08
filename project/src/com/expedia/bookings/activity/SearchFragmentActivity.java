@@ -1,12 +1,7 @@
 package com.expedia.bookings.activity;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -35,8 +30,6 @@ public class SearchFragmentActivity extends Activity {
 	//////////////////////////////////////////////////////////////////////////
 	// Member vars
 
-	private InstanceFragment mInstance;
-
 	private SearchParamsFragment mSearchParamsFragment;
 
 	//////////////////////////////////////////////////////////////////////////
@@ -50,15 +43,6 @@ public class SearchFragmentActivity extends Activity {
 		if (getIntent().getBooleanExtra(Codes.EXTRA_FINISH, false)) {
 			finish();
 			return;
-		}
-
-		FragmentManager fm = getFragmentManager();
-		mInstance = (InstanceFragment) fm.findFragmentByTag(InstanceFragment.TAG);
-		if (mInstance == null) {
-			mInstance = InstanceFragment.newInstance();
-			FragmentTransaction ft = fm.beginTransaction();
-			ft.add(mInstance, InstanceFragment.TAG);
-			ft.commit();
 		}
 
 		setContentView(R.layout.activity_search_fragment);
@@ -116,25 +100,5 @@ public class SearchFragmentActivity extends Activity {
 
 		Intent intent = new Intent(this, SearchResultsFragmentActivity.class);
 		startActivity(intent);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Data access / InstanceFragment
-
-	public InstanceFragment getInstance() {
-		return mInstance;
-	}
-
-	public static class InstanceFragment extends Fragment {
-		public static final String TAG = "INSTANCE";
-
-		public static InstanceFragment newInstance() {
-			InstanceFragment fragment = new InstanceFragment();
-			fragment.setRetainInstance(true);
-			return fragment;
-		}
-
-		public List<Search> mAutosuggestions;
-		public String mAutosuggestQuery;
 	}
 }
