@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.fragment.EventManager.EventHandler;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -26,7 +25,7 @@ import com.mobiata.android.services.GoogleServices.MapType;
 
 // This is an old Fragment that has gone unused, but will probably someday return.
 // It's being kept around in the meantime.  Some aspects of it will need to be redone.
-public class QuickSearchFragment extends Fragment implements EventHandler {
+public class QuickSearchFragment extends Fragment {
 
 	private static final int MAX_RECENT_SEARCHES = 3;
 
@@ -138,13 +137,5 @@ public class QuickSearchFragment extends Fragment implements EventHandler {
 		destinationTextView.setText(name);
 
 		return destination;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// EventHandler implementation
-
-	@Override
-	public void handleEvent(int eventCode, Object data) {
-		// Do nothing for now
 	}
 }
