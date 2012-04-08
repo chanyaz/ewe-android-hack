@@ -19,6 +19,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.fragment.BookingConfirmationFragment.BookingConfirmationFragmentListener;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
@@ -28,7 +29,7 @@ import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.IoUtils;
 
-public class ConfirmationFragmentActivity extends MapActivity {
+public class ConfirmationFragmentActivity extends MapActivity implements BookingConfirmationFragmentListener {
 
 	private Context mContext;
 
@@ -191,6 +192,14 @@ public class ConfirmationFragmentActivity extends MapActivity {
 			DialogFragment newFragment = SimpleDialogFragment.newInstance(title, message);
 			newFragment.show(getFragmentManager(), dialogTag);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// BookingConfirmationFragmentListener
+
+	@Override
+	public void onNewSearch() {
+		newSearch();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

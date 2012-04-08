@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ConfirmationFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.tracking.Tracker;
@@ -26,11 +26,26 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.MapUtils;
 
 public class BookingConfirmationFragment extends Fragment {
+
+	private BookingConfirmationFragmentListener mListener;
+
 	private MapView mMapView;
 
 	public static BookingConfirmationFragment newInstance() {
 		BookingConfirmationFragment fragment = new BookingConfirmationFragment();
 		return fragment;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof BookingConfirmationFragmentListener)) {
+			throw new RuntimeException("BookingConfirmationFragment Activity "
+					+ "must implement BookingConfirmationFragmentListener!");
+		}
+
+		mListener = (BookingConfirmationFragmentListener) activity;
 	}
 
 	@Override
@@ -95,7 +110,7 @@ public class BookingConfirmationFragment extends Fragment {
 		View nextSearchButton = view.findViewById(R.id.start_new_search_button);
 		nextSearchButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				((ConfirmationFragmentActivity) getActivity()).newSearch();
+				mListener.onNewSearch();
 			}
 		});
 
@@ -122,5 +137,12 @@ public class BookingConfirmationFragment extends Fragment {
 		final int moveDistance = halfDistance - thirdDistance;
 
 		return new GeoPoint(center.getLatitudeE6(), center.getLongitudeE6() - moveDistance);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface BookingConfirmationFragmentListener {
+		public void onNewSearch();
 	}
 }
