@@ -71,7 +71,7 @@ public class HotelGalleryActivity extends FragmentActivity {
 			actionBar.setTitle(Html.fromHtml(getString(R.string.gallery_title_template, mProperty.getName())));
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
-		else {
+		else if (AndroidUtils.isHoneycombVersionOrHigher()) {
 			ActionBar actionBar = getActionBar();
 			actionBar.hide();
 		}
