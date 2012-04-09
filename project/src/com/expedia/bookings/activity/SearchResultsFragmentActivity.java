@@ -606,7 +606,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private static final String MINI_DETAILS_PUSH = "mini_details_push";
 
 	public void showMiniDetailsFragment() {
-		MiniDetailsFragment fragment = MiniDetailsFragment.newInstance();
+		mMiniDetailsFragment = MiniDetailsFragment.newInstance();
 
 		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -615,7 +615,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 					R.animator.fragment_mini_details_slide_exit, R.animator.fragment_mini_details_slide_enter,
 					R.animator.fragment_mini_details_slide_exit);
 		}
-		ft.add(R.id.fragment_mini_details, fragment, getString(R.string.tag_mini_details));
+		ft.add(R.id.fragment_mini_details, mMiniDetailsFragment, getString(R.string.tag_mini_details));
 		ft.addToBackStack(MINI_DETAILS_PUSH);
 		ft.commit();
 	}
@@ -623,6 +623,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	public void showHotelDetailsFragment() {
 		FragmentManager fm = getFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_details)) == null) {
+			mHotelDetailsFragment = HotelDetailsFragment.newInstance();
+
 			FragmentTransaction ft = fm.beginTransaction();
 			if (AndroidUtils.getSdkVersion() >= 13) {
 				ft.setCustomAnimations(R.animator.fragment_slide_left_enter, R.animator.fragment_slide_left_exit,
@@ -630,7 +632,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			}
 			ft.hide(fm.findFragmentByTag(getString(R.string.tag_hotel_map)));
 			ft.remove(fm.findFragmentByTag(getString(R.string.tag_mini_details)));
-			ft.add(R.id.fragment_details, HotelDetailsFragment.newInstance(), getString(R.string.tag_details));
+			ft.add(R.id.fragment_details, mHotelDetailsFragment, getString(R.string.tag_details));
 			ft.addToBackStack(null);
 			ft.commit();
 		}
@@ -1151,59 +1153,59 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		mHotelListFragment.notifyPropertySelected();
 		mHotelMapFragment.notifyPropertySelected();
 
-		if (mMiniDetailsFragment != null) {
+		if (mMiniDetailsFragment != null && mMiniDetailsFragment.isAdded()) {
 			mMiniDetailsFragment.notifyPropertySelected();
 		}
 
-		if (mHotelDetailsFragment != null) {
+		if (mHotelDetailsFragment != null && mHotelDetailsFragment.isAdded()) {
 			mHotelDetailsFragment.notifyPropertySelected();
 		}
 	}
 
 	private void notifyAvailabilityQueryStarted() {
-		if (mMiniDetailsFragment != null) {
+		if (mMiniDetailsFragment != null && mMiniDetailsFragment.isAdded()) {
 			mMiniDetailsFragment.notifyAvailabilityQueryStarted();
 		}
 
-		if (mHotelDetailsFragment != null) {
+		if (mHotelDetailsFragment != null && mHotelDetailsFragment.isAdded()) {
 			mHotelDetailsFragment.notifyAvailabilityQueryStarted();
 		}
 	}
 
 	private void notifyAvailabilityQueryComplete() {
-		if (mMiniDetailsFragment != null) {
+		if (mMiniDetailsFragment != null && mMiniDetailsFragment.isAdded()) {
 			mMiniDetailsFragment.notifyAvailabilityQueryComplete();
 		}
 
-		if (mHotelDetailsFragment != null) {
+		if (mHotelDetailsFragment != null && mHotelDetailsFragment.isAdded()) {
 			mHotelDetailsFragment.notifyAvailabilityQueryComplete();
 		}
 	}
 
 	private void notifyAvailabilityQueryError(String errMsg) {
-		if (mMiniDetailsFragment != null) {
+		if (mMiniDetailsFragment != null && mMiniDetailsFragment.isAdded()) {
 			mMiniDetailsFragment.notifyAvailabilityQueryError(errMsg);
 		}
 
-		if (mHotelDetailsFragment != null) {
+		if (mHotelDetailsFragment != null && mHotelDetailsFragment.isAdded()) {
 			mHotelDetailsFragment.notifyAvailabilityQueryError(errMsg);
 		}
 	}
 
 	private void notifyReviewsQueryStarted() {
-		if (mHotelDetailsFragment != null) {
+		if (mHotelDetailsFragment != null && mHotelDetailsFragment.isAdded()) {
 			mHotelDetailsFragment.notifyReviewsQueryStarted();
 		}
 	}
 
 	private void notifyReviewsQueryComplete() {
-		if (mHotelDetailsFragment != null) {
+		if (mHotelDetailsFragment != null && mHotelDetailsFragment.isAdded()) {
 			mHotelDetailsFragment.notifyReviewsQueryComplete();
 		}
 	}
 
 	private void notifyReviewsQueryError(String message) {
-		if (mHotelDetailsFragment != null) {
+		if (mHotelDetailsFragment != null && mHotelDetailsFragment.isAdded()) {
 			mHotelDetailsFragment.notifyReviewsQueryError();
 		}
 	}

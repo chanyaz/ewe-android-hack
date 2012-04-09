@@ -305,14 +305,18 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 	}
 
 	public void notifyAvailabilityQueryStarted() {
-		mAvailabilityWidget.setButtonEnabled(false);
-		mAvailabilityWidget.showProgressBar();
+		if (mAvailabilityWidget != null) {
+			mAvailabilityWidget.setButtonEnabled(false);
+			mAvailabilityWidget.showProgressBar();
+		}
 	}
 
 	public void notifyAvailabilityQueryError(String errMsg) {
-		mAvailabilityWidget.setButtonEnabled(false);
-		mAvailabilityWidget.showError(errMsg);
-		mIsSearchError = true;
+		if (mAvailabilityWidget != null) {
+			mAvailabilityWidget.setButtonEnabled(false);
+			mAvailabilityWidget.showError(errMsg);
+			mIsSearchError = true;
+		}
 	}
 
 	public void notifyAvailabilityQueryComplete() {
@@ -327,6 +331,10 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 	}
 
 	public void notifyReviewsQueryStarted() {
+		if (mSomeReviewsContainer == null) {
+			return;
+		}
+
 		mSomeReviewsContainer.removeAllViews();
 		mSomeReviewsContainer.setVisibility(View.GONE);
 		mReviewsLoadingContainer.setVisibility(View.VISIBLE);

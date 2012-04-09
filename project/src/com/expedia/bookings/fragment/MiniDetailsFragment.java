@@ -110,11 +110,15 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 	}
 
 	public void notifyAvailabilityQueryStarted() {
-		mAvailabilitySummary.showProgressBar();
+		if (mAvailabilitySummary != null) {
+			mAvailabilitySummary.showProgressBar();
+		}
 	}
 
 	public void notifyAvailabilityQueryError(String errMsg) {
-		mAvailabilitySummary.showError(errMsg);
+		if (mAvailabilitySummary != null) {
+			mAvailabilitySummary.showError(errMsg);
+		}
 	}
 
 	public void notifyAvailabilityQueryComplete() {
