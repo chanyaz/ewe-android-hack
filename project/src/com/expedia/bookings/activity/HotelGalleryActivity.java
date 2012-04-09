@@ -82,7 +82,9 @@ public class HotelGalleryActivity extends FragmentActivity {
 		mHotelGallery = (Gallery) findViewById(R.id.hotel_gallery);
 		mHotelGallery.setAdapter(mAdapter);
 		mHotelGallery.setCallbackDuringFling(false);
-		mHotelGallery.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+		if (AndroidUtils.isHoneycombVersionOrHigher()) {
+			mHotelGallery.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+		}
 
 		int position = (mSelectedMedia == null) ? 0 : mAdapter.getPositionOfMedia(mSelectedMedia);
 		mSelectedMedia = (mSelectedMedia == null) ? (Media) mAdapter.getItem(0) : mSelectedMedia;
