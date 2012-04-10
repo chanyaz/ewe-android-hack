@@ -1,7 +1,10 @@
 package com.expedia.bookings.activity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONException;
 
@@ -66,6 +69,8 @@ public class UserReviewsActivity extends FragmentActivity implements UserReviews
 	private ReviewSort mCurrentReviewSort;
 	private SegmentedControlGroup mSortGroup;
 
+	private Set<String> mViewedReviews;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -85,6 +90,7 @@ public class UserReviewsActivity extends FragmentActivity implements UserReviews
 			mTotalReviewCount = savedInstanceState.getInt("mTotalReviewCount");
 			mRecommendedReviewCount = savedInstanceState.getInt("mRecommendedReviewCount");
 			mAverageOverallRating = savedInstanceState.getFloat("mAverageOverallRating");
+			mViewedReviews = new HashSet<String>(savedInstanceState.getStringArrayList("mViewedReviews"));
 		}
 		else {
 			// add the user reviews list fragment to the framelayout container
@@ -98,6 +104,8 @@ public class UserReviewsActivity extends FragmentActivity implements UserReviews
 			ft.add(R.id.user_review_content_container, mCriticalReviewsFragment, "mCriticalReviewsFragment");
 			ft.add(R.id.user_review_content_container, mRecentReviewsFragment, "mRecentReviewsFragment");
 			ft.commit();
+
+			mViewedReviews = new HashSet<String>();
 
 			// start the download of the user reviews statistics
 			mBackgroundDownloader.startDownload(REVIEWS_STATISTICS_DOWNLOAD, mReviewStatisticsDownload,
@@ -188,6 +196,14 @@ public class UserReviewsActivity extends FragmentActivity implements UserReviews
 
 		if (isFinishing()) {
 			UserReviewsUtils.getInstance().clearCache();
+
+			// Track # of reviews seen
+			int numReviewsSeen = mViewedReviews.size();
+			Log.d("Tracking # of reviews seen: " + numReviewsSeen);
+			String referrerId = "App.Hotels.Reviews." + numReviewsSeen + "ReviewsViewed";
+			TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", referrerId);
+
+			// TODO: CANCEL ALL DOWNLOADS!
 		}
 	}
 
@@ -199,6 +215,10 @@ public class UserReviewsActivity extends FragmentActivity implements UserReviews
 		outState.putInt("mTotalReviewCount", mTotalReviewCount);
 		outState.putInt("mRecommendedReviewCount", mRecommendedReviewCount);
 		outState.putFloat("mAverageOverallRating", mAverageOverallRating);
+
+		// TODO: save the reviews
+		ArrayList<String> viewedReviews = new ArrayList<String>(mViewedReviews);
+		outState.putStringArrayList("mViewedReviews", viewedReviews);
 	}
 
 	private Download mReviewStatisticsDownload = new Download() {
@@ -336,5 +356,13 @@ public class UserReviewsActivity extends FragmentActivity implements UserReviews
 		if (!fragment.getHasAttemptedDownload()) {
 			fragment.startReviewsDownload();
 		}
+	}
+
+	/**
+	 * This override is used to track the number of reviews seen
+	 */
+	@Override
+	public void addMoreReviewsSeen(Set<String> reviews) {
+		mViewedReviews.addAll(reviews);
 	}
 }

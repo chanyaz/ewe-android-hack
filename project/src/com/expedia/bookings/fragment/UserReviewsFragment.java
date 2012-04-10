@@ -1,8 +1,10 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -445,6 +447,16 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			mHandler.post(mAddFooterTask);
 		}
 
+		Set<String> viewedReviews = new HashSet<String>();
+		int count = mUserReviewsAdapter.getCount();
+		for (int a = 0; a < visibleItemCount && firstVisibleItem + a < count; a++) {
+			Object item = mUserReviewsAdapter.getItem(firstVisibleItem + a);
+			if (item instanceof ReviewWrapper && !((ReviewWrapper) item).mIsDivider) {
+				viewedReviews.add(((ReviewWrapper) item).mReview.getReviewId());
+			}
+		}
+		mUserReviewsFragmentListener.addMoreReviewsSeen(viewedReviews);
+
 		if (!mScrollListenerSet) {
 			mScrollListenerSet = true;
 		}
@@ -677,6 +689,8 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	public interface UserReviewsFragmentListener {
 
 		public void onDownloadComplete(ReviewSort sort);
+
+		public void addMoreReviewsSeen(Set<String> reviews);
 
 	}
 
