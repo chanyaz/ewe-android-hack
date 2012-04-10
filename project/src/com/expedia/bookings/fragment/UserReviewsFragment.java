@@ -24,6 +24,7 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ListFragment;
@@ -42,7 +43,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Constants
-	private static final String REVIEWS_DOWNLOAD_KEY = "com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsDownload";
+	private String REVIEWS_DOWNLOAD_KEY = "com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsDownload";
 	private static final int BODY_LENGTH_CUTOFF = 270;
 	private static final int THUMB_CUTOFF_INCLUSIVE = 5;
 
@@ -61,6 +62,9 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	private int mRecommendedReviewCount;
 	private int mTotalReviewCount;
+
+	private boolean mAttemptedDownload = false;
+	private int mStatusResId;
 
 	private UserReviewsAdapter mUserReviewsAdapter;
 
@@ -92,6 +96,17 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof UserReviewsFragmentListener)) {
+			throw new RuntimeException("GeoListFragment Activity must implement GeoListFragmentListener!");
+		}
+
+		mUserReviewsFragmentListener = (UserReviewsFragmentListener) activity;
+	}
+
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -104,6 +119,8 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		// review sort
 		String sortString = args.getString("sortString");
 		mReviewSort = ReviewSort.valueOf(sortString);
+
+		REVIEWS_DOWNLOAD_KEY += mReviewSort.toString();
 
 		if (savedInstanceState == null) {
 
@@ -154,7 +171,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_user_review_list, container, false);
-		Log.d("bradley", "fragment: onCreateView");
 
 		if (mHeaderView == null) {
 			mHeaderView = (ViewGroup) inflater.inflate(R.layout.header_user_reviews_list, null, false);
@@ -171,8 +187,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		//		Log.d("bradley", "fragment: onActivityCreated");
-
 		ListView listView = getListView();
 
 		// must add the header/footer views in onActivityCreated, and before setListAdapter
@@ -181,6 +195,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		mUserReviewsAdapter = new UserReviewsAdapter(getActivity(), listView);
 
 		if (savedInstanceState != null) {
+			mAttemptedDownload = savedInstanceState.getBoolean("mAttemptedDownload", false);
 			boolean reincarnatedReviews = savedInstanceState.getBoolean("hasReviews", false);
 			if (reincarnatedReviews) {
 				mRecommendedReviewCount = savedInstanceState.getInt("mRecommendedReviewCount");
@@ -194,6 +209,9 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 				if (mUserReviews != null) {
 					mUserReviewsAdapter.setUserReviews(mUserReviews);
 				}
+			}
+			else {
+				updateEmptyMessage(savedInstanceState.getInt("mStatusResId"));
 			}
 		}
 
@@ -221,9 +239,15 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+
+		outState.putBoolean("mAttemptedDownload", mAttemptedDownload);
+
 		boolean hasReviews = false;
 		if (mUserReviews != null && mUserReviews.size() > 0) {
 			hasReviews = true;
+		}
+		else {
+			outState.putInt("mStatusResId", mStatusResId);
 		}
 		outState.putBoolean("hasReviews", hasReviews);
 
@@ -239,12 +263,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		outState.putStringArrayList("rlsJsonStringArray", jsonStringArray);
 	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		//		Log.d("bradley", "fragment: onDestroy");
-	}
-
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Public Methods
 
@@ -254,7 +272,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	}
 
 	public void populateListHeader(int recommendedCount, int totalCount) {
-		Log.d("bradley", "fragment: populateListHeader: " + recommendedCount + " " + totalCount);
 		mRecommendedReviewCount = recommendedCount;
 		mTotalReviewCount = totalCount;
 
@@ -279,11 +296,14 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		}
 	}
 
+	public boolean getHasAttemptedDownload() {
+		return mAttemptedDownload;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Reviews Download
 
 	public void startReviewsDownload() {
-		//		Log.d("bradley", "fragment: startReviewsDownload");
 		mBackgroundDownloader.startDownload(REVIEWS_DOWNLOAD_KEY, mUserReviewDownload, mUserReviewDownloadCallback);
 	}
 
@@ -291,8 +311,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 		@Override
 		public Object doDownload() {
-			//			Log.d("bradley", "reviews download");
-
 			ensureExpediaServicesCacheFilled();
 
 			mBackgroundDownloader.addDownloadListener(REVIEWS_DOWNLOAD_KEY, mExpediaServices);
@@ -310,8 +328,9 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 		@Override
 		public void onDownload(Object results) {
-			//			Log.d("bradley", "reviews download callback");
 			ReviewsResponse response = (ReviewsResponse) results;
+
+			mAttemptedDownload = true;
 
 			if (response == null) {
 				updateEmptyMessage(R.string.user_review_unavailable);
@@ -376,6 +395,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 					}
 				}
 			}
+			mUserReviewsFragmentListener.onDownloadComplete(mReviewSort);
 		}
 	};
 
@@ -415,22 +435,13 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	 * and manual setting of this ScrollListener, rather than having the class implement the interface so as to be more
 	 * deterministic with the setting of the scroll listener
 	 */
-	//	private OnScrollListener mOnScrollListener = new OnScrollListener() {
-
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
-
-		Log.d("bradley", "onScroll" + firstVisibleItem + " " + visibleItemCount + " " + totalItemCount);
-		Log.d("bradley",
-				"onScroll: " + loadMore + " " + hasMoreReviews() + " "
-						+ mBackgroundDownloader.isDownloading(REVIEWS_DOWNLOAD_KEY));
 		boolean notDownloading = !mBackgroundDownloader.isDownloading(REVIEWS_DOWNLOAD_KEY);
+
 		if (mScrollListenerSet && loadMore && hasMoreReviews() && notDownloading) {
-
-			// kick off a reviews download
 			startReviewsDownload();
-
 			mHandler.post(mAddFooterTask);
 		}
 
@@ -477,6 +488,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	}
 
 	private void updateEmptyMessage(int msgId) {
+		mStatusResId = msgId;
 		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.progress_bar);
 		progressBar.setVisibility(View.GONE);
 
@@ -499,7 +511,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	 * @return boolean whether or not to make another network call
 	 */
 	private boolean hasMoreReviews() {
-		//		Log.d("bradley", "hasMoreReviews()" + mMetaLanguageList.size());
 		if (mMetaLanguageList != null && mMetaLanguageList.size() > 0) {
 			return true;
 		}
@@ -513,7 +524,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Review inner helper classes
+	// Review helper classes/methods
 
 	/**
 	 * The purpose of this class is to contain all of the bookkeeping related to the paging of reviews
@@ -650,5 +661,25 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		}
 		return loadedReviews;
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Fragment listener
+
+	/**
+	 * Fragment listener interface used to communicate from fragment to enclosing activity. By defining an interface
+	 * that the enclosing activity must define, the fragment is not as tightly coupled to its enclosing activity. Invoke
+	 * onDownloadComplete after a set of reviews is downloaded in order to trigger the activity to chain (or not) the downloads
+	 * for the other review sorts
+	 * 
+	 * @author brad
+	 *
+	 */
+	public interface UserReviewsFragmentListener {
+
+		public void onDownloadComplete(ReviewSort sort);
+
+	}
+
+	private UserReviewsFragmentListener mUserReviewsFragmentListener;
 
 }

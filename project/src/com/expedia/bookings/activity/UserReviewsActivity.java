@@ -1,5 +1,8 @@
 package com.expedia.bookings.activity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONException;
 
 import com.expedia.bookings.R;
@@ -7,14 +10,17 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.fragment.UserReviewsFragment;
+import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.widget.SegmentedControlGroup;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,10 +31,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
-public class UserReviewsActivity extends FragmentActivity {
+public class UserReviewsActivity extends FragmentActivity implements UserReviewsFragmentListener {
 
 	// Download keys
 	public static final String REVIEWS_STATISTICS_DOWNLOAD = "com.expedia.bookings.activity.UserReviewsActivity.ReviewsStatisticsDownload";
@@ -38,7 +47,11 @@ public class UserReviewsActivity extends FragmentActivity {
 	public Property mProperty;
 
 	// Fragments and Views
-	private UserReviewsFragment mUserReviewsFragment;
+	private UserReviewsFragment mRecentReviewsFragment;
+	private UserReviewsFragment mFavorableReviewsFragment;
+	private UserReviewsFragment mCriticalReviewsFragment;
+
+	private Map<ReviewSort, UserReviewsFragment> mReviewSortFragmentMap;
 
 	// Network classes
 	private BackgroundDownloader mBackgroundDownloader = BackgroundDownloader.getInstance();
@@ -49,11 +62,13 @@ public class UserReviewsActivity extends FragmentActivity {
 	private int mRecommendedReviewCount;
 	private float mAverageOverallRating;
 
+	// Tab stuff
+	private ReviewSort mCurrentReviewSort;
+	private SegmentedControlGroup mSortGroup;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d("bradley", "activity: onCreate");
-
 		mContext = this;
 
 		setContentView(R.layout.activity_user_reviews_new);
@@ -62,7 +77,9 @@ public class UserReviewsActivity extends FragmentActivity {
 
 		FragmentManager fm = getSupportFragmentManager();
 		if (savedInstanceState != null) {
-			mUserReviewsFragment = (UserReviewsFragment) fm.findFragmentByTag("mUserReviewsFragment");
+			mRecentReviewsFragment = (UserReviewsFragment) fm.findFragmentByTag("mRecentReviewsFragment");
+			mFavorableReviewsFragment = (UserReviewsFragment) fm.findFragmentByTag("mFavorableReviewsFragment");
+			mCriticalReviewsFragment = (UserReviewsFragment) fm.findFragmentByTag("mCriticalReviewsFragment");
 
 			mHasReviewStats = savedInstanceState.getBoolean("mHasReviewStats");
 			mTotalReviewCount = savedInstanceState.getInt("mTotalReviewCount");
@@ -73,17 +90,76 @@ public class UserReviewsActivity extends FragmentActivity {
 			// add the user reviews list fragment to the framelayout container
 			FragmentTransaction ft = fm.beginTransaction();
 
-			ReviewSort sort = ReviewSort.NEWEST_REVIEW_FIRST;
-			sort = ReviewSort.HIGHEST_RATING_FIRST;
+			mRecentReviewsFragment = UserReviewsFragment.newInstance(mProperty, ReviewSort.NEWEST_REVIEW_FIRST);
+			mFavorableReviewsFragment = UserReviewsFragment.newInstance(mProperty, ReviewSort.HIGHEST_RATING_FIRST);
+			mCriticalReviewsFragment = UserReviewsFragment.newInstance(mProperty, ReviewSort.LOWEST_RATING_FIRST);
 
-			mUserReviewsFragment = UserReviewsFragment.newInstance(mProperty, sort);
-			ft.add(R.id.user_review_content_container, mUserReviewsFragment, "mUserReviewsFragment");
+			ft.add(R.id.user_review_content_container, mFavorableReviewsFragment, "mFavorableReviewsFragment");
+			ft.add(R.id.user_review_content_container, mCriticalReviewsFragment, "mCriticalReviewsFragment");
+			ft.add(R.id.user_review_content_container, mRecentReviewsFragment, "mRecentReviewsFragment");
 			ft.commit();
 
 			// start the download of the user reviews statistics
 			mBackgroundDownloader.startDownload(REVIEWS_STATISTICS_DOWNLOAD, mReviewStatisticsDownload,
 					mReviewStatisticsDownloadCallback);
 		}
+
+		mReviewSortFragmentMap = new HashMap<ReviewSort, UserReviewsFragment>();
+		mReviewSortFragmentMap.put(ReviewSort.NEWEST_REVIEW_FIRST, mRecentReviewsFragment);
+		mReviewSortFragmentMap.put(ReviewSort.HIGHEST_RATING_FIRST, mFavorableReviewsFragment);
+		mReviewSortFragmentMap.put(ReviewSort.LOWEST_RATING_FIRST, mCriticalReviewsFragment);
+
+		mSortGroup = (SegmentedControlGroup) findViewById(R.id.user_review_sort_group);
+		mSortGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				String referrerId = null;
+				switch (checkedId) {
+				case R.id.user_review_button_recent:
+					mCurrentReviewSort = ReviewSort.NEWEST_REVIEW_FIRST;
+					referrerId = "App.Hotels.Reviews.Sort.Recent";
+					break;
+				case R.id.user_review_button_favorable:
+					mCurrentReviewSort = ReviewSort.HIGHEST_RATING_FIRST;
+					referrerId = "App.Hotels.Reviews.Sort.Favorable";
+					break;
+				case R.id.user_review_button_critical:
+					mCurrentReviewSort = ReviewSort.LOWEST_RATING_FIRST;
+					referrerId = "App.Hotels.Reviews.Sort.Critical";
+					break;
+				}
+
+				Log.d("Tracking \"App.Hotels.Reviews\" pageLoad");
+				TrackingUtils.trackSimpleEvent(mContext, "App.Hotels.Reviews", null, "Shopper", referrerId);
+
+				FragmentManager fm = getSupportFragmentManager();
+				FragmentTransaction ft = fm.beginTransaction();
+
+				for (ReviewSort sort : mReviewSortFragmentMap.keySet()) {
+					if (sort == mCurrentReviewSort) {
+						ft.show(mReviewSortFragmentMap.get(sort));
+					}
+					else {
+						ft.hide(mReviewSortFragmentMap.get(sort));
+					}
+				}
+				ft.commit();
+			}
+		});
+
+		RadioButton btn;
+		if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST) {
+			btn = (RadioButton) findViewById(R.id.user_review_button_favorable);
+		}
+		else if (mCurrentReviewSort == ReviewSort.LOWEST_RATING_FIRST) {
+			btn = (RadioButton) findViewById(R.id.user_review_button_critical);
+		}
+		else {
+			btn = (RadioButton) findViewById(R.id.user_review_button_recent);
+		}
+
+		btn.setChecked(true);
 
 		if (mHasReviewStats) {
 			populateBottomBar();
@@ -93,7 +169,6 @@ public class UserReviewsActivity extends FragmentActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Log.d("bradley", "activity: onResume");
 
 		if (mBackgroundDownloader.isDownloading(REVIEWS_STATISTICS_DOWNLOAD)) {
 			mBackgroundDownloader.registerDownloadCallback(REVIEWS_STATISTICS_DOWNLOAD,
@@ -104,24 +179,16 @@ public class UserReviewsActivity extends FragmentActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-
-		Log.d("bradley", "activity: onPause");
-
 		mBackgroundDownloader.unregisterDownloadCallback(REVIEWS_STATISTICS_DOWNLOAD);
-
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		Log.d("bradley", "activity: onDestroy");
 
-		// TODO: ACTIVITY IS ACTUALLY BEING CLOSED, 	
 		if (isFinishing()) {
-			Log.d("bradley", "activity: onDestroy, isFinishing");
 			UserReviewsUtils.getInstance().clearCache();
 		}
-
 	}
 
 	@Override
@@ -142,25 +209,19 @@ public class UserReviewsActivity extends FragmentActivity {
 			mBackgroundDownloader.addDownloadListener(REVIEWS_STATISTICS_DOWNLOAD, expediaServices);
 			return expediaServices.reviewsStatistics(mProperty);
 		}
-
 	};
 
 	private OnDownloadComplete mReviewStatisticsDownloadCallback = new OnDownloadComplete() {
 
 		@Override
 		public void onDownload(Object results) {
-			Log.d("bradley", "download callback");
 			ReviewsStatisticsResponse response = (ReviewsStatisticsResponse) results;
 
 			if (response == null) {
-				Log.d("bradley", "response null");
-
 				showReviewsUnavailableError();
 			}
 			else {
 				if (response.hasErrors()) {
-					Log.d("bradley", "response has errors");
-
 					showReviewsUnavailableError();
 				}
 				else {
@@ -172,19 +233,14 @@ public class UserReviewsActivity extends FragmentActivity {
 
 					populateBottomBar();
 
-					mUserReviewsFragment.startReviewsDownload();
+					mReviewSortFragmentMap.get(mCurrentReviewSort).startReviewsDownload();
 
-					mUserReviewsFragment.populateListHeader(mRecommendedReviewCount, mTotalReviewCount);
-
-					// TODO: DISPLAY NO REVIEWS MESSAGE
-					if (mTotalReviewCount > 0) {
+					// populate the list header for all three fragments
+					for (ReviewSort sort : mReviewSortFragmentMap.keySet()) {
+						mReviewSortFragmentMap.get(sort).populateListHeader(mRecommendedReviewCount, mTotalReviewCount);
 					}
-					else {
-					}
-
 				}
 			}
-
 		}
 	};
 
@@ -255,6 +311,30 @@ public class UserReviewsActivity extends FragmentActivity {
 			catch (JSONException e) {
 				Log.e("Couldn't create dummy data!", e);
 			}
+		}
+	}
+
+	/**
+	 * This override is part of the FragmentListener implementation. The fragment will invoke this callback
+	 * once it has completed downloading a set of reviews. This method determines the logic for "chaining" of
+	 * reviews, that is download the first page of all three sets of reviews automatically, one after the other
+	 * such that no two downloads are happening at once
+	 */
+	@Override
+	public void onDownloadComplete(ReviewSort completedSort) {
+		UserReviewsFragment fragment;
+		if (completedSort == ReviewSort.NEWEST_REVIEW_FIRST) {
+			fragment = mReviewSortFragmentMap.get(ReviewSort.HIGHEST_RATING_FIRST);
+		}
+		else if (completedSort == ReviewSort.HIGHEST_RATING_FIRST) {
+			fragment = mReviewSortFragmentMap.get(ReviewSort.LOWEST_RATING_FIRST);
+		}
+		else {
+			fragment = mReviewSortFragmentMap.get(ReviewSort.NEWEST_REVIEW_FIRST);
+		}
+
+		if (!fragment.getHasAttemptedDownload()) {
+			fragment.startReviewsDownload();
 		}
 	}
 }
