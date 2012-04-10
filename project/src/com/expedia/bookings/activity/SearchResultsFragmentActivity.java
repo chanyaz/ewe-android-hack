@@ -299,8 +299,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			if (bd.isDownloading(KEY_REVIEWS)) {
 				bd.registerDownloadCallback(KEY_REVIEWS, mReviewsCallback);
 			}
-			if (mLastSearchTime != -1
-					&& mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
+			if (mLastSearchTime != -1 && mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
 				Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
 				Db.getSearchParams().ensureValidCheckInDate();
 				startSearch();
@@ -649,8 +648,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private void showGuestsDialog() {
 		FragmentManager fm = getFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_guests_dialog)) == null) {
-			DialogFragment newFragment = GuestsDialogFragment.newInstance(Db.getSearchParams().getNumAdults(),
-					Db.getSearchParams().getChildren());
+			DialogFragment newFragment = GuestsDialogFragment.newInstance(Db.getSearchParams().getNumAdults(), Db
+					.getSearchParams().getChildren());
 			newFragment.show(fm, getString(R.string.tag_guests_dialog));
 		}
 	}
@@ -658,8 +657,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private void showCalendarDialog() {
 		FragmentManager fm = getFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_calendar_dialog)) == null) {
-			DialogFragment newFragment = CalendarDialogFragment.newInstance(Db.getSearchParams().getCheckInDate(),
-					Db.getSearchParams().getCheckOutDate());
+			DialogFragment newFragment = CalendarDialogFragment.newInstance(Db.getSearchParams().getCheckInDate(), Db
+					.getSearchParams().getCheckOutDate());
 			newFragment.show(getFragmentManager(), getString(R.string.tag_calendar_dialog));
 		}
 	}
