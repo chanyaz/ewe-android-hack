@@ -54,6 +54,9 @@ public class DebugMenu {
 			case INTEGRATION:
 				statusMenuItem.setTitle("Server: Integration");
 				break;
+			case STABLE:
+				statusMenuItem.setTitle("Server: Stable");
+				break;
 			default:
 				statusMenuItem.setTitle("Server: Unknown");
 				break;

@@ -494,7 +494,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public enum EndPoint {
-		PRODUCTION, DEV, INTEGRATION, PROXY
+		PRODUCTION, DEV, INTEGRATION, STABLE, PROXY
 	}
 
 	/**
@@ -521,6 +521,14 @@ public class ExpediaServices implements DownloadListener {
 				builder.append(s);
 			}
 			builder.append(".integration.sb.karmalab.net/MobileHotel/Webapp/");
+			break;
+		}
+		case STABLE: {
+			builder.append("www");
+			for (String s : LocaleUtils.getPointOfSale(mContext).split("\\.")) {
+				builder.append(s);
+			}
+			builder.append(".stable.sb.karmalab.net/MobileHotel/Webapp/");
 			break;
 		}
 		case DEV: {
@@ -562,6 +570,9 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else if (which.equals("Integration")) {
 			return EndPoint.INTEGRATION;
+		}
+		else if (which.equals("Stable")) {
+			return EndPoint.STABLE;
 		}
 		else {
 			return EndPoint.PRODUCTION;

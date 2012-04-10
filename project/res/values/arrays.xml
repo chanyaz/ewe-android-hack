@@ -1038,6 +1038,7 @@
         <item>Production</item>
         <item>Dev</item>
         <item>Integration</item>
+        <item>Stable</item>
         <item>Proxy</item>
     </string-array>
 
