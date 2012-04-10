@@ -160,7 +160,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 					mMetaLanguageList.add(rls);
 				}
 				catch (JSONException e) {
-					// TODO Auto-generated catch block
 					Log.d("Could not create JSONObject from JSON string representation of the ReviewLanguageSet object");
 					e.printStackTrace();
 				}
@@ -309,6 +308,10 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		mBackgroundDownloader.startDownload(REVIEWS_DOWNLOAD_KEY, mUserReviewDownload, mUserReviewDownloadCallback);
 	}
 
+	public void cancelReviewsDownload() {
+		mBackgroundDownloader.cancelDownload(REVIEWS_DOWNLOAD_KEY);
+	}
+
 	private Download mUserReviewDownload = new Download() {
 
 		@Override
@@ -351,7 +354,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 							addDivider();
 						}
 						else {
-							// TODO: UPDATE TO DISPLAY THE CORRECT STRING VIA REVIEW SORT, HASHMAP
 							updateEmptyMessage(R.string.user_review_no_favorable_reviews);
 
 							removeDivider();

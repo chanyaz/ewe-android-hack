@@ -203,7 +203,12 @@ public class UserReviewsActivity extends FragmentActivity implements UserReviews
 			String referrerId = "App.Hotels.Reviews." + numReviewsSeen + "ReviewsViewed";
 			TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", referrerId);
 
-			// TODO: CANCEL ALL DOWNLOADS!
+			// cancel all downloads
+			mBackgroundDownloader.cancelDownload(REVIEWS_STATISTICS_DOWNLOAD);
+
+			for (ReviewSort sort : mReviewSortFragmentMap.keySet()) {
+				mReviewSortFragmentMap.get(sort).cancelReviewsDownload();
+			}
 		}
 	}
 
@@ -216,7 +221,6 @@ public class UserReviewsActivity extends FragmentActivity implements UserReviews
 		outState.putInt("mRecommendedReviewCount", mRecommendedReviewCount);
 		outState.putFloat("mAverageOverallRating", mAverageOverallRating);
 
-		// TODO: save the reviews
 		ArrayList<String> viewedReviews = new ArrayList<String>(mViewedReviews);
 		outState.putStringArrayList("mViewedReviews", viewedReviews);
 	}
