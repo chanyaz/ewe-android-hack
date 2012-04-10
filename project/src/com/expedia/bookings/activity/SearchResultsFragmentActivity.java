@@ -61,8 +61,8 @@ import com.expedia.bookings.fragment.GuestsDialogFragment.GuestsDialogFragmentLi
 import com.expedia.bookings.fragment.HotelDetailsFragment;
 import com.expedia.bookings.fragment.HotelDetailsFragment.HotelDetailsFragmentListener;
 import com.expedia.bookings.fragment.HotelListFragment;
-import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
+import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment.MiniDetailsFragmentListener;
@@ -108,6 +108,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	private static final String INSTANCE_LAST_SEARCH_TIME = "INSTANCE_LAST_SEARCH_TIME";
 	private static final String INSTANCE_LAST_SEARCH_PARAMS = "INSTANCE_LAST_SEARCH_PARAMS";
 	private static final String INSTANCE_LAST_FILTER = "INSTANCE_LAST_FILTER";
+	private static final String INSTANCE_PARTIAL_SEARCH = "INSTANCE_PARTIAL_SEARCH";
 
 	private static final int REQUEST_CODE_SETTINGS = 1;
 
@@ -127,6 +128,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	// Used for tracking purposes only
 	private String mLastSearchParamsJson;
 	private String mLastFilterJson;
+
+	// If rotating in the middle of an action bar search
+	private String mPartialSearch;
 
 	private HotelListFragment mHotelListFragment;
 	private HotelMapFragment mHotelMapFragment;
@@ -156,6 +160,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 			mLastSearchTime = icicle.getLong(INSTANCE_LAST_SEARCH_TIME, -1);
 			mLastSearchParamsJson = icicle.getString(INSTANCE_LAST_SEARCH_PARAMS, null);
 			mLastFilterJson = icicle.getString(INSTANCE_LAST_FILTER, null);
+			mPartialSearch = icicle.getString(INSTANCE_PARTIAL_SEARCH, null);
 		}
 
 		setContentView(R.layout.activity_search_results_fragment);
@@ -235,6 +240,13 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 			@Override
 			public boolean onQueryTextChange(String newText) {
+				if (newText == null || newText.equals(getString(R.string.current_location))
+						|| Db.getSearchParams() == null || newText.equals(Db.getSearchParams().getFreeformLocation())) {
+					mPartialSearch = null;
+				}
+				else {
+					mPartialSearch = newText;
+				}
 				return false;
 			}
 		});
@@ -285,6 +297,8 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 	protected void onResume() {
 		super.onResume();
 
+		invalidateOptionsMenu();
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_GEOCODE)) {
 			bd.registerDownloadCallback(KEY_SEARCH, mGeocodeCallback);
@@ -317,6 +331,7 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		outState.putLong(INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
 		outState.putString(INSTANCE_LAST_SEARCH_PARAMS, mLastSearchParamsJson);
 		outState.putString(INSTANCE_LAST_FILTER, mLastFilterJson);
+		outState.putString(INSTANCE_PARTIAL_SEARCH, mPartialSearch);
 	}
 
 	@Override
@@ -444,7 +459,10 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		SearchParams params = Db.getSearchParams();
 
-		if (!mSearchViewFocused) {
+		if (mPartialSearch != null) {
+			mSearchView.setQuery(mPartialSearch, false);
+		}
+		else if (!mSearchViewFocused) {
 			mSearchView.setQuery(params.getSearchDisplayText(this), false);
 		}
 
@@ -742,6 +760,9 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 		Db.resetFilter();
 		Db.clearAvailabilityResponses();
 		Db.clearReviewsResponses();
+
+		// We no longer have a partial search, we have an actual search
+		mPartialSearch = null;
 
 		mHotelListFragment.updateStatus(getString(R.string.loading_hotels), true);
 
