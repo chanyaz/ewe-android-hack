@@ -757,12 +757,16 @@ public class SearchResultsFragmentActivity extends MapActivity implements Locati
 
 		// Remove existing search results (and references to it)
 		Db.setSearchResponse(null);
-		Db.resetFilter();
 		Db.clearAvailabilityResponses();
 		Db.clearReviewsResponses();
 
 		// We no longer have a partial search, we have an actual search
 		mPartialSearch = null;
+
+		// Reset the filter
+		Filter filter = Db.getFilter();
+		filter.reset();
+		filter.setOnDataListener(null);
 
 		mHotelListFragment.updateStatus(getString(R.string.loading_hotels), true);
 
