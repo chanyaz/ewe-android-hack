@@ -102,7 +102,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		super.onAttach(activity);
 
 		if (!(activity instanceof UserReviewsFragmentListener)) {
-			throw new RuntimeException("GeoListFragment Activity must implement GeoListFragmentListener!");
+			throw new RuntimeException("UserReviewsFragment Activity must implement UserReviewsFragmentListener!");
 		}
 
 		mUserReviewsFragmentListener = (UserReviewsFragmentListener) activity;
@@ -125,7 +125,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		REVIEWS_DOWNLOAD_KEY += mReviewSort.toString();
 
 		if (savedInstanceState == null) {
-
 			// create the meta data for language lists based on the review sort
 			mMetaLanguageList = new LinkedList<ReviewLanguageSet>();
 			LinkedList<String> languages = LocaleUtils.getLanguages(getActivity());
@@ -217,7 +216,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		}
 
 		listView.setOnScrollListener(this);
-
 		setListAdapter(mUserReviewsAdapter);
 	}
 
@@ -506,17 +504,19 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.progress_bar);
 		progressBar.setVisibility(View.GONE);
 
-		String emptyText;
-		TextView emptyTextView = (TextView) getView().findViewById(R.id.user_review_empty_text_view);
+		if (msgId != 0) {
+			String emptyText;
+			TextView emptyTextView = (TextView) getView().findViewById(R.id.user_review_empty_text_view);
 
-		if (!NetUtils.isOnline(getActivity())) {
-			emptyText = getString(R.string.widget_error_no_internet);
-		}
-		else {
-			emptyText = getString(msgId);
-		}
+			if (!NetUtils.isOnline(getActivity())) {
+				emptyText = getString(R.string.widget_error_no_internet);
+			}
+			else {
+				emptyText = getString(msgId);
+			}
 
-		emptyTextView.setText(emptyText);
+			emptyTextView.setText(emptyText);
+		}
 	}
 
 	/**
