@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
@@ -28,6 +29,9 @@ public class AutocompleteProvider extends ContentProvider {
 			SearchManager.SUGGEST_COLUMN_QUERY, SearchManager.SUGGEST_COLUMN_INTENT_EXTRA_DATA,
 			SearchManager.SUGGEST_COLUMN_ICON_1 };
 
+	public static final int COLUMN_TEXT_INDEX = 1;
+	public static final int COLUMN_ICON_INDEX = 4;
+
 	public static Uri generateSearchUri(String query, int limit) {
 		Uri.Builder builder = new Uri.Builder();
 		builder.scheme("content");
@@ -45,21 +49,25 @@ public class AutocompleteProvider extends ContentProvider {
 
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-		String currentLocation = getContext().getString(R.string.current_location);
-
-		MatrixCursor cursor = new MatrixCursor(COLUMNS);
-		int id = 1;
-
 		String query = "";
 
 		if (uri.getPathSegments().size() > 1) {
 			query = URLDecoder.decode(uri.getLastPathSegment());
 		}
 
+		return getSuggestions(getContext(), query);
+	}
+
+	public static Cursor getSuggestions(Context context, String query) {
 		Log.d("Autocomplete query: '" + query + "'");
 
+		String currentLocation = context.getString(R.string.current_location);
+
+		MatrixCursor cursor = new MatrixCursor(COLUMNS);
+		int id = 1;
+
 		// First check if the query exists in recent searches
-		List<Search> recentSearches = Search.getRecentSearches(getContext(), 5);
+		List<Search> recentSearches = Search.getRecentSearches(context, 5);
 		boolean recentSearchesContainsQuery = false;
 		for (Search search : recentSearches) {
 			if (search.getFreeformLocation().equals(query)) {
@@ -70,7 +78,7 @@ public class AutocompleteProvider extends ContentProvider {
 
 		// Don't bother hitting the network in some cases
 		if (!recentSearchesContainsQuery && !query.equals(currentLocation) && !query.equals("")) {
-			ExpediaServices services = new ExpediaServices(getContext());
+			ExpediaServices services = new ExpediaServices(context);
 			SuggestResponse response = services.suggest(query);
 
 			if (response != null) {
@@ -92,7 +100,7 @@ public class AutocompleteProvider extends ContentProvider {
 		}
 
 		// Then suggest history
-		if (id <= 5) {
+		if (id <= 15) {
 			for (Search search : recentSearches) {
 
 				SearchParams p = new SearchParams();
@@ -107,8 +115,8 @@ public class AutocompleteProvider extends ContentProvider {
 		}
 
 		// Then suggest from array of random cool cities
-		if (id <= 5) {
-			for (String suggestion : getStaticSuggestions()) {
+		if (id <= 15) {
+			for (String suggestion : getStaticSuggestions(context)) {
 				final Object[] suggestionRow = { id, suggestion, suggestion, null, R.drawable.autocomplete_pin };
 				cursor.addRow(suggestionRow);
 				id++;
@@ -120,9 +128,9 @@ public class AutocompleteProvider extends ContentProvider {
 
 	private static List<String> sStaticSuggestions;
 
-	private List<String> getStaticSuggestions() {
+	private static List<String> getStaticSuggestions(Context context) {
 		if (sStaticSuggestions == null) {
-			sStaticSuggestions = Arrays.asList(getContext().getResources().getStringArray(R.array.suggestions));
+			sStaticSuggestions = Arrays.asList(context.getResources().getStringArray(R.array.suggestions));
 			Collections.shuffle(sStaticSuggestions); // Randomly shuffle them for each launch
 		}
 		return sStaticSuggestions;
