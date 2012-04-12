@@ -76,7 +76,7 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 		super.onCreate(savedInstanceState);
 		mContext = this;
 
-		setContentView(R.layout.activity_user_reviews_new);
+		setContentView(R.layout.activity_user_reviews);
 
 		extractPropertyFromIntent();
 

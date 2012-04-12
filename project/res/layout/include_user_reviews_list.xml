@@ -1,43 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:background="@color/bg_default">
-	<com.mobiata.android.widget.SegmentedControlGroup
-		android:id="@+id/user_review_sort_group"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:padding="8dp"
-		android:orientation="horizontal"
-		android:background="@drawable/bg_header"
-		style="@style/Widget.SegmentedControlGroup.UserReviews">
-		<RadioButton
-			android:id="@+id/user_review_button_recent"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="@string/user_review_sort_button_recent" />
-		<RadioButton
-			android:id="@+id/user_review_button_favorable"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="@string/user_review_sort_button_favorable" />
-		<RadioButton
-			android:id="@+id/user_review_button_critical"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="@string/user_review_sort_button_critical" />
-	</com.mobiata.android.widget.SegmentedControlGroup>
-	<FrameLayout
-		android:id="@+id/lists_container"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:layout_below="@id/user_review_sort_group"
-		android:paddingBottom="@dimen/bottom_bar_padding"
-		android:layout_alignParentBottom="true">
-	</FrameLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/bg_default" >
+
+    <com.mobiata.android.widget.SegmentedControlGroup
+        android:id="@+id/user_review_sort_group"
+        style="@style/Widget.SegmentedControlGroup.UserReviews"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_header"
+        android:orientation="horizontal"
+        android:padding="8dp" >
+
+        <RadioButton
+            android:id="@+id/user_review_button_recent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/user_review_sort_button_recent" />
+
+        <RadioButton
+            android:id="@+id/user_review_button_favorable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/user_review_sort_button_favorable" />
+
+        <RadioButton
+            android:id="@+id/user_review_button_critical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/user_review_sort_button_critical" />
+    </com.mobiata.android.widget.SegmentedControlGroup>
+
+    <FrameLayout
+        android:id="@+id/user_review_content_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/user_review_sort_group"
+        android:paddingBottom="@dimen/bottom_bar_padding" />
+
 </RelativeLayout>
