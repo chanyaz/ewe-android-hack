@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -104,13 +103,6 @@ public class UserReviewsAdapter extends BaseAdapter {
 		else if (type == TYPE_DIVIDER) {
 			if (convertView == null) {
 				convertView = mInflater.inflate(R.layout.divider_user_reviews_list, parent, false);
-				DividerViewHolder holderDiv = getDividerViewHolder(convertView);
-				convertView.setTag(holderDiv);
-				populateDividerView(holderDiv, userReviewLoaded);
-			}
-			else {
-				DividerViewHolder holder = (DividerViewHolder) convertView.getTag();
-				populateDividerView(holder, userReviewLoaded);
 			}
 		}
 		return convertView;
@@ -129,35 +121,6 @@ public class UserReviewsAdapter extends BaseAdapter {
 		return false;
 	}
 
-	/**
-	 * public method used within the list activity to add a divider to the list at appropriate times
-	 */
-	public void addDivider() {
-		ReviewWrapper divider = new ReviewWrapper(true);
-		if (mLoadedReviews == null) {
-			mLoadedReviews = new ArrayList<ReviewWrapper>();
-		}
-		mLoadedReviews.add(divider);
-		notifyDataSetChanged();
-	}
-
-	/**
-	 * Remove the divider in the event that it is a "dangling" divider with no reviews below itself
-	 */
-	public void removeDivider() {
-		if (mLoadedReviews != null) {
-			int size = mLoadedReviews.size();
-			if (size > 0) {
-				int pos = size - 1;
-				ReviewWrapper last = mLoadedReviews.get(pos);
-				if (last.mIsDivider) {
-					mLoadedReviews.remove(mLoadedReviews.size() - 1);
-					notifyDataSetChanged();
-				}
-			}
-		}
-	}
-
 	private static class UserReviewViewHolder {
 		public TextView title;
 		public RatingBar ratingBar;
@@ -165,10 +128,6 @@ public class UserReviewsAdapter extends BaseAdapter {
 		public TextView submissionDate;
 		public TextView body;
 		public View readMore;
-	}
-
-	private static class DividerViewHolder {
-		public TextView title;
 	}
 
 	public UserReviewViewHolder getUserReviewViewHolder(View convertView) {
@@ -181,17 +140,6 @@ public class UserReviewsAdapter extends BaseAdapter {
 				.findViewById(R.id.user_review_name_and_location_text_view);
 		viewHolder.submissionDate = (TextView) convertView.findViewById(R.id.user_review_date_text_view);
 		return viewHolder;
-	}
-
-	public DividerViewHolder getDividerViewHolder(View convertView) {
-		DividerViewHolder holder = new DividerViewHolder();
-		holder.title = (TextView) convertView.findViewById(R.id.user_review_divider_text);
-		return holder;
-	}
-
-	private void populateDividerView(final DividerViewHolder holder, ReviewWrapper reviewWrapped) {
-		TextView tv = holder.title;
-		tv.setText(mContext.getResources().getString(R.string.user_review_other_languages_title));
 	}
 
 	private void populateUserReviewsView(final UserReviewViewHolder viewHolder, final ReviewWrapper userReviewLoaded,
