@@ -18,7 +18,7 @@ public class TabletUserReviewsListActivity extends UserReviewsListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mRootView = findViewById(R.id.user_reviews_view);
+		mRootView = findViewById(R.id.user_reviews_root);
 		mDetector = new GestureDetector(this, new CloseGestureDetector());
 	}
 
