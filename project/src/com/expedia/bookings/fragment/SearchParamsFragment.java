@@ -729,7 +729,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		}
 		else if (data == null) {
 			mSuggestionErrorTextView.setVisibility(View.VISIBLE);
-			mSuggestionErrorTextView.setText("Loading..."); //TODO: string-ize
+			mSuggestionErrorTextView.setText(R.string.loading_suggestions);
 			return;
 		}
 		else {
