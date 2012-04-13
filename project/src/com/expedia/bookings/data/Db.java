@@ -63,12 +63,16 @@ public class Db {
 	private String mSelectedPropertyId;
 	private String mSelectedRateKey;
 
-	// Thesea are here in the case that a single property/rate is loaded
+	// These are here in the case that a single property/rate is loaded
 	// (without the corresponding SearchResponse/AvailabilityResponse).
 	// This can happen when reloading a single saved piece of info (such
 	// as on the confirmation page).
 	private Property mSelectedProperty;
 	private Rate mSelectedRate;
+
+	// The currently logged in User profile
+	private User mUser;
+	private boolean mIsLoggedIn = false;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
@@ -232,5 +236,19 @@ public class Db {
 
 	public static BookingResponse getBookingResponse() {
 		return sDb.mBookingResponse;
+	}
+
+	public static void setLoggedInUser(User user) {
+		sDb.mIsLoggedIn = true;
+		sDb.mUser = user;
+	}
+
+	public static User getLoggedInUser() {
+		return sDb.mUser;
+	}
+
+	public static boolean isLoggedIn() {
+		// TODO: Persist this state
+		return sDb.mIsLoggedIn;
 	}
 }
