@@ -85,7 +85,7 @@ public class AutocompleteProvider extends ContentProvider {
 				for (Search search : response.getSuggestions()) {
 					String freeformLocation = search.getFreeformLocation();
 					JSONObject json = search.toJson();
-					Object[] row = { id, freeformLocation, freeformLocation, json, R.drawable.autocomplete_pin };
+					Object[] row = { id, freeformLocation, freeformLocation, json, R.drawable.ic_autocomplete_pin };
 					cursor.addRow(row);
 					id++;
 				}
@@ -94,7 +94,7 @@ public class AutocompleteProvider extends ContentProvider {
 
 		// If there were no autosuggestions, then suggest "current location"
 		if (id == 1) {
-			final Object[] row = { id, currentLocation, currentLocation, null, R.drawable.autocomplete_location };
+			final Object[] row = { id, currentLocation, currentLocation, null, R.drawable.ic_autocomplete_location };
 			cursor.addRow(row);
 			id++;
 		}
@@ -108,7 +108,7 @@ public class AutocompleteProvider extends ContentProvider {
 
 				final String freeformLocation = search.getFreeformLocation();
 				final Object[] historyRow = { id, freeformLocation, freeformLocation, p.toJson(),
-						R.drawable.autocomplete_pin };
+						R.drawable.ic_autocomplete_pin };
 				cursor.addRow(historyRow);
 				id++;
 			}
@@ -117,7 +117,7 @@ public class AutocompleteProvider extends ContentProvider {
 		// Then suggest from array of random cool cities
 		if (id <= 15) {
 			for (String suggestion : getStaticSuggestions(context)) {
-				final Object[] suggestionRow = { id, suggestion, suggestion, null, R.drawable.autocomplete_pin };
+				final Object[] suggestionRow = { id, suggestion, suggestion, null, R.drawable.ic_autocomplete_pin };
 				cursor.addRow(suggestionRow);
 				id++;
 			}
