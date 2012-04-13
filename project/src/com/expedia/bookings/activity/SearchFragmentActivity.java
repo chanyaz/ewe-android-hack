@@ -48,7 +48,7 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 
 		setContentView(R.layout.activity_search_fragment);
 
-		mSearchParamsFragment = Ui.findFragment(this, getString(R.string.tag_search_params));
+		mSearchParamsFragment = Ui.findSupportFragment(this, getString(R.string.tag_search_params));
 
 		// HockeyApp update
 		if (!AndroidUtils.isRelease(this)) {

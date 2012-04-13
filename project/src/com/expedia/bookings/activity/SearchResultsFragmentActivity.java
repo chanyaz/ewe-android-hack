@@ -165,11 +165,11 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 		setContentView(R.layout.activity_search_results_fragment);
 
-		mHotelMapFragment = Ui.findFragment(this, getString(R.string.tag_hotel_map));
-		mHotelListFragment = Ui.findFragment(this, getString(R.string.tag_hotel_list));
-		mMiniDetailsFragment = Ui.findFragment(this, getString(R.string.tag_mini_details));
-		mHotelDetailsFragment = Ui.findFragment(this, getString(R.string.tag_details));
-		mFilterDialogFragment = Ui.findFragment(this, getString(R.string.tag_filter_dialog));
+		mHotelMapFragment = Ui.findSupportFragment(this, getString(R.string.tag_hotel_map));
+		mHotelListFragment = Ui.findSupportFragment(this, getString(R.string.tag_hotel_list));
+		mMiniDetailsFragment = Ui.findSupportFragment(this, getString(R.string.tag_mini_details));
+		mHotelDetailsFragment = Ui.findSupportFragment(this, getString(R.string.tag_details));
+		mFilterDialogFragment = Ui.findSupportFragment(this, getString(R.string.tag_filter_dialog));
 
 		// Need to set this BG from code so we can make it just repeat vertically
 		findViewById(R.id.search_results_list_shadow).setBackgroundDrawable(LayoutUtils.getDividerDrawable(this));

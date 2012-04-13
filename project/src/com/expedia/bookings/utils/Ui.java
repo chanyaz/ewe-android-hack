@@ -9,12 +9,12 @@ import android.support.v4.app.Fragment;
 public class Ui extends com.mobiata.android.util.Ui {
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Fragment> T findFragment(CompatFragmentActivity activity, String tag) {
+	public static <T extends Fragment> T findSupportFragment(CompatFragmentActivity activity, String tag) {
 		return (T) activity.getSupportFragmentManager().findFragmentByTag(tag);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Fragment> T findFragment(CompatFragmentActivity activity, int id) {
+	public static <T extends Fragment> T findSupportFragment(CompatFragmentActivity activity, int id) {
 		return (T) activity.getSupportFragmentManager().findFragmentById(id);
 	}
 

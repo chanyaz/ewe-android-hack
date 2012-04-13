@@ -69,7 +69,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 		setContentView(R.layout.activity_booking_fragment);
 
-		mBookingInfoFragment = Ui.findFragment(this, getString(R.string.tag_booking_info));
+		mBookingInfoFragment = Ui.findSupportFragment(this, getString(R.string.tag_booking_info));
 
 		// Need to set this BG from code so we can make it just repeat vertically
 		findViewById(R.id.search_results_list_shadow).setBackgroundDrawable(LayoutUtils.getDividerDrawable(this));
