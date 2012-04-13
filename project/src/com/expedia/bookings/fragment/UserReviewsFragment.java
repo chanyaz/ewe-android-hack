@@ -45,11 +45,26 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Constants
-	private String REVIEWS_DOWNLOAD_KEY_PREFIX = "com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsDownload";
+	private String REVIEWS_DOWNLOAD_KEY_PREFIX = "com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsDownload.";
 	private String mReviewsDownloadKey;
-	
+
 	private static final int BODY_LENGTH_CUTOFF = 270;
 	private static final int THUMB_CUTOFF_INCLUSIVE = 5;
+
+	// Bundle strings
+	private static final String ARGUMENT_PROPERTY_JSON = "ARGUMENT_PROPERTY_JSON";
+	private static final String ARGUMENT_SORT_STRING = "ARGUMENT_SORT_STRING";
+
+	private static final String INSTANCE_ATTEMPTED_DOWNLOAD = "INSTANCE_ATTEMPTED_DOWNLOAD";
+	private static final String INSTANCE_HAS_REVIEWS = "INSTANCE_HAS_REVIEWS";
+	private static final String INSTANCE_RECOMMENDED_REVIEW_COUNT = "INSTANCE_RECOMMENDED_REVIEW_COUNT";
+	private static final String INSTANCE_TOTAL_REVIEW_COUNT = "INSTANCE_TOTAL_REVIEW_COUNT";
+	private static final String INSTANCE_STATUS_RES_ID = "INSTANCE_STATUS_RES_ID";
+	private static final String INSTANCE_LANGUAGE_LIST_META = "INSTANCE_LANGUAGE_LIST_META";
+
+	private static final String JSONABLE_LANGUAGE_CODES = "JSONABLE_LANGUAGE_CODES";
+	private static final String JSONABLE_TOTAL_COUNT = "JSONABLE_TOTAL_COUNT";
+	private static final String JSONABLE_PAGE_NUMBER = "JSONABLE_PAGE_NUMBER";
 
 	// Network classes
 	private BackgroundDownloader mBackgroundDownloader = BackgroundDownloader.getInstance();
@@ -88,11 +103,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 		// property
 		String propertyJson = property.toJson().toString();
-		args.putString("propertyJson", propertyJson);
+		args.putString(ARGUMENT_PROPERTY_JSON, propertyJson);
 
 		// review sort
 		String sortString = sort.toString();
-		args.putString("sortString", sortString);
+		args.putString(ARGUMENT_SORT_STRING, sortString);
 
 		fragment.setArguments(args);
 
@@ -116,12 +131,12 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 		// property
 		final Bundle args = getArguments();
-		JSONObject property = JSONUtils.parseJSONObjectFromBundle(args, "propertyJson");
+		JSONObject property = JSONUtils.parseJSONObjectFromBundle(args, ARGUMENT_PROPERTY_JSON);
 		mProperty = new Property();
 		mProperty.fromJson(property);
 
 		// review sort
-		String sortString = args.getString("sortString");
+		String sortString = args.getString(ARGUMENT_SORT_STRING);
 		mReviewSort = ReviewSort.valueOf(sortString);
 
 		mReviewsDownloadKey = REVIEWS_DOWNLOAD_KEY_PREFIX + mReviewSort.toString();
@@ -149,7 +164,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			}
 		}
 		else {
-			ArrayList<String> jsonArray = savedInstanceState.getStringArrayList("rlsJsonStringArray");
+			ArrayList<String> jsonArray = savedInstanceState.getStringArrayList(INSTANCE_LANGUAGE_LIST_META);
 
 			mMetaLanguageList = new LinkedList<ReviewLanguageSet>();
 			for (String json : jsonArray) {
@@ -197,11 +212,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		mUserReviewsAdapter = new UserReviewsAdapter(getActivity(), listView);
 
 		if (savedInstanceState != null) {
-			mAttemptedDownload = savedInstanceState.getBoolean("mAttemptedDownload", false);
-			boolean reincarnatedReviews = savedInstanceState.getBoolean("hasReviews", false);
+			mAttemptedDownload = savedInstanceState.getBoolean(INSTANCE_ATTEMPTED_DOWNLOAD, false);
+			boolean reincarnatedReviews = savedInstanceState.getBoolean(INSTANCE_HAS_REVIEWS, false);
 			if (reincarnatedReviews) {
-				mRecommendedReviewCount = savedInstanceState.getInt("mRecommendedReviewCount");
-				mTotalReviewCount = savedInstanceState.getInt("mTotalReviewCount");
+				mRecommendedReviewCount = savedInstanceState.getInt(INSTANCE_RECOMMENDED_REVIEW_COUNT);
+				mTotalReviewCount = savedInstanceState.getInt(INSTANCE_TOTAL_REVIEW_COUNT);
 
 				populateListHeader();
 
@@ -213,7 +228,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 				}
 			}
 			else {
-				updateEmptyMessage(savedInstanceState.getInt("mStatusResId"));
+				updateEmptyMessage(savedInstanceState.getInt(INSTANCE_STATUS_RES_ID));
 			}
 		}
 
@@ -241,19 +256,19 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		outState.putBoolean("mAttemptedDownload", mAttemptedDownload);
+		outState.putBoolean(INSTANCE_ATTEMPTED_DOWNLOAD, mAttemptedDownload);
 
 		boolean hasReviews = false;
 		if (mUserReviews != null && mUserReviews.size() > 0) {
 			hasReviews = true;
 		}
 		else {
-			outState.putInt("mStatusResId", mStatusResId);
+			outState.putInt(INSTANCE_STATUS_RES_ID, mStatusResId);
 		}
-		outState.putBoolean("hasReviews", hasReviews);
+		outState.putBoolean(INSTANCE_HAS_REVIEWS, hasReviews);
 
-		outState.putInt("mRecommendedReviewCount", mRecommendedReviewCount);
-		outState.putInt("mTotalReviewCount", mTotalReviewCount);
+		outState.putInt(INSTANCE_RECOMMENDED_REVIEW_COUNT, mRecommendedReviewCount);
+		outState.putInt(INSTANCE_TOTAL_REVIEW_COUNT, mTotalReviewCount);
 
 		// pack/bounce the meta language list
 		ArrayList<String> jsonStringArray = new ArrayList<String>();
@@ -261,7 +276,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			jsonStringArray.add(meta.toString());
 		}
 
-		outState.putStringArrayList("rlsJsonStringArray", jsonStringArray);
+		outState.putStringArrayList(INSTANCE_LANGUAGE_LIST_META, jsonStringArray);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -594,10 +609,10 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			try {
 				JSONObject obj = new JSONObject();
 
-				JSONUtils.putStringList(obj, "languageCodes", mLanguageCodes);
+				JSONUtils.putStringList(obj, JSONABLE_LANGUAGE_CODES, mLanguageCodes);
 
-				obj.putOpt("totalCount", mTotalCount);
-				obj.putOpt("pageNumber", mPageNumber);
+				obj.putOpt(JSONABLE_TOTAL_COUNT, mTotalCount);
+				obj.putOpt(JSONABLE_PAGE_NUMBER, mPageNumber);
 
 				return obj;
 			}
@@ -609,10 +624,10 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 		@Override
 		public boolean fromJson(JSONObject obj) {
-			mLanguageCodes = (List<String>) JSONUtils.getStringList(obj, "languageCodes");
+			mLanguageCodes = (List<String>) JSONUtils.getStringList(obj, JSONABLE_LANGUAGE_CODES);
 
-			mTotalCount = obj.optInt("totalCount");
-			mPageNumber = obj.optInt("pageNumber");
+			mTotalCount = obj.optInt(JSONABLE_TOTAL_COUNT);
+			mPageNumber = obj.optInt(JSONABLE_PAGE_NUMBER);
 
 			return true;
 		}

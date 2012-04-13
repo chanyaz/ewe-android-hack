@@ -56,6 +56,17 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 
 	private Map<ReviewSort, UserReviewsFragment> mReviewSortFragmentMap;
 
+	// Instance variable names
+	private static final String INSTANCE_RECENT_REVIEWS_FRAGMENT = "INSTANCE_RECENT_REVIEWS_FRAGMENT";
+	private static final String INSTANCE_FAVORABLE_REVIEWS_FRAGMENT = "INSTANCE_FAVORABLE_REVIEWS_FRAGMENT";
+	private static final String INSTANCE_CRITICAL_REVIEWS_FRAGMENT = "INSTANCE_CRITICAL_REVIEWS_FRAGMENT";
+
+	private static final String INSTANCE_HAS_REVIEW_STATS = "INSTANCE_HAS_REVIEW_STATS";
+	private static final String INSTANCE_TOTAL_REVIEW_COUNT = "INSTANCE_TOTAL_REVIEW_COUNT";
+	private static final String INSTANCE_RECOMMENDED_REVIEW_COUNT = "INSTANCE_RECOMMENDED_REVIEW_COUNT";
+	private static final String INSTANCE_AVERAGE_OVERALL_RATING = "INSTANCE_AVERAGE_OVERALL_RATING";
+	private static final String INSTANCE_VIEWED_REVIEWS = "INSTANCE_VIEWED_REVIEWS";
+
 	// Network classes
 	private BackgroundDownloader mBackgroundDownloader = BackgroundDownloader.getInstance();
 
@@ -82,15 +93,15 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 
 		FragmentManager fm = getSupportFragmentManager();
 		if (savedInstanceState != null) {
-			mRecentReviewsFragment = (UserReviewsFragment) fm.findFragmentByTag("mRecentReviewsFragment");
-			mFavorableReviewsFragment = (UserReviewsFragment) fm.findFragmentByTag("mFavorableReviewsFragment");
-			mCriticalReviewsFragment = (UserReviewsFragment) fm.findFragmentByTag("mCriticalReviewsFragment");
+			mRecentReviewsFragment = (UserReviewsFragment) fm.findFragmentByTag(INSTANCE_RECENT_REVIEWS_FRAGMENT);
+			mFavorableReviewsFragment = (UserReviewsFragment) fm.findFragmentByTag(INSTANCE_FAVORABLE_REVIEWS_FRAGMENT);
+			mCriticalReviewsFragment = (UserReviewsFragment) fm.findFragmentByTag(INSTANCE_CRITICAL_REVIEWS_FRAGMENT);
 
-			mHasReviewStats = savedInstanceState.getBoolean("mHasReviewStats");
-			mTotalReviewCount = savedInstanceState.getInt("mTotalReviewCount");
-			mRecommendedReviewCount = savedInstanceState.getInt("mRecommendedReviewCount");
-			mAverageOverallRating = savedInstanceState.getFloat("mAverageOverallRating");
-			mViewedReviews = new HashSet<String>(savedInstanceState.getStringArrayList("mViewedReviews"));
+			mHasReviewStats = savedInstanceState.getBoolean(INSTANCE_HAS_REVIEW_STATS);
+			mTotalReviewCount = savedInstanceState.getInt(INSTANCE_TOTAL_REVIEW_COUNT);
+			mRecommendedReviewCount = savedInstanceState.getInt(INSTANCE_RECOMMENDED_REVIEW_COUNT);
+			mAverageOverallRating = savedInstanceState.getFloat(INSTANCE_AVERAGE_OVERALL_RATING);
+			mViewedReviews = new HashSet<String>(savedInstanceState.getStringArrayList(INSTANCE_VIEWED_REVIEWS));
 		}
 		else {
 			// add the user reviews list fragment to the framelayout container
@@ -100,9 +111,9 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 			mFavorableReviewsFragment = UserReviewsFragment.newInstance(mProperty, ReviewSort.HIGHEST_RATING_FIRST);
 			mCriticalReviewsFragment = UserReviewsFragment.newInstance(mProperty, ReviewSort.LOWEST_RATING_FIRST);
 
-			ft.add(R.id.user_review_content_container, mFavorableReviewsFragment, "mFavorableReviewsFragment");
-			ft.add(R.id.user_review_content_container, mCriticalReviewsFragment, "mCriticalReviewsFragment");
-			ft.add(R.id.user_review_content_container, mRecentReviewsFragment, "mRecentReviewsFragment");
+			ft.add(R.id.user_review_content_container, mRecentReviewsFragment, INSTANCE_RECENT_REVIEWS_FRAGMENT);
+			ft.add(R.id.user_review_content_container, mFavorableReviewsFragment, INSTANCE_FAVORABLE_REVIEWS_FRAGMENT);
+			ft.add(R.id.user_review_content_container, mCriticalReviewsFragment, INSTANCE_CRITICAL_REVIEWS_FRAGMENT);
 			ft.commit();
 
 			mViewedReviews = new HashSet<String>();
@@ -216,13 +227,13 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		// store the primitives which need to be saved on configuration changes
-		outState.putBoolean("mHasReviewStats", mHasReviewStats);
-		outState.putInt("mTotalReviewCount", mTotalReviewCount);
-		outState.putInt("mRecommendedReviewCount", mRecommendedReviewCount);
-		outState.putFloat("mAverageOverallRating", mAverageOverallRating);
+		outState.putBoolean(INSTANCE_HAS_REVIEW_STATS, mHasReviewStats);
+		outState.putInt(INSTANCE_TOTAL_REVIEW_COUNT, mTotalReviewCount);
+		outState.putInt(INSTANCE_RECOMMENDED_REVIEW_COUNT, mRecommendedReviewCount);
+		outState.putFloat(INSTANCE_AVERAGE_OVERALL_RATING, mAverageOverallRating);
 
 		ArrayList<String> viewedReviews = new ArrayList<String>(mViewedReviews);
-		outState.putStringArrayList("mViewedReviews", viewedReviews);
+		outState.putStringArrayList(INSTANCE_VIEWED_REVIEWS, viewedReviews);
 	}
 
 	private Download mReviewStatisticsDownload = new Download() {
