@@ -45,7 +45,9 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Constants
-	private String REVIEWS_DOWNLOAD_KEY = "com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsDownload";
+	private String REVIEWS_DOWNLOAD_KEY_PREFIX = "com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsDownload";
+	private String mReviewsDownloadKey;
+	
 	private static final int BODY_LENGTH_CUTOFF = 270;
 	private static final int THUMB_CUTOFF_INCLUSIVE = 5;
 
@@ -122,7 +124,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		String sortString = args.getString("sortString");
 		mReviewSort = ReviewSort.valueOf(sortString);
 
-		REVIEWS_DOWNLOAD_KEY += mReviewSort.toString();
+		mReviewsDownloadKey = REVIEWS_DOWNLOAD_KEY_PREFIX + mReviewSort.toString();
 
 		if (savedInstanceState == null) {
 			// create the meta data for language lists based on the review sort
@@ -224,14 +226,14 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		super.onPause();
 		mHandler.removeCallbacks(mAddFooterTask);
 		mHandler.removeCallbacks(mRemoveFooterTask);
-		mBackgroundDownloader.unregisterDownloadCallback(REVIEWS_DOWNLOAD_KEY);
+		mBackgroundDownloader.unregisterDownloadCallback(mReviewsDownloadKey);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (mBackgroundDownloader.isDownloading(REVIEWS_DOWNLOAD_KEY)) {
-			mBackgroundDownloader.registerDownloadCallback(REVIEWS_DOWNLOAD_KEY, mUserReviewDownloadCallback);
+		if (mBackgroundDownloader.isDownloading(mReviewsDownloadKey)) {
+			mBackgroundDownloader.registerDownloadCallback(mReviewsDownloadKey, mUserReviewDownloadCallback);
 		}
 	}
 
@@ -303,11 +305,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	// Reviews Download
 
 	public void startReviewsDownload() {
-		mBackgroundDownloader.startDownload(REVIEWS_DOWNLOAD_KEY, mUserReviewDownload, mUserReviewDownloadCallback);
+		mBackgroundDownloader.startDownload(mReviewsDownloadKey, mUserReviewDownload, mUserReviewDownloadCallback);
 	}
 
 	public void cancelReviewsDownload() {
-		mBackgroundDownloader.cancelDownload(REVIEWS_DOWNLOAD_KEY);
+		mBackgroundDownloader.cancelDownload(mReviewsDownloadKey);
 	}
 
 	private Download mUserReviewDownload = new Download() {
@@ -316,7 +318,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		public Object doDownload() {
 			ensureExpediaServicesCacheFilled();
 
-			mBackgroundDownloader.addDownloadListener(REVIEWS_DOWNLOAD_KEY, mExpediaServices);
+			mBackgroundDownloader.addDownloadListener(mReviewsDownloadKey, mExpediaServices);
 
 			// grab the correct numbers to send to reviews service, to pull the correct page of reviews
 			ReviewLanguageSet rls = mMetaLanguageList.getFirst();
@@ -440,7 +442,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
-		boolean notDownloading = !mBackgroundDownloader.isDownloading(REVIEWS_DOWNLOAD_KEY);
+		boolean notDownloading = !mBackgroundDownloader.isDownloading(mReviewsDownloadKey);
 
 		if (mScrollListenerSet && loadMore && hasMoreReviews() && notDownloading) {
 			startReviewsDownload();
