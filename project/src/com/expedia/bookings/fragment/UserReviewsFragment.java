@@ -91,6 +91,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private ViewGroup mHeaderView;
 	private ViewGroup mFooterView;
 
+	// Use this variable to disable download when onScroll gets invoked automatically when the ScrollListener is set
 	private boolean mScrollListenerSet;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
