@@ -17,7 +17,7 @@ import com.mobiata.android.json.JSONable;
 @SuppressWarnings("serial")
 public class ServerError implements JSONable {
 	public static enum ApiMethod {
-		CHECKOUT, SEARCH_RESULTS, HOTEL_OFFERS, HOTEL_PRODUCT, HOTEL_INFORMATION, BAZAAR_REVIEWS
+		CHECKOUT, SEARCH_RESULTS, HOTEL_OFFERS, HOTEL_PRODUCT, HOTEL_INFORMATION, BAZAAR_REVIEWS, SIGN_IN
 	}
 
 	public static enum ErrorCode {
@@ -29,8 +29,8 @@ public class ServerError implements JSONable {
 		INVALID_INPUT,
 		INVALID_INPUT_UNKNOWN,
 		PAYMENT_FAILED,
-		SIMULATED,
-		UNKNOWN_ERROR,
+		SIMULATED, // Not returned by e3, our own error
+		UNKNOWN_ERROR, // Catch-all error code
 		USER_SERVICE_FATAL_FAILURE
 	}
 
