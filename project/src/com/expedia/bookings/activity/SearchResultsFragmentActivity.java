@@ -628,9 +628,9 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction ft = fragmentManager.beginTransaction();
 		if (AndroidUtils.getSdkVersion() >= 13) {
-			ft.setCustomAnimations(R.animator.fragment_mini_details_slide_enter,
-					R.animator.fragment_mini_details_slide_exit, R.animator.fragment_mini_details_slide_enter,
-					R.animator.fragment_mini_details_slide_exit);
+			ft.setCustomAnimations(R.anim.fragment_mini_details_slide_enter,
+					R.anim.fragment_mini_details_slide_exit, R.anim.fragment_mini_details_slide_enter,
+					R.anim.fragment_mini_details_slide_exit);
 		}
 		ft.add(R.id.fragment_mini_details, mMiniDetailsFragment, getString(R.string.tag_mini_details));
 		ft.addToBackStack(MINI_DETAILS_PUSH);
@@ -644,8 +644,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 			FragmentTransaction ft = fm.beginTransaction();
 			if (AndroidUtils.getSdkVersion() >= 13) {
-				ft.setCustomAnimations(R.animator.fragment_slide_left_enter, R.animator.fragment_slide_left_exit,
-						R.animator.fragment_slide_right_enter, R.animator.fragment_slide_right_exit);
+				ft.setCustomAnimations(R.anim.fragment_slide_left_enter, R.anim.fragment_slide_left_exit,
+						R.anim.fragment_slide_right_enter, R.anim.fragment_slide_right_exit);
 			}
 			ft.hide(fm.findFragmentByTag(getString(R.string.tag_hotel_map)));
 			ft.remove(fm.findFragmentByTag(getString(R.string.tag_mini_details)));
