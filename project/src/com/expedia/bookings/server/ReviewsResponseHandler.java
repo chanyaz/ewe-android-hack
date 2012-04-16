@@ -12,6 +12,7 @@ import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.net.JsonResponseHandler;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.util.AndroidUtils;
@@ -45,14 +46,14 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 				review.setReviewId(reviewJson.optString("Id", null));
 
 				if (!reviewJson.isNull("Title")) {
-					review.setTitle(reviewJson.optString("Title", null));
+					review.setTitle(JSONUtils.optNormalizedString(reviewJson, "Title", null));
 				}
 				else {
 					review.setTitle("");
 				}
 
 				if (!reviewJson.isNull("ReviewText")) {
-					review.setBody(reviewJson.optString("ReviewText", null));
+					review.setBody(JSONUtils.optNormalizedString(reviewJson, "ReviewText", null));
 				}
 				else {
 					review.setBody("");
@@ -75,11 +76,11 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 				review.setSubmissionDate(submissionDate);
 
 				if (!reviewJson.isNull("UserNickname")) {
-					review.setReviewerName(reviewJson.getString("UserNickname"));
+					review.setReviewerName(JSONUtils.getNormalizedString(reviewJson, "UserNickname"));
 				}
 
 				if (!reviewJson.isNull("UserLocation")) {
-					review.setReviewerLocation(reviewJson.getString("UserLocation"));
+					review.setReviewerLocation(JSONUtils.getNormalizedString(reviewJson, "UserLocation"));
 				}
 
 				Object ratingObj = reviewJson.opt("SecondaryRatings");

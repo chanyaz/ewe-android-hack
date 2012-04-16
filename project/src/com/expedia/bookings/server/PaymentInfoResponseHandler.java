@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.expedia.bookings.data.CreditCardBrand;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.net.JsonResponseHandler;
 
 public class PaymentInfoResponseHandler extends JsonResponseHandler<List<CreditCardBrand>> {
@@ -30,7 +31,7 @@ public class PaymentInfoResponseHandler extends JsonResponseHandler<List<CreditC
 				JSONObject paymentType = paymentTypes.getJSONObject(a);
 				CreditCardBrand brand = new CreditCardBrand();
 				brand.setCode(paymentType.getString("code"));
-				brand.setName(paymentType.getString("name"));
+				brand.setName(JSONUtils.getNormalizedString(paymentType, "name"));
 				creditCards.add(brand);
 			}
 		}

@@ -26,6 +26,7 @@ import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.net.JsonResponseHandler;
 
 public class AvailabilityResponseHandler extends JsonResponseHandler<AvailabilityResponse> {
@@ -55,7 +56,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			// Parse property info
 			Property property = new Property();
 			availResponse.setProperty(property);
-			property.setDescriptionText(response.optString("longDescription", null));
+			property.setDescriptionText(JSONUtils.optNormalizedString(response, "longDescription", null));
 			property.setPropertyId(response.optString("hotelId", null));
 
 			int len;
@@ -78,7 +79,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			int numberOfNights = response.optInt("numberOfNights");
 
 			Policy checkInPolicy = null;
-			String checkInInstructions = response.optString("checkInInstructions", null);
+			String checkInInstructions = JSONUtils.optNormalizedString(response, "checkInInstructions", null);
 			if (!TextUtils.isEmpty(checkInInstructions)) {
 				checkInPolicy = new Policy();
 				checkInPolicy.setType(Policy.TYPE_CHECK_IN);
@@ -273,8 +274,8 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 		rate.setRateKey(jsonRate.getString("productKey"));
 		rate.setRatePlanCode(jsonRate.optString("rateCode", null));
 		rate.setRoomTypeCode(jsonRate.optString("roomTypeCode", null));
-		rate.setRoomDescription(jsonRate.getString("roomTypeDescription"));
-		rate.setRoomLongDescription(jsonRate.optString("roomLongDescription", null));
+		rate.setRoomDescription(JSONUtils.getNormalizedString(jsonRate, "roomTypeDescription"));
+		rate.setRoomLongDescription(JSONUtils.optNormalizedString(jsonRate, "roomLongDescription", null));
 
 		rate.setRateChange(rateInfo.optBoolean("rateChange", false));
 		rate.setNumRoomsLeft(jsonRate.optInt("currentAllotment", 0));
@@ -283,7 +284,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 		rate.setNonRefundable(jsonRate.optBoolean("nonRefundable", false));
 
 		if (!mProperty.isMerchant()) {
-			rate.setRatePlanName(jsonRate.getString("rateDescription"));
+			rate.setRatePlanName(JSONUtils.getNormalizedString(jsonRate, "rateDescription"));
 		}
 
 		String currencyCode = chargeableRateInfo.getString("currencyCode");
@@ -397,8 +398,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 		}
 
 		if (jsonRate.has("cancellationPolicy")) {
-			String cancellationPolicy = jsonRate.getString("cancellationPolicy");
-			if (cancellationPolicy.startsWith("<![CDATA[")) {
+			String cancellationPolicy = JSONUtils.getNormalizedString(jsonRate, "cancellationPolicy"); if (cancellationPolicy.startsWith("<![CDATA[")) {
 				cancellationPolicy = cancellationPolicy.substring(9, cancellationPolicy.length() - 3);
 			}
 			Policy policy = new Policy();
@@ -411,7 +411,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 		// wants us to display
 		StringBuilder sb = new StringBuilder();
 		if (jsonRate.has("policy")) {
-			sb.append(jsonRate.getString("policy"));
+			sb.append(JSONUtils.getNormalizedString(jsonRate, "policy"));
 			sb.append("\n\n");
 		}
 
@@ -432,7 +432,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			JSONArray valueAdds = jsonRate.getJSONArray("valueAdds");
 			for (int b = 0; b < valueAdds.length(); b++) {
 				JSONObject valueAdd = valueAdds.getJSONObject(b);
-				rate.addValueAdd(valueAdd.getString("description"));
+				rate.addValueAdd(JSONUtils.getNormalizedString(valueAdd, "description"));
 			}
 		}
 
@@ -447,7 +447,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 					continue;
 				}
 
-				String bedTypeDescription = bedType.getString("description");
+				String bedTypeDescription = JSONUtils.getNormalizedString(bedType, "description");
 				bedTypeElements.add(bedTypeDescription);
 
 				if (bedType.has("id") && bedType.getString("id") != null & !"".equals(bedTypeDescription)) {
