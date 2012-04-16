@@ -24,7 +24,8 @@ public class UserReviewsAdapter extends BaseAdapter {
 	// CONSTANTS
 	private static final int TYPE_REVIEW = 0;
 	private static final int TYPE_DIVIDER = 1;
-	private static final int NUM_VIEW_TYPES = 2;
+	private static final int TYPE_LOADING = 2;
+	private static final int NUM_VIEW_TYPES = 3;
 
 	// Private members
 	private Context mContext;
@@ -80,7 +81,12 @@ public class UserReviewsAdapter extends BaseAdapter {
 		if (rw.mIsDivider) {
 			return TYPE_DIVIDER;
 		}
-		return TYPE_REVIEW;
+		else if (rw.mIsLoadingFooter) {
+			return TYPE_LOADING;
+		}
+		else {
+			return TYPE_REVIEW;
+		}
 	}
 
 	@Override
@@ -105,6 +111,11 @@ public class UserReviewsAdapter extends BaseAdapter {
 				convertView = mInflater.inflate(R.layout.divider_user_reviews_list, parent, false);
 			}
 		}
+		else if (type == TYPE_LOADING) {
+			if (convertView == null) {
+				convertView = mInflater.inflate(R.layout.footer_user_reviews_list_loading_more, parent, false);
+			}
+		}
 		return convertView;
 	}
 
@@ -119,6 +130,11 @@ public class UserReviewsAdapter extends BaseAdapter {
 	@Override
 	public boolean isEnabled(int position) {
 		return false;
+	}
+
+	public void setUserReviews(List<ReviewWrapper> reviews) {
+		mLoadedReviews = reviews;
+		notifyDataSetChanged();
 	}
 
 	private static class UserReviewViewHolder {
@@ -211,11 +227,6 @@ public class UserReviewsAdapter extends BaseAdapter {
 		viewHolder.readMore.setVisibility(View.VISIBLE);
 		viewHolder.nameAndLocation.setVisibility(View.GONE);
 		viewHolder.submissionDate.setVisibility(View.GONE);
-	}
-
-	public void setUserReviews(List<ReviewWrapper> reviews) {
-		mLoadedReviews = reviews;
-		notifyDataSetChanged();
 	}
 
 	private void setupFullReviewDisplay(final UserReviewViewHolder viewHolder) {

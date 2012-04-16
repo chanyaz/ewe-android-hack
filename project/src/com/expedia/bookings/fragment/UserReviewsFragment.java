@@ -1,9 +1,11 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.json.JSONException;
@@ -29,7 +31,6 @@ import com.mobiata.android.Log;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.ListFragment;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -67,6 +68,15 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private static final String JSONABLE_TOTAL_COUNT = "JSONABLE_TOTAL_COUNT";
 	private static final String JSONABLE_PAGE_NUMBER = "JSONABLE_PAGE_NUMBER";
 
+	@SuppressWarnings("serial")
+	private static final Map<ReviewSort, Integer> SORT_NO_REVIEWS_MAP = new HashMap<ReviewSort, Integer>() {
+		{
+			put(ReviewSort.NEWEST_REVIEW_FIRST, R.string.user_review_no_recent_reviews);
+			put(ReviewSort.HIGHEST_RATING_FIRST, R.string.user_review_no_favorable_reviews);
+			put(ReviewSort.LOWEST_RATING_FIRST, R.string.user_review_no_critical_reviews);
+		}
+	};
+
 	// Network classes
 	private BackgroundDownloader mBackgroundDownloader = BackgroundDownloader.getInstance();
 	private ExpediaServices mExpediaServices;
@@ -90,7 +100,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	// List views
 	private ViewGroup mHeaderView;
-	private ViewGroup mFooterView;
 
 	// Use this variable to disable download when onScroll gets invoked automatically when the ScrollListener is set
 	private boolean mScrollListenerSet;
@@ -195,11 +204,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			mHeaderView = (ViewGroup) inflater.inflate(R.layout.header_user_reviews_list, null, false);
 		}
 
-		if (mFooterView == null) {
-			mFooterView = (ViewGroup) inflater.inflate(R.layout.footer_user_reviews_list_loading_more, null,
-					false);
-		}
-
 		return view;
 	}
 
@@ -241,8 +245,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	@Override
 	public void onPause() {
 		super.onPause();
-		mHandler.removeCallbacks(mAddFooterTask);
-		mHandler.removeCallbacks(mRemoveFooterTask);
 		mBackgroundDownloader.unregisterDownloadCallback(mReviewsDownloadKey);
 	}
 
@@ -355,10 +357,14 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			mAttemptedDownload = true;
 
 			if (response == null) {
+				removeLoadingFooter();
+
 				updateEmptyMessage(R.string.user_review_unavailable);
 			}
 			else {
 				if (response.hasErrors()) {
+					removeLoadingFooter();
+
 					updateEmptyMessage(R.string.user_review_unavailable);
 				}
 				else {
@@ -371,11 +377,12 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 							addDivider();
 						}
 						else {
-							updateEmptyMessage(R.string.user_review_no_favorable_reviews);
+							// must remove loading footer then divider, as these methods make an assumption and only remove the last item
+							removeLoadingFooter();
 
 							removeDivider();
 
-							mHandler.post(mRemoveFooterTask);
+							updateEmptyMessage(SORT_NO_REVIEWS_MAP.get(mReviewSort));
 						}
 					}
 					else {
@@ -404,47 +411,22 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 							mUserReviews = new ArrayList<ReviewWrapper>();
 						}
 
+						removeLoadingFooter();
+
 						mUserReviews.addAll(newlyLoadedReviews);
+
 						if (addDivider) {
 							addDivider();
 						}
-
-						mUserReviewsUtils.addReviews(mProperty.getPropertyId(), mReviewSort, mUserReviews);
-						mUserReviewsAdapter.setUserReviews(mUserReviews);
-
-						mHandler.post(mRemoveFooterTask);
+						else {
+							mUserReviewsUtils.addReviews(mProperty.getPropertyId(), mReviewSort, mUserReviews);
+							mUserReviewsAdapter.setUserReviews(mUserReviews);
+						}
 					}
 				}
 			}
 			mUserReviewsFragmentListener.onDownloadComplete(mReviewSort);
 		}
-	};
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Handler + Runnables
-
-	private final Handler mHandler = new Handler() {
-
-	};
-
-	private final Runnable mAddFooterTask = new Runnable() {
-
-		@Override
-		public void run() {
-			ListView lv = getListView();
-			lv.addFooterView(mFooterView, null, false);
-		}
-
-	};
-
-	private final Runnable mRemoveFooterTask = new Runnable() {
-
-		@Override
-		public void run() {
-			ListView lv = getListView();
-			lv.removeFooterView(mFooterView);
-		}
-
 	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -463,14 +445,15 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 		if (mScrollListenerSet && loadMore && hasMoreReviews() && notDownloading) {
 			startReviewsDownload();
-			mHandler.post(mAddFooterTask);
+			addLoadingFooter();
 		}
 
 		Set<String> viewedReviews = new HashSet<String>();
 		int count = mUserReviewsAdapter.getCount();
 		for (int a = 0; a < visibleItemCount && firstVisibleItem + a < count; a++) {
 			Object item = mUserReviewsAdapter.getItem(firstVisibleItem + a);
-			if (item instanceof ReviewWrapper && !((ReviewWrapper) item).mIsDivider) {
+			if (item instanceof ReviewWrapper && !((ReviewWrapper) item).mIsDivider
+					&& !((ReviewWrapper) item).mIsLoadingFooter) {
 				viewedReviews.add(((ReviewWrapper) item).mReview.getReviewId());
 			}
 		}
@@ -486,7 +469,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Divider
+	// Special row types
 
 	/**
 	 * Divider to note the segregated reviews that we use for the recent sort, displays
@@ -510,6 +493,33 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 				int pos = size - 1;
 				ReviewWrapper last = mUserReviews.get(pos);
 				if (last.mIsDivider) {
+					mUserReviews.remove(pos);
+					mUserReviewsUtils.addReviews(mProperty.getPropertyId(), mReviewSort, mUserReviews);
+					mUserReviewsAdapter.setUserReviews(mUserReviews);
+				}
+			}
+		}
+	}
+
+	public void addLoadingFooter() {
+		ReviewWrapper rw = new ReviewWrapper();
+		rw.mIsLoadingFooter = true;
+
+		if (mUserReviews == null) {
+			mUserReviews = new ArrayList<ReviewWrapper>();
+		}
+		mUserReviews.add(rw);
+		mUserReviewsUtils.addReviews(mProperty.getPropertyId(), mReviewSort, mUserReviews);
+		mUserReviewsAdapter.setUserReviews(mUserReviews);
+	}
+
+	public void removeLoadingFooter() {
+		if (mUserReviews != null) {
+			int size = mUserReviews.size();
+			int pos = size - 1;
+			if (pos >= 0) {
+				ReviewWrapper last = mUserReviews.get(pos);
+				if (last.mIsLoadingFooter) {
 					mUserReviews.remove(pos);
 					mUserReviewsUtils.addReviews(mProperty.getPropertyId(), mReviewSort, mUserReviews);
 					mUserReviewsAdapter.setUserReviews(mUserReviews);
@@ -662,6 +672,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		public String mBodyReduced;
 
 		public boolean mIsDivider = false;
+		public boolean mIsLoadingFooter = false;
 
 		public ReviewWrapper() {
 			mIsDivider = false;
