@@ -17,6 +17,7 @@ import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentList
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
@@ -91,11 +92,10 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 
 		extractPropertyFromIntent();
 
-		FragmentManager fm = getSupportFragmentManager();
 		if (savedInstanceState != null) {
-			mRecentReviewsFragment = (UserReviewsFragment) fm.findFragmentByTag(INSTANCE_RECENT_REVIEWS_FRAGMENT);
-			mFavorableReviewsFragment = (UserReviewsFragment) fm.findFragmentByTag(INSTANCE_FAVORABLE_REVIEWS_FRAGMENT);
-			mCriticalReviewsFragment = (UserReviewsFragment) fm.findFragmentByTag(INSTANCE_CRITICAL_REVIEWS_FRAGMENT);
+			mRecentReviewsFragment = Ui.findSupportFragment(this, INSTANCE_RECENT_REVIEWS_FRAGMENT);
+			mFavorableReviewsFragment = Ui.findSupportFragment(this, INSTANCE_FAVORABLE_REVIEWS_FRAGMENT);
+			mCriticalReviewsFragment = Ui.findSupportFragment(this, INSTANCE_CRITICAL_REVIEWS_FRAGMENT);
 
 			mHasReviewStats = savedInstanceState.getBoolean(INSTANCE_HAS_REVIEW_STATS);
 			mTotalReviewCount = savedInstanceState.getInt(INSTANCE_TOTAL_REVIEW_COUNT);
@@ -105,7 +105,7 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 		}
 		else {
 			// add the user reviews list fragment to the framelayout container
-			FragmentTransaction ft = fm.beginTransaction();
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
 			mRecentReviewsFragment = UserReviewsFragment.newInstance(mProperty, ReviewSort.NEWEST_REVIEW_FIRST);
 			mFavorableReviewsFragment = UserReviewsFragment.newInstance(mProperty, ReviewSort.HIGHEST_RATING_FIRST);
@@ -128,7 +128,7 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 		mReviewSortFragmentMap.put(ReviewSort.HIGHEST_RATING_FIRST, mFavorableReviewsFragment);
 		mReviewSortFragmentMap.put(ReviewSort.LOWEST_RATING_FIRST, mCriticalReviewsFragment);
 
-		mSortGroup = (SegmentedControlGroup) findViewById(R.id.user_review_sort_group);
+		mSortGroup = Ui.findView(this, R.id.user_review_sort_group);
 		mSortGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
@@ -169,13 +169,13 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 
 		RadioButton btn;
 		if (mCurrentReviewSort == ReviewSort.HIGHEST_RATING_FIRST) {
-			btn = (RadioButton) findViewById(R.id.user_review_button_favorable);
+			btn = Ui.findView(this, R.id.user_review_button_favorable);
 		}
 		else if (mCurrentReviewSort == ReviewSort.LOWEST_RATING_FIRST) {
-			btn = (RadioButton) findViewById(R.id.user_review_button_critical);
+			btn = Ui.findView(this, R.id.user_review_button_critical);
 		}
 		else {
-			btn = (RadioButton) findViewById(R.id.user_review_button_recent);
+			btn = Ui.findView(this, R.id.user_review_button_recent);
 		}
 
 		btn.setChecked(true);
@@ -286,10 +286,10 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 	 * this method could included as part of the initial onCreate setup, no extra network call required
 	 */
 	private void populateBottomBar() {
-		View bottomBar = findViewById(R.id.bottom_bar);
+		View bottomBar = Ui.findView(this, R.id.bottom_bar);
 		if (bottomBar != null) {
 			// Configure the book now button
-			TextView bookNowButton = (TextView) findViewById(R.id.book_now_button);
+			TextView bookNowButton = Ui.findView(this, R.id.book_now_button);
 			bookNowButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					Intent newIntent = new Intent(mContext, RoomsAndRatesListActivity.class);
@@ -299,16 +299,16 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 			});
 
 			if (mHasReviewStats) {
-				TextView totalReviews = (TextView) findViewById(R.id.user_review_total_reviews);
+				TextView totalReviews = Ui.findView(this, R.id.user_review_total_reviews);
 				totalReviews.setText(getResources().getQuantityString(R.plurals.number_of_reviews, mTotalReviewCount,
 						mTotalReviewCount));
 
-				RatingBar bottomRatingBar = (RatingBar) findViewById(R.id.user_review_rating_bar_bottom);
+				RatingBar bottomRatingBar = Ui.findView(this, R.id.user_review_rating_bar_bottom);
 				bottomRatingBar.setRating(mAverageOverallRating);
 				bottomRatingBar.setVisibility(View.VISIBLE);
 			}
 			else {
-				RatingBar bottomRatingBar = (RatingBar) findViewById(R.id.user_review_rating_bar_bottom);
+				RatingBar bottomRatingBar = Ui.findView(this, R.id.user_review_rating_bar_bottom);
 				bottomRatingBar.setVisibility(View.GONE);
 			}
 
@@ -317,14 +317,14 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 	}
 
 	private void showReviewsUnavailableError() {
-		TextView emptyTextView = (TextView) findViewById(R.id.empty_text_view);
+		TextView emptyTextView = Ui.findView(this, R.id.empty_text_view);
 
 		if (emptyTextView != null) {
 			String text = getResources().getString(R.string.user_review_unavailable);
 			emptyTextView.setText(text);
 		}
 
-		ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+		ProgressBar progressBar = Ui.findView(this, R.id.progress_bar);
 
 		if (progressBar != null) {
 			progressBar.setVisibility(View.GONE);

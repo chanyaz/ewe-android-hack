@@ -23,6 +23,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.NetUtils;
+import com.mobiata.android.util.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
@@ -294,13 +295,13 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 		View view = getView();
 
-		TextView recommendText = (TextView) view.findViewById(R.id.user_reviews_recommendation_tag);
+		TextView recommendText = Ui.findView(view, R.id.user_reviews_recommendation_tag);
 
 		String text = String.format(getString(R.string.user_review_recommendation_tag_text),
 				recommendedCount, totalCount);
 		CharSequence styledText = Html.fromHtml(text);
 
-		ImageView thumbView = (ImageView) view.findViewById(R.id.user_reviews_thumb);
+		ImageView thumbView = Ui.findView(view, R.id.user_reviews_thumb);
 
 		if (totalCount > 0) {
 			if (recommendedCount * 10 / totalCount >= THUMB_CUTOFF_INCLUSIVE) {
@@ -519,12 +520,14 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	private void updateEmptyMessage(int msgId) {
 		mStatusResId = msgId;
-		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.progress_bar);
+
+		View view = getView();
+		ProgressBar progressBar = Ui.findView(view, R.id.progress_bar);
 		progressBar.setVisibility(View.GONE);
 
 		if (msgId != 0) {
 			String emptyText;
-			TextView emptyTextView = (TextView) getView().findViewById(R.id.user_review_empty_text_view);
+			TextView emptyTextView = Ui.findView(view, R.id.user_review_empty_text_view);
 
 			if (!NetUtils.isOnline(getActivity())) {
 				emptyText = getString(R.string.widget_error_no_internet);
