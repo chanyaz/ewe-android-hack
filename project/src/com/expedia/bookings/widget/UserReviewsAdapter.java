@@ -18,6 +18,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.ReviewRating;
 import com.expedia.bookings.fragment.UserReviewsFragment.ReviewWrapper;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.Ui;
 
 public class UserReviewsAdapter extends BaseAdapter {
 
@@ -148,13 +149,12 @@ public class UserReviewsAdapter extends BaseAdapter {
 
 	public UserReviewViewHolder getUserReviewViewHolder(View convertView) {
 		UserReviewViewHolder viewHolder = new UserReviewViewHolder();
-		viewHolder.title = (TextView) convertView.findViewById(R.id.user_review_title_text_view);
-		viewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.user_review_rating_bar);
-		viewHolder.body = (TextView) convertView.findViewById(R.id.user_review_body_text_view);
-		viewHolder.readMore = convertView.findViewById(R.id.read_more_layout);
-		viewHolder.nameAndLocation = (TextView) convertView
-				.findViewById(R.id.user_review_name_and_location_text_view);
-		viewHolder.submissionDate = (TextView) convertView.findViewById(R.id.user_review_date_text_view);
+		viewHolder.title = Ui.findView(convertView, R.id.user_review_title_text_view);
+		viewHolder.ratingBar = Ui.findView(convertView, R.id.user_review_rating_bar);
+		viewHolder.body = Ui.findView(convertView, R.id.user_review_body_text_view);
+		viewHolder.readMore = Ui.findView(convertView, R.id.read_more_layout);
+		viewHolder.nameAndLocation = Ui.findView(convertView, R.id.user_review_name_and_location_text_view);
+		viewHolder.submissionDate = Ui.findView(convertView, R.id.user_review_date_text_view);
 		return viewHolder;
 	}
 
