@@ -1,59 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:background="@color/bg_default">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/bg_default" >
 
-	<com.expedia.bookings.widget.MeasureListView
-		android:id="@android:id/list"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:scrollbars="none"
-		style="@style/ExpediaList" />
-		
-	<TextView
-		android:id="@android:id/empty"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:padding="24dp"
-		android:gravity="center"
-		android:text="@string/no_filter_results"
-		android:textSize="18sp"
-		android:textStyle="bold"
-		android:textColor="#FF666666"
-		android:shadowColor="#88FFFFFF"
-		android:shadowDx="0"
-		android:shadowDy="-1"
-		android:shadowRadius="0.1" />
-		
-	<ImageView
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@android:id/list"
-		android:src="@drawable/list_shadow"
-		android:scaleType="fitXY" />
-		
-	<com.expedia.bookings.widget.ListViewScrollBar
-		android:id="@+id/scroll_bar"
-		android:layout_width="wrap_content"
-		android:layout_height="fill_parent"
-		android:layout_alignParentRight="true"
-		android:paddingTop="5dp"
-		android:paddingRight="6dp"
-		android:paddingLeft="12dp"
-		android:paddingBottom="5dp" />
+    <com.expedia.bookings.widget.MeasureListView
+        android:id="@android:id/list"
+        style="@style/ExpediaList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none" />
 
-	<ImageButton
-		android:id="@id/view_button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true"
-		android:layout_alignParentRight="true"
-		android:layout_margin="6dp"
-		android:visibility="invisible"
-		android:src="@drawable/btn_actionbar_map"
-		android:background="@null" />
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:padding="24dp"
+        android:shadowColor="#88FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="-1"
+        android:shadowRadius="0.1"
+        android:text="@string/no_filter_results"
+        android:textColor="#FF666666"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <com.expedia.bookings.widget.ListViewScrollBar
+        android:id="@+id/scroll_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:paddingBottom="5dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="6dp"
+        android:paddingTop="5dp" />
 
 </RelativeLayout>
