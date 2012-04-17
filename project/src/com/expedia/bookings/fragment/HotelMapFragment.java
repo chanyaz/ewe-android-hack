@@ -113,7 +113,7 @@ public class HotelMapFragment extends Fragment {
 			}
 		});
 
-		mHotelOverlay.setCenterOffset(0, getResources().getDimensionPixelSize(R.dimen.mini_details_height));
+		mHotelOverlay.setCenterOffset(0, getResources().getDimensionPixelSize(R.dimen.center_vertical_offset));
 		overlays.add(mHotelOverlay);
 
 		mDoubleTapToZoomOverlay = new DoubleTapToZoomListenerOverlay(activity, mMapView);

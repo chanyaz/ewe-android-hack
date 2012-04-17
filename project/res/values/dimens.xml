@@ -70,4 +70,7 @@
 	<!-- The child ages button gets animated in height from 5dp to 60dp -->
 	<dimen name="child_ages_button_height_minimized">5dp</dimen>
 	<dimen name="child_ages_button_height_restored">60dp</dimen>
+	
+	<!-- HotelMapFragment -->
+	<dimen name="center_vertical_offset">0dp</dimen>
 </resources>
