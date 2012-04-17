@@ -298,6 +298,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	}
 
 	public void trimDrawables(int start, int end) {
+		Log.v("Trimming HotelAdapter images from (" + start + ", " + end + ")");
+
 		final int size = mCachedProperties.length;
 		for (int i = 0; i < size; i++) {
 			if (i < start || i > end) {

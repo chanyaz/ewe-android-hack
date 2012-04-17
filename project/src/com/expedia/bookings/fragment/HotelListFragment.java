@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -18,8 +20,19 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.Ui;
 
-public class HotelListFragment extends ListFragment {
+// TODO: ADD SCROLLBAR
+// TODO: ADD PHONE HEADER
+public class HotelListFragment extends ListFragment implements OnScrollListener {
+
+	// MAX_THUMBNAILS is not often hit, due to how the algorithm works.  More often,
+	// the # of thumbnails is somewhere between MAX_THUMBNAILS / 2 and MAX_THUMBNAILS.
+	private static final int MAX_THUMBNAILS = 50;
+
+	// The tolerance of change of ListView center item before we do another imageview trim
+	private static final int TRIM_TOLERANCE = 5;
 
 	private static final String INSTANCE_STATUS = "INSTANCE_STATUS";
 	private static final String INSTANCE_SHOW_DISTANCES = "INSTANCE_SHOW_DISTANCES";
@@ -37,6 +50,9 @@ public class HotelListFragment extends ListFragment {
 	private PlaceholderTagProgressBar mSearchProgressBar;
 
 	private HotelListFragmentListener mListener;
+
+	// Last center item we trimmed on
+	private int mLastCenter = -999;
 
 	public static HotelListFragment newInstance() {
 		return new HotelListFragment();
@@ -88,6 +104,10 @@ public class HotelListFragment extends ListFragment {
 				mListener.onSortButtonClicked();
 			}
 		});
+
+		// Configure ListView
+		ListView listView = Ui.findView(view, android.R.id.list);
+		listView.setOnScrollListener(this);
 
 		return view;
 	}
@@ -233,8 +253,44 @@ public class HotelListFragment extends ListFragment {
 
 	private void setHeaderVisibility(int visibility) {
 		if (mHeaderLayout != null) {
+			// Never display the header on non-tablet UIs
+			if (!AndroidUtils.isHoneycombTablet(getActivity())) {
+				visibility = View.GONE;
+			}
+
 			mHeaderLayout.setVisibility(visibility);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnScrollListener
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		// Trim the ends (recycle images)
+		if (totalItemCount > MAX_THUMBNAILS) {
+			final int center = firstVisibleItem + (visibleItemCount / 2);
+
+			// Don't always trim drawables; only trim them if we've moved the list far enough away from where
+			// we last were.
+			if (center < mLastCenter - TRIM_TOLERANCE || center > mLastCenter + TRIM_TOLERANCE) {
+				mLastCenter = center;
+
+				int start = center - (MAX_THUMBNAILS / 2);
+				int end = center + (MAX_THUMBNAILS / 2);
+
+				// prevent overflow
+				start = start < 0 ? 0 : start;
+				end = end > totalItemCount ? totalItemCount : end;
+
+				mAdapter.trimDrawables(start, end);
+			}
+		}
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// Do nothing
 	}
 
 	//////////////////////////////////////////////////////////////////////////
