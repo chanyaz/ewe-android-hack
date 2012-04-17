@@ -49,11 +49,13 @@ public class SearchMapActivity extends FragmentMapActivity implements SearchList
 	@Override
 	public void onSearchStarted() {
 		mHotelMapFragment.notifySearchStarted();
+		Db.getFilter().removeOnFilterChangedListener(this);
 	}
 
 	@Override
 	public void onSearchCompleted(SearchResponse response) {
 		mHotelMapFragment.notifySearchComplete();
+		Db.getFilter().addOnFilterChangedListener(this);
 	}
 
 	@Override
