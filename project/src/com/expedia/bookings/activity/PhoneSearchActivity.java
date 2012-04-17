@@ -2257,39 +2257,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	// VIEW ATTRIBUTE METHODS
 	//----------------------------------
 
-	private static final String FORMAT_HEADER = "MMM d";
-	private static final String FORMAT_HEADER_WITH_YEAR = "MMM d, yyyy";
-
-	public CharSequence getBookingInfoHeaderText() {
-		SearchParams currentParams = (mOriginalSearchParams != null) ? mOriginalSearchParams : Db.getSearchParams();
-		String location = currentParams.getSearchDisplayText(this);
-
-		Calendar checkIn = currentParams.getCheckInDate();
-		Calendar checkOut = currentParams.getCheckOutDate();
-
-		int startYear = checkIn.get(Calendar.YEAR);
-		int endYear = checkOut.get(Calendar.YEAR);
-
-		Calendar start = new GregorianCalendar(startYear, checkIn.get(Calendar.MONTH),
-				checkIn.get(Calendar.DAY_OF_MONTH));
-		Calendar end = new GregorianCalendar(endYear, checkOut.get(Calendar.MONTH), checkOut.get(Calendar.DAY_OF_MONTH));
-
-		String startFormatter = FORMAT_HEADER;
-		String endFormatter = FORMAT_HEADER;
-		if (startYear != endYear) {
-			// Start year differs from end year - specify year on both dates
-			startFormatter = endFormatter = FORMAT_HEADER_WITH_YEAR;
-		}
-		else if (Calendar.getInstance().get(Calendar.YEAR) != startYear) {
-			// The entire selection is in a different year from now - specify year on the end date
-			endFormatter = FORMAT_HEADER_WITH_YEAR;
-		}
-
-		return Html.fromHtml(getString(R.string.booking_info_template, location,
-				android.text.format.DateFormat.format(startFormatter, start),
-				android.text.format.DateFormat.format(endFormatter, end)));
-	}
-
 	private void setActionBarBookingInfoText() {
 		int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
 		int numAdults = Db.getSearchParams().getNumAdults();

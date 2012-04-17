@@ -75,12 +75,33 @@
         android:paddingRight="6dp"
         android:paddingTop="5dp" />
 
-    <include
+    <LinearLayout
         android:id="@android:id/empty"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/header_layout"
-        layout="@layout/include_placeholder_progress" />
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_below="@+id/header_layout" >
+
+        <TextView
+            android:id="@+id/no_filter_results_text_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:padding="24dp"
+            android:shadowColor="#88FFFFFF"
+            android:shadowDx="0"
+            android:shadowDy="-1"
+            android:shadowRadius="0.1"
+            android:text="@string/no_filter_results"
+            android:textColor="#FF666666"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/placeholder_container"
+            layout="@layout/include_placeholder_progress" />
+    </LinearLayout>
 
 </RelativeLayout>

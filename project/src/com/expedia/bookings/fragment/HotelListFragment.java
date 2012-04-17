@@ -102,7 +102,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		mSortTypeTextView = (TextView) view.findViewById(R.id.sort_type_text_view);
 		mScrollBar = Ui.findView(view, R.id.scroll_bar);
 
-		ViewGroup placeholderContainer = (ViewGroup) view.findViewById(android.R.id.empty);
+		ViewGroup placeholderContainer = (ViewGroup) view.findViewById(R.id.placeholder_container);
 		ProgressBar placeholderProgressBar = (ProgressBar) view.findViewById(R.id.placeholder_progress_bar);
 		TextView placeholderProgressTextView = (TextView) view.findViewById(R.id.placeholder_progress_text_view);
 		mSearchProgressBar = new PlaceholderTagProgressBar(placeholderContainer, placeholderProgressBar,
@@ -120,8 +120,22 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		mScrollBar.setListView(listView);
 		mScrollBar.setOnScrollListener(this);
 
-		mBookingInfoHeader = (TextView) inflater.inflate(R.layout.row_booking_info, null);
-		listView.addHeaderView(mBookingInfoHeader);
+		// Configure the phone vs. ui different
+		if (AndroidUtils.isHoneycombTablet(getActivity())) {
+			mScrollBar.setVisibility(View.GONE);
+		}
+		else {
+			mSearchProgressBar.setVisibility(View.GONE);
+
+			Ui.findView(view, R.id.no_filter_results_text_view).setVisibility(View.VISIBLE);
+
+			mBookingInfoHeader = (TextView) inflater.inflate(R.layout.row_booking_info, null);
+			listView.addHeaderView(mBookingInfoHeader);
+
+			listView.setScrollIndicators(null, null);
+			listView.setVerticalFadingEdgeEnabled(false);
+			listView.setVerticalScrollBarEnabled(false);
+		}
 
 		return view;
 	}
@@ -261,7 +275,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		else {
 			updateNumHotels();
 			updateSortLabel(response);
-			mBookingInfoHeader.setText(getBookingInfoHeaderText());
+			updateBookingInfoHeaderText();
 			setHeaderVisibility(View.VISIBLE);
 			mAdapter.setShowDistance(mShowDistances);
 		}
@@ -278,34 +292,39 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		}
 	}
 
-	public CharSequence getBookingInfoHeaderText() {
-		SearchParams searchParams = Db.getSearchParams();
-		String location = searchParams.getSearchDisplayText(getActivity());
+	public void updateBookingInfoHeaderText() {
+		if (mBookingInfoHeader != null) {
+			SearchParams searchParams = Db.getSearchParams();
+			String location = searchParams.getSearchDisplayText(getActivity());
 
-		Calendar checkIn = searchParams.getCheckInDate();
-		Calendar checkOut = searchParams.getCheckOutDate();
+			Calendar checkIn = searchParams.getCheckInDate();
+			Calendar checkOut = searchParams.getCheckOutDate();
 
-		int startYear = checkIn.get(Calendar.YEAR);
-		int endYear = checkOut.get(Calendar.YEAR);
+			int startYear = checkIn.get(Calendar.YEAR);
+			int endYear = checkOut.get(Calendar.YEAR);
 
-		Calendar start = new GregorianCalendar(startYear, checkIn.get(Calendar.MONTH),
-				checkIn.get(Calendar.DAY_OF_MONTH));
-		Calendar end = new GregorianCalendar(endYear, checkOut.get(Calendar.MONTH), checkOut.get(Calendar.DAY_OF_MONTH));
+			Calendar start = new GregorianCalendar(startYear, checkIn.get(Calendar.MONTH),
+					checkIn.get(Calendar.DAY_OF_MONTH));
+			Calendar end = new GregorianCalendar(endYear, checkOut.get(Calendar.MONTH),
+					checkOut.get(Calendar.DAY_OF_MONTH));
 
-		String startFormatter = FORMAT_HEADER;
-		String endFormatter = FORMAT_HEADER;
-		if (startYear != endYear) {
-			// Start year differs from end year - specify year on both dates
-			startFormatter = endFormatter = FORMAT_HEADER_WITH_YEAR;
+			String startFormatter = FORMAT_HEADER;
+			String endFormatter = FORMAT_HEADER;
+			if (startYear != endYear) {
+				// Start year differs from end year - specify year on both dates
+				startFormatter = endFormatter = FORMAT_HEADER_WITH_YEAR;
+			}
+			else if (Calendar.getInstance().get(Calendar.YEAR) != startYear) {
+				// The entire selection is in a different year from now - specify year on the end date
+				endFormatter = FORMAT_HEADER_WITH_YEAR;
+			}
+
+			CharSequence text = Html.fromHtml(getString(R.string.booking_info_template, location,
+					android.text.format.DateFormat.format(startFormatter, start),
+					android.text.format.DateFormat.format(endFormatter, end)));
+
+			mBookingInfoHeader.setText(text);
 		}
-		else if (Calendar.getInstance().get(Calendar.YEAR) != startYear) {
-			// The entire selection is in a different year from now - specify year on the end date
-			endFormatter = FORMAT_HEADER_WITH_YEAR;
-		}
-
-		return Html.fromHtml(getString(R.string.booking_info_template, location,
-				android.text.format.DateFormat.format(startFormatter, start),
-				android.text.format.DateFormat.format(endFormatter, end)));
 	}
 
 	//////////////////////////////////////////////////////////////////////////

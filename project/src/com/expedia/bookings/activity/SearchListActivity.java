@@ -1,48 +1,28 @@
 package com.expedia.bookings.activity;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.support.v4.app.FragmentActivity;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.PhoneSearchActivity.SetShowDistanceListener;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
-import com.expedia.bookings.widget.HotelAdapter;
-import com.expedia.bookings.widget.ListViewScrollBar;
+import com.expedia.bookings.fragment.HotelListFragment;
+import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
+import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 
-public class SearchListActivity extends ListActivity implements SearchListener, OnScrollListener,
-		OnFilterChangedListener, SetShowDistanceListener {
-	//////////////////////////////////////////////////////////////////////////////////
-	// Constants
-
-	// MAX_THUMBNAILS is not often hit, due to how the algorithm works.  More often,
-	// the # of thumbnails is somewhere between MAX_THUMBNAILS / 2 and MAX_THUMBNAILS.
-	private static final int MAX_THUMBNAILS = 50;
-
-	private static final String STATE_POSITION = "STATE_POSITION";
+public class SearchListActivity extends FragmentActivity implements SearchListener,
+		OnFilterChangedListener, SetShowDistanceListener, HotelListFragmentListener {
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
-	private PhoneSearchActivity mParent;
-	private HotelAdapter mAdapter;
-	private SearchResponse mSearchResponse;
-
-	private ListViewScrollBar mScrollBar;
-	private TextView mBookingInfoHeader;
-
-	private boolean mShowDistance = true;
-
-	// The selected position from the last instance; cleared once used
-	private int mSelectedPosition = -1;
+	private HotelListFragment mHotelListFragment;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
@@ -50,90 +30,23 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_search_list);
 
-		mParent = (PhoneSearchActivity) getParent();
-		mScrollBar = (ListViewScrollBar) findViewById(R.id.scroll_bar);
+		mHotelListFragment = Ui.findOrAddSupportFragment(this,
+				HotelListFragment.class, getString(R.string.tag_hotel_list));
 
-		mParent.addSearchListener(this);
-		mParent.addSetShowDistanceListener(this);
-
-		mScrollBar.setListView(getListView());
-		mScrollBar.setOnScrollListener(this);
-
-		mBookingInfoHeader = (TextView) getLayoutInflater().inflate(R.layout.row_booking_info, null);
-		getListView().addHeaderView(mBookingInfoHeader);
-
-		if (savedInstanceState != null) {
-			mSelectedPosition = savedInstanceState.getInt(STATE_POSITION, -1);
-		}
+		PhoneSearchActivity parent = (PhoneSearchActivity) getParent();
+		parent.addSearchListener(this);
+		parent.addSetShowDistanceListener(this);
 	}
 
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putInt(STATE_POSITION, mSelectedPosition);
-	}
-
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-		Property property = (Property) l.getAdapter().getItem(position);
-
-		// nothing to do here as the view does not contain a 
-		// property
-		if (property == null) {
-			return;
-		}
-
-		Intent intent = new Intent(this, HotelActivity.class);
-		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
-		intent.putExtra(Codes.SEARCH_PARAMS, mParent.getSearchParams().toString());
-		intent.putExtra(HotelActivity.EXTRA_POSITION, position);
-		startActivity(intent);
-	}
-
-	private int mLastCenter = -999;
-
-	private static final int TRIM_TOLERANCE = 5;
-
-	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		mSelectedPosition = firstVisibleItem;
-
-		// Trim the ends (recycle images)
-		if (totalItemCount > MAX_THUMBNAILS) {
-			final int center = firstVisibleItem + (visibleItemCount / 2);
-
-			// Don't always trim drawables; only trim them if we've moved the list far enough away from where
-			// we last were.
-			if (center < mLastCenter - TRIM_TOLERANCE || center > mLastCenter + TRIM_TOLERANCE) {
-				mLastCenter = center;
-
-				int start = center - (MAX_THUMBNAILS / 2);
-				int end = center + (MAX_THUMBNAILS / 2);
-
-				// prevent overflow
-				start = start < 0 ? 0 : start;
-				end = end > totalItemCount ? totalItemCount : end;
-
-				mAdapter.trimDrawables(start, end);
-			}
-		}
-	}
-
-	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		// TODO Auto-generated method stub
-
-	}
+	//////////////////////////////////////////////////////////////////////////////////
+	// OnFilterChangedListener
 
 	@Override
 	public void onFilterChanged() {
-		mAdapter.rebuildCache();
-		mScrollBar.rebuildCache();
+		Log.i("onFilterChanged() in SearchListACtivity!");
 
-		getListView().setSelection(0);
+		mHotelListFragment.notifyFilterChanged();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -142,42 +55,39 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	@Override
 	public void onSearchStarted() {
 		clearResults();
+		Db.getFilter().removeOnFilterChangedListener(this);
 	}
 
 	@Override
 	public void onSearchCompleted(SearchResponse response) {
-		if (response == null) {
-			// We assume that the parent handles errors, but just in case, don't crash if this happens
-			return;
-		}
-
-		mSearchResponse = response;
-		mSearchResponse.getFilter().addOnFilterChangedListener(this);
-
-		mScrollBar.setSearchResponse(mSearchResponse);
-		mAdapter = new HotelAdapter(this, mSearchResponse);
-		mAdapter.setShowDistance(mShowDistance);
-		mBookingInfoHeader.setText(mParent.getBookingInfoHeaderText());
-		setListAdapter(mAdapter);
-
-		if (mSelectedPosition != -1) {
-			setSelection(mSelectedPosition);
-		}
+		mHotelListFragment.notifySearchComplete();
+		Db.getFilter().addOnFilterChangedListener(this);
 	}
 
 	@Override
 	public void onSetShowDistance(boolean showDistance) {
-		mShowDistance = showDistance;
-		if (mAdapter != null) {
-			mAdapter.setShowDistance(showDistance);
-		}
+		mHotelListFragment.setShowDistances(showDistance);
 	}
 
 	@Override
 	public void clearResults() {
-		setListAdapter(null);
-		mAdapter = null;
-		mSelectedPosition = -1;
-		mScrollBar.setSearchResponse(null);
+		mHotelListFragment.notifySearchStarted();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// HotelListFragmentListener
+
+	@Override
+	public void onSortButtonClicked() {
+		// Do nothing, this shouldn't even appear
+	}
+
+	@Override
+	public void onListItemClicked(Property property, int position) {
+		Intent intent = new Intent(this, HotelActivity.class);
+		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
+		intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toString());
+		intent.putExtra(HotelActivity.EXTRA_POSITION, position);
+		startActivity(intent);
 	}
 }
