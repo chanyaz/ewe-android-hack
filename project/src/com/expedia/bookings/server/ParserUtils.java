@@ -105,6 +105,21 @@ public class ParserUtils {
 			}
 
 			return errors;
+		} else if (response.has("detailedStatus")) {
+			List<ServerError> errors = new ArrayList<ServerError>();
+
+			// This is for when we fail a SignIn due to bad credentials
+			// We don't get a MobileError returned to us, we get these fields
+			String status = response.optString("detailedStatus", null);
+			if (! status.equals("Success")) {
+				ServerError fakeError = new ServerError(apiMethod);
+				fakeError.setCode("SIMULATED");
+				fakeError.setMessage(response.optString("detailedStatusMsg", null));
+
+				errors.add(fakeError);
+			}
+
+			return errors;
 		}
 
 		return null;

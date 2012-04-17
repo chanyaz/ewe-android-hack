@@ -267,8 +267,28 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("email", email));
 		query.add(new BasicNameValuePair("password", password));
+		query.add(new BasicNameValuePair("staySignedIn", "true"));
 
 		return (SignInResponse) doE3Request("SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
+	}
+
+	// Attempt to sign in again with the stored cookie
+	public SignInResponse signIn() {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addPOSParams(query);
+
+		query.add(new BasicNameValuePair("profileOnly", "true"));
+
+		return (SignInResponse) doE3Request("SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
+	}
+
+	public void signOut() {
+		PersistantCookieStore cookieStore = new PersistantCookieStore();
+		cookieStore.load(mContext, COOKIES_FILE);
+		cookieStore.clear();
+		cookieStore.save(mContext, COOKIES_FILE);
+		return;
 	}
 
 	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {
