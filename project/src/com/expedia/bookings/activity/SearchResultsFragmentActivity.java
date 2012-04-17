@@ -1397,7 +1397,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	}
 
 	@Override
-	public void onListItemClicked(Property property) {
+	public void onListItemClicked(Property property, int position) {
 		propertySelected(property, SOURCE_LIST);
 	}
 

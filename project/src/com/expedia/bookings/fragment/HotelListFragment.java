@@ -112,7 +112,7 @@ public class HotelListFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		mListener.onListItemClicked((Property) mAdapter.getItem(position));
+		mListener.onListItemClicked((Property) mAdapter.getItem(position), position);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -243,6 +243,6 @@ public class HotelListFragment extends ListFragment {
 	public interface HotelListFragmentListener {
 		public void onSortButtonClicked();
 
-		public void onListItemClicked(Property property);
+		public void onListItemClicked(Property property, int position);
 	}
 }
