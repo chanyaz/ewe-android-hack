@@ -18,4 +18,28 @@ public class Ui extends com.mobiata.android.util.Ui {
 		return (T) activity.getSupportFragmentManager().findFragmentById(id);
 	}
 
+	/**
+	 * Convenience method that either:
+	 * 
+	 * 1. Finds and returns the Fragment if already exists in FragmentManager
+	 * 2. Creates and adds the Fragment to android.R.id.content if doesn't exit
+	 * 
+	 * Either way, it returns the Fragment, ready for use.
+	 * 
+	 * Should only be used if there is a single Fragment that is in android.R.id.content.
+	 */
+	public static <T extends Fragment> T findOrAddSupportFragment(CompatFragmentActivity activity,
+			Class<T> fragmentClass, String tag) {
+		T fragment = findSupportFragment(activity, tag);
+		if (fragment == null) {
+			try {
+				fragment = fragmentClass.newInstance();
+			}
+			catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			activity.getSupportFragmentManager().beginTransaction().add(android.R.id.content, fragment, tag).commit();
+		}
+		return fragment;
+	}
 }
