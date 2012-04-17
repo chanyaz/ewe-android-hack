@@ -99,6 +99,10 @@ public class Db {
 		sDb.mFilter.clearOnFilterChangedListeners();
 	}
 
+	public static void setFilter(Filter filter) {
+		sDb.mFilter = filter;
+	}
+
 	public static Filter getFilter() {
 		return sDb.mFilter;
 	}

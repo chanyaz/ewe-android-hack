@@ -90,6 +90,7 @@ import com.expedia.bookings.data.Filter.Sort;
 import com.expedia.bookings.data.PriceTier;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestResponse;
@@ -295,11 +296,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private List<ExactSearchLocationSearchedListener> mExactLocationSearchedListeners;
 
 	private List<Address> mAddresses;
-	private SearchParams mSearchParams;
 	private SearchParams mOldSearchParams;
 	private SearchParams mOriginalSearchParams;
-	private SearchResponse mSearchResponse;
-	private Filter mFilter;
 	private Filter mOldFilter;
 	public boolean mStartSearchOnResume;
 	private long mLastSearchTime = -1;
@@ -327,7 +325,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SUGGEST, services);
-			return services.suggest(mSearchParams.getFreeformLocation());
+			return services.suggest(Db.getSearchParams().getFreeformLocation());
 		}
 	};
 
@@ -350,7 +348,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		public Object doDownload() {
 			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
-			return services.search(mSearchParams, 0);
+			return services.search(Db.getSearchParams(), 0);
 		}
 	};
 
@@ -358,24 +356,29 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		@Override
 		public void onDownload(Object results) {
 			// Clear the old listener so we don't end up with a memory leak
-			mFilter.clearOnFilterChangedListeners();
-			mSearchResponse = (SearchResponse) results;
+			Db.getFilter().clearOnFilterChangedListeners();
 
-			if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0 && !mSearchResponse.hasErrors()) {
+			SearchResponse searchResponse = (SearchResponse) results;
+			Db.setSearchResponse(searchResponse);
+
+			if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
 				incrementNumSearches();
 
-				mSearchResponse.setFilter(mFilter);
-				mSearchResponse.setSearchType(mSearchParams.getSearchType());
-				mSearchResponse.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
+				Filter filter = Db.getFilter();
+				searchResponse.setFilter(filter);
 
-				if (!mLoadedSavedResults && mSearchResponse.getFilteredAndSortedProperties().length <= 10) {
+				SearchParams searchParams = Db.getSearchParams();
+				searchResponse.setSearchType(searchParams.getSearchType());
+				searchResponse.setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
+
+				if (!mLoadedSavedResults && searchResponse.getFilteredAndSortedProperties().length <= 10) {
 					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
-					mFilter.setSearchRadius(SearchRadius.ALL);
+					filter.setSearchRadius(SearchRadius.ALL);
 					mRadiusButtonGroup.check(R.id.radius_all_button);
-					mSearchResponse.clearCache();
+					searchResponse.clearCache();
 				}
 				ImageCache.recycleCache(true);
-				broadcastSearchCompleted(mSearchResponse);
+				broadcastSearchCompleted(searchResponse);
 
 				hideLoading();
 				setFilterInfoText();
@@ -388,8 +391,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 				enablePanelHandle();
 			}
-			else if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0
-					&& mSearchResponse.getLocations() != null && mSearchResponse.getLocations().size() > 0) {
+			else if (searchResponse != null && searchResponse.getPropertiesCount() > 0
+					&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {
 				showDialog(DIALOG_LOCATION_SUGGESTIONS);
 			}
 			else {
@@ -447,8 +450,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		@Override
 		public void onSearchParamsChanged(SearchParams searchParams) {
-			mSearchParams = searchParams;
-			mSearchParams.ensureValidCheckInDate();
+			Db.setSearchParams(searchParams);
+			searchParams.ensureValidCheckInDate();
 			mStartSearchOnResume = true;
 		}
 	};
@@ -523,17 +526,16 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		boolean toBroadcastSearchCompleted = false;
+		SearchResponse searchResponse = Db.getSearchResponse();
 		if (state != null && !localeChanged) {
 			extractActivityState(state);
 
-			if (mSearchResponse != null) {
-				if (mSearchResponse.hasErrors()) {
+			if (searchResponse != null) {
+				if (searchResponse.hasErrors()) {
 					handleError();
 				}
 				else {
-					if (mFilter != null) {
-						mSearchResponse.setFilter(mFilter);
-					}
+					searchResponse.setFilter(Db.getFilter());
 					toBroadcastSearchCompleted = true;
 				}
 			}
@@ -544,7 +546,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 		else {
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-			mSearchParams = new SearchParams(prefs);
+			Db.setSearchParams(new SearchParams(prefs));
 			String filterJson = prefs.getString("filter", null);
 			mTag = prefs.getString("tag", mTag);
 			mShowDistance = prefs.getBoolean("showDistance", true);
@@ -552,14 +554,14 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			if (filterJson != null) {
 				try {
 					JSONObject obj = new JSONObject(filterJson);
-					mFilter = new Filter(obj);
+					Db.setFilter(new Filter(obj));
 				}
 				catch (JSONException e) {
 					Log.e("Failed to load saved filter.");
 				}
 			}
 			else {
-				mFilter = new Filter();
+				Db.resetFilter();
 			}
 
 			boolean versionGood = false;
@@ -578,12 +580,13 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			}
 		}
 
+		SearchParams searchParams = Db.getSearchParams();
 		mAdultsNumberPicker.setTextEnabled(false);
 		mChildrenNumberPicker.setTextEnabled(false);
 		mAdultsNumberPicker.setRange(1, GuestsPickerUtils.getMaxPerType());
 		mChildrenNumberPicker.setRange(0, GuestsPickerUtils.getMaxPerType());
-		mAdultsNumberPicker.setCurrent(mSearchParams.getNumAdults());
-		mChildrenNumberPicker.setCurrent(mSearchParams.getNumChildren());
+		mAdultsNumberPicker.setCurrent(searchParams.getNumAdults());
+		mChildrenNumberPicker.setCurrent(searchParams.getNumChildren());
 
 		setActivityByTag(mTag);
 		setShowDistance(mShowDistance);
@@ -592,7 +595,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		// 9028:t only broadcast search completed once all 
 		// elements have been setup
 		if (toBroadcastSearchCompleted) {
-			broadcastSearchCompleted(mSearchResponse);
+			broadcastSearchCompleted(searchResponse);
 		}
 
 		if (localeChanged) {
@@ -671,7 +674,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		else if (mLastSearchTime != -1
 				&& mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
 			Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
-			mSearchParams.ensureValidCheckInDate();
+			Db.getSearchParams().ensureValidCheckInDate();
 			startSearch();
 		}
 		else {
@@ -729,6 +732,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
 
+			SearchResponse searchResponse = Db.getSearchResponse();
+
 			// Cancel any currently downloading searches
 			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
 			if (downloader.isDownloading(KEY_SEARCH)) {
@@ -744,11 +749,11 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			// 1. We weren't currently searching
 			// 2. The search response exists and has no errors.
 			// 3. We don't already have a saved search response (means nothing changed)
-			else if (mSearchResponse != null && !mSearchResponse.hasErrors() && !savedSearchResults.exists()) {
+			else if (searchResponse != null && !searchResponse.hasErrors() && !savedSearchResults.exists()) {
 				try {
 					long start = System.currentTimeMillis();
 					IoUtils.writeStringToFile(SEARCH_RESULTS_VERSION_FILE, "" + AndroidUtils.getAppCode(mContext), this);
-					IoUtils.writeStringToFile(SEARCH_RESULTS_FILE, mSearchResponse.toJson().toString(0), this);
+					IoUtils.writeStringToFile(SEARCH_RESULTS_FILE, searchResponse.toJson().toString(0), this);
 					Log.i("Saved current search results, time taken: " + (System.currentTimeMillis() - start) + " ms");
 				}
 				catch (IOException e) {
@@ -803,7 +808,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				public void onClick(DialogInterface dialog, int which) {
 					Address address = mAddresses.get(which);
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
-					mSearchParams.setFreeformLocation(formattedAddress);
+					Db.getSearchParams().setFreeformLocation(formattedAddress);
 					setSearchEditViews();
 
 					setSearchParams(address.getLatitude(), address.getLongitude());
@@ -815,20 +820,22 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			builder.setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
-					simulateErrorResponse(getString(R.string.NoGeocodingResults, mSearchParams.getFreeformLocation()));
+					simulateErrorResponse(getString(R.string.NoGeocodingResults, Db.getSearchParams()
+							.getFreeformLocation()));
 				}
 			});
 			builder.setOnCancelListener(new OnCancelListener() {
 				public void onCancel(DialogInterface dialog) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
-					simulateErrorResponse(getString(R.string.NoGeocodingResults, mSearchParams.getFreeformLocation()));
+					simulateErrorResponse(getString(R.string.NoGeocodingResults, Db.getSearchParams()
+							.getFreeformLocation()));
 				}
 			});
 			return builder.create();
 		}
 		case DIALOG_CLIENT_DEPRECATED: {
 			AlertDialog.Builder builder = new Builder(this);
-			final ServerError error = mSearchResponse.getErrors().get(0);
+			final ServerError error = Db.getSearchResponse().getErrors().get(0);
 			builder.setMessage(error.getExtra("message"));
 			builder.setPositiveButton(R.string.upgrade, new OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
@@ -1022,7 +1029,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	}
 
 	public SearchParams getSearchParams() {
-		return mSearchParams;
+		return Db.getSearchParams();
 	}
 
 	public void setMapViewListener(MapViewListener mapViewListener) {
@@ -1168,7 +1175,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 		}
 
-		LayoutUtils.configureRadiusFilterLabels(this, mRadiusButtonGroup, mFilter);
+		LayoutUtils.configureRadiusFilterLabels(this, mRadiusButtonGroup, Db.getFilter());
 
 		// 8781: Clear focus on hotel name edit text when user clicks "done".  Otherwise, we retain
 		// focus and some keyboards keep up parts of themselves (like the "suggestion" bar)
@@ -1218,31 +1225,26 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private void buildFilter() {
 		Log.d("Building up filter from current view settings...");
 
-		Filter currentFilter = null;
-		if (mFilter == null) {
-			mFilter = new Filter();
-		}
-		else {
-			currentFilter = mFilter.copy();
-		}
+		Filter filter = Db.getFilter();
+		Filter currentFilter = filter.copy();
 
 		// Distance
 		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.radius_small_button: {
-			mFilter.setSearchRadius(SearchRadius.SMALL);
+			filter.setSearchRadius(SearchRadius.SMALL);
 			break;
 		}
 		case R.id.radius_medium_button: {
-			mFilter.setSearchRadius(SearchRadius.MEDIUM);
+			filter.setSearchRadius(SearchRadius.MEDIUM);
 			break;
 		}
 		case R.id.radius_large_button: {
-			mFilter.setSearchRadius(SearchRadius.LARGE);
+			filter.setSearchRadius(SearchRadius.LARGE);
 			break;
 		}
 		default:
 		case R.id.radius_all_button: {
-			mFilter.setSearchRadius(SearchRadius.ALL);
+			filter.setSearchRadius(SearchRadius.ALL);
 			break;
 		}
 		}
@@ -1250,20 +1252,20 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		// Rating
 		switch (mRatingButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.rating_low_button: {
-			mFilter.setMinimumStarRating(3);
+			filter.setMinimumStarRating(3);
 			break;
 		}
 		case R.id.rating_medium_button: {
-			mFilter.setMinimumStarRating(4);
+			filter.setMinimumStarRating(4);
 			break;
 		}
 		case R.id.rating_high_button: {
-			mFilter.setMinimumStarRating(5);
+			filter.setMinimumStarRating(5);
 			break;
 		}
 		default:
 		case R.id.rating_all_button: {
-			mFilter.setMinimumStarRating(0);
+			filter.setMinimumStarRating(0);
 			break;
 		}
 		}
@@ -1271,20 +1273,20 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		// Price
 		switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.price_cheap_button: {
-			mFilter.setPriceRange(PriceRange.CHEAP);
+			filter.setPriceRange(PriceRange.CHEAP);
 			break;
 		}
 		case R.id.price_moderate_button: {
-			mFilter.setPriceRange(PriceRange.MODERATE);
+			filter.setPriceRange(PriceRange.MODERATE);
 			break;
 		}
 		case R.id.price_expensive_button: {
-			mFilter.setPriceRange(PriceRange.EXPENSIVE);
+			filter.setPriceRange(PriceRange.EXPENSIVE);
 			break;
 		}
 		default:
 		case R.id.price_all_button: {
-			mFilter.setPriceRange(PriceRange.ALL);
+			filter.setPriceRange(PriceRange.ALL);
 			break;
 		}
 		}
@@ -1292,19 +1294,19 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		// Sort
 		switch (mSortOptionSelectedId) {
 		case R.id.sort_popular_button: {
-			mFilter.setSort(Sort.POPULAR);
+			filter.setSort(Sort.POPULAR);
 			break;
 		}
 		case R.id.sort_price_button: {
-			mFilter.setSort(Sort.PRICE);
+			filter.setSort(Sort.PRICE);
 			break;
 		}
 		case R.id.sort_reviews_button: {
-			mFilter.setSort(Sort.RATING);
+			filter.setSort(Sort.RATING);
 			break;
 		}
 		case R.id.sort_distance_button: {
-			mFilter.setSort(Sort.DISTANCE);
+			filter.setSort(Sort.DISTANCE);
 			break;
 		}
 		}
@@ -1314,9 +1316,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		 * completely setup or paused. This is because we don't want the filter changes to propogate
 		 * when the radio buttons are being setup as it causes wasted cycles notifying all listeners
 		 */
-		if (currentFilter == null || !mFilter.equals(currentFilter) && mIsActivityResumed) {
+		if (currentFilter == null || !filter.equals(currentFilter) && mIsActivityResumed) {
 			Log.d("Filter has changed, notifying listeners.");
-			mFilter.notifyFilterChanged();
+			filter.notifyFilterChanged();
 		}
 
 		setFilterInfoText();
@@ -1325,9 +1327,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private void saveParams() {
 		Log.d("Saving search parameters, filter and tag...");
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		mSearchParams.saveToSharedPreferences(prefs);
+		Db.getSearchParams().saveToSharedPreferences(prefs);
 		Editor editor = prefs.edit();
-		editor.putString("filter", mFilter.toJson().toString());
+		editor.putString("filter", Db.getFilter().toJson().toString());
 		editor.putString("tag", mTag);
 		editor.putBoolean("showDistance", mShowDistance);
 		SettingUtils.commitOrApply(editor);
@@ -1336,25 +1338,20 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private void resetFilter() {
 		Log.d("Resetting filter...");
 
-		mFilter = new Filter();
-		mFilter.setSearchRadius(Filter.SearchRadius.LARGE);
+		Db.resetFilter();
 
 		setDrawerViews();
 	}
 
 	private void setSearchParams(Double latitde, Double longitude) {
-		if (mSearchParams == null) {
-			mSearchParams = new SearchParams();
-		}
-
-		mSearchParams.setSearchLatLon(latitde, longitude);
+		Db.getSearchParams().setSearchLatLon(latitde, longitude);
 	}
 
 	private void startSearch() {
 		Log.i("Starting a new search...");
 
 		mOriginalSearchParams = null;
-		mSearchResponse = null;
+		Db.setSearchResponse(null);
 
 		broadcastSearchStarted();
 
@@ -1376,7 +1373,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		hideBottomBar();
 		saveParams();
 
-		switch (mSearchParams.getSearchType()) {
+		switch (Db.getSearchParams().getSearchType()) {
 		case FREEFORM: {
 			stopLocationListener();
 			startGeocode();
@@ -1409,13 +1406,15 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private void startGeocode() {
 		showLoading(true, R.string.progress_searching_hotels);
 
-		if (mSearchParams.hasEnoughToSearch()) {
+		SearchParams searchParams = Db.getSearchParams();
+
+		if (searchParams.hasEnoughToSearch()) {
 			Log.d("User already has region id or lat/lng for freeform location, skipping geocoding.");
 
-			if (mSearchParams.hasSearchLatLon()) {
+			if (searchParams.hasSearchLatLon()) {
 				setShowDistance(true);
-				showExactLocation(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude(),
-						mSearchParams.getFreeformLocation());
+				showExactLocation(searchParams.getSearchLatitude(), searchParams.getSearchLongitude(),
+						searchParams.getFreeformLocation());
 			}
 			else {
 				setShowDistance(false);
@@ -1426,9 +1425,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			return;
 		}
 
-		Log.d("Geocoding: " + mSearchParams.getFreeformLocation());
+		Log.d("Geocoding: " + searchParams.getFreeformLocation());
 
-		mSearchParams.setUserFreeformLocation(mSearchParams.getFreeformLocation());
+		searchParams.setUserFreeformLocation(searchParams.getFreeformLocation());
 
 		if (!NetUtils.isOnline(this)) {
 			simulateErrorResponse(R.string.error_no_internet);
@@ -1442,7 +1441,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 	private Download mGeocodeDownload = new Download() {
 		public Object doDownload() {
-			return LocationServices.geocode(mContext, mSearchParams.getFreeformLocation());
+			return LocationServices.geocode(mContext, Db.getSearchParams().getFreeformLocation());
 		}
 	};
 
@@ -1460,7 +1459,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				Address address = mAddresses.get(0);
 				String formattedAddress = StrUtils.removeUSAFromAddress(address);
 
-				mSearchParams.setFreeformLocation(formattedAddress);
+				Db.getSearchParams().setFreeformLocation(formattedAddress);
 				setSearchEditViews();
 				setSearchParams(address.getLatitude(), address.getLongitude());
 				determineWhetherExactLocationSpecified(address);
@@ -1488,8 +1487,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			return;
 		}
 
-		if (mSearchParams.getSearchType() == SearchType.FREEFORM) {
-			Search.add(this, mSearchParams);
+		if (Db.getSearchParams().getSearchType() == SearchType.FREEFORM) {
+			Search.add(this, Db.getSearchParams());
 			mSearchSuggestionAdapter.refreshData();
 		}
 
@@ -1507,11 +1506,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private ActivityState buildActivityState() {
 		ActivityState state = new ActivityState();
 		state.tag = mTag;
-		state.searchParams = mSearchParams;
 		state.oldSearchParams = mOldSearchParams;
 		state.originalSearchParams = mOriginalSearchParams;
-		state.searchResponse = mSearchResponse;
-		state.filter = mFilter;
 		state.oldFilter = mOldFilter;
 		state.showDistance = mShowDistance;
 		state.startSearchOnResume = mStartSearchOnResume;
@@ -1531,26 +1527,13 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			state.displayType = mDisplayType;
 		}
 
-		if (state.searchResponse != null) {
-			if (state.searchResponse.getFilter() != null) {
-				state.searchResponse.getFilter().clearOnFilterChangedListeners();
-			}
-		}
-
-		if (state.filter != null) {
-			state.filter.clearOnFilterChangedListeners();
-		}
-
 		return state;
 	}
 
 	private void extractActivityState(ActivityState state) {
 		mTag = state.tag;
-		mSearchParams = state.searchParams;
 		mOldSearchParams = state.oldSearchParams;
 		mOriginalSearchParams = state.originalSearchParams;
-		mSearchResponse = state.searchResponse;
-		mFilter = state.filter;
 		mOldFilter = state.oldFilter;
 		mShowDistance = state.showDistance;
 		mDisplayType = state.displayType;
@@ -1568,7 +1551,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	//----------------------------------
 
 	private void broadcastSearchCompleted(SearchResponse searchResponse) {
-		mSearchResponse = searchResponse;
+		Db.setSearchResponse(searchResponse);
 		if (mSearchListeners != null) {
 			for (SearchListener searchListener : mSearchListeners) {
 				searchListener.onSearchCompleted(searchResponse);
@@ -1719,8 +1702,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	public void handleError() {
 		// Handling for particular errors
 		boolean handledError = false;
-		if (mSearchResponse != null && mSearchResponse.hasErrors()) {
-			ServerError errorOne = mSearchResponse.getErrors().get(0);
+		SearchResponse searchResponse = Db.getSearchResponse();
+		if (searchResponse != null && searchResponse.hasErrors()) {
+			ServerError errorOne = searchResponse.getErrors().get(0);
 			if (errorOne.getCode().equals("01")) {
 				// Deprecated client version
 				showDialog(DIALOG_CLIENT_DEPRECATED);
@@ -1936,7 +1920,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 				animationIn = new Rotate3dAnimation(-90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
 			}
 
-			Tracker.trackAppHotelsSearch(this, mSearchParams, mSearchResponse, null);
+			Tracker.trackAppHotelsSearch(this, Db.getSearchParams(), Db.getSearchResponse(), null);
 		}
 
 		if (animationOut != null && animationIn != null) {
@@ -2258,14 +2242,14 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 	private void restoreSearchParams() {
 		if (mOriginalSearchParams != null) {
-			mSearchParams = mOriginalSearchParams.copy();
+			Db.setSearchParams(mOriginalSearchParams.copy());
 			mOriginalSearchParams = null;
 		}
 	}
 
 	private void storeSearchParams() {
 		if (mOriginalSearchParams == null) {
-			mOriginalSearchParams = mSearchParams.copy();
+			mOriginalSearchParams = Db.getSearchParams().copy();
 		}
 	}
 
@@ -2277,7 +2261,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private static final String FORMAT_HEADER_WITH_YEAR = "MMM d, yyyy";
 
 	public CharSequence getBookingInfoHeaderText() {
-		SearchParams currentParams = (mOriginalSearchParams != null) ? mOriginalSearchParams : mSearchParams;
+		SearchParams currentParams = (mOriginalSearchParams != null) ? mOriginalSearchParams : Db.getSearchParams();
 		String location = currentParams.getSearchDisplayText(this);
 
 		Calendar checkIn = currentParams.getCheckInDate();
@@ -2308,20 +2292,17 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 	private void setActionBarBookingInfoText() {
 		int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
-		int numAdults = mSearchParams.getNumAdults();
-		int numChildren = mSearchParams.getNumChildren();
+		int numAdults = Db.getSearchParams().getNumAdults();
+		int numChildren = Db.getSearchParams().getNumChildren();
 
 		mDatesTextView.setText(String.valueOf(startDay));
 		mGuestsTextView.setText(String.valueOf((numAdults + numChildren)));
 	}
 
 	private void setDrawerViews() {
-		if (mFilter == null) {
-			Log.t("Filter is null");
-			return;
-		}
+		Filter filter = Db.getFilter();
 
-		Log.d("setDrawerViews().  Current filter: " + mFilter.toJson().toString());
+		Log.d("setDrawerViews().  Current filter: " + filter.toJson().toString());
 
 		// Temporarily remove Listeners before we start fiddling around with the filter fields
 		mFilterHotelNameEditText.removeTextChangedListener(mFilterHotelNameTextWatcher);
@@ -2329,10 +2310,10 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		mPriceButtonGroup.setOnCheckedChangeListener(null);
 
 		// Configure the hotel name filter
-		mFilterHotelNameEditText.setText(mFilter.getHotelName());
+		mFilterHotelNameEditText.setText(filter.getHotelName());
 
 		// Configure the sort buttons
-		switch (mFilter.getSort()) {
+		switch (filter.getSort()) {
 		case POPULAR:
 			mSortOptionSelectedId = R.id.sort_popular_button;
 			setupSortOptions();
@@ -2354,7 +2335,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 
 		// Configure the rating buttons
-		double minStarRating = mFilter.getMinimumStarRating();
+		double minStarRating = filter.getMinimumStarRating();
 		if (minStarRating >= 5) {
 			mRatingButtonGroup.check(R.id.rating_high_button);
 		}
@@ -2369,7 +2350,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 
 		// Configure the search radius buttons
-		switch (mFilter.getSearchRadius()) {
+		switch (filter.getSearchRadius()) {
 		case SMALL:
 			mRadiusButtonGroup.check(R.id.radius_small_button);
 			break;
@@ -2387,7 +2368,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 
 		// Configure the price buttons
-		switch (mFilter.getPriceRange()) {
+		switch (filter.getPriceRange()) {
 		case CHEAP:
 			mPriceButtonGroup.check(R.id.price_cheap_button);
 			break;
@@ -2417,8 +2398,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	}
 
 	private void setFilterInfoText() {
-		if (mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0 && !mSearchResponse.hasErrors()) {
-			final int count = mSearchResponse.getFilteredAndSortedProperties().length;
+		SearchResponse searchResponse = Db.getSearchResponse();
+		if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
+			final int count = searchResponse.getFilteredAndSortedProperties().length;
 			final String text = getResources().getQuantityString(R.plurals.number_of_matching_hotels, count, count);
 
 			mFilterInfoTextView.setText(Html.fromHtml(text));
@@ -2457,15 +2439,16 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			mRefinementInfoTextView.setText(CalendarUtils.getCalendarDatePickerTitle(this, mDatesCalendarDatePicker));
 		}
 		else if (mDisplayType == DisplayType.GUEST_PICKER) {
-			final int numAdults = mSearchParams.getNumAdults();
-			final int numChildren = mSearchParams.getNumChildren();
+			SearchParams searchParams = Db.getSearchParams();
+			final int numAdults = searchParams.getNumAdults();
+			final int numChildren = searchParams.getNumChildren();
 			mRefinementInfoTextView.setText(StrUtils.formatGuests(this, numAdults, numChildren));
 
 			mChildAgesLayout.setVisibility(numChildren == 0 ? View.GONE : View.VISIBLE);
 			mSelectChildAgeTextView.setText(getResources().getQuantityString(R.plurals.select_each_childs_age,
 					numChildren));
 
-			GuestsPickerUtils.showOrHideChildAgeSpinners(PhoneSearchActivity.this, mSearchParams.getChildren(),
+			GuestsPickerUtils.showOrHideChildAgeSpinners(PhoneSearchActivity.this, searchParams.getChildren(),
 					mChildAgesLayout, mChildAgeSelectedListener);
 		}
 		else {
@@ -2474,11 +2457,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	}
 
 	private void setSearchEditViews() {
-		if (mSearchParams == null) {
-			mSearchParams = new SearchParams();
-		}
-
-		switch (mSearchParams.getSearchType()) {
+		SearchParams searchParams = Db.getSearchParams();
+		switch (searchParams.getSearchType()) {
 		case FREEFORM: {
 			mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
 			break;
@@ -2495,7 +2475,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		}
 		}
 
-		mSearchEditText.setText(mSearchParams.getSearchDisplayText(this));
+		mSearchEditText.setText(searchParams.getSearchDisplayText(this));
 		if (mSearchTextSelectionStart != -1 && mSearchTextSelectionEnd != -1) {
 			mSearchEditText.setSelection(mSearchTextSelectionStart, mSearchTextSelectionEnd);
 		}
@@ -2504,11 +2484,11 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		// while we manually update the start/end dates
 		mDatesCalendarDatePicker.setOnDateChangedListener(null);
 
-		Calendar checkIn = mSearchParams.getCheckInDate();
+		Calendar checkIn = searchParams.getCheckInDate();
 		mDatesCalendarDatePicker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
 				checkIn.get(Calendar.DAY_OF_MONTH));
 
-		Calendar checkOut = mSearchParams.getCheckOutDate();
+		Calendar checkOut = searchParams.getCheckOutDate();
 		mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
 				checkOut.get(Calendar.DAY_OF_MONTH));
 
@@ -2521,8 +2501,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		mGuestsLayout.post(new Runnable() {
 			@Override
 			public void run() {
-				int numAdults = mSearchParams.getNumAdults();
-				int numChildren = mSearchParams.getNumChildren();
+				SearchParams searchParams = Db.getSearchParams();
+				int numAdults = searchParams.getNumAdults();
+				int numChildren = searchParams.getNumChildren();
 				mAdultsNumberPicker.setRange(numAdults, numAdults);
 				mChildrenNumberPicker.setRange(numChildren, numChildren);
 				GuestsPickerUtils.configureAndUpdateDisplayedValues(PhoneSearchActivity.this, mAdultsNumberPicker,
@@ -2591,7 +2572,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	}
 
 	private void setSortTypeText() {
-		mSortTypeTextView.setText(mFilter.getSort().getDescriptionResId());
+		mSortTypeTextView.setText(Db.getFilter().getSort().getDescriptionResId());
 	}
 
 	private void setViewButtonImage() {
@@ -2675,18 +2656,19 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			String str = s.toString();
 			int len = s.length();
+			SearchParams searchParams = Db.getSearchParams();
 			if (str.equals(getString(R.string.current_location)) || len == 0) {
-				mSearchParams.setSearchType(SearchType.MY_LOCATION);
-				mSearchParams.setFreeformLocation(getString(R.string.current_location));
-				mSearchParams.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
+				searchParams.setSearchType(SearchType.MY_LOCATION);
+				searchParams.setFreeformLocation(getString(R.string.current_location));
+				searchParams.setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
 			}
 			else if (str.equals(getString(R.string.visible_map_area))) {
-				mSearchParams.setSearchType(SearchType.PROXIMITY);
-				mSearchParams.setSearchLatLon(mSearchParams.getSearchLatitude(), mSearchParams.getSearchLongitude());
+				searchParams.setSearchType(SearchType.PROXIMITY);
+				searchParams.setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
 			}
 			else {
-				mSearchParams.setSearchType(SearchType.FREEFORM);
-				boolean changed = mSearchParams.setFreeformLocation(str);
+				searchParams.setSearchType(SearchType.FREEFORM);
+				boolean changed = searchParams.setFreeformLocation(str);
 				if (changed) {
 					BackgroundDownloader bd = BackgroundDownloader.getInstance();
 					bd.cancelDownload(KEY_SUGGEST);
@@ -2707,8 +2689,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			mFilter.setHotelName(s.toString());
-			mFilter.notifyFilterChanged();
+			Filter filter = Db.getFilter();
+			filter.setHotelName(s.toString());
+			filter.notifyFilterChanged();
 			setFilterInfoText();
 		}
 	};
@@ -2721,13 +2704,14 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		@Override
 		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 			if (position == 0) {
-				mSearchParams.setSearchType(SearchType.MY_LOCATION);
+				Db.getSearchParams().setSearchType(SearchType.MY_LOCATION);
 			}
 			else {
 				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(PhoneSearchActivity.this);
-				mSearchParams = new SearchParams(prefs);
+				SearchParams searchParams = new SearchParams(prefs);
+				Db.setSearchParams(searchParams);
 				Search search = (Search) mSearchSuggestionAdapter.getItem(position);
-				mSearchParams.fillFromSearch(search);
+				searchParams.fillFromSearch(search);
 			}
 
 			setDisplayType(DisplayType.CALENDAR);
@@ -2764,8 +2748,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		startCalendar.set(Calendar.MILLISECOND, 0);
 		endCalendar.set(Calendar.MILLISECOND, 0);
 
-		mSearchParams.setCheckInDate(startCalendar);
-		mSearchParams.setCheckOutDate(endCalendar);
+		SearchParams searchParams = Db.getSearchParams();
+		searchParams.setCheckInDate(startCalendar);
+		searchParams.setCheckOutDate(endCalendar);
 	}
 
 	private final NumberPicker.OnChangedListener mNumberPickerChangedListener = new NumberPicker.OnChangedListener() {
@@ -2773,8 +2758,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		public void onChanged(NumberPicker picker, int oldVal, int newVal) {
 			int numAdults = mAdultsNumberPicker.getCurrent();
 			int numChildren = mChildrenNumberPicker.getCurrent();
-			mSearchParams.setNumAdults(numAdults);
-			GuestsPickerUtils.resizeChildrenList(PhoneSearchActivity.this, mSearchParams.getChildren(), numChildren);
+			SearchParams searchParams = Db.getSearchParams();
+			searchParams.setNumAdults(numAdults);
+			GuestsPickerUtils.resizeChildrenList(PhoneSearchActivity.this, searchParams.getChildren(), numChildren);
 			GuestsPickerUtils.configureAndUpdateDisplayedValues(mContext, mAdultsNumberPicker, mChildrenNumberPicker);
 			displayRefinementInfo();
 			setActionBarBookingInfoText();
@@ -2784,9 +2770,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			GuestsPickerUtils.setChildrenFromSpinners(PhoneSearchActivity.this, mChildAgesLayout,
-					mSearchParams.getChildren());
-			GuestsPickerUtils.updateDefaultChildAges(PhoneSearchActivity.this, mSearchParams.getChildren());
+			List<Integer> children = Db.getSearchParams().getChildren();
+			GuestsPickerUtils.setChildrenFromSpinners(PhoneSearchActivity.this, mChildAgesLayout, children);
+			GuestsPickerUtils.updateDefaultChildAges(PhoneSearchActivity.this, children);
 		}
 
 		public void onNothingSelected(AdapterView<?> parent) {
@@ -2911,11 +2897,12 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private final View.OnClickListener mMapSearchButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			mSearchParams.invalidateFreeformLocation();
+			SearchParams searchParams = Db.getSearchParams();
+			searchParams.invalidateFreeformLocation();
 
 			if (mMapViewListener != null) {
 				GeoPoint center = mMapViewListener.onRequestMapCenter();
-				mSearchParams.setSearchType(SearchType.PROXIMITY);
+				searchParams.setSearchType(SearchType.PROXIMITY);
 
 				double lat = MapUtils.getLatitude(center);
 				double lng = MapUtils.getLongitude(center);
@@ -2976,7 +2963,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			if (hasFocus) {
 				setDisplayType(DisplayType.KEYBOARD);
 
-				if (mSearchParams.getSearchType() != SearchType.FREEFORM) {
+				if (Db.getSearchParams().getSearchType() != SearchType.FREEFORM) {
 					mSearchEditText.post(new Runnable() {
 						@Override
 						public void run() {
@@ -3046,7 +3033,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		public String tag;
 		public boolean showDistance;
 		public Map<PriceRange, PriceTier> priceTierCache;
-		public SearchParams searchParams;
 		public SearchParams oldSearchParams;
 		public SearchParams originalSearchParams;
 		public boolean startSearchOnResume;
@@ -3061,8 +3047,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		public int searchTextSelectionEnd;
 
 		// Questionable
-		public SearchResponse searchResponse;
-		public Filter filter;
 		public Filter oldFilter;
 	}
 
@@ -3084,19 +3068,23 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private void onSearchResultsChanged() {
+		SearchParams searchParams = Db.getSearchParams();
+		Filter filter = Db.getFilter();
+		SearchResponse searchResponse = Db.getSearchResponse();
+		
 		// If we already have results, check for refinements; if there were none, it's possible
 		// that the user just opened/closed a search param change without changing anything.
 		// 
 		// This is a somewhat lazy way of doing things, but it is easiest and catches a bunch
 		// of refinements at once instead of flooding the system with a ton of different refinements
-		String refinements = TrackingUtils.getRefinements(mSearchParams, mOldSearchParams, mFilter, mOldFilter);
+		String refinements = TrackingUtils.getRefinements(searchParams, mOldSearchParams, filter, mOldFilter);
 
 		// Update the last filter/search params we used to track refinements 
-		mOldSearchParams = mSearchParams.copy();
-		mOldFilter = mFilter.copy();
+		mOldSearchParams = searchParams.copy();
+		mOldFilter = filter.copy();
 
 		// Start actually tracking the search result change
-		Tracker.trackAppHotelsSearch(this, mSearchParams, mSearchResponse, refinements);
+		Tracker.trackAppHotelsSearch(this, searchParams, searchResponse, refinements);
 	}
 
 	private void onOpenFilterPanel() {
