@@ -1384,8 +1384,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	}
 
 	@Override
-	public void onBalloonClicked() {
-		moreDetailsForPropertySelected(SOURCE_MAP);
+	public void onBalloonClicked(Property property) {
+		propertySelected(property, SOURCE_MAP);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

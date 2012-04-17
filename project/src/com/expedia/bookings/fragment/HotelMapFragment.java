@@ -104,7 +104,7 @@ public class HotelMapFragment extends Fragment {
 
 			@Override
 			public void onBalloonClicked(int index) {
-				mListener.onBalloonClicked();
+				mListener.onBalloonClicked(mHotelOverlay.getProperty(index));
 			}
 
 			@Override
@@ -244,6 +244,6 @@ public class HotelMapFragment extends Fragment {
 	public interface HotelMapFragmentListener {
 		public void onBalloonShown(Property property);
 
-		public void onBalloonClicked();
+		public void onBalloonClicked(Property property);
 	}
 }
