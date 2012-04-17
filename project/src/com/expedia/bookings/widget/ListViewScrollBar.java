@@ -115,7 +115,7 @@ public class ListViewScrollBar extends View implements OnScrollListener, OnTouch
 	@Override
 	protected void onDraw(Canvas canvas) {
 		// Check if we need to show
-		if (mTotalItemCount < 1 || mSearchResponse == null) {
+		if (mTotalItemCount < 1 || mSearchResponse == null || mListView.getChildCount() == 0) {
 			return;
 		}
 
