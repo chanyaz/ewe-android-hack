@@ -181,6 +181,10 @@ public class HotelMapFragment extends Fragment {
 		updateView();
 	}
 
+	public GeoPoint getCenter() {
+		return mMapView.getMapCenter();
+	}
+
 	private void updateView() {
 		// only update the view if the map view exists
 		// and if there are overlay items to show on the map

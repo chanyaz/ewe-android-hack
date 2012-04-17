@@ -145,16 +145,6 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 	}
 
 	@Override
-	public void onSearchProgress(int strId) {
-		// Do nothing.  PhoneSearchActivity should handle the display of search progress.
-	}
-
-	@Override
-	public void onSearchFailed(String message) {
-		// Do nothing.  PhoneSearchActivity should handle the display of search progress.
-	}
-
-	@Override
 	public void onSearchCompleted(SearchResponse response) {
 		if (response == null) {
 			// We assume that the parent handles errors, but just in case, don't crash if this happens
@@ -181,11 +171,6 @@ public class SearchListActivity extends ListActivity implements SearchListener, 
 		if (mAdapter != null) {
 			mAdapter.setShowDistance(showDistance);
 		}
-	}
-
-	@Override
-	public boolean hasSearchResults() {
-		return mAdapter != null && !mAdapter.isEmpty();
 	}
 
 	@Override

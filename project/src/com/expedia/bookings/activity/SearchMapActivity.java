@@ -1,71 +1,30 @@
 package com.expedia.bookings.activity;
 
-import java.util.List;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.ViewGroup;
+import android.support.v4.app.FragmentMapActivity;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.PhoneSearchActivity.ExactSearchLocationSearchedListener;
 import com.expedia.bookings.activity.PhoneSearchActivity.MapViewListener;
 import com.expedia.bookings.activity.PhoneSearchActivity.SetShowDistanceListener;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
-import com.expedia.bookings.widget.HotelItemizedOverlay;
-import com.expedia.bookings.widget.SimpleBalloonAdapter;
+import com.expedia.bookings.fragment.HotelMapFragment;
+import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
+import com.expedia.bookings.utils.Ui;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-import com.mobiata.android.Log;
-import com.mobiata.android.MapUtils;
-import com.mobiata.android.util.SettingUtils;
-import com.mobiata.android.widget.BalloonItemizedOverlay.SimpleBalloonListener;
-import com.mobiata.android.widget.DoubleTapToZoomListenerOverlay;
-import com.mobiata.android.widget.ExactLocationItemizedOverlay;
-import com.mobiata.android.widget.StandardBalloonAdapter;
 
-public class SearchMapActivity extends MapActivity implements SearchListener, OnFilterChangedListener, MapViewListener,
-		SetShowDistanceListener, ExactSearchLocationSearchedListener {
-	//////////////////////////////////////////////////////////////////////////////////
-	// Constants
+public class SearchMapActivity extends FragmentMapActivity implements SearchListener, OnFilterChangedListener,
+		MapViewListener, SetShowDistanceListener, ExactSearchLocationSearchedListener, HotelMapFragmentListener {
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 
-	private MapView mMapView;
-	private SearchResponse mSearchResponse;
-	private HotelItemizedOverlay mHotelItemizedOverlay;
-	private ExactLocationItemizedOverlay mExactLocationItemizedOverlay;
-	private DoubleTapToZoomListenerOverlay mDoubleTapToZoomListenerOverlay;
-
-	private boolean mShowDistance = true;
-	private double mExactLocationLatitude;
-	private double mExactLocationLongitude;
-	private String mExactLocationAddress;
-
-	// save instance variables
-	private static final String CURRENT_CENTER_LAT = "CURRENT_CENTER_LAT";
-	private static final String CURRENT_CENTER_LON = "CURRENT_CENTER_LON";
-	private static final String CURRENT_ZOOM_LEVEL = "CURRENT_ZOOM_LEVEL";
-	private static final String CURRENT_TAPPED_ITEM_PROPERTY_ID = "CURRENT_TAPPED_ITEM_PROPERTY_ID";
-
-	private static final String IS_EXACT_SEARCH_LOCATION_TAPPED = "IS_EXACT_LOCATION_TAPPED";
-	private static final String EXACT_SEARCH_LOCATION_LAT = "EXACT_LOCATION_LAT";
-	private static final String EXACT_SEARCH_LOCATION_LON = "EXACT_LOCATION_LON";
-	private static final String EXACT_SEARCH_LOCATION_ADDRESS = "EXACT_LOCATION_ADDRESS";
-
-	// saved information for map
-	private GeoPoint mSavedCenter;
-	private int mSavedZoomLevel;
-	private String mTappedPropertyId;
-	private boolean mIsExactLocationTapped;
+	private HotelMapFragment mHotelMapFragment;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Overrides
@@ -73,92 +32,15 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_search_map);
 
-		// Create the map and add it to the layout
-		mMapView = MapUtils.createMapView(this);
-		ViewGroup mapContainer = (ViewGroup) findViewById(R.id.map_layout);
-		mapContainer.addView(mMapView);
-
-		// Configure the map
-		mMapView.setBuiltInZoomControls(true);
-		mMapView.setSatellite(false);
-		mMapView.setClickable(true);
+		mHotelMapFragment = Ui.findOrAddSupportFragment(this,
+				HotelMapFragment.class, getString(R.string.tag_hotel_map));
 
 		final PhoneSearchActivity parent = (PhoneSearchActivity) getParent();
 		parent.addSearchListener(this);
 		parent.setMapViewListener(this);
 		parent.addSetShowDistanceListener(this);
 		parent.addExactLocationSearchedListener(this);
-
-		restoreMapState(savedInstanceState);
-
-		restoreSavedExactSearchLocation();
-
-		SimpleBalloonListener listener = new SimpleBalloonListener() {
-			public void onBalloonClicked(int index) {
-				final PhoneSearchActivity parent = (PhoneSearchActivity) getParent();
-
-				Intent intent = new Intent(SearchMapActivity.this, HotelActivity.class);
-				intent.putExtra(Codes.PROPERTY, mHotelItemizedOverlay.getProperty(index).toJson().toString());
-				intent.putExtra(Codes.SEARCH_PARAMS, parent.getSearchParams().toString());
-				SearchMapActivity.this.startActivity(intent);
-			}
-		};
-		mHotelItemizedOverlay = new HotelItemizedOverlay(this, null, mMapView);
-		mHotelItemizedOverlay.setBalloonListener(listener);
-		mHotelItemizedOverlay.setShowDistance(mShowDistance);
-		StandardBalloonAdapter adapter = new StandardBalloonAdapter(this);
-		adapter.setThumbnailPlaceholderResource(R.drawable.ic_image_placeholder);
-		adapter.setShowChevron(false);
-		mHotelItemizedOverlay.setBalloonAdapter(adapter);
-
-		mExactLocationItemizedOverlay = new ExactLocationItemizedOverlay(this, mMapView);
-		mExactLocationItemizedOverlay.setBalloonAdapter(new SimpleBalloonAdapter(this));
-		mDoubleTapToZoomListenerOverlay = new DoubleTapToZoomListenerOverlay(this, mMapView);
-	}
-
-	@Override
-	protected void onDestroy() {
-		if (isFinishing() && mExactLocationAddress != null) {
-			persistExactLocationToDisk();
-		}
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		outState.putInt(CURRENT_CENTER_LAT, mMapView.getMapCenter().getLatitudeE6());
-		outState.putInt(CURRENT_CENTER_LON, mMapView.getMapCenter().getLongitudeE6());
-		outState.putInt(CURRENT_ZOOM_LEVEL, mMapView.getZoomLevel());
-
-		if (mExactLocationAddress != null) {
-			outState.putDouble(EXACT_SEARCH_LOCATION_LAT, mExactLocationLatitude);
-			outState.putDouble(EXACT_SEARCH_LOCATION_LON, mExactLocationLongitude);
-			outState.putString(EXACT_SEARCH_LOCATION_ADDRESS, mExactLocationAddress);
-
-		}
-
-		if (mExactLocationItemizedOverlay != null) {
-			outState.putBoolean(IS_EXACT_SEARCH_LOCATION_TAPPED, mExactLocationItemizedOverlay.isExactLocationTapped());
-		}
-
-		String tappedPropertyId = (mHotelItemizedOverlay == null) ? null : mHotelItemizedOverlay.getTappedPropertyId();
-		if (tappedPropertyId != null) {
-			outState.putString(CURRENT_TAPPED_ITEM_PROPERTY_ID, tappedPropertyId);
-		}
-
-		super.onSaveInstanceState(outState);
-	}
-
-	@Override
-	protected boolean isRouteDisplayed() {
-		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -166,143 +48,36 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 	@Override
 	public void onSearchStarted() {
-		clearResults();
-	}
-
-	@Override
-	public void onSearchProgress(int strId) {
-		// Do nothing.  PhoneSearchActivity should handle the display of search progress.
-	}
-
-	@Override
-	public void onSearchFailed(String message) {
-		// Do nothing.  PhoneSearchActivity should handle the display of search progress.
+		mHotelMapFragment.notifySearchStarted();
 	}
 
 	@Override
 	public void onSearchCompleted(SearchResponse response) {
-		if (response == null) {
-			// We assume that the parent handles errors, but just in case, don't crash if this happens
-			return;
-		}
-
-		mSearchResponse = response;
-		mSearchResponse.getFilter().addOnFilterChangedListener(this);
-
-		List<Overlay> overlays = mMapView.getOverlays();
-
-		// Add hotels overlay
-		// clear the map info to determine center based on new search
-		clearSavedMapInfo();
-		mHotelItemizedOverlay.setProperties(mSearchResponse);
-		mHotelItemizedOverlay.setShowDistance(mShowDistance);
-
-		mExactLocationItemizedOverlay.setExactLocation(mExactLocationLatitude, mExactLocationLongitude,
-				mExactLocationAddress);
-		if (mExactLocationAddress != null) {
-			// restore the map to show the balloon for the
-			// user specified location in the search
-			if (mIsExactLocationTapped) {
-				mExactLocationItemizedOverlay.showBalloon(0);
-				mIsExactLocationTapped = false;
-			}
-		}
-
-		if (!overlays.contains(mDoubleTapToZoomListenerOverlay)) {
-			overlays.add(mDoubleTapToZoomListenerOverlay);
-		}
-
-		if (!overlays.contains(mHotelItemizedOverlay)) {
-			overlays.add(mHotelItemizedOverlay);
-		}
-
-		if (!overlays.contains(mExactLocationItemizedOverlay)) {
-			overlays.add(mExactLocationItemizedOverlay);
-		}
-
-		// Set the center point
-		focusOnProperties();
+		mHotelMapFragment.notifySearchComplete();
 	}
 
 	@Override
 	public void onSetShowDistance(boolean showDistance) {
-		mShowDistance = showDistance;
-		if (mHotelItemizedOverlay != null) {
-			mHotelItemizedOverlay.setShowDistance(showDistance);
-		}
-	}
-
-	@Override
-	public boolean hasSearchResults() {
-		return mSearchResponse != null && mSearchResponse.getPropertiesCount() > 0;
+		mHotelMapFragment.setShowDistances(showDistance);
 	}
 
 	@Override
 	public void clearResults() {
-		mSearchResponse = null;
-		mSavedCenter = null;
-		mTappedPropertyId = null;
-		mIsExactLocationTapped = false;
-
-		mMapView.getOverlays().clear();
-
-		if (mExactLocationItemizedOverlay != null) {
-			mExactLocationItemizedOverlay.hideBalloon();
-		}
+		mHotelMapFragment.notifySearchStarted();
 	}
 
 	@Override
 	public void onFilterChanged() {
-		mSavedCenter = mMapView.getMapCenter();
-		mSavedZoomLevel = mMapView.getZoomLevel();
-		mTappedPropertyId = mHotelItemizedOverlay.getTappedPropertyId();
-
-		mHotelItemizedOverlay.setProperties(mSearchResponse);
-		mMapView.invalidate();
-
-		Boolean areHotelsVisible = mHotelItemizedOverlay.areHotelsVisible();
-
-		/*
-		 * Only restore the current map state across a filtering if there
-		 * are hotels in the current visible area of the map
-		 */
-		if (areHotelsVisible != null && !areHotelsVisible.booleanValue()) {
-			clearSavedMapInfo();
-		}
-
-		// Animate to a new center point
-		focusOnProperties();
+		mHotelMapFragment.notifyFilterChanged();
 	}
 
 	@Override
 	public GeoPoint onRequestMapCenter() {
-		if (mMapView != null) {
-			return mMapView.getMapCenter();
-		}
-
-		return null;
+		return mHotelMapFragment.getCenter();
 	}
 
 	public void focusOnProperties() {
-
-		MapController mc = mMapView.getController();
-
-		/*
-		 * restore map state
-		 */
-		if (mSavedCenter != null) {
-			mc.setCenter(mSavedCenter);
-			mc.setZoom(mSavedZoomLevel);
-			if (mTappedPropertyId != null) {
-				mHotelItemizedOverlay.showBalloon(mTappedPropertyId);
-			}
-		}
-		else {
-			mc.animateTo(mHotelItemizedOverlay.getCenter());
-			mc.zoomToSpan(mHotelItemizedOverlay.getLatSpanE6(), mHotelItemizedOverlay.getLonSpanE6());
-			mSavedCenter = mHotelItemizedOverlay.getCenter();
-			mSavedZoomLevel = mMapView.getZoomLevel();
-		}
+		// DO NOTHING - POSSIBLY SHOW ALL RESULTS?
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -310,71 +85,35 @@ public class SearchMapActivity extends MapActivity implements SearchListener, On
 
 	@Override
 	public void onExactSearchLocationSpecified(double latitude, double longitude, String address) {
-		mExactLocationLatitude = latitude;
-		mExactLocationLongitude = longitude;
-		mExactLocationAddress = address;
-		if (mExactLocationItemizedOverlay != null) {
-			mExactLocationItemizedOverlay.setExactLocation(mExactLocationLatitude, mExactLocationLongitude,
-					mExactLocationAddress);
-		}
-		persistExactLocationToDisk();
+		mHotelMapFragment.setShowDistances(true);
 	}
 
 	@Override
 	public void onNoExactSearchLocationSpecified() {
-		onExactSearchLocationSpecified(0, 0, null);
+		mHotelMapFragment.setShowDistances(false);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// Private methods
+	//////////////////////////////////////////////////////////////////////////////////
+	// HotelMapFragmentListener
 
-	private void restoreMapState(Bundle savedInstanceState) {
-		if (savedInstanceState != null && savedInstanceState.containsKey(CURRENT_ZOOM_LEVEL)) {
-			int latE6 = savedInstanceState.getInt(CURRENT_CENTER_LAT);
-			int lonE6 = savedInstanceState.getInt(CURRENT_CENTER_LON);
-
-			mSavedCenter = new GeoPoint(latE6, lonE6);
-			mSavedZoomLevel = savedInstanceState.getInt(CURRENT_ZOOM_LEVEL);
-
-			mTappedPropertyId = savedInstanceState.getString(CURRENT_TAPPED_ITEM_PROPERTY_ID);
-
-			mExactLocationAddress = savedInstanceState.getString(EXACT_SEARCH_LOCATION_ADDRESS);
-			mExactLocationLatitude = savedInstanceState.getDouble(EXACT_SEARCH_LOCATION_LAT, 0.0);
-			mExactLocationLatitude = savedInstanceState.getDouble(EXACT_SEARCH_LOCATION_LON, 0.0);
-			mIsExactLocationTapped = savedInstanceState.getBoolean(IS_EXACT_SEARCH_LOCATION_TAPPED);
-		}
+	@Override
+	public void onBalloonShown(Property property) {
+		// Do nothing
 	}
 
-	private void clearSavedMapInfo() {
-		mSavedCenter = null;
-		mSavedZoomLevel = -1;
+	@Override
+	public void onBalloonClicked(Property property) {
+		Intent intent = new Intent(this, HotelActivity.class);
+		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
+		intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toString());
+		startActivity(intent);
 	}
 
-	private void restoreSavedExactSearchLocation() {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		mExactLocationLatitude = prefs.getFloat(EXACT_SEARCH_LOCATION_LAT, 0.0f);
-		mExactLocationLongitude = prefs.getFloat(EXACT_SEARCH_LOCATION_LON, 0.0f);
-		mExactLocationAddress = prefs.getString(EXACT_SEARCH_LOCATION_ADDRESS, null);
-	}
+	//////////////////////////////////////////////////////////////////////////////////
+	// FragmentMapActivity
 
-	private void persistExactLocationToDisk() {
-		try {
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-			Editor editor = prefs.edit();
-			if (mExactLocationAddress != null) {
-				editor.putFloat(EXACT_SEARCH_LOCATION_LAT, (float) mExactLocationLatitude);
-				editor.putFloat(EXACT_SEARCH_LOCATION_LON, (float) mExactLocationLongitude);
-				editor.putString(EXACT_SEARCH_LOCATION_ADDRESS, mExactLocationAddress);
-			}
-			else {
-				editor.remove(EXACT_SEARCH_LOCATION_LAT);
-				editor.remove(EXACT_SEARCH_LOCATION_LON);
-				editor.remove(EXACT_SEARCH_LOCATION_ADDRESS);
-			}
-			SettingUtils.commitOrApply(editor);
-		}
-		catch (OutOfMemoryError e) {
-			Log.w("Ran out of memory while trying to save exact location", e);
-		}
+	@Override
+	protected boolean isRouteDisplayed() {
+		return false;
 	}
 }
