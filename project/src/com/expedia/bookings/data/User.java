@@ -25,6 +25,10 @@ public class User implements JSONable {
 	private String mLoyaltyMembershipNumber;
 	private boolean mIsSmokingPreferred;
 
+	public User(JSONObject obj) {
+		this.fromJson(obj);
+	}
+
 	public void setEmail(String email) {
 		mEmail = email;
 	}

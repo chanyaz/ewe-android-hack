@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.mobiata.android.Log;
@@ -23,20 +24,16 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 		SignInResponse signInResponse = new SignInResponse();
 		try {
 			// Check for errors
-			signInResponse.addErrors(ParserUtils.parseErrors(mContext, null, response));
+			signInResponse.addErrors(ParserUtils.parseErrors(mContext, ServerError.ApiMethod.SIGN_IN, response));
 			signInResponse.setSuccess(response.optBoolean("success"));
 
 			if (signInResponse.isSuccess()) {
-				User user = new User();
+				User user = new User(response);
 				signInResponse.setUser(user);
-
-				user.setEmail(response.optString("email", null));
-				user.setFirstName(response.optString("firstName", null));
-				user.setLastName(response.optString("lastName", null));
 			}
 		}
 		catch (JSONException e) {
-			Log.e("Could not parse JSON availability response.", e);
+			Log.e("Could not parse JSON SignIn response.", e);
 			return null;
 		}
 
