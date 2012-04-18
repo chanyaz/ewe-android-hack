@@ -160,24 +160,17 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/triangle_button_circle" />
 
-                <FrameLayout
-                    android:id="@+id/up_arrow_sort_hotels_container"
+                <ImageView
+                    android:id="@+id/up_arrow_sort_hotels"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/sort_button_circle"
                     android:layout_alignLeft="@id/sort_button_circle"
                     android:layout_alignRight="@id/sort_button_circle"
                     android:layout_alignTop="@id/sort_button_circle"
-                    android:layout_centerVertical="true" >
-
-                    <ImageView
-                        android:id="@+id/up_arrow_sort_hotels"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:paddingBottom="@dimen/one_pixel"
-                        android:src="@drawable/triangle_button_triangle" />
-                </FrameLayout>
+                    android:paddingBottom="1dp"
+                    android:scaleType="center"
+                    android:src="@drawable/triangle_button_triangle" />
 
                 <TextView
                     android:id="@+id/sort_text_view"
@@ -185,7 +178,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/up_arrow_sort_hotels_container"
+                    android:layout_toRightOf="@+id/sort_button_circle"
                     android:ellipsize="end"
                     android:paddingLeft="5dp"
                     android:singleLine="true"
@@ -242,31 +235,24 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/triangle_button_circle" />
 
-                <FrameLayout
-                    android:id="@+id/up_arrow_filter_hotels_container"
+                <ImageView
+                    android:id="@+id/up_arrow_filter_hotels"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/filter_button_circle"
                     android:layout_alignLeft="@id/filter_button_circle"
                     android:layout_alignRight="@id/filter_button_circle"
                     android:layout_alignTop="@id/filter_button_circle"
-                    android:layout_centerVertical="true" >
-
-                    <ImageView
-                        android:id="@+id/up_arrow_filter_hotels"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:paddingBottom="@dimen/one_pixel"
-                        android:src="@drawable/triangle_button_triangle" />
-                </FrameLayout>
+                    android:paddingBottom="1dp"
+                    android:scaleType="center"
+                    android:src="@drawable/triangle_button_triangle" />
 
                 <TextView
                     style="@style/BottomBarText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/up_arrow_filter_hotels_container"
+                    android:layout_toRightOf="@+id/filter_button_circle"
                     android:includeFontPadding="false"
                     android:paddingLeft="5dp"
                     android:text="@string/filter_hotels"
