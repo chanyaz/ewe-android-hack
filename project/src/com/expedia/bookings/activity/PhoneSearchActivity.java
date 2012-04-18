@@ -51,6 +51,7 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewStub;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -1064,26 +1065,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		mSearchSuggestionsListView.addFooterView(footer, null, false);
 		//-------------------------------------------------------------------
 
-		View widgetNotificationBar = findViewById(R.id.widget_notification_bar_layout);
-		widgetNotificationBar.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(PhoneSearchActivity.this, getString(R.string.widget_add_instructions),
-						Toast.LENGTH_SHORT).show();
-			}
-		});
-
-		View widgetNotificationCloseButton = findViewById(R.id.widget_notification_close_btn);
-		widgetNotificationCloseButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				findViewById(R.id.widget_notification_bar_layout).setVisibility(View.GONE);
-				mIsWidgetNotificationShowing = false;
-			}
-		});
-
 		mPanel.setInterpolator(new AccelerateInterpolator());
 		mPanel.setOnPanelListener(mPanelListener);
 
@@ -1528,15 +1509,41 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	}
 
 	private void showWidgetNotificationIfApplicable() {
-		final View widgetNotificationBarLayout = findViewById(R.id.widget_notification_bar_layout);
-
 		// only show the notification if its never been shown before
 		// or if it were showing before orientation change
-		if (mIsWidgetNotificationShowing) {
-			widgetNotificationBarLayout.setVisibility(View.VISIBLE);
+		boolean shouldShowWidget = shouldShowWidgetNotification();
+		if (!mIsWidgetNotificationShowing && !shouldShowWidget) {
+			return;
 		}
-		else if (toShowWidgetNotification()) {
-			animateWidgetNotification(widgetNotificationBarLayout);
+
+		// Inflate the view stub
+		ViewStub stub = Ui.findView(this, R.id.widget_notification_stub);
+		View widgetNotificationBar = stub.inflate();
+
+		// Configure the layout
+		widgetNotificationBar.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(PhoneSearchActivity.this, getString(R.string.widget_add_instructions),
+						Toast.LENGTH_SHORT).show();
+			}
+		});
+
+		View widgetNotificationCloseButton = findViewById(R.id.widget_notification_close_btn);
+		widgetNotificationCloseButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				findViewById(R.id.widget_notification_bar_layout).setVisibility(View.GONE);
+				mIsWidgetNotificationShowing = false;
+			}
+		});
+
+		// Animate it or not (depending if it's first being shown)
+		if (mIsWidgetNotificationShowing) {
+			widgetNotificationBar.setVisibility(View.VISIBLE);
+		}
+		else if (shouldShowWidget) {
+			animateWidgetNotification(widgetNotificationBar);
 		}
 	}
 
@@ -1593,7 +1600,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	private static final String WIDGET_NOTIFICATION_SHOWN = "WIDGET_NOTIFICATION_SHOWN";
 	private static final int THRESHOLD_LAUNCHES = 2;
 
-	private boolean toShowWidgetNotification() {
+	private boolean shouldShowWidgetNotification() {
 
 		// wait for 2 launches before deciding to show the widget
 		if (getNumSearches() > THRESHOLD_LAUNCHES) {

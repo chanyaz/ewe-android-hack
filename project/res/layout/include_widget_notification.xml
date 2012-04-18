@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_notification_bar_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/search_bar_layout"
+    android:background="@drawable/widget_notification_bg"
+    android:clickable="true"
+    android:paddingLeft="10dp"
+    android:paddingTop="3dp" >
+
+    <com.mobiata.android.widget.WorkingViewFlipper
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/widget_notification_close_btn"
+        android:autoStart="true"
+        android:flipInterval="2000"
+        android:inAnimation="@anim/push_up_in"
+        android:outAnimation="@anim/push_up_out"
+        android:paddingBottom="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/widget_upsell_short_1"
+            android:textColor="#333333"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/widget_upsell_short_2"
+            android:textColor="#333333"
+            android:textStyle="bold" />
+    </com.mobiata.android.widget.WorkingViewFlipper>
+
+    <ImageView
+        android:id="@+id/widget_notification_close_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingBottom="10dp"
+        android:scaleType="center"
+        android:src="@drawable/widget_notification_close_btn" />
+
+</RelativeLayout>
