@@ -113,11 +113,18 @@ public class SearchParams implements JSONable {
 		return mSearchType;
 	}
 
-	public void setSearchType(SearchType searchType) {
+	/**
+	 * Sets the type of search for this SearchParams. Returns true if the type has changed.
+	 * @param searchType
+	 * @return
+	 */
+	public boolean setSearchType(SearchType searchType) {
+		boolean changed = mSearchType != searchType;
 		if (searchType != SearchType.FREEFORM) {
 			invalidateFreeformLocation();
 		}
 		mSearchType = searchType;
+		return changed;
 	}
 
 	/**
@@ -319,8 +326,12 @@ public class SearchParams implements JSONable {
 	}
 
 	public void setSearchLatLon(double latitude, double longitude) {
-		this.mSearchLatitude = latitude;
-		this.mSearchLongitude = longitude;
+		mSearchLatitude = latitude;
+		mSearchLongitude = longitude;
+		mSearchLatLonUpToDate = true;
+	}
+	
+	public void setSearchLatLonUpToDate() {
 		mSearchLatLonUpToDate = true;
 	}
 

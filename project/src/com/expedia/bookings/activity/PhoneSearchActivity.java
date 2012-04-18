@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -31,6 +32,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,6 +41,9 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.FragmentMapActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -80,6 +85,7 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.animation.Rotate3dAnimation;
+import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
@@ -92,7 +98,6 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
 import com.expedia.bookings.fragment.HotelMapFragment;
@@ -133,7 +138,8 @@ import com.mobiata.android.widget.Panel;
 import com.mobiata.android.widget.SegmentedControlGroup;
 
 public class PhoneSearchActivity extends FragmentMapActivity implements LocationListener, OnDrawStartedListener,
-		HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener {
+		HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
+		LoaderManager.LoaderCallbacks<Cursor> {
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// ENUMS
@@ -157,7 +163,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	// CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final String KEY_SUGGEST = "KEY_SUGGEST";
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
 	public static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_LOADING_PREVIOUS = "KEY_LOADING_PREVIOUS";
@@ -282,7 +287,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	private boolean mIsWidgetNotificationShowing;
 
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
-	private List<Search> mAutosuggestions;
 
 	private boolean mIsActivityResumed = false;
 
@@ -297,29 +301,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	//----------------------------------
 	// THREADS/CALLBACKS
 	//----------------------------------
-
-	private Download mSuggestDownload = new Download() {
-		@Override
-		public Object doDownload() {
-			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_SUGGEST, services);
-			return services.suggest(Db.getSearchParams().getFreeformLocation());
-		}
-	};
-
-	private OnDownloadComplete mSuggestCallback = new OnDownloadComplete() {
-		@Override
-		public void onDownload(Object results) {
-			if (results == null) {
-				mSearchSuggestionAdapter.setAutosuggestions(null);
-			}
-			else {
-				SuggestResponse response = (SuggestResponse) results;
-				mAutosuggestions = response.getSuggestions();
-				mSearchSuggestionAdapter.setAutosuggestions(mAutosuggestions);
-			}
-		}
-	};
 
 	private Download mSearchDownload = new Download() {
 		@Override
@@ -516,10 +497,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 					toBroadcastSearchCompleted = true;
 				}
 			}
-
-			if (mAutosuggestions != null) {
-				mSearchSuggestionAdapter.setAutosuggestions(mAutosuggestions);
-			}
 		}
 		else {
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -612,7 +589,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 		if (!isFinishing()) {
 			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
-			downloader.unregisterDownloadCallback(KEY_SUGGEST);
 			downloader.unregisterDownloadCallback(KEY_GEOCODE);
 			downloader.unregisterDownloadCallback(KEY_LOADING_PREVIOUS);
 			downloader.unregisterDownloadCallback(KEY_SEARCH);
@@ -664,10 +640,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 				Log.d("Already loading previous search results, resuming the load...");
 				downloader.registerDownloadCallback(KEY_LOADING_PREVIOUS, mLoadSavedResultsCallback);
 				showLoading(true, R.string.loading_previous);
-			}
-			else if (downloader.isDownloading(KEY_SUGGEST)) {
-				Log.d("Already downloading suggestions, resuming the search...");
-				downloader.registerDownloadCallback(KEY_SUGGEST, mSuggestCallback);
 			}
 			else if (downloader.isDownloading(KEY_GEOCODE)) {
 				Log.d("Already geocoding, resuming the search...");
@@ -788,10 +760,11 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 				public void onClick(DialogInterface dialog, int which) {
 					Address address = mAddresses.get(which);
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
-					Db.getSearchParams().setFreeformLocation(formattedAddress);
+					SearchParams searchParams = Db.getSearchParams();
+					searchParams.setFreeformLocation(formattedAddress);
 					setSearchEditViews();
 
-					setSearchParams(address.getLatitude(), address.getLongitude());
+					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
 					determineWhetherExactLocationSpecified(address);
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearchDownloader();
@@ -1264,10 +1237,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		setDrawerViews();
 	}
 
-	private void setSearchParams(Double latitde, Double longitude) {
-		Db.getSearchParams().setSearchLatLon(latitde, longitude);
-	}
-
 	private void startSearch() {
 		Log.i("Starting a new search...");
 
@@ -1277,7 +1246,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		broadcastSearchStarted();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.cancelDownload(KEY_SUGGEST);
 		bd.cancelDownload(KEY_GEOCODE);
 		bd.cancelDownload(KEY_SEARCH);
 
@@ -1380,10 +1348,10 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			else if (mAddresses != null && mAddresses.size() > 0) {
 				Address address = mAddresses.get(0);
 				String formattedAddress = StrUtils.removeUSAFromAddress(address);
-
-				Db.getSearchParams().setFreeformLocation(formattedAddress);
+				SearchParams searchParams = Db.getSearchParams();
+				searchParams.setFreeformLocation(formattedAddress);
 				setSearchEditViews();
-				setSearchParams(address.getLatitude(), address.getLongitude());
+				searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
 				determineWhetherExactLocationSpecified(address);
 				startSearchDownloader();
 			}
@@ -1395,7 +1363,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	};
 
 	private void onLocationFound(Location location) {
-		setSearchParams(location.getLatitude(), location.getLongitude());
+		Db.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
 		setShowDistance(true);
 		startSearchDownloader();
 	}
@@ -1410,7 +1378,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 		if (Db.getSearchParams().getSearchType() == SearchType.FREEFORM) {
 			Search.add(this, Db.getSearchParams());
-			mSearchSuggestionAdapter.refreshData();
 		}
 
 		resetFilter();
@@ -1435,7 +1402,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	private static final String INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING = "INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING";
 	private static final String INSTANCE_SEARCH_TEXT_SELECTION_START = "INSTANCE_SEARCH_TEXT_SELECTION_START";
 	private static final String INSTANCE_SEARCH_TEXT_SELECTION_END = "INSTANCE_SEARCH_TEXT_SELECTION_END";
-	private static final String INSTANCE_AUTOSUGGESTIONS = "INSTANCE_AUTOSUGGESTIONS";
 	private static final String INSTANCE_DISPLAY_TYPE = "INSTANCE_DISPLAY_TYPE";
 
 	private Bundle saveActivityState() {
@@ -1452,8 +1418,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		JSONUtils.putJSONable(outState, INSTANCE_OLD_SEARCH_PARAMS, mOldSearchParams);
 		JSONUtils.putJSONable(outState, INSTANCE_ORIGINAL_SEARCH_PARAMS, mOriginalSearchParams);
 		JSONUtils.putJSONable(outState, INSTANCE_OLD_FILTER, mOldFilter);
-
-		JSONUtils.putJSONableList(outState, INSTANCE_AUTOSUGGESTIONS, mAutosuggestions);
 
 		// #9733: You cannot keep displaying a PopupWindow on rotation.  Since it's not essential the popup
 		// stay visible, it's easier here just to hide it between activity shifts.
@@ -1485,9 +1449,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			mOriginalSearchParams = JSONUtils.getJSONable(savedInstanceState, INSTANCE_ORIGINAL_SEARCH_PARAMS,
 					SearchParams.class);
 			mOldFilter = JSONUtils.getJSONable(savedInstanceState, INSTANCE_OLD_FILTER, Filter.class);
-
-			mAutosuggestions = (List<Search>) JSONUtils.getJSONableList(savedInstanceState,
-					INSTANCE_AUTOSUGGESTIONS, Search.class);
 		}
 	}
 
@@ -1753,7 +1714,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		}
 		case KEYBOARD: {
 			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
-			mSearchSuggestionAdapter.refreshData();
 			mSearchSuggestionsListView.setVisibility(View.VISIBLE);
 
 			mPanelDismissView.setVisibility(View.GONE);
@@ -2532,24 +2492,23 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			String str = s.toString();
 			int len = s.length();
+			boolean changed = false;
 			SearchParams searchParams = Db.getSearchParams();
 			if (str.equals(getString(R.string.current_location)) || len == 0) {
-				searchParams.setSearchType(SearchType.MY_LOCATION);
-				searchParams.setFreeformLocation(getString(R.string.current_location));
-				searchParams.setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
+				changed |= searchParams.setSearchType(SearchType.MY_LOCATION);
+				changed |= searchParams.setFreeformLocation(getString(R.string.current_location));
+				searchParams.setSearchLatLonUpToDate();
 			}
 			else if (str.equals(getString(R.string.visible_map_area))) {
-				searchParams.setSearchType(SearchType.PROXIMITY);
-				searchParams.setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
+				changed |= searchParams.setSearchType(SearchType.PROXIMITY);
+				searchParams.setSearchLatLonUpToDate();
 			}
 			else {
-				searchParams.setSearchType(SearchType.FREEFORM);
-				boolean changed = searchParams.setFreeformLocation(str);
-				if (changed) {
-					BackgroundDownloader bd = BackgroundDownloader.getInstance();
-					bd.cancelDownload(KEY_SUGGEST);
-					bd.startDownload(KEY_SUGGEST, mSuggestDownload, mSuggestCallback);
-				}
+				changed |= searchParams.setSearchType(SearchType.FREEFORM);
+				changed |= searchParams.setFreeformLocation(str);
+			}
+			if (changed) {
+				startAutocomplete();
 			}
 		}
 	};
@@ -2573,21 +2532,55 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	};
 
 	//----------------------------------
+	// AUTOCOMPLETE SEARCH LOADER
+	//----------------------------------
+
+	private void startAutocomplete() {
+		getSupportLoaderManager().restartLoader(0, null, this);
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		// We only have one Loader, so we don't care about the ID.
+		Uri uri = AutocompleteProvider.generateSearchUri(Db.getSearchParams().getFreeformLocation(), 50);
+		return new CursorLoader(this, uri, AutocompleteProvider.COLUMNS, null, null, "");
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		mSearchSuggestionAdapter.swapCursor(data);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+		mSearchSuggestionAdapter.swapCursor(null);
+	}
+
+	//----------------------------------
 	// EVENT LISTENERS
 	//----------------------------------
 
 	private final AdapterView.OnItemClickListener mSearchSuggestionsItemClickListner = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-			if (position == 0) {
+			Cursor c = mSearchSuggestionAdapter.getCursor();
+
+			if (c.getString(AutocompleteProvider.COLUMN_TEXT_INDEX).equals(getString(R.string.current_location))) {
 				Db.getSearchParams().setSearchType(SearchType.MY_LOCATION);
 			}
 			else {
 				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(PhoneSearchActivity.this);
 				SearchParams searchParams = new SearchParams(prefs);
 				Db.setSearchParams(searchParams);
-				Search search = (Search) mSearchSuggestionAdapter.getItem(position);
-				searchParams.fillFromSearch(search);
+
+				Object o = AutocompleteProvider.extractSearchOrString(c);
+
+				if (o instanceof Search) {
+					searchParams.fillFromSearch((Search) o);
+				}
+				else {
+					searchParams.setFreeformLocation(o.toString());
+				}
 			}
 
 			setDisplayType(DisplayType.CALENDAR);
@@ -2782,7 +2775,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 				double lat = MapUtils.getLatitude(center);
 				double lng = MapUtils.getLongitude(center);
-				setSearchParams(lat, lng);
+				searchParams.setSearchLatLon(lat, lng);
 				setShowDistance(true);
 				startSearch();
 			}
