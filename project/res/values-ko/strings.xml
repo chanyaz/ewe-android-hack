@@ -195,9 +195,9 @@
 	<!--  Widget Branding description -->
 	<string name="book_a_room_tonight">오늘 밤 객실 예약이 가능합니다.</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">&lt;b&gt;Hotel Radar 위젯을 추가하세요.&lt;/b&gt;</string>
+	<string name="widget_upsell_short_1">Hotel Radar 위젯을 추가하세요.</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">&lt;b&gt;매일 밤 현재 위치에서 가까운 호텔 상품을 찾으실 수 있어요!&lt;/b&gt;</string>
+	<string name="widget_upsell_short_2">매일 밤 현재 위치에서 가까운 호텔 상품을 찾으실 수 있어요!</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->

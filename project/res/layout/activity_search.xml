@@ -321,7 +321,8 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="@string/widget_upsell_short_1"
-                android:textColor="#333333" />
+                android:textColor="#333333"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/widget_notification_text_view_2"
@@ -330,7 +331,8 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="@string/widget_upsell_short_2"
-                android:textColor="#333333" />
+                android:textColor="#333333"
+                android:textStyle="bold" />
         </com.mobiata.android.widget.WorkingViewFlipper>
 
         <ImageView

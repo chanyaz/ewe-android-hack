@@ -1074,11 +1074,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			}
 		});
 
-		TextView widgetNotificationTextView1 = (TextView) findViewById(R.id.widget_notification_text_view_1);
-		TextView widgetNotificationTextView2 = (TextView) findViewById(R.id.widget_notification_text_view_2);
-		widgetNotificationTextView1.setText(Html.fromHtml(getString(R.string.widget_upsell_short_1)));
-		widgetNotificationTextView2.setText(Html.fromHtml(getString(R.string.widget_upsell_short_2)));
-
 		View widgetNotificationCloseButton = findViewById(R.id.widget_notification_close_btn);
 		widgetNotificationCloseButton.setOnClickListener(new View.OnClickListener() {
 

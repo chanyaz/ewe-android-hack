@@ -195,9 +195,9 @@
 	<!--  Widget Branding description -->
 	<string name="book_a_room_tonight">今夜宿泊する部屋を予約する。</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">&lt;b&gt;ホテル レーダー ウィジェットを追加する。&lt;/b&gt;</string>
+	<string name="widget_upsell_short_1">ホテル レーダー ウィジェットを追加する。</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">&lt;b&gt;現在地付近の夜間割引を検索！ &lt;/b&gt;</string>
+	<string name="widget_upsell_short_2">現在地付近の夜間割引を検索！</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->

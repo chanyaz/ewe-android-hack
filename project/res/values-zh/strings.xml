@@ -195,9 +195,9 @@
 	<!--  Widget Branding description -->
 	<string name="book_a_room_tonight">预订今晚的房间。</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">&lt;b&gt;添加 Hotel Radar 小工具。&lt;/b&gt;</string>
+	<string name="widget_upsell_short_1">添加 Hotel Radar 小工具。</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">&lt;b&gt;获取在您附近的酒店每晚优惠信息！&lt;/b&gt;</string>
+	<string name="widget_upsell_short_2">获取在您附近的酒店每晚优惠信息！</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
