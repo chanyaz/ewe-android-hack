@@ -65,8 +65,6 @@
             android:name=".activity.ConfirmationFragmentActivity"
             android:theme="@style/Theme.Tablet"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".activity.SearchListActivity" />
-        <activity android:name=".activity.SearchMapActivity" />
         <activity
             android:launchMode="singleTask"
             android:name=".activity.HotelActivity" />

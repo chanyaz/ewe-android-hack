@@ -23,7 +23,20 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottom_bar_layout"
-        android:layout_below="@id/search_bar_layout" />
+        android:layout_below="@id/search_bar_layout" >
+
+        <fragment
+            android:name="com.expedia.bookings.fragment.HotelListFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:tag="@string/tag_hotel_list" />
+
+        <fragment
+            android:name="com.expedia.bookings.fragment.HotelMapFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:tag="@string/tag_hotel_map" />
+    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/search_progress_layout"
@@ -77,13 +90,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         mobiata:animationDuration="@integer/sort_filter_animation_duration"
         mobiata:closedHandle="@drawable/search_results_drawer_handle"
         mobiata:content="@+id/drawer_content"
         mobiata:handle="@+id/filter_info_text_view"
         mobiata:openedHandle="@drawable/search_results_drawer_handle"
-        mobiata:position="bottom"
-        android:visibility="gone" >
+        mobiata:position="bottom" >
 
         <TextView
             android:id="@+id/filter_info_text_view"
@@ -280,7 +293,7 @@
             android:background="@null"
             android:src="@drawable/btn_actionbar_map" />
     </RelativeLayout>
-    
+
     <View
         android:id="@+id/refinement_dismiss_view"
         android:layout_width="fill_parent"

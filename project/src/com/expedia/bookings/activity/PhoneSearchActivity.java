@@ -9,11 +9,9 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ActivityGroup;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -39,6 +37,8 @@ import android.os.Message;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.app.FragmentMapActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -51,7 +51,6 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -83,14 +82,20 @@ import com.expedia.bookings.animation.Rotate3dAnimation;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
+import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Filter.Sort;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestResponse;
+import com.expedia.bookings.fragment.HotelListFragment;
+import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
+import com.expedia.bookings.fragment.HotelMapFragment;
+import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
@@ -102,6 +107,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
 import com.expedia.bookings.widget.gl.GLTagProgressBarRenderer.OnDrawStartedListener;
@@ -125,27 +131,8 @@ import com.mobiata.android.widget.NumberPicker;
 import com.mobiata.android.widget.Panel;
 import com.mobiata.android.widget.SegmentedControlGroup;
 
-public class PhoneSearchActivity extends ActivityGroup implements LocationListener, OnDrawStartedListener {
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// INTERFACES
-	//////////////////////////////////////////////////////////////////////////////////////////
-
-	public interface MapViewListener {
-		public GeoPoint onRequestMapCenter();
-	}
-
-	public interface SetShowDistanceListener {
-		public void onSetShowDistance(boolean showDistance);
-	}
-
-	// Listener for when the user specifies an 
-	// exact location or landmark to search for hotels
-	// around (eg. "Golden Gate Bridge", "825 Victors Way, Ann Arbor, MI") 
-	public interface ExactSearchLocationSearchedListener {
-		public void onExactSearchLocationSpecified(double latitude, double longitude, String address);
-
-		public void onNoExactSearchLocationSpecified();
-	}
+public class PhoneSearchActivity extends FragmentMapActivity implements LocationListener, OnDrawStartedListener,
+		HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener {
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// ENUMS
@@ -168,9 +155,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////////
-
-	private static final String ACTIVITY_SEARCH_LIST = SearchListActivity.class.getCanonicalName();
-	private static final String ACTIVITY_SEARCH_MAP = SearchMapActivity.class.getCanonicalName();
 
 	private static final String KEY_SUGGEST = "KEY_SUGGEST";
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
@@ -272,10 +256,10 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 	private Context mContext;
 
-	private LocalActivityManager mLocalActivityManager;
-	private String mTag = ACTIVITY_SEARCH_LIST;
-	private Intent mIntent;
-	private View mLaunchedView;
+	private HotelListFragment mHotelListFragment;
+	private HotelMapFragment mHotelMapFragment;
+
+	private String mTag;
 
 	private DisplayType mDisplayType = DisplayType.NONE;
 	private boolean mShowDistance = true;
@@ -287,11 +271,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private BitmapDrawable mSortOptionDivider;
 	private int mSortOptionSelectedId;
 	private boolean mFilterButtonArrowUp = true;
-
-	private List<SearchListener> mSearchListeners;
-	private MapViewListener mMapViewListener;
-	private List<SetShowDistanceListener> mSetShowDistanceListeners;
-	private List<ExactSearchLocationSearchedListener> mExactLocationSearchedListeners;
 
 	private ArrayList<Address> mAddresses;
 	private SearchParams mOldSearchParams;
@@ -364,6 +343,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 				Filter filter = Db.getFilter();
 				searchResponse.setFilter(filter);
+				filter.addOnFilterChangedListener(PhoneSearchActivity.this);
 
 				SearchParams searchParams = Db.getSearchParams();
 				searchResponse.setSearchType(searchParams.getSearchType());
@@ -476,6 +456,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		setContentView(R.layout.activity_search);
 
+		mHotelListFragment = Ui.findSupportFragment(this, getString(R.string.tag_hotel_list));
+		mHotelMapFragment = Ui.findSupportFragment(this, getString(R.string.tag_hotel_map));
+
 		initializeViews();
 
 		mSortOptionDividerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sort_option_border);
@@ -513,10 +496,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		mSortButtons.add(mSortUserRatingButton);
 		mSortButtons.add(mSortDistanceButton);
 
-		mLocalActivityManager = getLocalActivityManager();
-		setActivity(SearchMapActivity.class);
-		setActivity(SearchListActivity.class);
-
 		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
 
@@ -545,7 +524,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 			Db.setSearchParams(new SearchParams(prefs));
 			String filterJson = prefs.getString("filter", null);
-			mTag = prefs.getString("tag", mTag);
+			mTag = prefs.getString("tag", mHotelListFragment.getTag());
 			mShowDistance = prefs.getBoolean("showDistance", true);
 
 			if (filterJson != null) {
@@ -585,7 +564,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		mAdultsNumberPicker.setCurrent(searchParams.getNumAdults());
 		mChildrenNumberPicker.setCurrent(searchParams.getNumChildren());
 
-		setActivityByTag(mTag);
+		showFragment(mTag);
 		setShowDistance(mShowDistance);
 		setDisplayType(mDisplayType, false);
 
@@ -607,7 +586,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	}
 
 	@Override
-	protected void onNewIntent(Intent intent) {
+	public void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		hideSortOptions();
 		hideFilterOptions(false);
@@ -625,6 +604,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		mProgressBar.onPause();
 		stopLocationListener();
+
+		Db.getFilter().removeOnFilterChangedListener(this);
 
 		mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
 
@@ -646,6 +627,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		super.onResume();
 		((ExpediaBookingApp) getApplicationContext())
 				.registerSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
+
+		Db.getFilter().addOnFilterChangedListener(this);
 
 		mProgressBar.onResume();
 
@@ -772,13 +755,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		super.onSaveInstanceState(outState);
 
 		outState.putAll(saveActivityState());
-	}
-
-	@Override
-	public Object onRetainNonConfigurationInstance() {
-		mLocalActivityManager.removeAllActivities();
-
-		return super.onRetainNonConfigurationInstance();
 	}
 
 	@Override
@@ -1001,42 +977,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	public void addSearchListener(SearchListener searchListener) {
-		if (mSearchListeners == null) {
-			mSearchListeners = new ArrayList<SearchListener>();
-		}
-
-		if (!mSearchListeners.contains(searchListener)) {
-			mSearchListeners.add(searchListener);
-		}
-	}
-
-	public void addSetShowDistanceListener(SetShowDistanceListener setShowDistanceListener) {
-		if (mSetShowDistanceListeners == null) {
-			mSetShowDistanceListeners = new ArrayList<SetShowDistanceListener>();
-		}
-
-		if (!mSetShowDistanceListeners.contains(setShowDistanceListener)) {
-			mSetShowDistanceListeners.add(setShowDistanceListener);
-		}
-	}
-
-	public void addExactLocationSearchedListener(ExactSearchLocationSearchedListener specificLocationSearchedListener) {
-		if (mExactLocationSearchedListeners == null) {
-			mExactLocationSearchedListeners = new ArrayList<ExactSearchLocationSearchedListener>();
-		}
-
-		if (!mExactLocationSearchedListeners.contains(specificLocationSearchedListener)) {
-			mExactLocationSearchedListeners.add(specificLocationSearchedListener);
-		}
-	}
-
 	public SearchParams getSearchParams() {
 		return Db.getSearchParams();
-	}
-
-	public void setMapViewListener(MapViewListener mapViewListener) {
-		mMapViewListener = mapViewListener;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -1416,12 +1358,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 			if (searchParams.hasSearchLatLon()) {
 				setShowDistance(true);
-				showExactLocation(searchParams.getSearchLatitude(), searchParams.getSearchLongitude(),
-						searchParams.getFreeformLocation());
 			}
 			else {
 				setShowDistance(false);
-				dontShowExactLocation();
 			}
 
 			startSearchDownloader();
@@ -1482,7 +1421,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private void onLocationFound(Location location) {
 		setSearchParams(location.getLatitude(), location.getLongitude());
 		setShowDistance(true);
-		showExactLocation(location.getLatitude(), location.getLongitude(), getString(R.string.current_location));
 		startSearchDownloader();
 	}
 
@@ -1555,7 +1493,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	@SuppressWarnings("unchecked")
 	private void restoreActivityState(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			mTag = savedInstanceState.getString(INSTANCE_TAG, ACTIVITY_SEARCH_LIST);
+			mTag = savedInstanceState.getString(INSTANCE_TAG, getString(R.string.tag_hotel_list));
 			mShowDistance = savedInstanceState.getBoolean(INSTANCE_SHOW_DISTANCES, false);
 			mStartSearchOnResume = savedInstanceState.getBoolean(INSTANCE_START_SEARCH_ON_RESUME, false);
 			mLastSearchTime = savedInstanceState.getLong(INSTANCE_LAST_SEARCH_TIME);
@@ -1583,11 +1521,10 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 	private void broadcastSearchCompleted(SearchResponse searchResponse) {
 		Db.setSearchResponse(searchResponse);
-		if (mSearchListeners != null) {
-			for (SearchListener searchListener : mSearchListeners) {
-				searchListener.onSearchCompleted(searchResponse);
-			}
-		}
+
+		// Inform fragments
+		mHotelListFragment.notifySearchComplete();
+		mHotelMapFragment.notifySearchComplete();
 
 		onSearchResultsChanged();
 		showBottomBar();
@@ -1648,11 +1585,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	}
 
 	private void broadcastSearchStarted() {
-		if (mSearchListeners != null) {
-			for (SearchListener searchListener : mSearchListeners) {
-				searchListener.onSearchStarted();
-			}
-		}
+		mHotelListFragment.notifySearchStarted();
+		mHotelMapFragment.notifySearchStarted();
 	}
 
 	//--------------------------------------------
@@ -1927,15 +1861,15 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		setDisplayType(DisplayType.NONE);
 		mViewButton.setEnabled(false);
 
-		Class<?> newActivityClass = null;
+		String newFragmentTag = null;
 		Rotate3dAnimation animationOut = null;
 		Rotate3dAnimation animationIn = null;
 
 		final float centerX = mViewFlipImage.getWidth() / 2.0f;
 		final float centerY = mViewFlipImage.getHeight() / 2.0f;
 
-		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
-			newActivityClass = SearchMapActivity.class;
+		if (mTag.equals(mHotelListFragment.getTag())) {
+			newFragmentTag = mHotelMapFragment.getTag();
 
 			if (ANIMATION_VIEW_FLIP_ENABLED) {
 				animationOut = new Rotate3dAnimation(0, -90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
@@ -1944,8 +1878,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 			onSwitchToMap();
 		}
-		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
-			newActivityClass = SearchListActivity.class;
+		else {
+			newFragmentTag = mHotelListFragment.getTag();
+
 			if (ANIMATION_VIEW_FLIP_ENABLED) {
 				animationOut = new Rotate3dAnimation(0, 90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
 				animationIn = new Rotate3dAnimation(-90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
@@ -1956,7 +1891,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		if (animationOut != null && animationIn != null) {
 			final Rotate3dAnimation nextAnimation = animationIn;
-			final Class<?> nextActivityClass = newActivityClass;
 
 			if (mViewFlipCanvas == null) {
 				final int width = mContent.getWidth();
@@ -1968,7 +1902,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 			mContent.draw(mViewFlipCanvas);
 			mContent.setVisibility(View.INVISIBLE);
-			setActivity(nextActivityClass);
+			showFragment(newFragmentTag);
 			setViewButtonImage();
 			setBottomBarOptions();
 
@@ -2020,8 +1954,8 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			mViewFlipImage.startAnimation(animationOut);
 		}
 		else {
-			if (newActivityClass != null) {
-				setActivity(newActivityClass);
+			if (newFragmentTag != null) {
+				showFragment(newFragmentTag);
 			}
 			setDrawerViews();
 			setViewButtonImage();
@@ -2225,45 +2159,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		if (selected != null) {
 			selected.setSelected(true);
 			selected.setEnabled(false);
-		}
-	}
-
-	//----------------------------------
-	// ACTIVITY GROUP METHODS
-	//----------------------------------
-
-	private void setActivityByTag(String tag) {
-		if (tag.equals(ACTIVITY_SEARCH_LIST)) {
-			setActivity(SearchListActivity.class);
-		}
-		else if (tag.equals(ACTIVITY_SEARCH_MAP)) {
-			setActivity(SearchMapActivity.class);
-		}
-	}
-
-	private void setActivity(Class<?> activity) {
-		mIntent = new Intent(this, activity);
-		mTag = activity.getCanonicalName();
-
-		final Window w = mLocalActivityManager.startActivity(mTag, mIntent);
-		final View wd = w != null ? w.getDecorView() : null;
-		if (mLaunchedView != wd && mLaunchedView != null) {
-			if (mLaunchedView.getParent() != null) {
-				((FrameLayout) mLaunchedView.getParent()).removeView(mLaunchedView);
-			}
-		}
-		mLaunchedView = wd;
-
-		if (mLaunchedView != null) {
-			mLaunchedView.setVisibility(View.VISIBLE);
-			mLaunchedView.setFocusableInTouchMode(true);
-			((ViewGroup) mLaunchedView).setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
-
-			if (mLaunchedView.getParent() != null) {
-				((FrameLayout) mLaunchedView.getParent()).removeView(mLaunchedView);
-			}
-
-			mContent.addView(mLaunchedView);
 		}
 	}
 
@@ -2520,23 +2415,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private void determineWhetherExactLocationSpecified(Address location) {
 		Log.d("determineWhetherExactLocationSpecified(): " + location);
 		setShowDistance(true);
-		showExactLocation(location.getLatitude(), location.getLongitude(), StrUtils.removeUSAFromAddress(location));
-	}
-
-	private void showExactLocation(double latitude, double longitude, String address) {
-		if (mExactLocationSearchedListeners != null) {
-			for (ExactSearchLocationSearchedListener exactLocationSpecifiedListener : mExactLocationSearchedListeners) {
-				exactLocationSpecifiedListener.onExactSearchLocationSpecified(latitude, longitude, address);
-			}
-		}
-	}
-
-	private void dontShowExactLocation() {
-		if (mExactLocationSearchedListeners != null) {
-			for (ExactSearchLocationSearchedListener exactLocationSpecifiedListener : mExactLocationSearchedListeners) {
-				exactLocationSpecifiedListener.onNoExactSearchLocationSpecified();
-			}
-		}
 	}
 
 	private void setShowDistance(boolean showDistance) {
@@ -2559,11 +2437,9 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		mSortOptionsLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 		mSortPopup.setWidth(mSortOptionsLayout.getMeasuredWidth());
 		mSortPopup.setHeight(mSortOptionsLayout.getMeasuredHeight());
-		if (mSetShowDistanceListeners != null) {
-			for (SetShowDistanceListener showDistanceListener : mSetShowDistanceListeners) {
-				showDistanceListener.onSetShowDistance(showDistance);
-			}
-		}
+
+		mHotelListFragment.setShowDistances(showDistance);
+		mHotelMapFragment.setShowDistances(showDistance);
 
 		// Hide/reveal the distance filter
 		mRadiusButtonGroup.setVisibility(visibility);
@@ -2574,21 +2450,20 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	}
 
 	private void setViewButtonImage() {
-		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+		if (mTag.equals(mHotelListFragment.getTag())) {
 			mViewButton.setImageResource(R.drawable.btn_actionbar_map);
 		}
-		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
+		else {
 			mViewButton.setImageResource(R.drawable.btn_actionbar_list);
 		}
 	}
 
 	private void setBottomBarOptions() {
-		if (mTag.equals(ACTIVITY_SEARCH_LIST)) {
+		if (mTag.equals(mHotelListFragment.getTag())) {
 			mSortButton.setVisibility(View.VISIBLE);
 			mSearchMapButton.setVisibility(View.GONE);
-
 		}
-		else if (mTag.equals(ACTIVITY_SEARCH_MAP)) {
+		else {
 			mSortButton.setVisibility(View.GONE);
 			mSearchMapButton.setVisibility(View.VISIBLE);
 		}
@@ -2898,15 +2773,14 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 			SearchParams searchParams = Db.getSearchParams();
 			searchParams.invalidateFreeformLocation();
 
-			if (mMapViewListener != null) {
-				GeoPoint center = mMapViewListener.onRequestMapCenter();
+			if (mHotelMapFragment != null) {
+				GeoPoint center = mHotelMapFragment.getCenter();
 				searchParams.setSearchType(SearchType.PROXIMITY);
 
 				double lat = MapUtils.getLatitude(center);
 				double lng = MapUtils.getLongitude(center);
 				setSearchParams(lat, lng);
 				setShowDistance(true);
-				showExactLocation(lat, lng, getString(R.string.visible_map_area));
 				startSearch();
 			}
 		}
@@ -3071,5 +2945,79 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private void onSwitchToMap() {
 		Log.d("Tracking \"App.Hotels.Search.Map\" pageLoad...");
 		TrackingUtils.trackSimpleEvent(this, "App.Hotels.Search.Map", null, "Shopper", null);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Fragment tabs
+
+	public void showFragment(String tag) {
+		Log.d("Showing fragment with tag: " + tag);
+
+		if (tag.equals(mHotelListFragment.getTag())) {
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.show(mHotelListFragment);
+			ft.hide(mHotelMapFragment);
+			ft.commit();
+
+			mTag = mHotelListFragment.getTag();
+		}
+		else {
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.show(mHotelMapFragment);
+			ft.hide(mHotelListFragment);
+			ft.commit();
+
+			mTag = mHotelMapFragment.getTag();
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// HotelListFragmentListener
+
+	@Override
+	public void onSortButtonClicked() {
+		// Do nothing
+	}
+
+	@Override
+	public void onListItemClicked(Property property, int position) {
+		Intent intent = new Intent(this, HotelActivity.class);
+		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
+		intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toString());
+		intent.putExtra(HotelActivity.EXTRA_POSITION, position);
+		startActivity(intent);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// HotelMapFragmentListener
+
+	@Override
+	public void onBalloonShown(Property property) {
+		// Do nothing
+	}
+
+	@Override
+	public void onBalloonClicked(Property property) {
+		Intent intent = new Intent(this, HotelActivity.class);
+		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
+		intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toString());
+		startActivity(intent);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnFilterChangedListener
+
+	@Override
+	public void onFilterChanged() {
+		mHotelListFragment.notifyFilterChanged();
+		mHotelMapFragment.notifyFilterChanged();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// FragmentMapActivity
+
+	@Override
+	protected boolean isRouteDisplayed() {
+		return false;
 	}
 }
