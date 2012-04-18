@@ -1,117 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:orientation="vertical"
-	android:background="@color/bg_default">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/bg_default"
+    android:orientation="vertical" >
 
-	<!-- Header -->
-	<LinearLayout
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:padding="6dp"
-		android:gravity="center_vertical"
-		android:orientation="horizontal"
-		android:background="@drawable/bg_header">
-		<ImageView
-			android:id="@+id/thumbnail_image_view"
-			android:layout_width="64dp"
-			android:layout_height="64dp"
-			android:scaleType="centerCrop"
-			android:src="@drawable/ic_image_placeholder"
-			android:background="@drawable/thumbnail_border" />
-		<LinearLayout
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="6dp"
-			android:layout_marginTop="-2dp"
-			android:layout_weight="1"
-			android:orientation="vertical">
-			<TextView
-				android:id="@+id/name_text_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:singleLine="true"
-				android:ellipsize="end"
-				android:textColor="@android:color/white"
-				android:textStyle="bold"
-				android:textSize="18sp" />
-			<TextView
-				android:id="@+id/location_text_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="-4dp"
-				android:singleLine="true"
-				android:ellipsize="end"
-				android:textColor="@android:color/white" />
-			<RatingBar
-				android:id="@+id/hotel_rating_bar"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:layout_marginTop="2dp"
-				android:numStars="5"
-				android:stepSize=".5"
-				android:isIndicator="true"
-				style="@style/RatingBarSmall.Shadowed.Star.Dark" />
-		</LinearLayout>
-		<LinearLayout
-			android:id="@+id/nights_container"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="8dp"
-			android:gravity="right"
-			android:orientation="vertical">
-			<TextView
-				android:id="@+id/nights_text_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:singleLine="true"
-				android:ellipsize="end"
-				android:textColor="@android:color/white"
-				android:textStyle="bold"
-				android:textSize="15sp" />
-			<TextView
-				android:id="@+id/dates_text_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:singleLine="true"
-				android:ellipsize="end"
-				android:textColor="@android:color/white" />
-		</LinearLayout>
-	</LinearLayout>
+    <!-- Header -->
 
-	<!-- List of rooms/rates -->
-	<ListView
-		android:id="@android:id/list"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		style="@style/ExpediaList" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_header"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="6dp" >
 
-	<LinearLayout
-		android:id="@android:id/empty"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:gravity="center"
-		android:orientation="vertical">
-		<ProgressBar
-			android:id="@+id/progress_bar"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:indeterminate="true"
-			style="@android:style/Widget.ProgressBar.Large.Inverse" />
-		<TextView
-			android:id="@+id/empty_text_view"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:gravity="center"
-			android:padding="24dp"
-			android:textSize="18sp"
-			android:textStyle="bold"
-			android:textColor="#FF666666"
-			android:shadowColor="#88FFFFFF"
-			android:shadowDx="0"
-			android:shadowDy="-1"
-			android:shadowRadius="0.1" />
-	</LinearLayout>
+        <ImageView
+            android:id="@+id/thumbnail_image_view"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/thumbnail_border"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_image_placeholder" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="-2dp"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/location_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-4dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@android:color/white" />
+
+            <RatingBar
+                android:id="@+id/hotel_rating_bar"
+                style="@style/RatingBarSmall.Shadowed.Star.Dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize=".5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nights_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:gravity="right"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/nights_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/dates_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- List of rooms/rates -->
+
+    <ListView
+        android:id="@android:id/list"
+        style="@style/ExpediaList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@android:id/empty"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@android:style/Widget.ProgressBar.Large.Inverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+
+        <TextView
+            android:id="@+id/empty_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="24dp"
+            android:shadowColor="#88FFFFFF"
+            android:shadowDx="0"
+            android:shadowDy="-1"
+            android:shadowRadius="0.1"
+            android:textColor="#FF666666"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 </LinearLayout>
