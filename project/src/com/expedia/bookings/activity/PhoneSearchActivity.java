@@ -2977,6 +2977,8 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 	@Override
 	public void onListItemClicked(Property property, int position) {
+		Db.setSelectedProperty(property);
+
 		Intent intent = new Intent(this, HotelActivity.class);
 		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
 		intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toString());
@@ -2994,6 +2996,8 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 	@Override
 	public void onBalloonClicked(Property property) {
+		Db.setSelectedProperty(property);
+
 		Intent intent = new Intent(this, HotelActivity.class);
 		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
 		intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toString());

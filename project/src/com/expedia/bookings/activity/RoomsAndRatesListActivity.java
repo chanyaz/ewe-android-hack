@@ -1,50 +1,47 @@
 package com.expedia.bookings.activity;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.server.AvailabilityResponseHandler;
+import com.expedia.bookings.fragment.RoomsAndRatesFragment;
+import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
-import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.widget.RoomsAndRatesAdapter;
+import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
-import com.mobiata.android.app.AsyncLoadListActivity;
 import com.mobiata.android.json.JSONUtils;
 
-public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
+public class RoomsAndRatesListActivity extends FragmentActivity implements RoomsAndRatesFragmentListener {
+
+	private static final String DOWNLOAD_KEY = "com.expedia.booking.details.offer.full";
 
 	private Property mProperty;
 	private SearchParams mSearchParams;
-	private AvailabilityResponse mAvailabilityResponse;
 
-	private RoomsAndRatesAdapter mAdapter;
-
-	private ProgressBar mProgressBar;
-	private TextView mEmptyTextView;
-	private TextView mFooterTextView;
+	private RoomsAndRatesFragment mRoomsAndRatesFragment;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
@@ -55,8 +52,7 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 
 		setContentView(R.layout.activity_rooms_and_rates);
 
-		mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
-		mEmptyTextView = (TextView) findViewById(R.id.empty_text_view);
+		mRoomsAndRatesFragment = Ui.findSupportFragment(this, getString(R.string.tag_rooms_and_rates));
 
 		// Retrieve data to build this with
 		final Intent intent = getIntent();
@@ -110,21 +106,28 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 			findViewById(R.id.nights_container).setVisibility(View.GONE);
 		}
 
-		// Setup the ListView
-		View footer = getLayoutInflater().inflate(R.layout.footer_rooms_and_rates, null);
-		mFooterTextView = (TextView) footer.findViewById(R.id.footer_text_view);
-		getListView().addFooterView(footer, null, false);
+		// Load the initial data from net
+		if (Db.getSelectedAvailabilityResponse() != null) {
+			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
+		}
+		else {
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			if (!bd.isDownloading(DOWNLOAD_KEY)) {
+				Download download = new Download() {
+					@Override
+					public Object doDownload() {
+						ExpediaServices services = new ExpediaServices(RoomsAndRatesListActivity.this);
+						return services.availability(mSearchParams, mProperty, ExpediaServices.F_EXPENSIVE);
+					}
+				};
+
+				bd.startDownload(DOWNLOAD_KEY, download, mCallback);
+			}
+		}
 
 		if (savedInstanceState == null) {
 			Tracker.trackAppHotelsRoomsRates(this, mProperty, null);
 		}
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-
-		mWasStopped = true;
 	}
 
 	@Override
@@ -138,90 +141,55 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 	}
 
 	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
+	protected void onResume() {
+		super.onResume();
 
-		Rate rate = (Rate) mAdapter.getItem(position);
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(DOWNLOAD_KEY)) {
+			mRoomsAndRatesFragment.showProgress();
+			bd.registerDownloadCallback(DOWNLOAD_KEY, mCallback);
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+		mWasStopped = true;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Downloading rooms & rates
+
+	private OnDownloadComplete mCallback = new OnDownloadComplete() {
+		@Override
+		public void onDownload(Object results) {
+			AvailabilityResponse response = (AvailabilityResponse) results;
+			Db.addAvailabilityResponse(response);
+			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// RoomsAndRatesFragmentListener
+
+	@Override
+	public void onRateSelected(Rate rate) {
+		Db.setSelectedRate(rate);
+
 		Intent intent = new Intent(this, BookingInfoActivity.class);
 		intent.fillIn(getIntent(), 0);
 		intent.putExtra(Codes.RATE, rate.toJson().toString());
 		startActivity(intent);
 	}
 
-	@Override
-	public String getUniqueKey() {
-		return "com.expedia.booking.details.offer.full";
-	}
-
-	@Override
-	public void showProgress() {
-		mProgressBar.setVisibility(View.VISIBLE);
-		mEmptyTextView.setText(R.string.room_rates_loading);
-	}
-
-	@Override
-	public Object downloadImpl() {
-		Intent intent = getIntent();
-		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
-			try {
-				JSONObject obj = new JSONObject(getString(R.string.sample_availability_response));
-				AvailabilityResponseHandler handler = new AvailabilityResponseHandler(this, mSearchParams, mProperty);
-				return handler.handleJson(obj);
-			}
-			catch (JSONException e) {
-				Log.w("Something bad happened", e);
-				return null;
-			}
-		}
-		else if (mAvailabilityResponse != null) {
-			return mAvailabilityResponse;
-		}
-		else {
-			ExpediaServices services = new ExpediaServices(this);
-			return services.availability(mSearchParams, mProperty, ExpediaServices.F_EXPENSIVE);
-		}
-	}
-
-	@Override
-	public void onResults(Object results) {
-		mProgressBar.setVisibility(View.GONE);
-
-		if (results == null) {
-			TrackingUtils.trackErrorPage(this, "RatesListRequestFailed");
-			mEmptyTextView.setText(R.string.error_no_response_room_rates);
-			return;
-		}
-
-		AvailabilityResponse response = (AvailabilityResponse) results;
-
-		if (response.hasErrors()) {
-			StringBuilder sb = new StringBuilder();
-			for (ServerError error : response.getErrors()) {
-				sb.append(error.getPresentableMessage(this));
-				sb.append("\n");
-			}
-			mEmptyTextView.setText(sb.toString().trim());
-			TrackingUtils.trackErrorPage(this, "RatesListRequestFailed");
-			return;
-		}
-
-		mAvailabilityResponse = response;
-
-		mAdapter = new RoomsAndRatesAdapter(this, response);
-
-		setListAdapter(mAdapter);
-
-		CharSequence commonValueAdds = response.getCommonValueAddsString(this);
-		if (commonValueAdds != null) {
-			mFooterTextView.setText(commonValueAdds);
-			mFooterTextView.setVisibility(View.VISIBLE);
-		}
-
-		if (mAdapter.getCount() == 0) {
-			TrackingUtils.trackErrorPage(this, "HotelHasNoRoomsAvailable");
-		}
-	}
-	
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Options menu (just for debug)
 
@@ -236,5 +204,4 @@ public class RoomsAndRatesListActivity extends AsyncLoadListActivity {
 		DebugMenu.onPrepareOptionsMenu(this, menu);
 		return super.onPrepareOptionsMenu(menu);
 	}
-
 }

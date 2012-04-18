@@ -7,13 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.Ui;
 
 public class RoomsAndRatesFragment extends ListFragment {
 
@@ -25,23 +30,10 @@ public class RoomsAndRatesFragment extends ListFragment {
 	private RoomsAndRatesFragmentListener mListener;
 
 	private RoomsAndRatesAdapter mAdapter;
-	private TextView mMessageTextView;
+
+	private ProgressBar mProgressBar;
+	private TextView mEmptyTextView;
 	private TextView mFooterTextView;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
-		if (response != null) {
-			mAdapter = new RoomsAndRatesAdapter(getActivity(), response);
-			mAdapter.setSelectedPosition(getPositionOfRate(Db.getSelectedRate()));
-			setListAdapter(mAdapter);
-		}
-		else {
-			mMessageTextView.setText(getString(R.string.room_rates_loading));
-		}
-	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -57,21 +49,23 @@ public class RoomsAndRatesFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_availability_list, container, false);
-		mMessageTextView = (TextView) view.findViewById(android.R.id.empty);
+		mProgressBar = Ui.findView(view, R.id.progress_bar);
+		mEmptyTextView = Ui.findView(view, R.id.empty_text_view);
 
 		// Setup the ListView
 		View footer = inflater.inflate(R.layout.footer_rooms_and_rates, null);
 		mFooterTextView = (TextView) footer.findViewById(R.id.footer_text_view);
 		((ListView) view.findViewById(android.R.id.list)).addFooterView(footer, null, false);
+		mFooterTextView.setVisibility(View.GONE);
+
+		// Hide the header if this is not the tablet
+		if (!AndroidUtils.isHoneycombTablet(getActivity())) {
+			Ui.findView(view, R.id.header_layout).setVisibility(View.GONE);
+		}
 
 		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
-		mFooterTextView.setVisibility(View.GONE);
 		if (response != null) {
-			CharSequence commonValueAdds = response.getCommonValueAddsString(getActivity());
-			if (commonValueAdds != null) {
-				mFooterTextView.setText(commonValueAdds);
-				mFooterTextView.setVisibility(View.VISIBLE);
-			}
+			loadResponse(response);
 		}
 
 		return view;
@@ -98,6 +92,55 @@ public class RoomsAndRatesFragment extends ListFragment {
 			}
 		}
 		return -1;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Control
+
+	public void showProgress() {
+		mProgressBar.setVisibility(View.VISIBLE);
+		mEmptyTextView.setText(R.string.room_rates_loading);
+	}
+
+	public void notifyAvailabilityLoaded() {
+		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
+
+		mProgressBar.setVisibility(View.GONE);
+
+		if (response == null) {
+			TrackingUtils.trackErrorPage(getActivity(), "RatesListRequestFailed");
+			mEmptyTextView.setText(R.string.error_no_response_room_rates);
+			return;
+		}
+
+		loadResponse(response);
+	}
+
+	private void loadResponse(AvailabilityResponse response) {
+		if (response.hasErrors()) {
+			StringBuilder sb = new StringBuilder();
+			for (ServerError error : response.getErrors()) {
+				sb.append(error.getPresentableMessage(getActivity()));
+				sb.append("\n");
+			}
+			mEmptyTextView.setText(sb.toString().trim());
+			TrackingUtils.trackErrorPage(getActivity(), "RatesListRequestFailed");
+			return;
+		}
+
+		mAdapter = new RoomsAndRatesAdapter(getActivity(), response);
+		mAdapter.setSelectedPosition(getPositionOfRate(Db.getSelectedRate()));
+		setListAdapter(mAdapter);
+
+		CharSequence commonValueAdds = response.getCommonValueAddsString(getActivity());
+		if (commonValueAdds != null) {
+			mFooterTextView.setText(commonValueAdds);
+			mFooterTextView.setVisibility(View.VISIBLE);
+		}
+
+		if (mAdapter.getCount() == 0) {
+			TrackingUtils.trackErrorPage(getActivity(), "HotelHasNoRoomsAvailable");
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
