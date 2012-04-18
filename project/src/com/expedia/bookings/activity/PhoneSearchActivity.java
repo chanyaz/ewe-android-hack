@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,7 +86,6 @@ import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Filter.Sort;
-import com.expedia.bookings.data.PriceTier;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
@@ -118,6 +115,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.hockey.helper.HockeyAppUtil;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
@@ -295,7 +293,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private List<SetShowDistanceListener> mSetShowDistanceListeners;
 	private List<ExactSearchLocationSearchedListener> mExactLocationSearchedListeners;
 
-	private List<Address> mAddresses;
+	private ArrayList<Address> mAddresses;
 	private SearchParams mOldSearchParams;
 	private SearchParams mOriginalSearchParams;
 	private Filter mOldFilter;
@@ -524,11 +522,10 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 
 		boolean localeChanged = SettingUtils.get(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
 
-		ActivityState state = (ActivityState) getLastNonConfigurationInstance();
 		boolean toBroadcastSearchCompleted = false;
 		SearchResponse searchResponse = Db.getSearchResponse();
-		if (state != null && !localeChanged) {
-			extractActivityState(state);
+		if (savedInstanceState != null && !localeChanged) {
+			restoreActivityState(savedInstanceState);
 
 			if (searchResponse != null) {
 				if (searchResponse.hasErrors()) {
@@ -771,11 +768,17 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	}
 
 	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putAll(saveActivityState());
+	}
+
+	@Override
 	public Object onRetainNonConfigurationInstance() {
-		ActivityState state = buildActivityState();
 		mLocalActivityManager.removeAllActivities();
 
-		return state;
+		return super.onRetainNonConfigurationInstance();
 	}
 
 	@Override
@@ -1448,7 +1451,11 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	private OnDownloadComplete mGeocodeCallback = new OnDownloadComplete() {
 		@SuppressWarnings("unchecked")
 		public void onDownload(Object results) {
-			mAddresses = (List<Address>) results;
+			// Need to convert to ArrayList so it can be saved easily in Bundles
+			mAddresses = new ArrayList<Address>();
+			for (Address address : (List<Address>) results) {
+				mAddresses.add(address);
+			}
 
 			if (mAddresses != null && mAddresses.size() > 1) {
 				showLoading(false, null);
@@ -1503,47 +1510,71 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	// ACTIVITY STATE METHODS
 	//----------------------------------
 
-	private ActivityState buildActivityState() {
-		ActivityState state = new ActivityState();
-		state.tag = mTag;
-		state.oldSearchParams = mOldSearchParams;
-		state.originalSearchParams = mOriginalSearchParams;
-		state.oldFilter = mOldFilter;
-		state.showDistance = mShowDistance;
-		state.startSearchOnResume = mStartSearchOnResume;
-		state.lastSearchTime = mLastSearchTime;
-		state.addresses = mAddresses;
-		state.isWidgetNotificationShowing = mIsWidgetNotificationShowing;
-		state.searchTextSelectionStart = mSearchEditText.getSelectionStart();
-		state.searchTextSelectionEnd = mSearchEditText.getSelectionEnd();
-		state.autosuggestions = mAutosuggestions;
+	private static final String INSTANCE_TAG = "INSTANCE_TAG";
+	private static final String INSTANCE_OLD_SEARCH_PARAMS = "INSTANCE_OLD_SEARCH_PARAMS";
+	private static final String INSTANCE_ORIGINAL_SEARCH_PARAMS = "INSTANCE_ORIGINAL_SEARCH_PARAMS";
+	private static final String INSTANCE_OLD_FILTER = "INSTANCE_OLD_FILTER";
+	private static final String INSTANCE_SHOW_DISTANCES = "INSTANCE_SHOW_DISTANCES";
+	private static final String INSTANCE_START_SEARCH_ON_RESUME = "INSTANCE_START_SEARCH_ON_RESUME";
+	private static final String INSTANCE_LAST_SEARCH_TIME = "INSTANCE_LAST_SEARCH_TIME";
+	private static final String INSTANCE_ADDRESSES = "INSTANCE_ADDRESSES";
+	private static final String INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING = "INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING";
+	private static final String INSTANCE_SEARCH_TEXT_SELECTION_START = "INSTANCE_SEARCH_TEXT_SELECTION_START";
+	private static final String INSTANCE_SEARCH_TEXT_SELECTION_END = "INSTANCE_SEARCH_TEXT_SELECTION_END";
+	private static final String INSTANCE_AUTOSUGGESTIONS = "INSTANCE_AUTOSUGGESTIONS";
+	private static final String INSTANCE_DISPLAY_TYPE = "INSTANCE_DISPLAY_TYPE";
+
+	private Bundle saveActivityState() {
+		Bundle outState = new Bundle();
+		outState.putString(INSTANCE_TAG, mTag);
+		outState.putBoolean(INSTANCE_SHOW_DISTANCES, mShowDistance);
+		outState.putBoolean(INSTANCE_START_SEARCH_ON_RESUME, mStartSearchOnResume);
+		outState.putLong(INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
+		outState.putBoolean(INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING, mIsWidgetNotificationShowing);
+		outState.putInt(INSTANCE_SEARCH_TEXT_SELECTION_START, mSearchTextSelectionStart);
+		outState.putInt(INSTANCE_SEARCH_TEXT_SELECTION_END, mSearchTextSelectionEnd);
+		outState.putParcelableArrayList(INSTANCE_ADDRESSES, mAddresses);
+
+		JSONUtils.putJSONable(outState, INSTANCE_OLD_SEARCH_PARAMS, mOldSearchParams);
+		JSONUtils.putJSONable(outState, INSTANCE_ORIGINAL_SEARCH_PARAMS, mOriginalSearchParams);
+		JSONUtils.putJSONable(outState, INSTANCE_OLD_FILTER, mOldFilter);
+
+		JSONUtils.putJSONableList(outState, INSTANCE_AUTOSUGGESTIONS, mAutosuggestions);
 
 		// #9733: You cannot keep displaying a PopupWindow on rotation.  Since it's not essential the popup
 		// stay visible, it's easier here just to hide it between activity shifts.
 		if (mDisplayType == DisplayType.SORT_POPUP) {
-			state.displayType = DisplayType.NONE;
+			outState.putInt(INSTANCE_DISPLAY_TYPE, DisplayType.NONE.ordinal());
 		}
 		else {
-			state.displayType = mDisplayType;
+			outState.putInt(INSTANCE_DISPLAY_TYPE, mDisplayType.ordinal());
 		}
-
-		return state;
+		return outState;
 	}
 
-	private void extractActivityState(ActivityState state) {
-		mTag = state.tag;
-		mOldSearchParams = state.oldSearchParams;
-		mOriginalSearchParams = state.originalSearchParams;
-		mOldFilter = state.oldFilter;
-		mShowDistance = state.showDistance;
-		mDisplayType = state.displayType;
-		mStartSearchOnResume = state.startSearchOnResume;
-		mLastSearchTime = state.lastSearchTime;
-		mAddresses = state.addresses;
-		mIsWidgetNotificationShowing = state.isWidgetNotificationShowing;
-		mSearchTextSelectionStart = state.searchTextSelectionStart;
-		mSearchTextSelectionEnd = state.searchTextSelectionEnd;
-		mAutosuggestions = state.autosuggestions;
+	@SuppressWarnings("unchecked")
+	private void restoreActivityState(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			mTag = savedInstanceState.getString(INSTANCE_TAG, ACTIVITY_SEARCH_LIST);
+			mShowDistance = savedInstanceState.getBoolean(INSTANCE_SHOW_DISTANCES, false);
+			mStartSearchOnResume = savedInstanceState.getBoolean(INSTANCE_START_SEARCH_ON_RESUME, false);
+			mLastSearchTime = savedInstanceState.getLong(INSTANCE_LAST_SEARCH_TIME);
+			mIsWidgetNotificationShowing = savedInstanceState
+					.getBoolean(INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING, false);
+			mSearchTextSelectionStart = savedInstanceState.getInt(INSTANCE_SEARCH_TEXT_SELECTION_START);
+			mSearchTextSelectionEnd = savedInstanceState.getInt(INSTANCE_SEARCH_TEXT_SELECTION_END);
+			mAddresses = savedInstanceState.getParcelableArrayList(INSTANCE_ADDRESSES);
+			mDisplayType = DisplayType.values()[savedInstanceState.getInt(INSTANCE_DISPLAY_TYPE)];
+
+			mOldSearchParams = JSONUtils
+					.getJSONable(savedInstanceState, INSTANCE_OLD_SEARCH_PARAMS, SearchParams.class);
+			mOriginalSearchParams = JSONUtils.getJSONable(savedInstanceState, INSTANCE_ORIGINAL_SEARCH_PARAMS,
+					SearchParams.class);
+			mOldFilter = JSONUtils.getJSONable(savedInstanceState, INSTANCE_OLD_FILTER, Filter.class);
+
+			mAutosuggestions = (List<Search>) JSONUtils.getJSONableList(savedInstanceState,
+					INSTANCE_AUTOSUGGESTIONS, Search.class);
+		}
 	}
 
 	//----------------------------------
@@ -2995,28 +3026,6 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 	// PRIVATE CLASSES
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	private static class ActivityState {
-		// Safe
-		public String tag;
-		public boolean showDistance;
-		public Map<PriceRange, PriceTier> priceTierCache;
-		public SearchParams oldSearchParams;
-		public SearchParams originalSearchParams;
-		public boolean startSearchOnResume;
-		public boolean isWidgetNotificationShowing;
-		public List<Search> autosuggestions;
-
-		public DisplayType displayType;
-		public long lastSearchTime;
-		public List<Address> addresses; // For geocoding disambiguation
-
-		public int searchTextSelectionStart;
-		public int searchTextSelectionEnd;
-
-		// Questionable
-		public Filter oldFilter;
-	}
-
 	private class SoftKeyResultReceiver extends ResultReceiver {
 		public SoftKeyResultReceiver(Handler handler) {
 			super(handler);
@@ -3038,7 +3047,7 @@ public class PhoneSearchActivity extends ActivityGroup implements LocationListen
 		SearchParams searchParams = Db.getSearchParams();
 		Filter filter = Db.getFilter();
 		SearchResponse searchResponse = Db.getSearchResponse();
-		
+
 		// If we already have results, check for refinements; if there were none, it's possible
 		// that the user just opened/closed a search param change without changing anything.
 		// 
