@@ -220,7 +220,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	private TextView mGuestsTextView;
 	private TextView mRefinementInfoTextView;
 	private TextView mSelectChildAgeTextView;
-	private TextView mSortTypeTextView;
+	private TextView mSortTextView;
 	private View mButtonBarLayout;
 	private View mDatesLayout;
 	private View mFocusLayout;
@@ -1009,7 +1009,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 		mFilterInfoTextView = (TextView) findViewById(R.id.filter_info_text_view);
 		mFilterHotelNameEditText = (EditText) findViewById(R.id.filter_hotel_name_edit_text);
-		mSortTypeTextView = (TextView) findViewById(R.id.sort_type_text_view);
+		mSortTextView = (TextView) findViewById(R.id.sort_text_view);
 		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
 		mRatingButtonGroup = (SegmentedControlGroup) findViewById(R.id.rating_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
@@ -2446,7 +2446,8 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	}
 
 	private void setSortTypeText() {
-		mSortTypeTextView.setText(Db.getFilter().getSort().getDescriptionResId());
+		String sortType = getString(Db.getFilter().getSort().getDescriptionResId());
+		mSortTextView.setText(Html.fromHtml(getString(R.string.sort_hotels_template, sortType)));
 	}
 
 	private void setViewButtonImage() {
