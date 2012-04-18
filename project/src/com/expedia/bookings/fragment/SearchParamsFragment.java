@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
@@ -14,7 +11,6 @@ import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +29,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.Editable;
 import android.text.Html;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -738,26 +733,13 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 		data.moveToFirst();
 		int a = 0;
-		int jsonIndex = data.getColumnIndex(SearchManager.SUGGEST_COLUMN_INTENT_EXTRA_DATA);
-		int textIndex = data.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1);
 		while (a < mSuggestionRows.size() && !data.isAfterLast()) {
-			try {
-				String searchJson = data.getString(jsonIndex);
-				if (!TextUtils.isEmpty(searchJson)) {
-					Search search = new Search();
-					search.fromJson(new JSONObject(searchJson));
-					mSuggestionRows.get(a).configure(search);
-				}
-				else {
-					String text = data.getString(textIndex);
-					mSuggestionRows.get(a).configure(text);
-				}
+			Object o = AutocompleteProvider.extractSearchOrString(data);
+			if (o != null) {
+				mSuggestionRows.get(a).configure(o);
 				a++;
-				data.moveToNext();
 			}
-			catch (JSONException e) {
-				Log.e("Unable to parse Search object");
-			}
+			data.moveToNext();
 		}
 	}
 

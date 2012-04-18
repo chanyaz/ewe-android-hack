@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.SearchManager;
@@ -15,6 +16,7 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
@@ -30,6 +32,7 @@ public class AutocompleteProvider extends ContentProvider {
 			SearchManager.SUGGEST_COLUMN_ICON_1 };
 
 	public static final int COLUMN_TEXT_INDEX = 1;
+	public static final int COLUMN_JSON_INDEX = 3;
 	public static final int COLUMN_ICON_INDEX = 4;
 
 	public static Uri generateSearchUri(String query, int limit) {
@@ -124,6 +127,25 @@ public class AutocompleteProvider extends ContentProvider {
 		}
 
 		return cursor;
+	}
+
+	public static Object extractSearchOrString(Cursor cursor) {
+		try {
+			String searchJson = cursor.getString(COLUMN_JSON_INDEX);
+			if (!TextUtils.isEmpty(searchJson)) {
+				Search search = new Search();
+				search.fromJson(new JSONObject(searchJson));
+				return search;
+			}
+			else {
+				String text = cursor.getString(COLUMN_TEXT_INDEX);
+				return text;
+			}
+		}
+		catch (JSONException e) {
+			Log.e("Unable to parse Search object");
+		}
+		return null;
 	}
 
 	private static List<String> sStaticSuggestions;
