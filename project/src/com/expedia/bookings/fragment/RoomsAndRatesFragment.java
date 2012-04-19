@@ -132,6 +132,9 @@ public class RoomsAndRatesFragment extends ListFragment {
 		mAdapter.setSelectedPosition(getPositionOfRate(Db.getSelectedRate()));
 		setListAdapter(mAdapter);
 
+		// Disable highlighting if we're on phone UI
+		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(getActivity()));
+
 		CharSequence commonValueAdds = response.getCommonValueAddsString(getActivity());
 		if (commonValueAdds != null) {
 			mFooterTextView.setText(commonValueAdds);

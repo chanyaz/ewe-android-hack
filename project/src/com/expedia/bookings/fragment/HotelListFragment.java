@@ -119,6 +119,9 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		listView.setOnScrollListener(this);
 		mScrollBar.setListView(listView);
 		mScrollBar.setOnScrollListener(this);
+		
+		// Disable highlighting if we're on phone UI
+		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(getActivity()));
 
 		// Configure the phone vs. ui different
 		if (AndroidUtils.isHoneycombTablet(getActivity())) {

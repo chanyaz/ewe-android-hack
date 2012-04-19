@@ -21,7 +21,6 @@ import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
-import com.mobiata.android.Log;
 
 public class RoomsAndRatesAdapter extends BaseAdapter {
 
@@ -45,6 +44,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 	private float mSaleTextSize;
 
 	private int mSelectedPosition = -1;
+	private boolean mHighlightSelectedPosition = true;
 
 	private int mBedSalePadding;
 
@@ -86,6 +86,10 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		mBedSalePadding = (int) Math.round(mResources.getDisplayMetrics().density * 26);
 	}
 
+	public void highlightSelectedPosition(boolean highlight) {
+		mHighlightSelectedPosition = highlight;
+	}
+
 	public void setSelectedPosition(int selectedPosition) {
 		mSelectedPosition = selectedPosition;
 	}
@@ -107,7 +111,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 	@Override
 	public int getItemViewType(int position) {
-		if (position == mSelectedPosition) {
+		if (position == mSelectedPosition && mHighlightSelectedPosition) {
 			return ROW_SELECTED;
 		}
 		else {

@@ -59,6 +59,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private float mPriceTextSize;
 
 	private int mSelectedPosition = -1;
+	private boolean mHighlightSelectedPosition = true;
 
 	private boolean mUseCondensedRows;
 
@@ -87,6 +88,10 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	public void setSearchResponse(SearchResponse searchResponse) {
 		mSearchResponse = searchResponse;
 		rebuildCache();
+	}
+
+	public void highlightSelectedPosition(boolean highlight) {
+		mHighlightSelectedPosition = highlight;
 	}
 
 	public void setSelectedPosition(int selectedPosition) {
@@ -183,7 +188,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	@Override
 	public int getItemViewType(int position) {
-		if (position == mSelectedPosition) {
+		if (position == mSelectedPosition && mHighlightSelectedPosition) {
 			return ROW_SELECTED;
 		}
 		else {
