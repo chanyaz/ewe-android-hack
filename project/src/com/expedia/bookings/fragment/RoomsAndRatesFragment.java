@@ -64,7 +64,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 		}
 
 		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
-		if (response != null) {
+		if (response != null && !response.canRequestMoreData()) {
 			loadResponse(response);
 		}
 

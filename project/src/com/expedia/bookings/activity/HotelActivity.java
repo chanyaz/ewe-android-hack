@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -46,14 +47,18 @@ import com.expedia.bookings.widget.AdapterView.OnItemClickListener;
 import com.expedia.bookings.widget.AdapterView.OnItemSelectedListener;
 import com.expedia.bookings.widget.Gallery;
 import com.expedia.bookings.widget.Gallery.OnScrollListener;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
-import com.mobiata.android.app.AsyncLoadActivity;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.omniture.AppMeasurement;
 
-public class HotelActivity extends AsyncLoadActivity {
+public class HotelActivity extends Activity {
+
+	private static final String DOWNLOAD_KEY = "com.expedia.booking.details.offer";
 
 	// This is the position in the list that the hotel had when the user clicked on it 
 	public static final String EXTRA_POSITION = "EXTRA_POSITION";
@@ -103,9 +108,83 @@ public class HotelActivity extends AsyncLoadActivity {
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+
+		if (mWasStopped) {
+			onPageLoad();
+			mWasStopped = false;
+		}
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 		mIsStartingReviewsActivity = false;
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
+		if (response != null) {
+			// We may have been downloading the data here before getting it elsewhere, so cancel
+			// our own download once we have data
+			bd.cancelDownload(DOWNLOAD_KEY);
+
+			// Load the data
+			mCallback.onDownload(response);
+		}
+		else {
+			mProgressBar.setVisibility(View.VISIBLE);
+
+			if (bd.isDownloading(DOWNLOAD_KEY)) {
+				bd.registerDownloadCallback(DOWNLOAD_KEY, mCallback);
+			}
+			else {
+				Download download = new Download() {
+					@Override
+					public Object doDownload() {
+						ExpediaServices services = new ExpediaServices(mContext);
+						return services.availability(Db.getSearchParams(), Db.getSelectedProperty(), 0);
+					}
+				};
+
+				bd.startDownload(DOWNLOAD_KEY, download, mCallback);
+			}
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(INSTANCE_GALLERY_FLIPPING, mGallery.isFlipping());
+		outState.putInt(INSTANCE_GALLERY_POSITION, mGallery.getSelectedItemPosition());
+		outState.putBoolean(INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED, mIsAmenitiesExpanded);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+		mWasStopped = true;
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (isFinishing() && Db.getSelectedProperty().getMediaCount() > 0) {
+			// In order to avoid memory issues, clear the cache of images we might've loaded in this activity
+			Log.d("Clearing out images from property.");
+
+			for (Media image : Db.getSelectedProperty().getMediaList()) {
+				image.removeFromImageCache();
+			}
+		}
 	}
 
 	private void setupHotelActivity(Bundle savedInstanceState) {
@@ -212,45 +291,6 @@ public class HotelActivity extends AsyncLoadActivity {
 				mApp.broadcastSearchParamsChangedInWidget((SearchParams) JSONUtils.parseJSONableFromIntent(intent,
 						Codes.SEARCH_PARAMS, SearchParams.class));
 			}
-		}
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putBoolean(INSTANCE_GALLERY_FLIPPING, mGallery.isFlipping());
-		outState.putInt(INSTANCE_GALLERY_POSITION, mGallery.getSelectedItemPosition());
-		outState.putBoolean(INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED, mIsAmenitiesExpanded);
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-		if (isFinishing() && Db.getSelectedProperty().getMediaCount() > 0) {
-			// In order to avoid memory issues, clear the cache of images we might've loaded in this activity
-			Log.d("Clearing out images from property.");
-
-			for (Media image : Db.getSelectedProperty().getMediaList()) {
-				image.removeFromImageCache();
-			}
-		}
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-
-		mWasStopped = true;
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-
-		if (mWasStopped) {
-			onPageLoad();
-			mWasStopped = false;
 		}
 	}
 
@@ -398,52 +438,48 @@ public class HotelActivity extends AsyncLoadActivity {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Async loading of hoteloffers
 
-	@Override
-	public String getUniqueKey() {
-		return "com.expedia.booking.details.offer";
-	}
+	private OnDownloadComplete mCallback = new OnDownloadComplete() {
+		@Override
+		public void onDownload(Object results) {
+			mProgressBar.setVisibility(View.GONE);
 
-	@Override
-	public void showProgress() {
-		mProgressBar.setVisibility(View.VISIBLE);
-	}
+			AvailabilityResponse response = (AvailabilityResponse) results;
 
-	@Override
-	public Object downloadImpl() {
-		ExpediaServices services = new ExpediaServices(this);
-		return services.availability(Db.getSearchParams(), Db.getSelectedProperty(), 0);
-	}
+			// Check if we got a better response elsewhere before loading up this data
+			AvailabilityResponse possibleBetterResponse = Db.getSelectedAvailabilityResponse();
+			if (possibleBetterResponse != null && !possibleBetterResponse.canRequestMoreData()) {
+				response = possibleBetterResponse;
+			}
+			else {
+				Db.addAvailabilityResponse(response);
+			}
 
-	@Override
-	public void onResults(Object results) {
-		mProgressBar.setVisibility(View.GONE);
+			String description;
+			if (response == null) {
+				// Use short description (if available)
+				description = Db.getSelectedProperty().getDescriptionText();
+			}
+			else if (response.hasErrors()) {
+				// TODO: At a later junction, remove the error display and
+				// just show the short description.
+				description = response.getErrors().get(0).getPresentableMessage(mContext);
+			}
+			else {
+				Property property = response.getProperty();
 
-		AvailabilityResponse response = (AvailabilityResponse) results;
-		String description;
-		if (response == null) {
-			// Use short description (if available)
-			description = Db.getSelectedProperty().getDescriptionText();
+				Db.getSelectedProperty().setMediaList(property.getMediaList());
+
+				description = property.getDescriptionText();
+
+				setupGallery(property);
+				setupAmenities(property);
+			}
+
+			if (description != null && description.length() > 0) {
+				layoutDescription(mDescriptionContainer, description);
+			}
 		}
-		else if (response.hasErrors()) {
-			// TODO: At a later junction, remove the error display and
-			// just show the short description.
-			description = response.getErrors().get(0).getPresentableMessage(this);
-		}
-		else {
-			Property property = response.getProperty();
-
-			Db.getSelectedProperty().setMediaList(property.getMediaList());
-
-			description = property.getDescriptionText();
-
-			setupGallery(property);
-			setupAmenities(property);
-		}
-
-		if (description != null && description.length() > 0) {
-			layoutDescription(mDescriptionContainer, description);
-		}
-	}
+	};
 
 	private void setupGallery(Property property) {
 		if (property.getMediaCount() > 0) {

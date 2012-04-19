@@ -81,7 +81,8 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		}
 
 		// Load the initial data from net
-		if (Db.getSelectedAvailabilityResponse() != null) {
+		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
+		if (response != null && !response.canRequestMoreData()) {
 			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
 		}
 		else {
