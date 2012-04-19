@@ -1242,6 +1242,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 		mOriginalSearchParams = null;
 		Db.setSearchResponse(null);
+		Db.clearAvailabilityResponses();
 
 		broadcastSearchStarted();
 
@@ -1430,7 +1431,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		return outState;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void restoreActivityState(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
 			mTag = savedInstanceState.getString(INSTANCE_TAG, getString(R.string.tag_hotel_list));
@@ -2980,8 +2980,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		Db.setSelectedProperty(property);
 
 		Intent intent = new Intent(this, HotelActivity.class);
-		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
-		intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toString());
 		intent.putExtra(HotelActivity.EXTRA_POSITION, position);
 		startActivity(intent);
 	}
@@ -2999,8 +2997,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		Db.setSelectedProperty(property);
 
 		Intent intent = new Intent(this, HotelActivity.class);
-		intent.putExtra(Codes.PROPERTY, property.toJson().toString());
-		intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toString());
 		startActivity(intent);
 	}
 

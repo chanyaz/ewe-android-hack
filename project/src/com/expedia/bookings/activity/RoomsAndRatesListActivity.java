@@ -1,7 +1,5 @@
 package com.expedia.bookings.activity;
 
-import org.json.JSONException;
-
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -31,15 +29,10 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache;
-import com.mobiata.android.Log;
-import com.mobiata.android.json.JSONUtils;
 
 public class RoomsAndRatesListActivity extends FragmentActivity implements RoomsAndRatesFragmentListener {
 
 	private static final String DOWNLOAD_KEY = "com.expedia.booking.details.offer.full";
-
-	private Property mProperty;
-	private SearchParams mSearchParams;
 
 	private RoomsAndRatesFragment mRoomsAndRatesFragment;
 
@@ -54,28 +47,9 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 
 		mRoomsAndRatesFragment = Ui.findSupportFragment(this, getString(R.string.tag_rooms_and_rates));
 
-		// Retrieve data to build this with
-		final Intent intent = getIntent();
-		Property property = mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
-				Property.class);
-		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
-				SearchParams.class);
-
-		// This code allows us to test the RoomsAndRatesListActivity standalone, for layout purposes.
-		// Just point the default launcher activity towards this instead of SearchActivity
-		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
-			try {
-				property = mProperty = new Property();
-				mProperty.fillWithTestData();
-				mSearchParams = new SearchParams();
-				mSearchParams.fillWithTestData();
-			}
-			catch (JSONException e) {
-				Log.e("Couldn't create dummy data!", e);
-			}
-		}
-
 		// Format the header
+		Property property = Db.getSelectedProperty();
+		SearchParams searchParams = Db.getSearchParams();
 		ImageView thumbnailView = (ImageView) findViewById(R.id.thumbnail_image_view);
 		if (property.getThumbnail() != null) {
 			ImageCache.loadImage(property.getThumbnail().getUrl(), thumbnailView);
@@ -96,11 +70,11 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		// Only display nights header if orientation landscape
 		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 			TextView nightsView = (TextView) findViewById(R.id.nights_text_view);
-			int numNights = mSearchParams.getStayDuration();
+			int numNights = searchParams.getStayDuration();
 			nightsView.setText(getResources().getQuantityString(R.plurals.staying_nights, numNights, numNights));
 
 			TextView datesView = (TextView) findViewById(R.id.dates_text_view);
-			datesView.setText(CalendarUtils.formatDateRange(this, mSearchParams));
+			datesView.setText(CalendarUtils.formatDateRange(this, searchParams));
 		}
 		else {
 			findViewById(R.id.nights_container).setVisibility(View.GONE);
@@ -117,7 +91,8 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 					@Override
 					public Object doDownload() {
 						ExpediaServices services = new ExpediaServices(RoomsAndRatesListActivity.this);
-						return services.availability(mSearchParams, mProperty, ExpediaServices.F_EXPENSIVE);
+						return services.availability(Db.getSearchParams(), Db.getSelectedProperty(),
+								ExpediaServices.F_EXPENSIVE);
 					}
 				};
 
@@ -126,7 +101,7 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		}
 
 		if (savedInstanceState == null) {
-			Tracker.trackAppHotelsRoomsRates(this, mProperty, null);
+			Tracker.trackAppHotelsRoomsRates(this, property, null);
 		}
 	}
 
@@ -135,7 +110,7 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		super.onStart();
 
 		if (mWasStopped) {
-			Tracker.trackAppHotelsRoomsRates(this, mProperty, null);
+			Tracker.trackAppHotelsRoomsRates(this, Db.getSelectedProperty(), null);
 			mWasStopped = false;
 		}
 	}
@@ -184,8 +159,11 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 	public void onRateSelected(Rate rate) {
 		Db.setSelectedRate(rate);
 
+		// TODO: The rest of the app does not use Db.java yet, so for now it connects by
+		// putting all the extras here.
 		Intent intent = new Intent(this, BookingInfoActivity.class);
-		intent.fillIn(getIntent(), 0);
+		intent.putExtra(Codes.PROPERTY, Db.getSelectedProperty().toJson().toString());
+		intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toJson().toString());
 		intent.putExtra(Codes.RATE, rate.toJson().toString());
 		startActivity(intent);
 	}

@@ -4,8 +4,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import org.json.JSONException;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -29,6 +27,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelDescription.DescriptionSection;
 import com.expedia.bookings.data.Location;
@@ -63,8 +62,6 @@ public class HotelActivity extends AsyncLoadActivity {
 	private static final String INSTANCE_GALLERY_POSITION = "INSTANCE_GALLERY_POSITION";
 	private static final String INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED = "INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED";
 
-	private static final float MAX_AMENITY_TEXT_WIDTH_IN_DP = 60.0f;
-
 	private static final int MAX_IMAGES_LOADED = 5;
 
 	private static final int BODY_LENGTH_CUTOFF = 400;
@@ -78,9 +75,6 @@ public class HotelActivity extends AsyncLoadActivity {
 	private Gallery mGallery;
 	private ViewGroup mDescriptionContainer;
 	private ProgressBar mProgressBar;
-
-	private SearchParams mSearchParams;
-	private Property mProperty;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
@@ -126,26 +120,10 @@ public class HotelActivity extends AsyncLoadActivity {
 
 		setContentView(R.layout.activity_hotel);
 
-		// Retrieve data to build this with
-		mSearchParams = (SearchParams) JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
-				SearchParams.class);
-		Property property = mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
-				Property.class);
-
 		HotelDescription.SectionStrings.initSectionStrings(this);
 		mDescription = new HotelDescription(this);
 
-		// This code allows us to test the HotelActivity standalone, for layout purposes.
-		// Just point the default launcher activity towards this instead of SearchActivity
-		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
-			try {
-				property = mProperty = new Property();
-				mProperty.fillWithTestData();
-			}
-			catch (JSONException e) {
-				Log.e("Couldn't create dummy data!", e);
-			}
-		}
+		Property property = Db.getSelectedProperty();
 
 		// Fill in header views
 		OnClickListener onBookNowClick = new OnClickListener() {
@@ -249,11 +227,11 @@ public class HotelActivity extends AsyncLoadActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 
-		if (isFinishing() && mProperty.getMediaCount() > 0) {
+		if (isFinishing() && Db.getSelectedProperty().getMediaCount() > 0) {
 			// In order to avoid memory issues, clear the cache of images we might've loaded in this activity
 			Log.d("Clearing out images from property.");
 
-			for (Media image : mProperty.getMediaList()) {
+			for (Media image : Db.getSelectedProperty().getMediaList()) {
 				image.removeFromImageCache();
 			}
 		}
@@ -278,7 +256,6 @@ public class HotelActivity extends AsyncLoadActivity {
 
 	public void startRoomRatesActivity() {
 		Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
-		roomsRatesIntent.fillIn(getIntent(), 0);
 		startActivity(roomsRatesIntent);
 	}
 
@@ -376,13 +353,14 @@ public class HotelActivity extends AsyncLoadActivity {
 		lp.addRule(RelativeLayout.BELOW, R.id.body_description_text_view);
 
 		RatingBar hotelStarRating = (RatingBar) starRatingContainer.findViewById(R.id.hotel_rating_bar);
-		hotelStarRating.setRating((float) mProperty.getHotelRating());
+		hotelStarRating.setRating((float) Db.getSelectedProperty().getHotelRating());
 
 		detailsSection.addView(starRatingContainer, lp);
 	}
 
 	private void addAddressSection(ViewGroup descriptionContainer) {
-		Location location = mProperty.getLocation();
+		Property property = Db.getSelectedProperty();
+		Location location = property.getLocation();
 		if (location != null) {
 			int flags = StrUtils.F_STREET_ADDRESS + StrUtils.F_CITY + StrUtils.F_STATE_CODE + StrUtils.F_POSTAL_CODE;
 
@@ -390,7 +368,7 @@ public class HotelActivity extends AsyncLoadActivity {
 			if (countryCode != null && !countryCode.equals("US")) {
 				flags += StrUtils.F_COUNTRY_CODE;
 			}
-			String address = mProperty.getName() + "\n" + StrUtils.formatAddress(location, flags);
+			String address = property.getName() + "\n" + StrUtils.formatAddress(location, flags);
 			RelativeLayout addressSection = (RelativeLayout) addSection(getString(R.string.address),
 					address.replace("\n", "<br />"), descriptionContainer);
 
@@ -433,7 +411,7 @@ public class HotelActivity extends AsyncLoadActivity {
 	@Override
 	public Object downloadImpl() {
 		ExpediaServices services = new ExpediaServices(this);
-		return services.availability(mSearchParams, mProperty, 0);
+		return services.availability(Db.getSearchParams(), Db.getSelectedProperty(), 0);
 	}
 
 	@Override
@@ -444,7 +422,7 @@ public class HotelActivity extends AsyncLoadActivity {
 		String description;
 		if (response == null) {
 			// Use short description (if available)
-			description = mProperty.getDescriptionText();
+			description = Db.getSelectedProperty().getDescriptionText();
 		}
 		else if (response.hasErrors()) {
 			// TODO: At a later junction, remove the error display and
@@ -454,7 +432,7 @@ public class HotelActivity extends AsyncLoadActivity {
 		else {
 			Property property = response.getProperty();
 
-			mProperty.setMediaList(property.getMediaList());
+			Db.getSelectedProperty().setMediaList(property.getMediaList());
 
 			description = property.getDescriptionText();
 
@@ -479,7 +457,7 @@ public class HotelActivity extends AsyncLoadActivity {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 						Intent intent = new Intent(mContext, HotelGalleryActivity.class);
-						intent.putExtra(Codes.PROPERTY, mProperty.toString());
+						intent.putExtra(Codes.PROPERTY, Db.getSelectedProperty().toString());
 						intent.putExtra(Codes.SELECTED_IMAGE, parent.getSelectedItem().toString());
 						startActivity(intent);
 					}
@@ -606,10 +584,11 @@ public class HotelActivity extends AsyncLoadActivity {
 		s.eVar25 = s.prop25 = "Shopper";
 
 		// Rating or highly rated
-		TrackingUtils.addHotelRating(s, mProperty);
+		Property property = Db.getSelectedProperty();
+		TrackingUtils.addHotelRating(s, property);
 
 		// Products
-		TrackingUtils.addProducts(s, mProperty);
+		TrackingUtils.addProducts(s, property);
 
 		// Position, if opened from list
 		int position = getIntent().getIntExtra(EXTRA_POSITION, -1);

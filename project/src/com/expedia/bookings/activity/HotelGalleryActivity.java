@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.mobiata.android.ImageCache;
@@ -51,15 +52,14 @@ public class HotelGalleryActivity extends FragmentActivity {
 		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		setContentView(R.layout.activity_hotel_gallery);
 
-		if (savedInstanceState != null && savedInstanceState.containsKey(Codes.PROPERTY)
-				&& savedInstanceState.containsKey(Codes.SELECTED_IMAGE)) {
-			mProperty = JSONUtils.parseJSONObjectFromBundle(savedInstanceState, Codes.PROPERTY, Property.class);
+		if (savedInstanceState != null && savedInstanceState.containsKey(Codes.SELECTED_IMAGE)) {
 			mSelectedMedia = JSONUtils.parseJSONObjectFromBundle(savedInstanceState, Codes.SELECTED_IMAGE, Media.class);
 		}
 		else {
-			mProperty = JSONUtils.parseJSONableFromIntent(this.getIntent(), Codes.PROPERTY, Property.class);
 			mSelectedMedia = JSONUtils.parseJSONableFromIntent(this.getIntent(), Codes.SELECTED_IMAGE, Media.class);
 		}
+
+		mProperty = Db.getSelectedProperty();
 
 		// setup the ViewPager
 		HotelImagePagerAdapter pagerAdapter = new HotelImagePagerAdapter(getSupportFragmentManager());
@@ -155,9 +155,6 @@ public class HotelGalleryActivity extends FragmentActivity {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (mProperty != null) {
-			outState.putString(Codes.PROPERTY, mProperty.toString());
-		}
 		if (mSelectedMedia != null) {
 			outState.putString(Codes.SELECTED_IMAGE, mSelectedMedia.toString());
 		}

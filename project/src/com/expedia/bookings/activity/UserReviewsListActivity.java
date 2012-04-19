@@ -6,26 +6,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.json.JSONException;
-
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.ReviewsStatisticsResponse;
-import com.expedia.bookings.fragment.UserReviewsFragment;
-import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
-import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.server.ExpediaServices.ReviewSort;
-import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.UserReviewsUtils;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.widget.SegmentedControlGroup;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,9 +17,26 @@ import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.RadioGroup.OnCheckedChangeListener;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.ReviewsStatisticsResponse;
+import com.expedia.bookings.fragment.UserReviewsFragment;
+import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
+import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.server.ExpediaServices.ReviewSort;
+import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.UserReviewsUtils;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
+import com.mobiata.android.widget.SegmentedControlGroup;
 
 public class UserReviewsListActivity extends FragmentActivity implements UserReviewsFragmentListener {
 
@@ -89,8 +86,8 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 		mContext = this;
 
 		setContentView(R.layout.activity_user_reviews);
-
-		extractPropertyFromIntent();
+		
+		mProperty = Db.getSelectedProperty();
 
 		if (savedInstanceState != null) {
 			mRecentReviewsFragment = Ui.findSupportFragment(this, INSTANCE_RECENT_REVIEWS_FRAGMENT);
@@ -328,24 +325,6 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 
 		if (progressBar != null) {
 			progressBar.setVisibility(View.GONE);
-		}
-	}
-
-	private void extractPropertyFromIntent() {
-		// Retrieve data to build this with
-		final Intent intent = getIntent();
-		mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
-
-		// This code allows us to test the UserReviewsActivity standalone, for layout purposes.
-		// Just point the default launcher activity towards this instead of SearchActivity
-		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
-			try {
-				mProperty = new Property();
-				mProperty.fillWithTestData();
-			}
-			catch (JSONException e) {
-				Log.e("Couldn't create dummy data!", e);
-			}
 		}
 	}
 

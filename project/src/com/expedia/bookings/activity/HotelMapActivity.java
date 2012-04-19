@@ -3,8 +3,6 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -24,7 +22,6 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
-import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.widget.BalloonItemizedOverlay;
 import com.mobiata.android.widget.StandardBalloonAdapter;
 import com.omniture.AppMeasurement;
@@ -32,8 +29,6 @@ import com.omniture.AppMeasurement;
 public class HotelMapActivity extends MapActivity {
 
 	private Context mContext;
-
-	private Property mProperty;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
@@ -54,39 +49,22 @@ public class HotelMapActivity extends MapActivity {
 
 		setContentView(R.layout.activity_hotel_map);
 
-		// Retrieve data to build this with
-		final Intent intent = getIntent();
-		mProperty = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY,
-				Property.class);
-
-		// This code allows us to test the HotelMapActivity standalone, for layout purposes.
-		// Just point the default launcher activity towards this instead of SearchActivity
-		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
-			try {
-				mProperty = new Property();
-				mProperty.fillWithTestData();
-			}
-			catch (JSONException e) {
-				Log.e("Couldn't create dummy data!", e);
-			}
-		}
+		Property property = Db.getSelectedProperty();
 
 		// Configure header
 		OnClickListener onBookNowClick = new OnClickListener() {
 			public void onClick(View v) {
 				Intent roomsRatesIntent = new Intent(mContext, RoomsAndRatesListActivity.class);
-				roomsRatesIntent.fillIn(getIntent(), 0);
 				startActivity(roomsRatesIntent);
 			}
 		};
-		OnClickListener onReviewsClick = (!mProperty.hasExpediaReviews()) ? null : new OnClickListener() {
+		OnClickListener onReviewsClick = (!property.hasExpediaReviews()) ? null : new OnClickListener() {
 			public void onClick(View v) {
 				Intent userReviewsIntent = new Intent(mContext, UserReviewsListActivity.class);
-				userReviewsIntent.fillIn(getIntent(), 0);
 				startActivity(userReviewsIntent);
 			}
 		};
-		LayoutUtils.configureHeader(this, mProperty, onBookNowClick, onReviewsClick);
+		LayoutUtils.configureHeader(this, property, onBookNowClick, onReviewsClick);
 
 		// Create the map and add it to the layout
 		mMapView = MapUtils.createMapView(this);
@@ -99,7 +77,7 @@ public class HotelMapActivity extends MapActivity {
 		mMapView.setClickable(true);
 
 		List<Property> properties = new ArrayList<Property>();
-		properties.add(mProperty);
+		properties.add(property);
 		mOverlay = new HotelItemizedOverlay(this, properties, mMapView);
 		mOverlay.setClickable(false);
 		StandardBalloonAdapter adapter = new StandardBalloonAdapter(this);
@@ -171,7 +149,7 @@ public class HotelMapActivity extends MapActivity {
 		s.eVar25 = s.prop25 = "Shopper";
 
 		// Products
-		TrackingUtils.addProducts(s, mProperty);
+		TrackingUtils.addProducts(s, Db.getSelectedProperty());
 
 		// Send the tracking data
 		s.track();
