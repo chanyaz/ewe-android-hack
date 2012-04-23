@@ -78,7 +78,7 @@
 	<!-- Label indicating that geolocation failed -->
 	<string name="geolocation_failed">Tidak dapat menentukan lokasi carian.</string>
 	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
-	<string name="NoGeocodingResults">Tidak dapat mencari lokasi bagi %%s</string>
+	<string name="NoGeocodingResults">Tidak dapat mencari lokasi bagi %s</string>
 	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
 	<string name="ChooseLocation">Adakah anda maksudkan...</string>
 	<!-- Button label for upgrading the app -->
