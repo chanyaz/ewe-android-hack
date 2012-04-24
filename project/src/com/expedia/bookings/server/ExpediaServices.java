@@ -71,8 +71,6 @@ import com.mobiata.android.util.SettingUtils;
 
 public class ExpediaServices implements DownloadListener {
 
-	private static final String COOKIES_FILE = "cookies.dat";
-
 	private static final String BAZAAR_VOICE_BASE_URL = "http://reviews.expedia.com/data/reviews.json";
 	private static final String BAZAAR_VOICE_API_TOKEN = "tq2es494c5r0o2443tc4byu2q";
 	private static final String BAZAAR_VOICE_API_VERSION = "5.1";
@@ -285,9 +283,9 @@ public class ExpediaServices implements DownloadListener {
 
 	public void signOut() {
 		PersistantCookieStore cookieStore = new PersistantCookieStore();
-		cookieStore.load(mContext, COOKIES_FILE);
+		cookieStore.load(mContext, mContext.getString(R.string.COOKIES_FILE));
 		cookieStore.clear();
-		cookieStore.save(mContext, COOKIES_FILE);
+		cookieStore.save(mContext, mContext.getString(R.string.COOKIES_FILE));
 		return;
 	}
 
@@ -434,7 +432,7 @@ public class ExpediaServices implements DownloadListener {
 
 		// TODO: Find some way to keep this easily in memory so we're not saving/loading after each request.
 		PersistantCookieStore cookieStore = new PersistantCookieStore();
-		cookieStore.load(mContext, COOKIES_FILE);
+		cookieStore.load(mContext, mContext.getString(R.string.COOKIES_FILE));
 		HttpContext httpContext = new BasicHttpContext();
 		httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
 		httpContext.setAttribute(ClientContext.COOKIE_SPEC, new NetscapeDraftSpec());
@@ -478,7 +476,7 @@ public class ExpediaServices implements DownloadListener {
 			client.close();
 			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
 
-			cookieStore.save(mContext, COOKIES_FILE);
+			cookieStore.save(mContext, mContext.getString(R.string.COOKIES_FILE));
 		}
 
 		return null;

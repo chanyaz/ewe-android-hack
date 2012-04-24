@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.server.PersistantCookieStore;
 
 public class ClearPrivateDataDialogPreference extends DialogPreference {
 
@@ -21,6 +22,11 @@ public class ClearPrivateDataDialogPreference extends DialogPreference {
 			Context context = getContext();
 			BillingInfo info = new BillingInfo();
 			info.delete(context);
+
+			PersistantCookieStore cookieStore = new PersistantCookieStore();
+			cookieStore.load(context, context.getString(R.string.COOKIES_FILE));
+			cookieStore.clear();
+			cookieStore.save(context, context.getString(R.string.COOKIES_FILE));
 			Toast.makeText(context, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
 		}
 	}

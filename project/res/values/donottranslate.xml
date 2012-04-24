@@ -20,6 +20,7 @@
     <string name="tag_calendar_dialog">CALENDAR_DIALOG</string>
     <string name="tag_guests_dialog">GUESTS_DIALOG</string>
     <string name="tag_simple_dialog">SIMPLE_DIALOG</string>
+    <string name="tag_signin">SIGNIN</string>
 
 	<string name="map_snippet_template">%1$s · %2$s</string>
 
@@ -33,6 +34,7 @@
     <string name="preference_which_api_to_use_key">which_api</string>
     <string name="preference_proxy_server_enabled">proxy_server_enabled</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>
+    <string name="COOKIES_FILE">cookies.dat</string>
 
 	<!-- Currency codes -->
 	<string name="currency_code_aud">AUD</string>
