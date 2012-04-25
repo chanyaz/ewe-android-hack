@@ -421,6 +421,10 @@
 	<string name="hint_state_code">State</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Credit Card Info</string>
+	<!-- Label for credit card selection box -->
+	<string name="saved_cards">Saved Cards</string>
+	<!-- Label for entering new credit card information -->
+	<string name="enter_a_new_card">Enter a new card</string>
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">Card Number</string>
 	<!-- Card expiration month form field hint -->
@@ -552,7 +556,29 @@
 	<!-- Progress dialog text when we are logging the user into Expedia -->
 	<string name="logging_in">Logging in...</string>
 	<!-- Message that tells user they successfully logged in -->
-	<string name="login_success">Success!  You are now logged in.</string>
+	<string name="login_success">Success! You are now logged in.</string>
+	<!-- Label for login widget button -->
+	<string name="account_login">Account Login</string>
+	<!-- Label for login widget additional text -->
+	<string name="log_in_for_faster_booking">Log in for faster booking.</string>
+	<!-- Label for login widget additional text -->
+	<string name="log_in_for_faster_booking">Log in for faster booking.</string>
+	<!-- Label for account status -->
+	<string name="enrolled_in_expedia_rewards">Enrolled in Expedia Rewards\u2122</string>
+	<!-- Label for account name -->
+	<string name="logged_in_as">Logged in as</string>
+	<!-- Label for account name -->
+    <string name="logged_in_as_template">Logged in as &lt;b&gt;%s&lt;/b&gt;</string>
+	<!-- Label for signin screen -->
+	<string name="expedia_account">Expedia Account</string>
+	<!-- Label for loading user profile from expedia.com -->
+	<string name="loading_expedia_account">Loading Expedia Account</string>
+    <!-- Label for password recovery -->
+	<string name="forgot_your_password">Forgot your password?</string>
+    <!-- Label applying a coupon -->
+	<string name="apply">Apply</string>
+    <!-- Label for credit card selection -->
+	<string name="use_card">Use card</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
