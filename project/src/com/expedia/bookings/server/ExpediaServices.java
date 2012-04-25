@@ -14,6 +14,7 @@ import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,6 +51,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -149,6 +151,26 @@ public class ExpediaServices implements DownloadListener {
 		SuggestResponseHandler responseHandler = new SuggestResponseHandler(mContext);
 
 		return (SuggestResponse) doRequest(get, responseHandler, 0);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Expedia Flights API
+
+	private static final String FLIGHTS_BASE_URL = "http://www.expedia.com.trunk.sb.karmalab.net/api/flight/search";
+
+	public FlightSearchResponse flightSearch(Calendar departureDate, Calendar returnDate, String departureAirportCode,
+			String arrivalAirportCode, int flags) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
+		query.add(new BasicNameValuePair("departureDate", df.format(departureDate.getTime())));
+		query.add(new BasicNameValuePair("returnDate", df.format(returnDate.getTime())));
+
+		query.add(new BasicNameValuePair("departureAirport", departureAirportCode));
+		query.add(new BasicNameValuePair("arrivalAirport", arrivalAirportCode));
+
+		HttpGet get = NetUtils.createHttpGet(FLIGHTS_BASE_URL, query);
+		return (FlightSearchResponse) doRequest(get, new FlightSearchResponseHandler(), flags);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -84,6 +84,9 @@ public class Db {
 	// The currently logged in User profile
 	private User mUser;
 
+	// Flight search responses
+	private FlightSearchResponse mFlightSearchResponse;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
 
@@ -280,6 +283,14 @@ public class Db {
 
 	public static User getUser() {
 		return sDb.mUser;
+	}
+
+	public static void setFlightSearchResponse(FlightSearchResponse flightSearchResponse) {
+		sDb.mFlightSearchResponse = flightSearchResponse;
+	}
+
+	public static FlightSearchResponse getFlightSearchResponse() {
+		return sDb.mFlightSearchResponse;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

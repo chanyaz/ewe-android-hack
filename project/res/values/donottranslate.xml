@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- Fragment tags -->
     <string name="tag_search_params">SEARCH_PARAMS</string>
     <string name="tag_hotel_gallery">HOTEL_GALLERY</string>
