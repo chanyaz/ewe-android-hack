@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Flights colors -->
+    <color name="bg_flight_row">#EEEEEE</color>
+    
 	<!-- These colors are ripped from the iOS version, and are not finalized -->
 	<color name="window_background">#FF666666</color>
 	<color name="light_gray">#777777</color>

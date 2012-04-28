@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_flight_row"
+    android:padding="10dp" >
 
     <TextView
         android:id="@+id/airline_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="bold"
+        android:textColor="#3D4652"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/price_text_view"
@@ -14,19 +19,26 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@+id/airline_text_view"
-        android:gravity="right" />
+        android:gravity="right"
+        android:text="bold"
+        android:textColor="#22599C"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/departure_time_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/airline_text_view" />
+        android:layout_below="@+id/airline_text_view"
+        android:textColor="#3D4652"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/arrival_time_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/departure_time_text_view"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:textColor="#3D4652"
+        android:textSize="16sp" />
 
 </RelativeLayout>
