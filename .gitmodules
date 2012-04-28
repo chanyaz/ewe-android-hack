@@ -10,3 +10,6 @@
 [submodule "lib/Hockey"]
 	path = lib/Hockey
 	url = git@team.mobiata.com:Android/HockeySdk
+[submodule "lib/FlightLib"]
+	path = lib/FlightLib
+	url = git@team.mobiata.com:Android/FlightLib.git
