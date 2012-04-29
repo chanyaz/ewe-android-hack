@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import android.text.format.Time;
 
+// TODO: GET RID OF THIS AND REPLACE WITH FLIGHT
 public class FlightSegment {
 
 	private Time mDepartureTime;

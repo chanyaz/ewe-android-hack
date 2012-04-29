@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,9 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSegment;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.flightlib.data.Airport;
+import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class FlightDetailsActivity extends FragmentActivity {
 
@@ -136,26 +141,31 @@ public class FlightDetailsActivity extends FragmentActivity {
 
 		private void addWaypoint(LayoutInflater inflater, ViewGroup tripContainer, FlightSegment flightSegment,
 				boolean isDeparture) {
-			// TODO: Fill in with actual data
 			View view = inflater.inflate(R.layout.snippet_waypoint, tripContainer, false);
 
-			if (isDeparture) {
-				Ui.setText(view, R.id.location_text_view, "Some City");
-				Ui.setText(view, R.id.airport_name_text_view, "Some Airport Name");
+			String airportCode = (isDeparture) ? flightSegment.getDepartureAirportCode() : flightSegment
+					.getArrivalAirportCode();
+			Airport airport = FlightStatsDbUtils.getAirport(airportCode);
+
+			String location = airport.mCity;
+			if (!TextUtils.isEmpty(airport.mStateCode)) {
+				location += ", " + airport.mStateCode;
 			}
-			else {
-				Ui.setText(view, R.id.location_text_view, "Some City");
-				Ui.setText(view, R.id.airport_name_text_view, "Some Airport Name");
-			}
+
+			Ui.setText(view, R.id.location_text_view, location);
+			Ui.setText(view, R.id.airport_name_text_view, airport.mName);
 
 			tripContainer.addView(view);
 		}
 
 		private void addLayover(LayoutInflater inflater, ViewGroup tripContainer, FlightSegment lastFlightSegment,
 				FlightSegment nextSegment) {
-			// TODO: calculate actuallayover
+			int duration = (int) (lastFlightSegment.getArrivalTime().toMillis(false) - nextSegment.getDepartureTime()
+					.toMillis(false)) / 60000;
+			String durationStr = DateTimeUtils.formatDuration(getResources(), duration);
+
 			View view = inflater.inflate(R.layout.snippet_layover, tripContainer, false);
-			Ui.setText(view, R.id.layover_text_view, "3h 33m Layover");
+			Ui.setText(view, R.id.layover_text_view, Html.fromHtml(getString(R.string.layover_template, durationStr)));
 			Ui.setText(view, R.id.airport_name_text_view, nextSegment.getDepartureAirportCode());
 			tripContainer.addView(view);
 		}
@@ -179,9 +189,13 @@ public class FlightDetailsActivity extends FragmentActivity {
 		}
 
 		private void addFlightInfo(LayoutInflater inflater, ViewGroup tripContainer, FlightSegment flightSegment) {
-			// TODO: Calculate/display more correct data!
+			int duration = (int) (flightSegment.getArrivalTime().toMillis(false) - flightSegment.getDepartureTime()
+					.toMillis(false)) / 60000;
+			String durationStr = DateTimeUtils.formatDuration(getResources(), duration);
+
+			// TODO: Use proper Flight formatting when switching to flights!
 			View view = inflater.inflate(R.layout.snippet_flight_info, tripContainer, false);
-			Ui.setText(view, R.id.duration_text_view, "1h 33m");
+			Ui.setText(view, R.id.duration_text_view, durationStr);
 			Ui.setText(view, R.id.flight_number_text_view,
 					flightSegment.getAirlineCode() + " " + flightSegment.getFlightNumber());
 			tripContainer.addView(view);
