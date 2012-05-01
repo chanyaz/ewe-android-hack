@@ -578,7 +578,7 @@
     <!-- Label applying a coupon -->
 	<string name="apply">Apply</string>
     <!-- Label for credit card selection -->
-	<string name="use_card">Use card</string>
+	<string name="use_card">Use card:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
