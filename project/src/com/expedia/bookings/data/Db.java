@@ -72,7 +72,6 @@ public class Db {
 
 	// The currently logged in User profile
 	private User mUser;
-	private boolean mIsLoggedIn = false;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
@@ -238,17 +237,11 @@ public class Db {
 		return sDb.mBookingResponse;
 	}
 
-	public static void setLoggedInUser(User user) {
-		sDb.mIsLoggedIn = true;
+	public static void setUser(User user) {
 		sDb.mUser = user;
 	}
 
-	public static User getLoggedInUser() {
+	public static User getUser() {
 		return sDb.mUser;
-	}
-
-	public static boolean isLoggedIn() {
-		// TODO: Persist this state
-		return sDb.mIsLoggedIn;
 	}
 }
