@@ -114,6 +114,32 @@
                     android:layout_weight="@integer/booking_info_form_width_weight"
                     android:orientation="vertical" >
 
+                    <!-- Login Section -->
+                    <include
+                        android:id="@+id/account_loading_container"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        layout="@layout/include_account_loading" />
+                    <include
+                        android:id="@+id/account_login_container"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        layout="@layout/include_account_login_container" />
+                    <include
+                        android:id="@+id/account_normal_logout_container"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        layout="@layout/include_account_normal_logout_container" />
+                    <include
+                        android:id="@+id/account_rewards_logout_container"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        layout="@layout/include_account_rewards_logout_container" />
+
                     <!-- Guest info section -->
 
                     <TextView
