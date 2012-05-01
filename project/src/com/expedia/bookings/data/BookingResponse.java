@@ -64,11 +64,4 @@ public class BookingResponse extends Response implements JSONable {
 		mItineraryId = obj.optString("itineraryId", null);
 		return true;
 	}
-
-	// **WARNING: USE FOR TESTING PURPOSES ONLY**
-	public void fillWithTestData() throws JSONException {
-		String data = "{\"itineraryId\":\"69144795\",\"success\":false,\"confNumber\":\"1234\"}";
-		JSONObject obj = new JSONObject(data);
-		fromJson(obj);
-	}
 }

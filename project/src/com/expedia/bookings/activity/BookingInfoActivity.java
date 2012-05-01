@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -51,6 +50,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -73,7 +73,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
-import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
@@ -208,17 +207,10 @@ public class BookingInfoActivity extends Activity implements Download, OnDownloa
 		// This code allows us to test the BookingInfoActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
 		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
-			try {
-				mSearchParams = new SearchParams();
-				mSearchParams.fillWithTestData();
-				mProperty = new Property();
-				mProperty.fillWithTestData();
-				mRate = new Rate();
-				mRate.fillWithTestData();
-			}
-			catch (JSONException e) {
-				Log.e("Couldn't create dummy data!", e);
-			}
+			Db.loadTestData(this);
+			mSearchParams = Db.getSearchParams();
+			mProperty = Db.getSelectedProperty();
+			mRate = Db.getSelectedRate();
 		}
 
 		// Retrieve some data we keep using

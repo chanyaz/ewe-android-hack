@@ -94,6 +94,14 @@ public class HotelActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// This code allows us to test the HotelActivity standalone, for layout purposes.
+		// Just point the default launcher activity towards this instead of SearchActivity
+		Intent intent = getIntent();
+		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
+			Db.loadTestData(this);
+		}
+
 		setupHotelActivity(savedInstanceState);
 		if (savedInstanceState != null && savedInstanceState.containsKey(INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED)) {
 			mIsAmenitiesExpanded = savedInstanceState.getBoolean(INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED);

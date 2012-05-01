@@ -3,7 +3,6 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
@@ -24,6 +23,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
@@ -122,21 +122,12 @@ public class ConfirmationActivity extends MapActivity {
 		// This code allows us to test the ConfirmationActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
 		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
-			try {
-				mSearchParams = new SearchParams();
-				mSearchParams.fillWithTestData();
-				mProperty = new Property();
-				mProperty.fillWithTestData();
-				mRate = new Rate();
-				mRate.fillWithTestData();
-				mBookingResponse = new BookingResponse();
-				mBookingResponse.fillWithTestData();
-				mBillingInfo = new BillingInfo();
-				mBillingInfo.fillWithTestData();
-			}
-			catch (JSONException e) {
-				Log.e("Couldn't create dummy data!", e);
-			}
+			Db.loadTestData(this);
+			mSearchParams = Db.getSearchParams();
+			mProperty = Db.getSelectedProperty();
+			mRate = Db.getSelectedRate();
+			mBookingResponse = Db.getBookingResponse();
+			mBillingInfo = Db.getBillingInfo();
 		}
 
 		// We don't want to display the "succeeded with errors" dialog box if:

@@ -43,6 +43,13 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// This code allows us to test the RoomsAndRatesListActivity standalone, for layout purposes.
+		// Just point the default launcher activity towards this instead of SearchActivity
+		Intent intent = getIntent();
+		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
+			Db.loadTestData(this);
+		}
+
 		setContentView(R.layout.activity_rooms_and_rates);
 
 		mRoomsAndRatesFragment = Ui.findSupportFragment(this, getString(R.string.tag_rooms_and_rates));

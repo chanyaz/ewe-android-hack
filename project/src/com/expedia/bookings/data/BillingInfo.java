@@ -1,7 +1,6 @@
 package com.expedia.bookings.data;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -14,8 +13,6 @@ import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.IoUtils;
 
 public class BillingInfo implements JSONable {
 
@@ -297,12 +294,5 @@ public class BillingInfo implements JSONable {
 		catch (JSONException e) {
 			return obj.toString();
 		}
-	}
-
-	// **WARNING: USE FOR TESTING PURPOSES ONLY**
-	public void fillWithTestData() throws JSONException {
-		String data = "{\"expMonth\":11,\"lastName\":\"Test\",\"expYear\":2018,\"brandCode\":\"VI\",\"location\":{\"countryCode\":\"US\",\"streetAddress\":[\"travelnow\"],\"stateCode\":\"MN\",\"longitude\":0,\"latitude\":0,\"postalCode\":\"55408\",\"city\":\"Minneapolis\"},\"email\":\"dan@mobiata.com\",\"number\":\"4005550000000019\",\"isSavedInfo\":false,\"firstName\":\"Test\",\"telephone\":\"6122345680\"}";
-		JSONObject obj = new JSONObject(data);
-		fromJson(obj);
 	}
 }
