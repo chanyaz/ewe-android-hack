@@ -87,6 +87,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
+import com.mobiata.android.hockey.helper.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.omniture.AppMeasurement;
@@ -138,6 +139,9 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	private HotelDetailsFragment mHotelDetailsFragment;
 	private FilterDialogFragment mFilterDialogFragment;
 
+	// For doing manual updates
+	private HockeyPuck mHockeyPuck;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
@@ -178,6 +182,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		if (Db.getSearchResponse() != null) {
 			loadSearchResponse(Db.getSearchResponse(), false);
 		}
+
+		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
 	}
 
 	@Override
@@ -446,6 +452,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
+		mHockeyPuck.onCreateOptionsMenu(menu);
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -482,6 +490,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 		DebugMenu.onPrepareOptionsMenu(this, menu);
 
+		mHockeyPuck.onPrepareOptionsMenu(menu);
+
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -512,7 +522,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		}
 		}
 
-		if (DebugMenu.onOptionsItemSelected(this, item)) {
+		if (DebugMenu.onOptionsItemSelected(this, item) || mHockeyPuck.onOptionsItemSelected(item)) {
 			return true;
 		}
 

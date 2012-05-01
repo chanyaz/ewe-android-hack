@@ -126,7 +126,7 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.hockey.helper.HockeyAppUtil;
+import com.mobiata.android.hockey.helper.HockeyPuck;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
@@ -297,6 +297,8 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	// The last selection for the search EditText.  Used to maintain between rotations
 	private int mSearchTextSelectionStart = -1;
 	private int mSearchTextSelectionEnd = -1;
+
+	private HockeyPuck mHockeyPuck;
 
 	//----------------------------------
 	// THREADS/CALLBACKS
@@ -557,10 +559,9 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			SettingUtils.save(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
 		}
 
-		// HockeyApp update
-		if (!AndroidUtils.isRelease(mContext)) {
-			HockeyAppUtil.checkForUpdatesHockeyApp(mContext, this, Codes.HOCKEY_APP_ID);
-		}
+		// HockeyApp init
+		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(mContext));
+		mHockeyPuck.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -656,9 +657,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		mIsActivityResumed = true;
 
 		//HockeyApp crash
-		if (!AndroidUtils.isRelease(mContext)) {
-			HockeyAppUtil.checkForCrashesHockeyApp(mContext, Codes.HOCKEY_APP_ID);
-		}
+		mHockeyPuck.onResume();
 	}
 
 	@Override
@@ -728,6 +727,8 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		super.onSaveInstanceState(outState);
 
 		outState.putAll(saveActivityState());
+
+		mHockeyPuck.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -824,12 +825,14 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_search, menu);
 		DebugMenu.onCreateOptionsMenu(this, menu);
+		mHockeyPuck.onCreateOptionsMenu(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		DebugMenu.onPrepareOptionsMenu(this, menu);
+		mHockeyPuck.onPrepareOptionsMenu(menu);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -853,7 +856,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		}
 		}
 
-		if (DebugMenu.onOptionsItemSelected(this, item)) {
+		if (DebugMenu.onOptionsItemSelected(this, item) || mHockeyPuck.onOptionsItemSelected(item)) {
 			return true;
 		}
 

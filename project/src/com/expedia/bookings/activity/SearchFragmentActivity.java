@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
@@ -14,7 +16,7 @@ import com.expedia.bookings.fragment.SearchParamsFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment.SearchParamsFragmentListener;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.hockey.helper.HockeyAppUtil;
+import com.mobiata.android.hockey.helper.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.util.NetUtils;
@@ -32,6 +34,8 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 	// Member vars
 
 	private SearchParamsFragment mSearchParamsFragment;
+
+	private HockeyPuck mHockeyPuck;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -51,9 +55,8 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 		mSearchParamsFragment = Ui.findSupportFragment(this, getString(R.string.tag_search_params));
 
 		// HockeyApp update
-		if (!AndroidUtils.isRelease(this)) {
-			HockeyAppUtil.checkForUpdatesHockeyApp(this, this, Codes.HOCKEY_APP_ID);
-		}
+		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
+		mHockeyPuck.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -70,10 +73,15 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 	@Override
 	protected void onResume() {
 		super.onResume();
-		//HockeyApp crash
-		if (!AndroidUtils.isRelease(this)) {
-			HockeyAppUtil.checkForCrashesHockeyApp(this, Codes.HOCKEY_APP_ID);
-		}
+
+		mHockeyPuck.onResume();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		mHockeyPuck.onSaveInstanceState(outState);
 	}
 
 	@Override
