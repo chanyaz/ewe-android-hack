@@ -3,11 +3,13 @@ package com.expedia.bookings.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mobiata.flightlib.data.Flight;
+
 public class FlightLeg {
 
 	private String mLegId;
 
-	private List<FlightSegment> mSegments = new ArrayList<FlightSegment>();
+	private List<Flight> mSegments = new ArrayList<Flight>();
 
 	public String getLegId() {
 		return mLegId;
@@ -17,7 +19,7 @@ public class FlightLeg {
 		mLegId = legId;
 	}
 
-	public void addSegment(FlightSegment segment) {
+	public void addSegment(Flight segment) {
 		mSegments.add(segment);
 	}
 
@@ -25,24 +27,24 @@ public class FlightLeg {
 		return mSegments.size();
 	}
 
-	public FlightSegment getSegment(int position) {
+	public Flight getSegment(int position) {
 		return mSegments.get(position);
 	}
 
-	public List<FlightSegment> getSegments() {
+	public List<Flight> getSegments() {
 		return mSegments;
 	}
 
 	////////////////////////////////////////////////////////////////////////
 	// More meta retrieval methods
-	
+
 	public boolean hasMultipleAirlines() {
 		String airlineCode = null;
-		for (FlightSegment segment : mSegments) {
+		for (Flight segment : mSegments) {
 			if (airlineCode == null) {
-				airlineCode = segment.getAirlineCode();
+				airlineCode = segment.getPrimaryFlightCode().mAirlineCode;
 			}
-			else if (!airlineCode.equals(segment.getAirlineCode())) {
+			else if (!airlineCode.equals(segment.getPrimaryFlightCode().mAirlineCode)) {
 				return true;
 			}
 		}
@@ -54,7 +56,7 @@ public class FlightLeg {
 			return null;
 		}
 		else {
-			return mSegments.get(0).getAirlineCode();
+			return mSegments.get(0).getPrimaryFlightCode().mAirlineCode;
 		}
 	}
 }

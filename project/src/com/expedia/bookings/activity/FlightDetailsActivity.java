@@ -17,12 +17,13 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightSegment;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.flightlib.data.Airport;
-import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
+import com.mobiata.flightlib.utils.FormatUtils;
 
 public class FlightDetailsActivity extends FragmentActivity {
 
@@ -100,7 +101,7 @@ public class FlightDetailsActivity extends FragmentActivity {
 
 			int segmentCount = leg.getSegmentCount();
 			for (int segmentIndex = 0; segmentIndex < segmentCount; segmentIndex++) {
-				FlightSegment segment = leg.getSegment(segmentIndex);
+				Flight segment = leg.getSegment(segmentIndex);
 
 				if (segmentIndex == 0) {
 					// Add the initial departure waypoint
@@ -139,13 +140,12 @@ public class FlightDetailsActivity extends FragmentActivity {
 			tripContainer.addView(view);
 		}
 
-		private void addWaypoint(LayoutInflater inflater, ViewGroup tripContainer, FlightSegment flightSegment,
+		private void addWaypoint(LayoutInflater inflater, ViewGroup tripContainer, Flight segment,
 				boolean isDeparture) {
 			View view = inflater.inflate(R.layout.snippet_waypoint, tripContainer, false);
 
-			String airportCode = (isDeparture) ? flightSegment.getDepartureAirportCode() : flightSegment
-					.getArrivalAirportCode();
-			Airport airport = FlightStatsDbUtils.getAirport(airportCode);
+			Waypoint waypoint = (isDeparture) ? segment.mOrigin : segment.mDestination;
+			Airport airport = waypoint.getAirport();
 
 			String location = airport.mCity;
 			if (!TextUtils.isEmpty(airport.mStateCode)) {
@@ -158,46 +158,40 @@ public class FlightDetailsActivity extends FragmentActivity {
 			tripContainer.addView(view);
 		}
 
-		private void addLayover(LayoutInflater inflater, ViewGroup tripContainer, FlightSegment lastFlightSegment,
-				FlightSegment nextSegment) {
-			int duration = (int) (lastFlightSegment.getArrivalTime().toMillis(false) - nextSegment.getDepartureTime()
-					.toMillis(false)) / 60000;
+		private void addLayover(LayoutInflater inflater, ViewGroup tripContainer, Flight lastSegment,
+				Flight nextSegment) {
+			int duration = DateTimeUtils.compareDateTimes(lastSegment.mDestination.getMostRelevantDateTime(),
+					nextSegment.mOrigin.getMostRelevantDateTime());
+
 			String durationStr = DateTimeUtils.formatDuration(getResources(), duration);
 
 			View view = inflater.inflate(R.layout.snippet_layover, tripContainer, false);
 			Ui.setText(view, R.id.layover_text_view, Html.fromHtml(getString(R.string.layover_template, durationStr)));
-			Ui.setText(view, R.id.airport_name_text_view, nextSegment.getDepartureAirportCode());
+			Ui.setText(view, R.id.airport_name_text_view, nextSegment.mOrigin.mAirportCode);
 			tripContainer.addView(view);
 		}
 
-		private void addFlightMovement(LayoutInflater inflater, ViewGroup tripContainer, FlightSegment flightSegment,
+		private void addFlightMovement(LayoutInflater inflater, ViewGroup tripContainer, Flight segment,
 				boolean isDeparture) {
 			View view = inflater.inflate(R.layout.snippet_flight_movement, tripContainer, false);
 
 			DateFormat df = android.text.format.DateFormat.getTimeFormat(getActivity());
 
-			if (isDeparture) {
-				Ui.setText(view, R.id.time_text_view, df.format(flightSegment.getDepartureTime().toMillis(false)));
-				Ui.setText(view, R.id.airport_code_text_view, flightSegment.getDepartureAirportCode());
-			}
-			else {
-				Ui.setText(view, R.id.time_text_view, df.format(flightSegment.getArrivalTime().toMillis(false)));
-				Ui.setText(view, R.id.airport_code_text_view, flightSegment.getArrivalAirportCode());
-			}
+			Waypoint waypoint = (isDeparture) ? segment.mOrigin : segment.mDestination;
+			Ui.setText(view, R.id.time_text_view, df.format(waypoint.getMostRelevantDateTime().getTime()));
+			Ui.setText(view, R.id.airport_code_text_view, waypoint.mAirportCode);
 
 			tripContainer.addView(view);
 		}
 
-		private void addFlightInfo(LayoutInflater inflater, ViewGroup tripContainer, FlightSegment flightSegment) {
-			int duration = (int) (flightSegment.getArrivalTime().toMillis(false) - flightSegment.getDepartureTime()
-					.toMillis(false)) / 60000;
+		private void addFlightInfo(LayoutInflater inflater, ViewGroup tripContainer, Flight segment) {
+			int duration = DateTimeUtils.compareDateTimes(segment.mOrigin.getMostRelevantDateTime(),
+					segment.mDestination.getMostRelevantDateTime());
 			String durationStr = DateTimeUtils.formatDuration(getResources(), duration);
 
-			// TODO: Use proper Flight formatting when switching to flights!
 			View view = inflater.inflate(R.layout.snippet_flight_info, tripContainer, false);
 			Ui.setText(view, R.id.duration_text_view, durationStr);
-			Ui.setText(view, R.id.flight_number_text_view,
-					flightSegment.getAirlineCode() + " " + flightSegment.getFlightNumber());
+			Ui.setText(view, R.id.flight_number_text_view, FormatUtils.formatFlightNumberShort(segment, getActivity()));
 			tripContainer.addView(view);
 		}
 	}

@@ -1,10 +1,10 @@
 package com.expedia.bookings.widget;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import android.content.Context;
-import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,8 +85,10 @@ public class FlightAdapter extends BaseAdapter {
 		holder.mAirlineTextView.setText(trip.getAirlineName(mContext));
 
 		FlightLeg leg = (mIsInbound) ? trip.getInboundLeg() : trip.getOutboundLeg();
-		holder.mDepartureTimeTextView.setText(formatTime(leg.getSegment(0).getDepartureTime()));
-		holder.mArrivalTimeTextView.setText(formatTime(leg.getSegment(leg.getSegmentCount() - 1).getArrivalTime()));
+
+		holder.mDepartureTimeTextView.setText(formatTime(leg.getSegment(0).mOrigin.getMostRelevantDateTime()));
+		holder.mArrivalTimeTextView.setText(formatTime(leg.getSegment(leg.getSegmentCount() - 1).mDestination
+				.getMostRelevantDateTime()));
 
 		if (trip.hasPricing()) {
 			holder.mPriceTextView.setText(trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
@@ -98,9 +100,9 @@ public class FlightAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	private String formatTime(Time time) {
+	private String formatTime(Calendar cal) {
 		DateFormat df = android.text.format.DateFormat.getTimeFormat(mContext);
-		return df.format(new Date(time.toMillis(false)));
+		return df.format(new Date(cal.getTimeInMillis()));
 	}
 
 	private static class ViewHolder {
