@@ -1,11 +1,19 @@
 package com.expedia.bookings.data;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
-import com.expedia.bookings.widget.SummarizedRoomRates;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
+
+import com.expedia.bookings.widget.SummarizedRoomRates;
+import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONable;
+import com.mobiata.android.util.IoUtils;
 
 /**
  * This represents an in-memory database of data for the app.
@@ -243,5 +251,123 @@ public class Db {
 
 	public static User getUser() {
 		return sDb.mUser;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Test data
+	//
+	// Allows you to "checkpoint" the database using saveDbForTesting(), then
+	// restore the entire db by using loadTestData().  You can use this to
+	// test a particular dataset, or to reload the same Activity over and
+	// over again.
+	//
+	// ONLY USE IN DEBUG BUILDS
+
+	private static final String TEST_DATA_FILE = "testdata.json";
+
+	public static void saveDbForTesting(Context context) {
+		Log.i("Saving test data...");
+
+		JSONObject obj = new JSONObject();
+
+		try {
+			putJsonable(obj, "searchParams", sDb.mSearchParams);
+			putJsonable(obj, "searchResponse", sDb.mSearchResponse);
+			putJsonable(obj, "filter", sDb.mFilter);
+			putMap(obj, "offers", sDb.mAvailabilityResponses);
+			putMap(obj, "reviews", sDb.mReviewsResponses);
+			putJsonable(obj, "billingInfo", sDb.mBillingInfo);
+			putJsonable(obj, "bookingResponse", sDb.mBookingResponse);
+			obj.putOpt("selectedPropertyId", sDb.mSelectedPropertyId);
+			obj.putOpt("selectedRateKey", sDb.mSelectedRateKey);
+			putJsonable(obj, "selectedProperty", sDb.mSelectedProperty);
+			putJsonable(obj, "selectedRate", sDb.mSelectedRate);
+			putJsonable(obj, "user", sDb.mUser);
+
+			IoUtils.writeStringToFile(TEST_DATA_FILE, obj.toString(), context);
+		}
+		catch (Exception e) {
+			Log.w("Could not save db for testing", e);
+		}
+	}
+
+	// Fills the Db with test data that allows you to launch into just about any Activity
+	public static void loadTestData(Context context) {
+		Log.i("Loading test data...");
+
+		File file = context.getFileStreamPath(TEST_DATA_FILE);
+		if (!file.exists()) {
+			Log.w("Can't load test data, it doesn't exist!");
+			return;
+		}
+
+		try {
+			JSONObject obj = new JSONObject(IoUtils.readStringFromFile(TEST_DATA_FILE, context));
+
+			sDb.mSearchParams = getJsonable(obj, "searchParams", SearchParams.class, sDb.mSearchParams);
+			sDb.mSearchResponse = getJsonable(obj, "searchResponse", SearchResponse.class, sDb.mSearchResponse);
+			sDb.mFilter = getJsonable(obj, "filter", Filter.class, sDb.mFilter);
+			sDb.mAvailabilityResponses = getMap(obj, "offers", AvailabilityResponse.class, sDb.mAvailabilityResponses);
+			sDb.mReviewsResponses = getMap(obj, "reviews", ReviewsResponse.class, sDb.mReviewsResponses);
+			sDb.mBillingInfo = getJsonable(obj, "billingInfo", BillingInfo.class, sDb.mBillingInfo);
+			sDb.mBookingResponse = getJsonable(obj, "bookingResponse", BookingResponse.class, sDb.mBookingResponse);
+			sDb.mSelectedPropertyId = obj.optString("selectedPropertyId", null);
+			sDb.mSelectedRateKey = obj.optString("selectedRateKey", null);
+			sDb.mSelectedProperty = getJsonable(obj, "selectedProperty", Property.class, sDb.mSelectedProperty);
+			sDb.mSelectedRate = getJsonable(obj, "selectedRate", Rate.class, sDb.mSelectedRate);
+			sDb.mUser = getJsonable(obj, "user", User.class, sDb.mUser);
+		}
+		catch (Exception e) {
+			Log.w("Could not load db testing", e);
+		}
+	}
+
+	private static void putJsonable(JSONObject obj, String key, JSONable jsonable) throws JSONException {
+		if (jsonable != null) {
+			obj.putOpt(key, jsonable.toJson());
+		}
+	}
+
+	private static <T extends JSONable> T getJsonable(JSONObject obj, String key, Class<T> c, T defaultVal)
+			throws Exception {
+		if (obj.has(key)) {
+			T jsonable = c.newInstance();
+			if (jsonable.fromJson(obj.getJSONObject(key))) {
+				return jsonable;
+			}
+		}
+
+		return defaultVal;
+	}
+
+	private static void putMap(JSONObject obj, String key, Map<String, ? extends JSONable> map) throws JSONException {
+		if (map != null) {
+			JSONObject mapObj = new JSONObject();
+			for (String mapKey : map.keySet()) {
+				mapObj.putOpt(mapKey, map.get(mapKey).toJson());
+			}
+			obj.putOpt(key, mapObj);
+		}
+	}
+
+	@SuppressWarnings("rawtypes")
+	private static <T extends JSONable> Map<String, T> getMap(JSONObject obj, String key, Class<T> c,
+			Map<String, T> defaultVal) throws Exception {
+		if (obj.has(key)) {
+			JSONObject mapObj = obj.getJSONObject(key);
+			Map<String, T> retMap = new HashMap<String, T>();
+
+			Iterator it = mapObj.keys();
+			while (it.hasNext()) {
+				String mapKey = (String) it.next();
+				T jsonable = c.newInstance();
+				jsonable.fromJson(mapObj.getJSONObject(mapKey));
+				retMap.put(mapKey, jsonable);
+			}
+
+			return retMap;
+		}
+
+		return defaultVal;
 	}
 }
