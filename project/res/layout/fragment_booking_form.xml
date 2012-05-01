@@ -161,6 +161,20 @@
                         android:layout_width="fill_parent"
                         android:layout_height="10dp" />
 
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="10dp" />
+
+                    <!-- Credit card info form fields -->
+
+                    <TextView
+                        style="@style/TabletSectionHeader.Details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/credit_card_info" />
+
+                    <include layout="@layout/include_credit_card_info" />
+
                     <!-- Billing info form fields -->
 
                     <TextView
@@ -177,19 +191,6 @@
 
                     <include layout="@layout/include_saved_billing_info" />
 
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="10dp" />
-
-                    <!-- Credit card info form fields -->
-
-                    <TextView
-                        style="@style/TabletSectionHeader.Details"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/credit_card_info" />
-
-                    <include layout="@layout/include_credit_card_info" />
 
                     <!-- Terms and conditions -->
 
