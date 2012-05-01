@@ -32,6 +32,7 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.cookie.NetscapeDraftSpec;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
@@ -287,6 +288,23 @@ public class ExpediaServices implements DownloadListener {
 		cookieStore.clear();
 		cookieStore.save(mContext, mContext.getString(R.string.COOKIES_FILE));
 		return;
+	}
+
+	// Peeks into the cookie store to see if we have the cookie indicating a user is logged in
+	public boolean isLoggedIn() {
+		PersistantCookieStore cookieStore = new PersistantCookieStore();
+		cookieStore.load(mContext, mContext.getString(R.string.COOKIES_FILE));
+		List<Cookie> cookies = cookieStore.getCookies();
+		for (Cookie c : cookies) {
+			Log.d("HERE " + c.toString());
+		}
+
+		return false;
+	}
+
+	public static boolean isLoggedIn(Context context) {
+		ExpediaServices service = new ExpediaServices(context);
+		return service.isLoggedIn();
 	}
 
 	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {

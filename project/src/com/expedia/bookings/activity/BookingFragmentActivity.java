@@ -18,12 +18,15 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingFormFragment.BookingFormFragmentListener;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.BookingInfoFragment;
 import com.expedia.bookings.fragment.BookingInfoFragment.BookingInfoFragmentListener;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragmentListener;
+import com.expedia.bookings.fragment.SignInFragment;
+import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -38,7 +41,7 @@ import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.validation.ValidationError;
 
 public class BookingFragmentActivity extends FragmentActivity implements RoomsAndRatesFragmentListener,
-		BookingInfoFragmentListener, BookingFormFragmentListener {
+		BookingInfoFragmentListener, SignInFragmentListener, BookingFormFragmentListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -267,6 +270,29 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		if (fm.findFragmentByTag(getString(R.string.tag_booking_form)) == null) {
 			BookingFormFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.tag_booking_form));
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SigninFragmentListener
+
+	@Override
+	public void onLoginStarted() {
+		FragmentManager fm = getSupportFragmentManager();
+		if (fm.findFragmentByTag(getString(R.string.tag_signin)) == null) {
+			SignInFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.tag_signin));
+		}
+	}
+
+	@Override
+	public void onLoginCompleted() {
+		BookingFormFragment bookingFormFragment = (BookingFormFragment) getSupportFragmentManager()
+				.findFragmentByTag(getString(R.string.tag_booking_form));
+		bookingFormFragment.loginCompleted();
+	}
+
+	@Override
+	public void onLoginFailed() {
+		//NOTE: If SignInFragment takes care of failure for us we should never see this
 	}
 
 	//////////////////////////////////////////////////////////////////////////

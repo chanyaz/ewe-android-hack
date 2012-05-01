@@ -14,15 +14,16 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
+import android.text.Html;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -44,6 +45,9 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
@@ -54,6 +58,9 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.ReceiptWidget;
 import com.expedia.bookings.widget.TelephoneSpinner;
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
@@ -65,17 +72,30 @@ import com.mobiata.android.validation.ValidationProcessor;
 import com.mobiata.android.validation.Validator;
 
 public class BookingFormFragment extends DialogFragment {
+	private static final String KEY_SIGNIN = "KEY_SIGNIN";
 
 	public static BookingFormFragment newInstance() {
 		BookingFormFragment dialog = new BookingFormFragment();
 		return dialog;
 	}
 
+	// To track what state the UI should be in
+	// In future when we require signin sooner we can make
+	// different fragments to simplify things
+	private enum Mode {
+		LOCAL_USER,
+		NORMAL_USER,
+		REWARDS_USER,
+		LOADING_USER
+	};
+
 	private static String GUESTS_EXPANDED = "GUESTS_EXPANDED";
 	private static String BILLING_EXPANDED = "BILLING_EXPANDED";
 	private static String RULES_RESTRICTIONS_CHECKED = "RULES_RESTRICTIONS_CHECKED";
+	private static String USER_PROFILE_IS_FRESH = "USER_PROFILE_IS_FRESH";
 
 	// Cached views
+	private View mRootBillingView;
 	private ViewGroup mGuestSavedLayout;
 	private ViewGroup mGuestFormLayout;
 	private EditText mFirstNameEditText;
@@ -97,6 +117,10 @@ public class BookingFormFragment extends DialogFragment {
 	private EditText mSecurityCodeEditText;
 	private View mConfirmBookButton;
 	private View mCloseFormButton;
+	private View mAccountLoadingContainer;
+	private View mLoginContainer;
+	private View mNormalLogoutContainer;
+	private View mRewardsLogoutContainer;
 
 	// Cached data from arrays
 	private String[] mCountryCodes;
@@ -133,6 +157,11 @@ public class BookingFormFragment extends DialogFragment {
 	private BookingInfoValidation mBookingInfoValidation;
 
 	private BookingFormFragmentListener mListener;
+	private Activity mActivity;
+
+	private boolean mUserProfileIsFresh = false;
+
+	private Mode mUserMode = Mode.LOCAL_USER;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -146,17 +175,23 @@ public class BookingFormFragment extends DialogFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof BookingFormFragmentListener)) {
-			throw new RuntimeException("BookingFormFragment Activity must implement BookingFormFragmentListener!");
+		if (!(activity instanceof BookingFormFragment.BookingFormFragmentListener)) {
+			throw new RuntimeException("Activity must implement BookingFormFragment.BookingFormFragmentListener!");
+		}
+
+		if (!(activity instanceof SignInFragment.SignInFragmentListener)) {
+			throw new RuntimeException("Activity must implement SignInFragment.SignInFragmentListener!");
 		}
 
 		mListener = (BookingFormFragmentListener) activity;
+		mActivity = activity;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.fragment_booking_form, null);
+		mRootBillingView = view;
 
 		Dialog dialog = new Dialog(getActivity(), R.style.Theme_Light_Fullscreen_Panel);
 		dialog.requestWindowFeature(STYLE_NO_TITLE);
@@ -190,6 +225,10 @@ public class BookingFormFragment extends DialogFragment {
 		mRulesRestrictionsLayout = (ViewGroup) view.findViewById(R.id.rules_restrictions_layout);
 		mConfirmBookButton = view.findViewById(R.id.confirm_book_button);
 		mCloseFormButton = view.findViewById(R.id.close_booking_form);
+		mAccountLoadingContainer = view.findViewById(R.id.account_loading_container);
+		mLoginContainer = view.findViewById(R.id.account_login_container);
+		mNormalLogoutContainer = view.findViewById(R.id.account_normal_logout_container);
+		mRewardsLogoutContainer = view.findViewById(R.id.account_rewards_logout_container);
 
 		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), false);
 
@@ -204,35 +243,80 @@ public class BookingFormFragment extends DialogFragment {
 		mCountryCodes = r.getStringArray(R.array.country_codes);
 		configureForm();
 
-		if (Db.getBillingInfo().doesExistOnDisk()) {
-			syncFormFields(view);
+		TextView loginButton = (TextView) mLoginContainer.findViewById(R.id.expedia_login_textview);
+		loginButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				((SignInFragment.SignInFragmentListener) mActivity).onLoginStarted();
+			}
+		});
 
-			if (savedInstanceState != null) {
-				if (savedInstanceState.getBoolean(GUESTS_EXPANDED)) {
-					expandGuestsForm(false);
+		View rewardsLogoutButton = mRewardsLogoutContainer.findViewById(R.id.logout_button);
+		View normalLogoutButton = mNormalLogoutContainer.findViewById(R.id.logout_button);
+
+		rewardsLogoutButton.setOnClickListener(mLogoutClickListener);
+		normalLogoutButton.setOnClickListener(mLogoutClickListener);
+
+		// Figure out if we are logged in
+		if (ExpediaServices.isLoggedIn((Context) mActivity)) {
+			mUserMode = Mode.LOADING_USER; // Just so we don't do LOCAL_USER stuff by mistake
+			if (savedInstanceState != null && savedInstanceState.getBoolean(USER_PROFILE_IS_FRESH)) {
+				mUserProfileIsFresh = true;
+				User u = Db.getUser();
+				if (u.getLoyaltyMembershipNumber() != null) {
+					mUserMode = Mode.REWARDS_USER;
 				}
-				if (savedInstanceState.getBoolean(BILLING_EXPANDED)) {
-					expandBillingForm(false);
+				else {
+					mUserMode = Mode.NORMAL_USER;
 				}
-				mRulesRestrictionsCheckbox.setChecked(savedInstanceState.getBoolean(RULES_RESTRICTIONS_CHECKED));
+				showLoginLogoutSection(mUserMode);
+				syncFormFieldsFromBillingInfo(view);
 			}
 			else {
-				checkSectionsCompleted(false);
-
-				if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
-					expandGuestsForm(false);
+				syncFormFieldsFromBillingInfo(view);
+				// Show progress spinner
+				showLoginLogoutSection(mUserMode);
+				// fetch fresh profile
+				BackgroundDownloader bd = BackgroundDownloader.getInstance();
+				if (bd.isDownloading(KEY_SIGNIN)) {
+					bd.cancelDownload(KEY_SIGNIN);
 				}
-
-				if (!checkAddressCompleted()) {
-					expandBillingForm(false);
-				}
+				bd.startDownload(KEY_SIGNIN, mLoginDownload, mLoginCallback);
 			}
 		}
 		else {
-			expandGuestsForm(false);
-			expandBillingForm(false);
+			mUserMode = Mode.LOCAL_USER;
+			showLoginLogoutSection(mUserMode);
+
+			if (Db.getBillingInfo().doesExistOnDisk()) {
+				syncFormFieldsFromBillingInfo(view);
+
+				if (savedInstanceState != null) {
+					if (savedInstanceState.getBoolean(GUESTS_EXPANDED)) {
+						expandGuestsForm(false);
+					}
+					if (savedInstanceState.getBoolean(BILLING_EXPANDED)) {
+						expandBillingForm(false);
+					}
+					mRulesRestrictionsCheckbox.setChecked(savedInstanceState.getBoolean(RULES_RESTRICTIONS_CHECKED));
+				}
+				else {
+					checkSectionsCompleted(false);
+
+					if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
+						expandGuestsForm(false);
+					}
+
+					if (!checkAddressCompleted()) {
+						expandBillingForm(false);
+					}
+				}
+			}
+			else {
+				expandGuestsForm(false);
+				expandBillingForm(false);
+			}
+			mFormHasBeenFocused = false;
 		}
-		mFormHasBeenFocused = false;
 
 		if (savedInstanceState == null) {
 			// 12810: Clear out the credit card info if it happens to exist by this point.
@@ -265,6 +349,7 @@ public class BookingFormFragment extends DialogFragment {
 		outState.putBoolean(GUESTS_EXPANDED, mGuestsExpanded);
 		outState.putBoolean(BILLING_EXPANDED, mBillingExpanded);
 		outState.putBoolean(RULES_RESTRICTIONS_CHECKED, mRulesRestrictionsCheckbox.isChecked());
+		outState.putBoolean(USER_PROFILE_IS_FRESH, mUserProfileIsFresh);
 	}
 
 	private void configureForm() {
@@ -601,6 +686,16 @@ public class BookingFormFragment extends DialogFragment {
 		}
 	}
 
+	private void collapseGuestsForm() {
+		if (mGuestsExpanded) {
+			mGuestsExpanded = false;
+			mGuestSavedLayout.setVisibility(View.VISIBLE);
+			mGuestFormLayout.setVisibility(View.GONE);
+
+			fixFocus();
+		}
+	}
+
 	private void expandBillingForm(boolean animateAndFocus) {
 		if (!mBillingExpanded) {
 			mBillingExpanded = true;
@@ -616,6 +711,17 @@ public class BookingFormFragment extends DialogFragment {
 			}
 
 			// TODO: Animation if animated
+		}
+	}
+
+	private void collapseBillingForm() {
+		if (mBillingExpanded) {
+			mBillingExpanded = false;
+
+			mBillingSavedLayout.setVisibility(View.VISIBLE);
+			mBillingFormLayout.setVisibility(View.GONE);
+
+			fixFocus();
 		}
 	}
 
@@ -728,8 +834,17 @@ public class BookingFormFragment extends DialogFragment {
 	 * Syncs the form fields with data from local BillingInfo.  Should be used when creating or
 	 * restoring the Activity.
 	 */
-	private void syncFormFields(View view) {
-		BillingInfo billingInfo = Db.getBillingInfo();
+	private void syncFormFieldsFromBillingInfo(View view) {
+		BillingInfo billingInfo;
+		if (mUserMode == Mode.LOCAL_USER) {
+			billingInfo = Db.getBillingInfo();
+		}
+		else if (mUserMode == Mode.LOADING_USER) {
+			billingInfo = Db.getBillingInfo();
+		}
+		else {
+			billingInfo = Db.getUser().toBillingInfo();
+		}
 
 		// Sync the saved guest fields
 		String firstName = billingInfo.getFirstName();
@@ -818,10 +933,15 @@ public class BookingFormFragment extends DialogFragment {
 		// Gather all the data to be saved
 		syncBillingInfo();
 
-		// Save the hashed email, just for tracking purposes
-		TrackingUtils.saveEmailForTracking(getActivity(), Db.getBillingInfo().getEmail());
+		if (mUserMode == Mode.LOCAL_USER) {
+			// Save the hashed email, just for tracking purposes
+			TrackingUtils.saveEmailForTracking(getActivity(), Db.getBillingInfo().getEmail());
 
-		return Db.getBillingInfo().save(getActivity());
+			return Db.getBillingInfo().save(getActivity());
+		}
+		else {
+			return true;
+		}
 	}
 
 	private void checkSectionsCompleted(boolean trackCompletion) {
@@ -836,6 +956,99 @@ public class BookingFormFragment extends DialogFragment {
 	private void dismissKeyboard(View view) {
 		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+	}
+
+	private final Download mLoginDownload = new Download() {
+		public Object doDownload() {
+			ExpediaServices services = new ExpediaServices((Context) mActivity);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_SIGNIN, services);
+			return services.signIn();
+		}
+	};
+
+	private final OnDownloadComplete mLoginCallback = new OnDownloadComplete() {
+		public void onDownload(Object results) {
+			SignInResponse response = (SignInResponse) results;
+
+			if (response == null) {
+				// TODO: error
+			}
+			else if (response.hasErrors()) {
+				// TODO: error
+			}
+			else {
+				Db.setUser(response.getUser());
+				mUserProfileIsFresh = true;
+				User u = Db.getUser();
+				if (u.getLoyaltyMembershipNumber() != null) {
+					mUserMode = Mode.REWARDS_USER;
+				}
+				else {
+					mUserMode = Mode.NORMAL_USER;
+				}
+				showLoginLogoutSection(mUserMode);
+				syncFormFieldsFromBillingInfo(mRootBillingView);
+			}
+		}
+	};
+
+	private final OnClickListener mLogoutClickListener = new OnClickListener() {
+		public void onClick(View v) {
+			ExpediaServices services = new ExpediaServices((Context) mActivity);
+			services.signOut();
+			mUserMode = Mode.LOCAL_USER;
+			showLoginLogoutSection(mUserMode);
+			BillingInfo billingInfo = Db.resetBillingInfo();
+			syncFormFieldsFromBillingInfo(mRootBillingView);
+			expandGuestsForm(false);
+			expandBillingForm(false);
+		}
+	};
+
+	private void showLoginLogoutSection(Mode userType) {
+		mAccountLoadingContainer.setVisibility(View.GONE);
+		mLoginContainer.setVisibility(View.GONE);
+		mNormalLogoutContainer.setVisibility(View.GONE);
+		mRewardsLogoutContainer.setVisibility(View.GONE);
+
+		switch (userType) {
+		case LOCAL_USER: {
+			mLoginContainer.setVisibility(View.VISIBLE);
+			break;
+		}
+		case NORMAL_USER: {
+			mNormalLogoutContainer.setVisibility(View.VISIBLE);
+			TextView name = (TextView) mRewardsLogoutContainer.findViewById(R.id.account_user_name_textview);
+			User u = Db.getUser();
+			name.setText(Html.fromHtml(String.format(getString(R.string.logged_in_as_template), u.getEmail())));
+			break;
+		}
+		case REWARDS_USER: {
+			mRewardsLogoutContainer.setVisibility(View.VISIBLE);
+			TextView name = (TextView) mRewardsLogoutContainer.findViewById(R.id.account_user_name_textview);
+			User u = Db.getUser();
+			name.setText(Html.fromHtml("<b>"+u.getEmail()+"</b>"));
+			break;
+		}
+		case LOADING_USER: {
+			mAccountLoadingContainer.setVisibility(View.VISIBLE);
+			break;
+		}
+		}
+	}
+
+	public void loginCompleted() {
+		User u = Db.getUser();
+		if (u.getLoyaltyMembershipNumber() == null) {
+			mUserMode = Mode.NORMAL_USER;
+		}
+		else {
+			mUserMode = Mode.REWARDS_USER;
+		}
+		showLoginLogoutSection(mUserMode);
+		collapseGuestsForm();
+		collapseBillingForm();
+		syncFormFieldsFromBillingInfo(mRootBillingView);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
