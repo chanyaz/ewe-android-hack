@@ -29,28 +29,45 @@ public class User implements JSONable {
 		this.fromJson(obj);
 	}
 
-	public void setEmail(String email) {
-		mEmail = email;
-	}
-
 	public String getEmail() {
 		return mEmail;
-	}
-
-	public void setFirstName(String firstName) {
-		mFirstName = firstName;
 	}
 
 	public String getFirstName() {
 		return mFirstName;
 	}
 
-	public void setLastName(String lastName) {
-		mLastName = lastName;
+	public String getMiddleName() {
+		return mMiddleName;
 	}
 
 	public String getLastName() {
 		return mLastName;
+	}
+
+	public String getLoyaltyMembershipNumber() {
+		return mLoyaltyMembershipNumber;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Dump out a BillingInfo object for use on the booking screen
+
+	public BillingInfo toBillingInfo() {
+		BillingInfo b = new BillingInfo();
+		b.setFirstName(mFirstName);
+		b.setLastName(mLastName);
+		for (Phone p : mPhoneNumbers) {
+			if (p.getCategory() == UserPreference.Category.PRIMARY) {
+				b.setTelephoneCountryCode(p.getCountryCode());
+				b.setTelephone(p.getAreaCode() + p.getNumber());
+				break;
+			}
+		}
+		b.setEmail(mEmail);
+
+		// TODO: CC info
+
+		return b;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
