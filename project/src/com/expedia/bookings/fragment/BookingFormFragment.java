@@ -21,9 +21,10 @@ import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -188,14 +189,9 @@ public class BookingFormFragment extends DialogFragment {
 	}
 
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		LayoutInflater inflater = getActivity().getLayoutInflater();
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_booking_form, null);
 		mRootBillingView = view;
-
-		Dialog dialog = new Dialog(getActivity(), R.style.Theme_Light_Fullscreen_Panel);
-		dialog.requestWindowFeature(STYLE_NO_TITLE);
-		dialog.setContentView(view);
 
 		// Retrieve views that we need for the form fields
 		mGuestSavedLayout = (ViewGroup) view.findViewById(R.id.saved_guest_info_layout);
@@ -323,15 +319,7 @@ public class BookingFormFragment extends DialogFragment {
 			mCardNumberEditText.setText("");
 			mSecurityCodeEditText.setText("");
 		}
-
-		dialog.setCanceledOnTouchOutside(false);
-
-		// set the window of the dialog to have a transparent background
-		// so that the window is not visible through the edges of the dialog.
-		ColorDrawable drawable = new ColorDrawable(0);
-		dialog.getWindow().setBackgroundDrawable(drawable);
-		dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-
+		
 		mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
 
 		BookingInfoUtils.determineExpediaPointsDisclaimer(getActivity(), view);
@@ -339,6 +327,26 @@ public class BookingFormFragment extends DialogFragment {
 		if (savedInstanceState == null) {
 			Tracker.trackAppHotelsCheckoutPayment(getActivity(), Db.getSelectedProperty(), mBookingInfoValidation);
 		}
+
+		return view;
+	}
+
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		Dialog dialog = super.onCreateDialog(savedInstanceState);
+
+		// Make modifications for the dialog implementation of BookingFormFragment here.
+		// Any changes that you want 
+
+		dialog.requestWindowFeature(STYLE_NO_TITLE);
+		
+		dialog.setCanceledOnTouchOutside(false);
+
+		// set the window of the dialog to have a transparent background
+		// so that the window is not visible through the edges of the dialog.
+		Window window = dialog.getWindow();
+		window.setBackgroundDrawable(new ColorDrawable(0));
+		window.setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 
 		return dialog;
 	}
@@ -1027,7 +1035,7 @@ public class BookingFormFragment extends DialogFragment {
 			mRewardsLogoutContainer.setVisibility(View.VISIBLE);
 			TextView name = (TextView) mRewardsLogoutContainer.findViewById(R.id.account_user_name_textview);
 			User u = Db.getUser();
-			name.setText(Html.fromHtml("<b>"+u.getEmail()+"</b>"));
+			name.setText(Html.fromHtml("<b>" + u.getEmail() + "</b>"));
 			break;
 		}
 		case LOADING_USER: {
