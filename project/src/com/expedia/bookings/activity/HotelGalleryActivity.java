@@ -66,6 +66,10 @@ public class HotelGalleryActivity extends FragmentActivity {
 		mPager = (ViewPager) findViewById(R.id.big_image_pager);
 		mPager.setAdapter(pagerAdapter);
 
+		if (!AndroidUtils.isTablet(mContext)) {
+			mPager.setPageMargin(10);
+		}
+
 		if (AndroidUtils.isTablet(mContext)) {
 			ActionBar actionBar = getActionBar();
 			actionBar.setTitle(Html.fromHtml(getString(R.string.gallery_title_template, mProperty.getName())));
