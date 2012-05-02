@@ -5,7 +5,6 @@ import java.util.List;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -14,11 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingFormFragment.BookingFormFragmentListener;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
@@ -32,7 +29,6 @@ import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -65,10 +61,6 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		super.onCreate(savedInstanceState);
 
 		mContext = this;
-
-		if (savedInstanceState == null) {
-			loadSavedBillingInfo();
-		}
 
 		setContentView(R.layout.activity_booking_fragment);
 
@@ -217,38 +209,6 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	private void showErrorDialog(String errorMsg) {
 		SimpleDialogFragment.newInstance(getString(R.string.error_booking_title), errorMsg).show(getFragmentManager(),
 				getString(R.string.tag_booking_error));
-	}
-
-	private boolean loadSavedBillingInfo() {
-		// Attempt to load the saved billing info
-		// TODO: revisit this whole section
-		if (Db.loadBillingInfo(this)) {
-
-			BillingInfo billingInfo = Db.getBillingInfo();
-
-			// When upgrading from 1.2.1 to 1.3, country code isn't present. So let's just use the default country.
-			if (billingInfo.getTelephoneCountryCode() == null) {
-
-				Resources r = getResources();
-				String[] countryCodes = r.getStringArray(R.array.country_codes);
-				String[] countryNames = r.getStringArray(R.array.country_names);
-				int[] countryPhoneCodes = r.getIntArray(R.array.country_phone_codes);
-
-				String defaultCountryName = getString(LocaleUtils.getDefaultCountryResId(this));
-
-				for (int n = 0; n < countryCodes.length; n++) {
-					if (defaultCountryName.equals(countryNames[n])) {
-						billingInfo.setTelephoneCountry(countryCodes[n]);
-						billingInfo.setTelephoneCountryCode(Integer.toString(countryPhoneCodes[n]));
-						break;
-					}
-				}
-			}
-
-			return true;
-		}
-
-		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

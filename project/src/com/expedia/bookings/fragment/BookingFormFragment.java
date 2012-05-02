@@ -52,6 +52,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
@@ -63,6 +64,8 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.Ui;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
 import com.mobiata.android.validation.RequiredValidator;
@@ -116,12 +119,14 @@ public class BookingFormFragment extends DialogFragment {
 	private EditText mExpirationMonthEditText;
 	private EditText mExpirationYearEditText;
 	private EditText mSecurityCodeEditText;
-	private View mConfirmBookButton;
+	private TextView mConfirmBookButton;
 	private View mCloseFormButton;
 	private View mAccountLoadingContainer;
 	private View mLoginContainer;
 	private View mNormalLogoutContainer;
 	private View mRewardsLogoutContainer;
+	private ImageView mChargeDetailsImageView;
+	private TextView mChargeDetailsTextView;
 
 	// Cached data from arrays
 	private String[] mCountryCodes;
@@ -190,6 +195,10 @@ public class BookingFormFragment extends DialogFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (savedInstanceState == null) {
+			loadSavedBillingInfo();
+		}
+
 		View view = inflater.inflate(R.layout.fragment_booking_form, null);
 		mRootBillingView = view;
 
@@ -219,20 +228,25 @@ public class BookingFormFragment extends DialogFragment {
 		mRulesRestrictionsCheckbox = (CheckBox) view.findViewById(R.id.rules_restrictions_checkbox);
 		mRulesRestrictionsTextView = (TextView) view.findViewById(R.id.rules_restrictions_text_view);
 		mRulesRestrictionsLayout = (ViewGroup) view.findViewById(R.id.rules_restrictions_layout);
-		mConfirmBookButton = view.findViewById(R.id.confirm_book_button);
+		mConfirmBookButton = Ui.findView(view, R.id.confirm_book_button);
 		mCloseFormButton = view.findViewById(R.id.close_booking_form);
 		mAccountLoadingContainer = view.findViewById(R.id.account_loading_container);
 		mLoginContainer = view.findViewById(R.id.account_login_container);
 		mNormalLogoutContainer = view.findViewById(R.id.account_normal_logout_container);
 		mRewardsLogoutContainer = view.findViewById(R.id.account_rewards_logout_container);
+		mChargeDetailsImageView = Ui.findView(view, R.id.charge_details_lock_image_view);
+		mChargeDetailsTextView = Ui.findView(view, R.id.charge_details_text_view);
 
-		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), false);
+		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), !getShowsDialog());
 
 		// 10758: rendering the saved layouts on a software layer
 		// to avoid the fuzziness of the saved section background
-		mGuestSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		mBillingSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		view.findViewById(R.id.credit_card_security_code_container).setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		int sdkVersion = AndroidUtils.getSdkVersion();
+		if (sdkVersion >= 11 && sdkVersion <= 13) {
+			mGuestSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+			mBillingSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+			view.findViewById(R.id.credit_card_security_code_container).setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		}
 
 		// Retrieve some data we keep using
 		Resources r = getResources();
@@ -319,10 +333,12 @@ public class BookingFormFragment extends DialogFragment {
 			mCardNumberEditText.setText("");
 			mSecurityCodeEditText.setText("");
 		}
-		
+
 		mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
+		mReceiptWidget.restoreInstanceState(savedInstanceState);
 
 		BookingInfoUtils.determineExpediaPointsDisclaimer(getActivity(), view);
+		ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), view);
 
 		if (savedInstanceState == null) {
 			Tracker.trackAppHotelsCheckoutPayment(getActivity(), Db.getSelectedProperty(), mBookingInfoValidation);
@@ -339,7 +355,7 @@ public class BookingFormFragment extends DialogFragment {
 		// Any changes that you want 
 
 		dialog.requestWindowFeature(STYLE_NO_TITLE);
-		
+
 		dialog.setCanceledOnTouchOutside(false);
 
 		// set the window of the dialog to have a transparent background
@@ -358,6 +374,8 @@ public class BookingFormFragment extends DialogFragment {
 		outState.putBoolean(BILLING_EXPANDED, mBillingExpanded);
 		outState.putBoolean(RULES_RESTRICTIONS_CHECKED, mRulesRestrictionsCheckbox.isChecked());
 		outState.putBoolean(USER_PROFILE_IS_FRESH, mUserProfileIsFresh);
+
+		mReceiptWidget.saveInstanceState(outState);
 	}
 
 	private void configureForm() {
@@ -496,42 +514,45 @@ public class BookingFormFragment extends DialogFragment {
 			mRulesRestrictionsCheckbox.setVisibility(View.GONE);
 		}
 
-		mConfirmBookButton.setOnClickListener(new OnClickListener() {
+		if (mConfirmBookButton != null) {
+			mConfirmBookButton.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
+				@Override
+				public void onClick(View v) {
+					syncBillingInfo();
 
-				syncBillingInfo();
+					// Just to make sure, save the billing info when the user clicks submit
+					saveBillingInfo();
 
-				// Just to make sure, save the billing info when the user clicks submit
-				saveBillingInfo();
+					List<ValidationError> errors = mValidationProcessor.validate();
 
-				List<ValidationError> errors = mValidationProcessor.validate();
-
-				if (errors.size() > 0) {
-					handleFormErrors(errors);
+					if (errors.size() > 0) {
+						handleFormErrors(errors);
+					}
+					else {
+						dismissKeyboard(v);
+						BookingInfoUtils.onClickSubmit(getActivity());
+						mListener.onCheckout();
+					}
 				}
-				else {
+			});
+		}
+
+		if (mCloseFormButton != null) {
+			mCloseFormButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
 					dismissKeyboard(v);
-					BookingInfoUtils.onClickSubmit(getActivity());
-					mListener.onCheckout();
+
+					saveBillingInfo();
+
+					checkSectionsCompleted(false);
+
+					dismiss();
 				}
-			}
-		});
-
-		mCloseFormButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				dismissKeyboard(v);
-
-				saveBillingInfo();
-
-				checkSectionsCompleted(false);
-
-				dismiss();
-			}
-		});
+			});
+		}
 
 		// Setup the correct text (and link enabling) on the terms & conditions textview
 		mRulesRestrictionsTextView.setText(RulesRestrictionsUtils.getRulesRestrictionsConfirmation(getActivity()));
@@ -622,7 +643,27 @@ public class BookingFormFragment extends DialogFragment {
 		OnFocusChangeListener l = new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
-					mFormHasBeenFocused = true;
+					if (!mFormHasBeenFocused) {
+						// Change the button text (if not showing as dialog)
+						if (!getShowsDialog()) {
+							mConfirmBookButton.setText(R.string.confirm_book);
+						}
+
+						// Reveal the charge lock icon
+						if (mChargeDetailsImageView != null) {
+							mChargeDetailsImageView.setVisibility(View.VISIBLE);
+						}
+
+						// Add the charge details text
+						if (mChargeDetailsTextView != null) {
+							CharSequence text = getString(R.string.charge_details_template, Db.getSelectedRate()
+									.getTotalAmountAfterTax()
+									.getFormattedMoney());
+							mChargeDetailsTextView.setText(text);
+						}
+
+						mFormHasBeenFocused = true;
+					}
 				}
 				else {
 					saveBillingInfo();
@@ -647,8 +688,10 @@ public class BookingFormFragment extends DialogFragment {
 		mExpirationMonthEditText.setOnFocusChangeListener(l);
 		mExpirationYearEditText.setOnFocusChangeListener(l);
 		mSecurityCodeEditText.setOnFocusChangeListener(l);
-		mConfirmBookButton.setOnFocusChangeListener(l);
 
+		if (mConfirmBookButton != null) {
+			mConfirmBookButton.setOnFocusChangeListener(l);
+		}
 	}
 
 	/**
@@ -791,6 +834,38 @@ public class BookingFormFragment extends DialogFragment {
 	private void focusRulesRestrictions() {
 		mScrollView.requestChildFocus(mRulesRestrictionsLayout, mRulesRestrictionsLayout);
 		mScrollView.scrollBy(0, (int) getResources().getDisplayMetrics().density * 15);
+	}
+
+	private boolean loadSavedBillingInfo() {
+		// Attempt to load the saved billing info
+		// TODO: revisit this whole section
+		if (Db.loadBillingInfo(getActivity())) {
+
+			BillingInfo billingInfo = Db.getBillingInfo();
+
+			// When upgrading from 1.2.1 to 1.3, country code isn't present. So let's just use the default country.
+			if (billingInfo.getTelephoneCountryCode() == null) {
+
+				Resources r = getResources();
+				String[] countryCodes = r.getStringArray(R.array.country_codes);
+				String[] countryNames = r.getStringArray(R.array.country_names);
+				int[] countryPhoneCodes = r.getIntArray(R.array.country_phone_codes);
+
+				String defaultCountryName = getString(LocaleUtils.getDefaultCountryResId(getActivity()));
+
+				for (int n = 0; n < countryCodes.length; n++) {
+					if (defaultCountryName.equals(countryNames[n])) {
+						billingInfo.setTelephoneCountry(countryCodes[n]);
+						billingInfo.setTelephoneCountryCode(Integer.toString(countryPhoneCodes[n]));
+						break;
+					}
+				}
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -952,6 +1027,30 @@ public class BookingFormFragment extends DialogFragment {
 		}
 	}
 
+	public void clearBillingInfo() {
+		final int countryResId = LocaleUtils.getDefaultCountryResId(getActivity());
+
+		mFirstNameEditText.setText(null);
+		mLastNameEditText.setText(null);
+		setSpinnerSelection(mTelephoneCountryCodeSpinner, getString(countryResId));
+		mTelephoneEditText.setText(null);
+		mEmailEditText.setText(null);
+		mAddress1EditText.setText(null);
+		mAddress2EditText.setText(null);
+		mCityEditText.setText(null);
+		mPostalCodeEditText.setText(null);
+		mStateEditText.setText(null);
+		setSpinnerSelection(mCountrySpinner, getString(countryResId));
+		mCardNumberEditText.setText(null);
+		mExpirationMonthEditText.setText(null);
+		mExpirationYearEditText.setText(null);
+		mSecurityCodeEditText.setText(null);
+		mRulesRestrictionsCheckbox.setChecked(false);
+
+		expandGuestsForm(false);
+		expandBillingForm(false);
+	}
+
 	private void checkSectionsCompleted(boolean trackCompletion) {
 		Context context = (trackCompletion) ? getActivity() : null;
 		mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor, context);
@@ -1006,7 +1105,7 @@ public class BookingFormFragment extends DialogFragment {
 			services.signOut();
 			mUserMode = Mode.LOCAL_USER;
 			showLoginLogoutSection(mUserMode);
-			BillingInfo billingInfo = Db.resetBillingInfo();
+			Db.resetBillingInfo();
 			syncFormFieldsFromBillingInfo(mRootBillingView);
 			expandGuestsForm(false);
 			expandBillingForm(false);

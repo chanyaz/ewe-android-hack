@@ -167,12 +167,7 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 	public void onRateSelected(Rate rate) {
 		Db.setSelectedRate(rate);
 
-		// TODO: The rest of the app does not use Db.java yet, so for now it connects by
-		// putting all the extras here.
 		Intent intent = new Intent(this, BookingInfoActivity.class);
-		intent.putExtra(Codes.PROPERTY, Db.getSelectedProperty().toJson().toString());
-		intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toJson().toString());
-		intent.putExtra(Codes.RATE, rate.toJson().toString());
 		startActivity(intent);
 	}
 

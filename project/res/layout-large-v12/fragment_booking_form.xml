@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:weightSum="@integer/booking_info_dialog_width_weight_sum" >
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="@integer/booking_info_content_width_weight"
+        android:background="@drawable/bg_booking_info_dialog"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <!--
+		      Header Bar 
+           	  NOTE: Using a defined height since the header in the 9patch
+           	  is not stretchable and is 60px tall
+        -->
+
+        <RelativeLayout
+            android:id="@+id/header_container"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:shadowColor="#8affffff"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.1"
+                android:text="@string/booking_information_dialog_title"
+                android:textColor="#4a5360"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/confirm_book_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Button.Yellow"
+                android:background="@drawable/btn_small_yellow"
+                android:layout_toLeftOf="@+id/close_booking_form"
+                android:text="@string/confirm_book"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:textSize="14sp"
+               	android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/close_booking_form"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+				android:background="@null"
+                android:paddingLeft="12dp"
+                android:src="@drawable/ic_action_close" />
+        </RelativeLayout>
+
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:fadingEdge="none"
+            android:fillViewport="true"
+            android:overScrollMode="never" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="@integer/booking_info_columns_width_weight_sum" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/booking_info_receipt_width_weight"
+                    android:orientation="vertical"
+                    android:paddingRight="10dp" >
+
+                    <include
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        layout="@layout/include_receipt" />
+
+                    <!-- Expedia points disclaimer -->
+
+                    <TextView
+                        android:id="@+id/expedia_points_disclaimer_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="@string/disclaimer_expedia_points"
+                        android:textColor="#6A6D71" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="@integer/booking_info_form_width_weight"
+                    android:orientation="vertical" >
+
+                    <!-- Login Section -->
+                    <include
+                        android:id="@+id/account_loading_container"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        layout="@layout/include_account_loading" />
+                    <include
+                        android:id="@+id/account_login_container"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        layout="@layout/include_account_login_container" />
+                    <include
+                        android:id="@+id/account_normal_logout_container"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        layout="@layout/include_account_normal_logout_container" />
+                    <include
+                        android:id="@+id/account_rewards_logout_container"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        layout="@layout/include_account_rewards_logout_container" />
+
+                    <!-- Guest info section -->
+
+                    <TextView
+                        style="@style/TabletSectionHeader.Details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:text="@string/guest_info" />
+
+                    <!-- Guest form fields (from saved data) -->
+
+                    <include layout="@layout/include_saved_guest_info" />
+
+                    <!-- Guest form fields (entering data) -->
+
+                    <include layout="@layout/include_guest_info_fields" />
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="10dp" />
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="10dp" />
+
+                    <!-- Credit card info form fields -->
+
+                    <TextView
+                        style="@style/TabletSectionHeader.Details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/credit_card_info" />
+
+                    <include layout="@layout/include_credit_card_info" />
+
+                    <!-- Billing info form fields -->
+
+                    <TextView
+                        style="@style/TabletSectionHeader.Details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/billing_info" />
+
+                    <!-- Billing form fields (from saved data) -->
+
+                    <include layout="@layout/include_billing_info_fields" />
+
+                    <!-- Billing form fields (entering data) -->
+
+                    <include layout="@layout/include_saved_billing_info" />
+
+
+                    <!-- Terms and conditions -->
+
+                    <RelativeLayout
+                        android:id="@+id/rules_restrictions_layout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp" >
+
+                        <CheckBox
+                            android:id="@+id/rules_restrictions_checkbox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="8dp" />
+
+                        <TextView
+                            android:id="@+id/rules_restrictions_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignWithParentIfMissing="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/rules_restrictions_checkbox"
+                            android:textColor="@android:color/black"
+                            android:textSize="15sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

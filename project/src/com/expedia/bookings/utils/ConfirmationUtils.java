@@ -170,7 +170,8 @@ public class ConfirmationUtils {
 			data.put(Codes.BILLING_INFO, billingInfo.toJson());
 			data.put(Codes.BOOKING_RESPONSE, bookingResponse.toJson());
 
-			IoUtils.writeStringToFile(CONFIRMATION_DATA_VERSION_FILE, Integer.toString(AndroidUtils.getAppCode(context)), context);
+			IoUtils.writeStringToFile(CONFIRMATION_DATA_VERSION_FILE,
+					Integer.toString(AndroidUtils.getAppCode(context)), context);
 			IoUtils.writeStringToFile(CONFIRMATION_DATA_FILE, data.toString(0), context);
 
 			return true;
@@ -200,21 +201,21 @@ public class ConfirmationUtils {
 	}
 
 	public static void determineCancellationPolicy(Rate rate, View view) {
-		TextView cancellationPolicyView = (TextView) view.findViewById(R.id.cancellation_policy_text_view);
-		TextView rulesRestrictionsTitle = (TextView) view.findViewById(R.id.rules_and_restrictions_title_text_view);
 		Policy cancellationPolicy = rate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
-		if (cancellationPolicy != null) {
-			if (rulesRestrictionsTitle != null) {
-				rulesRestrictionsTitle.setVisibility(View.VISIBLE);
-			}
 
-			cancellationPolicyView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
-		}
-		else {
-			cancellationPolicyView.setVisibility(View.GONE);
-			if (rulesRestrictionsTitle != null) {
-				rulesRestrictionsTitle.setVisibility(View.GONE);
+		TextView cancellationPolicyView = (TextView) view.findViewById(R.id.cancellation_policy_text_view);
+		if (cancellationPolicyView != null) {
+			if (cancellationPolicy != null) {
+				cancellationPolicyView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
 			}
+			else {
+				cancellationPolicyView.setVisibility(View.GONE);
+			}
+		}
+
+		TextView rulesRestrictionsTitle = (TextView) view.findViewById(R.id.rules_and_restrictions_title_text_view);
+		if (rulesRestrictionsTitle != null) {
+			rulesRestrictionsTitle.setVisibility((cancellationPolicy != null) ? View.VISIBLE : View.GONE);
 		}
 	}
 
