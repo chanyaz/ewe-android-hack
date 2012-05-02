@@ -23,6 +23,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingFormFragment.BookingFormFragmentListener;
+import com.expedia.bookings.fragment.SignInFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -230,16 +231,20 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 
 	@Override
 	public void onLoginStarted() {
-		// TODO Auto-generated method stub
+		if (getSupportFragmentManager().findFragmentByTag(getString(R.string.tag_signin)) == null) {
+			SignInFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.tag_signin));
+		}
 	}
 
 	@Override
 	public void onLoginCompleted() {
-		// TODO Auto-generated method stub
+		BookingFormFragment bookingFormFragment = Ui.findOrAddSupportFragment(this, BookingFormFragment.class,
+				getString(R.string.tag_booking_form));
+		bookingFormFragment.loginCompleted();
 	}
 
 	@Override
 	public void onLoginFailed() {
-		// TODO Auto-generated method stub
+		//NOTE: If SignInFragment takes care of failure for us we should never see this
 	}
 }
