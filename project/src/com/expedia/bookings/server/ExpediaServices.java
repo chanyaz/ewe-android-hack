@@ -296,7 +296,6 @@ public class ExpediaServices implements DownloadListener {
 		cookieStore.load(mContext, mContext.getString(R.string.COOKIES_FILE));
 		List<Cookie> cookies = cookieStore.getCookies();
 		for (Cookie c : cookies) {
-			Log.d("HERE " + c.getDomain());
 			if (c.getDomain().equals(".expedia.com") && c.getName().equals("s1")) {
 				if (c.getValue().contains("user=")) {
 					return true;
