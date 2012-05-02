@@ -74,6 +74,7 @@ public class FlightAdapter extends BaseAdapter {
 			holder.mPriceTextView = Ui.findView(convertView, R.id.price_text_view);
 			holder.mDepartureTimeTextView = Ui.findView(convertView, R.id.departure_time_text_view);
 			holder.mArrivalTimeTextView = Ui.findView(convertView, R.id.arrival_time_text_view);
+			holder.mFlightTripView = Ui.findView(convertView, R.id.flight_trip_view);
 
 			convertView.setTag(holder);
 		}
@@ -97,6 +98,8 @@ public class FlightAdapter extends BaseAdapter {
 			holder.mPriceTextView.setText(null);
 		}
 
+		holder.mFlightTripView.setUp(leg, null, null);
+
 		return convertView;
 	}
 
@@ -111,6 +114,7 @@ public class FlightAdapter extends BaseAdapter {
 		private TextView mPriceTextView;
 		private TextView mDepartureTimeTextView;
 		private TextView mArrivalTimeTextView;
+		private FlightTripView mFlightTripView;
 
 	}
 }
