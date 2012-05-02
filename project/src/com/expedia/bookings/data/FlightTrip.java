@@ -85,7 +85,7 @@ public class FlightTrip {
 			return context.getString(R.string.multiple_airlines);
 		}
 		else {
-			return mInboundLeg.getAirlineCode();
+			return mInboundLeg.getAirlineName();
 		}
 	}
 }

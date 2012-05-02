@@ -3,7 +3,9 @@ package com.expedia.bookings.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class FlightLeg {
 
@@ -51,12 +53,13 @@ public class FlightLeg {
 		return false;
 	}
 
-	public String getAirlineCode() {
+	public String getAirlineName() {
 		if (hasMultipleAirlines()) {
 			return null;
 		}
 		else {
-			return mSegments.get(0).getPrimaryFlightCode().mAirlineCode;
+			Airline airline = FlightStatsDbUtils.getAirline(mSegments.get(0).getPrimaryFlightCode().mAirlineCode);
+			return airline.mAirlineName;
 		}
 	}
 }
