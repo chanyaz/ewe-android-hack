@@ -24,7 +24,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 	private Map<String, FlightLeg> mLegs;
 
-	private DateFormat mDateTimeFormat = new SimpleDateFormat("MMM d, y K:m:s a");
+	private DateFormat mDateTimeFormat = new SimpleDateFormat("MMM d, y h:m:s a");
 
 	@Override
 	public FlightSearchResponse handleJson(JSONObject response) {
