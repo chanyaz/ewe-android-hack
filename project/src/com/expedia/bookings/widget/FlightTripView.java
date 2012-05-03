@@ -88,6 +88,7 @@ public class FlightTripView extends View {
 		// Drawing info
 		RectF[] waypoints = new RectF[numSegments + 1];
 
+		float halfStrokeWidth = mTripPaint.getStrokeWidth() / 2;
 		float width = bounds.width();
 		float height = bounds.height();
 		float centerY = bounds.centerY();
@@ -122,10 +123,9 @@ public class FlightTripView extends View {
 
 		// Draw lines between each waypoint
 		for (int a = 1; a < waypoints.length; a++) {
-			canvas.drawLine(waypoints[a - 1].right, centerY, waypoints[a].left, centerY, mTripPaint);
+			canvas.drawLine(waypoints[a - 1].right - halfStrokeWidth, centerY, waypoints[a].left + halfStrokeWidth,
+					centerY, mTripPaint);
 		}
-
-		// canvas.drawLine(start.right, centerY, end.left, centerY, mTripPaint);
 	}
 
 	/**
