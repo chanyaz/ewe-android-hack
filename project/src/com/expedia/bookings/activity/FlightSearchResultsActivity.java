@@ -19,7 +19,7 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 
-public class FlightSearchActivity extends FragmentActivity implements FlightListFragmentListener {
+public class FlightSearchResultsActivity extends FragmentActivity implements FlightListFragmentListener {
 
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flights";
 
@@ -58,7 +58,7 @@ public class FlightSearchActivity extends FragmentActivity implements FlightList
 
 					@Override
 					public Object doDownload() {
-						ExpediaServices services = new ExpediaServices(FlightSearchActivity.this);
+						ExpediaServices services = new ExpediaServices(FlightSearchResultsActivity.this);
 						return services.flightSearch(mDepartureDate, mReturnDate, mDepartureAirportCode,
 								mArrivalAirportCode, 0);
 					}

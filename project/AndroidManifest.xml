@@ -98,7 +98,7 @@
 
         <!-- Expedia Flights -->
 
-        <activity android:name=".activity.FlightSearchActivity"
+        <activity android:name=".activity.FlightSearchResultsActivity"
             android:label="Expedia Flights" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
