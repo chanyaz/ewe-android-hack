@@ -3,7 +3,9 @@ package com.expedia.bookings.server;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -33,47 +35,84 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 		// TODO: Add error handling
 
-		parseLegs(response.optJSONArray("inboundLegs"));
-		parseLegs(response.optJSONArray("outboundLegs"));
-		parsePricingInfo(response.optJSONArray("pricingInformation"));
+		if (response.has("journeys")) {
+			// Parse as a linear response
+			parseJourneys(response.optJSONArray("journeys"));
+		}
+		else {
+			// Parse as a matrix response
+			List<FlightLeg> inboundLegs = parseLegs(response.optJSONArray("inboundLegs"));
+			List<FlightLeg> outboundLegs = parseLegs(response.optJSONArray("outboundLegs"));
+
+			for (FlightLeg leg : inboundLegs) {
+				mLegs.put(leg.getLegId(), leg);
+			}
+			for (FlightLeg leg : outboundLegs) {
+				mLegs.put(leg.getLegId(), leg);
+			}
+
+			parsePricingInfoArray(response.optJSONArray("pricingInformation"));
+		}
 
 		return mResponse;
 	}
 
-	private void parseLegs(JSONArray legsJson) {
-		int len = legsJson.length();
+	private void parseJourneys(JSONArray journeysJson) {
+		int len = journeysJson.length();
 		for (int a = 0; a < len; a++) {
-			FlightLeg leg = new FlightLeg();
-			JSONObject legJson = legsJson.optJSONObject(a);
-			leg.setLegId(legJson.optString("legId"));
+			JSONObject tripJson = journeysJson.optJSONObject(a);
+			FlightTrip trip = parseTrip(tripJson);
 
-			JSONArray segmentsJson = legJson.optJSONArray("segments");
-			int segmentsLen = segmentsJson.length();
-			for (int b = 0; b < segmentsLen; b++) {
-				Flight segment = new Flight();
-				JSONObject segmentJson = segmentsJson.optJSONObject(b);
-
-				// Parse primary flight code
-				FlightCode flightCode = new FlightCode();
-				flightCode.mAirlineCode = segmentJson.optString("airlineCode");
-				flightCode.mNumber = segmentJson.optString("flightNumber");
-				segment.addFlightCode(flightCode, Flight.F_PRIMARY_AIRLINE_CODE);
-
-				// Parse departure
-				Waypoint departure = segment.mOrigin = new Waypoint(Waypoint.ACTION_DEPARTURE);
-				departure.mAirportCode = segmentJson.optString("departureAirportCode");
-				addDateTime(departure, segmentJson.optString("departureTime"));
-
-				// Parse arrival
-				Waypoint arrival = segment.mDestination = new Waypoint(Waypoint.ACTION_ARRIVAL);
-				arrival.mAirportCode = segmentJson.optString("arrivalAirportCode");
-				addDateTime(arrival, segmentJson.optString("arrivalTime"));
-
-				leg.addSegment(segment);
+			List<FlightLeg> legs = parseLegs(tripJson.optJSONArray("legs"));
+			for (FlightLeg leg : legs) {
+				trip.addLeg(leg);
 			}
 
-			mLegs.put(leg.getLegId(), leg);
+			mResponse.addTrip(trip);
 		}
+	}
+
+	private List<FlightLeg> parseLegs(JSONArray legsJson) {
+		List<FlightLeg> legs = new ArrayList<FlightLeg>();
+		int len = legsJson.length();
+		for (int a = 0; a < len; a++) {
+			FlightLeg leg = parseLeg(legsJson.optJSONObject(a));
+			legs.add(leg);
+		}
+
+		return legs;
+	}
+
+	private FlightLeg parseLeg(JSONObject legJson) {
+		FlightLeg leg = new FlightLeg();
+		leg.setLegId(legJson.optString("legId"));
+
+		JSONArray segmentsJson = legJson.optJSONArray("segments");
+		int segmentsLen = segmentsJson.length();
+		for (int b = 0; b < segmentsLen; b++) {
+			Flight segment = new Flight();
+			JSONObject segmentJson = segmentsJson.optJSONObject(b);
+
+			// Parse primary flight code
+			FlightCode flightCode = new FlightCode();
+			flightCode.mAirlineCode = segmentJson.optString("airlineCode");
+			flightCode.mNumber = segmentJson.optString("flightNumber");
+			segment.addFlightCode(flightCode, Flight.F_PRIMARY_AIRLINE_CODE);
+
+			// Parse departure
+			Waypoint departure = segment.mOrigin = new Waypoint(Waypoint.ACTION_DEPARTURE);
+			departure.mAirportCode = segmentJson.optString("departureAirportCode");
+			addDateTime(departure, segmentJson.optString("departureTime"));
+
+			// Parse arrival
+			Waypoint arrival = segment.mDestination = new Waypoint(Waypoint.ACTION_ARRIVAL);
+			arrival.mAirportCode = segmentJson.optString("arrivalAirportCode");
+			addDateTime(arrival, segmentJson.optString("arrivalTime"));
+
+			leg.addSegment(segment);
+		}
+
+		return leg;
 	}
 
 	private void addDateTime(Waypoint waypoint, String dateTime) {
@@ -88,27 +127,35 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		}
 	}
 
-	private void parsePricingInfo(JSONArray pricingJson) {
+	private void parsePricingInfoArray(JSONArray pricingJson) {
 		int len = pricingJson.length();
 		for (int a = 0; a < len; a++) {
-			JSONObject tripJson = pricingJson.optJSONObject(a);
-			FlightTrip trip = new FlightTrip();
-			trip.setProductKey(tripJson.optString("productKey"));
-			trip.addLeg(getLeg(tripJson.optString("inboundLegId")));
-			trip.addLeg(getLeg(tripJson.optString("outboundLegId")));
-
-			// If it has rates, parse those as well
-			if (tripJson.has("currency")) {
-				String currencyCode = tripJson.optString("currency");
-
-				trip.setBaseFare(ParserUtils.createMoney(tripJson.optDouble("baseFare"), currencyCode));
-				trip.setTotalFare(ParserUtils.createMoney(tripJson.optDouble("totalFare"), currencyCode));
-				trip.setTaxes(ParserUtils.createMoney(tripJson.optDouble("taxes"), currencyCode));
-				trip.setFees(ParserUtils.createMoney(tripJson.optDouble("fees"), currencyCode));
-			}
-
+			FlightTrip trip = parseTrip(pricingJson.optJSONObject(a));
 			mResponse.addTrip(trip);
 		}
+	}
+
+	private FlightTrip parseTrip(JSONObject tripJson) {
+		FlightTrip trip = new FlightTrip();
+		trip.setProductKey(tripJson.optString("productKey"));
+
+		// If it has rates, parse those as well
+		if (tripJson.has("currency")) {
+			String currencyCode = tripJson.optString("currency");
+
+			trip.setBaseFare(ParserUtils.createMoney(tripJson.optDouble("baseFare"), currencyCode));
+			trip.setTotalFare(ParserUtils.createMoney(tripJson.optDouble("totalFare"), currencyCode));
+			trip.setTaxes(ParserUtils.createMoney(tripJson.optDouble("taxes"), currencyCode));
+			trip.setFees(ParserUtils.createMoney(tripJson.optDouble("fees"), currencyCode));
+		}
+
+		// If we're parsing as a matrix response, get the inbound/outbound legs
+		if (mLegs.size() > 0) {
+			trip.addLeg(getLeg(tripJson.optString("inboundLegId")));
+			trip.addLeg(getLeg(tripJson.optString("outboundLegId")));
+		}
+
+		return trip;
 	}
 
 	private FlightLeg getLeg(String legId) {
