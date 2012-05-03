@@ -13,7 +13,6 @@ import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -179,7 +178,6 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("pageIndex", "0"));
 		query.add(new BasicNameValuePair("filterUnavailable", "true"));
 		query.add(new BasicNameValuePair("filterInventoryType", "MERCHANT"));
-		query.add(new BasicNameValuePair("wantTotalRecommendations", "true"));
 
 		SearchResponseHandler rh = new SearchResponseHandler(mContext);
 		if (params.hasSearchLatLon()) {
