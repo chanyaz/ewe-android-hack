@@ -57,9 +57,6 @@ public class FlightTripView extends View {
 		super.onDraw(canvas);
 
 		// Calculate the bounds based on the min
-		// ADD THIS WHEN LEG INFO IS CORRECT -  Because it's random right now, we end up with wildly
-		// bad answers here.
-		/*
 		long minTime = DateTimeUtils.getTimeInGMT(mMinTime).getTime();
 		long maxTime = DateTimeUtils.getTimeInGMT(mMaxTime).getTime();
 		long startTime = DateTimeUtils.getTimeInGMT(mFlightLeg.getSegment(0).mOrigin.getMostRelevantDateTime())
@@ -71,10 +68,10 @@ public class FlightTripView extends View {
 
 		float left = ((float) (startTime - minTime) / (float) duration) * canvas.getWidth();
 		float right = ((float) (endTime - minTime) / (float) duration) * canvas.getWidth();
-		*/
 
-		float left = 0;
-		float right = canvas.getWidth();
+		// Temporarily use the full width for drawing
+		left = 0;
+		right = canvas.getWidth();
 
 		RectF legBounds = new RectF(left, 0, right, canvas.getHeight());
 		drawLeg(canvas, legBounds);
@@ -94,7 +91,7 @@ public class FlightTripView extends View {
 		float centerY = bounds.centerY();
 
 		// Starting point
-		waypoints[0] = drawWaypoint(canvas, new RectF(0, 0, height, height));
+		waypoints[0] = drawWaypoint(canvas, new RectF(bounds.left, 0, height + bounds.left, height));
 
 		// Layovers
 		if (numSegments > 1) {
@@ -114,12 +111,13 @@ public class FlightTripView extends View {
 				float left = ((float) (layoverStart - startTime) / (float) duration) * width;
 				float right = ((float) (layoverEnd - startTime) / (float) duration) * width;
 
-				waypoints[a] = drawWaypoint(canvas, new RectF(left, 0, right, height));
+				waypoints[a] = drawWaypoint(canvas, new RectF(left + bounds.left, 0, right + bounds.left, height));
 			}
 		}
 
 		// Ending point
-		waypoints[numSegments] = drawWaypoint(canvas, new RectF(width - height, 0, width, height));
+		waypoints[numSegments] = drawWaypoint(canvas, new RectF(width - height + bounds.left, 0, width + bounds.left,
+				height));
 
 		// Draw lines between each waypoint
 		for (int a = 1; a < waypoints.length; a++) {
