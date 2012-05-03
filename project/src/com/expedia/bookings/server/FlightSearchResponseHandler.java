@@ -94,8 +94,8 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			JSONObject tripJson = pricingJson.optJSONObject(a);
 			FlightTrip trip = new FlightTrip();
 			trip.setProductKey(tripJson.optString("productKey"));
-			trip.setInboundLeg(getLeg(tripJson.optString("inboundLegId")));
-			trip.setOutboundLeg(getLeg(tripJson.optString("outboundLegId")));
+			trip.addLeg(getLeg(tripJson.optString("inboundLegId")));
+			trip.addLeg(getLeg(tripJson.optString("outboundLegId")));
 
 			// If it has rates, parse those as well
 			if (tripJson.has("currency")) {

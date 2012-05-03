@@ -31,7 +31,7 @@ public class FlightAdapter extends BaseAdapter {
 	private Calendar mMinTime;
 	private Calendar mMaxTime;
 
-	private boolean mIsInbound = true;
+	private int mLegPosition;
 
 	public FlightAdapter(Context context) {
 		mContext = context;
@@ -45,7 +45,7 @@ public class FlightAdapter extends BaseAdapter {
 			// Calculate the min/max time
 			List<FlightTrip> trips = mFlights.getTrips();
 			FlightTrip trip = trips.get(0);
-			FlightLeg leg = (mIsInbound) ? trip.getInboundLeg() : trip.getOutboundLeg();
+			FlightLeg leg = trip.getLeg(mLegPosition);
 			mMinTime = leg.getSegment(0).mOrigin.getMostRelevantDateTime();
 			mMaxTime = leg.getSegment(leg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime();
 
@@ -53,10 +53,10 @@ public class FlightAdapter extends BaseAdapter {
 			DateFormat df2 = android.text.format.DateFormat.getDateFormat(mContext);
 			Log.i("Start min time: " + df2.format(mMinTime.getTime()) + " " + df.format(mMinTime.getTime()));
 			Log.i("Start max time: " + df2.format(mMaxTime.getTime()) + " " + df.format(mMaxTime.getTime()));
-			
+
 			for (int a = 1; a < trips.size(); a++) {
 				trip = trips.get(a);
-				leg = (mIsInbound) ? trip.getInboundLeg() : trip.getOutboundLeg();
+				leg = trip.getLeg(mLegPosition);
 
 				Calendar minTime = leg.getSegment(0).mOrigin.getMostRelevantDateTime();
 				Calendar maxTime = leg.getSegment(leg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime();
@@ -75,8 +75,8 @@ public class FlightAdapter extends BaseAdapter {
 		}
 	}
 
-	public void setIsInbound(boolean isInbound) {
-		mIsInbound = isInbound;
+	public void setLegPosition(int legPosition) {
+		mLegPosition = legPosition;
 	}
 
 	@Override
@@ -118,10 +118,9 @@ public class FlightAdapter extends BaseAdapter {
 		}
 
 		FlightTrip trip = getItem(position);
-		holder.mAirlineTextView.setText(trip.getAirlineName(mContext));
+		FlightLeg leg = trip.getLeg(mLegPosition);
 
-		FlightLeg leg = (mIsInbound) ? trip.getInboundLeg() : trip.getOutboundLeg();
-
+		holder.mAirlineTextView.setText(leg.getAirlineName(mContext));
 		holder.mDepartureTimeTextView.setText(formatTime(leg.getSegment(0).mOrigin.getMostRelevantDateTime()));
 		holder.mArrivalTimeTextView.setText(formatTime(leg.getSegment(leg.getSegmentCount() - 1).mDestination
 				.getMostRelevantDateTime()));

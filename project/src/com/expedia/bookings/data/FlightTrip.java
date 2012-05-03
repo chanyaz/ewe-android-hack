@@ -1,16 +1,13 @@
 package com.expedia.bookings.data;
 
-import android.content.Context;
-
-import com.expedia.bookings.R;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FlightTrip {
 
 	private String mProductKey;
 
-	private FlightLeg mInboundLeg;
-
-	private FlightLeg mOutboundLeg;
+	private List<FlightLeg> mLegs = new ArrayList<FlightLeg>();
 
 	private Money mBaseFare;
 	private Money mTotalFare;
@@ -25,20 +22,20 @@ public class FlightTrip {
 		mProductKey = productKey;
 	}
 
-	public FlightLeg getInboundLeg() {
-		return mInboundLeg;
+	public void addLeg(FlightLeg leg) {
+		mLegs.add(leg);
 	}
 
-	public void setInboundLeg(FlightLeg inboundLeg) {
-		mInboundLeg = inboundLeg;
+	public int getLegCount() {
+		return mLegs.size();
 	}
 
-	public FlightLeg getOutboundLeg() {
-		return mOutboundLeg;
+	public FlightLeg getLeg(int position) {
+		return mLegs.get(position);
 	}
 
-	public void setOutboundLeg(FlightLeg outboundLeg) {
-		mOutboundLeg = outboundLeg;
+	public List<FlightLeg> getLegs() {
+		return mLegs;
 	}
 
 	public Money getBaseFare() {
@@ -78,14 +75,5 @@ public class FlightTrip {
 
 	public boolean hasPricing() {
 		return mBaseFare != null && mTotalFare != null && mTaxes != null && mFees != null;
-	}
-
-	public String getAirlineName(Context context) {
-		if (mInboundLeg.hasMultipleAirlines() || mOutboundLeg.hasMultipleAirlines()) {
-			return context.getString(R.string.multiple_airlines);
-		}
-		else {
-			return mInboundLeg.getAirlineName();
-		}
 	}
 }

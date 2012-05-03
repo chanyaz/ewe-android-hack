@@ -33,7 +33,7 @@ public class FlightSearchActivity extends FragmentActivity implements FlightList
 	private Calendar mReturnDate = new GregorianCalendar(2012, 8, 20);
 	private String mDepartureAirportCode = "MSP";
 	private String mArrivalAirportCode = "SFO";
-	private boolean mIsInbound = true;
+	private int mLegPosition = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class FlightSearchActivity extends FragmentActivity implements FlightList
 
 			FlightSearchResponse response = (FlightSearchResponse) results;
 			Db.setFlightSearchResponse(response);
-			mAdapter.setIsInbound(mIsInbound);
+			mAdapter.setLegPosition(mLegPosition);
 			mAdapter.setFlights(response);
 		}
 	};
@@ -102,7 +102,7 @@ public class FlightSearchActivity extends FragmentActivity implements FlightList
 	public void onFlightClick(int position) {
 		Intent intent = new Intent(this, FlightDetailsActivity.class);
 		intent.putExtra(FlightDetailsActivity.EXTRA_STARTING_POSITION, position);
-		intent.putExtra(FlightDetailsActivity.EXTRA_IS_INBOUND, mIsInbound);
+		intent.putExtra(FlightDetailsActivity.EXTRA_LEG_POSITION, mLegPosition);
 		startActivity(intent);
 	}
 }

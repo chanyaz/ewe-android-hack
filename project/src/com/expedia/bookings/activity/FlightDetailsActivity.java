@@ -28,7 +28,7 @@ import com.mobiata.flightlib.utils.FormatUtils;
 public class FlightDetailsActivity extends FragmentActivity {
 
 	public static final String EXTRA_STARTING_POSITION = "EXTRA_STARTING_POSITION";
-	public static final String EXTRA_IS_INBOUND = "EXTRA_IS_INBOUND";
+	public static final String EXTRA_LEG_POSITION = "EXTRA_LEG_POSITION";
 
 	private FlightAdapter mAdapter;
 
@@ -41,7 +41,7 @@ public class FlightDetailsActivity extends FragmentActivity {
 		setContentView(R.layout.activity_flight_details);
 
 		mPager = Ui.findView(this, R.id.pager);
-		mAdapter = new FlightAdapter(getSupportFragmentManager(), getIntent().getBooleanExtra(EXTRA_IS_INBOUND, true));
+		mAdapter = new FlightAdapter(getSupportFragmentManager(), getIntent().getBooleanExtra(EXTRA_LEG_POSITION, true));
 		mPager.setAdapter(mAdapter);
 
 		if (savedInstanceState == null) {
@@ -94,7 +94,7 @@ public class FlightDetailsActivity extends FragmentActivity {
 			Bundle args = getArguments();
 
 			FlightTrip trip = Db.getFlightSearchResponse().getTrip(args.getInt(ARG_POSITION));
-			FlightLeg leg = (args.getBoolean(ARG_IS_INBOUND)) ? trip.getInboundLeg() : trip.getOutboundLeg();
+			FlightLeg leg = trip.getLeg(args.getInt(EXTRA_LEG_POSITION, 0));
 
 			// Construct the trip.  This is a bit complex.
 			ViewGroup tripContainer = Ui.findView(view, R.id.trip_container);
