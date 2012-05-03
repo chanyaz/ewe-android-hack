@@ -56,7 +56,27 @@ public class FlightTripView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		RectF legBounds = new RectF(0, 0, canvas.getWidth(), canvas.getHeight());
+		// Calculate the bounds based on the min
+		// ADD THIS WHEN LEG INFO IS CORRECT -  Because it's random right now, we end up with wildly
+		// bad answers here.
+		/*
+		long minTime = DateTimeUtils.getTimeInGMT(mMinTime).getTime();
+		long maxTime = DateTimeUtils.getTimeInGMT(mMaxTime).getTime();
+		long startTime = DateTimeUtils.getTimeInGMT(mFlightLeg.getSegment(0).mOrigin.getMostRelevantDateTime())
+				.getTime();
+		long endTime = DateTimeUtils.getTimeInGMT(
+				mFlightLeg.getSegment(mFlightLeg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime())
+				.getTime();
+		long duration = maxTime - minTime;
+
+		float left = ((float) (startTime - minTime) / (float) duration) * canvas.getWidth();
+		float right = ((float) (endTime - minTime) / (float) duration) * canvas.getWidth();
+		*/
+
+		float left = 0;
+		float right = canvas.getWidth();
+
+		RectF legBounds = new RectF(left, 0, right, canvas.getHeight());
 		drawLeg(canvas, legBounds);
 	}
 
