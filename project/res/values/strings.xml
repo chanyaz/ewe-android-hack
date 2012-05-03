@@ -3,6 +3,8 @@
 	<string name="app_name">Expedia</string>
 
 	<!-- Flights -->
+	<!-- Label for flight search part of app -->
+	<string name="search_flights">Search Flights</string>
 	<!-- Indicates that a flight itinerary flies on multiple airlines -->
 	<string name="multiple_airlines">Multiple Airlines</string>
 	<!-- Indicates how long a layover is.  %s is an amount of time, e.g. "3h 33m layover" -->

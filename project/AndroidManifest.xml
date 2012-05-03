@@ -98,8 +98,9 @@
 
         <!-- Expedia Flights -->
 
-        <activity android:name=".activity.FlightSearchResultsActivity"
-            android:label="Expedia Flights" >
+        <activity android:name=".activity.FlightSearchActivity"
+            android:label="Expedia Flights"
+            android:theme="@android:style/Theme.Holo.Light" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -107,6 +108,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".activity.FlightSearchResultsActivity" />
 
         <activity android:name=".activity.FlightDetailsActivity" />
 
