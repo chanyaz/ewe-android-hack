@@ -282,7 +282,6 @@ public class ExpediaServices implements DownloadListener {
 
 	public void signOut() {
 		PersistantCookieStore cookieStore = new PersistantCookieStore();
-		cookieStore.load(mContext, mContext.getString(R.string.COOKIES_FILE));
 		cookieStore.clear();
 		cookieStore.save(mContext, mContext.getString(R.string.COOKIES_FILE));
 		return;
