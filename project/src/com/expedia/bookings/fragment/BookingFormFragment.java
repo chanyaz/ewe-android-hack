@@ -378,6 +378,21 @@ public class BookingFormFragment extends DialogFragment {
 		mReceiptWidget.saveInstanceState(outState);
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_SIGNIN, mLoginCallback);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (! mUserProfileIsFresh) {
+			bd.registerDownloadCallback(KEY_SIGNIN, mLoginCallback);
+		}
+	}
+
 	private void configureForm() {
 		mGuestSavedLayout.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
