@@ -28,6 +28,8 @@ public class SignInFragment extends DialogFragment {
 	private EditText mUsernameEditText;
 	private EditText mPasswordEditText;
 
+	private boolean mLoginClicked = false;
+
 	public static SignInFragment newInstance() {
 		SignInFragment dialog = new SignInFragment();
 		return dialog;
@@ -49,11 +51,26 @@ public class SignInFragment extends DialogFragment {
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick (View v) {
+				mLoginClicked = true;
 				BackgroundDownloader.getInstance().startDownload(KEY_SIGNIN, mLoginDownload, mLoginCallback);
 			}
 		});
 
 		return dialog;
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_SIGNIN, mLoginCallback);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (mLoginClicked) {
+			BackgroundDownloader.getInstance().registerDownloadCallback(KEY_SIGNIN, mLoginCallback);
+		}
 	}
 
 	@Override
