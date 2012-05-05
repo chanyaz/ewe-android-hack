@@ -1006,7 +1006,9 @@ public class BookingFormFragment extends DialogFragment {
 			addressView.setText(address);
 
 			// Sync the editable billing info fields
-			mAddress1EditText.setText(loc.getStreetAddress().get(0));
+			if (loc.getStreetAddress().size() > 0) {
+				mAddress1EditText.setText(loc.getStreetAddress().get(0));
+			}
 			if (loc.getStreetAddress().size() > 1) {
 				mAddress2EditText.setText(loc.getStreetAddress().get(1));
 			}
