@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONArray;
@@ -19,11 +20,13 @@ public class User implements JSONable {
 	private String mLastName;
 
 	private ArrayList<Phone> mPhoneNumbers;
-	private Address mHomeAddress;
+	private Location mHomeAddress;
 	private ArrayList<StoredCreditCard> mStoredCreditCards;
 
 	private String mLoyaltyMembershipNumber;
 	private boolean mIsSmokingPreferred;
+
+	private static String[] sAddrLineKeys = new String[] {"firstAddressLine", "secondAddressLine"};
 
 	public User(JSONObject obj) {
 		this.fromJson(obj);
@@ -64,6 +67,7 @@ public class User implements JSONable {
 			}
 		}
 		b.setEmail(mEmail);
+		b.setLocation(mHomeAddress);
 
 		// TODO: CC info
 
@@ -134,7 +138,23 @@ public class User implements JSONable {
 
 		JSONObject addr = obj.optJSONObject("homeAddress");
 		if (addr != null) {
-			mHomeAddress = new Address(addr);
+			Location loc = new Location();
+
+			loc.setCity(addr.optString("city", null));
+			loc.setStateCode(addr.optString("province", null));
+			loc.setPostalCode(addr.optString("postalCode", null));
+			loc.setCountryCode(addr.optString("countryAlpha3Code", null));
+
+			List<String> addrLines = new ArrayList<String>();
+			for (String key : sAddrLineKeys) {
+				String line = addr.optString(key, null);
+				if (line != null) {
+					addrLines.add(line);
+				}
+			}
+			loc.setStreetAddress(addrLines);
+
+			mHomeAddress = loc;
 		}
 		// TODO - frequent guest memberships
 		mLoyaltyMembershipNumber = obj.optString("loyaltyMembershipNumber", null);
