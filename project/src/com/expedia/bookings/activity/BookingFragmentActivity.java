@@ -146,25 +146,25 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	//////////////////////////////////////////////////////////////////////////
 	// Booking
 
-	private Download mBookingDownload = new Download() {
-		public Object doDownload() {
+	private final Download<BookingResponse> mBookingDownload = new Download<BookingResponse>() {
+		@Override
+		public BookingResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			return services.reservation(Db.getSearchParams(), Db.getSelectedProperty(), Db.getSelectedRate(),
 					Db.getBillingInfo());
 		}
 	};
 
-	private OnDownloadComplete mBookingCallback = new OnDownloadComplete() {
-
+	private final OnDownloadComplete<BookingResponse> mBookingCallback = new OnDownloadComplete<BookingResponse>() {
 		@Override
-		public void onDownload(Object results) {
+		public void onDownload(BookingResponse response) {
 			DialogFragment bookingProgressFragment = (DialogFragment) getSupportFragmentManager().findFragmentByTag(
 					getString(R.string.tag_booking_progress));
 			if (bookingProgressFragment != null) {
 				bookingProgressFragment.dismiss();
 			}
 
-			if (results == null) {
+			if (response == null) {
 				showErrorDialog(getString(R.string.error_booking_null));
 
 				TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
@@ -172,7 +172,6 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 				return;
 			}
 
-			BookingResponse response = (BookingResponse) results;
 			Db.setBookingResponse(response);
 
 			BookingFormFragment bookingFormFragment = (BookingFormFragment) getSupportFragmentManager()

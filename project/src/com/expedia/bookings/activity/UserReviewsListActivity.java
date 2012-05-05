@@ -233,22 +233,18 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 		outState.putStringArrayList(INSTANCE_VIEWED_REVIEWS, viewedReviews);
 	}
 
-	private Download mReviewStatisticsDownload = new Download() {
-
+	private final Download<ReviewsStatisticsResponse> mReviewStatisticsDownload = new Download<ReviewsStatisticsResponse>() {
 		@Override
-		public Object doDownload() {
+		public ReviewsStatisticsResponse doDownload() {
 			ExpediaServices expediaServices = new ExpediaServices(mContext);
 			mBackgroundDownloader.addDownloadListener(REVIEWS_STATISTICS_DOWNLOAD, expediaServices);
 			return expediaServices.reviewsStatistics(mProperty);
 		}
 	};
 
-	private OnDownloadComplete mReviewStatisticsDownloadCallback = new OnDownloadComplete() {
-
+	private final OnDownloadComplete<ReviewsStatisticsResponse> mReviewStatisticsDownloadCallback = new OnDownloadComplete<ReviewsStatisticsResponse>() {
 		@Override
-		public void onDownload(Object results) {
-			ReviewsStatisticsResponse response = (ReviewsStatisticsResponse) results;
-
+		public void onDownload(ReviewsStatisticsResponse response) {
 			if (response == null) {
 				showReviewsUnavailableError();
 			}

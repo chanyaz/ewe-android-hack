@@ -1082,18 +1082,18 @@ public class BookingFormFragment extends DialogFragment {
 		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
 
-	private final Download mLoginDownload = new Download() {
-		public Object doDownload() {
+	private final Download<SignInResponse> mLoginDownload = new Download<SignInResponse>() {
+		@Override
+		public SignInResponse doDownload() {
 			ExpediaServices services = new ExpediaServices((Context) mActivity);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SIGNIN, services);
 			return services.signIn();
 		}
 	};
 
-	private final OnDownloadComplete mLoginCallback = new OnDownloadComplete() {
-		public void onDownload(Object results) {
-			SignInResponse response = (SignInResponse) results;
-
+	private final OnDownloadComplete<SignInResponse> mLoginCallback = new OnDownloadComplete<SignInResponse>() {
+		@Override
+		public void onDownload(SignInResponse response) {
 			if (response == null) {
 				// TODO: error
 			}

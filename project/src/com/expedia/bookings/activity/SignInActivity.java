@@ -94,8 +94,8 @@ public class SignInActivity extends Activity {
 		return super.onCreateDialog(id);
 	}
 
-	private final Download mLoginDownload = new Download() {
-		public Object doDownload() {
+	private final Download<SignInResponse> mLoginDownload = new Download<SignInResponse>() {
+		public SignInResponse doDownload() {
 			String email = mUsernameEditText.getText().toString();
 			String password = mPasswordEditText.getText().toString();
 
@@ -105,11 +105,9 @@ public class SignInActivity extends Activity {
 		}
 	};
 
-	private final OnDownloadComplete mLoginCallback = new OnDownloadComplete() {
-		public void onDownload(Object results) {
+	private final OnDownloadComplete<SignInResponse> mLoginCallback = new OnDownloadComplete<SignInResponse>() {
+		public void onDownload(SignInResponse response) {
 			dismissDialog(DIALOG_PROGRESS);
-
-			SignInResponse response = (SignInResponse) results;
 
 			if (response == null) {
 				mError = "Got a null log in response.";

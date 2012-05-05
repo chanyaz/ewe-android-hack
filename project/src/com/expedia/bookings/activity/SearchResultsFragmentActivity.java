@@ -841,17 +841,15 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		bd.startDownload(KEY_GEOCODE, mGeocodeDownload, mGeocodeCallback);
 	}
 
-	private Download mGeocodeDownload = new Download() {
-		public Object doDownload() {
+	private final Download<List<Address>> mGeocodeDownload = new Download<List<Address>>() {
+		public List<Address> doDownload() {
 			return LocationServices.geocode(mContext, Db.getSearchParams().getFreeformLocation());
 		}
 	};
 
-	private OnDownloadComplete mGeocodeCallback = new OnDownloadComplete() {
+	private final OnDownloadComplete<List<Address>> mGeocodeCallback = new OnDownloadComplete<List <Address>>() {
 		@SuppressWarnings("unchecked")
-		public void onDownload(Object results) {
-			List<Address> addresses = (List<Address>) results;
-
+		public void onDownload(List<Address> addresses) {
 			if (addresses != null) {
 				int size = addresses.size();
 				if (size == 0) {
@@ -913,17 +911,17 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
 
-	private Download mSearchDownload = new Download() {
-		public Object doDownload() {
+	private final Download<SearchResponse> mSearchDownload = new Download<SearchResponse>() {
+		public SearchResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
 			return services.search(Db.getSearchParams(), 0);
 		}
 	};
 
-	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
-		public void onDownload(Object results) {
-			loadSearchResponse((SearchResponse) results, true);
+	private final OnDownloadComplete<SearchResponse> mSearchCallback = new OnDownloadComplete<SearchResponse>() {
+		public void onDownload(SearchResponse response) {
+			loadSearchResponse(response, true);
 		}
 	};
 
@@ -1041,35 +1039,33 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	// Hotel Details
 
 	private void startRoomsAndRatesDownload(Property property) {
-		// If we have the proper rates cached, don't bother downloading; otherwise, 
+		// If we have the proper rates cached, don't bother downloading
 		AvailabilityResponse previousResponse = Db.getSelectedAvailabilityResponse();
 		if (previousResponse != null && !previousResponse.canRequestMoreData()) {
 			return;
 		}
 
-		final boolean requestMoreData = previousResponse != null && previousResponse.canRequestMoreData();
-
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-
 		bd.cancelDownload(KEY_AVAILABILITY_SEARCH);
-
-		Download roomAvailabilityDownload = new Download() {
-			public Object doDownload() {
-				ExpediaServices services = new ExpediaServices(mContext);
-				BackgroundDownloader.getInstance().addDownloadListener(KEY_AVAILABILITY_SEARCH, services);
-				return services.availability(Db.getSearchParams(), Db.getSelectedProperty(),
-						requestMoreData ? ExpediaServices.F_EXPENSIVE : 0);
-			}
-		};
-
-		bd.startDownload(KEY_AVAILABILITY_SEARCH, roomAvailabilityDownload, mRoomAvailabilityCallback);
+		bd.startDownload(KEY_AVAILABILITY_SEARCH, mRoomAvailabilityDownload, mRoomAvailabilityCallback);
 
 		notifyAvailabilityQueryStarted();
 	}
 
-	private OnDownloadComplete mRoomAvailabilityCallback = new OnDownloadComplete() {
-		public void onDownload(Object results) {
-			AvailabilityResponse availabilityResponse = (AvailabilityResponse) results;
+	private final Download<AvailabilityResponse> mRoomAvailabilityDownload = new Download<AvailabilityResponse>() {
+		public AvailabilityResponse doDownload() {
+			AvailabilityResponse previousResponse = Db.getSelectedAvailabilityResponse();
+			final boolean requestMoreData = previousResponse != null && previousResponse.canRequestMoreData();
+
+			ExpediaServices services = new ExpediaServices(mContext);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_AVAILABILITY_SEARCH, services);
+			return services.availability(Db.getSearchParams(), Db.getSelectedProperty(),
+					requestMoreData ? ExpediaServices.F_EXPENSIVE : 0);
+		}
+	};
+
+	private final OnDownloadComplete<AvailabilityResponse> mRoomAvailabilityCallback = new OnDownloadComplete<AvailabilityResponse>() {
+		public void onDownload(AvailabilityResponse availabilityResponse) {
 			Db.addAvailabilityResponse(availabilityResponse);
 
 			if (availabilityResponse == null) {
@@ -1113,10 +1109,9 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	}
 
 	private static final int MAX_SUMMARIZED_REVIEWS = 4;
-	private Download mReviewsDownload = new Download() {
-
+	private final Download<ReviewsResponse> mReviewsDownload = new Download<ReviewsResponse>() {
 		@Override
-		public Object doDownload() {
+		public ReviewsResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_REVIEWS, services);
 
@@ -1127,14 +1122,12 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		}
 	};
 
-	private OnDownloadComplete mReviewsCallback = new OnDownloadComplete() {
-
+	private final OnDownloadComplete<ReviewsResponse> mReviewsCallback = new OnDownloadComplete<ReviewsResponse>() {
 		@Override
-		public void onDownload(Object results) {
-			ReviewsResponse reviewResponse = (ReviewsResponse) results;
+		public void onDownload(ReviewsResponse reviewResponse) {
 			Db.addReviewsResponse(reviewResponse);
 
-			if (results == null || reviewResponse.hasErrors()) {
+			if (reviewResponse == null || reviewResponse.hasErrors()) {
 				notifyReviewsQueryError(null);
 				TrackingUtils.trackErrorPage(mContext, "UserReviewLoadFailed");
 			}

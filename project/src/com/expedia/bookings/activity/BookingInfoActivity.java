@@ -165,27 +165,26 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 	//////////////////////////////////////////////////////////////////////////////////
 	// Downloads
 
-	private Download mCheckoutDownload = new Download() {
+	private final Download<BookingResponse> mCheckoutDownload = new Download<BookingResponse>() {
 		@Override
-		public Object doDownload() {
+		public BookingResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			return services.reservation(Db.getSearchParams(), Db.getSelectedProperty(), Db.getSelectedRate(),
 					Db.getBillingInfo());
 		}
 	};
 
-	private OnDownloadComplete mCheckoutCallback = new OnDownloadComplete() {
+	private final OnDownloadComplete<BookingResponse> mCheckoutCallback = new OnDownloadComplete<BookingResponse>() {
 		@Override
-		public void onDownload(Object results) {
+		public void onDownload(BookingResponse response) {
 			removeDialog(BookingInfoUtils.DIALOG_BOOKING_PROGRESS);
 
-			if (results == null) {
+			if (response == null) {
 				showDialog(BookingInfoUtils.DIALOG_BOOKING_NULL);
 				TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
 				return;
 			}
 
-			BookingResponse response = (BookingResponse) results;
 			Db.setBookingResponse(response);
 
 			if (!response.isSuccess() && !response.succeededWithErrors()) {

@@ -304,22 +304,21 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	// THREADS/CALLBACKS
 	//----------------------------------
 
-	private Download mSearchDownload = new Download() {
+	private final Download<SearchResponse> mSearchDownload = new Download<SearchResponse>() {
 		@Override
-		public Object doDownload() {
+		public SearchResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
 			return services.search(Db.getSearchParams(), 0);
 		}
 	};
 
-	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
+	private final OnDownloadComplete<SearchResponse> mSearchCallback = new OnDownloadComplete<SearchResponse>() {
 		@Override
-		public void onDownload(Object results) {
+		public void onDownload(SearchResponse searchResponse) {
 			// Clear the old listener so we don't end up with a memory leak
 			Db.getFilter().clearOnFilterChangedListeners();
 
-			SearchResponse searchResponse = (SearchResponse) results;
 			Db.setSearchResponse(searchResponse);
 
 			if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
@@ -363,9 +362,9 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		}
 	};
 
-	private Download mLoadSavedResults = new Download() {
+	private final Download<SearchResponse> mLoadSavedResults = new Download<SearchResponse>() {
 		@Override
-		public Object doDownload() {
+		public SearchResponse doDownload() {
 			SearchResponse response = null;
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
 			if (savedSearchResults.exists()) {
@@ -393,9 +392,9 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		}
 	};
 
-	private OnDownloadComplete mLoadSavedResultsCallback = new OnDownloadComplete() {
+	private final OnDownloadComplete<SearchResponse> mLoadSavedResultsCallback = new OnDownloadComplete<SearchResponse>() {
 		@Override
-		public void onDownload(Object results) {
+		public void onDownload(SearchResponse results) {
 			if (results == null) {
 				// This means the load didn't work; kick off a new search
 				startSearch();
@@ -1329,18 +1328,18 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		bd.startDownload(KEY_GEOCODE, mGeocodeDownload, mGeocodeCallback);
 	}
 
-	private Download mGeocodeDownload = new Download() {
-		public Object doDownload() {
+	private final Download<List<Address>> mGeocodeDownload = new Download<List<Address>>() {
+		public List<Address> doDownload() {
 			return LocationServices.geocode(mContext, Db.getSearchParams().getFreeformLocation());
 		}
 	};
 
-	private OnDownloadComplete mGeocodeCallback = new OnDownloadComplete() {
+	private final OnDownloadComplete<List<Address>> mGeocodeCallback = new OnDownloadComplete<List<Address>>() {
 		@SuppressWarnings("unchecked")
-		public void onDownload(Object results) {
+		public void onDownload(List<Address> results) {
 			// Need to convert to ArrayList so it can be saved easily in Bundles
 			mAddresses = new ArrayList<Address>();
-			for (Address address : (List<Address>) results) {
+			for (Address address : results) {
 				mAddresses.add(address);
 			}
 

@@ -95,16 +95,7 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		else {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			if (!bd.isDownloading(DOWNLOAD_KEY)) {
-				Download download = new Download() {
-					@Override
-					public Object doDownload() {
-						ExpediaServices services = new ExpediaServices(RoomsAndRatesListActivity.this);
-						return services.availability(Db.getSearchParams(), Db.getSelectedProperty(),
-								ExpediaServices.F_EXPENSIVE);
-					}
-				};
-
-				bd.startDownload(DOWNLOAD_KEY, download, mCallback);
+				bd.startDownload(DOWNLOAD_KEY, mDownload, mCallback);
 			}
 		}
 
@@ -151,10 +142,19 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 	//////////////////////////////////////////////////////////////////////////
 	// Downloading rooms & rates
 
-	private OnDownloadComplete mCallback = new OnDownloadComplete() {
+	private final Download<AvailabilityResponse> mDownload = new Download<AvailabilityResponse>() {
 		@Override
-		public void onDownload(Object results) {
-			AvailabilityResponse response = (AvailabilityResponse) results;
+		public AvailabilityResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(RoomsAndRatesListActivity.this);
+			return services.availability(Db.getSearchParams(), Db.getSelectedProperty(),
+					ExpediaServices.F_EXPENSIVE);
+		}
+	};
+
+
+	private final OnDownloadComplete<AvailabilityResponse> mCallback = new OnDownloadComplete<AvailabilityResponse>() {
+		@Override
+		public void onDownload(AvailabilityResponse response) {
 			Db.addAvailabilityResponse(response);
 			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
 		}

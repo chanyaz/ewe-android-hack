@@ -82,8 +82,9 @@ public class SignInFragment extends DialogFragment {
 		mContext = (Context) activity;
 	}
 
-	private final Download mLoginDownload = new Download() {
-		public Object doDownload() {
+	private final Download<SignInResponse> mLoginDownload = new Download<SignInResponse>() {
+		@Override
+		public SignInResponse doDownload() {
 			String email = mUsernameEditText.getText().toString();
 			String password = mPasswordEditText.getText().toString();
 
@@ -93,10 +94,9 @@ public class SignInFragment extends DialogFragment {
 		}
 	};
 
-	private final OnDownloadComplete mLoginCallback = new OnDownloadComplete() {
-		public void onDownload(Object results) {
-			SignInResponse response = (SignInResponse) results;
-
+	private final OnDownloadComplete<SignInResponse> mLoginCallback = new OnDownloadComplete<SignInResponse>() {
+		@Override
+		public void onDownload(SignInResponse response) {
 			if (response == null || response.hasErrors()) {
 				((SignInFragmentListener) getActivity()).onLoginFailed();
 			}

@@ -331,10 +331,9 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		mBackgroundDownloader.cancelDownload(mReviewsDownloadKey);
 	}
 
-	private Download mUserReviewDownload = new Download() {
-
+	private final Download<ReviewsResponse> mUserReviewDownload = new Download<ReviewsResponse>() {
 		@Override
-		public Object doDownload() {
+		public ReviewsResponse doDownload() {
 			ensureExpediaServicesCacheFilled();
 
 			mBackgroundDownloader.addDownloadListener(mReviewsDownloadKey, mExpediaServices);
@@ -348,12 +347,9 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		}
 	};
 
-	private OnDownloadComplete mUserReviewDownloadCallback = new OnDownloadComplete() {
-
+	private final OnDownloadComplete<ReviewsResponse> mUserReviewDownloadCallback = new OnDownloadComplete<ReviewsResponse>() {
 		@Override
-		public void onDownload(Object results) {
-			ReviewsResponse response = (ReviewsResponse) results;
-
+		public void onDownload(ReviewsResponse response) {
 			mAttemptedDownload = true;
 
 			if (response == null) {

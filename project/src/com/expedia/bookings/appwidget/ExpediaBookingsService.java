@@ -107,18 +107,17 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	// WIDGET DATA DOWNLOADING BOOKKEEPING
 	//////////////////////////////////////////////////////////////////////////////////////////
 	private long mLastUpdatedTimeInMillis;
-	private Download mSearchDownload = new Download() {
+	private final Download<SearchResponse> mSearchDownload = new Download<SearchResponse>() {
 		@Override
-		public Object doDownload() {
+		public SearchResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getApplicationContext());
 			mSearchDownloader.addDownloadListener(WIDGET_KEY_SEARCH, services);
 			return services.search(mWidgetDeals.getSearchParams(), 0);
 		}
 	};
-	private OnDownloadComplete mSearchCallback = new OnDownloadComplete() {
+	private final OnDownloadComplete<SearchResponse> mSearchCallback = new OnDownloadComplete<SearchResponse>() {
 		@Override
-		public void onDownload(Object results) {
-			SearchResponse searchResponse = (SearchResponse) results;
+		public void onDownload(SearchResponse searchResponse) {
 			mLastUpdatedTimeInMillis = System.currentTimeMillis();
 			// schedule the next update
 			scheduleSearch();

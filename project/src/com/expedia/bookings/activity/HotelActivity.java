@@ -147,15 +147,7 @@ public class HotelActivity extends Activity {
 				bd.registerDownloadCallback(DOWNLOAD_KEY, mCallback);
 			}
 			else {
-				Download download = new Download() {
-					@Override
-					public Object doDownload() {
-						ExpediaServices services = new ExpediaServices(mContext);
-						return services.availability(Db.getSearchParams(), Db.getSelectedProperty(), 0);
-					}
-				};
-
-				bd.startDownload(DOWNLOAD_KEY, download, mCallback);
+				bd.startDownload(DOWNLOAD_KEY, mDownload, mCallback);
 			}
 		}
 	}
@@ -446,12 +438,19 @@ public class HotelActivity extends Activity {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Async loading of hoteloffers
 
-	private OnDownloadComplete mCallback = new OnDownloadComplete() {
+	private final Download<AvailabilityResponse> mDownload = new Download<AvailabilityResponse>() {
 		@Override
-		public void onDownload(Object results) {
-			mProgressBar.setVisibility(View.GONE);
+			public AvailabilityResponse doDownload() {
+				ExpediaServices services = new ExpediaServices(mContext);
+				return services.availability(Db.getSearchParams(), Db.getSelectedProperty(), 0);
+			}
+	};
 
-			AvailabilityResponse response = (AvailabilityResponse) results;
+
+	private final OnDownloadComplete<AvailabilityResponse> mCallback = new OnDownloadComplete<AvailabilityResponse>() {
+		@Override
+		public void onDownload(AvailabilityResponse response) {
+			mProgressBar.setVisibility(View.GONE);
 
 			// Check if we got a better response elsewhere before loading up this data
 			AvailabilityResponse possibleBetterResponse = Db.getSelectedAvailabilityResponse();
