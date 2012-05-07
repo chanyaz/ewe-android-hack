@@ -7,6 +7,8 @@
 	<string name="enter_search_location">Zoeklocatie invoeren...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Locatie zoeken</string>
+	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+	<string name="loading_suggestions">Bezig met laden van suggesties...</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Recente zoekacties</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -88,7 +90,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Eerdere zoekresultaten laden...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"Sorteren: "</string>
+	<string name="sort_hotels">&quot;Sorteren: &quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;Sorteren&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
@@ -103,7 +105,7 @@
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">Om je huidige locatie te gebruiken moet je naar\&quot; Locatie en beveiliging\&quot; gaan in Instellingen.\nWil je naar Instellingen gaan en dit nu inschakelen?</string>
+	<string name="EnableLocationSettings">Om je huidige locatie te gebruiken moet je naar&quot; Locatie en beveiliging&quot; gaan in Instellingen.\nWil je naar Instellingen gaan en dit nu inschakelen?</string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
 	<string name="ProviderDisabled">Je locatieprovider is uitgeschakeld. Schakel deze opnieuw in als je op jouw locatie wilt zoeken.</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
@@ -177,7 +179,7 @@
 
 	<!-- Mini-details fragment -->
 	<!-- Label for "see details" button on the mini details fragment -->
-	<string name="see_details">Gegevens bekijken</string>
+	<string name="see_details">Hotelgegevens</string>
 
 	<!-- Widget -->
 	<!--  Default Loading message for widget -->
@@ -195,13 +197,13 @@
 	<!--  Widget Branding description -->
 	<string name="book_a_room_tonight">Boek vandaag nog een kamer.</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">Voeg de Hotel Radar Widget toe.</string>
+	<string name="widget_upsell_short_1">Voeg de Hotel Radar-widget toe.</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">Ontvang hotelaanbiedingen bij jou in de buurt!</string>
+	<string name="widget_upsell_short_2">Ontvang aanbiedingen in jouw omgeving!</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
-	<string name="book_now">Nu boeken</string>
+	<string name="book_now">Boek nu</string>
 	<!-- Label for the hotel's star rating -->
 	<string name="star_rating">Sterrenclassificatie</string>
 	<!--  Title for star rating in hotel description section -->
@@ -290,8 +292,8 @@
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Bezig met laden van gebruikersbeoordelingen...</string>
-    <!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">Beoordelingen in andere talen</string>
+	<!-- Header for reviews of the non-native language -->
+	<string name="user_review_other_languages_title">Beoordelingen in andere talen</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Recent</string>
 	<!-- The text for the sort button, recent -->
@@ -323,10 +325,10 @@
 	<!-- User review no favorable reviews -->
 	<string name="user_review_no_favorable_reviews">Er zijn geen negatieve beoordelingen voor dit hotel</string>
 	<!-- User review no recent reviews -->
-	<string name="user_review_no_recent_reviews">Er zijn geen negatieve beoordelingen voor dit hotel</string>
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">De beoordelingen zijn voorlopig niet beschikbaar</string>
-
+	<string name="user_review_no_recent_reviews">Er zijn geen recente beoordelingen voor dit hotel</string>
+	<!-- User reviews server/parsing error -->
+	<string name="user_review_unavailable">De beoordelingen zijn voorlopig niet beschikbaar</string>
+	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
 	<plurals name="staying_nights">
@@ -416,9 +418,13 @@
 	<!-- The "postal code" booking info field.  -->
 	<string name="PostalCode">Postcode</string>
 	<!-- State code hint -->
-	<string name="hint_state_code">Prov.</string>
+	<string name="hint_state_code">Provincie</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Creditcardgegevens</string>
+	<!-- Label for credit card selection box -->
+	<string name="saved_cards">Opgeslagen kaarten</string>
+	<!-- Label for entering new credit card information -->
+	<string name="enter_a_new_card">Voeg een nieuwe kaart toe</string>
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">Kaartnummer</string>
 	<!-- Card expiration month form field hint -->
@@ -436,7 +442,7 @@
 	<!-- Disclaimer about how to earn expedia points -->
 	<string name="disclaimer_expedia_points">Als je een Expedia Rewards-account hebt, boek dan met hetzelfde e-mailadres om je punten automatisch na je verblijf toe te voegen. Let op: het kan maximaal 30 dagen duren voordat je punten verschijnen. </string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
-	<string name="EnterBookingInfo">Voer boekingsgegevens in</string>
+	<string name="EnterBookingInfo">Voer boekingsinfo in</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">Op je creditcard wordt %s aangerekend</string>
 	<!-- Button label for confirming your booking -->
@@ -480,7 +486,7 @@
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$s op %2$s</string>
 	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
-	<string name="enter_booking_info">Voer boekingsgegevens in</string>
+	<string name="enter_booking_info">Voer boekingsinfo in</string>
 	<!--  Title for action bar when the user is on the booking info screen -->
 	<string name="booking_information_title">Boekingsgegevens</string>
 	<!-- Title for dialog where the user is prompted to enter booking booking information -->
@@ -551,6 +557,26 @@
 	<string name="logging_in">Bezig met aanmelden ...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Veel success! Je bent aangemeld.</string>
+	<!-- Label for login widget button -->
+	<string name="account_login">Aanmelden bij account</string>
+	<!-- Label for login widget additional text -->
+	<string name="log_in_for_faster_booking">Meld je aan om sneller te kunnen boeken. </string>
+	<!-- Label for account status -->
+	<string name="enrolled_in_expedia_rewards">Ingeschreven voor Expedia Rewards\u2122</string>
+	<!-- Label for account name -->
+	<string name="logged_in_as">Aangemeld als</string>
+	<!-- Label for account name -->
+    <string name="logged_in_as_template">Aangemeld als &lt;b&gt;%s&lt;/b&gt;</string>
+	<!-- Label for signin screen -->
+	<string name="expedia_account">Expedia account</string>
+	<!-- Label for loading user profile from expedia.com -->
+	<string name="loading_expedia_account">Bezig met laden van Expedia account</string>
+    <!-- Label for password recovery -->
+	<string name="forgot_your_password">Je wachtwoord vergeten?</string>
+    <!-- Label applying a coupon -->
+	<string name="apply">Toepassen</string>
+    <!-- Label for credit card selection -->
+	<string name="use_card">Gebruik kaart:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->

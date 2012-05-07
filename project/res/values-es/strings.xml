@@ -7,6 +7,8 @@
 	<string name="enter_search_location">Introduce una ubicación...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Buscar ubicación</string>
+	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+	<string name="loading_suggestions">Cargando sugerencias...</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Búsquedas recientes</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -88,7 +90,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Cargando los resultados de la búsqueda anterior...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"Ordenar por: "</string>
+	<string name="sort_hotels">&quot;Ordenar por: &quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;Ordenar por&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
@@ -103,7 +105,7 @@
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">Para poder usar \&quot;Mi ubicación\&quot; debes introducir al menos una ubicación dentro de la pestaña de Ajustes.\n¿Quieres ir a Ajustes ahora para activarla?</string>
+	<string name="EnableLocationSettings">Para poder usar &quot;Mi ubicación&quot; debes introducir al menos una ubicación dentro de la pestaña de Ajustes.\n¿Quieres ir a Ajustes ahora para activarla?</string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
 	<string name="ProviderDisabled">La recepción de datos de ubicación está desactivada. Vuelve a activarla para realizar una búsqueda por ubicación.</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
@@ -291,7 +293,7 @@
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Cargando opiniones...</string>
 	<!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">Comentarios en otros idiomas</string>
+	<string name="user_review_other_languages_title">Opiniones en otros idiomas</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Recientes</string>
 	<!-- The text for the sort button, recent -->
@@ -305,7 +307,7 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; clientes de &lt;b&gt;%2$d&lt;/b&gt; recomiendan este hotel.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; clientes de&lt;b&gt;%2$d&lt;/b&gt; recomiendan este hotel.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d Opiniones</item>
@@ -324,8 +326,8 @@
 	<string name="user_review_no_favorable_reviews">No hay opiniones a favor de este hotel</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">No hay opiniones recientes sobre este hotel</string>
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">Los comentarios no están disponibles temporalmente</string>
+	<!-- User reviews server/parsing error -->
+	<string name="user_review_unavailable">No es posible acceder a la opiniones en este momento</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -404,7 +406,7 @@
 	<!-- The "telephone" booking info field.  -->
 	<string name="Telephone">Teléfono</string>
 	<!-- The "email for booking confirmation" booking info field.  -->
-	<string name="EmailForConf">Email para la confirmación</string>
+	<string name="EmailForConf">Dirección de correo electrónico para la confirmación</string>
 	<!-- Label for "billing info" form field section -->
 	<string name="billing_info">Facturación</string>
 	<!-- Address line 1 form field hint -->
@@ -416,9 +418,13 @@
 	<!-- The "postal code" booking info field.  -->
 	<string name="PostalCode">Código postal</string>
 	<!-- State code hint -->
-	<string name="hint_state_code">Prov.</string>
+	<string name="hint_state_code">Provincia</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Datos de la tarjeta de crédito</string>
+	<!-- Label for credit card selection box -->
+	<string name="saved_cards">Tarjetas guardadas</string>
+	<!-- Label for entering new credit card information -->
+	<string name="enter_a_new_card">Introducir una tarjeta nueva</string>
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">Número de tarjeta</string>
 	<!-- Card expiration month form field hint -->
@@ -434,7 +440,7 @@
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">Normas y restricciones</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">Si dispones de una cuenta Expedia Rewards, haz la reserva con la misma dirección de email y recibirás automáticamente los puntos después de tu estancia. Los puntos pueden tardar hasta 30 días en aparecer.</string>
+	<string name="disclaimer_expedia_points">Si dispones de una cuenta Expedia Rewards, haz la reserva con la misma dirección de correo electrónico y recibirás automáticamente los puntos después de tu estancia. Los puntos pueden tardar hasta 30 días en aparecer.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
 	<string name="EnterBookingInfo">Introduce los datos de la reserva</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -476,11 +482,11 @@
 	<!-- Error message when booking completed with errors -->
 	<string name="error_booking_succeeded_with_errors">Tu habitación de hotel ya está reservada. Sin embargo, se han producido los siguientes errores: %s</string>
 	<!-- Error message when booking completed with errors - specifically if email was not sent -->
-	<string name="error_unable_to_send_email">No hemos podido enviarte un email de confirmación.</string>
+	<string name="error_unable_to_send_email">No hemos podido enviarte un correo de confirmación.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
 	<string name="check_in_out_time_template">%1$s del %2$s</string>
 	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
-	<string name="enter_booking_info">Introduce los datos de la reserva</string>
+	<string name="enter_booking_info">Introducir datos</string>
 	<!--  Title for action bar when the user is on the booking info screen -->
 	<string name="booking_information_title">Datos de la reserva</string>
 	<!-- Title for dialog where the user is prompted to enter booking booking information -->
@@ -496,7 +502,7 @@
 	<!-- Itinerary number label -->
 	<string name="itinerary_number">Número de itinerario</string>
 	<!-- Confirmation email label -->
-	<string name="confirmation_email">Email de confirmación</string>
+	<string name="confirmation_email">Correo de confirmación</string>
 	<!-- Label for starting a new search -->
 	<string name="new_search">Nueva búsqueda</string>
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
@@ -550,7 +556,27 @@
 	<!-- Progress dialog text when we are logging the user into Expedia -->
 	<string name="logging_in">Iniciando sesión...</string>
 	<!-- Message that tells user they successfully logged in -->
-	<string name="login_success">¡Perfecto!  Ya estás registrado.</string>
+	<string name="login_success">¡Perfecto! Ya estás registrado.</string>
+	<!-- Label for login widget button -->
+	<string name="account_login">Iniciar sesión en tu cuenta</string>
+	<!-- Label for login widget additional text -->
+	<string name="log_in_for_faster_booking">Regístrate para reservar más rápidamente</string>
+	<!-- Label for account status -->
+	<string name="enrolled_in_expedia_rewards">Registrado en Expedia Rewards\u2122</string>
+	<!-- Label for account name -->
+	<string name="logged_in_as">Registrado como</string>
+	<!-- Label for account name -->
+    <string name="logged_in_as_template">Registrado como &lt;b&gt;%s&lt;/b&gt;</string>
+	<!-- Label for signin screen -->
+	<string name="expedia_account">Cuenta de Expedia</string>
+	<!-- Label for loading user profile from expedia.com -->
+	<string name="loading_expedia_account">Cargando cuenta de Expedia</string>
+    <!-- Label for password recovery -->
+	<string name="forgot_your_password">¿Has olvidado tu contraseña?</string>
+    <!-- Label applying a coupon -->
+	<string name="apply">Canjear</string>
+    <!-- Label for credit card selection -->
+	<string name="use_card">Seleccionar tarjeta:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -578,7 +604,7 @@
 	<!-- Contact Expedia via phone -->
 	<string name="contact_expedia_phone">Teléfono</string>
 	<!-- Contact Expedia via email -->
-	<string name="contact_expedia_email">Email</string>
+	<string name="contact_expedia_email">Correo electrónico</string>
 	<!-- Contact Expedia via email subject -->
 	<string name="contact_expedia_email_subject">Asistencia de reservas Expedia</string>
 	<!-- Contact Expedia via website -->
@@ -594,7 +620,7 @@
 	<!-- Extra description for "app support" button, when space allows -->
 	<string name="app_support_description">Escríbenos y te responderemos cuanto antes.</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">¿Te gustan nuestras ofertas increíbles? Recomienda la aplicación a tus amigos.</string>
+	<string name="tell_a_friend_description">¿Te gustan nuestras increíbles ofertas? Recomienda la aplicación a tus amigos.</string>
 	<!-- Section header for other apps by Mobiata -->
 	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->
@@ -618,7 +644,7 @@
 	<!-- Footer for the view -->
 	<string name="powered_by_opinion_lab">Desarrollado por Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Política de privacidad</a></string>
 	<!-- Hint to type in email address -->
-	<string name="email_address">Dirección de email</string>
+	<string name="email_address">Dirección de correo electrónico</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">¿Qué podemos mejorar?</string>
 	<!-- Message displayed to users after they submit feedback -->

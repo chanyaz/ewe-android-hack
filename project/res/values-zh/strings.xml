@@ -7,6 +7,8 @@
 	<string name="enter_search_location">输入搜索位置...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">搜索位置</string>
+	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+	<string name="loading_suggestions">正在加载建议...</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">最近的搜索</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -88,7 +90,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">正在加载之前的搜索结果...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"排序："</string>
+	<string name="sort_hotels">“排序：”</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;排序方式&lt;/b&gt;：%s</string>
 	<!-- Label for filter hotels button in bottom bar -->
@@ -183,7 +185,7 @@
 	<!--  Default Loading message for widget -->
 	<string name="loading_hotels">正在加载酒店...</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">节省 %2.0f%%</string>
+	<string name="widget_savings_template">节省%2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
 	<string name="refresh_widget">点击刷新</string>
 	<!--  Instructions on how to add widget to home screen -->
@@ -324,8 +326,8 @@
 	<string name="user_review_no_favorable_reviews">没有对此酒店的好评</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">最近没有对此酒店的评价</string>
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">暂时无法进行评价</string>
+	<!-- User reviews server/parsing error -->
+	<string name="user_review_unavailable">暂时无法进行评价</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -419,6 +421,10 @@
 	<string name="hint_state_code">省</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">信用卡信息</string>
+	<!-- Label for credit card selection box -->
+	<string name="saved_cards">已保存的信用卡</string>
+	<!-- Label for entering new credit card information -->
+	<string name="enter_a_new_card">输入新信用卡</string>
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">卡号</string>
 	<!-- Card expiration month form field hint -->
@@ -551,6 +557,26 @@
 	<string name="logging_in">正在登录...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">成功！现在您已经登录。</string>
+    <!-- Label for login widget button -->
+    <string name="account_login">账户登录</string>
+    <!-- Label for login widget additional text -->
+    <string name="log_in_for_faster_booking">登录后可加快预订速度。</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_rewards">参加 Expedia Rewards 计划\u2122</string>
+    <!-- Label for account name -->
+    <string name="logged_in_as">登录身份</string>
+    <!-- Label for account name -->
+    <string name="logged_in_as_template">登录身份&lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Label for signin screen -->
+    <string name="expedia_account">Expedia 账户</string>
+    <!-- Label for loading user profile from expedia.com -->
+    <string name="loading_expedia_account">正在加载 Expedia 账户</string>
+    <!-- Label for password recovery -->
+    <string name="forgot_your_password">忘记密码？</string>
+    <!-- Label applying a coupon -->
+    <string name="apply">应用</string>
+    <!-- Label for credit card selection -->
+    <string name="use_card">使用信用卡:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->

@@ -561,8 +561,6 @@
 	<string name="account_login">Account Login</string>
 	<!-- Label for login widget additional text -->
 	<string name="log_in_for_faster_booking">Log in for faster booking.</string>
-	<!-- Label for login widget additional text -->
-	<string name="log_in_for_faster_booking">Log in for faster booking.</string>
 	<!-- Label for account status -->
 	<string name="enrolled_in_expedia_rewards">Enrolled in Expedia Rewards\u2122</string>
 	<!-- Label for account name -->

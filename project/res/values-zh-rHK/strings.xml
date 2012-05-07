@@ -7,6 +7,8 @@
 	<string name="enter_search_location">輸入搜尋地點...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">搜尋地點</string>
+	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+	<string name="loading_suggestions">正在載入建議...</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">最近的搜尋</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -74,13 +76,13 @@
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">依酒店名稱篩選</string>
 	<!-- Label indicating that there are no results matching their current filter -->
-	<string name="no_filter_results">很抱歉，找不到符合你目前篩選條件的酒店。</string>
+	<string name="no_filter_results">很抱歉，找不到符合您目前篩選條件的酒店。</string>
 	<!-- Label indicating that geolocation failed -->
 	<string name="geolocation_failed">無法判定搜尋地點。</string>
 	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
 	<string name="NoGeocodingResults">找不到位於 %s 的地點。</string>
 	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-	<string name="ChooseLocation">你指的是...</string>
+	<string name="ChooseLocation">您指的是...</string>
 	<!-- Button label for upgrading the app -->
 	<string name="upgrade">升級</string>
 	<!-- Button label for searching the visible map area -->
@@ -88,7 +90,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">正在載入先前的搜尋結果...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"排序："</string>
+	<string name="sort_hotels">「排序：」</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;排序&lt;/b&gt;：%s</string>
 	<!-- Label for filter hotels button in bottom bar -->
@@ -103,13 +105,13 @@
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">如要使用「我的地點」，你須先於「設定」啟用「地點」來源。\n要立刻到「設定」啟用它嗎？</string>
+	<string name="EnableLocationSettings">如要使用「我的地點」，您須先於「設定」啟用「地點」來源。\n要立刻到「設定」啟用它嗎？</string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
-	<string name="ProviderDisabled">你的定位服務已停用。請重新啟用它，依據你的地點進行搜尋。</string>
+	<string name="ProviderDisabled">您的定位服務已停用。請重新啟用它，依據您的地點進行搜尋。</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-	<string name="ProviderOutOfService">你的定位服務目前無法使用。請稍後再試一次。</string>
+	<string name="ProviderOutOfService">您的定位服務目前無法使用。請稍後再試一次。</string>
 	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">你的定位服務暫時無法使用。請幾分鐘後再試一次。</string>
+	<string name="ProviderTemporarilyUnavailable">您的定位服務暫時無法使用。請幾分鐘後再試一次。</string>
 
 	<!-- Sort descriptions, e.g. Sorted by "description" -->
 	<!-- Sort by distance label -->
@@ -197,7 +199,7 @@
 	<!--  First string for widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short_1">新增 Hotel Radar 程式。</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2"> 取得你附近的每晚優惠！</string>
+	<string name="widget_upsell_short_2">取得您附近的每晚優惠！</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
@@ -289,9 +291,9 @@
 
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
-	<string name="user_review_loading_text">正在載入用戶評論...</string>
+	<string name="user_review_loading_text">正在載入用戶評語...</string>
 	<!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">以其他語言的評語</string>
+	<string name="user_review_other_languages_title">以其他語言的評語</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">近期</string>
 	<!-- The text for the sort button, recent -->
@@ -308,11 +310,11 @@
 	<string name="user_review_recommendation_tag_text">在&lt;b&gt;%2$d&lt;/b&gt;名房客中，共有&lt;b&gt;%1$d&lt;/b&gt;人推薦這間酒店。</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
-		<item quantity="zero">%d 評價</item>
-		<item quantity="one">%d 評價</item>
-		<item quantity="two">%d 評價</item>
-		<item quantity="many">%d 評價</item>
-		<item quantity="other">%d 評價</item>
+		<item quantity="zero">%d 評語</item>
+		<item quantity="one">%d 評語</item>
+		<item quantity="two">%d 評語</item>
+		<item quantity="many">%d 評語</item>
+		<item quantity="other">%d 評語</item>
 	</plurals>
 	<!-- User review name and place review signature eg (John from San Diego, CA)
 		1$ is the user name
@@ -323,9 +325,9 @@
 	<!-- User review no favorable reviews -->
 	<string name="user_review_no_favorable_reviews">這間酒店沒有任何稱讚的評論</string>
 	<!-- User review no recent reviews -->
-	<string name="user_review_no_recent_reviews">這間酒店沒有任何近期的評論</string>
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">暫時無法提供評語</string>
+	<string name="user_review_no_recent_reviews">這間酒店沒有任何近期的評語</string>
+	<!-- User reviews server/parsing error -->
+	<string name="user_review_unavailable">暫時無法提供評語</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -375,7 +377,7 @@
 	<!-- Label for room type -->
 	<string name="room_type">房型</string>
 	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">很抱歉，無法載入房間詳情。請檢查你的互聯網連線，然後再試一次。</string>
+	<string name="error_room_type_load">很抱歉，無法載入房間詳情。請檢查您的互聯網連線，然後再試一次。</string>
 	<!-- Error if we couldn't find the room type details -->
 	<string name="error_room_type_nonexistant">很抱歉，找不到此房間的其他詳情。</string>
 	<!-- Label for bed type -->
@@ -418,7 +420,11 @@
 	<!-- State code hint -->
 	<string name="hint_state_code">州</string>
 	<!-- Label for "credit card info" form field section -->
-	<string name="credit_card_info">信用卡資訊</string>
+	<string name="credit_card_info">信用卡資料</string>
+	<!-- Label for credit card selection box -->
+	<string name="saved_cards">已儲存的信用卡</string>
+	<!-- Label for entering new credit card information -->
+	<string name="enter_a_new_card">輸入新的信用卡</string>
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">信用卡號碼</string>
 	<!-- Card expiration month form field hint -->
@@ -434,11 +440,11 @@
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">規則與限制</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">如果你有 Expedia 優惠方案帳戶, 請使用相同的電郵地址訂房。積分將在你入住之後自動登錄。請注意，積分可能必須等到 30 天之後才會顯示。</string>
+	<string name="disclaimer_expedia_points">如果您有 Expedia 優惠方案帳戶, 請使用相同的電郵地址訂房。積分將在您入住之後自動登錄。請注意，積分可能必須等到 30 天之後才會顯示。</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
 	<string name="EnterBookingInfo">輸入預訂資訊</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
-	<string name="charge_details_template">我們將透過你的信用卡收取 %s</string>
+	<string name="charge_details_template">我們將透過您的信用卡收取 %s</string>
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">確認及預訂</string>
 	<!-- Label for clearing private data -->
@@ -450,15 +456,15 @@
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">私人資料已清除</string>
 	<!-- Error message if field was required but not entered -->
-	<string name="required_field">請在此欄位中輸入值。</string>
+	<string name="required_field">請在此欄位中輸入數值。</string>
 	<!-- Error message if field had data entered but was invalid -->
-	<string name="invalid_field">請在此欄位中輸入有效值。</string>
+	<string name="invalid_field">請在此欄位中輸入有效數值。</string>
 	<!-- Error if an invalid card number was entered -->
-	<string name="invalid_card_number">你輸入的信用卡號碼無效，請再試一次。</string>
+	<string name="invalid_card_number">您輸入的信用卡號碼無效，請再試一次。</string>
 	<!-- Error if an invalid credit card type was entered -->
-	<string name="invalid_card_type">無法偵測你的信用卡類型。請輸入有效的信用卡。</string>
+	<string name="invalid_card_type">無法偵測您的信用卡類型。請輸入有效的信用卡。</string>
 	<!-- Error if an invalid month (not 1-12) was entered -->
-	<string name="invalid_month">請輸入介乎 1 到 12 的值</string>
+	<string name="invalid_month">請輸入介乎 1 到 12 的數值</string>
 	<!-- Error if an invalid year was entered -->
 	<string name="invalid_expiration_year">請輸入未來的年份</string>
 	<!-- Error if an invalid security code was entered -->
@@ -466,7 +472,7 @@
 	<!-- Error if an invalid currency code is being used with American Express -->
 	<string name="invalid_currency_for_amex">很抱歉，美國運通卡 (American Express) 不支援以此貨幣 (%s) 付款。請改用其他信用卡。</string>
 	<!-- Error if user agreement needs to be checked but is not -->
-	<string name="error_no_user_agreement">你必須先接受條款，才能訂房</string>
+	<string name="error_no_user_agreement">您必須先接受條款，才能訂房</string>
 	<!-- Message to display to user while booking is in progress -->
 	<string name="booking_loading">正在預訂...</string>
 	<!-- Title for error dialog when booking fails -->
@@ -500,7 +506,7 @@
 	<!-- Label for starting a new search -->
 	<string name="new_search">新的搜尋</string>
 	<!-- Contact info for a country with a known support line where %s represents the phone number -->
-	<string name="contact_phone_template">如果對你的預訂有任何查詢，請致電Expedia ，電話號碼為%s。</string>
+	<string name="contact_phone_template">如果對您的預訂有任何查詢，請致電Expedia ，電話號碼為%s。</string>
 
 	<!--  Confirmation Fragment -->
 	<!-- Label to share booking information after a booking confirmation -->
@@ -530,17 +536,17 @@
 
 	<!-- Expedia policy strings -->
 	<!-- Policy displayed to user when an immediate charge is required -->
-	<string name="PolicyImmediateChargeRequired">預約總金額將於您你訂房時，立即從你的信用卡中扣款。</string>
+	<string name="PolicyImmediateChargeRequired">預約總金額將於您你訂房時，立即從您的信用卡中扣款。</string>
 	<!-- Policy displayed to user when the room is non-refundable -->
-	<string name="PolicyNonRefundable">這間酒店目前提供超低廉的價格。因此，此價格恕難退款。如果你選擇取消此預約，你將無法獲得任何退款。</string>
+	<string name="PolicyNonRefundable">這間酒店目前提供超低廉的價格。因此，此價格恕難退款。如果您選擇取消此預約，您將無法獲得任何退款。</string>
 	<!-- Policy displayed to user when a deposit is required -->
-	<string name="PolicyDepositRequired">我們會在你預約時，從你的信用卡扣除一筆訂金。酒店會在收到你的預約要求時，直接從你的信用卡中收費。</string>
+	<string name="PolicyDepositRequired">我們會在您預約時，從您的信用卡扣除一筆訂金。酒店會在收到您的預約要求時，直接從您的信用卡中收費。</string>
 	<!-- Policy displayed to user when a guarantee is required -->
-	<string name="PolicyGuaranteeRequired">我們需要你的信用卡資訊，用來作為你預約的擔保。我們會等到你已抵達酒店、或取消最後限期已截止時，才會從您他的信用卡中扣款。</string>
+	<string name="PolicyGuaranteeRequired">我們需要您的信用卡資訊，用來作為您預約的擔保。我們會等到您已抵達酒店、或取消最後限期已截止時，才會從您的信用卡中扣款。</string>
 	<!-- Expedia merchant hotel policies -->
-	<string name="PolicyExpediaMerchant">於作出預訂後，即表示你已同意所有條款及細則，包括取消政策及用戶協議所載的所有條款及細則。\n\n 你同意支付預訂成本。若你未依約支付這筆欠款，以致我們必須委託收帳公司、律師或透過其他法律程序向你收取這筆款項，則你同意支付所有合理的成本或費用，包括與這類收款工作有關的律師費和訴訟費。</string>
+	<string name="PolicyExpediaMerchant">於作出預訂後，即表示您已同意所有條款及細則，包括取消政策及用戶協議所載的所有條款及細則。\n\n 您同意支付預訂成本。若您未依約支付這筆欠款，以致我們必須委託收帳公司、律師或透過其他法律程序向您收取這筆款項，則您同意支付所有合理的成本或費用，包括與這類收款工作有關的律師費和訴訟費。</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">你預訂的是一間未提供折扣的酒店。除非另有註明，否則顯示的所有價格均為單一房間的每晚價格，並以雙人入住為準。請仔細閱讀房間說明和價格規定，以確保你選擇的房間可容納與您同行的所有旅客。部分價格可能需要出示特殊的身份證明。我們的預訂費、稅額以及酒店規定收取的其他附加費並未包含在內。任何超出客房所列房客人數的成人或小童均可能須付酒店規定的附加費。\n\n 多於 2 人或所選房價顯示的房客人數的要求將發送至酒店，但不保證可獲達成。如果你的要求獲接納，則必須依據酒店的內部規定加收額外費用。</string>
+	<string name="PolicyExpediaAgent">您預訂的是一間未提供折扣的酒店。除非另有註明，否則顯示的所有價格均為單一房間的每晚價格，並以雙人入住為準。請仔細閱讀房間說明和價格規定，以確保您選擇的房間可容納與您同行的所有旅客。部分價格可能需要出示特殊的身份證明。我們的預訂費、稅額以及酒店規定收取的其他附加費並未包含在內。任何超出客房所列房客人數的成人或小童均可能須付酒店規定的附加費。\n\n 多於 2 人或所選房價顯示的房客人數的要求將發送至酒店，但不保證可獲達成。如果您的要求獲接納，則必須依據酒店的內部規定加收額外費用。</string>
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
@@ -550,7 +556,27 @@
 	<!-- Progress dialog text when we are logging the user into Expedia -->
 	<string name="logging_in">登入中...</string>
 	<!-- Message that tells user they successfully logged in -->
-	<string name="login_success">成功！你現已登入。</string>
+	<string name="login_success">成功！您現已登入。</string>
+    <!-- Label for login widget button -->
+    <string name="account_login">登入帳戶</string>
+    <!-- Label for login widget additional text -->
+    <string name="log_in_for_faster_booking">登入以加快預訂速度。</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_rewards">已登記 Expedia Rewards\u2122</string>
+    <!-- Label for account name -->
+    <string name="logged_in_as">已登入為</string>
+    <!-- Label for account name -->
+    <string name="logged_in_as_template">已登入為 &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Label for signin screen -->
+    <string name="expedia_account">Expedia 帳戶</string>
+    <!-- Label for loading user profile from expedia.com -->
+    <string name="loading_expedia_account">正在載入 Expedia 帳戶</string>
+    <!-- Label for password recovery -->
+    <string name="forgot_your_password">忘記密碼？</string>
+    <!-- Label applying a coupon -->
+    <string name="apply">使用</string>
+    <!-- Label for credit card selection -->
+    <string name="use_card">使用信用卡:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -588,19 +614,19 @@
 	<!-- Extra description for "Expedia website" button, when space allows -->
 	<string name="expedia_website_description">瀏覽網站以預訂航班、車輛及旅行套票等。</string>
 	<!-- Extra description for "app feedback" button, when space allows -->
-	<string name="app_feedback_description">告訴我們有關此 App 的意見。</string>
+	<string name="app_feedback_description">告訴我們有關此 app 的意見。</string>
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">應用程式支援</string>
 	<!-- Extra description for "app support" button, when space allows -->
 	<string name="app_support_description">留言給我們，我們會盡快回覆。</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">想不想享有超抵的酒店優惠？向好友推薦此 App。</string>
+	<string name="tell_a_friend_description">想不想享有超抵的酒店優惠？向好友推薦此 app。</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">聰明規劃旅遊行程</string>
+	<string name="travel_smart">精明計劃旅遊行程</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia 酒店</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">你好，\n\n誠意推薦適用於 iPhone 和 Android 手機的 Expedia Hotels App。它不但是免費的，還能讓您輕鬆搜尋並預訂全球超過 13 萬間酒店的房間。這個以手機預訂酒店的方法最方便。\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">您好，\n\n誠意推薦以 iPhone 和 Android 手機搜尋 Expedia Hotels。它不但是免費的，還能讓您輕鬆搜尋並預訂全球超過 13 萬間酒店的房間。這個以手機預訂酒店的方法最方便。\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">條款與細則</string>
 	<!-- Label for link to privacy policy -->
@@ -620,9 +646,9 @@
 	<!-- Hint to type in email address -->
 	<string name="email_address">電郵地址</string>
 	<!-- Hint to type in comments -->
-	<string name="feedback_hint">我們有哪些可以改進的地方？</string>
+	<string name="feedback_hint">我們有哪些地方可以做得更好？</string>
 	<!-- Message displayed to users after they submit feedback -->
-	<string name="oosdk_thanks_txt">謝謝你的寶貴意見。我們很重視客戶的意見。</string>
+	<string name="oosdk_thanks_txt">謝謝您的寶貴意見。我們十分重視客戶的意見。</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
@@ -690,43 +716,43 @@
 	<!-- Replaces "result was null" for no result search -->
 	<string name="ean_error_no_results">很抱歉，找不到目前仍有空房的酒店。請嘗試其他日期或地點。</string>
 	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_connect_unavailable">無法連線至你選取的酒店，以尋找空房。</string>
+	<string name="ean_error_connect_unavailable">無法連線至您選取的酒店，以尋找空房。</string>
 	<!-- Error message displayed when the phone number sent via booking is invalid -->
 	<string name="ean_error_invalid_phone_number">請輸入有效的電話號碼</string>
 	
 	<!-- Checkout API method -->
 	<!-- The hotel booking failed -->
-	<string name="e3_error_checkout_booking_failed">發生了一個錯誤，讓我們無法完成預訂。請再試一次。</string>
+	<string name="e3_error_checkout_booking_failed">發生了一個錯誤，令我們無法完成預訂。請再試一次。</string>
 	<!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-	<string name="e3_error_checkout_booking_succeeded_with_errors">你已成功預訂酒店！如你需要即時取得行程，請致電 Expedia 客戶支援。</string>
+	<string name="e3_error_checkout_booking_succeeded_with_errors">您已成功預訂酒店！如您需要即時取得行程，請致電 Expedia 客戶支援。</string>
 	<!-- The hotel room is no longer available -->
-	<string name="e3_error_checkout_hotel_room_unavailable">抱歉，你要求的房間已不再供應。</string>
+	<string name="e3_error_checkout_hotel_room_unavailable">很抱歉，已沒有您要求的房間。</string>
 	<!-- There is invalid input in the hotel booking form. Please fix it. -->
 	<string name="e3_error_checkout_invalid_input">請修正無效的資訊。</string>
 	<!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-	<string name="e3_error_checkout_payment_failed">抱歉，我們無法繼續付款程序。請核實你是否已正確地輸入資訊。</string>
+	<string name="e3_error_checkout_payment_failed">很抱歉，我們無法繼續付款程序。請核實您是否已正確地輸入資訊。</string>
 	
 	<!-- SearchResults API method -->
 	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_search_results_hotel_service_failure">抱歉，我們無法完成你的搜尋。請再試一次。</string>
+	<string name="e3_error_search_results_hotel_service_failure">很抱歉，我們無法完成您的搜尋。請再試一次。</string>
 	<!-- There were no results matching the input -->
-	<string name="e3_error_search_results_invalid_input">抱歉，我們無法按照你的搜尋字眼傳回結果。請再試一次。</string>
+	<string name="e3_error_search_results_invalid_input">很抱歉，我們無法按照您的搜尋字眼傳回結果。請再試一次。</string>
 	<!-- There were no results matching the input -->
-	<string name="e3_error_search_results_invalid_input_unknown">抱歉，我們無法按照你的搜尋字眼傳回結果。請再試一次。</string>
+	<string name="e3_error_search_results_invalid_input_unknown">很抱歉，我們無法按照您的搜尋字眼傳回結果。請再試一次。</string>
 	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_search_results_unknown_error">抱歉，我們無法完成你的搜尋。請再試一次。</string>
+	<string name="e3_error_search_results_unknown_error">很抱歉，我們無法完成您的搜尋。請再試一次。</string>
 	
 	<!-- HotelOffers API method -->
 	<!-- The hotel offer is no longer available -->
-	<string name="e3_error_hotel_offers_hotel_offer_unavailable">抱歉，此房間的推廣優惠已結束，但我們還有提供其他優惠。</string>
+	<string name="e3_error_hotel_offers_hotel_offer_unavailable">很抱歉，此房間的推廣優惠已結束，但我們還有提供其他優惠。</string>
 	
-	<string name="e3_error_hotel_offers_hotel_room_unavailable">抱歉，你要求的房間已不再供應。</string>
+	<string name="e3_error_hotel_offers_hotel_room_unavailable">很抱歉，已沒有您要求的房間。</string>
 	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_hotel_offers_hotel_service_failure">抱歉，我們無法連接 Expedia。請再試一次。</string>
+	<string name="e3_error_hotel_offers_hotel_service_failure">很抱歉，我們無法連接 Expedia。請再試一次。</string>
 	<!-- There are no longer any rooms for the hotel offer -->
-	<string name="e3_error_hotel_offers_invalid_input">抱歉，此房間的推廣優惠已結束，但我們還有提供其他優惠。</string>
+	<string name="e3_error_hotel_offers_invalid_input">很抱歉，此房間的推廣優惠已結束，但我們還有提供其他優惠。</string>
 	<!-- There are no longer any rooms for the hotel offer -->
-	<string name="e3_error_hotel_offers_unknown_error">抱歉，此房間的推廣優惠已結束，但我們還有提供其他優惠。</string>
+	<string name="e3_error_hotel_offers_unknown_error">很抱歉，此房間的推廣優惠已結束，但我們還有提供其他優惠。</string>
 	
 	<!-- HotelProduct API method -->
 	<string name="e3_error_hotel_product_unknown_error">出現未明錯誤。</string>
@@ -738,7 +764,7 @@
 	<string name="e3_error_hotel_information_invalid_input">出現未明錯誤。</string>
 
 	<!-- Currency names -->
-	<string name="currency_aud">澳幣</string>
+	<string name="currency_aud">澳元</string>
 	<string name="currency_brl">巴西幣</string>
 	<string name="currency_gbp">英鎊</string>
 	<string name="currency_cad">加拿大元</string>
@@ -751,7 +777,7 @@
 	<string name="currency_jpy">日圓</string>
 	<string name="currency_krw">韓圜</string>
 	<string name="currency_mxn">墨西哥披索</string>
-	<string name="currency_nzd">紐西蘭幣</string>
+	<string name="currency_nzd">紐西蘭元</string>
 	<string name="currency_nok">挪威克朗</string>
 	<string name="currency_rub">俄羅斯盧布</string>
 	<string name="currency_sgd">新加坡元</string>

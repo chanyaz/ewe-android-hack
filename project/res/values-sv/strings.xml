@@ -6,9 +6,11 @@
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
 	<string name="enter_search_location">Ange sökplats...</string>
 	<!-- Hint for "search location" field -->
-	<string name="hint_search_location">Sökplats</string>
+	<string name="hint_search_location">Sök plats</string>
+	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+	<string name="loading_suggestions">Laddar förslag...</string>
 	<!-- Label for recent searches user has made -->
-	<string name="recent_searches">Aktuella sökningar</string>
+	<string name="recent_searches">Dina senaste sökningar</string>
 	<!-- Label for searches that the user can make that are featured -->
 	<string name="featured_destinations">Destinationer i fokus</string>
 	<!-- Label for button that starts search -->
@@ -88,7 +90,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Laddar tidigare sökresultat...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"Sortera: "</string>
+	<string name="sort_hotels">&quot;Sortera: &quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;Sortera&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
@@ -195,9 +197,9 @@
 	<!--  Widget Branding description -->
 	<string name="book_a_room_tonight">Boka ett rum ikväll.</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">Lägg till Hotel Radar.</string>
+	<string name="widget_upsell_short_1">Lägg till Hotel Radar Widget.</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">Få erbjudanden nära dig varje kväll!</string>
+	<string name="widget_upsell_short_2">Få dagliga erbjudanden där du befinner dig!</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
@@ -290,8 +292,8 @@
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Laddar användarrecensioner...</string>
-    <!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">Recensioner på andra språk</string>
+	<!-- Header for reviews of the non-native language -->
+	<string name="user_review_other_languages_title">Recensioner på andra språk</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Nya</string>
 	<!-- The text for the sort button, recent -->
@@ -324,8 +326,8 @@
 	<string name="user_review_no_favorable_reviews">Det finns inga positiva recensioner av det här hotellet</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">Det finns inga nya recensioner av det här hotellet</string>
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">Recensioner är otillgängliga för tillfället</string>
+	<!-- User reviews server/parsing error -->
+	<string name="user_review_unavailable">Recensioner är otillgängliga för tillfället</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -419,6 +421,10 @@
 	<string name="hint_state_code">Län</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Kreditkortsuppgifter</string>
+	<!-- Label for credit card selection box -->
+	<string name="saved_cards">Sparade kort</string>
+	<!-- Label for entering new credit card information -->
+	<string name="enter_a_new_card">Ange ett nytt kort</string>
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">Kortnummer</string>
 	<!-- Card expiration month form field hint -->
@@ -550,7 +556,27 @@
 	<!-- Progress dialog text when we are logging the user into Expedia -->
 	<string name="logging_in">Loggar in...</string>
 	<!-- Message that tells user they successfully logged in -->
-	<string name="login_success">Strålande!  Du är nu inloggad.</string>
+	<string name="login_success">Utmärkt. Du är nu inloggad.</string>
+	<!-- Label for login widget button -->
+	<string name="account_login">Logga in på konto</string>
+	<!-- Label for login widget additional text -->
+	<string name="log_in_for_faster_booking">Logga in och boka snabbare.</string>
+	<!-- Label for account status -->
+	<string name="enrolled_in_expedia_rewards">Registrerad för Expedia Rewards\u2122</string>
+	<!-- Label for account name -->
+	<string name="logged_in_as">Inloggad som</string>
+	<!-- Label for account name -->
+    <string name="logged_in_as_template">Inloggad som&lt;b&gt;%s&lt;/b&gt;</string>
+	<!-- Label for signin screen -->
+	<string name="expedia_account">Expediakonto</string>
+	<!-- Label for loading user profile from expedia.com -->
+	<string name="loading_expedia_account">Laddar Expediakonto</string>
+    <!-- Label for password recovery -->
+	<string name="forgot_your_password">Har du glömt ditt lösenord?</string>
+    <!-- Label applying a coupon -->
+	<string name="apply">Använd</string>
+    <!-- Label for credit card selection -->
+	<string name="use_card">Använd kort:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->

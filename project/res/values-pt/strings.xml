@@ -7,6 +7,8 @@
 	<string name="enter_search_location">Inserir a posição de pesquisa...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Pesquisar posição</string>
+	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+	<string name="loading_suggestions">Carregando sugestões...</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Pesquisas recentes</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -65,7 +67,7 @@
 	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; a &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; hotéis correspondentes</item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; hotel correspondente</item>
 		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; hotel correspondente</item>
 		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; hotéis correspondentes</item>
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; hotéis correspondentes</item>
@@ -88,7 +90,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Carregando os resultados da pesquisa anterior...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"Ordenar por: "</string>
+	<string name="sort_hotels">&quot;Ordenar por:&quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;Ordenar&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
@@ -195,9 +197,9 @@
 	<!--  Widget Branding description -->
 	<string name="book_a_room_tonight">Reserve um hotel esta noite.</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">Adicionar o widget Hotel Radar.</string>
+	<string name="widget_upsell_short_1">Adicionar Widget Hotel Radar.</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">Saiba sobre ofertas diárias perto de você!</string>
+	<string name="widget_upsell_short_2">Receba, todas as noites, as ofertas perto de você!</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
@@ -290,8 +292,8 @@
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Carregando avaliações dos usuários...</string>
-    <!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">Avaliações em outros idiomas</string>
+	<!-- Header for reviews of the non-native language -->
+	<string name="user_review_other_languages_title">Avaliações em outros idiomas</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Recente</string>
 	<!-- The text for the sort button, recent -->
@@ -319,13 +321,13 @@
 		2$ is the place they are from -->
 	<string name="user_review_name_and_location_signature">%1$s de %2$s</string>
 	<!-- User review no critical reviews -->
-	<string name="user_review_no_critical_reviews">Não há comentários críticos para este hotel</string>
+	<string name="user_review_no_critical_reviews">Não há avaliações críticas para este hotel</string>
 	<!-- User review no favorable reviews -->
-	<string name="user_review_no_favorable_reviews">Não há comentários favoráveis para este hotel</string>
+	<string name="user_review_no_favorable_reviews">Não há avaliações favoráveis para este hotel</string>
 	<!-- User review no recent reviews -->
-	<string name="user_review_no_recent_reviews">Não há comentários recentes para este hotel</string>
+	<string name="user_review_no_recent_reviews">Não há avaliações recentes para este hotel</string>
 	<!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">As avaliações não estão disponíveis no momento</string>
+	<string name="user_review_unavailable">As avaliações não estão disponíveis no momento</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -377,7 +379,7 @@
 	<!-- Error if we couldn't load the room type details -->
 	<string name="error_room_type_load">Não foi possível carregar os detalhes do quarto.  Verifique sua conexão à internet e tente novamente.</string>
 	<!-- Error if we couldn't find the room type details -->
-	<string name="error_room_type_nonexistant">Não foi possível encontrar detalhes extra neste quarto.</string>
+	<string name="error_room_type_nonexistant">Não foi possível encontrar mais informações para este quarto.</string>
 	<!-- Label for bed type -->
 	<string name="bed_type">Tipo de cama</string>
 	<!-- Label for length of stay -->
@@ -419,6 +421,10 @@
 	<string name="hint_state_code">Estado</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Informações do cartão de crédito</string>
+	<!-- Label for credit card selection box -->
+	<string name="saved_cards">Cartões salvos</string>
+	<!-- Label for entering new credit card information -->
+	<string name="enter_a_new_card">Inserir um novo cartão</string>
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">Número do cartão</string>
 	<!-- Card expiration month form field hint -->
@@ -436,7 +442,7 @@
 	<!-- Disclaimer about how to earn expedia points -->
 	<string name="disclaimer_expedia_points">Se você possui uma conta Expedia Rewards, faça sua reserva com o mesmo endereço de e-mail e seus pontos serão automaticamente acreditados após sua estadia. Porém, pode levar até mais de 30 dias para que os pontos apareçam na sua conta.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
-	<string name="EnterBookingInfo">Inserir informações de reserva</string>
+	<string name="EnterBookingInfo">Info da reserva</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">O valor de %s será cobrado em seu cartão de crédito</string>
 	<!-- Button label for confirming your booking -->
@@ -464,7 +470,7 @@
 	<!-- Error if an invalid security code was entered -->
 	<string name="invalid_security_code">Insira o código de segurança de três ou quatro dígitos</string>
 	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">Pagamentos nesta moeda (%s) não são aceitos pela American Express. Use um outro cartão de crédito.</string>
+	<string name="invalid_currency_for_amex">Pagamentos nesta moeda (%s) não são aceitos pela American Express. Use outro cartão de crédito.</string>
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">Você precisa aceitar os termos para fazer a reserva</string>
 	<!-- Message to display to user while booking is in progress -->
@@ -536,7 +542,7 @@
 	<!-- Policy displayed to user when a deposit is required -->
 	<string name="PolicyDepositRequired">Um depósito de garantia será cobrado do seu cartão de crédito para a reserva. O hotel cobrará diretamente do seu cartão de crédito, quando sua reserva for confirmada.</string>
 	<!-- Policy displayed to user when a guarantee is required -->
-	<string name="PolicyGuaranteeRequired">As informações do cartão de crédito são necessárias para garantir sua reserva. Nenhum valor será cobrado do seu cartão de crédito até o momento de sua chegada no hotel ou até que o prazo de cancelamento não tenha passado.</string>
+	<string name="PolicyGuaranteeRequired">As informações do cartão de crédito são necessárias para garantir sua reserva. Nenhum valor será cobrado do seu cartão de crédito até o momento de sua chegada ao hotel ou até após o término do prazo de cancelamento.</string>
 	<!-- Expedia merchant hotel policies -->
 	<string name="PolicyExpediaMerchant">Ao prosseguir com esta reserva, você aceita todos os termos e condições, incluindo a Política de cancelamento e todos os termos e condições que fazem parte do Acordo do usuário.\n\nVocê concorda em pagar o preço de sua reserva. Caso não pague esta dívida e ela for cobrada por meio de uma empresa de cobrança, advogado ou através de outros procedimentos legais, você concorda em pagar todos os custos e taxas cabíveis, incluindo os honorários do advogado e os custos judiciais relacionados a essa tentativa de cobrança.</string>
 	<!-- Expedia agent hotel policies -->
@@ -551,6 +557,26 @@
 	<string name="logging_in">Conectando...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Sucesso!  Agora você está conectado.</string>
+	<!-- Label for login widget button -->
+	<string name="account_login">Conectar-se à conta</string>
+	<!-- Label for login widget additional text -->
+	<string name="log_in_for_faster_booking">Conecte-se para reservas mais rápidas.</string>
+	<!-- Label for account status -->
+	<string name="enrolled_in_expedia_rewards">Inscrito no Expedia Rewards\u2122</string>
+	<!-- Label for account name -->
+	<string name="logged_in_as">Conectado como</string>
+	<!-- Label for account name -->
+    <string name="logged_in_as_template">Conectado como &lt;b&gt;%s&lt;/b&gt;</string>
+	<!-- Label for signin screen -->
+	<string name="expedia_account">Conta da Expedia</string>
+	<!-- Label for loading user profile from expedia.com -->
+	<string name="loading_expedia_account">Carregando conta da Expedia</string>
+    <!-- Label for password recovery -->
+	<string name="forgot_your_password">Esqueceu sua senha?</string>
+    <!-- Label applying a coupon -->
+	<string name="apply">Solicitar</string>
+    <!-- Label for credit card selection -->
+	<string name="use_card">Usar cartão:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -616,7 +642,7 @@
 	<!-- Section header for rating (1-5 stars) -->
 	<string name="oosdk_rating_overall_header">Avalie nosso app!</string>
 	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Pollítica de privacidade</a></string>
+	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Política de privacidade</a></string>
 	<!-- Hint to type in email address -->
 	<string name="email_address">Endereço de e-mail</string>
 	<!-- Hint to type in comments -->
@@ -1002,7 +1028,7 @@
 	<string name="country_vi">Ilhas Virgens, Estados Unidos</string>
 	<string name="country_wf">Wallis e Futuna (Ilhas)</string>
 	<string name="country_eh">Saara Ocidental</string>
-	<string name="country_ye">Iémen</string>
+	<string name="country_ye">Iêmen</string>
 	<string name="country_zm">Zâmbia</string>
 	<string name="country_zw">Zimbábue</string>
 	<string name="country_ax">Ilhas Åland</string>

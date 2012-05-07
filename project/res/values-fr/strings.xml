@@ -7,6 +7,8 @@
 	<string name="enter_search_location">Saisissez votre destination…</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Recherche destination</string>
+	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+	<string name="loading_suggestions">Chargement des suggestions...</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Dernières recherches</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -88,7 +90,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Chargement des résultats de la recherche précédente...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"Trier : "</string>
+	<string name="sort_hotels">&quot;Trier : &quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;Trier&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
@@ -136,7 +138,7 @@
 	<!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
 	<string name="filter_stars_five">5</string>
 	<!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
-	<string name="filter_distance_miles_template">%smi</string>
+	<string name="filter_distance_miles_template">%s mi</string>
 	<!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
 	<string name="filter_distance_kilometers_template">%s km</string>
 
@@ -173,7 +175,7 @@
 
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-	<string name="map_snippet_price_template">Dès%s</string>
+	<string name="map_snippet_price_template">Dès %s</string>
 
 	<!-- Mini-details fragment -->
 	<!-- Label for "see details" button on the mini details fragment -->
@@ -195,9 +197,9 @@
 	<!--  Widget Branding description -->
 	<string name="book_a_room_tonight">Réservez une chambre !</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">Ajouter le Widget Hotel Radar</string>
+	<string name="widget_upsell_short_1">Ajouter le Widget Hotel Radar.</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">Offres du jour à proximité</string>
+	<string name="widget_upsell_short_2">Offres du jour à proximité !</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
@@ -215,7 +217,7 @@
 	
 	<!--  Hotel Details Fragment -->
 	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
-	<string name="min_room_price_template">Dès%s</string>
+	<string name="min_room_price_template">Dès %s</string>
 	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
 	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; dès</string>
 	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
@@ -291,7 +293,7 @@
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Chargement avis voyageurs en cours...</string>
 	<!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">Avis dans d\&apos;autres langues</string>
+	<string name="user_review_other_languages_title">Avis dans d\&apos;autres langues</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Récents</string>
 	<!-- The text for the sort button, recent -->
@@ -305,7 +307,7 @@
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
 		1$ represents the number of guests that recommend this hotel
 		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; clients siur &lt;b&gt;%2$d&lt;/b&gt; recommandent cet hôtel.</string>
+	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; clients sur  &lt;b&gt;%2$d&lt;/b&gt; recommandent cet hôtel.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
 		<item quantity="zero">%d avis</item>
@@ -325,7 +327,7 @@
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">Aucun avis récent sur cet hôtel</string>
 	<!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">Les avis ne sont temporairement pas disponibles</string>
+	<string name="user_review_unavailable">Les avis ne sont temporairement pas disponibles</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -363,7 +365,7 @@
 	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
 	<string name="common_value_add_template">Toutes les chambres comprennent %s</string>
 	<!--  Instruction as the header of the list to select a room from the list -->
-	<string name="select_a_room_instruction">Choisir une chambre</string>
+	<string name="select_a_room_instruction">Choisir</string>
 	
 	<!-- Gallery -->
 	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
@@ -375,9 +377,9 @@
 	<!-- Label for room type -->
 	<string name="room_type">Type de chambre</string>
 	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">Nous ne sommes pas en mesure de charger les details de la chambre.  Veuillez vérifier votre connexion Internet et réessayer</string>
+	<string name="error_room_type_load">Nous ne sommes pas en mesure de charger les détails de la chambre.  Veuillez vérifier votre connexion Internet et réessayer.</string>
 	<!-- Error if we couldn't find the room type details -->
-	<string name="error_room_type_nonexistant">Nous ne sommes pas en mesure de trouver d’autres informations sur cette chambre.</string>
+	<string name="error_room_type_nonexistant">Nous ne sommes pas en mesure de trouver d\&apos;autres informations sur cette chambre.</string>
 	<!-- Label for bed type -->
 	<string name="bed_type">Type de lit</string>
 	<!-- Label for length of stay -->
@@ -419,6 +421,10 @@
 	<string name="hint_state_code">Région</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Information de la carte de paiement</string>
+	<!-- Label for credit card selection box -->
+	<string name="saved_cards">Cartes sauvegardées</string>
+	<!-- Label for entering new credit card information -->
+	<string name="enter_a_new_card">Utilisez une autre carte de paiement</string>
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">Numéro de la carte de paiement</string>
 	<!-- Card expiration month form field hint -->
@@ -440,7 +446,7 @@
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">Votre carte de paiement sera débitée de %s</string>
 	<!-- Button label for confirming your booking -->
-	<string name="confirm_book">Confirmez &amp; Réservez</string>
+	<string name="confirm_book">Confirmer et réserver</string>
 	<!-- Label for clearing private data -->
 	<string name="clear_private_data">Supprimer vos données</string>
 	<!-- Title for dialog confirming the clearing of private data -->
@@ -478,7 +484,7 @@
 	<!-- Error message when booking completed with errors - specifically if email was not sent -->
 	<string name="error_unable_to_send_email">Nous ne sommes pas en mesure de vous envoyer la confirmation par email.</string>
 	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$sle%2$s</string>
+	<string name="check_in_out_time_template">%1$s le %2$s</string>
 	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
 	<string name="enter_booking_info">Insérez les informations</string>
 	<!--  Title for action bar when the user is on the booking info screen -->
@@ -551,12 +557,32 @@
 	<string name="logging_in">Connexion en cours...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Connexion réussie ! Vous êtes connecté à Expedia. </string>
+    <!-- Label for login widget button -->
+    <string name="account_login">Connexion au compte</string>
+    <!-- Label for login widget additional text -->
+    <string name="log_in_for_faster_booking">Connectez-vous pour réserver plus rapidement.</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_rewards">Inscrit au programme Expedia Rewards\u2122</string>
+    <!-- Label for account name -->
+    <string name="logged_in_as">Vous êtes connecté en tant que</string>
+    <!-- Label for account name -->
+    <string name="logged_in_as_template">Vous êtes connecté en tant que &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Label for signin screen -->
+    <string name="expedia_account">Compte Expedia</string>
+    <!-- Label for loading user profile from expedia.com -->
+    <string name="loading_expedia_account">Chargement compte Expedia...</string>
+    <!-- Label for password recovery -->
+    <string name="forgot_your_password">Mot de passe oublié ?</string>
+    <!-- Label applying a coupon -->
+    <string name="apply">Appliquer</string>
+    <!-- Label for credit card selection -->
+    <string name="use_card">Utiliser carte:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
 	<string name="share_subject_template">Voyage Expedia - %1$s (%2$s - %3$s)</string>
 	<!-- Preset at the top of the share body message -->
-	<string name="share_body_start">Ci-après les informations de mas réservation d\&apos;hôtel :</string>
+	<string name="share_body_start">Ci-après les informations de ma réservation d\&apos;hôtel :</string>
 	<!-- Name of user -->
 	<string name="name">Nom</string>
 	<!-- Number of adults label -->
@@ -572,7 +598,7 @@
 	<!-- Label for "contact Expedia" button in info page -->
 	<string name="contact_expedia">Contacter Expedia</string>
 	<!-- Extra description for "contact Expedia" button, when space allows -->
-	<string name="contact_expedia_description">Nous sommes à votre disposition 24 heures sur 24.</string>
+	<string name="contact_expedia_description">Nous sommes à votre disposition !</string>
 	<!-- Title for different ways to connect to Expedia -->
 	<string name="contact_expedia_via">Contacter Expedia par...</string>
 	<!-- Contact Expedia via phone -->
@@ -594,13 +620,13 @@
 	<!-- Extra description for "app support" button, when space allows -->
 	<string name="app_support_description">Écrivez-nous et nous vous répondrons dans les plus brefs délais.</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">Vous aimez nos supers promos ? Conseillez l\&apos;app à vos amis !</string>
+	<string name="tell_a_friend_description">Vous aimez nos super-promos ? Conseillez l\&apos;app à vos amis !</string>
 	<!-- Section header for other apps by Mobiata -->
 	<string name="travel_smart">Travel smart</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hôtels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Bonjour,\n\nVenez découvrir Expedia Hotels pour iPhone et téléphones Android. Cette application est gratuite et te permettra de rechercher et de réserver tes chambres dans plus de 100 000 hôtels dans le monde entier. C\&apos;est le moyen le plus simple de réserver un hôtel avec votre téléphone !\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Bonjour,\n\nViens découvrir Expedia Hôtels pour iPhone et téléphones Android. Cette application est gratuite et te permettra de rechercher et de réserver plus de 100 000 hôtels dans le monde entier. C\&apos;est le moyen le plus simple de réserver un hôtel avec ton téléphone !\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Conditions d\&apos;utilisation</string>
 	<!-- Label for link to privacy policy -->
@@ -767,7 +793,7 @@
 	<string name="country_ad">Andorre</string>
 	<string name="country_ao">Angola</string>
 	<string name="country_ai">Anguilla</string>
-	<string name="country_aq">Antartique</string>
+	<string name="country_aq">Antarctique</string>
 	<string name="country_ag">Antigua-et-Barbuda</string>
 	<string name="country_ar">Argentine</string>
 	<string name="country_am">Arménie</string>
@@ -859,7 +885,7 @@
 	<string name="country_hk">Hong Kong</string>
 	<string name="country_hu">Hongrie</string>
 	<string name="country_is">Islande</string>
-	<string name="country_in">Indie</string>
+	<string name="country_in">Inde</string>
 	<string name="country_id">Indonésie</string>
 	<string name="country_ir">Iran, République islamique de</string>
 	<string name="country_iq">Iraq</string>
@@ -875,7 +901,7 @@
 	<string name="country_ke">Kenya</string>
 	<string name="country_ki">Kiribati</string>
 	<string name="country_kp">Corée du Nord</string>
-	<string name="country_kr">Corée</string>
+	<string name="country_kr">Corée du Sud</string>
 	<string name="country_kw">Koweït</string>
 	<string name="country_kg">Kirghizistan</string>
 	<string name="country_la">Laos</string>
@@ -885,7 +911,7 @@
 	<string name="country_lr">Liberia</string>
 	<string name="country_ly">Libye</string>
 	<string name="country_li">Liechtenstein</string>
-	<string name="country_lt">Lithuanie</string>
+	<string name="country_lt">Lituanie</string>
 	<string name="country_lu">Luxembourg</string>
 	<string name="country_mo">Macao</string>
 	<string name="country_mk">Macédoine</string>
@@ -997,7 +1023,7 @@
 	<string name="country_uz">Ouzbékistan</string>
 	<string name="country_vu">Vanuatu</string>
 	<string name="country_ve">Venezuela, République bolivienne de</string>
-	<string name="country_vn">Viêt Nam</string>
+	<string name="country_vn">Vietnam</string>
 	<string name="country_vg">Îles Vierges britanniques</string>
 	<string name="country_vi">Îles Vierges des États-Unis</string>
 	<string name="country_wf">Wallis et Futuna</string>

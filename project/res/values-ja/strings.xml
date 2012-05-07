@@ -7,6 +7,8 @@
 	<string name="enter_search_location">検索ロケーションを入力…</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">ロケーションを検索</string>
+	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+	<string name="loading_suggestions">提案をローディング中…</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">最近の検索</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -88,7 +90,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">過去の検索結果を読み込んでいます…</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"並べ替え： "</string>
+	<string name="sort_hotels">&quot;並べ替え： &quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;並べ替え&lt;/b&gt;：%s</string>
 	<!-- Label for filter hotels button in bottom bar -->
@@ -197,7 +199,7 @@
 	<!--  First string for widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short_1">ホテル レーダー ウィジェットを追加する。</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">現在地付近の夜間割引を検索！</string>
+	<string name="widget_upsell_short_2">周辺施設の夜間割引を検索できます !</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
@@ -419,6 +421,10 @@
 	<string name="hint_state_code">都道府県</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">クレジットカード情報</string>
+	<!-- Label for credit card selection box -->
+	<string name="saved_cards">保存済みのカード</string>
+	<!-- Label for entering new credit card information -->
+	<string name="enter_a_new_card">新しいカードを入力</string>
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">カード番号</string>
 	<!-- Card expiration month form field hint -->
@@ -551,6 +557,26 @@
 	<string name="logging_in">ログイン中…</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">ログイン完了！ログインしています。</string>
+	<!-- Label for login widget button -->
+	<string name="account_login">アカウント ログイン</string>
+	<!-- Label for login widget additional text -->
+	<string name="log_in_for_faster_booking">ログインするとより素早くご予約いただけます。</string>
+	<!-- Label for account status -->
+	<string name="enrolled_in_expedia_rewards">エクスペディア リワードに参加 \u2122</string>
+	<!-- Label for account name -->
+	<string name="logged_in_as">ログイン済み</string>
+	<!-- Label for account name -->
+    <string name="logged_in_as_template">&lt;b&gt;%s&lt;/b&gt;としてログイン済み</string>
+	<!-- Label for signin screen -->
+	<string name="expedia_account">エクスペディア アカウント</string>
+	<!-- Label for loading user profile from expedia.com -->
+	<string name="loading_expedia_account">エクスペディア アカウントをローディング中</string>
+    <!-- Label for password recovery -->
+	<string name="forgot_your_password">パスワードをお忘れですか ?</string>
+    <!-- Label applying a coupon -->
+	<string name="apply">適用</string>
+    <!-- Label for credit card selection -->
+	<string name="use_card">カードを使う:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -672,7 +698,7 @@
 	<!-- Abbreviated kilometers (used in distance_template) -->
 	<string name="unit_kilometers">キロ</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-	<string name="distance_template">検索地から %1$s%2$s</string>
+	<string name="distance_template">%1$s%2$s 距離</string>
 	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
 	<string name="distance_template_short">%1$s %2$s</string>
 

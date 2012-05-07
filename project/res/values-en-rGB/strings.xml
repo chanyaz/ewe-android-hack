@@ -7,6 +7,8 @@
 	<string name="enter_search_location">Enter search location...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Search Location</string>
+	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+	<string name="loading_suggestions">Loading suggestions...</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Recent Searches</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -88,7 +90,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Loading previous search results...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"Sort: "</string>
+	<string name="sort_hotels">&quot;Sort: &quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;Sort&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
@@ -419,6 +421,10 @@
 	<string name="hint_state_code">County</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Credit Card Info</string>
+	<!-- Label for credit card selection box -->
+	<string name="saved_cards">Saved Cards</string>
+	<!-- Label for entering new credit card information -->
+	<string name="enter_a_new_card">Enter a new card</string>
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">Card Number</string>
 	<!-- Card expiration month form field hint -->
@@ -551,6 +557,26 @@
 	<string name="logging_in">Logging in...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Success!  You are now logged in.</string>
+	<!-- Label for login widget button -->
+	<string name="account_login">Account Login</string>
+	<!-- Label for login widget additional text -->
+	<string name="log_in_for_faster_booking">Log in for faster booking.</string>
+	<!-- Label for account status -->
+	<string name="enrolled_in_expedia_rewards">Enrolled in Expedia Rewards\u2122</string>
+	<!-- Label for account name -->
+	<string name="logged_in_as">Logged in as</string>
+	<!-- Label for account name -->
+    <string name="logged_in_as_template">Logged in as &lt;b&gt;%s&lt;/b&gt;</string>
+	<!-- Label for signin screen -->
+	<string name="expedia_account">Expedia Account</string>
+	<!-- Label for loading user profile from expedia.com -->
+	<string name="loading_expedia_account">Loading Expedia Account</string>
+    <!-- Label for password recovery -->
+	<string name="forgot_your_password">Forgot your password?</string>
+    <!-- Label applying a coupon -->
+	<string name="apply">Apply</string>
+    <!-- Label for credit card selection -->
+	<string name="use_card">Use card:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -670,7 +696,7 @@
 	<!-- Abbreviated miles (used in distance_template) -->
 	<string name="unit_miles">mi</string>
 	<!-- Abbreviated kilometers (used in distance_template) -->
-	<string name="unit_kilometers">ki</string>
+	<string name="unit_kilometers">km</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
 	<string name="distance_template">%1$s %2$s away</string>
 	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
@@ -997,7 +1023,7 @@
 	<string name="country_uz">Uzbekistan</string>
 	<string name="country_vu">Vanuatu</string>
 	<string name="country_ve">Venezuela, Bolivarian Republic of</string>
-	<string name="country_vn">Viet Nam</string>
+	<string name="country_vn">Vietnam</string>
 	<string name="country_vg">Virgin Islands, British</string>
 	<string name="country_vi">Virgin Islands, US</string>
 	<string name="country_wf">Wallis and Futuna</string>

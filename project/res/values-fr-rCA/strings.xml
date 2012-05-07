@@ -7,6 +7,8 @@
 	<string name="enter_search_location">Entrez l\&apos;emplacement à rechercher...</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Recherchez l\&apos;emplacement</string>
+	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+	<string name="loading_suggestions">Chargement des suggestions...</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Recherches récentes</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -24,9 +26,9 @@
 	<!--  Label for child age selection prompt -->
 	<plurals name="select_each_childs_age">
 	    <item quantity="one">Sélectionnez l\&apos;âge de l’enfant</item>
-	    <item quantity="two">Sélectionnez l\&apos;âge de chaque l’enfant</item>
-	    <item quantity="many">Sélectionnez l\&apos;âge de chaque l’enfant</item>
-	    <item quantity="other">Sélectionnez l\&apos;âge de chaque l’enfant</item>
+	    <item quantity="two">Sélectionnez l\&apos;âge de chaque enfant</item>
+	    <item quantity="many">Sélectionnez l\&apos;âge de chaque enfant</item>
+	    <item quantity="other">Sélectionnez l\&apos;âge de chaque enfant</item>
 	</plurals>
 	<!--  Title of "select child age" spinner dialog box -->
 	<string name="prompt_select_child_age">Sélectionnez l\&apos;âge de l’enfant (%1$s - %2$s)</string>
@@ -74,7 +76,7 @@
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filtrer par nom d\&apos;hôtel</string>
 	<!-- Label indicating that there are no results matching their current filter -->
-	<string name="no_filter_results">Désolé, aucun hôtel ne correspond à vos critères.</string>
+	<string name="no_filter_results">Désolé, aucun hôtel ne correspond aux filtres courants.</string>
 	<!-- Label indicating that geolocation failed -->
 	<string name="geolocation_failed">Impossible de déterminer l\&apos;emplacement recherché.</string>
 	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
@@ -88,7 +90,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Chargement des résultats de recherche précédents...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"Tri : "</string>
+	<string name="sort_hotels">&quot;Tri : &quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;Tri&lt;/b&gt; : %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
@@ -107,9 +109,9 @@
 	<!-- Message displayed when user has disabled finding the device's location. -->
 	<string name="ProviderDisabled">Votre fournisseur d\&apos;emplacements a été désactivé. Veuillez le réactiver pour rechercher votre emplacement.</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-	<string name="ProviderOutOfService">Votre fournisseur d\&apos;emplacements est hors service. Veuillez ressayer plus tard.</string>
+	<string name="ProviderOutOfService">Votre fournisseur d\&apos;emplacements est hors service. Veuillez réessayer plus tard.</string>
 	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">Votre fournisseur d\&apos;emplacements est temporairement non disponible.  Veuillez ressayer dans quelques minutes.</string>
+	<string name="ProviderTemporarilyUnavailable">Votre fournisseur d\&apos;emplacements est temporairement non disponible.  Veuillez réessayer dans quelques minutes.</string>
 
 	<!-- Sort descriptions, e.g. Sorted by "description" -->
 	<!-- Sort by distance label -->
@@ -173,7 +175,7 @@
 
 	<!-- Map -->
 	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-	<string name="map_snippet_price_template">De %s</string>
+	<string name="map_snippet_price_template">À partir de %s</string>
 
 	<!-- Mini-details fragment -->
 	<!-- Label for "see details" button on the mini details fragment -->
@@ -195,9 +197,9 @@
 	<!--  Widget Branding description -->
 	<string name="book_a_room_tonight">Réservez une chambre ce soir.</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">Ajoutez le Widget Hotel Radar.</string>
+	<string name="widget_upsell_short_1">Ajoutez le gadget Hotel Radar.</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">Des aubaines tous les soirs tout près de vous!</string>
+	<string name="widget_upsell_short_2">Recevez des aubaines sur les nuitées près de vous!</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
@@ -291,7 +293,7 @@
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Chargement des évaluations des utilisateurs...</string>
 	<!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">Évaluations en d\&apos;autres langues</string>
+	<string name="user_review_other_languages_title">Évaluations en d\&apos;autres langues</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Récents</string>
 	<!-- The text for the sort button, recent -->
@@ -325,7 +327,7 @@
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">Il n\&apos;y a aucune évaluation récente de cet hôtel.</string>
 	<!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">Les évaluations sont temporairement non disponibles.</string>
+	<string name="user_review_unavailable">Les évaluations sont temporairement non disponibles.</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -416,9 +418,13 @@
 	<!-- The "postal code" booking info field.  -->
 	<string name="PostalCode">Code postal</string>
 	<!-- State code hint -->
-	<string name="hint_state_code">Prov.</string>
+	<string name="hint_state_code">Prov./État</string>
 	<!-- Label for "credit card info" form field section -->
-	<string name="credit_card_info">Renseignements relatifs à la carte de crédit</string>
+	<string name="credit_card_info">Renseignements sur la carte de crédit</string>
+	<!-- Label for credit card selection box -->
+	<string name="saved_cards">Cartes enregistrées</string>
+	<!-- Label for entering new credit card information -->
+	<string name="enter_a_new_card">Entrez une nouvelle carte</string>
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">Nº de carte de crédit</string>
 	<!-- Card expiration month form field hint -->
@@ -436,7 +442,7 @@
 	<!-- Disclaimer about how to earn expedia points -->
 	<string name="disclaimer_expedia_points">Si vous avez un compte Expedia Rewards, veuillez réserver en utilisant la même adresse courriel et vos points seront enregistrés automatiquement après votre séjour. Veuillez noter que l\&apos;enregistrement de vos points peut prendre jusqu\&apos;à 30 jours.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
-	<string name="EnterBookingInfo">Entrez les renseignements</string>
+	<string name="EnterBookingInfo">Entrez les renseignements de réservation</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
 	<string name="charge_details_template">Votre carte de crédit sera débitée d\&apos;un montant de .%s</string>
 	<!-- Button label for confirming your booking -->
@@ -551,6 +557,26 @@
 	<string name="logging_in">Ouverture de session...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Réussite!  Votre session est maintenant ouverte.</string>
+    <!-- Label for login widget button -->
+    <string name="account_login">Ouverture de session au compte</string>
+    <!-- Label for login widget additional text -->
+    <string name="log_in_for_faster_booking">Ouvrez une session pour accélérer le processus de réservation.</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_rewards">Inscrits à Récompenses Expedia\u2122</string>
+    <!-- Label for account name -->
+    <string name="logged_in_as">En session en tant que</string>
+    <!-- Label for account name -->
+    <string name="logged_in_as_template">En session en tant que &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Label for signin screen -->
+    <string name="expedia_account">Compte Expedia</string>
+    <!-- Label for loading user profile from expedia.com -->
+    <string name="loading_expedia_account">Chargement du compte Expedia</string>
+    <!-- Label for password recovery -->
+    <string name="forgot_your_password">Vous avez oublié votre mot de passe?</string>
+    <!-- Label applying a coupon -->
+    <string name="apply">Appliquer</string>
+    <!-- Label for credit card selection -->
+    <string name="use_card">Utiliser la carte:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -618,7 +644,7 @@
 	<!-- Footer for the view -->
 	<string name="powered_by_opinion_lab">Propulsé par Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Politique de confidentialité</a></string>
 	<!-- Hint to type in email address -->
-	<string name="email_address">Adresse courriel</string>
+	<string name="email_address">Adresse de courriel</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">Que pouvons-nous améliorer?</string>
 	<!-- Message displayed to users after they submit feedback -->

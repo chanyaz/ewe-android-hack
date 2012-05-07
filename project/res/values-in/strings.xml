@@ -6,11 +6,13 @@
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
 	<string name="enter_search_location">Masukkan lokasi pencarian...</string>
 	<!-- Hint for "search location" field -->
-	<string name="hint_search_location">Cari Lokasi</string>
+	<string name="hint_search_location">Lokasi Pencarian</string>
+	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+	<string name="loading_suggestions">Memuat saran...</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Pencarian Terbaru</string>
 	<!-- Label for searches that the user can make that are featured -->
-	<string name="featured_destinations">Tujuan Unggulan</string>
+	<string name="featured_destinations">Destinasi Unggulan</string>
 	<!-- Label for button that starts search -->
 	<string name="search_for_hotels">Cari Hotel</string>
 	<!--  Label for picking search location -->
@@ -18,7 +20,7 @@
 	<!--  Label for picking checkin/checkout dates -->
 	<string name="drag_to_extend_your_stay">&lt;b&gt;Tarik&lt;/b&gt; untuk perpanjang masa inap.</string>
 	<!--  Label for picking guests for hotel booking -->
-	<string name="who_is_going">&lt;b&gt;Siapa&lt;/b&gt; saja yang ikut?</string>
+	<string name="who_is_going">&lt;b&gt;Siapa&lt;/b&gt; saja yang akan pergi?</string>
 	<!-- Child age dialog button -->
 	<string name="button_done">Selesai</string>
 	<!--  Label for child age selection prompt -->
@@ -88,7 +90,7 @@
 	<!-- Message when app is loading saved search results -->
 	<string name="loading_previous">Memuat hasil pencarian sebelumnya...</string>
 	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">"Urutkan: "</string>
+	<string name="sort_hotels">&quot;Urutkan: &quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
 	<string name="sort_hotels_template">&lt;b&gt;Urutkan&lt;/b&gt;: %s</string>
 	<!-- Label for filter hotels button in bottom bar -->
@@ -103,7 +105,7 @@
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">Untuk menggunakan Lokasi Saya, Anda harus mengaktifkan sumber Lokasi di Pengaturan.\nBuka Pengaturan dan aktifkan sekarang?</string>
+	<string name="EnableLocationSettings">Untuk menggunakan Lokasi Saya, Anda harus mengaktifkan sumber Lokasi di Pengaturan terlebih dulu.\nBuka Pengaturan dan aktifkan sekarang?</string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
 	<string name="ProviderDisabled">Penyedia lokasi Anda telah dinonaktifkan. Aktifkan kembali untuk melakukan pencarian berdasarkan lokasi Anda.</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
@@ -195,9 +197,9 @@
 	<!--  Widget Branding description -->
 	<string name="book_a_room_tonight">Pesan kamar malam ini.</string>
 	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">Tambah Widget Radar Hotel.</string>
+	<string name="widget_upsell_short_1">Tambahkan Widget Radar Hotel.</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">Dapatkan tawaran malam ini di dekat Anda!</string>
+	<string name="widget_upsell_short_2">Dapatkan tawaran untuk malam ini di dekat Anda!</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
@@ -233,17 +235,17 @@
 	<!-- Business center amenity -->
 	<string name="AmenityBusinessCenter">Pusat Bisnis</string>
 	<!-- Fitness center amenity -->
-	<string name="AmenityFitnessCenter">Tempat Fitnes</string>
+	<string name="AmenityFitnessCenter">Fitnes</string>
 	<!-- Hot tub on-site amenity -->
-	<string name="AmenityHotTub">Air Panas</string>
+	<string name="AmenityHotTub">Bak Air Panas</string>
 	<!-- Internet access amenity -->
 	<string name="AmenityInternet">Internet</string>
 	<!-- Kids' activities amenity -->
-	<string name="AmenityKidsActivities">Kegiatan untuk Anak</string>
+	<string name="AmenityKidsActivities">Kegiatan Anak</string>
 	<!-- Kitchen/kitchenette amenity -->
 	<string name="AmenityKitchen">Dapur</string>
 	<!-- Pets allowed amenity -->
-	<string name="AmenityPetsAllowed">Binatang Piaraan</string>
+	<string name="AmenityPetsAllowed">Binatang Peliharaan</string>
 	<!-- Pool amenity -->
 	<string name="AmenityPool">Kolam Renang</string>
 	<!-- Restaurant on-site amenity -->
@@ -283,7 +285,7 @@
 	<!-- Outdoor pool amenity -->
 	<string name="AmenityPoolOutdoor">Kolam Renang Luar Ruangan</string>
 	<!-- Extended parking amenity -->
-	<string name="AmenityExtendedParking">Parkir Luas</string>
+	<string name="AmenityExtendedParking">Tambahan Waktu Parkir</string>
 	<!-- Free parking amenity -->
 	<string name="AmenityFreeParking">Parkir Gratis</string>
 
@@ -291,7 +293,7 @@
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">Memuat ulasan pengguna...</string>
 	<!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">Ulasan dalam bahasa lain</string>
+	<string name="user_review_other_languages_title">Ulasan dalam bahasa lain</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">Terbaru</string>
 	<!-- The text for the sort button, recent -->
@@ -324,8 +326,8 @@
 	<string name="user_review_no_favorable_reviews">Tidak ada ulasan positif untuk hotel ini</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">Tidak ada ulasan terbaru untuk hotel ini</string>
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">Ulasan untuk sementara tidak tersedia</string>
+	<!-- User reviews server/parsing error -->
+	<string name="user_review_unavailable">Ulasan untuk sementara tidak tersedia</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -339,7 +341,7 @@
 	<!-- Loading message for rooms & rates -->
 	<string name="room_rates_loading">Mencari kamar yang tersedia...</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">Tidak dapat mengunduh informasi kamar &amp; tarif.  Periksa koneksi internet Anda dan coba lagi.</string>
+	<string name="error_no_response_room_rates">Tidak dapat mengunduh informasi kamar &amp; tarif.  Periksa koneksi Anda dan coba lagi.</string>
 	<!-- Rate price displayed "per night" -->
 	<string name="rate_per_night">per malam</string>
 	<!-- Rate price displayed "average per night" -->
@@ -359,9 +361,9 @@
 	<!-- Label for free nights -->
 	<string name="free">GRATIS!</string>
 	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-	<string name="value_add_template">Termasuk %s</string>
+	<string name="value_add_template">Mencakup %s</string>
 	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
-	<string name="common_value_add_template">Semua kamar termasuk %s</string>
+	<string name="common_value_add_template">Semua kamar mencakup %s</string>
 	<!--  Instruction as the header of the list to select a room from the list -->
 	<string name="select_a_room_instruction">Pilih Kamar</string>
 	
@@ -379,7 +381,7 @@
 	<!-- Error if we couldn't find the room type details -->
 	<string name="error_room_type_nonexistant">Maaf, kami tidak dapat menemukan detail tambahan mengenai kamar ini.</string>
 	<!-- Label for bed type -->
-	<string name="bed_type">Jenis Ranjang</string>
+	<string name="bed_type">Jenis Tempat Tidur</string>
 	<!-- Label for length of stay -->
 	<string name="stay_duration">Lama Menginap</string>
 	<!-- Quantity for the length of stay -->
@@ -416,9 +418,13 @@
 	<!-- The "postal code" booking info field.  -->
 	<string name="PostalCode">Kode Pos</string>
 	<!-- State code hint -->
-	<string name="hint_state_code">Prov.</string>
+	<string name="hint_state_code">Provinsi</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Info Kartu Kredit</string>
+	<!-- Label for credit card selection box -->
+	<string name="saved_cards">Kartu Tersimpan</string>
+	<!-- Label for entering new credit card information -->
+	<string name="enter_a_new_card">Masukkan kartu baru</string>
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">Nomor Kartu</string>
 	<!-- Card expiration month form field hint -->
@@ -434,7 +440,7 @@
 	<!-- Rules & restrictions section header -->
 	<string name="rules_restrictions">Aturan &amp; Pembatasan</string>
 	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">Jika Anda memiliki akun Expedia Rewards, lakukan pemesanan dengan alamat email yang sama dan poin akan dikirim secara otomatis setelah masa menginap Anda. Perhatikan bahwa kemungkinan perlu waktu hingga 30 hari untuk dapat melihat poin Anda.</string>
+	<string name="disclaimer_expedia_points">Jika Anda memiliki akun Expedia Rewards, lakukan pemesanan dengan alamat email yang sama dan poin akan dikirim secara otomatis setelah masa menginap Anda. Kemungkinan perlu waktu hingga 30 hari untuk dapat melihat poin Anda.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
 	<string name="EnterBookingInfo">Masukkan Info Pemesanan</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -472,7 +478,7 @@
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Kesalahan</string>
 	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">Tidak dapat terhubung ke server Expedia.  Periksa koneksi internet Anda dan coba lagi.</string>
+	<string name="error_booking_null">Tidak dapat terhubung ke server Expedia.  Periksa koneksi Anda dan coba lagi.</string>
 	<!-- Error message when booking completed with errors -->
 	<string name="error_booking_succeeded_with_errors">Kamar hotel Anda sudah dipesan dan disiapkan. Namun, terjadi kesalahan berikut: %s</string>
 	<!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -508,7 +514,7 @@
 	<!-- Label to start a new search from a confirmation screen  -->
 	<string name="start_new_search">Mulai Pencarian Baru</string>
 	<!-- Label to view hotel in google maps to get directions from a confirmation screen -->
-	<string name="show_on_map">Tampilkan dalam Peta</string>
+	<string name="show_on_map">Tampilkan di Peta</string>
 	
 	<!-- Rate template strings -->
 	<!-- Label for the number of guests the booking is for. -->
@@ -534,15 +540,15 @@
 	<!-- Policy displayed to user when the room is non-refundable -->
 	<string name="PolicyNonRefundable">Kami menawarkan tarif yang sangat rendah untuk properti ini. Karenanya, tarif ini tidak dapat dikembalikan. Jika Anda memutuskan untuk membatalkan reservasi ini, Anda tidak akan menerima pengembalian pembayaran.</string>
 	<!-- Policy displayed to user when a deposit is required -->
-	<string name="PolicyDepositRequired">Kartu kredit Anda akan dikenai deposit untuk reservasi Anda. Kartu kredit Anda akan dikenai deposit ini oleh hotel langsung saat reservasi dilakukan.</string>
+	<string name="PolicyDepositRequired">Kartu kredit Anda akan dikenai deposit untuk reservasi Anda. Kartu kredit Anda akan dikenai biaya langsung oleh hotel saat reservasi dilakukan.</string>
 	<!-- Policy displayed to user when a guarantee is required -->
-	<string name="PolicyGuaranteeRequired">Informasi kartu kredit diperlukan agar kami dapat menjamin reservasi Anda. Kartu kredit Anda tidak akan dikenai biaya sampai kedatangan Anda di hotel atau tenggat waktu pembatalan terlampaui.</string>
+	<string name="PolicyGuaranteeRequired">Informasi kartu kredit diperlukan agar kami dapat menjamin reservasi Anda. Kartu kredit Anda tidak akan dikenai biaya sampai Anda datang ke hotel atau tenggat waktu pembatalan terlampaui.</string>
 	<!-- Expedia merchant hotel policies -->
 	<string name="PolicyExpediaMerchant">Dengan melanjutkan proses reservasi ini, Anda berarti menyetujui semua syarat dan ketentuan, yang mencakup Kebijakan Pembatalan dan semua syarat dan ketentuan yang tercantum dalam Perjanjian Pengguna.\n\nAnda setuju untuk membayar biaya reservasi Anda. Jika Anda tidak membayar tagihan ini dan biaya ditagihkan melalui jasa agen penagihan, pengacara, atau melalui prosedur hukum lainnya, Anda menyetujui untuk membayar semua biaya atau pengeluaran yang wajar, termasuk biaya pengacara dan pengadilan, yang dikeluarkan terkait dengan upaya penagihan tersebut.</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">Anda memesan properti non-diskon. Semua tarif ditampilkan per malam, dan untuk digunakan oleh dua orang per kamar kecuali ditentukan lain. Tinjau deskripsi kamar dan aturan tarif secara saksama untuk memastikan kamar yang
+	<string name="PolicyExpediaAgent">Anda memesan properti non-diskon. Semua tarif ditampilkan per malam dan tiap kamar untuk digunakan oleh dua orang kecuali ditentukan lain. Tinjau deskripsi kamar dan aturan tarif secara saksama untuk memastikan kamar yang
 Anda pilih dapat mengakomodasi seluruh tamu. Beberapa tarif memerlukan identifikasi khusus. Tidak termasuk biaya pemesanan kami, pajak, dan biaya tambahan lainnya yang
-dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu yang ditentukan untuk kamar tersebut dapat dikenai biaya tambahan berdasarkan pertimbangan hotel.\n\nPermintaan untuk lebih dari 2 orang, atau lebih dari yang ditentukan oleh tarif yang Anda pilih, akan dikirim ke hotel tapi tidak dijamin. Jika diterima, pemesanan ini akan dikenai biaya tambahan berdasarkan pertimbangan hotel.</string>
+dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu yang ditentukan untuk kamar tersebut dapat dikenai biaya tambahan berdasarkan pertimbangan hotel.\n\nPermintaan untuk lebih dari 2 orang, atau lebih dari yang ditentukan oleh tarif yang Anda pilih, akan dikirim ke hotel tapi tidak dijamin. Jika diterima, pemesanan ini akan dikenai biaya tambahan berdasarkan kebijaksanaan hotel.</string>
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
@@ -552,7 +558,27 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 	<!-- Progress dialog text when we are logging the user into Expedia -->
 	<string name="logging_in">Sedang Masuk...</string>
 	<!-- Message that tells user they successfully logged in -->
-	<string name="login_success">Berhasil!  Anda sekarang sudah masuk.</string>
+	<string name="login_success">Berhasil! Anda sekarang sudah masuk.</string>
+	<!-- Label for login widget button -->
+	<string name="account_login">Masuk Akun</string>
+	<!-- Label for login widget additional text -->
+	<string name="log_in_for_faster_booking">Masuk untuk pemesanan lebih cepat.</string>
+	<!-- Label for account status -->
+	<string name="enrolled_in_expedia_rewards">Daftar Expedia Rewards\u2122</string>
+	<!-- Label for account name -->
+	<string name="logged_in_as">Masuk sebagai</string>
+	<!-- Label for account name -->
+    <string name="logged_in_as_template">Masuk sebagai &lt;b&gt;%s&lt;/b&gt;</string>
+	<!-- Label for signin screen -->
+	<string name="expedia_account">Akun Expedia</string>
+	<!-- Label for loading user profile from expedia.com -->
+	<string name="loading_expedia_account">Memuat Akun Expedia</string>
+    <!-- Label for password recovery -->
+	<string name="forgot_your_password">Lupa kata sandi Anda?</string>
+    <!-- Label applying a coupon -->
+	<string name="apply">Daftar</string>
+    <!-- Label for credit card selection -->
+	<string name="use_card">Gunakan kartu:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -582,7 +608,7 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 	<!-- Contact Expedia via email -->
 	<string name="contact_expedia_email">Email</string>
 	<!-- Contact Expedia via email subject -->
-	<string name="contact_expedia_email_subject">Layanan Reservasi Expedia</string>
+	<string name="contact_expedia_email_subject">Dukungan Reservasi Expedia</string>
 	<!-- Contact Expedia via website -->
 	<string name="contact_expedia_website">Situs Web</string>
 	<!-- Label for "Expedia website" button in info page -->
@@ -598,11 +624,11 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 	<!-- Extra description for "tell a friend" button, when space allows -->
 	<string name="tell_a_friend_description">Suka dengan tawaran hotel yang menakjubkan? Beri tahu teman Anda tentang aplikasi ini.</string>
 	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Travel smart</string>
+	<string name="travel_smart">Bepergian dengan pintar</string>
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Halo,\n\nSilakan coba Expedia Hotels untuk ponsel iPhone dan Android. Aplikasi ini GRATIS dan Anda dapat mencari sekaligus memesan kamar dengan mudah di lebih dari 130.000 hotel di seluruh dunia. Ini cara termudah untuk memesan kamar hotel dari ponsel Anda.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Halo,\n\nAyo coba Expedia Hotels untuk ponsel iPhone dan Android. Aplikasi ini GRATIS dan Anda dapat mencari sekaligus memesan kamar dengan mudah di lebih dari 130.000 hotel di seluruh dunia. Ini cara termudah untuk memesan kamar hotel dari ponsel Anda.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Syarat dan Ketentuan</string>
 	<!-- Label for link to privacy policy -->
@@ -624,7 +650,7 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">Apa yang bisa kami lakukan dengan lebih baik?</string>
 	<!-- Message displayed to users after they submit feedback -->
-	<string name="oosdk_thanks_txt">Terima kasih telah mengirimkan pendapat Anda. Kami sangat menghargai umpan balik pelanggan kami.</string>
+	<string name="oosdk_thanks_txt">Terima kasih telah mengirimkan pendapat Anda. Kami sangat menghargai masukan pelanggan kami.</string>
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
@@ -632,7 +658,7 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 	<!-- Title for point of sale setting -->
 	<string name="preference_point_of_sale_title">Negara</string>
 	<!-- Template for default point of sale -->
-	<string name="default_point_of_sale_template">Default (%s)</string>
+	<string name="default_point_of_sale_template">Standar (%s)</string>
 
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
@@ -686,7 +712,7 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 
 	<!-- Preferences strings -->
 	<!-- String for default preference setting (for any given preference) -->
-	<string name="Default">Default</string>
+	<string name="Default">Standar</string>
 	
 	<!-- Error strings - replacements for default EAN errors -->
 	<!-- Replaces "result was null" for no result search -->
