@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -250,7 +251,12 @@ public class BookingFormFragment extends DialogFragment {
 
 		// Retrieve some data we keep using
 		Resources r = getResources();
-		mCountryCodes = r.getStringArray(R.array.country_codes);
+		String[] twoLetterCountryCodes = r.getStringArray(R.array.country_codes);
+		String[] threeLetterCountryCodes = new String[twoLetterCountryCodes.length];
+		for (int i = 0; i < twoLetterCountryCodes.length; i++){
+			threeLetterCountryCodes[i] = LocaleUtils.convertCountryCode(twoLetterCountryCodes[i]);
+		}
+		mCountryCodes = threeLetterCountryCodes;
 		configureForm();
 
 		TextView loginButton = (TextView) mLoginContainer.findViewById(R.id.expedia_login_textview);
@@ -434,7 +440,7 @@ public class BookingFormFragment extends DialogFragment {
 		mCountrySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				// Adjust the postal code textview.  Do this regardless of how the country spinner changed selection
-				if (mCountryCodes[mCountrySpinner.getSelectedItemPosition()].equals("US")) {
+				if (mCountryCodes[mCountrySpinner.getSelectedItemPosition()].equals("USA")) {
 					mPostalCodeEditText.setInputType(InputType.TYPE_CLASS_NUMBER
 							| InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
 				}

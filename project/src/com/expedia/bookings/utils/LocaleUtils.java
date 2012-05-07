@@ -304,13 +304,28 @@ public class LocaleUtils {
 
 	private static void ensurePOSCountryCodesCacheFilled(Context context) {
 		if (sPOSCountryCodes == null) {
-			sPOSCountryCodes = ResourceUtils.getStringMap(context, R.array.pos_country_code_map);
+			Map<String, String> badCountryCodes = ResourceUtils.getStringMap(context, R.array.pos_country_code_map);
+			Map<String, String> countryMaps = new HashMap<String,String>();
+			for (Map.Entry<String, String> e : badCountryCodes.entrySet()) {
+				countryMaps.put(e.getKey(), convertCountryCode(e.getValue()));
+			}
+			sPOSCountryCodes = countryMaps;
 		}
 	}
 
 	private static void ensurePOSDefaultLocalesCacheFilled(Context context) {
 		if (sPOSDefaultLocales == null) {
 			sPOSDefaultLocales = ResourceUtils.getStringMap(context, R.array.pos_default_locale);
+		}
+	}
+
+	public static String convertCountryCode(String ccode) {
+		if (ccode == null || ccode.length() > 2) {
+			return ccode;
+		}
+		else {
+			Locale loc = new Locale("", ccode);
+			return loc.getISO3Country();
 		}
 	}
 }
