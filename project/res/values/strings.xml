@@ -9,6 +9,10 @@
 	<string name="multiple_airlines">Multiple Airlines</string>
 	<!-- Indicates how long a layover is.  %s is an amount of time, e.g. "3h 33m layover" -->
 	<string name="layover_template">&lt;b&gt;%s&lt;/b&gt; Layover</string>
+	<!-- Hint in edit text that indicates one should enter a departure airport -->
+	<string name="hint_departure_airport">Departure Airport</string>
+	<!-- Hint in edit text that indicates one should enter an arrival airport -->
+	<string name="hint_arrival_airport">Arrival Airport</string>
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->

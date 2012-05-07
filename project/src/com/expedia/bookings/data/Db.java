@@ -84,6 +84,9 @@ public class Db {
 	// The currently logged in User profile
 	private User mUser;
 
+	// Flight search params
+	private FlightSearchParams mFlightSearchParams = new FlightSearchParams();
+
 	// Flight search responses
 	private FlightSearchResponse mFlightSearchResponse;
 
@@ -283,6 +286,10 @@ public class Db {
 
 	public static User getUser() {
 		return sDb.mUser;
+	}
+
+	public static FlightSearchParams getFlightSearchParams() {
+		return sDb.mFlightSearchParams;
 	}
 
 	public static void setFlightSearchResponse(FlightSearchResponse flightSearchResponse) {

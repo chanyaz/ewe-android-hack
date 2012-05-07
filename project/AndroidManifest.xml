@@ -100,7 +100,7 @@
 
         <activity android:name=".activity.FlightSearchActivity"
             android:label="Expedia Flights"
-            android:theme="@android:style/Theme.Holo.Light" >
+            android:theme="@style/FlightTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
