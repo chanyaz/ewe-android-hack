@@ -81,6 +81,8 @@ public class ExpediaServices implements DownloadListener {
 
 	public static final int HOTEL_MAX_RESULTS = 200;
 
+	private static final String COOKIES_FILE = "cookies.dat";
+
 	public enum ReviewSort {
 		NEWEST_REVIEW_FIRST("NewestReviewFirst"), HIGHEST_RATING_FIRST("HighestRatingFirst"), LOWEST_RATING_FIRST(
 				"LowestRatingFirst");
@@ -283,14 +285,14 @@ public class ExpediaServices implements DownloadListener {
 	public void signOut() {
 		PersistantCookieStore cookieStore = new PersistantCookieStore();
 		cookieStore.clear();
-		cookieStore.save(mContext, mContext.getString(R.string.COOKIES_FILE));
+		cookieStore.save(mContext, COOKIES_FILE);
 		return;
 	}
 
 	// Peeks into the cookie store to see if we have the cookie indicating a user is logged in
 	public boolean isLoggedIn() {
 		PersistantCookieStore cookieStore = new PersistantCookieStore();
-		cookieStore.load(mContext, mContext.getString(R.string.COOKIES_FILE));
+		cookieStore.load(mContext, COOKIES_FILE);
 		List<Cookie> cookies = cookieStore.getCookies();
 		for (Cookie c : cookies) {
 			if (c.getDomain().equals(".expedia.com") && c.getName().equals("s1")) {
@@ -451,7 +453,7 @@ public class ExpediaServices implements DownloadListener {
 
 		// TODO: Find some way to keep this easily in memory so we're not saving/loading after each request.
 		PersistantCookieStore cookieStore = new PersistantCookieStore();
-		cookieStore.load(mContext, mContext.getString(R.string.COOKIES_FILE));
+		cookieStore.load(mContext, COOKIES_FILE);
 		HttpContext httpContext = new BasicHttpContext();
 		httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
 		httpContext.setAttribute(ClientContext.COOKIE_SPEC, new NetscapeDraftSpec());
@@ -495,7 +497,7 @@ public class ExpediaServices implements DownloadListener {
 			client.close();
 			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
 
-			cookieStore.save(mContext, mContext.getString(R.string.COOKIES_FILE));
+			cookieStore.save(mContext, COOKIES_FILE);
 		}
 
 		return null;
