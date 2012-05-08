@@ -53,7 +53,7 @@
             android:nextFocusUp="@+id/address2_edit_text"
             android:textColorHint="@color/hint_color" />
 
-        <com.expedia.bookings.widget.CustomEditText
+        <EditText
             android:id="@+id/state_edit_text"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
