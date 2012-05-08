@@ -64,7 +64,7 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; to &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; &lt;b&gt;%2$s&lt;/b&gt; tot &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
 		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotels</item>
