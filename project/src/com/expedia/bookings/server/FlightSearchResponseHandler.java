@@ -41,17 +41,13 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		}
 		else {
 			// Parse as a matrix response
-			List<FlightLeg> inboundLegs = parseLegs(response.optJSONArray("inboundLegs"));
-			List<FlightLeg> outboundLegs = parseLegs(response.optJSONArray("outboundLegs"));
+			List<FlightLeg> legs = parseLegs(response.optJSONArray("legs"));
 
-			for (FlightLeg leg : inboundLegs) {
-				mLegs.put(leg.getLegId(), leg);
-			}
-			for (FlightLeg leg : outboundLegs) {
+			for (FlightLeg leg : legs) {
 				mLegs.put(leg.getLegId(), leg);
 			}
 
-			parsePricingInfoArray(response.optJSONArray("pricingInformation"));
+			parsePricingInfoArray(response.optJSONArray("offers"));
 		}
 
 		return mResponse;
@@ -149,20 +145,19 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			trip.setFees(ParserUtils.createMoney(tripJson.optDouble("fees"), currencyCode));
 		}
 
-		// If we're parsing as a matrix response, get the inbound/outbound legs
-		if (mLegs.size() > 0) {
-			trip.addLeg(getLeg(tripJson.optString("inboundLegId")));
-			trip.addLeg(getLeg(tripJson.optString("outboundLegId")));
+		// If we're parsing as a matrix response, get the legs
+		if (tripJson.has("legIds")) {
+			JSONArray legsJson = tripJson.optJSONArray("legIds");
+			for (int a = 0; a < legsJson.length(); a++) {
+				trip.addLeg(getLeg(legsJson.optString(a)));
+			}
 		}
 
 		return trip;
 	}
 
 	private FlightLeg getLeg(String legId) {
-		// return mLegs.get(legId);
-
-		// TODO: Implement without random once we have leg ids that match up 
-		return getRandomLeg();
+		return mLegs.get(legId);
 	}
 
 	// FOR TESTING PURPOSES ONLY
