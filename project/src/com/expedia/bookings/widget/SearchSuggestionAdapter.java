@@ -3,10 +3,10 @@ package com.expedia.bookings.widget;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +18,7 @@ public class SearchSuggestionAdapter extends CursorAdapter {
 	private String mCurrentLocationString;
 
 	public SearchSuggestionAdapter(Context context) {
-		super(context, null);
+		super(context, null, 0);
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mCurrentLocationString = context.getResources().getString(R.string.current_location);
 	}
