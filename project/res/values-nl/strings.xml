@@ -520,7 +520,7 @@
 	<!-- Label for the number of guests the booking is for. -->
 	<string name="GuestsLabel">Gasten</string>
 	<!-- Label for the taxes & fees for this booking. -->
-	<string name="TaxesAndFees">Bekijk op de kaart</string>
+	<string name="TaxesAndFees">Bekasrubfeb &amp; toeslagen</string>
 	<!-- Label for the "Mandatory Fees" (bait & switch fees) -->
 	<string name="MandatoryFees">Hoteltoeslagen (te betalen aan het hotel)</string>
 	<!-- Label for the rate per room per night. -->
