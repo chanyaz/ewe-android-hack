@@ -85,14 +85,6 @@ public class BookingFormFragment extends DialogFragment {
 		return dialog;
 	}
 
-	// To track what state the UI should be in
-	public enum BookingMode {
-		LOCAL_USER,
-		NORMAL_USER,
-		REWARDS_USER,
-		LOADING_USER
-	};
-
 	private static String GUESTS_EXPANDED = "GUESTS_EXPANDED";
 	private static String BILLING_EXPANDED = "BILLING_EXPANDED";
 	private static String RULES_RESTRICTIONS_CHECKED = "RULES_RESTRICTIONS_CHECKED";
@@ -163,8 +155,6 @@ public class BookingFormFragment extends DialogFragment {
 	private Activity mActivity;
 
 	private boolean mUserProfileIsFresh = false;
-
-	private BookingMode mUserMode = BookingMode.LOCAL_USER;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -254,16 +244,8 @@ public class BookingFormFragment extends DialogFragment {
 
 		// Figure out if we are logged in
 		if (ExpediaServices.isLoggedIn((Context) mActivity)) {
-			mUserMode = BookingMode.LOADING_USER; // Just so we don't do LOCAL_USER stuff by mistake
 			if (savedInstanceState != null && savedInstanceState.getBoolean(USER_PROFILE_IS_FRESH)) {
 				mUserProfileIsFresh = true;
-				User u = Db.getUser();
-				if (u.getLoyaltyMembershipNumber() != null) {
-					mUserMode = BookingMode.REWARDS_USER;
-				}
-				else {
-					mUserMode = BookingMode.NORMAL_USER;
-				}
 				mAccountButton.update(false);
 				syncFormFieldsFromBillingInfo(view);
 			}
@@ -280,7 +262,6 @@ public class BookingFormFragment extends DialogFragment {
 			}
 		}
 		else {
-			mUserMode = BookingMode.LOCAL_USER;
 			mAccountButton.update(false);
 
 			if (Db.getBillingInfo().doesExistOnDisk()) {
@@ -374,7 +355,7 @@ public class BookingFormFragment extends DialogFragment {
 	public void onResume() {
 		super.onResume();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (! mUserProfileIsFresh) {
+		if (! mUserProfileIsFresh && bd.isDownloading(KEY_SIGNIN)) {
 			bd.registerDownloadCallback(KEY_SIGNIN, mLoginCallback);
 		}
 	}
@@ -565,7 +546,8 @@ public class BookingFormFragment extends DialogFragment {
 		TextViewValidator requiredFieldValidator = new TextViewValidator();
 		Validator<TextView> usValidator = new Validator<TextView>() {
 			public int validate(TextView obj) {
-				if (Db.getBillingInfo().getLocation().getCountryCode().equals("US")) {
+				BillingInfo info = Db.getBillingInfo();
+				if (info != null && info.getLocation() != null && info.getLocation().getCountryCode().equals("USA")) {
 					return RequiredValidator.getInstance().validate(obj.getText());
 				}
 				return 0;
@@ -920,14 +902,11 @@ public class BookingFormFragment extends DialogFragment {
 	 */
 	private void syncFormFieldsFromBillingInfo(View view) {
 		BillingInfo billingInfo;
-		if (mUserMode == BookingMode.LOCAL_USER) {
-			billingInfo = Db.getBillingInfo();
-		}
-		else if (mUserMode == BookingMode.LOADING_USER) {
-			billingInfo = Db.getBillingInfo();
+		if (mUserProfileIsFresh) {
+			billingInfo = Db.getUser().toBillingInfo();
 		}
 		else {
-			billingInfo = Db.getUser().toBillingInfo();
+			billingInfo = Db.getBillingInfo();
 		}
 
 		// Sync the saved guest fields
@@ -1019,7 +998,7 @@ public class BookingFormFragment extends DialogFragment {
 		// Gather all the data to be saved
 		syncBillingInfo();
 
-		if (mUserMode == BookingMode.LOCAL_USER) {
+		if (! ExpediaServices.isLoggedIn((Context) mActivity)) {
 			// Save the hashed email, just for tracking purposes
 			TrackingUtils.saveEmailForTracking(getActivity(), Db.getBillingInfo().getEmail());
 
@@ -1087,17 +1066,11 @@ public class BookingFormFragment extends DialogFragment {
 				// TODO: error
 			}
 			else {
-				Db.setUser(response.getUser());
 				mUserProfileIsFresh = true;
-				User u = Db.getUser();
-				if (u.getLoyaltyMembershipNumber() != null) {
-					mUserMode = BookingMode.REWARDS_USER;
-				}
-				else {
-					mUserMode = BookingMode.NORMAL_USER;
-				}
+				Db.setUser(response.getUser());
 				mAccountButton.update(false);
 				syncFormFieldsFromBillingInfo(mRootBillingView);
+				syncBillingInfo();
 			}
 		}
 	};
@@ -1108,28 +1081,23 @@ public class BookingFormFragment extends DialogFragment {
 		}
 
 		public void accountLogoutClicked() {
+			mUserProfileIsFresh = false;
 			ExpediaServices services = new ExpediaServices((Context) mActivity);
 			services.signOut();
 			mAccountButton.update(false);
 			Db.resetBillingInfo();
-			syncFormFieldsFromBillingInfo(mRootBillingView);
-			expandGuestsForm(false);
-			expandBillingForm(false);
+			Db.getBillingInfo().save(getActivity());
+			clearBillingInfo();
 		}
 	};
 
 	public void loginCompleted() {
-		User u = Db.getUser();
-		if (u.getLoyaltyMembershipNumber() == null) {
-			mUserMode = BookingMode.NORMAL_USER;
-		}
-		else {
-			mUserMode = BookingMode.REWARDS_USER;
-		}
+		mUserProfileIsFresh = true;
 		mAccountButton.update(false);
 		collapseGuestsForm();
 		collapseBillingForm();
 		syncFormFieldsFromBillingInfo(mRootBillingView);
+		syncBillingInfo();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

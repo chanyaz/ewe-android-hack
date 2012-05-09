@@ -10,7 +10,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.fragment.BookingFormFragment.BookingMode;
 
 public class AccountButton {
 	private Context mContext;
