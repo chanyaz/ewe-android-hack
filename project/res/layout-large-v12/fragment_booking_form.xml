@@ -117,29 +117,10 @@
 
                     <!-- Login Section -->
                     <include
-                        android:id="@+id/account_loading_container"
-                        android:layout_width="fill_parent"
+                        android:id="@+id/account_button_root"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        layout="@layout/include_account_loading" />
-                    <include
-                        android:id="@+id/account_login_container"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        layout="@layout/include_account_login_container" />
-                    <include
-                        android:id="@+id/account_normal_logout_container"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        layout="@layout/include_account_normal_logout_container" />
-                    <include
-                        android:id="@+id/account_rewards_logout_container"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        layout="@layout/include_account_rewards_logout_container" />
+                        layout="@layout/include_account_button" />
 
                     <!-- Guest info section -->
 
