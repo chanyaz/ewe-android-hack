@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:id="@+id/credit_card_security_code_container"
+    style="@style/BookingSection"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="2dp"
+    android:paddingLeft="6dp"
+    android:paddingTop="5dp" >
+
+    <ImageView
+        android:id="@+id/credit_card_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_cc_unknown" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="6dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/security_code"
+            android:textColor="#545454"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/security_code_tip_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/security_code_tip_back"
+            android:textColor="#545454"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <com.expedia.bookings.widget.CustomEditText
+        android:id="@+id/security_code_edit_text"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:imeOptions="flagNoExtractUi"
+        android:inputType="number"
+        android:maxLength="4"
+        android:nextFocusLeft="@+id/expiration_year_edit_text"
+        android:nextFocusUp="@+id/expiration_year_edit_text"
+        mobiata:errorTextColor="@android:color/black" />
+</LinearLayout>

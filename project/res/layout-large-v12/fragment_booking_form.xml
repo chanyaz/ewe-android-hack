@@ -156,6 +156,7 @@
                         android:text="@string/credit_card_info" />
 
                     <include layout="@layout/include_credit_card_info" />
+                    <include layout="@layout/include_credit_card_security" />
 
                     <!-- Billing info form fields -->
 
@@ -165,14 +166,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/billing_info" />
 
-                    <!-- Billing form fields (from saved data) -->
-
-                    <include layout="@layout/include_billing_info_fields" />
-
-                    <!-- Billing form fields (entering data) -->
-
                     <include layout="@layout/include_saved_billing_info" />
-
+                    <include layout="@layout/include_billing_info_fields" />
 
                     <!-- Terms and conditions -->
 
