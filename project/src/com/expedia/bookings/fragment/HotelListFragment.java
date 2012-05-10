@@ -23,7 +23,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.widget.HotelAdapter;
-import com.expedia.bookings.widget.ListViewScrollBar;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -52,7 +51,6 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	private ViewGroup mHeaderLayout;
 	private TextView mNumHotelsTextView;
 	private TextView mSortTypeTextView;
-	private ListViewScrollBar mScrollBar;
 	private TextView mBookingInfoHeader;
 
 	private PlaceholderTagProgressBar mSearchProgressBar;
@@ -100,7 +98,6 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		mHeaderLayout = (ViewGroup) view.findViewById(R.id.header_layout);
 		mNumHotelsTextView = (TextView) view.findViewById(R.id.num_hotels_text_view);
 		mSortTypeTextView = (TextView) view.findViewById(R.id.sort_type_text_view);
-		mScrollBar = Ui.findView(view, R.id.scroll_bar);
 
 		ViewGroup placeholderContainer = (ViewGroup) view.findViewById(R.id.placeholder_container);
 		ProgressBar placeholderProgressBar = (ProgressBar) view.findViewById(R.id.placeholder_progress_bar);
@@ -117,17 +114,12 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		// Configure ListView
 		ListView listView = Ui.findView(view, android.R.id.list);
 		listView.setOnScrollListener(this);
-		mScrollBar.setListView(listView);
-		mScrollBar.setOnScrollListener(this);
 
 		// Disable highlighting if we're on phone UI
 		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(getActivity()));
 
-		// Configure the phone vs. ui different
-		if (AndroidUtils.isHoneycombTablet(getActivity())) {
-			mScrollBar.setVisibility(View.GONE);
-		}
-		else {
+		// Configure the phone vs. tablet ui different
+		if (!AndroidUtils.isHoneycombTablet(getActivity())) {
 			mSearchProgressBar.setVisibility(View.GONE);
 
 			Ui.findView(view, R.id.no_filter_results_text_view).setVisibility(View.VISIBLE);
@@ -260,7 +252,6 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	private void updateSearchResults() {
 		SearchResponse response = Db.getSearchResponse();
 		mAdapter.setSearchResponse(response);
-		mScrollBar.setSearchResponse(response);
 
 		// In case there is a currently selected property, select it on the screen.
 		mAdapter.setSelectedPosition(getPositionOfProperty(Db.getSelectedProperty()));

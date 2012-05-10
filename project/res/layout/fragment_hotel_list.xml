@@ -63,18 +63,6 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_below="@+id/header_layout" />
 
-    <com.expedia.bookings.widget.ListViewScrollBar
-        android:id="@+id/scroll_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignBottom="@android:id/list"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@android:id/list"
-        android:paddingBottom="5dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="6dp"
-        android:paddingTop="5dp" />
-
     <LinearLayout
         android:id="@android:id/empty"
         android:layout_width="fill_parent"
