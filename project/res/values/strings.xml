@@ -103,6 +103,8 @@
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; Results</item>
 		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; Results</item>
 	</plurals>
+	<!-- Expedia Deal for a given property, Mobile exclusive -->
+	<string name="mobile_exclusive">Mobile Exclusive!</string>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
 	<string name="EnableLocationSettings">To use My Location, you must first turn on a Location source in Settings.\nGo to Settings and turn it on now?</string>
@@ -166,7 +168,7 @@
 	<!-- Label shown when a hotel has no user ratings -->
 	<string name="not_rated">Not Rated</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-	<string name="percent_off_template">%2.0f%% OFF</string>
+	<string name="percent_off_template">-%2.0f%%</string>
 
 	<!-- Filter results action bar label -->
 	<string name="filter_results">Filter Results</string>
@@ -697,6 +699,10 @@
 	<string name="unit_miles">mi</string>
 	<!-- Abbreviated kilometers (used in distance_template) -->
 	<string name="unit_kilometers">km</string>
+	<!-- Miles (used in distance_template) -->
+	<string name="unit_miles_full">miles</string>
+	<!-- Kilometers (used in distance template) -->
+	<string name="unit_kilometers_full">kilometers</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
 	<string name="distance_template">%1$s %2$s away</string>
 	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->

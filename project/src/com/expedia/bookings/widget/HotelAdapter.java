@@ -7,13 +7,13 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.text.Html;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -26,11 +26,9 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
-import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 
@@ -55,7 +53,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private DistanceUnit mDistanceUnit;
 
-	private float mSaleTextSize;
 	private float mPriceTextSize;
 
 	private int mSelectedPosition = -1;
@@ -66,8 +63,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	public HotelAdapter(Context context) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		mSaleTextSize = LayoutUtils.getSaleTextSize(context);
 
 		// Use a condensed rows if the screen width is not large enough
 		Configuration config = context.getResources().getConfiguration();
@@ -211,15 +206,13 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder = new HotelViewHolder();
 			holder.thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail_image_view);
 			holder.name = (TextView) convertView.findViewById(R.id.name_text_view);
-			holder.from = (TextView) convertView.findViewById(R.id.from_text_view);
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
-			holder.perNight = (TextView) convertView.findViewById(R.id.per_night_text_view);
+			holder.saleContainer = (FrameLayout) convertView.findViewById(R.id.sale_container);
 			holder.saleText = (TextView) convertView.findViewById(R.id.sale_text_view);
 			holder.userRating = (RatingBar) convertView.findViewById(R.id.user_rating_bar);
 			holder.notRatedText = (TextView) convertView.findViewById(R.id.not_rated_text_view);
 			holder.distance = (TextView) convertView.findViewById(R.id.distance_text_view);
-
-			holder.saleText.setTextSize(mSaleTextSize);
+			holder.deal = (TextView) convertView.findViewById(R.id.deal_text_view);
 
 			convertView.setTag(holder);
 		}
@@ -237,34 +230,36 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		// We assume we have a lowest rate here; this may not be a safe assumption
 		Rate lowestRate = property.getLowestRate();
+
+		// TODO: REMOVE ONCE DONE TESTING
+		if (position % 13 == 0) {
+			lowestRate.setMobileExlusivity(true);
+		}
+
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.isOnSale()) {
-			holder.from.setText(Html.fromHtml(
-					mContext.getString(R.string.from_template,
-							StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
-					new StrikethroughTagHandler()));
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
-			holder.saleText.setVisibility(View.VISIBLE);
+			holder.saleContainer.setVisibility(View.VISIBLE);
 			if (!mUseCondensedRows || !ExpediaBookingApp.useTabletInterface(mContext)) {
 				holder.saleText.setText(mContext.getString(R.string.percent_off_template,
 						lowestRate.getSavingsPercent() * 100));
 			}
 		}
 		else {
-			holder.from.setText(R.string.from);
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_text_color));
-			holder.saleText.setVisibility(View.GONE);
+			holder.saleContainer.setVisibility(View.GONE);
+		}
+
+		if (lowestRate.isMobileExclusive()) {
+			holder.deal.setText(mContext.getString(R.string.mobile_exclusive));
+			holder.deal.setVisibility(View.VISIBLE);
+		}
+		else {
+			holder.deal.setVisibility(View.GONE);
 		}
 
 		holder.price.setTextSize(mPriceTextSize);
 		holder.price.setText(StrUtils.formatHotelPrice(lowestRate.getDisplayRate()));
-
-		if (lowestRate.showInclusivePrices()) {
-			holder.perNight.setVisibility(View.GONE);
-		}
-		else {
-			holder.perNight.setVisibility(View.VISIBLE);
-		}
 
 		holder.userRating.setRating((float) property.getAverageExpediaRating());
 		if (holder.userRating.getRating() == 0) {
@@ -276,8 +271,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.notRatedText.setVisibility(View.GONE);
 		}
 
-		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit,
-				mUseCondensedRows));
+		// send true so as to use the "abbreviated" version, which has now become standard in 1.5
+		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit, true));
 		holder.distance.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
 
 		// See if there's a first image; if there is, use that as the thumbnail
@@ -323,13 +318,13 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private static class HotelViewHolder {
 		public ImageView thumbnail;
 		public TextView name;
-		public TextView from;
 		public TextView price;
-		public TextView perNight;
+		public FrameLayout saleContainer;
 		public TextView saleText;
 		public RatingBar userRating;
 		public TextView notRatedText;
 		public TextView distance;
+		public TextView deal;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

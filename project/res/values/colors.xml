@@ -34,6 +34,8 @@
 	<color name="widget_message_text_color">#214461</color>
 	<color name="widget_text_color">#3d4552</color>
 
+	<color name="hotel_cell_primary_color">#3D4552</color>
+	<color name="hotel_cell_secondary_color">#a6a6a6</color>
 	<color name="hotel_price_text_color">#064192</color>
 	<color name="hotel_price_sale_text_color">#a63030</color>
 
