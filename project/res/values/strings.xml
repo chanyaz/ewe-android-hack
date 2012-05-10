@@ -13,6 +13,10 @@
 	<string name="hint_departure_airport">Departure Airport</string>
 	<!-- Hint in edit text that indicates one should enter an arrival airport -->
 	<string name="hint_arrival_airport">Arrival Airport</string>
+	<!-- Departure date button label.  %s is the date (e.g. "Departs 5/2/2012") -->
+	<string name="departs_TEMPLATE">Departs %s</string>
+	<!-- Return date button label. %s is the date (e.g. "Returns 5/10/2012") -->
+	<string name="returns_TEMPLATE">Returns %s</string>
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->

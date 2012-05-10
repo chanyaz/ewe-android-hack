@@ -44,6 +44,26 @@
                 android:hint="@string/hint_arrival_airport"
                 android:singleLine="true" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/departure_date_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true" />
+
+            <Button
+                android:id="@+id/arrival_date_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true" />
+        </LinearLayout>
     </LinearLayout>
 
     <!-- Content frame -->

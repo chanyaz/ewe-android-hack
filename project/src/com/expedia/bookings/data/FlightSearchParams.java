@@ -1,7 +1,6 @@
 package com.expedia.bookings.data;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,10 +9,20 @@ import com.mobiata.android.json.JSONable;
 
 public class FlightSearchParams implements JSONable {
 
-	private Calendar mDepartureDate = new GregorianCalendar(2012, 8, 15);
-	private Calendar mReturnDate = new GregorianCalendar(2012, 8, 20);
+	private Calendar mDepartureDate;
+	private Calendar mReturnDate;
 	private String mDepartureAirportCode;
 	private String mArrivalAirportCode;
+
+	public FlightSearchParams() {
+		reset();
+	}
+
+	public void reset() {
+		mDepartureDate = Calendar.getInstance();
+		mReturnDate = Calendar.getInstance();
+		mReturnDate.add(Calendar.DAY_OF_YEAR, 5);
+	}
 
 	public Calendar getDepartureDate() {
 		return mDepartureDate;
