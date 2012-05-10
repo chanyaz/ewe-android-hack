@@ -73,6 +73,8 @@
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; matching hotels</item>
 		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; matching hotels</item>
 	</plurals>
+	<!-- Search header, Example: "42 Hotels Found" -->
+	<string name="search_header_num_hotels">%d Hotels Found</string>
 	<!-- Hint for filtering results by hotel name -->
 	<string name="filter_hotel_name_hint">Filter by hotel name</string>
 	<!-- Label indicating that there are no results matching their current filter -->
