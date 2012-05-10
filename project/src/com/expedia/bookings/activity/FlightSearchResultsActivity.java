@@ -1,8 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -27,12 +24,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 
 	private FlightAdapter mAdapter;
 
-	// Search parameters
-	// CURRENTLY FILLED WIH TEST PARAMS
-	private Calendar mDepartureDate = new GregorianCalendar(2012, 8, 15);
-	private Calendar mReturnDate = new GregorianCalendar(2012, 8, 20);
-	private String mDepartureAirportCode = "MSP";
-	private String mArrivalAirportCode = "SFO";
+	// Current leg being displayed
 	private int mLegPosition = 0;
 
 	@Override
@@ -55,12 +47,10 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			}
 			else {
 				Download download = new Download() {
-
 					@Override
 					public Object doDownload() {
 						ExpediaServices services = new ExpediaServices(FlightSearchResultsActivity.this);
-						return services.flightSearch(mDepartureDate, mReturnDate, mDepartureAirportCode,
-								mArrivalAirportCode, 0);
+						return services.flightSearch(Db.getFlightSearchParams(), 0);
 					}
 				};
 

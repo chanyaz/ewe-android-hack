@@ -14,7 +14,6 @@ import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,6 +50,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
@@ -158,18 +158,23 @@ public class ExpediaServices implements DownloadListener {
 
 	private static final String FLIGHTS_BASE_URL = "http://www.expedia.com.trunk.sb.karmalab.net/api/flight/search";
 
-	public FlightSearchResponse flightSearch(Calendar departureDate, Calendar returnDate, String departureAirportCode,
-			String arrivalAirportCode, int flags) {
+	public FlightSearchResponse flightSearch(FlightSearchParams params, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
-		query.add(new BasicNameValuePair("departureDate", df.format(departureDate.getTime())));
-		query.add(new BasicNameValuePair("returnDate", df.format(returnDate.getTime())));
+		query.add(new BasicNameValuePair("departureDate", df.format(params.getDepartureDate().getTime())));
+		query.add(new BasicNameValuePair("returnDate", df.format(params.getReturnDate().getTime())));
 
-		query.add(new BasicNameValuePair("departureAirport", departureAirportCode));
-		query.add(new BasicNameValuePair("arrivalAirport", arrivalAirportCode));
+		query.add(new BasicNameValuePair("departureAirport", params.getDepartureAirportCode()));
+		query.add(new BasicNameValuePair("arrivalAirport", params.getArrivalAirportCode()));
+
+		query.add(new BasicNameValuePair("matrix", "true"));
 
 		HttpGet get = NetUtils.createHttpGet(FLIGHTS_BASE_URL, query);
+
+		// Some logging before passing the request along
+		Log.d("Request: " + FLIGHTS_BASE_URL + "?" + NetUtils.getParamsForLogging(query));
+
 		return (FlightSearchResponse) doRequest(get, new FlightSearchResponseHandler(), flags);
 	}
 
