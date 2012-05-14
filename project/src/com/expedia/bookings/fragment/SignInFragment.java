@@ -19,6 +19,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.util.DialogUtils;
 
 public class SignInFragment extends DialogFragment {
 	private static final String KEY_SIGNIN = "KEY_SIGNIN";
@@ -97,6 +98,11 @@ public class SignInFragment extends DialogFragment {
 	private final OnDownloadComplete<SignInResponse> mLoginCallback = new OnDownloadComplete<SignInResponse>() {
 		@Override
 		public void onDownload(SignInResponse response) {
+			if (response != null && response.hasErrors()) {
+				Dialog d = DialogUtils.createSimpleDialog(getActivity(), 0, mContext.getString(R.string.error_booking_title), response.getErrors().get(0).getPresentableMessage(mContext));
+				d.show();
+			}
+
 			if (response == null || response.hasErrors()) {
 				((SignInFragmentListener) getActivity()).onLoginFailed();
 			}
