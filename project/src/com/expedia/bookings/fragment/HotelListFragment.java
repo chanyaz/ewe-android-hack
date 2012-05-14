@@ -74,7 +74,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		super.onCreate(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			mStatus = savedInstanceState.getString(INSTANCE_STATUS, null);
+			mStatus = savedInstanceState.getString(INSTANCE_STATUS);
 			mShowDistances = savedInstanceState.getBoolean(INSTANCE_SHOW_DISTANCES);
 		}
 
