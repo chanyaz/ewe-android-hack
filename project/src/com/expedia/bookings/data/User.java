@@ -52,6 +52,14 @@ public class User implements JSONable {
 		return mLoyaltyMembershipNumber;
 	}
 
+	public boolean hasStoredCreditCards() {
+		return mStoredCreditCards.size() > 0;
+	}
+
+	public List<StoredCreditCard> getStoredCreditCards() {
+		return mStoredCreditCards;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Dump out a BillingInfo object for use on the booking screen
 
@@ -109,8 +117,8 @@ public class User implements JSONable {
 		mLastName = obj.optString("lastName", null);
 
 		JSONArray phoneNumbers = obj.optJSONArray("phoneNumbers");
+		mPhoneNumbers = new ArrayList<Phone>();
 		if (phoneNumbers != null) {
-			mPhoneNumbers = new ArrayList<Phone>();
 			for (int i = 0; i < phoneNumbers.length(); i++) {
 				try {
 					Phone p = new Phone(phoneNumbers.getJSONObject(i));
@@ -123,8 +131,8 @@ public class User implements JSONable {
 		}
 
 		JSONArray creditCards = obj.optJSONArray("storedCreditCards");
+		mStoredCreditCards = new ArrayList<StoredCreditCard>();
 		if (creditCards != null) {
-			mStoredCreditCards = new ArrayList<StoredCreditCard>();
 			for (int i = 0; i < creditCards.length(); i++) {
 				try {
 					StoredCreditCard c = new StoredCreditCard(creditCards.getJSONObject(i));

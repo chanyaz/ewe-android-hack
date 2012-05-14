@@ -34,6 +34,7 @@ public class BillingInfo implements JSONable {
 	private String mNumber;
 	private String mSecurityCode;
 	private Calendar mExpirationDate;
+	private StoredCreditCard mStoredCard;
 
 	private boolean mExistsOnDisk = false;
 
@@ -134,6 +135,14 @@ public class BillingInfo implements JSONable {
 
 	public void setExpirationDate(Calendar expirationDate) {
 		this.mExpirationDate = expirationDate;
+	}
+
+	public void setStoredCard(StoredCreditCard card) {
+		mStoredCard = card;
+	}
+
+	public StoredCreditCard getStoredCard() {
+		return mStoredCard;
 	}
 
 	public boolean save(Context context) {

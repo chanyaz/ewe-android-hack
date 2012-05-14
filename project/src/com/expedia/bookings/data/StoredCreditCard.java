@@ -16,6 +16,10 @@ public class StoredCreditCard implements JSONable {
 		this.fromJson(obj);
 	}
 
+	public String getDescription() {
+		return mDescription;
+	}
+
 	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();

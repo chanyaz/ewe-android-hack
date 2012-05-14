@@ -248,13 +248,19 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
 		query.add(new BasicNameValuePair("country", location.getCountryCode()));
 
-		query.add(new BasicNameValuePair("creditCardNumber", billingInfo.getNumber()));
-		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
-		query.add(new BasicNameValuePair("sendEmailConfirmation", "true"));
+		if (billingInfo.getStoredCard() == null) {
+			query.add(new BasicNameValuePair("creditCardNumber", billingInfo.getNumber()));
 
-		DateFormat expFormatter = new SimpleDateFormat("MMyy");
-		query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
-				.getTime())));
+			DateFormat expFormatter = new SimpleDateFormat("MMyy");
+			query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
+							.getTime())));
+		}
+		else {
+			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getDescription()));
+		}
+		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
+
+		query.add(new BasicNameValuePair("sendEmailConfirmation", "true"));
 
 		return (BookingResponse) doE3Request("Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
 	}
