@@ -47,6 +47,7 @@ import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
@@ -60,6 +61,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.ReceiptWidget;
+import com.expedia.bookings.widget.StoredCardSpinnerAdapter;
 import com.expedia.bookings.widget.TelephoneSpinner;
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
 import com.mobiata.android.BackgroundDownloader;
@@ -107,6 +109,7 @@ public class BookingFormFragment extends DialogFragment {
 	private EditText mPostalCodeEditText;
 	private EditText mStateEditText;
 	private Spinner mCountrySpinner;
+	private View mCreditCardInfoContainer;
 	private EditText mCardNumberEditText;
 	private EditText mExpirationMonthEditText;
 	private EditText mExpirationYearEditText;
@@ -116,6 +119,8 @@ public class BookingFormFragment extends DialogFragment {
 	private ImageView mChargeDetailsImageView;
 	private TextView mChargeDetailsTextView;
 	private AccountButton mAccountButton;
+	private View mStoredCardContainer;
+	private Spinner mStoredCardSpinner;
 
 	// Cached data from arrays
 	private String[] mCountryCodes;
@@ -130,11 +135,13 @@ public class BookingFormFragment extends DialogFragment {
 
 	// Validation
 	private ValidationProcessor mValidationProcessor;
+	private ValidationProcessor mGuestInfoValidationProcessor;
 	private ValidationProcessor mAddressValidationProcessor;
 	private TextViewErrorHandler mErrorHandler;
 
 	// The data that the user has entered for billing info
 	private CreditCardType mCreditCardType;
+	private StoredCardSpinnerAdapter mCardAdapter;
 
 	// The state of the form
 	private boolean mFormHasBeenFocused;
@@ -160,6 +167,7 @@ public class BookingFormFragment extends DialogFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mValidationProcessor = new ValidationProcessor();
+		mGuestInfoValidationProcessor = new ValidationProcessor();
 		mAddressValidationProcessor = new ValidationProcessor();
 		mBookingInfoValidation = new BookingInfoValidation();
 	}
@@ -205,9 +213,10 @@ public class BookingFormFragment extends DialogFragment {
 		mPostalCodeEditText = (EditText) view.findViewById(R.id.postal_code_edit_text);
 		mStateEditText = (EditText) view.findViewById(R.id.state_edit_text);
 		mCountrySpinner = (Spinner) view.findViewById(R.id.country_spinner);
-		mCardNumberEditText = (EditText) view.findViewById(R.id.card_number_edit_text);
-		mExpirationMonthEditText = (EditText) view.findViewById(R.id.expiration_month_edit_text);
-		mExpirationYearEditText = (EditText) view.findViewById(R.id.expiration_year_edit_text);
+		mCreditCardInfoContainer = view.findViewById(R.id.credit_card_info_container);
+		mCardNumberEditText = (EditText) mCreditCardInfoContainer.findViewById(R.id.card_number_edit_text);
+		mExpirationMonthEditText = (EditText) mCreditCardInfoContainer.findViewById(R.id.expiration_month_edit_text);
+		mExpirationYearEditText = (EditText) mCreditCardInfoContainer.findViewById(R.id.expiration_year_edit_text);
 		mSecurityCodeEditText = (EditText) view.findViewById(R.id.security_code_edit_text);
 		mCreditCardImageView = (ImageView) view.findViewById(R.id.credit_card_image_view);
 		mSecurityCodeTipTextView = (TextView) view.findViewById(R.id.security_code_tip_text_view);
@@ -219,6 +228,9 @@ public class BookingFormFragment extends DialogFragment {
 		mCloseFormButton = view.findViewById(R.id.close_booking_form);
 		mChargeDetailsImageView = Ui.findView(view, R.id.charge_details_lock_image_view);
 		mChargeDetailsTextView = Ui.findView(view, R.id.charge_details_text_view);
+
+		mStoredCardContainer = view.findViewById(R.id.stored_card_container);
+		mStoredCardSpinner = (Spinner) mStoredCardContainer.findViewById(R.id.stored_card_spinner);
 
 		mAccountButton = new AccountButton(getActivity(), mAccountButtonClickListener, view.findViewById(R.id.account_button_root));
 		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), !getShowsDialog());
@@ -248,9 +260,26 @@ public class BookingFormFragment extends DialogFragment {
 				mUserProfileIsFresh = true;
 				mAccountButton.update(false);
 				syncFormFieldsFromBillingInfo(view);
+
+				checkSectionsCompleted(false);
+
+				if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
+					expandGuestsForm(false);
+				}
+
+				if (!checkAddressCompleted()) {
+					expandBillingForm(false);
+				}
 			}
 			else {
 				syncFormFieldsFromBillingInfo(view);
+				if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
+					expandGuestsForm(false);
+				}
+				if (!checkAddressCompleted()) {
+					expandBillingForm(false);
+				}
+
 				// Show progress spinner
 				mAccountButton.update(true);
 				// fetch fresh profile
@@ -505,8 +534,19 @@ public class BookingFormFragment extends DialogFragment {
 
 					// Just to make sure, save the billing info when the user clicks submit
 					saveBillingInfo();
+					ValidationProcessor processor = mValidationProcessor;
 
-					List<ValidationError> errors = mValidationProcessor.validate();
+					if (mUserProfileIsFresh) {
+						StoredCreditCard card = mCardAdapter.getSelectedCard();
+						if (card != null) {
+							// a valid stored CC and not enter new card
+							Db.getBillingInfo().setStoredCard(card);
+							// just validate the guest info
+							processor = mGuestInfoValidationProcessor;
+						}
+					}
+
+					List<ValidationError> errors = processor.validate();
 
 					if (errors.size() > 0) {
 						handleFormErrors(errors);
@@ -572,6 +612,11 @@ public class BookingFormFragment extends DialogFragment {
 		mValidationProcessor.add(mLastNameEditText, requiredFieldValidator);
 		mValidationProcessor.add(mTelephoneEditText, new TextViewValidator(new TelephoneValidator()));
 		mValidationProcessor.add(mEmailEditText, new TextViewValidator(new EmailValidator()));
+
+		mGuestInfoValidationProcessor.add(mFirstNameEditText, requiredFieldValidator);
+		mGuestInfoValidationProcessor.add(mLastNameEditText, requiredFieldValidator);
+		mGuestInfoValidationProcessor.add(mTelephoneEditText, new TextViewValidator(new TelephoneValidator()));
+		mGuestInfoValidationProcessor.add(mEmailEditText, new TextViewValidator(new EmailValidator()));
 		mAddressValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
 		mAddressValidationProcessor.add(mCityEditText, requiredFieldValidator);
 		mAddressValidationProcessor.add(mStateEditText, usValidator);
@@ -992,6 +1037,27 @@ public class BookingFormFragment extends DialogFragment {
 			mExpirationYearEditText.setText((billingInfo.getExpirationDate().get(Calendar.YEAR) % 100) + "");
 		}
 		mSecurityCodeEditText.setText(billingInfo.getSecurityCode());
+
+		if (mUserProfileIsFresh && Db.getUser().hasStoredCreditCards()) {
+			// otherwise we want them to add a new CC anyways
+			mCreditCardInfoContainer.setVisibility(View.GONE);
+			mBillingSavedLayout.setVisibility(View.GONE);
+			mBillingFormLayout.setVisibility(View.GONE);
+			mStoredCardContainer.setVisibility(View.VISIBLE);
+			mCardAdapter = new StoredCardSpinnerAdapter((Context) mActivity, Db.getUser().getStoredCreditCards());
+			mStoredCardSpinner.setAdapter(mCardAdapter);
+			mStoredCardSpinner.setOnItemSelectedListener(new StoredCardOnItemSelectedListener());
+		}
+		else {
+			mCreditCardInfoContainer.setVisibility(View.VISIBLE);
+			if (!checkAddressCompleted()) {
+				expandBillingForm(false);
+			}
+			else {
+				collapseBillingForm();
+			}
+			mStoredCardContainer.setVisibility(View.GONE);
+		}
 	}
 
 	private boolean saveBillingInfo() {
@@ -1088,16 +1154,31 @@ public class BookingFormFragment extends DialogFragment {
 			Db.resetBillingInfo();
 			Db.getBillingInfo().save(getActivity());
 			clearBillingInfo();
+			syncFormFieldsFromBillingInfo(mRootBillingView);
 		}
 	};
 
 	public void loginCompleted() {
 		mUserProfileIsFresh = true;
 		mAccountButton.update(false);
-		collapseGuestsForm();
-		collapseBillingForm();
 		syncFormFieldsFromBillingInfo(mRootBillingView);
 		syncBillingInfo();
+		if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
+			expandGuestsForm(false);
+		}
+		else {
+			collapseGuestsForm();
+		}
+	}
+
+	public class StoredCardOnItemSelectedListener implements OnItemSelectedListener {
+		public void onItemSelected(AdapterView<?> parent,
+				View view, int pos, long id) {
+			mCardAdapter.setSelected(pos);
+		}
+		public void onNothingSelected(AdapterView parent) {
+			// Do nothing.
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
