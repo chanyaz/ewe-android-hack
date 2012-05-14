@@ -58,11 +58,12 @@
 
             <!-- Credit card and billing address info -->
 
-            <include layout="@layout/include_credit_card_info" />
+            <include layout="@layout/include_stored_card_spinner" />
 
             <include layout="@layout/include_billing_info_fields" />
             <include layout="@layout/include_saved_billing_info" />
 
+            <include layout="@layout/include_credit_card_info" />
             <include layout="@layout/include_credit_card_security" />
 
             <!-- Terms and conditions -->
