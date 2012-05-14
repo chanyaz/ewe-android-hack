@@ -155,6 +155,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/credit_card_info" />
 
+                    <include layout="@layout/include_stored_card_spinner" />
                     <include layout="@layout/include_credit_card_info" />
                     <include layout="@layout/include_credit_card_security" />
 
