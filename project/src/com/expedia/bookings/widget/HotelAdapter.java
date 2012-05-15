@@ -41,6 +41,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private static final int ROW_NORMAL = 0;
 	private static final int ROW_SELECTED = 1;
 
+	private static final int ROOMS_LEFT_CUTOFF = 5;
+
 	private Context mContext;
 	private LayoutInflater mInflater;
 
@@ -212,7 +214,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.userRating = (RatingBar) convertView.findViewById(R.id.user_rating_bar);
 			holder.notRatedText = (TextView) convertView.findViewById(R.id.not_rated_text_view);
 			holder.distance = (TextView) convertView.findViewById(R.id.distance_text_view);
-			holder.deal = (TextView) convertView.findViewById(R.id.deal_text_view);
+			holder.urgency = (TextView) convertView.findViewById(R.id.urgency_text_view);
 
 			convertView.setTag(holder);
 		}
@@ -231,11 +233,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		// We assume we have a lowest rate here; this may not be a safe assumption
 		Rate lowestRate = property.getLowestRate();
 
-		// TODO: REMOVE ONCE DONE TESTING
-		if (position % 13 == 0) {
-			lowestRate.setMobileExlusivity(true);
-		}
-
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.isOnSale()) {
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
@@ -250,12 +247,15 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.saleContainer.setVisibility(View.GONE);
 		}
 
-		if (lowestRate.isMobileExclusive()) {
-			holder.deal.setText(mContext.getString(R.string.mobile_exclusive));
-			holder.deal.setVisibility(View.VISIBLE);
+		int roomsLeft = property.getRoomsLeftAtThisRate();
+		if (roomsLeft != -1 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
+			holder.urgency.setText(mContext.getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft,
+					roomsLeft));
+			holder.urgency.setVisibility(View.VISIBLE);
 		}
 		else {
-			holder.deal.setVisibility(View.GONE);
+			holder.urgency.setVisibility(View.GONE);
+
 		}
 
 		holder.price.setTextSize(mPriceTextSize);
@@ -324,7 +324,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		public RatingBar userRating;
 		public TextView notRatedText;
 		public TextView distance;
-		public TextView deal;
+		public TextView urgency;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

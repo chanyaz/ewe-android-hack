@@ -76,6 +76,7 @@ public class Property implements JSONable {
 	// These change based on when the user requests data
 	private boolean mAvailable;
 	private Distance mDistanceFromUser;
+	private int mRoomsLeftAtThisRate;
 
 	// Expedia specific detail
 	private int mAmenityMask;
@@ -253,6 +254,14 @@ public class Property implements JSONable {
 		return mLowestRate;
 	}
 
+	public void setRoomsLeftAtThisRate(int num) {
+		mRoomsLeftAtThisRate = num;
+	}
+
+	public int getRoomsLeftAtThisRate() {
+		return mRoomsLeftAtThisRate;
+	}
+
 	// Only valid for Expedia
 	public boolean isMerchant() {
 		return mSupplierType != null && (mSupplierType.equals("E") || mSupplierType.equals("MERCHANT"));
@@ -268,7 +277,8 @@ public class Property implements JSONable {
 			this.setAmenityMask(property.getAmenityMask());
 		}
 		if (property.getDescriptionText() != null) {
-			if (this.mDescriptionText == null || this.mDescriptionText.length() < property.getDescriptionText().length()) {
+			if (this.mDescriptionText == null
+					|| this.mDescriptionText.length() < property.getDescriptionText().length()) {
 				this.setDescriptionText(property.getDescriptionText());
 			}
 		}
