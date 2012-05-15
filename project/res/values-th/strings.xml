@@ -32,7 +32,7 @@
 	    <item quantity="other">โปรดระบุอายุเด็ก</item>
 	</plurals>
 	<!--  Title of "select child age" spinner dialog box -->
-	<string name="prompt_select_child_age">โปรดระบุอายุเด็ก (%1$s%2$s)</string>
+	<string name="prompt_select_child_age">โปรดระบุอายุเด็ก (%1$s - %2$s)</string>
 	<!--  Text for child's age on search refinements and in spinner -->
 	<plurals name="child_age">
 		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; ปี</item>
