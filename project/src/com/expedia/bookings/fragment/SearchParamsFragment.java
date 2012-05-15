@@ -696,7 +696,12 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		// We only have one Loader, so we don't care about the ID.
-		Uri suggestUri = AutocompleteProvider.generateSearchUri(args.getString("QUERY", ""), 5);
+		String query = args.getString("QUERY");
+		if (query == null) {
+			query = "";
+		}
+
+		Uri suggestUri = AutocompleteProvider.generateSearchUri(query, 5);
 
 		return new CursorLoader(getActivity(), suggestUri, AutocompleteProvider.COLUMNS, null, null, "");
 	}

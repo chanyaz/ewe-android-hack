@@ -1436,7 +1436,12 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 	private void restoreActivityState(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			mTag = savedInstanceState.getString(INSTANCE_TAG, getString(R.string.tag_hotel_list));
+			mTag = savedInstanceState.getString(INSTANCE_TAG);
+			if (mTag == null) {
+				// #13543: Bundle.getString() with defaults not supported until API 12, have to
+				// write code like this instead.
+				mTag = getString(R.string.tag_hotel_list);
+			}
 			mShowDistance = savedInstanceState.getBoolean(INSTANCE_SHOW_DISTANCES, false);
 			mStartSearchOnResume = savedInstanceState.getBoolean(INSTANCE_START_SEARCH_ON_RESUME, false);
 			mLastSearchTime = savedInstanceState.getLong(INSTANCE_LAST_SEARCH_TIME);

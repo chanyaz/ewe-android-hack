@@ -162,9 +162,9 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		else {
 			mShowDistances = icicle.getBoolean(INSTANCE_SHOW_DISTANCES);
 			mLastSearchTime = icicle.getLong(INSTANCE_LAST_SEARCH_TIME, -1);
-			mLastSearchParamsJson = icicle.getString(INSTANCE_LAST_SEARCH_PARAMS, null);
-			mLastFilterJson = icicle.getString(INSTANCE_LAST_FILTER, null);
-			mPartialSearch = icicle.getString(INSTANCE_PARTIAL_SEARCH, null);
+			mLastSearchParamsJson = icicle.getString(INSTANCE_LAST_SEARCH_PARAMS);
+			mLastFilterJson = icicle.getString(INSTANCE_LAST_FILTER);
+			mPartialSearch = icicle.getString(INSTANCE_PARTIAL_SEARCH);
 		}
 
 		setContentView(R.layout.activity_search_results_fragment);
