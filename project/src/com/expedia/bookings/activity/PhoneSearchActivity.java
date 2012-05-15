@@ -1335,32 +1335,33 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	};
 
 	private final OnDownloadComplete<List<Address>> mGeocodeCallback = new OnDownloadComplete<List<Address>>() {
-		@SuppressWarnings("unchecked")
 		public void onDownload(List<Address> results) {
-			// Need to convert to ArrayList so it can be saved easily in Bundles
-			mAddresses = new ArrayList<Address>();
-			for (Address address : results) {
-				mAddresses.add(address);
-			}
-
-			if (mAddresses != null && mAddresses.size() > 1) {
-				showLoading(false, null);
-
-				showDialog(DIALOG_LOCATION_SUGGESTIONS);
-			}
-			else if (mAddresses != null && mAddresses.size() > 0) {
-				Address address = mAddresses.get(0);
-				String formattedAddress = StrUtils.removeUSAFromAddress(address);
-				SearchParams searchParams = Db.getSearchParams();
-				searchParams.setFreeformLocation(formattedAddress);
-				setSearchEditViews();
-				searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
-				determineWhetherExactLocationSpecified(address);
-				startSearchDownloader();
-			}
-			else {
+			if (results == null || results.size() == 0) {
 				TrackingUtils.trackErrorPage(PhoneSearchActivity.this, "LocationNotFound");
 				simulateErrorResponse(R.string.geolocation_failed);
+			}
+			else {
+				// Need to convert to ArrayList so it can be saved easily in Bundles
+				mAddresses = new ArrayList<Address>();
+				for (Address address : results) {
+					mAddresses.add(address);
+				}
+
+				if (mAddresses.size() > 1) {
+					showLoading(false, null);
+
+					showDialog(DIALOG_LOCATION_SUGGESTIONS);
+				}
+				else if (mAddresses.size() > 0) {
+					Address address = mAddresses.get(0);
+					String formattedAddress = StrUtils.removeUSAFromAddress(address);
+					SearchParams searchParams = Db.getSearchParams();
+					searchParams.setFreeformLocation(formattedAddress);
+					setSearchEditViews();
+					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
+					determineWhetherExactLocationSpecified(address);
+					startSearchDownloader();
+				}
 			}
 		}
 	};
