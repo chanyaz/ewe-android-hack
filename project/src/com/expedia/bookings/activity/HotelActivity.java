@@ -496,15 +496,15 @@ public class HotelActivity extends Activity {
 			if (media != null) {
 				mGallery.setMedia(media);
 
-				mGallery.setOnItemClickListener(new OnItemClickListener() {
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-						Intent intent = new Intent(mContext, HotelGalleryActivity.class);
-						intent.putExtra(Codes.PROPERTY, Db.getSelectedProperty().toString());
-						intent.putExtra(Codes.SELECTED_IMAGE, parent.getSelectedItem().toString());
-						startActivity(intent);
-					}
-				});
+				//mGallery.setOnItemClickListener(new OnItemClickListener() {
+				//	@Override
+				//	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				//		Intent intent = new Intent(mContext, HotelGalleryActivity.class);
+				//		intent.putExtra(Codes.PROPERTY, Db.getSelectedProperty().toString());
+				//		intent.putExtra(Codes.SELECTED_IMAGE, parent.getSelectedItem().toString());
+				//		startActivity(intent);
+				//	}
+				//});
 
 				mGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 					@Override
