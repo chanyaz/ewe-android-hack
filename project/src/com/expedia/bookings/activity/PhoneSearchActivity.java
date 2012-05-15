@@ -2585,7 +2585,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 				}
 			}
 
-			setDisplayType(DisplayType.CALENDAR);
+			startSearch();
 		}
 	};
 
