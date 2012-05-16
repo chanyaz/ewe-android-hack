@@ -200,6 +200,9 @@ public class Money implements JSONable {
 	// #12855 - Indonesian POS shows the generic money symbol instead of Rp
 	private static final String GENERIC_UNICODE = "¤";
 
+	// #13560 - No space between BRL currency and price
+	private static final String BRL_CURRENCY_STRING = "R$";
+
 	private static String formatRate(double amount, String currencyCode, int flags) {
 		// We use the default user locale for both of these, as it should
 		// be properly set by the Android system.
@@ -246,7 +249,14 @@ public class Money implements JSONable {
 			else if (formatted.endsWith(GENERIC_UNICODE)) {
 				formatted = formatted.substring(0, formatted.length() - GENERIC_UNICODE.length()) + "Rp";
 			}
-			
+		}
+		else if (currencyCode.equals("BRL")) {
+			if (formatted.startsWith(BRL_CURRENCY_STRING) && formatted.charAt(2) != ' ') {
+				formatted = "R$ " + formatted.substring(BRL_CURRENCY_STRING.length());
+			}
+			else if (formatted.endsWith(BRL_CURRENCY_STRING) && formatted.charAt(formatted.length() - 3) != ' ') {
+				formatted = formatted.substring(0, formatted.length() - BRL_CURRENCY_STRING.length()) + " R$";
+			}
 		}
 
 		return formatted;
