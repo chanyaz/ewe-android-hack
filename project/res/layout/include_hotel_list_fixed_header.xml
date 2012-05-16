@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#dadada"
+    android:gravity="center_vertical"
+    android:paddingBottom="6dp"
+    android:paddingLeft="@dimen/hotel_row_cell_padding"
+    android:paddingRight="@dimen/hotel_row_cell_padding"
+    android:paddingTop="6dp" >
+
+    <include
+        android:id="@+id/num_hotels_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        layout="@layout/include_hotel_list_fixed_header_num_hotels_text_view" />
+
+    <include
+        android:id="@+id/lawyer_label_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        layout="@layout/include_hotel_list_fixed_header_lawyer_label_text_view" />
+
+</RelativeLayout>

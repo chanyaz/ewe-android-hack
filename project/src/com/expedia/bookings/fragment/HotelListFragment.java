@@ -43,6 +43,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 	private ViewGroup mHeaderLayout;
 	private TextView mNumHotelsTextView;
+	private TextView mNumHotelsTextViewTablet;
 	private TextView mSortTypeTextView;
 
 	private PlaceholderTagProgressBar mSearchProgressBar;
@@ -89,6 +90,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 		mHeaderLayout = (ViewGroup) view.findViewById(R.id.header_layout);
 		mNumHotelsTextView = (TextView) view.findViewById(R.id.num_hotels_text_view);
+		mNumHotelsTextViewTablet = (TextView) view.findViewById(R.id.num_hotels_text_view_tablet);
 		mSortTypeTextView = (TextView) view.findViewById(R.id.sort_type_text_view);
 
 		ViewGroup placeholderContainer = (ViewGroup) view.findViewById(R.id.placeholder_container);
@@ -97,11 +99,13 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		mSearchProgressBar = new PlaceholderTagProgressBar(placeholderContainer, placeholderProgressBar,
 				placeholderProgressTextView);
 
-		mSortTypeTextView.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				mListener.onSortButtonClicked();
-			}
-		});
+		if (mSortTypeTextView != null) {
+			mSortTypeTextView.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					mListener.onSortButtonClicked();
+				}
+			});
+		}
 
 		// Configure ListView
 		ListView listView = Ui.findView(view, android.R.id.list);
@@ -112,13 +116,13 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 		// Configure the phone vs. tablet ui different
 		if (AndroidUtils.isHoneycombTablet(getActivity())) {
-			
+
 		}
 		else {
 			mSearchProgressBar.setVisibility(View.GONE);
-			
+
 			Ui.findView(view, R.id.no_filter_results_text_view).setVisibility(View.VISIBLE);
-			
+
 			listView.setScrollIndicators(null, null);
 			listView.setVerticalFadingEdgeEnabled(false);
 			listView.setVerticalScrollBarEnabled(false);
@@ -214,17 +218,16 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	private void updateNumHotels() {
 		// only update if view has been initialized
 		if (mNumHotelsTextView != null) {
-			int count = mAdapter.getCount();
-			mNumHotelsTextView.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_results,
-					count, count)));
+			mNumHotelsTextView
+					.setText(String.format(getString(R.string.search_header_num_hotels), mAdapter.getCount()));
 		}
-	}
 
-	private void updateSortLabel(SearchResponse response) {
-		// only update if view has been initialized
-		if (mSortTypeTextView != null) {
-			String sortType = getString(response.getFilter().getSort().getDescriptionResId());
-			mSortTypeTextView.setText(Html.fromHtml(getString(R.string.sort_hotels_template, sortType)));
+		if (mNumHotelsTextViewTablet != null) {
+			int count = mAdapter.getCount();
+			mNumHotelsTextViewTablet.setText(Html.fromHtml(getResources().getQuantityString(
+					R.plurals.number_of_results,
+					count, count)
+					+ " " + getString(R.string.prices_avg_per_night_short)));
 		}
 	}
 
@@ -260,8 +263,6 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		}
 		else {
 			updateNumHotels();
-			updateSortLabel(response);
-			updateBookingInfoHeaderText();
 			setHeaderVisibility(View.VISIBLE);
 			mAdapter.setShowDistance(mShowDistances);
 		}
@@ -276,11 +277,6 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 			mHeaderLayout.setVisibility(visibility);
 		}
-	}
-
-	public void updateBookingInfoHeaderText() {
-		TextView numHotels = Ui.findView(getView(), R.id.num_hotels_text_view);
-		numHotels.setText(String.format(getString(R.string.search_header_num_hotels), Db.getSearchResponse().getPropertiesCount()));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
