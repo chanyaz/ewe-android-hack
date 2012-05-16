@@ -108,6 +108,7 @@ public class SignInFragment extends DialogFragment {
 			}
 			else {
 				Db.setUser(response.getUser());
+				ExpediaServices.persistUserIsLoggedIn(mContext);
 				((SignInFragmentListener) getActivity()).onLoginCompleted();
 				dismiss();
 			}

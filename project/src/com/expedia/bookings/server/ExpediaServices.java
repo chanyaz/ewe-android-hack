@@ -1,5 +1,6 @@
 package com.expedia.bookings.server;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -82,6 +83,7 @@ public class ExpediaServices implements DownloadListener {
 	public static final int HOTEL_MAX_RESULTS = 200;
 
 	private static final String COOKIES_FILE = "cookies.dat";
+	private static final String IS_USER_LOGGED_IN_FILE = "is_user_logged_in.boolean";
 
 	public enum ReviewSort {
 		NEWEST_REVIEW_FIRST("NewestReviewFirst"), HIGHEST_RATING_FIRST("HighestRatingFirst"), LOWEST_RATING_FIRST(
@@ -256,7 +258,7 @@ public class ExpediaServices implements DownloadListener {
 							.getTime())));
 		}
 		else {
-			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getDescription()));
+			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));
 		}
 		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
 
@@ -292,23 +294,42 @@ public class ExpediaServices implements DownloadListener {
 		PersistantCookieStore cookieStore = new PersistantCookieStore();
 		cookieStore.clear();
 		cookieStore.save(mContext, COOKIES_FILE);
-		return;
+
+		// Cleanup persisted user data
+		File f = mContext.getFileStreamPath(IS_USER_LOGGED_IN_FILE);
+		f.delete();
 	}
 
-	// Peeks into the cookie store to see if we have the cookie indicating a user is logged in
+	public void persistUserIsLoggedIn() {
+		File f = mContext.getFileStreamPath(IS_USER_LOGGED_IN_FILE);
+		try {
+			f.createNewFile();
+		}
+		catch (IOException e) {
+			// nothing
+		}
+	}
+
+	public static void persistUserIsLoggedIn(Context context) {
+		ExpediaServices service = new ExpediaServices(context);
+		service.persistUserIsLoggedIn();
+	}
+
 	public boolean isLoggedIn() {
 		PersistantCookieStore cookieStore = new PersistantCookieStore();
 		cookieStore.load(mContext, COOKIES_FILE);
 		List<Cookie> cookies = cookieStore.getCookies();
 		for (Cookie c : cookies) {
+			Log.d("HERE " + c.toString());
 			if (c.getDomain().equals(".expedia.com") && c.getName().equals("s1")) {
 				if (c.getValue().contains("user=")) {
-					return true;
+					//return true;
 				}
 			}
 		}
 
-		return false;
+		File f = mContext.getFileStreamPath(IS_USER_LOGGED_IN_FILE);
+		return f.exists();
 	}
 
 	public static boolean isLoggedIn(Context context) {
@@ -500,7 +521,7 @@ public class ExpediaServices implements DownloadListener {
 			}
 		}
 		finally {
-			client.close();
+			client.getConnectionManager().shutdown();
 			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
 
 			cookieStore.save(mContext, COOKIES_FILE);
