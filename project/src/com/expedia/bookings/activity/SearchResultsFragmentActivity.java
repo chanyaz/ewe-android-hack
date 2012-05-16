@@ -418,8 +418,20 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 	private TextView mGuestsTextView;
 
+	private boolean mCreatedOptionsMenu = false;
+
+	@Override
+	public void invalidateOptionsMenu() {
+		// #13554: If we haven't even created the options menu yet, don't other invalidating!
+		if (mCreatedOptionsMenu) {
+			super.invalidateOptionsMenu();
+		}
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		mCreatedOptionsMenu = true;
+
 		getMenuInflater().inflate(R.menu.menu_fragment_search, menu);
 		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 
