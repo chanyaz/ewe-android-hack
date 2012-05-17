@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Hockey App identifier used for communicating with Hockey servers
+id=4d9aae3faac40c74443772c8bebd5aaf
