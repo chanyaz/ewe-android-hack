@@ -14,6 +14,7 @@ import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -161,13 +162,23 @@ public class ExpediaServices implements DownloadListener {
 	public FlightSearchResponse flightSearch(FlightSearchParams params, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
-		query.add(new BasicNameValuePair("departureDate", df.format(params.getDepartureDate().getTime())));
-		query.add(new BasicNameValuePair("returnDate", df.format(params.getReturnDate().getTime())));
-
+		// This code currently assumes that you are either making a one-way or round trip flight,
+		// even though FlightSearchParams can be configured to handle multi-leg flights.
+		//
+		// Once e3 can handle these as well, we will want to update this code.
 		query.add(new BasicNameValuePair("departureAirport", params.getDepartureAirportCode()));
 		query.add(new BasicNameValuePair("arrivalAirport", params.getArrivalAirportCode()));
 
+		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
+		Date depDate = params.getDepartureDate().getCalendar().getTime();
+		query.add(new BasicNameValuePair("departureDate", df.format(depDate)));
+
+		if (params.isRoundTrip()) {
+			Date retDate = params.getReturnDate().getCalendar().getTime();
+			query.add(new BasicNameValuePair("returnDate", df.format(retDate)));
+		}
+
+		// TODO: Delete this once no longer valid (all results will eventually be returned as a matrix)
 		query.add(new BasicNameValuePair("matrix", "true"));
 
 		HttpGet get = NetUtils.createHttpGet(FLIGHTS_BASE_URL, query);

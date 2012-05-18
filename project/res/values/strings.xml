@@ -17,6 +17,8 @@
 	<string name="departs_TEMPLATE">Departs %s</string>
 	<!-- Return date button label. %s is the date (e.g. "Returns 5/10/2012") -->
 	<string name="returns_TEMPLATE">Returns %s</string>
+	<!-- Label when there is no return date set for flight search -->
+	<string name="no_return">No Return Date</string>
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->

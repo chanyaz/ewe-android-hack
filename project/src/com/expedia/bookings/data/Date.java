@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
+// Important note: month is 1-indexed here (to match every other field in existence).
+// This means that conversion to/from Calendar requires a few +/- 1s.
 public class Date implements JSONable {
 	private int mYear;
 	private int mMonth;
@@ -16,6 +18,12 @@ public class Date implements JSONable {
 
 	public Date() {
 		// Default constructor
+	}
+
+	public Date(int year, int month, int dayOfMonth) {
+		mYear = year;
+		mMonth = month;
+		mDayOfMonth = dayOfMonth;
 	}
 
 	public Date(Calendar cal) {
@@ -54,6 +62,10 @@ public class Date implements JSONable {
 		mYear = cal.get(Calendar.YEAR);
 		mMonth = cal.get(Calendar.MONTH) + 1;
 		mDayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+	}
+
+	public Date clone() {
+		return new Date(mYear, mMonth, mDayOfMonth);
 	}
 
 	public JSONObject toJson() {

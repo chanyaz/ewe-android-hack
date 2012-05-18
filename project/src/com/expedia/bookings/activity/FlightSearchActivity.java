@@ -1,8 +1,6 @@
 package com.expedia.bookings.activity;
 
 import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -23,6 +21,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.AirlinePickerFragment;
@@ -182,13 +181,14 @@ public class FlightSearchActivity extends FragmentActivity implements AirlinePic
 
 	@Override
 	public void onAirportClick(String airportCode) {
+		FlightSearchParams params = Db.getFlightSearchParams();
 		if (mDepartureAirportEditText.hasFocus()) {
-			Db.getFlightSearchParams().setDepartureAirportCode(airportCode);
+			params.setDepartureAirportCode(airportCode);
 			mDepartureAirportEditText.setText(airportCode);
 			mArrivalAirportEditText.requestFocus();
 		}
 		else {
-			Db.getFlightSearchParams().setArrivalAirportCode(airportCode);
+			params.setArrivalAirportCode(airportCode);
 			mArrivalAirportEditText.setText(airportCode);
 			mFocusStealer.requestFocus();
 		}
@@ -204,9 +204,15 @@ public class FlightSearchActivity extends FragmentActivity implements AirlinePic
 		FlightSearchParams params = Db.getFlightSearchParams();
 
 		mDepartureDateButton.setText(getString(R.string.departs_TEMPLATE,
-				df.format(params.getDepartureDate().getTime())));
-		mReturnDateButton.setText(getString(R.string.returns_TEMPLATE,
-				df.format(params.getReturnDate().getTime())));
+				df.format(params.getDepartureDate().getCalendar().getTime())));
+
+		if (params.isRoundTrip()) {
+			mReturnDateButton.setText(getString(R.string.returns_TEMPLATE,
+					df.format(params.getReturnDate().getCalendar().getTime())));
+		}
+		else {
+			mReturnDateButton.setText(R.string.no_return);
+		}
 	}
 
 	public static class CalendarDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
@@ -225,11 +231,11 @@ public class FlightSearchActivity extends FragmentActivity implements AirlinePic
 
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			Calendar startCal = (isDeparture()) ? Db.getFlightSearchParams().getDepartureDate() : Db
-					.getFlightSearchParams().getReturnDate();
+			FlightSearchParams params = Db.getFlightSearchParams();
+			Date startDate = (isDeparture()) ? params.getDepartureDate() : params.getReturnDate();
 
-			return new DatePickerDialog(getActivity(), this, startCal.get(Calendar.YEAR),
-					startCal.get(Calendar.MONTH), startCal.get(Calendar.DAY_OF_MONTH));
+			return new DatePickerDialog(getActivity(), this, startDate.getYear(), startDate.getMonth() - 1,
+					startDate.getDayOfMonth());
 		}
 
 		public boolean isDeparture() {
@@ -246,12 +252,13 @@ public class FlightSearchActivity extends FragmentActivity implements AirlinePic
 	}
 
 	public void onDateSet(boolean isDeparture, int year, int monthOfYear, int dayOfMonth) {
-		Calendar cal = new GregorianCalendar(year, monthOfYear, dayOfMonth);
+		FlightSearchParams params = Db.getFlightSearchParams();
+		Date date = new Date(year, monthOfYear + 1, dayOfMonth);
 		if (isDeparture) {
-			Db.getFlightSearchParams().setDepartureDate(cal);
+			params.setDepartureDate(date);
 		}
 		else {
-			Db.getFlightSearchParams().setReturnDate(cal);
+			params.setReturnDate(date);
 		}
 
 		updateDateButtons();

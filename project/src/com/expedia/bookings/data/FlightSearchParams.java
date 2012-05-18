@@ -1,72 +1,139 @@
 package com.expedia.bookings.data;
 
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.text.TextUtils;
-
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class FlightSearchParams implements JSONable {
 
-	private Calendar mDepartureDate;
-	private Calendar mReturnDate;
-	private String mDepartureAirportCode;
-	private String mArrivalAirportCode;
+	private int mAdults;
+	private List<Integer> mChildren;
+	private List<FlightSearchLeg> mQueryLegs;
 
 	public FlightSearchParams() {
+		mChildren = new ArrayList<Integer>();
+		mQueryLegs = new ArrayList<FlightSearchLeg>();
+
 		reset();
 	}
 
 	public void reset() {
-		mDepartureDate = Calendar.getInstance();
-		mDepartureDate.add(Calendar.MONTH, 1);
-		mReturnDate = Calendar.getInstance();
-		mReturnDate.add(Calendar.MONTH, 1);
-		mReturnDate.add(Calendar.DAY_OF_YEAR, 5);
+		mAdults = 1;
+		mChildren.clear();
+		mQueryLegs.clear();
+
+		// By default, we always have at least one flight search leg
+		mQueryLegs.add(new FlightSearchLeg());
 	}
 
-	public Calendar getDepartureDate() {
-		return mDepartureDate;
+	public void setNumAdults(int numAdults) {
+		mAdults = numAdults;
 	}
 
-	public void setDepartureDate(Calendar departureDate) {
-		mDepartureDate = departureDate;
+	public int getNumAdults() {
+		return mAdults;
 	}
 
-	public Calendar getReturnDate() {
-		return mReturnDate;
+	public void setChildren(List<Integer> childAges) {
+		if (childAges != null) {
+			mChildren = childAges;
+		}
 	}
 
-	public void setReturnDate(Calendar returnDate) {
-		mReturnDate = returnDate;
+	public int getNumChildren() {
+		return mChildren.size();
+	}
+
+	public void addQueryLeg(FlightSearchLeg queryLeg) {
+		mQueryLegs.add(queryLeg);
+	}
+
+	public List<FlightSearchLeg> getQueryLegs() {
+		return mQueryLegs;
+	}
+
+	public int getQueryLegCount() {
+		return mQueryLegs.size();
+	}
+
+	public FlightSearchLeg getQueryLeg(int position) {
+		return mQueryLegs.get(position);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Utility methods
+	//
+	// Not strictly necessary, but these make the simple cases (one-way and
+	// round trip) easier to handle.
+
+	public boolean isSimpleFlight() {
+		return mQueryLegs.size() <= 2;
+	}
+
+	public boolean isRoundTrip() {
+		return mQueryLegs.size() == 2;
+	}
+
+	public void setDepartureDate(Date departureDate) {
+		mQueryLegs.get(0).setDepartureDate(departureDate);
+	}
+
+	public Date getDepartureDate() {
+		return mQueryLegs.get(0).getDepartureDate();
+	}
+
+	public void setReturnDate(Date returnDate) {
+		ensureRoundTripData();
+
+		mQueryLegs.get(1).setDepartureDate(returnDate);
+	}
+
+	public Date getReturnDate() {
+		ensureRoundTripData();
+
+		return mQueryLegs.get(1).getDepartureDate();
+	}
+
+	public void setDepartureAirportCode(String airportCode) {
+		mQueryLegs.get(0).setDepartureAirportCode(airportCode);
+
+		if (isRoundTrip()) {
+			mQueryLegs.get(1).setArrivalAirportCode(airportCode);
+		}
 	}
 
 	public String getDepartureAirportCode() {
-		if (TextUtils.isEmpty(mDepartureAirportCode)) {
-			// Default return if we haven't had a departure setup yet
-			return "MSP";
-		}
-		return mDepartureAirportCode;
+		return mQueryLegs.get(0).getDepartureAirportCode();
 	}
 
-	public void setDepartureAirportCode(String departureAirportCode) {
-		mDepartureAirportCode = departureAirportCode;
+	public void setArrivalAirportCode(String airportCode) {
+		mQueryLegs.get(0).setArrivalAirportCode(airportCode);
+
+		if (isRoundTrip()) {
+			mQueryLegs.get(1).setDepartureAirportCode(airportCode);
+		}
 	}
 
 	public String getArrivalAirportCode() {
-		if (TextUtils.isEmpty(mArrivalAirportCode)) {
-			// Default return if we haven't had an arrival setup yet
-			return "SMF";
-		}
-
-		return mArrivalAirportCode;
+		return mQueryLegs.get(0).getArrivalAirportCode();
 	}
 
-	public void setArrivalAirportCode(String arrivalAirportCode) {
-		mArrivalAirportCode = arrivalAirportCode;
+	// If we want this to be a round trip flight, ensures that we have round trip data
+	private void ensureRoundTripData() {
+		if (!isRoundTrip()) {
+			FlightSearchLeg departureLeg = new FlightSearchLeg();
+			FlightSearchLeg returnLeg = new FlightSearchLeg();
+
+			returnLeg.setDepartureAirportCode(departureLeg.getArrivalAirportCode());
+			returnLeg.setArrivalAirportCode(departureLeg.getDepartureAirportCode());
+
+			mQueryLegs.add(returnLeg);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -76,10 +143,9 @@ public class FlightSearchParams implements JSONable {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();
-			obj.putOpt("departureDate", mDepartureDate.getTimeInMillis());
-			obj.putOpt("returnDate", mReturnDate.getTimeInMillis());
-			obj.putOpt("departureAirportCode", mDepartureAirportCode);
-			obj.putOpt("arrivalAirportCode", mArrivalAirportCode);
+			obj.put("adults", mAdults);
+			JSONUtils.putIntList(obj, "children", mChildren);
+			JSONUtils.putJSONableList(obj, "queryLegs", mQueryLegs);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -87,17 +153,12 @@ public class FlightSearchParams implements JSONable {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mDepartureDate = Calendar.getInstance();
-		mDepartureDate.setTimeInMillis(obj.optLong("departureDate"));
-
-		mReturnDate = Calendar.getInstance();
-		mReturnDate.setTimeInMillis(obj.optLong("returnDate"));
-
-		mDepartureAirportCode = obj.optString("departureAirportCode");
-		mArrivalAirportCode = obj.optString("arrivalAirportCode");
-
+		mAdults = obj.optInt("adults");
+		mChildren = JSONUtils.getIntList(obj, "children");
+		mQueryLegs = (List<FlightSearchLeg>) JSONUtils.getJSONableList(obj, "queryLegs", FlightSearchLeg.class);
 		return true;
 	}
 
