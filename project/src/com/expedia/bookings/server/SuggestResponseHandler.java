@@ -28,6 +28,12 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 		ArrayList<Search> found = null;
 
 		suggestResponse.setQuery(response.optString("q"));
+
+		if (!response.has("r")) {
+			Log.d("No suggestions.");
+			return null;
+		}
+
 		JSONArray responseSuggestions;
 		try {
 			responseSuggestions = response.getJSONArray("r");
@@ -46,14 +52,13 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 				//String cityName = responseSuggestion.getString("s");
 				//String countryName = responseSuggestion.getString("c");
 				String regionId = responseSuggestion.getString("id");
-				
+
 				SearchParams searchParams = new SearchParams();
 				searchParams.setFreeformLocation(locationName);
 				searchParams.setRegionId(regionId);
 
 				JSONObject latlng = responseSuggestion.optJSONObject("ll");
 				if (latlng != null) {
-					Log.d("Got latitude/longitude from suggest response");
 					double latitude = latlng.getDouble("lat");
 					double longitude = latlng.getDouble("lng");
 					searchParams.setSearchLatLon(latitude, longitude);
