@@ -51,6 +51,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.FlightDetailsResponse;
+import com.expedia.bookings.data.FlightDetailsResponseHandler;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.Location;
@@ -157,7 +159,7 @@ public class ExpediaServices implements DownloadListener {
 	//////////////////////////////////////////////////////////////////////////
 	// Expedia Flights API
 
-	private static final String FLIGHTS_BASE_URL = "http://www.expedia.com.trunk.sb.karmalab.net/api/flight/search";
+	private static final String FLIGHTS_BASE_URL = "http://www.expedia.com.trunk.sb.karmalab.net/api/flight/";
 
 	public FlightSearchResponse flightSearch(FlightSearchParams params, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
@@ -181,12 +183,27 @@ public class ExpediaServices implements DownloadListener {
 		// TODO: Delete this once no longer valid (all results will eventually be returned as a matrix)
 		query.add(new BasicNameValuePair("matrix", "true"));
 
-		HttpGet get = NetUtils.createHttpGet(FLIGHTS_BASE_URL, query);
+		return (FlightSearchResponse) doFlightsRequest("search", query, new FlightSearchResponseHandler(), flags);
+	}
+
+	public FlightDetailsResponse flightDetails(String productKey, int flags) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		query.add(new BasicNameValuePair("productKey", productKey));
+
+		return (FlightDetailsResponse) doFlightsRequest("details", query, new FlightDetailsResponseHandler(), flags);
+	}
+
+	private Object doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
+			ResponseHandler<?> responseHandler, int flags) {
+		String serverUrl = FLIGHTS_BASE_URL + targetUrl;
+
+		// Create the request
+		HttpGet get = NetUtils.createHttpGet(serverUrl, params);
 
 		// Some logging before passing the request along
-		Log.d("Request: " + FLIGHTS_BASE_URL + "?" + NetUtils.getParamsForLogging(query));
+		Log.d("Request: " + serverUrl + "?" + NetUtils.getParamsForLogging(params));
 
-		return (FlightSearchResponse) doRequest(get, new FlightSearchResponseHandler(), flags);
+		return doRequest(get, responseHandler, flags);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
