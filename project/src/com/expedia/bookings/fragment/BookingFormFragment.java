@@ -92,6 +92,7 @@ public class BookingFormFragment extends DialogFragment {
 	private static String BILLING_EXPANDED = "BILLING_EXPANDED";
 	private static String RULES_RESTRICTIONS_CHECKED = "RULES_RESTRICTIONS_CHECKED";
 	private static String USER_PROFILE_IS_FRESH = "USER_PROFILE_IS_FRESH";
+	private static String SELECTED_CARD_POSITION = "SELECTED_CARD_POSITION";
 
 	// Cached views
 	private View mRootBillingView;
@@ -155,6 +156,7 @@ public class BookingFormFragment extends DialogFragment {
 	private Activity mActivity;
 
 	private boolean mUserProfileIsFresh = false;
+	private int mSelectedCardPosition = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -219,6 +221,7 @@ public class BookingFormFragment extends DialogFragment {
 		mAccountButton = new AccountButton(getActivity(), mAccountButtonClickListener, view.findViewById(R.id.account_button_root));
 		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), !getShowsDialog());
 		mBillingAddressWidget = new BillingAddressWidget(getActivity(), mRootBillingView);
+		mBillingAddressWidget.restoreInstanceState(savedInstanceState);
 
 		// 10758: rendering the saved layouts on a software layer
 		// to avoid the fuzziness of the saved section background
@@ -238,30 +241,28 @@ public class BookingFormFragment extends DialogFragment {
 		mCountryCodes = threeLetterCountryCodes;
 		configureForm();
 
+		if (savedInstanceState != null) {
+			mSelectedCardPosition = savedInstanceState.getInt(SELECTED_CARD_POSITION);
+			mUserProfileIsFresh = savedInstanceState.getBoolean(USER_PROFILE_IS_FRESH);
+		}
+
 		// Figure out if we are logged in
 		if (ExpediaServices.isLoggedIn((Context) mActivity)) {
-			if (savedInstanceState != null && savedInstanceState.getBoolean(USER_PROFILE_IS_FRESH)) {
-				mUserProfileIsFresh = true;
+			if (savedInstanceState != null && mUserProfileIsFresh) {
 				mAccountButton.update(false);
 				syncFormFieldsFromBillingInfo(view);
-
 				checkSectionsCompleted(false);
 
 				if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
 					expandGuestsForm(false);
 				}
-
-				if (!mBillingAddressWidget.isComplete()) {
-					mBillingAddressWidget.expand(false);
-				}
 			}
 			else {
 				syncFormFieldsFromBillingInfo(view);
+				checkSectionsCompleted(false);
+
 				if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
 					expandGuestsForm(false);
-				}
-				if (!mBillingAddressWidget.isComplete()) {
-					mBillingAddressWidget.expand(false);
 				}
 
 				// Show progress spinner
@@ -284,9 +285,7 @@ public class BookingFormFragment extends DialogFragment {
 					if (savedInstanceState.getBoolean(GUESTS_EXPANDED)) {
 						expandGuestsForm(false);
 					}
-					if (savedInstanceState.getBoolean(BILLING_EXPANDED)) {
-						mBillingAddressWidget.expand(false);
-					}
+
 					mRulesRestrictionsCheckbox.setChecked(savedInstanceState.getBoolean(RULES_RESTRICTIONS_CHECKED));
 				}
 				else {
@@ -294,10 +293,6 @@ public class BookingFormFragment extends DialogFragment {
 
 					if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
 						expandGuestsForm(false);
-					}
-
-					if (!mBillingAddressWidget.isComplete()) {
-						mBillingAddressWidget.expand(false);
 					}
 				}
 			}
@@ -351,11 +346,12 @@ public class BookingFormFragment extends DialogFragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(GUESTS_EXPANDED, mGuestsExpanded);
-		outState.putBoolean(BILLING_EXPANDED, mBillingExpanded);
 		outState.putBoolean(RULES_RESTRICTIONS_CHECKED, mRulesRestrictionsCheckbox.isChecked());
 		outState.putBoolean(USER_PROFILE_IS_FRESH, mUserProfileIsFresh);
+		outState.putInt(SELECTED_CARD_POSITION, mCardAdapter.getSelected());
 
 		mReceiptWidget.saveInstanceState(outState);
+		mBillingAddressWidget.saveInstanceState(outState);
 	}
 
 	@Override
@@ -465,9 +461,9 @@ public class BookingFormFragment extends DialogFragment {
 
 					if (mUserProfileIsFresh) {
 						StoredCreditCard card = mCardAdapter.getSelectedCard();
+						Db.getBillingInfo().setStoredCard(card);
 						if (card != null) {
 							// a valid stored CC and not enter new card
-							Db.getBillingInfo().setStoredCard(card);
 							// just validate the guest info
 							processor = mGuestInfoValidationProcessor;
 						}
@@ -886,17 +882,15 @@ public class BookingFormFragment extends DialogFragment {
 			mBillingAddressWidget.hide();
 			mStoredCardContainer.setVisibility(View.VISIBLE);
 			mCardAdapter = new StoredCardSpinnerAdapter((Context) mActivity, Db.getUser().getStoredCreditCards());
+			if (mSelectedCardPosition >= 0) {
+				mCardAdapter.setSelected(mSelectedCardPosition);
+			}
 			mStoredCardSpinner.setAdapter(mCardAdapter);
 			mStoredCardSpinner.setOnItemSelectedListener(new StoredCardOnItemSelectedListener());
 		}
 		else {
 			mCreditCardInfoContainer.setVisibility(View.VISIBLE);
-			if (!mBillingAddressWidget.isComplete()) {
-				mBillingAddressWidget.expand(false);
-			}
-			else {
-				mBillingAddressWidget.collapse();
-			}
+			mBillingAddressWidget.update(billingInfo.getLocation());
 			mStoredCardContainer.setVisibility(View.GONE);
 		}
 	}
@@ -924,7 +918,6 @@ public class BookingFormFragment extends DialogFragment {
 		setSpinnerSelection(mTelephoneCountryCodeSpinner, getString(countryResId));
 		mTelephoneEditText.setText(null);
 		mEmailEditText.setText(null);
-		mBillingAddressWidget.clear();
 		mCardNumberEditText.setText(null);
 		mExpirationMonthEditText.setText(null);
 		mExpirationYearEditText.setText(null);
@@ -932,7 +925,7 @@ public class BookingFormFragment extends DialogFragment {
 		mRulesRestrictionsCheckbox.setChecked(false);
 
 		expandGuestsForm(false);
-		mBillingAddressWidget.expand(false);
+		mBillingAddressWidget.update(null);
 	}
 
 	private void checkSectionsCompleted(boolean trackCompletion) {
@@ -969,6 +962,14 @@ public class BookingFormFragment extends DialogFragment {
 				mAccountButton.update(false);
 				syncFormFieldsFromBillingInfo(mRootBillingView);
 				syncBillingInfo();
+				checkSectionsCompleted(false);
+				if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
+					expandGuestsForm(false);
+				}
+				else {
+					collapseGuestsForm();
+				}
+				mBillingAddressWidget.update(Db.getUser().toBillingInfo().getLocation());
 			}
 		}
 	};
@@ -995,6 +996,7 @@ public class BookingFormFragment extends DialogFragment {
 		mAccountButton.update(false);
 		syncFormFieldsFromBillingInfo(mRootBillingView);
 		syncBillingInfo();
+		checkSectionsCompleted(false);
 		if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
 			expandGuestsForm(false);
 		}
@@ -1003,10 +1005,25 @@ public class BookingFormFragment extends DialogFragment {
 		}
 	}
 
+	private void updateEnterNewCreditCard() {
+		if (mCardAdapter.getSelectedCard() == null) {
+			// user has selected enter new credit card
+			Location loc = mUserProfileIsFresh ? Db.getUser().toBillingInfo().getLocation() : Db.getBillingInfo().getLocation();
+			mBillingAddressWidget.update(loc);
+			mCreditCardInfoContainer.setVisibility(View.VISIBLE);
+		}
+		else {
+			// user has selected a stored credit card
+			mBillingAddressWidget.hide();
+			mCreditCardInfoContainer.setVisibility(View.GONE);
+		}
+	}
+
 	public class StoredCardOnItemSelectedListener implements OnItemSelectedListener {
 		public void onItemSelected(AdapterView<?> parent,
 				View view, int pos, long id) {
 			mCardAdapter.setSelected(pos);
+			updateEnterNewCreditCard();
 		}
 		public void onNothingSelected(AdapterView parent) {
 			// Do nothing.

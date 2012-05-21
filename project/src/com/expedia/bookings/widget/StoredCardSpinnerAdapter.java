@@ -33,6 +33,10 @@ public class StoredCardSpinnerAdapter extends BaseAdapter implements SpinnerAdap
 		mSelected = pos;
 	}
 
+	public int getSelected() {
+		return mSelected;
+	}
+
 	public StoredCreditCard getSelectedCard() {
 		return (StoredCreditCard) getItem(mSelected);
 	}

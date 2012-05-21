@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -33,6 +34,8 @@ import com.mobiata.android.validation.ValidationProcessor;
 import com.mobiata.android.validation.Validator;
 
 public class BillingAddressWidget {
+	private static final String BILLING_EXPANDED = "BILLING_EXPANDED";
+
 	private Context mContext;
 
 	private ViewGroup mBillingSavedLayout;
@@ -53,6 +56,9 @@ public class BillingAddressWidget {
 	// when a user *explicitly* clicks on a new country.  What this does is keep track of what the system thinks
 	// is the selected country - only the user can get this out of alignment, thus causing tracking.
 	private int mSelectedCountryPosition;
+
+	// Tracks if the user has explicitly expanded the billing information
+	private boolean mUserExpanded = false;
 
 	private ValidationProcessor mAddressValidationProcessor;
 
@@ -87,6 +93,7 @@ public class BillingAddressWidget {
 
 		mBillingSavedLayout.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				mUserExpanded = true;
 				expand(true);
 			}
 		});
@@ -153,7 +160,24 @@ public class BillingAddressWidget {
 		mAddressValidationProcessor.add(mPostalCodeEditText, requiredFieldValidator);
 	}
 
+	public void restoreInstanceState(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			mUserExpanded = savedInstanceState.getBoolean(BILLING_EXPANDED);
+		}
+	}
+
+	public void saveInstanceState(Bundle outState) {
+		if (outState != null) {
+			outState.putBoolean(BILLING_EXPANDED, mUserExpanded);
+		}
+	}
+
 	public void update(Location newLocation) {
+		if (newLocation == null) {
+			clear();
+			return;
+		}
+
 		String address = StrUtils.formatAddress(newLocation);
 
 		// Add country
@@ -183,7 +207,12 @@ public class BillingAddressWidget {
 		setSpinnerSelection(mCountrySpinner, mCountryCodes, newLocation.getCountryCode());
 		mStateEditText.setText(newLocation.getStateCode());
 
-		expand(false);
+		if (mUserExpanded || ! isComplete()) {
+			expand(false);
+		}
+		else {
+			collapse();
+		}
 	}
 
 	public Location getLocation() {
@@ -227,10 +256,6 @@ public class BillingAddressWidget {
 	public void hide() {
 		mBillingSavedLayout.setVisibility(View.GONE);
 		mBillingFormLayout.setVisibility(View.GONE);
-		return;
-	}
-
-	public void show() {
 		return;
 	}
 
