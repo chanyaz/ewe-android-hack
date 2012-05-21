@@ -60,6 +60,7 @@ import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
+import com.expedia.bookings.widget.BillingAddressWidget;
 import com.expedia.bookings.widget.ReceiptWidget;
 import com.expedia.bookings.widget.StoredCardSpinnerAdapter;
 import com.expedia.bookings.widget.TelephoneSpinner;
@@ -101,14 +102,7 @@ public class BookingFormFragment extends DialogFragment {
 	private TelephoneSpinner mTelephoneCountryCodeSpinner;
 	private EditText mTelephoneEditText;
 	private EditText mEmailEditText;
-	private ViewGroup mBillingSavedLayout;
-	private ViewGroup mBillingFormLayout;
-	private EditText mAddress1EditText;
-	private EditText mAddress2EditText;
-	private EditText mCityEditText;
-	private EditText mPostalCodeEditText;
-	private EditText mStateEditText;
-	private Spinner mCountrySpinner;
+	private BillingAddressWidget mBillingAddressWidget;
 	private View mCreditCardInfoContainer;
 	private EditText mCardNumberEditText;
 	private EditText mExpirationMonthEditText;
@@ -136,7 +130,6 @@ public class BookingFormFragment extends DialogFragment {
 	// Validation
 	private ValidationProcessor mValidationProcessor;
 	private ValidationProcessor mGuestInfoValidationProcessor;
-	private ValidationProcessor mAddressValidationProcessor;
 	private TextViewErrorHandler mErrorHandler;
 
 	// The data that the user has entered for billing info
@@ -168,7 +161,6 @@ public class BookingFormFragment extends DialogFragment {
 		super.onCreate(savedInstanceState);
 		mValidationProcessor = new ValidationProcessor();
 		mGuestInfoValidationProcessor = new ValidationProcessor();
-		mAddressValidationProcessor = new ValidationProcessor();
 		mBookingInfoValidation = new BookingInfoValidation();
 	}
 
@@ -205,14 +197,6 @@ public class BookingFormFragment extends DialogFragment {
 		mTelephoneCountryCodeSpinner = (TelephoneSpinner) view.findViewById(R.id.telephone_country_code_spinner);
 		mTelephoneEditText = (EditText) view.findViewById(R.id.telephone_edit_text);
 		mEmailEditText = (EditText) view.findViewById(R.id.email_edit_text);
-		mBillingSavedLayout = (ViewGroup) view.findViewById(R.id.saved_billing_info_layout);
-		mBillingFormLayout = (ViewGroup) view.findViewById(R.id.billing_info_layout);
-		mAddress1EditText = (EditText) view.findViewById(R.id.address1_edit_text);
-		mAddress2EditText = (EditText) view.findViewById(R.id.address2_edit_text);
-		mCityEditText = (EditText) view.findViewById(R.id.city_edit_text);
-		mPostalCodeEditText = (EditText) view.findViewById(R.id.postal_code_edit_text);
-		mStateEditText = (EditText) view.findViewById(R.id.state_edit_text);
-		mCountrySpinner = (Spinner) view.findViewById(R.id.country_spinner);
 		mCreditCardInfoContainer = view.findViewById(R.id.credit_card_info_container);
 		mCardNumberEditText = (EditText) mCreditCardInfoContainer.findViewById(R.id.card_number_edit_text);
 		mExpirationMonthEditText = (EditText) mCreditCardInfoContainer.findViewById(R.id.expiration_month_edit_text);
@@ -234,13 +218,13 @@ public class BookingFormFragment extends DialogFragment {
 
 		mAccountButton = new AccountButton(getActivity(), mAccountButtonClickListener, view.findViewById(R.id.account_button_root));
 		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), !getShowsDialog());
+		mBillingAddressWidget = new BillingAddressWidget(getActivity(), mRootBillingView);
 
 		// 10758: rendering the saved layouts on a software layer
 		// to avoid the fuzziness of the saved section background
 		int sdkVersion = AndroidUtils.getSdkVersion();
 		if (sdkVersion >= 11 && sdkVersion <= 13) {
 			mGuestSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-			mBillingSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 			view.findViewById(R.id.credit_card_security_code_container).setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}
 
@@ -267,8 +251,8 @@ public class BookingFormFragment extends DialogFragment {
 					expandGuestsForm(false);
 				}
 
-				if (!checkAddressCompleted()) {
-					expandBillingForm(false);
+				if (!mBillingAddressWidget.isComplete()) {
+					mBillingAddressWidget.expand(false);
 				}
 			}
 			else {
@@ -276,8 +260,8 @@ public class BookingFormFragment extends DialogFragment {
 				if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
 					expandGuestsForm(false);
 				}
-				if (!checkAddressCompleted()) {
-					expandBillingForm(false);
+				if (!mBillingAddressWidget.isComplete()) {
+					mBillingAddressWidget.expand(false);
 				}
 
 				// Show progress spinner
@@ -301,7 +285,7 @@ public class BookingFormFragment extends DialogFragment {
 						expandGuestsForm(false);
 					}
 					if (savedInstanceState.getBoolean(BILLING_EXPANDED)) {
-						expandBillingForm(false);
+						mBillingAddressWidget.expand(false);
 					}
 					mRulesRestrictionsCheckbox.setChecked(savedInstanceState.getBoolean(RULES_RESTRICTIONS_CHECKED));
 				}
@@ -312,14 +296,14 @@ public class BookingFormFragment extends DialogFragment {
 						expandGuestsForm(false);
 					}
 
-					if (!checkAddressCompleted()) {
-						expandBillingForm(false);
+					if (!mBillingAddressWidget.isComplete()) {
+						mBillingAddressWidget.expand(false);
 					}
 				}
 			}
 			else {
 				expandGuestsForm(false);
-				expandBillingForm(false);
+				mBillingAddressWidget.expand(false);
 			}
 			mFormHasBeenFocused = false;
 		}
@@ -396,65 +380,8 @@ public class BookingFormFragment extends DialogFragment {
 			}
 		});
 
-		mBillingSavedLayout.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				expandBillingForm(true);
-			}
-		});
-
-		// Setup automatic filling of state/country information based on city entered.
-		// Works for some popular cities.
-		mCityEditText.addTextChangedListener(new TextWatcher() {
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// Do nothing
-			}
-
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				// Do nothing
-			}
-
-			public void afterTextChanged(Editable s) {
-				String key = s.toString().toLowerCase();
-				if (BookingInfoUtils.COMMON_US_CITIES.containsKey(key)) {
-					mStateEditText.setText(BookingInfoUtils.COMMON_US_CITIES.get(key));
-					mStateEditText.setError(null);
-					setSpinnerSelection(mCountrySpinner, getString(R.string.country_us));
-				}
-			}
-		});
-
-		// Set the default country as locale country
 		final String targetCountry = getString(LocaleUtils.getDefaultCountryResId(getActivity()));
 		setSpinnerSelection(mTelephoneCountryCodeSpinner, targetCountry);
-		setSpinnerSelection(mCountrySpinner, targetCountry);
-		mCountrySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				// Adjust the postal code textview.  Do this regardless of how the country spinner changed selection
-				if (mCountryCodes[mCountrySpinner.getSelectedItemPosition()].equals("USA")) {
-					mPostalCodeEditText.setInputType(InputType.TYPE_CLASS_NUMBER
-							| InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
-				}
-				else {
-					mPostalCodeEditText.setInputType(InputType.TYPE_CLASS_TEXT
-							| InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-				}
-
-				// See description of mSelectedCountryPosition to understand why we're doing this
-				if (mSelectedCountryPosition != position) {
-					if (mFormHasBeenFocused) {
-						BookingInfoUtils.focusAndOpenKeyboard(getActivity(), mPostalCodeEditText);
-					}
-					BookingInfoUtils.onCountrySpinnerClick(getActivity());
-
-					// Once a user has explicitly changed the country, track every change thereafter
-					mSelectedCountryPosition = -1;
-				}
-			}
-
-			public void onNothingSelected(AdapterView<?> parent) {
-				// Do nothing
-			}
-		});
 
 		// Configure card number - detection
 		// Also configure the lock appearing/disappearing
@@ -584,15 +511,6 @@ public class BookingFormFragment extends DialogFragment {
 		// Setup validators and error handlers
 		final String userCurrency = "USD"; //TODO: CurrencyUtils.getCurrencyCode(getActivity());
 		TextViewValidator requiredFieldValidator = new TextViewValidator();
-		Validator<TextView> usValidator = new Validator<TextView>() {
-			public int validate(TextView obj) {
-				BillingInfo info = Db.getBillingInfo();
-				if (info != null && info.getLocation() != null && info.getLocation().getCountryCode().equals("USA")) {
-					return RequiredValidator.getInstance().validate(obj.getText());
-				}
-				return 0;
-			}
-		};
 		TextViewErrorHandler errorHandler = mErrorHandler = new TextViewErrorHandler(getString(R.string.required_field));
 		errorHandler.addResponse(ValidationError.ERROR_DATA_INVALID, getString(R.string.invalid_field));
 		errorHandler.addResponse(BookingInfoValidation.ERROR_INVALID_CARD_NUMBER,
@@ -617,10 +535,6 @@ public class BookingFormFragment extends DialogFragment {
 		mGuestInfoValidationProcessor.add(mLastNameEditText, requiredFieldValidator);
 		mGuestInfoValidationProcessor.add(mTelephoneEditText, new TextViewValidator(new TelephoneValidator()));
 		mGuestInfoValidationProcessor.add(mEmailEditText, new TextViewValidator(new EmailValidator()));
-		mAddressValidationProcessor.add(mAddress1EditText, requiredFieldValidator);
-		mAddressValidationProcessor.add(mCityEditText, requiredFieldValidator);
-		mAddressValidationProcessor.add(mStateEditText, usValidator);
-		mAddressValidationProcessor.add(mPostalCodeEditText, usValidator);
 		mValidationProcessor.add(mCardNumberEditText, new TextViewValidator(new Validator<CharSequence>() {
 			public int validate(CharSequence number) {
 				if (mCreditCardType == null) {
@@ -706,12 +620,7 @@ public class BookingFormFragment extends DialogFragment {
 		mTelephoneCountryCodeSpinner.setOnFocusChangeListener(l);
 		mTelephoneEditText.setOnFocusChangeListener(l);
 		mEmailEditText.setOnFocusChangeListener(l);
-		mAddress1EditText.setOnFocusChangeListener(l);
-		mAddress2EditText.setOnFocusChangeListener(l);
-		mCityEditText.setOnFocusChangeListener(l);
-		mPostalCodeEditText.setOnFocusChangeListener(l);
-		mStateEditText.setOnFocusChangeListener(l);
-		mCountrySpinner.setOnFocusChangeListener(l);
+		mBillingAddressWidget.setOnFocusChangeListener(l);
 		mCardNumberEditText.setOnFocusChangeListener(l);
 		mExpirationMonthEditText.setOnFocusChangeListener(l);
 		mExpirationYearEditText.setOnFocusChangeListener(l);
@@ -770,35 +679,6 @@ public class BookingFormFragment extends DialogFragment {
 			mGuestsExpanded = false;
 			mGuestSavedLayout.setVisibility(View.VISIBLE);
 			mGuestFormLayout.setVisibility(View.GONE);
-
-			fixFocus();
-		}
-	}
-
-	private void expandBillingForm(boolean animateAndFocus) {
-		if (!mBillingExpanded) {
-			mBillingExpanded = true;
-
-			mBillingSavedLayout.setVisibility(View.GONE);
-			mBillingFormLayout.setVisibility(View.VISIBLE);
-
-			// Fix focus movement
-			fixFocus();
-
-			if (animateAndFocus) {
-				BookingInfoUtils.focusAndOpenKeyboard(getActivity(), mAddress1EditText);
-			}
-
-			// TODO: Animation if animated
-		}
-	}
-
-	private void collapseBillingForm() {
-		if (mBillingExpanded) {
-			mBillingExpanded = false;
-
-			mBillingSavedLayout.setVisibility(View.VISIBLE);
-			mBillingFormLayout.setVisibility(View.GONE);
 
 			fixFocus();
 		}
@@ -911,19 +791,7 @@ public class BookingFormFragment extends DialogFragment {
 		billingInfo.setTelephone(mTelephoneEditText.getText().toString());
 		billingInfo.setEmail(mEmailEditText.getText().toString());
 
-		Location location = new Location();
-		List<String> streetAddress = new ArrayList<String>();
-		streetAddress.add(mAddress1EditText.getText().toString());
-		String address2 = mAddress2EditText.getText().toString();
-		if (address2 != null && address2.length() > 0) {
-			streetAddress.add(address2);
-		}
-		location.setStreetAddress(streetAddress);
-		location.setCity(mCityEditText.getText().toString());
-		location.setPostalCode(mPostalCodeEditText.getText().toString());
-		location.setStateCode(mStateEditText.getText().toString());
-		location.setCountryCode(mCountryCodes[mCountrySpinner.getSelectedItemPosition()]);
-		billingInfo.setLocation(location);
+		billingInfo.setLocation(mBillingAddressWidget.getLocation());
 
 		billingInfo.setNumber(mCardNumberEditText.getText().toString());
 		String expirationMonth = mExpirationMonthEditText.getText().toString();
@@ -988,19 +856,9 @@ public class BookingFormFragment extends DialogFragment {
 		mEmailEditText.setText(billingInfo.getEmail());
 
 		// Sync the saved billing info fields
-		String address = "";
 		Location loc = billingInfo.getLocation();
 		if (loc != null) {
-			address = StrUtils.formatAddress(loc);
-			String countryCode = loc.getCountryCode();
-			if (countryCode != null) {
-				for (int n = 0; n < mCountryCodes.length; n++) {
-					if (mCountryCodes[n].equals(countryCode)) {
-						address += "\n" + getResources().getStringArray(R.array.country_names)[n];
-						break;
-					}
-				}
-			}
+			mBillingAddressWidget.update(loc);
 
 			// Sync the telephone country code spinner
 			SpinnerAdapter adapter = mTelephoneCountryCodeSpinner.getAdapter();
@@ -1011,22 +869,6 @@ public class BookingFormFragment extends DialogFragment {
 			if (position != -1) {
 				mTelephoneCountryCodeSpinner.setSelection(position);
 			}
-
-			TextView addressView = (TextView) view.findViewById(R.id.address_text_view);
-			addressView.setText(address);
-
-			// Sync the editable billing info fields
-			if (loc.getStreetAddress().size() > 0) {
-				mAddress1EditText.setText(loc.getStreetAddress().get(0));
-			}
-			if (loc.getStreetAddress().size() > 1) {
-				mAddress2EditText.setText(loc.getStreetAddress().get(1));
-			}
-			mCityEditText.setText(loc.getCity());
-			mPostalCodeEditText.setText(loc.getPostalCode());
-			setSpinnerSelection(mCountrySpinner, mCountryCodes, loc.getCountryCode());
-			mStateEditText.setText(loc.getStateCode());
-
 		}
 
 		// Sync the editable credit card info fields
@@ -1041,8 +883,7 @@ public class BookingFormFragment extends DialogFragment {
 		if (mUserProfileIsFresh && Db.getUser().hasStoredCreditCards()) {
 			// otherwise we want them to add a new CC anyways
 			mCreditCardInfoContainer.setVisibility(View.GONE);
-			mBillingSavedLayout.setVisibility(View.GONE);
-			mBillingFormLayout.setVisibility(View.GONE);
+			mBillingAddressWidget.hide();
 			mStoredCardContainer.setVisibility(View.VISIBLE);
 			mCardAdapter = new StoredCardSpinnerAdapter((Context) mActivity, Db.getUser().getStoredCreditCards());
 			mStoredCardSpinner.setAdapter(mCardAdapter);
@@ -1050,11 +891,11 @@ public class BookingFormFragment extends DialogFragment {
 		}
 		else {
 			mCreditCardInfoContainer.setVisibility(View.VISIBLE);
-			if (!checkAddressCompleted()) {
-				expandBillingForm(false);
+			if (!mBillingAddressWidget.isComplete()) {
+				mBillingAddressWidget.expand(false);
 			}
 			else {
-				collapseBillingForm();
+				mBillingAddressWidget.collapse();
 			}
 			mStoredCardContainer.setVisibility(View.GONE);
 		}
@@ -1083,12 +924,7 @@ public class BookingFormFragment extends DialogFragment {
 		setSpinnerSelection(mTelephoneCountryCodeSpinner, getString(countryResId));
 		mTelephoneEditText.setText(null);
 		mEmailEditText.setText(null);
-		mAddress1EditText.setText(null);
-		mAddress2EditText.setText(null);
-		mCityEditText.setText(null);
-		mPostalCodeEditText.setText(null);
-		mStateEditText.setText(null);
-		setSpinnerSelection(mCountrySpinner, getString(countryResId));
+		mBillingAddressWidget.clear();
 		mCardNumberEditText.setText(null);
 		mExpirationMonthEditText.setText(null);
 		mExpirationYearEditText.setText(null);
@@ -1096,16 +932,12 @@ public class BookingFormFragment extends DialogFragment {
 		mRulesRestrictionsCheckbox.setChecked(false);
 
 		expandGuestsForm(false);
-		expandBillingForm(false);
+		mBillingAddressWidget.expand(false);
 	}
 
 	private void checkSectionsCompleted(boolean trackCompletion) {
 		Context context = (trackCompletion) ? getActivity() : null;
 		mBookingInfoValidation.checkBookingSectionsCompleted(mValidationProcessor, context);
-	}
-
-	private boolean checkAddressCompleted() {
-		return mAddressValidationProcessor.validate().size() == 0;
 	}
 
 	private void dismissKeyboard(View view) {
