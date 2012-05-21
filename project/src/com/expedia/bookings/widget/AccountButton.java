@@ -61,7 +61,7 @@ public class AccountButton {
 			if (u.getLoyaltyMembershipNumber() == null) {
 				// Normal user
 				top.setText(mContext.getString(R.string.logged_in_as));
-				bottom.setText(Html.fromHtml("<b>" + String.format(mContext.getString(R.string.logged_in_as_template), u.getEmail()) + "</b>"));
+				bottom.setText(Html.fromHtml("<b>" + u.getEmail() + "</b>"));
 			}
 			else {
 				// Rewards user

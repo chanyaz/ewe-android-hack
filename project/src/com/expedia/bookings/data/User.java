@@ -49,7 +49,12 @@ public class User implements JSONable {
 	}
 
 	public String getLoyaltyMembershipNumber() {
-		return mLoyaltyMembershipNumber;
+		if (mLoyaltyMembershipNumber == null || mLoyaltyMembershipNumber.length() == 0) {
+			return null;
+		}
+		else {
+			return mLoyaltyMembershipNumber;
+		}
 	}
 
 	public boolean hasStoredCreditCards() {
