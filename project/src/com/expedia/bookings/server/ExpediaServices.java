@@ -521,7 +521,7 @@ public class ExpediaServices implements DownloadListener {
 			}
 		}
 		finally {
-			client.getConnectionManager().shutdown();
+			client.close();
 			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
 
 			cookieStore.save(mContext, COOKIES_FILE);
