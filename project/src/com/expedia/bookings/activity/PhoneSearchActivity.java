@@ -1487,7 +1487,13 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 		// Inflate the view stub
 		ViewStub stub = Ui.findView(this, R.id.widget_notification_stub);
-		View widgetNotificationBar = stub.inflate();
+		View widgetNotificationBar;
+		if (stub != null) {
+			widgetNotificationBar = stub.inflate();
+		}
+		else {
+			widgetNotificationBar = findViewById(R.id.widget_notification_bar_layout);
+		}
 
 		// Configure the layout
 		widgetNotificationBar.setOnClickListener(new View.OnClickListener() {
