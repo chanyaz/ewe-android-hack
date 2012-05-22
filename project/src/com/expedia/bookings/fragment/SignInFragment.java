@@ -41,8 +41,8 @@ public class SignInFragment extends DialogFragment {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.fragment_sign_in, null);
 
-		Dialog dialog = new Dialog(getActivity(), R.style.Theme_Light_Fullscreen_Panel);
-		dialog.requestWindowFeature(STYLE_NO_TITLE);
+		Dialog dialog = new Dialog(getActivity());
+		dialog.setTitle(R.string.expedia_account);
 		dialog.setContentView(view);
 
 		mUsernameEditText = (EditText) view.findViewById(R.id.username_edit_text);
@@ -54,6 +54,13 @@ public class SignInFragment extends DialogFragment {
 			public void onClick (View v) {
 				mLoginClicked = true;
 				BackgroundDownloader.getInstance().startDownload(KEY_SIGNIN, mLoginDownload, mLoginCallback);
+			}
+		});
+		button = (Button) view.findViewById(R.id.cancel_button);
+		button.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick (View v) {
+				dismiss();
 			}
 		});
 
