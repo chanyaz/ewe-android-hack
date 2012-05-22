@@ -992,6 +992,7 @@ public class BookingFormFragment extends DialogFragment {
 			Db.getBillingInfo().save(getActivity());
 			clearBillingInfo();
 			syncFormFieldsFromBillingInfo(mRootBillingView);
+			updateEnterNewCreditCard();
 		}
 	};
 

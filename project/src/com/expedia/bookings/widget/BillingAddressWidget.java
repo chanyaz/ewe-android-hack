@@ -175,6 +175,7 @@ public class BillingAddressWidget {
 	public void update(Location newLocation) {
 		if (newLocation == null) {
 			clear();
+			expand(false);
 			return;
 		}
 
