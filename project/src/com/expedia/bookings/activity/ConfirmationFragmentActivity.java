@@ -60,6 +60,13 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 				}).start();
 			}
 		}
+		
+		// #13365: If the Db expired, finish out of this activity
+		if (Db.getSelectedProperty() == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return;
+		}
 
 		setContentView(R.layout.activity_confirmation_fragment);
 

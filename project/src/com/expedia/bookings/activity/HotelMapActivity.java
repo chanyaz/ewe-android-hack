@@ -45,6 +45,13 @@ public class HotelMapActivity extends MapActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// #13365: If the Db expired, finish out of this activity
+		if (Db.getSelectedProperty() == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return;
+		}
+
 		mContext = this;
 
 		setContentView(R.layout.activity_hotel_map);

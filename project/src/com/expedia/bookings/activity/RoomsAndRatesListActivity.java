@@ -26,6 +26,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache;
@@ -48,6 +49,13 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		Intent intent = getIntent();
 		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
 			Db.loadTestData(this);
+		}
+
+		// #13365: If the Db expired, finish out of this activity
+		if (Db.getSelectedProperty() == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return;
 		}
 
 		setContentView(R.layout.activity_rooms_and_rates);

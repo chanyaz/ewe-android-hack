@@ -31,6 +31,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.Log;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -47,6 +48,14 @@ public class HotelGalleryActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// #13365: If the Db expired, finish out of this activity
+		if (Db.getSelectedProperty() == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return;
+		}
+
 		mContext = (Context) this;
 
 		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);

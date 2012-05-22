@@ -102,6 +102,13 @@ public class HotelActivity extends Activity {
 			Db.loadTestData(this);
 		}
 
+		// #13365: If the Db expired, finish out of this activity
+		if (Db.getSelectedProperty() == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return;
+		}
+
 		setupHotelActivity(savedInstanceState);
 		if (savedInstanceState != null && savedInstanceState.containsKey(INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED)) {
 			mIsAmenitiesExpanded = savedInstanceState.getBoolean(INSTANCE_IS_PROPERTY_AMENITIES_EXPANDED);
