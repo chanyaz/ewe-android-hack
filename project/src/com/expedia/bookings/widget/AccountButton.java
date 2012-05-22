@@ -52,16 +52,12 @@ public class AccountButton {
 	}
 
 	public void update(boolean isLoading) {
-		mAccountLoadingContainer.setVisibility(View.GONE);
-		mLoginContainer.setVisibility(View.GONE);
-		mLogoutContainer.setVisibility(View.GONE);
-
 		if (isLoading) {
 			mAccountLoadingContainer.setVisibility(View.VISIBLE);
-			return;
+			mLoginContainer.setVisibility(View.GONE);
+			mLogoutContainer.setVisibility(View.GONE);
 		}
-
-		if (ExpediaServices.isLoggedIn(mContext)) {
+		else if (ExpediaServices.isLoggedIn(mContext)) {
 			User u = Db.getUser();
 			ImageView card = (ImageView) mLogoutContainer.findViewById(R.id.card_icon);
 			TextView top = (TextView) mLogoutContainer.findViewById(R.id.account_top_textview);
@@ -79,9 +75,13 @@ public class AccountButton {
 				bottom.setText(mContext.getString(R.string.enrolled_in_expedia_rewards));
 			}
 			mLogoutContainer.setVisibility(View.VISIBLE);
+			mAccountLoadingContainer.setVisibility(View.GONE);
+			mLoginContainer.setVisibility(View.GONE);
 		}
 		else {
 			mLoginContainer.setVisibility(View.VISIBLE);
+			mLogoutContainer.setVisibility(View.GONE);
+			mAccountLoadingContainer.setVisibility(View.GONE);
 		}
 	}
 

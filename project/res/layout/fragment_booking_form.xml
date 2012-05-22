@@ -28,7 +28,7 @@
             <!-- Login Section -->
             <include
                 android:id="@+id/account_button_root"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 layout="@layout/include_account_button" />
 
