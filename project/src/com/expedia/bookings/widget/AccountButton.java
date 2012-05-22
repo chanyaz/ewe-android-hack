@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -26,12 +27,18 @@ public class AccountButton {
 		mLoginContainer = rootView.findViewById(R.id.account_login_container);
 		mLogoutContainer = rootView.findViewById(R.id.account_logout_container);
 
-		TextView loginButton = (TextView) mLoginContainer.findViewById(R.id.expedia_login_textview);
-		loginButton.setOnClickListener(new OnClickListener() {
+		final OnClickListener clickListener = new OnClickListener() {
 			public void onClick(View v) {
 				mListener.accountLoginClicked();
 			}
-		});
+		};
+		TextView loginButton = (TextView) mLoginContainer.findViewById(R.id.expedia_login_textview);
+		if (loginButton == null) {
+			mLoginContainer.setOnClickListener(clickListener);
+		}
+		else {
+			loginButton.setOnClickListener(clickListener);
+		}
 
 		View logoutButton = mLogoutContainer.findViewById(R.id.logout_button);
 
@@ -56,15 +63,18 @@ public class AccountButton {
 
 		if (ExpediaServices.isLoggedIn(mContext)) {
 			User u = Db.getUser();
+			ImageView card = (ImageView) mLogoutContainer.findViewById(R.id.card_icon);
 			TextView top = (TextView) mLogoutContainer.findViewById(R.id.account_top_textview);
 			TextView bottom = (TextView) mLogoutContainer.findViewById(R.id.account_bottom_textview);
 			if (u.getLoyaltyMembershipNumber() == null) {
 				// Normal user
+				card.setImageResource(R.drawable.ic_logged_in_no_rewards);
 				top.setText(mContext.getString(R.string.logged_in_as));
 				bottom.setText(Html.fromHtml("<b>" + u.getEmail() + "</b>"));
 			}
 			else {
 				// Rewards user
+				card.setImageResource(R.drawable.ic_logged_in_with_rewards);
 				top.setText(Html.fromHtml("<b>" + u.getEmail() + "</b>"));
 				bottom.setText(mContext.getString(R.string.enrolled_in_expedia_rewards));
 			}
