@@ -2587,6 +2587,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 					searchParams.fillFromSearch((Search) o);
 				}
 				else {
+					searchParams.setSearchType(SearchType.FREEFORM);
 					searchParams.setFreeformLocation(o.toString());
 				}
 			}
