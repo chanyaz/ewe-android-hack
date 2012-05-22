@@ -1730,6 +1730,11 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 			mSearchSuggestionsListView.setVisibility(View.VISIBLE);
 
+			// 13550: In some cases, the list has been cleared
+			// (like as a result of memory cleanup or rotation). So just
+			// populate it here just in case that happens.
+			startAutocomplete();
+
 			mPanelDismissView.setVisibility(View.GONE);
 			openPanel(false, animate);
 
