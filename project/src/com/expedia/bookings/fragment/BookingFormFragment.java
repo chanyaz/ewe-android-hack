@@ -242,7 +242,9 @@ public class BookingFormFragment extends DialogFragment {
 		configureForm();
 
 		if (savedInstanceState != null) {
-			mSelectedCardPosition = savedInstanceState.getInt(SELECTED_CARD_POSITION);
+			if (savedInstanceState.containsKey(SELECTED_CARD_POSITION)) {
+				mSelectedCardPosition = savedInstanceState.getInt(SELECTED_CARD_POSITION);
+			}
 			mUserProfileIsFresh = savedInstanceState.getBoolean(USER_PROFILE_IS_FRESH);
 		}
 
@@ -348,7 +350,9 @@ public class BookingFormFragment extends DialogFragment {
 		outState.putBoolean(GUESTS_EXPANDED, mGuestsExpanded);
 		outState.putBoolean(RULES_RESTRICTIONS_CHECKED, mRulesRestrictionsCheckbox.isChecked());
 		outState.putBoolean(USER_PROFILE_IS_FRESH, mUserProfileIsFresh);
-		outState.putInt(SELECTED_CARD_POSITION, mCardAdapter.getSelected());
+		if (mCardAdapter != null) {
+			outState.putInt(SELECTED_CARD_POSITION, mCardAdapter.getSelected());
+		}
 
 		mReceiptWidget.saveInstanceState(outState);
 		mBillingAddressWidget.saveInstanceState(outState);
