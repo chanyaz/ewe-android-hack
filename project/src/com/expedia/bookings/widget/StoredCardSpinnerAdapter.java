@@ -81,10 +81,16 @@ public class StoredCardSpinnerAdapter extends BaseAdapter implements SpinnerAdap
 		StoredCreditCard card = (StoredCreditCard) getItem(position);
 		if (card == null) {
 			holder.title.setText(mContext.getString(R.string.enter_a_new_card));
-			//holder.image // set drawable
+			holder.image.setImageResource(R.drawable.ic_new_credit_card);
 		}
 		else {
 			holder.title.setText(card.getDescription());
+			if (position == mSelected) {
+				holder.image.setImageResource(R.drawable.ic_selected_credit_card);
+			}
+			else {
+				holder.image.setImageResource(R.drawable.ic_select_credit_card);
+			}
 		}
 
 		return convertView;
