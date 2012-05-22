@@ -316,18 +316,6 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public boolean isLoggedIn() {
-		PersistantCookieStore cookieStore = new PersistantCookieStore();
-		cookieStore.load(mContext, COOKIES_FILE);
-		List<Cookie> cookies = cookieStore.getCookies();
-		for (Cookie c : cookies) {
-			Log.d("HERE " + c.toString());
-			if (c.getDomain().equals(".expedia.com") && c.getName().equals("s1")) {
-				if (c.getValue().contains("user=")) {
-					//return true;
-				}
-			}
-		}
-
 		File f = mContext.getFileStreamPath(IS_USER_LOGGED_IN_FILE);
 		return f.exists();
 	}
