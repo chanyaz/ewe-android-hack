@@ -304,7 +304,14 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		super.onResume();
 
 		invalidateOptionsMenu();
+	}
 
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+
+		// #13546 - Need to put any methods that may affect Fragment state in onPostResume() instead of
+		// onResume() for the compatibility library (otherwise we get state loss errors).
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_GEOCODE)) {
 			bd.registerDownloadCallback(KEY_SEARCH, mGeocodeCallback);
@@ -363,16 +370,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		super.onDestroy();
 
 		if (isFinishing()) {
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			bd.cancelDownload(KEY_GEOCODE);
-			bd.cancelDownload(KEY_SEARCH);
-			bd.cancelDownload(KEY_AVAILABILITY_SEARCH);
-			bd.cancelDownload(KEY_REVIEWS);
-
-			Db.setSearchResponse(null);
-			Db.resetFilter();
-			Db.clearAvailabilityResponses();
-			Db.clearReviewsResponses();
+			clearSearch();
 		}
 	}
 
@@ -386,7 +384,10 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		// Indicates that settings were changed - send out a broadcast
 		if (requestCode == REQUEST_CODE_SETTINGS && resultCode == RESULT_OK) {
 			Log.i("Detected currency settings change.");
-			startSearch();
+
+			// Clear out the search results data - this will automatically start a search
+			// when we get to onResume().
+			clearSearch();
 		}
 	}
 
@@ -859,7 +860,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		}
 	};
 
-	private final OnDownloadComplete<List<Address>> mGeocodeCallback = new OnDownloadComplete<List <Address>>() {
+	private final OnDownloadComplete<List<Address>> mGeocodeCallback = new OnDownloadComplete<List<Address>>() {
 		@SuppressWarnings("unchecked")
 		public void onDownload(List<Address> addresses) {
 			if (addresses != null) {
@@ -979,6 +980,22 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		error.setCode("SIMULATED");
 		response.addError(error);
 		mSearchCallback.onDownload(response);
+	}
+
+	// Use if you want to get back to ground zero.  Typically not if you want
+	// to modify search params, but useful when destroying the Activity (or if
+	// for example the POS changes).
+	public void clearSearch() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.cancelDownload(KEY_GEOCODE);
+		bd.cancelDownload(KEY_SEARCH);
+		bd.cancelDownload(KEY_AVAILABILITY_SEARCH);
+		bd.cancelDownload(KEY_REVIEWS);
+
+		Db.setSearchResponse(null);
+		Db.resetFilter();
+		Db.clearAvailabilityResponses();
+		Db.clearReviewsResponses();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
