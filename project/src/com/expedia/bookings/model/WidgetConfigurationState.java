@@ -93,20 +93,15 @@ public class WidgetConfigurationState extends Model {
 	 * deleted.
 	 */
 	public static void reconcileWidgetConfigurationStates(Context context, int[] existingAppWidgetIds) {
-
-		String appWidgetIds = " (";
-		for (int i = 0; i < (existingAppWidgetIds.length - 1); i++) {
-			appWidgetIds += existingAppWidgetIds[i] + ", ";
+		StringBuilder ids = new StringBuilder("( "); // Keep the trailing space here
+		for (int id : existingAppWidgetIds) {
+			ids.append(id);
+			ids.append(",");
 		}
-		if (existingAppWidgetIds.length > 0) {
-			appWidgetIds += existingAppWidgetIds[existingAppWidgetIds.length - 1] + " )";
-		}
-		else {
-			appWidgetIds += ")";
-		}
+		ids.replace(ids.length() - 1, ids.length(), ")");
 
 		List<WidgetConfigurationState> orphanedConfigStates = new Select().from(WidgetConfigurationState.class)
-				.where(AppWidgetId + " not in ?", appWidgetIds).execute();
+				.where(AppWidgetId + " not in " + ids).execute();
 
 		// delete all the widget configurations that are orphaned
 		for (Object config : orphanedConfigStates) {
