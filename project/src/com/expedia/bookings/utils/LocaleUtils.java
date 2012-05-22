@@ -48,6 +48,10 @@ public class LocaleUtils {
 			put("BR", R.string.point_of_sale_br);
 			put("HK", R.string.point_of_sale_hk);
 			put("TW", R.string.point_of_sale_tw);
+			put("VN", R.string.point_of_sale_vn);
+			put("AR", R.string.point_of_sale_ar);
+			put("AT", R.string.point_of_sale_at);
+			put("IN", R.string.point_of_sale_in);
 		}
 	};
 
@@ -79,6 +83,10 @@ public class LocaleUtils {
 			put(R.string.point_of_sale_br, R.string.country_br);
 			put(R.string.point_of_sale_hk, R.string.country_hk);
 			put(R.string.point_of_sale_tw, R.string.country_tw);
+			put(R.string.point_of_sale_vn, R.string.country_vn);
+			put(R.string.point_of_sale_ar, R.string.country_ar);
+			put(R.string.point_of_sale_at, R.string.country_at);
+			put(R.string.point_of_sale_in, R.string.country_in);
 		}
 	};
 
@@ -305,7 +313,7 @@ public class LocaleUtils {
 	private static void ensurePOSCountryCodesCacheFilled(Context context) {
 		if (sPOSCountryCodes == null) {
 			Map<String, String> badCountryCodes = ResourceUtils.getStringMap(context, R.array.pos_country_code_map);
-			Map<String, String> countryMaps = new HashMap<String,String>();
+			Map<String, String> countryMaps = new HashMap<String, String>();
 			for (Map.Entry<String, String> e : badCountryCodes.entrySet()) {
 				countryMaps.put(e.getKey(), convertCountryCode(e.getValue()));
 			}
