@@ -229,7 +229,9 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 			}
 		});
 
+		// Autosuggestions
 		initSuggestionViews(view, inflater);
+		startAutocomplete(Db.getSearchParams().getFreeformLocation());
 
 		// Configure the calendar
 		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker);
@@ -330,7 +332,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		SearchParams params = Db.getSearchParams();
 
 		if (mHasFocusedSearchField) {
-			mLocationEditText.setText(params.getSearchDisplayText(getActivity()));
+			mLocationEditText.setText(params.getFreeformLocation());
 		}
 		else {
 			mLocationEditText.setText(R.string.enter_search_location);
@@ -682,7 +684,6 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		}
 
 		configureSuggestions(null);
-		startAutocomplete("");
 	}
 
 	private void startAutocomplete(String query) {
