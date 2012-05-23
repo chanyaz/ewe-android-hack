@@ -551,7 +551,7 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
-	<string name="log_in">เข้าสู่ระบบ Expedia </string>
+	<string name="log_in">เข้าระบบ Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">รหัสผ่าน</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->
@@ -574,10 +574,14 @@
 	<string name="loading_expedia_account">กำลังโหลดบัญชี Expedia</string>
     <!-- Label for password recovery -->
 	<string name="forgot_your_password">ลืมรหัสผ่าน</string>
+    <!-- Label for coupon code area of booking form -->
+	<string name="coupon_code">รหัสคูปอง</string>
     <!-- Label applying a coupon -->
 	<string name="apply">ใช้</string>
+    <!-- Label for new price after applying coupon -->
+	<string name="new_total">ราคาใหม่ หลังส่วนลด:</string>
     <!-- Label for credit card selection -->
-	<string name="use_card">ใช้บัตรเครดิต:</string>
+	<string name="use_card">ใช้บัตรเครดิตนี้:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -695,7 +699,7 @@
 
 	<!-- Distance strings -->
 	<!-- Abbreviated miles (used in distance_template) -->
-	<string name="unit_miles"> ไมล์</string>
+	<string name="unit_miles">ไมล์</string>
 	<!-- Abbreviated kilometers (used in distance_template) -->
 	<string name="unit_kilometers">กม.</string>
 	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->

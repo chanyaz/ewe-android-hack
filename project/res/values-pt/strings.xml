@@ -97,7 +97,7 @@
 	<string name="filter_hotels">Filtrar hotéis</string>
 	<!-- A number of results -->
 	<plurals name="number_of_results">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; resultados</item>
+		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; resultado</item>
 		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; resultado</item>
 		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; resultados</item>
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; resultados</item>
@@ -310,7 +310,7 @@
 	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; de &lt;b&gt;%2$d&lt;/b&gt; hóspedes recomendam este hotel.</string>
 	<!-- A number of reviews -->
 	<plurals name="number_of_reviews">
-		<item quantity="zero">%d avaliações</item>
+		<item quantity="zero">%d avaliação</item>
 		<item quantity="one">%d avaliação</item>
 		<item quantity="two">%d avaliações</item>
 		<item quantity="many">%d avaliações</item>
@@ -332,7 +332,7 @@
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
 	<plurals name="staying_nights">
-		<item quantity="zero">Estadia de %d noites</item>
+		<item quantity="zero">Estadia de %d noite</item>
 		<item quantity="one">Estadia de %d noite</item>
 		<item quantity="two">Estadia de %d noites</item>
 		<item quantity="many">Estadia de %d noites</item>
@@ -573,8 +573,12 @@
 	<string name="loading_expedia_account">Carregando conta da Expedia</string>
     <!-- Label for password recovery -->
 	<string name="forgot_your_password">Esqueceu sua senha?</string>
+    <!-- Label for coupon code area of booking form -->
+	<string name="coupon_code">Código de cupom</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Solicitar</string>
+    <!-- Label for new price after applying coupon -->
+	<string name="new_total">Novo total:</string>
     <!-- Label for credit card selection -->
 	<string name="use_card">Usar cartão:</string>
 
@@ -661,7 +665,7 @@
 	<!-- Strings used a lot of places -->
 	<!-- A number of adults -->
 	<plurals name="number_of_adults">
-		<item quantity="zero">%d adultos</item>
+		<item quantity="zero">%d adulto</item>
 		<item quantity="one">%d adulto</item>
 		<item quantity="two">%d adultos</item>
 		<item quantity="many">%d adultos</item>
@@ -669,7 +673,7 @@
 	</plurals>
 	<!-- A number of children -->
 	<plurals name="number_of_children">
-		<item quantity="zero">%d crianças</item>
+		<item quantity="zero">%d criança</item>
 		<item quantity="one">%d criança</item>
 		<item quantity="two">%d crianças</item>
 		<item quantity="many">%d crianças</item>
@@ -677,7 +681,7 @@
 	</plurals>
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
-		<item quantity="zero">%d hóspedes</item>
+		<item quantity="zero">%d hóspede</item>
 		<item quantity="one">%d hóspede</item>
 		<item quantity="two">%d hóspedes</item>
 		<item quantity="many">%d hóspedes</item>
@@ -685,7 +689,7 @@
 	</plurals>
 	<!-- A number of nights (as in stay duration).  Capitalized -->
 	<plurals name="number_of_nights">
-		<item quantity="zero">%d noites</item>
+		<item quantity="zero">%d noite</item>
 		<item quantity="one">%d noite</item>
 		<item quantity="two">%d noites</item>
 		<item quantity="many">%d noites</item>

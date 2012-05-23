@@ -544,9 +544,9 @@
 	<!-- Policy displayed to user when a guarantee is required -->
 	<string name="PolicyGuaranteeRequired">Chúng tôi cần thông tin thẻ tín dụng của bạn để đảm bảo có thể giữ phòng bạn đã đặt. Bạn sẽ không phải thanh toán qua thẻ tín dụng cho đến khi có mặt tại khách sạn hoặc hết thời hạn cho phép hủy đặt phòng.</string>
 	<!-- Expedia merchant hotel policies -->
-	<string name="PolicyExpediaMerchant">Tiến hành đặt phòng khách sạn này cũng đồng nghĩa với việc bạn đồng ý với mọi điều khoản và điều kiện, bao gồm cả Chính sách Hủy đặt phòng và mọi điều khoản khác trong mục &quot;Thỏa thuận Người dùng&quot;.\n \n Bạn đồng ý thanh toán cho việc đặt phòng của mình. Nếu bạn không thanh toán và khoản nợ này phải được thu hồi qua một công ty thu hồi nợ, luật sư hoặc qua các quy trình pháp lý khác, bạn đồng ý thanh toán mọi khoản chi phí hợp lý phát sinh trong quá trình thu hồi nợ, bao gồm phí luật sư và án phí.</string>
+	<string name="PolicyExpediaMerchant">Tiến hành đặt phòng khách sạn này cũng đồng nghĩa với việc bạn đồng ý với mọi điều khoản và điều kiện, bao gồm cả Chính sách Hủy đặt phòng và mọi điều khoản khác trong mục &quot;Thỏa thuận Người dùng&quot;.\n\n Bạn đồng ý thanh toán cho việc đặt phòng của mình. Nếu bạn không thanh toán và khoản nợ này phải được thu hồi qua một công ty thu hồi nợ, luật sư hoặc qua các quy trình pháp lý khác, bạn đồng ý thanh toán mọi khoản chi phí hợp lý phát sinh trong quá trình thu hồi nợ, bao gồm phí luật sư và án phí.</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">Bạn đang tiến hành đặt phòng tại một khách sạn không có giá ưu đãi. Tất cả giá hiển thị đều là giá từng phòng mỗi đêm, dành cho 2 người, trừ khi có các lưu ý khác. Vui lòng xem kỹ mô tả phòng và các quy định về giá để đảm bảo rằng phòng bạn chọn phù hợp nhu cầu của bạn. Một số mức giá có thể yêu cầu một số thông tin xác thực đặc biệt. Phí đặt phòng của chúng tôi, thuế và các phí phát sinh khác của khách sạn chưa được tính. Mọi yêu cầu bổ sung chỗ cho người lớn hoặc trẻ em vào danh sách đặt phòng bên trên có thể sẽ bị khách sạn tính phí bổ sung.\n \nYêu cầu về chỗ cho từ hơn 2 người trở lên (so với mức giá bạn đã chọn) sẽ được chuyển đến khách sạn nhưng không được đảm bảo chắc chắn. Nếu được đồng ý, yêu cầu của bạn có thể khách sạn bị tính phí bổ sung.</string>
+	<string name="PolicyExpediaAgent">Bạn đang tiến hành đặt phòng tại một khách sạn không có giá ưu đãi. Tất cả giá hiển thị đều là giá từng phòng mỗi đêm, dành cho 2 người, trừ khi có các lưu ý khác. Vui lòng xem kỹ mô tả phòng và các quy định về giá để đảm bảo rằng phòng bạn chọn phù hợp nhu cầu của bạn. Một số mức giá có thể yêu cầu một số thông tin xác thực đặc biệt. Phí đặt phòng của chúng tôi, thuế và các phí phát sinh khác của khách sạn chưa được tính. Mọi yêu cầu bổ sung chỗ cho người lớn hoặc trẻ em vào danh sách đặt phòng bên trên có thể sẽ bị khách sạn tính phí bổ sung.\n\nYêu cầu về chỗ cho từ hơn 2 người trở lên (so với mức giá bạn đã chọn) sẽ được chuyển đến khách sạn nhưng không được đảm bảo chắc chắn. Nếu được đồng ý, yêu cầu của bạn có thể khách sạn bị tính phí bổ sung.</string>
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
@@ -557,26 +557,30 @@
 	<string name="logging_in">Đang đăng nhập...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Thành công! Bạn đã đăng nhập.</string>
-    <!-- Label for login widget button -->
-    <string name="account_login">Đăng nhập</string>
-    <!-- Label for login widget additional text -->
-    <string name="log_in_for_faster_booking">Đăng nhập để đặt phòng/chỗ nhanh hơn.</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_rewards">Tham gia Expedia Rewards\u2122</string>
-    <!-- Label for account name -->
-    <string name="logged_in_as">Đăng nhập bằng</string>
-    <!-- Label for account name -->
+	<!-- Label for login widget button -->
+	<string name="account_login">Đăng nhập</string>
+	<!-- Label for login widget additional text -->
+	<string name="log_in_for_faster_booking">Đăng nhập để đặt phòng/chỗ nhanh hơn.</string>
+	<!-- Label for account status -->
+	<string name="enrolled_in_expedia_rewards">Tham gia Expedia Rewards\u2122</string>
+	<!-- Label for account name -->
+	<string name="logged_in_as">Đăng nhập bằng</string>
+	<!-- Label for account name -->
     <string name="logged_in_as_template">Đăng nhập bằng &lt;b&gt;%s&lt;/b&gt;</string>
-    <!-- Label for signin screen -->
-    <string name="expedia_account">Tài khoản Expedia</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Đang tải tài khoản Expedia</string>
+	<!-- Label for signin screen -->
+	<string name="expedia_account">Tài khoản Expedia</string>
+	<!-- Label for loading user profile from expedia.com -->
+	<string name="loading_expedia_account">Đang tải tài khoản Expedia</string>
     <!-- Label for password recovery -->
-    <string name="forgot_your_password">Quên mật khẩu?</string>
+	<string name="forgot_your_password">Quên mật khẩu?</string>
+    <!-- Label for coupon code area of booking form -->
+	<string name="coupon_code">Mã coupon</string>
     <!-- Label applying a coupon -->
-    <string name="apply">Đăng ký</string>
+	<string name="apply">Đăng ký</string>
+    <!-- Label for new price after applying coupon -->
+	<string name="new_total">Tổng giá mới:</string>
     <!-- Label for credit card selection -->
-    <string name="use_card">Sử dụng thẻ:</string>
+	<string name="use_card">Sử dụng thẻ:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->

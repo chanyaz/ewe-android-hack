@@ -575,8 +575,12 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 	<string name="loading_expedia_account">Memuat Akun Expedia</string>
     <!-- Label for password recovery -->
 	<string name="forgot_your_password">Lupa kata sandi Anda?</string>
+    <!-- Label for coupon code area of booking form -->
+	<string name="coupon_code">Kode Kupon</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Daftar</string>
+    <!-- Label for new price after applying coupon -->
+	<string name="new_total">Total Baru:</string>
     <!-- Label for credit card selection -->
 	<string name="use_card">Gunakan kartu:</string>
 

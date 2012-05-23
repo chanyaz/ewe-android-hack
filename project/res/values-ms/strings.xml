@@ -105,7 +105,7 @@
 	</plurals>
 
 	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">Untuk menggunakan Lokasi Saya, anda perlu terlebih dahulu mulakan sumber Lokasi dalam Tetapan.\nPergi keTetapan dan mulakannya sekarang?</string>
+	<string name="EnableLocationSettings">Untuk menggunakan Lokasi Saya, anda perlu terlebih dahulu mulakan sumber Lokasi dalam Tetapan.\nPergi ke Tetapan dan mulakannya sekarang?</string>
 	<!-- Message displayed when user has disabled finding the device's location. -->
 	<string name="ProviderDisabled">Penyedia lokasi anda telah dinyahdayakan. Sila dayakan semula untuk mencari mengikut lokasi anda.</string>
 	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
@@ -121,7 +121,7 @@
 	<!-- Sort by price label -->
 	<string name="sort_description_price">Harga</string>
 	<!-- Sort by user rating label -->
-	<string name="sort_description_rating">Penarafan Pengguna</string>
+	<string name="sort_description_rating">Pengadaran Pengguna</string>
 	
 	<!-- Filter option for "show all" -->
 	<string name="all">Semua</string>
@@ -164,7 +164,7 @@
 	<!-- The label for price per night - "from $120/night", for example -->
 	<string name="per_night">/malam</string>
 	<!-- Label shown when a hotel has no user ratings -->
-	<string name="not_rated">Tidak Dikadarkan:</string>
+	<string name="not_rated">Tidak Berkadar:</string>
 	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
 	<string name="percent_off_template">POTONGAN %2.0f%%</string>
 
@@ -191,7 +191,7 @@
 	<!--  Instructions on how to add widget to home screen -->
 	<string name="widget_add_instructions">Ketik dan pegang di skrin utama anda untuk menambah widget Radar Hotel.</string>
 	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">Tiada Keterkaitan Internet</string>
+	<string name="widget_error_no_internet">Tiada Kesambungan Internet</string>
 	<!--  Widget Branding title -->
 	<string name="hotel_radar">Radar Hotel</string>
 	<!--  Widget Branding description -->
@@ -205,11 +205,11 @@
 	<!-- Label for button to book the hotel -->
 	<string name="book_now">Tempah Sekarang</string>
 	<!-- Label for the hotel's star rating -->
-	<string name="star_rating">Penarafan Bintang</string>
+	<string name="star_rating">Pengadaran Bintang</string>
 	<!--  Title for star rating in hotel description section -->
-	<string name="star_rating_title">Penarafan Bintang:</string>
+	<string name="star_rating_title">Pengadaran Bintang:</string>
 	<!-- Label for the hotel's trip advisor rating  -->
-	<string name="user_rating">Penarafan Pengguna</string>
+	<string name="user_rating">Pengadaran Pengguna</string>
 	<!-- Label for the address section of the description  -->
 	<string name="address">Alamat</string>
 	<!-- Bullet point for list items  -->
@@ -269,7 +269,7 @@
 	<!-- Accessible bathroom amenity -->
 	<string name="AmenityAccessibleBathroom">Bilik Mandi Mudah Capai</string>
 	<!-- Roll-in shower amenity -->
-	<string name="AmenityRollInShower">Pancur Mandi Kerusi Roda</string>
+	<string name="AmenityRollInShower">Pancuran Mandi Kerusi Roda</string>
 	<!-- Handicapped parking amenity -->
 	<string name="AmenityHandicappedParking">Tempat Letak Kenderaan Orang Kurang Upaya</string>
 	<!-- In-room accessibility amenity -->
@@ -550,7 +550,7 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
-	<string name="log_in">Log masuk ke dalam Expedia</string>
+	<string name="log_in">Log masuk ke Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Kata Laluan</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->
@@ -573,8 +573,12 @@
 	<string name="loading_expedia_account">Memuatkan Akaun Expedia</string>
     <!-- Label for password recovery -->
 	<string name="forgot_your_password">Terlupa kata laluan anda?</string>
+    <!-- Label for coupon code area of booking form -->
+	<string name="coupon_code">Kod Kupon</string>
     <!-- Label applying a coupon -->
-	<string name="apply">Pohon</string>
+	<string name="apply">Gunakan</string>
+    <!-- Label for new price after applying coupon -->
+	<string name="new_total">Jumlah Baru:</string>
     <!-- Label for credit card selection -->
 	<string name="use_card">Gunakan kad:</string>
 
@@ -640,7 +644,7 @@
 	<!-- Header title -->
 	<string name="app_feedback">Maklum Balas Aplikasi</string>
 	<!-- Section header for rating (1-5 stars) -->
-	<string name="oosdk_rating_overall_header">Sila Berikan Kami Penarafan</string>
+	<string name="oosdk_rating_overall_header">Sila Berikan Kami Pengadaran</string>
 	<!-- Footer for the view -->
 	<string name="powered_by_opinion_lab">Dikuasakan oleh Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Dasar Privasi</a></string>
 	<!-- Hint to type in email address -->

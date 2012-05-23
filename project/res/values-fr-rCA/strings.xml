@@ -550,33 +550,37 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
-	<string name="log_in">Ouvrir une session sur Expedia</string>
+	<string name="log_in">Se connecter à Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Mot de passe</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->
 	<string name="logging_in">Ouverture de session...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Réussite!  Votre session est maintenant ouverte.</string>
-    <!-- Label for login widget button -->
-    <string name="account_login">Ouverture de session au compte</string>
-    <!-- Label for login widget additional text -->
-    <string name="log_in_for_faster_booking">Ouvrez une session pour accélérer le processus de réservation.</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_rewards">Inscrits à Récompenses Expedia\u2122</string>
-    <!-- Label for account name -->
-    <string name="logged_in_as">En session en tant que</string>
-    <!-- Label for account name -->
+	<!-- Label for login widget button -->
+	<string name="account_login">Ouverture de session au compte</string>
+	<!-- Label for login widget additional text -->
+	<string name="log_in_for_faster_booking">Ouvrez une session pour accélérer le processus de réservation.</string>
+	<!-- Label for account status -->
+	<string name="enrolled_in_expedia_rewards">Inscrits à Récompenses Expedia\u2122</string>
+	<!-- Label for account name -->
+	<string name="logged_in_as">En session en tant que</string>
+	<!-- Label for account name -->
     <string name="logged_in_as_template">En session en tant que &lt;b&gt;%s&lt;/b&gt;</string>
-    <!-- Label for signin screen -->
-    <string name="expedia_account">Compte Expedia</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Chargement du compte Expedia</string>
+	<!-- Label for signin screen -->
+	<string name="expedia_account">Compte Expedia</string>
+	<!-- Label for loading user profile from expedia.com -->
+	<string name="loading_expedia_account">Chargement du compte Expedia</string>
     <!-- Label for password recovery -->
-    <string name="forgot_your_password">Vous avez oublié votre mot de passe?</string>
+	<string name="forgot_your_password">Vous avez oublié votre mot de passe?</string>
+    <!-- Label for coupon code area of booking form -->
+	<string name="coupon_code">Code promotionnel</string>
     <!-- Label applying a coupon -->
-    <string name="apply">Appliquer</string>
+	<string name="apply">Appliquer</string>
+    <!-- Label for new price after applying coupon -->
+	<string name="new_total">Nouveau montant total :</string>
     <!-- Label for credit card selection -->
-    <string name="use_card">Utiliser la carte:</string>
+	<string name="use_card">Utiliser carte:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->

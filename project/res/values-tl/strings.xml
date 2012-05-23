@@ -82,7 +82,7 @@
 	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
 	<string name="NoGeocodingResults">Hindi mahanap ang kinaroroonan ng %s.</string>
 	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-	<string name="ChooseLocation">Ang ibig ba ninyong sabihin ay...</string>
+	<string name="ChooseLocation">Ang tinutukoy ba ninyo ay...</string>
 	<!-- Button label for upgrading the app -->
 	<string name="upgrade">Mag-upgrade</string>
 	<!-- Button label for searching the visible map area -->
@@ -187,7 +187,7 @@
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
 	<string name="widget_savings_template">Makakatipid ng %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
-	<string name="refresh_widget">Tapikin upang i-refresh</string>
+	<string name="refresh_widget">Pindutin upang i-refresh</string>
 	<!--  Instructions on how to add widget to home screen -->
 	<string name="widget_add_instructions">Pindutin nang matagal ang inyong home screen upang idagdag ang widget ng Hotel Radar.</string>
 	<!--  Error string for widget when internet connection is unavailable -->
@@ -199,7 +199,7 @@
 	<!--  First string for widget upsell within app as a notification in the top bar -->
 	<string name="widget_upsell_short_1">Idagdag ang Widget ng Hotel Radar.</string>
 	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">Makakuha ng mga deal gabi-gabi malapit sa inyo!</string>
+	<string name="widget_upsell_short_2">Tumanggap ng mga deal gabi-gabi sa malapit sa inyo!</string>
 
 	<!-- Hotel Activity -->
 	<!-- Label for button to book the hotel -->
@@ -299,7 +299,7 @@
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_favorable">Maganda</string>
 	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_critical">Puna</string>
+	<string name="user_review_sort_button_critical">Komentaryo</string>
 	<!-- Loading more reviews -->
 	<string name="user_review_loading_more_reviews">Naglo-load ng mga mas marami pang review...</string>
 	<!-- Read more of the review -->
@@ -348,7 +348,7 @@
 	<string name="rate_avg_per_night">avg/gabi</string>
 	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
 	<plurals name="number_of_rooms_left">
-		<item quantity="zero">Wala nang mga natirang kuwarto!</item>
+		<item quantity="zero">Wala nang mga bakanteng kuwarto!</item>
 		<item quantity="one">1 kwarto na lamang ang natitira!</item>
 		<item quantity="two">%d na lamang ang natitira!</item>
 		<item quantity="many">%d na lamang ang natitira!</item>
@@ -392,9 +392,9 @@
 	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
 	<string name="room_rate_template">Rate ng Kuwarto %s</string>
 	<!-- Label for the extra guest charge -->
-	<string name="extra_guest_charge">Bayarin sa Karagdagang Bisita</string>
+	<string name="extra_guest_charge">Bayarin para sa Karagdagang Bisita</string>
 	<!-- Label for total cost of hotel stay -->
-	<string name="total_cost">Kabuuang Gastos</string>
+	<string name="total_cost">Kabuuang Presyo</string>
 	<!-- Label for "guest info" form field section -->
 	<string name="guest_info">Impormasyon ng Bisita</string>
 	<!-- The "first name" booking info field.  -->
@@ -408,7 +408,7 @@
 	<!-- The "email for booking confirmation" booking info field.  -->
 	<string name="EmailForConf">Email para sa Pagkumpirma</string>
 	<!-- Label for "billing info" form field section -->
-	<string name="billing_info">Impormasyon sa Pagsingil</string>
+	<string name="billing_info">Impormasyon sa Billing</string>
 	<!-- Address line 1 form field hint -->
 	<string name="hint_address1">Address 1</string>
 	<!-- Address line 2 form field hint -->
@@ -438,7 +438,7 @@
 	<!-- Security code tip (if code is on front of card) -->
 	<string name="security_code_tip_back">Tingnan ang likod ng credit card</string>
 	<!-- Rules & restrictions section header -->
-	<string name="rules_restrictions">Mga Panuntunan &amp; Restriksiyon</string>
+	<string name="rules_restrictions">Mga Alituntunin &amp; Restriksiyon</string>
 	<!-- Disclaimer about how to earn expedia points -->
 	<string name="disclaimer_expedia_points">Kung mayroon kayong Expedia Rewards account, mangyaring mag-book gamit ang parehong email address at awtomatikong mapo-post ang inyong points pagkatapos ng inyong pananatili. Pakitandaan na maaaring tumagal nang hanggang 30 araw upang lumitaw ang inyong points.</string>
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
@@ -452,7 +452,7 @@
 	<!-- Title for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_title">I-clear ang Pvt Data?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_msg">Inaalis nito ang lahat ng naka-save na impormasyon ng pagsingil at contact.</string>
+	<string name="dialog_clear_private_data_msg">Inaalis nito ang lahat ng naka-save na impormasyon ng billing at pagkontak.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Na-clear ang pvt data</string>
 	<!-- Error message if field was required but not entered -->
@@ -557,26 +557,30 @@
 	<string name="logging_in">Nagla-log in ...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Tagumpay! Nakalog-in ka nan.</string>
-    <!-- Label for login widget button -->
-    <string name="account_login">Account Login</string>
-    <!-- Label for login widget additional text -->
-    <string name="log_in_for_faster_booking">Mag-log in para sa mas mabilis na pagpapa-book.</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_rewards">Nakapagpalista sa Expedia Rewards\u2122</string>
-    <!-- Label for account name -->
-    <string name="logged_in_as">Naka-log in bilang</string>
-    <!-- Label for account name -->
+	<!-- Label for login widget button -->
+	<string name="account_login">Account Login</string>
+	<!-- Label for login widget additional text -->
+	<string name="log_in_for_faster_booking">Mag-log in para sa mas mabilis na pagpapa-book.</string>
+	<!-- Label for account status -->
+	<string name="enrolled_in_expedia_rewards">Nakapagpalista sa Expedia Rewards\u2122</string>
+	<!-- Label for account name -->
+	<string name="logged_in_as">Naka-log in bilang</string>
+	<!-- Label for account name -->
     <string name="logged_in_as_template">Naka-log in bilang &lt;b&gt;%s&lt;/b&gt;</string>
-    <!-- Label for signin screen -->
-    <string name="expedia_account">Expedia Account</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Inilo0load ang Expedia Account</string>
+	<!-- Label for signin screen -->
+	<string name="expedia_account">Expedia Account</string>
+	<!-- Label for loading user profile from expedia.com -->
+	<string name="loading_expedia_account">Inilo-load ang Expedia Account</string>
     <!-- Label for password recovery -->
-    <string name="forgot_your_password">Nakalimutan ang inyong password?</string>
+	<string name="forgot_your_password">Nakalimutan ang inyong password?</string>
+    <!-- Label for coupon code area of booking form -->
+	<string name="coupon_code">Coupon Code</string>
     <!-- Label applying a coupon -->
-    <string name="apply">Mag-apply</string>
+	<string name="apply">Mag-apply</string>
+    <!-- Label for new price after applying coupon -->
+	<string name="new_total">Bagong Total:</string>
     <!-- Label for credit card selection -->
-    <string name="use_card">Gamitin ang card:</string>
+	<string name="use_card">Gamitin ang card na:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -620,7 +624,7 @@
 	<!-- Extra description for "app support" button, when space allows -->
 	<string name="app_support_description">Magpadala ng mensahe sa amin nang matugunan namin kayo.</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">Gusto ng mga nakakagulat na deal sa hotel? Ipamalita sa inyong mga kaibigan ang tungkol sa app.</string>
+	<string name="tell_a_friend_description">Gusto ba n\&apos;yo ng nakakagulat na deal sa hotel? Ipamalita sa inyong mga kaibigan ang tungkol sa app.</string>
 	<!-- Section header for other apps by Mobiata -->
 	<string name="travel_smart">Magbiyahe nang Mahusay</string>
 	<!-- Subject line for "tell a friend" feature -->
@@ -636,7 +640,7 @@
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
-	<string name="send_feedback">Ipadala ang Feedback</string>
+	<string name="send_feedback">Magpada ng Feedback</string>
 	<!-- Header title -->
 	<string name="app_feedback">App Feedback</string>
 	<!-- Section header for rating (1-5 stars) -->

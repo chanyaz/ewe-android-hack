@@ -556,7 +556,7 @@
 	<!-- Progress dialog text when we are logging the user into Expedia -->
 	<string name="logging_in">Logger ind...</string>
 	<!-- Message that tells user they successfully logged in -->
-	<string name="login_success">Gennemført! Du er nu logget ind.</string>
+	<string name="login_success">Gennemført! Du er nu logget på.</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">Log på konto</string>
 	<!-- Label for login widget additional text -->
@@ -573,10 +573,14 @@
 	<string name="loading_expedia_account">Indlæser Expedia-konto</string>
     <!-- Label for password recovery -->
 	<string name="forgot_your_password">Har du glemt din adgangskode?</string>
+    <!-- Label for coupon code area of booking form -->
+    <string name="coupon_code">Kuponkode</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Anvend</string>
+    <!-- Label for new price after applying coupon -->
+    <string name="new_total">Samlet beløb:</string>
     <!-- Label for credit card selection -->
-	<string name="use_card">Brug kort:</string>
+	<string name="use_card">Anvend kort:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->

@@ -573,8 +573,12 @@
 	<string name="loading_expedia_account">Laddar Expediakonto</string>
     <!-- Label for password recovery -->
 	<string name="forgot_your_password">Har du glömt ditt lösenord?</string>
+    <!-- Label for coupon code area of booking form -->
+	<string name="coupon_code">Kupongkod</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Använd</string>
+    <!-- Label for new price after applying coupon -->
+	<string name="new_total">Nytt totalbelopp:</string>
     <!-- Label for credit card selection -->
 	<string name="use_card">Använd kort:</string>
 

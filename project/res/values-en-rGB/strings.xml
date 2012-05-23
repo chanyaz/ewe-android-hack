@@ -573,8 +573,12 @@
 	<string name="loading_expedia_account">Loading Expedia Account</string>
     <!-- Label for password recovery -->
 	<string name="forgot_your_password">Forgot your password?</string>
+    <!-- Label for coupon code area of booking form -->
+    <string name="coupon_code">Voucher Code</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Apply</string>
+    <!-- Label for new price after applying coupon -->
+    <string name="new_total">New Total:</string>
     <!-- Label for credit card selection -->
 	<string name="use_card">Use card:</string>
 

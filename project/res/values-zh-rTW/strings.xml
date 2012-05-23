@@ -557,26 +557,30 @@
 	<string name="logging_in">登入中...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">成功！您現已登入。</string>
-    <!-- Label for login widget button -->
-    <string name="account_login">帳戶登入</string>
-    <!-- Label for login widget additional text -->
-    <string name="log_in_for_faster_booking">快速預定登入。</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_rewards">登記 Expedia Rewards \u2122</string>
-    <!-- Label for account name -->
-    <string name="logged_in_as">以登入</string>
-    <!-- Label for account name -->
+	<!-- Label for login widget button -->
+	<string name="account_login">帳戶登入</string>
+	<!-- Label for login widget additional text -->
+	<string name="log_in_for_faster_booking">快速預定登入。</string>
+	<!-- Label for account status -->
+	<string name="enrolled_in_expedia_rewards">登記 Expedia Rewards \u2122</string>
+	<!-- Label for account name -->
+	<string name="logged_in_as">以登入</string>
+	<!-- Label for account name -->
     <string name="logged_in_as_template">以 &lt;b&gt;%s&lt;/b&gt;登入</string>
-    <!-- Label for signin screen -->
-    <string name="expedia_account">Expedia 帳戶</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">正載入 Expedia 帳戶</string>
+	<!-- Label for signin screen -->
+	<string name="expedia_account">Expedia 帳戶</string>
+	<!-- Label for loading user profile from expedia.com -->
+	<string name="loading_expedia_account">正載入 Expedia 帳戶</string>
     <!-- Label for password recovery -->
-    <string name="forgot_your_password">忘記密碼？</string>
+	<string name="forgot_your_password">忘記密碼？</string>
+    <!-- Label for coupon code area of booking form -->
+	<string name="coupon_code">優惠券代碼</string>
     <!-- Label applying a coupon -->
-    <string name="apply">申請</string>
+	<string name="apply">申請</string>
+    <!-- Label for new price after applying coupon -->
+	<string name="new_total">新總數：</string>
     <!-- Label for credit card selection -->
-    <string name="use_card">使用信用卡:</string>
+	<string name="use_card">使用信用卡：</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->

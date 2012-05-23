@@ -348,8 +348,8 @@
 	<string name="rate_avg_per_night">平均每晚</string>
 	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
 	<plurals name="number_of_rooms_left">
-		<item quantity="zero">已經沒有剩下的房間！</item>
-		<item quantity="one">僅剩下 1 間房間！</item>
+		<item quantity="zero">已無空房！</item>
+		<item quantity="one">僅剩下 1 間客房！</item>
 		<item quantity="two">僅剩下 %d 間客房！</item>
 		<item quantity="many">僅剩下 %d 間客房！</item>
 		<item quantity="other">僅剩下 %d 間客房！</item>
@@ -373,7 +373,7 @@
 	    
 	<!-- Booking info -->
 	<!-- edit label -->
-	<string name="edit">編輯</string>
+	<string name="edit">修改</string>
 	<!-- Label for room type -->
 	<string name="room_type">房型</string>
 	<!-- Error if we couldn't load the room type details -->
@@ -536,7 +536,7 @@
 
 	<!-- Expedia policy strings -->
 	<!-- Policy displayed to user when an immediate charge is required -->
-	<string name="PolicyImmediateChargeRequired">預約總金額將於您你訂房時，立即從您的信用卡中扣款。</string>
+	<string name="PolicyImmediateChargeRequired">預約總金額將於您訂房時，即時從您的信用卡中扣款。</string>
 	<!-- Policy displayed to user when the room is non-refundable -->
 	<string name="PolicyNonRefundable">這間酒店目前提供超低廉的價格。因此，此價格恕難退款。如果您選擇取消此預約，您將無法獲得任何退款。</string>
 	<!-- Policy displayed to user when a deposit is required -->
@@ -546,37 +546,41 @@
 	<!-- Expedia merchant hotel policies -->
 	<string name="PolicyExpediaMerchant">於作出預訂後，即表示您已同意所有條款及細則，包括取消政策及用戶協議所載的所有條款及細則。\n\n 您同意支付預訂成本。若您未依約支付這筆欠款，以致我們必須委託收帳公司、律師或透過其他法律程序向您收取這筆款項，則您同意支付所有合理的成本或費用，包括與這類收款工作有關的律師費和訴訟費。</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">您預訂的是一間未提供折扣的酒店。除非另有註明，否則顯示的所有價格均為單一房間的每晚價格，並以雙人入住為準。請仔細閱讀房間說明和價格規定，以確保您選擇的房間可容納與您同行的所有旅客。部分價格可能需要出示特殊的身份證明。我們的預訂費、稅額以及酒店規定收取的其他附加費並未包含在內。任何超出客房所列房客人數的成人或小童均可能須付酒店規定的附加費。\n\n 多於 2 人或所選房價顯示的房客人數的要求將發送至酒店，但不保證可獲達成。如果您的要求獲接納，則必須依據酒店的內部規定加收額外費用。</string>
+	<string name="PolicyExpediaAgent">您預訂的是一間不提供折扣的酒店。除非另有註明，否則顯示的所有價格均為單一房間的每晚價格，並以雙人入住為準。請仔細閱讀房間說明和價格規定，以確保您選擇的房間可容納與您同行的所有旅客。部分價格可能需要出示特殊的身份證明。我們的預訂費、稅額以及酒店規定收取的其他附加費並未包含在內。任何超出客房所列房客人數的成人或小童均可能須付酒店規定的附加費。\n\n 多於 2 人或所選房價顯示的房客人數的要求將發送至酒店，但不保證可獲達成。如果您的要求獲接納，則必須依據酒店的內部規定加收額外費用。</string>
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
-	<string name="log_in">登入 Expedia</string>
+	<string name="log_in">登入Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">密碼</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->
 	<string name="logging_in">登入中...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">成功！您現已登入。</string>
-    <!-- Label for login widget button -->
-    <string name="account_login">登入帳戶</string>
-    <!-- Label for login widget additional text -->
-    <string name="log_in_for_faster_booking">登入以加快預訂速度。</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_rewards">已登記 Expedia Rewards\u2122</string>
-    <!-- Label for account name -->
-    <string name="logged_in_as">已登入為</string>
-    <!-- Label for account name -->
+	<!-- Label for login widget button -->
+	<string name="account_login">登入帳戶</string>
+	<!-- Label for login widget additional text -->
+	<string name="log_in_for_faster_booking">登入以加快預訂速度。</string>
+	<!-- Label for account status -->
+	<string name="enrolled_in_expedia_rewards">已登記 Expedia Rewards\u2122</string>
+	<!-- Label for account name -->
+	<string name="logged_in_as">已登入為</string>
+	<!-- Label for account name -->
     <string name="logged_in_as_template">已登入為 &lt;b&gt;%s&lt;/b&gt;</string>
-    <!-- Label for signin screen -->
-    <string name="expedia_account">Expedia 帳戶</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">正在載入 Expedia 帳戶</string>
+	<!-- Label for signin screen -->
+	<string name="expedia_account">Expedia 帳戶</string>
+	<!-- Label for loading user profile from expedia.com -->
+	<string name="loading_expedia_account">正在載入 Expedia 帳戶</string>
     <!-- Label for password recovery -->
-    <string name="forgot_your_password">忘記密碼？</string>
+	<string name="forgot_your_password">忘記密碼？</string>
+    <!-- Label for coupon code area of booking form -->
+	<string name="coupon_code">優惠券代碼</string>
     <!-- Label applying a coupon -->
-    <string name="apply">使用</string>
+	<string name="apply">使用</string>
+    <!-- Label for new price after applying coupon -->
+	<string name="new_total">新的總金額：</string>
     <!-- Label for credit card selection -->
-    <string name="use_card">使用信用卡:</string>
+	<string name="use_card">所使用的信用卡：</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -618,7 +622,7 @@
 	<!-- Label for "app support" button in info page -->
 	<string name="app_support">應用程式支援</string>
 	<!-- Extra description for "app support" button, when space allows -->
-	<string name="app_support_description">留言給我們，我們會盡快回覆。</string>
+	<string name="app_support_description">請留言給我們，我們會盡快回覆。</string>
 	<!-- Extra description for "tell a friend" button, when space allows -->
 	<string name="tell_a_friend_description">想不想享有超抵的酒店優惠？向好友推薦此 app。</string>
 	<!-- Section header for other apps by Mobiata -->
@@ -652,7 +656,7 @@
 	
 	<!-- Preferences -->
 	<!-- Category name for general preferences -->
-	<string name="preference_category_general">一般</string>
+	<string name="preference_category_general">一般事項</string>
 	<!-- Title for point of sale setting -->
 	<string name="preference_point_of_sale_title">國家/地區</string>
 	<!-- Template for default point of sale -->
@@ -670,7 +674,7 @@
 	<!-- A number of children -->
 	<plurals name="number_of_children">
 		<item quantity="zero">%d 小童</item>
-		<item quantity="one">%d 位小童</item>
+		<item quantity="one">%d 名小童</item>
 		<item quantity="two">%d 小童</item>
 		<item quantity="many">%d 小童</item>
 		<item quantity="other">%d 小童</item>
@@ -678,7 +682,7 @@
 	<!-- A number of guests -->
 	<plurals name="number_of_guests">
 		<item quantity="zero">%d 房客</item>
-		<item quantity="one">%d 位房客</item>
+		<item quantity="one">%d 名房客</item>
 		<item quantity="two">%d 房客</item>
 		<item quantity="many">%d 房客</item>
 		<item quantity="other">%d 房客</item>
@@ -722,7 +726,7 @@
 	
 	<!-- Checkout API method -->
 	<!-- The hotel booking failed -->
-	<string name="e3_error_checkout_booking_failed">發生了一個錯誤，令我們無法完成預訂。請再試一次。</string>
+	<string name="e3_error_checkout_booking_failed">出現錯誤，以致我們無法完成預訂。請再試一次。</string>
 	<!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
 	<string name="e3_error_checkout_booking_succeeded_with_errors">您已成功預訂酒店！如您需要即時取得行程，請致電 Expedia 客戶支援。</string>
 	<!-- The hotel room is no longer available -->
@@ -730,7 +734,7 @@
 	<!-- There is invalid input in the hotel booking form. Please fix it. -->
 	<string name="e3_error_checkout_invalid_input">請修正無效的資訊。</string>
 	<!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-	<string name="e3_error_checkout_payment_failed">很抱歉，我們無法繼續付款程序。請核實您是否已正確地輸入資訊。</string>
+	<string name="e3_error_checkout_payment_failed">很抱歉，我們無法處理付款程序。請核實您是否已正確地輸入資訊。</string>
 	
 	<!-- SearchResults API method -->
 	<!-- For some reason the API failed and we couldn't complete the search -->
@@ -752,7 +756,7 @@
 	<!-- There are no longer any rooms for the hotel offer -->
 	<string name="e3_error_hotel_offers_invalid_input">很抱歉，此房間的推廣優惠已結束，但我們還有提供其他優惠。</string>
 	<!-- There are no longer any rooms for the hotel offer -->
-	<string name="e3_error_hotel_offers_unknown_error">很抱歉，此房間的推廣優惠已結束，但我們還有提供其他優惠。</string>
+	<string name="e3_error_hotel_offers_unknown_error">很抱歉！此房間的推廣優惠已結束，但我們還有提供其他優惠。</string>
 	
 	<!-- HotelProduct API method -->
 	<string name="e3_error_hotel_product_unknown_error">出現未明錯誤。</string>
@@ -921,7 +925,7 @@
 	<string name="country_mv">馬爾代夫</string>
 	<string name="country_ml">馬里</string>
 	<string name="country_mt">馬爾他</string>
-	<string name="country_mh">馬歇爾島</string>
+	<string name="country_mh">馬歇爾群島</string>
 	<string name="country_mq">馬丁尼克島</string>
 	<string name="country_mr">毛里塔尼亞</string>
 	<string name="country_mu">毛里求斯</string>
@@ -1024,8 +1028,8 @@
 	<string name="country_vu">瓦努阿圖</string>
 	<string name="country_ve">委內瑞拉玻利瓦爾共和國</string>
 	<string name="country_vn">越南</string>
-	<string name="country_vg">英屬維京群島</string>
-	<string name="country_vi">美屬維京群島</string>
+	<string name="country_vg">英屬處女群島</string>
+	<string name="country_vi">美屬處女群島</string>
 	<string name="country_wf">瓦利斯和富圖納群島</string>
 	<string name="country_eh">西撒哈拉</string>
 	<string name="country_ye">也門</string>

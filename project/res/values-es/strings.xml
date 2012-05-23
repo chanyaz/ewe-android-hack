@@ -154,7 +154,7 @@
 	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
 	<string name="current_location">Ubicación actual</string>
 	<!-- Suggestion to search the currently visible map area on the screen -->
-	<string name="visible_map_area">Área del mapa</string>
+	<string name="visible_map_area">Área visible del mapa</string>
 
 	<!-- Search list adapter -->
 	<!-- The label for how much hotels cost - "from $120/night", for example -->
@@ -573,10 +573,14 @@
 	<string name="loading_expedia_account">Cargando cuenta de Expedia</string>
     <!-- Label for password recovery -->
 	<string name="forgot_your_password">¿Has olvidado tu contraseña?</string>
+    <!-- Label for coupon code area of booking form -->
+    <string name="coupon_code">Código de descuento</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Canjear</string>
+    <!-- Label for new price after applying coupon -->
+    <string name="new_total">Total actualizado:</string>
     <!-- Label for credit card selection -->
-	<string name="use_card">Seleccionar tarjeta:</string>
+	<string name="use_card">Usar tarjeta:</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -626,7 +630,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hoteles</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hola, \n\n. Echa un vistazo a Expedia Hoteles para iPhone y Android. Es GRATIS y te permite buscar y reservar habitaciones en más de 130.000 hoteles de todo el mundo. Es la forma más fácil de reservar hoteles con tu teléfono.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hola, \n\n. Echa un vistazo a Expedia Hoteles para iPhone y Android. Es GRATIS y te permite buscar y reservar habitaciones en más de 130.000 hoteles de todo el mundo. Además, la forma más fácil de reservar hoteles con tu teléfono.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Términos y condiciones</string>
 	<!-- Label for link to privacy policy -->

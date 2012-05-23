@@ -293,7 +293,7 @@
 	<!-- Loading text prompt -->
 	<string name="user_review_loading_text">ユーザー レビューを読み込んでいます…</string>
 	<!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">他言語のレビュー</string>
+	<string name="user_review_other_languages_title">他言語のレビュー</string>
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_recent">最近</string>
 	<!-- The text for the sort button, recent -->
@@ -326,8 +326,8 @@
 	<string name="user_review_no_favorable_reviews">このホテルのポジティブなレビューはまだありません</string>
 	<!-- User review no recent reviews -->
 	<string name="user_review_no_recent_reviews">このホテルの最近のレビューはありません</string>
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">レビューは現在ご利用いただけません</string>
+	<!-- User reviews server/parsing error -->
+	<string name="user_review_unavailable">レビューは現在ご利用いただけません</string>
 	
 	<!-- Room and rates list -->
 	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -550,7 +550,7 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
-	<string name="log_in">エクスペディアにログインする</string>
+	<string name="log_in">エクスペディアにログイン</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">パスワード</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->
@@ -572,11 +572,15 @@
 	<!-- Label for loading user profile from expedia.com -->
 	<string name="loading_expedia_account">エクスペディア アカウントをローディング中</string>
     <!-- Label for password recovery -->
-	<string name="forgot_your_password">パスワードをお忘れですか ?</string>
+	<string name="forgot_your_password">パスワードをお忘れですか?</string>
+    <!-- Label for coupon code area of booking form -->
+    <string name="coupon_code">クーポンコード</string>
     <!-- Label applying a coupon -->
 	<string name="apply">適用</string>
+    <!-- Label for new price after applying coupon -->
+    <string name="new_total">変更後の合計:</string>
     <!-- Label for credit card selection -->
-	<string name="use_card">カードを使う:</string>
+	<string name="use_card">カードを使う</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->

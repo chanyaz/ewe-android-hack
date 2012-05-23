@@ -550,7 +550,7 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
-	<string name="log_in">Iniciar sesión en Expedia</string>
+	<string name="log_in">Inicia sesión en Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Contraseña</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->
@@ -573,8 +573,12 @@
 	<string name="loading_expedia_account">Cargando la cuenta de Expedia</string>
     <!-- Label for password recovery -->
 	<string name="forgot_your_password">¿Se te olvidó tu contraseña?</string>
+    <!-- Label for coupon code area of booking form -->
+    <string name="coupon_code">Código de cupón</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Aplicar</string>
+    <!-- Label for new price after applying coupon -->
+    <string name="new_total">Nuevo total:</string>
     <!-- Label for credit card selection -->
 	<string name="use_card">Utilizar la tarjeta:</string>
 
