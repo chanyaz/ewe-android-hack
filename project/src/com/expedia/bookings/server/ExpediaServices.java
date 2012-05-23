@@ -328,8 +328,14 @@ public class ExpediaServices implements DownloadListener {
 	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {
 		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
 		df.setTimeZone(CalendarUtils.getFormatTimeZone());
+
+		// #13586: We need a second SimpleDateFormat because on 2.2 and below.  See
+		// ticket for more info (bug is complex).
+		DateFormat df2 = new SimpleDateFormat(ISO_FORMAT);
+		df2.setTimeZone(CalendarUtils.getFormatTimeZone());
+
 		query.add(new BasicNameValuePair("checkInDate", df.format(params.getCheckInDate().getTime())));
-		query.add(new BasicNameValuePair("checkOutDate", df.format(params.getCheckOutDate().getTime())));
+		query.add(new BasicNameValuePair("checkOutDate", df2.format(params.getCheckOutDate().getTime())));
 
 		StringBuilder guests = new StringBuilder();
 		guests.append(params.getNumAdults());
