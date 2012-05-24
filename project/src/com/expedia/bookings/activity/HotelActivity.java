@@ -161,7 +161,13 @@ public class HotelActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+		
+		if (!isFinishing()) {
+			BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+		}
+		else {
+			BackgroundDownloader.getInstance().cancelDownload(DOWNLOAD_KEY);
+		}
 	}
 
 	@Override
@@ -448,6 +454,7 @@ public class HotelActivity extends Activity {
 		@Override
 			public AvailabilityResponse doDownload() {
 				ExpediaServices services = new ExpediaServices(mContext);
+				BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
 				return services.information(Db.getSelectedProperty());
 			}
 	};

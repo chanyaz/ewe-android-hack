@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
-import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -26,10 +25,10 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.Log;
 
 public class RoomsAndRatesListActivity extends FragmentActivity implements RoomsAndRatesFragmentListener {
 
@@ -137,7 +136,12 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 	protected void onPause() {
 		super.onPause();
 
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+		if (!isFinishing()) {
+			BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+		}
+		else {
+			BackgroundDownloader.getInstance().cancelDownload(DOWNLOAD_KEY);
+		}
 	}
 
 	@Override
@@ -154,6 +158,7 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		@Override
 		public AvailabilityResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(RoomsAndRatesListActivity.this);
+			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
 			return services.availability(Db.getSearchParams(), Db.getSelectedProperty(),
 					ExpediaServices.F_EXPENSIVE);
 		}
