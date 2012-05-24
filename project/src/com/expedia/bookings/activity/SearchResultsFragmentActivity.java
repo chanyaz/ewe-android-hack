@@ -229,7 +229,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 		mSearchView = new SearchView(this);
 		actionBar.setCustomView(mSearchView);
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
+		actionBar.setDisplayShowCustomEnabled(true);
 
 		// Configure the SearchView
 		mSearchView.setIconifiedByDefault(false);
