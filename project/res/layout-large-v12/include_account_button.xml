@@ -71,10 +71,11 @@
             android:text="@string/log_in_for_faster_booking" />
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/account_logout_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="@dimen/booking_form_saved_section_padding"
         android:visibility="gone"
@@ -83,15 +84,12 @@
             android:id="@+id/card_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:padding="@dimen/card_icon_padding"
+            android:paddingRight="@dimen/card_icon_padding"
             android:src="@drawable/ic_log_in" />
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/card_icon"
+            android:layout_weight="1"
             android:orientation="vertical" >
             <TextView
                 android:id="@+id/account_top_textview"
@@ -104,12 +102,16 @@
                 android:layout_height="wrap_content"
                 android:textColor="#545454" />
         </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:background="#A3A5AA" />
         <ImageView
             android:id="@+id/logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/booking_form_saved_section_padding"
+            android:paddingRight="@dimen/booking_form_saved_section_padding"
             android:src="@drawable/ic_action_close" />
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>
