@@ -154,6 +154,7 @@
                     <!-- Billing info form fields -->
 
                     <TextView
+                        android:id="@+id/billing_info_section_title"
                         style="@style/TabletSectionHeader.Details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

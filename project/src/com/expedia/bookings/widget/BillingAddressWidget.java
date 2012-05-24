@@ -38,6 +38,8 @@ public class BillingAddressWidget {
 
 	private Context mContext;
 
+	private View mSectionTitle;
+
 	private ViewGroup mBillingSavedLayout;
 	private EditText mAddress1EditText;
 	private EditText mAddress2EditText;
@@ -65,6 +67,7 @@ public class BillingAddressWidget {
 	public BillingAddressWidget(Context context, View rootView) {
 		mContext = context;
 
+		mSectionTitle = rootView.findViewById(R.id.billing_info_section_title);
 		mBillingSavedLayout = (ViewGroup) rootView.findViewById(R.id.saved_billing_info_layout);
 		mBillingFormLayout = (ViewGroup) rootView.findViewById(R.id.billing_info_layout);
 
@@ -242,6 +245,9 @@ public class BillingAddressWidget {
 	}
 
 	public void expand(boolean animateAndFocus) {
+		if (mSectionTitle != null) {
+			mSectionTitle.setVisibility(View.VISIBLE);
+		}
 		mBillingSavedLayout.setVisibility(View.GONE);
 		mBillingFormLayout.setVisibility(View.VISIBLE);
 
@@ -250,11 +256,17 @@ public class BillingAddressWidget {
 	}
 
 	public void collapse() {
+		if (mSectionTitle != null) {
+			mSectionTitle.setVisibility(View.VISIBLE);
+		}
 		mBillingSavedLayout.setVisibility(View.VISIBLE);
 		mBillingFormLayout.setVisibility(View.GONE);
 	}
 
 	public void hide() {
+		if (mSectionTitle != null) {
+			mSectionTitle.setVisibility(View.GONE);
+		}
 		mBillingSavedLayout.setVisibility(View.GONE);
 		mBillingFormLayout.setVisibility(View.GONE);
 		return;
