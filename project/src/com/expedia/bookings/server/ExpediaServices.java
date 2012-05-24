@@ -191,6 +191,23 @@ public class ExpediaServices implements DownloadListener {
 		return (SearchResponse) doE3Request("SearchResults", query, rh, 0);
 	}
 
+	/**
+	 * HotelInformation request.
+	 * 
+	 * Uses AvailabilityResponse as the return, as the "information" request is essentially the
+	 * same as a non-expensive AvailabilityResponse request.
+	 */
+	public AvailabilityResponse information(Property property) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addPOSParams(query);
+
+		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
+
+		AvailabilityResponseHandler responseHandler = new AvailabilityResponseHandler(mContext, null, property);
+		return (AvailabilityResponse) doE3Request("HotelInformation", query, responseHandler, 0);
+	}
+
 	public AvailabilityResponse availability(SearchParams params, Property property) {
 		return availability(params, property, F_EXPENSIVE);
 	}

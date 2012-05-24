@@ -36,7 +36,7 @@ public class AvailabilityResponse extends Response {
 	 * Right now it uses a heuristic to figure out if the expensive call was made.
 	 */
 	public boolean canRequestMoreData() {
-		return !hasErrors() && mRates != null && mRates.size() != 0 && mRates.get(0).getBedTypes() == null;
+		return !hasErrors() && (mRates == null || (mRates.size() != 0 && mRates.get(0).getBedTypes() == null));
 	}
 
 	public void addRate(Rate rate) {

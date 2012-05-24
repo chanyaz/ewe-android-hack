@@ -86,12 +86,14 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 				checkInPolicy.setDescription(checkInInstructions);
 			}
 
-			JSONArray roomRates = response.getJSONArray("hotelRoomResponse");
-			len = roomRates.length();
-			for (int a = 0; a < len; a++) {
-				JSONObject jsonRate = roomRates.getJSONObject(a);
-				Rate rate = parseJsonHotelOffer(jsonRate, numberOfNights, checkInPolicy);
-				availResponse.addRate(rate);
+			JSONArray roomRates = response.optJSONArray("hotelRoomResponse");
+			if (roomRates != null) {
+				len = roomRates.length();
+				for (int a = 0; a < len; a++) {
+					JSONObject jsonRate = roomRates.getJSONObject(a);
+					Rate rate = parseJsonHotelOffer(jsonRate, numberOfNights, checkInPolicy);
+					availResponse.addRate(rate);
+				}
 			}
 
 			// Amenities
