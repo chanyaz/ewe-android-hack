@@ -321,7 +321,7 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 
 	public void notifyAvailabilityQueryComplete() {
 		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
-		if (!response.canRequestMoreData()) {
+		if (response != null) {
 			mAvailabilityWidget.setButtonEnabled(true);
 			mAvailabilityWidget.showRates(response);
 		}

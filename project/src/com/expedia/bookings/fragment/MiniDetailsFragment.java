@@ -123,7 +123,7 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 
 	public void notifyAvailabilityQueryComplete() {
 		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
-		if (!response.canRequestMoreData()) {
+		if (response != null) {
 			mAvailabilitySummary.showRates(response);
 		}
 		else {

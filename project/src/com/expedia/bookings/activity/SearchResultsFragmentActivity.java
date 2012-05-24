@@ -861,7 +861,6 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	};
 
 	private final OnDownloadComplete<List<Address>> mGeocodeCallback = new OnDownloadComplete<List<Address>>() {
-		@SuppressWarnings("unchecked")
 		public void onDownload(List<Address> addresses) {
 			if (addresses != null) {
 				int size = addresses.size();
@@ -1083,13 +1082,16 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 	private final Download<AvailabilityResponse> mRoomAvailabilityDownload = new Download<AvailabilityResponse>() {
 		public AvailabilityResponse doDownload() {
-			AvailabilityResponse previousResponse = Db.getSelectedAvailabilityResponse();
-			final boolean requestMoreData = previousResponse != null && previousResponse.canRequestMoreData();
-
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_AVAILABILITY_SEARCH, services);
-			return services.availability(Db.getSearchParams(), Db.getSelectedProperty(),
-					requestMoreData ? ExpediaServices.F_EXPENSIVE : 0);
+
+			if (Db.getSelectedInfoResponse() == null) {
+				return services.information(Db.getSelectedProperty());
+			}
+			else {
+				return services.availability(Db.getSearchParams(), Db.getSelectedProperty(),
+						ExpediaServices.F_EXPENSIVE);
+			}
 		}
 	};
 

@@ -464,7 +464,7 @@ public class HotelActivity extends Activity {
 				response = info;
 			}
 			else {
-				Db.addInfoResponse(response);
+				Db.addAvailabilityResponse(response);
 			}
 
 			String description;

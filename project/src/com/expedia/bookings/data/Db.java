@@ -145,10 +145,6 @@ public class Db {
 		sDb.mAvailabilityResponses.clear();
 	}
 
-	public static void addInfoResponse(AvailabilityResponse availabilityResponse) {
-		sDb.mInfoResponses.put(sDb.mSelectedPropertyId, availabilityResponse);
-	}
-
 	public static AvailabilityResponse getSelectedInfoResponse() {
 		return getInfoResponse(sDb.mSelectedPropertyId);
 	}
@@ -169,7 +165,14 @@ public class Db {
 	}
 
 	public static void addAvailabilityResponse(AvailabilityResponse availabilityResponse) {
-		sDb.mAvailabilityResponses.put(sDb.mSelectedPropertyId, availabilityResponse);
+		if (availabilityResponse != null) {
+			if (availabilityResponse.canRequestMoreData()) {
+				sDb.mInfoResponses.put(sDb.mSelectedPropertyId, availabilityResponse);
+			}
+			else {
+				sDb.mAvailabilityResponses.put(sDb.mSelectedPropertyId, availabilityResponse);
+			}
+		}
 	}
 
 	public static AvailabilityResponse getAvailabilityResponse(String propertyId) {
