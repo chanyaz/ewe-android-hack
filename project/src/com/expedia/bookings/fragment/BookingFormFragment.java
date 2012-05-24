@@ -216,7 +216,13 @@ public class BookingFormFragment extends DialogFragment {
 		mChargeDetailsTextView = Ui.findView(view, R.id.charge_details_text_view);
 
 		mStoredCardContainer = view.findViewById(R.id.stored_card_container);
-		mStoredCardSpinner = (Spinner) mStoredCardContainer.findViewById(R.id.stored_card_spinner);
+		if (mStoredCardContainer == null) {
+			mStoredCardContainer = view.findViewById(R.id.stored_card_spinner);
+			mStoredCardSpinner = (Spinner) mStoredCardContainer;
+		}
+		else {
+			mStoredCardSpinner = (Spinner) mStoredCardContainer.findViewById(R.id.stored_card_spinner);
+		}
 
 		mAccountButton = new AccountButton(getActivity(), mAccountButtonClickListener, view.findViewById(R.id.account_button_root));
 		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), !getShowsDialog());
@@ -992,6 +998,7 @@ public class BookingFormFragment extends DialogFragment {
 			Db.getBillingInfo().save(getActivity());
 			clearBillingInfo();
 			syncFormFieldsFromBillingInfo(mRootBillingView);
+			mCardAdapter = null;
 			updateEnterNewCreditCard();
 		}
 	};
@@ -1011,7 +1018,7 @@ public class BookingFormFragment extends DialogFragment {
 	}
 
 	private void updateEnterNewCreditCard() {
-		if (mCardAdapter.getSelectedCard() == null) {
+		if (mCardAdapter == null || mCardAdapter.getSelectedCard() == null) {
 			// user has selected enter new credit card
 			Location loc = mUserProfileIsFresh ? Db.getUser().toBillingInfo().getLocation() : Db.getBillingInfo().getLocation();
 			mBillingAddressWidget.update(loc);

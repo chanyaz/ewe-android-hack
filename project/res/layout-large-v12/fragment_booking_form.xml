@@ -139,14 +139,6 @@
 
                     <include layout="@layout/include_guest_info_fields" />
 
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="10dp" />
-
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="10dp" />
-
                     <!-- Credit card info form fields -->
 
                     <TextView

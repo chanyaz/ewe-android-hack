@@ -2,68 +2,78 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/account_loading_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/btn_signin"
         android:orientation="horizontal"
         android:padding="@dimen/booking_form_saved_section_padding"
         android:visibility="gone"
         style="@style/BookingSection" >
         <ProgressBar
-            style="@android:style/Widget.ProgressBar.Inverse"
+            android:id="@+id/loading_progress_bar"
+            style="@android:style/Widget.ProgressBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true" />
+            android:layout_centerVertical="true"
+            android:indeterminate="true"
+            android:padding="@dimen/card_icon_padding" />
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:text="@string/loading_expedia_account"
-            android:textColor="#545454" />
-        <ImageView
-            android:id="@+id/close_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawable="@drawable/ic_action_close"
-            android:gravity="right" />
-    </LinearLayout>
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/loading_progress_bar"
+            android:text="@string/loading_expedia_account"
+            android:textColor="#FFFFFF" />
+        <ImageView
+            android:id="@+id/logout_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_action_close" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/account_login_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/btn_signin"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/booking_form_saved_section_padding"
         android:visibility="gone" >
-        <ImageView
+        <LinearLayout
+            android:id="@+id/expedia_account_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:padding="@dimen/card_icon_padding"
-            android:src="@drawable/ic_log_in" />
+            android:background="@drawable/btn_signin"
+            android:gravity="center"
+            android:paddingLeft="@dimen/booking_form_saved_section_padding"
+            android:paddingRight="@dimen/booking_form_saved_section_padding" >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_icon_padding"
+                android:src="@drawable/ic_log_in" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/account_login"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
         <TextView
-            android:id="@+id/expedia_login_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/account_login"
-            android:textColor="#FFFFFF" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/log_in_for_faster_booking"
-            android:textColor="#FFFFFF" />
+            android:paddingLeft="8dp"
+            android:text="@string/log_in_for_faster_booking" />
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/account_logout_container"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="@dimen/booking_form_saved_section_padding"

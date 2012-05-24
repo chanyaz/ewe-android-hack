@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/stored_card_container"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:visibility="gone" >
-    <TextView
+    android:orientation="horizontal" >
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/use_card"
-        android:textColor="#545454"
-        android:textSize="@dimen/booking_form_saved_field_text_size" />
-    <Spinner
-        android:id="@+id/stored_card_spinner"
+        android:paddingRight="@dimen/card_icon_padding"
+        android:src="@drawable/ic_selected_credit_card" />
+    <TextView
+        android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:prompt="@string/saved_cards" />
+        android:layout_centerVertical="true"
+        android:textColor="#545454" />
 </LinearLayout>

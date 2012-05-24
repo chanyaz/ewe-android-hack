@@ -60,7 +60,7 @@
 	<!-- Offset for placeholder tag -->
 	<dimen name="placeholder_tag_margin_top">44dp</dimen>
 	
-	<dimen name="booking_form_saved_field_text_size">14sp</dimen>
+	<dimen name="booking_form_saved_field_text_size">14dp</dimen>
 	<dimen name="booking_form_saved_section_padding">5dp</dimen>
 	
 	<dimen name="max_height_room_details_container">400dp</dimen>

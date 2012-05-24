@@ -76,7 +76,9 @@ public class StoredCardSpinnerAdapter extends BaseAdapter implements SpinnerAdap
 			holder = (CardHolder) convertView.getTag();
 		}
 
-		holder.radioButton.setChecked(position == mSelected);
+		if (holder.radioButton != null) {
+			holder.radioButton.setChecked(position == mSelected);
+		}
 
 		StoredCreditCard card = (StoredCreditCard) getItem(position);
 		if (card == null) {
@@ -98,8 +100,18 @@ public class StoredCardSpinnerAdapter extends BaseAdapter implements SpinnerAdap
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		TextView text = new TextView(mContext);
-		text.setTextColor(0xFF545454);
+		CardHolder holder;
+		if (convertView == null) {
+			convertView = mInflater.inflate(R.layout.selected_stored_credit_card, parent, false);
+			holder = new CardHolder();
+			holder.title = (TextView) convertView.findViewById(R.id.title);
+			convertView.setTag(holder);
+		}
+		else {
+			holder = (CardHolder) convertView.getTag();
+		}
+
+		TextView text = holder.title;
 
 		StoredCreditCard card = (StoredCreditCard) getItem(position);
 		if (card == null) {
@@ -109,7 +121,7 @@ public class StoredCardSpinnerAdapter extends BaseAdapter implements SpinnerAdap
 			text.setText(card.getDescription());
 		}
 
-		return text;
+		return convertView;
 	}
 
 	private class CardHolder {

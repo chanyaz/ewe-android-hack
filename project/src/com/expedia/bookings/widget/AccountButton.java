@@ -32,7 +32,7 @@ public class AccountButton {
 				mListener.accountLoginClicked();
 			}
 		};
-		TextView loginButton = (TextView) mLoginContainer.findViewById(R.id.expedia_login_textview);
+		View loginButton = (View) mLoginContainer.findViewById(R.id.expedia_account_login);
 		if (loginButton == null) {
 			mLoginContainer.setOnClickListener(clickListener);
 		}

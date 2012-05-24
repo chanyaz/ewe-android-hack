@@ -58,7 +58,12 @@
 
             <!-- Credit card and billing address info -->
 
-            <include layout="@layout/include_stored_card_spinner" />
+            <Spinner
+                android:id="@+id/stored_card_spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:prompt="@string/saved_cards"
+                android:visibility="gone" />
 
             <include layout="@layout/include_billing_info_fields" />
             <include layout="@layout/include_saved_billing_info" />
