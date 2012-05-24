@@ -43,7 +43,6 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AdapterView;
-import com.expedia.bookings.widget.AdapterView.OnItemClickListener;
 import com.expedia.bookings.widget.AdapterView.OnItemSelectedListener;
 import com.expedia.bookings.widget.Gallery;
 import com.expedia.bookings.widget.Gallery.OnScrollListener;
@@ -138,7 +137,7 @@ public class HotelActivity extends Activity {
 		mIsStartingReviewsActivity = false;
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
+		AvailabilityResponse response = Db.getSelectedInfoResponse();
 		if (response != null) {
 			// We may have been downloading the data here before getting it elsewhere, so cancel
 			// our own download once we have data
@@ -449,7 +448,7 @@ public class HotelActivity extends Activity {
 		@Override
 			public AvailabilityResponse doDownload() {
 				ExpediaServices services = new ExpediaServices(mContext);
-				return services.availability(Db.getSearchParams(), Db.getSelectedProperty(), 0);
+				return services.information(Db.getSelectedProperty());
 			}
 	};
 
@@ -460,12 +459,12 @@ public class HotelActivity extends Activity {
 			mProgressBar.setVisibility(View.GONE);
 
 			// Check if we got a better response elsewhere before loading up this data
-			AvailabilityResponse possibleBetterResponse = Db.getSelectedAvailabilityResponse();
-			if (possibleBetterResponse != null && !possibleBetterResponse.canRequestMoreData()) {
-				response = possibleBetterResponse;
+			AvailabilityResponse info = Db.getSelectedInfoResponse();
+			if (info != null) {
+				response = info;
 			}
 			else {
-				Db.addAvailabilityResponse(response);
+				Db.addInfoResponse(response);
 			}
 
 			String description;
