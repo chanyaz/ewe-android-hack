@@ -5,17 +5,21 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -47,6 +51,10 @@ public class SignInFragment extends DialogFragment {
 
 		mUsernameEditText = (EditText) view.findViewById(R.id.username_edit_text);
 		mPasswordEditText = (EditText) view.findViewById(R.id.password_edit_text);
+
+		TextView forgotLink = (TextView) view.findViewById(R.id.forgot_your_password_link);
+		forgotLink.setText(Html.fromHtml(String.format("<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>", LocaleUtils.getPointOfSale(mContext), mContext.getString(R.string.forgot_your_password))));
+		forgotLink.setMovementMethod(LinkMovementMethod.getInstance());
 
 		Button button = (Button) view.findViewById(R.id.log_in_button);
 		button.setOnClickListener(new OnClickListener() {
