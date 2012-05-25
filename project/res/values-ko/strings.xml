@@ -550,7 +550,7 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
-	<string name="log_in">Expedia에 로그인</string>
+	<string name="log_in_to_expedia">Expedia에 로그인</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">비밀번호</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->

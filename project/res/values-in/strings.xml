@@ -552,7 +552,7 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
-	<string name="log_in">Masuk ke Expedia</string>
+	<string name="log_in_to_expedia">Masuk ke Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Kata Sandi</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->

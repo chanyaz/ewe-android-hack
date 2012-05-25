@@ -550,7 +550,7 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
-	<string name="log_in">Logga in på Expedia</string>
+	<string name="log_in_to_expedia">Logga in på Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Lösenord</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->

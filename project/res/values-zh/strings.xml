@@ -550,7 +550,7 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
-	<string name="log_in">登录 Expedia</string>
+	<string name="log_in_to_expedia">登录 Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">密码</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->

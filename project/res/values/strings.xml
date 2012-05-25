@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">Clear Private Data?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">This removes all saved billing and contact information.</string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">This will log you out and remove all saved billing and contact information.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Private data cleared</string>
 	<!-- Error message if field was required but not entered -->
@@ -550,13 +552,17 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
-	<string name="log_in">Log in to Expedia</string>
+	<string name="log_in">Log In</string>
+	<!-- Label for menu item to log into account -->
+	<string name="log_in_to_expedia">Log in to Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Password</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->
 	<string name="logging_in">Logging in...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Success! You are now logged in.</string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">Login Failed</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">Account Login</string>
 	<!-- Label for login widget additional text -->
@@ -575,6 +581,8 @@
 	<string name="forgot_your_password">Forgot your password?</string>
     <!-- Label for coupon code area of booking form -->
 	<string name="coupon_code">Coupon Code</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Optional</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Apply</string>
     <!-- Label for new price after applying coupon -->
