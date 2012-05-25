@@ -5,11 +5,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/account_loading_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_signin"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="@dimen/booking_form_saved_section_padding"
         android:visibility="gone"
@@ -19,24 +20,20 @@
             style="@android:style/Widget.ProgressBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:indeterminate="true"
             android:padding="@dimen/card_icon_padding" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/loading_progress_bar"
+            android:layout_weight="1"
             android:text="@string/loading_expedia_account"
             android:textColor="#FFFFFF" />
         <ImageView
             android:id="@+id/logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:src="@drawable/ic_action_close" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/account_login_container"
