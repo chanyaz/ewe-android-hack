@@ -23,6 +23,7 @@ import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.DialogUtils;
 
 public class SignInFragment extends DialogFragment {
@@ -45,7 +46,14 @@ public class SignInFragment extends DialogFragment {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.fragment_sign_in, null);
 
-		Dialog dialog = new Dialog(getActivity());
+		Dialog dialog;
+		if (AndroidUtils.isTablet(mContext)) {
+			dialog = new Dialog(getActivity(), R.style.Theme_Light_Fullscreen_Panel);
+			dialog.requestWindowFeature(STYLE_NO_TITLE);
+		}
+		else {
+			dialog = new Dialog(getActivity());
+		}
 		dialog.setTitle(R.string.expedia_account);
 		dialog.setContentView(view);
 
@@ -64,8 +72,8 @@ public class SignInFragment extends DialogFragment {
 				BackgroundDownloader.getInstance().startDownload(KEY_SIGNIN, mLoginDownload, mLoginCallback);
 			}
 		});
-		button = (Button) view.findViewById(R.id.cancel_button);
-		button.setOnClickListener(new OnClickListener() {
+		View cancelButton = view.findViewById(R.id.cancel_button);
+		cancelButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick (View v) {
 				dismiss();
