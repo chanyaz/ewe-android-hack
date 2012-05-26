@@ -149,7 +149,12 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 		case DIALOG_CLEAR_PRIVATE_DATA: {
 			Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.dialog_clear_private_data_title);
-			builder.setMessage(R.string.dialog_clear_private_data_msg);
+			if (ExpediaServices.isLoggedIn(mContext)) {
+				builder.setMessage(R.string.dialog_log_out_and_clear_private_data_msg);
+			}
+			else {
+				builder.setMessage(R.string.dialog_clear_private_data_msg);
+			}
 			builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					// Delete private data
@@ -158,8 +163,12 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 					// Clear form
 					mBookingFragment.clearBillingInfo();
 
+					ExpediaServices service = new ExpediaServices(mContext);
+					service.signOut();
+
 					// Inform the men
 					Toast.makeText(mContext, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
+					finish();
 				}
 			});
 			builder.setNegativeButton(android.R.string.cancel, null);
