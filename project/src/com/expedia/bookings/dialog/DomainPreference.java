@@ -1,5 +1,6 @@
 package com.expedia.bookings.dialog;
 
+import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
-
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
 
 public class DomainPreference extends ListPreference {
@@ -58,18 +61,53 @@ public class DomainPreference extends ListPreference {
 	@Override
 	protected void onDialogClosed(boolean positiveResult) {
 		if(positiveResult && mSelectedOption >= 0 && super.getEntryValues() != null) {
-			String value = super.getEntryValues()[mSelectedOption].toString();
-			if (super.callChangeListener(value)) {
-				super.setValue(value);
+			final String value = super.getEntryValues()[mSelectedOption].toString();
+			setSelectedOption(super.findIndexOfValue(super.getValue()));
+			Builder builder = new AlertDialog.Builder(mContext);
+			builder.setTitle(R.string.dialog_clear_private_data_title);
+			if (ExpediaServices.isLoggedIn(mContext)) {
+				builder.setMessage(R.string.dialog_log_out_and_clear_private_data_msg);
 			}
+			else {
+				builder.setMessage(R.string.dialog_clear_private_data_msg);
+			}
+			builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					if (callChangeListener(value)) {
+						setValue(value);
+					}
+
+					// Delete private data
+					Db.deleteBillingInfo(mContext);
+
+					ExpediaServices service = new ExpediaServices(mContext);
+					service.signOut();
+
+					// Inform the men
+					Toast.makeText(mContext, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
+				}
+			});
+			builder.setNegativeButton(android.R.string.cancel, null);
+			AlertDialog dialog = builder.create();
+			dialog.show();
 		}
+	}
+
+	@Override
+	public void setValue(String value) {
+		super.setValue(value);
+	}
+
+	@Override
+	protected boolean callChangeListener(Object value) {
+		return super.callChangeListener(value);
 	}
 
 	@Override
 	protected void onSetInitialValue(boolean restore, Object defaultValue) {
 		String v = restore ? getPersistedString(mValue) : (String) defaultValue;
 		setSelectedOption(super.findIndexOfValue(v));
-		super.setValue(v);
+		setValue(v);
 	}
 
 	public class DomainAdapter extends BaseAdapter {
