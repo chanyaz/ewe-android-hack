@@ -31,6 +31,7 @@ public class SignInFragment extends DialogFragment {
 
 	private Context mContext;
 
+	private TextView mLoginFailed;
 	private EditText mUsernameEditText;
 	private EditText mPasswordEditText;
 
@@ -57,6 +58,7 @@ public class SignInFragment extends DialogFragment {
 		dialog.setTitle(R.string.expedia_account);
 		dialog.setContentView(view);
 
+		mLoginFailed = (TextView) view.findViewById(R.id.login_failed_textview);
 		mUsernameEditText = (EditText) view.findViewById(R.id.username_edit_text);
 		mPasswordEditText = (EditText) view.findViewById(R.id.password_edit_text);
 
@@ -68,6 +70,7 @@ public class SignInFragment extends DialogFragment {
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick (View v) {
+				mLoginFailed.setVisibility(View.GONE);
 				mLoginClicked = true;
 				BackgroundDownloader.getInstance().startDownload(KEY_SIGNIN, mLoginDownload, mLoginCallback);
 			}
@@ -121,12 +124,10 @@ public class SignInFragment extends DialogFragment {
 	private final OnDownloadComplete<SignInResponse> mLoginCallback = new OnDownloadComplete<SignInResponse>() {
 		@Override
 		public void onDownload(SignInResponse response) {
-			if (response != null && response.hasErrors()) {
-				Dialog d = DialogUtils.createSimpleDialog(getActivity(), 0, mContext.getString(R.string.error_booking_title), response.getErrors().get(0).getPresentableMessage(mContext));
-				d.show();
-			}
-
 			if (response == null || response.hasErrors()) {
+				//Dialog d = DialogUtils.createSimpleDialog(getActivity(), 0, mContext.getString(R.string.error_booking_title), response.getErrors().get(0).getPresentableMessage(mContext));
+				//d.show();
+				mLoginFailed.setVisibility(View.VISIBLE);
 				((SignInFragmentListener) getActivity()).onLoginFailed();
 			}
 			else {

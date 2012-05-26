@@ -10,6 +10,13 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="0dp" />
+    <TextView
+        android:id="@+id/login_failed_textview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_failed"
+        android:textColor="@android:color/holo_red_light"
+        android:visibility="gone" />
     <EditText
         android:id="@+id/username_edit_text"
         android:layout_width="fill_parent"
