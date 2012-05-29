@@ -32,7 +32,6 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.cookie.NetscapeDraftSpec;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
@@ -145,6 +144,9 @@ public class ExpediaServices implements DownloadListener {
 		HttpGet get = NetUtils.createHttpGet(url, params);
 		get.addHeader("Accept", "application/json");
 		get.addHeader("Accept-Encoding", "gzip");
+
+		// Some logging before passing the request along^M
+		Log.d("Autosuggest request: " + url + "?" + NetUtils.getParamsForLogging(params));
 
 		SuggestResponseHandler responseHandler = new SuggestResponseHandler(mContext);
 
@@ -272,7 +274,7 @@ public class ExpediaServices implements DownloadListener {
 
 			DateFormat expFormatter = new SimpleDateFormat("MMyy");
 			query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
-							.getTime())));
+					.getTime())));
 		}
 		else {
 			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));
