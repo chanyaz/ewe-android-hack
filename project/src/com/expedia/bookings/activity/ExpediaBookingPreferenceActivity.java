@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -9,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -23,6 +25,16 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity {
 
 		if (!AndroidUtils.isRelease(this)) {
 			addPreferencesFromResource(R.xml.preferences_dev);
+
+			String apiKey = getString(R.string.preference_which_api_to_use_key);
+			ListPreference apiPref = (ListPreference) findPreference(apiKey);
+			apiPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+				public boolean onPreferenceChange(Preference preference, Object newValue) {
+					ExpediaServices expedia = new ExpediaServices(ExpediaBookingPreferenceActivity.this);
+					expedia.signOut();
+					return true;
+				}
+			});
 		}
 
 		String pointOfSaleKey = getString(R.string.PointOfSaleKey);
