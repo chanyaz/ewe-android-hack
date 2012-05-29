@@ -18,13 +18,13 @@ import android.widget.EditText;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
-import com.expedia.bookings.fragment.AirlinePickerFragment;
-import com.expedia.bookings.fragment.AirlinePickerFragment.AirlinePickerFragmentListener;
+import com.expedia.bookings.fragment.AirportPickerFragment;
+import com.expedia.bookings.fragment.AirportPickerFragment.AirportPickerFragmentListener;
 import com.expedia.bookings.fragment.CalendarPickerFragment;
 import com.expedia.bookings.fragment.PassengerPickerFragment;
 import com.expedia.bookings.utils.Ui;
 
-public class FlightSearchActivity extends FragmentActivity implements AirlinePickerFragmentListener {
+public class FlightSearchActivity extends FragmentActivity implements AirportPickerFragmentListener {
 
 	private static final String TAG_AIRPORT_PICKER = "TAG_AIRPORT_PICKER";
 	private static final String TAG_DATE_PICKER = "TAG_DATE_PICKER";
@@ -126,7 +126,7 @@ public class FlightSearchActivity extends FragmentActivity implements AirlinePic
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		if (newFragment == null) {
 			if (tag.equals(TAG_AIRPORT_PICKER)) {
-				newFragment = new AirlinePickerFragment();
+				newFragment = new AirportPickerFragment();
 			}
 			else if (tag.equals(TAG_DATE_PICKER)) {
 				newFragment = new CalendarPickerFragment();
@@ -188,14 +188,14 @@ public class FlightSearchActivity extends FragmentActivity implements AirlinePic
 
 	private void setAirportPickerFilter(CharSequence s) {
 		Fragment currFragment = Ui.findSupportFragment(this, R.id.content_frame);
-		if (currFragment != null && currFragment instanceof AirlinePickerFragment) {
-			AirlinePickerFragment airportFragment = (AirlinePickerFragment) currFragment;
+		if (currFragment != null && currFragment instanceof AirportPickerFragment) {
+			AirportPickerFragment airportFragment = (AirportPickerFragment) currFragment;
 			airportFragment.filter(s);
 		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// AirlinePickerFragmentListener
+	// AirportPickerFragmentListener
 
 	@Override
 	public void onAirportClick(String airportCode) {

@@ -8,23 +8,23 @@ import android.widget.ListView;
 
 import com.mobiata.flightlib.widget.AirportAdapter;
 
-public class AirlinePickerFragment extends ListFragment {
-	public static final String TAG = AirlinePickerFragment.class.getCanonicalName();
+public class AirportPickerFragment extends ListFragment {
+	public static final String TAG = AirportPickerFragment.class.getCanonicalName();
 
 	private AirportAdapter mAdapter;
 
-	private AirlinePickerFragmentListener mListener;
+	private AirportPickerFragmentListener mListener;
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof AirlinePickerFragmentListener)) {
+		if (!(activity instanceof AirportPickerFragmentListener)) {
 			throw new RuntimeException(
-					"AirlinePickerFragment activity must implement AirlinePickerFragmentListener!");
+					"AirportPickerFragment activity must implement AirportPickerFragmentListener!");
 		}
 
-		mListener = (AirlinePickerFragmentListener) activity;
+		mListener = (AirportPickerFragmentListener) activity;
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class AirlinePickerFragment extends ListFragment {
 		mAdapter.filter(constraint);
 	}
 
-	public interface AirlinePickerFragmentListener {
+	public interface AirportPickerFragmentListener {
 		public void onAirportClick(String airportCode);
 	}
 }
