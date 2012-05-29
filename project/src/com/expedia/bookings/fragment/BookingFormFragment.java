@@ -470,7 +470,13 @@ public class BookingFormFragment extends DialogFragment {
 					ValidationProcessor processor = mValidationProcessor;
 
 					if (mUserProfileIsFresh) {
-						StoredCreditCard card = mCardAdapter.getSelectedCard();
+						StoredCreditCard card;
+						if (mCardAdapter == null) {
+							card = null;
+						}
+						else {
+							card = mCardAdapter.getSelectedCard();
+						}
 						Db.getBillingInfo().setStoredCard(card);
 						if (card != null) {
 							// a valid stored CC and not enter new card
