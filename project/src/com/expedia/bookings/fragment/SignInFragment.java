@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -34,6 +35,8 @@ public class SignInFragment extends DialogFragment {
 	private TextView mLoginFailed;
 	private EditText mUsernameEditText;
 	private EditText mPasswordEditText;
+
+	private ProgressDialog mProgressDialog;
 
 	private boolean mLoginClicked = false;
 
@@ -72,6 +75,10 @@ public class SignInFragment extends DialogFragment {
 			public void onClick (View v) {
 				mLoginFailed.setVisibility(View.GONE);
 				mLoginClicked = true;
+				mProgressDialog = new ProgressDialog(mContext);
+				mProgressDialog.setMessage(getString(R.string.logging_in));
+				mProgressDialog.setCancelable(false);
+				mProgressDialog.show();
 				BackgroundDownloader.getInstance().startDownload(KEY_SIGNIN, mLoginDownload, mLoginCallback);
 			}
 		});
@@ -124,9 +131,8 @@ public class SignInFragment extends DialogFragment {
 	private final OnDownloadComplete<SignInResponse> mLoginCallback = new OnDownloadComplete<SignInResponse>() {
 		@Override
 		public void onDownload(SignInResponse response) {
+			mProgressDialog.dismiss();
 			if (response == null || response.hasErrors()) {
-				//Dialog d = DialogUtils.createSimpleDialog(getActivity(), 0, mContext.getString(R.string.error_booking_title), response.getErrors().get(0).getPresentableMessage(mContext));
-				//d.show();
 				mLoginFailed.setVisibility(View.VISIBLE);
 				((SignInFragmentListener) getActivity()).onLoginFailed();
 			}
