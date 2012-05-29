@@ -4,15 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <!-- Dummy layout to prevent -->
-
-    <View
-        android:id="@+id/focus_stealer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true" />
-
     <!-- Header (with search params) -->
 
     <LinearLayout
@@ -34,7 +25,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/hint_departure_airport"
-                android:singleLine="true" />
+                android:singleLine="true" >
+
+                <requestFocus />
+            </EditText>
 
             <EditText
                 android:id="@+id/arrival_airport_edit_text"
@@ -51,18 +45,19 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/departure_date_button"
+                android:id="@+id/dates_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:singleLine="true" />
 
-            <Button
-                android:id="@+id/arrival_date_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:singleLine="true" />
+            <ImageButton
+                android:id="@+id/passengers_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:singleLine="true"
+                android:src="@drawable/ic_action_guests" />
         </LinearLayout>
     </LinearLayout>
 

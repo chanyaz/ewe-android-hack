@@ -1,43 +1,39 @@
 package com.expedia.bookings.activity;
 
-import java.text.DateFormat;
-
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.AirlinePickerFragment;
 import com.expedia.bookings.fragment.AirlinePickerFragment.AirlinePickerFragmentListener;
+import com.expedia.bookings.fragment.CalendarPickerFragment;
+import com.expedia.bookings.fragment.PassengerPickerFragment;
 import com.expedia.bookings.utils.Ui;
 
 public class FlightSearchActivity extends FragmentActivity implements AirlinePickerFragmentListener {
 
-	private AirlinePickerFragment mAirlinePickerFragment;
-
-	private View mFocusStealer;
+	private static final String TAG_AIRPORT_PICKER = "TAG_AIRPORT_PICKER";
+	private static final String TAG_DATE_PICKER = "TAG_DATE_PICKER";
+	private static final String TAG_PASSENGER_PICKER = "TAG_PASSENGER_PICKER";
 
 	private EditText mDepartureAirportEditText;
 	private EditText mArrivalAirportEditText;
-	private Button mDepartureDateButton;
-	private Button mReturnDateButton;
+	private Button mDatesButton;
+	private View mPassengersButton;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -48,20 +44,6 @@ public class FlightSearchActivity extends FragmentActivity implements AirlinePic
 
 		setContentView(R.layout.activity_flight_search);
 
-		mFocusStealer = Ui.findView(this, R.id.focus_stealer);
-
-		mFocusStealer.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					// Detach all fragments
-					FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-					ft.detach(mAirlinePickerFragment);
-					ft.commit();
-				}
-			}
-		});
-
 		// Configure airport pickers
 		mDepartureAirportEditText = Ui.findView(this, R.id.departure_airport_edit_text);
 		mArrivalAirportEditText = Ui.findView(this, R.id.arrival_airport_edit_text);
@@ -70,15 +52,13 @@ public class FlightSearchActivity extends FragmentActivity implements AirlinePic
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
-					if (mAirlinePickerFragment.isDetached()) {
-						getSupportFragmentManager().beginTransaction().attach(mAirlinePickerFragment).commit();
-					}
+					setFragment(TAG_AIRPORT_PICKER);
 
 					if (v == mDepartureAirportEditText) {
-						mAirlinePickerFragment.filter(mDepartureAirportEditText.getText());
+						setAirportPickerFilter(mDepartureAirportEditText.getText());
 					}
 					else if (v == mArrivalAirportEditText) {
-						mAirlinePickerFragment.filter(mArrivalAirportEditText.getText());
+						setAirportPickerFilter(mArrivalAirportEditText.getText());
 					}
 				}
 			}
@@ -87,33 +67,27 @@ public class FlightSearchActivity extends FragmentActivity implements AirlinePic
 		mDepartureAirportEditText.setOnFocusChangeListener(airportFocusChangeListener);
 		mArrivalAirportEditText.setOnFocusChangeListener(airportFocusChangeListener);
 
-		// Configure departure/return buttons
-		mDepartureDateButton = Ui.findView(this, R.id.departure_date_button);
-		mDepartureDateButton.setOnClickListener(new OnClickListener() {
+		// Configure date button
+		mDatesButton = Ui.findView(this, R.id.dates_button);
+		mDatesButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				CalendarDialogFragment fragment = CalendarDialogFragment.newInstance(true);
-				fragment.show(getSupportFragmentManager(), CalendarDialogFragment.TAG);
-			}
-		});
-		mReturnDateButton = Ui.findView(this, R.id.arrival_date_button);
-		mReturnDateButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				CalendarDialogFragment fragment = CalendarDialogFragment.newInstance(false);
-				fragment.show(getSupportFragmentManager(), CalendarDialogFragment.TAG);
+				setFragment(TAG_DATE_PICKER);
 			}
 		});
 
-		updateDateButtons();
+		// Configure passenger button
+		mPassengersButton = Ui.findView(this, R.id.passengers_button);
+		mPassengersButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				setFragment(TAG_PASSENGER_PICKER);
+			}
+		});
 
-		// For now, just add the airline picker fragment; at some point we'll want to
-		// manage which fragment is shown.
-		mAirlinePickerFragment = Ui.findSupportFragment(this, AirlinePickerFragment.TAG);
-		if (mAirlinePickerFragment == null) {
-			mAirlinePickerFragment = new AirlinePickerFragment();
-			getSupportFragmentManager().beginTransaction().add(R.id.content_frame, mAirlinePickerFragment,
-					AirlinePickerFragment.TAG).commit();
+		// Set initial fragment
+		if (savedInstanceState == null) {
+			setFragment(TAG_AIRPORT_PICKER);
 		}
 
 		getActionBar().setTitle(R.string.search_flights);
@@ -133,6 +107,42 @@ public class FlightSearchActivity extends FragmentActivity implements AirlinePic
 
 		mDepartureAirportEditText.removeTextChangedListener(mAirportTextWatcher);
 		mArrivalAirportEditText.removeTextChangedListener(mAirportTextWatcher);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Fragment control
+
+	public void setFragment(String tag) {
+		FragmentManager fm = getSupportFragmentManager();
+
+		Fragment newFragment = fm.findFragmentByTag(tag);
+		Fragment currentFragment = fm.findFragmentById(R.id.content_frame);
+
+		// It's already on the correct fragment, don't do anything
+		if (newFragment != null && currentFragment != null && newFragment == currentFragment) {
+			return;
+		}
+
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		if (newFragment == null) {
+			if (tag.equals(TAG_AIRPORT_PICKER)) {
+				newFragment = new AirlinePickerFragment();
+			}
+			else if (tag.equals(TAG_DATE_PICKER)) {
+				newFragment = new CalendarPickerFragment();
+			}
+			else if (tag.equals(TAG_PASSENGER_PICKER)) {
+				newFragment = new PassengerPickerFragment();
+			}
+		}
+
+		// Adds or replaces current content in container
+		ft.replace(R.id.content_frame, newFragment);
+
+		// Set a fade transition (for now)
+		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
+		ft.commit();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -162,7 +172,7 @@ public class FlightSearchActivity extends FragmentActivity implements AirlinePic
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			mAirlinePickerFragment.filter(s);
+			setAirportPickerFilter(s);
 		}
 
 		@Override
@@ -175,6 +185,14 @@ public class FlightSearchActivity extends FragmentActivity implements AirlinePic
 			// Do nothing
 		}
 	};
+
+	private void setAirportPickerFilter(CharSequence s) {
+		Fragment currFragment = Ui.findSupportFragment(this, R.id.content_frame);
+		if (currFragment != null && currFragment instanceof AirlinePickerFragment) {
+			AirlinePickerFragment airportFragment = (AirlinePickerFragment) currFragment;
+			airportFragment.filter(s);
+		}
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// AirlinePickerFragmentListener
@@ -190,77 +208,6 @@ public class FlightSearchActivity extends FragmentActivity implements AirlinePic
 		else {
 			params.setArrivalAirportCode(airportCode);
 			mArrivalAirportEditText.setText(airportCode);
-			mFocusStealer.requestFocus();
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Date picker dialog fragment
-	//
-	// This is all temporary code; it should not last past the prototype
-
-	public void updateDateButtons() {
-		DateFormat df = android.text.format.DateFormat.getDateFormat(this);
-		FlightSearchParams params = Db.getFlightSearchParams();
-
-		mDepartureDateButton.setText(getString(R.string.departs_TEMPLATE,
-				df.format(params.getDepartureDate().getCalendar().getTime())));
-
-		if (params.isRoundTrip()) {
-			mReturnDateButton.setText(getString(R.string.returns_TEMPLATE,
-					df.format(params.getReturnDate().getCalendar().getTime())));
-		}
-		else {
-			mReturnDateButton.setText(R.string.no_return);
-		}
-	}
-
-	public static class CalendarDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
-		public static final String TAG = CalendarDialogFragment.class.getName();
-
-		private static final String ARG_IS_DEPARTURE = "ARG_IS_DEPARTURE";
-
-		public static CalendarDialogFragment newInstance(boolean isDeparture) {
-			CalendarDialogFragment fragment = new CalendarDialogFragment();
-			Bundle args = new Bundle();
-			args.putBoolean(ARG_IS_DEPARTURE, isDeparture);
-			fragment.setArguments(args);
-			return fragment;
-		}
-
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			FlightSearchParams params = Db.getFlightSearchParams();
-			Date startDate = (isDeparture()) ? params.getDepartureDate() : params.getReturnDate();
-
-			return new DatePickerDialog(getActivity(), this, startDate.getYear(), startDate.getMonth() - 1,
-					startDate.getDayOfMonth());
-		}
-
-		public boolean isDeparture() {
-			return getArguments().getBoolean(ARG_IS_DEPARTURE);
-		}
-
-		//////////////////////////////////////////////////////////////////////
-		// OnDateSetListener
-
-		@Override
-		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-			((FlightSearchActivity) getActivity()).onDateSet(isDeparture(), year, monthOfYear, dayOfMonth);
-		}
-	}
-
-	public void onDateSet(boolean isDeparture, int year, int monthOfYear, int dayOfMonth) {
-		FlightSearchParams params = Db.getFlightSearchParams();
-		Date date = new Date(year, monthOfYear + 1, dayOfMonth);
-		if (isDeparture) {
-			params.setDepartureDate(date);
-		}
-		else {
-			params.setReturnDate(date);
-		}
-
-		updateDateButtons();
 	}
 }
