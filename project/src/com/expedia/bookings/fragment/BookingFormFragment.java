@@ -966,11 +966,8 @@ public class BookingFormFragment extends DialogFragment {
 	private final OnDownloadComplete<SignInResponse> mLoginCallback = new OnDownloadComplete<SignInResponse>() {
 		@Override
 		public void onDownload(SignInResponse response) {
-			if (response == null) {
-				// TODO: error
-			}
-			else if (response.hasErrors()) {
-				// TODO: error
+			if (response == null || response.hasErrors()) {
+				mAccountButton.error();
 			}
 			else {
 				mUserProfileIsFresh = true;

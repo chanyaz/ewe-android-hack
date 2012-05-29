@@ -9,7 +9,6 @@
         android:id="@+id/account_loading_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/btn_signin"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="@dimen/booking_form_saved_section_padding"
@@ -23,11 +22,12 @@
             android:indeterminate="true"
             android:padding="@dimen/card_icon_padding" />
         <TextView
+            android:id="@+id/loading_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/loading_expedia_account"
-            android:textColor="#FFFFFF" />
+            android:textColor="@color/text_dark" />
         <ImageView
             android:id="@+id/logout_button"
             android:layout_width="wrap_content"
@@ -62,8 +62,8 @@
         android:id="@+id/account_logout_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:padding="@dimen/booking_form_saved_section_padding"
         android:visibility="gone"
         style="@style/BookingSection" >
@@ -82,12 +82,12 @@
                 android:id="@+id/account_top_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#545454" />
+                android:textColor="@color/text_dark" />
             <TextView
                 android:id="@+id/account_bottom_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#545454" />
+                android:textColor="@color/text_dark" />
         </LinearLayout>
         <ImageView
             android:id="@+id/logout_button"
