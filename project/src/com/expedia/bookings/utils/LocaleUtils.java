@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ResourceUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -201,6 +202,9 @@ public class LocaleUtils {
 
 		// Update the cache
 		getPointOfSale(context);
+
+		// clear all data
+		Db.clear();
 
 		// Notify app of POS change
 		Intent intent = new Intent(ACTION_POS_CHANGED);

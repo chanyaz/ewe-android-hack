@@ -143,6 +143,7 @@ public class Db {
 
 	public static void clearAvailabilityResponses() {
 		sDb.mAvailabilityResponses.clear();
+		sDb.mInfoResponses.clear();
 	}
 
 	public static AvailabilityResponse getSelectedInfoResponse() {
@@ -280,6 +281,18 @@ public class Db {
 
 	public static User getUser() {
 		return sDb.mUser;
+	}
+
+	public static void clear() {
+		sDb.clearAvailabilityResponses();
+		sDb.clearReviewsResponses();
+		resetFilter();
+		resetBillingInfo();
+		resetSearchParams();
+
+		setSearchResponse(null);
+		setBookingResponse(null);
+		setUser(null);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
