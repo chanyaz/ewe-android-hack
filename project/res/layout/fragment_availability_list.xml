@@ -44,10 +44,10 @@
 
         <TextView
             android:id="@+id/empty_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="24dp"
+            android:padding="20dp"
             android:shadowColor="#88FFFFFF"
             android:shadowDx="0"
             android:shadowDy="-1"
