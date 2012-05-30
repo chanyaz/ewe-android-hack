@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,8 @@ import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment.CalendarDialogFragmentListener;
 import com.expedia.bookings.fragment.PassengerPickerFragment;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 
 public class FlightSearchActivity extends FragmentActivity implements AirportPickerFragmentListener,
 		CalendarDialogFragmentListener {
@@ -51,6 +54,15 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// We need to manually set the soft input mode in v11+ because
+		// adjustNothing is preferable to adjustPan.
+		if (AndroidUtils.getSdkVersion() >= 11) {
+			getWindow().setSoftInputMode(
+					WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING
+							| WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED);
+		}
+
+		// Inflate the views
 		setContentView(R.layout.activity_flight_search);
 
 		mFocusStealer = Ui.findView(this, R.id.focus_stealer);
@@ -100,11 +112,6 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 				setFragment(TAG_PASSENGER_PICKER);
 			}
 		});
-
-		// Set initial fragment
-		if (savedInstanceState == null) {
-			setFragment(TAG_AIRPORT_PICKER);
-		}
 
 		updateDateButton();
 

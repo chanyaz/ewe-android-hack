@@ -35,10 +35,7 @@
                 android:layout_weight="1"
                 android:hint="@string/hint_departure_airport"
                 android:imeOptions="flagNoExtractUi"
-                android:singleLine="true" >
-
-                <requestFocus />
-            </EditText>
+                android:singleLine="true" />
 
             <EditText
                 android:id="@+id/arrival_airport_edit_text"

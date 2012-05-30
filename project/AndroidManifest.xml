@@ -101,7 +101,7 @@
         <activity android:name=".activity.FlightSearchActivity"
             android:label="Expedia Flights"
             android:theme="@style/FlightTheme"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="stateUnchanged|adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
