@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -11,6 +12,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -70,6 +72,9 @@ public class SignInFragment extends DialogFragment {
 		mLoginFailed = (TextView) view.findViewById(R.id.login_failed_textview);
 		mUsernameEditText = (EditText) view.findViewById(R.id.username_edit_text);
 		mPasswordEditText = (EditText) view.findViewById(R.id.password_edit_text);
+
+		mPasswordEditText.setTypeface(Typeface.DEFAULT);
+		mPasswordEditText.setTransformationMethod(new PasswordTransformationMethod());
 
 		TextView forgotLink = (TextView) view.findViewById(R.id.forgot_your_password_link);
 		forgotLink.setText(Html.fromHtml(String.format("<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>", LocaleUtils.getPointOfSale(mContext), mContext.getString(R.string.forgot_your_password))));
