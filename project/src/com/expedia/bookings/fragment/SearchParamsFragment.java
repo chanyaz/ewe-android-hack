@@ -239,8 +239,8 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 		// Configure the number pickers
 		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
-		mAdultsNumberPicker.setOnValueChangedListener(mPersonCountChangeListener);
-		mChildrenNumberPicker.setOnValueChangedListener(mPersonCountChangeListener);
+		mAdultsNumberPicker.setOnValueChangedListener(mAdultCountChangeListener);
+		mChildrenNumberPicker.setOnValueChangedListener(mChildCountChangeListener);
 
 		// Block NumberPickers from being editable
 		mAdultsNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -402,13 +402,24 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 	};
 
 	// Configure number pickers to dynamically change the layout on value changes
-	private final OnValueChangeListener mPersonCountChangeListener = new OnValueChangeListener() {
+	private final OnValueChangeListener mAdultCountChangeListener = new OnValueChangeListener() {
+
+		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+			if (!isHidden()) {
+				SearchParams searchParams = Db.getSearchParams();
+				searchParams.setNumAdults(mAdultsNumberPicker.getValue());
+			}
+
+			GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
+		}
+	};
+
+	private final OnValueChangeListener mChildCountChangeListener = new OnValueChangeListener() {
 
 		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 			if (!isHidden()) {
 				SearchParams searchParams = Db.getSearchParams();
 				List<Integer> children = searchParams.getChildren();
-				searchParams.setNumAdults(mAdultsNumberPicker.getValue());
 				Activity activity = getActivity();
 				GuestsPickerUtils.resizeChildrenList(activity, children, mChildrenNumberPicker.getValue());
 
@@ -420,8 +431,13 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 				GuestsPickerUtils.showOrHideChildAgeSpinners(activity, children, mChildAgesLayout,
 						mChildAgeSelectedListener);
 
-				if (children.size() != 0 && mChildAgesButton.getAlpha() == 0) {
-					showChildAgesButton(true);
+				if (children.size() != 0) {
+					if (mChildAgesButton.getAlpha() == 0) {
+						showChildAgesButton(true);
+					}
+					else if (!isChildAgesPopupVisible()) {
+						showChildAgesPopup(true);
+					}
 				}
 				else if (children.size() == 0 && mChildAgesButton.getAlpha() > 0) {
 					hideChildAgesButton(true);
