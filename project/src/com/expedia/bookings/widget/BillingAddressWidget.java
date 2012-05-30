@@ -62,6 +62,8 @@ public class BillingAddressWidget {
 	// Tracks if the user has explicitly expanded the billing information
 	private boolean mUserExpanded = false;
 
+	private boolean mIsVisible = true;
+
 	private ValidationProcessor mAddressValidationProcessor;
 
 	public BillingAddressWidget(Context context, View rootView) {
@@ -176,6 +178,7 @@ public class BillingAddressWidget {
 	}
 
 	public void update(Location newLocation) {
+		mIsVisible = true;
 		if (newLocation == null) {
 			clear();
 			expand(false);
@@ -211,7 +214,7 @@ public class BillingAddressWidget {
 		setSpinnerSelection(mCountrySpinner, mCountryCodes, newLocation.getCountryCode());
 		mStateEditText.setText(newLocation.getStateCode());
 
-		if (mUserExpanded || ! isComplete()) {
+		if (isExpanded()) {
 			expand(false);
 		}
 		else {
@@ -264,12 +267,21 @@ public class BillingAddressWidget {
 	}
 
 	public void hide() {
+		mIsVisible = false;
 		if (mSectionTitle != null) {
 			mSectionTitle.setVisibility(View.GONE);
 		}
 		mBillingSavedLayout.setVisibility(View.GONE);
 		mBillingFormLayout.setVisibility(View.GONE);
 		return;
+	}
+
+	public boolean isVisible() {
+		return mIsVisible;
+	}
+
+	public boolean isExpanded() {
+		return mUserExpanded || ! isComplete();
 	}
 
 	public void clear() {

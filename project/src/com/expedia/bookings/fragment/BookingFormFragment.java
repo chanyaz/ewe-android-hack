@@ -140,7 +140,6 @@ public class BookingFormFragment extends DialogFragment {
 	// The state of the form
 	private boolean mFormHasBeenFocused;
 	private boolean mGuestsExpanded;
-	private boolean mBillingExpanded;
 
 	private ReceiptWidget mReceiptWidget;
 
@@ -713,13 +712,13 @@ public class BookingFormFragment extends DialogFragment {
 	private void fixFocus() {
 		// Handle where guest forms are pointing down (if expanded)
 		if (mGuestsExpanded) {
-			int nextId = (mBillingExpanded) ? R.id.address1_edit_text : R.id.card_number_edit_text;
+			int nextId = (mBillingAddressWidget.isVisible() && mBillingAddressWidget.isExpanded()) ? R.id.address1_edit_text : R.id.card_number_edit_text;
 			mEmailEditText.setNextFocusDownId(nextId);
 			mEmailEditText.setNextFocusRightId(nextId);
 		}
 
 		// Handle where card info is pointing up
-		int nextId = (mBillingExpanded) ? R.id.postal_code_edit_text : R.id.email_edit_text;
+		int nextId = (mBillingAddressWidget.isVisible() && mBillingAddressWidget.isExpanded()) ? R.id.postal_code_edit_text : R.id.email_edit_text;
 		mCardNumberEditText.setNextFocusUpId(nextId);
 		mCardNumberEditText.setNextFocusLeftId(nextId);
 		mExpirationMonthEditText.setNextFocusUpId(nextId);
