@@ -34,12 +34,16 @@ public class CalendarDialogFragment extends DialogFragment {
 
 	private CalendarDialogFragmentListener mListener;
 
-	private Calendar mInitialStartDate;
-	private Calendar mInitialEndDate;
-
 	public static CalendarDialogFragment newInstance(Calendar startDate, Calendar endDate) {
 		CalendarDialogFragment dialog = new CalendarDialogFragment();
-		dialog.setInitialDates(startDate, endDate);
+		Bundle args = new Bundle();
+		args.putInt(KEY_START_YEAR, startDate.get(Calendar.YEAR));
+		args.putInt(KEY_START_MONTH, startDate.get(Calendar.MONTH));
+		args.putInt(KEY_START_DAY_OF_MONTH, startDate.get(Calendar.DAY_OF_MONTH));
+		args.putInt(KEY_END_YEAR, endDate.get(Calendar.YEAR));
+		args.putInt(KEY_END_MONTH, endDate.get(Calendar.MONTH));
+		args.putInt(KEY_END_DAY_OF_MONTH, endDate.get(Calendar.DAY_OF_MONTH));
+		dialog.setArguments(args);
 		return dialog;
 	}
 
@@ -103,18 +107,12 @@ public class CalendarDialogFragment extends DialogFragment {
 		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker);
 
 		// Set initial dates
-		if (savedInstanceState == null) {
-			mCalendarDatePicker.updateStartDate(mInitialStartDate.get(Calendar.YEAR),
-					mInitialStartDate.get(Calendar.MONTH), mInitialStartDate.get(Calendar.DAY_OF_MONTH));
-			mCalendarDatePicker.updateEndDate(mInitialEndDate.get(Calendar.YEAR), mInitialEndDate.get(Calendar.MONTH),
-					mInitialEndDate.get(Calendar.DAY_OF_MONTH));
-		}
-		else {
-			mCalendarDatePicker.updateStartDate(savedInstanceState.getInt(KEY_START_YEAR),
-					savedInstanceState.getInt(KEY_START_MONTH), savedInstanceState.getInt(KEY_START_DAY_OF_MONTH));
-			mCalendarDatePicker.updateEndDate(savedInstanceState.getInt(KEY_END_YEAR),
-					savedInstanceState.getInt(KEY_END_MONTH), savedInstanceState.getInt(KEY_END_DAY_OF_MONTH));
-		}
+		Bundle dateInfo = (savedInstanceState != null && savedInstanceState.containsKey(KEY_START_YEAR)) ? savedInstanceState
+				: getArguments();
+		mCalendarDatePicker.updateStartDate(dateInfo.getInt(KEY_START_YEAR),
+				dateInfo.getInt(KEY_START_MONTH), dateInfo.getInt(KEY_START_DAY_OF_MONTH));
+		mCalendarDatePicker.updateEndDate(dateInfo.getInt(KEY_END_YEAR),
+				dateInfo.getInt(KEY_END_MONTH), dateInfo.getInt(KEY_END_DAY_OF_MONTH));
 
 		// The listener changes based on whether this is a dialog or not.  If it's a dialog, we just update
 		// the title (and depend on a button press to indicate the dates changing).  For a normal fragment,
@@ -141,12 +139,14 @@ public class CalendarDialogFragment extends DialogFragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		outState.putInt(KEY_START_YEAR, mCalendarDatePicker.getStartYear());
-		outState.putInt(KEY_START_MONTH, mCalendarDatePicker.getStartMonth());
-		outState.putInt(KEY_START_DAY_OF_MONTH, mCalendarDatePicker.getStartDayOfMonth());
-		outState.putInt(KEY_END_YEAR, mCalendarDatePicker.getEndYear());
-		outState.putInt(KEY_END_MONTH, mCalendarDatePicker.getEndMonth());
-		outState.putInt(KEY_END_DAY_OF_MONTH, mCalendarDatePicker.getEndDayOfMonth());
+		if (mCalendarDatePicker != null) {
+			outState.putInt(KEY_START_YEAR, mCalendarDatePicker.getStartYear());
+			outState.putInt(KEY_START_MONTH, mCalendarDatePicker.getStartMonth());
+			outState.putInt(KEY_START_DAY_OF_MONTH, mCalendarDatePicker.getStartDayOfMonth());
+			outState.putInt(KEY_END_YEAR, mCalendarDatePicker.getEndYear());
+			outState.putInt(KEY_END_MONTH, mCalendarDatePicker.getEndMonth());
+			outState.putInt(KEY_END_DAY_OF_MONTH, mCalendarDatePicker.getEndDayOfMonth());
+		}
 	}
 
 	private CharSequence getTitleText() {
@@ -155,11 +155,6 @@ public class CalendarDialogFragment extends DialogFragment {
 
 	private void updateTitle() {
 		getDialog().setTitle(getTitleText());
-	}
-
-	private void setInitialDates(Calendar startDate, Calendar endDate) {
-		mInitialStartDate = startDate;
-		mInitialEndDate = endDate;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
