@@ -578,11 +578,24 @@ public class BookingFormFragment extends DialogFragment {
 				return (thisYear % 100 > year) ? BookingInfoValidation.ERROR_EXPIRED_YEAR : 0;
 			}
 		}));
+		mGuestInfoValidationProcessor.add(mSecurityCodeEditText, new TextViewValidator(new Validator<CharSequence>() {
+			public int validate(CharSequence obj) {
+				return (obj.length() < 3) ? BookingInfoValidation.ERROR_SHORT_SECURITY_CODE : 0;
+			}
+		}));
 		mValidationProcessor.add(mSecurityCodeEditText, new TextViewValidator(new Validator<CharSequence>() {
 			public int validate(CharSequence obj) {
 				return (obj.length() < 3) ? BookingInfoValidation.ERROR_SHORT_SECURITY_CODE : 0;
 			}
 		}));
+		mGuestInfoValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
+			public int validate(CheckBox obj) {
+				if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox(getActivity()) && !obj.isChecked()) {
+					return BookingInfoValidation.ERROR_NO_TERMS_CONDITIONS_AGREEMEMT;
+				}
+				return 0;
+			}
+		});
 		mValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
 			public int validate(CheckBox obj) {
 				if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox(getActivity()) && !obj.isChecked()) {
