@@ -178,6 +178,12 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 			return;
 		}
 
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+		if (currentFragment != null) {
+			ft.detach(currentFragment);
+		}
+
 		if (newFragment == null) {
 			if (tag.equals(TAG_AIRPORT_PICKER)) {
 				newFragment = new AirportPickerFragment();
@@ -192,15 +198,15 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 			else if (tag.equals(TAG_PASSENGER_PICKER)) {
 				newFragment = new PassengerPickerFragment();
 			}
-		}
 
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.add(R.id.content_frame, newFragment, tag);
+		}
+		else {
+			ft.attach(newFragment);
+		}
 
 		// Set a fade transition (for now)
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-
-		// Adds or replaces current content in container
-		ft.replace(R.id.content_frame, newFragment, tag);
 
 		ft.commit();
 	}
