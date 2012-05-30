@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -30,6 +32,7 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 	private static final String TAG_DATE_PICKER = "TAG_DATE_PICKER";
 	private static final String TAG_PASSENGER_PICKER = "TAG_PASSENGER_PICKER";
 
+	private View mFocusStealer;
 	private EditText mDepartureAirportEditText;
 	private EditText mArrivalAirportEditText;
 	private Button mDatesButton;
@@ -43,6 +46,8 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_flight_search);
+
+		mFocusStealer = Ui.findView(this, R.id.focus_stealer);
 
 		// Configure airport pickers
 		mDepartureAirportEditText = Ui.findView(this, R.id.departure_airport_edit_text);
@@ -70,8 +75,11 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 		// Configure date button
 		mDatesButton = Ui.findView(this, R.id.dates_button);
 		mDatesButton.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
+				clearEditTextFocus();
+
 				setFragment(TAG_DATE_PICKER);
 			}
 		});
@@ -81,6 +89,8 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 		mPassengersButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				clearEditTextFocus();
+
 				setFragment(TAG_PASSENGER_PICKER);
 			}
 		});
@@ -110,9 +120,33 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// View control
+
+	// It is surprisingly difficult to get rid of an EditText's focus.  This
+	// method should be called when you want to ensure that the EditTexts on
+	// the screen no longer have focus.
+	private void clearEditTextFocus() {
+		EditText textWithFocus = null;
+
+		if (mDepartureAirportEditText.hasFocus()) {
+			textWithFocus = mDepartureAirportEditText;
+		}
+		else if (mArrivalAirportEditText.hasFocus()) {
+			textWithFocus = mArrivalAirportEditText;
+		}
+
+		if (textWithFocus != null) {
+			mFocusStealer.requestFocus();
+
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(textWithFocus.getWindowToken(), 0);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Fragment control
 
-	public void setFragment(String tag) {
+	private void setFragment(String tag) {
 		FragmentManager fm = getSupportFragmentManager();
 
 		Fragment newFragment = fm.findFragmentByTag(tag);
@@ -123,7 +157,6 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 			return;
 		}
 
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		if (newFragment == null) {
 			if (tag.equals(TAG_AIRPORT_PICKER)) {
 				newFragment = new AirportPickerFragment();
@@ -136,11 +169,13 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 			}
 		}
 
-		// Adds or replaces current content in container
-		ft.replace(R.id.content_frame, newFragment);
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
 		// Set a fade transition (for now)
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
+		// Adds or replaces current content in container
+		ft.replace(R.id.content_frame, newFragment, tag);
 
 		ft.commit();
 	}
