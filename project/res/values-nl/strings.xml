@@ -630,7 +630,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hallo,\n\ndownload Expedia Hotels voor de iPhone en Android-telefoons. Het is GRATIS en je kunt heel eenvoudig kamers zoeken en boeken bij meer dan 130.000 hotels over de hele wereld. Het is de eenvoudigste manier om met je mobiel hotelkamers te boeken.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hallo,\n\ndownload Expedia Hotels voor de iPhone en Android-telefoons. Het is GRATIS en je kunt heel eenvoudig kamers zoeken en boeken bij meer dan 140.000 hotels over de hele wereld. Het is de eenvoudigste manier om met je mobiel hotelkamers te boeken.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Algemene Voorwaarden</string>
 	<!-- Label for link to privacy policy -->

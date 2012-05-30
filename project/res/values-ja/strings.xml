@@ -630,7 +630,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">エクスペディア ホテル予約</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">\n \n 、こんにちは。iPhone と Android スマートフォン用の エクスペディア ホテル予約 アプリがオススメです。無料でダウンロードできて、世界中 13 万軒以上ものホテルを検索・予約可能。スマートフォンからホテルを予約するなら、このアプリが一番便利です。\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">\n \n 、こんにちは。iPhone と Android スマートフォン用の エクスペディア ホテル予約 アプリがオススメです。無料でダウンロードできて、世界中 14 万軒以上ものホテルを検索・予約可能。スマートフォンからホテルを予約するなら、このアプリが一番便利です。\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">使用条件</string>
 	<!-- Label for link to privacy policy -->

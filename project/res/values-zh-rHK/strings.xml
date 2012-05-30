@@ -630,7 +630,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia 酒店</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">您好，\n\n誠意推薦以 iPhone 和 Android 手機搜尋 Expedia Hotels。它不但是免費的，還能讓您輕鬆搜尋並預訂全球超過 13 萬間酒店的房間。這個以手機預訂酒店的方法最方便。\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">您好，\n\n誠意推薦以 iPhone 和 Android 手機搜尋 Expedia Hotels。它不但是免費的，還能讓您輕鬆搜尋並預訂全球超過 14 萬間酒店的房間。這個以手機預訂酒店的方法最方便。\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">條款與細則</string>
 	<!-- Label for link to privacy policy -->

@@ -630,7 +630,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hej,\n\nTa gärna en titt på vår hotellapp Expedia Hotels för iPhone och Android. Den är gratis och du kan lätt söka bland fler än 130 000 hotell över hela världen och boka ditt rum. Det är det enklaste sättet att boka hotell med din mobiltelefon. \n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hej,\n\nTa gärna en titt på vår hotellapp Expedia Hotels för iPhone och Android. Den är gratis och du kan lätt söka bland fler än 140 000 hotell över hela världen och boka ditt rum. Det är det enklaste sättet att boka hotell med din mobiltelefon. \n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Villkor</string>
 	<!-- Label for link to privacy policy -->

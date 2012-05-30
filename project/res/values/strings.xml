@@ -638,7 +638,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hi there,\n\nCheck out Expedia Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 130,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hi there,\n\nCheck out Expedia Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Terms and Conditions</string>
 	<!-- Label for link to privacy policy -->

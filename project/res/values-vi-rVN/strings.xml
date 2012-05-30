@@ -630,7 +630,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Xin chào,\n\nHãy thử ứng dụng Expedia Hotels dành cho điện thoại iPhone và Android! MIỄN PHÍ và bạn có thể dễ dàng tìm kiếm cũng như đặt phòng từ hơn 130.000 khách sạn trên toàn thế giới. Đây là cách dễ dàng nhất để đặt phòng khách sạn từ điện thoại của bạn.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Xin chào,\n\nHãy thử ứng dụng Expedia Hotels dành cho điện thoại iPhone và Android! MIỄN PHÍ và bạn có thể dễ dàng tìm kiếm cũng như đặt phòng từ hơn 140.000 khách sạn trên toàn thế giới. Đây là cách dễ dàng nhất để đặt phòng khách sạn từ điện thoại của bạn.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Điều khoản và Điều kiện</string>
 	<!-- Label for link to privacy policy -->

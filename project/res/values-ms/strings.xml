@@ -630,7 +630,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Hotel Expedia</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hai,\n\nKetahui tentang Hotel Expedia bagi iPhone dan telefon Android. Ia adalah PERCUMA dan membolehkan anda mencari dan menempah bilik dari lebih 130,000 hotel di seluruh dunia. Ia cara yang paling mudah untuk menempah bilik hotel menggunakan telefon anda.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hai,\n\nKetahui tentang Hotel Expedia bagi iPhone dan telefon Android. Ia adalah PERCUMA dan membolehkan anda mencari dan menempah bilik dari lebih 140,000 hotel di seluruh dunia. Ia cara yang paling mudah untuk menempah bilik hotel menggunakan telefon anda.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Terma dan Syarat</string>
 	<!-- Label for link to privacy policy -->

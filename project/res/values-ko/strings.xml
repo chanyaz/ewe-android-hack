@@ -630,7 +630,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">안녕하세요.\n\niPhone과 Android 스마트폰용 Expedia Hotels 앱을 경험해 보세요. 무료입니다! 전 세계 13만여 개의 호텔을 간편하게 검색하고 예약할 수 있습니다. 휴대폰에서 호텔을 예약하는 가장 쉬운 방법이에요.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">안녕하세요.\n\niPhone과 Android 스마트폰용 Expedia Hotels 앱을 경험해 보세요. 무료입니다! 전 세계 14만여 개의 호텔을 간편하게 검색하고 예약할 수 있습니다. 휴대폰에서 호텔을 예약하는 가장 쉬운 방법이에요.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">이용약관</string>
 	<!-- Label for link to privacy policy -->

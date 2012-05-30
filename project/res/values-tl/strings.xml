@@ -630,7 +630,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Mga Hotel ng Expedia</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hello,\n\nTingnan ang Expedia Hotels sa iPhone at Andriod na telepono LIBRE ito at madali kayong makakahanap at makakapag-book ng mga kuwarto mula sa mahigit sa 130,000 na hotel sa buong mundo. Napakadaling magpa-book ng kuwarto sa hotel gamit ang inyong telepono.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Hello,\n\nTingnan ang Expedia Hotels sa iPhone at Andriod na telepono LIBRE ito at madali kayong makakahanap at makakapag-book ng mga kuwarto mula sa mahigit sa 140,000 na hotel sa buong mundo. Napakadaling magpa-book ng kuwarto sa hotel gamit ang inyong telepono.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Mga Tuntunin at Kondisyon</string>
 	<!-- Label for link to privacy policy -->

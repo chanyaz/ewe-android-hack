@@ -632,7 +632,7 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Halo,\n\nAyo coba Expedia Hotels untuk ponsel iPhone dan Android. Aplikasi ini GRATIS dan Anda dapat mencari sekaligus memesan kamar dengan mudah di lebih dari 130.000 hotel di seluruh dunia. Ini cara termudah untuk memesan kamar hotel dari ponsel Anda.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Halo,\n\nAyo coba Expedia Hotels untuk ponsel iPhone dan Android. Aplikasi ini GRATIS dan Anda dapat mencari sekaligus memesan kamar dengan mudah di lebih dari 140.000 hotel di seluruh dunia. Ini cara termudah untuk memesan kamar hotel dari ponsel Anda.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Syarat dan Ketentuan</string>
 	<!-- Label for link to privacy policy -->

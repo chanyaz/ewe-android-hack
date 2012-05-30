@@ -630,7 +630,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">Expedia Hotels</string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Ciao,\n\ndai un\&apos;occhiata a Expedia Hotels per iPhone e Android. L\&apos;applicazione è gratuita e ti permette di prenotare facilmente più di 130.000 hotel in tutto il mondo. Il modo più semplice per prenotare un hotel dal tuo telefono.\n\nhttp://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">Ciao,\n\ndai un\&apos;occhiata a Expedia Hotels per iPhone e Android. L\&apos;applicazione è gratuita e ti permette di prenotare facilmente più di 140.000 hotel in tutto il mondo. Il modo più semplice per prenotare un hotel dal tuo telefono.\n\nhttp://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">Termini e condizioni</string>
 	<!-- Label for link to privacy policy -->
