@@ -284,15 +284,19 @@ public class Db {
 	}
 
 	public static void clear() {
-		sDb.clearAvailabilityResponses();
-		sDb.clearReviewsResponses();
+		clearAvailabilityResponses();
+		clearReviewsResponses();
 		resetFilter();
 		resetBillingInfo();
 		resetSearchParams();
 
-		setSearchResponse(null);
-		setBookingResponse(null);
-		setUser(null);
+		sDb.mSelectedPropertyId = null;
+		sDb.mSelectedProperty = null;
+		sDb.mSelectedRateKey = null;
+		sDb.mSelectedRate = null;
+		sDb.mSearchResponse = null;
+		sDb.mBookingResponse = null;
+		sDb.mUser = null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
