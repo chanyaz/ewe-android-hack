@@ -12,9 +12,16 @@ import com.mobiata.flightlib.widget.AirportAdapter;
 public class AirportPickerFragment extends ListFragment {
 	public static final String TAG = AirportPickerFragment.class.getCanonicalName();
 
+	private static final String STATE_FILTER = "STATE_FILTER";
+
 	private AirportAdapter mAdapter;
 
 	private AirportPickerFragmentListener mListener;
+
+	// Stores what should be the initially filtered text when
+	// the view is created.  Held due to timing issues that
+	// crop up without its assistance.
+	private String mInitialFilter = null;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -29,6 +36,15 @@ public class AirportPickerFragment extends ListFragment {
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState != null) {
+			mInitialFilter = savedInstanceState.getString(STATE_FILTER);
+		}
+	}
+
+	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
@@ -36,17 +52,25 @@ public class AirportPickerFragment extends ListFragment {
 
 		mAdapter = new AirportAdapter(getActivity());
 		mAdapter.openDb();
-		mAdapter.filter("");
+		mAdapter.filter(mInitialFilter != null ? mInitialFilter : "");
 
 		setListAdapter(mAdapter);
 	}
 
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putString(STATE_FILTER, mInitialFilter);
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
 
 		if (mAdapter != null) {
 			mAdapter.closeDb();
+			mAdapter = null;
 		}
 	}
 
@@ -58,7 +82,10 @@ public class AirportPickerFragment extends ListFragment {
 	}
 
 	public void filter(CharSequence constraint) {
-		mAdapter.filter(constraint);
+		mInitialFilter = constraint.toString();
+		if (mAdapter != null) {
+			mAdapter.filter(constraint);
+		}
 	}
 
 	public interface AirportPickerFragmentListener {

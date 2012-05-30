@@ -252,10 +252,9 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 	};
 
 	private void setAirportPickerFilter(CharSequence s) {
-		Fragment currFragment = Ui.findSupportFragment(this, R.id.content_frame);
-		if (currFragment != null && currFragment instanceof AirportPickerFragment) {
-			AirportPickerFragment airportFragment = (AirportPickerFragment) currFragment;
-			airportFragment.filter(s);
+		AirportPickerFragment fragment = Ui.findSupportFragment(this, TAG_AIRPORT_PICKER);
+		if (fragment != null) {
+			fragment.filter(s);
 		}
 	}
 
