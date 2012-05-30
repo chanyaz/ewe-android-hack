@@ -26,6 +26,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 
 public class ConfirmationFragmentActivity extends FragmentMapActivity implements BookingConfirmationFragmentListener {
@@ -93,7 +94,9 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(false);
-		actionBar.setHomeButtonEnabled(false);
+		if (AndroidUtils.getSdkVersion() >= 14) {
+			actionBar.setHomeButtonEnabled(false);
+		}
 		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
 	}
 
@@ -125,7 +128,9 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
 		actionBar.setDisplayHomeAsUpEnabled(false);
-		actionBar.setHomeButtonEnabled(false);
+		if (AndroidUtils.getSdkVersion() >= 14) {
+			actionBar.setHomeButtonEnabled(false);
+		}
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
