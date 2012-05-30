@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -30,6 +31,8 @@ public class AirportPickerFragment extends ListFragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+
+		getListView().setBackgroundColor(Color.WHITE);
 
 		mAdapter = new AirportAdapter(getActivity());
 		mAdapter.openDb();

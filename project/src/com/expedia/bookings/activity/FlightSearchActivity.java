@@ -180,6 +180,8 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
+		ft.setCustomAnimations(R.anim.slide_up, R.anim.slide_down);
+
 		if (currentFragment != null) {
 			ft.detach(currentFragment);
 		}
@@ -204,9 +206,6 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 		else {
 			ft.attach(newFragment);
 		}
-
-		// Set a fade transition (for now)
-		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
 		ft.commit();
 	}
