@@ -470,7 +470,13 @@ public class BookingFormFragment extends DialogFragment {
 					ValidationProcessor processor = mValidationProcessor;
 
 					if (mUserProfileIsFresh) {
-						StoredCreditCard card = mCardAdapter.getSelectedCard();
+						StoredCreditCard card;
+						if (mCardAdapter == null) {
+							card = null;
+						}
+						else {
+							card = mCardAdapter.getSelectedCard();
+						}
 						Db.getBillingInfo().setStoredCard(card);
 						if (card != null) {
 							// a valid stored CC and not enter new card
@@ -960,11 +966,8 @@ public class BookingFormFragment extends DialogFragment {
 	private final OnDownloadComplete<SignInResponse> mLoginCallback = new OnDownloadComplete<SignInResponse>() {
 		@Override
 		public void onDownload(SignInResponse response) {
-			if (response == null) {
-				// TODO: error
-			}
-			else if (response.hasErrors()) {
-				// TODO: error
+			if (response == null || response.hasErrors()) {
+				mAccountButton.error();
 			}
 			else {
 				mUserProfileIsFresh = true;

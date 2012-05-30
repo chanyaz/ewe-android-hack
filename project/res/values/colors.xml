@@ -52,4 +52,7 @@
 	<color name="bg_tablet_gallery">#333333</color>
 	<color name="tablet_gallery_actionbar_title">#F4F4F4</color>
 	<color name="tablet_gallery_actionbar_title_shadow">#82000000</color>
+
+    <color name="holo_red_light">#ffff4444</color>
+    <color name="text_dark">#ff545454</color>
 </resources>

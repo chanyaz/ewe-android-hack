@@ -149,6 +149,7 @@ public class Db {
 
 	public static void clearAvailabilityResponses() {
 		sDb.mAvailabilityResponses.clear();
+		sDb.mInfoResponses.clear();
 	}
 
 	public static AvailabilityResponse getSelectedInfoResponse() {
@@ -298,6 +299,25 @@ public class Db {
 
 	public static FlightSearchResponse getFlightSearchResponse() {
 		return sDb.mFlightSearchResponse;
+	}
+
+	public static void clear() {
+		clearAvailabilityResponses();
+		clearReviewsResponses();
+		resetFilter();
+		resetBillingInfo();
+		resetSearchParams();
+
+		sDb.mSelectedPropertyId = null;
+		sDb.mSelectedProperty = null;
+		sDb.mSelectedRateKey = null;
+		sDb.mSelectedRate = null;
+		sDb.mSearchResponse = null;
+		sDb.mBookingResponse = null;
+		sDb.mUser = null;
+
+		sDb.mFlightSearchParams.reset();
+		sDb.mFlightSearchResponse = null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

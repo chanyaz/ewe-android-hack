@@ -2,10 +2,14 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,8 +38,13 @@ public class SignInFragment extends DialogFragment {
 	private TextView mLoginFailed;
 	private EditText mUsernameEditText;
 	private EditText mPasswordEditText;
+	private Button mLogInButton;
+
+	private ProgressDialog mProgressDialog;
 
 	private boolean mLoginClicked = false;
+	private boolean mEmptyUsername = true;
+	private boolean mEmptyPassword = true;
 
 	public static SignInFragment newInstance() {
 		SignInFragment dialog = new SignInFragment();
@@ -66,15 +75,20 @@ public class SignInFragment extends DialogFragment {
 		forgotLink.setText(Html.fromHtml(String.format("<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>", LocaleUtils.getPointOfSale(mContext), mContext.getString(R.string.forgot_your_password))));
 		forgotLink.setMovementMethod(LinkMovementMethod.getInstance());
 
-		Button button = (Button) view.findViewById(R.id.log_in_button);
-		button.setOnClickListener(new OnClickListener() {
+		mLogInButton = (Button) view.findViewById(R.id.log_in_button);
+		mLogInButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick (View v) {
 				mLoginFailed.setVisibility(View.GONE);
 				mLoginClicked = true;
+				mProgressDialog = new ProgressDialog(mContext);
+				mProgressDialog.setMessage(getString(R.string.logging_in));
+				mProgressDialog.setCancelable(false);
+				mProgressDialog.show();
 				BackgroundDownloader.getInstance().startDownload(KEY_SIGNIN, mLoginDownload, mLoginCallback);
 			}
 		});
+		mLogInButton.setEnabled(false);
 		View cancelButton = view.findViewById(R.id.cancel_button);
 		cancelButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -82,6 +96,43 @@ public class SignInFragment extends DialogFragment {
 				dismiss();
 			}
 		});
+
+		final TextWatcher usernameWatcher = new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// Do nothing
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				// Do nothing
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				mEmptyUsername = TextUtils.isEmpty(s);
+				mLogInButton.setEnabled(!(mEmptyUsername || mEmptyPassword));
+			}
+		};
+		final TextWatcher passwordWatcher = new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// Do nothing
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				// Do nothing
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				mEmptyPassword = TextUtils.isEmpty(s);
+				mLogInButton.setEnabled(!(mEmptyUsername || mEmptyPassword));
+			}
+		};
+		mUsernameEditText.addTextChangedListener(usernameWatcher);
+		mPasswordEditText.addTextChangedListener(passwordWatcher);
 
 		return dialog;
 	}
@@ -124,9 +175,8 @@ public class SignInFragment extends DialogFragment {
 	private final OnDownloadComplete<SignInResponse> mLoginCallback = new OnDownloadComplete<SignInResponse>() {
 		@Override
 		public void onDownload(SignInResponse response) {
+			mProgressDialog.dismiss();
 			if (response == null || response.hasErrors()) {
-				//Dialog d = DialogUtils.createSimpleDialog(getActivity(), 0, mContext.getString(R.string.error_booking_title), response.getErrors().get(0).getPresentableMessage(mContext));
-				//d.show();
 				mLoginFailed.setVisibility(View.VISIBLE);
 				((SignInFragmentListener) getActivity()).onLoginFailed();
 			}
