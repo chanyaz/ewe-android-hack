@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.json.JSONException;
@@ -10,6 +11,8 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class FlightSearchParams implements JSONable {
+
+	private static final int DEFAULT_TRIP_LENGTH = 5;
 
 	private int mAdults;
 	private List<Integer> mChildren;
@@ -131,6 +134,10 @@ public class FlightSearchParams implements JSONable {
 
 			returnLeg.setDepartureAirportCode(departureLeg.getArrivalAirportCode());
 			returnLeg.setArrivalAirportCode(departureLeg.getDepartureAirportCode());
+
+			Calendar cal = departureLeg.getDepartureDate().clone().getCalendar();
+			cal.add(Calendar.DAY_OF_MONTH, DEFAULT_TRIP_LENGTH);
+			returnLeg.setDepartureDate(new Date(cal));
 
 			mQueryLegs.add(returnLeg);
 		}

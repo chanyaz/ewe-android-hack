@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.Calendar;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,15 +21,18 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.AirportPickerFragment;
 import com.expedia.bookings.fragment.AirportPickerFragment.AirportPickerFragmentListener;
-import com.expedia.bookings.fragment.CalendarPickerFragment;
+import com.expedia.bookings.fragment.CalendarDialogFragment;
+import com.expedia.bookings.fragment.CalendarDialogFragment.CalendarDialogFragmentListener;
 import com.expedia.bookings.fragment.PassengerPickerFragment;
 import com.expedia.bookings.utils.Ui;
 
-public class FlightSearchActivity extends FragmentActivity implements AirportPickerFragmentListener {
+public class FlightSearchActivity extends FragmentActivity implements AirportPickerFragmentListener,
+		CalendarDialogFragmentListener {
 
 	private static final String TAG_AIRPORT_PICKER = "TAG_AIRPORT_PICKER";
 	private static final String TAG_DATE_PICKER = "TAG_DATE_PICKER";
@@ -100,6 +106,8 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 			setFragment(TAG_AIRPORT_PICKER);
 		}
 
+		updateDateButton();
+
 		getActionBar().setTitle(R.string.search_flights);
 	}
 
@@ -143,6 +151,19 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 		}
 	}
 
+	private static final String DATE_FORMAT = "MMM d";
+
+	private void updateDateButton() {
+		// It's always round trip at this point, but at some point we need to handle no params
+		// (or one way) too.
+		FlightSearchParams params = Db.getFlightSearchParams();
+
+		CharSequence start = DateFormat.format(DATE_FORMAT, params.getDepartureDate().getCalendar());
+		CharSequence end = DateFormat.format(DATE_FORMAT, params.getReturnDate().getCalendar());
+
+		mDatesButton.setText(getString(R.string.round_trip_TEMPLATE, start, end));
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Fragment control
 
@@ -162,7 +183,11 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 				newFragment = new AirportPickerFragment();
 			}
 			else if (tag.equals(TAG_DATE_PICKER)) {
-				newFragment = new CalendarPickerFragment();
+				FlightSearchParams params = Db.getFlightSearchParams();
+				CalendarDialogFragment fragment = CalendarDialogFragment.newInstance(params.getDepartureDate()
+						.getCalendar(), params.getReturnDate().getCalendar());
+				fragment.setShowsDialog(false);
+				newFragment = fragment;
 			}
 			else if (tag.equals(TAG_PASSENGER_PICKER)) {
 				newFragment = new PassengerPickerFragment();
@@ -244,5 +269,16 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 			params.setArrivalAirportCode(airportCode);
 			mArrivalAirportEditText.setText(airportCode);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// CalendarDialogFragmentListener
+
+	@Override
+	public void onChangeDates(Calendar start, Calendar end) {
+		FlightSearchParams params = Db.getFlightSearchParams();
+		params.setDepartureDate(new Date(start));
+		params.setReturnDate(new Date(end));
+		updateDateButton();
 	}
 }
