@@ -140,7 +140,6 @@ public class BookingFormFragment extends DialogFragment {
 	// The state of the form
 	private boolean mFormHasBeenFocused;
 	private boolean mGuestsExpanded;
-	private boolean mBillingExpanded;
 
 	private ReceiptWidget mReceiptWidget;
 
@@ -578,11 +577,24 @@ public class BookingFormFragment extends DialogFragment {
 				return (thisYear % 100 > year) ? BookingInfoValidation.ERROR_EXPIRED_YEAR : 0;
 			}
 		}));
+		mGuestInfoValidationProcessor.add(mSecurityCodeEditText, new TextViewValidator(new Validator<CharSequence>() {
+			public int validate(CharSequence obj) {
+				return (obj.length() < 3) ? BookingInfoValidation.ERROR_SHORT_SECURITY_CODE : 0;
+			}
+		}));
 		mValidationProcessor.add(mSecurityCodeEditText, new TextViewValidator(new Validator<CharSequence>() {
 			public int validate(CharSequence obj) {
 				return (obj.length() < 3) ? BookingInfoValidation.ERROR_SHORT_SECURITY_CODE : 0;
 			}
 		}));
+		mGuestInfoValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
+			public int validate(CheckBox obj) {
+				if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox(getActivity()) && !obj.isChecked()) {
+					return BookingInfoValidation.ERROR_NO_TERMS_CONDITIONS_AGREEMEMT;
+				}
+				return 0;
+			}
+		});
 		mValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
 			public int validate(CheckBox obj) {
 				if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox(getActivity()) && !obj.isChecked()) {
@@ -700,13 +712,13 @@ public class BookingFormFragment extends DialogFragment {
 	private void fixFocus() {
 		// Handle where guest forms are pointing down (if expanded)
 		if (mGuestsExpanded) {
-			int nextId = (mBillingExpanded) ? R.id.address1_edit_text : R.id.card_number_edit_text;
+			int nextId = (mBillingAddressWidget.isVisible() && mBillingAddressWidget.isExpanded()) ? R.id.address1_edit_text : R.id.card_number_edit_text;
 			mEmailEditText.setNextFocusDownId(nextId);
 			mEmailEditText.setNextFocusRightId(nextId);
 		}
 
 		// Handle where card info is pointing up
-		int nextId = (mBillingExpanded) ? R.id.postal_code_edit_text : R.id.email_edit_text;
+		int nextId = (mBillingAddressWidget.isVisible() && mBillingAddressWidget.isExpanded()) ? R.id.postal_code_edit_text : R.id.email_edit_text;
 		mCardNumberEditText.setNextFocusUpId(nextId);
 		mCardNumberEditText.setNextFocusLeftId(nextId);
 		mExpirationMonthEditText.setNextFocusUpId(nextId);
