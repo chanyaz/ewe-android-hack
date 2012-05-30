@@ -92,7 +92,7 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 		// Configure the ActionBar
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(false);
 		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
 	}
 
@@ -123,7 +123,7 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(false);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
@@ -134,7 +134,7 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			onBackPressed();
+			newSearch();
 			return true;
 		case R.id.menu_about: {
 			Intent intent = new Intent(this, TabletAboutActivity.class);
