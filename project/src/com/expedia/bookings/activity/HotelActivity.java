@@ -101,6 +101,12 @@ public class HotelActivity extends Activity {
 			Db.loadTestData(this);
 		}
 
+		if (intent.getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
+			Property property = new Property();
+			property = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
+			Db.setSelectedProperty(property);
+		}
+
 		// #13365: If the Db expired, finish out of this activity
 		if (Db.getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
@@ -189,7 +195,7 @@ public class HotelActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 
-		if (isFinishing() && Db.getSelectedProperty().getMediaCount() > 0) {
+		if (isFinishing() && Db.getSelectedProperty() != null && Db.getSelectedProperty().getMediaCount() > 0) {
 			// In order to avoid memory issues, clear the cache of images we might've loaded in this activity
 			Log.d("Clearing out images from property.");
 
