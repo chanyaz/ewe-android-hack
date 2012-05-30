@@ -32,7 +32,7 @@
             android:id="@+id/logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_close" />
+            android:src="@drawable/ic_log_out" />
     </LinearLayout>
 
     <LinearLayout
@@ -93,6 +93,6 @@
             android:id="@+id/logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_close" />
+            android:src="@drawable/ic_log_out" />
     </LinearLayout>
 </LinearLayout>
