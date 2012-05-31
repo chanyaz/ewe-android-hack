@@ -148,17 +148,19 @@ public class StrUtils {
 		final int size = addresses.size();
 		final CharSequence[] freeformLocations = new CharSequence[addresses.size()];
 		for (int i = 0; i < size; i++) {
-			String formattedAddress = LocationServices.formatAddress(addresses.get(i));
-			formattedAddress = formattedAddress.replace(", USA", "");
-			freeformLocations[i] = formattedAddress;
+			freeformLocations[i] = removeUSAFromAddress(addresses.get(i));
 		}
 		return freeformLocations;
 	}
 
 	public static String removeUSAFromAddress(Address address) {
-		String formattedAddress = LocationServices.formatAddress(address);
-		formattedAddress = formattedAddress.replace(", USA", "");
-		return formattedAddress;
+		return removeUSAFromAddress(LocationServices.formatAddress(address));
+	}
+
+	public static String removeUSAFromAddress(String address) {
+		address = address.replace(", USA", "");
+		address = address.replace(", United States of America", "");
+		return address;
 	}
 
 	public static String formatHotelPrice(Money money) {
@@ -168,7 +170,7 @@ public class StrUtils {
 	public static String formatHotelPrice(Money money, String currencyCode) {
 		return money.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN, currencyCode);
 	}
-	
+
 	public static Spanned getStrikedThroughSpanned(String str) {
 		SpannableString strSpannable = new SpannableString(str);
 		StrikethroughSpan strikeThroughSpan = new StrikethroughSpan();

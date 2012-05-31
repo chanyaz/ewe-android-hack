@@ -78,6 +78,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
 import com.expedia.bookings.widget.SummarizedRoomRates;
@@ -886,7 +887,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	};
 
 	public void onGeocodeSuccess(Address address) {
-		Db.getSearchParams().setFreeformLocation(address);
+		String formattedAddress = StrUtils.removeUSAFromAddress(address);
+		Db.getSearchParams().setFreeformLocation(formattedAddress);
 		invalidateOptionsMenu();
 
 		setLatLng(address.getLatitude(), address.getLongitude());
