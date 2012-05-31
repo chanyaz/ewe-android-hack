@@ -533,7 +533,6 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 			layout.height = height;
 			mChildAgesButton.setLayoutParams(layout);
 			mChildAgesButton.setAlpha(1f);
-			showChildAgesPopup(animated);
 		}
 	}
 
