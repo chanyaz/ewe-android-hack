@@ -24,15 +24,18 @@
         android:padding="8dp" >
 
         <LinearLayout
+            android:id="@+id/airports_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:weightSum="2" >
 
             <EditText
                 android:id="@+id/departure_airport_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:ellipsize="end"
                 android:hint="@string/hint_departure_airport"
                 android:imeOptions="flagNoExtractUi"
                 android:singleLine="true" />
@@ -42,6 +45,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:ellipsize="end"
                 android:hint="@string/hint_arrival_airport"
                 android:imeOptions="flagNoExtractUi"
                 android:singleLine="true" />

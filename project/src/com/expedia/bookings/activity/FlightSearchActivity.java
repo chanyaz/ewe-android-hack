@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
@@ -31,8 +32,9 @@ import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment.CalendarDialogFragmentListener;
 import com.expedia.bookings.fragment.PassengerPickerFragment;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.nineoldandroids.animation.ValueAnimator;
+import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 public class FlightSearchActivity extends FragmentActivity implements AirportPickerFragmentListener,
 		CalendarDialogFragmentListener {
@@ -41,7 +43,12 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 	private static final String TAG_DATE_PICKER = "TAG_DATE_PICKER";
 	private static final String TAG_PASSENGER_PICKER = "TAG_PASSENGER_PICKER";
 
+	// Controls the ratio of how large a selected EditText should take up
+	// 1 == takes up the full size, 0 == takes up 50%.
+	private static final float EDITTEXT_EXPANSION_RATIO = .25f;
+
 	private View mFocusStealer;
+	private LinearLayout mAirportsContainer;
 	private EditText mDepartureAirportEditText;
 	private EditText mArrivalAirportEditText;
 	private Button mDatesButton;
@@ -68,6 +75,7 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 		mFocusStealer = Ui.findView(this, R.id.focus_stealer);
 
 		// Configure airport pickers
+		mAirportsContainer = Ui.findView(this, R.id.airports_container);
 		mDepartureAirportEditText = Ui.findView(this, R.id.departure_airport_edit_text);
 		mArrivalAirportEditText = Ui.findView(this, R.id.arrival_airport_edit_text);
 
@@ -80,9 +88,11 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 					if (v == mDepartureAirportEditText) {
 						setAirportPickerFilter(mDepartureAirportEditText.getText());
 					}
-					else if (v == mArrivalAirportEditText) {
+					else {
 						setAirportPickerFilter(mArrivalAirportEditText.getText());
 					}
+
+					expandAirportEditText(v);
 				}
 			}
 		};
@@ -156,6 +166,8 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(textWithFocus.getWindowToken(), 0);
 		}
+
+		resetAirportEditTexts();
 	}
 
 	private static final String DATE_FORMAT = "MMM d";
@@ -169,6 +181,79 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 		CharSequence end = DateFormat.format(DATE_FORMAT, params.getReturnDate().getCalendar());
 
 		mDatesButton.setText(getString(R.string.round_trip_TEMPLATE, start, end));
+	}
+
+	private void expandAirportEditText(View focusView) {
+		final View expandingView;
+		final View shrinkingView;
+
+		if (focusView == mDepartureAirportEditText) {
+			expandingView = mDepartureAirportEditText;
+			shrinkingView = mArrivalAirportEditText;
+		}
+		else {
+			expandingView = mArrivalAirportEditText;
+			shrinkingView = mDepartureAirportEditText;
+		}
+
+		// Show an animation to expand/collapse one or the other.
+		final LinearLayout.LayoutParams expandingLayoutParams = (LinearLayout.LayoutParams) expandingView
+				.getLayoutParams();
+		final LinearLayout.LayoutParams shrinkingLayoutParams = (LinearLayout.LayoutParams) shrinkingView
+				.getLayoutParams();
+		final float halfWeight = mAirportsContainer.getWeightSum() / 2;
+		final float startVal = expandingLayoutParams.weight - halfWeight;
+		final float endVal = halfWeight * EDITTEXT_EXPANSION_RATIO;
+
+		ValueAnimator anim = ValueAnimator.ofFloat(startVal, endVal);
+		anim.addUpdateListener(new AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animator) {
+				float val = (Float) animator.getAnimatedValue();
+				expandingLayoutParams.weight = halfWeight + val;
+				shrinkingLayoutParams.weight = halfWeight - val;
+				mAirportsContainer.requestLayout();
+			}
+		});
+		anim.setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+		anim.start();
+	}
+
+	private void resetAirportEditTexts() {
+		// Animate both views back to 50/50
+		final float halfWeight = mAirportsContainer.getWeightSum() / 2;
+
+		final LinearLayout.LayoutParams expandingLayoutParams;
+		final LinearLayout.LayoutParams shrinkingLayoutParams;
+
+		if (((LinearLayout.LayoutParams) mDepartureAirportEditText.getLayoutParams()).weight > halfWeight) {
+			expandingLayoutParams = (LinearLayout.LayoutParams) mArrivalAirportEditText.getLayoutParams();
+			shrinkingLayoutParams = (LinearLayout.LayoutParams) mDepartureAirportEditText.getLayoutParams();
+		}
+		else {
+			expandingLayoutParams = (LinearLayout.LayoutParams) mDepartureAirportEditText.getLayoutParams();
+			shrinkingLayoutParams = (LinearLayout.LayoutParams) mArrivalAirportEditText.getLayoutParams();
+		}
+
+		float startVal = expandingLayoutParams.weight - halfWeight;
+
+		// If they weren't already focused, don't bother with this animation
+		if (Math.abs(startVal) < .001) {
+			return;
+		}
+
+		ValueAnimator anim = ValueAnimator.ofFloat(expandingLayoutParams.weight - halfWeight, 0);
+		anim.addUpdateListener(new AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animator) {
+				float val = (Float) animator.getAnimatedValue();
+				expandingLayoutParams.weight = halfWeight + val;
+				shrinkingLayoutParams.weight = halfWeight - val;
+				mAirportsContainer.requestLayout();
+			}
+		});
+		anim.setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+		anim.start();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
