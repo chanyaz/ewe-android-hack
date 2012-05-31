@@ -840,13 +840,7 @@ public class BookingFormFragment extends DialogFragment {
 	 * restoring the Activity.
 	 */
 	private void syncFormFieldsFromBillingInfo(View view) {
-		BillingInfo billingInfo;
-		if (mUserProfileIsFresh) {
-			billingInfo = Db.getUser().toBillingInfo();
-		}
-		else {
-			billingInfo = Db.getBillingInfo();
-		}
+		BillingInfo billingInfo = Db.getBillingInfo();
 
 		// Sync the saved guest fields
 		String firstName = billingInfo.getFirstName();
@@ -929,15 +923,10 @@ public class BookingFormFragment extends DialogFragment {
 		// Gather all the data to be saved
 		syncBillingInfo();
 
-		if (! ExpediaServices.isLoggedIn((Context) mActivity)) {
-			// Save the hashed email, just for tracking purposes
-			TrackingUtils.saveEmailForTracking(getActivity(), Db.getBillingInfo().getEmail());
+		// Save the hashed email, just for tracking purposes
+		TrackingUtils.saveEmailForTracking(getActivity(), Db.getBillingInfo().getEmail());
 
-			return Db.getBillingInfo().save(getActivity());
-		}
-		else {
-			return true;
-		}
+		return Db.getBillingInfo().save(getActivity());
 	}
 
 	public void clearBillingInfo() {
@@ -1022,9 +1011,11 @@ public class BookingFormFragment extends DialogFragment {
 
 	public void loginCompleted() {
 		mUserProfileIsFresh = true;
+		Db.setBillingInfo(Db.getUser().toBillingInfo());
 		mAccountButton.update(false);
 		syncFormFieldsFromBillingInfo(mRootBillingView);
 		syncBillingInfo();
+		saveBillingInfo();
 		checkSectionsCompleted(false);
 		if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
 			expandGuestsForm(false);
