@@ -444,7 +444,7 @@
 	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
 	<string name="EnterBookingInfo">Entrez les renseignements de réservation</string>
 	<!-- Message at the bottom of the booking screen with how much you will be charged -->
-	<string name="charge_details_template">Votre carte de crédit sera débitée d\&apos;un montant de .%s</string>
+	<string name="charge_details_template">Votre carte de crédit sera débitée d\&apos;un montant de %s</string>
 	<!-- Button label for confirming your booking -->
 	<string name="confirm_book">Confirmer et réserver</string>
 	<!-- Label for clearing private data -->
