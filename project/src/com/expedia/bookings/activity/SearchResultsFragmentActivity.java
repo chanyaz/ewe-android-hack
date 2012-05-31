@@ -1172,11 +1172,14 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 	@Override
 	public void onFilterChanged() {
-		mHotelListFragment.notifyFilterChanged();
-		mHotelMapFragment.notifyFilterChanged();
+		if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
+			mHotelListFragment.notifyFilterChanged();
+		}
+		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.notifyFilterChanged();
+		}
 
-		mFilterDialogFragment = Ui.findSupportFragment(this, getString(R.string.tag_filter_dialog));
-		if (mFilterDialogFragment != null) {
+		if (mFilterDialogFragment != null && mFilterDialogFragment.isAdded()) {
 			mFilterDialogFragment.notifyFilterChanged();
 		}
 
@@ -1189,28 +1192,45 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	private void setShowDistances(boolean showDistances) {
 		mShowDistances = showDistances;
 
-		mHotelListFragment.setShowDistances(showDistances);
-		mHotelMapFragment.setShowDistances(showDistances);
+		if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
+			mHotelListFragment.setShowDistances(showDistances);
+		}
+		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.setShowDistances(showDistances);
+		}
 	}
 
 	private void notifySearchStarted() {
-		mHotelListFragment.notifySearchStarted();
-		mHotelMapFragment.notifySearchStarted();
+		if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
+			mHotelListFragment.notifySearchStarted();
+		}
+		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.notifySearchStarted();
+		}
 	}
 
 	private void notifySearchLocationFound() {
-		mHotelMapFragment.notifySearchLocationFound();
+		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.notifySearchLocationFound();
+		}
 	}
 
 	private void notifySearchComplete() {
-		mHotelListFragment.notifySearchComplete();
-		mHotelMapFragment.notifySearchComplete();
+		if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
+			mHotelListFragment.notifySearchComplete();
+		}
+		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.notifySearchComplete();
+		}
 	}
 
 	private void notifyPropertySelected() {
-		mHotelListFragment.notifyPropertySelected();
-		mHotelMapFragment.notifyPropertySelected();
-
+		if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
+			mHotelListFragment.notifyPropertySelected();
+		}
+		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.notifyPropertySelected();
+		}
 		if (mMiniDetailsFragment != null && mMiniDetailsFragment.isAdded()) {
 			mMiniDetailsFragment.notifyPropertySelected();
 		}
