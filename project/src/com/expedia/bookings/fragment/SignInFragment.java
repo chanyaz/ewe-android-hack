@@ -212,6 +212,7 @@ public class SignInFragment extends DialogFragment {
 		public void onDownload(SignInResponse response) {
 			mProgressDialog.dismiss();
 			if (response == null || response.hasErrors()) {
+				mPasswordEditText.setText("");
 				mLoginFailed.setVisibility(View.VISIBLE);
 				((SignInFragmentListener) getActivity()).onLoginFailed();
 			}
