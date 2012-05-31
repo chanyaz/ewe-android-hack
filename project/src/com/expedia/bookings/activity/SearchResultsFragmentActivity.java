@@ -1176,7 +1176,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		mHotelListFragment.notifyFilterChanged();
 		mHotelMapFragment.notifyFilterChanged();
 
-		if (mFilterDialogFragment != null) {
+		if (mFilterDialogFragment != null && !mFilterDialogFragment.isRemoving()) {
 			mFilterDialogFragment.notifyFilterChanged();
 		}
 
