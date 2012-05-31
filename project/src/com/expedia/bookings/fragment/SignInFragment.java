@@ -211,6 +211,7 @@ public class SignInFragment extends DialogFragment {
 		@Override
 		public void onDownload(SignInResponse response) {
 			mProgressDialog.dismiss();
+			mLoginClicked = false;
 			if (response == null || response.hasErrors()) {
 				mPasswordEditText.setText("");
 				mLoginFailed.setVisibility(View.VISIBLE);
