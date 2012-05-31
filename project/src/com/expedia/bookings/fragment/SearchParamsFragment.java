@@ -90,10 +90,6 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 	private SearchParamsFragmentListener mListener;
 
-	// #10978: Tracks when an autocomplete row was just clicked, so that we don't
-	// automatically start a new autocomplete query.
-	private boolean mAutocompleteItemClicked = false;
-
 	// #11237: When you register a connectivity receiver, it necessarily fires a
 	// response once.  We only want to listen when connectivity changes *after*
 	// the initial registration.
@@ -661,13 +657,12 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		private OnClickListener createRowOnClickListener(final String suggestion, final Search search) {
 			return new OnClickListener() {
 				public void onClick(View v) {
-					mAutocompleteItemClicked = true;
-
-					mLocationEditText.setText(suggestion);
-					mLocationEditText.clearFocus();
+					Db.getSearchParams().setFreeformLocation(suggestion);
 					if (search != null) {
 						Db.getSearchParams().fillFromSearch(search);
 					}
+					mLocationEditText.setText(suggestion);
+					mLocationEditText.clearFocus();
 
 					// Hide the IME
 					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
@@ -783,7 +778,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 				// If we have a query string, kick off a suggestions request
 				// Do it on a delay though - we don't want to update suggestions every time user is edits a single
 				// char on the text. 
-				if (mHasFocusedSearchField && !mAutocompleteItemClicked) {
+				if (mHasFocusedSearchField) {
 					mHandler.removeMessages(WHAT_AUTOCOMPLETE);
 					Message msg = new Message();
 					msg.obj = location;
