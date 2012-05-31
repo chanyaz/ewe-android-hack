@@ -12,15 +12,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
@@ -99,6 +103,32 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 
 		mDepartureAirportEditText.setOnFocusChangeListener(airportFocusChangeListener);
 		mArrivalAirportEditText.setOnFocusChangeListener(airportFocusChangeListener);
+
+		mDepartureAirportEditText.setOnEditorActionListener(new OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_NEXT) {
+					// Treat it like a click
+					onAirportClick(mDepartureAirportEditText.getText().toString());
+					return true;
+				}
+
+				return false;
+			}
+		});
+
+		mArrivalAirportEditText.setOnEditorActionListener(new OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_NEXT) {
+					// Treat it like a click
+					onAirportClick(mArrivalAirportEditText.getText().toString());
+					return true;
+				}
+
+				return false;
+			}
+		});
 
 		// Configure date button
 		mDatesButton = Ui.findView(this, R.id.dates_button);

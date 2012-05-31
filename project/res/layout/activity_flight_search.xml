@@ -37,7 +37,7 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:hint="@string/hint_departure_airport"
-                android:imeOptions="flagNoExtractUi"
+                android:imeOptions="flagNoExtractUi|actionNext"
                 android:singleLine="true" />
 
             <EditText
@@ -47,7 +47,7 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:hint="@string/hint_arrival_airport"
-                android:imeOptions="flagNoExtractUi"
+                android:imeOptions="flagNoExtractUi|actionNext"
                 android:singleLine="true" />
         </LinearLayout>
 
