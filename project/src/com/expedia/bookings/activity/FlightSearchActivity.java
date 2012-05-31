@@ -364,6 +364,9 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 		else {
 			params.setArrivalAirportCode(airportCode);
 			mArrivalAirportEditText.setText(airportCode);
+
+			// Act like they just clicked the dates button
+			mDatesButton.performClick();
 		}
 	}
 
