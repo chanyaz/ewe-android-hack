@@ -81,7 +81,7 @@ import com.mobiata.android.validation.ValidationProcessor;
 import com.mobiata.android.validation.Validator;
 
 public class BookingFormFragment extends DialogFragment {
-	private static final String KEY_SIGNIN = "KEY_SIGNIN";
+	private static final String KEY_SIGNIN_FETCH = "KEY_SIGNIN_FETCH";
 
 	public static BookingFormFragment newInstance() {
 		BookingFormFragment dialog = new BookingFormFragment();
@@ -276,10 +276,12 @@ public class BookingFormFragment extends DialogFragment {
 				mAccountButton.update(true);
 				// fetch fresh profile
 				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				if (bd.isDownloading(KEY_SIGNIN)) {
-					bd.cancelDownload(KEY_SIGNIN);
+				if (bd.isDownloading(KEY_SIGNIN_FETCH)) {
+					bd.registerDownloadCallback(KEY_SIGNIN_FETCH, mLoginCallback);
 				}
-				bd.startDownload(KEY_SIGNIN, mLoginDownload, mLoginCallback);
+				else {
+					bd.startDownload(KEY_SIGNIN_FETCH, mLoginDownload, mLoginCallback);
+				}
 			}
 		}
 		else {
@@ -366,15 +368,15 @@ public class BookingFormFragment extends DialogFragment {
 	@Override
 	public void onPause() {
 		super.onPause();
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_SIGNIN, mLoginCallback);
+		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_SIGNIN_FETCH, mLoginCallback);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (! mUserProfileIsFresh && bd.isDownloading(KEY_SIGNIN)) {
-			bd.registerDownloadCallback(KEY_SIGNIN, mLoginCallback);
+		if (! mUserProfileIsFresh && bd.isDownloading(KEY_SIGNIN_FETCH)) {
+			bd.registerDownloadCallback(KEY_SIGNIN_FETCH, mLoginCallback);
 		}
 	}
 
@@ -970,7 +972,7 @@ public class BookingFormFragment extends DialogFragment {
 		@Override
 		public SignInResponse doDownload() {
 			ExpediaServices services = new ExpediaServices((Context) mActivity);
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_SIGNIN, services);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_SIGNIN_FETCH, services);
 			return services.signIn();
 		}
 	};
