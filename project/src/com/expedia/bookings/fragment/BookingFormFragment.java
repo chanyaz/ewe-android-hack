@@ -875,6 +875,8 @@ public class BookingFormFragment extends DialogFragment {
 		mTelephoneEditText.setText(billingInfo.getTelephone());
 		mEmailEditText.setText(billingInfo.getEmail());
 		mEmailEditText.setEnabled(! ExpediaServices.isLoggedIn(getActivity()));
+		mEmailEditText.setFocusable(! ExpediaServices.isLoggedIn(getActivity()));
+		mEmailEditText.setFocusableInTouchMode(! ExpediaServices.isLoggedIn(getActivity()));
 
 		// Sync the saved billing info fields
 		Location loc = billingInfo.getLocation();
