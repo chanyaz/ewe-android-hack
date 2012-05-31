@@ -15,6 +15,45 @@
 		<item>@string/suggestion_san_francisco</item>
 	</string-array>
 
+	<!-- Region id, latitude, longitude for each suggestion as supplied by <id>, <lat>, <lng> in this search
+	http://suggest.expedia.com/hint/es/v1/ac/en_US/times+square?type=30 -->
+	<string-array name="suggestion_region_ids">
+	    <item>6002082</item>
+	    <item>178239</item>
+	    <item>178280</item>
+	    <item>179981</item>
+	    <item>178286</item>
+	    <item>178279</item>
+	    <item>178276</item>
+	    <item>179898</item>
+	    <item>2426</item>
+	    <item>178305</item>
+	</string-array>
+	<string-array name="suggestion_latitudes">
+	    <item>40.756390</item>
+	    <item>42.357690</item>
+	    <item>34.050720</item>
+	    <item>33.990672</item>
+	    <item>25.771780</item>
+	    <item>51.507538</item>
+	    <item>36.170460</item>
+	    <item>48.862720</item>
+	    <item>44.976910</item>
+	    <item>37.787400</item>
+	</string-array>
+		<string-array name="suggestion_longitudes">
+	    <item>-73.986690</item>
+	    <item>-71.063240</item>
+	    <item>-118.254770</item>
+	    <item>-118.465308</item>
+	    <item>-80.190090</item>
+	    <item>-0.127804</item>
+	    <item>-115.143490</item>
+	    <item>2.343750</item>
+	    <item>-93.272120</item>
+	    <item>-122.408200</item>
+	</string-array>
+
     <!--
          List of available Expedia Points of Sale (POS) that should be presented to the
          user as options.
