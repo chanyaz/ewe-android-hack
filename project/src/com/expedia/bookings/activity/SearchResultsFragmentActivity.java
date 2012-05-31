@@ -314,7 +314,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		// onResume() for the compatibility library (otherwise we get state loss errors).
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_GEOCODE)) {
-			bd.registerDownloadCallback(KEY_SEARCH, mGeocodeCallback);
+			bd.registerDownloadCallback(KEY_GEOCODE, mGeocodeCallback);
 		}
 		else if (bd.isDownloading(KEY_SEARCH)) {
 			bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
