@@ -86,10 +86,13 @@ public class Search extends Model implements JSONable {
 			return;
 		}
 
-		Search.delete(Search.class, "lower(FreeFormLocation) = " + "\""
-				+ searchParams.getFreeformLocation().toLowerCase().trim() + "\"");
-
+		delete(context, searchParams);
 		new Search(searchParams).save();
+	}
+
+	public static void delete(Context context, SearchParams searchParams) {
+		Search.delete(Search.class, "lower(FreeFormLocation) = ?", searchParams.getFreeformLocation().toLowerCase()
+				.trim());
 	}
 
 	@Override

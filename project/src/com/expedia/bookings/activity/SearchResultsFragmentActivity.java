@@ -817,10 +817,12 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		}
 
 		// Determine search type, conduct search
-		switch (Db.getSearchParams().getSearchType()) {
+		SearchParams params = Db.getSearchParams();
+		switch (params.getSearchType()) {
 		case FREEFORM:
-			if (Db.getSearchParams().hasEnoughToSearch()) {
-				setShowDistances(Db.getSearchParams().hasSearchLatLon());
+			if (params.hasEnoughToSearch()) {
+				Search.add(this, params);
+				setShowDistances(params.hasSearchLatLon());
 				startSearchDownloader();
 			}
 			else {
@@ -914,11 +916,6 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		// This method essentially signifies that we've found the location to search;
 		// take this opportunity to notify handlers that we know where we're looking.
 		notifySearchLocationFound();
-
-		// Save this as a "recent search" if it is a freeform search
-		if (Db.getSearchParams().getSearchType() == SearchType.FREEFORM) {
-			Search.add(this, Db.getSearchParams());
-		}
 
 		BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
