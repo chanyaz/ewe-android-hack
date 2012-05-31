@@ -283,7 +283,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	private SearchParams mOriginalSearchParams;
 	private Filter mOldFilter;
 	public boolean mStartSearchOnResume;
-	private boolean mNoHotelsFound = false;
 	private long mLastSearchTime = -1;
 	private boolean mIsWidgetNotificationShowing;
 
@@ -356,6 +355,10 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			else if (searchResponse != null && searchResponse.getPropertiesCount() > 0
 					&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {
 				showDialog(DIALOG_LOCATION_SUGGESTIONS);
+			}
+			else if (searchResponse != null && searchResponse.getPropertiesCount() == 0 && !searchResponse.hasErrors()) {
+				simulateErrorResponse(R.string.progress_search_failed);
+				handleError();
 			}
 			else {
 				handleError();
@@ -625,12 +628,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		// automagically restores its previous state.
 		mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
 
-		
-		if(mNoHotelsFound){
-			handleError();
-			hideBottomBar();
-			mStartSearchOnResume = false;
-		}else if (mStartSearchOnResume) {
+		if (mStartSearchOnResume) {
 			startSearch();
 			mStartSearchOnResume = false;
 		}
@@ -1248,8 +1246,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	private void startSearch() {
 		Log.i("Starting a new search...");
 
-		mNoHotelsFound = false;
-		
 		mOriginalSearchParams = null;
 		Db.setSearchResponse(null);
 		Db.clearAvailabilityResponses();
@@ -1409,7 +1405,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	private static final String INSTANCE_OLD_FILTER = "INSTANCE_OLD_FILTER";
 	private static final String INSTANCE_SHOW_DISTANCES = "INSTANCE_SHOW_DISTANCES";
 	private static final String INSTANCE_START_SEARCH_ON_RESUME = "INSTANCE_START_SEARCH_ON_RESUME";
-	private static final String INSTANCE_NO_HOTELS_FOUND = "INSTANCE_NO_HOTELS_FOUND";
 	private static final String INSTANCE_LAST_SEARCH_TIME = "INSTANCE_LAST_SEARCH_TIME";
 	private static final String INSTANCE_ADDRESSES = "INSTANCE_ADDRESSES";
 	private static final String INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING = "INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING";
@@ -1422,7 +1417,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		outState.putString(INSTANCE_TAG, mTag);
 		outState.putBoolean(INSTANCE_SHOW_DISTANCES, mShowDistance);
 		outState.putBoolean(INSTANCE_START_SEARCH_ON_RESUME, mStartSearchOnResume);
-		outState.putBoolean(INSTANCE_NO_HOTELS_FOUND, mNoHotelsFound);
 		outState.putLong(INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
 		outState.putBoolean(INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING, mIsWidgetNotificationShowing);
 		outState.putInt(INSTANCE_SEARCH_TEXT_SELECTION_START, mSearchTextSelectionStart);
@@ -1454,7 +1448,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			}
 			mShowDistance = savedInstanceState.getBoolean(INSTANCE_SHOW_DISTANCES, false);
 			mStartSearchOnResume = savedInstanceState.getBoolean(INSTANCE_START_SEARCH_ON_RESUME, false);
-			mNoHotelsFound = savedInstanceState.getBoolean(INSTANCE_NO_HOTELS_FOUND,false);
 			mLastSearchTime = savedInstanceState.getLong(INSTANCE_LAST_SEARCH_TIME);
 			mIsWidgetNotificationShowing = savedInstanceState
 					.getBoolean(INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING, false);
@@ -1672,11 +1665,9 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			handledError = true;
 		}
 
-		mNoHotelsFound = false;
 		if (!handledError) {
 			TrackingUtils.trackErrorPage(PhoneSearchActivity.this, "HotelListRequestFailed");
 			showLoading(false, R.string.progress_search_failed);
-			mNoHotelsFound = true;
 		}
 
 		// Ensure that users cannot open the handle if there's an error up
