@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">Fjerne private opplysninger?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">Alle lagrede fakturerings- og kontaktopplysninger vil bli fjernet.</string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">Du kommer til å bli logget av, og alle de lagrede fakturerings- og kontaktopplysningene vil bli slettet.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">De private opplysningene ble fjernet</string>
 	<!-- Error message if field was required but not entered -->
@@ -550,6 +552,8 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
+	<string name="log_in">Logg inn</string>
+	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">Logg inn på Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Passord</string>
@@ -557,6 +561,8 @@
 	<string name="logging_in">Logger på…</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Suksess! Du er nå logget på.</string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">Påloggingen mislyktes</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">Kontoinnlogging</string>
 	<!-- Label for login widget additional text -->
@@ -575,6 +581,8 @@
 	<string name="forgot_your_password">Glemt passordet ditt?</string>
     <!-- Label for coupon code area of booking form -->
 	<string name="coupon_code">Kupongkode</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Valgfritt</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Benytt</string>
     <!-- Label for new price after applying coupon -->

@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">Effacer les données confidentielles?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">Cette action effacera les renseignements personnels et de facturation.</string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">Cette action fermera la session; toutes les données de facturation et les coordonnées enregistrées seront supprimées.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Données confidentielles effacées</string>
 	<!-- Error message if field was required but not entered -->
@@ -550,6 +552,8 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
+	<string name="log_in">Se connecter</string>
+	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">Se connecter à Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Mot de passe</string>
@@ -557,6 +561,8 @@
 	<string name="logging_in">Ouverture de session...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Réussite!  Votre session est maintenant ouverte.</string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">Échec de connexion</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">Ouverture de session au compte</string>
 	<!-- Label for login widget additional text -->
@@ -575,6 +581,8 @@
 	<string name="forgot_your_password">Vous avez oublié votre mot de passe?</string>
     <!-- Label for coupon code area of booking form -->
 	<string name="coupon_code">Code promotionnel</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Facultatif</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Appliquer</string>
     <!-- Label for new price after applying coupon -->

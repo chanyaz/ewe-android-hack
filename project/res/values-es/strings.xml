@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">¿Quieres borrar los datos privados?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">Se eliminarán todos los datos de facturación y contacto guardados.</string>
+    <!-- Message for dialog confirming the clearing of private data -->
+    <string name="dialog_log_out_and_clear_private_data_msg">Si continúas, tu sesión se cerrará y toda la información de contacto y facturación será borrada.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Datos privados borrados</string>
 	<!-- Error message if field was required but not entered -->
@@ -550,6 +552,8 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
+	<string name="log_in">Iniciar sesión</string>
+	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">Iniciar sesión en Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Contraseña</string>
@@ -557,6 +561,8 @@
 	<string name="logging_in">Iniciando sesión...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">¡Perfecto! Ya estás registrado.</string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">No se ha podido iniciar sesión</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">Iniciar sesión en tu cuenta</string>
 	<!-- Label for login widget additional text -->
@@ -575,6 +581,8 @@
 	<string name="forgot_your_password">¿Has olvidado tu contraseña?</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">Código de descuento</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Opcional</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Canjear</string>
     <!-- Label for new price after applying coupon -->

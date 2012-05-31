@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">清除隐私数据吗？</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">系统会删除保存的所有帐单信息和联系信息。</string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">程序将退出您的账户并删除所有保存的付款及联系信息。</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">隐私数据已清除</string>
 	<!-- Error message if field was required but not entered -->
@@ -550,6 +552,8 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
+	<string name="log_in">登录</string>
+	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">登录 Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">密码</string>
@@ -557,6 +561,8 @@
 	<string name="logging_in">正在登录...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">成功！现在您已经登录。</string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">登录失败</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">账户登录</string>
 	<!-- Label for login widget additional text -->
@@ -575,6 +581,8 @@
 	<string name="forgot_your_password">忘记密码？</string>
     <!-- Label for coupon code area of booking form -->
 	<string name="coupon_code">优惠券代码</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">可选</string>
     <!-- Label applying a coupon -->
 	<string name="apply">应用</string>
     <!-- Label for new price after applying coupon -->
