@@ -765,10 +765,15 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 					Address address = mAddresses.get(which);
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
 					SearchParams searchParams = Db.getSearchParams();
+
+					// The user found a better version of the search they ran,
+					// so we'll replace it from startSearchDownloader
+					Search.delete(PhoneSearchActivity.this, searchParams);
+
 					searchParams.setFreeformLocation(formattedAddress);
 					setSearchEditViews();
-
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
+
 					determineWhetherExactLocationSpecified(address);
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearchDownloader();
@@ -1360,9 +1365,15 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 					Address address = mAddresses.get(0);
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
 					SearchParams searchParams = Db.getSearchParams();
+
+					// The user found a better version of the search they ran,
+					// so we'll replace it from startSearchDownloader
+					Search.delete(PhoneSearchActivity.this, searchParams);
+
 					searchParams.setFreeformLocation(formattedAddress);
 					setSearchEditViews();
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
+
 					determineWhetherExactLocationSpecified(address);
 					startSearchDownloader();
 				}
