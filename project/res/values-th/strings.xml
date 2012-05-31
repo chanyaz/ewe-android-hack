@@ -409,11 +409,11 @@
 	<!-- The "email for booking confirmation" booking info field.  -->
 	<string name="EmailForConf">อีเมล</string>
 	<!-- Label for "billing info" form field section -->
-	<string name="billing_info">ข้อมูลใบแจ้งหนี้ </string>
+	<string name="billing_info">ที่อยู่สำหรับใบแจ้งหนี้</string>
 	<!-- Address line 1 form field hint -->
 	<string name="hint_address1">ที่อยู่ 1 </string>
 	<!-- Address line 2 form field hint -->
-	<string name="hint_address2">ที่อยู่ 2 (ไม่จำเป็น)</string>
+	<string name="hint_address2">ที่อยู่  (ไม่จำเป็น)</string>
 	<!-- The "city" booking info field.  -->
 	<string name="City">เขต/อำเภอ</string>
 	<!-- The "postal code" booking info field.  -->
@@ -453,7 +453,9 @@
 	<!-- Title for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_title">ต้องการล้างข้อมูลส่วนตัวหรือไม่</string>
 	<!-- Message for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_msg">นี่จะเป็นการลบข้อมูลรายชื่อและใบแจ้งหนี้ที่บันทึกไว้ </string>
+	<string name="dialog_clear_private_data_msg">นี่จะเป็นการลบข้อมูลติดต่อและบัตรเครดิตที่บันทึกไว้ </string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">ระบบจะให้คุณออกจากระบบและล้างข้อมูลบัตรเครดิตและติดต่อทั้งหมด</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">ล้างข้อมูลส่วนตัวแล้ว </string>
 	<!-- Error message if field was required but not entered -->
@@ -551,6 +553,8 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
+	<string name="log_in">เข้าระบบ</string>
+	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">เข้าระบบ Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">รหัสผ่าน</string>
@@ -558,6 +562,8 @@
 	<string name="logging_in">กำลังเข้าระบบ...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">เรียบร้อยแล้ว คุณเข้าระบบแล้ว</string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">ไม่สามารถเข้าระบบ</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">เข้าสู่ระบบ</string>
 	<!-- Label for login widget additional text -->
@@ -565,9 +571,9 @@
 	<!-- Label for account status -->
 	<string name="enrolled_in_expedia_rewards">ลงชื่อร่วมโปรแกรม Expedia Rewards\u2122</string>
 	<!-- Label for account name -->
-	<string name="logged_in_as">เข้าระบบโดยใช้ชื่อ</string>
+	<string name="logged_in_as">เข้าระบบของ</string>
 	<!-- Label for account name -->
-    <string name="logged_in_as_template">เข้าระบบโดยใช้ชื่อ&lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="logged_in_as_template">เข้าระบบของ&lt;b&gt;%s&lt;/b&gt;</string>
 	<!-- Label for signin screen -->
 	<string name="expedia_account">บัญชี Expedia</string>
 	<!-- Label for loading user profile from expedia.com -->
@@ -576,12 +582,14 @@
 	<string name="forgot_your_password">ลืมรหัสผ่าน</string>
     <!-- Label for coupon code area of booking form -->
 	<string name="coupon_code">รหัสคูปอง</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">ไม่จำเป็น</string>
     <!-- Label applying a coupon -->
 	<string name="apply">ใช้</string>
     <!-- Label for new price after applying coupon -->
 	<string name="new_total">ราคาใหม่ หลังส่วนลด:</string>
     <!-- Label for credit card selection -->
-	<string name="use_card">ใช้บัตรเครดิตนี้:</string>
+	<string name="use_card">ใช้บัตรเครดิตนี้</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -631,7 +639,7 @@
 	<!-- Subject line for "tell a friend" feature -->
 	<string name="tell_a_friend_subject">โรงแรม Expedia </string>
 	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">สวัสดีครับ \n\n คุณลองดาวน์โหลดแอพพลิเคชัน Expedia Hotels สำหรับ iPhone และ Android แล้วหรือยัง คุณสามารถค้นหาและจองห้องโรงแรมกว่า 140,000 โรงแรมทั่วโลกได้ง่ายๆ และฟรี ผ่านมือถือของคุณ \n\n http://www.expedia.com/app</string>
+	<string name="tell_a_friend_body">สวัสดีครับ \n\n คุณลองดาวน์โหลดแอพพลิเคชัน Expedia Hotels สำหรับ iPhone และ Android แล้วหรือยัง คุณสามารถค้นหาและจองห้องโรงแรมกว่า 130,000 โรงแรมทั่วโลกได้ง่ายๆ และฟรี ผ่านมือถือของคุณ \n\n http://www.expedia.com/app</string>
 	<!-- Label for link to terms and conditions -->
 	<string name="info_label_terms_conditions">ข้อตกลงและเงื่อนไข </string>
 	<!-- Label for link to privacy policy -->

@@ -412,7 +412,7 @@
 	<!-- Address line 1 form field hint -->
 	<string name="hint_address1">Alamat 1</string>
 	<!-- Address line 2 form field hint -->
-	<string name="hint_address2">Alamat 2 (pilihan)</string>
+	<string name="hint_address2">Alamat 2 (opsyenal)</string>
 	<!-- The "city" booking info field.  -->
 	<string name="City">Bandar</string>
 	<!-- The "postal code" booking info field.  -->
@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">Kosongkan Data Persendirian?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">Ini mengeluarkan semua maklumat pengebilan dan hubungan yang tersimpan.</string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">Ini akan membuat anda log keluar dan mengeluarkan semua maklumat pengebilan dan hubungan yang tersimpan.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Data persendirian dikosongkan</string>
 	<!-- Error message if field was required but not entered -->
@@ -550,6 +552,8 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
+	<string name="log_in">Log Masuk</string>
+	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">Log masuk ke Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Kata Laluan</string>
@@ -557,6 +561,8 @@
 	<string name="logging_in">Sedang log masuk…</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Berjaya! Anda kini sudah log masuk.</string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">Log masuk Gagal</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">Log masuk Akaun</string>
 	<!-- Label for login widget additional text -->
@@ -575,6 +581,8 @@
 	<string name="forgot_your_password">Terlupa kata laluan anda?</string>
     <!-- Label for coupon code area of booking form -->
 	<string name="coupon_code">Kod Kupon</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Opsyenal</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Gunakan</string>
     <!-- Label for new price after applying coupon -->

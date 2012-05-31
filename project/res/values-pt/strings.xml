@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">Apagar dados privados?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">Remove todas as informações salvas relativas à fatura e ao contato.</string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">Isso irá desconectá-lo e remover todas as informações de contato e cobrança.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Dados privados apagados</string>
 	<!-- Error message if field was required but not entered -->
@@ -550,6 +552,8 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
+	<string name="log_in">Conectar</string>
+	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">Conecte-se à Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Senha</string>
@@ -557,6 +561,8 @@
 	<string name="logging_in">Conectando...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Sucesso!  Agora você está conectado.</string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">Falha ao colectar</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">Conectar-se à conta</string>
 	<!-- Label for login widget additional text -->
@@ -575,6 +581,8 @@
 	<string name="forgot_your_password">Esqueceu sua senha?</string>
     <!-- Label for coupon code area of booking form -->
 	<string name="coupon_code">Código de cupom</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Opcional</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Solicitar</string>
     <!-- Label for new price after applying coupon -->

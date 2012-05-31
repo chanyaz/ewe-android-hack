@@ -26,9 +26,9 @@
 	<!--  Label for child age selection prompt -->
 	<plurals name="select_each_childs_age">
 	    <item quantity="one">아동 나이 선택</item>
-	    <item quantity="two">각 아동 나이 선택</item>
-	    <item quantity="many">각 아동 나이 선택</item>
-	    <item quantity="other">각 아동 나이 선택</item>
+	    <item quantity="two">각 아동의 나이 선택</item>
+	    <item quantity="many">각 아동의 나이 선택</item>
+	    <item quantity="other">각 아동의 나이 선택</item>
 	</plurals>
 	<!--  Title of "select child age" spinner dialog box -->
 	<string name="prompt_select_child_age">아동 나이 선택(만 %1$s ~ %2$s)</string>
@@ -241,7 +241,7 @@
 	<!-- Internet access amenity -->
 	<string name="AmenityInternet">인터넷</string>
 	<!-- Kids' activities amenity -->
-	<string name="AmenityKidsActivities">아동 놀거리</string>
+	<string name="AmenityKidsActivities">어린이 활동</string>
 	<!-- Kitchen/kitchenette amenity -->
 	<string name="AmenityKitchen">주방</string>
 	<!-- Pets allowed amenity -->
@@ -414,7 +414,7 @@
 	<!-- Address line 2 form field hint -->
 	<string name="hint_address2">주소입력란 2(선택 사항)</string>
 	<!-- The "city" booking info field.  -->
-	<string name="City">도시</string>
+	<string name="City">시</string>
 	<!-- The "postal code" booking info field.  -->
 	<string name="PostalCode">우편번호</string>
 	<!-- State code hint -->
@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">개인 정보를 삭제하시겠어요?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">그러면 저장된 모든 청구 및 연락처 정보가 삭제됩니다.</string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">그러면 로그아웃 상태가 되고 저장된 모든 청구 및 연락처 정보가 삭제됩니다.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">개인 정보가 삭제되었습니다.</string>
 	<!-- Error message if field was required but not entered -->
@@ -550,6 +552,8 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
+	<string name="log_in">로그인</string>
+	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">Expedia에 로그인</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">비밀번호</string>
@@ -557,6 +561,8 @@
 	<string name="logging_in">로그인 중...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">성공했습니다! 로그인했습니다.</string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">로그인하지 못했습니다.</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">계정 로그인</string>
 	<!-- Label for login widget additional text -->
@@ -572,9 +578,11 @@
 	<!-- Label for loading user profile from expedia.com -->
 	<string name="loading_expedia_account">Expedia 계정 로드 중</string>
     <!-- Label for password recovery -->
-	<string name="forgot_your_password">비밀번호를 잊으셨어요?</string>
+	<string name="forgot_your_password">비밀번호를 잊으셨나요?</string>
     <!-- Label for coupon code area of booking form -->
 	<string name="coupon_code">쿠폰 코드</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">선택 사항</string>
     <!-- Label applying a coupon -->
 	<string name="apply">적용</string>
     <!-- Label for new price after applying coupon -->

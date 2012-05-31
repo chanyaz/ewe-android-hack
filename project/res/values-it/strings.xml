@@ -410,15 +410,15 @@
 	<!-- Label for "billing info" form field section -->
 	<string name="billing_info">Dati fatturazione</string>
 	<!-- Address line 1 form field hint -->
-	<string name="hint_address1">Indirizzo 1</string>
+	<string name="hint_address1">Indirizzo - riga 1</string>
 	<!-- Address line 2 form field hint -->
-	<string name="hint_address2">Indirizzo 2 (facoltativo)</string>
+	<string name="hint_address2">Indirizzo - riga 2 (facoltativo)</string>
 	<!-- The "city" booking info field.  -->
 	<string name="City">Città</string>
 	<!-- The "postal code" booking info field.  -->
 	<string name="PostalCode">CAP</string>
 	<!-- State code hint -->
-	<string name="hint_state_code">Provincia</string>
+	<string name="hint_state_code">Prov.</string>
 	<!-- Label for "credit card info" form field section -->
 	<string name="credit_card_info">Dati carta di credito</string>
 	<!-- Label for credit card selection box -->
@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">Vuoi eliminare i dati personali?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">Rimuovi tutti i dati di fatturazione e di contatto salvati.</string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">Effettua il logout e rimuovi tutti i dati per la fatturazione e le informazioni di contatto.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Dati personali eliminati</string>
 	<!-- Error message if field was required but not entered -->
@@ -550,6 +552,8 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
+	<string name="log_in">Accedi</string>
+	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">Accedi a Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Password</string>
@@ -557,6 +561,8 @@
 	<string name="logging_in">Accesso in corso...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Riuscito!  Hai effettuato l\&apos;accesso.</string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">Accesso non riuscito</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">Login account</string>
 	<!-- Label for login widget additional text -->
@@ -574,11 +580,13 @@
     <!-- Label for password recovery -->
 	<string name="forgot_your_password">Hai dimenticato la password?</string>
     <!-- Label for coupon code area of booking form -->
-    <string name="coupon_code">Codice coupon</string>
+	<string name="coupon_code">Codice coupon</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Facoltativo</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Applica</string>
     <!-- Label for new price after applying coupon -->
-    <string name="new_total">Nuovo totale:</string>
+	<string name="new_total">Nuovo totale:</string>
     <!-- Label for credit card selection -->
 	<string name="use_card">Utilizza carta:</string>
 

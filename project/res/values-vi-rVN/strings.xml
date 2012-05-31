@@ -117,7 +117,7 @@
 	<!-- Sort by distance label -->
 	<string name="sort_description_distance">Khoảng cách</string>
 	<!-- Sort by popularity label -->
-	<string name="sort_description_popular">Dân số</string>
+	<string name="sort_description_popular">Phổ biến</string>
 	<!-- Sort by price label -->
 	<string name="sort_description_price">Giá</string>
 	<!-- Sort by user rating label -->
@@ -253,7 +253,7 @@
 	<!-- Spa on-site amenity -->
 	<string name="AmenitySpa">Spa</string>
 	<!-- Whirlpool bath amenity -->
-	<string name="AmenityWhirlpoolBath">Bồn tắm mát xa</string>
+	<string name="AmenityWhirlpoolBath">Bồn tắm thủy lực</string>
 	<!-- Breakfast amenity -->
 	<string name="AmenityBreakfast">Bữa sáng</string>
 	<!-- Babysitting amenity -->
@@ -267,7 +267,7 @@
 	<!-- Accessible path of travel amenity -->
 	<string name="AmenityAccessiblePaths">Lối đi hỗ trợ người khuyết tật</string>
 	<!-- Accessible bathroom amenity -->
-	<string name="AmenityAccessibleBathroom">Phòng tắm hỗ trợ người khuyết tật</string>
+	<string name="AmenityAccessibleBathroom">Phòng tắm phù hợp người khuyết tật</string>
 	<!-- Roll-in shower amenity -->
 	<string name="AmenityRollInShower">Phòng tắm hỗ trợ xe lăn</string>
 	<!-- Handicapped parking amenity -->
@@ -275,7 +275,7 @@
 	<!-- In-room accessibility amenity -->
 	<string name="AmenityInRoomAccessibility">Phòng có thiết bị hỗ trợ người khuyết tật</string>
 	<!-- Accessibility equipment for the deaf amenity -->
-	<string name="AmenityDeafAccessibilityEquipment">Thiết bị hỗ trợ người khiếm thính</string>
+	<string name="AmenityDeafAccessibilityEquipment">Có thiết bị hỗ trợ người khiếm thính</string>
 	<!-- Braille or raised signage amenity -->
 	<string name="AmenityBrailleSignage">Biển báo bằng chữ Braille</string>
 	<!-- Free airport shuttle amenity -->
@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">Xóa Private Data?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">Thao tác này sẽ xóa tất cả thông tin thanh toán và liên hệ đã lưu.</string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">Bằng thao tác này, bạn sẽ thoát khỏi tài khoản và xóa mọi thông tin liên lạc lẫn thanh toán đã lưu.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Đã xóa dữ liệu cá nhân</string>
 	<!-- Error message if field was required but not entered -->
@@ -550,6 +552,8 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
+	<string name="log_in">Đăng nhập</string>
+	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">Đăng nhập Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Mật khẩu</string>
@@ -557,10 +561,12 @@
 	<string name="logging_in">Đang đăng nhập...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Thành công! Bạn đã đăng nhập.</string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">Đăng nhập không thành công</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">Đăng nhập</string>
 	<!-- Label for login widget additional text -->
-	<string name="log_in_for_faster_booking">Đăng nhập để đặt phòng/chỗ nhanh hơn.</string>
+	<string name="log_in_for_faster_booking">Đăng nhập để đặt phòng nhanh hơn.</string>
 	<!-- Label for account status -->
 	<string name="enrolled_in_expedia_rewards">Tham gia Expedia Rewards\u2122</string>
 	<!-- Label for account name -->
@@ -575,8 +581,10 @@
 	<string name="forgot_your_password">Quên mật khẩu?</string>
     <!-- Label for coupon code area of booking form -->
 	<string name="coupon_code">Mã coupon</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Tùy chọn</string>
     <!-- Label applying a coupon -->
-	<string name="apply">Đăng ký</string>
+	<string name="apply">Áp dụng</string>
     <!-- Label for new price after applying coupon -->
 	<string name="new_total">Tổng giá mới:</string>
     <!-- Label for credit card selection -->
@@ -636,7 +644,7 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Chính sách bảo mật</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011-2012 Expedia, Inc.\n Đã đăng ký bảo hộ bản quyền.</string>
+	<string name="copyright">© Copyright 2011-2012 Expedia, Inc.\nBảo lưu mọi quyền.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->

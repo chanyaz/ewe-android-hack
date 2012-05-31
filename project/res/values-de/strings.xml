@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">Private Daten löschen?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">Alle gespeicherten Rechnungsinformationen und Kontaktdaten werden gelöscht.</string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">Dadurch werden Sie abgemeldet und alle gespeicherten Rechnungs- und Kontaktdaten gelöscht.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Ihre privaten Daten wurden gelöscht.</string>
 	<!-- Error message if field was required but not entered -->
@@ -550,6 +552,8 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
+	<string name="log_in">Anmelden </string>
+	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">Bei Expedia anmelden </string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Passwort</string>
@@ -557,6 +561,8 @@
 	<string name="logging_in">Anmeldung erfolgt… </string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Hurra! Sie wurden erfolgreich angemeldet. </string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">Anmeldung fehlgeschlagen</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">Kontoanmeldung</string>
 	<!-- Label for login widget additional text -->
@@ -574,11 +580,13 @@
     <!-- Label for password recovery -->
 	<string name="forgot_your_password">Passwort vergessen?</string>
     <!-- Label for coupon code area of booking form -->
-    <string name="coupon_code">Coupon-Code</string>
+	<string name="coupon_code">Coupon-Code</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Optional</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Einlösen</string>
     <!-- Label for new price after applying coupon -->
-    <string name="new_total">Neuer Gesamtpreis: </string>
+	<string name="new_total">Neuer Gesamtpreis: </string>
     <!-- Label for credit card selection -->
 	<string name="use_card">Karte verwenden:</string>
 
@@ -648,7 +656,7 @@
 	<!-- Footer for the view -->
 	<string name="powered_by_opinion_lab">Unterstützt von Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Datenschutzrichtlinie</a></string>
 	<!-- Hint to type in email address -->
-	<string name="email_address">E-Mail-Addresse</string>
+	<string name="email_address">E-Mail-Adresse</string>
 	<!-- Hint to type in comments -->
 	<string name="feedback_hint">Was können wir besser machen?</string>
 	<!-- Message displayed to users after they submit feedback -->

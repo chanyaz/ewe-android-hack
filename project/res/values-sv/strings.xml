@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">Rensa personliga uppgifter?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">Det här tar bort alla sparade betalnings- och kontaktuppgifter. </string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">Du kommer att loggas ut och alla sparade betalnings- och kontaktuppgifter kommer att raderas. </string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Personliga uppgifter rensade</string>
 	<!-- Error message if field was required but not entered -->
@@ -550,6 +552,8 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
+	<string name="log_in">Logga in</string>
+	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">Logga in på Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Lösenord</string>
@@ -557,6 +561,8 @@
 	<string name="logging_in">Loggar in...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Utmärkt. Du är nu inloggad.</string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">Inloggning misslyckades</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">Logga in på konto</string>
 	<!-- Label for login widget additional text -->
@@ -575,6 +581,8 @@
 	<string name="forgot_your_password">Har du glömt ditt lösenord?</string>
     <!-- Label for coupon code area of booking form -->
 	<string name="coupon_code">Kupongkod</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Valfritt</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Använd</string>
     <!-- Label for new price after applying coupon -->

@@ -64,7 +64,7 @@
 	    3$ - The check-out date
 	    The dates may include year, if we cross a year boundary 
 	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; tot &lt;b&gt;%3$s&lt;/b&gt;</string>
+	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; to &lt;b&gt;%3$s&lt;/b&gt;</string>
 	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
 	<plurals name="number_of_matching_hotels">
 		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotels</item>
@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">Privégegevens wissen?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">Zo verwijder je alle opgeslagen betaal- en contactgegevens.</string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">Zo wordt je afgemeld en verwijder je alle opgeslagen betaal- en contactgegevens.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Privégegevens gewist</string>
 	<!-- Error message if field was required but not entered -->
@@ -546,9 +548,11 @@
 	<!-- Expedia merchant hotel policies -->
 	<string name="PolicyExpediaMerchant">Door deze boeking af te ronden verklaar je alle Algemene Voorwaarden, inclusief het Privacybeleid en alle gebruiksvoorwaarden, gelezen en goedgekeurd te hebben.\n\nJe gaat akkoord met de betaling van alle reserveringskosten. Als je deze kosten niet betaalt zodat deze via een incassobureau, een deurwaarder of andere wettelijke procedures moeten worden gevorderd, ga je akkoord met alle daaruit voortvloeiende kosten, inclusief deurwaarders- en procedurekosten, die verband houden met deze invorderingspogingen.</string>
 	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">Je boekt een accommodatie zonder korting. Alle getoonde tarieven zijn per nacht, en zijn gebaseerd op twee personen per kamer tenzij anders is aangegeven. Lees de kamerbeschrijvingen en de tariefregels goed na om te verzekeren dat de gekozen kamer groot genoeg is. Voor sommige tarieven kan speciale identificatie worden vereist.   Onze boekingstoeslag, belastingen en andere kosten die worden berekend door het hotel zijn niet inbegrepen. De accommodatie rekent mogelijk een extra toeslag aan wanneer extra volwassenen of kinderen aan de kamer worden toegevoegd.\n\nVerzoeken voor meer dan 2 personen of voor meer gasten dan het geselecteerde tarief opgeeft worden naar het hotel gestuurd maar zijn niet gegarandeerd. Als de accommodatie zulk verzoek aanvaardt, kunnen naar goeddunken ervan extra kosten worden aangerekend.</string>
+	<string name="PolicyExpediaAgent">Je boekt een accommodatie zonder korting. Alle getoonde tarieven zijn per nacht, en zijn gebaseerd op twee personen per kamer tenzij anders is aangegeven. Lees de kamerbeschrijvingen en de tariefregels goed na om te verzekeren dat de gekozen kamer groot genoeg is. Voor sommige tarieven kan speciale identificatie worden vereist.   Onze boekingstoeslag, belastingen en andere kosten die worden berekend door het hotel zijn niet inbegrepen. De accommodatie rekent mogelijk een extra toeslag aan wanneer extra volwassenen of kinderen aan de kamer worden toegevoegd.\n\nVerzoeken voor meer dan 2 personen of voor meer gasten dan het geselecteerde tarief opgeeft worden naar het hotel gestuurd maar zijn niet gegarandeerd. Als de accommodatie het verzoek aanvaardt, kan het naar eigen goeddunken extra kosten in rekening brengen.</string>
 
 	<!-- Expedia Accounts -->
+	<!-- Label for menu item to log into account -->
+	<string name="log_in">Aanmelden</string>
 	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">Aanmelden bij Expedia</string>
 	<!-- Hint for user to enter password into a field -->
@@ -557,6 +561,8 @@
 	<string name="logging_in">Bezig met aanmelden ...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Veel success! Je bent aangemeld.</string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">Aanmelding mislukt</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">Aanmelden bij account</string>
 	<!-- Label for login widget additional text -->
@@ -575,6 +581,8 @@
 	<string name="forgot_your_password">Je wachtwoord vergeten?</string>
     <!-- Label for coupon code area of booking form -->
 	<string name="coupon_code">Couponcode</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Optioneel</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Toepassen</string>
     <!-- Label for new price after applying coupon -->

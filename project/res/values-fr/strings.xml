@@ -418,9 +418,9 @@
 	<!-- The "postal code" booking info field.  -->
 	<string name="PostalCode">Code postal</string>
 	<!-- State code hint -->
-	<string name="hint_state_code">Région</string>
+	<string name="hint_state_code">Dép.</string>
 	<!-- Label for "credit card info" form field section -->
-	<string name="credit_card_info">Information de la carte de paiement</string>
+	<string name="credit_card_info">Informations de la carte de paiement</string>
 	<!-- Label for credit card selection box -->
 	<string name="saved_cards">Cartes sauvegardées</string>
 	<!-- Label for entering new credit card information -->
@@ -428,7 +428,7 @@
 	<!-- Card number form field hint -->
 	<string name="hint_card_number">Numéro de la carte de paiement</string>
 	<!-- Card expiration month form field hint -->
-	<string name="hint_expiration_month">mm</string>
+	<string name="hint_expiration_month">m</string>
 	<!-- Card expiration year form field hint -->
 	<string name="hint_expiration_year">aa</string>
 	<!-- Security code label -->
@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">Supprimer les donnes personnelles ?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">Cette action supprimera toutes les informations de facturation et les coordonnées que vous avez sauvegardées.</string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">En poursuivant, vous serez déconnecté de votre compte et toutes les coordonnées et les données de facturation enregistrées seront supprimées.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Données personnelles supprimées</string>
 	<!-- Error message if field was required but not entered -->
@@ -550,6 +552,8 @@
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
+	<string name="log_in">Se connecter</string>
+	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">Se connecter à Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Mot de passe</string>
@@ -557,6 +561,8 @@
 	<string name="logging_in">Connexion en cours...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Connexion réussie ! Vous êtes connecté à Expedia. </string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">Accès non réussi</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">Connexion au compte</string>
 	<!-- Label for login widget additional text -->
@@ -574,11 +580,13 @@
     <!-- Label for password recovery -->
 	<string name="forgot_your_password">Mot de passe oublié?</string>
     <!-- Label for coupon code area of booking form -->
-    <string name="coupon_code">Code promotionnel</string>
+	<string name="coupon_code">Code promotionnel</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Facultatif</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Appliquer</string>
     <!-- Label for new price after applying coupon -->
-    <string name="new_total">Nouveau montant total:</string>
+	<string name="new_total">Nouveau montant total:</string>
     <!-- Label for credit card selection -->
 	<string name="use_card">Utiliser carte:</string>
 

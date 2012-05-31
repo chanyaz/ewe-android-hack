@@ -453,6 +453,8 @@
 	<string name="dialog_clear_private_data_title">Hapus Data Pribadi?</string>
 	<!-- Message for dialog confirming the clearing of private data -->
 	<string name="dialog_clear_private_data_msg">Semua informasi penagihan dan kontak yang tersimpan akan dihapus.</string>
+	<!-- Message for dialog confirming the clearing of private data -->
+	<string name="dialog_log_out_and_clear_private_data_msg">Anda akan keluar dari akun Anda dan semua informasi penagihan dan kontak akan dihapus.</string>
 	<!-- Title for dialog after private data has been cleared -->
 	<string name="toast_private_data_cleared">Data pribadi dihapus</string>
 	<!-- Error message if field was required but not entered -->
@@ -552,6 +554,8 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 
 	<!-- Expedia Accounts -->
 	<!-- Label for menu item to log into account -->
+	<string name="log_in">Masuk</string>
+	<!-- Label for menu item to log into account -->
 	<string name="log_in_to_expedia">Masuk ke Expedia</string>
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Kata Sandi</string>
@@ -559,6 +563,8 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 	<string name="logging_in">Sedang Masuk...</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Berhasil! Anda sekarang sudah masuk.</string>
+	<!-- Message that tells user they failed to log in -->
+	<string name="login_failed">Gagal masuk</string>
 	<!-- Label for login widget button -->
 	<string name="account_login">Masuk Akun</string>
 	<!-- Label for login widget additional text -->
@@ -577,6 +583,8 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 	<string name="forgot_your_password">Lupa kata sandi Anda?</string>
     <!-- Label for coupon code area of booking form -->
 	<string name="coupon_code">Kode Kupon</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Opsional</string>
     <!-- Label applying a coupon -->
 	<string name="apply">Daftar</string>
     <!-- Label for new price after applying coupon -->
