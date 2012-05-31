@@ -48,6 +48,10 @@ public class SignInFragment extends DialogFragment {
 	private boolean mEmptyUsername = true;
 	private boolean mEmptyPassword = true;
 
+	private final String SIGNIN_LOGIN_CLICKED = "SIGNIN_LOGIN_CLICKED";
+	private final String SIGNIN_EMPTY_USERNAME = "SIGNIN_EMPTY_USERNAME";
+	private final String SIGNIN_EMPTY_PASSWORD = "SIGNIN_EMPTY_PASSWORD";
+
 	public static SignInFragment newInstance() {
 		SignInFragment dialog = new SignInFragment();
 		return dialog;
@@ -80,17 +84,22 @@ public class SignInFragment extends DialogFragment {
 		forgotLink.setText(Html.fromHtml(String.format("<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>", LocaleUtils.getPointOfSale(mContext), mContext.getString(R.string.forgot_your_password))));
 		forgotLink.setMovementMethod(LinkMovementMethod.getInstance());
 
+		mProgressDialog = new ProgressDialog(mContext);
+		mProgressDialog.setMessage(getString(R.string.logging_in));
+		mProgressDialog.setCancelable(false);
+		if (savedInstanceState != null) {
+			mLoginClicked = savedInstanceState.getBoolean(SIGNIN_LOGIN_CLICKED, false);
+			mEmptyUsername = savedInstanceState.getBoolean(SIGNIN_EMPTY_USERNAME, true);
+			mEmptyPassword = savedInstanceState.getBoolean(SIGNIN_EMPTY_PASSWORD, true);
+		}
+
 		mLogInButton = (Button) view.findViewById(R.id.log_in_button);
 		mLogInButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick (View v) {
 				mLoginFailed.setVisibility(View.GONE);
 				mLoginClicked = true;
-				mProgressDialog = new ProgressDialog(mContext);
-				mProgressDialog.setMessage(getString(R.string.logging_in));
-				mProgressDialog.setCancelable(false);
-				mProgressDialog.show();
-				BackgroundDownloader.getInstance().startDownload(KEY_SIGNIN, mLoginDownload, mLoginCallback);
+				startOrResumeDownload();
 			}
 		});
 		mLogInButton.setEnabled(false);
@@ -143,6 +152,14 @@ public class SignInFragment extends DialogFragment {
 	}
 
 	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(SIGNIN_LOGIN_CLICKED, mLoginClicked);
+		outState.putBoolean(SIGNIN_EMPTY_USERNAME, mEmptyUsername);
+		outState.putBoolean(SIGNIN_EMPTY_PASSWORD, mEmptyPassword);
+	}
+
+	@Override
 	public void onPause() {
 		super.onPause();
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_SIGNIN, mLoginCallback);
@@ -151,8 +168,21 @@ public class SignInFragment extends DialogFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		startOrResumeDownload();
+	}
+
+	public void startOrResumeDownload() {
 		if (mLoginClicked) {
-			BackgroundDownloader.getInstance().registerDownloadCallback(KEY_SIGNIN, mLoginCallback);
+			if (!mProgressDialog.isShowing()) {
+				mProgressDialog.show();
+			}
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			if (bd.isDownloading(KEY_SIGNIN)) {
+				bd.registerDownloadCallback(KEY_SIGNIN, mLoginCallback);
+			}
+			else {
+				bd.startDownload(KEY_SIGNIN, mLoginDownload, mLoginCallback);
+			}
 		}
 	}
 
