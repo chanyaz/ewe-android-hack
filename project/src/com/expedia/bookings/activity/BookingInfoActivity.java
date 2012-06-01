@@ -31,9 +31,9 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.validation.ValidationError;
 
@@ -224,6 +224,7 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 			intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toJson().toString());
 			intent.putExtra(Codes.RATE, Db.getSelectedRate().toJson().toString());
 			intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
+			intent.setFlags(ConfirmationActivity.INTENT_FLAGS);
 
 			// Create a BillingInfo that lacks the user's security code (for safety)
 			JSONObject billingJson = Db.getBillingInfo().toJson();

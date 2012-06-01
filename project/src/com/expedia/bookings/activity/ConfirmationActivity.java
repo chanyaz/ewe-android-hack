@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseArray;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -44,6 +43,12 @@ import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.util.IoUtils;
 
 public class ConfirmationActivity extends MapActivity {
+
+	/**
+	 *  Flags that should be used when starting this activity. Because we want the back button to
+	 *  exit thte app, (not, for instance, go back to booking info).
+	 */
+	public static final int INTENT_FLAGS = Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK;
 
 	private static final int INSTANCE_PROPERTY = 1;
 	private static final int INSTANCE_SEARCH_PARAMS = 2;
@@ -213,7 +218,7 @@ public class ConfirmationActivity extends MapActivity {
 				ConfirmationUtils.deleteSavedConfirmationData(mContext);
 
 				Intent intent = new Intent(mContext, PhoneSearchActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
 				startActivity(intent);
 				finish();
@@ -261,22 +266,6 @@ public class ConfirmationActivity extends MapActivity {
 			onPageLoad();
 			mWasStopped = false;
 		}
-	}
-
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// #7090: A user should remain on the confirmation page until they explicitly press the
-		// "new search" key.  This is the easiest way to get out of this - send the user back
-		// to the start, then finish that activity, when the user presses back.
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-			finish();
-			Intent i = new Intent(mContext, PhoneSearchActivity.class);
-			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			i.putExtra(Codes.EXTRA_FINISH, true);
-			startActivity(i);
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override

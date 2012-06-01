@@ -39,6 +39,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -102,6 +103,8 @@ public class HotelActivity extends Activity {
 		}
 
 		if (intent.getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
+			ConfirmationUtils.deleteSavedConfirmationData(this);
+
 			Property property = new Property();
 			property = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
 			Db.setSelectedProperty(property);
