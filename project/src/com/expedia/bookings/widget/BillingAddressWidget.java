@@ -34,7 +34,8 @@ import com.mobiata.android.validation.ValidationProcessor;
 import com.mobiata.android.validation.Validator;
 
 public class BillingAddressWidget {
-	private static final String BILLING_EXPANDED = "BILLING_EXPANDED";
+	private static final String BILLING_ADDRESS_USER_EXPANDED = "BILLING_ADDRESS_USER_EXPANDED";
+	private static final String BILLING_ADDRESS_KEEP_EXPANDED = "BILLING_ADDRESS_KEEP_EXPANDED";
 
 	private Context mContext;
 
@@ -61,6 +62,7 @@ public class BillingAddressWidget {
 
 	// Tracks if the user has explicitly expanded the billing information
 	private boolean mUserExpanded = false;
+	private boolean mKeepExpanded = false;
 
 	private boolean mIsVisible = true;
 
@@ -167,13 +169,15 @@ public class BillingAddressWidget {
 
 	public void restoreInstanceState(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			mUserExpanded = savedInstanceState.getBoolean(BILLING_EXPANDED);
+			mUserExpanded = savedInstanceState.getBoolean(BILLING_ADDRESS_USER_EXPANDED);
+			mKeepExpanded = savedInstanceState.getBoolean(BILLING_ADDRESS_KEEP_EXPANDED);
 		}
 	}
 
 	public void saveInstanceState(Bundle outState) {
 		if (outState != null) {
-			outState.putBoolean(BILLING_EXPANDED, mUserExpanded);
+			outState.putBoolean(BILLING_ADDRESS_USER_EXPANDED, mUserExpanded);
+			outState.putBoolean(BILLING_ADDRESS_KEEP_EXPANDED, mKeepExpanded);
 		}
 	}
 
@@ -247,7 +251,7 @@ public class BillingAddressWidget {
 		mCountrySpinner.setOnFocusChangeListener(l);
 	}
 
-	public void expand(boolean animateAndFocus) {
+	private void expand(boolean animateAndFocus) {
 		if (mSectionTitle != null) {
 			mSectionTitle.setVisibility(View.VISIBLE);
 		}
@@ -281,10 +285,11 @@ public class BillingAddressWidget {
 	}
 
 	public boolean isExpanded() {
-		return mUserExpanded || ! isComplete();
+		return mKeepExpanded || mUserExpanded || ! isComplete();
 	}
 
 	public void clear() {
+		mKeepExpanded = true;
 		mAddress1EditText.setText(null);
 		mAddress2EditText.setText(null);
 		mCityEditText.setText(null);

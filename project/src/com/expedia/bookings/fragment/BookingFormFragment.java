@@ -251,26 +251,32 @@ public class BookingFormFragment extends DialogFragment {
 				mSelectedCardPosition = savedInstanceState.getInt(SELECTED_CARD_POSITION);
 			}
 			mUserProfileIsFresh = savedInstanceState.getBoolean(USER_PROFILE_IS_FRESH);
+			mRulesRestrictionsCheckbox.setChecked(savedInstanceState.getBoolean(RULES_RESTRICTIONS_CHECKED));
+		}
+
+		// Expand the guest form if neccesary
+		if (savedInstanceState != null && savedInstanceState.containsKey(GUESTS_EXPANDED)) {
+			if (savedInstanceState.getBoolean(GUESTS_EXPANDED)) {
+				expandGuestsForm(false);
+			}
+		}
+		else {
+			checkSectionsCompleted(false);
+			if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
+				expandGuestsForm(false);
+			}
 		}
 
 		// Figure out if we are logged in
 		if (ExpediaServices.isLoggedIn((Context) mActivity)) {
+
 			if (savedInstanceState != null && mUserProfileIsFresh) {
 				mAccountButton.update(false);
 				syncFormFieldsFromBillingInfo(view);
-				checkSectionsCompleted(false);
-
-				if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
-					expandGuestsForm(false);
-				}
 			}
 			else {
 				syncFormFieldsFromBillingInfo(view);
 				checkSectionsCompleted(false);
-
-				if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
-					expandGuestsForm(false);
-				}
 
 				// Show progress spinner
 				mAccountButton.update(true);
@@ -289,25 +295,10 @@ public class BookingFormFragment extends DialogFragment {
 
 			if (Db.getBillingInfo().doesExistOnDisk()) {
 				syncFormFieldsFromBillingInfo(view);
-
-				if (savedInstanceState != null) {
-					if (savedInstanceState.getBoolean(GUESTS_EXPANDED)) {
-						expandGuestsForm(false);
-					}
-
-					mRulesRestrictionsCheckbox.setChecked(savedInstanceState.getBoolean(RULES_RESTRICTIONS_CHECKED));
-				}
-				else {
-					checkSectionsCompleted(false);
-
-					if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
-						expandGuestsForm(false);
-					}
-				}
 			}
 			else {
 				expandGuestsForm(false);
-				mBillingAddressWidget.expand(false);
+				mBillingAddressWidget.update(null);
 			}
 			mFormHasBeenFocused = false;
 		}
@@ -368,6 +359,7 @@ public class BookingFormFragment extends DialogFragment {
 	@Override
 	public void onPause() {
 		super.onPause();
+		syncBillingInfo();
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_SIGNIN_FETCH, mLoginCallback);
 	}
 
@@ -881,8 +873,6 @@ public class BookingFormFragment extends DialogFragment {
 		// Sync the saved billing info fields
 		Location loc = billingInfo.getLocation();
 		if (loc != null) {
-			mBillingAddressWidget.update(loc);
-
 			// Sync the telephone country code spinner
 			SpinnerAdapter adapter = mTelephoneCountryCodeSpinner.getAdapter();
 			int position = findAdapterIndex(adapter, billingInfo.getTelephoneCountry());
@@ -903,6 +893,7 @@ public class BookingFormFragment extends DialogFragment {
 		}
 		mSecurityCodeEditText.setText(billingInfo.getSecurityCode());
 
+		mBillingAddressWidget.update(billingInfo.getLocation());
 		if (mUserProfileIsFresh && Db.getUser().hasStoredCreditCards()) {
 			// otherwise we want them to add a new CC anyways
 			mCreditCardInfoContainer.setVisibility(View.GONE);
@@ -917,7 +908,6 @@ public class BookingFormFragment extends DialogFragment {
 		}
 		else {
 			mCreditCardInfoContainer.setVisibility(View.VISIBLE);
-			mBillingAddressWidget.update(billingInfo.getLocation());
 			mStoredCardContainer.setVisibility(View.GONE);
 		}
 	}
@@ -988,7 +978,6 @@ public class BookingFormFragment extends DialogFragment {
 				else {
 					collapseGuestsForm();
 				}
-				mBillingAddressWidget.update(Db.getUser().toBillingInfo().getLocation());
 			}
 		}
 	};
@@ -1031,7 +1020,7 @@ public class BookingFormFragment extends DialogFragment {
 	private void updateEnterNewCreditCard() {
 		if (mCardAdapter == null || mCardAdapter.getSelectedCard() == null) {
 			// user has selected enter new credit card
-			Location loc = mUserProfileIsFresh ? Db.getUser().toBillingInfo().getLocation() : Db.getBillingInfo().getLocation();
+			Location loc = Db.getBillingInfo().getLocation();
 			mBillingAddressWidget.update(loc);
 			mCreditCardInfoContainer.setVisibility(View.VISIBLE);
 		}
