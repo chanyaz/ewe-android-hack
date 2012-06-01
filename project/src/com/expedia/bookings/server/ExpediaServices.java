@@ -295,6 +295,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("password", password));
 		query.add(new BasicNameValuePair("staySignedIn", "true"));
 
+		signOut();
 		return (SignInResponse) doE3Request("SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
