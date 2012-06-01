@@ -1020,8 +1020,7 @@ public class BookingFormFragment extends DialogFragment {
 	private void updateEnterNewCreditCard() {
 		if (mCardAdapter == null || mCardAdapter.getSelectedCard() == null) {
 			// user has selected enter new credit card
-			Location loc = Db.getBillingInfo().getLocation();
-			mBillingAddressWidget.update(loc);
+			mBillingAddressWidget.show();
 			mCreditCardInfoContainer.setVisibility(View.VISIBLE);
 		}
 		else {

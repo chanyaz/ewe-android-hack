@@ -270,6 +270,21 @@ public class BillingAddressWidget {
 		mBillingFormLayout.setVisibility(View.GONE);
 	}
 
+	public void show() {
+		mIsVisible = true;
+		if (mSectionTitle != null) {
+			mSectionTitle.setVisibility(View.GONE);
+		}
+
+		if (isExpanded()) {
+			expand(false);
+		}
+		else {
+			collapse();
+		}
+		return;
+	}
+
 	public void hide() {
 		mIsVisible = false;
 		if (mSectionTitle != null) {
