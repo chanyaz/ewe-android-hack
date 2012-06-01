@@ -32,7 +32,7 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.cookie.NetscapeDraftSpec;
+import org.apache.http.cookie.CookieSpecRegistry;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -496,9 +496,11 @@ public class ExpediaServices implements DownloadListener {
 		cookieStore.load(mContext, COOKIES_FILE);
 		HttpContext httpContext = new BasicHttpContext();
 		httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
-		httpContext.setAttribute(ClientContext.COOKIE_SPEC, new NetscapeDraftSpec());
+		CookieSpecRegistry cookieSpecRegistry = new CookieSpecRegistry();
+		cookieSpecRegistry.register("EXPEDIA", new ExpediaCookieSpecFactory());
+		httpContext.setAttribute(ClientContext.COOKIESPEC_REGISTRY, cookieSpecRegistry);
 
-		HttpClientParams.setCookiePolicy(httpParameters, CookiePolicy.NETSCAPE);
+		HttpClientParams.setCookiePolicy(httpParameters, "EXPEDIA");
 
 		// When not a release build, allow SSL from all connections
 		if ((flags & F_SECURE_REQUEST) != 0 && !AndroidUtils.isRelease(mContext)) {
