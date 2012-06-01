@@ -600,6 +600,13 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		// Haxxy fix for #13798, only required on pre-Honeycomb
+		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+			finish();
+			return;
+		}
+
 		((ExpediaBookingApp) getApplicationContext())
 				.registerSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
 

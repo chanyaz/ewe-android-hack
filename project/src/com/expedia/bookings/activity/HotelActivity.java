@@ -54,6 +54,7 @@ import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.mobiata.android.util.AndroidUtils;
 import com.omniture.AppMeasurement;
 
 public class HotelActivity extends Activity {
@@ -143,6 +144,13 @@ public class HotelActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		// Haxxy fix for #13798, only required on pre-Honeycomb
+		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+			finish();
+			return;
+		}
+
 		mIsStartingReviewsActivity = false;
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
