@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -36,7 +35,6 @@ import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment.CalendarDialogFragmentListener;
 import com.expedia.bookings.fragment.PassengerPickerFragment;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
@@ -64,14 +62,6 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// We need to manually set the soft input mode in v11+ because
-		// adjustNothing is preferable to adjustPan.
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			getWindow().setSoftInputMode(
-					WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING
-							| WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED);
-		}
 
 		// Inflate the views
 		setContentView(R.layout.activity_flight_search);
