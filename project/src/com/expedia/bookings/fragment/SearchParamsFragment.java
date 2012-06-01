@@ -86,7 +86,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 	private TextView mSuggestionErrorTextView;
 	private TextView mSelectChildAgeTextView;
 	private View mChildAgesLayout;
-	private Button mChildAgesButton;
+	private TextView mChildAgesButton;
 
 	private SearchParamsFragmentListener mListener;
 
@@ -144,7 +144,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		mSuggestionErrorTextView = (TextView) view.findViewById(R.id.suggestion_error_text_view);
 		mSelectChildAgeTextView = (TextView) view.findViewById(R.id.label_select_each_childs_age);
 		mChildAgesLayout = view.findViewById(R.id.child_ages_layout);
-		mChildAgesButton = (Button) view.findViewById(R.id.child_ages_button);
+		mChildAgesButton = (TextView) view.findViewById(R.id.child_ages_button);
 		mChildAgesButton.addOnLayoutChangeListener(mChildAgesButtonLayoutChangeListener);
 
 		// Need to set temporary max values for number pickers, or updateViews() won't work (since a picker value
@@ -423,6 +423,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 						searchParams.getNumChildren());
 				mSelectChildAgeTextView.setText(labelSelectEachChildsAge);
 				mChildAgesButton.setText(labelSelectEachChildsAge);
+				mChildAgesButton.requestLayout();
 
 				GuestsPickerUtils.showOrHideChildAgeSpinners(activity, children, mChildAgesLayout,
 						mChildAgeSelectedListener);
