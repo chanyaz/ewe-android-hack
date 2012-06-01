@@ -208,8 +208,8 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 				showDialog(BookingInfoUtils.DIALOG_BOOKING_ERROR);
 
 				// Highlight erroneous fields, if that exists
-				List<ValidationError> errors = response.checkForInvalidFields(getWindow(),
-						Db.getBillingInfo().getStoredCard() != null);
+				List<ValidationError> errors = response.checkForInvalidFields(getWindow(), Db.getBillingInfo()
+						.getStoredCard() != null);
 				if (errors != null && errors.size() > 0) {
 					mBookingFragment.handleFormErrors(errors);
 				}
