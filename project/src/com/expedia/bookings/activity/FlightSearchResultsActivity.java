@@ -44,6 +44,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		if (Db.getFlightSearchResponse() == null) {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			if (bd.isDownloading(DOWNLOAD_KEY)) {
+				mListFragment.showProgress();
 				bd.registerDownloadCallback(DOWNLOAD_KEY, mDownloadCallback);
 			}
 			else {
@@ -51,6 +52,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 					@Override
 					public FlightSearchResponse doDownload() {
 						mListFragment.setHeaderDrawable(null);
+						mListFragment.showProgress();
 
 						ExpediaServices services = new ExpediaServices(FlightSearchResultsActivity.this);
 						return services.flightSearch(Db.getFlightSearchParams(), 0);
@@ -83,11 +85,21 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 
 			FlightSearchResponse response = (FlightSearchResponse) results;
 			Db.setFlightSearchResponse(response);
-			mAdapter.setLegPosition(mLegPosition);
-			mAdapter.setFlights(response);
 
-			// DELETE EVENTUALLY: For now, just set the header to always be SF
-			mListFragment.setHeaderDrawable(getResources().getDrawable(R.drawable.san_francisco));
+			if (response.hasErrors()) {
+				mListFragment.showError(getString(R.string.error_loading_flights_TEMPLATE, response.getErrors().get(0)
+						.getPresentableMessage(FlightSearchResultsActivity.this)));
+			}
+			else if (response.getTripCount() == 0) {
+				mListFragment.showError(getString(R.string.error_no_flights_found));
+			}
+			else {
+				mAdapter.setLegPosition(mLegPosition);
+				mAdapter.setFlights(response);
+
+				// DELETE EVENTUALLY: For now, just set the header to always be SF
+				mListFragment.setHeaderDrawable(getResources().getDrawable(R.drawable.san_francisco));
+			}
 		}
 	};
 

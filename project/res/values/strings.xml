@@ -15,6 +15,12 @@
 	<string name="hint_arrival_airport">Arrival Airport</string>
 	<!-- Button label when you have a round trip selected.  %1$s is the start date, %2$s is the end date (e.g., "May 5 to Oct 12") -->
 	<string name="round_trip_TEMPLATE">%1$s to %2$s</string>
+	<!-- Label for when flights are loading -->
+	<string name="loading_flights">Loading flights...</string>
+	<!-- TEMPORARY generic error message when loading flights fails -->
+	<string name="error_loading_flights_TEMPLATE">DEBUG: Error loading flights: %s</string>
+	<!-- Error message when we find no flights -->
+	<string name="error_no_flights_found">Sorry, we could not find any flights.</string>
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
