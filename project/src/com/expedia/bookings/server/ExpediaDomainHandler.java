@@ -9,6 +9,7 @@ import org.apache.http.cookie.MalformedCookieException;
 import org.apache.http.impl.cookie.BasicDomainHandler;
 
 import com.expedia.bookings.utils.LocaleUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.Log;
 
 public class ExpediaDomainHandler extends BasicDomainHandler {
@@ -20,14 +21,17 @@ public class ExpediaDomainHandler extends BasicDomainHandler {
 	@Override
 	public void validate(final Cookie cookie, final CookieOrigin origin) throws MalformedCookieException {
 		super.validate(cookie, origin);
-		// Perform Netscape Cookie draft specific validation
-		String domain = cookie.getDomain();
-		if (! domain.endsWith(LocaleUtils.getPointOfSale())) {
-			String message = "Domain attribute \"" +
-				domain +
-				"\" not the current point of sale";
-			Log.d(message);
-			throw new MalformedCookieException(message);
+		if (AndroidUtils.isRelease()) {
+			// We only care about validating domains for releases so we can
+			// keep using the mock proxy
+			String domain = cookie.getDomain();
+			if (! domain.endsWith(LocaleUtils.getPointOfSale())) {
+				String message = "Domain attribute \"" +
+					domain +
+					"\" not the current point of sale";
+				Log.d(message);
+				throw new MalformedCookieException(message);
+			}
 		}
 	}
 
