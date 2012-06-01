@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +32,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SearchView.OnSuggestionListener;
@@ -228,7 +231,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
 
-		mSearchView = new SearchView(this);
+		mSearchView = new CustomSearchView(this);
 		actionBar.setCustomView(mSearchView);
 		actionBar.setDisplayShowCustomEnabled(true);
 
@@ -264,6 +267,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 				if (hasFocus) {
 					String currQuery = mSearchView.getQuery().toString();
+
 					if (currQuery.equals(getString(R.string.current_location))) {
 						mSearchView.setQuery("", false);
 					}
@@ -272,6 +276,10 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 						// an autocomplete query.  By doing resetting the query to the blank string, we invoke an 
 						// autocomplete query (even though it seems like this call is completely redundant).
 						mSearchView.setQuery("", false);
+					}
+					else {
+						mSearchView.getQueryTextView().setSelection(currQuery.length());
+						//TODO: mSearchView.getQueryTextView().showDropDown();
 					}
 				}
 				else {
@@ -410,7 +418,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 
-	private SearchView mSearchView;
+	private CustomSearchView mSearchView;
 	private MenuItem mGuestsMenuItem;
 	private MenuItem mDatesMenuItem;
 	private MenuItem mFilterMenuItem;
@@ -1165,6 +1173,63 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			}
 		}
 	};
+
+	/**
+	 * We use the SearchView in this activity to both display the search
+	 * location as well as allow the user to enter a new one. The default
+	 * behavior when calling setQuery is for it to setSelection() on the
+	 * text that we just set (which moves the cursor to the end). In that
+	 * case, the user will usually see the least interesting parts of
+	 * his query (like ..."cisco, California, USA"). We'd rather show the
+	 * beginning of the query instead (like "San Francisco, Califo...").
+	 * But the default SearchView makes this difficult. So we'll just do
+	 * some trickery here to make it possible.
+	 * Related Redmine ticket: #13769
+	 */
+	public class CustomSearchView extends SearchView {
+		private AutoCompleteTextView mQueryTextView = null;
+
+		public CustomSearchView(Context context) {
+			super(context);
+		}
+
+		@Override
+		public void setQuery(CharSequence query, boolean submit) {
+			super.setQuery(query, submit);
+			getQueryTextView();
+			if (mQueryTextView != null) {
+				mQueryTextView.setSelection(0);
+			}
+		}
+
+		// We have to do some trickery here to find the AutoCompleteTextView,
+		// since it's not exposed by the SearchView object. Walk the View
+		// hierarchy, starting with this object, until we find the
+		// AutoCompleteTextView. We know you're there, don't be coy.
+		public AutoCompleteTextView getQueryTextView() {
+			if (mQueryTextView != null) {
+				return mQueryTextView;
+			}
+
+			Queue<View> views = new LinkedList<View>();
+			views.add(this);
+
+			while (!views.isEmpty()) {
+				View v = views.poll();
+				if (v instanceof AutoCompleteTextView) {
+					mQueryTextView = (AutoCompleteTextView) v;
+					return mQueryTextView;
+				}
+				else if (v instanceof ViewGroup) {
+					for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++) {
+						views.add(((ViewGroup) v).getChildAt(i));
+					}
+				}
+			}
+
+			return null;
+		}
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// OnFilterChangedListener implementation
