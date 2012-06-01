@@ -652,9 +652,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction ft = fragmentManager.beginTransaction();
 		if (AndroidUtils.getSdkVersion() >= 13) {
-			ft.setCustomAnimations(R.anim.fragment_mini_details_slide_enter,
-					R.anim.fragment_mini_details_slide_exit, R.anim.fragment_mini_details_slide_enter,
-					R.anim.fragment_mini_details_slide_exit);
+			ft.setCustomAnimations(R.anim.fragment_mini_details_slide_enter, R.anim.fragment_mini_details_slide_exit,
+					R.anim.fragment_mini_details_slide_enter, R.anim.fragment_mini_details_slide_exit);
 		}
 		ft.add(R.id.fragment_mini_details, mMiniDetailsFragment, getString(R.string.tag_mini_details));
 		ft.addToBackStack(MINI_DETAILS_PUSH);
@@ -699,8 +698,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	private void showCalendarDialog() {
 		FragmentManager fm = getSupportFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_calendar_dialog)) == null) {
-			DialogFragment newFragment = CalendarDialogFragment.newInstance(Db.getSearchParams().getCheckInDate(),
-					Db.getSearchParams().getCheckOutDate());
+			DialogFragment newFragment = CalendarDialogFragment.newInstance(Db.getSearchParams().getCheckInDate(), Db
+					.getSearchParams().getCheckOutDate());
 			newFragment.show(getSupportFragmentManager(), getString(R.string.tag_calendar_dialog));
 		}
 	}
