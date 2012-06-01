@@ -497,7 +497,7 @@ public class ExpediaServices implements DownloadListener {
 		HttpContext httpContext = new BasicHttpContext();
 		httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
 		CookieSpecRegistry cookieSpecRegistry = new CookieSpecRegistry();
-		cookieSpecRegistry.register("EXPEDIA", new ExpediaCookieSpecFactory());
+		cookieSpecRegistry.register("EXPEDIA", new ExpediaCookieSpecFactory(mContext));
 		httpContext.setAttribute(ClientContext.COOKIESPEC_REGISTRY, cookieSpecRegistry);
 
 		HttpClientParams.setCookiePolicy(httpParameters, "EXPEDIA");

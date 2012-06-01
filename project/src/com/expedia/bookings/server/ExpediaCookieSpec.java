@@ -10,16 +10,18 @@ import org.apache.http.impl.cookie.NetscapeDraftSpec;
 import org.apache.http.HeaderElement;
 import org.apache.http.cookie.ClientCookie;
 
+import android.content.Context;
+
 import com.mobiata.android.Log;
 
 class ExpediaCookieSpec extends NetscapeDraftSpec {
-	ExpediaCookieSpec(final String[] datePatterns) {
+	ExpediaCookieSpec(Context context, final String[] datePatterns) {
 		super(datePatterns);
-		registerAttribHandler(ClientCookie.DOMAIN_ATTR, new ExpediaDomainHandler());
+		registerAttribHandler(ClientCookie.DOMAIN_ATTR, new ExpediaDomainHandler(context));
 	}
 
-	ExpediaCookieSpec() {
-		this(null);
+	ExpediaCookieSpec(Context context) {
+		this(context, null);
 	}
 }
 
