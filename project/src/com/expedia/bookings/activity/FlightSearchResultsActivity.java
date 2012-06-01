@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.fragment.FlightListFragment;
@@ -49,6 +50,8 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 				Download download = new Download() {
 					@Override
 					public Object doDownload() {
+						mListFragment.setHeaderDrawable(null);
+
 						ExpediaServices services = new ExpediaServices(FlightSearchResultsActivity.this);
 						return services.flightSearch(Db.getFlightSearchParams(), 0);
 					}
@@ -82,6 +85,9 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			Db.setFlightSearchResponse(response);
 			mAdapter.setLegPosition(mLegPosition);
 			mAdapter.setFlights(response);
+
+			// DELETE EVENTUALLY: For now, just set the header to always be SF
+			mListFragment.setHeaderDrawable(getResources().getDrawable(R.drawable.san_francisco));
 		}
 	};
 
