@@ -47,9 +47,9 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 				bd.registerDownloadCallback(DOWNLOAD_KEY, mDownloadCallback);
 			}
 			else {
-				Download download = new Download() {
+				Download<FlightSearchResponse> download = new Download<FlightSearchResponse>() {
 					@Override
-					public Object doDownload() {
+					public FlightSearchResponse doDownload() {
 						mListFragment.setHeaderDrawable(null);
 
 						ExpediaServices services = new ExpediaServices(FlightSearchResultsActivity.this);
@@ -75,10 +75,10 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	//////////////////////////////////////////////////////////////////////////
 	// Downloads
 
-	private OnDownloadComplete mDownloadCallback = new OnDownloadComplete() {
+	private OnDownloadComplete<FlightSearchResponse> mDownloadCallback = new OnDownloadComplete<FlightSearchResponse>() {
 
 		@Override
-		public void onDownload(Object results) {
+		public void onDownload(FlightSearchResponse results) {
 			Log.i("Finished flights download!");
 
 			FlightSearchResponse response = (FlightSearchResponse) results;
