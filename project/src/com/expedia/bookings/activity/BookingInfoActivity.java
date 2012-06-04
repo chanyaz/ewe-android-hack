@@ -10,9 +10,11 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -142,6 +144,16 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 			ProgressDialog pd = new ProgressDialog(this);
 			pd.setMessage(getString(R.string.booking_loading));
 			pd.setCancelable(false);
+			pd.setOnKeyListener(new OnKeyListener() {
+				@Override
+				public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+					if (keyCode == KeyEvent.KEYCODE_SEARCH && event.getRepeatCount() == 0) {
+						return true;
+					}
+					return false;
+				}
+			});
+
 			return pd;
 		}
 		case BookingInfoUtils.DIALOG_BOOKING_NULL: {
