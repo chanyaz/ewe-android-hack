@@ -80,6 +80,8 @@ import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.ValidationProcessor;
 import com.mobiata.android.validation.Validator;
 
+import com.mobiata.android.Log;
+
 public class BookingFormFragment extends DialogFragment {
 	private static final String KEY_SIGNIN_FETCH = "KEY_SIGNIN_FETCH";
 
@@ -261,6 +263,9 @@ public class BookingFormFragment extends DialogFragment {
 			}
 		}
 		else {
+			if (Db.getBillingInfo().doesExistOnDisk()) {
+				syncFormFieldsFromBillingInfo(view);
+			}
 			checkSectionsCompleted(false);
 			if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
 				expandGuestsForm(false);
@@ -269,15 +274,11 @@ public class BookingFormFragment extends DialogFragment {
 
 		// Figure out if we are logged in
 		if (ExpediaServices.isLoggedIn((Context) mActivity)) {
-
+			syncFormFieldsFromBillingInfo(view);
 			if (savedInstanceState != null && mUserProfileIsFresh) {
 				mAccountButton.update(false);
-				syncFormFieldsFromBillingInfo(view);
 			}
 			else {
-				syncFormFieldsFromBillingInfo(view);
-				checkSectionsCompleted(false);
-
 				// Show progress spinner
 				mAccountButton.update(true);
 				// fetch fresh profile
@@ -309,11 +310,13 @@ public class BookingFormFragment extends DialogFragment {
 			mSecurityCodeEditText.setText("");
 		}
 
-		mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
-		mReceiptWidget.restoreInstanceState(savedInstanceState);
+		if (Db.getSelectedProperty() != null && Db.getSelectedRate() != null) {
+			mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
+			mReceiptWidget.restoreInstanceState(savedInstanceState);
 
-		BookingInfoUtils.determineExpediaPointsDisclaimer(getActivity(), view);
-		ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), view);
+			BookingInfoUtils.determineExpediaPointsDisclaimer(getActivity(), view);
+			ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), view);
+		}
 
 		if (savedInstanceState == null) {
 			Tracker.trackAppHotelsCheckoutPayment(getActivity(), Db.getSelectedProperty(), mBookingInfoValidation);
@@ -694,7 +697,9 @@ public class BookingFormFragment extends DialogFragment {
 	}
 
 	private void collapseGuestsForm() {
+		Log.d("Here collapse");
 		if (mGuestsExpanded) {
+			Log.d("Here collapse doit");
 			mGuestsExpanded = false;
 			mGuestSavedLayout.setVisibility(View.VISIBLE);
 			mGuestFormLayout.setVisibility(View.GONE);
