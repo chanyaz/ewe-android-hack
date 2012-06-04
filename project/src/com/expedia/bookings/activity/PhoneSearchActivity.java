@@ -638,6 +638,9 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
 			Db.getSearchParams().ensureValidCheckInDate();
 			startSearch();
+		}else if(Db.getSearchParams().getSearchType() != null && Db.getSearchParams().getSearchType() == SearchType.MY_LOCATION && !Db.getSearchParams().hasSearchLatLon()){
+			Log.d("onResume(): We were attempting to search by current location, but do not yet have valid coordinates. Starting a new search (and getting new coords if needed).");
+			startSearch();
 		}
 		else {
 			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
@@ -2532,7 +2535,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			if (str.equals(getString(R.string.current_location)) || len == 0) {
 				changed |= searchParams.setSearchType(SearchType.MY_LOCATION);
 				changed |= searchParams.setFreeformLocation(getString(R.string.current_location));
-				searchParams.setSearchLatLonUpToDate();
 			}
 			else if (str.equals(getString(R.string.visible_map_area))) {
 				changed |= searchParams.setSearchType(SearchType.PROXIMITY);
