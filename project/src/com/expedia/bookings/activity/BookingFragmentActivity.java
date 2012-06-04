@@ -252,8 +252,8 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 	@Override
 	public void onLoginCompleted() {
-		BookingFormFragment bookingFormFragment = (BookingFormFragment) getSupportFragmentManager()
-				.findFragmentByTag(getString(R.string.tag_booking_form));
+		BookingFormFragment bookingFormFragment = (BookingFormFragment) getSupportFragmentManager().findFragmentByTag(
+				getString(R.string.tag_booking_form));
 		bookingFormFragment.loginCompleted();
 	}
 
@@ -267,8 +267,10 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 	@Override
 	public void onCheckout() {
-		BookingInProgressDialogFragment.newInstance().show(getSupportFragmentManager(),
-				getString(R.string.tag_booking_progress));
+		DialogFragment dialog = BookingInProgressDialogFragment.newInstance();
+		dialog.setCancelable(false);
+		dialog.show(getSupportFragmentManager(), getString(R.string.tag_booking_progress));
+		
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_BOOKING);
 		bd.startDownload(KEY_BOOKING, mBookingDownload, mBookingCallback);
