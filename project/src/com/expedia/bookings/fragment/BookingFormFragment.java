@@ -360,6 +360,7 @@ public class BookingFormFragment extends DialogFragment {
 	public void onPause() {
 		super.onPause();
 		syncBillingInfo();
+		saveBillingInfo();
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_SIGNIN_FETCH, mLoginCallback);
 	}
 
