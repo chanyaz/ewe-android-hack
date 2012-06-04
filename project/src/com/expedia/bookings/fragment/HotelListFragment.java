@@ -163,7 +163,9 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		mListener.onListItemClicked((Property) mAdapter.getItem(position - l.getHeaderViewsCount()), position);
+		if (position - l.getHeaderViewsCount() > -1) {
+			mListener.onListItemClicked((Property) mAdapter.getItem(position - l.getHeaderViewsCount()), position);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
