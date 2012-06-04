@@ -697,9 +697,7 @@ public class BookingFormFragment extends DialogFragment {
 	}
 
 	private void collapseGuestsForm() {
-		Log.d("Here collapse");
 		if (mGuestsExpanded) {
-			Log.d("Here collapse doit");
 			mGuestsExpanded = false;
 			mGuestSavedLayout.setVisibility(View.VISIBLE);
 			mGuestFormLayout.setVisibility(View.GONE);
