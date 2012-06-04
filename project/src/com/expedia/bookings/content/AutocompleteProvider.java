@@ -164,7 +164,8 @@ public class AutocompleteProvider extends ContentProvider {
 
 	private static List<SearchParams> sStaticSuggestions;
 
-	private static List<SearchParams> getStaticSuggestions(Context context) {
+	// 13812: this is "synchronized" so we don't try to create sStaticSuggestions more than once
+	private synchronized static List<SearchParams> getStaticSuggestions(Context context) {
 		if (sStaticSuggestions == null) {
 			Resources resources = context.getResources();
 			List<String> suggestions = Arrays.asList(resources.getStringArray(R.array.suggestions));
