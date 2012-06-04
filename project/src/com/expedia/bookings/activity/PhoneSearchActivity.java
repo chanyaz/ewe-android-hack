@@ -1868,17 +1868,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		final float centerX = mViewFlipImage.getWidth() / 2.0f;
 		final float centerY = mViewFlipImage.getHeight() / 2.0f;
 
-		if (mTag.equals(mHotelListFragment.getTag())) {
-			newFragmentTag = mHotelMapFragment.getTag();
-
-			if (ANIMATION_VIEW_FLIP_ENABLED) {
-				animationOut = new Rotate3dAnimation(0, -90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
-				animationIn = new Rotate3dAnimation(90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
-			}
-
-			onSwitchToMap();
-		}
-		else {
+		if (mTag.equals(mHotelMapFragment.getTag())) {
 			newFragmentTag = mHotelListFragment.getTag();
 
 			if (ANIMATION_VIEW_FLIP_ENABLED) {
@@ -1887,6 +1877,16 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			}
 
 			Tracker.trackAppHotelsSearch(this, Db.getSearchParams(), Db.getSearchResponse(), null);
+		}
+		else {
+			newFragmentTag = mHotelMapFragment.getTag();
+
+			if (ANIMATION_VIEW_FLIP_ENABLED) {
+				animationOut = new Rotate3dAnimation(0, -90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
+				animationIn = new Rotate3dAnimation(90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
+			}
+
+			onSwitchToMap();
 		}
 
 		if (animationOut != null && animationIn != null) {
@@ -2987,21 +2987,21 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	public void showFragment(String tag) {
 		Log.d("Showing fragment with tag: " + tag);
 
-		if (tag.equals(mHotelListFragment.getTag())) {
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.show(mHotelListFragment);
-			ft.hide(mHotelMapFragment);
-			ft.commit();
-
-			mTag = mHotelListFragment.getTag();
-		}
-		else {
+		if (tag.equals(mHotelMapFragment.getTag())) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			ft.show(mHotelMapFragment);
 			ft.hide(mHotelListFragment);
 			ft.commit();
 
 			mTag = mHotelMapFragment.getTag();
+		}
+		else {
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.show(mHotelListFragment);
+			ft.hide(mHotelMapFragment);
+			ft.commit();
+
+			mTag = mHotelListFragment.getTag();
 		}
 	}
 
