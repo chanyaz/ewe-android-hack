@@ -25,7 +25,6 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.params.CookiePolicy;
 import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.conn.ClientConnectionManager;
@@ -282,6 +281,24 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
 
 		query.add(new BasicNameValuePair("sendEmailConfirmation", "true"));
+
+		// Simulate a valid checkout, to bypass the actual checkout process
+		if (!AndroidUtils.isRelease(mContext)) {
+			boolean spoofBookings = SettingUtils.get(mContext, mContext.getString(R.string.preference_spoof_bookings),
+					false);
+
+			if (spoofBookings) {
+				String simulatedResponse = "{\"warnings\":[],\"cancellationPolicy\":\" \",\"nonLocalizedhotelName\":\"Hotel Deadbeef\",\"hotelName\":\"Hotel Deadbeef\",\"localizedHotelName\":\"Hotel Deadbeef\",\"hotelAddress\":\"250 W 43rd St\",\"hotelPostalCode\":\"10036\",\"hotelStateProvinceCode\":\"NY\",\"hotelCountryCode\":\"USA\",\"hotelCity\":\"New York\",\"hotelPhone\":\"1-212-944-6000\",\"hotelLongitude\":\"-73.98791\",\"hotelLatitude\":\"40.75731\",\"nightCount\":\"1\",\"maxGuestCount\":\"2\",\"checkInInstructions\":\"\",\"roomDescription\":\" Single/double\",\"checkInDate\":\"2013-06-05\",\"checkInDateForTracking\":\"6/5/2013\",\"checkOutDate\":\"2013-06-06\",\"pricePerDayBreakdown\":\"true\",\"averageDailyHotelPrice\":\"132.93\",\"taxes\":\"20.14\",\"fees\":\"13.85\",\"averageBaseRate\":\"98.94\",\"totalPrice\":\"132.93\",\"currencyCode\":\"USD\",\"nightlyRates\":[{\"promo\":\"false\",\"baseRate\":\"98.94\",\"rate\":\"98.94\"}],\"supplierType\":\"MERCHANT\",\"confirmationPending\":\"false\",\"itineraryNumber\":\"12345678901\",\"travelRecordLocator\":\"11890585\",\"numberOfRoomsBooked\":\"1\",\"nonRefundable\":\"false\",\"email\":\"qa-ehcc@mobiata.com\",\"guestFullName\":\"JexperCC MobiataTestaverde\",\"guestPhone\":{\"number\":\"9992222\",\"areaCode\":\"919\",\"category\":\"PRIMARY\",\"countryCode\":\"1\"},\"tripId\":\"deadbeef-feed-cede-bead-f00f00f00f00\",\"isMerchant\":true,\"isGDS\":false,\"isOpaque\":false,\"hotelInventoryTypeName\":\"MERCHANT\"}";
+				JSONObject json = null;
+				try {
+					json = new JSONObject(simulatedResponse);
+				}
+				catch (JSONException e) {
+					e.printStackTrace();
+				}
+				return new BookingResponseHandler(mContext).handleJson(json);
+			}
+		}
 
 		return (BookingResponse) doE3Request("Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
 	}
