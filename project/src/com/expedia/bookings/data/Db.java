@@ -84,11 +84,9 @@ public class Db {
 	// The currently logged in User profile
 	private User mUser;
 
-	// Flight search params
-	private FlightSearchParams mFlightSearchParams = new FlightSearchParams();
-
-	// Flight search responses
-	private FlightSearchResponse mFlightSearchResponse;
+	// Flight search object - represents both the parameters and
+	// the returned results
+	private FlightSearch mFlightSearch = new FlightSearch();
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
@@ -289,16 +287,8 @@ public class Db {
 		return sDb.mUser;
 	}
 
-	public static FlightSearchParams getFlightSearchParams() {
-		return sDb.mFlightSearchParams;
-	}
-
-	public static void setFlightSearchResponse(FlightSearchResponse flightSearchResponse) {
-		sDb.mFlightSearchResponse = flightSearchResponse;
-	}
-
-	public static FlightSearchResponse getFlightSearchResponse() {
-		return sDb.mFlightSearchResponse;
+	public static FlightSearch getFlightSearch() {
+		return sDb.mFlightSearch;
 	}
 
 	public static void clear() {
@@ -316,8 +306,7 @@ public class Db {
 		sDb.mBookingResponse = null;
 		sDb.mUser = null;
 
-		sDb.mFlightSearchParams.reset();
-		sDb.mFlightSearchResponse = null;
+		sDb.mFlightSearch.reset();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

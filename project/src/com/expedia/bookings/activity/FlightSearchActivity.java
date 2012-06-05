@@ -195,7 +195,7 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 	private void updateDateButton() {
 		// It's always round trip at this point, but at some point we need to handle no params
 		// (or one way) too.
-		FlightSearchParams params = Db.getFlightSearchParams();
+		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 
 		CharSequence start = DateFormat.format(DATE_FORMAT, params.getDepartureDate().getCalendar());
 		CharSequence end = DateFormat.format(DATE_FORMAT, params.getReturnDate().getCalendar());
@@ -303,7 +303,7 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 				newFragment = new AirportPickerFragment();
 			}
 			else if (tag.equals(TAG_DATE_PICKER)) {
-				FlightSearchParams params = Db.getFlightSearchParams();
+				FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 				CalendarDialogFragment fragment = CalendarDialogFragment.newInstance(params.getDepartureDate()
 						.getCalendar(), params.getReturnDate().getCalendar());
 				fragment.setShowsDialog(false);
@@ -375,7 +375,7 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 
 	@Override
 	public void onAirportClick(String airportCode) {
-		FlightSearchParams params = Db.getFlightSearchParams();
+		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 		if (mDepartureAirportEditText.hasFocus()) {
 			params.setDepartureAirportCode(airportCode);
 			mDepartureAirportEditText.setText(airportCode);
@@ -395,7 +395,7 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 
 	@Override
 	public void onChangeDates(Calendar start, Calendar end) {
-		FlightSearchParams params = Db.getFlightSearchParams();
+		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 		params.setDepartureDate(new Date(start));
 		params.setReturnDate(new Date(end));
 		updateDateButton();

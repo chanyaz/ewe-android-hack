@@ -69,7 +69,7 @@ public class FlightDetailsActivity extends FragmentActivity {
 
 		@Override
 		public int getCount() {
-			return Db.getFlightSearchResponse().getTripCount();
+			return Db.getFlightSearch().getSearchResponse().getTripCount();
 		}
 	}
 
@@ -93,7 +93,7 @@ public class FlightDetailsActivity extends FragmentActivity {
 
 			Bundle args = getArguments();
 
-			FlightTrip trip = Db.getFlightSearchResponse().getTrip(args.getInt(ARG_POSITION));
+			FlightTrip trip = Db.getFlightSearch().getSearchResponse().getTrip(args.getInt(ARG_POSITION));
 			FlightLeg leg = trip.getLeg(args.getInt(EXTRA_LEG_POSITION, 0));
 
 			// Construct the trip.  This is a bit complex.

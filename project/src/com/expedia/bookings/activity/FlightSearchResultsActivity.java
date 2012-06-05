@@ -39,7 +39,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	protected void onResume() {
 		super.onResume();
 
-		if (Db.getFlightSearchResponse() == null) {
+		if (Db.getFlightSearch().getSearchResponse() == null) {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			if (bd.isDownloading(DOWNLOAD_KEY)) {
 				mListFragment.showProgress();
@@ -53,7 +53,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 						mListFragment.showProgress();
 
 						ExpediaServices services = new ExpediaServices(FlightSearchResultsActivity.this);
-						return services.flightSearch(Db.getFlightSearchParams(), 0);
+						return services.flightSearch(Db.getFlightSearch().getSearchParams(), 0);
 					}
 				};
 
@@ -61,7 +61,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			}
 		}
 		else {
-			mDownloadCallback.onDownload(Db.getFlightSearchResponse());
+			mDownloadCallback.onDownload(Db.getFlightSearch().getSearchResponse());
 		}
 	}
 
@@ -78,11 +78,10 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	private OnDownloadComplete<FlightSearchResponse> mDownloadCallback = new OnDownloadComplete<FlightSearchResponse>() {
 
 		@Override
-		public void onDownload(FlightSearchResponse results) {
+		public void onDownload(FlightSearchResponse response) {
 			Log.i("Finished flights download!");
 
-			FlightSearchResponse response = (FlightSearchResponse) results;
-			Db.setFlightSearchResponse(response);
+			Db.getFlightSearch().setSearchResponse(response);
 
 			if (response.hasErrors()) {
 				mListFragment.showError(getString(R.string.error_loading_flights_TEMPLATE, response.getErrors().get(0)
