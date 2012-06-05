@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -15,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.expedia.bookings.widget.FlightAdapter.FlightAdapterListener;
 import com.mobiata.android.util.Ui;
@@ -94,8 +96,8 @@ public class FlightListFragment extends ListFragment {
 		mAdapter.setLegPosition(position);
 	}
 
-	public void setFlights(FlightSearchResponse response) {
-		mAdapter.setFlights(response);
+	public void setFlights(List<FlightTrip> flightTrips) {
+		mAdapter.setFlights(flightTrips);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

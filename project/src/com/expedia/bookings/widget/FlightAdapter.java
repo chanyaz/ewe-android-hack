@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.mobiata.android.util.Ui;
@@ -36,7 +35,7 @@ public class FlightAdapter extends BaseAdapter {
 
 	private FlightAdapterListener mListener;
 
-	private FlightSearchResponse mFlights;
+	private List<FlightTrip> mFlightTrips;
 
 	private Calendar mMinTime;
 	private Calendar mMaxTime;
@@ -54,19 +53,18 @@ public class FlightAdapter extends BaseAdapter {
 		mListener = listener;
 	}
 
-	public void setFlights(FlightSearchResponse flights) {
-		if (flights != mFlights) {
-			mFlights = flights;
+	public void setFlights(List<FlightTrip> flightTrips) {
+		if (flightTrips != mFlightTrips) {
+			mFlightTrips = flightTrips;
 
 			// Calculate the min/max time
-			List<FlightTrip> trips = mFlights.getTrips();
-			FlightTrip trip = trips.get(0);
+			FlightTrip trip = mFlightTrips.get(0);
 			FlightLeg leg = trip.getLeg(mLegPosition);
 			mMinTime = leg.getSegment(0).mOrigin.getMostRelevantDateTime();
 			mMaxTime = leg.getSegment(leg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime();
 
-			for (int a = 1; a < trips.size(); a++) {
-				trip = trips.get(a);
+			for (int a = 1; a < mFlightTrips.size(); a++) {
+				trip = mFlightTrips.get(a);
 				leg = trip.getLeg(mLegPosition);
 
 				Calendar minTime = leg.getSegment(0).mOrigin.getMostRelevantDateTime();
@@ -98,16 +96,16 @@ public class FlightAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		if (mFlights == null) {
+		if (mFlightTrips == null) {
 			return 0;
 		}
 
-		return mFlights.getTripCount();
+		return mFlightTrips.size();
 	}
 
 	@Override
 	public FlightTrip getItem(int position) {
-		return mFlights.getTrip(position);
+		return mFlightTrips.get(position);
 	}
 
 	@Override

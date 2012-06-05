@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.fragment.FlightListFragment;
@@ -81,7 +82,8 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		public void onDownload(FlightSearchResponse response) {
 			Log.i("Finished flights download!");
 
-			Db.getFlightSearch().setSearchResponse(response);
+			FlightSearch search = Db.getFlightSearch();
+			search.setSearchResponse(response);
 
 			if (response.hasErrors()) {
 				mListFragment.showError(getString(R.string.error_loading_flights_TEMPLATE, response.getErrors().get(0)
@@ -92,7 +94,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			}
 			else {
 				mListFragment.setLegPosition(mLegPosition);
-				mListFragment.setFlights(response);
+				mListFragment.setFlights(search.getTrips(mLegPosition));
 
 				// DELETE EVENTUALLY: For now, just set the header to always be SF
 				mListFragment.setHeaderDrawable(getResources().getDrawable(R.drawable.san_francisco));
