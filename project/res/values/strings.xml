@@ -30,6 +30,10 @@
 		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; seats left!</item>
 		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; seats left!</item>
 	</plurals>
+	<!-- "Details" button label, for seeing details of a flight -->
+	<string name="details">Details</string>
+	<!-- "Select" button label, for selecting a particular leg of a flight -->
+	<string name="select">Select</string>
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->

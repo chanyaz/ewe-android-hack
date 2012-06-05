@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -199,8 +200,8 @@ public class FlightAdapter extends BaseAdapter {
 			int seatsRemaining = trip.getSeatsRemaining();
 			if (seatsRemaining <= SEATS_REMAINING_CUTOFF) {
 				holder.mSeatsLeftTextView.setVisibility(View.VISIBLE);
-				holder.mSeatsLeftTextView.setText(mContext.getResources().getQuantityString(R.plurals.seats_left,
-						seatsRemaining, seatsRemaining));
+				holder.mSeatsLeftTextView.setText(Html.fromHtml(mContext.getResources().getQuantityString(
+						R.plurals.seats_left, seatsRemaining, seatsRemaining)));
 			}
 			else {
 				holder.mSeatsLeftTextView.setVisibility(View.INVISIBLE);
