@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class FlightTrip {
@@ -86,4 +87,25 @@ public class FlightTrip {
 	public boolean hasPricing() {
 		return mBaseFare != null && mTotalFare != null && mTaxes != null && mFees != null;
 	}
+
+	////////////////////////////////////////////////////////////////////////
+	// Comparators
+
+	public static final Comparator<FlightTrip> PRICE_COMPARATOR = new Comparator<FlightTrip>() {
+		@Override
+		public int compare(FlightTrip lhs, FlightTrip rhs) {
+			double lhsAmount = lhs.getTotalFare().getAmount();
+			double rhsAmount = rhs.getTotalFare().getAmount();
+
+			if (lhsAmount == rhsAmount) {
+				return 0;
+			}
+			if (lhsAmount < rhsAmount) {
+				return -1;
+			}
+			else {
+				return 1;
+			}
+		}
+	};
 }

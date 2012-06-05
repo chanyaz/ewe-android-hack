@@ -40,6 +40,15 @@ public class FlightLeg {
 		return mSegments;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof FlightLeg)) {
+			return false;
+		}
+
+		return ((FlightLeg) o).getLegId().equals(mLegId);
+	}
+
 	////////////////////////////////////////////////////////////////////////
 	// More meta retrieval methods
 
