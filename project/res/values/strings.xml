@@ -21,6 +21,15 @@
 	<string name="error_loading_flights_TEMPLATE">DEBUG: Error loading flights: %s</string>
 	<!-- Error message when we find no flights -->
 	<string name="error_no_flights_found">Sorry, we could not find any flights.</string>
+	<!-- Pluralization for # of seats left on a flight -->
+	<plurals name="seats_left">
+	    <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; seats left!</item>
+		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; seat left!</item>
+		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; seats left!</item>
+		<item quantity="few">&lt;b&gt;%d&lt;/b&gt; seats left!</item>
+		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; seats left!</item>
+		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; seats left!</item>
+	</plurals>
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->

@@ -14,6 +14,8 @@ public class FlightTrip {
 	private Money mTaxes;
 	private Money mFees;
 
+	private int mSeatsRemaining;
+
 	public String getProductKey() {
 		return mProductKey;
 	}
@@ -68,6 +70,14 @@ public class FlightTrip {
 
 	public void setFees(Money fees) {
 		mFees = fees;
+	}
+
+	public int getSeatsRemaining() {
+		return mSeatsRemaining;
+	}
+
+	public void setSeatsRemaining(int seatsRemaining) {
+		mSeatsRemaining = seatsRemaining;
 	}
 
 	////////////////////////////////////////////////////////////////////////

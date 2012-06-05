@@ -7,17 +7,24 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.widget.FlightAdapter;
+import com.expedia.bookings.widget.FlightAdapter.FlightAdapterListener;
 import com.mobiata.android.util.Ui;
 
 public class FlightListFragment extends ListFragment {
 
-	private FlightListFragmentListener mListener;
+	private FlightAdapter mAdapter;
+
+	private FlightAdapterListener mListener;
 
 	private ImageView mHeaderImage;
 
@@ -31,11 +38,11 @@ public class FlightListFragment extends ListFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof FlightListFragmentListener)) {
-			throw new RuntimeException("FlightListFragment Activity must implement FlightListFragmentListener!");
+		if (!(activity instanceof FlightAdapterListener)) {
+			throw new RuntimeException("FlightListFragment Activity must implement FlightAdapterListener!");
 		}
 
-		mListener = (FlightListFragmentListener) activity;
+		mListener = (FlightAdapterListener) activity;
 	}
 
 	@Override
@@ -54,7 +61,41 @@ public class FlightListFragment extends ListFragment {
 		mProgressTextView = Ui.findView(v, R.id.progress_text_view);
 		mErrorTextView = Ui.findView(v, R.id.error_text_view);
 
+		// Add the adapter
+		mAdapter = new FlightAdapter(getActivity());
+		setListAdapter(mAdapter);
+		mAdapter.setListener(mListener);
+
+		// Need to set this since we have buttons inside of the expandable rows
+		lv.setItemsCanFocus(true);
+		lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
+				// Adjust position for headers
+				position -= getListView().getHeaderViewsCount();
+
+				if (mAdapter.getExpandedLegPosition() == position) {
+					mAdapter.setExpandedLegPosition(-1);
+				}
+				else {
+					mAdapter.setExpandedLegPosition(position);
+				}
+
+				mAdapter.notifyDataSetChanged();
+			}
+
+		});
+
 		return v;
+	}
+
+	public void setLegPosition(int position) {
+		mAdapter.setLegPosition(position);
+	}
+
+	public void setFlights(FlightSearchResponse response) {
+		mAdapter.setFlights(response);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -92,18 +133,5 @@ public class FlightListFragment extends ListFragment {
 		mErrorTextView.setVisibility(View.VISIBLE);
 
 		mErrorTextView.setText(errorText);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// FlightListFragmentListener
-
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		mListener.onFlightClick(position);
-	}
-
-	public interface FlightListFragmentListener {
-
-		public void onFlightClick(int position);
 	}
 }

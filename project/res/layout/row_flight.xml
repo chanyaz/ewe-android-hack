@@ -1,55 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_flight_row"
-    android:padding="10dp" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/airline_text_view"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/details_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#3D4652"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:background="@android:drawable/list_selector_background" >
 
-    <TextView
-        android:id="@+id/price_text_view"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/airline_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#3D4652"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/price_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/airline_text_view"
+            android:gravity="right"
+            android:textColor="#22599C"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/departure_time_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/airline_text_view"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#3D4652"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/arrival_time_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/departure_time_text_view"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#3D4652"
+            android:textSize="16sp" />
+
+        <com.expedia.bookings.widget.FlightTripView
+            android:id="@+id/flight_trip_view"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_below="@+id/airline_text_view"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_toLeftOf="@+id/arrival_time_text_view"
+            android:layout_toRightOf="@+id/departure_time_text_view" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/expanded_details_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/airline_text_view"
-        android:gravity="right"
-        android:textColor="#22599C"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:layout_below="@+id/details_container"
+        android:background="#232831"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="8dp"
+        android:paddingTop="10dp"
+        android:visibility="gone" >
 
-    <TextView
-        android:id="@+id/departure_time_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/airline_text_view"
-        android:textColor="#3D4652"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/seats_left_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="5 Seats Left!"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/arrival_time_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/departure_time_text_view"
-        android:layout_alignParentRight="true"
-        android:textColor="#3D4652"
-        android:textSize="16sp" />
+        <Button
+            android:id="@+id/details_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="Details" />
 
-    <com.expedia.bookings.widget.FlightTripView
-        android:id="@+id/flight_trip_view"
-        android:layout_width="wrap_content"
-        android:layout_height="18dp"
-        android:layout_below="@+id/airline_text_view"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="2dp"
-        android:layout_toLeftOf="@+id/arrival_time_text_view"
-        android:layout_toRightOf="@+id/departure_time_text_view" />
+        <Button
+            android:id="@+id/select_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="Select" />
+    </LinearLayout>
 
 </RelativeLayout>

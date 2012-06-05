@@ -145,6 +145,8 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			trip.setFees(ParserUtils.createMoney(tripJson.optDouble("fees"), currencyCode));
 		}
 
+		trip.setSeatsRemaining(tripJson.optInt("seatsRemaining"));
+
 		// If we're parsing as a matrix response, get the legs
 		if (tripJson.has("legIds")) {
 			JSONArray legsJson = tripJson.optJSONArray("legIds");

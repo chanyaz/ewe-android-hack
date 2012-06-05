@@ -8,6 +8,7 @@ import java.util.List;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -17,14 +18,22 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 public class FlightAdapter extends BaseAdapter {
 
+	private static final int SEATS_REMAINING_CUTOFF = 5;
+
+	private enum RowType {
+		NORMAL,
+		EXPANDED
+	}
+
 	private Context mContext;
 
 	private LayoutInflater mInflater;
+
+	private FlightAdapterListener mListener;
 
 	private FlightSearchResponse mFlights;
 
@@ -33,9 +42,15 @@ public class FlightAdapter extends BaseAdapter {
 
 	private int mLegPosition;
 
+	private int mExpandedLeg = -1;
+
 	public FlightAdapter(Context context) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
+
+	public void setListener(FlightAdapterListener listener) {
+		mListener = listener;
 	}
 
 	public void setFlights(FlightSearchResponse flights) {
@@ -49,11 +64,6 @@ public class FlightAdapter extends BaseAdapter {
 			mMinTime = leg.getSegment(0).mOrigin.getMostRelevantDateTime();
 			mMaxTime = leg.getSegment(leg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime();
 
-			DateFormat df = android.text.format.DateFormat.getTimeFormat(mContext);
-			DateFormat df2 = android.text.format.DateFormat.getDateFormat(mContext);
-			Log.i("Start min time: " + df2.format(mMinTime.getTime()) + " " + df.format(mMinTime.getTime()));
-			Log.i("Start max time: " + df2.format(mMaxTime.getTime()) + " " + df.format(mMaxTime.getTime()));
-
 			for (int a = 1; a < trips.size(); a++) {
 				trip = trips.get(a);
 				leg = trip.getLeg(mLegPosition);
@@ -63,11 +73,9 @@ public class FlightAdapter extends BaseAdapter {
 
 				if (minTime.before(mMinTime)) {
 					mMinTime = minTime;
-					Log.i("NEW min time: " + df2.format(mMinTime.getTime()) + " " + df.format(mMinTime.getTime()));
 				}
 				if (maxTime.after(mMaxTime)) {
 					mMaxTime = maxTime;
-					Log.i("NEW max time: " + df2.format(mMaxTime.getTime()) + " " + df.format(mMaxTime.getTime()));
 				}
 			}
 
@@ -77,6 +85,14 @@ public class FlightAdapter extends BaseAdapter {
 
 	public void setLegPosition(int legPosition) {
 		mLegPosition = legPosition;
+	}
+
+	public void setExpandedLegPosition(int expandedLegPosition) {
+		mExpandedLeg = expandedLegPosition;
+	}
+
+	public int getExpandedLegPosition() {
+		return mExpandedLeg;
 	}
 
 	@Override
@@ -99,12 +115,30 @@ public class FlightAdapter extends BaseAdapter {
 	}
 
 	@Override
+	public int getItemViewType(int position) {
+		if (position == mExpandedLeg) {
+			return RowType.EXPANDED.ordinal();
+		}
+		else {
+			return RowType.NORMAL.ordinal();
+		}
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return RowType.values().length;
+	}
+
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		RowType rowType = RowType.values()[getItemViewType(position)];
+
 		ViewHolder holder;
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.row_flight, parent, false);
 
 			holder = new ViewHolder();
+			holder.mDetailsContainer = Ui.findView(convertView, R.id.details_container);
 			holder.mAirlineTextView = Ui.findView(convertView, R.id.airline_text_view);
 			holder.mPriceTextView = Ui.findView(convertView, R.id.price_text_view);
 			holder.mDepartureTimeTextView = Ui.findView(convertView, R.id.departure_time_text_view);
@@ -112,6 +146,30 @@ public class FlightAdapter extends BaseAdapter {
 			holder.mFlightTripView = Ui.findView(convertView, R.id.flight_trip_view);
 
 			convertView.setTag(holder);
+
+			holder.mDetailsContainer.setOnClickListener(mDetailsClickListener);
+
+			if (rowType == RowType.EXPANDED) {
+				ViewGroup v = Ui.findView(convertView, R.id.expanded_details_container);
+				v.setVisibility(View.VISIBLE);
+				holder.mSeatsLeftTextView = Ui.findView(v, R.id.seats_left_text_view);
+				holder.mDetailsButton = Ui.findView(v, R.id.details_button);
+				holder.mSelectButton = Ui.findView(v, R.id.select_button);
+
+				holder.mDetailsButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						onExpandClick(v, ClickMode.DETAILS);
+					}
+				});
+
+				holder.mSelectButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						onExpandClick(v, ClickMode.SELECT);
+					}
+				});
+			}
 		}
 		else {
 			holder = (ViewHolder) convertView.getTag();
@@ -119,6 +177,8 @@ public class FlightAdapter extends BaseAdapter {
 
 		FlightTrip trip = getItem(position);
 		FlightLeg leg = trip.getLeg(mLegPosition);
+
+		holder.mDetailsContainer.setTag(position);
 
 		holder.mAirlineTextView.setText(leg.getAirlineName(mContext));
 		holder.mDepartureTimeTextView.setText(formatTime(leg.getSegment(0).mOrigin.getMostRelevantDateTime()));
@@ -134,6 +194,22 @@ public class FlightAdapter extends BaseAdapter {
 
 		holder.mFlightTripView.setUp(leg, mMinTime, mMaxTime);
 
+		// Extra configuration for expanded row types
+		if (rowType == RowType.EXPANDED) {
+			int seatsRemaining = trip.getSeatsRemaining();
+			if (seatsRemaining <= SEATS_REMAINING_CUTOFF) {
+				holder.mSeatsLeftTextView.setVisibility(View.VISIBLE);
+				holder.mSeatsLeftTextView.setText(mContext.getResources().getQuantityString(R.plurals.seats_left,
+						seatsRemaining, seatsRemaining));
+			}
+			else {
+				holder.mSeatsLeftTextView.setVisibility(View.INVISIBLE);
+			}
+
+			setTags(holder.mDetailsButton, trip, leg, position);
+			setTags(holder.mSelectButton, trip, leg, position);
+		}
+
 		return convertView;
 	}
 
@@ -144,11 +220,72 @@ public class FlightAdapter extends BaseAdapter {
 
 	private static class ViewHolder {
 
+		private ViewGroup mDetailsContainer;
 		private TextView mAirlineTextView;
 		private TextView mPriceTextView;
 		private TextView mDepartureTimeTextView;
 		private TextView mArrivalTimeTextView;
 		private FlightTripView mFlightTripView;
 
+		private TextView mSeatsLeftTextView;
+		private View mDetailsButton;
+		private View mSelectButton;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// View.OnClickListener
+	//
+	// We implement a single one here so we don't need to create a bunch
+	// of new OnClickListener objects every time a new row is shown.
+
+	private OnClickListener mDetailsClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			int position = (Integer) v.getTag();
+
+			if (mExpandedLeg == position) {
+				mExpandedLeg = -1;
+			}
+			else {
+				mExpandedLeg = position;
+			}
+
+			notifyDataSetChanged();
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// Adapter listener
+
+	private enum ClickMode {
+		DETAILS,
+		SELECT
+	}
+
+	private void setTags(View v, FlightTrip trip, FlightLeg leg, int position) {
+		v.setTag(R.id.tag_flight_trip, trip);
+		v.setTag(R.id.tag_flight_leg, leg);
+		v.setTag(R.id.tag_flight_trip_position, position);
+	}
+
+	private void onExpandClick(View v, ClickMode mode) {
+		if (mListener != null) {
+			FlightTrip trip = (FlightTrip) v.getTag(R.id.tag_flight_trip);
+			FlightLeg leg = (FlightLeg) v.getTag(R.id.tag_flight_leg);
+			int position = (Integer) v.getTag(R.id.tag_flight_trip_position);
+
+			if (mode == ClickMode.DETAILS) {
+				mListener.onDetailsClick(trip, leg, position);
+			}
+			else {
+				mListener.onSelectClick(trip, leg, position);
+			}
+		}
+	}
+
+	public interface FlightAdapterListener {
+		public void onDetailsClick(FlightTrip trip, FlightLeg leg, int position);
+
+		public void onSelectClick(FlightTrip trip, FlightLeg leg, int position);
 	}
 }
