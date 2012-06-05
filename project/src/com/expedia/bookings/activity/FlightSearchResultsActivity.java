@@ -9,6 +9,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.fragment.FlightListFragment;
@@ -19,21 +20,32 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class FlightSearchResultsActivity extends FragmentActivity implements FlightAdapterListener {
+
+	public static final String EXTRA_LEG_POSITION = "EXTRA_LEG_POSITION";
 
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flights";
 
 	private FlightListFragment mListFragment;
 
 	// Current leg being displayed
-	private int mLegPosition = 0;
+	private int mLegPosition;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		mLegPosition = getIntent().getIntExtra(EXTRA_LEG_POSITION, 0);
+
 		mListFragment = Ui.findOrAddSupportFragment(this, FlightListFragment.class, "listFragment");
+
+		// Configure the title based on which leg the user is selecting
+		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		int titleStrId = (mLegPosition == 0) ? R.string.outbound_TEMPLATE : R.string.inbound_TEMPLATE;
+		String airportCode = (mLegPosition == 0) ? params.getArrivalAirportCode() : params.getDepartureAirportCode();
+		setTitle(getString(titleStrId, FlightStatsDbUtils.getAirport(airportCode).mCity));
 	}
 
 	@Override

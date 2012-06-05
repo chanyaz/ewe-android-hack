@@ -34,6 +34,10 @@
 	<string name="details">Details</string>
 	<!-- "Select" button label, for selecting a particular leg of a flight -->
 	<string name="select">Select</string>
+	<!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
+	<string name="outbound_TEMPLATE">Outbound to %s</string>
+	<!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
+	<string name="inbound_TEMPLATE">Inbound to %s</string>
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
