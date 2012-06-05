@@ -44,12 +44,6 @@ import com.mobiata.android.util.IoUtils;
 
 public class ConfirmationActivity extends MapActivity {
 
-	/**
-	 *  Flags that should be used when starting this activity. Because we want the back button to
-	 *  exit thte app, (not, for instance, go back to booking info).
-	 */
-	public static final int INTENT_FLAGS = Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK;
-
 	private static final int INSTANCE_PROPERTY = 1;
 	private static final int INSTANCE_SEARCH_PARAMS = 2;
 	private static final int INSTANCE_RATE = 3;
@@ -217,7 +211,7 @@ public class ConfirmationActivity extends MapActivity {
 				// Ensure we can't come back here again
 				ConfirmationUtils.deleteSavedConfirmationData(mContext);
 
-				Intent intent = new Intent(mContext, PhoneSearchActivity.class);
+				Intent intent = new Intent(mContext, SearchActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
 				startActivity(intent);
@@ -285,6 +279,19 @@ public class ConfirmationActivity extends MapActivity {
 		}
 		}
 		return super.onCreateDialog(id);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Actions
+
+	/**
+	 * Create an intent to start this activity. It should be started with
+	 * FLAG_ACTIVITY_CLEAR_TASK and FLAG_ACTIVITY_NEW_TASK, so this makes it easy.
+	 */
+	public static Intent createIntent(Context context) {
+		Intent intent = new Intent(context, ConfirmationActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+		return intent;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

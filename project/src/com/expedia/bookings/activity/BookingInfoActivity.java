@@ -239,12 +239,11 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 			}
 
 			// TODO: Have ConfirmationActivity rely on Db, instead of filling this intent with everything it needs
-			Intent intent = new Intent(mContext, ConfirmationActivity.class);
+			Intent intent = ConfirmationActivity.createIntent(mContext);
 			intent.putExtra(Codes.PROPERTY, Db.getSelectedProperty().toJson().toString());
 			intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toJson().toString());
 			intent.putExtra(Codes.RATE, Db.getSelectedRate().toJson().toString());
 			intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
-			intent.setFlags(ConfirmationActivity.INTENT_FLAGS);
 
 			// Create a BillingInfo that lacks the user's security code (for safety)
 			JSONObject billingJson = Db.getBillingInfo().toJson();

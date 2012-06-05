@@ -61,7 +61,7 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 				}).start();
 			}
 		}
-		
+
 		// #13365: If the Db expired, finish out of this activity
 		if (Db.getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
@@ -107,15 +107,6 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 		if (isFinishing()) {
 			Db.setBookingResponse(null);
 		}
-	}
-
-	@Override
-	public void onBackPressed() {
-		finish();
-		Intent i = new Intent(this, SearchFragmentActivity.class);
-		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		i.putExtra(Codes.EXTRA_FINISH, true);
-		startActivity(i);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -181,14 +172,24 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 	//////////////////////////////////////////////////////////////////////////
 	// Actions
 
+	/**
+	 * Create an intent to start this activity. It should be started with
+	 * FLAG_ACTIVITY_CLEAR_TASK and FLAG_ACTIVITY_NEW_TASK, so this makes it easy.
+	 */
+	public static Intent createIntent(Context context) {
+		Intent intent = new Intent(context, ConfirmationFragmentActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+		return intent;
+	}
+
 	public void newSearch() {
 		Tracker.trackNewSearch(this);
 
 		// Ensure we can't come back here again
 		ConfirmationUtils.deleteSavedConfirmationData(mContext);
 
-		Intent intent = new Intent(mContext, SearchFragmentActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		Intent intent = new Intent(mContext, SearchActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
 		startActivity(intent);
 		finish();

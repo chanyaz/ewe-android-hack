@@ -31,21 +31,15 @@ public class SearchActivity extends Activity {
 		// Determine where to route the app
 		// #11076 - for Android 3.0, we still use the phone version of the app due to crippling bugs.
 		Class<? extends Activity> routingTarget;
-		int flags = 0;
 		if (ExpediaBookingApp.useTabletInterface(this)) {
 			routingTarget = (hasSavedConfirmationData) ? ConfirmationFragmentActivity.class
 					: SearchFragmentActivity.class;
 		}
-		else if (hasSavedConfirmationData) {
-			routingTarget = ConfirmationActivity.class;
-			flags = ConfirmationActivity.INTENT_FLAGS;
-		}
 		else {
-			routingTarget = PhoneSearchActivity.class;
+			routingTarget = (hasSavedConfirmationData) ? ConfirmationActivity.class : PhoneSearchActivity.class;
 		}
 
 		Intent intent = new Intent(this, routingTarget);
-		intent.setFlags(flags);
 
 		// Start the routing intent
 		startActivity(intent);
