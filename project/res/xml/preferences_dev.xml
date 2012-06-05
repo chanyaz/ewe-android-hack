@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory android:title="Development">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Development" >
         <ListPreference
-            android:key="@string/preference_which_api_to_use_key"
-            android:title="Select API"
             android:entries="@array/api_names"
-            android:entryValues="@array/api_names" />
-		<EditTextPreference
-			android:key="@string/preference_proxy_server_address"
-			android:title="Proxy Server Address"
-			android:summary="The address of your mock proxy server (e.g., 192.168.0.5:3000)"
-			android:defaultValue="localhost:3000" />
-	</PreferenceCategory>
+            android:entryValues="@array/api_names"
+            android:key="@string/preference_which_api_to_use_key"
+            android:title="Select API" />
+
+        <EditTextPreference
+            android:defaultValue="localhost:3000"
+            android:key="@string/preference_proxy_server_address"
+            android:summary="The address of your mock proxy server (e.g., 192.168.0.5:3000)"
+            android:title="Proxy Server Address" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
