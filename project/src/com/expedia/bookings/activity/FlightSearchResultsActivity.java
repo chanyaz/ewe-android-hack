@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.fragment.FlightListFragment;
@@ -44,6 +45,16 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		setTitle(getString(titleStrId, FlightStatsDbUtils.getAirport(airportCode).mCity));
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		if (isFinishing()) {
+			// Clear out the selected leg if the user is exiting the Activity
+			Db.getFlightSearch().setSelectedLeg(mLegPosition, null);
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// FlightAdapterListener
 
@@ -58,8 +69,18 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 
 	@Override
 	public void onSelectClick(FlightTrip trip, FlightLeg leg, int position) {
-		// TODO: Implement selecting a leg
-		Toast.makeText(this, "TODO: Implement select button press", Toast.LENGTH_SHORT).show();
-	}
+		FlightSearch search = Db.getFlightSearch();
+		search.setSelectedLeg(mLegPosition, leg);
 
+		if (mLegPosition + 1 < search.getSearchParams().getQueryLegCount()) {
+			// If the user hasn't selected all legs yet, push them to select the next leg
+			Intent intent = new Intent(this, FlightSearchResultsActivity.class);
+			intent.putExtra(EXTRA_LEG_POSITION, mLegPosition + 1);
+			startActivity(intent);
+		}
+		else {
+			// TODO: If the user has selected all legs, go to checkout screen
+			Toast.makeText(this, "TODO: All legs selected, implement checkout screen", Toast.LENGTH_SHORT).show();
+		}
+	}
 }

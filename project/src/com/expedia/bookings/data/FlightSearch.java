@@ -25,6 +25,9 @@ public class FlightSearch {
 
 	public void setSearchResponse(FlightSearchResponse searchResponse) {
 		mSearchResponse = searchResponse;
+
+		// Clear the selected legs, as we've got new results
+		mSelectedLegs = null;
 	}
 
 	/**
