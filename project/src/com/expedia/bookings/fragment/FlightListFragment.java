@@ -36,6 +36,9 @@ public class FlightListFragment extends ListFragment {
 	private TextView mProgressTextView;
 	private TextView mErrorTextView;
 
+	private int mLegPosition;
+	private List<FlightTrip> mFlightTrips;
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -49,7 +52,7 @@ public class FlightListFragment extends ListFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_flight_list, container, false);
+		View v = super.onCreateView(inflater, container, savedInstanceState);
 
 		// Configure the header
 		ListView lv = Ui.findView(v, android.R.id.list);
@@ -67,6 +70,10 @@ public class FlightListFragment extends ListFragment {
 		mAdapter = new FlightAdapter(getActivity());
 		setListAdapter(mAdapter);
 		mAdapter.setListener(mListener);
+
+		// Set initial data
+		mAdapter.setLegPosition(mLegPosition);
+		mAdapter.setFlights(mFlightTrips);
 
 		// Need to set this since we have buttons inside of the expandable rows
 		lv.setItemsCanFocus(true);
@@ -93,11 +100,19 @@ public class FlightListFragment extends ListFragment {
 	}
 
 	public void setLegPosition(int position) {
-		mAdapter.setLegPosition(position);
+		mLegPosition = position;
+
+		if (mAdapter != null) {
+			mAdapter.setLegPosition(position);
+		}
 	}
 
 	public void setFlights(List<FlightTrip> flightTrips) {
-		mAdapter.setFlights(flightTrips);
+		mFlightTrips = flightTrips;
+
+		if (mAdapter != null) {
+			mAdapter.setFlights(flightTrips);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

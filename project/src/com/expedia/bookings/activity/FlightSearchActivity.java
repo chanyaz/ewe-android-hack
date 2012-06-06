@@ -28,13 +28,21 @@ import android.widget.TextView.OnEditorActionListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.fragment.AirportPickerFragment;
 import com.expedia.bookings.fragment.AirportPickerFragment.AirportPickerFragmentListener;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment.CalendarDialogFragmentListener;
 import com.expedia.bookings.fragment.PassengerPickerFragment;
+import com.expedia.bookings.fragment.StatusFragment;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
@@ -44,6 +52,9 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 	private static final String TAG_AIRPORT_PICKER = "TAG_AIRPORT_PICKER";
 	private static final String TAG_DATE_PICKER = "TAG_DATE_PICKER";
 	private static final String TAG_PASSENGER_PICKER = "TAG_PASSENGER_PICKER";
+	private static final String TAG_STATUS = "TAG_STATUS";
+
+	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flights";
 
 	// Controls the ratio of how large a selected EditText should take up
 	// 1 == takes up the full size, 0 == takes up 50%.
@@ -62,6 +73,8 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		setTitle(R.string.search_flights);
 
 		// Inflate the views
 		setContentView(R.layout.activity_flight_search);
@@ -144,8 +157,6 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 		});
 
 		updateDateButton();
-
-		getActionBar().setTitle(R.string.search_flights);
 	}
 
 	@Override
@@ -279,7 +290,19 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 	//////////////////////////////////////////////////////////////////////////
 	// Fragment control
 
-	private void setFragment(String tag) {
+	/**
+	 * Sets the currently displayed Fragment in the content pane.
+	 * 
+	 * The tag determines which Fragment is shown.  If it's null,
+	 * then all Fragments will be detached from the content pane.
+	 * 
+	 * If the tag Fragment is already being displayed, nothing will
+	 * happen.  
+	 * 
+	 * @param tag the fragment to display, or null to display none
+	 * @return the Fragment to be loaded into the content pane
+	 */
+	private Fragment setFragment(String tag) {
 		FragmentManager fm = getSupportFragmentManager();
 
 		Fragment newFragment = fm.findFragmentByTag(tag);
@@ -287,7 +310,13 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 
 		// It's already on the correct fragment, don't do anything
 		if (newFragment != null && currentFragment != null && newFragment == currentFragment) {
-			return;
+			return currentFragment;
+		}
+
+		// If we're doing a download and we're NOT setting the status tag, cancel the download
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (tag != null && !tag.equals(TAG_STATUS) && bd.isDownloading(DOWNLOAD_KEY)) {
+			bd.cancelDownload(DOWNLOAD_KEY);
 		}
 
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -298,28 +327,45 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 			ft.detach(currentFragment);
 		}
 
-		if (newFragment == null) {
-			if (tag.equals(TAG_AIRPORT_PICKER)) {
-				newFragment = new AirportPickerFragment();
-			}
-			else if (tag.equals(TAG_DATE_PICKER)) {
-				FlightSearchParams params = Db.getFlightSearch().getSearchParams();
-				CalendarDialogFragment fragment = CalendarDialogFragment.newInstance(params.getDepartureDate()
-						.getCalendar(), params.getReturnDate().getCalendar());
-				fragment.setShowsDialog(false);
-				newFragment = fragment;
-			}
-			else if (tag.equals(TAG_PASSENGER_PICKER)) {
-				newFragment = new PassengerPickerFragment();
-			}
+		if (tag != null) {
+			if (newFragment == null) {
+				if (tag.equals(TAG_AIRPORT_PICKER)) {
+					newFragment = new AirportPickerFragment();
+				}
+				else if (tag.equals(TAG_DATE_PICKER)) {
+					FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+					CalendarDialogFragment fragment = CalendarDialogFragment.newInstance(params.getDepartureDate()
+							.getCalendar(), params.getReturnDate().getCalendar());
+					fragment.setShowsDialog(false);
+					newFragment = fragment;
+				}
+				else if (tag.equals(TAG_PASSENGER_PICKER)) {
+					newFragment = new PassengerPickerFragment();
+				}
+				else if (tag.equals(TAG_STATUS)) {
+					newFragment = new StatusFragment();
+				}
 
-			ft.add(R.id.content_frame, newFragment, tag);
-		}
-		else {
-			ft.attach(newFragment);
+				ft.add(R.id.content_frame, newFragment, tag);
+			}
+			else {
+				ft.attach(newFragment);
+			}
 		}
 
 		ft.commit();
+
+		return newFragment;
+	}
+
+	private void showLoading() {
+		StatusFragment fragment = (StatusFragment) setFragment(TAG_STATUS);
+		fragment.showLoading(getString(R.string.loading_flights));
+	}
+
+	private void showError(CharSequence errorText) {
+		StatusFragment fragment = (StatusFragment) setFragment(TAG_STATUS);
+		fragment.showLoading(errorText);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -335,7 +381,11 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.search:
-			startActivity(new Intent(this, FlightSearchResultsActivity.class));
+			if (!BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)) {
+				clearEditTextFocus();
+				showLoading();
+				BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, mDownload, mDownloadCallback);
+			}
 			break;
 		}
 
@@ -400,4 +450,38 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 		params.setReturnDate(new Date(end));
 		updateDateButton();
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Downloads
+
+	private Download<FlightSearchResponse> mDownload = new Download<FlightSearchResponse>() {
+		@Override
+		public FlightSearchResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(FlightSearchActivity.this);
+			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
+			return services.flightSearch(Db.getFlightSearch().getSearchParams(), 0);
+		}
+	};
+
+	private OnDownloadComplete<FlightSearchResponse> mDownloadCallback = new OnDownloadComplete<FlightSearchResponse>() {
+		@Override
+		public void onDownload(FlightSearchResponse response) {
+			Log.i("Finished flights download!");
+
+			FlightSearch search = Db.getFlightSearch();
+			search.setSearchResponse(response);
+
+			if (response.hasErrors()) {
+				showError(getString(R.string.error_loading_flights_TEMPLATE, response.getErrors().get(0)
+						.getPresentableMessage(FlightSearchActivity.this)));
+			}
+			else if (response.getTripCount() == 0) {
+				showError(getString(R.string.error_no_flights_found));
+			}
+			else {
+				startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
+				setFragment(null);
+			}
+		}
+	};
 }
