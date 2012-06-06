@@ -38,6 +38,8 @@
 	<string name="outbound_TEMPLATE">Outbound to %s</string>
 	<!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
 	<string name="inbound_TEMPLATE">Inbound to %s</string>
+	<!-- Error when we simple can't connect to E3 servers -->
+	<string name="error_server">Sorry, we could not connect to Expedia\'s servers.  Please try again later.</string>
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->

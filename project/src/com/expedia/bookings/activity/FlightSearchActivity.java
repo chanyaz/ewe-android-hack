@@ -365,7 +365,7 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 
 	private void showError(CharSequence errorText) {
 		StatusFragment fragment = (StatusFragment) setFragment(TAG_STATUS);
-		fragment.showLoading(errorText);
+		fragment.showError(errorText);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -471,7 +471,10 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 			FlightSearch search = Db.getFlightSearch();
 			search.setSearchResponse(response);
 
-			if (response.hasErrors()) {
+			if (response == null) {
+				showError(getString(R.string.error_server));
+			}
+			else if (response.hasErrors()) {
 				showError(getString(R.string.error_loading_flights_TEMPLATE, response.getErrors().get(0)
 						.getPresentableMessage(FlightSearchActivity.this)));
 			}
