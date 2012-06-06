@@ -15,8 +15,6 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.tracking.Tracker;
-import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
@@ -92,18 +90,14 @@ public class BookingConfirmationFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				String contactText = ConfirmationUtils.determineContactText(getActivity());
-				ConfirmationUtils.share(getActivity(), Db.getSearchParams(), Db.getSelectedProperty(),
-						Db.getBookingResponse(), Db.getBillingInfo(), Db.getSelectedRate(), contactText);
+				mListener.onShareBooking();
 			}
 		});
 
 		View showOnMapButton = view.findViewById(R.id.show_on_map_button);
 		showOnMapButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Tracker.trackViewOnMap(getActivity());
-
-				startActivity(ConfirmationUtils.generateIntentToShowPropertyOnMap(Db.getSelectedProperty()));
+				mListener.onShowOnMap();
 			}
 		});
 
@@ -144,5 +138,7 @@ public class BookingConfirmationFragment extends Fragment {
 
 	public interface BookingConfirmationFragmentListener {
 		public void onNewSearch();
+		public void onShareBooking();
+		public void onShowOnMap();
 	}
 }

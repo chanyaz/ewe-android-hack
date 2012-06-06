@@ -182,19 +182,6 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 		return intent;
 	}
 
-	public void newSearch() {
-		Tracker.trackNewSearch(this);
-
-		// Ensure we can't come back here again
-		ConfirmationUtils.deleteSavedConfirmationData(mContext);
-
-		Intent intent = new Intent(mContext, SearchActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
-		startActivity(intent);
-		finish();
-	}
-
 	public void showSucceededWithErrorsDialog() {
 		FragmentManager fm = getSupportFragmentManager();
 		String dialogTag = getString(R.string.tag_simple_dialog);
@@ -212,7 +199,29 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 
 	@Override
 	public void onNewSearch() {
-		newSearch();
+		Tracker.trackNewSearch(this);
+
+		// Ensure we can't come back here again
+		ConfirmationUtils.deleteSavedConfirmationData(mContext);
+
+		Intent intent = new Intent(mContext, SearchActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
+		startActivity(intent);
+		finish();
+	}
+
+	@Override
+	public void onShareBooking() {
+		String contactText = ConfirmationUtils.determineContactText(this);
+		ConfirmationUtils.share(this, Db.getSearchParams(), Db.getSelectedProperty(),
+				Db.getBookingResponse(), Db.getBillingInfo(), Db.getSelectedRate(), contactText);
+	}
+
+	@Override
+	public void onShowOnMap() {
+		Tracker.trackViewOnMap(this);
+		startActivity(ConfirmationUtils.generateIntentToShowPropertyOnMap(Db.getSelectedProperty()));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
