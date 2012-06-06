@@ -167,6 +167,18 @@ public class FlightAdapter extends BaseAdapter {
 	}
 
 	@Override
+	public boolean isEnabled(int position) {
+		RowType rowType = RowType.values()[getItemViewType(position)];
+
+		// Disable animating rows - don't let them get click events
+		if (rowType == RowType.EXPANDING || rowType == RowType.CONTRACTING) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		RowType rowType = RowType.values()[getItemViewType(position)];
 
@@ -184,7 +196,10 @@ public class FlightAdapter extends BaseAdapter {
 
 			convertView.setTag(holder);
 
-			holder.mDetailsContainer.setOnClickListener(mDetailsClickListener);
+			// We don't want the details container to be clickable mid-animation
+			if (rowType != RowType.CONTRACTING && rowType != RowType.EXPANDING) {
+				holder.mDetailsContainer.setOnClickListener(mDetailsClickListener);
+			}
 
 			if (renderExpandedDetails(rowType)) {
 				// Ensure that the details container is at the front (so that the animation shows behind it)
