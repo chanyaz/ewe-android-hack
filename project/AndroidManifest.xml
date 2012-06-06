@@ -112,7 +112,8 @@
         <activity android:name=".activity.FlightSearchResultsActivity"
             android:theme="@style/FlightTheme" />
 
-        <activity android:name=".activity.FlightDetailsActivity" />
+        <activity android:name=".activity.FlightDetailsActivity"
+            android:theme="@style/FlightTheme"  />
 
         <!-- HockeyApp -->
         <activity android:name="net.hockeyapp.android.UpdateActivity"/>

@@ -1,0 +1,86 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/flight_details_outer_bg"
+    android:orientation="vertical" >    
+    
+    <LinearLayout android:id="@+id/flight_details_waypoint_ll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="5dp"
+	    android:paddingBottom="5dp"
+        android:orientation="horizontal"
+        >
+        <LinearLayout android:id="@+id/flight_details_waypoint_ll"
+	        android:layout_width="wrap_content"
+	        android:layout_height="fill_parent"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:orientation="vertical"
+	        >
+	        <View
+	            android:layout_width="24dp"            
+	            android:layout_height="24dp"
+	            android:layout_gravity="center_horizontal|center_vertical"            
+	            android:background="@drawable/shape_flight_detail_circle"/>
+	        <LinearLayout
+	        android:layout_width="24dp"
+	        android:layout_height="fill_parent"
+	        android:gravity="center_horizontal"
+	        android:orientation="vertical"
+	        >
+	        <View
+	            android:layout_width="3dp"
+	            android:layout_height="fill_parent"
+	            android:background="@color/flight_details_line"/>
+        </LinearLayout>
+        </LinearLayout>
+        <TextView 
+            android:id="@+id/flight_details_departure_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="7:35AM"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            />
+        <TextView 
+            android:id="@+id/flight_details_departure_airport_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Boston Logan Airport (BOS)"
+            android:textSize="16dp"
+            android:textColor="#000000"
+            />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="-10dp"
+        android:layout_marginBottom="-10dp"
+        android:orientation="horizontal"
+        >
+        <LinearLayout
+	        android:layout_width="24dp"
+	        android:layout_height="fill_parent"
+	        android:gravity="center_horizontal"
+	        android:orientation="vertical"
+	        >
+	        <View
+	            android:layout_width="3dp"
+	            android:layout_height="fill_parent"
+	            android:background="@color/flight_details_line"/>
+        </LinearLayout>
+        <!-- Now we add a view here and kapow! We get a line and stuff... -->
+        <LinearLayout android:id="@+id/flight_details_segment_info_ll"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        />
+    </LinearLayout>
+    
+</LinearLayout>  
