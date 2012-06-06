@@ -67,7 +67,7 @@ public class FlightListFragment extends ListFragment {
 		mErrorTextView = Ui.findView(v, R.id.error_text_view);
 
 		// Add the adapter
-		mAdapter = new FlightAdapter(getActivity());
+		mAdapter = new FlightAdapter(getActivity(), savedInstanceState);
 		setListAdapter(mAdapter);
 		mAdapter.setListener(mListener);
 
@@ -77,26 +77,15 @@ public class FlightListFragment extends ListFragment {
 
 		// Need to set this since we have buttons inside of the expandable rows
 		lv.setItemsCanFocus(true);
-		lv.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
-				// Adjust position for headers
-				position -= getListView().getHeaderViewsCount();
-
-				if (mAdapter.getExpandedLegPosition() == position) {
-					mAdapter.setExpandedLegPosition(-1);
-				}
-				else {
-					mAdapter.setExpandedLegPosition(position);
-				}
-
-				mAdapter.notifyDataSetChanged();
-			}
-
-		});
 
 		return v;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		mAdapter.saveInstanceState(outState);
 	}
 
 	public void setLegPosition(int position) {

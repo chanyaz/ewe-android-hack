@@ -6,11 +6,15 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -19,14 +23,26 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
+import com.nineoldandroids.animation.ValueAnimator;
+import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 public class FlightAdapter extends BaseAdapter {
 
 	private static final int SEATS_REMAINING_CUTOFF = 5;
 
+	private static final int ANIM_EXPAND_CONTRACT_DURATION = 300;
+
+	private static final Interpolator ANIMATION_INTERPOLATOR = new AccelerateDecelerateInterpolator();
+
+	private static final String STATE_EXPANDED_LEG = "STATE_EXPANDED_LEG";
+
 	private enum RowType {
 		NORMAL,
-		EXPANDED
+		EXPANDING,
+		EXPANDED,
+		CONTRACTING
 	}
 
 	private Context mContext;
@@ -43,10 +59,26 @@ public class FlightAdapter extends BaseAdapter {
 	private int mLegPosition;
 
 	private int mExpandedLeg = -1;
+	private int mExpandingLeg = -1;
+	private int mContractingLeg = -1;
+	private ValueAnimator mExpandAnim;
+	private ValueAnimator mContractAnim;
 
-	public FlightAdapter(Context context) {
+	public FlightAdapter(Context context, Bundle savedInstanceState) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		restoreInstanceState(savedInstanceState);
+	}
+
+	public void saveInstanceState(Bundle outState) {
+		// Save either the expanded leg or the one that *is* expanding as the expanded leg
+		outState.putInt(STATE_EXPANDED_LEG, (mExpandedLeg != -1) ? mExpandedLeg : mExpandingLeg);
+	}
+
+	public void restoreInstanceState(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			mExpandedLeg = savedInstanceState.getInt(STATE_EXPANDED_LEG, mExpandedLeg);
+		}
 	}
 
 	public void setListener(FlightAdapterListener listener) {
@@ -86,10 +118,6 @@ public class FlightAdapter extends BaseAdapter {
 		mLegPosition = legPosition;
 	}
 
-	public void setExpandedLegPosition(int expandedLegPosition) {
-		mExpandedLeg = expandedLegPosition;
-	}
-
 	public int getExpandedLegPosition() {
 		return mExpandedLeg;
 	}
@@ -118,6 +146,12 @@ public class FlightAdapter extends BaseAdapter {
 		if (position == mExpandedLeg) {
 			return RowType.EXPANDED.ordinal();
 		}
+		else if (position == mExpandingLeg) {
+			return RowType.EXPANDING.ordinal();
+		}
+		else if (position == mContractingLeg) {
+			return RowType.CONTRACTING.ordinal();
+		}
 		else {
 			return RowType.NORMAL.ordinal();
 		}
@@ -129,7 +163,7 @@ public class FlightAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		RowType rowType = RowType.values()[getItemViewType(position)];
 
 		ViewHolder holder;
@@ -148,8 +182,9 @@ public class FlightAdapter extends BaseAdapter {
 
 			holder.mDetailsContainer.setOnClickListener(mDetailsClickListener);
 
-			if (rowType == RowType.EXPANDED) {
-				ViewGroup v = Ui.findView(convertView, R.id.expanded_details_container);
+			if (renderExpandedDetails(rowType)) {
+				ViewGroup v = holder.mExpandedDetailsContainer = Ui.findView(convertView,
+						R.id.expanded_details_container);
 				v.setVisibility(View.VISIBLE);
 				holder.mSeatsLeftTextView = Ui.findView(v, R.id.seats_left_text_view);
 				holder.mDetailsButton = Ui.findView(v, R.id.details_button);
@@ -194,7 +229,7 @@ public class FlightAdapter extends BaseAdapter {
 		holder.mFlightTripView.setUp(leg, mMinTime, mMaxTime);
 
 		// Extra configuration for expanded row types
-		if (rowType == RowType.EXPANDED) {
+		if (renderExpandedDetails(rowType)) {
 			int seatsRemaining = trip.getSeatsRemaining();
 			if (seatsRemaining <= SEATS_REMAINING_CUTOFF) {
 				holder.mSeatsLeftTextView.setVisibility(View.VISIBLE);
@@ -209,7 +244,76 @@ public class FlightAdapter extends BaseAdapter {
 			setTags(holder.mSelectButton, trip, leg, position);
 		}
 
+		// Do animations if this row has just started expanding or contracting
+		if (rowType == RowType.EXPANDING && mExpandAnim == null) {
+			final View animView = holder.mExpandedDetailsContainer;
+			animView.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+					MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+
+			mExpandAnim = ValueAnimator.ofInt(0, animView.getMeasuredHeight());
+			mExpandAnim.addUpdateListener(new AnimatorUpdateListener() {
+				@Override
+				public void onAnimationUpdate(ValueAnimator animation) {
+					int val = (Integer) animation.getAnimatedValue();
+					animView.getLayoutParams().height = val;
+					animView.requestLayout();
+				}
+			});
+			mExpandAnim.addListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationCancel(Animator animation) {
+					onAnimationEnd(animation);
+				}
+
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					mExpandedLeg = position;
+					mExpandingLeg = -1;
+					mExpandAnim = null;
+					notifyDataSetChanged();
+				}
+			});
+			mExpandAnim.setDuration(ANIM_EXPAND_CONTRACT_DURATION);
+			mExpandAnim.setInterpolator(ANIMATION_INTERPOLATOR);
+			mExpandAnim.start();
+		}
+		else if (rowType == RowType.CONTRACTING && mContractAnim == null) {
+			final View animView = holder.mExpandedDetailsContainer;
+			animView.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+					MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+
+			mContractAnim = ValueAnimator.ofInt(animView.getMeasuredHeight(), 0);
+			mContractAnim.addUpdateListener(new AnimatorUpdateListener() {
+				@Override
+				public void onAnimationUpdate(ValueAnimator animation) {
+					int val = (Integer) animation.getAnimatedValue();
+					animView.getLayoutParams().height = val;
+					animView.requestLayout();
+				}
+			});
+			mContractAnim.addListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationCancel(Animator animation) {
+					onAnimationEnd(animation);
+				}
+
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					mContractingLeg = -1;
+					mContractAnim = null;
+					notifyDataSetChanged();
+				}
+			});
+			mContractAnim.setDuration(ANIM_EXPAND_CONTRACT_DURATION);
+			mContractAnim.setInterpolator(ANIMATION_INTERPOLATOR);
+			mContractAnim.start();
+		}
+
 		return convertView;
+	}
+
+	private boolean renderExpandedDetails(RowType rowType) {
+		return rowType == RowType.EXPANDED || rowType == RowType.EXPANDING || rowType == RowType.CONTRACTING;
 	}
 
 	private String formatTime(Calendar cal) {
@@ -226,6 +330,7 @@ public class FlightAdapter extends BaseAdapter {
 		private TextView mArrivalTimeTextView;
 		private FlightTripView mFlightTripView;
 
+		private ViewGroup mExpandedDetailsContainer;
 		private TextView mSeatsLeftTextView;
 		private View mDetailsButton;
 		private View mSelectButton;
@@ -243,11 +348,17 @@ public class FlightAdapter extends BaseAdapter {
 			int position = (Integer) v.getTag();
 
 			if (mExpandedLeg == position) {
-				mExpandedLeg = -1;
+				mContractingLeg = position;
 			}
 			else {
-				mExpandedLeg = position;
+				mExpandingLeg = position;
+
+				if (mExpandedLeg != -1) {
+					mContractingLeg = mExpandedLeg;
+				}
 			}
+
+			mExpandedLeg = -1;
 
 			notifyDataSetChanged();
 		}
@@ -287,4 +398,5 @@ public class FlightAdapter extends BaseAdapter {
 
 		public void onSelectClick(FlightTrip trip, FlightLeg leg, int position);
 	}
+
 }
