@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
@@ -14,6 +15,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightAdapter.FlightAdapterListener;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class FlightSearchResultsActivity extends FragmentActivity implements FlightAdapterListener {
@@ -43,6 +45,11 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		int titleStrId = (mLegPosition == 0) ? R.string.outbound_TEMPLATE : R.string.inbound_TEMPLATE;
 		String airportCode = (mLegPosition == 0) ? params.getArrivalAirportCode() : params.getDepartureAirportCode();
 		setTitle(getString(titleStrId, FlightStatsDbUtils.getAirport(airportCode).mCity));
+
+		// Enable the home button on the action bar
+		if (AndroidUtils.getSdkVersion() >= 11) {
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 	}
 
 	@Override
@@ -53,6 +60,20 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			// Clear out the selected leg if the user is exiting the Activity
 			Db.getFlightSearch().setSelectedLeg(mLegPosition, null);
 		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			// Push user back to search page if they hit the home button
+			Intent intent = new Intent(this, FlightSearchActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			startActivity(intent);
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
