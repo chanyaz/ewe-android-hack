@@ -7,7 +7,7 @@
         android:id="@+id/details_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:drawable/list_selector_background" >
+        android:background="@drawable/bg_flight_row" >
 
         <TextView
             android:id="@+id/airline_text_view"
@@ -65,13 +65,23 @@
             android:layout_toRightOf="@+id/departure_time_text_view" />
     </RelativeLayout>
 
+    <!--
+    	The view below is what actually animates during expanding/contracting the details.
+    	This way the expanded details container can stay the same size throughout
+    	(instead if growing and then shrinking).
+    -->
+
+    <LinearLayout
+        android:id="@+id/anim_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/details_container" />
+
     <LinearLayout
         android:id="@+id/expanded_details_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/details_container"
+        android:layout_alignBottom="@+id/anim_container"
         android:background="#232831"
         android:gravity="center_vertical"
         android:orientation="horizontal"

@@ -64,6 +64,10 @@ public class FlightAdapter extends BaseAdapter {
 	private ValueAnimator mExpandAnim;
 	private ValueAnimator mContractAnim;
 
+	// We need to hold onto this value to set the correct height for the
+	// final "expanded" view, once we get to it
+	private int mAnimViewHeight;
+
 	public FlightAdapter(Context context, Bundle savedInstanceState) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -183,6 +187,11 @@ public class FlightAdapter extends BaseAdapter {
 			holder.mDetailsContainer.setOnClickListener(mDetailsClickListener);
 
 			if (renderExpandedDetails(rowType)) {
+				// Ensure that the details container is at the front (so that the animation shows behind it)
+				holder.mDetailsContainer.bringToFront();
+
+				holder.mAnimContainer = Ui.findView(convertView, R.id.anim_container);
+
 				ViewGroup v = holder.mExpandedDetailsContainer = Ui.findView(convertView,
 						R.id.expanded_details_container);
 				v.setVisibility(View.VISIBLE);
@@ -242,15 +251,18 @@ public class FlightAdapter extends BaseAdapter {
 
 			setTags(holder.mDetailsButton, trip, leg, position);
 			setTags(holder.mSelectButton, trip, leg, position);
+
+			holder.mAnimContainer.getLayoutParams().height = mAnimViewHeight;
 		}
 
 		// Do animations if this row has just started expanding or contracting
 		if (rowType == RowType.EXPANDING && mExpandAnim == null) {
-			final View animView = holder.mExpandedDetailsContainer;
-			animView.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+			final View animView = holder.mAnimContainer;
+			holder.mExpandedDetailsContainer.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
 					MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 
-			mExpandAnim = ValueAnimator.ofInt(0, animView.getMeasuredHeight());
+			mAnimViewHeight = holder.mExpandedDetailsContainer.getMeasuredHeight();
+			mExpandAnim = ValueAnimator.ofInt(0, holder.mExpandedDetailsContainer.getMeasuredHeight());
 			mExpandAnim.addUpdateListener(new AnimatorUpdateListener() {
 				@Override
 				public void onAnimationUpdate(ValueAnimator animation) {
@@ -278,11 +290,11 @@ public class FlightAdapter extends BaseAdapter {
 			mExpandAnim.start();
 		}
 		else if (rowType == RowType.CONTRACTING && mContractAnim == null) {
-			final View animView = holder.mExpandedDetailsContainer;
-			animView.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+			final View animView = holder.mAnimContainer;
+			holder.mExpandedDetailsContainer.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
 					MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 
-			mContractAnim = ValueAnimator.ofInt(animView.getMeasuredHeight(), 0);
+			mContractAnim = ValueAnimator.ofInt(holder.mExpandedDetailsContainer.getMeasuredHeight(), 0);
 			mContractAnim.addUpdateListener(new AnimatorUpdateListener() {
 				@Override
 				public void onAnimationUpdate(ValueAnimator animation) {
@@ -329,6 +341,8 @@ public class FlightAdapter extends BaseAdapter {
 		private TextView mDepartureTimeTextView;
 		private TextView mArrivalTimeTextView;
 		private FlightTripView mFlightTripView;
+
+		private View mAnimContainer;
 
 		private ViewGroup mExpandedDetailsContainer;
 		private TextView mSeatsLeftTextView;
