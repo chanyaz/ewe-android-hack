@@ -272,26 +272,13 @@ public class FlightAdapter extends BaseAdapter {
 
 		// Do animations if this row has just started expanding or contracting
 		if (rowType == RowType.EXPANDING && mExpandAnim == null) {
-			final View animView = holder.mAnimContainer;
 			holder.mExpandedDetailsContainer.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
 					MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 
 			mAnimViewHeight = holder.mExpandedDetailsContainer.getMeasuredHeight();
 			mExpandAnim = ValueAnimator.ofInt(0, holder.mExpandedDetailsContainer.getMeasuredHeight());
-			mExpandAnim.addUpdateListener(new AnimatorUpdateListener() {
-				@Override
-				public void onAnimationUpdate(ValueAnimator animation) {
-					int val = (Integer) animation.getAnimatedValue();
-					animView.getLayoutParams().height = val;
-					animView.requestLayout();
-				}
-			});
+			mExpandAnim.addUpdateListener(new HeightUpdateListener(holder.mAnimContainer));
 			mExpandAnim.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationCancel(Animator animation) {
-					onAnimationEnd(animation);
-				}
-
 				@Override
 				public void onAnimationEnd(Animator animation) {
 					mExpandedLeg = position;
@@ -305,25 +292,12 @@ public class FlightAdapter extends BaseAdapter {
 			mExpandAnim.start();
 		}
 		else if (rowType == RowType.CONTRACTING && mContractAnim == null) {
-			final View animView = holder.mAnimContainer;
 			holder.mExpandedDetailsContainer.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
 					MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 
 			mContractAnim = ValueAnimator.ofInt(holder.mExpandedDetailsContainer.getMeasuredHeight(), 0);
-			mContractAnim.addUpdateListener(new AnimatorUpdateListener() {
-				@Override
-				public void onAnimationUpdate(ValueAnimator animation) {
-					int val = (Integer) animation.getAnimatedValue();
-					animView.getLayoutParams().height = val;
-					animView.requestLayout();
-				}
-			});
+			mContractAnim.addUpdateListener(new HeightUpdateListener(holder.mAnimContainer));
 			mContractAnim.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationCancel(Animator animation) {
-					onAnimationEnd(animation);
-				}
-
 				@Override
 				public void onAnimationEnd(Animator animation) {
 					mContractingLeg = -1;
@@ -392,6 +366,24 @@ public class FlightAdapter extends BaseAdapter {
 			notifyDataSetChanged();
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// Animator listeners
+
+	private class HeightUpdateListener implements AnimatorUpdateListener {
+		private View mView;
+
+		public HeightUpdateListener(View view) {
+			mView = view;
+		}
+
+		@Override
+		public void onAnimationUpdate(ValueAnimator animator) {
+			int val = (Integer) animator.getAnimatedValue();
+			mView.getLayoutParams().height = val;
+			mView.requestLayout();
+		}
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Adapter listener
