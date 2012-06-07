@@ -6,15 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.EditorInfo;
@@ -25,6 +22,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
@@ -46,7 +46,7 @@ import com.mobiata.android.Log;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
-public class FlightSearchActivity extends FragmentActivity implements AirportPickerFragmentListener,
+public class FlightSearchActivity extends SherlockFragmentActivity implements AirportPickerFragmentListener,
 		CalendarDialogFragmentListener {
 
 	private static final String TAG_AIRPORT_PICKER = "TAG_AIRPORT_PICKER";
@@ -385,7 +385,7 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_flight_search, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_flight_search, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

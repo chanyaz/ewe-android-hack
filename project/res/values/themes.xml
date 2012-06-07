@@ -56,7 +56,7 @@
 	</style>
 
     <!-- Temporary theme for flights -->
-    <style name="FlightTheme" parent="@android:style/Theme.Holo.Light">
+    <style name="FlightTheme" parent="@style/Theme.Sherlock.Light">
         <item name="airPickerBackground">@android:color/white</item>
         <item name="airPickerHeaderBackground">@android:color/white</item>
         <item name="airPickerTextColor">@android:color/black</item>

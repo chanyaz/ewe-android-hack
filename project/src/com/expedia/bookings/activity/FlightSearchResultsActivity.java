@@ -2,10 +2,10 @@ package com.expedia.bookings.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -18,7 +18,7 @@ import com.expedia.bookings.widget.FlightAdapter.FlightAdapterListener;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
-public class FlightSearchResultsActivity extends FragmentActivity implements FlightAdapterListener {
+public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightAdapterListener {
 
 	public static final String EXTRA_LEG_POSITION = "EXTRA_LEG_POSITION";
 
