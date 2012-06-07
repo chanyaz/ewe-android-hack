@@ -1,7 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/pager"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:orientation="vertical"
+    >
+    
+    <TextView android:id="@+id/flight_detail_map"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/san_francisco"
+        android:gravity="center"
+        android:text="map goes here"/>
+    
+    <LinearLayout android:id="@+id/flight_detail_info_bar"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="-40dp"
+        android:layout_height="40dp"
+        android:background="#88000000"
+        android:padding="5dp"
+        android:orientation="horizontal">
+        
+        <LinearLayout android:id="@+id/flight_detail_info_bar_seats_left_ll"
+            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+            
+            <TextView android:id="@+id/flight_details_num_seats_tv"
+                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:background="#FF0000"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textSize="22sp"
+                android:text="4"/>
+            
+            <TextView android:id="@+id/flight_details_num_seats_label_tv"
+                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:textColor="#FFFFFF"
+                android:layout_marginLeft="5dp"
+                android:text="seats left!"/>
+            
+        </LinearLayout>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            />
+        <LinearLayout android:id="@+id/flight_detail_info_bar_price_ll"
+            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+            
+            <TextView android:id="@+id/flight_details_seat_price_tv"
+                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:text="$365"/>
+            <TextView android:id="@+id/flight_details_seat_price_tv"
+                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:gravity="bottom"
+                android:paddingBottom="3dp"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:text="/per person"/>
+        </LinearLayout>
+    </LinearLayout>
+    
+    <ScrollView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+    <LinearLayout android:id="@+id/flight_details_card_holder_ll"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:orientation="vertical">
+        
+        
+    </LinearLayout>
+    </ScrollView>
+    
+</LinearLayout>
 
-</android.support.v4.view.ViewPager>

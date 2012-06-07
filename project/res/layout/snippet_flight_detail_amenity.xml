@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/flight_amenity_iv"
         android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_height="24dp"
         android:background="#CFCFCF" />
         
     

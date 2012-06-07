@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:id="@+id/flight_details_data_ll"
            android:layout_width="fill_parent"
            android:layout_height="wrap_content"
@@ -16,8 +17,8 @@
                
                <ImageView 
                    android:id="@+id/flight_details_carrier_img"
-                   android:layout_height="48dp"
-                   android:layout_width="48dp"
+                   android:layout_height="36dp"
+                   android:layout_width="36dp"
                    android:background="#C8C8C8"
                    android:layout_marginLeft="5dp"
                    android:layout_marginRight="5dp"
@@ -27,6 +28,8 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:gravity="center_vertical"
+		            android:padding="0dp"
+		            android:layout_margin="0dp"
 		            android:background="@drawable/bg_flight_detail_carrier"     
 		            android:orientation="vertical">
 		               
@@ -35,7 +38,7 @@
 		                   android:layout_height="wrap_content"
 		                   android:layout_width="fill_parent"
 		                   android:text="Minneapolis to Boston"
-		                   android:textSize="22dp"
+		                   android:textSize="18dp"
 		                   android:textStyle="bold"
 		                   android:textColor="#F0F0F0"
 		                   />
@@ -43,6 +46,8 @@
 			            android:layout_width="fill_parent"
 			            android:layout_height="wrap_content"
 			            android:gravity="center_vertical"
+			            android:padding="0dp"
+		            	android:layout_margin="0dp"
 			            android:background="@drawable/bg_flight_detail_carrier"
 			            android:orientation="horizontal">   
 		               <TextView
@@ -50,15 +55,16 @@
 		                   android:layout_height="wrap_content"
 		                   android:layout_width="wrap_content"
 		                   android:text="Virgin America"
-		                   android:textSize="20dp"
+		                   android:textSize="16dp"
 		                   android:textColor="#F0F0F0"      
 		                   />
 		               <TextView
 		                   android:id="@+id/flight_details_flight_number_tv"
 		                   android:layout_height="wrap_content"
 		                   android:layout_width="wrap_content"
+		                   android:layout_marginLeft="5dp"
 		                   android:text="2026"
-		                   android:textSize="20dp"  
+		                   android:textSize="18dp"  
 		                   android:textColor="#F0F0F0"
 		                   />
 		               </LinearLayout>
@@ -205,45 +211,46 @@
             
             
             
-            <!-- seperator -->
-            <View android:layout_width="fill_parent"
-                android:layout_height="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_flight_detail_seperator"
-                />
+<!--             seperator -->
+<!--             <View android:layout_width="fill_parent" -->
+<!--                 android:layout_height="10dp" -->
+<!--                 android:layout_marginTop="10dp" -->
+<!--                 android:layout_marginBottom="10dp" -->
+<!--                 android:layout_marginLeft="5dp" -->
+<!--                 android:layout_marginRight="5dp" -->
+<!--                 android:background="@drawable/border_flight_detail_seperator" -->
+<!--                 /> -->
             
             <!-- button bar -->
 	       <LinearLayout android:id="@+id/flight_details_data_buttons_ll"
 	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:paddingBottom="10dp"
-	            android:paddingLeft="5dp"
-	            android:paddingRight="5dp"
+	            android:layout_height="36dp"
+	            android:paddingBottom="2dp"
 	            android:orientation="horizontal">
 	           
 	           <Button 
 	               android:id="@+id/flight_details_seat_map_btn"
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:text="Seat Map"
-	            android:layout_weight="1"
-	            android:textSize="12dp"
-	            android:textStyle="bold"
-	            android:layout_marginRight="5dp"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Seat Map"
+		            android:layout_weight="1"
+		            android:textSize="12dp"
+		            android:textStyle="bold"
+		            android:gravity="center_vertical|right"
+		            android:layout_marginRight="2dp"
 	               />
 	           
 	           <Button 
 	               android:id="@+id/flight_details_baggage_fee_btn"
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:text="Baggage Fee"
-	            android:layout_weight="1"
-	            android:textSize="12dp"
-	            android:textStyle="bold"
-	            android:layout_marginLeft="5dp"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:text="Baggage Fee"
+		            android:layout_weight="1"
+		            android:textSize="12dp"
+		            android:textStyle="bold"
+		            android:layout_marginLeft="2dp"
+		            android:gravity="center_vertical|right"
+		            
 	               />
 	           
 	       </LinearLayout>
