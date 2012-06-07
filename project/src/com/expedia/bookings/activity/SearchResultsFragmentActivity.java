@@ -958,6 +958,10 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			else {
 				response.setFilter(Db.getFilter());
 
+				if (initialLoad) {
+					onSortChanged(Sort.DISTANCE);
+				}
+
 				Property[] properties = response.getFilteredAndSortedProperties();
 				if (properties != null && properties.length <= 10) {
 					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
