@@ -84,6 +84,9 @@ public class Db {
 	// The currently logged in User profile
 	private User mUser;
 
+	// The result of a call to e3 for a coupon code discount
+	private CreateTripResponse mCreateTripResponse;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
 
@@ -281,6 +284,14 @@ public class Db {
 
 	public static User getUser() {
 		return sDb.mUser;
+	}
+
+	public static void setCreateTripResponse(CreateTripResponse response) {
+		sDb.mCreateTripResponse = response;
+	}
+
+	public static CreateTripResponse getCreateTripResponse() {
+		return sDb.mCreateTripResponse;
 	}
 
 	public static void clear() {

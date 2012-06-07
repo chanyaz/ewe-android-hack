@@ -61,6 +61,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.BillingAddressWidget;
+import com.expedia.bookings.widget.CouponCodeWidget;
 import com.expedia.bookings.widget.ReceiptWidget;
 import com.expedia.bookings.widget.StoredCardSpinnerAdapter;
 import com.expedia.bookings.widget.TelephoneSpinner;
@@ -144,6 +145,7 @@ public class BookingFormFragment extends DialogFragment {
 	private boolean mGuestsExpanded;
 
 	private ReceiptWidget mReceiptWidget;
+	private CouponCodeWidget mCouponCodeWidget;
 
 	// This is a tracking variable to solve a nasty problem.  The problem is that Spinner.onItemSelectedListener()
 	// fires wildly when you set the Spinner's position manually (sometimes twice at a time).  We only want to track
@@ -227,8 +229,10 @@ public class BookingFormFragment extends DialogFragment {
 
 		mAccountButton = new AccountButton(getActivity(), mAccountButtonClickListener, view.findViewById(R.id.account_button_root));
 		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), !getShowsDialog());
+		mCouponCodeWidget = new CouponCodeWidget(getActivity(), view.findViewById(R.id.coupon_code));
 		mBillingAddressWidget = new BillingAddressWidget(getActivity(), mRootBillingView);
 		mBillingAddressWidget.restoreInstanceState(savedInstanceState);
+		mCouponCodeWidget.restoreInstanceState(savedInstanceState);
 
 		// 10758: rendering the saved layouts on a software layer
 		// to avoid the fuzziness of the saved section background
@@ -357,6 +361,7 @@ public class BookingFormFragment extends DialogFragment {
 
 		mReceiptWidget.saveInstanceState(outState);
 		mBillingAddressWidget.saveInstanceState(outState);
+		mCouponCodeWidget.saveInstanceState(outState);
 	}
 
 	@Override

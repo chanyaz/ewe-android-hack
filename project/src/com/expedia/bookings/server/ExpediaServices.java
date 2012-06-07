@@ -43,11 +43,13 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -245,7 +247,7 @@ public class ExpediaServices implements DownloadListener {
 		return response;
 	}
 
-	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo) {
+	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo, String tripId, String userId) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addPOSParams(query);
@@ -282,6 +284,11 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("sendEmailConfirmation", "true"));
 
+		if (!TextUtils.isEmpty(tripId) && !TextUtils.isEmpty(userId)) {
+			query.add(new BasicNameValuePair("tripId", tripId));
+			query.add(new BasicNameValuePair("userId", userId));
+		}
+
 		// Simulate a valid checkout, to bypass the actual checkout process
 		if (!AndroidUtils.isRelease(mContext)) {
 			boolean spoofBookings = SettingUtils.get(mContext, mContext.getString(R.string.preference_spoof_bookings),
@@ -302,6 +309,20 @@ public class ExpediaServices implements DownloadListener {
 
 		return (BookingResponse) doE3Request("Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
 	}
+
+	public CreateTripResponse createTripWithCoupon(String couponCode, SearchParams params, Property property, Rate rate) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addPOSParams(query);
+		addBasicParams(query, params);
+
+		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
+		query.add(new BasicNameValuePair("couponCode", couponCode));
+
+		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
+		return (CreateTripResponse) doE3Request("CreateTrip", query, responseHandler, F_SECURE_REQUEST);
+	}
+
 
 	public SignInResponse signIn(String email, String password) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();

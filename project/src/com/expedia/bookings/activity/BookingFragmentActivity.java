@@ -158,8 +158,14 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		@Override
 		public BookingResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
+			String userId = null;
+			String tripId = null;
+			if (Db.getCreateTripResponse() != null) {
+				tripId = Db.getCreateTripResponse().getTripId();
+				userId = Db.getCreateTripResponse().getUserId();
+			}
 			return services.reservation(Db.getSearchParams(), Db.getSelectedProperty(), Db.getSelectedRate(),
-					Db.getBillingInfo());
+					Db.getBillingInfo(), tripId, userId);
 		}
 	};
 

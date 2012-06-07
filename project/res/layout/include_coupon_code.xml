@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coupon_code"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+    <EditText
+        android:id="@+id/coupon_code_edittext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="@string/optional" />
+    <LinearLayout
+        android:layout_width="@dimen/coupon_code_right_width"
+        android:layout_height="@dimen/coupon_code_right_height"
+        android:gravity="center" >
+        <Button
+            android:id="@+id/apply_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/apply" />
+        <ProgressBar
+            android:id="@+id/coupon_progress_bar"
+            style="@android:style/Widget.ProgressBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:padding="@dimen/card_icon_padding"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/new_total_textview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="right|center_vertical"
+            android:text="@string/new_total"
+            android:textColor="@android:color/black"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

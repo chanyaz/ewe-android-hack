@@ -76,4 +76,8 @@
 
     <!-- Account support dimensions -->
     <dimen name="card_icon_padding">5dp</dimen>
+
+    <!-- Coupon code dimensions -->
+    <dimen name="coupon_code_right_width">120dp</dimen>
+    <dimen name="coupon_code_right_height">70dp</dimen>
 </resources>
