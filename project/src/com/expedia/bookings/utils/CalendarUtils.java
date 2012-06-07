@@ -58,10 +58,11 @@ public class CalendarUtils {
 	 * Configures the calendar date picker for the app
 	 * 
 	 * @param calendarDatePicker
+	 * @param mode
 	 */
-	public static void configureCalendarDatePicker(CalendarDatePicker calendarDatePicker) {
+	public static void configureCalendarDatePicker(CalendarDatePicker calendarDatePicker, SelectionMode mode) {
 		// Always set these variables
-		calendarDatePicker.setSelectionMode(SelectionMode.RANGE);
+		calendarDatePicker.setSelectionMode(mode);
 		calendarDatePicker.setMaxRange(29);
 
 		/* Set the min calendar date

@@ -96,10 +96,17 @@ public class FlightSearchParams implements JSONable {
 		mQueryLegs.get(1).setDepartureDate(returnDate);
 	}
 
-	public Date getReturnDate() {
-		ensureRoundTripData();
+	public void setReturnDateEmpty() {
+		ensureOneWayData();
+	}
 
-		return mQueryLegs.get(1).getDepartureDate();
+	public Date getReturnDate() {
+		if (isRoundTrip()) {
+			return mQueryLegs.get(1).getDepartureDate();
+		}
+		else {
+			return null;
+		}
 	}
 
 	public void setDepartureAirportCode(String airportCode) {
@@ -140,6 +147,12 @@ public class FlightSearchParams implements JSONable {
 			returnLeg.setDepartureDate(new Date(cal));
 
 			mQueryLegs.add(returnLeg);
+		}
+	}
+
+	private void ensureOneWayData() {
+		if (isRoundTrip()) {
+			mQueryLegs.remove(1);
 		}
 	}
 

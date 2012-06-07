@@ -208,10 +208,15 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 		// (or one way) too.
 		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 
-		CharSequence start = DateFormat.format(DATE_FORMAT, params.getDepartureDate().getCalendar());
-		CharSequence end = DateFormat.format(DATE_FORMAT, params.getReturnDate().getCalendar());
-
-		mDatesButton.setText(getString(R.string.round_trip_TEMPLATE, start, end));
+		if (params.isRoundTrip()) {
+			CharSequence start = DateFormat.format(DATE_FORMAT, params.getDepartureDate().getCalendar());
+			CharSequence end = DateFormat.format(DATE_FORMAT, params.getReturnDate().getCalendar());
+			mDatesButton.setText(getString(R.string.round_trip_TEMPLATE, start, end));
+		}
+		else {
+			CharSequence start = DateFormat.format(DATE_FORMAT, params.getDepartureDate().getCalendar());
+			mDatesButton.setText(getString(R.string.one_way_TEMPLATE, start));
+		}
 	}
 
 	private void expandAirportEditText(View focusView) {
@@ -334,8 +339,15 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 				}
 				else if (tag.equals(TAG_DATE_PICKER)) {
 					FlightSearchParams params = Db.getFlightSearch().getSearchParams();
-					CalendarDialogFragment fragment = CalendarDialogFragment.newInstance(params.getDepartureDate()
-							.getCalendar(), params.getReturnDate().getCalendar());
+					CalendarDialogFragment fragment;
+					if (params.isRoundTrip()) {
+						fragment = CalendarDialogFragment.newInstance(params.getDepartureDate()
+								.getCalendar(), params.getReturnDate().getCalendar());
+					}
+					else {
+						fragment = CalendarDialogFragment.newInstance(params.getDepartureDate()
+								.getCalendar(), null);
+					}
 					fragment.setShowsDialog(false);
 					newFragment = fragment;
 				}
@@ -447,7 +459,12 @@ public class FlightSearchActivity extends FragmentActivity implements AirportPic
 	public void onChangeDates(Calendar start, Calendar end) {
 		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 		params.setDepartureDate(new Date(start));
-		params.setReturnDate(new Date(end));
+		if (end != null) {
+			params.setReturnDate(new Date(end));
+		}
+		else {
+			params.setReturnDateEmpty();
+		}
 		updateDateButton();
 	}
 

@@ -1,8 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -15,6 +12,9 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -40,9 +40,11 @@ public class CalendarDialogFragment extends DialogFragment {
 		args.putInt(KEY_START_YEAR, startDate.get(Calendar.YEAR));
 		args.putInt(KEY_START_MONTH, startDate.get(Calendar.MONTH));
 		args.putInt(KEY_START_DAY_OF_MONTH, startDate.get(Calendar.DAY_OF_MONTH));
-		args.putInt(KEY_END_YEAR, endDate.get(Calendar.YEAR));
-		args.putInt(KEY_END_MONTH, endDate.get(Calendar.MONTH));
-		args.putInt(KEY_END_DAY_OF_MONTH, endDate.get(Calendar.DAY_OF_MONTH));
+		if (endDate != null) {
+			args.putInt(KEY_END_YEAR, endDate.get(Calendar.YEAR));
+			args.putInt(KEY_END_MONTH, endDate.get(Calendar.MONTH));
+			args.putInt(KEY_END_DAY_OF_MONTH, endDate.get(Calendar.DAY_OF_MONTH));
+		}
 		dialog.setArguments(args);
 		return dialog;
 	}
@@ -104,15 +106,20 @@ public class CalendarDialogFragment extends DialogFragment {
 		}
 
 		// Initial calendar date picker variables
-		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker);
+		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID);
 
 		// Set initial dates
 		Bundle dateInfo = (savedInstanceState != null && savedInstanceState.containsKey(KEY_START_YEAR)) ? savedInstanceState
 				: getArguments();
-		mCalendarDatePicker.updateStartDate(dateInfo.getInt(KEY_START_YEAR),
-				dateInfo.getInt(KEY_START_MONTH), dateInfo.getInt(KEY_START_DAY_OF_MONTH));
-		mCalendarDatePicker.updateEndDate(dateInfo.getInt(KEY_END_YEAR),
-				dateInfo.getInt(KEY_END_MONTH), dateInfo.getInt(KEY_END_DAY_OF_MONTH));
+		if (dateInfo.containsKey(KEY_START_YEAR)) {
+			mCalendarDatePicker.updateStartDate(dateInfo.getInt(KEY_START_YEAR),
+					dateInfo.getInt(KEY_START_MONTH), dateInfo.getInt(KEY_START_DAY_OF_MONTH));
+		}
+
+		if (dateInfo.containsKey(KEY_END_YEAR)) {
+			mCalendarDatePicker.updateEndDate(dateInfo.getInt(KEY_END_YEAR),
+					dateInfo.getInt(KEY_END_MONTH), dateInfo.getInt(KEY_END_DAY_OF_MONTH));
+		}
 
 		// The listener changes based on whether this is a dialog or not.  If it's a dialog, we just update
 		// the title (and depend on a button press to indicate the dates changing).  For a normal fragment,
@@ -140,12 +147,26 @@ public class CalendarDialogFragment extends DialogFragment {
 		super.onSaveInstanceState(outState);
 
 		if (mCalendarDatePicker != null) {
-			outState.putInt(KEY_START_YEAR, mCalendarDatePicker.getStartYear());
-			outState.putInt(KEY_START_MONTH, mCalendarDatePicker.getStartMonth());
-			outState.putInt(KEY_START_DAY_OF_MONTH, mCalendarDatePicker.getStartDayOfMonth());
-			outState.putInt(KEY_END_YEAR, mCalendarDatePicker.getEndYear());
-			outState.putInt(KEY_END_MONTH, mCalendarDatePicker.getEndMonth());
-			outState.putInt(KEY_END_DAY_OF_MONTH, mCalendarDatePicker.getEndDayOfMonth());
+			if (mCalendarDatePicker.getStartTime() != null) {
+				outState.putInt(KEY_START_YEAR, mCalendarDatePicker.getStartYear());
+				outState.putInt(KEY_START_MONTH, mCalendarDatePicker.getStartMonth());
+				outState.putInt(KEY_START_DAY_OF_MONTH, mCalendarDatePicker.getStartDayOfMonth());
+			}
+			else {
+				outState.remove(KEY_START_YEAR);
+				outState.remove(KEY_START_MONTH);
+				outState.remove(KEY_START_DAY_OF_MONTH);
+			}
+			if (mCalendarDatePicker.getEndTime() != null) {
+				outState.putInt(KEY_END_YEAR, mCalendarDatePicker.getEndYear());
+				outState.putInt(KEY_END_MONTH, mCalendarDatePicker.getEndMonth());
+				outState.putInt(KEY_END_DAY_OF_MONTH, mCalendarDatePicker.getEndDayOfMonth());
+			}
+			else {
+				outState.remove(KEY_END_YEAR);
+				outState.remove(KEY_END_MONTH);
+				outState.remove(KEY_END_DAY_OF_MONTH);
+			}
 		}
 	}
 
@@ -163,8 +184,16 @@ public class CalendarDialogFragment extends DialogFragment {
 	private void notifyDateChangedListener() {
 		Calendar start = new GregorianCalendar(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
 				.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
-		Calendar end = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
-				.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
+
+		Calendar end;
+
+		if (mCalendarDatePicker.getEndTime() != null) {
+			end = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker.getEndMonth(),
+					mCalendarDatePicker.getEndDayOfMonth());
+		}
+		else {
+			end = null;
+		}
 
 		mListener.onChangeDates(start, end);
 	}

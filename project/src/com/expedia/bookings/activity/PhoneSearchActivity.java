@@ -609,7 +609,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 		mProgressBar.onResume();
 
-		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker);
+		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
 		setViewButtonImage();
 		setDrawerViews();
@@ -1054,7 +1054,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 				parent.setTouchDelegate(new TouchDelegate(r, delegate));
 			}
 		});
-		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker);
+		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
 		// Progress bar 
 
