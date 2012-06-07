@@ -163,6 +163,9 @@
                     <include layout="@layout/include_credit_card_info" />
                     <include layout="@layout/include_credit_card_security" />
 
+                    <!-- Coupon codes -->
+                    <include layout="@layout/include_coupon_code" />
+
                     <!-- Terms and conditions -->
 
                     <RelativeLayout
