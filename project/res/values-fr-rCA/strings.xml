@@ -4,7 +4,7 @@
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">Entrer l&apos;emplacement à rechercher…</string>
+	<string name="enter_search_location">Entrer l\&apos;emplacement à rechercher…</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Recherchez l\&apos;emplacement</string>
 	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
