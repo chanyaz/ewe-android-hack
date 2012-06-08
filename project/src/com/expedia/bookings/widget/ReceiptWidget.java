@@ -162,14 +162,15 @@ public class ReceiptWidget {
 		if (discountRate != null) {
 			Money amountDiscounted, after;
 			if (shouldDisplayMandatoryFees()) {
-				amountDiscounted = rate.getTotalPriceWithMandatoryFees();
+				amountDiscounted = new Money(rate.getTotalPriceWithMandatoryFees());
 				after = discountRate.getTotalPriceWithMandatoryFees();
 			}
 			else {
-				amountDiscounted = rate.getTotalAmountAfterTax();
+				amountDiscounted = new Money(rate.getTotalAmountAfterTax());
 				after = discountRate.getTotalAmountAfterTax();
 			}
 			amountDiscounted.subtract(after);
+			amountDiscounted.negate();
 
 			rate = discountRate;
 			addRow(mDetailsLayout, R.string.discount, amountDiscounted.getFormattedMoney());
