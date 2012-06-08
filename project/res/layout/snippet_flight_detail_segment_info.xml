@@ -109,7 +109,8 @@
                    		android:layout_width="wrap_content"
                    		android:textSize="24dp"
                    		android:textStyle="bold"
-                   		android:text="7:35"/>
+                   		android:textScaleX="0.9"
+                   		android:text="11:35"/>
                     
                     <LinearLayout 
 			            android:layout_width="wrap_content"
@@ -153,6 +154,7 @@
                   		android:layout_weight="0"
                   		android:gravity="center_vertical"
                   		android:textSize="18dp"
+                  		android:textScaleX="0.9"
                   		android:text="1h24m"/>
                 
                 <View
@@ -181,7 +183,8 @@
                    		android:layout_width="wrap_content"
                    		android:textSize="24dp"
                    		android:textStyle="bold"
-                   		android:text="9:22"/>
+                   		android:textScaleX="0.9"
+                   		android:text="12:22"/>
                     
                     <LinearLayout 
 			            android:layout_width="wrap_content"
@@ -207,19 +210,15 @@
                 </LinearLayout>
                 
             </LinearLayout>
-            
-            
-            
+                    
             
 <!--             seperator -->
-<!--             <View android:layout_width="fill_parent" -->
-<!--                 android:layout_height="10dp" -->
-<!--                 android:layout_marginTop="10dp" -->
-<!--                 android:layout_marginBottom="10dp" -->
-<!--                 android:layout_marginLeft="5dp" -->
-<!--                 android:layout_marginRight="5dp" -->
-<!--                 android:background="@drawable/border_flight_detail_seperator" -->
-<!--                 /> -->
+            <View android:layout_width="fill_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/border_flight_detail_seperator"
+                />
             
             <!-- button bar -->
 	       <LinearLayout android:id="@+id/flight_details_data_buttons_ll"
@@ -232,7 +231,7 @@
 	               android:id="@+id/flight_details_seat_map_btn"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
-		            android:text="Seat Map"
+		            android:text="@string/btn_seat_map"
 		            android:layout_weight="1"
 		            android:textSize="12dp"
 		            android:textStyle="bold"
@@ -244,7 +243,7 @@
 	               android:id="@+id/flight_details_baggage_fee_btn"
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
-		            android:text="Baggage Fee"
+		            android:text="@string/btn_baggage_fee"
 		            android:layout_weight="1"
 		            android:textSize="12dp"
 		            android:textStyle="bold"

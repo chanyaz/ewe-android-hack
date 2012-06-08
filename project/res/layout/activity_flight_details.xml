@@ -14,7 +14,10 @@
         android:layout_height="150dp"
         android:background="@drawable/san_francisco"
         android:gravity="center"
-        android:text="map goes here"/>
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:text="MAP GOES HERE"/>
     
     <LinearLayout android:id="@+id/flight_detail_info_bar"
         android:layout_width="fill_parent"
@@ -48,7 +51,7 @@
                 android:gravity="center_vertical"
                 android:textColor="#FFFFFF"
                 android:layout_marginLeft="5dp"
-                android:text="seats left!"/>
+                android:text="@string/seats_left"/>
             
         </LinearLayout>
         <View
@@ -77,7 +80,7 @@
                 android:paddingBottom="3dp"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
-                android:text="/per person"/>
+                android:text="@string/per_person"/>
         </LinearLayout>
     </LinearLayout>
         

@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightDetailsActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
@@ -48,10 +47,10 @@ public class TripFragment extends Fragment {
 		
 		View view = inflater.inflate(R.layout.fragment_trip, container, false);
 		ViewGroup tripContainer = Ui.findView(view, R.id.trip_container);
+		View headerView;
 		for(int i = 0; i < leg.getSegmentCount(); i++){
 			Flight seg = leg.getSegment(i);
 			
-			View headerView;
 			if(i == 0)
 				headerView = buildSegmentHeader(inflater,seg,tripContainer,HeaderPosition.FIRST);
 			else
@@ -61,7 +60,6 @@ public class TripFragment extends Fragment {
 			View segmentView = buildSegmentView(inflater, seg,timeLineContainer);
 			
 			timeLineContainer.addView(segmentView);
-			
 			tripContainer.addView(headerView);
 			
 			if(i == leg.getSegmentCount() - 1){
@@ -88,7 +86,7 @@ public class TripFragment extends Fragment {
 		
 		String origCity = orig.getAirport().mCity;
 		String destCity = dest.getAirport().mCity;
-		String cityToCity = origCity + " to " + destCity;	
+		String cityToCity = String.format(this.getString(R.string.city_to_city_TEMPLATE), origCity, destCity);	
 		String carrier = "" + segment.getOperatingFlightCode().getAirline().mAirlineName;
 		String flightNumber = "" + segment.getOperatingFlightCode().mNumber;
 	
@@ -103,6 +101,7 @@ public class TripFragment extends Fragment {
 		Ui.setText(wpView, R.id.flight_details_arrival_time_tv, genBaseTime(dest.getMostRelevantDateTime(),twentyFourHourClock));
 		Ui.setText(wpView, R.id.flight_details_arrival_tz_tv, dest.getAirport().mTimeZone.getDisplayName(false,TimeZone.SHORT));
 		Ui.setText(wpView, R.id.flight_details_arrival_ampm_tv, getAmPm(dest.getMostRelevantDateTime(),twentyFourHourClock));
+		
 		Ui.setText(wpView, R.id.flight_details_duration_tv, getFlightDuration(orig.getMostRelevantDateTime(),dest.getMostRelevantDateTime()));
 		
 		ViewGroup amenities = (ViewGroup)wpView.findViewById(R.id.flight_details_data_amenities_ll);
@@ -137,12 +136,16 @@ public class TripFragment extends Fragment {
 		}else{
 			wp = segment.mOrigin;
 		}
-
+		
 		Calendar cal =  wp.getMostRelevantDateTime();
 		
-		Ui.setText(segHead, R.id.flight_details_departure_time_tv, DateFormat.format("h:mmaa", cal.getTimeInMillis()));
-		Ui.setText(segHead,R.id.flight_details_departure_airport_tv , String.format("%s (%s)", wp.getAirport().mName, wp.mAirportCode));
+		boolean twentyFourHourClock = DateFormat.is24HourFormat(this.getActivity());
+		String time = genBaseTime(cal, twentyFourHourClock).toString();
+		time += getAmPm(cal,twentyFourHourClock).toString().toLowerCase();
 		
+		
+		Ui.setText(segHead, R.id.flight_details_departure_time_tv, time);
+		Ui.setText(segHead,R.id.flight_details_departure_airport_tv , String.format(this.getString(R.string.airport_name_and_code_TEMPLATE), wp.getAirport().mName, wp.mAirportCode));
 		
 		if(pos == HeaderPosition.FIRST)
 			segHead.findViewById(R.id.flight_details_header_line_up).setVisibility(View.INVISIBLE);
@@ -157,14 +160,17 @@ public class TripFragment extends Fragment {
 	/*
 	 * TIME HELPERS
 	 */
+
 	private CharSequence genBaseTime(Calendar cal, boolean twentyFourHour){
 		CharSequence retVal = "";
 		
 		if(!twentyFourHour){
-			retVal = DateFormat.format("h:mm", cal.getTimeInMillis());//String.format("%d:%02d",cal.get(Calendar.HOUR),cal.get(Calendar.MINUTE));
+			//noon/midnight == 0 in calendar.Hour time
+			retVal = String.format("%d:%02d",(cal.get(Calendar.HOUR) == 0) ? 12 : cal.get(Calendar.HOUR),cal.get(Calendar.MINUTE));
 		}else{
-			retVal = DateFormat.format("h:mm", cal.getTimeInMillis());//String.format("%d:%02d",cal.get(Calendar.HOUR_OF_DAY),cal.get(Calendar.MINUTE));
+			retVal = String.format("%d:%02d",cal.get(Calendar.HOUR_OF_DAY),cal.get(Calendar.MINUTE));
 		}
+		
 		
 		return retVal;
 	}
@@ -177,22 +183,17 @@ public class TripFragment extends Fragment {
 		}
 	}
 	
-	//TODO:This whole thing needs to be rewritten inorder to use locals etc..
 	private CharSequence getFlightDuration(Calendar orig, Calendar dest ){
 		//TODO:Move to someplace static...
 		int minutes = 1000 * 60;
 		int hours = minutes * 60;
-		int days = hours * 24;
 	
 		String retStr = "";
-		
+
 		long dif = dest.getTimeInMillis() - orig.getTimeInMillis();
 		if(dif < 0)
 			dif = orig.getTimeInMillis() - dest.getTimeInMillis();
 		
-		if(dif/days > 1){
-			retStr += "" + (int)Math.floor(dif/days) + "d";
-		}
 		
 		retStr += String.format("%dh%dm", (int)Math.floor(dif/hours),(int)Math.round((dif%hours)/minutes));
 		return retStr;
