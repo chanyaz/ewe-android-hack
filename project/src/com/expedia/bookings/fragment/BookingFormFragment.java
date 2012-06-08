@@ -234,6 +234,13 @@ public class BookingFormFragment extends DialogFragment {
 		mCouponCodeWidget = new CouponCodeWidget(getActivity(), view.findViewById(R.id.coupon_code));
 		mBillingAddressWidget = new BillingAddressWidget(getActivity(), mRootBillingView);
 		mBillingAddressWidget.restoreInstanceState(savedInstanceState);
+		mCouponCodeWidget.setCouponCodeAppliedListener(new CouponCodeWidget.CouponCodeAppliedListener() {
+			@Override
+			public void couponCodeApplied() {
+				updateChargeDetails();
+				updateReceiptWidget();
+			}
+		});
 		mCouponCodeWidget.restoreInstanceState(savedInstanceState);
 
 		// 10758: rendering the saved layouts on a software layer
@@ -317,15 +324,8 @@ public class BookingFormFragment extends DialogFragment {
 		}
 
 		if (Db.getSelectedProperty() != null && Db.getSelectedRate() != null) {
-			Rate discountRate = null;
-			if (Db.getCreateTripResponse() != null) {
-				discountRate = Db.getCreateTripResponse().getNewRate();
-			}
-			mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
+			updateReceiptWidget();
 			mReceiptWidget.restoreInstanceState(savedInstanceState);
-
-			BookingInfoUtils.determineExpediaPointsDisclaimer(getActivity(), view);
-			ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), view);
 		}
 
 		if (savedInstanceState == null) {
@@ -620,29 +620,7 @@ public class BookingFormFragment extends DialogFragment {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
 					if (!mFormHasBeenFocused) {
-						// Change the button text (if not showing as dialog)
-						if (!getShowsDialog()) {
-							mConfirmBookButton.setText(R.string.confirm_book);
-						}
-
-						// Reveal the charge lock icon
-						if (mChargeDetailsImageView != null) {
-							mChargeDetailsImageView.setVisibility(View.VISIBLE);
-						}
-
-						// Add the charge details text
-						if (mChargeDetailsTextView != null) {
-							Money amountToShow;
-							if (Db.getCreateTripResponse() != null) {
-								amountToShow = Db.getCreateTripResponse().getNewRate().getTotalAmountAfterTax();
-							}
-							else {
-								amountToShow = Db.getSelectedRate().getTotalAmountAfterTax();
-							}
-							CharSequence text = getString(R.string.charge_details_template, amountToShow.getFormattedMoney());
-							mChargeDetailsTextView.setText(text);
-						}
-
+						updateChargeDetails();
 						mFormHasBeenFocused = true;
 					}
 				}
@@ -668,6 +646,42 @@ public class BookingFormFragment extends DialogFragment {
 		if (mConfirmBookButton != null) {
 			mConfirmBookButton.setOnFocusChangeListener(l);
 		}
+	}
+
+	private void updateChargeDetails() {
+		// Change the button text (if not showing as dialog)
+		if (!getShowsDialog()) {
+			mConfirmBookButton.setText(R.string.confirm_book);
+		}
+
+		// Reveal the charge lock icon
+		if (mChargeDetailsImageView != null) {
+			mChargeDetailsImageView.setVisibility(View.VISIBLE);
+		}
+
+		// Add the charge details text
+		if (mChargeDetailsTextView != null) {
+			Money amountToShow;
+			if (Db.getCreateTripResponse() != null) {
+				amountToShow = Db.getCreateTripResponse().getNewRate().getTotalAmountAfterTax();
+			}
+			else {
+				amountToShow = Db.getSelectedRate().getTotalAmountAfterTax();
+			}
+			CharSequence text = getString(R.string.charge_details_template, amountToShow.getFormattedMoney());
+			mChargeDetailsTextView.setText(text);
+		}
+	}
+
+	public void updateReceiptWidget() {
+		Rate discountRate = null;
+		if (Db.getCreateTripResponse() != null) {
+			discountRate = Db.getCreateTripResponse().getNewRate();
+		}
+		mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
+
+		BookingInfoUtils.determineExpediaPointsDisclaimer(getActivity(), mRootBillingView);
+		ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), mRootBillingView);
 	}
 
 	/**

@@ -37,6 +37,8 @@ public class CouponCodeWidget {
 	private boolean mUseNewTotal = false;
 	private boolean mError = false;
 
+	private CouponCodeAppliedListener mListener;
+
 	private static final String KEY_CREATE_TRIP = "KEY_CREATE_TRIP";
 	private static final String KEY_TEXT_EMPTY = "KEY_COUPON_TEXT_EMPTY";
 	private static final String KEY_APPLY_CLICKED = "KEY_COUPON_APPLY_CLICKED";
@@ -157,6 +159,10 @@ public class CouponCodeWidget {
 		mCouponCode.addTextChangedListener(couponWatcher);
 	}
 
+	public void setCouponCodeAppliedListener(CouponCodeAppliedListener listener) {
+		mListener = listener;
+	}
+
 	private final Download<CreateTripResponse> mCouponDownload = new Download<CreateTripResponse>() {
 		@Override
 		public CreateTripResponse doDownload() {
@@ -208,6 +214,9 @@ public class CouponCodeWidget {
 				mUseNewTotal = true;
 				Db.setCreateTripResponse(response);
 				setNewTotal();
+				if (mListener != null) {
+					mListener.couponCodeApplied();
+				}
 			}
 		}
 	};
@@ -219,4 +228,7 @@ public class CouponCodeWidget {
 		mNewTotal.setText(mContext.getString(R.string.new_total) + "\n" + m.getFormattedMoney());
 	}
 
+	public interface CouponCodeAppliedListener {
+		public void couponCodeApplied();
+	}
 }
