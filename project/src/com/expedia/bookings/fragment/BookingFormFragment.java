@@ -46,6 +46,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
@@ -625,9 +626,14 @@ public class BookingFormFragment extends DialogFragment {
 
 						// Add the charge details text
 						if (mChargeDetailsTextView != null) {
-							CharSequence text = getString(R.string.charge_details_template, Db.getSelectedRate()
-									.getTotalAmountAfterTax()
-									.getFormattedMoney());
+							Money amountToShow;
+							if (Db.getCreateTripResponse() != null) {
+								amountToShow = Db.getCreateTripResponse().getNewRate().getTotalAmountAfterTax();
+							}
+							else {
+								amountToShow = Db.getSelectedRate().getTotalAmountAfterTax();
+							}
+							CharSequence text = getString(R.string.charge_details_template, amountToShow.getFormattedMoney());
 							mChargeDetailsTextView.setText(text);
 						}
 
