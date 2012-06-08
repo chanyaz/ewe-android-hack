@@ -30,6 +30,11 @@ public class Money implements JSONable {
 		// Default constructor
 	}
 
+	public Money(Money oldMoney) {
+		mAmount = oldMoney.getAmount();
+		mCurrency = oldMoney.getCurrency();
+	}
+
 	public Money(JSONObject obj) {
 		fromJson(obj);
 	}
@@ -129,6 +134,15 @@ public class Money implements JSONable {
 		// Do the subtraction
 		mAmount -= money.getAmount();
 
+		return true;
+	}
+
+	public boolean negate() {
+		if (!canManipulate(this)) {
+			return false;
+		}
+
+		mAmount = -mAmount;
 		return true;
 	}
 
