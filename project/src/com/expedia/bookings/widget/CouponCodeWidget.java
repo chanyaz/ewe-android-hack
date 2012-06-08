@@ -30,11 +30,13 @@ public class CouponCodeWidget {
 	private View mProgressBar;
 	private TextView mNewTotal;
 
+	private boolean mTextEmpty = true;
 	private boolean mApplyClicked = false;
 	private boolean mProgressShowing = false;
 	private boolean mUseNewTotal = false;
 
 	private static final String KEY_CREATE_TRIP = "KEY_CREATE_TRIP";
+	private static final String KEY_TEXT_EMPTY = "KEY_COUPON_TEXT_EMPTY";
 	private static final String KEY_APPLY_CLICKED = "KEY_COUPON_APPLY_CLICKED";
 	private static final String KEY_USE_NEW_TOTAL = "KEY_COUPON_USE_NEW_TOTAL";
 	private static final String KEY_PROGRESS_SHOWING = "KEY_COUPON_PROGRESS_SHOWING";
@@ -72,9 +74,8 @@ public class CouponCodeWidget {
 
 		@Override
 		public void afterTextChanged(Editable s) {
-			mApply.setEnabled(!TextUtils.isEmpty(s));
+			mApply.setEnabled(!(mTextEmpty = TextUtils.isEmpty(s)));
 			if (mApplyClicked) {
-				Log.d("HERE afterTextChanged");
 				mApplyClicked = false;
 				mUseNewTotal = false;
 				mProgressShowing = false;
@@ -118,23 +119,20 @@ public class CouponCodeWidget {
 	public void saveInstanceState(Bundle outState) {
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_CREATE_TRIP, mCouponCallback);
 		if (outState != null) {
+			outState.putBoolean(KEY_TEXT_EMPTY, mTextEmpty);
 			outState.putBoolean(KEY_APPLY_CLICKED, mApplyClicked);
 			outState.putBoolean(KEY_USE_NEW_TOTAL, mUseNewTotal);
 			outState.putBoolean(KEY_PROGRESS_SHOWING, mProgressShowing);
-			Log.d("HERE put applyclicked " + mApplyClicked);
-			Log.d("HERE put usenewtotal " + mUseNewTotal);
-			Log.d("HERE put progress " + mProgressShowing);
 		}
 	}
 
 	public void restoreInstanceState(Bundle inState) {
 		if (inState != null) {
+			mTextEmpty = inState.getBoolean(KEY_TEXT_EMPTY, true);
 			mApplyClicked = inState.getBoolean(KEY_APPLY_CLICKED, false);
 			mUseNewTotal = inState.getBoolean(KEY_USE_NEW_TOTAL, false);
 			mProgressShowing = inState.getBoolean(KEY_PROGRESS_SHOWING, false);
-			Log.d("HERE get applyclicked " + mApplyClicked);
-			Log.d("HERE get usenewtotal " + mUseNewTotal);
-			Log.d("HERE get progress " + mProgressShowing);
+			mApply.setEnabled(!mTextEmpty);
 		}
 		startOrResumeDownload();
 	}
