@@ -72,6 +72,11 @@
             <include layout="@layout/include_credit_card_security" />
 
             <!-- Coupon codes -->
+            <TextView
+                style="@style/PhoneSectionHeader.Details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/coupon_code" />
             <include layout="@layout/include_coupon_code" />
 
             <!-- Terms and conditions -->
