@@ -2,8 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.util.List;
 
-import org.json.JSONObject;
-
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -21,7 +19,6 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingFormFragment.BookingFormFragmentListener;
@@ -259,19 +256,7 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 				return;
 			}
 
-			// TODO: Have ConfirmationActivity rely on Db, instead of filling this intent with everything it needs
-			Intent intent = ConfirmationActivity.createIntent(mContext);
-			intent.putExtra(Codes.PROPERTY, Db.getSelectedProperty().toJson().toString());
-			intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toJson().toString());
-			intent.putExtra(Codes.RATE, Db.getSelectedRate().toJson().toString());
-			intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
-
-			// Create a BillingInfo that lacks the user's security code (for safety)
-			JSONObject billingJson = Db.getBillingInfo().toJson();
-			billingJson.remove("securityCode");
-			intent.putExtra(Codes.BILLING_INFO, billingJson.toString());
-
-			startActivity(intent);
+			startActivity(ConfirmationFragmentActivity.createIntent(mContext));
 		}
 	};
 

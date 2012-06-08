@@ -39,12 +39,6 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// #7090: If the user was just sent from the ConfirmationActivity, quit (if desired)
-		if (getIntent().getBooleanExtra(Codes.EXTRA_FINISH, false)) {
-			finish();
-			return;
-		}
-
 		setContentView(R.layout.activity_search_fragment);
 
 		mSearchParamsFragment = Ui.findSupportFragment(this, getString(R.string.tag_search_params));

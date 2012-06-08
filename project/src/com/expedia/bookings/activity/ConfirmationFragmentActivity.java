@@ -3,7 +3,6 @@ package com.expedia.bookings.activity;
 import org.json.JSONObject;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,11 +20,12 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.BookingConfirmationFragment.BookingConfirmationFragmentListener;
+import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.tracking.Tracker;
+import com.expedia.bookings.utils.ConfirmationFragmentActivityActionBarHelper;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.mobiata.android.Log;
-import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
@@ -39,6 +39,10 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 		super.onCreate(savedInstanceState);
 
 		mContext = this;
+
+		if (AndroidUtils.isTablet(this)) {
+            setTheme(R.style.Theme_Tablet);
+		}
 
 		if (savedInstanceState == null) {
 			if (ConfirmationUtils.hasSavedConfirmationData(this)) {
@@ -91,19 +95,11 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 		}
 	}
 
-	@TargetApi(14)
 	@Override
 	protected void onStart() {
 		super.onStart();
 
-		// Configure the ActionBar
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayHomeAsUpEnabled(false);
-		if (AndroidUtils.getSdkVersion() >= 14) {
-			actionBar.setHomeButtonEnabled(false);
-		}
-		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
+		configureActionBar();
 	}
 
 	@Override
@@ -115,20 +111,21 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 		}
 	}
 
+	@TargetApi(11)
+	private void configureActionBar() {
+		if (AndroidUtils.getSdkVersion() >= 11) {
+			new ConfirmationFragmentActivityActionBarHelper(this).configure();
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 
-	@TargetApi(11)
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
-		actionBar.setDisplayHomeAsUpEnabled(false);
-		if (AndroidUtils.getSdkVersion() >= 14) {
-			actionBar.setHomeButtonEnabled(false);
-		}
+		configureActionBar();
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
@@ -197,7 +194,7 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 			String message = getString(R.string.error_booking_succeeded_with_errors, Db.getBookingResponse()
 					.gatherErrorMessage(this));
 
-			SimpleDialogFragment.newInstance(title, message).show(getFragmentManager(), dialogTag);
+			SimpleSupportDialogFragment.newInstance(title, message).show(getSupportFragmentManager(), dialogTag);
 		}
 	}
 
@@ -221,8 +218,8 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 	@Override
 	public void onShareBooking() {
 		String contactText = ConfirmationUtils.determineContactText(this);
-		ConfirmationUtils.share(this, Db.getSearchParams(), Db.getSelectedProperty(),
-				Db.getBookingResponse(), Db.getBillingInfo(), Db.getSelectedRate(), contactText);
+		ConfirmationUtils.share(this, Db.getSearchParams(), Db.getSelectedProperty(), Db.getBookingResponse(),
+				Db.getBillingInfo(), Db.getSelectedRate(), contactText);
 	}
 
 	@Override

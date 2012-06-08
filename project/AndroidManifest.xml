@@ -63,7 +63,6 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activity.ConfirmationFragmentActivity"
-            android:theme="@style/Theme.Tablet"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activity.HotelActivity"
@@ -75,7 +74,6 @@
             android:theme="@style/Theme.Light.Fullscreen.Panel" />
         <activity android:name=".activity.RoomsAndRatesListActivity" />
         <activity android:name=".activity.BookingInfoActivity" />
-        <activity android:name=".activity.ConfirmationActivity" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.TabletAboutActivity" />
         <activity android:name=".activity.ExpediaBookingPreferenceActivity" />

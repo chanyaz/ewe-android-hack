@@ -39,7 +39,7 @@ public class SearchActivity extends Activity {
 					: SearchFragmentActivity.class;
 		}
 		else {
-			routingTarget = (hasSavedConfirmationData) ? ConfirmationActivity.class : PhoneSearchActivity.class;
+			routingTarget = (hasSavedConfirmationData) ? ConfirmationFragmentActivity.class : PhoneSearchActivity.class;
 		}
 
 		Intent intent = new Intent(this, routingTarget);
