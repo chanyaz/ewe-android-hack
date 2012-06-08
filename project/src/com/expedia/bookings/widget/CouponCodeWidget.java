@@ -15,6 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.server.ExpediaServices;
 
 import com.mobiata.android.BackgroundDownloader;
@@ -34,12 +35,14 @@ public class CouponCodeWidget {
 	private boolean mApplyClicked = false;
 	private boolean mProgressShowing = false;
 	private boolean mUseNewTotal = false;
+	private boolean mError = false;
 
 	private static final String KEY_CREATE_TRIP = "KEY_CREATE_TRIP";
 	private static final String KEY_TEXT_EMPTY = "KEY_COUPON_TEXT_EMPTY";
 	private static final String KEY_APPLY_CLICKED = "KEY_COUPON_APPLY_CLICKED";
 	private static final String KEY_USE_NEW_TOTAL = "KEY_COUPON_USE_NEW_TOTAL";
 	private static final String KEY_PROGRESS_SHOWING = "KEY_COUPON_PROGRESS_SHOWING";
+	private static final String KEY_ERROR = "KEY_COUPON_ERROR";
 
 	public CouponCodeWidget (Context context, View rootView) {
 		mContext = context;
@@ -58,7 +61,6 @@ public class CouponCodeWidget {
 				startOrResumeDownload();
 			}
 		});
-
 	}
 
 	private final TextWatcher couponWatcher = new TextWatcher() {
@@ -79,12 +81,22 @@ public class CouponCodeWidget {
 				mApplyClicked = false;
 				mUseNewTotal = false;
 				mProgressShowing = false;
+				mError = false;
+				Db.setCreateTripResponse(null);
 				startOrResumeDownload();
 			}
 		}
 	};
 
 	private void startOrResumeDownload() {
+		if (mError) {
+			mProgressBar.setVisibility(View.GONE);
+			mApply.setVisibility(View.GONE);
+			mNewTotal.setVisibility(View.VISIBLE);
+			mNewTotal.setText(mContext.getString(R.string.coupon_error));
+			return;
+		}
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (mApplyClicked) {
 			if (mProgressShowing) {
@@ -123,6 +135,8 @@ public class CouponCodeWidget {
 			outState.putBoolean(KEY_APPLY_CLICKED, mApplyClicked);
 			outState.putBoolean(KEY_USE_NEW_TOTAL, mUseNewTotal);
 			outState.putBoolean(KEY_PROGRESS_SHOWING, mProgressShowing);
+			outState.putBoolean(KEY_ERROR, mError);
+			Log.d("HERE save error " + mError);
 		}
 	}
 
@@ -132,6 +146,8 @@ public class CouponCodeWidget {
 			mApplyClicked = inState.getBoolean(KEY_APPLY_CLICKED, false);
 			mUseNewTotal = inState.getBoolean(KEY_USE_NEW_TOTAL, false);
 			mProgressShowing = inState.getBoolean(KEY_PROGRESS_SHOWING, false);
+			mError = inState.getBoolean(KEY_ERROR, false);
+			Log.d("HERE error " + mError);
 			mApply.setEnabled(!mTextEmpty);
 		}
 		startOrResumeDownload();
@@ -157,9 +173,36 @@ public class CouponCodeWidget {
 			mProgressShowing = false;
 			mProgressBar.setVisibility(View.GONE);
 			mNewTotal.setVisibility(View.VISIBLE);
-			if (response == null || response.hasErrors()) {
-				// TODO: distinguish between invalid and expired
-				mNewTotal.setText(mContext.getString(R.string.invalid_coupon));
+			if (response == null) {
+				mError = true;
+				mNewTotal.setText(mContext.getString(R.string.coupon_error));
+			}
+			else if (response.hasErrors()) {
+				mError = true;
+				boolean isExpired = false;
+				boolean isInvalid = false;
+				for (ServerError error : response.getErrors()) {
+					switch (error.getErrorCode()) {
+					case INVALID_INPUT_COUPON_CODE:
+						isExpired = true;
+						break;
+					case INVALID_INPUT:
+						isInvalid = true;
+						break;
+					case APPLY_COUPON_ERROR:
+						isInvalid = true;
+						break;
+					}
+				}
+				if (isInvalid) {
+					mNewTotal.setText(mContext.getString(R.string.invalid_coupon));
+				}
+				else if (isExpired) {
+					mNewTotal.setText(mContext.getString(R.string.expired_coupon));
+				}
+				else {
+					mNewTotal.setText(mContext.getString(R.string.coupon_error));
+				}
 			}
 			else {
 				mUseNewTotal = true;

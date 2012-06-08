@@ -32,6 +32,10 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 		try {
 			createTripResponse.addErrors(ParserUtils.parseErrors(mContext, ServerError.ApiMethod.CREATE_TRIP, response));
 
+			if (createTripResponse.hasErrors()) {
+				return createTripResponse;
+			}
+
 			createTripResponse.setTripId(response.optString("tripId", null));
 			createTripResponse.setUserId(response.optString("userId", null));
 

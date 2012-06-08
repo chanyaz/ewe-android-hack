@@ -593,8 +593,10 @@
 	<string name="use_card">Use card:</string>
     <!-- Label for when a user has entered an invalid coupon -->
 	<string name="invalid_coupon">Invalid Coupon</string>
-    <!-- Label for when a user has entered a coupon which is expired-->
+    <!-- Label for when a user has entered a coupon which is expired -->
 	<string name="expired_coupon">Expired Coupon</string>
+    <!-- Label for when a user has entered a coupon and the server fails -->
+	<string name="coupon_error">Coupon Error</string>
 
 	<!-- Sharing bookings via email -->
 	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
