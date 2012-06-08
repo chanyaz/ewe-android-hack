@@ -12,6 +12,7 @@ import android.text.Html;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextUtils.TruncateAt;
+import android.util.FloatMath;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -379,8 +380,8 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 			return;
 		}
 
-		int tenDp = (int) Math.ceil(getResources().getDisplayMetrics().density * 10);
-		int fiveDp = (int) Math.ceil(getResources().getDisplayMetrics().density * 5);
+		int tenDp = (int) FloatMath.ceil(getResources().getDisplayMetrics().density * 10);
+		int fiveDp = (int) FloatMath.ceil(getResources().getDisplayMetrics().density * 5);
 
 		int numReviewsPerRow = getResources().getInteger(R.integer.num_review_rows);
 		int numReviewColumns = getResources().getInteger(R.integer.num_review_columns);
@@ -501,8 +502,8 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 		}
 
 		int sectionCount = hotelDescription.getSections().size();
-		int tenDp = (int) Math.ceil(getResources().getDisplayMetrics().density * 10);
-		int fiveDp = (int) Math.ceil(getResources().getDisplayMetrics().density * 5);
+		int tenDp = (int) FloatMath.ceil(getResources().getDisplayMetrics().density * 10);
+		int fiveDp = (int) FloatMath.ceil(getResources().getDisplayMetrics().density * 5);
 		int numHotelDescriptionsPerRow = getResources().getInteger(R.integer.num_hotel_description_sections_per_row);
 		for (int i = 0; sectionCount > 0; i++) {
 
