@@ -4,31 +4,31 @@
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">Saisissez votre destination…</string>
+	<string name="enter_search_location">Entrer l&apos;emplacement à rechercher…</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Recherche destination</string>
 	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-	<string name="loading_suggestions">Chargement des suggestions...</string>
+	<string name="loading_suggestions">Chargement des suggestions…</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Dernières recherches</string>
 	<!-- Label for searches that the user can make that are featured -->
 	<string name="featured_destinations">Destinations Top</string>
 	<!-- Label for button that starts search -->
-	<string name="search_for_hotels">Rechercher</string>
+	<string name="search_for_hotels">Rechercher des hôtels</string>
 	<!--  Label for picking search location -->
-	<string name="where_are_you_going">&lt;b&gt;Où ?&lt;/b&gt;</string>
+	<string name="where_are_you_going">&lt;b&gt;Où?&lt;/b&gt;</string>
 	<!--  Label for picking checkin/checkout dates -->
-	<string name="drag_to_extend_your_stay">&lt;b&gt;Faites glisser&lt;/b&gt; pour changer les dates.</string>
+	<string name="drag_to_extend_your_stay">&lt;b&gt;Déplacer&lt;/b&gt; pour prolonger le séjour</string>
 	<!--  Label for picking guests for hotel booking -->
-	<string name="who_is_going">&lt;b&gt;Qui ?&lt;/b&gt;</string>
+	<string name="who_is_going">&lt;b&gt;Qui?&lt;/b&gt;</string>
 	<!-- Child age dialog button -->
 	<string name="button_done">Terminé</string>
 	<!--  Label for child age selection prompt -->
 	<plurals name="select_each_childs_age">
 	    <item quantity="one">Sélectionner l\&apos;âge de l\&apos;enfant</item>
-	    <item quantity="two">Sélectionner l\&apos;âge de tous les enfants</item>
-	    <item quantity="many">Sélectionner l\&apos;âge de tous les enfants</item>
-	    <item quantity="other">Sélectionner l\&apos;âge de tous les enfants</item>
+	    <item quantity="two">Sélectionner l\&apos;âge de chaque enfant</item>
+	    <item quantity="many">Sélectionner l\&apos;âge de chaque enfant</item>
+	    <item quantity="other">Sélectionner l\&apos;âge de chaque enfant</item>
 	</plurals>
 	<!--  Title of "select child age" spinner dialog box -->
 	<string name="prompt_select_child_age">Sélectionner l\&apos;âge de l\&apos;enfant (%1$s - %2$s)</string>
