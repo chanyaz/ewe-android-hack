@@ -21,7 +21,8 @@
             android:id="@+id/apply_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/apply" />
+            android:text="@string/apply"
+            android:textColor="@color/btn_black_text_color" />
         <ProgressBar
             android:id="@+id/coupon_progress_bar"
             style="@android:style/Widget.ProgressBar.Small"
