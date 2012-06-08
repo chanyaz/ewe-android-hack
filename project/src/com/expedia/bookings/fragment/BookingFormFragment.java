@@ -47,6 +47,7 @@ import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
@@ -316,7 +317,11 @@ public class BookingFormFragment extends DialogFragment {
 		}
 
 		if (Db.getSelectedProperty() != null && Db.getSelectedRate() != null) {
-			mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
+			Rate discountRate = null;
+			if (Db.getCreateTripResponse() != null) {
+				discountRate = Db.getCreateTripResponse().getNewRate();
+			}
+			mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
 			mReceiptWidget.restoreInstanceState(savedInstanceState);
 
 			BookingInfoUtils.determineExpediaPointsDisclaimer(getActivity(), view);

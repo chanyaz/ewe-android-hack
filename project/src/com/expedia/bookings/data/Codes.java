@@ -21,6 +21,7 @@ public class Codes {
 	public static final String SHOW_BRANDING = "SHOW_BRANDING";
 	public static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
 	public static final String DISPLAY_MODAL_VIEW = "DISPLAY_MODAL_VIEW";
+	public static final String DISCOUNT_RATE = "DISCOUNT_RATE";
 
 	public static final String EXTRA_FINISH = "EXTRA_FINISH";
 

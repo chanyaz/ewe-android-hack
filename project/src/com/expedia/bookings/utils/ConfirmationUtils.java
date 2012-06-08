@@ -160,7 +160,7 @@ public class ConfirmationUtils {
 	// Breadcrumb (reloading activity)
 
 	public static boolean saveConfirmationData(Context context, SearchParams searchParams, Property property,
-			Rate rate, BillingInfo billingInfo, BookingResponse bookingResponse) {
+			Rate rate, BillingInfo billingInfo, BookingResponse bookingResponse, Rate discountRate) {
 		Log.i("Saving confirmation data...");
 		try {
 			JSONObject data = new JSONObject();
@@ -169,6 +169,9 @@ public class ConfirmationUtils {
 			data.put(Codes.RATE, rate.toJson());
 			data.put(Codes.BILLING_INFO, billingInfo.toJson());
 			data.put(Codes.BOOKING_RESPONSE, bookingResponse.toJson());
+			if (discountRate != null) {
+				data.put(Codes.DISCOUNT_RATE, discountRate.toJson());
+			}
 
 			IoUtils.writeStringToFile(CONFIRMATION_DATA_VERSION_FILE,
 					Integer.toString(AndroidUtils.getAppCode(context)), context);

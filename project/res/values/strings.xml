@@ -535,6 +535,8 @@
 	<string name="CheckIn">Check In</string>
 	<!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
 	<string name="CheckOut">Check Out</string>
+    <!-- Label to display the amount you save after applying a coupon code in the receipt -->
+	<string name="discount">Discount</string>
 
 	<!-- Expedia policy strings -->
 	<!-- Policy displayed to user when an immediate charge is required -->

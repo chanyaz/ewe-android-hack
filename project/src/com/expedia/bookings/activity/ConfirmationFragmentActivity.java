@@ -54,9 +54,13 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 				// Start a background thread to save this data to the disk
 				new Thread(new Runnable() {
 					public void run() {
+						Rate discountRate = null;
+						if (Db.getCreateTripResponse() != null) {
+							discountRate = Db.getCreateTripResponse().getNewRate();
+						}
 						ConfirmationUtils.saveConfirmationData(mContext, Db.getSearchParams(),
 								Db.getSelectedProperty(), Db.getSelectedRate(), Db.getBillingInfo(),
-								Db.getBookingResponse());
+								Db.getBookingResponse(), discountRate);
 					}
 				}).start();
 			}

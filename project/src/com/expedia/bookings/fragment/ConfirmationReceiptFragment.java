@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.widget.ReceiptWidget;
 
@@ -39,8 +40,12 @@ public class ConfirmationReceiptFragment extends Fragment {
 		String contactText = ConfirmationUtils.determineContactText(getActivity());
 		ConfirmationUtils.configureContactView(getActivity(), contactView, contactText);
 
+		Rate discountRate = null;
+		if (Db.getCreateTripResponse() != null) {
+			discountRate = Db.getCreateTripResponse().getNewRate();
+		}
 		mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(),
-				Db.getBookingResponse(), Db.getBillingInfo());
+				Db.getBookingResponse(), Db.getBillingInfo(), discountRate);
 
 		return receipt;
 	}

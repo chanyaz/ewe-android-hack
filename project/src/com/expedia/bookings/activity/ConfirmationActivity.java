@@ -59,6 +59,7 @@ public class ConfirmationActivity extends MapActivity {
 	private Rate mRate;
 	private BillingInfo mBillingInfo;
 	private BookingResponse mBookingResponse;
+	private Rate mDiscountRate;
 
 	private String mContactText;
 
@@ -108,12 +109,13 @@ public class ConfirmationActivity extends MapActivity {
 					BillingInfo.class);
 			mBookingResponse = (BookingResponse) JSONUtils.parseJSONableFromIntent(intent, Codes.BOOKING_RESPONSE,
 					BookingResponse.class);
+			mDiscountRate = (Rate) JSONUtils.parseJSONableFromIntent(intent, Codes.DISCOUNT_RATE, Rate.class);
 
 			// Start a background thread to save this data to the disk
 			new Thread(new Runnable() {
 				public void run() {
 					ConfirmationUtils.saveConfirmationData(ConfirmationActivity.this, mSearchParams, mProperty, mRate,
-							mBillingInfo, mBookingResponse);
+							mBillingInfo, mBookingResponse, mDiscountRate);
 				}
 			}).start();
 		}
@@ -168,7 +170,7 @@ public class ConfirmationActivity extends MapActivity {
 		userRating.setRating((float) mProperty.getAverageExpediaRating());
 
 		// Receipt pricing info (daily rates, taxes, total, etc.)
-		mReceiptWidget.updateData(mProperty, mSearchParams, mRate, mBookingResponse, mBillingInfo);
+		mReceiptWidget.updateData(mProperty, mSearchParams, mRate, mBookingResponse, mBillingInfo, mDiscountRate);
 
 		// Cancellation policy (at the bottom)
 		View confirmationContainer = findViewById(R.id.confirmation_content_container);
@@ -307,6 +309,7 @@ public class ConfirmationActivity extends MapActivity {
 			mBillingInfo = (BillingInfo) JSONUtils.getJSONable(data, Codes.BILLING_INFO, BillingInfo.class);
 			mBookingResponse = (BookingResponse) JSONUtils.getJSONable(data, Codes.BOOKING_RESPONSE,
 					BookingResponse.class);
+			mDiscountRate = (Rate) JSONUtils.getJSONable(data, Codes.DISCOUNT_RATE, Rate.class);
 			return true;
 		}
 		catch (Exception e) {

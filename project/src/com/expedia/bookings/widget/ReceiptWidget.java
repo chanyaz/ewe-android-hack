@@ -74,11 +74,15 @@ public class ReceiptWidget {
 	}
 
 	public void updateData(Property property, SearchParams searchParams, Rate rate) {
-		updateData(property, searchParams, rate, null, null);
+		updateData(property, searchParams, rate, null, null, null);
+	}
+
+	public void updateData(Property property, SearchParams searchParams, Rate rate, Rate discountRate) {
+		updateData(property, searchParams, rate, null, null, discountRate);
 	}
 
 	public void updateData(Property property, SearchParams searchParams, Rate rate, BookingResponse bookingResponse,
-			BillingInfo billingInfo) {
+			BillingInfo billingInfo, Rate discountRate) {
 		reset();
 
 		mRoomTypeWidget.updateRate(rate);
@@ -155,6 +159,22 @@ public class ReceiptWidget {
 		}
 
 		// Configure the total cost and (if necessary) total cost paid to Expedia
+		if (discountRate != null) {
+			Money amountDiscounted, after;
+			if (shouldDisplayMandatoryFees()) {
+				amountDiscounted = rate.getTotalPriceWithMandatoryFees();
+				after = discountRate.getTotalPriceWithMandatoryFees();
+			}
+			else {
+				amountDiscounted = rate.getTotalAmountAfterTax();
+				after = discountRate.getTotalAmountAfterTax();
+			}
+			amountDiscounted.subtract(after);
+
+			rate = discountRate;
+			addRow(mDetailsLayout, R.string.discount, amountDiscounted.getFormattedMoney());
+		}
+
 		Money displayedTotal;
 		if (shouldDisplayMandatoryFees()) {
 			mBelowTotalCostLayout.setVisibility(View.VISIBLE);
@@ -167,6 +187,7 @@ public class ReceiptWidget {
 		}
 
 		mTotalCostTextView.setText(displayedTotal.getFormattedMoney());
+
 	}
 
 	private void reset() {
