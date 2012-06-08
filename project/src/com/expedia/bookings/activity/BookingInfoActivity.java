@@ -103,6 +103,14 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (isFinishing()) {
+			Db.setCreateTripResponse(null);
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Menus
 

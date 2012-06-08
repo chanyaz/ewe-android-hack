@@ -113,6 +113,14 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		bd.unregisterDownloadCallback(KEY_BOOKING, mBookingCallback);
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (isFinishing()) {
+			Db.setCreateTripResponse(null);
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 

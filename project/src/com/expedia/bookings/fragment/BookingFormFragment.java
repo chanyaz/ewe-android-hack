@@ -380,6 +380,7 @@ public class BookingFormFragment extends DialogFragment {
 		if (! mUserProfileIsFresh && bd.isDownloading(KEY_SIGNIN_FETCH)) {
 			bd.registerDownloadCallback(KEY_SIGNIN_FETCH, mLoginCallback);
 		}
+		mCouponCodeWidget.startTextWatcher();
 	}
 
 	private void configureForm() {

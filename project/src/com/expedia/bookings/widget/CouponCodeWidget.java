@@ -2,6 +2,9 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -44,6 +47,7 @@ public class CouponCodeWidget {
 		mProgressBar = rootView.findViewById(R.id.coupon_progress_bar);
 		mNewTotal = (TextView) rootView.findViewById(R.id.new_total_textview);
 
+		mApply.setEnabled(false);
 		mApply.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -53,18 +57,40 @@ public class CouponCodeWidget {
 			}
 		});
 
-		// TODO: on text change listener
 	}
 
+	private final TextWatcher couponWatcher = new TextWatcher() {
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			// Do nothing
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			// Do nothing
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			mApply.setEnabled(!TextUtils.isEmpty(s));
+			if (mApplyClicked) {
+				Log.d("HERE afterTextChanged");
+				mApplyClicked = false;
+				mUseNewTotal = false;
+				mProgressShowing = false;
+				startOrResumeDownload();
+			}
+		}
+	};
 
 	private void startOrResumeDownload() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (mApplyClicked) {
 			if (mProgressShowing) {
 				mProgressBar.setVisibility(View.VISIBLE);
 				mApply.setVisibility(View.GONE);
 				mNewTotal.setVisibility(View.GONE);
 
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
 				if (bd.isDownloading(KEY_CREATE_TRIP)) {
 					bd.registerDownloadCallback(KEY_CREATE_TRIP, mCouponCallback);
 				}
@@ -76,9 +102,13 @@ public class CouponCodeWidget {
 				mProgressBar.setVisibility(View.GONE);
 				mApply.setVisibility(View.GONE);
 				mNewTotal.setVisibility(View.VISIBLE);
+				setNewTotal();
 			}
 		}
 		else {
+			if (bd.isDownloading(KEY_CREATE_TRIP)) {
+				bd.cancelDownload(KEY_CREATE_TRIP);
+			}
 			mProgressBar.setVisibility(View.GONE);
 			mApply.setVisibility(View.VISIBLE);
 			mNewTotal.setVisibility(View.GONE);
@@ -91,6 +121,9 @@ public class CouponCodeWidget {
 			outState.putBoolean(KEY_APPLY_CLICKED, mApplyClicked);
 			outState.putBoolean(KEY_USE_NEW_TOTAL, mUseNewTotal);
 			outState.putBoolean(KEY_PROGRESS_SHOWING, mProgressShowing);
+			Log.d("HERE put applyclicked " + mApplyClicked);
+			Log.d("HERE put usenewtotal " + mUseNewTotal);
+			Log.d("HERE put progress " + mProgressShowing);
 		}
 	}
 
@@ -99,8 +132,15 @@ public class CouponCodeWidget {
 			mApplyClicked = inState.getBoolean(KEY_APPLY_CLICKED, false);
 			mUseNewTotal = inState.getBoolean(KEY_USE_NEW_TOTAL, false);
 			mProgressShowing = inState.getBoolean(KEY_PROGRESS_SHOWING, false);
+			Log.d("HERE get applyclicked " + mApplyClicked);
+			Log.d("HERE get usenewtotal " + mUseNewTotal);
+			Log.d("HERE get progress " + mProgressShowing);
 		}
 		startOrResumeDownload();
+	}
+
+	public void startTextWatcher() {
+		mCouponCode.addTextChangedListener(couponWatcher);
 	}
 
 	private final Download<CreateTripResponse> mCouponDownload = new Download<CreateTripResponse>() {
@@ -120,16 +160,22 @@ public class CouponCodeWidget {
 			mProgressBar.setVisibility(View.GONE);
 			mNewTotal.setVisibility(View.VISIBLE);
 			if (response == null || response.hasErrors()) {
-				// TODO: use R.string
-				mNewTotal.setText("Invalid Coupon");
+				// TODO: distinguish between invalid and expired
+				mNewTotal.setText(mContext.getString(R.string.invalid_coupon));
 			}
 			else {
 				mUseNewTotal = true;
-				// TODO: use proper total based on POS
-				mNewTotal.setText(mContext.getString(R.string.new_total) + "\n" + response.getNewRate().getTotalPriceWithMandatoryFees().getFormattedMoney());
 				Db.setCreateTripResponse(response);
+				setNewTotal();
 			}
 		}
 	};
+
+	private void setNewTotal() {
+		CreateTripResponse response = Db.getCreateTripResponse();
+		// TODO: use correct total based on POS
+		Money m = response.getNewRate().getTotalPriceWithMandatoryFees();
+		mNewTotal.setText(mContext.getString(R.string.new_total) + "\n" + m.getFormattedMoney());
+	}
 
 }
