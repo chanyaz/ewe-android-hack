@@ -304,7 +304,7 @@
         android:visibility="gone" />
 
     <include
-        android:id="@id/button_bar_layout"
+        android:id="@+id/button_bar_layout"
         layout="@layout/include_button_bar" />
 
     <include
