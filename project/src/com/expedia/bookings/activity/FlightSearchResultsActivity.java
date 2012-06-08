@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -12,6 +13,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.fragment.FlightFilterDialogFragment;
 import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightAdapter.FlightAdapterListener;
@@ -62,6 +64,15 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		}
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Action bar
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_flight_results, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -71,9 +82,20 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(intent);
 			return true;
+		case R.id.menu_filter:
+			showFilterDialog();
+			return true;
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Filter dialog
+
+	public void showFilterDialog() {
+		FlightFilterDialogFragment fragment = new FlightFilterDialogFragment();
+		fragment.show(getSupportFragmentManager(), FlightFilterDialogFragment.TAG);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
