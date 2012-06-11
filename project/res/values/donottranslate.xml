@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Fragment tags -->
     <string name="tag_search_params">SEARCH_PARAMS</string>
-    <string name="tag_hotel_gallery">HOTEL_GALLERY</string>
     <string name="tag_hotel_list">HOTEL_LIST</string>
     <string name="tag_hotel_map">HOTEL_MAP</string>
     <string name="tag_mini_details">MINI_DETAILS</string>
@@ -32,31 +31,8 @@
 	<string name="preference_clear_private_data_key">CLEAR_PRIVATE_DATA</string>
     <string name="PointOfSaleKey">point_of_sale_key</string>
     <string name="preference_which_api_to_use_key">which_api</string>
-    <string name="preference_proxy_server_enabled">proxy_server_enabled</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>
     <string name="preference_spoof_bookings">spoof_bookings</string>
-
-	<!-- Currency codes -->
-	<string name="currency_code_aud">AUD</string>
-	<string name="currency_code_brl">BRL</string>
-	<string name="currency_code_gbp">GBP</string>
-	<string name="currency_code_cad">CAD</string>
-	<string name="currency_code_cny">CNY</string>
-	<string name="currency_code_dkk">DKK</string>
-	<string name="currency_code_eur">EUR</string>
-	<string name="currency_code_hkd">HKD</string>
-	<string name="currency_code_inr">INR</string>
-	<string name="currency_code_ils">ILS</string>
-	<string name="currency_code_jpy">JPY</string>
-	<string name="currency_code_krw">KRW</string>
-	<string name="currency_code_mxn">MXN</string>
-	<string name="currency_code_nzd">NZD</string>
-	<string name="currency_code_nok">NOK</string>
-	<string name="currency_code_rub">RUB</string>
-	<string name="currency_code_sgd">SGD</string>
-	<string name="currency_code_sek">SEK</string>
-	<string name="currency_code_chf">CHF</string>
-	<string name="currency_code_usd">USD</string>
 
 	<!-- Country codes -->
 	<string name="country_code_af">AF</string>
@@ -87,7 +63,7 @@
 	<string name="country_code_bo">BO</string>
 	<string name="country_code_ba">BA</string>
 	<string name="country_code_bw">BW</string>
-	<string name="country_code_bv">BV</string>
+	<string name="country_code_bv" tools:ignore="UnusedResources">BV</string>
 	<string name="country_code_br">BR</string>
 	<string name="country_code_io">IO</string>
 	<string name="country_code_bn">BN</string>
@@ -134,7 +110,7 @@
 	<string name="country_code_fr">FR</string>
 	<string name="country_code_gf">GF</string>
 	<string name="country_code_pf">PF</string>
-	<string name="country_code_tf">TF</string>
+	<string name="country_code_tf" tools:ignore="UnusedResources">TF</string>
 	<string name="country_code_ga">GA</string>
 	<string name="country_code_gm">GM</string>
 	<string name="country_code_ge">GE</string>
@@ -152,7 +128,7 @@
 	<string name="country_code_gw">GW</string>
 	<string name="country_code_gy">GY</string>
 	<string name="country_code_ht">HT</string>
-	<string name="country_code_hm">HM</string>
+	<string name="country_code_hm" tools:ignore="UnusedResources">HM</string>
 	<string name="country_code_va">VA</string>
 	<string name="country_code_hn">HN</string>
 	<string name="country_code_hk">HK</string>
@@ -309,14 +285,14 @@
 	<!-- State codes -->
 	<string name="state_code_al">AL</string>
 	<string name="state_code_ak">AK</string>
-	<string name="state_code_ab">AB</string>
+	<string name="state_code_ab" tools:ignore="UnusedResources">AB</string>
 	<string name="state_code_az">AZ</string>
 	<string name="state_code_ar">AR</string>
-	<string name="state_code_bc">BC</string>
+	<string name="state_code_bc" tools:ignore="UnusedResources">BC</string>
 	<string name="state_code_ca">CA</string>
 	<string name="state_code_co">CO</string>
 	<string name="state_code_ct">CT</string>
-	<string name="state_code_de">DE</string>
+	<string name="state_code_de" tools:ignore="UnusedResources">DE</string>
 	<string name="state_code_dc">DC</string>
 	<string name="state_code_fl">FL</string>
 	<string name="state_code_ga">GA</string>
@@ -328,8 +304,8 @@
 	<string name="state_code_ks">KS</string>
 	<string name="state_code_ky">KY</string>
 	<string name="state_code_la">LA</string>
-	<string name="state_code_me">ME</string>
-	<string name="state_code_mb">MB</string>
+	<string name="state_code_me" tools:ignore="UnusedResources">ME</string>
+	<string name="state_code_mb" tools:ignore="UnusedResources">MB</string>
 	<string name="state_code_md">MD</string>
 	<string name="state_code_ma">MA</string>
 	<string name="state_code_mi">MI</string>
@@ -339,38 +315,38 @@
 	<string name="state_code_mt">MT</string>
 	<string name="state_code_ne">NE</string>
 	<string name="state_code_nv">NV</string>
-	<string name="state_code_nb">NB</string>
+	<string name="state_code_nb" tools:ignore="UnusedResources">NB</string>
 	<string name="state_code_nh">NH</string>
 	<string name="state_code_nj">NJ</string>
 	<string name="state_code_nm">NM</string>
 	<string name="state_code_ny">NY</string>
-	<string name="state_code_nf">NF</string>
+	<string name="state_code_nf" tools:ignore="UnusedResources">NF</string>
 	<string name="state_code_nc">NC</string>
 	<string name="state_code_nd">ND</string>
-	<string name="state_code_nt">NT</string>
-	<string name="state_code_ns">NS</string>
-	<string name="state_code_nu">NU</string>
+	<string name="state_code_nt" tools:ignore="UnusedResources">NT</string>
+	<string name="state_code_ns" tools:ignore="UnusedResources">NS</string>
+	<string name="state_code_nu" tools:ignore="UnusedResources">NU</string>
 	<string name="state_code_oh">OH</string>
 	<string name="state_code_ok">OK</string>
-	<string name="state_code_on">ON</string>
+	<string name="state_code_on" tools:ignore="UnusedResources">ON</string>
 	<string name="state_code_or">OR</string>
 	<string name="state_code_pa">PA</string>
-	<string name="state_code_pe">PE</string>
-	<string name="state_code_qc">QC</string>
+	<string name="state_code_pe" tools:ignore="UnusedResources">PE</string>
+	<string name="state_code_qc" tools:ignore="UnusedResources">QC</string>
 	<string name="state_code_ri">RI</string>
-	<string name="state_code_sk">SK</string>
+	<string name="state_code_sk" tools:ignore="UnusedResources">SK</string>
 	<string name="state_code_sc">SC</string>
 	<string name="state_code_sd">SD</string>
 	<string name="state_code_tn">TN</string>
 	<string name="state_code_tx">TX</string>
 	<string name="state_code_ut">UT</string>
-	<string name="state_code_vt">VT</string>
+	<string name="state_code_vt" tools:ignore="UnusedResources">VT</string>
 	<string name="state_code_va">VA</string>
 	<string name="state_code_wa">WA</string>
-	<string name="state_code_wv">WV</string>
+	<string name="state_code_wv" tools:ignore="UnusedResources">WV</string>
 	<string name="state_code_wi">WI</string>
-	<string name="state_code_wy">WY</string>
-	<string name="state_code_yt">YT</string>
+	<string name="state_code_wy" tools:ignore="UnusedResources">WY</string>
+	<string name="state_code_yt" tools:ignore="UnusedResources">YT</string>
 
     <!-- Points of Sale (POS) -->
     <string name="point_of_sale_ar">expedia.com.ar</string>
@@ -437,35 +413,35 @@
 	<string name="contact_expedia_url_vn">http://faq.expedia.com.vn</string>
 
 	<!-- Info support telephone numbers. These go on the info screen. -->
-	<string name="info_support_number_ar">0-800-444-9888</string>
-	<string name="info_support_number_at">0820-600630</string>
-	<string name="info_support_number_au">13-38-10</string>
-	<string name="info_support_number_be">02 200 63 72</string>
-	<string name="info_support_number_br">0800-761-0770</string>
-	<string name="info_support_number_ca">1-888-EXPEDIA</string>
-	<string name="info_support_number_de">01805-007146</string>
-	<string name="info_support_number_dk">80200088</string>
-	<string name="info_support_number_es">901 01 01 14</string>
-	<string name="info_support_number_fr">0892 301 300</string>
-	<string name="info_support_number_hk">2525 5696</string>
-	<string name="info_support_number_id">007-803-011-0463</string>
-	<string name="info_support_number_ie">0330 123 1235</string>
-	<string name="info_support_number_in">1800 419 1919</string>
-	<string name="info_support_number_it">+39 02 91483685</string>
-	<string name="info_support_number_jp">0120-142-650</string>
-	<string name="info_support_number_kr">02-2076-8343</string>
-	<string name="info_support_number_mx">001-8003157301</string>
-	<string name="info_support_number_my">1-800-815676</string>
-	<string name="info_support_number_nl">0900-397-3342</string>
-	<string name="info_support_number_no">800 36 401</string>
-	<string name="info_support_number_nz">0800-998-799</string>
-	<string name="info_support_number_ph">1 800 1 114 2468</string>
-	<string name="info_support_number_se">0200 810 341</string>
-	<string name="info_support_number_sg">800-120-5806</string>
-	<string name="info_support_number_th">001-800-12-0667078</string>
-	<string name="info_support_number_tw">00801-13-6291</string>
-	<string name="info_support_number_uk">0330 123 1235</string>
-	<string name="info_support_number_us">1-800-780-5733</string>
-	<string name="info_support_number_vn">120 65 125</string>
+	<string name="info_support_number_ar" tools:ignore="TypographyDashes">0-800-444-9888</string>
+	<string name="info_support_number_at" tools:ignore="TypographyDashes">0820-600630</string>
+	<string name="info_support_number_au" tools:ignore="TypographyDashes">13-38-10</string>
+	<string name="info_support_number_be" tools:ignore="TypographyDashes">02 200 63 72</string>
+	<string name="info_support_number_br" tools:ignore="TypographyDashes">0800-761-0770</string>
+	<string name="info_support_number_ca" tools:ignore="TypographyDashes">1-888-EXPEDIA</string>
+	<string name="info_support_number_de" tools:ignore="TypographyDashes">01805-007146</string>
+	<string name="info_support_number_dk" tools:ignore="TypographyDashes">80200088</string>
+	<string name="info_support_number_es" tools:ignore="TypographyDashes">901 01 01 14</string>
+	<string name="info_support_number_fr" tools:ignore="TypographyDashes">0892 301 300</string>
+	<string name="info_support_number_hk" tools:ignore="TypographyDashes">2525 5696</string>
+	<string name="info_support_number_id" tools:ignore="TypographyDashes">007-803-011-0463</string>
+	<string name="info_support_number_ie" tools:ignore="TypographyDashes">0330 123 1235</string>
+	<string name="info_support_number_in" tools:ignore="TypographyDashes">1800 419 1919</string>
+	<string name="info_support_number_it" tools:ignore="TypographyDashes">+39 02 91483685</string>
+	<string name="info_support_number_jp" tools:ignore="TypographyDashes">0120-142-650</string>
+	<string name="info_support_number_kr" tools:ignore="TypographyDashes">02-2076-8343</string>
+	<string name="info_support_number_mx" tools:ignore="TypographyDashes">001-8003157301</string>
+	<string name="info_support_number_my" tools:ignore="TypographyDashes">1-800-815676</string>
+	<string name="info_support_number_nl" tools:ignore="TypographyDashes">0900-397-3342</string>
+	<string name="info_support_number_no" tools:ignore="TypographyDashes">800 36 401</string>
+	<string name="info_support_number_nz" tools:ignore="TypographyDashes">0800-998-799</string>
+	<string name="info_support_number_ph" tools:ignore="TypographyDashes">1 800 1 114 2468</string>
+	<string name="info_support_number_se" tools:ignore="TypographyDashes">0200 810 341</string>
+	<string name="info_support_number_sg" tools:ignore="TypographyDashes">800-120-5806</string>
+	<string name="info_support_number_th" tools:ignore="TypographyDashes">001-800-12-0667078</string>
+	<string name="info_support_number_tw" tools:ignore="TypographyDashes">00801-13-6291</string>
+	<string name="info_support_number_uk" tools:ignore="TypographyDashes">0330 123 1235</string>
+	<string name="info_support_number_us" tools:ignore="TypographyDashes">1-800-780-5733</string>
+	<string name="info_support_number_vn" tools:ignore="TypographyDashes">120 65 125</string>
 
 </resources>
