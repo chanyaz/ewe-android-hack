@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -12,11 +13,13 @@ public class FlightSearch {
 	private FlightSearchParams mSearchParams = new FlightSearchParams();
 	private FlightSearchResponse mSearchResponse;
 	private FlightLeg[] mSelectedLegs;
+	private FlightFilter[] mFilters;
 
 	public void reset() {
 		mSearchParams.reset();
 		mSearchResponse = null;
 		mSelectedLegs = null;
+		mFilters = null;
 	}
 
 	public FlightSearchParams getSearchParams() {
@@ -26,8 +29,13 @@ public class FlightSearch {
 	public void setSearchResponse(FlightSearchResponse searchResponse) {
 		mSearchResponse = searchResponse;
 
-		// Clear the selected legs, as we've got new results
+		// Clear the selected legs and filters, as we've got new results
 		mSelectedLegs = null;
+		mFilters = null;
+	}
+
+	public List<FlightTrip> getTrips(int legPosition) {
+		return getTrips(legPosition, true);
 	}
 
 	/**
@@ -39,7 +47,7 @@ public class FlightSearch {
 	 * It also returns the trips sorted by price, and gets rid of more expensive
 	 * trips using the same leg 
 	 */
-	public List<FlightTrip> getTrips(int legPosition) {
+	public List<FlightTrip> getTrips(int legPosition, boolean useFilter) {
 		List<FlightTrip> validTrips = new ArrayList<FlightTrip>();
 
 		final List<FlightTrip> trips = mSearchResponse.getTrips();
@@ -83,6 +91,34 @@ public class FlightSearch {
 			}
 		}
 
+		// Filter results (if user called for it)
+		if (useFilter) {
+			FlightFilter filter = getFilter(legPosition);
+
+			// TODO: Filter based on departure/arrival specs
+
+			// TODO: Filter out preferred airlines
+
+			// Sort the results
+			Comparator<FlightTrip> comparator;
+			switch (filter.getSort()) {
+			case DEPARTURE:
+				comparator = new FlightTrip.DepartureComparator(legPosition);
+				break;
+			case ARRIVAL:
+				comparator = new FlightTrip.ArrivalComparator(legPosition);
+				break;
+			case DURATION:
+				comparator = new FlightTrip.DurationComparator(legPosition);
+				break;
+			case PRICE:
+			default:
+				comparator = FlightTrip.PRICE_COMPARATOR;
+				break;
+			}
+			Collections.sort(validTrips, comparator);
+		}
+
 		return validTrips;
 	}
 
@@ -100,5 +136,17 @@ public class FlightSearch {
 
 	public void setSelectedLeg(int position, FlightLeg leg) {
 		getSelectedLegs()[position] = leg;
+	}
+
+	public FlightFilter getFilter(int legPosition) {
+		if (mFilters == null || mFilters.length != mSearchParams.getQueryLegCount()) {
+			mFilters = new FlightFilter[mSearchParams.getQueryLegCount()];
+		}
+
+		if (mFilters[legPosition] == null) {
+			mFilters[legPosition] = new FlightFilter();
+		}
+
+		return mFilters[legPosition];
 	}
 }

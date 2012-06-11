@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
@@ -51,6 +52,13 @@ public class FlightLeg {
 
 	////////////////////////////////////////////////////////////////////////
 	// More meta retrieval methods
+
+	// Returns the duration in milliseconds
+	public long getDuration() {
+		Calendar start = mSegments.get(0).mOrigin.getMostRelevantDateTime();
+		Calendar end = mSegments.get(mSegments.size() - 1).mDestination.getMostRelevantDateTime();
+		return end.getTimeInMillis() - start.getTimeInMillis();
+	}
 
 	public boolean hasMultipleAirlines() {
 		String airlineCode = null;
