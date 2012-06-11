@@ -12,8 +12,6 @@
         android:id="@+id/user_review_divider_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:text="@string/user_review_other_languages_title"
         android:textStyle="bold"
         android:textColor="#333"
