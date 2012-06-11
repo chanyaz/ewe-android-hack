@@ -3,46 +3,46 @@
 	This file is for all data related to rules & restrictions placed
 	on this app.
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
    	<!-- These are the base strings for rules & restrictions on the booking info page.
 		They should be filled up with urls -->
 
-	<string name="rules_restrictions_disclaimer_ar">Al seleccionar completar esta reserva, reconozco que he leído y acepto las reglas y las restricciones anteriores, &lt;a href="%1$s"&gt;los términos y las condiciones&lt;/a&gt; y &lt;a href="%2$s"&gt;la política de privacidad&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_at">Mit der Reservierung bestätigen Sie, die Geschäftsbedingungen, die &lt;a href="%1$s"&gt;Allgemeinen Geschäftsbedingungen von EXPEDIA&lt;/a&gt; und die &lt;a href="%2$s"&gt;Datenschutzregelung von EXPEDIA&lt;/a&gt; vorab gelesen und vollinhaltlich akzeptiert zu haben.</string>
-	<string name="rules_restrictions_disclaimer_au">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_be_fr">En achevant cette réservation, je confirme que j\'ai lu les conditions et les restrictions, ainsi que les &lt;a href="%1$s"&gt;conditions générales de vente et d\'utilisation&lt;/a&gt; et la &lt;a href="%2$s"&gt;politique en matière de vie privée&lt;/a&gt; et que je les accepte</string>
-	<string name="rules_restrictions_disclaimer_be_nl">Door deze boeking te voltooien bevestig ik dat ik de bovenvermelde regels en beperkingen evenals de &lt;a href="%1$s"&gt;reserveringsvoorwaarden&lt;/a&gt; en de &lt;a href="%2$s"&gt;privacybeleid&lt;/a&gt; heb gelezen en dat ik deze aanvaard.</string>
-	<string name="rules_restrictions_disclaimer_br">Li e aceitei as regras e restrições acima, &lt;a href="%1$s"&gt;os termos e condições&lt;/a&gt; e &lt;a href="%2$s"&gt;a política de privacidade&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_ca_en">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
-    <string name="rules_restrictions_disclaimer_ca_fr">J’ai lu et j’accepte les règles et restrictions, &lt;a href="%1$s"&gt;les conditions générales&lt;/a&gt; et &lt;a href="%2$s"&gt;la politique de confidentialité ci-dessus&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_de">Mit Absenden der Buchung stimme ich den Geschäftsbedingungen und der Geltung der &lt;a href="%1$s"&gt;allgemeinen Geschäftsbedingungen&lt;/a&gt; von Expedia zu. &lt;a href="%2$s"&gt;Die Datenschutzerklärung&lt;/a&gt; habe ich zur Kenntnis genommen.</string>
-	<string name="rules_restrictions_disclaimer_dk">Ved at gennemføre reservationen bekræfter jeg, at jeg har læst og accepteret regler og begrænsninger, &lt;a href="%1$s"&gt;vilkår og betingelser&lt;/a&gt; samt &lt;a href="%2$s"&gt;fortrolighedspolitik&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_es">He leído y acepto las reglas y restricciones, los &lt;a href="%1$s"&gt;términos y condiciones de la reserva&lt;/a&gt;, y la &lt;a href="%2$s"&gt;directiva de privacidad&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_fr">J\'ai lu et j\'accepte les conditions et restrictions, les &lt;a href="%1$s"&gt;conditions d\'utilisation&lt;/a&gt; et &lt;a href="%2$s"&gt;la charte de confidentialité&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_hk_en">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s"&gt;terms of use&lt;/a&gt;, and &lt;a href="%2$s"&gt;privacy policy&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_hk_zh">完成此項預訂，即表示我同意我已閱讀與接受上述「規則與限制」、&lt;a href="%1$s"&gt;使用條款&lt;/a&gt;以及&lt;a href="%2$s"&gt;私隱權政策&lt;/a&gt;。</string>
-	<string name="rules_restrictions_disclaimer_id">Dengan menyelesaikan pemesanan ini, saya menegaskan bahwa saya telah membaca dan menerima Aturan dan Pembatasan di atas, &lt;a href="%1$s"&gt;syarat penggunaan&lt;/a&gt;, dan &lt;a href="%2$s"&gt;kebijakan privasi&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_ie">By completing this booking I agree that I have read and accept the rules and restrictions, the &lt;a href="%1$s"&gt;terms and conditions&lt;/a&gt; and the &lt;a href="%2$s"&gt;privacy policy&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_in">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_it">Dopo averne preso visione, accetto il regolamento, i &lt;a href="%1$s"&gt;Condizioni Generali di Contratto&lt;/a&gt; e la &lt;a href="%2$s"&gt;politica sulla privacy&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_jp">このご予約の完了をもって、上記の規則と制限事項、&lt;a href="%1$s"&gt;ご利用規約&lt;/a&gt;、および&lt;a href="%2$s"&gt;プライバシーポリシー&lt;/a&gt;を読み、その内容に同意したものとみなされます。</string>
-	<string name="rules_restrictions_disclaimer_kr">예약을 완료함으로써 위의 규칙 및 제한 사항, &lt;a href="%1$s"&gt;이용약관&lt;/a&gt; 및 &lt;a href="%2$s"&gt;개인정보 보호정책&lt;/a&gt;을 읽었으며 이에 동의합니다.</string>
-	<string name="rules_restrictions_disclaimer_mx">Al completar esta reservacion, manifiesto que he leido y acepto las Reglas y Restricciones, los &lt;a href="%1$s"&gt;Terminos de Uso&lt;/a&gt; y las &lt;a href="%2$s"&gt;Politicas de Privacidad&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_my_en">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s"&gt;terms of use&lt;/a&gt;, and &lt;a href="%2$s"&gt;privacy policy&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_my_ms">Dengan melengkapkan tempahan ini saya bersetuju bahawa saya telah membaca dan menerima Peraturan dan Sekatan di atas, &lt;a href="%1$s"&gt;terma penggunaan&lt;/a&gt; dan &lt;a href="%2$s"&gt;dasar privasi&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_nl">Door deze boeking af te ronden, verklaar ik de Regels en Beperkingen, de &lt;a href="%1$s"&gt;Algemene Boekingsvoorwaarden&lt;/a&gt; en het &lt;a href="%2$s"&gt;Privacybeleid&lt;/a&gt; te hebben gelezen en hiermee uitdrukkelijk akkoord te gaan</string>
-	<string name="rules_restrictions_disclaimer_no">Jeg har lest og godtar reglene og begrensningene, &lt;a href="%1$s"&gt;vilkårene for bruk&lt;/a&gt; og &lt;a href="%2$s"&gt;personvernbestemmelsene&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_nz">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_ph_en">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_ph_tl">Sa pamamagitan ng pagkumpleto sa booking na ito, sumasang-ayon ako na nabasa ko at tinatanggap ang mga nasa itaas na Mga Panuntunan at Paghihigpit, ang &lt;a href="%1$s"&gt;mga tuntunin ng paggamit&lt;/a&gt;, at &lt;a href="%2$s"&gt;patakaran sa privacy&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_se">Genom att göra denna bokning bekräftar jag att jag har läst och accepterar Regler och Begränsningar, &lt;a href="%1$s"&gt;Användarvillkor&lt;/a&gt; och &lt;a href="%2$s"&gt;Integritetspolicy&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_sg">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_th">โดยการจองนี้ ข้าพเจ้ายอมรับว่าได้อ่านและยอมรับกฎและข้อจำกัดข้างต้น &lt;a href="%1$s"&gt;ข้อตกลงการใช้งาน&lt;/a&gt; และ &lt;a href="%2$s"&gt;นโยบายความเป็นส่วนตัว&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_tw">選取完成此預訂，即代表我已閱讀並接受 上述規則和限制、 &lt;a href="%1$s"&gt;條款與細則&lt;/a&gt; 及 &lt;a href="%2$s"&gt;隱私權政策&lt;/a&gt;。</string>
-	<string name="rules_restrictions_disclaimer_uk">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms and Conditions&lt;/a&gt; and the &lt;a href="%2$s"&gt;privacy policy&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_us">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
-	<string name="rules_restrictions_disclaimer_vn">Tôi đã đọc và chấp nhận các quy tắc và giới hạn ở trên, &lt;a href="%1$s"&gt;điều khoản &amp; điều kiện&lt;/a&gt; và &lt;a href="%2$s"&gt;chính sách quyền riêng tư&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_ar" tools:ignore="MissingTranslation">Al seleccionar completar esta reserva, reconozco que he leído y acepto las reglas y las restricciones anteriores, &lt;a href="%1$s"&gt;los términos y las condiciones&lt;/a&gt; y &lt;a href="%2$s"&gt;la política de privacidad&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_at" tools:ignore="MissingTranslation">Mit der Reservierung bestätigen Sie, die Geschäftsbedingungen, die &lt;a href="%1$s"&gt;Allgemeinen Geschäftsbedingungen von EXPEDIA&lt;/a&gt; und die &lt;a href="%2$s"&gt;Datenschutzregelung von EXPEDIA&lt;/a&gt; vorab gelesen und vollinhaltlich akzeptiert zu haben.</string>
+	<string name="rules_restrictions_disclaimer_au" tools:ignore="MissingTranslation">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_be_fr" tools:ignore="MissingTranslation">En achevant cette réservation, je confirme que j\'ai lu les conditions et les restrictions, ainsi que les &lt;a href="%1$s"&gt;conditions générales de vente et d\'utilisation&lt;/a&gt; et la &lt;a href="%2$s"&gt;politique en matière de vie privée&lt;/a&gt; et que je les accepte</string>
+	<string name="rules_restrictions_disclaimer_be_nl" tools:ignore="MissingTranslation">Door deze boeking te voltooien bevestig ik dat ik de bovenvermelde regels en beperkingen evenals de &lt;a href="%1$s"&gt;reserveringsvoorwaarden&lt;/a&gt; en de &lt;a href="%2$s"&gt;privacybeleid&lt;/a&gt; heb gelezen en dat ik deze aanvaard.</string>
+	<string name="rules_restrictions_disclaimer_br" tools:ignore="MissingTranslation">Li e aceitei as regras e restrições acima, &lt;a href="%1$s"&gt;os termos e condições&lt;/a&gt; e &lt;a href="%2$s"&gt;a política de privacidade&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_ca_en" tools:ignore="MissingTranslation">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
+    <string name="rules_restrictions_disclaimer_ca_fr" tools:ignore="MissingTranslation">J’ai lu et j’accepte les règles et restrictions, &lt;a href="%1$s"&gt;les conditions générales&lt;/a&gt; et &lt;a href="%2$s"&gt;la politique de confidentialité ci-dessus&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_de" tools:ignore="MissingTranslation">Mit Absenden der Buchung stimme ich den Geschäftsbedingungen und der Geltung der &lt;a href="%1$s"&gt;allgemeinen Geschäftsbedingungen&lt;/a&gt; von Expedia zu. &lt;a href="%2$s"&gt;Die Datenschutzerklärung&lt;/a&gt; habe ich zur Kenntnis genommen.</string>
+	<string name="rules_restrictions_disclaimer_dk" tools:ignore="MissingTranslation">Ved at gennemføre reservationen bekræfter jeg, at jeg har læst og accepteret regler og begrænsninger, &lt;a href="%1$s"&gt;vilkår og betingelser&lt;/a&gt; samt &lt;a href="%2$s"&gt;fortrolighedspolitik&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_es" tools:ignore="MissingTranslation">He leído y acepto las reglas y restricciones, los &lt;a href="%1$s"&gt;términos y condiciones de la reserva&lt;/a&gt;, y la &lt;a href="%2$s"&gt;directiva de privacidad&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_fr" tools:ignore="MissingTranslation">J\'ai lu et j\'accepte les conditions et restrictions, les &lt;a href="%1$s"&gt;conditions d\'utilisation&lt;/a&gt; et &lt;a href="%2$s"&gt;la charte de confidentialité&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_hk_en" tools:ignore="MissingTranslation">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s"&gt;terms of use&lt;/a&gt;, and &lt;a href="%2$s"&gt;privacy policy&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_hk_zh" tools:ignore="MissingTranslation">完成此項預訂，即表示我同意我已閱讀與接受上述「規則與限制」、&lt;a href="%1$s"&gt;使用條款&lt;/a&gt;以及&lt;a href="%2$s"&gt;私隱權政策&lt;/a&gt;。</string>
+	<string name="rules_restrictions_disclaimer_id" tools:ignore="MissingTranslation">Dengan menyelesaikan pemesanan ini, saya menegaskan bahwa saya telah membaca dan menerima Aturan dan Pembatasan di atas, &lt;a href="%1$s"&gt;syarat penggunaan&lt;/a&gt;, dan &lt;a href="%2$s"&gt;kebijakan privasi&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_ie" tools:ignore="MissingTranslation">By completing this booking I agree that I have read and accept the rules and restrictions, the &lt;a href="%1$s"&gt;terms and conditions&lt;/a&gt; and the &lt;a href="%2$s"&gt;privacy policy&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_in" tools:ignore="MissingTranslation">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_it" tools:ignore="MissingTranslation">Dopo averne preso visione, accetto il regolamento, i &lt;a href="%1$s"&gt;Condizioni Generali di Contratto&lt;/a&gt; e la &lt;a href="%2$s"&gt;politica sulla privacy&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_jp" tools:ignore="MissingTranslation">このご予約の完了をもって、上記の規則と制限事項、&lt;a href="%1$s"&gt;ご利用規約&lt;/a&gt;、および&lt;a href="%2$s"&gt;プライバシーポリシー&lt;/a&gt;を読み、その内容に同意したものとみなされます。</string>
+	<string name="rules_restrictions_disclaimer_kr" tools:ignore="MissingTranslation">예약을 완료함으로써 위의 규칙 및 제한 사항, &lt;a href="%1$s"&gt;이용약관&lt;/a&gt; 및 &lt;a href="%2$s"&gt;개인정보 보호정책&lt;/a&gt;을 읽었으며 이에 동의합니다.</string>
+	<string name="rules_restrictions_disclaimer_mx" tools:ignore="MissingTranslation">Al completar esta reservacion, manifiesto que he leido y acepto las Reglas y Restricciones, los &lt;a href="%1$s"&gt;Terminos de Uso&lt;/a&gt; y las &lt;a href="%2$s"&gt;Politicas de Privacidad&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_my_en" tools:ignore="MissingTranslation">By completing this booking I agree that I have read and accept the above Rules and Restrictions, the &lt;a href="%1$s"&gt;terms of use&lt;/a&gt;, and &lt;a href="%2$s"&gt;privacy policy&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_my_ms" tools:ignore="MissingTranslation">Dengan melengkapkan tempahan ini saya bersetuju bahawa saya telah membaca dan menerima Peraturan dan Sekatan di atas, &lt;a href="%1$s"&gt;terma penggunaan&lt;/a&gt; dan &lt;a href="%2$s"&gt;dasar privasi&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_nl" tools:ignore="MissingTranslation">Door deze boeking af te ronden, verklaar ik de Regels en Beperkingen, de &lt;a href="%1$s"&gt;Algemene Boekingsvoorwaarden&lt;/a&gt; en het &lt;a href="%2$s"&gt;Privacybeleid&lt;/a&gt; te hebben gelezen en hiermee uitdrukkelijk akkoord te gaan</string>
+	<string name="rules_restrictions_disclaimer_no" tools:ignore="MissingTranslation">Jeg har lest og godtar reglene og begrensningene, &lt;a href="%1$s"&gt;vilkårene for bruk&lt;/a&gt; og &lt;a href="%2$s"&gt;personvernbestemmelsene&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_nz" tools:ignore="MissingTranslation">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_ph_en" tools:ignore="MissingTranslation">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_ph_tl" tools:ignore="MissingTranslation">Sa pamamagitan ng pagkumpleto sa booking na ito, sumasang-ayon ako na nabasa ko at tinatanggap ang mga nasa itaas na Mga Panuntunan at Paghihigpit, ang &lt;a href="%1$s"&gt;mga tuntunin ng paggamit&lt;/a&gt;, at &lt;a href="%2$s"&gt;patakaran sa privacy&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_se" tools:ignore="MissingTranslation">Genom att göra denna bokning bekräftar jag att jag har läst och accepterar Regler och Begränsningar, &lt;a href="%1$s"&gt;Användarvillkor&lt;/a&gt; och &lt;a href="%2$s"&gt;Integritetspolicy&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_sg" tools:ignore="MissingTranslation">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_th" tools:ignore="MissingTranslation">โดยการจองนี้ ข้าพเจ้ายอมรับว่าได้อ่านและยอมรับกฎและข้อจำกัดข้างต้น &lt;a href="%1$s"&gt;ข้อตกลงการใช้งาน&lt;/a&gt; และ &lt;a href="%2$s"&gt;นโยบายความเป็นส่วนตัว&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_tw" tools:ignore="MissingTranslation">選取完成此預訂，即代表我已閱讀並接受 上述規則和限制、 &lt;a href="%1$s"&gt;條款與細則&lt;/a&gt; 及 &lt;a href="%2$s"&gt;隱私權政策&lt;/a&gt;。</string>
+	<string name="rules_restrictions_disclaimer_uk" tools:ignore="MissingTranslation">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms and Conditions&lt;/a&gt; and the &lt;a href="%2$s"&gt;privacy policy&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_us" tools:ignore="MissingTranslation">By completing this booking I agree that I have read and accept the Rules and Restrictions, the &lt;a href="%1$s"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="%2$s"&gt;Privacy Policy&lt;/a&gt;.</string>
+	<string name="rules_restrictions_disclaimer_vn" tools:ignore="MissingTranslation">Tôi đã đọc và chấp nhận các quy tắc và giới hạn ở trên, &lt;a href="%1$s"&gt;điều khoản &amp; điều kiện&lt;/a&gt; và &lt;a href="%2$s"&gt;chính sách quyền riêng tư&lt;/a&gt;.</string>
 
 	<!-- Map of POS to disclaimer.  Provides default for dual-language POSes (but should be handled carefully) -->
 
@@ -81,41 +81,41 @@
 
 	<!-- Terms and conditions URLs  -->
 	
-	<string name="terms_conditions_url_ar">https://www.expedia.com.ar/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_at">http://www.expedia.at/service/agb.aspx</string>
-	<string name="terms_conditions_url_au">http://www.expedia.com.au/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_be_fr">http://www.expedia.be/fr-BE/conditions-generales-de-reservation.aspx</string>
-	<string name="terms_conditions_url_be_nl">http://www.expedia.be/nl-BE/reserveringsvoorwaarden.aspx</string>
-	<string name="terms_conditions_url_br">http://www.expedia.com.br/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_ca_en">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
-	<string name="terms_conditions_url_ca_fr">http://www.expedia.ca/daily/frc3084/service/legal.asp?stop_mobi=yes</string>
-	<string name="terms_conditions_url_de">http://www.expedia.de/daily/service/agb.aspx</string>
-	<string name="terms_conditions_url_dk">http://www.expedia.dk/dk/tandc.aspx</string>
-	<string name="terms_conditions_url_es">http://www.expedia.es/terminos-y-condiciones-generales-para-reservas.aspx</string>
-	<string name="terms_conditions_url_fr">http://www.expedia.fr/daily/services/legal/cvg.aspx</string>
-	<string name="terms_conditions_url_hk_en">http://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_hk_zh">https://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_id">https://www.expedia.co.id/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_ie">http://www.expedia.ie/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_in">https://www.expedia.co.in/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_it">http://www.expedia.it/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_jp">https://www.expedia.co.jp/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_kr">https://www.expedia.co.kr/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_mx">http://www.expedia.mx/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_my_en">http://www.expedia.com.my/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_my_ms">https://www.expedia.com.my/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_nl">http://www.expedia.nl/daily/service/websiteterms.aspx</string>
-	<string name="terms_conditions_url_no">http://www.expedia.no/no/tandc.aspx</string>
-	<string name="terms_conditions_url_nz">http://www.expedia.co.nz/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_ph_en">http://www.expedia.com.ph/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_ph_tl">https://www.expedia.com.ph/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_se">http://www.expedia.se/se/tandc.aspx</string>
-	<string name="terms_conditions_url_sg">https://www.expedia.com.sg/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_th">https://www.expedia.co.th/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_tw">https://www.expedia.com.tw/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
-	<string name="terms_conditions_url_uk">https://m.expedia.co.uk/mt/www.expedia.co.uk/information/general-booking-conditions.aspx</string>
-	<string name="terms_conditions_url_us">http://www.expedia.com/p/info-other/legal.htm</string>
-	<string name="terms_conditions_url_vn">https://www.expedia.com.vn/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_ar" tools:ignore="MissingTranslation">https://www.expedia.com.ar/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_at" tools:ignore="MissingTranslation">http://www.expedia.at/service/agb.aspx</string>
+	<string name="terms_conditions_url_au" tools:ignore="MissingTranslation">http://www.expedia.com.au/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_be_fr" tools:ignore="MissingTranslation">http://www.expedia.be/fr-BE/conditions-generales-de-reservation.aspx</string>
+	<string name="terms_conditions_url_be_nl" tools:ignore="MissingTranslation">http://www.expedia.be/nl-BE/reserveringsvoorwaarden.aspx</string>
+	<string name="terms_conditions_url_br" tools:ignore="MissingTranslation">http://www.expedia.com.br/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_ca_en" tools:ignore="MissingTranslation">http://www.expedia.ca/daily/enc4105/service/legal.asp</string>
+	<string name="terms_conditions_url_ca_fr" tools:ignore="MissingTranslation">http://www.expedia.ca/daily/frc3084/service/legal.asp?stop_mobi=yes</string>
+	<string name="terms_conditions_url_de" tools:ignore="MissingTranslation">http://www.expedia.de/daily/service/agb.aspx</string>
+	<string name="terms_conditions_url_dk" tools:ignore="MissingTranslation">http://www.expedia.dk/dk/tandc.aspx</string>
+	<string name="terms_conditions_url_es" tools:ignore="MissingTranslation">http://www.expedia.es/terminos-y-condiciones-generales-para-reservas.aspx</string>
+	<string name="terms_conditions_url_fr" tools:ignore="MissingTranslation">http://www.expedia.fr/daily/services/legal/cvg.aspx</string>
+	<string name="terms_conditions_url_hk_en" tools:ignore="MissingTranslation">http://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_hk_zh" tools:ignore="MissingTranslation">https://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_id" tools:ignore="MissingTranslation">https://www.expedia.co.id/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_ie" tools:ignore="MissingTranslation">http://www.expedia.ie/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_in" tools:ignore="MissingTranslation">https://www.expedia.co.in/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_it" tools:ignore="MissingTranslation">http://www.expedia.it/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_jp" tools:ignore="MissingTranslation">https://www.expedia.co.jp/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_kr" tools:ignore="MissingTranslation">https://www.expedia.co.kr/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_mx" tools:ignore="MissingTranslation">http://www.expedia.mx/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_my_en" tools:ignore="MissingTranslation">http://www.expedia.com.my/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_my_ms" tools:ignore="MissingTranslation">https://www.expedia.com.my/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_nl" tools:ignore="MissingTranslation">http://www.expedia.nl/daily/service/websiteterms.aspx</string>
+	<string name="terms_conditions_url_no" tools:ignore="MissingTranslation">http://www.expedia.no/no/tandc.aspx</string>
+	<string name="terms_conditions_url_nz" tools:ignore="MissingTranslation">http://www.expedia.co.nz/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_ph_en" tools:ignore="MissingTranslation">http://www.expedia.com.ph/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_ph_tl" tools:ignore="MissingTranslation">https://www.expedia.com.ph/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_se" tools:ignore="MissingTranslation">http://www.expedia.se/se/tandc.aspx</string>
+	<string name="terms_conditions_url_sg" tools:ignore="MissingTranslation">https://www.expedia.com.sg/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_th" tools:ignore="MissingTranslation">https://www.expedia.co.th/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_tw" tools:ignore="MissingTranslation">https://www.expedia.com.tw/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
+	<string name="terms_conditions_url_uk" tools:ignore="MissingTranslation">https://m.expedia.co.uk/mt/www.expedia.co.uk/information/general-booking-conditions.aspx</string>
+	<string name="terms_conditions_url_us" tools:ignore="MissingTranslation">http://www.expedia.com/p/info-other/legal.htm</string>
+	<string name="terms_conditions_url_vn" tools:ignore="MissingTranslation">https://www.expedia.com.vn/pub/agent.dll?qscr=hgen&amp;hfnm=TermsOfUse.htx</string>
 
 	<!-- Map of POS to terms & conditions.  Provides default for dual-language POSes (but should be handled carefully) -->
 
@@ -154,41 +154,41 @@
 
 	<!-- Privacy policy URLs  -->
 
-	<string name="privacy_policy_url_ar">https://www.expedia.com.ar/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_at">http://www.expedia.at/service/safecc.aspx</string>
-	<string name="privacy_policy_url_au">http://www.expedia.com.au/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_be_fr">http://www.expedia.be/fr-BE/charte-de-confidentialite.aspx</string>
-	<string name="privacy_policy_url_be_nl">http://www.expedia.be/nl-BE/privacyverklaring.aspx</string>
-	<string name="privacy_policy_url_br">http://www.expedia.com.br/pub/agent.dll?qscr=hgen&amp;hfnm=privacyPol.htx</string>
-	<string name="privacy_policy_url_ca_en">http://www.expedia.ca/daily/enc4105/service/privacy.asp</string>
-	<string name="privacy_policy_url_ca_fr">http://www.expedia.ca/daily/frc3084/service/privacy.asp?stop_mobi=yes</string>
-	<string name="privacy_policy_url_es">http://www.expedia.es/politica-de-privacidad.aspx</string>
-	<string name="privacy_policy_url_de">http://www.expedia.de/service/safecc.aspx</string>
-	<string name="privacy_policy_url_dk">http://www.expedia.dk/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_fr">http://www.expedia.fr/daily/services/legal/charte-conf.aspx</string>
-	<string name="privacy_policy_url_hk_en">http://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_hk_zh">https://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_id">https://www.expedia.co.id/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_ie">http://www.expedia.ie/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_in">https://www.expedia.co.in/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_it">http://www.expedia.it/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_jp">https://www.expedia.co.jp/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_kr">https://www.expedia.co.kr/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_mx">http://www.expedia.mx/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_my_en">http://www.expedia.com.my/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_my_ms">https://www.expedia.com.my/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_nl">http://www.expedia.nl/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_no">http://www.expedia.no/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_nz">http://www.expedia.co.nz/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_ph_en">http://www.expedia.com.ph/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_ph_tl">https://www.expedia.com.ph/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_se">http://www.expedia.se/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_sg">https://www.expedia.com.sg/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_th">https://www.expedia.co.th/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_tw">https://www.expedia.com.tw/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
-	<string name="privacy_policy_url_us">http://www.expedia.com/daily/service/privacy.asp</string>
-	<string name="privacy_policy_url_uk">https://m.expedia.co.uk/mt/www.expedia.co.uk/daily/service/privacy.asp</string>
-	<string name="privacy_policy_url_vn">https://www.expedia.com.vn/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_ar" tools:ignore="MissingTranslation">https://www.expedia.com.ar/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_at" tools:ignore="MissingTranslation">http://www.expedia.at/service/safecc.aspx</string>
+	<string name="privacy_policy_url_au" tools:ignore="MissingTranslation">http://www.expedia.com.au/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_be_fr" tools:ignore="MissingTranslation">http://www.expedia.be/fr-BE/charte-de-confidentialite.aspx</string>
+	<string name="privacy_policy_url_be_nl" tools:ignore="MissingTranslation">http://www.expedia.be/nl-BE/privacyverklaring.aspx</string>
+	<string name="privacy_policy_url_br" tools:ignore="MissingTranslation">http://www.expedia.com.br/pub/agent.dll?qscr=hgen&amp;hfnm=privacyPol.htx</string>
+	<string name="privacy_policy_url_ca_en" tools:ignore="MissingTranslation">http://www.expedia.ca/daily/enc4105/service/privacy.asp</string>
+	<string name="privacy_policy_url_ca_fr" tools:ignore="MissingTranslation">http://www.expedia.ca/daily/frc3084/service/privacy.asp?stop_mobi=yes</string>
+	<string name="privacy_policy_url_es" tools:ignore="MissingTranslation">http://www.expedia.es/politica-de-privacidad.aspx</string>
+	<string name="privacy_policy_url_de" tools:ignore="MissingTranslation">http://www.expedia.de/service/safecc.aspx</string>
+	<string name="privacy_policy_url_dk" tools:ignore="MissingTranslation">http://www.expedia.dk/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_fr" tools:ignore="MissingTranslation">http://www.expedia.fr/daily/services/legal/charte-conf.aspx</string>
+	<string name="privacy_policy_url_hk_en" tools:ignore="MissingTranslation">http://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_hk_zh" tools:ignore="MissingTranslation">https://www.expedia.com.hk/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_id" tools:ignore="MissingTranslation">https://www.expedia.co.id/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_ie" tools:ignore="MissingTranslation">http://www.expedia.ie/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_in" tools:ignore="MissingTranslation">https://www.expedia.co.in/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_it" tools:ignore="MissingTranslation">http://www.expedia.it/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_jp" tools:ignore="MissingTranslation">https://www.expedia.co.jp/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_kr" tools:ignore="MissingTranslation">https://www.expedia.co.kr/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_mx" tools:ignore="MissingTranslation">http://www.expedia.mx/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_my_en" tools:ignore="MissingTranslation">http://www.expedia.com.my/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_my_ms" tools:ignore="MissingTranslation">https://www.expedia.com.my/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_nl" tools:ignore="MissingTranslation">http://www.expedia.nl/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_no" tools:ignore="MissingTranslation">http://www.expedia.no/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_nz" tools:ignore="MissingTranslation">http://www.expedia.co.nz/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_ph_en" tools:ignore="MissingTranslation">http://www.expedia.com.ph/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_ph_tl" tools:ignore="MissingTranslation">https://www.expedia.com.ph/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_se" tools:ignore="MissingTranslation">http://www.expedia.se/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_sg" tools:ignore="MissingTranslation">https://www.expedia.com.sg/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_th" tools:ignore="MissingTranslation">https://www.expedia.co.th/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_tw" tools:ignore="MissingTranslation">https://www.expedia.com.tw/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
+	<string name="privacy_policy_url_us" tools:ignore="MissingTranslation">http://www.expedia.com/daily/service/privacy.asp</string>
+	<string name="privacy_policy_url_uk" tools:ignore="MissingTranslation">https://m.expedia.co.uk/mt/www.expedia.co.uk/daily/service/privacy.asp</string>
+	<string name="privacy_policy_url_vn" tools:ignore="MissingTranslation">https://www.expedia.com.vn/pub/agent.dll?qscr=hgen&amp;hfnm=PrivacyPol.htx</string>
 
 	<!-- Map of POS to privacy policy.  Provides default for dual-language POSes (but should be handled carefully) -->
 

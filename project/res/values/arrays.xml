@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 	<!-- Suggested locations to search that are given to the user.  Order doesn't matter
 		as these are all shuffled before displaying anyways. -->
 	<string-array name="suggestions">
@@ -17,7 +17,7 @@
 
 	<!-- Region id, latitude, longitude for each suggestion as supplied by <id>, <lat>, <lng> in this search
 	http://suggest.expedia.com/hint/es/v1/ac/en_US/times+square?type=30 -->
-	<string-array name="suggestion_region_ids">
+	<string-array name="suggestion_region_ids" tools:ignore="MissingTranslation">
 	    <item>6002082</item>
 	    <item>178239</item>
 	    <item>178280</item>
@@ -29,7 +29,7 @@
 	    <item>2426</item>
 	    <item>178305</item>
 	</string-array>
-	<string-array name="suggestion_latitudes">
+	<string-array name="suggestion_latitudes" tools:ignore="MissingTranslation">
 	    <item>40.756390</item>
 	    <item>42.357690</item>
 	    <item>34.050720</item>
@@ -41,7 +41,7 @@
 	    <item>44.976910</item>
 	    <item>37.787400</item>
 	</string-array>
-		<string-array name="suggestion_longitudes">
+		<string-array name="suggestion_longitudes" tools:ignore="MissingTranslation">
 	    <item>-73.986690</item>
 	    <item>-71.063240</item>
 	    <item>-118.254770</item>
@@ -126,7 +126,7 @@
 
     <!-- Mapping of POS to TPID -->
 
-	<string-array name="tpid_map">
+	<string-array name="tpid_map" tools:ignore="MissingTranslation">
 		<item>@string/point_of_sale_ar</item><item>70</item>
 		<item>@string/point_of_sale_at</item><item>6</item>
 		<item>@string/point_of_sale_au</item><item>25</item>
@@ -266,7 +266,7 @@
 	<!-- In the event that a user is viewing a POS with an atypical language, default to 
 			pull reviews in that expedia.* desktop defaults to (unknown how this happens) -->
 	
-	<string-array name="pos_default_locale">
+	<string-array name="pos_default_locale" tools:ignore="MissingTranslation">
    		<item>@string/point_of_sale_ar</item><item>es_AR</item>
 		<item>@string/point_of_sale_at</item><item>de_AT</item>
 		<item>@string/point_of_sale_au</item><item>en_AU</item>
@@ -1073,7 +1073,7 @@
 		<item>@integer/country_phone_code_ax</item>
 	</integer-array>
 
-    <string-array name="api_names">
+    <string-array name="api_names" tools:ignore="MissingTranslation">
         <item>Production</item>
         <item>Dev</item>
         <item>Integration</item>
@@ -1081,7 +1081,7 @@
         <item>Proxy</item>
     </string-array>
 
-    <string-array name="section_strings_property_amenities">
+    <string-array name="section_strings_property_amenities" tools:ignore="MissingTranslation">
         <item>Property Amenities</item>
         <item>Faciliteter på indlogeringsstedet</item>
         <item>Hotelausstattung</item>
@@ -1105,7 +1105,7 @@
         <item>物業設施</item>
         <item>Mga Amenity sa Ari-arian</item>
     </string-array>
-    <string-array name="section_strings_fees">
+    <string-array name="section_strings_fees" tools:ignore="MissingTranslation">
         <item>Fees</item>
         <item>Regler</item>
         <item>Gebühren</item>
@@ -1129,7 +1129,7 @@
         <item>費用</item>
         <item>Mga Bayarin</item>
     </string-array>
-    <string-array name="section_strings_policies">
+    <string-array name="section_strings_policies" tools:ignore="MissingTranslation">
         <item>Policies</item>
         <item>Gebyrer</item>
         <item>Richtlinien</item>
