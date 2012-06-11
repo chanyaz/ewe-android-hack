@@ -1,5 +1,8 @@
 package com.expedia.bookings.server;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,7 +33,16 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 	public CreateTripResponse handleJson(JSONObject response) {
 		CreateTripResponse createTripResponse = new CreateTripResponse();
 		try {
-			createTripResponse.addErrors(ParserUtils.parseErrors(mContext, ServerError.ApiMethod.CREATE_TRIP, response));
+			List<ServerError> errors = ParserUtils.parseErrors(mContext, ServerError.ApiMethod.CREATE_TRIP, response);
+			List<ServerError> warnings = ParserUtils.parseWarnings(mContext, ServerError.ApiMethod.CREATE_TRIP, response);
+			List<ServerError> allErrors = new ArrayList<ServerError>();
+			if (errors != null) {
+				allErrors.addAll(errors);
+			}
+			if (warnings != null) {
+				allErrors.addAll(warnings);
+			}
+			createTripResponse.addErrors(allErrors);
 
 			if (createTripResponse.hasErrors()) {
 				return createTripResponse;
