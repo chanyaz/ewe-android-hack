@@ -414,34 +414,34 @@
 
 	<!-- Info support telephone numbers. These go on the info screen. -->
 	<string name="info_support_number_ar" tools:ignore="TypographyDashes">0-800-444-9888</string>
-	<string name="info_support_number_at" tools:ignore="TypographyDashes">0820-600630</string>
-	<string name="info_support_number_au" tools:ignore="TypographyDashes">13-38-10</string>
-	<string name="info_support_number_be" tools:ignore="TypographyDashes">02 200 63 72</string>
+	<string name="info_support_number_at" tools:ignore="TypographyDashes">01 206 09 1626</string>
+	<string name="info_support_number_au" tools:ignore="TypographyDashes">1 300 669 564</string>
+	<string name="info_support_number_be" tools:ignore="TypographyDashes">022 00 83 65</string>
 	<string name="info_support_number_br" tools:ignore="TypographyDashes">0800-761-0770</string>
-	<string name="info_support_number_ca" tools:ignore="TypographyDashes">1-888-EXPEDIA</string>
-	<string name="info_support_number_de" tools:ignore="TypographyDashes">01805-007146</string>
-	<string name="info_support_number_dk" tools:ignore="TypographyDashes">80200088</string>
-	<string name="info_support_number_es" tools:ignore="TypographyDashes">901 01 01 14</string>
-	<string name="info_support_number_fr" tools:ignore="TypographyDashes">0892 301 300</string>
-	<string name="info_support_number_hk" tools:ignore="TypographyDashes">2525 5696</string>
+	<string name="info_support_number_ca" tools:ignore="TypographyDashes">1-866-406-2684</string>
+	<string name="info_support_number_de" tools:ignore="TypographyDashes">069 945 19 23 27</string>
+	<string name="info_support_number_dk" tools:ignore="TypographyDashes">43 68 21 91</string>
+	<string name="info_support_number_es" tools:ignore="TypographyDashes">912 754 962</string>
+	<string name="info_support_number_fr" tools:ignore="TypographyDashes">01 57 32 38 31</string>
+	<string name="info_support_number_hk" tools:ignore="TypographyDashes">02 2525 5696</string>
 	<string name="info_support_number_id" tools:ignore="TypographyDashes">007-803-011-0463</string>
-	<string name="info_support_number_ie" tools:ignore="TypographyDashes">0330 123 1235</string>
-	<string name="info_support_number_in" tools:ignore="TypographyDashes">1800 419 1919</string>
-	<string name="info_support_number_it" tools:ignore="TypographyDashes">+39 02 91483685</string>
-	<string name="info_support_number_jp" tools:ignore="TypographyDashes">0120-142-650</string>
+	<string name="info_support_number_ie" tools:ignore="TypographyDashes">01 517 1524</string>
+	<string name="info_support_number_in" tools:ignore="TypographyDashes">0124 487 3888</string>
+	<string name="info_support_number_it" tools:ignore="TypographyDashes">02 9148 3659</string>
+	<string name="info_support_number_jp" tools:ignore="TypographyDashes">0120 941 853</string>
 	<string name="info_support_number_kr" tools:ignore="TypographyDashes">02-2076-8343</string>
-	<string name="info_support_number_mx" tools:ignore="TypographyDashes">001-8003157301</string>
+	<string name="info_support_number_mx" tools:ignore="TypographyDashes">01 800 925 0382</string>
 	<string name="info_support_number_my" tools:ignore="TypographyDashes">1-800-815676</string>
-	<string name="info_support_number_nl" tools:ignore="TypographyDashes">0900-397-3342</string>
-	<string name="info_support_number_no" tools:ignore="TypographyDashes">800 36 401</string>
-	<string name="info_support_number_nz" tools:ignore="TypographyDashes">0800-998-799</string>
+	<string name="info_support_number_nl" tools:ignore="TypographyDashes">020 700 60 42</string>
+	<string name="info_support_number_no" tools:ignore="TypographyDashes">24 15 97 43</string>
+	<string name="info_support_number_nz" tools:ignore="TypographyDashes">0800-453-036</string>
 	<string name="info_support_number_ph" tools:ignore="TypographyDashes">1 800 1 114 2468</string>
-	<string name="info_support_number_se" tools:ignore="TypographyDashes">0200 810 341</string>
-	<string name="info_support_number_sg" tools:ignore="TypographyDashes">800-120-5806</string>
-	<string name="info_support_number_th" tools:ignore="TypographyDashes">001-800-12-0667078</string>
+	<string name="info_support_number_se" tools:ignore="TypographyDashes">08 502 52029</string>
+	<string name="info_support_number_sg" tools:ignore="TypographyDashes">6226 3973</string>
+	<string name="info_support_number_th" tools:ignore="TypographyDashes">02 1055728</string>
 	<string name="info_support_number_tw" tools:ignore="TypographyDashes">00801-13-6291</string>
-	<string name="info_support_number_uk" tools:ignore="TypographyDashes">0330 123 1235</string>
-	<string name="info_support_number_us" tools:ignore="TypographyDashes">1-800-780-5733</string>
+	<string name="info_support_number_uk" tools:ignore="TypographyDashes">0203 027 6594</string>
+	<string name="info_support_number_us" tools:ignore="TypographyDashes">866-649-6924</string>
 	<string name="info_support_number_vn" tools:ignore="TypographyDashes">120 65 125</string>
 
 </resources>
