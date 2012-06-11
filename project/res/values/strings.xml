@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Expedia</string>
+	
+	<!-- General -->
+    <!-- Connectivity -->
+    <!-- Dialog Message tell the user that their device has no internet connection -->
+    <string name="dialog_message_no_connection">The Internet connection appears to be offline.</string>  
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -653,6 +658,16 @@
 	<string name="info_label_privacy_policy">Privacy Policy</string>
 	<!-- Copyright information -->
 	<string name="copyright">© Copyright 2011–2012 Expedia, Inc.\nAll rights reserved.</string>
+	<!-- Dialog Title asking the user if they would like to sign out of their account and remove all data saved about them -->
+    <string name="dialog_title_log_out_and_clear_private_data">Log out and clear data?</string>
+    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_title_logged_out_and_cleared_private_data">Logged out and data cleared</string>
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data">You are logged out of your Expedia account, and all saved billing and contact information has been removed.</string>
+    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
+    <string name="dialog_message_launch_expedia_mobile_site">Launch the Expedia mobile website?</string>
+    <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
+    <string name="dialog_message_launch_expedia_support_site">Visit the Expedia support website?</string>   
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
