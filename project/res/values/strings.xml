@@ -42,6 +42,18 @@
 	<string name="inbound_TEMPLATE">Inbound to %s</string>
 	<!-- Error when we simple can't connect to E3 servers -->
 	<string name="error_server">Sorry, we could not connect to Expedia\'s servers.  Please try again later.</string>
+	<!-- Label for changing sort order on flights -->
+	<string name="filter_flight_sort">Sort Flights By:</string>
+	<!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
+	<string name="filter_flight_time">Flight Time</string>
+	<!-- Label for filtering flights by airline (aka, Delta) -->
+	<string name="filter_flight_airline">Preferred Airlines</string>
+	<!-- Sort by departure timelabel -->
+	<string name="sort_description_departure">Departs</string>
+	<!-- Sort by arrival time label -->
+	<string name="sort_description_arrival">Arrives</string>
+	<!-- Sort by duration label -->
+	<string name="sort_description_duration">Duration</string>
 
 	<!-- Flight Details Fragment -->
 	<!-- The label for the number of seats left for a flight -->

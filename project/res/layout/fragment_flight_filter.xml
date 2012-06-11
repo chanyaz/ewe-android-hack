@@ -1,13 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="8dp" >
+
+    <!-- Sort options -->
+
+    <TextView
+        style="@style/FlightFilterLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/filter_flight_sort" />
+
+    <com.mobiata.android.widget.SegmentedControlGroup
+        android:id="@+id/sort_button_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        mobiata:textColor="@color/segmented_button_text" >
+
+        <RadioButton
+            android:id="@+id/sort_price_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="@string/sort_description_price"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/sort_departure_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sort_description_departure"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/sort_arrival_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sort_description_arrival"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/sort_duration_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sort_description_duration"
+            android:textStyle="bold" />
+    </com.mobiata.android.widget.SegmentedControlGroup>
+
+    <!-- Time filter -->
+
+    <TextView
+        style="@style/FlightFilterLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/filter_flight_time" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="INSERT FILTER HERE" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TODO: IMPLEMENT FLIGHT TIME WIDGET"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Airline filter -->
+
+    <TextView
+        style="@style/FlightFilterLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/filter_flight_airline" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" >
+
+        <LinearLayout
+            android:id="@+id/airline_filter_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TODO: IMPLEMENT AIRLINE FILTERS"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
 </LinearLayout>
