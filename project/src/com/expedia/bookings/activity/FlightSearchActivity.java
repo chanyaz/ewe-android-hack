@@ -26,11 +26,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Date;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearch;
-import com.expedia.bookings.data.FlightSearchParams;
-import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.*;
 import com.expedia.bookings.fragment.AirportPickerFragment;
 import com.expedia.bookings.fragment.AirportPickerFragment.AirportPickerFragmentListener;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
@@ -43,6 +39,8 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.hockey.helper.HockeyPuck;
+import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
@@ -66,6 +64,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	private EditText mArrivalAirportEditText;
 	private Button mDatesButton;
 	private View mPassengersButton;
+
+	private HockeyPuck mHockeyPuck;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -157,6 +157,10 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 		});
 
 		updateDateButton();
+
+		// HockeyApp init
+		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
+		mHockeyPuck.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -165,6 +169,9 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 
 		mDepartureAirportEditText.addTextChangedListener(mAirportTextWatcher);
 		mArrivalAirportEditText.addTextChangedListener(mAirportTextWatcher);
+
+		//HockeyApp crash
+		mHockeyPuck.onResume();
 	}
 
 	@Override
@@ -173,6 +180,13 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 
 		mDepartureAirportEditText.removeTextChangedListener(mAirportTextWatcher);
 		mArrivalAirportEditText.removeTextChangedListener(mAirportTextWatcher);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		mHockeyPuck.onSaveInstanceState(outState);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -386,7 +400,18 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_flight_search, menu);
+
+		mHockeyPuck.onCreateOptionsMenu(menu);
+
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+
+		mHockeyPuck.onPrepareOptionsMenu(menu);
+
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -400,6 +425,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 			}
 			break;
 		}
+
+		mHockeyPuck.onOptionsItemSelected(item);
 
 		return super.onOptionsItemSelected(item);
 	}

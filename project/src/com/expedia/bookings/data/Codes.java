@@ -28,5 +28,5 @@ public class Codes {
 	public static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
 	
 	// HockeyApp app id, used for uploading builds to HockeyApp
-	public static final String HOCKEY_APP_ID = "4d9aae3faac40c74443772c8bebd5aaf";
+	public static final String HOCKEY_APP_ID = "792ff1cdbbb87f7ef677defb03597b0d";
 }
