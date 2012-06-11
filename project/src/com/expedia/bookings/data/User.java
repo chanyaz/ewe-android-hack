@@ -13,6 +13,7 @@ import com.mobiata.android.json.JSONable;
 
 public class User implements JSONable {
 
+	private Long mTuid;
 	private String mEmail;
 
 	private String mFirstName;
@@ -26,10 +27,14 @@ public class User implements JSONable {
 	private String mLoyaltyMembershipNumber;
 	private boolean mIsSmokingPreferred;
 
-	private static String[] sAddrLineKeys = new String[] {"firstAddressLine", "secondAddressLine"};
+	private static String[] sAddrLineKeys = new String[] { "firstAddressLine", "secondAddressLine" };
 
 	public User(JSONObject obj) {
 		this.fromJson(obj);
+	}
+
+	public Long getTuid() {
+		return mTuid;
 	}
 
 	public String getEmail() {
@@ -116,6 +121,7 @@ public class User implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
+		mTuid = obj.optLong("tuid");
 		mEmail = obj.optString("email", null);
 		mFirstName = obj.optString("firstName", null);
 		mMiddleName = obj.optString("middleName", null);
@@ -130,7 +136,7 @@ public class User implements JSONable {
 					mPhoneNumbers.add(p);
 				}
 				catch (JSONException e) {
-					Log.e("Could not get phone number at i="+i+":", e);
+					Log.e("Could not get phone number at i=" + i + ":", e);
 				}
 			}
 		}
@@ -144,7 +150,7 @@ public class User implements JSONable {
 					mStoredCreditCards.add(c);
 				}
 				catch (JSONException e) {
-					Log.e("Could not get stored credit card at i="+i+":", e);
+					Log.e("Could not get stored credit card at i=" + i + ":", e);
 				}
 			}
 		}

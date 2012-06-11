@@ -168,12 +168,19 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 			ExpediaServices services = new ExpediaServices(mContext);
 			String userId = null;
 			String tripId = null;
+			Long tuid = null;
+
 			if (Db.getCreateTripResponse() != null) {
 				tripId = Db.getCreateTripResponse().getTripId();
 				userId = Db.getCreateTripResponse().getUserId();
 			}
+
+			if (Db.getUser() != null) {
+				tuid = Db.getUser().getTuid();
+			}
+
 			return services.reservation(Db.getSearchParams(), Db.getSelectedProperty(), Db.getSelectedRate(),
-					Db.getBillingInfo(), tripId, userId);
+					Db.getBillingInfo(), tripId, userId, tuid);
 		}
 	};
 
@@ -283,7 +290,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		DialogFragment dialog = BookingInProgressDialogFragment.newInstance();
 		dialog.setCancelable(false);
 		dialog.show(getSupportFragmentManager(), getString(R.string.tag_booking_progress));
-		
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_BOOKING);
 		bd.startDownload(KEY_BOOKING, mBookingDownload, mBookingCallback);

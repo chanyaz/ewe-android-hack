@@ -247,7 +247,8 @@ public class ExpediaServices implements DownloadListener {
 		return response;
 	}
 
-	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo, String tripId, String userId) {
+	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo,
+			String tripId, String userId, Long tuid) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addPOSParams(query);
@@ -289,6 +290,10 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("userId", userId));
 		}
 
+		if (tuid != null) {
+			query.add(new BasicNameValuePair("tuid", String.valueOf(tuid)));
+		}
+
 		// Simulate a valid checkout, to bypass the actual checkout process
 		if (!AndroidUtils.isRelease(mContext)) {
 			boolean spoofBookings = SettingUtils.get(mContext, mContext.getString(R.string.preference_spoof_bookings),
@@ -322,7 +327,6 @@ public class ExpediaServices implements DownloadListener {
 		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
 		return (CreateTripResponse) doE3Request("CreateTrip", query, responseHandler, F_SECURE_REQUEST);
 	}
-
 
 	public SignInResponse signIn(String email, String password) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
