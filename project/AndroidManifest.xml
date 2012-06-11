@@ -99,7 +99,9 @@
         <!-- HockeyApp -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
 
-        <service android:name="com.expedia.bookings.appwidget.ExpediaBookingsService" >
+        <service
+            android:name="com.expedia.bookings.appwidget.ExpediaBookingsService"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.expedia.bookings.START_SEARCH" />
                 <action android:name="com.expedia.bookings.START_CLEAN_SEARCH" />
