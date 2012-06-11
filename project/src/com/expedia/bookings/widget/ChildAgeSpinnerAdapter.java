@@ -70,7 +70,7 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
-		return new Integer(position + GuestsPickerUtils.MIN_CHILD_AGE);
+		return Integer.valueOf(position + GuestsPickerUtils.MIN_CHILD_AGE);
 	}
 
 	@Override

@@ -103,11 +103,11 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 			Location location = property.getLocation();
 			GeoPoint point = MapUtils.convertToGeoPoint(location.getLatitude(), location.getLongitude());
 			if (MapUtils.isGeoPointWithinBound(point, center, latSpan, lonSpan)) {
-				return new Boolean(true);
+				return Boolean.valueOf(true);
 			}
 		}
 
-		return new Boolean(false);
+		return Boolean.valueOf(false);
 	}
 
 	public Property getProperty(int index) {

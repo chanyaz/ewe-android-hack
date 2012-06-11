@@ -486,7 +486,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			 * even after the corresponding widget has been deleted from the
 			 * home screen
 			 */
-			Integer appWidgetIdInteger = new Integer(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
+			Integer appWidgetIdInteger = Integer.valueOf(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 			WidgetState widget = new WidgetState();
 			widget.appWidgetIdInteger = appWidgetIdInteger;
 			boolean startListener = mWidgets.isEmpty();
@@ -519,7 +519,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				startSearchForWidgets();
 			}
 			else if (intent.getAction().equals(CANCEL_UPDATE_ACTION)) {
-				Integer appWidgetIdInteger = new Integer(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
+				Integer appWidgetIdInteger = Integer.valueOf(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 				mWidgets.remove(appWidgetIdInteger);
 
 				if (mWidgets.isEmpty()) {
@@ -535,13 +535,13 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				}
 			}
 			else if (intent.getAction().equals(NEXT_PROPERTY_ACTION)) {
-				Integer appWidgetIdInteger = new Integer(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
+				Integer appWidgetIdInteger = Integer.valueOf(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 				WidgetState widget = mWidgets.get(appWidgetIdInteger);
 				loadNextProperty(widget, INCREASED_ROTATE_INTERVAL);
 
 			}
 			else if (intent.getAction().equals(PREV_PROPERTY_ACTION)) {
-				Integer appWidgetIdInteger = new Integer(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
+				Integer appWidgetIdInteger = Integer.valueOf(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 				WidgetState widget = mWidgets.get(appWidgetIdInteger);
 				loadPreviousProperty(widget, INCREASED_ROTATE_INTERVAL);
 
@@ -776,7 +776,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		List<WidgetConfigurationState> widgetConfigs = WidgetConfigurationState.getAll();
 		for (WidgetConfigurationState cs : widgetConfigs) {
-			Integer appWidgetIdInteger = new Integer(cs.getAppWidgetId());
+			Integer appWidgetIdInteger = Integer.valueOf(cs.getAppWidgetId());
 			WidgetState widget = new WidgetState();
 			widget.appWidgetIdInteger = appWidgetIdInteger;
 			mWidgets.put(appWidgetIdInteger, widget);
