@@ -94,7 +94,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	// Filter dialog
 
 	public void showFilterDialog() {
-		FlightFilterDialogFragment fragment = new FlightFilterDialogFragment();
+		FlightFilterDialogFragment fragment = FlightFilterDialogFragment.newInstance(mLegPosition);
 		fragment.show(getSupportFragmentManager(), FlightFilterDialogFragment.TAG);
 	}
 
