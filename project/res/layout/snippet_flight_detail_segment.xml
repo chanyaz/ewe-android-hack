@@ -52,25 +52,32 @@
 		            android:background="@color/flight_details_line"/>
         	</LinearLayout>
         </LinearLayout>
-        <TextView 
-            android:id="@+id/flight_details_departure_time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="7:35AM"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            />
-        <TextView 
-            android:id="@+id/flight_details_departure_airport_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Boston Logan Airport (BOS)"
-            android:textSize="16dp"
-            android:textColor="#000000"
-            />
+        <LinearLayout android:id="@+id/flight_details_waypoint_text_ll"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center_vertical"
+	        android:orientation="horizontal"
+	        android:layout_marginLeft="10dp"
+	        >
+	        <TextView 
+	            android:id="@+id/flight_details_departure_time_tv"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginRight="10dp"
+	            android:text="7:35AM"
+	            android:textSize="16dp"
+	            android:textStyle="bold"
+	            android:textColor="#000000"
+	            />
+	        <TextView 
+	            android:id="@+id/flight_details_departure_airport_tv"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Boston Logan Airport (BOS)"
+	            android:textSize="16dp"
+	            android:textColor="#000000"
+	            />
+        </LinearLayout>
     </LinearLayout>
     
     <LinearLayout

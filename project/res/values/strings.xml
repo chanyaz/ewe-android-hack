@@ -52,12 +52,16 @@
 	<string name="city_to_city_TEMPLATE">%1$s to %2$s</string>
 	<!-- airport name and airport code template -->
 	<string name="airport_name_and_code_TEMPLATE">%1$s (%2$s)</string>
+	<!-- time range for layovers -->
+	<string name="layover_time_range_TEMPLATE">%1$s - %2$s</string>
 	
 	<!-- Flight Details Activity -->
 	<!-- Seat map button -->
 	<string name="btn_seat_map">Seat Map</string>
 	<!-- Baggage fee button -->
 	<string name="btn_baggage_fee">Baggage Fee</string>
+	<!-- Details activity actionbar select leg btn -->
+	<string name="btn_select_leg">Select leg</string>
 	
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->

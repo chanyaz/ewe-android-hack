@@ -1,65 +1,116 @@
 package com.expedia.bookings.activity;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.fragment.TripFragment;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
-public class FlightDetailsActivity extends FragmentActivity {
+public class FlightDetailsActivity extends SherlockFragmentActivity {
 
 	public static final String EXTRA_STARTING_POSITION = "EXTRA_STARTING_POSITION";
 	public static final String EXTRA_LEG_POSITION = "EXTRA_LEG_POSITION";
-	
+
 	public static final int SEATS_REMAINING_CUTOFF = 5;
-	
+
+	private int mLegPosition;
+	private int mPosition;
+	private TripFragment mDetails;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.activity_flight_details);
-		
-		int pos = getIntent().getIntExtra(EXTRA_STARTING_POSITION, 0);
-		int legPos = getIntent().getIntExtra(EXTRA_LEG_POSITION, 0);
-		
-		Log.i("onCreate - EXTRA_STARTING_POSITION:" + pos);
-		Log.i("onCreate - EXTRA_LEG_POSITION:" + legPos);
-		
-		FlightTrip trip = Db.getFlightSearch().getTrips(legPos).get(pos);
-	
-		if(trip.getSeatsRemaining() < SEATS_REMAINING_CUTOFF){
-			Ui.setText(this, R.id.flight_details_num_seats_tv, "" + trip.getSeatsRemaining());//TODO: Seats remaining cutoff like results activity!?!?!
+
+		mPosition = getIntent().getIntExtra(EXTRA_STARTING_POSITION, 0);
+		mLegPosition = getIntent().getIntExtra(EXTRA_LEG_POSITION, 0);
+
+		FlightTrip trip = Db.getFlightSearch().getTrips(mLegPosition).get(mPosition);
+		if (trip.getSeatsRemaining() < SEATS_REMAINING_CUTOFF) {
+			Ui.setText(this, R.id.flight_details_num_seats_tv, "" + trip.getSeatsRemaining());
 			findViewById(R.id.flight_detail_info_bar_seats_left_ll).setVisibility(View.VISIBLE);
-		}else{
+		}
+		else {
 			findViewById(R.id.flight_detail_info_bar_seats_left_ll).setVisibility(View.INVISIBLE);
 		}
-		
-		Ui.setText(this, R.id.flight_details_seat_price_tv, "" + trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
-	
-		// During initial setup, plug in the details fragment.
-		//TODO:Clearing the child views is dumb, we should store some state... 
-		((ViewGroup)findViewById(R.id.flight_details_card_holder_ll)).removeAllViews();
-        TripFragment details = TripFragment.newInstance(pos,legPos);
-        getSupportFragmentManager().beginTransaction().add(R.id.flight_details_card_holder_ll, details).commit();
-        
-        // Enable the home button on the action bar
+
+		Ui.setText(this, R.id.flight_details_seat_price_tv,
+				"" + trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
+
+		//TODO:We shouldn't build a new fragment every time, we should be able to reuse the existing one (during rotate)
+		mDetails = TripFragment.newInstance(mPosition, mLegPosition);
+		getSupportFragmentManager().beginTransaction().replace(R.id.flight_details_card_holder_ll, mDetails).commit();
+
+		// Enable the home button on the action bar
 		if (AndroidUtils.getSdkVersion() >= 11) {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
-			
-			//TODO:Add save leg btn
 		}
 	}
 
-	@Override
-	protected void onResume(){
-		super.onResume();
+	public void selectLeg() {
+		FlightSearch search = Db.getFlightSearch();
+		FlightTrip trip = search.getTrips(mLegPosition).get(mPosition);
+		FlightLeg leg = trip.getLeg(mLegPosition);
+		search.setSelectedLeg(mLegPosition, leg);
+
+		if (mLegPosition + 1 < search.getSearchParams().getQueryLegCount()) {
+			// If the user hasn't selected all legs yet, push them to select the next leg
+			Intent intent = new Intent(this, FlightSearchResultsActivity.class);
+			intent.putExtra(EXTRA_LEG_POSITION, mLegPosition + 1);
+			startActivity(intent);
+		}
+		else {
+			// TODO: If the user has selected all legs, go to checkout screen
+			Toast.makeText(this, "TODO: All legs selected, implement checkout screen", Toast.LENGTH_SHORT).show();
+		}
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Action bar
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_flight_details, menu);
+
+		//Add the select leg button
+		LinearLayout selectLegBtnLL = (LinearLayout) menu.findItem(R.id.select_leg).getActionView();
+		Button selectLegBtn = (Button) selectLegBtnLL.findViewById(R.id.actionbar_flights_select_leg_btn);
+		selectLegBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				selectLeg();
+			}
+		});
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.select_leg:
+			selectLeg();
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
 }
