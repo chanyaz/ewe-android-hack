@@ -644,7 +644,7 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">プライバシー ポリシー</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011-2012 Expedia, Inc.\nAll rights reserved.</string>
+	<string name="copyright">© Copyright 2011–2012 Expedia, Inc.\nAll rights reserved.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->

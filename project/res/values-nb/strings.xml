@@ -4,11 +4,11 @@
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">Oppgi sted...</string>
+	<string name="enter_search_location">Oppgi sted…</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Søk etter sted</string>
 	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-	<string name="loading_suggestions">Laster opp forslag...</string>
+	<string name="loading_suggestions">Laster opp forslag…</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Nylige søk</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -82,13 +82,13 @@
 	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
 	<string name="NoGeocodingResults">Finner ikke posisjonen til %s.</string>
 	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-	<string name="ChooseLocation">Mente du...</string>
+	<string name="ChooseLocation">Mente du…</string>
 	<!-- Button label for upgrading the app -->
 	<string name="upgrade">Oppgrader</string>
 	<!-- Button label for searching the visible map area -->
 	<string name="map_search_button">Søk i kartet</string>
 	<!-- Message when app is loading saved search results -->
-	<string name="loading_previous">Laster inn tidligere søkeresultater...</string>
+	<string name="loading_previous">Laster inn tidligere søkeresultater…</string>
 	<!-- Label for sort hotels button in bottom bar -->
 	<string name="sort_hotels">&quot;Sorter: &quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
@@ -144,9 +144,9 @@
 
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">Søker etter nåværende posisjon...</string>
+	<string name="progress_finding_location">Søker etter nåværende posisjon…</string>
 	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">Søker etter hoteller...</string>
+	<string name="progress_searching_hotels">Søker etter hoteller…</string>
 	<!-- Message displayed when search comes up with zero results -->
 	<string name="progress_search_failed">Ingen hoteller ble funnet</string>
 	
@@ -183,7 +183,7 @@
 
 	<!-- Widget -->
 	<!--  Default Loading message for widget -->
-	<string name="loading_hotels">Laster inn hoteller...</string>
+	<string name="loading_hotels">Laster inn hoteller…</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
 	<string name="widget_savings_template">Spar %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
@@ -291,7 +291,7 @@
 
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
-	<string name="user_review_loading_text">Laster inn brukernes anmeldelser...</string>
+	<string name="user_review_loading_text">Laster inn brukernes anmeldelser…</string>
 	<!-- Header for reviews of the non-native language -->
 	<string name="user_review_other_languages_title">Anmeldelser på andre språk</string>
 	<!-- The text for the sort button, recent -->
@@ -301,7 +301,7 @@
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_critical">Negative</string>
 	<!-- Loading more reviews -->
-	<string name="user_review_loading_more_reviews">Laster inn flere anmeldelser...</string>
+	<string name="user_review_loading_more_reviews">Laster inn flere anmeldelser…</string>
 	<!-- Read more of the review -->
 	<string name="user_review_read_more">Les mer</string>
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
@@ -339,7 +339,7 @@
 		<item quantity="other">For %d overnattinger</item>
 	</plurals>
 	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">Søker etter ledige rom...</string>
+	<string name="room_rates_loading">Søker etter ledige rom…</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
 	<string name="error_no_response_room_rates">Kunne ikke laste ned rom- og prisopplysninger.  Kontroller internettforbindelsen og prøv på nytt.</string>
 	<!-- Rate price displayed "per night" -->
@@ -476,7 +476,7 @@
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">Du må akseptere vilkårene for å kunne bestille</string>
 	<!-- Message to display to user while booking is in progress -->
-	<string name="booking_loading">Bestiller...</string>
+	<string name="booking_loading">Bestiller…</string>
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Feil</string>
 	<!-- Error message when we couldn't get a response -->
@@ -612,7 +612,7 @@
 	<!-- Extra description for "contact Expedia" button, when space allows -->
 	<string name="contact_expedia_description">Vi er tilgjengelige døgnet rundt.</string>
 	<!-- Title for different ways to connect to Expedia -->
-	<string name="contact_expedia_via">Kontakt Expedia via...</string>
+	<string name="contact_expedia_via">Kontakt Expedia via…</string>
 	<!-- Contact Expedia via phone -->
 	<string name="contact_expedia_phone">Telefon</string>
 	<!-- Contact Expedia via email -->
@@ -644,7 +644,7 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Personvernbestemmelser</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011-2012 Expedia, Inc.\nAlle rettigheter forbeholdt.</string>
+	<string name="copyright">© Copyright 2011–2012 Expedia, Inc.\nAlle rettigheter forbeholdt.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->

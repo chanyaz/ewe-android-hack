@@ -4,11 +4,11 @@
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">Suchort eingeben...</string>
+	<string name="enter_search_location">Suchort eingeben…</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Suchort</string>
 	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-	<string name="loading_suggestions">Vorschläge werden geladen...</string>
+	<string name="loading_suggestions">Vorschläge werden geladen…</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Letzte Suchen</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -82,13 +82,13 @@
 	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
 	<string name="NoGeocodingResults">Die Lage von %s konnte nicht bestimmt werden. </string>
 	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-	<string name="ChooseLocation">Meinten Sie...</string>
+	<string name="ChooseLocation">Meinten Sie…</string>
 	<!-- Button label for upgrading the app -->
 	<string name="upgrade">Upgrade</string>
 	<!-- Button label for searching the visible map area -->
 	<string name="map_search_button">Karte</string>
 	<!-- Message when app is loading saved search results -->
-	<string name="loading_previous">Vorherige Suchergebnisse werden geladen...</string>
+	<string name="loading_previous">Vorherige Suchergebnisse werden geladen…</string>
 	<!-- Label for sort hotels button in bottom bar -->
 	<string name="sort_hotels">&quot;Sortieren: &quot; </string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
@@ -144,9 +144,9 @@
 
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">Suche nach dem Standort erfolgt...</string>
+	<string name="progress_finding_location">Suche nach dem Standort erfolgt…</string>
 	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">Suche nach Hotels erfolgt...</string>
+	<string name="progress_searching_hotels">Suche nach Hotels erfolgt…</string>
 	<!-- Message displayed when search comes up with zero results -->
 	<string name="progress_search_failed">Keine Hotels gefunden.</string>
 	
@@ -301,7 +301,7 @@
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_critical">Kritisch</string>
 	<!-- Loading more reviews -->
-	<string name="user_review_loading_more_reviews">Weitere Bewertungen werden geladen...</string>
+	<string name="user_review_loading_more_reviews">Weitere Bewertungen werden geladen…</string>
 	<!-- Read more of the review -->
 	<string name="user_review_read_more">Mehr</string>
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
@@ -339,7 +339,7 @@
 		<item quantity="other">%d Übernachtungen </item>
 	</plurals>
 	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">Suche nach verfügbaren Zimmern...</string>
+	<string name="room_rates_loading">Suche nach verfügbaren Zimmern…</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
 	<string name="error_no_response_room_rates">Informationen zu Zimmern &amp; Preisen können derzeit nicht angezeigt werden.  Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.</string>
 	<!-- Rate price displayed "per night" -->
@@ -476,7 +476,7 @@
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">Sie müssen die AGBs bestätigen, um buchen zu können.</string>
 	<!-- Message to display to user while booking is in progress -->
-	<string name="booking_loading">Es wird gebucht...</string>
+	<string name="booking_loading">Es wird gebucht…</string>
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Fehler</string>
 	<!-- Error message when we couldn't get a response -->
@@ -612,7 +612,7 @@
 	<!-- Extra description for "contact Expedia" button, when space allows -->
 	<string name="contact_expedia_description">Wir sind rund um die Uhr für Sie da.</string>
 	<!-- Title for different ways to connect to Expedia -->
-	<string name="contact_expedia_via">Kontaktieren Sie Expedia per...</string>
+	<string name="contact_expedia_via">Kontaktieren Sie Expedia per…</string>
 	<!-- Contact Expedia via phone -->
 	<string name="contact_expedia_phone">Telefon</string>
 	<!-- Contact Expedia via email -->
@@ -644,7 +644,7 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Datenschutzrichtlinien</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011-2012 Expedia, Inc.\nAlle Rechte vorbehalten. </string>
+	<string name="copyright">© Copyright 2011–2012 Expedia, Inc.\nAlle Rechte vorbehalten. </string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->

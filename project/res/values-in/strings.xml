@@ -4,11 +4,11 @@
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">Masukkan lokasi pencarian...</string>
+	<string name="enter_search_location">Masukkan lokasi pencarian…</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Lokasi Pencarian</string>
 	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-	<string name="loading_suggestions">Memuat saran...</string>
+	<string name="loading_suggestions">Memuat saran…</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Pencarian Terbaru</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -82,13 +82,13 @@
 	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
 	<string name="NoGeocodingResults">Tidak dapat menemukan lokasi %s.</string>
 	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-	<string name="ChooseLocation">Apakah maksud Anda...</string>
+	<string name="ChooseLocation">Apakah maksud Anda…</string>
 	<!-- Button label for upgrading the app -->
 	<string name="upgrade">Upgrade</string>
 	<!-- Button label for searching the visible map area -->
 	<string name="map_search_button">Cari di Peta</string>
 	<!-- Message when app is loading saved search results -->
-	<string name="loading_previous">Memuat hasil pencarian sebelumnya...</string>
+	<string name="loading_previous">Memuat hasil pencarian sebelumnya…</string>
 	<!-- Label for sort hotels button in bottom bar -->
 	<string name="sort_hotels">&quot;Urutkan: &quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
@@ -144,9 +144,9 @@
 
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">Mencari Lokasi Saat Ini...</string>
+	<string name="progress_finding_location">Mencari Lokasi Saat Ini…</string>
 	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">Mencari Hotel...</string>
+	<string name="progress_searching_hotels">Mencari Hotel…</string>
 	<!-- Message displayed when search comes up with zero results -->
 	<string name="progress_search_failed">Hotel Tidak Ditemukan</string>
 	
@@ -183,7 +183,7 @@
 
 	<!-- Widget -->
 	<!--  Default Loading message for widget -->
-	<string name="loading_hotels">Memuat hotel...</string>
+	<string name="loading_hotels">Memuat hotel…</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
 	<string name="widget_savings_template">Hemat %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
@@ -291,7 +291,7 @@
 
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
-	<string name="user_review_loading_text">Memuat ulasan pengguna...</string>
+	<string name="user_review_loading_text">Memuat ulasan pengguna…</string>
 	<!-- Header for reviews of the non-native language -->
 	<string name="user_review_other_languages_title">Ulasan dalam bahasa lain</string>
 	<!-- The text for the sort button, recent -->
@@ -301,7 +301,7 @@
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_critical">Kritis</string>
 	<!-- Loading more reviews -->
-	<string name="user_review_loading_more_reviews">Memuat ulasan lainnya...</string>
+	<string name="user_review_loading_more_reviews">Memuat ulasan lainnya…</string>
 	<!-- Read more of the review -->
 	<string name="user_review_read_more">Selengkapnya</string>
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
@@ -339,7 +339,7 @@
 		<item quantity="other">Menginap %d malam</item>
 	</plurals>
 	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">Mencari kamar yang tersedia...</string>
+	<string name="room_rates_loading">Mencari kamar yang tersedia…</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
 	<string name="error_no_response_room_rates">Tidak dapat mengunduh informasi kamar &amp; tarif.  Periksa koneksi Anda dan coba lagi.</string>
 	<!-- Rate price displayed "per night" -->
@@ -476,7 +476,7 @@
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">Anda harus menerima syarat ini sebelum memesan</string>
 	<!-- Message to display to user while booking is in progress -->
-	<string name="booking_loading">Memesan...</string>
+	<string name="booking_loading">Memesan…</string>
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Kesalahan</string>
 	<!-- Error message when we couldn't get a response -->
@@ -560,7 +560,7 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Kata Sandi</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->
-	<string name="logging_in">Sedang Masuk...</string>
+	<string name="logging_in">Sedang Masuk…</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">Berhasil! Anda sekarang sudah masuk.</string>
 	<!-- Message that tells user they failed to log in -->
@@ -614,7 +614,7 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 	<!-- Extra description for "contact Expedia" button, when space allows -->
 	<string name="contact_expedia_description">Kami siap melayani Anda selama 24 jam dalam sehari.</string>
 	<!-- Title for different ways to connect to Expedia -->
-	<string name="contact_expedia_via">Hubungi Expedia Melalui...</string>
+	<string name="contact_expedia_via">Hubungi Expedia Melalui…</string>
 	<!-- Contact Expedia via phone -->
 	<string name="contact_expedia_phone">Telepon</string>
 	<!-- Contact Expedia via email -->
@@ -646,7 +646,7 @@ dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Kebijakan Privasi</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Hak cipta 2011-2012 Expedia, Inc.\nHak cipta dilindungi undang-undang.</string>
+	<string name="copyright">© Hak cipta 2011–2012 Expedia, Inc.\nHak cipta dilindungi undang-undang.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->

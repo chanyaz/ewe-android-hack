@@ -4,11 +4,11 @@
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">输入搜索位置...</string>
+	<string name="enter_search_location">输入搜索位置…</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">搜索位置</string>
 	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-	<string name="loading_suggestions">正在加载建议...</string>
+	<string name="loading_suggestions">正在加载建议…</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">最近的搜索</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -82,13 +82,13 @@
 	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
 	<string name="NoGeocodingResults">无法找到位置：%s。 </string>
 	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-	<string name="ChooseLocation">您的意思是...</string>
+	<string name="ChooseLocation">您的意思是…</string>
 	<!-- Button label for upgrading the app -->
 	<string name="upgrade">升级</string>
 	<!-- Button label for searching the visible map area -->
 	<string name="map_search_button">搜索地图</string>
 	<!-- Message when app is loading saved search results -->
-	<string name="loading_previous">正在加载之前的搜索结果...</string>
+	<string name="loading_previous">正在加载之前的搜索结果…</string>
 	<!-- Label for sort hotels button in bottom bar -->
 	<string name="sort_hotels">“排序：”</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
@@ -144,9 +144,9 @@
 
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">正在查找当前位置...</string>
+	<string name="progress_finding_location">正在查找当前位置…</string>
 	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">正在搜索酒店...</string>
+	<string name="progress_searching_hotels">正在搜索酒店…</string>
 	<!-- Message displayed when search comes up with zero results -->
 	<string name="progress_search_failed">找不到任何酒店</string>
 	
@@ -183,7 +183,7 @@
 
 	<!-- Widget -->
 	<!--  Default Loading message for widget -->
-	<string name="loading_hotels">正在加载酒店...</string>
+	<string name="loading_hotels">正在加载酒店…</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
 	<string name="widget_savings_template">节省%2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
@@ -291,7 +291,7 @@
 
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
-	<string name="user_review_loading_text">正在加载用户评价...</string>
+	<string name="user_review_loading_text">正在加载用户评价…</string>
 	<!-- Header for reviews of the non-native language -->
 	<string name="user_review_other_languages_title">其他语言的评价</string>
 	<!-- The text for the sort button, recent -->
@@ -301,7 +301,7 @@
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_critical">贬</string>
 	<!-- Loading more reviews -->
-	<string name="user_review_loading_more_reviews">正在加载更多评价...</string>
+	<string name="user_review_loading_more_reviews">正在加载更多评价…</string>
 	<!-- Read more of the review -->
 	<string name="user_review_read_more">阅读更多内容</string>
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
@@ -339,7 +339,7 @@
 		<item quantity="other">住宿 %d 晚</item>
 	</plurals>
 	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">正在查找空房...</string>
+	<string name="room_rates_loading">正在查找空房…</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
 	<string name="error_no_response_room_rates">无法下载客房与价格信息。请检查您的网络连接情况并重试。</string>
 	<!-- Rate price displayed "per night" -->
@@ -476,7 +476,7 @@
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">您必须接受预订条款</string>
 	<!-- Message to display to user while booking is in progress -->
-	<string name="booking_loading">正在预订...</string>
+	<string name="booking_loading">正在预订…</string>
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">错误</string>
 	<!-- Error message when we couldn't get a response -->
@@ -558,7 +558,7 @@
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">密码</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->
-	<string name="logging_in">正在登录...</string>
+	<string name="logging_in">正在登录…</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">成功！现在您已经登录。</string>
 	<!-- Message that tells user they failed to log in -->
@@ -612,7 +612,7 @@
 	<!-- Extra description for "contact Expedia" button, when space allows -->
 	<string name="contact_expedia_description">我们全天 24 小时为您服务。</string>
 	<!-- Title for different ways to connect to Expedia -->
-	<string name="contact_expedia_via">通过以下方式联系 Expedia...</string>
+	<string name="contact_expedia_via">通过以下方式联系 Expedia…</string>
 	<!-- Contact Expedia via phone -->
 	<string name="contact_expedia_phone">电话</string>
 	<!-- Contact Expedia via email -->
@@ -644,7 +644,7 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">隐私政策</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011-2012 Expedia, Inc.\nAll rights reserved.</string>
+	<string name="copyright">© Copyright 2011–2012 Expedia, Inc.\nAll rights reserved.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->

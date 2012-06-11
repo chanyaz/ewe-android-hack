@@ -4,11 +4,11 @@
 
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">Introduce una ubicación...</string>
+	<string name="enter_search_location">Introduce una ubicación…</string>
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Buscar ubicación</string>
 	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-	<string name="loading_suggestions">Cargando sugerencias...</string>
+	<string name="loading_suggestions">Cargando sugerencias…</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Búsquedas recientes</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -82,13 +82,13 @@
 	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
 	<string name="NoGeocodingResults">No se ha podido determinar la ubicación de %s.</string>
 	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-	<string name="ChooseLocation">Tal vez buscabas...</string>
+	<string name="ChooseLocation">Tal vez buscabas…</string>
 	<!-- Button label for upgrading the app -->
 	<string name="upgrade">Actualizar</string>
 	<!-- Button label for searching the visible map area -->
 	<string name="map_search_button">Buscar en el mapa</string>
 	<!-- Message when app is loading saved search results -->
-	<string name="loading_previous">Cargando los resultados de la búsqueda anterior...</string>
+	<string name="loading_previous">Cargando los resultados de la búsqueda anterior…</string>
 	<!-- Label for sort hotels button in bottom bar -->
 	<string name="sort_hotels">&quot;Ordenar por: &quot;</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
@@ -144,9 +144,9 @@
 
 	<!-- Progress messages -->	
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">Buscando ubicación actual...</string>
+	<string name="progress_finding_location">Buscando ubicación actual…</string>
 	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">Buscando hoteles...</string>
+	<string name="progress_searching_hotels">Buscando hoteles…</string>
 	<!-- Message displayed when search comes up with zero results -->
 	<string name="progress_search_failed">No se encontró ningún hotel</string>
 	
@@ -183,7 +183,7 @@
 
 	<!-- Widget -->
 	<!--  Default Loading message for widget -->
-	<string name="loading_hotels">Cargando hoteles...</string>
+	<string name="loading_hotels">Cargando hoteles…</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
 	<string name="widget_savings_template">Guardar %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
@@ -291,7 +291,7 @@
 
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
-	<string name="user_review_loading_text">Cargando opiniones...</string>
+	<string name="user_review_loading_text">Cargando opiniones…</string>
 	<!-- Header for reviews of the non-native language -->
 	<string name="user_review_other_languages_title">Opiniones en otros idiomas</string>
 	<!-- The text for the sort button, recent -->
@@ -301,7 +301,7 @@
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_critical">En contra</string>
 	<!-- Loading more reviews -->
-	<string name="user_review_loading_more_reviews">Cargando más opiniones...</string>
+	<string name="user_review_loading_more_reviews">Cargando más opiniones…</string>
 	<!-- Read more of the review -->
 	<string name="user_review_read_more">Seguir leyendo</string>
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
@@ -339,7 +339,7 @@
 		<item quantity="other">%d noches</item>
 	</plurals>
 	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">Buscando habitaciones disponibles...</string>
+	<string name="room_rates_loading">Buscando habitaciones disponibles…</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
 	<string name="error_no_response_room_rates">Error al descargar información sobre habitaciones y precios.  Comprueba la conexión y vuelve a intentarlo.</string>
 	<!-- Rate price displayed "per night" -->
@@ -476,7 +476,7 @@
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">Es necesario aceptar las condiciones para reservar</string>
 	<!-- Message to display to user while booking is in progress -->
-	<string name="booking_loading">Reservando...</string>
+	<string name="booking_loading">Reservando…</string>
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Error</string>
 	<!-- Error message when we couldn't get a response -->
@@ -558,7 +558,7 @@
 	<!-- Hint for user to enter password into a field -->
 	<string name="hint_password">Contraseña</string>
 	<!-- Progress dialog text when we are logging the user into Expedia -->
-	<string name="logging_in">Iniciando sesión...</string>
+	<string name="logging_in">Iniciando sesión…</string>
 	<!-- Message that tells user they successfully logged in -->
 	<string name="login_success">¡Perfecto! Ya estás registrado.</string>
 	<!-- Message that tells user they failed to log in -->
@@ -612,7 +612,7 @@
 	<!-- Extra description for "contact Expedia" button, when space allows -->
 	<string name="contact_expedia_description">Estamos a tu disposición las 24 horas.</string>
 	<!-- Title for different ways to connect to Expedia -->
-	<string name="contact_expedia_via">Ponte en contacto con Expedia por...</string>
+	<string name="contact_expedia_via">Ponte en contacto con Expedia por…</string>
 	<!-- Contact Expedia via phone -->
 	<string name="contact_expedia_phone">Teléfono</string>
 	<!-- Contact Expedia via email -->
@@ -644,7 +644,7 @@
 	<!-- Label for link to privacy policy -->
 	<string name="info_label_privacy_policy">Política de privacidad</string>
 	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011-2012 Expedia, Inc.\nTodos los derechos reservados.</string>
+	<string name="copyright">© Copyright 2011–2012 Expedia, Inc.\nTodos los derechos reservados.</string>
 	
 	<!--  App Feedback Activity -->
 	<!-- Text within submit button in header -->
