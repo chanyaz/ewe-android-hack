@@ -13,6 +13,8 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 
 import com.activeandroid.ActiveAndroid;
+import com.amobee.agency.tracking.AmobeeReceiver;
+import com.amobee.agency.tracking.AmobeeReceiver.Goal;
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.data.Rate;
@@ -35,6 +37,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		super.onCreate();
 
 		ActiveAndroid.initialize(this);
+
+		AmobeeReceiver.amobeeTracking(Goal.FIRST_LAUNCH, getApplicationContext(), "ExpediaHotelsAndroidPhone");
 
 		boolean isRelease = AndroidUtils.isRelease(this);
 		boolean isLogEnablerInstalled = DebugUtils.isLogEnablerInstalled(this);
