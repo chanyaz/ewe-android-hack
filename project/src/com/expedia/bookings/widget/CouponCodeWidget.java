@@ -21,7 +21,6 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.Log;
 
 public class CouponCodeWidget {
 	private Context mContext;
@@ -138,7 +137,6 @@ public class CouponCodeWidget {
 			outState.putBoolean(KEY_USE_NEW_TOTAL, mUseNewTotal);
 			outState.putBoolean(KEY_PROGRESS_SHOWING, mProgressShowing);
 			outState.putBoolean(KEY_ERROR, mError);
-			Log.d("HERE save error " + mError);
 		}
 	}
 
@@ -149,7 +147,6 @@ public class CouponCodeWidget {
 			mUseNewTotal = inState.getBoolean(KEY_USE_NEW_TOTAL, false);
 			mProgressShowing = inState.getBoolean(KEY_PROGRESS_SHOWING, false);
 			mError = inState.getBoolean(KEY_ERROR, false);
-			Log.d("HERE error " + mError);
 			mApply.setEnabled(!mTextEmpty);
 		}
 		startOrResumeDownload();
