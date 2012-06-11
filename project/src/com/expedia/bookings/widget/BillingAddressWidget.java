@@ -10,9 +10,9 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.EditText;
@@ -25,13 +25,9 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
-
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.validation.RequiredValidator;
 import com.mobiata.android.validation.TextViewValidator;
-import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.ValidationProcessor;
-import com.mobiata.android.validation.Validator;
 
 public class BillingAddressWidget {
 	private static final String BILLING_ADDRESS_USER_EXPANDED = "BILLING_ADDRESS_USER_EXPANDED";
