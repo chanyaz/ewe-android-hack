@@ -1,10 +1,8 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -15,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
@@ -50,7 +47,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -59,7 +55,6 @@ import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
-import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.BillingAddressWidget;
@@ -76,14 +71,11 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
-import com.mobiata.android.validation.RequiredValidator;
 import com.mobiata.android.validation.TextViewErrorHandler;
 import com.mobiata.android.validation.TextViewValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.ValidationProcessor;
 import com.mobiata.android.validation.Validator;
-
-import com.mobiata.android.Log;
 
 public class BookingFormFragment extends DialogFragment {
 	private static final String KEY_SIGNIN_FETCH = "KEY_SIGNIN_FETCH";
@@ -229,7 +221,8 @@ public class BookingFormFragment extends DialogFragment {
 			mStoredCardSpinner = (Spinner) mStoredCardContainer.findViewById(R.id.stored_card_spinner);
 		}
 
-		mAccountButton = new AccountButton(getActivity(), mAccountButtonClickListener, view.findViewById(R.id.account_button_root));
+		mAccountButton = new AccountButton(getActivity(), mAccountButtonClickListener,
+				view.findViewById(R.id.account_button_root));
 		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), !getShowsDialog());
 		mCouponCodeWidget = new CouponCodeWidget(getActivity(), view.findViewById(R.id.coupon_code));
 		mBillingAddressWidget = new BillingAddressWidget(getActivity(), mRootBillingView);
@@ -255,7 +248,7 @@ public class BookingFormFragment extends DialogFragment {
 		Resources r = getResources();
 		String[] twoLetterCountryCodes = r.getStringArray(R.array.country_codes);
 		String[] threeLetterCountryCodes = new String[twoLetterCountryCodes.length];
-		for (int i = 0; i < twoLetterCountryCodes.length; i++){
+		for (int i = 0; i < twoLetterCountryCodes.length; i++) {
 			threeLetterCountryCodes[i] = LocaleUtils.convertCountryCode(twoLetterCountryCodes[i]);
 		}
 		mCountryCodes = threeLetterCountryCodes;
@@ -382,7 +375,7 @@ public class BookingFormFragment extends DialogFragment {
 	public void onResume() {
 		super.onResume();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (! mUserProfileIsFresh && bd.isDownloading(KEY_SIGNIN_FETCH)) {
+		if (!mUserProfileIsFresh && bd.isDownloading(KEY_SIGNIN_FETCH)) {
 			bd.registerDownloadCallback(KEY_SIGNIN_FETCH, mLoginCallback);
 		}
 		mCouponCodeWidget.startTextWatcher();
@@ -749,13 +742,15 @@ public class BookingFormFragment extends DialogFragment {
 	private void fixFocus() {
 		// Handle where guest forms are pointing down (if expanded)
 		if (mGuestsExpanded) {
-			int nextId = (mBillingAddressWidget.isVisible() && mBillingAddressWidget.isExpanded()) ? R.id.address1_edit_text : R.id.card_number_edit_text;
+			int nextId = (mBillingAddressWidget.isVisible() && mBillingAddressWidget.isExpanded()) ? R.id.address1_edit_text
+					: R.id.card_number_edit_text;
 			mEmailEditText.setNextFocusDownId(nextId);
 			mEmailEditText.setNextFocusRightId(nextId);
 		}
 
 		// Handle where card info is pointing up
-		int nextId = (mBillingAddressWidget.isVisible() && mBillingAddressWidget.isExpanded()) ? R.id.postal_code_edit_text : R.id.email_edit_text;
+		int nextId = (mBillingAddressWidget.isVisible() && mBillingAddressWidget.isExpanded()) ? R.id.postal_code_edit_text
+				: R.id.email_edit_text;
 		mCardNumberEditText.setNextFocusUpId(nextId);
 		mCardNumberEditText.setNextFocusLeftId(nextId);
 		mExpirationMonthEditText.setNextFocusUpId(nextId);
@@ -909,9 +904,9 @@ public class BookingFormFragment extends DialogFragment {
 		mLastNameEditText.setText(lastName);
 		mTelephoneEditText.setText(billingInfo.getTelephone());
 		mEmailEditText.setText(billingInfo.getEmail());
-		mEmailEditText.setEnabled(! ExpediaServices.isLoggedIn(getActivity()));
-		mEmailEditText.setFocusable(! ExpediaServices.isLoggedIn(getActivity()));
-		mEmailEditText.setFocusableInTouchMode(! ExpediaServices.isLoggedIn(getActivity()));
+		mEmailEditText.setEnabled(!ExpediaServices.isLoggedIn(getActivity()));
+		mEmailEditText.setFocusable(!ExpediaServices.isLoggedIn(getActivity()));
+		mEmailEditText.setFocusableInTouchMode(!ExpediaServices.isLoggedIn(getActivity()));
 
 		// Sync the saved billing info fields
 		Location loc = billingInfo.getLocation();
@@ -1074,11 +1069,11 @@ public class BookingFormFragment extends DialogFragment {
 	}
 
 	public class StoredCardOnItemSelectedListener implements OnItemSelectedListener {
-		public void onItemSelected(AdapterView<?> parent,
-				View view, int pos, long id) {
+		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			mCardAdapter.setSelected(pos);
 			updateEnterNewCreditCard();
 		}
+
 		public void onNothingSelected(AdapterView parent) {
 			// Do nothing.
 		}
