@@ -154,14 +154,14 @@ public class ReceiptWidget {
 		}
 
 		Money totalMandatoryFees = rate.getTotalMandatoryFees();
-		if (totalMandatoryFees != null && totalMandatoryFees.getAmount() != 0 && shouldDisplayMandatoryFees()) {
+		if (totalMandatoryFees != null && totalMandatoryFees.getAmount() != 0 && LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
 			addRow(mDetailsLayout, R.string.MandatoryFees, totalMandatoryFees.getFormattedMoney());
 		}
 
 		// Configure the total cost and (if necessary) total cost paid to Expedia
 		if (discountRate != null) {
 			Money amountDiscounted, after;
-			if (shouldDisplayMandatoryFees()) {
+			if (LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
 				amountDiscounted = new Money(rate.getTotalPriceWithMandatoryFees());
 				after = discountRate.getTotalPriceWithMandatoryFees();
 			}
@@ -177,7 +177,7 @@ public class ReceiptWidget {
 		}
 
 		Money displayedTotal;
-		if (shouldDisplayMandatoryFees()) {
+		if (LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
 			mBelowTotalCostLayout.setVisibility(View.VISIBLE);
 			addRow(mBelowTotalCostLayout, R.string.PayToExpedia, rate.getTotalAmountAfterTax().getFormattedMoney());
 			displayedTotal = rate.getTotalPriceWithMandatoryFees();
@@ -231,13 +231,4 @@ public class ReceiptWidget {
 		parent.addView(v);
 	}
 
-	// Mandatory fees should only be displayed in IT and DE
-	private boolean shouldDisplayMandatoryFees() {
-		String pos = LocaleUtils.getPointOfSale(mContext);
-		if (pos == null) {
-			return false;
-		}
-		return pos.equals(mContext.getString(R.string.point_of_sale_it))
-				|| pos.equals(mContext.getString(R.string.point_of_sale_de));
-	}
 }

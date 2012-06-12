@@ -340,4 +340,13 @@ public class LocaleUtils {
 			return loc.getISO3Country();
 		}
 	}
+
+	public static boolean shouldDisplayMandatoryFees(Context context) {
+		String pos = getPointOfSale(context);
+		if (pos == null) {
+			return false;
+		}
+		return pos.equals(context.getString(R.string.point_of_sale_it))
+				|| pos.equals(context.getString(R.string.point_of_sale_de));
+	}
 }
