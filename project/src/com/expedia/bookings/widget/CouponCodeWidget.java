@@ -17,6 +17,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.LocaleUtils;
 
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -220,8 +221,13 @@ public class CouponCodeWidget {
 
 	private void setNewTotal() {
 		CreateTripResponse response = Db.getCreateTripResponse();
-		// TODO: use correct total based on POS
-		Money m = response.getNewRate().getTotalPriceWithMandatoryFees();
+		Money m;
+		if (LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
+			m = response.getNewRate().getTotalPriceWithMandatoryFees();
+		}
+		else {
+			m = response.getNewRate().getTotalAmountAfterTax();
+		}
 		mNewTotal.setText(mContext.getString(R.string.new_total) + "\n" + m.getFormattedMoney());
 	}
 
