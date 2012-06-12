@@ -97,6 +97,39 @@ public class AboutUtils {
 		return builder.create();
 	}
 
+	public Dialog createExpediaWebsiteDialog(final Runnable onDismiss) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+		builder.setMessage(R.string.dialog_message_launch_expedia_mobile_site);
+		builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if (onDismiss != null) {
+					onDismiss.run();
+				}
+			}
+		});
+		builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				openExpediaWebsite();
+
+				if (onDismiss != null) {
+					onDismiss.run();
+				}
+			}
+		});
+		if (onDismiss != null) {
+			builder.setOnCancelListener(new OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					onDismiss.run();
+				}
+			});
+		}
+
+		return builder.create();
+	}
+
 	public void contactViaPhone() {
 		trackCallSupport();
 		SocialUtils.call(mActivity, SupportUtils.getInfoSupportNumber(mActivity));
@@ -168,7 +201,7 @@ public class AboutUtils {
 		Log.d("Tracking \"flightboard\" onClick");
 		TrackingUtils.trackSimpleEvent(mActivity, null, null, null, "App.Link.FlightBoard");
 	}
-	
+
 	public void trackHiringLink() {
 		Log.d("Tracking \"hiring\" onClick");
 		TrackingUtils.trackSimpleEvent(mActivity, null, null, null, "App.Link.Mobiata.Jobs");

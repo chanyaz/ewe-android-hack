@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.ContactExpediaDialogFragment;
+import com.expedia.bookings.fragment.ExpediaWebsiteDialogFragment;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.mobiata.android.SocialUtils;
@@ -43,7 +44,8 @@ public class TabletAboutActivity extends HoneycombAboutActivity {
 		addSimpleRow(standardSection, getString(R.string.expedia_website),
 				getString(R.string.expedia_website_description), new OnClickListener() {
 					public void onClick(View v) {
-						mUtils.openExpediaWebsite();
+						DialogFragment newFragment = ExpediaWebsiteDialogFragment.newInstance();
+						newFragment.show(getFragmentManager(), "ExpediaWebsiteDialog");
 					}
 				});
 
