@@ -13,9 +13,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightFilter;
+import com.expedia.bookings.data.FlightFilter.Sort;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
@@ -60,6 +64,26 @@ public class FlightFilterDialogFragment extends DialogFragment {
 		mSortControl = Ui.findView(v, R.id.sort_button_group);
 		mAirlineContainer = Ui.findView(v, R.id.airline_filter_container);
 
+		// Configure the correct initial setting for the filter 
+		FlightFilter filter = getFlightFilter();
+		switch (filter.getSort()) {
+		case PRICE:
+			mSortControl.check(R.id.sort_price_button);
+			break;
+		case DEPARTURE:
+			mSortControl.check(R.id.sort_departure_button);
+			break;
+		case ARRIVAL:
+			mSortControl.check(R.id.sort_arrival_button);
+			break;
+		case DURATION:
+			mSortControl.check(R.id.sort_duration_button);
+			break;
+		}
+
+		// Setup listeners 
+		mSortControl.setOnCheckedChangeListener(mSortButtonCheckListener);
+
 		configureAirlines();
 
 		return v;
@@ -79,6 +103,36 @@ public class FlightFilterDialogFragment extends DialogFragment {
 		window.setGravity(Gravity.BOTTOM);
 		window.setBackgroundDrawable(null);
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Sort
+
+	private OnCheckedChangeListener mSortButtonCheckListener = new OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			FlightFilter filter = getFlightFilter();
+
+			Sort newSort;
+			switch (checkedId) {
+			case R.id.sort_departure_button:
+				newSort = Sort.DEPARTURE;
+				break;
+			case R.id.sort_arrival_button:
+				newSort = Sort.ARRIVAL;
+				break;
+			case R.id.sort_duration_button:
+				newSort = Sort.DURATION;
+				break;
+			case R.id.sort_price_button:
+			default:
+				newSort = Sort.PRICE;
+				break;
+			}
+
+			filter.setSort(newSort);
+			filter.notifyFilterChanged();
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Airline preference
@@ -124,5 +178,12 @@ public class FlightFilterDialogFragment extends DialogFragment {
 		}
 
 		return airlines;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Convenience utilities
+
+	private FlightFilter getFlightFilter() {
+		return Db.getFlightSearch().getFilter(getArguments().getInt(ARG_LEG_POSITION));
 	}
 }
