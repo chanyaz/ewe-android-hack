@@ -40,8 +40,10 @@ public class FlightSearch {
 
 		// Reset the FlightTrip map
 		mFlightTripMap.clear();
-		for (FlightTrip flightTrip : mSearchResponse.getTrips()) {
-			mFlightTripMap.put(flightTrip.getProductKey(), flightTrip);
+		if (mSearchResponse != null && mSearchResponse.getTripCount() > 0) {
+			for (FlightTrip flightTrip : mSearchResponse.getTrips()) {
+				mFlightTripMap.put(flightTrip.getProductKey(), flightTrip);
+			}
 		}
 
 		// Clear the selected legs and filters, as we've got new results

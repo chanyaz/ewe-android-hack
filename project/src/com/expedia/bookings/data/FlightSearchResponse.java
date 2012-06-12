@@ -24,6 +24,10 @@ public class FlightSearchResponse extends SearchResponse {
 	}
 
 	public int getTripCount() {
+		if (mTrips == null) {
+			return 0;
+		}
+
 		return mTrips.size();
 	}
 }
