@@ -195,15 +195,7 @@ public class FlightSearch {
 						FlightTrip trip = iterator.next();
 						FlightLeg leg = trip.getLeg(mLegPosition);
 
-						boolean matches = false;
-						for (Flight flight : leg.getSegments()) {
-							if (preferredAirlines.contains(flight.getOperatingFlightCode().mAirlineCode)) {
-								matches = true;
-								break;
-							}
-						}
-
-						if (!matches) {
+						if (Collections.disjoint(preferredAirlines, leg.getOperatingAirlines())) {
 							iterator.remove();
 						}
 					}

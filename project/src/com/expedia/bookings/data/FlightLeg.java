@@ -2,12 +2,10 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import android.content.Context;
-
-import com.expedia.bookings.R;
-import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
@@ -60,26 +58,28 @@ public class FlightLeg {
 		return end.getTimeInMillis() - start.getTimeInMillis();
 	}
 
-	public boolean hasMultipleAirlines() {
-		String airlineCode = null;
-		for (Flight segment : mSegments) {
-			if (airlineCode == null) {
-				airlineCode = segment.getPrimaryFlightCode().mAirlineCode;
-			}
-			else if (!airlineCode.equals(segment.getPrimaryFlightCode().mAirlineCode)) {
-				return true;
+	// Returns all operating airlines for the flights in this leg
+	public Set<String> getOperatingAirlines() {
+		Set<String> airlines = new HashSet<String>();
+
+		if (mSegments != null) {
+			for (Flight flight : mSegments) {
+				airlines.add(flight.getOperatingFlightCode().mAirlineCode);
 			}
 		}
-		return false;
+
+		return airlines;
 	}
 
-	public String getAirlineName(Context context) {
-		if (hasMultipleAirlines()) {
-			return context.getString(R.string.multiple_airlines);
+	public String getAirlinesFormatted() {
+		StringBuilder sb = new StringBuilder();
+		for (String airlineCode : getOperatingAirlines()) {
+			if (sb.length() != 0) {
+				sb.append(", ");
+			}
+
+			sb.append(FlightStatsDbUtils.getAirline(airlineCode).mAirlineName);
 		}
-		else {
-			Airline airline = FlightStatsDbUtils.getAirline(mSegments.get(0).getPrimaryFlightCode().mAirlineCode);
-			return airline.mAirlineName;
-		}
+		return sb.toString();
 	}
 }

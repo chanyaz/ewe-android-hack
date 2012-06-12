@@ -29,8 +29,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.mobiata.flightlib.data.Airline;
-import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class FlightFilterDialogFragment extends DialogFragment {
@@ -190,12 +188,7 @@ public class FlightFilterDialogFragment extends DialogFragment {
 
 		for (FlightTrip trip : trips) {
 			FlightLeg leg = trip.getLeg(legPosition);
-			for (Flight flight : leg.getSegments()) {
-				FlightCode code = flight.getOperatingFlightCode();
-				if (code != null) {
-					airlines.add(code.mAirlineCode);
-				}
-			}
+			airlines.addAll(leg.getOperatingAirlines());
 		}
 
 		return airlines;

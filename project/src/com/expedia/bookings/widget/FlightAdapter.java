@@ -246,7 +246,7 @@ public class FlightAdapter extends BaseAdapter {
 
 		holder.mDetailsContainer.setTag(position);
 
-		holder.mAirlineTextView.setText(leg.getAirlineName(mContext));
+		holder.mAirlineTextView.setText(leg.getAirlinesFormatted());
 		holder.mDepartureTimeTextView.setText(formatTime(leg.getSegment(0).mOrigin.getMostRelevantDateTime()));
 		holder.mArrivalTimeTextView.setText(formatTime(leg.getSegment(leg.getSegmentCount() - 1).mDestination
 				.getMostRelevantDateTime()));
