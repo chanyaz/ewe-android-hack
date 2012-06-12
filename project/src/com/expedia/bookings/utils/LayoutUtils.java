@@ -25,7 +25,6 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
@@ -187,48 +186,45 @@ public class LayoutUtils {
 	private static void addAmenity(Context context, ViewGroup amenitiesTable, Amenity amenity, int iconResourceId) {
 
 		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View amenityLayout = layoutInflater.inflate(R.layout.snippet_amenity, amenitiesTable, false);
+		TextView amenityTextView = (TextView) layoutInflater.inflate(R.layout.snippet_amenity, amenitiesTable, false);
 
-		ImageView amenityIcon = (ImageView) amenityLayout.findViewById(R.id.icon_text_view);
-		amenityIcon.setImageResource(iconResourceId);
-
-		TextView amenityName = (TextView) amenityLayout.findViewById(R.id.name_text_view);
 		String amenityStr = context.getString(amenity.getStrId());
 
 		// measure the length of the amenity string and determine whether it is short enough
 		// to fit within the acceptable width. If not, reduce the font size in an attempt to 
 		// get it to fit.
 		float acceptableWidth = context.getResources().getDisplayMetrics().density * MAX_AMENITY_TEXT_WIDTH_IN_DP;
-		float measuredWidthOfStr = amenityName.getPaint().measureText(context.getString(amenity.getStrId()));
+		float measuredWidthOfStr = amenityTextView.getPaint().measureText(context.getString(amenity.getStrId()));
 
 		if (amenityStr.contains(" ") || measuredWidthOfStr > acceptableWidth) {
-			amenityName.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+			amenityTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 					context.getResources().getDimension(R.dimen.amenity_text_size_small));
 		}
 
-		amenityName.setText(amenityStr);
+		amenityTextView.setText(amenityStr);
+		amenityTextView.setCompoundDrawablesWithIntrinsicBounds(0, iconResourceId, 0, 0);
 
 		// fix width for first amenity
 
 		if (amenitiesTable.getChildCount() == 0 && AndroidUtils.isTablet(context)) {
-			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) amenityLayout.getLayoutParams();
+			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) amenityTextView.getLayoutParams();
 			params.width = LayoutParams.WRAP_CONTENT;
-			amenityLayout.setLayoutParams(params);
+			amenityTextView.setLayoutParams(params);
 
 			final Resources res = context.getResources();
 			final int amenityLayoutWidth = (int) res.getDimension(R.dimen.amenity_layout_width);
 			final int widthMeasureSpec = MeasureSpec.makeMeasureSpec(LayoutParams.WRAP_CONTENT, MeasureSpec.EXACTLY);
 			final int heightMeasureSpec = MeasureSpec.makeMeasureSpec(LayoutParams.WRAP_CONTENT, MeasureSpec.EXACTLY);
 
-			amenityLayout.measure(widthMeasureSpec, heightMeasureSpec);
+			amenityTextView.measure(widthMeasureSpec, heightMeasureSpec);
 
-			final int width = amenityLayout.getMeasuredWidth();
+			final int width = amenityTextView.getMeasuredWidth();
 			final int marginRight = (int) (((amenityLayoutWidth - width) / 2) + (res.getDisplayMetrics().scaledDensity * 3));
 
 			params.setMargins(0, 0, marginRight, 0);
 		}
 
-		amenitiesTable.addView(amenityLayout);
+		amenitiesTable.addView(amenityTextView);
 	}
 
 	public static String formatCheckInOutDate(Context context, Calendar cal) {
