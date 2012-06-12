@@ -3,9 +3,11 @@ package com.expedia.bookings.data;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import android.database.DataSetObservable;
@@ -19,6 +21,7 @@ public class FlightSearch {
 	private FlightFilter[] mFilters;
 
 	// Not to be saved - transitory states!
+	private Map<String, FlightTrip> mFlightTripMap = new HashMap<String, FlightTrip>();
 	private FlightTripQuery[] mFlightTripQueries;
 
 	public void reset() {
@@ -35,9 +38,19 @@ public class FlightSearch {
 	public void setSearchResponse(FlightSearchResponse searchResponse) {
 		mSearchResponse = searchResponse;
 
+		// Reset the FlightTrip map
+		mFlightTripMap.clear();
+		for (FlightTrip flightTrip : mSearchResponse.getTrips()) {
+			mFlightTripMap.put(flightTrip.getProductKey(), flightTrip);
+		}
+
 		// Clear the selected legs and filters, as we've got new results
 		mSelectedLegs = null;
 		mFilters = null;
+	}
+
+	public FlightTrip getFlightTrip(String productKey) {
+		return mFlightTripMap.get(productKey);
 	}
 
 	/**
