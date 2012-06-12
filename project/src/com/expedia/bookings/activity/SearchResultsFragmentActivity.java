@@ -717,10 +717,12 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	}
 
 	private void showFilterDialog() {
-		FragmentManager fm = getSupportFragmentManager();
-		if (fm.findFragmentByTag(getString(R.string.tag_filter_dialog)) == null) {
-			mFilterDialogFragment = FilterDialogFragment.newInstance();
-			mFilterDialogFragment.show(getSupportFragmentManager(), getString(R.string.tag_filter_dialog));
+		if (Db.getSearchResponse() != null) {
+			FragmentManager fm = getSupportFragmentManager();
+			if (fm.findFragmentByTag(getString(R.string.tag_filter_dialog)) == null) {
+				mFilterDialogFragment = FilterDialogFragment.newInstance();
+				mFilterDialogFragment.show(getSupportFragmentManager(), getString(R.string.tag_filter_dialog));
+			}
 		}
 	}
 
