@@ -42,8 +42,8 @@ public class AccountButton {
 			loginButton.setOnClickListener(clickListener);
 		}
 
-		View logoutButton = mLogoutContainer.findViewById(R.id.logout_button);
-		View loadingLogoutButton = mAccountLoadingContainer.findViewById(R.id.logout_button);
+		View logoutButton = mLogoutContainer.findViewById(R.id.account_logout_logout_button);
+		View loadingLogoutButton = mAccountLoadingContainer.findViewById(R.id.account_loading_logout_button);
 
 		OnClickListener logoutListener = new OnClickListener() {
 			public void onClick(View v) {
