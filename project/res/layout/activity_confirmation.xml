@@ -189,7 +189,7 @@
                     <!-- Booking summary -->
 
                     <TextView
-                        android:id="@+id/name_text_view"
+                        android:id="@id/name_text_view"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="2dp"
