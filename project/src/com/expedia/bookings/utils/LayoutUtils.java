@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
@@ -252,6 +253,7 @@ public class LayoutUtils {
 
 	// 10758: render this view on a software layer
 	// to avoid the fuzziness of the saved section background
+	@TargetApi(11)
 	public static void sayNoToJaggies(View... views) {
 		int sdkVersion = AndroidUtils.getSdkVersion();
 		if (sdkVersion >= 11 && sdkVersion <= 13) {

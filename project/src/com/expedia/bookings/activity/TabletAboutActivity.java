@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.annotation.TargetApi;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.app.HoneycombAboutActivity;
 
+@TargetApi(11)
 public class TabletAboutActivity extends HoneycombAboutActivity {
 
 	private AboutUtils mUtils;

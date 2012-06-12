@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import org.json.JSONObject;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -90,6 +91,7 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 		}
 	}
 
+	@TargetApi(14)
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -116,6 +118,7 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 
+	@TargetApi(11)
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);

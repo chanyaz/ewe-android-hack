@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -85,6 +86,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		}
 	}
 
+	@TargetApi(11)
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -124,6 +126,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 
+	@TargetApi(11)
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);

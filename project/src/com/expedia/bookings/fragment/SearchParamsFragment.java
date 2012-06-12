@@ -10,6 +10,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -66,6 +67,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 
+@TargetApi(11)
 public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cursor> {
 
 	private static final int NUM_SUGGESTIONS = 5;
