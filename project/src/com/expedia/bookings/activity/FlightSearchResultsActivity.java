@@ -106,9 +106,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public void onDetailsClick(FlightTrip trip, FlightLeg leg, int position) {
-		// TODO: This should probably not be based on array position/leg position.
 		Intent intent = new Intent(this, FlightDetailsActivity.class);
-		intent.putExtra(FlightDetailsActivity.EXTRA_STARTING_POSITION, position);
+		intent.putExtra(FlightDetailsActivity.EXTRA_TRIP_KEY, trip.getProductKey());
 		intent.putExtra(FlightDetailsActivity.EXTRA_LEG_POSITION, mLegPosition);
 		startActivity(intent);
 	}

@@ -8,7 +8,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -22,13 +21,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 public class TripFragment extends Fragment {
-	private static final String ARG_POSITION = "ARG_POSITION";
+	private static final String ARG_TRIP_KEY = "ARG_TRIP_KEY";
 	private static final String ARG_LEG_POS = "ARG_LEG_POS";
 
-	public static TripFragment newInstance(int position, int legPosition) {
+	public static TripFragment newInstance(String tripKey, int legPosition) {
 		TripFragment fragment = new TripFragment();
 		Bundle args = new Bundle();
-		args.putInt(ARG_POSITION, position);
+		args.putString(ARG_TRIP_KEY, tripKey);
 		args.putInt(ARG_LEG_POS, legPosition);
 		fragment.setArguments(args);
 		return fragment;
@@ -37,8 +36,8 @@ public class TripFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Bundle args = getArguments();
-
-		FlightTrip trip = Db.getFlightSearch().getTrips(args.getInt(ARG_LEG_POS, 0)).get(args.getInt(ARG_POSITION));
+		
+		FlightTrip trip = Db.getFlightSearch().getFlightTrip(args.getString(ARG_TRIP_KEY));
 		FlightLeg leg = trip.getLeg(args.getInt(ARG_LEG_POS, 0));
 
 		View view = inflater.inflate(R.layout.fragment_trip, container, false);
@@ -101,10 +100,9 @@ public class TripFragment extends Fragment {
 				dest.getAirport().mTimeZone.getDisplayName(false, TimeZone.SHORT));
 		Ui.setText(wpView, R.id.flight_details_arrival_ampm_tv,
 				getAmPm(dest.getMostRelevantDateTime(), twentyFourHourClock));
+		Ui.setText(wpView, R.id.flight_details_duration_tv,
+				DateTimeUtils.formatDuration(getResources(), segment.getTripTime()));
 
-		//TODO:This needs to be uncommented after pulling
-		//Ui.setText(wpView, R.id.flight_details_duration_tv, DateTimeUtils.formatDuration(getResources(), segment.getTripTime()));
-		
 		ViewGroup amenities = (ViewGroup) wpView.findViewById(R.id.flight_details_data_amenities_ll);
 
 		//Add placeholders
@@ -162,7 +160,7 @@ public class TripFragment extends Fragment {
 							+ getAmPm(prevSeg.mDestination.getMostRelevantDateTime(), twentyFourHourClock).toString(),
 					genBaseTime(curSeg.mOrigin.getMostRelevantDateTime(), twentyFourHourClock).toString()
 							+ getAmPm(curSeg.mOrigin.getMostRelevantDateTime(), twentyFourHourClock).toString(),
-					getDuration(curSeg.mOrigin.getMostRelevantDateTime(),
+					getDuration(prevSeg.mDestination.getMostRelevantDateTime(),
 							curSeg.mOrigin.getMostRelevantDateTime()));
 
 			airport = String.format(getString(R.string.airport_name_and_code_TEMPLATE),
@@ -224,8 +222,7 @@ public class TripFragment extends Fragment {
 	}
 
 	private CharSequence getDuration(Calendar orig, Calendar dest) {
-		int dif = (int) (Math.abs(dest.getTimeInMillis() - orig.getTimeInMillis()) / 1000);
-		Log.i("DIF:" + dif);
+		int dif = (int) (Math.abs(dest.getTimeInMillis() - orig.getTimeInMillis()) / 60000);
 		return DateTimeUtils.formatDuration(getResources(), dif);
 	}
 

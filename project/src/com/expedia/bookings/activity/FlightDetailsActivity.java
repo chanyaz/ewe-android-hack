@@ -23,13 +23,13 @@ import android.widget.Toast;
 
 public class FlightDetailsActivity extends SherlockFragmentActivity {
 
-	public static final String EXTRA_STARTING_POSITION = "EXTRA_STARTING_POSITION";
+	public static final String EXTRA_TRIP_KEY = "EXTRA_TRIP_KEY";
 	public static final String EXTRA_LEG_POSITION = "EXTRA_LEG_POSITION";
 
 	public static final int SEATS_REMAINING_CUTOFF = 5;
 
+	private String mTripKey;
 	private int mLegPosition;
-	private int mPosition;
 	private TripFragment mDetails;
 
 	@Override
@@ -38,10 +38,10 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 
 		setContentView(R.layout.activity_flight_details);
 
-		mPosition = getIntent().getIntExtra(EXTRA_STARTING_POSITION, 0);
+		mTripKey = getIntent().getStringExtra(EXTRA_TRIP_KEY);
 		mLegPosition = getIntent().getIntExtra(EXTRA_LEG_POSITION, 0);
 
-		FlightTrip trip = Db.getFlightSearch().getTrips(mLegPosition).get(mPosition);
+		FlightTrip trip = Db.getFlightSearch().getFlightTrip(mTripKey);
 		if (trip.getSeatsRemaining() < SEATS_REMAINING_CUTOFF) {
 			Ui.setText(this, R.id.flight_details_num_seats_tv, "" + trip.getSeatsRemaining());
 			findViewById(R.id.flight_detail_info_bar_seats_left_ll).setVisibility(View.VISIBLE);
@@ -56,7 +56,7 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 		//TODO:We shouldn't build a new fragment every time, we should be able to reuse the existing one (during rotate)
 		mDetails = Ui.findSupportFragment(this, R.id.flight_details_card_holder_ll);
 		if (mDetails == null) {
-			mDetails = TripFragment.newInstance(mPosition, mLegPosition);
+			mDetails = TripFragment.newInstance(mTripKey, mLegPosition);
 			getSupportFragmentManager().beginTransaction().add(R.id.flight_details_card_holder_ll, mDetails).commit();
 		}
 
@@ -70,7 +70,7 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 		//TODO:This is largely stolen from the FlightSearchResultsActivity and should at somepoint just call a method there instead of rewritting.
 		
 		FlightSearch search = Db.getFlightSearch();
-		FlightTrip trip = search.getTrips(mLegPosition).get(mPosition);
+		FlightTrip trip = search.getFlightTrip(mTripKey);
 		FlightLeg leg = trip.getLeg(mLegPosition);
 		search.setSelectedLeg(mLegPosition, leg);
 
