@@ -1,7 +1,9 @@
 package com.expedia.bookings.fragment;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import android.os.Bundle;
@@ -12,9 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
-import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.ToggleButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -38,6 +41,8 @@ public class FlightFilterDialogFragment extends DialogFragment {
 
 	private SegmentedControlGroup mSortControl;
 	private ViewGroup mAirlineContainer;
+
+	private Map<String, ToggleButton> mAirportButtons;
 
 	public static FlightFilterDialogFragment newInstance(int legPosition) {
 		FlightFilterDialogFragment fragment = new FlightFilterDialogFragment();
@@ -64,6 +69,8 @@ public class FlightFilterDialogFragment extends DialogFragment {
 		mSortControl = Ui.findView(v, R.id.sort_button_group);
 		mAirlineContainer = Ui.findView(v, R.id.airline_filter_container);
 
+		configureAirlines();
+
 		// Configure the correct initial setting for the filter 
 		FlightFilter filter = getFlightFilter();
 		switch (filter.getSort()) {
@@ -81,10 +88,12 @@ public class FlightFilterDialogFragment extends DialogFragment {
 			break;
 		}
 
+		for (String airlineCode : filter.getPreferredAirlines()) {
+			mAirportButtons.get(airlineCode).setChecked(true);
+		}
+
 		// Setup listeners 
 		mSortControl.setOnCheckedChangeListener(mSortButtonCheckListener);
-
-		configureAirlines();
 
 		return v;
 	}
@@ -139,6 +148,8 @@ public class FlightFilterDialogFragment extends DialogFragment {
 
 	// Add a button for each airline on the airline preference container
 	private void configureAirlines() {
+		mAirportButtons = new HashMap<String, ToggleButton>();
+
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 
 		FlightSearch search = Db.getFlightSearch();
@@ -148,29 +159,39 @@ public class FlightFilterDialogFragment extends DialogFragment {
 		Set<String> airlines = getAirlines(trips, legPosition);
 
 		for (String airlineCode : airlines) {
-			Button airlineButton = (Button) inflater.inflate(R.layout.snippet_airline_button, mAirlineContainer, false);
+			ToggleButton airlineButton = (ToggleButton) inflater.inflate(R.layout.snippet_airline_button,
+					mAirlineContainer, false);
 
-			Airline airline = FlightStatsDbUtils.getAirline(airlineCode);
+			final Airline airline = FlightStatsDbUtils.getAirline(airlineCode);
 
 			airlineButton.setText(airline.mAirlineName);
+			airlineButton.setTextOn(airline.mAirlineName);
+			airlineButton.setTextOff(airline.mAirlineName);
+
+			airlineButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					FlightFilter filter = getFlightFilter();
+					filter.setPreferredAirline(airline.mAirlineCode, isChecked);
+					filter.notifyFilterChanged();
+				}
+			});
+
 			mAirlineContainer.addView(airlineButton);
+
+			mAirportButtons.put(airlineCode, airlineButton);
 		}
 	}
 
 	// TODO: Should this be based on operating airline?  Marketing airline?  Not sure,
-	// so it includes ALL airlines at this point.
+	// so it only uses operating airline at this point.
 	private Set<String> getAirlines(List<FlightTrip> trips, int legPosition) {
 		Set<String> airlines = new HashSet<String>();
 
 		for (FlightTrip trip : trips) {
 			FlightLeg leg = trip.getLeg(legPosition);
 			for (Flight flight : leg.getSegments()) {
-				FlightCode code = flight.getPrimaryFlightCode();
-				if (code != null) {
-					airlines.add(code.mAirlineCode);
-				}
-
-				code = flight.getOperatingFlightCode();
+				FlightCode code = flight.getOperatingFlightCode();
 				if (code != null) {
 					airlines.add(code.mAirlineCode);
 				}

@@ -13,6 +13,8 @@ import java.util.Set;
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
 
+import com.mobiata.flightlib.data.Flight;
+
 public class FlightSearch {
 
 	private FlightSearchParams mSearchParams = new FlightSearchParams();
@@ -183,7 +185,29 @@ public class FlightSearch {
 
 				// TODO: Filter based on departure/arrival specs
 
-				// TODO: Filter out preferred airlines
+				// Filter out preferred airlines
+				// TODO: Is the preferred airline operating?  Marketing?  Currently assumes operating.
+				if (filter.hasPreferredAirlines()) {
+					Set<String> preferredAirlines = filter.getPreferredAirlines();
+
+					Iterator<FlightTrip> iterator = mTrips.iterator();
+					while (iterator.hasNext()) {
+						FlightTrip trip = iterator.next();
+						FlightLeg leg = trip.getLeg(mLegPosition);
+
+						boolean matches = false;
+						for (Flight flight : leg.getSegments()) {
+							if (preferredAirlines.contains(flight.getOperatingFlightCode().mAirlineCode)) {
+								matches = true;
+								break;
+							}
+						}
+
+						if (!matches) {
+							iterator.remove();
+						}
+					}
+				}
 
 				// Sort the results
 				Comparator<FlightTrip> comparator;

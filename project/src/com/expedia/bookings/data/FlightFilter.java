@@ -41,17 +41,21 @@ public class FlightFilter {
 		return mSort;
 	}
 
-	public void toggleAirline(String airlineCode) {
-		if (mPreferredAirlines.contains(airlineCode)) {
-			mPreferredAirlines.remove(airlineCode);
+	public void setPreferredAirline(String airlineCode, boolean isPreferred) {
+		if (isPreferred) {
+			mPreferredAirlines.add(airlineCode);
 		}
 		else {
-			mPreferredAirlines.add(airlineCode);
+			mPreferredAirlines.remove(airlineCode);
 		}
 	}
 
 	public Set<String> getPreferredAirlines() {
 		return mPreferredAirlines;
+	}
+
+	public boolean hasPreferredAirlines() {
+		return mPreferredAirlines.size() != 0;
 	}
 
 	public void notifyFilterChanged() {
