@@ -249,4 +249,15 @@ public class LayoutUtils {
 		}
 		roomDetailsTextView.setText(longDescription);
 	}
+
+	// 10758: render this view on a software layer
+	// to avoid the fuzziness of the saved section background
+	public static void sayNoToJaggies(View... views) {
+		int sdkVersion = AndroidUtils.getSdkVersion();
+		if (sdkVersion >= 11 && sdkVersion <= 13) {
+			for (View v : views) {
+				v.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+			}
+		}
+	}
 }

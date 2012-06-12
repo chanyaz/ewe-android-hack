@@ -53,6 +53,7 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.widget.AccountButton;
@@ -67,7 +68,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
@@ -238,11 +238,7 @@ public class BookingFormFragment extends DialogFragment {
 
 		// 10758: rendering the saved layouts on a software layer
 		// to avoid the fuzziness of the saved section background
-		int sdkVersion = AndroidUtils.getSdkVersion();
-		if (sdkVersion >= 11 && sdkVersion <= 13) {
-			mGuestSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-			view.findViewById(R.id.credit_card_security_code_container).setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		}
+		LayoutUtils.sayNoToJaggies(mGuestSavedLayout, view.findViewById(R.id.credit_card_security_code_container));
 
 		// Retrieve some data we keep using
 		Resources r = getResources();

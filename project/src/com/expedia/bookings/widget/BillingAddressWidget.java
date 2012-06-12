@@ -23,9 +23,9 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.validation.TextViewValidator;
 import com.mobiata.android.validation.ValidationProcessor;
 
@@ -80,10 +80,7 @@ public class BillingAddressWidget {
 
 		// 10758: rendering the saved layouts on a software layer
 		// to avoid the fuzziness of the saved section background
-		int sdkVersion = AndroidUtils.getSdkVersion();
-		if (sdkVersion >= 11 && sdkVersion <= 13) {
-			mBillingSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		}
+		LayoutUtils.sayNoToJaggies(mBillingSavedLayout);
 
 		// Retrieve some data we keep using
 		Resources r = mContext.getResources();
