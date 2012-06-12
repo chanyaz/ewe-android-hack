@@ -388,6 +388,14 @@ public class BookingFormFragment extends DialogFragment {
 		mCouponCodeWidget.startTextWatcher();
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (isRemoving()) {
+			Db.setCreateTripResponse(null);
+		}
+	}
+
 	private void configureForm() {
 		mGuestSavedLayout.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
