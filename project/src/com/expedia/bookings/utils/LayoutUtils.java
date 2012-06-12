@@ -9,6 +9,7 @@ import android.annotation.TargetApi;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Shader.TileMode;
@@ -261,5 +262,15 @@ public class LayoutUtils {
 				v.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 			}
 		}
+	}
+
+	// Use a condensed rows if the screen width is not large enough
+	@TargetApi(13)
+	public static boolean isScreenNarrow(Context context) {
+		Configuration config = context.getResources().getConfiguration();
+		if (AndroidUtils.getSdkVersion() >= 13) {
+			return config.screenWidthDp <= 800;
+		}
+		return config.orientation == Configuration.ORIENTATION_PORTRAIT;
 	}
 }

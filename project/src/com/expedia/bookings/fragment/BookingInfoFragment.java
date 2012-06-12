@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.ReceiptWidget;
 
+@TargetApi(11)
 public class BookingInfoFragment extends Fragment {
 
 	private View mCompleteBookingInfoButton;

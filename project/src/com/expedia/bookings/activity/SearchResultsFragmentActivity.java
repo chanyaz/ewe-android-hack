@@ -14,7 +14,6 @@ import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.location.Address;
@@ -452,12 +451,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		mFilterMenuItem = menu.findItem(R.id.menu_filter);
 
 		// Use a condensed ActionBar if the screen width is not large enough
-		if (AndroidUtils.getSdkVersion() >= 13) {
-			mUseCondensedActionBar = mResources.getConfiguration().screenWidthDp <= 800;
-		}
-		else {
-			mUseCondensedActionBar = mResources.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-		}
+		mUseCondensedActionBar = LayoutUtils.isScreenNarrow(this);
 
 		if (mUseCondensedActionBar) {
 			mFilterMenuItem.setTitle(R.string.filter);

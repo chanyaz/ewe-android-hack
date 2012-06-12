@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.text.Html;
@@ -31,7 +30,6 @@ import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.text.StrikethroughTagHandler;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
@@ -69,14 +67,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		mSaleTextSize = LayoutUtils.getSaleTextSize(context);
 
-		// Use a condensed rows if the screen width is not large enough
-		Configuration config = context.getResources().getConfiguration();
-		if (AndroidUtils.getSdkVersion() >= 13) {
-			mUseCondensedRows = config.screenWidthDp <= 800;
-		}
-		else {
-			mUseCondensedRows = config.orientation == Configuration.ORIENTATION_PORTRAIT;
-		}
+		mUseCondensedRows = LayoutUtils.isScreenNarrow(context);
 	}
 
 	public HotelAdapter(Context context, SearchResponse searchResponse) {
