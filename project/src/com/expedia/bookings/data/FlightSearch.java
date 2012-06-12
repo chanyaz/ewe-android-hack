@@ -8,12 +8,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import android.database.DataSetObservable;
+import android.database.DataSetObserver;
+
 public class FlightSearch {
 
 	private FlightSearchParams mSearchParams = new FlightSearchParams();
 	private FlightSearchResponse mSearchResponse;
 	private FlightLeg[] mSelectedLegs;
 	private FlightFilter[] mFilters;
+
+	// Not to be saved - transitory states!
+	private FlightTripQuery[] mFlightTripQueries;
 
 	public void reset() {
 		mSearchParams.reset();
@@ -34,10 +40,6 @@ public class FlightSearch {
 		mFilters = null;
 	}
 
-	public List<FlightTrip> getTrips(int legPosition) {
-		return getTrips(legPosition, true);
-	}
-
 	/**
 	 * Returns a list of valid FlightTrips for a particular leg.  If there
 	 * are no legs selected on any other positions, then this will return
@@ -45,9 +47,9 @@ public class FlightSearch {
 	 * trips you can select will be limited.
 	 * 
 	 * It also returns the trips sorted by price, and gets rid of more expensive
-	 * trips using the same leg 
+	 * trips using the same leg
 	 */
-	public List<FlightTrip> getTrips(int legPosition, boolean useFilter) {
+	public List<FlightTrip> getTrips(int legPosition) {
 		List<FlightTrip> validTrips = new ArrayList<FlightTrip>();
 
 		final List<FlightTrip> trips = mSearchResponse.getTrips();
@@ -91,34 +93,6 @@ public class FlightSearch {
 			}
 		}
 
-		// Filter results (if user called for it)
-		if (useFilter) {
-			FlightFilter filter = getFilter(legPosition);
-
-			// TODO: Filter based on departure/arrival specs
-
-			// TODO: Filter out preferred airlines
-
-			// Sort the results
-			Comparator<FlightTrip> comparator;
-			switch (filter.getSort()) {
-			case DEPARTURE:
-				comparator = new FlightTrip.DepartureComparator(legPosition);
-				break;
-			case ARRIVAL:
-				comparator = new FlightTrip.ArrivalComparator(legPosition);
-				break;
-			case DURATION:
-				comparator = new FlightTrip.DurationComparator(legPosition);
-				break;
-			case PRICE:
-			default:
-				comparator = FlightTrip.PRICE_COMPARATOR;
-				break;
-			}
-			Collections.sort(validTrips, comparator);
-		}
-
 		return validTrips;
 	}
 
@@ -148,5 +122,92 @@ public class FlightSearch {
 		}
 
 		return mFilters[legPosition];
+	}
+
+	public FlightTripQuery queryTrips(final int legPosition) {
+		if (mFlightTripQueries == null || mFlightTripQueries.length != mSearchParams.getQueryLegCount()) {
+			mFlightTripQueries = new FlightTripQuery[mSearchParams.getQueryLegCount()];
+		}
+
+		if (mFlightTripQueries[legPosition] == null) {
+			mFlightTripQueries[legPosition] = new FlightTripQuery(legPosition);
+			getFilter(legPosition).registerDataSetObserver(new DataSetObserver() {
+				@Override
+				public void onChanged() {
+					mFlightTripQueries[legPosition].notifyFilterChanged();
+				}
+			});
+		}
+
+		return mFlightTripQueries[legPosition];
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Trips query
+	//
+	// This allows one to query a set of flights and also be notified of
+	// updates to the query
+
+	public class FlightTripQuery {
+		private DataSetObservable mDataSetObservable = new DataSetObservable();
+
+		private int mLegPosition;
+
+		private List<FlightTrip> mTrips;
+
+		public FlightTripQuery(int legPosition) {
+			mLegPosition = legPosition;
+		}
+
+		public List<FlightTrip> getTrips() {
+			if (mTrips == null) {
+				mTrips = FlightSearch.this.getTrips(mLegPosition);
+
+				// Filter results (if user called for it)
+				FlightFilter filter = getFilter(mLegPosition);
+
+				// TODO: Filter based on departure/arrival specs
+
+				// TODO: Filter out preferred airlines
+
+				// Sort the results
+				Comparator<FlightTrip> comparator;
+				switch (filter.getSort()) {
+				case DEPARTURE:
+					comparator = new FlightTrip.DepartureComparator(mLegPosition);
+					break;
+				case ARRIVAL:
+					comparator = new FlightTrip.ArrivalComparator(mLegPosition);
+					break;
+				case DURATION:
+					comparator = new FlightTrip.DurationComparator(mLegPosition);
+					break;
+				case PRICE:
+				default:
+					comparator = FlightTrip.PRICE_COMPARATOR;
+					break;
+				}
+				Collections.sort(mTrips, comparator);
+			}
+
+			return mTrips;
+		}
+
+		public int getCount() {
+			return getTrips().size();
+		}
+
+		public void notifyFilterChanged() {
+			mTrips = null;
+			mDataSetObservable.notifyChanged();
+		}
+
+		public void registerDataSetObserver(DataSetObserver observer) {
+			mDataSetObservable.registerObserver(observer);
+		}
+
+		public void unregisterDataSetObserver(DataSetObserver observer) {
+			mDataSetObservable.unregisterObserver(observer);
+		}
 	}
 }

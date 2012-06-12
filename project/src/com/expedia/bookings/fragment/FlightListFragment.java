@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -15,12 +13,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.expedia.bookings.widget.FlightAdapter.FlightAdapterListener;
 import com.mobiata.android.util.Ui;
 
 public class FlightListFragment extends ListFragment {
+
+	public static final String TAG = FlightListFragment.class.getName();
+
+	private static final String ARG_LEG_POSITION = "ARG_LEG_POSITION";
 
 	private FlightAdapter mAdapter;
 
@@ -34,8 +36,13 @@ public class FlightListFragment extends ListFragment {
 	private TextView mProgressTextView;
 	private TextView mErrorTextView;
 
-	private int mLegPosition;
-	private List<FlightTrip> mFlightTrips;
+	public static FlightListFragment newInstance(int legPosition) {
+		FlightListFragment fragment = new FlightListFragment();
+		Bundle args = new Bundle();
+		args.putInt(ARG_LEG_POSITION, legPosition);
+		fragment.setArguments(args);
+		return fragment;
+	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -70,8 +77,9 @@ public class FlightListFragment extends ListFragment {
 		mAdapter.setListener(mListener);
 
 		// Set initial data
-		mAdapter.setLegPosition(mLegPosition);
-		mAdapter.setFlights(mFlightTrips);
+		int legPosition = getArguments().getInt(ARG_LEG_POSITION);
+		mAdapter.setLegPosition(legPosition);
+		mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(legPosition));
 
 		// Need to set this since we have buttons inside of the expandable rows
 		lv.setItemsCanFocus(true);
@@ -84,22 +92,6 @@ public class FlightListFragment extends ListFragment {
 		super.onSaveInstanceState(outState);
 
 		mAdapter.saveInstanceState(outState);
-	}
-
-	public void setLegPosition(int position) {
-		mLegPosition = position;
-
-		if (mAdapter != null) {
-			mAdapter.setLegPosition(position);
-		}
-	}
-
-	public void setFlights(List<FlightTrip> flightTrips) {
-		mFlightTrips = flightTrips;
-
-		if (mAdapter != null) {
-			mAdapter.setFlights(flightTrips);
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

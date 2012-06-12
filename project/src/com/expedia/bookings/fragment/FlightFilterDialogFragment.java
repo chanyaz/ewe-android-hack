@@ -90,7 +90,7 @@ public class FlightFilterDialogFragment extends DialogFragment {
 		FlightSearch search = Db.getFlightSearch();
 
 		int legPosition = getArguments().getInt(ARG_LEG_POSITION);
-		List<FlightTrip> trips = search.getTrips(legPosition, false);
+		List<FlightTrip> trips = search.getTrips(legPosition);
 		Set<String> airlines = getAirlines(trips, legPosition);
 
 		for (String airlineCode : airlines) {

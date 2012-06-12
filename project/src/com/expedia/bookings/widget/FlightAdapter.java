@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
@@ -51,7 +53,7 @@ public class FlightAdapter extends BaseAdapter {
 
 	private FlightAdapterListener mListener;
 
-	private List<FlightTrip> mFlightTrips;
+	private FlightTripQuery mFlightTripQuery;
 
 	private Calendar mMinTime;
 	private Calendar mMaxTime;
@@ -89,18 +91,24 @@ public class FlightAdapter extends BaseAdapter {
 		mListener = listener;
 	}
 
-	public void setFlights(List<FlightTrip> flightTrips) {
-		if (flightTrips != mFlightTrips) {
-			mFlightTrips = flightTrips;
+	public void setFlightTripQuery(FlightTripQuery query) {
+		if (query != mFlightTripQuery) {
+			if (mFlightTripQuery != null) {
+				query.unregisterDataSetObserver(mDataSetObserver);
+			}
+
+			mFlightTripQuery = query;
+			mFlightTripQuery.registerDataSetObserver(mDataSetObserver);
 
 			// Calculate the min/max time
-			FlightTrip trip = mFlightTrips.get(0);
+			List<FlightTrip> trips = mFlightTripQuery.getTrips();
+			FlightTrip trip = trips.get(0);
 			FlightLeg leg = trip.getLeg(mLegPosition);
 			mMinTime = leg.getSegment(0).mOrigin.getMostRelevantDateTime();
 			mMaxTime = leg.getSegment(leg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime();
 
-			for (int a = 1; a < mFlightTrips.size(); a++) {
-				trip = mFlightTrips.get(a);
+			for (int a = 1; a < trips.size(); a++) {
+				trip = trips.get(a);
 				leg = trip.getLeg(mLegPosition);
 
 				Calendar minTime = leg.getSegment(0).mOrigin.getMostRelevantDateTime();
@@ -128,16 +136,16 @@ public class FlightAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		if (mFlightTrips == null) {
+		if (mFlightTripQuery == null) {
 			return 0;
 		}
 
-		return mFlightTrips.size();
+		return mFlightTripQuery.getCount();
 	}
 
 	@Override
 	public FlightTrip getItem(int position) {
-		return mFlightTrips.get(position);
+		return mFlightTripQuery.getTrips().get(position);
 	}
 
 	@Override
@@ -384,6 +392,16 @@ public class FlightAdapter extends BaseAdapter {
 			mView.requestLayout();
 		}
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Dataset observer
+
+	private DataSetObserver mDataSetObserver = new DataSetObserver() {
+		@Override
+		public void onChanged() {
+			notifyDataSetChanged();
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Adapter listener

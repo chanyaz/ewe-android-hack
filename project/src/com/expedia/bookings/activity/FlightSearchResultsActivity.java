@@ -35,9 +35,12 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		mLegPosition = getIntent().getIntExtra(EXTRA_LEG_POSITION, 0);
 
-		mListFragment = Ui.findOrAddSupportFragment(this, FlightListFragment.class, "listFragment");
-		mListFragment.setLegPosition(mLegPosition);
-		mListFragment.setFlights(Db.getFlightSearch().getTrips(mLegPosition, true));
+		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
+		if (mListFragment == null) {
+			mListFragment = FlightListFragment.newInstance(mLegPosition);
+			getSupportFragmentManager().beginTransaction()
+					.add(android.R.id.content, mListFragment, FlightListFragment.TAG).commit();
+		}
 
 		// DELETE EVENTUALLY: For now, just set the header to always be SF
 		mListFragment.setHeaderDrawable(getResources().getDrawable(R.drawable.san_francisco));
