@@ -1175,6 +1175,8 @@ public class NumberPicker extends LinearLayout {
 		}
 	}
 
+	private Rect mTmpRect = new Rect();
+	
 	@Override
 	protected void onDraw(Canvas canvas) {
 		if (mSelectorWheelState == SELECTOR_WHEEL_STATE_NONE) {
@@ -1187,9 +1189,9 @@ public class NumberPicker extends LinearLayout {
 		final int restoreCount = canvas.save();
 
 		if (mSelectorWheelState == SELECTOR_WHEEL_STATE_SMALL) {
-			Rect clipBounds = canvas.getClipBounds();
-			clipBounds.inset(0, mSelectorElementHeight);
-			canvas.clipRect(clipBounds);
+			canvas.getClipBounds(mTmpRect);
+			mTmpRect.inset(0, mSelectorElementHeight);
+			canvas.clipRect(mTmpRect);
 		}
 
 		// draw the selector wheel
