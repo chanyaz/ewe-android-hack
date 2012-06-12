@@ -5,7 +5,11 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -55,6 +59,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.NetUtils;
 import com.omniture.AppMeasurement;
 
 public class HotelActivity extends Activity {
@@ -72,6 +77,8 @@ public class HotelActivity extends Activity {
 
 	private static final int BODY_LENGTH_CUTOFF = 400;
 	private static final int BODY_LENGTH_TRUNCATE = 300;
+
+	private static final int DIALOG_NO_CONNECTION = 0;
 
 	private Context mContext;
 	private ExpediaBookingApp mApp;
@@ -95,6 +102,10 @@ public class HotelActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (!NetUtils.isOnline(this)) {
+			showDialog(DIALOG_NO_CONNECTION);
+		}
 
 		// This code allows us to test the HotelActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
@@ -214,6 +225,35 @@ public class HotelActivity extends Activity {
 				image.removeFromImageCache();
 			}
 		}
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case DIALOG_NO_CONNECTION: {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.error_booking_title);
+			builder.setMessage(R.string.dialog_message_no_connection);
+			builder.setOnCancelListener(new OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					dialog.dismiss();
+					finish();
+				}
+			});
+			builder.setNegativeButton(android.R.string.ok, new Dialog.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					finish();
+				}
+			});
+
+			return builder.create();
+		}
+		}
+
+		return super.onCreateDialog(id);
 	}
 
 	private void setupHotelActivity(Bundle savedInstanceState) {
