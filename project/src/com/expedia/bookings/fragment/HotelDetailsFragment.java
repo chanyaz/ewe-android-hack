@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ import com.expedia.bookings.widget.AvailabilitySummaryWidget.AvailabilitySummary
 import com.expedia.bookings.widget.HotelCollage;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
 
+@TargetApi(11)
 public class HotelDetailsFragment extends Fragment implements AvailabilitySummaryListener {
 
 	public static HotelDetailsFragment newInstance() {

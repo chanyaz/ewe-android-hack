@@ -20,6 +20,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -68,6 +69,7 @@ import com.expedia.bookings.R;
  * For an example of using this widget, see {@link android.widget.TimePicker}.
  * </p>
  */
+@TargetApi(11)
 public class NumberPicker extends LinearLayout {
 
 	/**
