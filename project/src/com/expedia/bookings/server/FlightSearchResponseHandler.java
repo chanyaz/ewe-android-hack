@@ -105,6 +105,9 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			arrival.mAirportCode = segmentJson.optString("arrivalAirportCode");
 			addDateTime(arrival, segmentJson.optString("arrivalTime"));
 
+			// Add a default status code
+			segment.mStatusCode = Flight.STATUS_SCHEDULED;
+
 			leg.addSegment(segment);
 		}
 
