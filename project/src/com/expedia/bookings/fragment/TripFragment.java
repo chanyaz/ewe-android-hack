@@ -8,8 +8,10 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,18 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class TripFragment extends Fragment {
 	private static final String ARG_POSITION = "ARG_POSITION";
 	private static final String ARG_LEG_POS = "ARG_LEG_POS";
-
-	/**
-	 * Used to describe the position of the Waypoint within the leg.
-	 */
-	private enum HeaderPosition {
-		FIRST, INTERMEDIATE, LAST
-	}
 
 	public static TripFragment newInstance(int position, int legPosition) {
 		TripFragment fragment = new TripFragment();
@@ -50,33 +44,23 @@ public class TripFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_trip, container, false);
 		ViewGroup tripContainer = Ui.findView(view, R.id.trip_container);
 		View headerView = null;
-
-		//Add all of the content
+		Flight lastSeg = null;
+		Flight curSeg = null;
 		for (int i = 0; i < leg.getSegmentCount(); i++) {
-			Flight seg = leg.getSegment(i);
+			curSeg = leg.getSegment(i);
 
-			if (i == 0) {
-				headerView = buildSegmentHeader(inflater, seg, tripContainer, HeaderPosition.FIRST);
-			}
-			else {
-				//This changes layover times from the arrival or departure time to a range of time
-				updateSegmentHeaderTime(headerView, seg);
-			}
+			headerView = buildSegmentHeader(inflater, lastSeg, curSeg, tripContainer);
 
 			ViewGroup timeLineContainer = (ViewGroup) headerView.findViewById(R.id.flight_details_segment_info_ll);
-			View segmentView = buildSegmentView(inflater, seg, timeLineContainer);
+			View segmentView = buildSegmentView(inflater, curSeg, timeLineContainer);
 
 			timeLineContainer.addView(segmentView);
 			tripContainer.addView(headerView);
 
-			if (i == leg.getSegmentCount() - 1) {
-				//last one ...
-				tripContainer.addView(buildSegmentHeader(inflater, seg, tripContainer, HeaderPosition.LAST));
-			}
-			else {
-				headerView = buildSegmentHeader(inflater, seg, tripContainer, HeaderPosition.INTERMEDIATE);
-			}
+			lastSeg = curSeg;
 		}
+		//Add the final destination
+		tripContainer.addView(buildSegmentHeader(inflater, lastSeg, null, tripContainer));
 
 		return view;
 	}
@@ -118,9 +102,9 @@ public class TripFragment extends Fragment {
 		Ui.setText(wpView, R.id.flight_details_arrival_ampm_tv,
 				getAmPm(dest.getMostRelevantDateTime(), twentyFourHourClock));
 
-		Ui.setText(wpView, R.id.flight_details_duration_tv,
-				getFlightDuration(orig.getMostRelevantDateTime(), dest.getMostRelevantDateTime()));
-
+		//TODO:This needs to be uncommented after pulling
+		//Ui.setText(wpView, R.id.flight_details_duration_tv, DateTimeUtils.formatDuration(getResources(), segment.getTripTime()));
+		
 		ViewGroup amenities = (ViewGroup) wpView.findViewById(R.id.flight_details_data_amenities_ll);
 
 		//Add placeholders
@@ -143,69 +127,69 @@ public class TripFragment extends Fragment {
 	}
 
 	/**
-	 * Creates and returns one of the waypoint headers with the neighboring Circle (and a layout place to add details)
+	 * Builds the sement header and returns it.
+	 * 
 	 * @param inflater
-	 * @param segment
-	 * @param tripContainer
-	 * @param pos
+	 * @param prevSeg the previous segment ( or null if this is the first segment )
+	 * @param curSeg the current segment ( or null if this is the final segment ) 
+	 * @param tripContainer the viewgroup this stuff is going to be added to
 	 * @return
 	 */
-	private View buildSegmentHeader(LayoutInflater inflater, Flight segment, ViewGroup tripContainer, HeaderPosition pos) {
+	private View buildSegmentHeader(LayoutInflater inflater, Flight prevSeg, Flight curSeg,
+			ViewGroup tripContainer) {
 		View segHead = inflater.inflate(R.layout.snippet_flight_detail_segment, tripContainer, false);
 
-		Waypoint wp;
-		if (pos == HeaderPosition.LAST || pos == HeaderPosition.INTERMEDIATE) {
-			wp = segment.mDestination;
-		}
-		else {
-			wp = segment.mOrigin;
-		}
-
-		Calendar cal = wp.getMostRelevantDateTime();
-
+		String time = "";
+		String airport = "";
 		boolean twentyFourHourClock = DateFormat.is24HourFormat(this.getActivity());
-		String time = genBaseTime(cal, twentyFourHourClock).toString();
-		time += getAmPm(cal, twentyFourHourClock).toString().toLowerCase();
 
-		if (pos == HeaderPosition.INTERMEDIATE) {
-			//We change the orientation of the linear layout so we can have a time range, followed by the name of the airport on another line.
+		//Set up connecting lines
+		if (prevSeg == null) {
+			segHead.findViewById(R.id.flight_details_header_line_up).setVisibility(View.GONE);
+		}
+		if (curSeg == null) {
+			segHead.findViewById(R.id.flight_details_header_line_down).setVisibility(View.GONE);
+		}
+
+		if (prevSeg != null && curSeg != null) {
+			//This case is a layover
 			LinearLayout textLayout = ((LinearLayout) Ui.findView(segHead, R.id.flight_details_waypoint_text_ll));
 			textLayout.setOrientation(LinearLayout.VERTICAL);
-			textLayout.forceLayout();
+
+			time = String.format(
+					getString(R.string.layover_time_range_and_duration_TEMPLATE),
+					genBaseTime(prevSeg.mDestination.getMostRelevantDateTime(), twentyFourHourClock).toString()
+							+ getAmPm(prevSeg.mDestination.getMostRelevantDateTime(), twentyFourHourClock).toString(),
+					genBaseTime(curSeg.mOrigin.getMostRelevantDateTime(), twentyFourHourClock).toString()
+							+ getAmPm(curSeg.mOrigin.getMostRelevantDateTime(), twentyFourHourClock).toString(),
+					getDuration(curSeg.mOrigin.getMostRelevantDateTime(),
+							curSeg.mOrigin.getMostRelevantDateTime()));
+
+			airport = String.format(getString(R.string.airport_name_and_code_TEMPLATE),
+					curSeg.mOrigin.getAirport().mName, curSeg.mOrigin.mAirportCode);
+
+		}
+		else {
+			//First or last flight segment
+			Waypoint wp;
+			if (prevSeg == null) {
+				//First segment
+				wp = curSeg.mOrigin;
+			}
+			else {
+				//Last segment
+				wp = prevSeg.mDestination;
+			}
+
+			time = genBaseTime(wp.getMostRelevantDateTime(), twentyFourHourClock).toString()
+					+ getAmPm(wp.getMostRelevantDateTime(), twentyFourHourClock).toString();
+
+			airport = String.format(
+					this.getString(R.string.airport_name_and_code_TEMPLATE), wp.getAirport().mName, wp.mAirportCode);
 		}
 
 		Ui.setText(segHead, R.id.flight_details_departure_time_tv, time);
-		Ui.setText(segHead, R.id.flight_details_departure_airport_tv, String.format(
-				this.getString(R.string.airport_name_and_code_TEMPLATE), wp.getAirport().mName, wp.mAirportCode));
-
-		if (pos == HeaderPosition.FIRST)
-			segHead.findViewById(R.id.flight_details_header_line_up).setVisibility(View.INVISIBLE);
-
-		if (pos == HeaderPosition.LAST)
-			segHead.findViewById(R.id.flight_details_header_line_down).setVisibility(View.INVISIBLE);
-
-		return segHead;
-	}
-
-	/**
-	 * This method updates the header from a single time (e.g. 10:24pm) to a time range
-	 * (e.g. 10:24pm - 11:52pm) this is used to append the second time to the layout for 
-	 * layovers
-	 * @param segHead
-	 * @param segment
-	 * @return
-	 */
-	private View updateSegmentHeaderTime(View segHead, Flight segment) {
-		Waypoint wp = segment.mOrigin;
-
-		Calendar cal = wp.getMostRelevantDateTime();
-		boolean twentyFourHourClock = DateFormat.is24HourFormat(this.getActivity());
-		String time = genBaseTime(cal, twentyFourHourClock).toString();
-		time += getAmPm(cal, twentyFourHourClock).toString().toLowerCase();
-
-		TextView landTime = (TextView) Ui.findView(segHead, R.id.flight_details_departure_time_tv);
-		time = String.format(getString(R.string.layover_time_range_TEMPLATE), landTime.getText(), time);
-		Ui.setText(segHead, R.id.flight_details_departure_time_tv, time);
+		Ui.setText(segHead, R.id.flight_details_departure_airport_tv, airport);
 
 		return segHead;
 	}
@@ -215,6 +199,8 @@ public class TripFragment extends Fragment {
 
 	private CharSequence genBaseTime(Calendar cal, boolean twentyFourHour) {
 		CharSequence retVal = "";
+
+		// TODO: System time
 
 		if (!twentyFourHour) {
 			//noon/midnight == 0 in calendar.Hour time
@@ -237,19 +223,10 @@ public class TripFragment extends Fragment {
 		}
 	}
 
-	private CharSequence getFlightDuration(Calendar orig, Calendar dest) {
-		//TODO:Move to someplace static...
-		int minutes = 1000 * 60;
-		int hours = minutes * 60;
-
-		String retStr = "";
-
-		long dif = dest.getTimeInMillis() - orig.getTimeInMillis();
-		if (dif < 0)
-			dif = orig.getTimeInMillis() - dest.getTimeInMillis();
-
-		retStr += String.format("%dh%dm", (int) Math.floor(dif / hours), (int) Math.round((dif % hours) / minutes));
-		return retStr;
+	private CharSequence getDuration(Calendar orig, Calendar dest) {
+		int dif = (int) (Math.abs(dest.getTimeInMillis() - orig.getTimeInMillis()) / 1000);
+		Log.i("DIF:" + dif);
+		return DateTimeUtils.formatDuration(getResources(), dif);
 	}
 
 }

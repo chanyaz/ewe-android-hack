@@ -65,7 +65,7 @@
 	<!-- airport name and airport code template -->
 	<string name="airport_name_and_code_TEMPLATE">%1$s (%2$s)</string>
 	<!-- time range for layovers -->
-	<string name="layover_time_range_TEMPLATE">%1$s - %2$s</string>
+	<string name="layover_time_range_and_duration_TEMPLATE">%1$s - %2$s ( %3$s )</string>
 	
 	<!-- Flight Details Activity -->
 	<!-- Seat map button -->

@@ -54,8 +54,11 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 				"" + trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
 
 		//TODO:We shouldn't build a new fragment every time, we should be able to reuse the existing one (during rotate)
-		mDetails = TripFragment.newInstance(mPosition, mLegPosition);
-		getSupportFragmentManager().beginTransaction().replace(R.id.flight_details_card_holder_ll, mDetails).commit();
+		mDetails = Ui.findSupportFragment(this, R.id.flight_details_card_holder_ll);
+		if (mDetails == null) {
+			mDetails = TripFragment.newInstance(mPosition, mLegPosition);
+			getSupportFragmentManager().beginTransaction().add(R.id.flight_details_card_holder_ll, mDetails).commit();
+		}
 
 		// Enable the home button on the action bar
 		if (AndroidUtils.getSdkVersion() >= 11) {
@@ -64,6 +67,8 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 	}
 
 	public void selectLeg() {
+		//TODO:This is largely stolen from the FlightSearchResultsActivity and should at somepoint just call a method there instead of rewritting.
+		
 		FlightSearch search = Db.getFlightSearch();
 		FlightTrip trip = search.getTrips(mLegPosition).get(mPosition);
 		FlightLeg leg = trip.getLeg(mLegPosition);
