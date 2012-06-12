@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_bar_height"
-    android:background="#a0000000"
+    android:background="@color/bottom_bar_background"
     android:gravity="center"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
