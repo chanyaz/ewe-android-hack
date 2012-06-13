@@ -74,8 +74,8 @@ public class AirportPickerFragment extends ListFragment {
 	}
 
 	@Override
-	public void onDetach() {
-		super.onDetach();
+	public void onDestroyView() {
+		super.onDestroyView();
 
 		if (mAdapter != null) {
 			mAdapter.closeDb();
