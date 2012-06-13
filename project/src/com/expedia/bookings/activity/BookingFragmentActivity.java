@@ -216,8 +216,9 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 				showErrorDialog(errorMsg);
 
 				// Highlight erroneous fields, if that exists
+				boolean isStoredCard = Db.getBillingInfo() != null && Db.getBillingInfo().getStoredCard() != null;
 				List<ValidationError> errors = response.checkForInvalidFields(bookingFormFragment.getDialog()
-						.getWindow(), Db.getBillingInfo().getStoredCard() != null);
+						.getWindow(), isStoredCard);
 				if (errors != null && errors.size() > 0) {
 					if (bookingFormFragment != null) {
 						bookingFormFragment.handleFormErrors(errors);
