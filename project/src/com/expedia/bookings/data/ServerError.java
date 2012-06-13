@@ -17,7 +17,9 @@ import com.mobiata.android.json.JSONable;
 @SuppressWarnings("serial")
 public class ServerError implements JSONable {
 	public static enum ApiMethod {
-		CHECKOUT, SEARCH_RESULTS, HOTEL_OFFERS, HOTEL_PRODUCT, HOTEL_INFORMATION, BAZAAR_REVIEWS, SIGN_IN
+		CHECKOUT, SEARCH_RESULTS, HOTEL_OFFERS, HOTEL_PRODUCT, HOTEL_INFORMATION, BAZAAR_REVIEWS, SIGN_IN,
+		FLIGHT_SEARCH,
+		FLIGHT_DETAILS,
 	}
 
 	public static enum ErrorCode {

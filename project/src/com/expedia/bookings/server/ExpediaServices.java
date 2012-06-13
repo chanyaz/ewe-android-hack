@@ -184,14 +184,16 @@ public class ExpediaServices implements DownloadListener {
 		// TODO: Delete this once no longer valid (all results will eventually be returned as a matrix)
 		query.add(new BasicNameValuePair("matrix", "true"));
 
-		return (FlightSearchResponse) doFlightsRequest("search", query, new FlightSearchResponseHandler(), flags);
+		return (FlightSearchResponse) doFlightsRequest("search", query, new FlightSearchResponseHandler(mContext),
+				flags);
 	}
 
 	public FlightDetailsResponse flightDetails(String productKey, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("productKey", productKey));
 
-		return (FlightDetailsResponse) doFlightsRequest("details", query, new FlightDetailsResponseHandler(), flags);
+		return (FlightDetailsResponse) doFlightsRequest("details", query, new FlightDetailsResponseHandler(mContext),
+				flags);
 	}
 
 	private Object doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
