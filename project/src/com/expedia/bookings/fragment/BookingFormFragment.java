@@ -929,7 +929,7 @@ public class BookingFormFragment extends DialogFragment {
 		mSecurityCodeEditText.setText(billingInfo.getSecurityCode());
 
 		mBillingAddressWidget.update(billingInfo.getLocation());
-		if (mUserProfileIsFresh && Db.getUser().hasStoredCreditCards()) {
+		if (mUserProfileIsFresh && Db.getUser() != null && Db.getUser().hasStoredCreditCards()) {
 			// otherwise we want them to add a new CC anyways
 			mCreditCardInfoContainer.setVisibility(View.GONE);
 			mBillingAddressWidget.hide();
