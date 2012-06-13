@@ -13,8 +13,6 @@ import java.util.Set;
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
 
-import com.mobiata.flightlib.data.Flight;
-
 public class FlightSearch {
 
 	private FlightSearchParams mSearchParams = new FlightSearchParams();

@@ -33,7 +33,6 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.cookie.NetscapeDraftSpec;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
@@ -111,6 +110,10 @@ public class ExpediaServices implements DownloadListener {
 	// Flags for availability()
 	public static final int F_EXPENSIVE = 4;
 
+	// Flags for getE3EndpointUrl()
+	public static final int F_HOTELS = 8;
+	public static final int F_FLIGHTS = 16;
+
 	private Context mContext;
 
 	// For cancelling requests
@@ -159,8 +162,6 @@ public class ExpediaServices implements DownloadListener {
 	//////////////////////////////////////////////////////////////////////////
 	// Expedia Flights API
 
-	private static final String FLIGHTS_BASE_URL = "http://www.expedia.com.trunk.sb.karmalab.net/api/flight/";
-
 	public FlightSearchResponse flightSearch(FlightSearchParams params, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
@@ -195,7 +196,7 @@ public class ExpediaServices implements DownloadListener {
 
 	private Object doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
 			ResponseHandler<?> responseHandler, int flags) {
-		String serverUrl = FLIGHTS_BASE_URL + targetUrl;
+		String serverUrl = getE3EndpointUrl(flags + F_FLIGHTS) + targetUrl;
 
 		// Create the request
 		HttpGet get = NetUtils.createHttpGet(serverUrl, params);
@@ -327,7 +328,7 @@ public class ExpediaServices implements DownloadListener {
 
 			DateFormat expFormatter = new SimpleDateFormat("MMyy");
 			query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
-							.getTime())));
+					.getTime())));
 		}
 		else {
 			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));
@@ -631,8 +632,12 @@ public class ExpediaServices implements DownloadListener {
 		}
 	}
 
+	public enum Api {
+		HOTELS, FLIGHTS;
+	}
+
 	public enum EndPoint {
-		PRODUCTION, DEV, INTEGRATION, STABLE, PROXY
+		TRUNK, PRODUCTION, DEV, INTEGRATION, STABLE, PROXY
 	}
 
 	/**
@@ -642,6 +647,21 @@ public class ExpediaServices implements DownloadListener {
 	 */
 	public String getE3EndpointUrl(int flags) {
 		EndPoint endPoint = getEndPoint(mContext);
+
+		Api api;
+		if ((flags & F_FLIGHTS) != 0) {
+			api = Api.FLIGHTS;
+
+			// Note: Currently, flights only works with TRUNK or PROXY.  So automatically
+			// set endpoint to TRUNK if not otherwise set correctly.
+			if (endPoint != EndPoint.TRUNK && endPoint != EndPoint.PROXY) {
+				endPoint = EndPoint.TRUNK;
+			}
+		}
+		else {
+			api = Api.HOTELS;
+		}
+
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(endPoint != EndPoint.PROXY && (flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
@@ -650,7 +670,7 @@ public class ExpediaServices implements DownloadListener {
 		case PRODUCTION: {
 			builder.append("www.");
 			builder.append(LocaleUtils.getPointOfSale(mContext));
-			builder.append("/MobileHotel/Webapp/");
+			builder.append("/");
 			break;
 		}
 		case INTEGRATION: {
@@ -658,7 +678,7 @@ public class ExpediaServices implements DownloadListener {
 			for (String s : LocaleUtils.getPointOfSale(mContext).split("\\.")) {
 				builder.append(s);
 			}
-			builder.append(".integration.sb.karmalab.net/MobileHotel/Webapp/");
+			builder.append(".integration.sb.karmalab.net/");
 			break;
 		}
 		case STABLE: {
@@ -666,14 +686,17 @@ public class ExpediaServices implements DownloadListener {
 			for (String s : LocaleUtils.getPointOfSale(mContext).split("\\.")) {
 				builder.append(s);
 			}
-			builder.append(".stable.sb.karmalab.net/MobileHotel/Webapp/");
+			builder.append(".stable.sb.karmalab.net/");
 			break;
 		}
 		case DEV: {
 			builder.append("www.");
 			builder.append(LocaleUtils.getPointOfSale(mContext));
-			builder.append(".chelwebestr37.bgb.karmalab.net");
-			builder.append("/MobileHotel/Webapp/");
+			builder.append(".chelwebestr37.bgb.karmalab.net/");
+			break;
+		}
+		case TRUNK: {
+			builder.append("www.expedia.com.trunk.sb.karmalab.net/");
 			break;
 		}
 		case PROXY: {
@@ -684,6 +707,15 @@ public class ExpediaServices implements DownloadListener {
 			builder.append("/");
 			break;
 		}
+		}
+
+		if (endPoint != EndPoint.PROXY) {
+			if (api == Api.HOTELS) {
+				builder.append("MobileHotel/Webapp/");
+			}
+			else if (api == Api.FLIGHTS) {
+				builder.append("api/flight/");
+			}
 		}
 
 		String e3url = builder.toString();
@@ -711,6 +743,9 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else if (which.equals("Stable")) {
 			return EndPoint.STABLE;
+		}
+		else if (which.equals("Trunk")) {
+			return EndPoint.TRUNK;
 		}
 		else {
 			return EndPoint.PRODUCTION;

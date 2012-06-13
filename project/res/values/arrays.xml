@@ -1039,6 +1039,7 @@
         <item>Dev</item>
         <item>Integration</item>
         <item>Stable</item>
+        <item>Trunk</item>
         <item>Proxy</item>
     </string-array>
 
