@@ -102,6 +102,19 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 
 					expandAirportEditText(v);
 				}
+				else {
+					// If we're losing focus, set the airport code to what was in the field
+					//
+					// Note: this will not work if the EditTexts start displaying text different from
+					// the airportCode.  But I expect the design of this page will change at some point anyhow.
+					FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+					if (v == mDepartureAirportEditText) {
+						params.setDepartureAirportCode(mDepartureAirportEditText.getText().toString().toUpperCase());
+					}
+					else {
+						params.setArrivalAirportCode(mArrivalAirportEditText.getText().toString().toUpperCase());
+					}
+				}
 			}
 		};
 
