@@ -267,6 +267,10 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 
 			Amobee.trackBooking(currency, totalPrice, duration, daysRemaining);
 
+			if (Db.getCreateTripResponse() != null) {
+				Db.setCouponDiscountRate(Db.getCreateTripResponse().getNewRate());
+			}
+
 			startActivity(ConfirmationFragmentActivity.createIntent(mContext));
 		}
 	};

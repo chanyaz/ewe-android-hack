@@ -86,6 +86,7 @@ public class Db {
 
 	// The result of a call to e3 for a coupon code discount
 	private CreateTripResponse mCreateTripResponse;
+	private Rate mCouponDiscountRate;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
@@ -292,6 +293,14 @@ public class Db {
 
 	public static CreateTripResponse getCreateTripResponse() {
 		return sDb.mCreateTripResponse;
+	}
+
+	public static void setCouponDiscountRate(Rate couponDiscountRate) {
+		sDb.mCouponDiscountRate = couponDiscountRate;
+	}
+
+	public static Rate getCouponDiscountRate() {
+		return sDb.mCouponDiscountRate;
 	}
 
 	public static void clear() {

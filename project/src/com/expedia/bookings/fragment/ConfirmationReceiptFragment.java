@@ -48,11 +48,6 @@ public class ConfirmationReceiptFragment extends Fragment {
 		String contactText = ConfirmationUtils.determineContactText(getActivity());
 		ConfirmationUtils.configureContactView(getActivity(), contactView, contactText);
 
-		Rate discountRate = null;
-		if (Db.getCreateTripResponse() != null) {
-			discountRate = Db.getCreateTripResponse().getNewRate();
-		}
-
 		/*
 		 * The map section (only appears on phone versions)
 		 */
@@ -67,7 +62,7 @@ public class ConfirmationReceiptFragment extends Fragment {
 		 * The rest of the receipt details (on both tablet & phone versions)
 		 */
 		mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(),
-				Db.getBookingResponse(), Db.getBillingInfo(), discountRate);
+				Db.getBookingResponse(), Db.getBillingInfo(), Db.getCouponDiscountRate());
 
 		return receipt;
 	}
