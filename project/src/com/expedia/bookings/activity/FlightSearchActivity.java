@@ -34,6 +34,7 @@ import com.expedia.bookings.fragment.CalendarDialogFragment.CalendarDialogFragme
 import com.expedia.bookings.fragment.PassengerPickerFragment;
 import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -401,6 +402,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_flight_search, menu);
 
+		DebugMenu.onCreateOptionsMenu(this, menu);
+
 		mHockeyPuck.onCreateOptionsMenu(menu);
 
 		return super.onCreateOptionsMenu(menu);
@@ -408,6 +411,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		DebugMenu.onPrepareOptionsMenu(this, menu);
 
 		mHockeyPuck.onPrepareOptionsMenu(menu);
 
@@ -426,7 +430,9 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 			break;
 		}
 
-		mHockeyPuck.onOptionsItemSelected(item);
+		if (DebugMenu.onOptionsItemSelected(this, item) || mHockeyPuck.onOptionsItemSelected(item)) {
+			return true;
+		}
 
 		return super.onOptionsItemSelected(item);
 	}
