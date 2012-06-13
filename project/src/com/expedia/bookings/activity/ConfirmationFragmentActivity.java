@@ -219,7 +219,7 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 	public void onShareBooking() {
 		String contactText = ConfirmationUtils.determineContactText(this);
 		ConfirmationUtils.share(this, Db.getSearchParams(), Db.getSelectedProperty(), Db.getBookingResponse(),
-				Db.getBillingInfo(), Db.getSelectedRate(), contactText);
+				Db.getBillingInfo(), Db.getSelectedRate(), Db.getCouponDiscountRate(), contactText);
 	}
 
 	@Override

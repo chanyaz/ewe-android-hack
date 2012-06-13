@@ -38,7 +38,7 @@ public class ConfirmationUtils {
 	public static final String CONFIRMATION_DATA_VERSION_FILE = "confirmation-version.dat";
 
 	public static void share(Context context, SearchParams searchParams, Property property,
-			BookingResponse bookingResponse, BillingInfo billingInfo, Rate rate, String contactText) {
+			BookingResponse bookingResponse, BillingInfo billingInfo, Rate rate, Rate discountRate, String contactText) {
 		Resources res = context.getResources();
 
 		DateFormat dateFormatter = new SimpleDateFormat("MM/dd");
@@ -119,7 +119,7 @@ public class ConfirmationUtils {
 			body.append("\n");
 		}
 
-		Money totalSurcharge = rate.getTotalSurcharge();
+		Money totalSurcharge = new Money(rate.getTotalSurcharge());
 		Money extraGuestFee = rate.getExtraGuestFee();
 		if (extraGuestFee != null) {
 			appendLabelValue(context, body, R.string.extra_guest_charge, extraGuestFee.getFormattedMoney());
@@ -133,9 +133,19 @@ public class ConfirmationUtils {
 			body.append("\n");
 		}
 
-		if (rate.getTotalAmountAfterTax() != null) {
+		if (discountRate != null) {
+			Money discount = new Money(discountRate.getTotalAmountAfterTax());
+			discount.subtract(rate.getTotalAmountAfterTax());
+			appendLabelValue(context, body, R.string.discount, discount.getFormattedMoney());
 			body.append("\n");
-			appendLabelValue(context, body, R.string.Total, rate.getTotalAmountAfterTax().getFormattedMoney());
+			appendLabelValue(context, body, R.string.Total, discountRate.getTotalAmountAfterTax().getFormattedMoney());
+			body.append("\n");
+		}
+		else {
+			if (rate.getTotalAmountAfterTax() != null) {
+				body.append("\n");
+				appendLabelValue(context, body, R.string.Total, rate.getTotalAmountAfterTax().getFormattedMoney());
+			}
 		}
 
 		Policy cancellationPolicy = rate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
