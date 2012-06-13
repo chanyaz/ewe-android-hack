@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -27,7 +26,7 @@ public class CouponCodeWidget {
 	private Context mContext;
 
 	private EditText mCouponCode;
-	private Button mApply;
+	private TextView mApply;
 	private View mProgressBar;
 	private TextView mNewTotal;
 
@@ -50,7 +49,7 @@ public class CouponCodeWidget {
 		mContext = context;
 
 		mCouponCode = (EditText) rootView.findViewById(R.id.coupon_code_edittext);
-		mApply = (Button) rootView.findViewById(R.id.apply_button);
+		mApply = (TextView) rootView.findViewById(R.id.apply_button);
 		mProgressBar = rootView.findViewById(R.id.coupon_progress_bar);
 		mNewTotal = (TextView) rootView.findViewById(R.id.new_total_textview);
 
