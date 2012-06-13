@@ -427,7 +427,11 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 				showLoading();
 				BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, mDownload, mDownloadCallback);
 			}
-			break;
+			return true;
+		case R.id.settings:
+			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
+			startActivity(intent);
+			return true;
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item) || mHockeyPuck.onOptionsItemSelected(item)) {
