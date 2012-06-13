@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.util.Date;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -26,6 +27,7 @@ import com.expedia.bookings.fragment.SignInFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
@@ -255,6 +257,15 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 				TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
 				return;
 			}
+
+			// Track successful booking with Amobee
+			final String currency = Db.getSelectedRate().getDisplayRate().getCurrency();
+			final Integer duration = Db.getSearchParams().getStayDuration();
+			final String totalPrice = Db.getSelectedRate().getTotalAmountAfterTax().getFormattedMoney();
+			final Integer daysRemaining = (int) ((Db.getSearchParams().getCheckInDate().getTime().getTime() - new Date()
+					.getTime()) / (24 * 60 * 60 * 1000));
+
+			Amobee.trackBooking(currency, totalPrice, duration, daysRemaining);
 
 			startActivity(ConfirmationFragmentActivity.createIntent(mContext));
 		}

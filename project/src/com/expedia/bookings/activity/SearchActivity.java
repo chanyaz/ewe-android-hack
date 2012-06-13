@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.amobee.agency.tracking.AmobeeReceiver;
 import com.amobee.agency.tracking.AmobeeReceiver.Goal;
 import com.expedia.bookings.tracking.Tracker;
+import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.ConfirmationUtils;
 
 /**
@@ -25,7 +26,7 @@ public class SearchActivity extends Activity {
 
 		// Track the app loading
 		Tracker.trackAppLoading(this);
-		AmobeeReceiver.amobeeTracking(Goal.LAUNCH, getApplicationContext(), "ExpediaHotelsAndroidPhone");
+		Amobee.trackLaunch();
 
 		// #7090: First, check to see if the user last confirmed a booking.  If that is the case,
 		//        then we should forward the user to the ConfirmationActivity

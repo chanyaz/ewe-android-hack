@@ -50,6 +50,7 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
@@ -1002,6 +1003,7 @@ public class BookingFormFragment extends DialogFragment {
 			else {
 				mUserProfileIsFresh = true;
 				Db.setUser(response.getUser());
+				Amobee.trackLogin();
 				mAccountButton.update(false);
 				syncFormFieldsFromBillingInfo(mRootBillingView);
 				syncBillingInfo();

@@ -23,14 +23,13 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.DialogUtils;
 
 public class SignInFragment extends DialogFragment {
 	private static final String KEY_SIGNIN = "KEY_SIGNIN";
@@ -81,7 +80,8 @@ public class SignInFragment extends DialogFragment {
 		mPasswordEditText.setTransformationMethod(new PasswordTransformationMethod());
 
 		TextView forgotLink = (TextView) view.findViewById(R.id.forgot_your_password_link);
-		forgotLink.setText(Html.fromHtml(String.format("<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>", LocaleUtils.getPointOfSale(mContext), mContext.getString(R.string.forgot_your_password))));
+		forgotLink.setText(Html.fromHtml(String.format("<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>",
+				LocaleUtils.getPointOfSale(mContext), mContext.getString(R.string.forgot_your_password))));
 		forgotLink.setMovementMethod(LinkMovementMethod.getInstance());
 
 		mProgressDialog = new ProgressDialog(mContext);
@@ -96,7 +96,7 @@ public class SignInFragment extends DialogFragment {
 		mLogInButton = (Button) view.findViewById(R.id.log_in_button);
 		mLogInButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick (View v) {
+			public void onClick(View v) {
 				mLoginFailed.setVisibility(View.GONE);
 				mLoginClicked = true;
 				startOrResumeDownload();
@@ -106,7 +106,7 @@ public class SignInFragment extends DialogFragment {
 		View cancelButton = view.findViewById(R.id.cancel_button);
 		cancelButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick (View v) {
+			public void onClick(View v) {
 				dismiss();
 			}
 		});
@@ -219,6 +219,7 @@ public class SignInFragment extends DialogFragment {
 			}
 			else {
 				Db.setUser(response.getUser());
+				Amobee.trackLogin();
 				ExpediaServices.persistUserIsLoggedIn(mContext);
 				((SignInFragmentListener) getActivity()).onLoginCompleted();
 				dismiss();
@@ -228,8 +229,9 @@ public class SignInFragment extends DialogFragment {
 
 	public interface SignInFragmentListener {
 		public void onLoginStarted();
+
 		public void onLoginCompleted();
+
 		public void onLoginFailed();
 	}
 }
-

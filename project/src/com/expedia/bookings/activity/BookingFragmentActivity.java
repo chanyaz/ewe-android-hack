@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.util.Date;
 import java.util.List;
 
 import android.annotation.TargetApi;
@@ -28,6 +29,7 @@ import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
@@ -226,6 +228,15 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 				return;
 			}
+
+			// Track successful booking with Amobee
+			final String currency = Db.getSelectedRate().getDisplayRate().getCurrency();
+			final Integer duration = Db.getSearchParams().getStayDuration();
+			final String totalPrice = Db.getSelectedRate().getTotalAmountAfterTax().getFormattedMoney();
+			final Integer daysRemaining = (int) ((Db.getSearchParams().getCheckInDate().getTime().getTime() - new Date()
+					.getTime()) / (24 * 60 * 60 * 1000));
+
+			Amobee.trackBooking(currency, totalPrice, duration, daysRemaining);
 
 			if (bookingFormFragment != null) {
 				bookingFormFragment.dismiss();
