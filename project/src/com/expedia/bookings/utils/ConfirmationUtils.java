@@ -123,6 +123,7 @@ public class ConfirmationUtils {
 		Money extraGuestFee = rate.getExtraGuestFee();
 		if (extraGuestFee != null) {
 			appendLabelValue(context, body, R.string.extra_guest_charge, extraGuestFee.getFormattedMoney());
+			body.append("\n");
 			if (totalSurcharge != null) {
 				totalSurcharge = totalSurcharge.copy();
 				totalSurcharge.subtract(extraGuestFee);
