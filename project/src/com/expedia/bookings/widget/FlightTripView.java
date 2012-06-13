@@ -55,6 +55,8 @@ public class FlightTripView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		
+		int width = getWidth();
 
 		// Calculate the bounds based on the min
 		long minTime = DateTimeUtils.getTimeInGMT(mMinTime).getTime();
@@ -66,14 +68,14 @@ public class FlightTripView extends View {
 				.getTime();
 		long duration = maxTime - minTime;
 
-		float left = ((float) (startTime - minTime) / (float) duration) * canvas.getWidth();
-		float right = ((float) (endTime - minTime) / (float) duration) * canvas.getWidth();
+		float left = ((float) (startTime - minTime) / (float) duration) * width;
+		float right = ((float) (endTime - minTime) / (float) duration) * width;
 
 		// Temporarily use the full width for drawing
 		left = 0;
-		right = canvas.getWidth();
+		right = width;
 
-		RectF legBounds = new RectF(left, 0, right, canvas.getHeight());
+		RectF legBounds = new RectF(left, 0, right, getHeight());
 		drawLeg(canvas, legBounds);
 	}
 
