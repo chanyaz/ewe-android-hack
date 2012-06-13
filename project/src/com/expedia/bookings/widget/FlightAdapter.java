@@ -263,7 +263,7 @@ public class FlightAdapter extends BaseAdapter {
 		// Extra configuration for expanded row types
 		if (renderExpandedDetails(rowType)) {
 			int seatsRemaining = trip.getSeatsRemaining();
-			if (seatsRemaining <= SEATS_REMAINING_CUTOFF) {
+			if (seatsRemaining > 0 && seatsRemaining <= SEATS_REMAINING_CUTOFF) {
 				holder.mSeatsLeftTextView.setVisibility(View.VISIBLE);
 				holder.mSeatsLeftTextView.setText(Html.fromHtml(mContext.getResources().getQuantityString(
 						R.plurals.seats_left, seatsRemaining, seatsRemaining)));
