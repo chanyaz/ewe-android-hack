@@ -108,6 +108,7 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 
 		if (isFinishing()) {
 			Db.setBookingResponse(null);
+			Db.setCouponDiscountRate(null);
 		}
 	}
 
