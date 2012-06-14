@@ -1653,6 +1653,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		response.addError(error);
 
 		mSearchCallback.onDownload(response);
+		mStartSearchOnResume = true;
 	}
 
 	public void handleError() {
