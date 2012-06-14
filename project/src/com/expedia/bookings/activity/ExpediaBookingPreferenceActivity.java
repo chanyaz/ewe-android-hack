@@ -1,6 +1,5 @@
 package com.expedia.bookings.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -15,6 +14,7 @@ import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.util.AndroidUtils;
 
 public class ExpediaBookingPreferenceActivity extends PreferenceActivity {
+	public static final int RESULT_POS_CHANGED = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				configurePointOfSalePreferenceSummary((String) newValue);
 				LocaleUtils.onPointOfSaleChanged(ExpediaBookingPreferenceActivity.this);
+				setResult(RESULT_POS_CHANGED);
 				return true;
 			}
 		});

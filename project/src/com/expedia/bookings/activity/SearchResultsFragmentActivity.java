@@ -399,6 +399,10 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			// when we get to onResume().
 			clearSearch();
 		}
+		else if (requestCode == REQUEST_CODE_SETTINGS
+				&& resultCode == ExpediaBookingPreferenceActivity.RESULT_POS_CHANGED) {
+			Db.getFilter().addOnFilterChangedListener(this);
+		}
 	}
 
 	@Override
