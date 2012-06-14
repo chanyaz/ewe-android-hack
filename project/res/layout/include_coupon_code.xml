@@ -38,7 +38,7 @@
             android:id="@+id/new_total_textview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:gravity="right|center_vertical"
+            android:gravity="right"
             android:text="@string/new_total"
             android:textColor="@android:color/black"
             android:visibility="gone" />
