@@ -6,6 +6,28 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/error_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_error_box"
+        android:gravity="center"
+        android:padding="@dimen/booking_form_saved_section_padding"
+        android:visibility="gone"
+        style="@style/BookingSection" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/card_icon_padding"
+            android:src="@drawable/ic_error" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/login_failed"
+            android:textColor="@color/text_black" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/account_loading_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

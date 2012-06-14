@@ -19,7 +19,7 @@ public class AccountButton {
 	private View mAccountLoadingContainer;
 	private View mLoginContainer;
 	private View mLogoutContainer;
-	private View mLoadingSpinner;
+	private View mErrorContainer;
 
 	public AccountButton (Context context, AccountButtonClickListener listener, View rootView) {
 		mContext = context;
@@ -27,7 +27,7 @@ public class AccountButton {
 		mAccountLoadingContainer = rootView.findViewById(R.id.account_loading_container);
 		mLoginContainer = rootView.findViewById(R.id.account_login_container);
 		mLogoutContainer = rootView.findViewById(R.id.account_logout_container);
-		mLoadingSpinner = mAccountLoadingContainer.findViewById(R.id.loading_progress_bar);
+		mErrorContainer = rootView.findViewById(R.id.error_container);
 
 		final OnClickListener clickListener = new OnClickListener() {
 			public void onClick(View v) {
@@ -56,12 +56,9 @@ public class AccountButton {
 	}
 
 	public void update(boolean isLoading) {
+		mErrorContainer.setVisibility(View.GONE);
 		if (isLoading) {
 			mAccountLoadingContainer.setVisibility(View.VISIBLE);
-			mLoadingSpinner.setVisibility(View.VISIBLE);
-			TextView text = (TextView) mAccountLoadingContainer.findViewById(R.id.loading_textview);
-			text.setText(mContext.getString(R.string.logging_in));
-			text.setTextColor(mContext.getResources().getColor(R.color.text_dark));
 			mLoginContainer.setVisibility(View.GONE);
 			mLogoutContainer.setVisibility(View.GONE);
 		}
@@ -94,14 +91,12 @@ public class AccountButton {
 	}
 
 	public void error() {
-		mAccountLoadingContainer.setVisibility(View.VISIBLE);
-		mLoginContainer.setVisibility(View.GONE);
+		mAccountLoadingContainer.setVisibility(View.GONE);
 		mLogoutContainer.setVisibility(View.GONE);
 
-		TextView text = (TextView) mAccountLoadingContainer.findViewById(R.id.loading_textview);
-		text.setText(mContext.getString(R.string.login_failed));
-		text.setTextColor(mContext.getResources().getColor(R.color.holo_red_light));
-		mLoadingSpinner.setVisibility(View.GONE);
+		// Show error and let user re-login easily
+		mErrorContainer.setVisibility(View.VISIBLE);
+		mLoginContainer.setVisibility(View.VISIBLE);
 	}
 
 	public interface AccountButtonClickListener {
