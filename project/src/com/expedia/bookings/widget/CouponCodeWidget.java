@@ -220,14 +220,16 @@ public class CouponCodeWidget {
 
 	private void setNewTotal() {
 		CreateTripResponse response = Db.getCreateTripResponse();
-		Money m;
-		if (LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
-			m = response.getNewRate().getTotalPriceWithMandatoryFees();
+		if (response != null) {
+			Money m;
+			if (LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
+				m = response.getNewRate().getTotalPriceWithMandatoryFees();
+			}
+			else {
+				m = response.getNewRate().getTotalAmountAfterTax();
+			}
+			mNewTotal.setText(mContext.getString(R.string.new_total) + "\n" + m.getFormattedMoney());
 		}
-		else {
-			m = response.getNewRate().getTotalAmountAfterTax();
-		}
-		mNewTotal.setText(mContext.getString(R.string.new_total) + "\n" + m.getFormattedMoney());
 	}
 
 	public interface CouponCodeAppliedListener {
