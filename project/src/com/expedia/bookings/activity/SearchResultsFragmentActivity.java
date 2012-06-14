@@ -1279,6 +1279,9 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
 			mHotelMapFragment.notifySearchLocationFound();
 		}
+
+		// TODO: Update autocomplete cursor
+		Search.add(this, Db.getSearchParams());
 	}
 
 	private void notifySearchComplete() {
