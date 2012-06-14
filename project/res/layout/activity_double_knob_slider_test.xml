@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <com.expedia.bookings.widget.DoubleKnobSlider
+        android:id="@+id/double_knob"
+        android:layout_width="match_parent"
+        android:layout_height="0dip "
+        android:layout_margin="25dp"
+        android:layout_weight="1"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+    
+    <TextView 
+        android:id="@+id/knob_one_val"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    
+	<TextView 
+        android:id="@+id/knob_two_val"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    
+    
+</LinearLayout>
