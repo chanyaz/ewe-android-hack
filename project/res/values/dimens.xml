@@ -79,5 +79,5 @@
 
     <!-- Coupon code dimensions -->
     <dimen name="coupon_code_right_width">120dp</dimen>
-    <dimen name="coupon_code_right_height">70dp</dimen>
+    <dimen name="coupon_code_right_height">60dp</dimen>
 </resources>

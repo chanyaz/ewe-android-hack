@@ -235,6 +235,8 @@ public class BookingFormFragment extends DialogFragment {
 				updateReceiptWidget();
 			}
 		});
+		mCouponCodeWidget.setFieldAboveCouponCode(mSecurityCodeEditText, R.id.security_code_edit_text);
+		mCouponCodeWidget.setFieldBelowCouponCode(mRulesRestrictionsCheckbox, R.id.rules_restrictions_checkbox);
 		mCouponCodeWidget.restoreInstanceState(savedInstanceState);
 
 		// 10758: rendering the saved layouts on a software layer
