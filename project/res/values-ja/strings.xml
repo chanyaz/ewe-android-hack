@@ -1,1047 +1,1070 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<string name="app_name">Expedia</string>
+    <string name="app_name">Expedia</string>
 
-	<!-- Search Fragment -->
-	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">検索ロケーションを入力…</string>
-	<!-- Hint for "search location" field -->
-	<string name="hint_search_location">ロケーションを検索</string>
-	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-	<string name="loading_suggestions">提案をローディング中…</string>
-	<!-- Label for recent searches user has made -->
-	<string name="recent_searches">最近の検索</string>
-	<!-- Label for searches that the user can make that are featured -->
-	<string name="featured_destinations">おすすめの都市</string>
-	<!-- Label for button that starts search -->
-	<string name="search_for_hotels">ホテルを検索</string>
-	<!--  Label for picking search location -->
-	<string name="where_are_you_going">&lt;b&gt;滞在先&lt;/b&gt;</string>
-	<!--  Label for picking checkin/checkout dates -->
-	<string name="drag_to_extend_your_stay">&lt;b&gt;ドラッグして&lt;/b&gt;滞在期間を延長</string>
-	<!--  Label for picking guests for hotel booking -->
-	<string name="who_is_going">&lt;b&gt;宿泊者情報&lt;/b&gt;</string>
-	<!-- Child age dialog button -->
-	<string name="button_done">完了</string>
-	<!--  Label for child age selection prompt -->
-	<plurals name="select_each_childs_age">
-	    <item quantity="one">お子様の年齢を選択する</item>
-	    <item quantity="two">お子様の年齢を選択する</item>
-	    <item quantity="many">お子様の年齢を選択する</item>
-	    <item quantity="other">お子様の年齢を選択する</item>
-	</plurals>
-	<!--  Title of "select child age" spinner dialog box -->
-	<string name="prompt_select_child_age">お子様の年齢を選択 （%1$s-%2$s 歳） </string>
-	<!--  Text for child's age on search refinements and in spinner -->
-	<plurals name="child_age">
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; 歳</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; 歳</item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; 歳</item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; 歳</item>
-	</plurals>
-	<!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-	<string name="child_age_less_than_one">&lt;b&gt;1 歳未満&lt;/b&gt; </string>
-	
-	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
-	<!-- Suggestion to search Times Square -->
-	<string name="suggestion_times_square">ニューヨーク州ニューヨーク、タイムズ スクエア</string>
-	<string name="suggestion_boston">マサチューセッツ州ボストン</string>
-	<string name="suggestion_los_angeles">カリフォルニア州ロサンゼルス</string>
-	<string name="suggestion_venice">カリフォルニア州ベニス、ベニス ビーチ パーク</string>
-	<string name="suggestion_miami">フロリダ州マイアミ</string>
-	<string name="suggestion_london">イギリス、ロンドン</string>
-	<string name="suggestion_las_vegas">ネバダ州ラスベガス</string>
-	<string name="suggestion_paris">フランス、パリ</string>
-	<string name="suggestion_minneapolis">ミネソタ州ミネアポリス</string>
-	<string name="suggestion_san_francisco">カリフォルニア州サンフランシスコ</string>
+    <!-- General -->
+    <!-- Connectivity -->
+    <!-- Dialog Message tell the user that their device has no internet connection -->
+    <string name="dialog_message_no_connection">インターネットに接続されていないようです。</string>
 
-	<!-- Search Activity -->
-	<!-- Label for "start search" button -->
-	<string name="search">検索</string>
-	<!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
-	    1$ - The search address
-	    2$ - The check-in date
-	    3$ - The check-out date
-	    The dates may include year, if we cross a year boundary 
-	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt; から&lt;b&gt;%3$s&lt;/b&gt;</string>
-	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
-	<plurals name="number_of_matching_hotels">
-		<item quantity="zero">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
-		<item quantity="one">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
-		<item quantity="two">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
-		<item quantity="many">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
-		<item quantity="other">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
-	</plurals>
-	<!-- Hint for filtering results by hotel name -->
-	<string name="filter_hotel_name_hint">ホテル名で絞り込む</string>
-	<!-- Label indicating that there are no results matching their current filter -->
-	<string name="no_filter_results">申し訳ありません。検索条件に一致するホテルはありません。</string>
-	<!-- Label indicating that geolocation failed -->
-	<string name="geolocation_failed">検索地が確定できません。</string>
-	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
-	<string name="NoGeocodingResults">%sのロケーションが見つかりませんでした。</string>
-	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-	<string name="ChooseLocation">もしかして…</string>
-	<!-- Button label for upgrading the app -->
-	<string name="upgrade">アップグレード</string>
-	<!-- Button label for searching the visible map area -->
-	<string name="map_search_button">マップの検索</string>
-	<!-- Message when app is loading saved search results -->
-	<string name="loading_previous">過去の検索結果を読み込んでいます…</string>
-	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">&quot;並べ替え： &quot;</string>
-	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-	<string name="sort_hotels_template">&lt;b&gt;並べ替え&lt;/b&gt;：%s</string>
-	<!-- Label for filter hotels button in bottom bar -->
-	<string name="filter_hotels">ホテルの絞り込み</string>
-	<!-- A number of results -->
-	<plurals name="number_of_results">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 軒が該当</item>
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; 軒が該当</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; 軒が該当</item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; 軒が該当</item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; 軒が該当</item>
-	</plurals>
+    <!-- Search Fragment -->
+    <!-- Initial hint for the search location field - invites the user to enter information here -->
+    <string name="enter_search_location">検索ロケーションを入力…</string>
+    <!-- Hint for "search location" field -->
+    <string name="hint_search_location">ロケーションを検索</string>
+    <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+    <string name="loading_suggestions">提案を読み込んでいます&#2026;</string>
+    <!-- Label for recent searches user has made -->
+    <string name="recent_searches">最近の検索</string>
+    <!-- Label for searches that the user can make that are featured -->
+    <string name="featured_destinations">おすすめの都市</string>
+    <!-- Label for button that starts search -->
+    <string name="search_for_hotels">ホテルを検索</string>
+    <!--  Label for picking search location -->
+    <string name="where_are_you_going">&lt;b&gt;滞在先&lt;/b&gt;</string>
+    <!--  Label for picking checkin/checkout dates -->
+    <string name="drag_to_extend_your_stay">&lt;b&gt;ドラッグして&lt;/b&gt;滞在期間を延長</string>
+    <!--  Label for picking guests for hotel booking -->
+    <string name="who_is_going">&lt;b&gt;宿泊者情報&lt;/b&gt;</string>
+    <!-- Child age dialog button -->
+    <string name="button_done">完了</string>
+    <!--  Label for child age selection prompt -->
+    <plurals name="select_each_childs_age">
+        <item quantity="one">お子様の年齢を選択する</item>
+        <item quantity="two">お子様の年齢を選択する</item>
+        <item quantity="many">お子様の年齢を選択する</item>
+        <item quantity="other">お子様の年齢を選択する</item>
+    </plurals>
+    <!--  Title of "select child age" spinner dialog box -->
+    <string name="prompt_select_child_age">お子様の年齢を選択 (%1$s - %2$s 歳)</string>
+    <!--  Text for child's age on search refinements and in spinner -->
+    <plurals name="child_age">
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; 歳</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; 歳</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; 歳</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; 歳</item>
+    </plurals>
+    <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
+    <string name="child_age_less_than_one">&lt;b&gt;1 歳未満&lt;/b&gt; </string>
 
-	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">Myロケーションを使う際には、まず設定でロケーションソースをオンにしてください。\n今すぐ設定しますか？</string>
-	<!-- Message displayed when user has disabled finding the device's location. -->
-	<string name="ProviderDisabled">ロケーションプロバイダーが無効になっています。ロケーション検索をするために有効にしてください。</string>
-	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-	<string name="ProviderOutOfService">ロケーションプロバイダーが使用できません。後ほどお試しください。</string>
-	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">ロケーションプロバイダーが一時利用できなくなっています。数分後にもう一度お試しください。</string>
+    <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
+    <!-- Suggestion to search Times Square -->
+    <string name="suggestion_times_square">ニューヨーク州ニューヨーク、タイムズ スクエア</string>
+    <string name="suggestion_boston">マサチューセッツ州ボストン</string>
+    <string name="suggestion_los_angeles">カリフォルニア州ロサンゼルス</string>
+    <string name="suggestion_venice">カリフォルニア州ベニス、ベニス ビーチ パーク</string>
+    <string name="suggestion_miami">フロリダ州マイアミ</string>
+    <string name="suggestion_london">イギリス、ロンドン</string>
+    <string name="suggestion_las_vegas">ネバダ州ラスベガス</string>
+    <string name="suggestion_paris">フランス、パリ</string>
+    <string name="suggestion_minneapolis">ミネソタ州ミネアポリス</string>
+    <string name="suggestion_san_francisco">カリフォルニア州サンフランシスコ</string>
 
-	<!-- Sort descriptions, e.g. Sorted by "description" -->
-	<!-- Sort by distance label -->
-	<string name="sort_description_distance">距離</string>
-	<!-- Sort by popularity label -->
-	<string name="sort_description_popular">人気</string>
-	<!-- Sort by price label -->
-	<string name="sort_description_price">価格</string>
-	<!-- Sort by user rating label -->
-	<string name="sort_description_rating">ユーザー評価</string>
-	
-	<!-- Filter option for "show all" -->
-	<string name="all">全て</string>
-	<!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_cheap">$</string>
-	<!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_moderate">$$</string>
-	<!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_expensive">$$$</string>
-	<!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
-	<string name="filter_stars_three">3+</string>
-	<!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
-	<string name="filter_stars_four">4+</string>
-	<!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
-	<string name="filter_stars_five">5</string>
-	<!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
-	<string name="filter_distance_miles_template">%s マイル</string>
-	<!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
-	<string name="filter_distance_kilometers_template">%s km</string>
+    <!-- Search Activity -->
+    <!-- Label for "start search" button -->
+    <string name="search">検索</string>
+    <!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
+        1$ - The search address
+        2$ - The check-in date
+        3$ - The check-out date
+        The dates may include year, if we cross a year boundary
+    -->
+    <string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt; から&lt;b&gt;%3$s&lt;/b&gt;</string>
+    <!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
+    <plurals name="number_of_matching_hotels">
+        <item quantity="zero">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
+        <item quantity="one">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
+        <item quantity="two">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
+        <item quantity="many">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
+        <item quantity="other">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
+    </plurals>
+    <!-- Hint for filtering results by hotel name -->
+    <string name="filter_hotel_name_hint">ホテル名で絞り込む</string>
+    <!-- Label indicating that there are no results matching their current filter -->
+    <string name="no_filter_results">申し訳ありません。検索条件に一致するホテルはありません。</string>
+    <!-- Label indicating that geolocation failed -->
+    <string name="geolocation_failed">検索地が確定できません。</string>
+    <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
+    <string name="NoGeocodingResults">%sのロケーションが見つかりませんでした。</string>
+    <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
+    <string name="ChooseLocation">もしかして…</string>
+    <!-- Button label for upgrading the app -->
+    <string name="upgrade">アップグレード</string>
+    <!-- Button label for searching the visible map area -->
+    <string name="map_search_button">マップの検索</string>
+    <!-- Message when app is loading saved search results -->
+    <string name="loading_previous">過去の検索結果を読み込んでいます…</string>
+    <!-- Label for sort hotels button in bottom bar -->
+    <string name="sort_hotels">&quot;並べ替え： &quot;</string>
+    <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
+    <string name="sort_hotels_template">&lt;b&gt;並べ替え&lt;/b&gt;：%s</string>
+    <!-- Label for filter hotels button in bottom bar -->
+    <string name="filter_hotels">ホテルの絞り込み</string>
+    <!-- A number of results -->
+    <plurals name="number_of_results">
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 軒が該当</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; 軒が該当</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; 軒が該当</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; 軒が該当</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; 軒が該当</item>
+    </plurals>
 
-	<!-- Progress messages -->	
-	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">現在地を検索中…</string>
-	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">ホテルを検索中…</string>
-	<!-- Message displayed when search comes up with zero results -->
-	<string name="progress_search_failed">ホテルが見つかりませんでした</string>
-	
-	<!-- Suggestion adapter -->
-	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
-	<string name="current_location">現在地</string>
-	<!-- Suggestion to search the currently visible map area on the screen -->
-	<string name="visible_map_area">表示マップエリア</string>
+    <!-- Dialog message asking user if they want to enable a location provider. -->
+    <string name="EnableLocationSettings">Myロケーションを使う際には、まず設定でロケーションソースをオンにしてください。\n今すぐ設定しますか？</string>
+    <!-- Message displayed when user has disabled finding the device's location. -->
+    <string name="ProviderDisabled">ロケーションプロバイダーが無効になっています。ロケーション検索をするために有効にしてください。</string>
+    <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
+    <string name="ProviderOutOfService">ロケーションプロバイダーが使用できません。後ほどお試しください。</string>
+    <!-- Message displayed when the location provider is temporarily unavailable. -->
+    <string name="ProviderTemporarilyUnavailable">ロケーションプロバイダーが一時利用できなくなっています。数分後にもう一度お試しください。</string>
 
-	<!-- Search list adapter -->
-	<!-- The label for how much hotels cost - "from $120/night", for example -->
-	<string name="from">最低料金</string>
-	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">&lt;strike&gt;%s&lt;/strike&gt; ～</string>
-	<!-- The label for price per night - "from $120/night", for example -->
-	<string name="per_night">/泊</string>
-	<!-- Label shown when a hotel has no user ratings -->
-	<string name="not_rated">評価なし</string>
-	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-	<string name="percent_off_template">%2.0f %% OFF</string>
+    <!-- Sort descriptions, e.g. Sorted by "description" -->
+    <!-- Sort by distance label -->
+    <string name="sort_description_distance">距離</string>
+    <!-- Sort by popularity label -->
+    <string name="sort_description_popular">人気</string>
+    <!-- Sort by price label -->
+    <string name="sort_description_price">価格</string>
+    <!-- Sort by user rating label -->
+    <string name="sort_description_rating">ユーザー評価</string>
 
-	<!-- Filter results action bar label -->
-	<string name="filter_results">結果を絞り込む</string>
-	<!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
-	<string name="filter">絞り込み</string>
+    <!-- Filter option for "show all" -->
+    <string name="all">全て</string>
+    <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_cheap">$</string>
+    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_moderate">$$</string>
+    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_expensive">$$$</string>
+    <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
+    <string name="filter_stars_three">3+</string>
+    <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
+    <string name="filter_stars_four">4+</string>
+    <!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
+    <string name="filter_stars_five">5</string>
+    <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
+    <string name="filter_distance_miles_template">%s マイル</string>
+    <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
+    <string name="filter_distance_kilometers_template">%s km</string>
 
-	<!-- Map -->
-	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-	<string name="map_snippet_price_template">最低料金%s</string>
+    <!-- Progress messages -->
+    <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
+    <string name="progress_finding_location">現在地を検索中…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels">ホテルを検索中…</string>
+    <!-- Message displayed when search comes up with zero results -->
+    <string name="progress_search_failed">ホテルが見つかりませんでした</string>
 
-	<!-- Mini-details fragment -->
-	<!-- Label for "see details" button on the mini details fragment -->
-	<string name="see_details">詳細を表示</string>
+    <!-- Suggestion adapter -->
+    <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+    <string name="current_location">現在地</string>
+    <!-- Suggestion to search the currently visible map area on the screen -->
+    <string name="visible_map_area">表示マップエリア</string>
 
-	<!-- Widget -->
-	<!--  Default Loading message for widget -->
-	<string name="loading_hotels">ホテルを読み込んでいます…</string>
-	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">%2.0f%% 割引 </string>
-	<!--  Indicator to user to tap the widget to cause it to refresh -->
-	<string name="refresh_widget">タップして最新の情報に更新</string>
-	<!--  Instructions on how to add widget to home screen -->
-	<string name="widget_add_instructions">ホーム画面をタップ &amp; ホールドし、ホテル レーダー ウィジェットを追加してください。</string>
-	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">インターネットに接続されていません</string>
-	<!--  Widget Branding title -->
-	<string name="hotel_radar">ホテル レーダー</string>
-	<!--  Widget Branding description -->
-	<string name="book_a_room_tonight">今夜宿泊する部屋を予約する。</string>
-	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">ホテル レーダー ウィジェットを追加する。</string>
-	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">周辺施設の夜間割引を検索できます !</string>
+    <!-- Search list adapter -->
+    <!-- The label for how much hotels cost - "from $120/night", for example -->
+    <string name="from">最低料金</string>
+    <!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
+    <string name="from_template">&lt;strike&gt;%s&lt;/strike&gt; ～</string>
+    <!-- The label for price per night - "from $120/night", for example -->
+    <string name="per_night">/泊</string>
+    <!-- Label shown when a hotel has no user ratings -->
+    <string name="not_rated">評価なし</string>
+    <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
+    <string name="percent_off_template">%2.0f %% OFF</string>
 
-	<!-- Hotel Activity -->
-	<!-- Label for button to book the hotel -->
-	<string name="book_now">今すぐ予約</string>
-	<!-- Label for the hotel's star rating -->
-	<string name="star_rating">星評価</string>
-	<!--  Title for star rating in hotel description section -->
-	<string name="star_rating_title">星評価:</string>
-	<!-- Label for the hotel's trip advisor rating  -->
-	<string name="user_rating">ユーザー評価</string>
-	<!-- Label for the address section of the description  -->
-	<string name="address">住所</string>
-	<!-- Bullet point for list items  -->
-	<string name="bullet_point">•</string>
-	
-	<!--  Hotel Details Fragment -->
-	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
-	<string name="min_room_price_template">最低料金%s</string>
-	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
-	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; ～</string>
-	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
-	<string name="reviews_recommended_template">%2$d 人中 %1$d 人のゲストがお勧めしています</string>
-	<!--  Title for the amenities section in the hotel details fragment -->
-	<string name="amenities">設備</string>
-	<!--  Label for button to see all reviews as a modal dialog -->
-	<string name="see_all_reviews">全レビューを表示</string>
-	<!-- Label for button that brings users to the room selection page -->
-	<string name="select_room">部屋を選択</string>
+    <!-- Filter results action bar label -->
+    <string name="filter_results">結果を絞り込む</string>
+    <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
+    <string name="filter">絞り込み</string>
 
-	<!-- Amenity strings -->
-	<!-- Text that indicates no amenities at this property -->
-	<string name="AmenityNone">アメニティはありません</string>
-	<!-- Business center amenity -->
-	<string name="AmenityBusinessCenter">ビジネスセンター</string>
-	<!-- Fitness center amenity -->
-	<string name="AmenityFitnessCenter">ジム</string>
-	<!-- Hot tub on-site amenity -->
-	<string name="AmenityHotTub">浴槽</string>
-	<!-- Internet access amenity -->
-	<string name="AmenityInternet">インターネット</string>
-	<!-- Kids' activities amenity -->
-	<string name="AmenityKidsActivities">キッズ アクティビティ</string>
-	<!-- Kitchen/kitchenette amenity -->
-	<string name="AmenityKitchen">キッチン</string>
-	<!-- Pets allowed amenity -->
-	<string name="AmenityPetsAllowed">ペット</string>
-	<!-- Pool amenity -->
-	<string name="AmenityPool">プール</string>
-	<!-- Restaurant on-site amenity -->
-	<string name="AmenityRestaurant">ダイニング</string>
-	<!-- Spa on-site amenity -->
-	<string name="AmenitySpa">スパ</string>
-	<!-- Whirlpool bath amenity -->
-	<string name="AmenityWhirlpoolBath">ジェットバス</string>
-	<!-- Breakfast amenity -->
-	<string name="AmenityBreakfast">朝食</string>
-	<!-- Babysitting amenity -->
-	<string name="AmenityBabysitting">ベビーシッター</string>
-	<!-- Jacuzzi amenity -->
-	<string name="AmenityJacuzzi">ジャグジー</string>
-	<!-- Parking amenity -->
-	<string name="AmenityParking">パーキング</string>
-	<!-- Room service amenity -->
-	<string name="AmenityRoomService">ルームサービス</string>
-	<!-- Accessible path of travel amenity -->
-	<string name="AmenityAccessiblePaths">バリアフリーの通路</string>
-	<!-- Accessible bathroom amenity -->
-	<string name="AmenityAccessibleBathroom">バリアフリーのバスルーム</string>
-	<!-- Roll-in shower amenity -->
-	<string name="AmenityRollInShower">ロールインシャワー</string>
-	<!-- Handicapped parking amenity -->
-	<string name="AmenityHandicappedParking">身障者用パーキング</string>
-	<!-- In-room accessibility amenity -->
-	<string name="AmenityInRoomAccessibility">バリアフリーの部屋</string>
-	<!-- Accessibility equipment for the deaf amenity -->
-	<string name="AmenityDeafAccessibilityEquipment">聴覚障害者対応</string>
-	<!-- Braille or raised signage amenity -->
-	<string name="AmenityBrailleSignage">点字標識</string>
-	<!-- Free airport shuttle amenity -->
-	<string name="AmenityFreeAirportShuttle">空港へのシャトルバス</string>
-	<!-- Indoor pool amenity -->
-	<string name="AmenityPoolIndoor">屋内プール</string>
-	<!-- Outdoor pool amenity -->
-	<string name="AmenityPoolOutdoor">屋外プール</string>
-	<!-- Extended parking amenity -->
-	<string name="AmenityExtendedParking">パーキング延長利用</string>
-	<!-- Free parking amenity -->
-	<string name="AmenityFreeParking">無料パーキング</string>
+    <!-- Map -->
+    <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
+    <string name="map_snippet_price_template">最低料金%s</string>
 
-	<!-- User Reviews list strings -->
-	<!-- Loading text prompt -->
-	<string name="user_review_loading_text">ユーザー レビューを読み込んでいます…</string>
-	<!-- Header for reviews of the non-native language -->
-	<string name="user_review_other_languages_title">他言語のレビュー</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_recent">最近</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_favorable">ポジティブ</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_critical">ネガティブ</string>
-	<!-- Loading more reviews -->
-	<string name="user_review_loading_more_reviews">さらにレビューを読み込んでいます…</string>
-	<!-- Read more of the review -->
-	<string name="user_review_read_more">もっと読む</string>
-	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-		1$ represents the number of guests that recommend this hotel
-		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%2$d&lt;/b&gt; 人中 &lt;b&gt;%1$d&lt;/b&gt;人のゲストがお勧めしています。</string>
-	<!-- A number of reviews -->
-	<plurals name="number_of_reviews">
-		<item quantity="zero">%d 件のレビュー</item>
-		<item quantity="one">%d 件のレビュー</item>
-		<item quantity="two">%d 件のレビュー</item>
-		<item quantity="many">%d 件のレビュー</item>
-		<item quantity="other">%d 件のレビュー</item>
-	</plurals>
-	<!-- User review name and place review signature eg (John from San Diego, CA)
-		1$ is the user name
-		2$ is the place they are from -->
-	<string name="user_review_name_and_location_signature">%1$s～%2$s</string>
-	<!-- User review no critical reviews -->
-	<string name="user_review_no_critical_reviews">このホテルのネガティブなレビューはまだありません</string>
-	<!-- User review no favorable reviews -->
-	<string name="user_review_no_favorable_reviews">このホテルのポジティブなレビューはまだありません</string>
-	<!-- User review no recent reviews -->
-	<string name="user_review_no_recent_reviews">このホテルの最近のレビューはありません</string>
-	<!-- User reviews server/parsing error -->
-	<string name="user_review_unavailable">レビューは現在ご利用いただけません</string>
-	
-	<!-- Room and rates list -->
-	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
-	<plurals name="staying_nights">
-		<item quantity="zero">%d 泊</item>
-		<item quantity="one">%d 泊</item>
-		<item quantity="two">%d 泊</item>
-		<item quantity="many">%d 泊</item>
-		<item quantity="other">%d 泊</item>
-	</plurals>
-	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">空室を検索中…</string>
-	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">部屋と料金情報をダウンロードできませんでした。インターネットへの接続を確認して再度お試しください。</string>
-	<!-- Rate price displayed "per night" -->
-	<string name="rate_per_night">1 泊あたり</string>
-	<!-- Rate price displayed "average per night" -->
-	<string name="rate_avg_per_night">1 泊平均</string>
-	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
-	<plurals name="number_of_rooms_left">
-		<item quantity="zero">空室はありません！</item>
-		<item quantity="one">残り 1 室です！</item>
-		<item quantity="two">残り %d 部屋です !</item>
-		<item quantity="many">残り %d 部屋です !</item>
-		<item quantity="other">残り %d 部屋です !</item>
-	</plurals>
+    <!-- Mini-details fragment -->
+    <!-- Label for "see details" button on the mini details fragment -->
+    <string name="see_details">詳細を表示</string>
+
+    <!-- Widget -->
+    <!--  Default Loading message for widget -->
+    <string name="loading_hotels">ホテルを読み込んでいます…</string>
+    <!--  Template for sale element in widget. The parameter is for the sale % -->
+    <string name="widget_savings_template">%2.0f%% 割引 </string>
+    <!--  Indicator to user to tap the widget to cause it to refresh -->
+    <string name="refresh_widget">タップして最新の情報に更新</string>
+    <!--  Instructions on how to add widget to home screen -->
+    <string name="widget_add_instructions">ホーム画面をタップ &amp; ホールドし、ホテル レーダー ウィジェットを追加してください。</string>
+    <!--  Error string for widget when internet connection is unavailable -->
+    <string name="widget_error_no_internet">インターネットに接続されていません</string>
+    <!--  Widget Branding title -->
+    <string name="hotel_radar">ホテル レーダー</string>
+    <!--  Widget Branding description -->
+    <string name="book_a_room_tonight">今夜宿泊する部屋を予約する。</string>
+    <!--  First string for widget upsell within app as a notification in the top bar -->
+    <string name="widget_upsell_short_1">ホテル レーダー ウィジェットを追加する。</string>
+    <!--  Second string for widget upsell within app as a notification in the app bar -->
+    <string name="widget_upsell_short_2">周辺施設の夜間割引を検索できます !</string>
+
+    <!-- Hotel Activity -->
+    <!-- Label for button to book the hotel -->
+    <string name="book_now">今すぐ予約</string>
+    <!-- Label for the hotel's star rating -->
+    <string name="star_rating">星評価</string>
+    <!--  Title for star rating in hotel description section -->
+    <string name="star_rating_title">星評価:</string>
+    <!-- Label for the hotel's trip advisor rating  -->
+    <string name="user_rating">ユーザー評価</string>
+    <!-- Label for the address section of the description  -->
+    <string name="address">住所</string>
+    <!-- Bullet point for list items  -->
+    <string name="bullet_point">•</string>
+
+    <!--  Hotel Details Fragment -->
+    <!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
+    <string name="min_room_price_template">最低料金%s</string>
+    <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
+    <string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; ～</string>
+    <!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel -->
+    <string name="reviews_recommended_template">%2$d 人中 %1$d 人のゲストがお勧めしています</string>
+    <!--  Title for the amenities section in the hotel details fragment -->
+    <string name="amenities">設備</string>
+    <!--  Label for button to see all reviews as a modal dialog -->
+    <string name="see_all_reviews">全レビューを表示</string>
+    <!-- Label for button that brings users to the room selection page -->
+    <string name="select_room">部屋を選択</string>
+
+    <!-- Amenity strings -->
+    <!-- Text that indicates no amenities at this property -->
+    <string name="AmenityNone">アメニティはありません</string>
+    <!-- Business center amenity -->
+    <string name="AmenityBusinessCenter">ビジネスセンター</string>
+    <!-- Fitness center amenity -->
+    <string name="AmenityFitnessCenter">ジム</string>
+    <!-- Hot tub on-site amenity -->
+    <string name="AmenityHotTub">浴槽</string>
+    <!-- Internet access amenity -->
+    <string name="AmenityInternet">インターネット</string>
+    <!-- Kids' activities amenity -->
+    <string name="AmenityKidsActivities">キッズ アクティビティ</string>
+    <!-- Kitchen/kitchenette amenity -->
+    <string name="AmenityKitchen">キッチン</string>
+    <!-- Pets allowed amenity -->
+    <string name="AmenityPetsAllowed">ペット</string>
+    <!-- Pool amenity -->
+    <string name="AmenityPool">プール</string>
+    <!-- Restaurant on-site amenity -->
+    <string name="AmenityRestaurant">ダイニング</string>
+    <!-- Spa on-site amenity -->
+    <string name="AmenitySpa">スパ</string>
+    <!-- Whirlpool bath amenity -->
+    <string name="AmenityWhirlpoolBath">ジェットバス</string>
+    <!-- Breakfast amenity -->
+    <string name="AmenityBreakfast">朝食</string>
+    <!-- Babysitting amenity -->
+    <string name="AmenityBabysitting">ベビーシッター</string>
+    <!-- Jacuzzi amenity -->
+    <string name="AmenityJacuzzi">ジャグジー</string>
+    <!-- Parking amenity -->
+    <string name="AmenityParking">パーキング</string>
+    <!-- Room service amenity -->
+    <string name="AmenityRoomService">ルームサービス</string>
+    <!-- Accessible path of travel amenity -->
+    <string name="AmenityAccessiblePaths">バリアフリーの通路</string>
+    <!-- Accessible bathroom amenity -->
+    <string name="AmenityAccessibleBathroom">バリアフリーのバスルーム</string>
+    <!-- Roll-in shower amenity -->
+    <string name="AmenityRollInShower">ロールインシャワー</string>
+    <!-- Handicapped parking amenity -->
+    <string name="AmenityHandicappedParking">身障者用パーキング</string>
+    <!-- In-room accessibility amenity -->
+    <string name="AmenityInRoomAccessibility">バリアフリーの部屋</string>
+    <!-- Accessibility equipment for the deaf amenity -->
+    <string name="AmenityDeafAccessibilityEquipment">聴覚障害者対応</string>
+    <!-- Braille or raised signage amenity -->
+    <string name="AmenityBrailleSignage">点字標識</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="AmenityFreeAirportShuttle">空港へのシャトルバス</string>
+    <!-- Indoor pool amenity -->
+    <string name="AmenityPoolIndoor">屋内プール</string>
+    <!-- Outdoor pool amenity -->
+    <string name="AmenityPoolOutdoor">屋外プール</string>
+    <!-- Extended parking amenity -->
+    <string name="AmenityExtendedParking">パーキング延長利用</string>
+    <!-- Free parking amenity -->
+    <string name="AmenityFreeParking">無料パーキング</string>
+
+    <!-- User Reviews list strings -->
+    <!-- Loading text prompt -->
+    <string name="user_review_loading_text">ユーザー レビューを読み込んでいます…</string>
+    <!-- Header for reviews of the non-native language -->
+    <string name="user_review_other_languages_title">他言語のレビュー</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_recent">最近</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_favorable">ポジティブ</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_critical">ネガティブ</string>
+    <!-- Loading more reviews -->
+    <string name="user_review_loading_more_reviews">さらにレビューを読み込んでいます…</string>
+    <!-- Read more of the review -->
+    <string name="user_review_read_more">もっと読む</string>
+    <!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
+        1$ represents the number of guests that recommend this hotel
+        2$ represents the total number of guests  -->
+    <string name="user_review_recommendation_tag_text">&lt;b&gt;%2$d&lt;/b&gt; 人中 &lt;b&gt;%1$d&lt;/b&gt;人のゲストがお勧めしています。</string>
+    <!-- A number of reviews -->
+    <plurals name="number_of_reviews">
+        <item quantity="zero">%d 件のレビュー</item>
+        <item quantity="one">%d 件のレビュー</item>
+        <item quantity="two">%d 件のレビュー</item>
+        <item quantity="many">%d 件のレビュー</item>
+        <item quantity="other">%d 件のレビュー</item>
+    </plurals>
+    <!-- User review name and place review signature eg (John from San Diego, CA)
+        1$ is the user name
+        2$ is the place they are from -->
+    <string name="user_review_name_and_location_signature">%1$s～%2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">このホテルのネガティブなレビューはまだありません</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">このホテルのポジティブなレビューはまだありません</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">このホテルの最近のレビューはありません</string>
+    <!-- User reviews server/parsing error -->
+    <string name="user_review_unavailable">レビューは現在ご利用いただけません</string>
+
+    <!-- Room and rates list -->
+    <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+    <plurals name="staying_nights">
+        <item quantity="zero">%d 泊</item>
+        <item quantity="one">%d 泊</item>
+        <item quantity="two">%d 泊</item>
+        <item quantity="many">%d 泊</item>
+        <item quantity="other">%d 泊</item>
+    </plurals>
+    <!-- Loading message for rooms & rates -->
+    <string name="room_rates_loading">空室を検索中…</string>
+    <!-- Error message (no response) for not being able to download room and rates information -->
+    <string name="error_no_response_room_rates">部屋と料金情報をダウンロードできませんでした。インターネットへの接続を確認して再度お試しください。</string>
+    <!-- Rate price displayed "per night" -->
+    <string name="rate_per_night">1 泊あたり</string>
+    <!-- Rate price displayed "average per night" -->
+    <string name="rate_avg_per_night">1 泊平均</string>
+    <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
+    <plurals name="number_of_rooms_left">
+        <item quantity="zero">空室はありません！</item>
+        <item quantity="one">残り 1 室です！</item>
+        <item quantity="two">残り %d 部屋です !</item>
+        <item quantity="many">残り %d 部屋です !</item>
+        <item quantity="other">残り %d 部屋です !</item>
+    </plurals>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">返金不可</string>
-	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">\n %2.0f%% 割引</string>
-	<!-- Label for free nights -->
-	<string name="free">無料！</string>
-	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-	<string name="value_add_template">含まれているもの： %s</string>
-	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
-	<string name="common_value_add_template">全客室に共通のアメニティ： %s</string>
-	<!--  Instruction as the header of the list to select a room from the list -->
-	<string name="select_a_room_instruction">部屋を選択</string>
-	
-	<!-- Gallery -->
-	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
-	<string name="gallery_title_template">&lt;b&gt;%1$s&lt;/b&gt; の写真</string>
-	    
-	<!-- Booking info -->
-	<!-- edit label -->
-	<string name="edit">編集</string>
-	<!-- Label for room type -->
-	<string name="room_type">部屋タイプ</string>
-	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">申し訳ありませんが、部屋の詳細を読み込むことができません。インターネットへの接続を確認して再度お試しください。</string>
-	<!-- Error if we couldn't find the room type details -->
-	<string name="error_room_type_nonexistant">申し訳ありませんが、この部屋の追加詳細情報を読み込むことができません。</string>
-	<!-- Label for bed type -->
-	<string name="bed_type">ベッドタイプ</string>
-	<!-- Label for length of stay -->
-	<string name="stay_duration">宿泊日数</string>
-	<!-- Quantity for the length of stay -->
-	<plurals name="length_of_stay">
-		<item quantity="one">1 泊</item>
-		<item quantity="other">%d 泊</item>
-	</plurals>
-	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
-	<string name="room_rate_template">客室料金 %s</string>
-	<!-- Label for the extra guest charge -->
-	<string name="extra_guest_charge">追加ゲスト料金</string>
-	<!-- Label for total cost of hotel stay -->
-	<string name="total_cost">合計</string>
-	<!-- Label for "guest info" form field section -->
-	<string name="guest_info">宿泊者情報</string>
-	<!-- The "first name" booking info field.  -->
-	<string name="FirstName">名 (例: Taro)</string>
-	<!-- The "last name" booking info field.  -->
-	<string name="LastName">姓 (例: Yamada)</string>
-	<!-- Hint for "telephone country code" field (e.g., "+44") -->
-	<string name="hint_telephone_country_code">##</string>
-	<!-- The "telephone" booking info field.  -->
-	<string name="Telephone">電話</string>
-	<!-- The "email for booking confirmation" booking info field.  -->
-	<string name="EmailForConf">確認用電子メール</string>
-	<!-- Label for "billing info" form field section -->
-	<string name="billing_info">クレジットカード登録住所</string>
-	<!-- Address line 1 form field hint -->
-	<string name="hint_address1">町村 ・ 番地</string>
-	<!-- Address line 2 form field hint -->
-	<string name="hint_address2">アパート名等（オプション）</string>
-	<!-- The "city" booking info field.  -->
-	<string name="City">市区</string>
-	<!-- The "postal code" booking info field.  -->
-	<string name="PostalCode">郵便番号</string>
-	<!-- State code hint -->
-	<string name="hint_state_code">都道府県</string>
-	<!-- Label for "credit card info" form field section -->
-	<string name="credit_card_info">クレジットカード情報</string>
-	<!-- Label for credit card selection box -->
-	<string name="saved_cards">保存済みのカード</string>
-	<!-- Label for entering new credit card information -->
-	<string name="enter_a_new_card">新しいカードを入力</string>
-	<!-- Card number form field hint -->
-	<string name="hint_card_number">カード番号</string>
-	<!-- Card expiration month form field hint -->
-	<string name="hint_expiration_month">月</string>
-	<!-- Card expiration year form field hint -->
-	<string name="hint_expiration_year">年</string>
-	<!-- Security code label -->
-	<string name="security_code">セキュリティコード</string>
-	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_front">クレジットカードの表面をご参照ください</string>
-	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_back">クレジットカードの裏面をご参照ください</string>
-	<!-- Rules & restrictions section header -->
-	<string name="rules_restrictions">規則および制限事項</string>
-	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">エクスペディア リワード アカウントをお持ちの方は、アカウント登録時に使用した電子メールアドレスで予約を入れると、ご滞在後にポイントが自動的に付与されます。ポイントが反映されるまでには最長 30 日間かかりますので予めご了承ください。</string>
-	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
-	<string name="EnterBookingInfo">予約情報を入力</string>
-	<!-- Message at the bottom of the booking screen with how much you will be charged -->
-	<string name="charge_details_template">クレジットカードに %s が課金されます</string>
-	<!-- Button label for confirming your booking -->
-	<string name="confirm_book">確認 &amp; 予約</string>
-	<!-- Label for clearing private data -->
-	<string name="clear_private_data">個人データのクリア</string>
-	<!-- Title for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_title">個人データをクリアしますか?</string>
-	<!-- Message for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_msg">保存したすべての請求先情報と連絡先情報が削除されます。</string>
-	<!-- Message for dialog confirming the clearing of private data -->
-	<string name="dialog_log_out_and_clear_private_data_msg">実行すると一旦ログアウトされ、保存済みのお支払い情報およびご連絡先情報が削除されます。</string>
-	<!-- Title for dialog after private data has been cleared -->
-	<string name="toast_private_data_cleared">個人データがクリアされました</string>
-	<!-- Error message if field was required but not entered -->
-	<string name="required_field">このフィールドに値を入力してください。</string>
-	<!-- Error message if field had data entered but was invalid -->
-	<string name="invalid_field">このフィールドに有効な値を入力してください。</string>
-	<!-- Error if an invalid card number was entered -->
-	<string name="invalid_card_number">入力されたクレジットカード番号は無効です。再度入力しなおしてください。</string>
-	<!-- Error if an invalid credit card type was entered -->
-	<string name="invalid_card_type">入力されたクレジットカードタイプを確認できませんでした。有効なクレジットカードを入力してください。</string>
-	<!-- Error if an invalid month (not 1-12) was entered -->
-	<string name="invalid_month">1 ～ 12 までの値を入力してください</string>
-	<!-- Error if an invalid year was entered -->
-	<string name="invalid_expiration_year">有効な年を入力してください</string>
-	<!-- Error if an invalid security code was entered -->
-	<string name="invalid_security_code">3 桁あるいは 4 桁のセキュリティコードを入力してください</string>
-	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">申し訳ありません。American Express では、ご利用通貨 (%s) でのお支払いには対応しておりません。別のクレジットカードをご利用ください。</string>
-	<!-- Error if user agreement needs to be checked but is not -->
-	<string name="error_no_user_agreement">予約するにはご利用規約に同意していただく必要があります。</string>
-	<!-- Message to display to user while booking is in progress -->
-	<string name="booking_loading">予約中…</string>
-	<!-- Title for error dialog when booking fails -->
-	<string name="error_booking_title">エラー</string>
-	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">エクスペディアのサーバーに接続できませんでした。インターネットへの接続を確認して再度お試しください。</string>
-	<!-- Error message when booking completed with errors -->
-	<string name="error_booking_succeeded_with_errors">ご希望の客室のご予約は完了しました。しかし、ご予約過程で以下のエラーが発生しました :%s</string>
-	<!-- Error message when booking completed with errors - specifically if email was not sent -->
-	<string name="error_unable_to_send_email">確認メールを送信できませんでした。</string>
-	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s,%2$s</string>
-	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
-	<string name="enter_booking_info">予約情報を入力</string>
-	<!--  Title for action bar when the user is on the booking info screen -->
-	<string name="booking_information_title">予約情報</string>
-	<!-- Title for dialog where the user is prompted to enter booking booking information -->
-	<string name="booking_information_dialog_title">予約を完了</string>
-	
-	<!-- Confirmation activity -->
-	<!-- Format for a first/last name -->
-	<string name="name_template">%1$s %2$s</string>
-	<!-- Reservation summary label -->
-	<string name="reservation_summary">予約の概要</string>
-	<!-- Confirmation number label -->
-	<string name="confirmation_number">確認 #</string>
-	<!-- Itinerary number label -->
-	<string name="itinerary_number">旅程 #</string>
-	<!-- Confirmation email label -->
-	<string name="confirmation_email">確認メール</string>
-	<!-- Label for starting a new search -->
-	<string name="new_search">新しい検索</string>
-	<!-- Contact info for a country with a known support line where %s represents the phone number -->
-	<string name="contact_phone_template">ご予約に関するお問い合わせは、Expedia (%s) までご連絡ください。</string>
+    <!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
+    <string name="savings_template">\n %2.0f%% 割引</string>
+    <!-- Label for free nights -->
+    <string name="free">無料！</string>
+    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
+    <string name="value_add_template">含まれているもの： %s</string>
+    <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
+    <string name="common_value_add_template">全客室に共通のアメニティ： %s</string>
+    <!--  Instruction as the header of the list to select a room from the list -->
+    <string name="select_a_room_instruction">部屋を選択</string>
 
-	<!--  Confirmation Fragment -->
-	<!-- Label to share booking information after a booking confirmation -->
-	<string name="share_booking_info">予約情報をシェア</string>
-	<!-- Label to start a new search from a confirmation screen  -->
-	<string name="start_new_search">新しい検索をスタート</string>
-	<!-- Label to view hotel in google maps to get directions from a confirmation screen -->
-	<string name="show_on_map">マップ上で表示</string>
-	
-	<!-- Rate template strings -->
-	<!-- Label for the number of guests the booking is for. -->
-	<string name="GuestsLabel">宿泊者</string>
-	<!-- Label for the taxes & fees for this booking. -->
-	<string name="TaxesAndFees">税金 &amp; サービス料</string>
-	<!-- Label for the "Mandatory Fees" (bait & switch fees) -->
-	<string name="MandatoryFees">ホテル手数料 (ホテルで支払)</string>
-	<!-- Label for the rate per room per night. -->
-	<string name="RatePerRoomPerNight">1 室 1 泊料金</string>
-	<!-- Label for the total cost of the booking. -->
-	<string name="Total">合計</string>
-	<!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
-	<string name="PayToExpedia">エクスペディアへ支払</string>
-	<!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
-	<string name="CheckIn">チェックイン</string>
-	<!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
-	<string name="CheckOut">チェックアウト</string>
+    <!-- Gallery -->
+    <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
+    <string name="gallery_title_template">&lt;b&gt;%1$s&lt;/b&gt; の写真</string>
 
-	<!-- Expedia policy strings -->
-	<!-- Policy displayed to user when an immediate charge is required -->
-	<string name="PolicyImmediateChargeRequired">予約時に、宿泊料金全額がご利用のクレジットカードに課金されます。</string>
-	<!-- Policy displayed to user when the room is non-refundable -->
-	<string name="PolicyNonRefundable">エクスペディアではこのホテルを非常にお得な割引価格で提供しています。このため、こちらの価格は返金不可レートとなっております。万一予約をキャンセルした場合、返金は一切されません。</string>
-	<!-- Policy displayed to user when a deposit is required -->
-	<string name="PolicyDepositRequired">クレジットカードにデポジットが課金されます。予約を入れると、ホテルから直接クレジットカードに課金されます。</string>
-	<!-- Policy displayed to user when a guarantee is required -->
-	<string name="PolicyGuaranteeRequired">予約を保証するためにはクレジットカード情報が必要です。ホテルへのご到着あるいはキャンセル期限を過ぎるまで、料金はクレジットカードに課金されません。</string>
-	<!-- Expedia merchant hotel policies -->
-	<string name="PolicyExpediaMerchant">予約を確定する前に、キャンセルポリシーおよびユーザー同意書に含まれる全てのご利用規約に同意していただく必要があります。\n\nお客様はご予約の費用全額を支払うことに同意したものとみなされます。万一支払いがなされなかった場合には、取立代行会社、弁護士、あるいはその他の法的措置を通じて代金を回収するものとします。 その場合、弁護士代金および訴訟費用など、取立に要した全ての適切な費用はお客様が負担するものとします。</string>
-	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">予約しようとしているホテルは割引価格対象外のホテルです。表示料金はすべて、別途特定されていない限りは 1 室 1 泊 2 名さまでご利用の場合の料金です。客室の詳細と料金説明をよくお読みになり、ご希望の部屋にご同伴の方全員が宿泊できることを確認してください。特別な身分証明が必要となる部屋もあります。エクスペディアの予約料金、税金、その他ホテルから課金される追加料金などは含まれていません。各客室の宿泊定員数を超えた人数の大人またはお子様が宿泊する場合、各宿泊施設の判断で追加料金が課金される場合があります。\n\n2 人以上、またはご希望の客室料金に含まれている利用人数以上でのご滞在を要望される場合は、ご要望内容がホテルへ直接連絡されますが、保証はされません。ご要望が受け入れられた場合には、各宿泊施設の判断で追加料金が課金される場合があります。</string>
+    <!-- Booking info -->
+    <!-- edit label -->
+    <string name="edit">編集</string>
+    <!-- Label for room type -->
+    <string name="room_type">部屋タイプ</string>
+    <!-- Error if we couldn't load the room type details -->
+    <string name="error_room_type_load">申し訳ありませんが、部屋の詳細を読み込むことができません。インターネットへの接続を確認して再度お試しください。</string>
+    <!-- Error if we couldn't find the room type details -->
+    <string name="error_room_type_nonexistant">申し訳ありませんが、この部屋の追加詳細情報を読み込むことができません。</string>
+    <!-- Label for bed type -->
+    <string name="bed_type">ベッドタイプ</string>
+    <!-- Label for length of stay -->
+    <string name="stay_duration">宿泊日数</string>
+    <!-- Quantity for the length of stay -->
+    <plurals name="length_of_stay">
+        <item quantity="one">1 泊</item>
+        <item quantity="other">%d 泊</item>
+    </plurals>
+    <!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
+    <string name="room_rate_template">客室料金 %s</string>
+    <!-- Label for the extra guest charge -->
+    <string name="extra_guest_charge">追加ゲスト料金</string>
+    <!-- Label for total cost of hotel stay -->
+    <string name="total_cost">合計</string>
+    <!-- Label for "guest info" form field section -->
+    <string name="guest_info">宿泊者情報</string>
+    <!-- The "first name" booking info field.  -->
+    <string name="FirstName">名 (例: Taro)</string>
+    <!-- The "last name" booking info field.  -->
+    <string name="LastName">姓 (例: Yamada)</string>
+    <!-- Hint for "telephone country code" field (e.g., "+44") -->
+    <string name="hint_telephone_country_code">##</string>
+    <!-- The "telephone" booking info field.  -->
+    <string name="Telephone">電話</string>
+    <!-- The "email for booking confirmation" booking info field.  -->
+    <string name="EmailForConf">確認用電子メール</string>
+    <!-- Label for "billing info" form field section -->
+    <string name="billing_info">クレジットカード登録住所</string>
+    <!-- Address line 1 form field hint -->
+    <string name="hint_address1">町村 ・ 番地</string>
+    <!-- Address line 2 form field hint -->
+    <string name="hint_address2">アパート名等（オプション）</string>
+    <!-- The "city" booking info field.  -->
+    <string name="City">市区</string>
+    <!-- The "postal code" booking info field.  -->
+    <string name="PostalCode">郵便番号</string>
+    <!-- State code hint -->
+    <string name="hint_state_code">都道府県</string>
+    <!-- Label for "credit card info" form field section -->
+    <string name="credit_card_info">クレジットカード情報</string>
+    <!-- Label for credit card selection box -->
+    <string name="saved_cards">保存済みのカード</string>
+    <!-- Label for entering new credit card information -->
+    <string name="enter_a_new_card">新しいカードを入力</string>
+    <!-- Card number form field hint -->
+    <string name="hint_card_number">カード番号</string>
+    <!-- Card expiration month form field hint -->
+    <string name="hint_expiration_month">月</string>
+    <!-- Card expiration year form field hint -->
+    <string name="hint_expiration_year">年</string>
+    <!-- Security code label -->
+    <string name="security_code">セキュリティコード</string>
+    <!-- Security code tip (if code is on front of card) -->
+    <string name="security_code_tip_front">クレジットカードの表面をご参照ください</string>
+    <!-- Security code tip (if code is on front of card) -->
+    <string name="security_code_tip_back">クレジットカードの裏面をご参照ください</string>
+    <!-- Rules & restrictions section header -->
+    <string name="rules_restrictions">規則および制限事項</string>
+    <!-- Disclaimer about how to earn expedia points -->
+    <string name="disclaimer_expedia_points">Expedia Rewards アカウントをお持ちの方は、アカウント登録時に使用した電子メールアドレスで予約を入れると、ご滞在後にポイントが自動的に付与されます。ポイントが反映されるまでには最長 30 日間かかりますので予めご了承ください。</string>
+    <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
+    <string name="EnterBookingInfo">予約情報を入力</string>
+    <!-- Message at the bottom of the booking screen with how much you will be charged -->
+    <string name="charge_details_template">クレジットカードに %s が課金されます</string>
+    <!-- Button label for confirming your booking -->
+    <string name="confirm_book">確認 &amp; 予約</string>
+    <!-- Label for clearing private data -->
+    <string name="clear_private_data">個人データのクリア</string>
+    <!-- Title for dialog confirming the clearing of private data -->
+    <string name="dialog_clear_private_data_title">個人データをクリアしますか?</string>
+    <!-- Message for dialog confirming the clearing of private data -->
+    <string name="dialog_clear_private_data_msg">保存したすべての請求先情報と連絡先情報が削除されます。</string>
+    <!-- Message for dialog confirming the clearing of private data -->
+    <string name="dialog_log_out_and_clear_private_data_msg">実行すると一旦ログアウトされ、保存済みのお支払い情報およびご連絡先情報が削除されます。</string>
+    <!-- Title for dialog after private data has been cleared -->
+    <string name="toast_private_data_cleared">個人データがクリアされました</string>
+    <!-- Error message if field was required but not entered -->
+    <string name="required_field">このフィールドに値を入力してください。</string>
+    <!-- Error message if field had data entered but was invalid -->
+    <string name="invalid_field">このフィールドに有効な値を入力してください。</string>
+    <!-- Error if an invalid card number was entered -->
+    <string name="invalid_card_number">入力されたクレジットカード番号は無効です。再度入力しなおしてください。</string>
+    <!-- Error if an invalid credit card type was entered -->
+    <string name="invalid_card_type">入力されたクレジットカードタイプを確認できませんでした。有効なクレジットカードを入力してください。</string>
+    <!-- Error if an invalid month (not 1-12) was entered -->
+    <string name="invalid_month">1 ～ 12 までの値を入力してください</string>
+    <!-- Error if an invalid year was entered -->
+    <string name="invalid_expiration_year">有効な年を入力してください</string>
+    <!-- Error if an invalid security code was entered -->
+    <string name="invalid_security_code">3 桁あるいは 4 桁のセキュリティコードを入力してください</string>
+    <!-- Error if an invalid currency code is being used with American Express -->
+    <string name="invalid_currency_for_amex">申し訳ありません。American Express では、ご利用通貨 (%s) でのお支払いには対応しておりません。別のクレジットカードをご利用ください。</string>
+    <!-- Error if user agreement needs to be checked but is not -->
+    <string name="error_no_user_agreement">予約するにはご利用規約に同意していただく必要があります。</string>
+    <!-- Message to display to user while booking is in progress -->
+    <string name="booking_loading">予約中…</string>
+    <!-- Title for error dialog when booking fails -->
+    <string name="error_booking_title">エラー</string>
+    <!-- Error message when we couldn't get a response -->
+    <string name="error_booking_null">エクスペディアのサーバーに接続できませんでした。インターネットへの接続を確認して再度お試しください。</string>
+    <!-- Error message when booking completed with errors -->
+    <string name="error_booking_succeeded_with_errors">ご希望の客室のご予約は完了しました。しかし、ご予約過程で以下のエラーが発生しました :%s</string>
+    <!-- Error message when booking completed with errors - specifically if email was not sent -->
+    <string name="error_unable_to_send_email">確認メールを送信できませんでした。</string>
+    <!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
+    <string name="check_in_out_time_template">%1$s,%2$s</string>
+    <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
+    <string name="enter_booking_info">予約情報を入力</string>
+    <!--  Title for action bar when the user is on the booking info screen -->
+    <string name="booking_information_title">予約情報</string>
+    <!-- Title for dialog where the user is prompted to enter booking booking information -->
+    <string name="booking_information_dialog_title">予約を完了</string>
 
-	<!-- Expedia Accounts -->
-	<!-- Label for menu item to log into account -->
-	<string name="log_in">ログイン</string>
-	<!-- Label for menu item to log into account -->
-	<string name="log_in_to_expedia">エクスペディアにログイン</string>
-	<!-- Hint for user to enter password into a field -->
-	<string name="hint_password">パスワード</string>
-	<!-- Progress dialog text when we are logging the user into Expedia -->
-	<string name="logging_in">ログイン中…</string>
-	<!-- Message that tells user they successfully logged in -->
-	<string name="login_success">ログイン完了！ログインしています。</string>
-	<!-- Label for login widget button -->
-	<string name="account_login">アカウント ログイン</string>
-	<!-- Message that tells user they failed to log in -->
-	<string name="login_failed">ログインできませんでした</string>
-	<!-- Label for login widget additional text -->
-	<string name="log_in_for_faster_booking">ログインするとより素早くご予約いただけます。</string>
-	<!-- Label for account status -->
-	<string name="enrolled_in_expedia_rewards">エクスペディア リワードに参加 \u2122</string>
-	<!-- Label for account name -->
-	<string name="logged_in_as">ログイン済み</string>
-	<!-- Label for account name -->
+    <!-- Confirmation activity -->
+    <!-- Format for a first/last name -->
+    <string name="name_template">%1$s %2$s</string>
+    <!-- Reservation summary label -->
+    <string name="reservation_summary">予約の概要</string>
+    <!-- Confirmation number label -->
+    <string name="confirmation_number">確認 #</string>
+    <!-- Itinerary number label -->
+    <string name="itinerary_number">旅程 #</string>
+    <!-- Confirmation email label -->
+    <string name="confirmation_email">確認メール</string>
+    <!-- Label for starting a new search -->
+    <string name="new_search">新しい検索</string>
+    <!-- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template">ご予約に関するお問い合わせは、Expedia (%s) までご連絡ください。</string>
+
+    <!--  Confirmation Fragment -->
+    <!-- Label to share booking information after a booking confirmation -->
+    <string name="share_booking_info">予約情報をシェア</string>
+    <!-- Label to start a new search from a confirmation screen  -->
+    <string name="start_new_search">新しい検索をスタート</string>
+    <!-- Label to view hotel in google maps to get directions from a confirmation screen -->
+    <string name="show_on_map">マップ上で表示</string>
+
+    <!-- Rate template strings -->
+    <!-- Label for the number of guests the booking is for. -->
+    <string name="GuestsLabel">宿泊者</string>
+    <!-- Label for the taxes & fees for this booking. -->
+    <string name="TaxesAndFees">税金 &amp; サービス料</string>
+    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <string name="MandatoryFees">ホテル手数料 (ホテルで支払)</string>
+    <!-- Label for the rate per room per night. -->
+    <string name="RatePerRoomPerNight">1 室 1 泊料金</string>
+    <!-- Label for the total cost of the booking. -->
+    <string name="Total">合計</string>
+    <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
+    <string name="PayToExpedia">エクスペディアへ支払</string>
+    <!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
+    <string name="CheckIn">チェックイン</string>
+    <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
+    <string name="CheckOut">チェックアウト</string>
+    <!-- Label to display the amount you save after applying a coupon code in the receipt -->
+    <string name="discount">割引</string>
+
+    <!-- Expedia policy strings -->
+    <!-- Policy displayed to user when an immediate charge is required -->
+    <string name="PolicyImmediateChargeRequired">予約時に、宿泊料金全額がご利用のクレジットカードに課金されます。</string>
+    <!-- Policy displayed to user when the room is non-refundable -->
+    <string name="PolicyNonRefundable">エクスペディアではこのホテルを非常にお得な割引価格で提供しています。このため、こちらの価格は返金不可レートとなっております。万一予約をキャンセルした場合、返金は一切されません。</string>
+    <!-- Policy displayed to user when a deposit is required -->
+    <string name="PolicyDepositRequired">クレジットカードにデポジットが課金されます。予約を入れると、ホテルから直接クレジットカードに課金されます。</string>
+    <!-- Policy displayed to user when a guarantee is required -->
+    <string name="PolicyGuaranteeRequired">予約を保証するためにはクレジットカード情報が必要です。ホテルへのご到着あるいはキャンセル期限を過ぎるまで、料金はクレジットカードに課金されません。</string>
+    <!-- Expedia merchant hotel policies -->
+    <string name="PolicyExpediaMerchant">予約を確定する前に、キャンセルポリシーおよびユーザー同意書に含まれる全てのご利用規約に同意していただく必要があります。\n\nお客様はご予約の費用全額を支払うことに同意したものとみなされます。万一支払いがなされなかった場合には、取立代行会社、弁護士、あるいはその他の法的措置を通じて代金を回収するものとします。 その場合、弁護士代金および訴訟費用など、取立に要した全ての適切な費用はお客様が負担するものとします。</string>
+    <!-- Expedia agent hotel policies -->
+    <string name="PolicyExpediaAgent">予約しようとしているホテルは割引価格対象外のホテルです。表示料金はすべて、別途特定されていない限りは 1 室 1 泊 2 名さまでご利用の場合の料金です。客室の詳細と料金説明をよくお読みになり、ご希望の部屋にご同伴の方全員が宿泊できることを確認してください。特別な身分証明が必要となる部屋もあります。エクスペディアの予約料金、税金、その他ホテルから課金される追加料金などは含まれていません。各客室の宿泊定員数を超えた人数の大人またはお子様が宿泊する場合、各宿泊施設の判断で追加料金が課金される場合があります。\n\n2 人以上、またはご希望の客室料金に含まれている利用人数以上でのご滞在を要望される場合は、ご要望内容がホテルへ直接連絡されますが、保証はされません。ご要望が受け入れられた場合には、各宿泊施設の判断で追加料金が課金される場合があります。</string>
+
+    <!-- Expedia Accounts -->
+    <!-- Label for menu item to log into account -->
+    <string name="log_in">ログイン</string>
+    <!-- Label for menu item to log into account -->
+    <string name="log_in_to_expedia">エクスペディアにログイン</string>
+    <!-- Hint for user to enter password into a field -->
+    <string name="hint_password">パスワード</string>
+    <!-- Progress dialog text when we are logging the user into Expedia -->
+    <string name="logging_in">ログイン中…</string>
+    <!-- Message that tells user they successfully logged in -->
+    <string name="login_success">ログイン完了！ログインしています。</string>
+    <!-- Message that tells user they failed to log in -->
+    <string name="login_failed">ログインできませんでした</string>
+    <!-- Label for login widget button -->
+    <string name="account_login">アカウント ログイン</string>
+    <!-- Label for login widget additional text -->
+    <string name="log_in_for_faster_booking">ログインするとより素早くご予約いただけます。</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_rewards">Expedia Rewards\u2122に参加 </string>
+    <!-- Label for account name -->
+    <string name="logged_in_as">ログイン済み</string>
+    <!-- Label for account name -->
     <string name="logged_in_as_template">&lt;b&gt;%s&lt;/b&gt;としてログイン済み</string>
-	<!-- Label for signin screen -->
-	<string name="expedia_account">エクスペディア アカウント</string>
-	<!-- Label for loading user profile from expedia.com -->
-	<string name="loading_expedia_account">エクスペディア アカウントをローディング中</string>
+    <!-- Label for signin screen -->
+    <string name="expedia_account">エクスペディア アカウント</string>
+    <!-- Label for loading user profile from expedia.com -->
+    <string name="loading_expedia_account">エクスペディア アカウントをローディング中</string>
     <!-- Label for password recovery -->
-	<string name="forgot_your_password">パスワードをお忘れですか?</string>
+    <string name="forgot_your_password">パスワードをお忘れですか?</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">クーポンコード</string>
     <!-- Label for coupon code hint -->
-    <string name="optional">任意</string>
+    <string name="optional">オプション</string>
     <!-- Label applying a coupon -->
-	<string name="apply">適用</string>
+    <string name="apply">適用</string>
     <!-- Label for new price after applying coupon -->
-    <string name="new_total">変更後の合計:</string>
+    <string name="new_total">変更後の合計 :</string>
     <!-- Label for credit card selection -->
-	<string name="use_card">カードを使う</string>
+    <string name="use_card">ご利用カード:</string>
+    <!-- Label for when a user has entered an invalid coupon -->
+    <string name="invalid_coupon">無効なクーポン</string>
+    <!-- Label for when a user has entered a coupon which is expired -->
+    <string name="expired_coupon">期限切れクーポン</string>
+    <!-- Label for when a user has entered a coupon and the server fails -->
+    <string name="coupon_error">クーポン エラー</string>
 
-	<!-- Sharing bookings via email -->
-	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-	<string name="share_subject_template">エクスペディアの旅程 - %1$s (%2$s - %3$s)</string>
-	<!-- Preset at the top of the share body message -->
-	<string name="share_body_start">ホテル予約情報 ：</string>
-	<!-- Name of user -->
-	<string name="name">氏名</string>
-	<!-- Number of adults label -->
-	<string name="adults">大人</string>
-	<!-- Number of children label -->
-	<string name="children">お子様</string>
-	<!-- Subtotal label -->
-	<string name="subtotal">小計</string>
-	<!-- Cancellation policy label -->
-	<string name="cancellation_policy">キャンセル ポリシー</string>
-	
-	<!-- About activity -->
-	<!-- Label for "contact Expedia" button in info page -->
-	<string name="contact_expedia">エクスペディアに連絡</string>
-	<!-- Extra description for "contact Expedia" button, when space allows -->
-	<string name="contact_expedia_description">24 時間いつでもサポートします。</string>
-	<!-- Title for different ways to connect to Expedia -->
-	<string name="contact_expedia_via">エクスペディアへのご連絡方法</string>
-	<!-- Contact Expedia via phone -->
-	<string name="contact_expedia_phone">電話</string>
-	<!-- Contact Expedia via email -->
-	<string name="contact_expedia_email">メール</string>
-	<!-- Contact Expedia via email subject -->
-	<string name="contact_expedia_email_subject">エクスペディア予約サポート窓口</string>
-	<!-- Contact Expedia via website -->
-	<string name="contact_expedia_website">Web サイト</string>
-	<!-- Label for "Expedia website" button in info page -->
-	<string name="expedia_website">エクスペディア Web サイト</string>
-	<!-- Extra description for "Expedia website" button, when space allows -->
-	<string name="expedia_website_description">Web サイトでは、航空券、レンタカー、パッケージなどもご予約いただけます。</string>
-	<!-- Extra description for "app feedback" button, when space allows -->
-	<string name="app_feedback_description">当アプリに対するご意見をお寄せください。</string>
-	<!-- Label for "app support" button in info page -->
-	<string name="app_support">アプリ サポート</string>
-	<!-- Extra description for "app support" button, when space allows -->
-	<string name="app_support_description">お問い合わせいただければこちらから折り返しご連絡します。</string>
-	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">お得なホテル割引情報をお求めですか？このアプリをお友達に紹介してください。</string>
-	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Travel smart</string>
-	<!-- Subject line for "tell a friend" feature -->
-	<string name="tell_a_friend_subject">エクスペディア ホテル予約</string>
-	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">\n \n 、こんにちは。iPhone と Android スマートフォン用の エクスペディア ホテル予約 アプリがオススメです。無料でダウンロードできて、世界中 14 万軒以上ものホテルを検索・予約可能。スマートフォンからホテルを予約するなら、このアプリが一番便利です。\n\nhttp://www.expedia.com/app</string>
-	<!-- Label for link to terms and conditions -->
-	<string name="info_label_terms_conditions">使用条件</string>
-	<!-- Label for link to privacy policy -->
-	<string name="info_label_privacy_policy">プライバシー ポリシー</string>
-	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011–2012 Expedia, Inc.\nAll rights reserved.</string>
-	
-	<!--  App Feedback Activity -->
-	<!-- Text within submit button in header -->
-	<string name="send_feedback">フィードバックを送信</string>
-	<!-- Header title -->
-	<string name="app_feedback">アプリ フィードバック</string>
-	<!-- Section header for rating (1-5 stars) -->
-	<string name="oosdk_rating_overall_header">評価してください</string>
-	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">プライバシー ポリシー</a></string>
-	<!-- Hint to type in email address -->
-	<string name="email_address">メールアドレス</string>
-	<!-- Hint to type in comments -->
-	<string name="feedback_hint">ご意見、ご感想をお聞かせください</string>
-	<!-- Message displayed to users after they submit feedback -->
-	<string name="oosdk_thanks_txt">ご意見をお寄せいただき、ありがとうございました。お客様のご意見を参考にさせていただきます。</string>
-	
-	<!-- Preferences -->
-	<!-- Category name for general preferences -->
-	<string name="preference_category_general">概要</string>
-	<!-- Title for point of sale setting -->
-	<string name="preference_point_of_sale_title">国名</string>
-	<!-- Template for default point of sale -->
-	<string name="default_point_of_sale_template">デフォルト (%s)</string>
+    <!-- Sharing bookings via email -->
+    <!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
+    <string name="share_subject_template">エクスペディアの旅程 - %1$s (%2$s - %3$s)</string>
+    <!-- Preset at the top of the share body message -->
+    <string name="share_body_start">ホテル予約情報:</string>
+    <!-- Name of user -->
+    <string name="name">氏名</string>
+    <!-- Number of adults label -->
+    <string name="adults">大人</string>
+    <!-- Number of children label -->
+    <string name="children">お子様</string>
+    <!-- Subtotal label -->
+    <string name="subtotal">小計</string>
+    <!-- Cancellation policy label -->
+    <string name="cancellation_policy">キャンセル ポリシー</string>
 
-	<!-- Strings used a lot of places -->
-	<!-- A number of adults -->
-	<plurals name="number_of_adults">
-		<item quantity="zero">大人 %d 名</item>
-		<item quantity="one">大人 %d 名</item>
-		<item quantity="two">大人 %d 名</item>
-		<item quantity="many">大人 %d 名</item>
-		<item quantity="other">大人 %d 名</item>
-	</plurals>
-	<!-- A number of children -->
-	<plurals name="number_of_children">
-		<item quantity="zero">お子様 %d 名</item>
-		<item quantity="one">お子様 %d 名</item>
-		<item quantity="two">お子様 %d 名</item>
-		<item quantity="many">お子様 %d 名</item>
-		<item quantity="other">お子様 %d 名</item>
-	</plurals>
-	<!-- A number of guests -->
-	<plurals name="number_of_guests">
-		<item quantity="zero">ゲスト %d 名</item>
-		<item quantity="one">ゲスト %d 名</item>
-		<item quantity="two">ゲスト %d 名</item>
-		<item quantity="many">ゲスト %d 名</item>
-		<item quantity="other">ゲスト %d 名</item>
-	</plurals>
-	<!-- A number of nights (as in stay duration).  Capitalized -->
-	<plurals name="number_of_nights">
-		<item quantity="zero">%d 泊</item>
-		<item quantity="one">%d 泊</item>
-		<item quantity="two">%d 泊</item>
-		<item quantity="many">%d 泊</item>
-		<item quantity="other">%d 泊</item>
-	</plurals>
+    <!-- About activity -->
+    <!-- Label for "contact Expedia" button in info page -->
+    <string name="contact_expedia">エクスペディアに連絡</string>
+    <!-- Extra description for "contact Expedia" button, when space allows -->
+    <string name="contact_expedia_description">24 時間いつでもサポートします。</string>
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_expedia_via">エクスペディアへのご連絡方法</string>
+    <!-- Contact Expedia via phone -->
+    <string name="contact_expedia_phone">電話</string>
+    <!-- Contact Expedia via email -->
+    <string name="contact_expedia_email">メール</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_expedia_email_subject">エクスペディア予約サポート窓口</string>
+    <!-- Contact Expedia via website -->
+    <string name="contact_expedia_website">Web サイト</string>
+    <!-- Label for "Expedia website" button in info page -->
+    <string name="expedia_website">エクスペディア Web サイト</string>
+    <!-- Extra description for "Expedia website" button, when space allows -->
+    <string name="expedia_website_description">Web サイトでは、航空券、レンタカー、パッケージなどもご予約いただけます。</string>
+    <!-- Extra description for "app feedback" button, when space allows -->
+    <string name="app_feedback_description">当アプリに対するご意見をお寄せください。</string>
+    <!-- Label for "app support" button in info page -->
+    <string name="app_support">アプリ サポート</string>
+    <!-- Extra description for "app support" button, when space allows -->
+    <string name="app_support_description">お問い合わせいただければこちらから折り返しご連絡します。</string>
+    <!-- Extra description for "tell a friend" button, when space allows -->
+    <string name="tell_a_friend_description">お得なホテル割引情報をお求めですか？このアプリをお友達に紹介してください。</string>
+    <!-- Section header for other apps by Mobiata -->
+    <string name="travel_smart">Travel smart</string>
+    <!-- Subject line for "tell a friend" feature -->
+    <string name="tell_a_friend_subject">エクスペディア ホテル予約</string>
+    <!-- Message body for "tell a friend" feature -->
+    <string name="tell_a_friend_body">\n \n 、こんにちは。iPhone と Android スマートフォン用の エクスペディア ホテル予約 アプリがオススメです。無料でダウンロードできて、世界中 14 万軒以上ものホテルを検索、予約可能。スマートフォンからホテルを予約するなら、このアプリが一番便利です。\n\nhttp://www.expedia.com/app</string>
+    <!-- Label for link to terms and conditions -->
+    <string name="info_label_terms_conditions">使用条件</string>
+    <!-- Label for link to privacy policy -->
+    <string name="info_label_privacy_policy">プライバシー ポリシー</string>
+    <!-- Copyright information -->
+    <string name="copyright">© Copyright 2011-2012 Expedia, Inc.\nAll rights reserved.</string>
+    <!-- Dialog Title asking the user if they would like to sign out of their account and remove all data saved about them -->
+    <string name="dialog_title_log_out_and_clear_private_data">ログアウトし、データを削除しますか ?</string>
+    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_title_logged_out_and_cleared_private_data">ログアウト済み、データ削除済み</string>
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data">エクスペディアのアカウントからログアウトしています。セーブした全ての請求情報および連絡先が削除されました。</string>
+    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
+    <string name="dialog_message_launch_expedia_mobile_site">エクスペディアのモバイルサイトを開きますか ?</string>
+    <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
+    <string name="dialog_message_launch_expedia_support_site">エクスペディアのサポート Web サイトに移動しますか ?</string>
 
-	<!-- Distance strings -->
-	<!-- Abbreviated miles (used in distance_template) -->
-	<string name="unit_miles">マイル</string>
-	<!-- Abbreviated kilometers (used in distance_template) -->
-	<string name="unit_kilometers">キロ</string>
-	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-	<string name="distance_template">%1$s%2$s 距離</string>
-	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-	<string name="distance_template_short">%1$s %2$s</string>
+    <!--  App Feedback Activity -->
+    <!-- Text within submit button in header -->
+    <string name="send_feedback">フィードバックを送信</string>
+    <!-- Header title -->
+    <string name="app_feedback">アプリ フィードバック</string>
+    <!-- Section header for rating (1-5 stars) -->
+    <string name="oosdk_rating_overall_header">評価してください</string>
+    <!-- Footer for the view -->
+    <string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">プライバシー ポリシー</a></string>
+    <!-- Hint to type in email address -->
+    <string name="email_address">メールアドレス</string>
+    <!-- Hint to type in comments -->
+    <string name="feedback_hint">ご意見、ご感想をお聞かせください</string>
+    <!-- Message displayed to users after they submit feedback -->
+    <string name="oosdk_thanks_txt">ご意見をお寄せいただき、ありがとうございました。お客様のご意見を参考にさせていただきます。</string>
 
-	<!-- Menu strings -->
-	<!-- Label for "settings" menu item. -->
-	<string name="Settings">設定</string>
-	<!-- Label for "about this app" menu item. -->
-	<string name="About">情報</string>
+    <!-- Preferences -->
+    <!-- Category name for general preferences -->
+    <string name="preference_category_general">概要</string>
+    <!-- Title for point of sale setting -->
+    <string name="preference_point_of_sale_title">国名</string>
+    <!-- Template for default point of sale -->
+    <string name="default_point_of_sale_template">デフォルト (%s)</string>
 
-	<!-- Preferences strings -->
-	<!-- String for default preference setting (for any given preference) -->
-	<string name="Default">規定値</string>
-	
-	<!-- Error strings - replacements for default EAN errors -->
-	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_no_results">申し訳ありません。 ご利用可能なホテルが見つかりませんでした。異なる日付あるいは別のロケーションをお試しください。</string>
-	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_connect_unavailable">ご希望のホテルに接続できないため、空室状況を確認できません。</string>
-	<!-- Error message displayed when the phone number sent via booking is invalid -->
-	<string name="ean_error_invalid_phone_number">有効な電話番号を入力してください。</string>
-	
-	<!-- Checkout API method -->
-	<!-- The hotel booking failed -->
-	<string name="e3_error_checkout_booking_failed">エラーが発生したため、お客様のご予約を完了することができませんでした。もう一度お試しください。</string>
-	<!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-	<string name="e3_error_checkout_booking_succeeded_with_errors">ホテルのご予約が完了しました。すぐに旅程が必要な場合は、エクスペディア カスタマー サポートまでお電話ください。</string>
-	<!-- The hotel room is no longer available -->
-	<string name="e3_error_checkout_hotel_room_unavailable">申し訳ありません、ご希望の客室はすでに満室となっています。</string>
-	<!-- There is invalid input in the hotel booking form. Please fix it. -->
-	<string name="e3_error_checkout_invalid_input">無効な情報を修正してください。</string>
-	<!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-	<string name="e3_error_checkout_payment_failed">申し訳ありません、お支払いの手続きを完了することができませんでした。入力した情報が正しいことを確認してください。</string>
-	
-	<!-- SearchResults API method -->
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_search_results_hotel_service_failure">申し訳ありません、ご希望の条件では検索を完了することができませんでした。もう一度お試しください。</string>
-	<!-- There were no results matching the input -->
-	<string name="e3_error_search_results_invalid_input">申し訳ありません、ご希望の検索条件に一致するものがありませんでした。もう一度お試しください。</string>
-	<!-- There were no results matching the input -->
-	<string name="e3_error_search_results_invalid_input_unknown">申し訳ありません、ご希望の検索条件に一致するものがありませんでした。もう一度お試しください。</string>
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_search_results_unknown_error">申し訳ありません、ご希望の条件では検索を完了することができませんでした。もう一度お試しください。</string>
-	
-	<!-- HotelOffers API method -->
-	<!-- The hotel offer is no longer available -->
-	<string name="e3_error_hotel_offers_hotel_offer_unavailable">申し訳ありません。この客室のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
-	
-	<string name="e3_error_hotel_offers_hotel_room_unavailable">申し訳ありません、ご希望の客室はすでに満室となっています。</string>
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_hotel_offers_hotel_service_failure">申し訳ありません、 Expedia に接続することができませんでした。もう一度お試しください。</string>
-	<!-- There are no longer any rooms for the hotel offer -->
-	<string name="e3_error_hotel_offers_invalid_input">申し訳ありません。この客室のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
-	<!-- There are no longer any rooms for the hotel offer -->
-	<string name="e3_error_hotel_offers_unknown_error">申し訳ありません。この客室のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
-	
-	<!-- HotelProduct API method -->
-	<string name="e3_error_hotel_product_unknown_error">原因不明のエラーが発生しました。</string>
-	<string name="e3_error_hotel_product_invalid_input">原因不明のエラーが発生しました。</string>
-	
-	<!-- HotelInformation API method -->
-	<string name="e3_error_hotel_information_hotel_service_failure">原因不明のエラーが発生しました。</string>
-	<string name="e3_error_hotel_information_unknown_error">原因不明のエラーが発生しました。</string>
-	<string name="e3_error_hotel_information_invalid_input">原因不明のエラーが発生しました。</string>
+    <!-- Strings used a lot of places -->
+    <!-- A number of adults -->
+    <plurals name="number_of_adults">
+        <item quantity="zero">大人 %d 名</item>
+        <item quantity="one">大人 %d 名</item>
+        <item quantity="two">大人 %d 名</item>
+        <item quantity="many">大人 %d 名</item>
+        <item quantity="other">大人 %d 名</item>
+    </plurals>
+    <!-- A number of children -->
+    <plurals name="number_of_children">
+        <item quantity="zero">お子様 %d 名</item>
+        <item quantity="one">お子様 %d 名</item>
+        <item quantity="two">お子様 %d 名</item>
+        <item quantity="many">お子様 %d 名</item>
+        <item quantity="other">お子様 %d 名</item>
+    </plurals>
+    <!-- A number of guests -->
+    <plurals name="number_of_guests">
+        <item quantity="zero">ゲスト %d 名</item>
+        <item quantity="one">ゲスト %d 名</item>
+        <item quantity="two">ゲスト %d 名</item>
+        <item quantity="many">ゲスト %d 名</item>
+        <item quantity="other">ゲスト %d 名</item>
+    </plurals>
+    <!-- A number of nights (as in stay duration).  Capitalized -->
+    <plurals name="number_of_nights">
+        <item quantity="zero">%d 泊</item>
+        <item quantity="one">%d 泊</item>
+        <item quantity="two">%d 泊</item>
+        <item quantity="many">%d 泊</item>
+        <item quantity="other">%d 泊</item>
+    </plurals>
 
-	<!-- Currency names -->
-	<string name="currency_aud">オーストラリアドル</string>
-	<string name="currency_brl">ブラジル レアル</string>
-	<string name="currency_gbp">イギリス ポンド</string>
-	<string name="currency_cad">カナダ ドル</string>
-	<string name="currency_cny">中国元</string>
-	<string name="currency_dkk">デンマーク クローナー</string>
-	<string name="currency_eur">ユーロ</string>
-	<string name="currency_hkd">香港ドル</string>
-	<string name="currency_inr">インド ルピー</string>
-	<string name="currency_ils">イスラエル 新シェケル </string>
-	<string name="currency_jpy">日本円</string>
-	<string name="currency_krw">韓国ウォン</string>
-	<string name="currency_mxn">メキシコ ペソ</string>
-	<string name="currency_nzd">ニュージーランド ドル</string>
-	<string name="currency_nok">ノルウェー クローナー</string>
-	<string name="currency_rub">ロシア ルーブル</string>
-	<string name="currency_sgd">シンガポール ドル</string>
-	<string name="currency_sek">スウェーデン クローナ</string>
-	<string name="currency_chf">スイス フラン</string>
-	<string name="currency_usd">アメリカ ドル</string>
+    <!-- Distance strings -->
+    <!-- Abbreviated miles (used in distance_template) -->
+    <string name="unit_miles">マイル</string>
+    <!-- Abbreviated kilometers (used in distance_template) -->
+    <string name="unit_kilometers">km</string>
+    <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
+    <string name="distance_template">%1$s%2$s 距離</string>
+    <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
+    <string name="distance_template_short">%1$s %2$s</string>
 
-	<!-- Country names -->
-	<string name="country_af">アフガニスタン</string>
-	<string name="country_al">アルバニア</string>
-	<string name="country_dz">アルジェリア</string>
-	<string name="country_as">アメリカ領サモア</string>
-	<string name="country_ad">アンドラ</string>
-	<string name="country_ao">アンゴラ</string>
-	<string name="country_ai">アングィラ</string>
-	<string name="country_aq">南極</string>
-	<string name="country_ag">アンチグアバーブーダ</string>
-	<string name="country_ar">アルゼンチン</string>
-	<string name="country_am">アルメニア</string>
-	<string name="country_aw">アルバ</string>
-	<string name="country_au">オーストラリア</string>
-	<string name="country_at">オーストリア</string>
-	<string name="country_az">アゼルバイジャン</string>
-	<string name="country_bs">バハマ</string>
-	<string name="country_bh">バーレーン</string>
-	<string name="country_bd">バングラデッシュ</string>
-	<string name="country_bb">バルバドス</string>
-	<string name="country_by">ベラルーシ</string>
-	<string name="country_be">ベルギー</string>
-	<string name="country_bz">ベリーズ</string>
-	<string name="country_bj">ベナン</string>
-	<string name="country_bm">バミューダ</string>
-	<string name="country_bt">ブータン</string>
-	<string name="country_bo">ボリビア多民族国</string>
-	<string name="country_ba">ボスニア・ヘルツェゴビナ</string>
-	<string name="country_bw">ボツワナ</string>
-	<string name="country_bv">ブーヴェ島</string>
-	<string name="country_br">ブラジル</string>
-	<string name="country_io">イギリス領インド洋地域</string>
-	<string name="country_bn">ブルネイ・ダルサラーム国</string>
-	<string name="country_bg">ブルガリア</string>
-	<string name="country_bf">ブルキナファソ</string>
-	<string name="country_bi">ブルンジ</string>
-	<string name="country_kh">カンボジア</string>
-	<string name="country_cm">カメルーン</string>
-	<string name="country_ca">カナダ</string>
-	<string name="country_cv">カーボベルデ</string>
-	<string name="country_ky">ケイマン諸島</string>
-	<string name="country_cf">中央アフリカ共和国</string>
-	<string name="country_td">チャド</string>
-	<string name="country_cl">チリ</string>
-	<string name="country_cn">中国</string>
-	<string name="country_cx">クリスマス島</string>
-	<string name="country_cc">ココス（キーリング）諸島</string>
-	<string name="country_co">コロンビア</string>
-	<string name="country_km">コモロス</string>
-	<string name="country_cg">コンゴ</string>
-	<string name="country_cd">コンゴ民主共和国</string>
-	<string name="country_ck">クック諸島</string>
-	<string name="country_cr">コスタリカ</string>
-	<string name="country_hr">クロアチア</string>
-	<string name="country_cu">キューバ</string>
-	<string name="country_cy">キプロス</string>
-	<string name="country_cz">チェコ共和国</string>
-	<string name="country_ci">コートジボワール</string>
-	<string name="country_dk">デンマーク</string>
-	<string name="country_dj">ジブティ</string>
-	<string name="country_dm">ドミニカ</string>
-	<string name="country_do">ドミニカ共和国</string>
-	<string name="country_ec">エクアドル</string>
-	<string name="country_eg">エジプト</string>
-	<string name="country_sv">エルサルバドル</string>
-	<string name="country_gq">赤道ギニア</string>
-	<string name="country_er">エリトリア</string>
-	<string name="country_ee">エストニア</string>
-	<string name="country_et">エチオピア</string>
-	<string name="country_fk">フォークランド諸島（マルビナス）</string>
-	<string name="country_fo">フェロー諸島</string>
-	<string name="country_fj">フィジー</string>
-	<string name="country_fi">フィンランド</string>
-	<string name="country_fr">フランス</string>
-	<string name="country_gf">仏領ギニア</string>
-	<string name="country_pf">フランス領ポリネシア</string>
-	<string name="country_tf">フランス領南方・南極地域</string>
-	<string name="country_ga">ガボン</string>
-	<string name="country_gm">ガンビア</string>
-	<string name="country_ge">ジョージア州</string>
-	<string name="country_de">ドイツ</string>
-	<string name="country_gh">ガーナ</string>
-	<string name="country_gi">ジブラルタル</string>
-	<string name="country_gr">ギリシャ</string>
-	<string name="country_gl">グリーンランド</string>
-	<string name="country_gd">グレナダ</string>
-	<string name="country_gp">グアドループ島</string>
-	<string name="country_gu">グアム</string>
-	<string name="country_gt">グアテマラ</string>
-	<string name="country_gg">ガーンジー島</string>
-	<string name="country_gn">ギニア</string>
-	<string name="country_gw">ギニアビサウ</string>
-	<string name="country_gy">ガイアナ</string>
-	<string name="country_ht">ハイチ</string>
-	<string name="country_hm">ハード島とマクドナルド諸島</string>
-	<string name="country_va">教皇領（バチカン市国）</string>
-	<string name="country_hn">ホンジュラス</string>
-	<string name="country_hk">香港</string>
-	<string name="country_hu">ハンガリー</string>
-	<string name="country_is">アイスランド</string>
-	<string name="country_in">インド</string>
-	<string name="country_id">インドネシア</string>
-	<string name="country_ir">イラン・イスラム共和国</string>
-	<string name="country_iq">イラク</string>
-	<string name="country_ie">アイルランド</string>
-	<string name="country_im">マン島</string>
-	<string name="country_il">イスラエル</string>
-	<string name="country_it">イタリア</string>
-	<string name="country_jm">ジャマイカ</string>
-	<string name="country_jp">日本</string>
-	<string name="country_je">ジャージー島</string>
-	<string name="country_jo">ヨルダン</string>
-	<string name="country_kz">カザフスタン</string>
-	<string name="country_ke">ケニア</string>
-	<string name="country_ki">キリバス</string>
-	<string name="country_kp">朝鮮民主主義人民共和国</string>
-	<string name="country_kr">韓国</string>
-	<string name="country_kw">クウェート</string>
-	<string name="country_kg">キルギスタン</string>
-	<string name="country_la">ラオス人民民主共和国</string>
-	<string name="country_lv">ラトビア</string>
-	<string name="country_lb">レバノン</string>
-	<string name="country_ls">レソト</string>
-	<string name="country_lr">リベリア</string>
-	<string name="country_ly">リビア・アラブ国</string>
-	<string name="country_li">リヒテンシュタイン</string>
-	<string name="country_lt">リトアニア</string>
-	<string name="country_lu">ルクセンブルグ</string>
-	<string name="country_mo">マカオ</string>
-	<string name="country_mk">マケドニア旧ユーゴスラビア共和国</string>
-	<string name="country_mg">マダガスカル</string>
-	<string name="country_mw">マラウイ</string>
-	<string name="country_my">マレーシア</string>
-	<string name="country_mv">モルディブ</string>
-	<string name="country_ml">マリ</string>
-	<string name="country_mt">マルタ</string>
-	<string name="country_mh">マーシャル諸島</string>
-	<string name="country_mq">マルティニーク島</string>
-	<string name="country_mr">モーリタニア</string>
-	<string name="country_mu">モーリシャス</string>
-	<string name="country_yt">マヨット島</string>
-	<string name="country_mx">メキシコ</string>
-	<string name="country_fm">ミクロネシア連邦</string>
-	<string name="country_md">モルドバ共和国</string>
-	<string name="country_mc">モナコ</string>
-	<string name="country_mn">モンゴル国</string>
-	<string name="country_me">モンテネグロ</string>
-	<string name="country_ms">モンセラト島</string>
-	<string name="country_ma">モロッコ</string>
-	<string name="country_mz">モザンビーク</string>
-	<string name="country_mm">ミャンマー</string>
-	<string name="country_na">ナミビア</string>
-	<string name="country_nr">ナウル</string>
-	<string name="country_np">ネパール</string>
-	<string name="country_nl">オランダ</string>
-	<string name="country_an">オランダ領アンティル諸島</string>
-	<string name="country_nc">ニューカレドニア</string>
-	<string name="country_nz">ニュージーランド</string>
-	<string name="country_ni">ニカラグア</string>
-	<string name="country_ne">ニジェール</string>
-	<string name="country_ng">ナイジェリア</string>
-	<string name="country_nu">ニウエ</string>
-	<string name="country_nf">ノーフォーク島</string>
-	<string name="country_mp">北マリアナ諸島連邦</string>
-	<string name="country_no">ノルウェー</string>
-	<string name="country_om">オマーン</string>
-	<string name="country_pk">パキスタン</string>
-	<string name="country_pw">パラウ</string>
-	<string name="country_ps">パレスチナ管轄地区</string>
-	<string name="country_pa">パナマ</string>
-	<string name="country_pg">パプアニューギニア</string>
-	<string name="country_py">パラグアイ</string>
-	<string name="country_pe">ペルー</string>
-	<string name="country_ph">フィリピン</string>
-	<string name="country_pn">ピトケアン島</string>
-	<string name="country_pl">ポーランド</string>
-	<string name="country_pt">ポルトガル</string>
-	<string name="country_pr">プエルトリコ</string>
-	<string name="country_qa">カタール</string>
-	<string name="country_ro">ルーマニア</string>
-	<string name="country_ru">ロシア連邦</string>
-	<string name="country_rw">ルワンダ</string>
-	<string name="country_re">レユニオン</string>
-	<string name="country_bl">Saint Barthélemy</string>
-	<string name="country_sh">セントヘレナ</string>
-	<string name="country_kn">セントクリストダー・ネイビス</string>
-	<string name="country_lc">セントルシア</string>
-	<string name="country_mf">サン・マルタン（仏領）</string>
-	<string name="country_pm">サンピエール島とミクロン島</string>
-	<string name="country_vc">セントビンセント・グレナディーン</string>
-	<string name="country_ws">サモア</string>
-	<string name="country_sm">サンマリノ</string>
-	<string name="country_st">サントメ・プリンシペ</string>
-	<string name="country_sa">サウジアラビア</string>
-	<string name="country_sn">セネガル</string>
-	<string name="country_rs">セルビア</string>
-	<string name="country_sc">セーシェル</string>
-	<string name="country_sl">シエラレオネ</string>
-	<string name="country_sg">シンガポール</string>
-	<string name="country_sk">スロバキア</string>
-	<string name="country_si">スロベニア</string>
-	<string name="country_sb">ソロモン諸島</string>
-	<string name="country_so">ソマリア</string>
-	<string name="country_za">南アフリカ</string>
-	<string name="country_gs">サウスジョージア・サウスサンドウィッチ諸島</string>
-	<string name="country_es">スペイン</string>
-	<string name="country_lk">スリランカ</string>
-	<string name="country_sd">スーダン</string>
-	<string name="country_sr">スリナム</string>
-	<string name="country_sj">スバールバル諸島・ヤンマイエン島</string>
-	<string name="country_sz">スワジランド</string>
-	<string name="country_se">スウェーデン</string>
-	<string name="country_ch">スイス</string>
-	<string name="country_sy">シリアアラブ共和国</string>
-	<string name="country_tw">台湾</string>
-	<string name="country_tj">タジキスタン</string>
-	<string name="country_tz">タンザニア連合共和国</string>
-	<string name="country_th">タイ</string>
-	<string name="country_tl">東ティモール</string>
-	<string name="country_tg">トーゴ</string>
-	<string name="country_tk">トケラウ島</string>
-	<string name="country_to">トンガ</string>
-	<string name="country_tt">トリニダード・トバゴ</string>
-	<string name="country_tn">チュニジア</string>
-	<string name="country_tr">トルコ</string>
-	<string name="country_tm">トルクメニスタン</string>
-	<string name="country_tc">タークス・カイコス諸島</string>
-	<string name="country_tv">ツバル</string>
-	<string name="country_ug">ウガンダ</string>
-	<string name="country_ua">ウクライナ</string>
-	<string name="country_ae">アラブ首長国連邦</string>
-	<string name="country_gb">イギリス</string>
-	<string name="country_us">アメリカ合衆国</string>
-	<string name="country_um">合衆国領有小離島</string>
-	<string name="country_uy">ウルグアイ</string>
-	<string name="country_uz">ウズベキスタン</string>
-	<string name="country_vu">バヌアツ</string>
-	<string name="country_ve">ベネズエラ・ボリバル共和国</string>
-	<string name="country_vn">ベトナム</string>
-	<string name="country_vg">英領ヴァージン諸島</string>
-	<string name="country_vi">米領ヴァージン諸島</string>
-	<string name="country_wf">ウォリス・フツナ</string>
-	<string name="country_eh">西サハラ</string>
-	<string name="country_ye">イエメン</string>
-	<string name="country_zm">ザンビア</string>
-	<string name="country_zw">ジンバブエ</string>
-	<string name="country_ax">オーランド諸島</string>
+    <!-- Menu strings -->
+    <!-- Label for "settings" menu item. -->
+    <string name="Settings">設定</string>
+    <!-- Label for "about this app" menu item. -->
+    <string name="About">情報</string>
+
+    <!-- Preferences strings -->
+    <!-- String for default preference setting (for any given preference) -->
+    <string name="Default">規定値</string>
+
+    <!-- Error strings - replacements for default EAN errors -->
+    <!-- Replaces "result was null" for no result search -->
+    <string name="ean_error_no_results">申し訳ありません。 ご利用可能なホテルが見つかりませんでした。異なる日付あるいは別のロケーションをお試しください。</string>
+    <!-- Replaces "result was null" for no result search -->
+    <string name="ean_error_connect_unavailable">ご希望のホテルに接続できないため、空室状況を確認できません。</string>
+    <!-- Error message displayed when the phone number sent via booking is invalid -->
+    <string name="ean_error_invalid_phone_number">有効な電話番号を入力してください。</string>
+
+    <!-- Checkout API method -->
+    <!-- The hotel booking failed -->
+    <string name="e3_error_checkout_booking_failed">エラーが発生したため、お客様のご予約を完了することができませんでした。もう一度お試しください。</string>
+    <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
+    <string name="e3_error_checkout_booking_succeeded_with_errors">ホテルのご予約が完了しました。すぐに旅程が必要な場合は、エクスペディア カスタマー サポートまでお電話ください。</string>
+    <!-- The hotel room is no longer available -->
+    <string name="e3_error_checkout_hotel_room_unavailable">申し訳ありません、ご希望の客室はすでに満室となっています。</string>
+    <!-- There is invalid input in the hotel booking form. Please fix it. -->
+    <string name="e3_error_checkout_invalid_input">無効な情報を修正してください。</string>
+    <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
+    <string name="e3_error_checkout_payment_failed">申し訳ありません、お支払いの手続きを完了することができませんでした。入力した情報が正しいことを確認してください。</string>
+
+    <!-- SearchResults API method -->
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_search_results_hotel_service_failure">申し訳ありません、ご希望の条件では検索を完了することができませんでした。もう一度お試しください。</string>
+    <!-- There were no results matching the input -->
+    <string name="e3_error_search_results_invalid_input">申し訳ありません、ご希望の検索条件に一致するものがありませんでした。もう一度お試しください。</string>
+    <!-- There were no results matching the input -->
+    <string name="e3_error_search_results_invalid_input_unknown">申し訳ありません、ご希望の検索条件に一致するものがありませんでした。もう一度お試しください。</string>
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_search_results_unknown_error">申し訳ありません、ご希望の条件では検索を完了することができませんでした。もう一度お試しください。</string>
+
+    <!-- HotelOffers API method -->
+    <!-- The hotel offer is no longer available -->
+    <string name="e3_error_hotel_offers_hotel_offer_unavailable">申し訳ありません。この客室のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
+
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">申し訳ありません、ご希望の客室はすでに満室となっています。</string>
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure">申し訳ありません、 Expedia に接続することができませんでした。もう一度お試しください。</string>
+    <!-- There are no longer any rooms for the hotel offer -->
+    <string name="e3_error_hotel_offers_invalid_input">申し訳ありません。この客室のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
+    <!-- There are no longer any rooms for the hotel offer -->
+    <string name="e3_error_hotel_offers_unknown_error">申し訳ありません。この客室のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
+
+    <!-- HotelProduct API method -->
+    <string name="e3_error_hotel_product_unknown_error">原因不明のエラーが発生しました。</string>
+    <string name="e3_error_hotel_product_invalid_input">原因不明のエラーが発生しました。</string>
+
+    <!-- HotelInformation API method -->
+    <string name="e3_error_hotel_information_hotel_service_failure">原因不明のエラーが発生しました。</string>
+    <string name="e3_error_hotel_information_unknown_error">原因不明のエラーが発生しました。</string>
+    <string name="e3_error_hotel_information_invalid_input">原因不明のエラーが発生しました。</string>
+
+    <!-- Currency names -->
+    <string name="currency_aud">オーストラリアドル</string>
+    <string name="currency_brl">ブラジル レアル</string>
+    <string name="currency_gbp">イギリス ポンド</string>
+    <string name="currency_cad">カナダ ドル</string>
+    <string name="currency_cny">中国元</string>
+    <string name="currency_dkk">デンマーク クローナー</string>
+    <string name="currency_eur">ユーロ</string>
+    <string name="currency_hkd">香港ドル</string>
+    <string name="currency_inr">インド ルピー</string>
+    <string name="currency_ils">イスラエル 新シェケル </string>
+    <string name="currency_jpy">日本円</string>
+    <string name="currency_krw">韓国ウォン</string>
+    <string name="currency_mxn">メキシコ ペソ</string>
+    <string name="currency_nzd">ニュージーランド ドル</string>
+    <string name="currency_nok">ノルウェー クローナー</string>
+    <string name="currency_rub">ロシア ルーブル</string>
+    <string name="currency_sgd">シンガポール ドル</string>
+    <string name="currency_sek">スウェーデン クローナ</string>
+    <string name="currency_chf">スイス フラン</string>
+    <string name="currency_usd">アメリカ ドル</string>
+
+    <!-- Country names -->
+    <string name="country_af">アフガニスタン</string>
+    <string name="country_al">アルバニア</string>
+    <string name="country_dz">アルジェリア</string>
+    <string name="country_as">アメリカ領サモア</string>
+    <string name="country_ad">アンドラ</string>
+    <string name="country_ao">アンゴラ</string>
+    <string name="country_ai">アングィラ</string>
+    <string name="country_aq">南極</string>
+    <string name="country_ag">アンチグアバーブーダ</string>
+    <string name="country_ar">アルゼンチン</string>
+    <string name="country_am">アルメニア</string>
+    <string name="country_aw">アルバ</string>
+    <string name="country_au">オーストラリア</string>
+    <string name="country_at">オーストリア</string>
+    <string name="country_az">アゼルバイジャン</string>
+    <string name="country_bs">バハマ</string>
+    <string name="country_bh">バーレーン</string>
+    <string name="country_bd">バングラデッシュ</string>
+    <string name="country_bb">バルバドス</string>
+    <string name="country_by">ベラルーシ</string>
+    <string name="country_be">ベルギー</string>
+    <string name="country_bz">ベリーズ</string>
+    <string name="country_bj">ベナン</string>
+    <string name="country_bm">バミューダ</string>
+    <string name="country_bt">ブータン</string>
+    <string name="country_bo">ボリビア多民族国</string>
+    <string name="country_ba">ボスニア・ヘルツェゴビナ</string>
+    <string name="country_bw">ボツワナ</string>
+    <string name="country_bv">ブーヴェ島</string>
+    <string name="country_br">ブラジル</string>
+    <string name="country_io">イギリス領インド洋地域</string>
+    <string name="country_bn">ブルネイ・ダルサラーム国</string>
+    <string name="country_bg">ブルガリア</string>
+    <string name="country_bf">ブルキナファソ</string>
+    <string name="country_bi">ブルンジ</string>
+    <string name="country_kh">カンボジア</string>
+    <string name="country_cm">カメルーン</string>
+    <string name="country_ca">カナダ</string>
+    <string name="country_cv">カーボベルデ</string>
+    <string name="country_ky">ケイマン諸島</string>
+    <string name="country_cf">中央アフリカ共和国</string>
+    <string name="country_td">チャド</string>
+    <string name="country_cl">チリ</string>
+    <string name="country_cn">中国</string>
+    <string name="country_cx">クリスマス島</string>
+    <string name="country_cc">ココス（キーリング）諸島</string>
+    <string name="country_co">コロンビア</string>
+    <string name="country_km">コモロス</string>
+    <string name="country_cg">コンゴ</string>
+    <string name="country_cd">コンゴ民主共和国</string>
+    <string name="country_ck">クック諸島</string>
+    <string name="country_cr">コスタリカ</string>
+    <string name="country_hr">クロアチア</string>
+    <string name="country_cu">キューバ</string>
+    <string name="country_cy">キプロス</string>
+    <string name="country_cz">チェコ共和国</string>
+    <string name="country_ci">コートジボワール</string>
+    <string name="country_dk">デンマーク</string>
+    <string name="country_dj">ジブティ</string>
+    <string name="country_dm">ドミニカ</string>
+    <string name="country_do">ドミニカ共和国</string>
+    <string name="country_ec">エクアドル</string>
+    <string name="country_eg">エジプト</string>
+    <string name="country_sv">エルサルバドル</string>
+    <string name="country_gq">赤道ギニア</string>
+    <string name="country_er">エリトリア</string>
+    <string name="country_ee">エストニア</string>
+    <string name="country_et">エチオピア</string>
+    <string name="country_fk">フォークランド諸島（マルビナス）</string>
+    <string name="country_fo">フェロー諸島</string>
+    <string name="country_fj">フィジー</string>
+    <string name="country_fi">フィンランド</string>
+    <string name="country_fr">フランス</string>
+    <string name="country_gf">仏領ギニア</string>
+    <string name="country_pf">フランス領ポリネシア</string>
+    <string name="country_tf">フランス領南方・南極地域</string>
+    <string name="country_ga">ガボン</string>
+    <string name="country_gm">ガンビア</string>
+    <string name="country_ge">ジョージア州</string>
+    <string name="country_de">ドイツ</string>
+    <string name="country_gh">ガーナ</string>
+    <string name="country_gi">ジブラルタル</string>
+    <string name="country_gr">ギリシャ</string>
+    <string name="country_gl">グリーンランド</string>
+    <string name="country_gd">グレナダ</string>
+    <string name="country_gp">グアドループ島</string>
+    <string name="country_gu">グアム</string>
+    <string name="country_gt">グアテマラ</string>
+    <string name="country_gg">ガーンジー島</string>
+    <string name="country_gn">ギニア</string>
+    <string name="country_gw">ギニアビサウ</string>
+    <string name="country_gy">ガイアナ</string>
+    <string name="country_ht">ハイチ</string>
+    <string name="country_hm">ハード島とマクドナルド諸島</string>
+    <string name="country_va">教皇領（バチカン市国）</string>
+    <string name="country_hn">ホンジュラス</string>
+    <string name="country_hk">香港</string>
+    <string name="country_hu">ハンガリー</string>
+    <string name="country_is">アイスランド</string>
+    <string name="country_in">インド</string>
+    <string name="country_id">インドネシア</string>
+    <string name="country_ir">イラン・イスラム共和国</string>
+    <string name="country_iq">イラク</string>
+    <string name="country_ie">アイルランド</string>
+    <string name="country_im">マン島</string>
+    <string name="country_il">イスラエル</string>
+    <string name="country_it">イタリア</string>
+    <string name="country_jm">ジャマイカ</string>
+    <string name="country_jp">日本</string>
+    <string name="country_je">ジャージー島</string>
+    <string name="country_jo">ヨルダン</string>
+    <string name="country_kz">カザフスタン</string>
+    <string name="country_ke">ケニア</string>
+    <string name="country_ki">キリバス</string>
+    <string name="country_kp">朝鮮民主主義人民共和国</string>
+    <string name="country_kr">韓国</string>
+    <string name="country_kw">クウェート</string>
+    <string name="country_kg">キルギスタン</string>
+    <string name="country_la">ラオス人民民主共和国</string>
+    <string name="country_lv">ラトビア</string>
+    <string name="country_lb">レバノン</string>
+    <string name="country_ls">レソト</string>
+    <string name="country_lr">リベリア</string>
+    <string name="country_ly">リビア・アラブ国</string>
+    <string name="country_li">リヒテンシュタイン</string>
+    <string name="country_lt">リトアニア</string>
+    <string name="country_lu">ルクセンブルグ</string>
+    <string name="country_mo">マカオ</string>
+    <string name="country_mk">マケドニア旧ユーゴスラビア共和国</string>
+    <string name="country_mg">マダガスカル</string>
+    <string name="country_mw">マラウイ</string>
+    <string name="country_my">マレーシア</string>
+    <string name="country_mv">モルディブ</string>
+    <string name="country_ml">マリ</string>
+    <string name="country_mt">マルタ</string>
+    <string name="country_mh">マーシャル諸島</string>
+    <string name="country_mq">マルティニーク島</string>
+    <string name="country_mr">モーリタニア</string>
+    <string name="country_mu">モーリシャス</string>
+    <string name="country_yt">マヨット島</string>
+    <string name="country_mx">メキシコ</string>
+    <string name="country_fm">ミクロネシア連邦</string>
+    <string name="country_md">モルドバ共和国</string>
+    <string name="country_mc">モナコ</string>
+    <string name="country_mn">モンゴル国</string>
+    <string name="country_me">モンテネグロ</string>
+    <string name="country_ms">モンセラト島</string>
+    <string name="country_ma">モロッコ</string>
+    <string name="country_mz">モザンビーク</string>
+    <string name="country_mm">ミャンマー</string>
+    <string name="country_na">ナミビア</string>
+    <string name="country_nr">ナウル</string>
+    <string name="country_np">ネパール</string>
+    <string name="country_nl">オランダ</string>
+    <string name="country_an">オランダ領アンティル諸島</string>
+    <string name="country_nc">ニューカレドニア</string>
+    <string name="country_nz">ニュージーランド</string>
+    <string name="country_ni">ニカラグア</string>
+    <string name="country_ne">ニジェール</string>
+    <string name="country_ng">ナイジェリア</string>
+    <string name="country_nu">ニウエ</string>
+    <string name="country_nf">ノーフォーク島</string>
+    <string name="country_mp">北マリアナ諸島連邦</string>
+    <string name="country_no">ノルウェー</string>
+    <string name="country_om">オマーン</string>
+    <string name="country_pk">パキスタン</string>
+    <string name="country_pw">パラウ</string>
+    <string name="country_ps">パレスチナ管轄地区</string>
+    <string name="country_pa">パナマ</string>
+    <string name="country_pg">パプアニューギニア</string>
+    <string name="country_py">パラグアイ</string>
+    <string name="country_pe">ペルー</string>
+    <string name="country_ph">フィリピン</string>
+    <string name="country_pn">ピトケアン島</string>
+    <string name="country_pl">ポーランド</string>
+    <string name="country_pt">ポルトガル</string>
+    <string name="country_pr">プエルトリコ</string>
+    <string name="country_qa">カタール</string>
+    <string name="country_ro">ルーマニア</string>
+    <string name="country_ru">ロシア連邦</string>
+    <string name="country_rw">ルワンダ</string>
+    <string name="country_re">レユニオン</string>
+    <string name="country_bl">Saint Barthélemy</string>
+    <string name="country_sh">セントヘレナ</string>
+    <string name="country_kn">セントクリストダー・ネイビス</string>
+    <string name="country_lc">セントルシア</string>
+    <string name="country_mf">サン・マルタン（仏領）</string>
+    <string name="country_pm">サンピエール島とミクロン島</string>
+    <string name="country_vc">セントビンセント・グレナディーン</string>
+    <string name="country_ws">サモア</string>
+    <string name="country_sm">サンマリノ</string>
+    <string name="country_st">サントメ・プリンシペ</string>
+    <string name="country_sa">サウジアラビア</string>
+    <string name="country_sn">セネガル</string>
+    <string name="country_rs">セルビア</string>
+    <string name="country_sc">セーシェル</string>
+    <string name="country_sl">シエラレオネ</string>
+    <string name="country_sg">シンガポール</string>
+    <string name="country_sk">スロバキア</string>
+    <string name="country_si">スロベニア</string>
+    <string name="country_sb">ソロモン諸島</string>
+    <string name="country_so">ソマリア</string>
+    <string name="country_za">南アフリカ</string>
+    <string name="country_gs">サウスジョージア・サウスサンドウィッチ諸島</string>
+    <string name="country_es">スペイン</string>
+    <string name="country_lk">スリランカ</string>
+    <string name="country_sd">スーダン</string>
+    <string name="country_sr">スリナム</string>
+    <string name="country_sj">スバールバル諸島・ヤンマイエン島</string>
+    <string name="country_sz">スワジランド</string>
+    <string name="country_se">スウェーデン</string>
+    <string name="country_ch">スイス</string>
+    <string name="country_sy">シリアアラブ共和国</string>
+    <string name="country_tw">台湾</string>
+    <string name="country_tj">タジキスタン</string>
+    <string name="country_tz">タンザニア連合共和国</string>
+    <string name="country_th">タイ</string>
+    <string name="country_tl">東ティモール</string>
+    <string name="country_tg">トーゴ</string>
+    <string name="country_tk">トケラウ島</string>
+    <string name="country_to">トンガ</string>
+    <string name="country_tt">トリニダード・トバゴ</string>
+    <string name="country_tn">チュニジア</string>
+    <string name="country_tr">トルコ</string>
+    <string name="country_tm">トルクメニスタン</string>
+    <string name="country_tc">タークス・カイコス諸島</string>
+    <string name="country_tv">ツバル</string>
+    <string name="country_ug">ウガンダ</string>
+    <string name="country_ua">ウクライナ</string>
+    <string name="country_ae">アラブ首長国連邦</string>
+    <string name="country_gb">イギリス</string>
+    <string name="country_us">アメリカ合衆国</string>
+    <string name="country_um">合衆国領有小離島</string>
+    <string name="country_uy">ウルグアイ</string>
+    <string name="country_uz">ウズベキスタン</string>
+    <string name="country_vu">バヌアツ</string>
+    <string name="country_ve">ベネズエラ・ボリバル共和国</string>
+    <string name="country_vn">ベトナム</string>
+    <string name="country_vg">英領ヴァージン諸島</string>
+    <string name="country_vi">米領ヴァージン諸島</string>
+    <string name="country_wf">ウォリス・フツナ</string>
+    <string name="country_eh">西サハラ</string>
+    <string name="country_ye">イエメン</string>
+    <string name="country_zm">ザンビア</string>
+    <string name="country_zw">ジンバブエ</string>
+    <string name="country_ax">オーランド諸島</string>
 </resources>

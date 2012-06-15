@@ -13,7 +13,7 @@
 	<!-- Hint for "search location" field -->
 	<string name="hint_search_location">Search Location</string>
 	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-	<string name="loading_suggestions">Loading suggestions…</string>
+	<string name="loading_suggestions">Loading suggestions&#2026;</string>
 	<!-- Label for recent searches user has made -->
 	<string name="recent_searches">Recent Searches</string>
 	<!-- Label for searches that the user can make that are featured -->
@@ -93,7 +93,7 @@
 	<!-- Button label for searching the visible map area -->
 	<string name="map_search_button">Search Map</string>
 	<!-- Message when app is loading saved search results -->
-	<string name="loading_previous">Loading previous search results…</string>
+	<string name="loading_previous">Loading previous search results&#2026;</string>
 	<!-- Label for sort hotels button in bottom bar -->
 	<string name="sort_hotels">"Sort: "</string>
 	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
@@ -151,7 +151,7 @@
 	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
 	<string name="progress_finding_location">Finding Current Location…</string>
 	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">Searching for Hotels…</string>
+	<string name="progress_searching_hotels">Searching for Hotels&#2026;</string>
 	<!-- Message displayed when search comes up with zero results -->
 	<string name="progress_search_failed">No Hotels Found</string>
 	
@@ -188,7 +188,7 @@
 
 	<!-- Widget -->
 	<!--  Default Loading message for widget -->
-	<string name="loading_hotels">Loading hotels…</string>
+	<string name="loading_hotels">Loading hotels&#2026;</string>
 	<!--  Template for sale element in widget. The parameter is for the sale % -->
 	<string name="widget_savings_template">Save %2.0f%%</string>
 	<!--  Indicator to user to tap the widget to cause it to refresh -->
@@ -296,7 +296,7 @@
 
 	<!-- User Reviews list strings -->
 	<!-- Loading text prompt -->
-	<string name="user_review_loading_text">Loading user reviews…</string>
+	<string name="user_review_loading_text">Loading user reviews&#2026;</string>
 	<!-- Header for reviews of the non-native language -->
 	<string name="user_review_other_languages_title">Reviews in other languages</string>
 	<!-- The text for the sort button, recent -->
@@ -306,7 +306,7 @@
 	<!-- The text for the sort button, recent -->
 	<string name="user_review_sort_button_critical">Critical</string>
 	<!-- Loading more reviews -->
-	<string name="user_review_loading_more_reviews">Loading more reviews…</string>
+	<string name="user_review_loading_more_reviews">Loading more reviews&#2026;</string>
 	<!-- Read more of the review -->
 	<string name="user_review_read_more">Read more</string>
 	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
@@ -344,7 +344,7 @@
 		<item quantity="other">Staying %d nights</item>
 	</plurals>
 	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">Finding available rooms…</string>
+	<string name="room_rates_loading">Finding available rooms&#2026;</string>
 	<!-- Error message (no response) for not being able to download room and rates information -->
 	<string name="error_no_response_room_rates">Could not download rooms &amp; rates information.  Please check your connection and try again.</string>
 	<!-- Rate price displayed "per night" -->
@@ -481,7 +481,7 @@
 	<!-- Error if user agreement needs to be checked but is not -->
 	<string name="error_no_user_agreement">You must accept the terms to book</string>
 	<!-- Message to display to user while booking is in progress -->
-	<string name="booking_loading">Booking…</string>
+	<string name="booking_loading">Booking&#2026;</string>
 	<!-- Title for error dialog when booking fails -->
 	<string name="error_booking_title">Error</string>
 	<!-- Error message when we couldn't get a response -->
