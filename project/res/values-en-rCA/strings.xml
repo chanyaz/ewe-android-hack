@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- State code hint -->
+    <string name="hint_state_code">Prov.</string>
+</resources>
