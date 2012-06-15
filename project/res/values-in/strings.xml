@@ -13,7 +13,7 @@
     <!-- Hint for "search location" field -->
     <string name="hint_search_location">Lokasi Pencarian</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">Memuat saran&#2026;</string>
+    <string name="loading_suggestions">Memuat saran…</string>
     <!-- Label for recent searches user has made -->
     <string name="recent_searches">Pencarian Terbaru</string>
     <!-- Label for searches that the user can make that are featured -->
@@ -344,7 +344,7 @@
         <item quantity="other">Menginap %d malam</item>
     </plurals>
     <!-- Loading message for rooms & rates -->
-    <string name="room_rates_loading">Mencari kamar yang tersedia&#2026;</string>
+    <string name="room_rates_loading">Mencari kamar yang tersedia…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
     <string name="error_no_response_room_rates">Tidak dapat mengunduh informasi kamar &amp; tarif.  Periksa koneksi Anda dan coba lagi.</string>
     <!-- Rate price displayed "per night" -->

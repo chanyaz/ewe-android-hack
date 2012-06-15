@@ -9,11 +9,11 @@
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">ป้อนสถานที่ที่คุณต้องการค้นหา&#2026;</string>
+    <string name="enter_search_location">ป้อนสถานที่ที่คุณต้องการค้นหา…</string>
     <!-- Hint for "search location" field -->
     <string name="hint_search_location">ค้นหาตำแหน่ง</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">กำลังโหลดคำแนะนำ&#2026;</string>
+    <string name="loading_suggestions">กำลังโหลดคำแนะนำ…</string>
     <!-- Label for recent searches user has made -->
     <string name="recent_searches">ผลลัพธ์ล่าสุด </string>
     <!-- Label for searches that the user can make that are featured -->
@@ -87,13 +87,13 @@
     <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
     <string name="NoGeocodingResults">ไม่สามารถค้นหาตำแหน่งของ %s</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-    <string name="ChooseLocation">หรือคุณหมายความว่า&#2026;</string>
+    <string name="ChooseLocation">หรือคุณหมายความว่า…</string>
     <!-- Button label for upgrading the app -->
     <string name="upgrade">อัพเกรด</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">ค้นหาแผนที่ </string>
     <!-- Message when app is loading saved search results -->
-    <string name="loading_previous">กำลังโหลดผลลัพธ์การค้นหาก่อนหน้า&#2026;</string>
+    <string name="loading_previous">กำลังโหลดผลลัพธ์การค้นหาก่อนหน้า…</string>
     <!-- Label for sort hotels button in bottom bar -->
     <string name="sort_hotels">&quot;ค้นหาตาม:&quot;</string>
     <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
@@ -149,9 +149,9 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-    <string name="progress_finding_location">กำลังระบุตำแหน่งปัจจุบัน&#2026;</string>
+    <string name="progress_finding_location">กำลังระบุตำแหน่งปัจจุบัน…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">กำลังค้นหาโรงแรม&#2026;</string>
+    <string name="progress_searching_hotels">กำลังค้นหาโรงแรม…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">ไม่พบโรงแรม </string>
 
@@ -188,7 +188,7 @@
 
     <!-- Widget -->
     <!--  Default Loading message for widget -->
-    <string name="loading_hotels">กำลังโหลดโรงแรม&#2026;</string>
+    <string name="loading_hotels">กำลังโหลดโรงแรม…</string>
     <!--  Template for sale element in widget. The parameter is for the sale % -->
     <string name="widget_savings_template">ลด %2.0f%%</string>
     <!--  Indicator to user to tap the widget to cause it to refresh -->
@@ -296,7 +296,7 @@
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
-    <string name="user_review_loading_text">กำลังโหลดความคิดเห็นของผู้เข้าพัก&#2026;</string>
+    <string name="user_review_loading_text">กำลังโหลดความคิดเห็นของผู้เข้าพัก…</string>
     <!-- Header for reviews of the non-native language -->
     <string name="user_review_other_languages_title">เปลี่ยนภาษา</string>
     <!-- The text for the sort button, recent -->
@@ -306,7 +306,7 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">เชิงลบ</string>
     <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">กำลังโหลดความคิดเห็นเพิ่มเติม&#2026;</string>
+    <string name="user_review_loading_more_reviews">กำลังโหลดความคิดเห็นเพิ่มเติม…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">ศึกษาข้อมูลเพิ่มเติม </string>
     <!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
@@ -344,7 +344,7 @@
         <item quantity="other">พัก %d คืน</item>
     </plurals>
     <!-- Loading message for rooms & rates -->
-    <string name="room_rates_loading">กำลังค้นหาห้องว่าง&#2026;</string>
+    <string name="room_rates_loading">กำลังค้นหาห้องว่าง…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
     <string name="error_no_response_room_rates">ไม่สามารถดาวน์โหลดข้อมูลห้องพักและราคา โปรดตรวจสอบสัญญาณอินเทอร์เน็ต แล้วลองอีกครั้ง</string>
     <!-- Rate price displayed "per night" -->
@@ -481,7 +481,7 @@
     <!-- Error if user agreement needs to be checked but is not -->
     <string name="error_no_user_agreement">คุณต้องยอมรับข้อกำหนดในการจอง</string>
     <!-- Message to display to user while booking is in progress -->
-    <string name="booking_loading">กำลังจอง&#2026;</string>
+    <string name="booking_loading">กำลังจอง…</string>
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">เกิดข้อผิดพลาด</string>
     <!-- Error message when we couldn't get a response -->
@@ -565,7 +565,7 @@
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">รหัสผ่าน</string>
     <!-- Progress dialog text when we are logging the user into Expedia -->
-    <string name="logging_in">กำลังเข้าระบบ&#2026;</string>
+    <string name="logging_in">กำลังเข้าระบบ…</string>
     <!-- Message that tells user they successfully logged in -->
     <string name="login_success">เรียบร้อยแล้ว คุณเข้าระบบแล้ว</string>
     <!-- Message that tells user they failed to log in -->

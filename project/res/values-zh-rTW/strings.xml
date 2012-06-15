@@ -296,7 +296,7 @@
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
-    <string name="user_review_loading_text">正在載入使用者評論&#2026;</string>
+    <string name="user_review_loading_text">正在載入使用者評論…</string>
     <!-- Header for reviews of the non-native language -->
     <string name="user_review_other_languages_title">以其他語言的評語</string>
     <!-- The text for the sort button, recent -->
@@ -306,7 +306,7 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">負面</string>
     <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">正在載入更多評論&#2026;</string>
+    <string name="user_review_loading_more_reviews">正在載入更多評論…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">閱讀更多</string>
     <!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)

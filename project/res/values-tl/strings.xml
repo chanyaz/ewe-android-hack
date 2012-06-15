@@ -9,11 +9,11 @@
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">Ilagay ang lokasyon na paghahanapan&#2026;</string>
+    <string name="enter_search_location">Ilagay ang lokasyon na paghahanapan…</string>
     <!-- Hint for "search location" field -->
     <string name="hint_search_location">Maghanap ng Lokasyon</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">Naglo-load ng mga mungkahi&#2026;</string>
+    <string name="loading_suggestions">Naglo-load ng mga mungkahi…</string>
     <!-- Label for recent searches user has made -->
     <string name="recent_searches">Mga Kamakailang Paghahanap</string>
     <!-- Label for searches that the user can make that are featured -->
@@ -87,13 +87,13 @@
     <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
     <string name="NoGeocodingResults">Hindi mahanap ang kinaroroonan ng %s.</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-    <string name="ChooseLocation">Ang tinutukoy ba ninyo ay&#2026;</string>
+    <string name="ChooseLocation">Ang tinutukoy ba ninyo ay…</string>
     <!-- Button label for upgrading the app -->
     <string name="upgrade">Mag-upgrade</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Maghanap sa Mapa</string>
     <!-- Message when app is loading saved search results -->
-    <string name="loading_previous">Inilo-load ang mga nakaraang resulta ng paghahanap&#2026;</string>
+    <string name="loading_previous">Inilo-load ang mga nakaraang resulta ng paghahanap…</string>
     <!-- Label for sort hotels button in bottom bar -->
     <string name="sort_hotels">&quot;Uriin: &quot;</string>
     <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
@@ -149,9 +149,9 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-    <string name="progress_finding_location">Hinahanap ang Kasalukyang Lokasyon&#2026;</string>
+    <string name="progress_finding_location">Hinahanap ang Kasalukyang Lokasyon…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">Naghahanap ng mga Hotel&#2026;</string>
+    <string name="progress_searching_hotels">Naghahanap ng mga Hotel…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">Walang Nahanap na Mga Hotel</string>
 
@@ -188,7 +188,7 @@
 
     <!-- Widget -->
     <!--  Default Loading message for widget -->
-    <string name="loading_hotels">Naglo-load ng mga hotel&#2026;</string>
+    <string name="loading_hotels">Naglo-load ng mga hotel…</string>
     <!--  Template for sale element in widget. The parameter is for the sale % -->
     <string name="widget_savings_template">Makakatipid ng %2.0f%%</string>
     <!--  Indicator to user to tap the widget to cause it to refresh -->
@@ -296,7 +296,7 @@
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
-    <string name="user_review_loading_text">Naglo-load ng mga komentaryo ng mga user&#2026;</string>
+    <string name="user_review_loading_text">Naglo-load ng mga komentaryo ng mga user…</string>
     <!-- Header for reviews of the non-native language -->
     <string name="user_review_other_languages_title">Mga komentaryo sa ibang lengguahe</string>
     <!-- The text for the sort button, recent -->
@@ -306,7 +306,7 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">Puna</string>
     <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">Naglo-load pa ng mas maraming komentaryo&#2026;</string>
+    <string name="user_review_loading_more_reviews">Naglo-load pa ng mas maraming komentaryo…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">Magbasa na mas marami pa</string>
     <!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
@@ -344,7 +344,7 @@
         <item quantity="other">Mananatili ng %d gabi</item>
     </plurals>
     <!-- Loading message for rooms & rates -->
-    <string name="room_rates_loading">Naghahanap ng mga bakanteng kuwarto&#2026;</string>
+    <string name="room_rates_loading">Naghahanap ng mga bakanteng kuwarto…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
     <string name="error_no_response_room_rates">Hindi mai-download ang impormasyon ng mga kuwarto &amp; rate.  Pakitingnan ang inyong koneksyon at subukang muli.</string>
     <!-- Rate price displayed "per night" -->
@@ -481,7 +481,7 @@
     <!-- Error if user agreement needs to be checked but is not -->
     <string name="error_no_user_agreement">Dapat ninyong tanggapin ang mga tuntunin upang mag-book</string>
     <!-- Message to display to user while booking is in progress -->
-    <string name="booking_loading">Nagbo-book&#2026;</string>
+    <string name="booking_loading">Nagbo-book…</string>
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">Error</string>
     <!-- Error message when we couldn't get a response -->
@@ -565,7 +565,7 @@
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">Password</string>
     <!-- Progress dialog text when we are logging the user into Expedia -->
-    <string name="logging_in">Nagla-log in&#2026;</string>
+    <string name="logging_in">Nagla-log in…</string>
     <!-- Message that tells user they successfully logged in -->
     <string name="login_success">Tagumpay! Nakalog-in ka nan.</string>
     <!-- Message that tells user they failed to log in -->
@@ -625,7 +625,7 @@
     <!-- Extra description for "contact Expedia" button, when space allows -->
     <string name="contact_expedia_description">Nandito kami para sa inyo 24 na oras sa isang araw.</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">Kontakin ang Expedia sa Pamamagitan ng &#2026;</string>
+    <string name="contact_expedia_via">Kontakin ang Expedia sa Pamamagitan ng …</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Telepono</string>
     <!-- Contact Expedia via email -->

@@ -13,7 +13,7 @@
     <!-- Hint for "search location" field -->
     <string name="hint_search_location">ロケーションを検索</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">提案を読み込んでいます&#2026;</string>
+    <string name="loading_suggestions">提案を読み込んでいます…</string>
     <!-- Label for recent searches user has made -->
     <string name="recent_searches">最近の検索</string>
     <!-- Label for searches that the user can make that are featured -->

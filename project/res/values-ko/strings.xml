@@ -9,11 +9,11 @@
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">위치 검색 입력&#2026;</string>
+    <string name="enter_search_location">위치 검색 입력…</string>
     <!-- Hint for "search location" field -->
     <string name="hint_search_location">위치 검색</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">제안 항목 로드 중&#2026;</string>
+    <string name="loading_suggestions">제안 항목 로드 중…</string>
     <!-- Label for recent searches user has made -->
     <string name="recent_searches">최근 검색</string>
     <!-- Label for searches that the user can make that are featured -->
@@ -93,7 +93,7 @@
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">지도 검색</string>
     <!-- Message when app is loading saved search results -->
-    <string name="loading_previous">이전 검색 결과 로드 중&#2026;</string>
+    <string name="loading_previous">이전 검색 결과 로드 중…</string>
     <!-- Label for sort hotels button in bottom bar -->
     <string name="sort_hotels">&quot;정렬: &quot;</string>
     <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
@@ -149,9 +149,9 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-    <string name="progress_finding_location">현재 위치 찾는 중&#2026;</string>
+    <string name="progress_finding_location">현재 위치 찾는 중…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">호텔 검색 중&#2026;</string>
+    <string name="progress_searching_hotels">호텔 검색 중…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">검색된 호텔이 없습니다.</string>
 
@@ -188,7 +188,7 @@
 
     <!-- Widget -->
     <!--  Default Loading message for widget -->
-    <string name="loading_hotels">호텔 로드 중&#2026;</string>
+    <string name="loading_hotels">호텔 로드 중…</string>
     <!--  Template for sale element in widget. The parameter is for the sale % -->
     <string name="widget_savings_template">%2.0f%% 할인</string>
     <!--  Indicator to user to tap the widget to cause it to refresh -->
@@ -296,7 +296,7 @@
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
-    <string name="user_review_loading_text">이용 후기 로드 중&#2026;</string>
+    <string name="user_review_loading_text">이용 후기 로드 중…</string>
     <!-- Header for reviews of the non-native language -->
     <string name="user_review_other_languages_title">다른 언어로 작성된 이용 후기</string>
     <!-- The text for the sort button, recent -->
@@ -306,7 +306,7 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">비판적</string>
     <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">더 많은 이용 후기 로드 중&#2026;</string>
+    <string name="user_review_loading_more_reviews">더 많은 이용 후기 로드 중…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">더 보기</string>
     <!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
@@ -344,7 +344,7 @@
         <item quantity="other">%d박 숙박 중</item>
     </plurals>
     <!-- Loading message for rooms & rates -->
-    <string name="room_rates_loading">예약 가능한 객실 검색 중&#2026;</string>
+    <string name="room_rates_loading">예약 가능한 객실 검색 중…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
     <string name="error_no_response_room_rates">객실 및 요금 정보를 다운로드할 수 없습니다.  연결 상태를 확인하고 다시 시도해 주세요.</string>
     <!-- Rate price displayed "per night" -->
@@ -481,7 +481,7 @@
     <!-- Error if user agreement needs to be checked but is not -->
     <string name="error_no_user_agreement">예약하려면 약관에 동의하셔야 합니다.</string>
     <!-- Message to display to user while booking is in progress -->
-    <string name="booking_loading">예약 중&#2026;</string>
+    <string name="booking_loading">예약 중…</string>
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">오류</string>
     <!-- Error message when we couldn't get a response -->
@@ -565,7 +565,7 @@
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">비밀번호</string>
     <!-- Progress dialog text when we are logging the user into Expedia -->
-    <string name="logging_in">로그인 중&#2026;</string>
+    <string name="logging_in">로그인 중…</string>
     <!-- Message that tells user they successfully logged in -->
     <string name="login_success">성공했습니다! 로그인했습니다.</string>
     <!-- Message that tells user they failed to log in -->

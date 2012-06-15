@@ -13,7 +13,7 @@
     <!-- Hint for "search location" field -->
     <string name="hint_search_location">搜索位置</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">正在加载建议&#2026;</string>
+    <string name="loading_suggestions">正在加载建议…</string>
     <!-- Label for recent searches user has made -->
     <string name="recent_searches">最近的搜索</string>
     <!-- Label for searches that the user can make that are featured -->
@@ -87,13 +87,13 @@
     <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
     <string name="NoGeocodingResults">无法找到位置：%s。 </string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-    <string name="ChooseLocation">您的意思是&#2026;</string>
+    <string name="ChooseLocation">您的意思是…</string>
     <!-- Button label for upgrading the app -->
     <string name="upgrade">升级</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">搜索地图</string>
     <!-- Message when app is loading saved search results -->
-    <string name="loading_previous">正在加载之前的搜索结果&#2026;</string>
+    <string name="loading_previous">正在加载之前的搜索结果…</string>
     <!-- Label for sort hotels button in bottom bar -->
     <string name="sort_hotels">“排序：”</string>
     <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
@@ -149,9 +149,9 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-    <string name="progress_finding_location">正在查找当前位置&#2026;</string>
+    <string name="progress_finding_location">正在查找当前位置…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">正在搜索酒店&#2026;</string>
+    <string name="progress_searching_hotels">正在搜索酒店…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">找不到任何酒店</string>
 
@@ -296,7 +296,7 @@
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
-    <string name="user_review_loading_text">正在加载用户评价&#2026;</string>
+    <string name="user_review_loading_text">正在加载用户评价…</string>
     <!-- Header for reviews of the non-native language -->
     <string name="user_review_other_languages_title">其他语言的评价</string>
     <!-- The text for the sort button, recent -->
@@ -306,7 +306,7 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">贬</string>
     <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">正在加载更多评价&#2026;</string>
+    <string name="user_review_loading_more_reviews">正在加载更多评价…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">阅读更多内容</string>
     <!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
@@ -481,7 +481,7 @@
     <!-- Error if user agreement needs to be checked but is not -->
     <string name="error_no_user_agreement">您必须接受预订条款</string>
     <!-- Message to display to user while booking is in progress -->
-    <string name="booking_loading">正在预订&#2026;</string>
+    <string name="booking_loading">正在预订…</string>
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">错误</string>
     <!-- Error message when we couldn't get a response -->
