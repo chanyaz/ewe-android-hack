@@ -114,6 +114,17 @@
 
         <activity android:name=".activity.FlightDetailsActivity"
             android:theme="@style/FlightTheme"  />
+        
+        <activity android:name=".activity.SectionTest"
+            android:label="Expedia Flights"
+            android:theme="@style/FlightTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".activity.FlightBookingActivity"
             android:theme="@style/FlightTheme"  />
