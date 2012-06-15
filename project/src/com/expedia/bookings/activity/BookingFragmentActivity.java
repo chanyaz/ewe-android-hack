@@ -46,7 +46,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
 
-	private static final String KEY_BOOKING = "KEY_BOOKING";
+	public static final String BOOKING_DOWNLOAD_KEY = BookingFragmentActivity.class.getName() + ".BOOKING";
 
 	public static final String EXTRA_SPECIFIC_RATE = "EXTRA_SPECIFIC_RATE";
 
@@ -105,8 +105,11 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		super.onResume();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_BOOKING)) {
-			bd.registerDownloadCallback(KEY_BOOKING, mBookingCallback);
+		if (bd.isDownloading(BOOKING_DOWNLOAD_KEY)) {
+			bd.registerDownloadCallback(BOOKING_DOWNLOAD_KEY, mBookingCallback);
+			DialogFragment dialog = BookingInProgressDialogFragment.newInstance();
+			dialog.setCancelable(false);
+			dialog.show(getSupportFragmentManager(), getString(R.string.tag_booking_progress));
 		}
 	}
 
@@ -114,7 +117,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	protected void onPause() {
 		super.onPause();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.unregisterDownloadCallback(KEY_BOOKING, mBookingCallback);
+		bd.unregisterDownloadCallback(BOOKING_DOWNLOAD_KEY, mBookingCallback);
 	}
 
 	@Override
@@ -311,7 +314,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		dialog.show(getSupportFragmentManager(), getString(R.string.tag_booking_progress));
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.cancelDownload(KEY_BOOKING);
-		bd.startDownload(KEY_BOOKING, mBookingDownload, mBookingCallback);
+		bd.cancelDownload(BOOKING_DOWNLOAD_KEY);
+		bd.startDownload(BOOKING_DOWNLOAD_KEY, mBookingDownload, mBookingCallback);
 	}
 }

@@ -43,7 +43,7 @@ import com.mobiata.android.validation.ValidationError;
 public class BookingInfoActivity extends FragmentActivity implements BookingFormFragmentListener,
 		SignInFragmentListener {
 
-	private static final String DOWNLOAD_KEY = "com.expedia.bookings.booking";
+	public static final String BOOKING_DOWNLOAD_KEY = BookingInfoActivity.class.getName() + ".BOOKING";
 
 	private static final int DIALOG_CLEAR_PRIVATE_DATA = 4;
 
@@ -90,8 +90,9 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 
 		// If we were booking, re-hook the download 
 		BackgroundDownloader downloader = BackgroundDownloader.getInstance();
-		if (downloader.isDownloading(DOWNLOAD_KEY)) {
-			downloader.registerDownloadCallback(DOWNLOAD_KEY, mCheckoutCallback);
+		if (downloader.isDownloading(BOOKING_DOWNLOAD_KEY)) {
+			downloader.registerDownloadCallback(BOOKING_DOWNLOAD_KEY, mCheckoutCallback);
+			showDialog(BookingInfoUtils.DIALOG_BOOKING_PROGRESS);
 		}
 	}
 
@@ -99,12 +100,13 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 	protected void onPause() {
 		super.onPause();
 
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+		BackgroundDownloader.getInstance().unregisterDownloadCallback(BOOKING_DOWNLOAD_KEY);
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
 		if (isFinishing()) {
 			Db.setCreateTripResponse(null);
 		}
@@ -281,7 +283,7 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 	@Override
 	public void onCheckout() {
 		showDialog(BookingInfoUtils.DIALOG_BOOKING_PROGRESS);
-		BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, mCheckoutDownload, mCheckoutCallback);
+		BackgroundDownloader.getInstance().startDownload(BOOKING_DOWNLOAD_KEY, mCheckoutDownload, mCheckoutCallback);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
