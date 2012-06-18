@@ -81,7 +81,7 @@ public class HotelActivity extends Activity {
 
 	private static final int DIALOG_NO_CONNECTION = 0;
 
-	private static final long RESUME_TIMEOUT = 1000 * 60 * 60; // 1 hour
+	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
 
 	private Context mContext;
 	private ExpediaBookingApp mApp;

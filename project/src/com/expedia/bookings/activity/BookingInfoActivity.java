@@ -48,7 +48,7 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 
 	private static final int DIALOG_CLEAR_PRIVATE_DATA = 4;
 
-	private static final long RESUME_TIMEOUT = 1000 * 60 * 60; // 1 hour
+	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
 
 	private Context mContext;
 

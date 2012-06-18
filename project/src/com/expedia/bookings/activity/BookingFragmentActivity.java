@@ -51,7 +51,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 	public static final String EXTRA_SPECIFIC_RATE = "EXTRA_SPECIFIC_RATE";
 
-	private static final long RESUME_TIMEOUT = 1000 * 60 * 60; // 1 hour
+	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
 
 	//////////////////////////////////////////////////////////////////////////
 	// Member vars

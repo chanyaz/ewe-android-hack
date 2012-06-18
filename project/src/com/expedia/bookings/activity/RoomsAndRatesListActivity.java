@@ -38,7 +38,7 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 
 	private static final String DOWNLOAD_KEY = "com.expedia.booking.details.offer.full";
 
-	private static final long RESUME_TIMEOUT = 1000 * 60 * 60; // 1 hour
+	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
 
 	private RoomsAndRatesFragment mRoomsAndRatesFragment;
 
