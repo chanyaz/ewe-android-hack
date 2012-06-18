@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
@@ -80,6 +81,8 @@ public class HotelActivity extends Activity {
 
 	private static final int DIALOG_NO_CONNECTION = 0;
 
+	private static final long RESUME_TIMEOUT = 1000 * 60 * 60; // 1 hour
+
 	private Context mContext;
 	private ExpediaBookingApp mApp;
 
@@ -98,6 +101,8 @@ public class HotelActivity extends Activity {
 	private boolean mIsAmenitiesExpanded;
 
 	private HotelDescription mDescription;
+
+	private long mLastResumeTime = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +166,13 @@ public class HotelActivity extends Activity {
 			finish();
 			return;
 		}
+
+		// #14135, set a 1 hour timeout on this screen
+		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+			finish();
+			return;
+		}
+		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
 
 		mIsStartingReviewsActivity = false;
 

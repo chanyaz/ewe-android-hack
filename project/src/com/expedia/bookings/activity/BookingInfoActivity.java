@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -47,9 +48,13 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 
 	private static final int DIALOG_CLEAR_PRIVATE_DATA = 4;
 
+	private static final long RESUME_TIMEOUT = 1000 * 60 * 60; // 1 hour
+
 	private Context mContext;
 
 	private BookingFormFragment mBookingFragment;
+
+	private long mLastResumeTime = -1;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -87,6 +92,13 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 			finish();
 			return;
 		}
+
+		// #14135, set a 1 hour timeout on this screen
+		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+			finish();
+			return;
+		}
+		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
 
 		// If we were booking, re-hook the download 
 		BackgroundDownloader downloader = BackgroundDownloader.getInstance();

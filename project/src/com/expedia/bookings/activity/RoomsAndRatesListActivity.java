@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.Calendar;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -36,10 +38,14 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 
 	private static final String DOWNLOAD_KEY = "com.expedia.booking.details.offer.full";
 
+	private static final long RESUME_TIMEOUT = 1000 * 60 * 60; // 1 hour
+
 	private RoomsAndRatesFragment mRoomsAndRatesFragment;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
+
+	private long mLastResumeTime = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +138,13 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 			finish();
 			return;
 		}
+
+		// #14135, set a 1 hour timeout on this screen
+		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+			finish();
+			return;
+		}
+		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(DOWNLOAD_KEY)) {

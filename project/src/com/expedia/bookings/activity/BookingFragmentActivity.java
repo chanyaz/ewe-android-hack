@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -50,12 +51,16 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 	public static final String EXTRA_SPECIFIC_RATE = "EXTRA_SPECIFIC_RATE";
 
+	private static final long RESUME_TIMEOUT = 1000 * 60 * 60; // 1 hour
+
 	//////////////////////////////////////////////////////////////////////////
 	// Member vars
 
 	private Context mContext;
 
 	private BookingInfoFragment mBookingInfoFragment;
+
+	private long mLastResumeTime = -1;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -103,6 +108,13 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		// #14135, set a 1 hour timeout on this screen
+		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+			finish();
+			return;
+		}
+		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(BOOKING_DOWNLOAD_KEY)) {
