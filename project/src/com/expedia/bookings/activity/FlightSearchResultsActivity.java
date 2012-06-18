@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -125,8 +124,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			startActivity(intent);
 		}
 		else {
-			// TODO: If the user has selected all legs, go to checkout screen
-			Toast.makeText(this, "TODO: All legs selected, implement checkout screen", Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(this, FlightBookingActivity.class);
+			startActivity(intent);
 		}
 	}
 }

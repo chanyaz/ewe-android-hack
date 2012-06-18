@@ -127,6 +127,41 @@ public class FlightSearch {
 		getSelectedLegs()[position] = leg;
 	}
 
+	// Returns the selected FlightTrip.
+	//
+	// Only valid if all legs are selected.  Otherwise, it returns null.
+	public FlightTrip getSelectedFlightTrip() {
+		FlightLeg[] legs = getSelectedLegs();
+		for (int a = 0; a < legs.length; a++) {
+			if (legs[a] == null) {
+				return null;
+			}
+		}
+
+		final List<FlightTrip> trips = mSearchResponse.getTrips();
+		final int tripCount = trips.size();
+		for (int a = 0; a < tripCount; a++) {
+			FlightTrip candidate = trips.get(a);
+
+			boolean matches = true;
+			for (int b = 0; b < legs.length; b++) {
+				if (!candidate.getLeg(b).equals(legs[b])) {
+					matches = false;
+				}
+			}
+
+			if (matches) {
+				return candidate;
+			}
+		}
+
+		// It shouldn't be possible to get here; if you do, something
+		// logically went wrong with the app (as you were able to
+		// select a flightleg combo that isn't valid).  So throw
+		// a hissy fit.
+		throw new RuntimeException("Somehow setup a series of flight legs that do not match any flight trips.");
+	}
+
 	public FlightFilter getFilter(int legPosition) {
 		if (mFilters == null || mFilters.length != mSearchParams.getQueryLegCount()) {
 			mFilters = new FlightFilter[mSearchParams.getQueryLegCount()];

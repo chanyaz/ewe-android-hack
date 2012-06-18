@@ -50,6 +50,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightDetailsResponse;
 import com.expedia.bookings.data.FlightDetailsResponseHandler;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -196,6 +197,29 @@ public class ExpediaServices implements DownloadListener {
 				flags);
 	}
 
+	public FlightCheckoutResponse flightCheckout(String productKey, BillingInfo billingInfo, int flags) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addBillingInfo(query, billingInfo);
+
+		// TODO: New billing fields that are not yet support in BillingInfo
+		query.add(new BasicNameValuePair("gender", "FEMALE"));
+		query.add(new BasicNameValuePair("birthDate", "1985-12-12"));
+
+		// Not sure why, but this is required
+		query.add(new BasicNameValuePair("tripTitle", "My Awesome Trip"));
+
+		// Product fields
+		query.add(new BasicNameValuePair("productKey", productKey));
+
+		// IMPORTANT: DO NOT REMOVE UNTIL INITIAL TESTING IS DONE.
+		// Checkout calls without this flag can make ACTUAL bookings!
+		query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
+
+		return (FlightCheckoutResponse) doFlightsRequest("checkout", query,
+				new FlightCheckoutResponseHandler(mContext), flags + F_SECURE_REQUEST);
+	}
+
 	private Object doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
 			ResponseHandler<?> responseHandler, int flags) {
 		String serverUrl = getE3EndpointUrl(flags + F_FLIGHTS) + targetUrl;
@@ -312,30 +336,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addBasicParams(query, params);
 
-		query.add(new BasicNameValuePair("firstName", billingInfo.getFirstName()));
-		query.add(new BasicNameValuePair("lastName", billingInfo.getLastName()));
-		query.add(new BasicNameValuePair("phoneCountryCode", billingInfo.getTelephoneCountryCode()));
-		query.add(new BasicNameValuePair("phone", billingInfo.getTelephone()));
-		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
-
-		Location location = billingInfo.getLocation();
-		query.add(new BasicNameValuePair("streetAddress", location.getStreetAddressString()));
-		query.add(new BasicNameValuePair("city", location.getCity()));
-		query.add(new BasicNameValuePair("state", location.getStateCode()));
-		query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
-		query.add(new BasicNameValuePair("country", location.getCountryCode()));
-
-		if (billingInfo.getStoredCard() == null) {
-			query.add(new BasicNameValuePair("creditCardNumber", billingInfo.getNumber()));
-
-			DateFormat expFormatter = new SimpleDateFormat("MMyy");
-			query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
-					.getTime())));
-		}
-		else {
-			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));
-		}
-		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
+		addBillingInfo(query, billingInfo);
 
 		query.add(new BasicNameValuePair("sendEmailConfirmation", "true"));
 
@@ -429,6 +430,33 @@ public class ExpediaServices implements DownloadListener {
 		if (langId != null) {
 			query.add(new BasicNameValuePair("langid", langId));
 		}
+	}
+
+	private void addBillingInfo(List<BasicNameValuePair> query, BillingInfo billingInfo) {
+		query.add(new BasicNameValuePair("firstName", billingInfo.getFirstName()));
+		query.add(new BasicNameValuePair("lastName", billingInfo.getLastName()));
+		query.add(new BasicNameValuePair("phoneCountryCode", billingInfo.getTelephoneCountryCode()));
+		query.add(new BasicNameValuePair("phone", billingInfo.getTelephone()));
+		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
+
+		Location location = billingInfo.getLocation();
+		query.add(new BasicNameValuePair("streetAddress", location.getStreetAddressString()));
+		query.add(new BasicNameValuePair("city", location.getCity()));
+		query.add(new BasicNameValuePair("state", location.getStateCode()));
+		query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
+		query.add(new BasicNameValuePair("country", location.getCountryCode()));
+
+		if (billingInfo.getStoredCard() == null) {
+			query.add(new BasicNameValuePair("creditCardNumber", billingInfo.getNumber()));
+
+			DateFormat expFormatter = new SimpleDateFormat("MMyy");
+			query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
+					.getTime())));
+		}
+		else {
+			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));
+		}
+		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
