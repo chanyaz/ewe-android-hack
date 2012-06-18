@@ -45,12 +45,13 @@
             android:layout_weight="1"
             android:background="@drawable/btn_signin"
             android:text="@string/log_in"
-            android:textColor="#FFFFFF" />
+            android:textColor="@color/btn_signin_text_color" />
         <Button
             android:id="@+id/cancel_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/btn_default"
             android:text="@android:string/cancel" />
     </LinearLayout>
 </LinearLayout>

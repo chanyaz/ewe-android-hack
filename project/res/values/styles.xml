@@ -313,4 +313,12 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="ExpediaLoginDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowTitleStyle">@style/ExpediaLoginDialogTitle</item>
+    </style>
+
+    <style name="ExpediaLoginDialogTitle" parent="@android:style/TextAppearance.DialogWindowTitle">
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
 </resources>

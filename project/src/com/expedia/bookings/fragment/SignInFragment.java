@@ -67,7 +67,7 @@ public class SignInFragment extends DialogFragment {
 			dialog.requestWindowFeature(STYLE_NO_TITLE);
 		}
 		else {
-			dialog = new Dialog(getActivity());
+			dialog = new Dialog(getActivity(), R.style.ExpediaLoginDialog);
 		}
 		dialog.setTitle(R.string.expedia_account);
 		dialog.setContentView(view);
