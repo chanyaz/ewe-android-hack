@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import android.app.Application;
 import android.content.ComponentName;
@@ -65,8 +66,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		LocaleUtils.onPointOfSaleChanged(this);
 
-		String[] validAmobeeCountryCodes = getResources().getStringArray(R.array.valid_amobee_points_of_sale);
-		Amobee.initialize(this, "ExpediaHotelsAndroidPhone", Arrays.asList(validAmobeeCountryCodes).contains(posKey));
+		List<String> amobeePos = Arrays.asList(getResources().getStringArray(R.array.valid_amobee_points_of_sale));
+		Amobee.initialize(this, "ExpediaHotelsAndroidPhone", amobeePos.contains(LocaleUtils.getPointOfSale(this)));
 		Amobee.trackFirstLaunch();
 
 		// #13097: We need a way to disable the widget on ICS tablets.  This is a hacky way of doing so, 
