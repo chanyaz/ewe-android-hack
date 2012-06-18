@@ -248,7 +248,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 			// Track successful booking with Amobee
 			final String currency = Db.getSelectedRate().getDisplayRate().getCurrency();
 			final Integer duration = Db.getSearchParams().getStayDuration();
-			final String totalPrice = Db.getSelectedRate().getTotalAmountAfterTax().getFormattedMoney();
+			final Double totalPrice = Db.getSelectedRate().getTotalAmountAfterTax().getAmount();
 			final Integer daysRemaining = (int) ((Db.getSearchParams().getCheckInDate().getTime().getTime() - new Date()
 					.getTime()) / (24 * 60 * 60 * 1000));
 
