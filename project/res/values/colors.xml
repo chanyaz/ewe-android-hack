@@ -11,6 +11,8 @@
 	<color name="calendar_header">#FFF3F3F3</color>
 	<color name="calendar_header_tablet">#60FFFFFF</color>
 
+	<color name="bg_expedia_list">#e7e7e7</color>
+
 	<!-- The color for text hints on input -->
 	<color name="hint_color">#808080</color>
 	

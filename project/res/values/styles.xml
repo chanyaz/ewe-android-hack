@@ -213,8 +213,8 @@
     </style>
 
     <style name="ExpediaList">
-        <item name="android:background">#e7e7e7</item>
-        <item name="android:cacheColorHint">#e7e7e7</item>
+        <item name="android:background">@color/bg_expedia_list</item>
+        <item name="android:cacheColorHint">@color/bg_expedia_list</item>
         <item name="android:divider">@drawable/list_divider</item>
         <item name="android:footerDividersEnabled">false</item>
         <item name="android:fadingEdge">none</item>

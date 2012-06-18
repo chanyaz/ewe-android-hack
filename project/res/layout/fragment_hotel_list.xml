@@ -3,7 +3,7 @@
     android:id="@+id/hotel_list_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#e9e9eb"
+    android:background="@color/bg_expedia_list"
     android:gravity="center"
     android:orientation="vertical" >
 
@@ -57,6 +57,7 @@
 
     <com.expedia.bookings.widget.MeasureListView
         android:id="@android:id/list"
+        style="@style/ExpediaList"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
