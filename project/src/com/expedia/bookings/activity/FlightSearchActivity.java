@@ -534,7 +534,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 			ExpediaServices services = new ExpediaServices(FlightSearchActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
 			return services.flightSearch(Db.getFlightSearch().getSearchParams(), 0);
-
 		}
 	};
 

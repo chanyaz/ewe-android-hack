@@ -1,6 +1,5 @@
 package com.expedia.bookings.server;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,9 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +20,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
-import com.mobiata.android.util.NetUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
@@ -42,43 +37,6 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 	public FlightSearchResponseHandler(Context context) {
 		mContext = context;
-	}
-
-	/* TODO, IMPORTANT: DELETE THIS METHOD EVENTUALLY
-	 *
-	 * Right now, EF errors come back as an array (instead of an Object).  I'm lobbying
-	 * to get this changed, but in the meantime we also have to handle parsing errors
-	 * as an array.
-	 */
-	@Override
-	public FlightSearchResponse handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
-		if (response == null) {
-			return null;
-		}
-
-		String responseStr = null;
-		try {
-			responseStr = NetUtils.toString(response.getEntity(), HTTP.UTF_8);
-			Log.v("Response length: " + responseStr.length());
-			Log.dump("Response: " + responseStr, Log.LEVEL_VERBOSE);
-			return handleJson(new JSONObject(responseStr));
-		}
-		catch (IOException e) {
-			Log.e("Server request failed.", e);
-		}
-		catch (JSONException e) {
-			try {
-				JSONArray arr = new JSONArray(responseStr);
-				JSONObject obj = new JSONObject();
-				obj.put("errors", arr);
-				return handleJson(obj);
-			}
-			catch (JSONException e2) {
-				Log.e("Could not parse JSON.", e2);
-			}
-		}
-
-		return null;
 	}
 
 	@Override
