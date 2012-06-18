@@ -184,13 +184,11 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 		mDepartureAirportEditText.addTextChangedListener(mAirportTextWatcher);
 		mArrivalAirportEditText.addTextChangedListener(mAirportTextWatcher);
 
-		if(BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)){
-			disableSearchParamFields();
+		if (BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)) {
+			showLoading();
 			BackgroundDownloader.getInstance().registerDownloadCallback(DOWNLOAD_KEY, mDownloadCallback);
-		}else{
-			enableSearchParamFields();
 		}
-		
+
 		//HockeyApp crash
 		mHockeyPuck.onResume();
 	}
@@ -201,7 +199,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 
 		mDepartureAirportEditText.removeTextChangedListener(mAirportTextWatcher);
 		mArrivalAirportEditText.removeTextChangedListener(mAirportTextWatcher);
-		
+
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
 	}
 
@@ -238,22 +236,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 		resetAirportEditTexts();
 	}
 
-	
-	private void disableSearchParamFields(){
-		Log.i("disableSearchParamFields");
-		mDepartureAirportEditText.setEnabled(false);
-		mArrivalAirportEditText.setEnabled(false);
-		mDatesButton.setEnabled(false);
-		mPassengersButton.setEnabled(false);
-	}
-	private void enableSearchParamFields(){
-		Log.i("enableSearchParamFields");
-		mDepartureAirportEditText.setEnabled(true);
-		mArrivalAirportEditText.setEnabled(true);
-		mDatesButton.setEnabled(true);
-		mPassengersButton.setEnabled(true);
-	}
-	
 	private static final String DATE_FORMAT = "MMM d";
 
 	private void updateDateButton() {
@@ -462,7 +444,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 		case R.id.search:
 			if (!BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)) {
 				clearEditTextFocus();
-				disableSearchParamFields();
 				showLoading();
 				BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, mDownload, mDownloadCallback);
 			}
@@ -550,11 +531,10 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	private Download<FlightSearchResponse> mDownload = new Download<FlightSearchResponse>() {
 		@Override
 		public FlightSearchResponse doDownload() {
-			disableSearchParamFields();
 			ExpediaServices services = new ExpediaServices(FlightSearchActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
 			return services.flightSearch(Db.getFlightSearch().getSearchParams(), 0);
-		
+
 		}
 	};
 
@@ -580,8 +560,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 				startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
 				setFragment(null);
 			}
-			
-			enableSearchParamFields();
 		}
 	};
 }
