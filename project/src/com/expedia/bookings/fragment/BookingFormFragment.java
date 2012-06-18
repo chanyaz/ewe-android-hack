@@ -231,8 +231,10 @@ public class BookingFormFragment extends DialogFragment {
 		mCouponCodeWidget.setCouponCodeAppliedListener(new CouponCodeWidget.CouponCodeAppliedListener() {
 			@Override
 			public void couponCodeApplied() {
-				updateChargeDetails();
-				updateReceiptWidget();
+				if (isAdded()) {
+					updateChargeDetails();
+					updateReceiptWidget();
+				}
 			}
 		});
 		mCouponCodeWidget.setFieldAboveCouponCode(mSecurityCodeEditText, R.id.security_code_edit_text);
