@@ -66,9 +66,8 @@
         android:background="@drawable/btn_signin"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="@dimen/booking_form_saved_section_padding"
-        android:visibility="gone"
-        style="@style/BookingSection" >
+        android:paddingBottom="12dp"
+        android:visibility="gone" >
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
