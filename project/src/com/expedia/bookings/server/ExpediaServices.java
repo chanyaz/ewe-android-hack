@@ -285,13 +285,16 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("sendEmailConfirmation", "true"));
 
-		if (!TextUtils.isEmpty(tripId) && !TextUtils.isEmpty(userId)) {
+		if (!TextUtils.isEmpty(tripId)) {
 			query.add(new BasicNameValuePair("tripId", tripId));
-			query.add(new BasicNameValuePair("userId", userId));
 		}
 
+		// Response with user id. Get it from the sign in response first.
 		if (tuid != null) {
-			query.add(new BasicNameValuePair("tuid", String.valueOf(tuid)));
+			query.add(new BasicNameValuePair("userId", String.valueOf(tuid)));
+		}
+		else if (!TextUtils.isEmpty(userId)) {
+			query.add(new BasicNameValuePair("userId", userId));
 		}
 
 		// Simulate a valid checkout, to bypass the actual checkout process
