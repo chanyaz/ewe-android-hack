@@ -15,10 +15,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name="com.expedia.bookings.activity.ExpediaBookingApp"
         android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:name="com.expedia.bookings.activity.ExpediaBookingApp"
         android:theme="@style/Theme" >
         <meta-data
             android:name="AA_DB_VERSION"
@@ -29,7 +29,7 @@
         <activity
             android:name=".activity.SearchActivity"
             android:theme="@android:style/Theme.NoDisplay" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -42,11 +42,11 @@
             android:theme="@style/Theme.Tablet.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:launchMode="singleTop"
             android:name=".activity.SearchResultsFragmentActivity"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.Tablet"
             android:windowSoftInputMode="stateHidden|adjustPan" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
@@ -66,8 +66,8 @@
             android:theme="@style/Theme.Tablet"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:launchMode="singleTask"
-            android:name=".activity.HotelActivity" />
+            android:name=".activity.HotelActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.HotelMapActivity" />
         <activity android:name=".activity.UserReviewsListActivity" />
         <activity
@@ -81,8 +81,8 @@
         <activity android:name=".activity.ExpediaBookingPreferenceActivity" />
         <activity android:name=".activity.SignInActivity" />
         <activity
-            android:excludeFromRecents="true"
             android:name=".activity.TabletPreferenceActivity"
+            android:excludeFromRecents="true"
             android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar" />
         <activity
             android:name=".activity.AppFeedbackActivity"
@@ -91,14 +91,15 @@
         <activity
             android:name="com.expedia.bookings.appwidget.ExpediaBookingsWidgetConfigurationActivity"
             android:windowSoftInputMode="stateHidden" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 
         <!-- Expedia Flights -->
 
-        <activity android:name=".activity.FlightSearchActivity"
+        <activity
+            android:name=".activity.FlightSearchActivity"
             android:label="Expedia Flights"
             android:theme="@style/FlightTheme" >
             <intent-filter>
@@ -108,15 +109,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activity.FlightSearchResultsActivity"
+        <activity
+            android:name=".activity.FlightSearchResultsActivity"
             android:theme="@style/FlightTheme" />
-
-        <activity android:name=".activity.FlightDetailsActivity"
-            android:theme="@style/FlightTheme"  />
-        
-        <activity android:name=".activity.SectionTest"
-            android:label="Expedia Flights"
+        <activity
+            android:name=".activity.FlightDetailsActivity"
+            android:theme="@style/FlightTheme" />
+        <activity
+            android:name=".activity.FlightPaymentSummaryActivity"
+            android:label="Payment Summary"
             android:theme="@style/FlightTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -125,15 +126,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activity.FlightBookingActivity"
-            android:theme="@style/FlightTheme"  />
+        <activity
+            android:name=".activity.FlightBookingActivity"
+            android:theme="@style/FlightTheme" />
+        <activity
+            android:name=".activity.FlightPaymenyContactActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+        <activity
+            android:name=".activity.FlightPaymenyAddressActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+        <activity
+            android:name=".activity.FlightPaymenyCreditCardActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
 
         <!-- HockeyApp -->
-        <activity android:name="net.hockeyapp.android.UpdateActivity"/>
+        <activity android:name="net.hockeyapp.android.UpdateActivity" />
 
         <service android:name="com.expedia.bookings.appwidget.ExpediaBookingsService" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="com.expedia.bookings.START_SEARCH" />
                 <action android:name="com.expedia.bookings.START_CLEAN_SEARCH" />
                 <action android:name="com.expedia.bookings.LOAD_PROPERTY" />
@@ -146,9 +159,9 @@
 
         <!-- Widget stuff -->
         <receiver
-            android:enabled="@bool/widgetEnabled"
-            android:name="com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider" >
-            <intent-filter >
+            android:name="com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider"
+            android:enabled="@bool/widgetEnabled" >
+            <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
@@ -159,21 +172,21 @@
 
         <!-- Search stuff -->
         <provider
-            android:authorities="com.expedia.booking.autocomplete"
-            android:name="com.expedia.bookings.content.AutocompleteProvider" />
+            android:name="com.expedia.bookings.content.AutocompleteProvider"
+            android:authorities="com.expedia.booking.autocomplete" />
 
         <!-- Boot stuff -->
         <receiver android:name=".activity.LocaleChangeReceiver" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED" />
             </intent-filter>
         </receiver>
 
         <!-- Tracking -->
         <receiver
-            android:exported="true"
-            android:name="com.expedia.bookings.tracking.MdotmReceiver" >
-            <intent-filter >
+            android:name="com.expedia.bookings.tracking.MdotmReceiver"
+            android:exported="true" >
+            <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
