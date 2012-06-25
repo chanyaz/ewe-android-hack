@@ -13,6 +13,8 @@
 	<string name="hint_departure_airport">Departure Airport</string>
 	<!-- Hint in edit text that indicates one should enter an arrival airport -->
 	<string name="hint_arrival_airport">Arrival Airport</string>
+	<!-- Button label prompting user to select dates by tapping calendar -->
+	<string name="dates_prompt">No dates selected</string>
 	<!-- Button label when you have a one-way trip selected. -->
 	<string name="one_way_TEMPLATE">%1$s (One Way)</string>
 	<!-- Button label when you have a round trip selected.  %1$s is the start date, %2$s is the end date (e.g., "May 5 to Oct 12") -->

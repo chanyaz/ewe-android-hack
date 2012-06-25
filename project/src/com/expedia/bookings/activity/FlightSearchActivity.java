@@ -239,18 +239,22 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	private static final String DATE_FORMAT = "MMM d";
 
 	private void updateDateButton() {
-		// It's always round trip at this point, but at some point we need to handle no params
-		// (or one way) too.
 		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 
-		if (params.isRoundTrip()) {
-			CharSequence start = DateFormat.format(DATE_FORMAT, params.getDepartureDate().getCalendar());
-			CharSequence end = DateFormat.format(DATE_FORMAT, params.getReturnDate().getCalendar());
-			mDatesButton.setText(getString(R.string.round_trip_TEMPLATE, start, end));
+		Calendar dateStart = params.getDepartureDate() == null ? null : params.getDepartureDate().getCalendar();
+		Calendar dateEnd = params.getReturnDate() == null ? null : params.getReturnDate().getCalendar();
+
+		if (dateStart == null && dateEnd == null) {
+			mDatesButton.setText(getString(R.string.dates_prompt));
 		}
-		else {
-			CharSequence start = DateFormat.format(DATE_FORMAT, params.getDepartureDate().getCalendar());
+		else if (dateStart != null && dateEnd == null) {
+			CharSequence start = DateFormat.format(DATE_FORMAT, dateStart);
 			mDatesButton.setText(getString(R.string.one_way_TEMPLATE, start));
+		}
+		else if (dateStart != null && dateEnd != null) {
+			CharSequence start = DateFormat.format(DATE_FORMAT, dateStart);
+			CharSequence end = DateFormat.format(DATE_FORMAT, dateEnd);
+			mDatesButton.setText(getString(R.string.round_trip_TEMPLATE, start, end));
 		}
 	}
 
@@ -375,14 +379,13 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 				else if (tag.equals(TAG_DATE_PICKER)) {
 					FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 					CalendarDialogFragment fragment;
-					if (params.isRoundTrip()) {
-						fragment = CalendarDialogFragment.newInstance(params.getDepartureDate()
-								.getCalendar(), params.getReturnDate().getCalendar());
-					}
-					else {
-						fragment = CalendarDialogFragment.newInstance(params.getDepartureDate()
-								.getCalendar(), null);
-					}
+
+					Calendar departureDate = params.getDepartureDate() == null ? null : params.getDepartureDate()
+							.getCalendar();
+					Calendar returnDate = params.getReturnDate() == null ? null : params.getReturnDate().getCalendar();
+
+					fragment = CalendarDialogFragment.newInstance(departureDate, returnDate);
+
 					fragment.setShowsDialog(false);
 					newFragment = fragment;
 				}
@@ -515,12 +518,18 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	@Override
 	public void onChangeDates(Calendar start, Calendar end) {
 		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
-		params.setDepartureDate(new Date(start));
+		if (start != null) {
+			params.setDepartureDate(new Date(start));
+		}
+		else {
+			params.setDepartureDate(null);
+		}
+
 		if (end != null) {
 			params.setReturnDate(new Date(end));
 		}
 		else {
-			params.setReturnDateEmpty();
+			params.setReturnDate(null);
 		}
 		updateDateButton();
 	}

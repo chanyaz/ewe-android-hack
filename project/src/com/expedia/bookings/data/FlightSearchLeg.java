@@ -1,7 +1,5 @@
 package com.expedia.bookings.data;
 
-import java.util.Calendar;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,7 +16,6 @@ public class FlightSearchLeg implements JSONable {
 	private String mArrivalAirportCode;
 
 	public FlightSearchLeg() {
-		mDepartureDate = new Date(Calendar.getInstance());
 	}
 
 	public Date getDepartureDate() {
@@ -52,6 +49,13 @@ public class FlightSearchLeg implements JSONable {
 
 	public void setArrivalAirportCode(String arrivalAirportCode) {
 		mArrivalAirportCode = arrivalAirportCode;
+	}
+
+	public boolean isComplete() {
+		if (mDepartureDate != null && mDepartureAirportCode != null && mArrivalAirportCode != null) {
+			return true;
+		}
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
