@@ -124,7 +124,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			startActivity(intent);
 		}
 		else {
-			Intent intent = new Intent(this, FlightBookingActivity.class);
+
+			Intent intent = new Intent(this, FlightTripOverviewActivity.class);
+			intent.putExtra(FlightTripOverviewActivity.EXTRA_TRIP_KEY, trip.getProductKey());
 			startActivity(intent);
 		}
 	}

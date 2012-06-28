@@ -77,6 +77,24 @@
 	<!-- Details activity actionbar select leg btn -->
 	<string name="btn_select_leg">Select leg</string>
 	
+	<!-- Trip Overview Activity -->
+	<!-- Trip total price label -->
+	<string name="total_price_label">Total Price</string>
+	<!-- Your trip to template -->
+	<string name="your_trip_to_TEMPLATE">Your trip to %1$s</string>
+	<!-- Number of traverlers template -->
+	<string name="number_of_travelers_TEMPLATE">%1$s Travelers</string>
+	<!-- Long form date (e.g. August 16, 2012) -->
+	<string name="long_form_date_TEMPLATE">%1$s %2$d, %3$d</string>
+	<!-- Checkout button text -->
+	<string name="checkout_btn">Checkout</string>
+	
+	<!-- Section Display Flights -->
+	<!-- Departs label with date (e.g. Depart: Aug 2nd) -->
+	<string name="departs_with_date_TEMPLATE">Depart: %1$s %2$s</string>
+	<!-- Arrives lable with date (e.g. Return: Aug 4th) -->
+	<string name="arrives_with_date_TEMPLATE">Return: %1$s %2$s</string>
+	
 	<!-- Search Fragment -->
 	<!-- Initial hint for the search location field - invites the user to enter information here -->
 	<string name="enter_search_location">Enter search location...</string>

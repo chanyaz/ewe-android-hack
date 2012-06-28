@@ -127,6 +127,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.FlightTripOverviewActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+        <activity
             android:name=".activity.FlightBookingActivity"
             android:theme="@style/FlightTheme" />
         <activity
