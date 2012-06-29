@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/san_francisco"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#77000000"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/city_and_dates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/trip_info_text"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_small_yellow"
+            android:drawableLeft="@drawable/ic_logged_in_with_rewards"
+            android:text="@string/login_btn_text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/travelers"
+            android:textColor="@color/trip_info_text"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/travelers_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_flight_rounded_white"
+            android:orientation="vertical"
+            android:padding="10dp" >
+
+            <include
+                android:id="@+id/contact_info_section"
+                layout="@layout/section_display_traveler_info_btn" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/payment"
+            android:textColor="@color/trip_info_text"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/payment_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_flight_rounded_white"
+            android:divider="@android:drawable/divider_horizontal_dark"
+            android:dividerPadding="5dp"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:showDividers="middle" >
+
+            <include
+                android:id="@+id/address_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/section_display_address_btn" />
+
+            <include
+                android:id="@+id/creditcard_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/section_display_creditcard_btn" />
+
+            <include
+                android:id="@+id/creditcard_section_security_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/section_edit_creditcard_security_code" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/review_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/btn_small_yellow"
+            android:text="@string/review_btn" />
+    </LinearLayout>
+
+</ScrollView>

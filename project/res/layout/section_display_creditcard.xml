@@ -2,7 +2,6 @@
 <com.expedia.bookings.section.SectionDisplayCreditCard xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#3300FF00"
     android:orientation="horizontal" >
 
     <TextView

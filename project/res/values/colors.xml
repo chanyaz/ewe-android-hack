@@ -63,4 +63,6 @@
     <color name="flight_details_dotted_line">#C8C8C8</color>
     <color name="flight_details_carrier_grad_start">#990066</color>
     <color name="flight_details_carrier_grad_end">#990033</color>
+    
+    <color name="flight_checkout_opaque_white">#BBE8E8E8</color>
 </resources>

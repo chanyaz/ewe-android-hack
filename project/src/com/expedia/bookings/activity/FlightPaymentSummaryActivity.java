@@ -70,7 +70,7 @@ public class FlightPaymentSummaryActivity extends Activity {
 		mCreditCardSegment.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent editContact = new Intent(FlightPaymentSummaryActivity.this, FlightPaymenyCreditCardActivity.class);
+				Intent editContact = new Intent(FlightPaymentSummaryActivity.this, FlightPaymentCreditCardActivity.class);
 				startActivity(editContact);
 			}
 		});
@@ -78,7 +78,7 @@ public class FlightPaymentSummaryActivity extends Activity {
 		mAddressSegment.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent editContact = new Intent(FlightPaymentSummaryActivity.this, FlightPaymenyAddressActivity.class);
+				Intent editContact = new Intent(FlightPaymentSummaryActivity.this, FlightPaymentAddressActivity.class);
 				startActivity(editContact);
 			}
 		});
@@ -87,7 +87,7 @@ public class FlightPaymentSummaryActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent editContact = new Intent(FlightPaymentSummaryActivity.this, FlightPaymenyContactActivity.class);
+				Intent editContact = new Intent(FlightPaymentSummaryActivity.this, FlightPaymentContactActivity.class);
 				startActivity(editContact);
 			}
 			//

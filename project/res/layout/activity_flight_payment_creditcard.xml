@@ -5,6 +5,10 @@
     android:orientation="vertical" >
 
     <include
+        android:id="@+id/creditcard_type_section"
+        layout="@layout/section_edit_creditcard_type" />
+
+    <include
         android:id="@+id/creditcard_section"
         layout="@layout/section_edit_creditcard" />
 
@@ -12,6 +16,6 @@
         android:id="@+id/done"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Done" />
+        android:text="@string/button_done" />
 
 </LinearLayout>

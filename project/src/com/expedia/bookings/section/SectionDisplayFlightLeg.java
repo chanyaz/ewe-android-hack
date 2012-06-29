@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class SectionDisplayFlight extends LinearLayout implements ISection<FlightLeg> {
+public class SectionDisplayFlightLeg extends LinearLayout implements ISection<FlightLeg> {
 
 	TextView mCarrierName;
 	TextView mDepartureTime;
@@ -30,15 +30,15 @@ public class SectionDisplayFlight extends LinearLayout implements ISection<Fligh
 
 	Context mContext;
 
-	public SectionDisplayFlight(Context context) {
+	public SectionDisplayFlightLeg(Context context) {
 		this(context, null);
 	}
 
-	public SectionDisplayFlight(Context context, AttributeSet attrs) {
+	public SectionDisplayFlightLeg(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
-	public SectionDisplayFlight(Context context, AttributeSet attrs, int defStyle) {
+	public SectionDisplayFlightLeg(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		mContext = context;
 		// real work here
@@ -63,39 +63,48 @@ public class SectionDisplayFlight extends LinearLayout implements ISection<Fligh
 
 		if (mLeg != null) {
 
-			if (mLeg.getAirlinesFormatted() != null) {
+			if (mCarrierName != null && mLeg.getAirlinesFormatted() != null) {
 				mCarrierName.setText(mLeg.getAirlinesFormatted());
 			}
 
 			if (mLeg.getSegmentCount() > 0) {
 
-				mDepartureTime.setText(getFormatedRelevantWaypointTime(mLeg.getSegment(0).mOrigin));
-				mArrivalTime
-						.setText(getFormatedRelevantWaypointTime(mLeg.getSegment(mLeg.getSegmentCount() - 1).mDestination));
+				if (mDepartureTime != null) {
+					mDepartureTime.setText(getFormatedRelevantWaypointTime(mLeg.getSegment(0).mOrigin));
+				}
+				if (mArrivalTime != null) {
+					mArrivalTime
+							.setText(getFormatedRelevantWaypointTime(mLeg.getSegment(mLeg.getSegmentCount() - 1).mDestination));
+				}
 
 				//TODO:Set the imageView to have the correct arrow and add more error checking
-				if (mIsOutbound) {
-					Calendar cal = mLeg.getSegment(0).mOrigin.getMostRelevantDateTime();
-					String shortMonth = cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
-					String day = "" + cal.get(Calendar.DAY_OF_MONTH);
+				if (mArriveDepartWithDate != null) {
+					if (mIsOutbound) {
+						Calendar cal = mLeg.getSegment(0).mOrigin.getMostRelevantDateTime();
+						String shortMonth = cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
+						String day = "" + cal.get(Calendar.DAY_OF_MONTH);
 
-					String formatted = String.format(getResources().getString(R.string.departs_with_date_TEMPLATE),
-							shortMonth, day);
-					mArriveDepartWithDate.setText(formatted);
-				}
-				else {
-					Calendar cal = mLeg.getSegment(mLeg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime();
-					String shortMonth = cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
-					String day = "" + cal.get(Calendar.DAY_OF_MONTH);
+						String formatted = String.format(getResources().getString(R.string.departs_with_date_TEMPLATE),
+								shortMonth, day);
+						mArriveDepartWithDate.setText(formatted);
+					}
+					else {
+						Calendar cal = mLeg.getSegment(mLeg.getSegmentCount() - 1).mDestination
+								.getMostRelevantDateTime();
+						String shortMonth = cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
+						String day = "" + cal.get(Calendar.DAY_OF_MONTH);
 
-					String formatted = String.format(getResources().getString(R.string.arrives_with_date_TEMPLATE),
-							shortMonth, day);
-					mArriveDepartWithDate.setText(formatted);
+						String formatted = String.format(getResources().getString(R.string.arrives_with_date_TEMPLATE),
+								shortMonth, day);
+						mArriveDepartWithDate.setText(formatted);
+					}
 				}
 			}
 
 			//TODO:Individual data...
-			mFlightPrice.setText("$NEED DATA");
+			if (mFlightPrice != null) {
+				mFlightPrice.setText("$000");
+			}
 
 		}
 	}

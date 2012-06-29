@@ -103,19 +103,16 @@
 
             <!-- TODO: These should be inflated into a container as to support more than two legs... -->
 
-            <include
-                android:id="@+id/departing_flight"
-                layout="@layout/section_display_flight" />
+<!--             <include -->
+<!--                 android:id="@+id/departing_flight" -->
+<!--                 android:layout_marginBottom="20dp" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_width="wrap_content" -->
+<!--                 layout="@layout/section_display_flight" /> -->
 
-            <!-- This is the downside of sections... -->
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
-
-            <include
-                android:id="@+id/return_flight"
-                layout="@layout/section_display_flight" />
+<!--             <include -->
+<!--                 android:id="@+id/return_flight" -->
+<!--                 layout="@layout/section_display_flight" /> -->
         </LinearLayout>
 
         <Button

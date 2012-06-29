@@ -5,22 +5,38 @@ import java.util.Calendar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.util.Ui;
 
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.TextView;
 
 public class SectionEditCreditCard extends LinearLayout implements ISection<BillingInfo>, ISectionEditable {
 
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
 
+	Context mContext;
+
 	EditText mCCNum;
 	EditText mCSV;
 	EditText mExp;
+
+	TextView mSecurityCodeInfo;
+
+	Spinner mCreditCardBrandSpinner;
+	ImageView mCreditCardBrandIcon;
 
 	BillingInfo mBi;
 
@@ -35,6 +51,7 @@ public class SectionEditCreditCard extends LinearLayout implements ISection<Bill
 	public SectionEditCreditCard(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		// real work here
+		mContext = context;
 	}
 
 	@Override
@@ -43,75 +60,114 @@ public class SectionEditCreditCard extends LinearLayout implements ISection<Bill
 
 		//Find fields
 		mCCNum = Ui.findView(this, R.id.creditcard_number);
-		mCSV = Ui.findView(this, R.id.creditcard_cv);
+		mCSV = Ui.findView(this, R.id.creditcard_security_code);
 		mExp = Ui.findView(this, R.id.creditcard_expiration);
+		mCreditCardBrandSpinner = Ui.findView(this, R.id.credit_card_type_spinner);
+		mCreditCardBrandIcon = Ui.findView(this, R.id.credit_card_brand_icon);
+		mSecurityCodeInfo = Ui.findView(this, R.id.security_code_info);
 
-		mCCNum.addTextChangedListener(new TextWatcher() {
+		if (mCreditCardBrandSpinner != null) {
+			mCreditCardBrandSpinner.setAdapter(new ArrayAdapter<CreditCardType>(mContext,
+					android.R.layout.simple_list_item_1, CreditCardType.values()));
 
-			@Override
-			public void afterTextChanged(Editable s) {
+			//if(mCreditCardBrandSpinner.getAdapter().)
 
-				if (mBi != null) {
-					mBi.setNumber(mCCNum.getText().toString());
-				}
+			mCreditCardBrandSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+					// TODO Auto-generated method stub
+					if (mBi != null) {
+						CreditCardType type = (CreditCardType) parent.getItemAtPosition(pos);
+						mBi.setBrandCode(type.getCode());
+						mBi.setBrandName(type.name());
 
-				if (mBi != null) {
-					//TODO: update the credit card brand photo if we have enough characters to make it work...
-				}
-				onChange();
-			}
+						//Updates the card icon
+						bind(mBi);
 
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
-
-		});
-
-		mCSV.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				if (mBi != null) {
-					mBi.setSecurityCode(mCSV.getText().toString());
-				}
-				onChange();
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
-		});
-
-		mExp.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				if (mBi != null) {
-					Calendar cal = getExpirationCal(mExp.getText().toString());
-					if (cal != null) {
-						mBi.setExpirationDate(cal);
+						onChange();
 					}
 				}
-				onChange();
-			}
 
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				//TODO:Date formatting...
-			}
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+					// TODO Auto-generated method stub
 
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
-		});
+				}
+			});
+		}
+
+		if (mCCNum != null) {
+			mCCNum.addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void afterTextChanged(Editable s) {
+
+					if (mBi != null) {
+						mBi.setNumber(mCCNum.getText().toString());
+					}
+
+					if (mBi != null) {
+						//TODO: update the credit card brand photo if we have enough characters to make it work...
+					}
+					onChange();
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				}
+
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+				}
+
+			});
+		}
+
+		if (mCSV != null) {
+			mCSV.addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void afterTextChanged(Editable s) {
+					if (mBi != null) {
+						mBi.setSecurityCode(mCSV.getText().toString());
+					}
+					onChange();
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				}
+
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+				}
+			});
+		}
+
+		if (mExp != null) {
+			mExp.addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void afterTextChanged(Editable s) {
+					if (mBi != null) {
+						Calendar cal = getExpirationCal(mExp.getText().toString());
+						if (cal != null) {
+							mBi.setExpirationDate(cal);
+						}
+					}
+					onChange();
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+					//TODO:Date formatting...
+				}
+
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+				}
+			});
+		}
 	}
 
 	private Calendar getExpirationCal(String expr) {
@@ -124,15 +180,36 @@ public class SectionEditCreditCard extends LinearLayout implements ISection<Bill
 		mBi = data;
 
 		if (mBi != null) {
-			if (mBi.getNumber() != null) {
+			if (mCCNum != null && mBi.getNumber() != null) {
 				mCCNum.setText(mBi.getNumber());
 			}
-			if (mBi.getSecurityCode() != null) {
+			if (mCSV != null && mBi.getSecurityCode() != null) {
 				mCSV.setText(mBi.getSecurityCode());
 			}
-			if (mBi.getExpirationDate() != null) {
+			if (mExp != null && mBi.getExpirationDate() != null) {
 				mExp.setText(mBi.getExpirationDate().get(Calendar.MONTH) + "/"
 						+ mBi.getExpirationDate().get(Calendar.YEAR));
+			}
+
+			//Card brand specific
+			if (mBi.getBrandName() != null && !mBi.getBrandName().isEmpty()) {
+				CreditCardType cardType = CreditCardType.valueOf(mBi.getBrandName());
+				if (mCreditCardBrandSpinner != null) {
+					@SuppressWarnings("unchecked")
+					ArrayAdapter<CreditCardType> cardBrandAdapter = (ArrayAdapter<CreditCardType>) mCreditCardBrandSpinner
+							.getAdapter();
+					if (cardBrandAdapter != null) {
+						int pos = cardBrandAdapter.getPosition(cardType);
+						mCreditCardBrandSpinner.setSelection(pos);
+					}
+
+				}
+				if (mCreditCardBrandIcon != null) {
+					mCreditCardBrandIcon.setImageResource(BookingInfoUtils.CREDIT_CARD_ICONS.get(cardType));
+				}
+				if (mSecurityCodeInfo != null) {
+					mSecurityCodeInfo.setText(BookingInfoUtils.CREDIT_CARD_SECURITY_LOCATION.get(cardType));
+				}
 			}
 		}
 

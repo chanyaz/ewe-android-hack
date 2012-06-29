@@ -4,10 +4,13 @@ import java.util.Calendar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.util.Ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,7 +20,9 @@ public class SectionDisplayCreditCard extends LinearLayout implements ISection<B
 	TextView mCSV;
 	TextView mExp;
 
-	BillingInfo mBi;
+	ImageView mCreditCardBrandIcon;
+
+	BillingInfo mBillingInfo;
 
 	public SectionDisplayCreditCard(Context context) {
 		this(context, null);
@@ -40,27 +45,35 @@ public class SectionDisplayCreditCard extends LinearLayout implements ISection<B
 		mCCNum = Ui.findView(this, R.id.creditcard_number);
 		mCSV = Ui.findView(this, R.id.creditcard_cv);
 		mExp = Ui.findView(this, R.id.creditcard_expiration);
+		mCreditCardBrandIcon = Ui.findView(this, R.id.credit_card_brand_icon);
 
 	}
 
 	@Override
 	public void bind(BillingInfo data) {
-		mBi = (BillingInfo) data;
+		mBillingInfo = (BillingInfo) data;
 
-		if (mBi != null) {
-			if (mBi.getNumber() != null) {
-				String ccNum = mBi.getNumber();
+		if (mBillingInfo != null) {
+			if (mCCNum != null && mBillingInfo.getNumber() != null && !mBillingInfo.getNumber().isEmpty()) {
+				String ccNum = mBillingInfo.getNumber();
 				String displayNums = ccNum.substring(ccNum.length() - 4);//last 4
-				String blanked = "************";//TODO:This should maybe be the real length...
-
-				mCCNum.setText(blanked + displayNums);
+				String ccBrand = mBillingInfo.getBrandName();
+				String ccStr = String.format(getResources().getString(R.string.blanked_out_credit_card_TEMPLATE),
+						ccBrand, displayNums);
+				mCCNum.setText(ccStr);
 			}
-			if (mBi.getSecurityCode() != null) {
-				mCSV.setText(mBi.getSecurityCode());
+			if (mCSV != null && mBillingInfo.getSecurityCode() != null) {
+				mCSV.setText(mBillingInfo.getSecurityCode());
 			}
-			if (mBi.getExpirationDate() != null) {
-				mExp.setText(String.format("%02d/%02d", mBi.getExpirationDate().get(Calendar.MONTH), mBi
-						.getExpirationDate().get(Calendar.YEAR)));
+			if (mExp != null && mBillingInfo.getExpirationDate() != null) {
+				mExp.setText(String.format("%02d/%02d", mBillingInfo.getExpirationDate().get(Calendar.MONTH),
+						mBillingInfo
+								.getExpirationDate().get(Calendar.YEAR)));
+			}
+			if (mCreditCardBrandIcon != null && mBillingInfo.getBrandName() != null
+					&& !mBillingInfo.getBrandName().isEmpty()) {
+				CreditCardType cardType = CreditCardType.valueOf(mBillingInfo.getBrandName());
+				mCreditCardBrandIcon.setImageResource(BookingInfoUtils.CREDIT_CARD_ICONS.get(cardType));
 			}
 		}
 	}

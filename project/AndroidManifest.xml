@@ -128,21 +128,27 @@
         </activity>
         <activity
             android:name=".activity.FlightTripOverviewActivity"
+            android:label="Checkout"
+            android:theme="@style/FlightTheme" >
+        </activity>
+        <activity
+            android:name=".activity.FlightCheckoutActivity"
+            android:label="Checkout"
             android:theme="@style/FlightTheme" >
         </activity>
         <activity
             android:name=".activity.FlightBookingActivity"
             android:theme="@style/FlightTheme" />
         <activity
-            android:name=".activity.FlightPaymenyContactActivity"
+            android:name=".activity.FlightPaymentContactActivity"
             android:theme="@style/FlightTheme" >
         </activity>
         <activity
-            android:name=".activity.FlightPaymenyAddressActivity"
+            android:name=".activity.FlightPaymentAddressActivity"
             android:theme="@style/FlightTheme" >
         </activity>
         <activity
-            android:name=".activity.FlightPaymenyCreditCardActivity"
+            android:name=".activity.FlightPaymentCreditCardActivity"
             android:theme="@style/FlightTheme" >
         </activity>
 

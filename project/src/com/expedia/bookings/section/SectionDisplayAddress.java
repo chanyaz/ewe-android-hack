@@ -46,16 +46,16 @@ public class SectionDisplayAddress extends LinearLayout implements ISection<Loca
 		//Update fields
 		mLocation = loc;
 		if (mLocation != null) {
-			if (mLocation.getStreetAddressString() != null) {
+			if (mLineOne != null && mLocation.getStreetAddressString() != null) {
 				mLineOne.setText(mLocation.getStreetAddressString());
 			}
-			if (mLocation.getCity() != null) {
+			if (mCity != null && mLocation.getCity() != null) {
 				mCity.setText(mLocation.getCity());
 			}
-			if (mLocation.getStateCode() != null) {
+			if (mState != null && mLocation.getStateCode() != null) {
 				mState.setText(mLocation.getStateCode());
 			}
-			if (mLocation.getPostalCode() != null) {
+			if (mZip != null && mLocation.getPostalCode() != null) {
 				mZip.setText(mLocation.getPostalCode());
 			}
 		}

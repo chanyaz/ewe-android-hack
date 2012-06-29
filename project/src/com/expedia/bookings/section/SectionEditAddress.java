@@ -71,64 +71,75 @@ public class SectionEditAddress extends LinearLayout implements ISection<Locatio
 			}
 		};
 
-		mLineOne.addTextChangedListener(addrWatcher);
-		mLineTwo.addTextChangedListener(addrWatcher);
+		if (mLineOne != null) {
+			mLineOne.addTextChangedListener(addrWatcher);
+		}
+		if (mLineTwo != null) {
+			mLineTwo.addTextChangedListener(addrWatcher);
+		}
 
-		mCity.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void afterTextChanged(Editable s) {
-				if (mLocation != null) {
-					mLocation.setCity(s.toString());
+		if (mCity != null) {
+			mCity.addTextChangedListener(new TextWatcher() {
+				@Override
+				public void afterTextChanged(Editable s) {
+					if (mLocation != null) {
+						mLocation.setCity(s.toString());
+					}
+					onChange();
 				}
-				onChange();
-			}
 
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
-		});
-
-		mState.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void afterTextChanged(Editable s) {
-				if (mLocation != null) {
-					mLocation.setStateCode(s.toString());
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 				}
-				onChange();
-			}
 
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				//TODO:State code validation...
-			}
-		});
-
-		mZip.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void afterTextChanged(Editable s) {
-				if (mLocation != null) {
-					mLocation.setPostalCode(s.toString());
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
 				}
-				onChange();
-			}
+			});
 
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
+		}
 
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				//TODO:State/zip validation?
-			}
-		});
+		if (mState != null) {
+			mState.addTextChangedListener(new TextWatcher() {
+				@Override
+				public void afterTextChanged(Editable s) {
+					if (mLocation != null) {
+						mLocation.setStateCode(s.toString());
+					}
+					onChange();
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				}
+
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+					//TODO:State code validation...
+				}
+			});
+		}
+
+		if (mZip != null) {
+			mZip.addTextChangedListener(new TextWatcher() {
+				@Override
+				public void afterTextChanged(Editable s) {
+					if (mLocation != null) {
+						mLocation.setPostalCode(s.toString());
+					}
+					onChange();
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				}
+
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+					//TODO:State/zip validation?
+				}
+			});
+		}
 
 	}
 
@@ -136,25 +147,46 @@ public class SectionEditAddress extends LinearLayout implements ISection<Locatio
 		//Update fields
 		mLocation = loc;
 
-		if (mLocation.getStreetAddress().size() == 2) {
-			//Wierdness happens if i put the .get(0) directly into setText...
-			String l1 = mLocation.getStreetAddress().get(0);
-			String l2 = mLocation.getStreetAddress().get(1);
-			mLineOne.setText(l1);
-			mLineTwo.setText(l2);
+		if (mLocation != null && mLocation.getStreetAddress() != null) {
+			if (mLocation.getStreetAddress().size() == 2) {
+				//Wierdness happens if i put the .get(0) directly into setText...
+				String l1 = mLocation.getStreetAddress().get(0);
+				String l2 = mLocation.getStreetAddress().get(1);
+				if (mLineOne != null) {
+					mLineOne.setText(l1);
+				}
+				if (mLineTwo != null) {
+					mLineTwo.setText(l2);
+				}
+			}
+			else if (mLocation.getStreetAddress().size() == 1) {
+				if (mLineOne != null) {
+					mLineOne.setText(mLocation.getStreetAddress().get(0));
+				}
+				if (mLineTwo != null) {
+					mLineTwo.setText("");
+				}
+			}
+			else {
+				if (mLineOne != null) {
+					mLineOne.setText(mLocation.getStreetAddressString());
+				}
+
+				if (mLineTwo != null) {
+					mLineTwo.setText("");
+				}
+			}
+
+			if (mCity != null) {
+				mCity.setText(mLocation.getCity());
+			}
+			if (mState != null) {
+				mState.setText(mLocation.getStateCode());
+			}
+			if (mZip != null) {
+				mZip.setText(mLocation.getPostalCode());
+			}
 		}
-		else if (mLocation.getStreetAddress().size() == 1) {
-			mLineOne.setText(mLocation.getStreetAddress().get(0));
-			mLineTwo.setText("");
-		}
-		else {
-			mLineOne.setText(mLocation.getStreetAddressString());
-			mLineTwo.setText("");
-		}
-		
-		mCity.setText(mLocation.getCity());
-		mState.setText(mLocation.getStateCode());
-		mZip.setText(mLocation.getPostalCode());
 	}
 
 	@Override

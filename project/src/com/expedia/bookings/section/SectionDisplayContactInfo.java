@@ -15,7 +15,7 @@ public class SectionDisplayContactInfo extends LinearLayout implements ISection<
 	TextView mEmail;
 	TextView mPhone;
 
-	BillingInfo mBi;
+	BillingInfo mBillingInfo;
 
 	public SectionDisplayContactInfo(Context context) {
 		this(context, null);
@@ -44,17 +44,17 @@ public class SectionDisplayContactInfo extends LinearLayout implements ISection<
 	@Override
 	public void bind(BillingInfo bi) {
 		//Update fields
-		mBi = bi;
+		mBillingInfo = bi;
 
-		if (mBi != null) {
-			if (mBi.getFirstName() != null) {
-				mName.setText(mBi.getFirstName() + " " + mBi.getLastName());
+		if (mBillingInfo != null) {
+			if (mName != null && mBillingInfo.getFirstName() != null) {
+				mName.setText(mBillingInfo.getFirstName() + " " + mBillingInfo.getLastName());
 			}
-			if (mBi.getEmail() != null) {
-				mEmail.setText(mBi.getEmail());
+			if (mEmail != null && mBillingInfo.getEmail() != null) {
+				mEmail.setText(mBillingInfo.getEmail());
 			}
-			if (mBi.getTelephone() != null) {
-				mPhone.setText(mBi.getTelephone());
+			if (mPhone != null && mBillingInfo.getTelephone() != null) {
+				mPhone.setText(mBillingInfo.getTelephone());
 			}
 		}
 	}
