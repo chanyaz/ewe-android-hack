@@ -19,10 +19,18 @@
 	<dimen name="hotel_row_thumbnail_height">90dp</dimen>
 	<dimen name="hotel_row_content_margin">6dp</dimen>
 	<dimen name="hotel_row_from_text_size">11sp</dimen>
+	<dimen name="hotel_row_name_text_size">17sp</dimen>
 	<dimen name="hotel_row_price_text_size">20sp</dimen>
 	<dimen name="hotel_row_price_text_view_max_width">170dp</dimen>
-	<dimen name="hotel_row_price_per_night_text_size">11sp</dimen>
-	<dimen name="hotel_row_distance_text_size">11sp</dimen>
+	<dimen name="hotel_row_price_per_night_text_size">12sp</dimen>
+	<dimen name="hotel_row_distance_text_size">14sp</dimen>
+	<dimen name="hotel_row_cell_padding">12dp</dimen>
+	
+	<dimen name="percent_off_corner_text_size">11sp</dimen>
+	<dimen name="percent_off_corner_margin_top">3dp</dimen>
+    <dimen name="percent_off_corner_margin_right">2dp</dimen>
+    
+    <dimen name="hotel_header_results_text_size">14sp</dimen>
 
 	<!-- Text sizes for amenities -->
 	<dimen name="amenity_text_size_large">12sp</dimen>

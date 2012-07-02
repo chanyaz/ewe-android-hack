@@ -7,53 +7,9 @@
     android:gravity="center"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/header_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="43dp"
-        android:background="@drawable/bg_list_header"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:visibility="gone" >
-
-        <TextView
-            android:id="@+id/sort_type_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/btn_sort"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxWidth="@dimen/sort_view_max_width"
-            android:paddingLeft="18dp"
-            android:paddingRight="26dp"
-            android:singleLine="true"
-            android:textColor="#3D4552"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/num_hotels_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="12dp"
-            android:layout_toLeftOf="@+id/sort_type_text_view"
-            android:ellipsize="end"
-            android:gravity="center_vertical|left"
-            android:minWidth="100dp"
-            android:singleLine="true"
-            android:textColor="#3D4552"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:paddingBottom="5dp"
-            android:paddingRight="5dp"
-            android:src="@drawable/sort_arrow" />
-    </RelativeLayout>
+    <include
+        android:id="@+id/hotel_list_fixed_header"
+        layout="@layout/include_hotel_list_fixed_header" />
 
     <com.expedia.bookings.widget.MeasureListView
         android:id="@android:id/list"
@@ -62,19 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_below="@+id/header_layout" />
-
-    <com.expedia.bookings.widget.ListViewScrollBar
-        android:id="@+id/scroll_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignBottom="@android:id/list"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@android:id/list"
-        android:paddingBottom="5dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="6dp"
-        android:paddingTop="5dp" />
+        android:layout_below="@id/hotel_list_fixed_header" />
 
     <LinearLayout
         android:id="@android:id/empty"

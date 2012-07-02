@@ -502,6 +502,16 @@ public class Rate implements JSONable {
 		return mNonRefundable;
 	}
 
+	private boolean mIsMobileExclusive = false;
+
+	public void setMobileExlusivity(boolean bool) {
+		mIsMobileExclusive = bool;
+	}
+
+	public boolean isMobileExclusive() {
+		return mIsMobileExclusive;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Inclusive rates
 
@@ -664,7 +674,8 @@ public class Rate implements JSONable {
 		mTotalPriceWithMandatoryFees = (Money) JSONUtils.getJSONable(obj, "totalPriceWithMandatoryFees", Money.class);
 		mUserPriceType = UserPriceType.values()[obj.optInt("userPriceType", UserPriceType.UNKNOWN.ordinal())];
 		mPriceToShowUsers = (Money) JSONUtils.getJSONable(obj, "priceToShowUsers", Money.class);
-		mStrikethroughPriceToShowUsers = (Money) JSONUtils.getJSONable(obj, "strikethroughPriceToShowUsers", Money.class);
+		mStrikethroughPriceToShowUsers = (Money) JSONUtils.getJSONable(obj, "strikethroughPriceToShowUsers",
+				Money.class);
 		mNumberOfNights = obj.optInt("numberOfNights", 0);
 		mNumRoomsLeft = obj.optInt("numRoomsLeft", 0);
 		mValueAdds = JSONUtils.getStringList(obj, "valueAdds");
