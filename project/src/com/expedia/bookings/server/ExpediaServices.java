@@ -14,6 +14,7 @@ import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -174,8 +175,15 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("arrivalAirport", params.getArrivalAirportCode()));
 
 		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
-		Date depDate = params.getDepartureDate().getCalendar().getTime();
-		query.add(new BasicNameValuePair("departureDate", df.format(depDate)));
+
+		com.expedia.bookings.data.Date depDate = params.getDepartureDate();
+		if (depDate == null) {
+			// If no departure date is set, go to next day by default
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+			depDate = new com.expedia.bookings.data.Date(cal);
+		}
+		query.add(new BasicNameValuePair("departureDate", df.format(depDate.getCalendar().getTime())));
 
 		if (params.isRoundTripComplete()) {
 			Date retDate = params.getReturnDate().getCalendar().getTime();
