@@ -434,6 +434,10 @@ public class Rate implements JSONable {
 		return getSavingsPercent() >= .01;
 	}
 
+	public boolean isSaleTenPercentOrBetter() {
+		return getSavingsPercent() >= .10;
+	}
+
 	public int getNumRoomsLeft() {
 		return mNumRoomsLeft;
 	}

@@ -228,7 +228,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		Rate lowestRate = property.getLowestRate();
 
 		// Detect if the property is on sale, if it is do special things
-		if (lowestRate.isOnSale()) {
+		if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()) {
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
 			holder.saleContainer.setVisibility(View.VISIBLE);
 			if (!mUseCondensedRows || !ExpediaBookingApp.useTabletInterface(mContext)) {
