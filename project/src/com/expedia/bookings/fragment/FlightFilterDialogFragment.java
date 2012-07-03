@@ -109,6 +109,9 @@ public class FlightFilterDialogFragment extends DialogFragment {
 		window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		window.setGravity(Gravity.BOTTOM);
 		window.setBackgroundDrawable(null);
+
+		// #308: Fixed inability to cancel by touching outside of dialog
+		getDialog().setCanceledOnTouchOutside(true);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
