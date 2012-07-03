@@ -8,8 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-		
+
         <!-- the top of the page where the map and seat/price info go -->
+
         <RelativeLayout
             android:id="@+id/map_holder"
             android:layout_width="match_parent"
@@ -30,10 +31,10 @@
                 android:id="@+id/flight_detail_info_bar"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
                 android:background="#88000000"
                 android:orientation="horizontal"
-                android:padding="5dp"
-                android:layout_alignParentBottom="true" >
+                android:padding="5dp" >
 
                 <LinearLayout
                     android:id="@+id/flight_detail_info_bar_seats_left_ll"
@@ -101,6 +102,7 @@
         </RelativeLayout>
 
         <!-- The bottom half of the page where we puth the flight details ( via the flight details fragment) -->
+
         <LinearLayout
             android:id="@+id/flight_details_card_holder_ll"
             android:layout_width="fill_parent"

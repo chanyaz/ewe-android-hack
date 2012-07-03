@@ -44,6 +44,8 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 		FlightTrip trip = Db.getFlightSearch().getFlightTrip(mTripKey);
 		if (trip.getSeatsRemaining() < SEATS_REMAINING_CUTOFF) {
 			Ui.setText(this, R.id.flight_details_num_seats_tv, "" + trip.getSeatsRemaining());
+			Ui.setText(this, R.id.flight_details_num_seats_label_tv,
+					getResources().getQuantityString(R.plurals.seats_left_no_formatting, trip.getSeatsRemaining()));
 			findViewById(R.id.flight_detail_info_bar_seats_left_ll).setVisibility(View.VISIBLE);
 		}
 		else {
@@ -68,7 +70,7 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 
 	public void selectLeg() {
 		//TODO:This is largely stolen from the FlightSearchResultsActivity and should at somepoint just call a method there instead of rewritting.
-		
+
 		FlightSearch search = Db.getFlightSearch();
 		FlightTrip trip = search.getFlightTrip(mTripKey);
 		FlightLeg leg = trip.getLeg(mLegPosition);

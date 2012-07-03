@@ -62,7 +62,7 @@
     <!-- The label for the number of seats left for a flight -->
     <string name="seats_left">seats left!</string>
     <!-- The label for the cost of flight (per person) -->
-    <string name="per_person">/per person</string>
+    <string name="per_person">/person</string>
     <!-- city to city template -->
     <string name="city_to_city_TEMPLATE">%1$s to %2$s</string>
     <!-- airport name and airport code template -->
@@ -77,6 +77,15 @@
     <string name="btn_baggage_fee">Baggage Fee</string>
     <!-- Details activity actionbar select leg btn -->
     <string name="btn_select_leg">Select leg</string>
+    <!-- Seats left label without any formatting -->
+    <plurals name="seats_left_no_formatting">
+        <item quantity="zero">seats left!</item>
+        <item quantity="one">seat left!</item>
+        <item quantity="two">seats left!</item>
+        <item quantity="few">seats left!</item>
+        <item quantity="many">seats left!</item>
+        <item quantity="other">seats left!</item>
+    </plurals>
 
     <!-- Trip Overview Activity -->
     <!-- Trip total price label -->
@@ -131,7 +140,7 @@
     <string name="security_code">Security Code</string>
     <!-- Security code hint -->
     <string name="security_code_hint">123</string>
-    
+
     <!-- Section edit traveler -->
     <!-- First name label -->
     <string name="first_name">First Name</string>
@@ -161,7 +170,6 @@
     <string name="redress_number">Redress #</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">Only if applicable</string>
-    
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
