@@ -162,6 +162,7 @@ public class ExpediaServices implements DownloadListener {
 	public SearchResponse search(SearchParams params, int sortType) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
 
 		if (params.hasRegionId()) {
@@ -203,6 +204,7 @@ public class ExpediaServices implements DownloadListener {
 	public AvailabilityResponse information(Property property) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
@@ -218,6 +220,7 @@ public class ExpediaServices implements DownloadListener {
 	public AvailabilityResponse availability(SearchParams params, Property property, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
@@ -251,6 +254,7 @@ public class ExpediaServices implements DownloadListener {
 			String tripId, String userId, Long tuid) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
@@ -329,6 +333,7 @@ public class ExpediaServices implements DownloadListener {
 	public CreateTripResponse createTripWithCoupon(String couponCode, SearchParams params, Property property, Rate rate) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
 		addBasicParams(query, params);
 
@@ -342,6 +347,7 @@ public class ExpediaServices implements DownloadListener {
 	public SignInResponse signIn(String email, String password) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
 
 		query.add(new BasicNameValuePair("email", email));
@@ -356,6 +362,7 @@ public class ExpediaServices implements DownloadListener {
 	public SignInResponse signIn() {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
 
 		query.add(new BasicNameValuePair("profileOnly", "true"));
