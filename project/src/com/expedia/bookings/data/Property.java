@@ -83,6 +83,7 @@ public class Property implements JSONable {
 	private boolean mHasAmenitiesSet;
 	private String mSupplierType; // E == merchant, S or W == GDS
 	private Rate mLowestRate;
+	private boolean mIsLowestRateMobileExclusive = false;
 
 	// Hotel rating ranges from 0-5, in .5 intervals
 	private double mHotelRating;
@@ -269,6 +270,14 @@ public class Property implements JSONable {
 
 	public boolean isHighlyRated() {
 		return getAverageExpediaRating() >= Filter.HIGH_USER_RATING;
+	}
+
+	public void setIsLowestRateMobileExclusive(boolean b) {
+		mIsLowestRateMobileExclusive = b;
+	}
+
+	public boolean isLowestRateMobileExclusive() {
+		return mIsLowestRateMobileExclusive;
 	}
 
 	// Updates a Property from another Property (currently, one returned via an AvailabilityResponse)

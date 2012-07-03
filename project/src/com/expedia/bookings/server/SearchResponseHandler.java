@@ -249,6 +249,9 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			else if (name.equals("roomsLeftAtThisRate")) {
 				property.setRoomsLeftAtThisRate(parser.getValueAsInt());
 			}
+			else if (name.equals("isDiscountRestrictedToCurrentSourceType")) {
+				property.setIsLowestRateMobileExclusive(parser.getValueAsBoolean());
+			}
 			else {
 				parser.skipChildren();
 			}

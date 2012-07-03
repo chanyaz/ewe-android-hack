@@ -242,7 +242,11 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		}
 
 		int roomsLeft = property.getRoomsLeftAtThisRate();
-		if (roomsLeft != -1 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
+		if (property.isLowestRateMobileExclusive()) {
+			holder.urgency.setText(mContext.getString(R.string.mobile_exclusive));
+			holder.urgency.setVisibility(View.VISIBLE);
+		}
+		else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
 			holder.urgency.setText(mContext.getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft,
 					roomsLeft));
 			holder.urgency.setVisibility(View.VISIBLE);
