@@ -1,7 +1,6 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.json.JSONException;
@@ -16,8 +15,6 @@ public class FlightSearchParams implements JSONable {
 	private List<Integer> mChildren;
 	private List<FlightSearchLeg> mQueryLegs;
 
-	private boolean mIsRoundTripMode = true; //TODO: remove init once necessary
-
 	public FlightSearchParams() {
 		mChildren = new ArrayList<Integer>();
 		mQueryLegs = new ArrayList<FlightSearchLeg>();
@@ -30,8 +27,7 @@ public class FlightSearchParams implements JSONable {
 		mChildren.clear();
 		mQueryLegs.clear();
 
-		// By default, have two FlightSearchLegs, must modify when we support multi-leg
-		mQueryLegs.add(new FlightSearchLeg());
+		// Must have at least one query leg (though it won't have all the details filled in initially)
 		mQueryLegs.add(new FlightSearchLeg());
 	}
 
@@ -73,11 +69,8 @@ public class FlightSearchParams implements JSONable {
 	// Utility methods
 	//
 
-	public boolean isRoundTripComplete() {
-		if (mQueryLegs.get(0).isComplete() && mQueryLegs.get(1).isComplete()) {
-			return true;
-		}
-		return false;
+	public boolean isRoundTrip() {
+		return mQueryLegs.size() == 2;
 	}
 
 	public void setDepartureDate(Date departureDate) {
@@ -89,18 +82,32 @@ public class FlightSearchParams implements JSONable {
 	}
 
 	public void setReturnDate(Date returnDate) {
-		mQueryLegs.get(1).setDepartureDate(returnDate);
+		if (returnDate != null) {
+			ensureRoundTripData();
+			mQueryLegs.get(1).setDepartureDate(returnDate);
+		}
+		else {
+			// If we're nulling the return date, delete the return flight leg
+			if (mQueryLegs.size() > 1) {
+				mQueryLegs.remove(1);
+			}
+		}
 	}
 
 	public Date getReturnDate() {
-		return mQueryLegs.get(1).getDepartureDate();
+		if (isRoundTrip()) {
+			return mQueryLegs.get(1).getDepartureDate();
+		}
+		else {
+			return null;
+		}
 	}
 
 	public void setDepartureAirportCode(String airportCode) {
 		mQueryLegs.get(0).setDepartureAirportCode(airportCode);
 
 		// set up the return leg arrival airport code in anticipation
-		if (mIsRoundTripMode) {
+		if (isRoundTrip()) {
 			mQueryLegs.get(1).setArrivalAirportCode(airportCode);
 		}
 	}
@@ -113,7 +120,7 @@ public class FlightSearchParams implements JSONable {
 		mQueryLegs.get(0).setArrivalAirportCode(airportCode);
 
 		// set up the return leg departure airport code in anticipation
-		if (mIsRoundTripMode) {
+		if (isRoundTrip()) {
 			mQueryLegs.get(1).setDepartureAirportCode(airportCode);
 		}
 	}
@@ -122,14 +129,16 @@ public class FlightSearchParams implements JSONable {
 		return mQueryLegs.get(0).getArrivalAirportCode();
 	}
 
-	public void setRoundTripMode(boolean isRoundTripMode) {
-		mIsRoundTripMode = isRoundTripMode;
+	// If we want this to be a round trip flight, ensures that we have round trip data
+	private void ensureRoundTripData() {
+		if (!isRoundTrip()) {
+			FlightSearchLeg departureLeg = mQueryLegs.get(0);
+			FlightSearchLeg returnLeg = new FlightSearchLeg();
 
-		if (isRoundTripMode) {
-			//TODO: fill in the round trip details by inspecting
-		}
-		else {
-			//TODO: make sure to clear out the round-trip specific code
+			returnLeg.setDepartureAirportCode(departureLeg.getArrivalAirportCode());
+			returnLeg.setArrivalAirportCode(departureLeg.getDepartureAirportCode());
+
+			mQueryLegs.add(returnLeg);
 		}
 	}
 

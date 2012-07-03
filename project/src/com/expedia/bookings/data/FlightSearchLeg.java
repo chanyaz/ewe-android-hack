@@ -51,13 +51,6 @@ public class FlightSearchLeg implements JSONable {
 		mArrivalAirportCode = arrivalAirportCode;
 	}
 
-	public boolean isComplete() {
-		if (mDepartureDate != null && mDepartureAirportCode != null && mArrivalAirportCode != null) {
-			return true;
-		}
-		return false;
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 

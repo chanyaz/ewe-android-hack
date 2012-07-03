@@ -185,7 +185,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 		query.add(new BasicNameValuePair("departureDate", df.format(depDate.getCalendar().getTime())));
 
-		if (params.isRoundTripComplete()) {
+		if (params.isRoundTrip()) {
 			Date retDate = params.getReturnDate().getCalendar().getTime();
 			query.add(new BasicNameValuePair("returnDate", df.format(retDate)));
 		}
