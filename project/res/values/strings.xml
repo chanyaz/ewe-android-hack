@@ -114,10 +114,10 @@
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; Results</item>
     </plurals>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
-    <string name="mobile_exclusive">Mobile Exclusive!</string>
+    <string name="mobile_exclusive">Mobile Exclusive</string>
     <!-- Expedia urgency messaging indicating the number of rooms left-->
     <plurals name="num_rooms_left">
-        <item quantity="one">%d Room Left</item>
+        <item quantity="one">%d Room Left!</item>
         <item quantity="two">%d Rooms Left</item>
         <item quantity="many">%d Rooms Left</item>
         <item quantity="other">%d Rooms Left</item>
@@ -186,6 +186,8 @@
     <string name="not_rated">Not Rated</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
     <string name="percent_off_template">%2.0f%% OFF</string>
+    <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
+    <string name="percent_minus_template">-%2.0f%%</string>
 
     <!-- Filter results action bar label -->
     <string name="filter_results">Filter Results</string>
