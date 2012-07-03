@@ -151,7 +151,15 @@
             android:name=".activity.FlightPaymentCreditCardActivity"
             android:theme="@style/FlightTheme" >
         </activity>
-
+		<activity
+            android:name=".activity.FlightTravelerInfoOneActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+		<activity
+            android:name=".activity.FlightTravelerInfoTwoActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+        
         <!-- HockeyApp -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
 

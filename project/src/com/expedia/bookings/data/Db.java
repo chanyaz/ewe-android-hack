@@ -1,10 +1,12 @@
 package com.expedia.bookings.data;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -87,6 +89,9 @@ public class Db {
 	// Flight search object - represents both the parameters and
 	// the returned results
 	private FlightSearch mFlightSearch = new FlightSearch();
+
+	// Flight Travelers
+	private ArrayList<FlightPassenger> mFlightPassengers = new ArrayList<FlightPassenger>();
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
@@ -291,6 +296,14 @@ public class Db {
 		return sDb.mFlightSearch;
 	}
 
+	public static ArrayList<FlightPassenger> getFlightPassengers() {
+		return sDb.mFlightPassengers;
+	}
+
+	public static void setFlightPassengers(ArrayList<FlightPassenger> passengers) {
+		sDb.mFlightPassengers = passengers;
+	}
+
 	public static void clear() {
 		clearAvailabilityResponses();
 		clearReviewsResponses();
@@ -307,6 +320,7 @@ public class Db {
 		sDb.mUser = null;
 
 		sDb.mFlightSearch.reset();
+		sDb.mFlightPassengers.clear();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -340,6 +354,7 @@ public class Db {
 			putJsonable(obj, "selectedProperty", sDb.mSelectedProperty);
 			putJsonable(obj, "selectedRate", sDb.mSelectedRate);
 			putJsonable(obj, "user", sDb.mUser);
+			putArrayList(obj,"flightPassengers",sDb.mFlightPassengers);
 
 			IoUtils.writeStringToFile(TEST_DATA_FILE, obj.toString(), context);
 		}
@@ -374,6 +389,7 @@ public class Db {
 			sDb.mSelectedProperty = getJsonable(obj, "selectedProperty", Property.class, sDb.mSelectedProperty);
 			sDb.mSelectedRate = getJsonable(obj, "selectedRate", Rate.class, sDb.mSelectedRate);
 			sDb.mUser = getJsonable(obj, "user", User.class, sDb.mUser);
+			sDb.mFlightPassengers = getArrayList(obj,"flightPassengers",FlightPassenger.class,sDb.mFlightPassengers);
 		}
 		catch (Exception e) {
 			Log.w("Could not load db testing", e);
@@ -426,6 +442,32 @@ public class Db {
 			return retMap;
 		}
 
+		return defaultVal;
+	}
+
+	private static void putArrayList(JSONObject obj, String key, ArrayList<? extends JSONable> arrlist)
+			throws JSONException {
+		if (arrlist != null) {
+			JSONArray jsonarr = new JSONArray(arrlist);
+			obj.putOpt(key, jsonarr);
+		}
+	}
+
+	private static <T extends JSONable> ArrayList<T> getArrayList(JSONObject obj, String key, Class<T> c,
+			ArrayList<T> defaultVal) throws Exception {
+
+		if (obj.has(key)) {
+			ArrayList<T> retArr = new ArrayList<T>();
+			JSONArray arr = obj.getJSONArray(key);
+
+			for (int i = 0; i < arr.length(); i++) {
+				T jsonable = c.newInstance();
+				jsonable.fromJson(arr.getJSONObject(i));
+				retArr.add(jsonable);
+			}
+			
+			return retArr;
+		}
 		return defaultVal;
 	}
 }

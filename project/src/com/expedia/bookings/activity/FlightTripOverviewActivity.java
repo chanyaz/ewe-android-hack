@@ -29,7 +29,7 @@ public class FlightTripOverviewActivity extends SherlockActivity {
 	public static final String EXTRA_TRIP_KEY = "EXTRA_TRIP_KEY";
 
 	private static final int FLIGHT_LEG_BOTTOM_MARGIN = 20;
-	
+
 	FlightTrip mTrip;
 
 	ArrayList<SectionDisplayFlightLeg> mFlights;
@@ -42,7 +42,7 @@ public class FlightTripOverviewActivity extends SherlockActivity {
 
 		mFlights = new ArrayList<SectionDisplayFlightLeg>();
 		mFlightContainer = Ui.findView(this, R.id.flight_legs_container);
-		
+
 		String tripKey = getIntent().getStringExtra(EXTRA_TRIP_KEY);
 		if (tripKey != null) {
 			mTrip = Db.getFlightSearch().getFlightTrip(tripKey);
@@ -65,22 +65,22 @@ public class FlightTripOverviewActivity extends SherlockActivity {
 			Ui.setText(this, R.id.traveler_count,
 					String.format(getResources().getString(R.string.number_of_travelers_TEMPLATE), "1"));
 			Ui.setText(this, R.id.trip_cost, mTrip.getTotalFare().getFormattedMoney());
-			
-			
+
 			//Inflate and store the sections
 			LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			SectionDisplayFlightLeg tempFlight;
-			for(int i = 0; i < mTrip.getLegCount(); i++){
+			for (int i = 0; i < mTrip.getLegCount(); i++) {
 				tempFlight = (SectionDisplayFlightLeg) inflater.inflate(R.layout.section_display_flight_leg, null);
-				if(i < mTrip.getLegCount() - 1){
+				if (i < mTrip.getLegCount() - 1) {
 					tempFlight.setIsOutbound(true);
 					LinearLayout.LayoutParams tempFlightLayoutParams = (LayoutParams) tempFlight.getLayoutParams();
-					if(tempFlightLayoutParams == null){
-						tempFlightLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+					if (tempFlightLayoutParams == null) {
+						tempFlightLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 					}
 					tempFlightLayoutParams.bottomMargin = FLIGHT_LEG_BOTTOM_MARGIN;
 					tempFlight.setLayoutParams(tempFlightLayoutParams);
-				}else{
+				}
+				else {
 					tempFlight.setIsOutbound(false);
 				}
 				mFlights.add(tempFlight);
@@ -88,12 +88,12 @@ public class FlightTripOverviewActivity extends SherlockActivity {
 			}
 
 		}
-		
+
 		Button checkoutBtn = Ui.findView(this, R.id.checkout_btn);
 		checkoutBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(FlightTripOverviewActivity.this,FlightCheckoutActivity.class);
+				Intent intent = new Intent(FlightTripOverviewActivity.this, FlightCheckoutActivity.class);
 				intent.putExtra(FlightDetailsActivity.EXTRA_TRIP_KEY, mTrip.getProductKey());
 				startActivity(intent);
 			}
@@ -114,13 +114,12 @@ public class FlightTripOverviewActivity extends SherlockActivity {
 			return;
 		}
 
-		if(mFlights.size() != mTrip.getLegCount()){
+		if (mFlights.size() != mTrip.getLegCount()) {
 			Ui.showToast(this, "Invalid flight legs");
 			return;
 		}
-		
-		
-		for(int i = 0; i < mTrip.getLegCount(); i++){
+
+		for (int i = 0; i < mTrip.getLegCount(); i++) {
 			mFlights.get(i).bind(mTrip.getLeg(i));
 		}
 	}

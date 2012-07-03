@@ -30,6 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:hint="@string/credit_card_expiration_hint" />
+        android:maxLength="5"
+        android:hint="@string/security_code_hint"    	   
+	    android:inputType="number" />
 
 </com.expedia.bookings.section.SectionEditCreditCard>

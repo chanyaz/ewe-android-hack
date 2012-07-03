@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -8,19 +9,23 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightPassenger;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.SectionDisplayAddress;
-import com.expedia.bookings.section.SectionDisplayContactInfo;
 import com.expedia.bookings.section.SectionDisplayCreditCard;
+import com.expedia.bookings.section.SectionDisplayTravelerInfo;
 import com.expedia.bookings.section.SectionEditCreditCard;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 public class FlightCheckoutActivity extends SherlockActivity {
@@ -30,10 +35,17 @@ public class FlightCheckoutActivity extends SherlockActivity {
 	FlightTrip mTrip;
 	BillingInfo mBillingInfo;
 
-	SectionDisplayContactInfo mContactSection;
+	ArrayList<SectionDisplayTravelerInfo> mTravelerSections = new ArrayList<SectionDisplayTravelerInfo>();
+
 	SectionDisplayCreditCard mCreditCardSection;
+	SectionDisplayCreditCard mCreditCardSectionButton;
 	SectionEditCreditCard mCreditCardSecurityCodeSection;
 	SectionDisplayAddress mAddressSection;
+
+	Button mReviewBtn;
+
+	ViewGroup mExpandedPaymentContainer;
+	ViewGroup mTravelerContainer;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,13 +53,24 @@ public class FlightCheckoutActivity extends SherlockActivity {
 		setContentView(R.layout.activity_flight_checkout);
 
 		mBillingInfo = Db.getBillingInfo();
-		//mBillingInfo.load(this);
+		mBillingInfo.load(this);
 
 		if (mBillingInfo.getLocation() == null) {
 			mBillingInfo.setLocation(new Location());
 		}
 
+		mCreditCardSectionButton = Ui.findView(this, R.id.creditcard_section_button);
 		mCreditCardSection = Ui.findView(this, R.id.creditcard_section);
+		mCreditCardSecurityCodeSection = Ui.findView(this, R.id.creditcard_section_security_code);
+		mExpandedPaymentContainer = Ui.findView(this, R.id.payment_container_expanded);
+		mTravelerContainer = Ui.findView(this, R.id.travelers_container);
+		mAddressSection = Ui.findView(this, R.id.address_section);
+		mReviewBtn = Ui.findView(this, R.id.review_btn);
+
+		showExpandedPaymentView(false);
+
+		mCreditCardSectionButton.setOnClickListener(creditCardDispatcher);
+
 		mCreditCardSection.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -56,19 +79,6 @@ public class FlightCheckoutActivity extends SherlockActivity {
 			}
 		});
 
-		mCreditCardSecurityCodeSection = Ui.findView(this, R.id.creditcard_section_security_code);
-
-		mContactSection = Ui.findView(this, R.id.contact_info_section);
-		mContactSection.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent editContact = new Intent(FlightCheckoutActivity.this, FlightPaymentContactActivity.class);
-				startActivity(editContact);
-			}
-		});
-
-		mAddressSection = Ui.findView(this, R.id.address_section);
 		mAddressSection.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -112,14 +122,43 @@ public class FlightCheckoutActivity extends SherlockActivity {
 					endDate));
 		}
 
-		Button reviewBtn = Ui.findView(this, R.id.review_btn);
-		reviewBtn.setOnClickListener(new OnClickListener() {
+		mReviewBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mBillingInfo.save(FlightCheckoutActivity.this);
 				Intent intent = new Intent(FlightCheckoutActivity.this, FlightBookingActivity.class);
 				startActivity(intent);
 			}
 		});
+
+		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
+		if (passengers == null) {
+			passengers = new ArrayList<FlightPassenger>();
+			Db.setFlightPassengers(passengers);
+		}
+
+		if (passengers.size() == 0) {
+			//TODO:Load from billing info, or from expedia account
+			passengers.add(new FlightPassenger());
+		}
+
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		for (int i = 0; i < passengers.size(); i++) {
+			final int travelerNum = i;
+			SectionDisplayTravelerInfo traveler = (SectionDisplayTravelerInfo) inflater.inflate(
+					R.layout.section_display_traveler_info_btn, null);
+			traveler.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent editTravelerIntent = new Intent(FlightCheckoutActivity.this,
+							FlightTravelerInfoOneActivity.class);
+					editTravelerIntent.putExtra(FlightTravelerInfoOneActivity.PASSENGER_INDEX, travelerNum);
+					startActivity(editTravelerIntent);
+				}
+			});
+			mTravelerSections.add(traveler);
+			mTravelerContainer.addView(traveler);
+		}
 	}
 
 	@Override
@@ -131,9 +170,62 @@ public class FlightCheckoutActivity extends SherlockActivity {
 
 	public void bindAll() {
 		mCreditCardSection.bind(mBillingInfo);
-		mContactSection.bind(mBillingInfo);
 		mAddressSection.bind(mBillingInfo.getLocation());
 		mCreditCardSecurityCodeSection.bind(mBillingInfo);
+
+		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
+		if (passengers.size() != mTravelerSections.size()) {
+			Ui.showToast(this, "Traveler info out of date...");
+			Log.e("Traveler info fail... passengers size():" + passengers.size() + " sections:"
+					+ mTravelerSections.size());
+		}
+		else {
+			for (int i = 0; i < passengers.size(); i++) {
+				mTravelerSections.get(i).bind(passengers.get(i));
+			}
+		}
+	}
+
+	private void showExpandedPaymentView(boolean show) {
+		//Here be validation!
+		if (show) {
+			mCreditCardSectionButton.setVisibility(View.GONE);
+			mExpandedPaymentContainer.setVisibility(View.VISIBLE);
+		}
+		else {
+			mCreditCardSectionButton.setVisibility(View.VISIBLE);
+			mExpandedPaymentContainer.setVisibility(View.GONE);
+		}
+	}
+
+	private OnClickListener creditCardDispatcher = new OnClickListener() {
+		boolean showing = false;
+
+		@Override
+		public void onClick(View v) {
+			showing = !showing;
+			showExpandedPaymentView(showing);
+		}
+	};
+
+	//TODO:Better validation
+	private boolean validateLocation(Location loc) {
+		if (loc == null) {
+			return false;
+		}
+		if (loc.getStreetAddressString() == null || loc.getStreetAddressString().isEmpty()) {
+			return false;
+		}
+		if (loc.getCity() == null || loc.getCity().isEmpty()) {
+			return false;
+		}
+		if (loc.getStateCode() == null || loc.getStateCode().isEmpty()) {
+			return false;
+		}
+		if (loc.getPostalCode() == null || loc.getPostalCode().isEmpty()) {
+			return false;
+		}
+		return true;
 	}
 
 }
