@@ -47,6 +47,7 @@ public class FlightSearch {
 		}
 
 		// Clear the selected legs and filters, as we've got new results
+		mFlightTripQueries = null;
 		mSelectedLegs = null;
 		mFilters = null;
 	}
