@@ -2,7 +2,6 @@ package com.expedia.bookings.section;
 
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
@@ -11,6 +10,7 @@ import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,17 +31,22 @@ public class SectionDisplayFlightLeg extends LinearLayout implements ISection<Fl
 	Context mContext;
 
 	public SectionDisplayFlightLeg(Context context) {
-		this(context, null);
+		super(context);
+		init(context);
 	}
 
 	public SectionDisplayFlightLeg(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		init(context);
 	}
 
 	public SectionDisplayFlightLeg(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		init(context);
+	}
+
+	private void init(Context context) {
 		mContext = context;
-		// real work here
 	}
 
 	@Override
@@ -81,7 +86,7 @@ public class SectionDisplayFlightLeg extends LinearLayout implements ISection<Fl
 				if (mArriveDepartWithDate != null) {
 					if (mIsOutbound) {
 						Calendar cal = mLeg.getSegment(0).mOrigin.getMostRelevantDateTime();
-						String shortMonth = cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
+						String shortMonth = DateUtils.getMonthString(cal.get(Calendar.MONTH), DateUtils.LENGTH_SHORT);
 						String day = "" + cal.get(Calendar.DAY_OF_MONTH);
 
 						String formatted = String.format(getResources().getString(R.string.departs_with_date_TEMPLATE),
@@ -91,7 +96,7 @@ public class SectionDisplayFlightLeg extends LinearLayout implements ISection<Fl
 					else {
 						Calendar cal = mLeg.getSegment(mLeg.getSegmentCount() - 1).mDestination
 								.getMostRelevantDateTime();
-						String shortMonth = cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
+						String shortMonth = DateUtils.getMonthString(cal.get(Calendar.MONTH), DateUtils.LENGTH_SHORT);
 						String day = "" + cal.get(Calendar.DAY_OF_MONTH);
 
 						String formatted = String.format(getResources().getString(R.string.arrives_with_date_TEMPLATE),

@@ -52,7 +52,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		// Enable the home button on the action bar
 		if (AndroidUtils.getSdkVersion() >= 11) {
-			getActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 	}
 

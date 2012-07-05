@@ -11,6 +11,7 @@ import com.mobiata.android.util.Ui;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
@@ -41,16 +42,21 @@ public class SectionEditCreditCard extends LinearLayout implements ISection<Bill
 	BillingInfo mBi;
 
 	public SectionEditCreditCard(Context context) {
-		this(context, null);
+		super(context);
+		init(context);
 	}
 
 	public SectionEditCreditCard(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		init(context);
 	}
 
 	public SectionEditCreditCard(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// real work here
+		init(context);
+	}
+	
+	private void init(Context context) {
 		mContext = context;
 	}
 
@@ -192,7 +198,7 @@ public class SectionEditCreditCard extends LinearLayout implements ISection<Bill
 			}
 
 			//Card brand specific
-			if (mBi.getBrandName() != null && !mBi.getBrandName().isEmpty()) {
+			if (!TextUtils.isEmpty(mBi.getBrandName())) {
 				CreditCardType cardType = CreditCardType.valueOf(mBi.getBrandName());
 				if (mCreditCardBrandSpinner != null) {
 					@SuppressWarnings("unchecked")

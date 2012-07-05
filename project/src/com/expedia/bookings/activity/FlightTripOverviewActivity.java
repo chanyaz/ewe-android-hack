@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.expedia.bookings.R;
@@ -16,6 +15,7 @@ import com.mobiata.flightlib.data.Flight;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -53,7 +53,7 @@ public class FlightTripOverviewActivity extends SherlockActivity {
 
 			Flight firstSeg = arrLeg.getSegment(0);
 			Calendar cal = firstSeg.mOrigin.getMostRelevantDateTime();
-			String monthStr = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+			String monthStr = DateUtils.getMonthString(cal.get(Calendar.MONTH), DateUtils.LENGTH_LONG);
 			int day = cal.get(Calendar.DAY_OF_MONTH);
 			int year = cal.get(Calendar.YEAR);
 

@@ -18,16 +18,22 @@ public class SectionDisplayContactInfo extends LinearLayout implements ISection<
 	BillingInfo mBillingInfo;
 
 	public SectionDisplayContactInfo(Context context) {
-		this(context, null);
+		super(context);
+		init(context);
 	}
 
 	public SectionDisplayContactInfo(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		init(context);
 	}
 
 	public SectionDisplayContactInfo(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// real work here
+		init(context);
+	}
+
+	private void init(Context context) {
+
 	}
 
 	@Override

@@ -18,16 +18,22 @@ public class SectionDisplayAddress extends LinearLayout implements ISection<Loca
 	Location mLocation;
 
 	public SectionDisplayAddress(Context context) {
-		this(context, null);
+		super(context);
+		init(context);
 	}
 
 	public SectionDisplayAddress(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		init(context);
 	}
 
 	public SectionDisplayAddress(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		// real work here
+		super(context, attrs);
+		init(context);
+	}
+	
+	private void init(Context context) {
+
 	}
 
 	@Override

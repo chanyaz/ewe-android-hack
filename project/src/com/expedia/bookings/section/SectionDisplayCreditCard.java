@@ -9,6 +9,7 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.util.Ui;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,16 +26,22 @@ public class SectionDisplayCreditCard extends LinearLayout implements ISection<B
 	BillingInfo mBillingInfo;
 
 	public SectionDisplayCreditCard(Context context) {
-		this(context, null);
+		super(context);
+		init(context);
 	}
 
 	public SectionDisplayCreditCard(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		init(context);
 	}
 
 	public SectionDisplayCreditCard(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// real work here
+		init(context);
+	}
+
+	private void init(Context context) {
+
 	}
 
 	@Override
@@ -54,7 +61,7 @@ public class SectionDisplayCreditCard extends LinearLayout implements ISection<B
 		mBillingInfo = (BillingInfo) data;
 
 		if (mBillingInfo != null) {
-			if (mCCNum != null && mBillingInfo.getNumber() != null && !mBillingInfo.getNumber().isEmpty()) {
+			if (mCCNum != null && !TextUtils.isEmpty(mBillingInfo.getNumber())) {
 				String ccNum = mBillingInfo.getNumber();
 				String displayNums = ccNum.substring(ccNum.length() - 4);//last 4
 				String ccBrand = mBillingInfo.getBrandName();
@@ -70,8 +77,7 @@ public class SectionDisplayCreditCard extends LinearLayout implements ISection<B
 						mBillingInfo
 								.getExpirationDate().get(Calendar.YEAR)));
 			}
-			if (mCreditCardBrandIcon != null && mBillingInfo.getBrandName() != null
-					&& !mBillingInfo.getBrandName().isEmpty()) {
+			if (mCreditCardBrandIcon != null && !TextUtils.isEmpty(mBillingInfo.getBrandName())) {
 				CreditCardType cardType = CreditCardType.valueOf(mBillingInfo.getBrandName());
 				mCreditCardBrandIcon.setImageResource(BookingInfoUtils.CREDIT_CARD_ICONS.get(cardType));
 			}

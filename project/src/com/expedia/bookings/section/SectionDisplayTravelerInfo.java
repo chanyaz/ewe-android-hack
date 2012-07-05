@@ -17,16 +17,23 @@ public class SectionDisplayTravelerInfo extends LinearLayout implements ISection
 	FlightPassenger mPassenger;
 
 	public SectionDisplayTravelerInfo(Context context) {
-		this(context, null);
+		super(context);
+		init(context);
 	}
 
 	public SectionDisplayTravelerInfo(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		init(context);
 	}
 
 	public SectionDisplayTravelerInfo(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// real work here
+		init(context);
+
+	}
+
+	private void init(Context context) {
+
 	}
 
 	@Override

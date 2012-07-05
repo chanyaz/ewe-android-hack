@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 import android.content.Context;
@@ -27,16 +26,22 @@ public class SectionEditAddress extends LinearLayout implements ISection<Locatio
 	Location mLocation;
 
 	public SectionEditAddress(Context context) {
-		this(context, null);
+		super(context);
+		init(context);
 	}
 
 	public SectionEditAddress(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		init(context);
 	}
 
 	public SectionEditAddress(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// real work here
+		init(context);
+	}
+
+	private void init(Context context) {
+
 	}
 
 	@Override

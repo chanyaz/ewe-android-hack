@@ -29,16 +29,22 @@ public class SectionEditContactInfo extends LinearLayout implements ISection<Bil
 	BillingInfo mBi;
 
 	public SectionEditContactInfo(Context context) {
-		this(context, null);
+		super(context);
+		init(context);
 	}
 
 	public SectionEditContactInfo(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		init(context);
 	}
 
 	public SectionEditContactInfo(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// real work here
+		init(context);
+	}
+
+	private void init(Context context) {
+
 	}
 
 	@Override

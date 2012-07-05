@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.expedia.bookings.R;
@@ -22,6 +21,7 @@ import com.mobiata.flightlib.data.Flight;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -98,13 +98,13 @@ public class FlightCheckoutActivity extends SherlockActivity {
 
 			Flight firstSeg = firstLeg.getSegment(0);
 			Calendar startCal = firstSeg.mOrigin.getMostRelevantDateTime();
-			String startMonthStr = startCal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
+			String startMonthStr = DateUtils.getMonthString(startCal.get(Calendar.MONTH), DateUtils.LENGTH_SHORT);
 			int startDay = startCal.get(Calendar.DAY_OF_MONTH);
 			String startDate = startMonthStr + " " + startDay;
 
 			Flight lastSeg = lastLeg.getSegment(lastLeg.getSegmentCount() - 1);
 			Calendar endCal = lastSeg.mDestination.getMostRelevantDateTime();
-			String endMonthStr = endCal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
+			String endMonthStr = DateUtils.getMonthString(endCal.get(Calendar.MONTH), DateUtils.LENGTH_SHORT);
 			int endDay = endCal.get(Calendar.DAY_OF_MONTH);
 			String endDate = "";
 
@@ -207,25 +207,5 @@ public class FlightCheckoutActivity extends SherlockActivity {
 			showExpandedPaymentView(showing);
 		}
 	};
-
-	//TODO:Better validation
-	private boolean validateLocation(Location loc) {
-		if (loc == null) {
-			return false;
-		}
-		if (loc.getStreetAddressString() == null || loc.getStreetAddressString().isEmpty()) {
-			return false;
-		}
-		if (loc.getCity() == null || loc.getCity().isEmpty()) {
-			return false;
-		}
-		if (loc.getStateCode() == null || loc.getStateCode().isEmpty()) {
-			return false;
-		}
-		if (loc.getPostalCode() == null || loc.getPostalCode().isEmpty()) {
-			return false;
-		}
-		return true;
-	}
 
 }
