@@ -3,11 +3,14 @@ package com.expedia.bookings.widget;
 import java.util.Calendar;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
+import android.graphics.Typeface;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -18,8 +21,12 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class FlightTripView extends View {
 
+	// Determines how much padding is added on each side to account for
+	// the airport code drawing
+	private static final int PADDING = 30;
+
 	private Paint mTripPaint;
-	private Paint mTempPaint;
+	private Paint mTextPaint;
 
 	private FlightLeg mFlightLeg;
 
@@ -30,14 +37,20 @@ public class FlightTripView extends View {
 	public FlightTripView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
+		Resources r = context.getResources();
+
 		mTripPaint = new Paint();
 		mTripPaint.setColor(context.getResources().getColor(R.color.flight_trip));
-		mTripPaint.setStrokeWidth(10);
+		mTripPaint.setStrokeWidth(r.getDimension(R.dimen.flight_trip_view_stroke_width));
 		mTripPaint.setStyle(Style.STROKE);
 		mTripPaint.setAntiAlias(true);
 
-		mTempPaint = new Paint();
-		mTempPaint.setColor(Color.RED);
+		mTextPaint = new TextPaint();
+		mTextPaint.setTextAlign(Align.CENTER);
+		mTextPaint.setColor(r.getColor(R.color.airport_text));
+		mTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
+		mTextPaint.setAntiAlias(true);
+		mTextPaint.setShadowLayer(.1f, 0, 1, r.getColor(R.color.airport_text_shadow));
 	}
 
 	public void setUp(FlightLeg flightLeg, Calendar minTime, Calendar maxTime) {
@@ -55,7 +68,7 @@ public class FlightTripView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		
+
 		int width = getWidth();
 
 		// Calculate the bounds based on the min
@@ -75,12 +88,30 @@ public class FlightTripView extends View {
 		left = 0;
 		right = width;
 
+		// Fuzz the edges a bit to make sure that we can draw the full airport code without falling
+		// off the edge of the canvas.
+		//
+		// TODO: Does this need to be scaled by density of screen?
+		if (left < PADDING) {
+			left = PADDING;
+		}
+
+		if (right > width - PADDING) {
+			right = width - PADDING;
+		}
+
 		RectF legBounds = new RectF(left, 0, right, getHeight());
 		drawLeg(canvas, legBounds);
 	}
 
 	// Draws the current FlightLeg within specified bounds
 	private void drawLeg(Canvas canvas, RectF bounds) {
+		// The line has bounds above the airport codes
+		RectF lineBounds = new RectF(bounds);
+		lineBounds.bottom /= 2;
+		RectF airportBounds = new RectF(bounds);
+		airportBounds.top = airportBounds.bottom / 2;
+
 		// Info on the leg
 		int numSegments = mFlightLeg.getSegmentCount();
 
@@ -88,12 +119,12 @@ public class FlightTripView extends View {
 		RectF[] waypoints = new RectF[numSegments + 1];
 
 		float halfStrokeWidth = mTripPaint.getStrokeWidth() / 2;
-		float width = bounds.width();
-		float height = bounds.height();
-		float centerY = bounds.centerY();
+		float width = lineBounds.width();
+		float height = lineBounds.height();
+		float centerY = lineBounds.centerY();
 
 		// Starting point
-		waypoints[0] = drawWaypoint(canvas, new RectF(bounds.left, 0, height + bounds.left, height));
+		waypoints[0] = drawWaypoint(canvas, new RectF(lineBounds.left, 0, height + lineBounds.left, height));
 
 		// Layovers
 		if (numSegments > 1) {
@@ -113,23 +144,43 @@ public class FlightTripView extends View {
 				float left = ((float) (layoverStart - startTime) / (float) duration) * width;
 				float right = ((float) (layoverEnd - startTime) / (float) duration) * width;
 
-				waypoints[a] = drawWaypoint(canvas, new RectF(left + bounds.left, 0, right + bounds.left, height));
+				waypoints[a] = drawWaypoint(canvas, new RectF(left + lineBounds.left, 0, right + lineBounds.left,
+						height));
 			}
 		}
 
 		// Ending point
-		waypoints[numSegments] = drawWaypoint(canvas, new RectF(width - height + bounds.left, 0, width + bounds.left,
-				height));
+		waypoints[numSegments] = drawWaypoint(canvas, new RectF(width - height + lineBounds.left, 0, width
+				+ lineBounds.left, height));
 
 		// Draw lines between each waypoint
 		for (int a = 1; a < waypoints.length; a++) {
 			canvas.drawLine(waypoints[a - 1].right - halfStrokeWidth, centerY, waypoints[a].left + halfStrokeWidth,
 					centerY, mTripPaint);
 		}
+
+		// Draw an airport at each waypoint
+		for (int a = 0; a < waypoints.length; a++) {
+			String airportCode;
+			if (a == 0) {
+				airportCode = mFlightLeg.getSegment(a).mOrigin.mAirportCode;
+			}
+			else {
+				airportCode = mFlightLeg.getSegment(a - 1).mDestination.mAirportCode;
+			}
+
+			// Adjust the top/bottom bounds to match where the airports should be drawn
+			waypoints[a].top = airportBounds.top;
+			waypoints[a].bottom = airportBounds.bottom;
+			drawAirportCode(canvas, waypoints[a], airportCode);
+		}
 	}
 
 	/**
 	 * Draws a waypoint in the bounds requested.
+	 * 
+	 * If the bounds are too small (in other words, you could not draw a complete circle) it will
+	 * expand the bounds to fit.  The height will remain constant but the width will expand.
 	 * 
 	 * @param canvas the canvas to draw to
 	 * @param bounds the bounds for the waypoint
@@ -170,5 +221,23 @@ public class FlightTripView extends View {
 					- halfStrokeWidth, mTripPaint);
 			return bounds;
 		}
+	}
+
+	/**
+	 * Draws an airport code at the specified location.
+	 * 
+	 * It isn't necessarily drawn *within* the bounds horizontally - rather, it's centered
+	 * on those bounds.
+	 * 
+	 * @param canvas
+	 * @param bounds
+	 * @param airportCode
+	 */
+	private void drawAirportCode(Canvas canvas, RectF bounds, String airportCode) {
+		// Setup the text to draw in the entire height of the bounds, minus any extra space needed for the
+		// shadow layer
+		mTextPaint.setTextSize(bounds.height());
+
+		canvas.drawText(airportCode, bounds.centerX(), bounds.bottom, mTextPaint);
 	}
 }

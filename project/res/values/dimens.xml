@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Flights dimens -->
+   	<dimen name="flight_trip_view_stroke_width">4dp</dimen>
+    
     <!-- Dimensions for the list header fragment -->
     <dimen name="sort_view_max_width">250dp</dimen>
 

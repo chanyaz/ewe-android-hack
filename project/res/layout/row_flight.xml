@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/airline_text_view"
             android:layout_marginLeft="10dp"
-            android:paddingBottom="10dp"
+            android:paddingBottom="16dp"
             android:textColor="#3D4652"
             android:textSize="16sp" />
 
@@ -52,14 +52,14 @@
             android:layout_alignBaseline="@+id/departure_time_text_view"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:paddingBottom="10dp"
+            android:paddingBottom="16dp"
             android:textColor="#3D4652"
             android:textSize="16sp" />
 
         <com.expedia.bookings.widget.FlightTripView
             android:id="@+id/flight_trip_view"
             android:layout_width="wrap_content"
-            android:layout_height="18dp"
+            android:layout_height="28dp"
             android:layout_below="@+id/airline_text_view"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"

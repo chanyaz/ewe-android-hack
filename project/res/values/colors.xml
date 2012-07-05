@@ -4,6 +4,8 @@
     <color name="bg_flight_row">#EEEEEE</color>
     <color name="flight_trip">#0D6599</color>
     <color name="trip_info_text">#FEFEFE</color>
+    <color name="airport_text">#9EA8B6</color>
+    <color name="airport_text_shadow">#F3F3F3</color>
     
 	<!-- These colors are ripped from the iOS version, and are not finalized -->
 	<color name="window_background">#FF666666</color>
