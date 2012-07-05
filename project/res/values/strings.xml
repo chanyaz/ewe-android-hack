@@ -57,6 +57,15 @@
     <string name="sort_description_arrival">Arrives</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">Duration</string>
+    <!-- Pluralization for # of days a flight takes up -->
+    <plurals name="day_span">
+        <item quantity="zero">+ %d days</item>
+        <item quantity="one">+ %d day</item>
+        <item quantity="two">+ %d days</item>
+        <item quantity="few">+ %d days</item>
+        <item quantity="many">+ %d days</item>
+        <item quantity="other">+ %d days</item>
+    </plurals>
 
     <!-- Flight Details Fragment -->
     <!-- The label for the number of seats left for a flight -->

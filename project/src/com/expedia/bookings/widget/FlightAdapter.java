@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.text.Html;
@@ -21,9 +22,9 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
@@ -48,6 +49,7 @@ public class FlightAdapter extends BaseAdapter {
 	}
 
 	private Context mContext;
+	private Resources mResources;
 
 	private LayoutInflater mInflater;
 
@@ -72,6 +74,7 @@ public class FlightAdapter extends BaseAdapter {
 
 	public FlightAdapter(Context context, Bundle savedInstanceState) {
 		mContext = context;
+		mResources = context.getResources();
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		restoreInstanceState(savedInstanceState);
 	}
@@ -200,6 +203,7 @@ public class FlightAdapter extends BaseAdapter {
 			holder.mPriceTextView = Ui.findView(convertView, R.id.price_text_view);
 			holder.mDepartureTimeTextView = Ui.findView(convertView, R.id.departure_time_text_view);
 			holder.mArrivalTimeTextView = Ui.findView(convertView, R.id.arrival_time_text_view);
+			holder.mMultiDayTextView = Ui.findView(convertView, R.id.multi_day_text_view);
 			holder.mFlightTripView = Ui.findView(convertView, R.id.flight_trip_view);
 
 			convertView.setTag(holder);
@@ -256,6 +260,15 @@ public class FlightAdapter extends BaseAdapter {
 		}
 		else {
 			holder.mPriceTextView.setText(null);
+		}
+
+		int daySpan = leg.getDaySpan();
+		if (daySpan > 0) {
+			holder.mMultiDayTextView.setVisibility(View.VISIBLE);
+			holder.mMultiDayTextView.setText(mResources.getQuantityString(R.plurals.day_span, daySpan, daySpan));
+		}
+		else {
+			holder.mMultiDayTextView.setVisibility(View.INVISIBLE);
 		}
 
 		holder.mFlightTripView.setUp(leg, mMinTime, mMaxTime);
@@ -337,6 +350,7 @@ public class FlightAdapter extends BaseAdapter {
 		private TextView mPriceTextView;
 		private TextView mDepartureTimeTextView;
 		private TextView mArrivalTimeTextView;
+		private TextView mMultiDayTextView;
 		private FlightTripView mFlightTripView;
 
 		private View mAnimContainer;

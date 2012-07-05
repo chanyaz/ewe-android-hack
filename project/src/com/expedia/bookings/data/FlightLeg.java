@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
@@ -56,6 +57,15 @@ public class FlightLeg {
 		Calendar start = mSegments.get(0).mOrigin.getMostRelevantDateTime();
 		Calendar end = mSegments.get(mSegments.size() - 1).mDestination.getMostRelevantDateTime();
 		return end.getTimeInMillis() - start.getTimeInMillis();
+	}
+
+	// Returns the *span* of the days involved with this trip.  If all the segments
+	// are on the same day, then the span is 0.  Otherwise, it's 1+.  (This is used
+	// for detecting multi-day flights.)
+	public int getDaySpan() {
+		Calendar start = mSegments.get(0).mOrigin.getMostRelevantDateTime();
+		Calendar end = mSegments.get(mSegments.size() - 1).mDestination.getMostRelevantDateTime();
+		return (int) CalendarUtils.getDaysBetween(start, end);
 	}
 
 	// Returns all operating airlines for the flights in this leg
