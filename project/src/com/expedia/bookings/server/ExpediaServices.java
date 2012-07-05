@@ -457,9 +457,17 @@ public class ExpediaServices implements DownloadListener {
 		if (billingInfo.getStoredCard() == null) {
 			query.add(new BasicNameValuePair("creditCardNumber", billingInfo.getNumber()));
 
+			Date expDate = billingInfo.getExpirationDate().getTime();
+
 			DateFormat expFormatter = new SimpleDateFormat("MMyy");
-			query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
-					.getTime())));
+			query.add(new BasicNameValuePair("expirationDate", expFormatter.format(expDate)));
+
+			// This is an alternative way of representing expiration date, used for Flights.
+			// Doesn't hurt to include both methods
+			query.add(new BasicNameValuePair("expirationDateYear", android.text.format.DateFormat.format("yyyy", expDate)
+					.toString()));
+			query.add(new BasicNameValuePair("expirationDateMonth", android.text.format.DateFormat.format("MM", expDate)
+					.toString()));
 		}
 		else {
 			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));

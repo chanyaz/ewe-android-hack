@@ -87,7 +87,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 			location.setStreetAddress(Arrays.asList(new String[] { "17 Cherry Tree Lane" }));
 			location.setCity("London");
 			location.setStateCode("LH");
-			location.setPostalCode("SW151AA");
+			location.setPostalCode("55408");
 			location.setCountryCode("GBR");
 			billingInfo.setLocation(location);
 
