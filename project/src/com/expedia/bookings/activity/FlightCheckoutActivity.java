@@ -13,8 +13,8 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.SectionDisplayAddress;
 import com.expedia.bookings.section.SectionDisplayCreditCard;
-import com.expedia.bookings.section.SectionDisplayTravelerInfo;
 import com.expedia.bookings.section.SectionEditCreditCard;
+import com.expedia.bookings.section.SectionTravelerInfo;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
@@ -35,7 +35,7 @@ public class FlightCheckoutActivity extends SherlockActivity {
 	FlightTrip mTrip;
 	BillingInfo mBillingInfo;
 
-	ArrayList<SectionDisplayTravelerInfo> mTravelerSections = new ArrayList<SectionDisplayTravelerInfo>();
+	ArrayList<SectionTravelerInfo> mTravelerSections = new ArrayList<SectionTravelerInfo>();
 
 	SectionDisplayCreditCard mCreditCardSection;
 	SectionDisplayCreditCard mCreditCardSectionButton;
@@ -145,7 +145,7 @@ public class FlightCheckoutActivity extends SherlockActivity {
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 		for (int i = 0; i < passengers.size(); i++) {
 			final int travelerNum = i;
-			SectionDisplayTravelerInfo traveler = (SectionDisplayTravelerInfo) inflater.inflate(
+			SectionTravelerInfo traveler = (SectionTravelerInfo) inflater.inflate(
 					R.layout.section_display_traveler_info_btn, null);
 			traveler.setOnClickListener(new OnClickListener() {
 				@Override

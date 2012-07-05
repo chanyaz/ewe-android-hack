@@ -4,7 +4,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightPassenger;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
-import com.expedia.bookings.section.SectionEditTravelerInfo;
+import com.expedia.bookings.section.SectionTravelerInfo;
 import com.mobiata.android.util.Ui;
 
 import android.app.Activity;
@@ -19,7 +19,7 @@ public class FlightTravelerInfoTwoActivity extends Activity {
 	public final static String PASSENGER_INDEX = "PASSENGER_INDEX";
 
 	FlightPassenger mPassenger;
-	SectionEditTravelerInfo mSectionTravelerInfo;
+	SectionTravelerInfo mSectionTravelerInfo;
 	Button mFinishButton;
 	int mPassengerIndex = -1;
 
