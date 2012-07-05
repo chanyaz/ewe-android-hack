@@ -18,7 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_below="@id/hotel_list_fixed_header" />
+        android:layout_below="@id/hotel_list_fixed_header"
+        android:divider="@drawable/divider_horizontal_dark_opaque" />
 
     <LinearLayout
         android:id="@android:id/empty"

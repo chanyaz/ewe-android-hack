@@ -5,10 +5,8 @@
     <item android:state_pressed="true" android:drawable="@color/bg_row_state_pressed" />
     <item>
         <shape android:shape="rectangle">
-            <gradient
-                android:angle="270"
-                android:endColor="#e3e4e5"
-                android:startColor="#f4f5f5" />
+            <solid
+                android:color="@color/row_background" />
         </shape>
-	</item>
+    </item>
 </selector>

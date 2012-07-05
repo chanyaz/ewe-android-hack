@@ -59,4 +59,8 @@
     <color name="text_blue_dark">#ff1c3061</color>
 
     <color name="bottom_bar_background">#c000</color>
+    
+    <color name="row_background">#ececec</color>
+    <color name="header_background">#ccc</color>
+    <color name="header_text">#777</color>
 </resources>
