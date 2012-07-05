@@ -445,7 +445,7 @@
     <!-- The "city" booking info field. -->
     <string name="City">City</string>
     <!-- The "postal code" booking info field. -->
-    <string name="PostalCode">Postal Code</string>
+    <string name="PostalCode">Zip Code</string>
     <!-- State code hint -->
     <string name="hint_state_code">State</string>
     <!-- Label for "credit card info" form field section -->
