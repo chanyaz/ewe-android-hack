@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.text.Html;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -202,6 +203,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder = new HotelViewHolder();
 			holder.thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail_image_view);
 			holder.name = (TextView) convertView.findViewById(R.id.name_text_view);
+			holder.strikethroughPrice = (TextView) convertView.findViewById(R.id.strikethrough_price_text_view);
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
 			holder.saleContainer = (FrameLayout) convertView.findViewById(R.id.sale_container);
 			holder.saleText = (TextView) convertView.findViewById(R.id.sale_text_view);
@@ -229,6 +231,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()) {
+			holder.strikethroughPrice.setVisibility(View.VISIBLE);
+			holder.strikethroughPrice.setText(Html.fromHtml("<strike>" + StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate()) + "</strike>", null, new StrikethroughTagHandler()));
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
 			holder.saleContainer.setVisibility(View.VISIBLE);
 			if (!mUseCondensedRows || !ExpediaBookingApp.useTabletInterface(mContext)) {
@@ -237,6 +241,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			}
 		}
 		else {
+			holder.strikethroughPrice.setVisibility(View.GONE);
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_text_color));
 			holder.saleContainer.setVisibility(View.GONE);
 		}
@@ -316,6 +321,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private static class HotelViewHolder {
 		public ImageView thumbnail;
 		public TextView name;
+		public TextView strikethroughPrice;
 		public TextView price;
 		public FrameLayout saleContainer;
 		public TextView saleText;
