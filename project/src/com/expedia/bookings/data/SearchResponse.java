@@ -360,6 +360,9 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 		case PRICE:
 			Arrays.sort(filteredProperties, Property.PRICE_COMPARATOR);
 			break;
+		case DEALS:
+			Arrays.sort(filteredProperties, Property.DEALS_COMPARATOR);
+			break;
 		case RATING:
 			Arrays.sort(filteredProperties, Property.RATING_COMPARATOR);
 			break;

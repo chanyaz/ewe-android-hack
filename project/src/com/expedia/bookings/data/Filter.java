@@ -44,6 +44,7 @@ public class Filter implements JSONable {
 	public static enum Sort {
 		POPULAR(R.string.sort_description_popular),
 		PRICE(R.string.sort_description_price),
+		DEALS(R.string.sort_description_deals),
 		RATING(R.string.sort_description_rating),
 		DISTANCE(R.string.sort_description_distance);
 

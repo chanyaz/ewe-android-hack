@@ -139,6 +139,8 @@
     <string name="sort_description_popular">Popularity</string>
     <!-- Sort by price label -->
     <string name="sort_description_price">Price</string>
+    <!-- Sort by deals label -->
+    <string name="sort_description_deals">Deals</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">User Rating</string>
 

@@ -395,6 +395,40 @@ public class Property implements JSONable {
 		}
 	};
 
+	public static final Comparator<Property> DEALS_COMPARATOR = new Comparator<Property>() {
+		@Override
+		public int compare(Property leftProperty, Property rightProperty) {
+			Rate left = leftProperty.getLowestRate();
+			Rate right = rightProperty.getLowestRate();
+
+			if (left.isOnSale() && right.isOnSale()) {
+				// Both on sale
+				if (left.getSavingsPercent() == right.getSavingsPercent()) {
+					return NAME_COMPARATOR.compare(leftProperty, rightProperty);
+				}
+				else if (left.getSavingsPercent() > right.getSavingsPercent()) {
+					// We want to show larger percentage discounts first
+					return -1;
+				}
+				else {
+					return 1;
+				}
+			}
+			else if(left.isOnSale()) {
+				// Bump the on sale property to the top
+				return -1;
+			}
+			else if (right.isOnSale()) {
+				// Bump the on sale property to the top
+				return 1;
+			}
+			else {
+				// Just keep the same order
+				return -1;
+			}
+		}
+	};
+
 	public static final Comparator<Property> NAME_COMPARATOR = new Comparator<Property>() {
 		@Override
 		public int compare(Property property1, Property property2) {

@@ -246,6 +246,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 	private List<View> mSortButtons;
 	private View mSortPriceButton;
+	private View mSortDealsButton;
 	private View mSortDistanceButton;
 	private View mSortUserRatingButton;
 	private View mSortPopularityButton;
@@ -450,6 +451,8 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 				R.string.sort_description_popular, F_NO_DIVIDERS + F_FIRST);
 		mSortPriceButton = addSortOption(R.id.sort_price_button, R.drawable.ic_sort_price,
 				R.string.sort_description_price, 0);
+		mSortDealsButton = addSortOption(R.id.sort_deals_button, R.drawable.ic_sort_price,
+				R.string.sort_description_deals, 0);
 		mSortUserRatingButton = addSortOption(R.id.sort_reviews_button, R.drawable.ic_sort_user_rating,
 				R.string.sort_description_rating, 0);
 		mSortDistanceButton = addSortOption(R.id.sort_distance_button, R.drawable.ic_sort_distance,
@@ -467,6 +470,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		});
 
 		mSortPriceButton.setOnClickListener(mSortOptionChangedListener);
+		mSortDealsButton.setOnClickListener(mSortOptionChangedListener);
 		mSortPopularityButton.setOnClickListener(mSortOptionChangedListener);
 		mSortDistanceButton.setOnClickListener(mSortOptionChangedListener);
 		mSortUserRatingButton.setOnClickListener(mSortOptionChangedListener);
@@ -474,6 +478,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		mSortButtons = new ArrayList<View>();
 		mSortButtons.add(mSortPopularityButton);
 		mSortButtons.add(mSortPriceButton);
+		mSortButtons.add(mSortDealsButton);
 		mSortButtons.add(mSortUserRatingButton);
 		mSortButtons.add(mSortDistanceButton);
 
@@ -1206,6 +1211,10 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		}
 		case R.id.sort_price_button: {
 			filter.setSort(Sort.PRICE);
+			break;
+		}
+		case R.id.sort_deals_button: {
+			filter.setSort(Sort.DEALS);
 			break;
 		}
 		case R.id.sort_reviews_button: {
@@ -2153,6 +2162,10 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			selected = mSortPriceButton;
 			break;
 		}
+		case R.id.sort_deals_button: {
+			selected = mSortDealsButton;
+			break;
+		}
 		}
 
 		if (selected != null) {
@@ -2212,6 +2225,10 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			break;
 		case PRICE:
 			mSortOptionSelectedId = R.id.sort_price_button;
+			setupSortOptions();
+			break;
+		case DEALS:
+			mSortOptionSelectedId = R.id.sort_deals_button;
 			setupSortOptions();
 			break;
 		case RATING:
