@@ -4,7 +4,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
-import com.expedia.bookings.section.SectionEditContactInfo;
+import com.expedia.bookings.section.SectionBillingInfo;
 import com.mobiata.android.util.Ui;
 
 import android.app.Activity;
@@ -30,7 +30,7 @@ public class FlightPaymentContactActivity extends Activity {
 		//We should always put this stuff in onResume, as it will set the values correctly if we get here on the back stack or from someplace wierd...
 		mBillingInfo = Db.getBillingInfo();
 
-		final SectionEditContactInfo sci = Ui.findView(this, R.id.contact_info_section);
+		final SectionBillingInfo sci = Ui.findView(this, R.id.contact_info_section);
 		sci.bind(mBillingInfo);
 
 		final Button done = Ui.findView(this, R.id.done);

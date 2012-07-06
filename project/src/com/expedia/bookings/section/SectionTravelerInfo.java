@@ -6,6 +6,8 @@ import java.util.GregorianCalendar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.data.FlightPassenger.Gender;
+import com.mobiata.android.util.Ui;
 
 import android.content.Context;
 import android.text.Editable;
@@ -15,6 +17,9 @@ import android.widget.DatePicker;
 import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.LinearLayout;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 public class SectionTravelerInfo extends LinearLayout implements ISection<FlightPassenger>, ISectionEditable {
@@ -25,17 +30,21 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 	FlightPassenger mPassenger;
 
 	public SectionTravelerInfo(Context context) {
-		this(context, null);
+		super(context);
+		init(context);
 	}
 
 	public SectionTravelerInfo(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		init(context);
 	}
 
 	public SectionTravelerInfo(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// real work here
-
+		init(context);
+	}
+	
+	private void init(Context context){
 		//Display fields
 		mFields.add(mDisplayFullName);
 
@@ -45,6 +54,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		mFields.add(mEditPhoneNumber);
 		mFields.add(mEditBirthDate);
 		mFields.add(mEditRedressNumber);
+		mFields.add(mEditGender);
 	}
 
 	@Override
@@ -324,6 +334,70 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 				field.updateDate(bd.get(Calendar.YEAR), bd.get(Calendar.MONTH), bd.get(Calendar.DAY_OF_MONTH));
 			}
 
+		}
+	};
+	
+	SectionFieldEditable<RadioGroup, FlightPassenger> mEditGender = new SectionFieldEditable<RadioGroup, FlightPassenger>(
+			R.id.edit_gender_radio) {
+		
+		RadioButton mMaleRadio;
+		RadioButton mFemaleRadio;
+		
+		private void setIsMale(boolean isMale){
+			if(mMaleRadio != null && mFemaleRadio != null){ 
+				mMaleRadio.setChecked(isMale);
+				mFemaleRadio.setChecked(!isMale);
+			}
+		}
+		
+		@Override
+		protected void onFieldBind(){
+			super.onFieldBind();
+			if(this.hasBoundField()){
+				mMaleRadio = Ui.findView(getField(), R.id.edit_gender_radio_male);
+				mFemaleRadio = Ui.findView(getField(), R.id.edit_gender_radio_female);
+			}
+		}
+		
+		@Override
+		protected boolean hasValidInput(RadioGroup field) {
+			if (field != null) {
+				if(field.getCheckedRadioButtonId() < 0){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		@Override
+		public void setChangeListener(RadioGroup field) {
+			field.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+				@Override
+				public void onCheckedChanged(RadioGroup group, int checkedId) {
+					if(hasBoundData() && mMaleRadio != null && mFemaleRadio != null){
+						//TODO: We may want to do this in a way that doesn't care about the radio button text, but that is difficult because our sections don't check for subviews so we'd have to introduce some new logic
+						if(checkedId == mMaleRadio.getId()){
+							getData().setGender(Gender.MALE);
+						}else if(checkedId == mFemaleRadio.getId()){
+							getData().setGender(Gender.FEMALE);
+						}
+					}
+					SectionTravelerInfo.this.onChange();
+				}
+			});
+			
+		}
+
+		@Override
+		protected void onHasFieldAndData(RadioGroup field, FlightPassenger data) {
+			if(data.getGender() != null){
+				if(data.getGender() == Gender.MALE){
+					setIsMale(true);
+				}else{
+					setIsMale(false);
+				}
+				
+			}
 		}
 	};
 

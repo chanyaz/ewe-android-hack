@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.section.SectionDisplayAddress xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.section.SectionLocation xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#33FF0000"
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/address_line_one"
+        android:id="@+id/display_address_line_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -16,22 +16,22 @@
         android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/address_city"
+            android:id="@+id/display_address_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="10" />
 
         <TextView
-            android:id="@+id/address_state"
+            android:id="@+id/display_address_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/address_zip"
+            android:id="@+id/display_address_postal_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2" />
     </LinearLayout>
 
-</com.expedia.bookings.section.SectionDisplayAddress>
+</com.expedia.bookings.section.SectionLocation>

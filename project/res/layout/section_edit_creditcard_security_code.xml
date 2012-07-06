@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.section.SectionEditCreditCard xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.section.SectionBillingInfo xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -19,14 +19,14 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/security_code_info"
+            android:id="@+id/display_creditcard_security_code_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp" />
     </LinearLayout>
 
     <EditText
-        android:id="@+id/creditcard_security_code"
+        android:id="@+id/edit_creditcard_security_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0"
@@ -34,4 +34,4 @@
         android:hint="@string/security_code_hint"    	   
 	    android:inputType="number" />
 
-</com.expedia.bookings.section.SectionEditCreditCard>
+</com.expedia.bookings.section.SectionBillingInfo>

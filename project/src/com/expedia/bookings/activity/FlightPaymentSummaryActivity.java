@@ -4,9 +4,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.section.SectionDisplayAddress;
-import com.expedia.bookings.section.SectionDisplayContactInfo;
-import com.expedia.bookings.section.SectionDisplayCreditCard;
+import com.expedia.bookings.section.SectionBillingInfo;
+import com.expedia.bookings.section.SectionLocation;
 import com.mobiata.android.util.Ui;
 
 import android.app.Activity;
@@ -19,9 +18,9 @@ import android.widget.Button;
 public class FlightPaymentSummaryActivity extends Activity {
 
 	BillingInfo mBi;
-	SectionDisplayCreditCard mCreditCardSegment;
-	SectionDisplayAddress mAddressSegment;
-	SectionDisplayContactInfo mContactSegment;
+	SectionBillingInfo mCreditCardSegment;
+	SectionLocation mAddressSegment;
+	SectionBillingInfo mContactSegment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +69,8 @@ public class FlightPaymentSummaryActivity extends Activity {
 		mCreditCardSegment.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent editContact = new Intent(FlightPaymentSummaryActivity.this, FlightPaymentCreditCardActivity.class);
+				Intent editContact = new Intent(FlightPaymentSummaryActivity.this,
+						FlightPaymentCreditCardActivity.class);
 				startActivity(editContact);
 			}
 		});

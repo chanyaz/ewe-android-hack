@@ -4,7 +4,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
-import com.expedia.bookings.section.SectionEditCreditCard;
+import com.expedia.bookings.section.SectionBillingInfo;
 import com.mobiata.android.util.Ui;
 
 import android.app.Activity;
@@ -17,8 +17,8 @@ public class FlightPaymentCreditCardActivity extends Activity {
 
 	BillingInfo mBillingInfo;
 
-	SectionEditCreditCard mSectionCreditCardNum;
-	SectionEditCreditCard mSectionCreditCardType;
+	SectionBillingInfo mSectionCreditCardNum;
+	SectionBillingInfo mSectionCreditCardType;
 	Button mDoneBtn;
 
 	@Override
@@ -33,9 +33,7 @@ public class FlightPaymentCreditCardActivity extends Activity {
 		mSectionCreditCardNum.addChangeListener(new SectionChangeListener() {
 			@Override
 			public void onChange() {
-				if (mSectionCreditCardNum.hasValidInput()) {
-					mDoneBtn.setEnabled(mSectionCreditCardNum.hasValidInput());
-				}
+				mDoneBtn.setEnabled(mSectionCreditCardNum.hasValidInput() && mSectionCreditCardType.hasValidInput());
 			}
 
 		});

@@ -8,7 +8,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.section.SectionDisplayFlightLeg;
+import com.expedia.bookings.section.SectionFlightLeg;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
 
@@ -32,7 +32,7 @@ public class FlightTripOverviewActivity extends SherlockActivity {
 
 	FlightTrip mTrip;
 
-	ArrayList<SectionDisplayFlightLeg> mFlights;
+	ArrayList<SectionFlightLeg> mFlights;
 	ViewGroup mFlightContainer;
 
 	@Override
@@ -40,7 +40,7 @@ public class FlightTripOverviewActivity extends SherlockActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flight_trip_overview);
 
-		mFlights = new ArrayList<SectionDisplayFlightLeg>();
+		mFlights = new ArrayList<SectionFlightLeg>();
 		mFlightContainer = Ui.findView(this, R.id.flight_legs_container);
 
 		String tripKey = getIntent().getStringExtra(EXTRA_TRIP_KEY);
@@ -68,9 +68,9 @@ public class FlightTripOverviewActivity extends SherlockActivity {
 
 			//Inflate and store the sections
 			LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			SectionDisplayFlightLeg tempFlight;
+			SectionFlightLeg tempFlight;
 			for (int i = 0; i < mTrip.getLegCount(); i++) {
-				tempFlight = (SectionDisplayFlightLeg) inflater.inflate(R.layout.section_display_flight_leg, null);
+				tempFlight = (SectionFlightLeg) inflater.inflate(R.layout.section_display_flight_leg, null);
 				if (i < mTrip.getLegCount() - 1) {
 					tempFlight.setIsOutbound(true);
 					LinearLayout.LayoutParams tempFlightLayoutParams = (LayoutParams) tempFlight.getLayoutParams();

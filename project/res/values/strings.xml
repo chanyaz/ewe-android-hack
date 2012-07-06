@@ -129,6 +129,17 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Enter Traveler Information</string>
+    
+    <!-- Section edit contact -->
+    <!-- first name hint -->
+    <string name="first_name_hint">First Name</string>
+    <!-- last name hint -->
+    <string name="last_name_hint">Last Name</string>
+    <!-- email hint -->
+    <string name="email_address_hint">Email Address</string>
+    <!-- phone number hint -->
+    <string name="phone_number_hint">Phone Number</string>
+        
 
     <!-- Section display payment -->
     <!-- Enter payment info button text -->

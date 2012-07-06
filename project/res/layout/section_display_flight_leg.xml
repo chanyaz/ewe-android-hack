@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.section.SectionDisplayFlightLeg xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.section.SectionFlightLeg xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
@@ -14,7 +14,7 @@
         android:paddingTop="5dp" >
 
         <ImageView
-            android:id="@+id/inbound_outbound_arrow"
+            android:id="@+id/display_inbound_outbound_arrow"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginLeft="10dp"
@@ -22,7 +22,7 @@
             android:background="#88000000" />
 
         <TextView
-            android:id="@+id/arrive_or_depart_with_date"
+            android:id="@+id/display_arrive_or_depart_with_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/trip_info_text"
@@ -55,7 +55,7 @@
         android:padding="10dp" >
 
         <TextView
-            android:id="@+id/carrier_name"
+            android:id="@+id/display_carrier_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -64,33 +64,33 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/departure_time"
+            android:id="@+id/display_departure_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/carrier_name"
+            android:layout_below="@id/display_carrier_name"
             android:layout_marginTop="10dp" />
 
         <TextView
-            android:id="@+id/arrival_time"
+            android:id="@+id/display_arrival_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/departure_time"
+            android:layout_alignBaseline="@id/display_departure_time"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/carrier_name"
-            android:layout_toLeftOf="@id/departure_time" />
+            android:layout_below="@id/display_carrier_name"
+            android:layout_toLeftOf="@id/display_departure_time" />
 
         <TextView
-            android:id="@+id/flight_price"
+            android:id="@+id/display_flight_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@id/carrier_name"
+            android:layout_toRightOf="@id/display_carrier_name"
             android:gravity="right"
             android:textColor="@color/flight_trip"
             android:textSize="26dp"
             android:textStyle="bold" />
     </RelativeLayout>
 
-</com.expedia.bookings.section.SectionDisplayFlightLeg>
+</com.expedia.bookings.section.SectionFlightLeg>

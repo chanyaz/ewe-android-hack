@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.section.SectionEditContactInfo xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.section.SectionBillingInfo xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#330000FF"
@@ -11,30 +11,30 @@
         android:orientation="horizontal" >
 
         <EditText
-            android:id="@+id/first_name"
+            android:id="@+id/edit_first_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="first name" />
+            android:hint="@string/first_name_hint" />
 
         <EditText
-            android:id="@+id/last_name"
+            android:id="@+id/edit_last_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="last name" />
+            android:hint="@string/last_name_hint" />
     </LinearLayout>
 
     <EditText
-        android:id="@+id/email_address"
+        android:id="@+id/edit_email_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="email address" />
+        android:hint="@string/email_address_hint" />
 
     <EditText
-        android:id="@+id/phone_number"
+        android:id="@+id/edit_phone_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="phone number" />
+        android:hint="@string/phone_number_hint" />
 
-</com.expedia.bookings.section.SectionEditContactInfo>
+</com.expedia.bookings.section.SectionBillingInfo>

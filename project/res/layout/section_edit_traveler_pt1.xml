@@ -82,11 +82,13 @@
                 android:orientation="horizontal" >
 
                 <RadioButton
+                    android:id="@+id/edit_gender_radio_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/male" />
 
                 <RadioButton
+                    android:id="@+id/edit_gender_radio_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/female" />

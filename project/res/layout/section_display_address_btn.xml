@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.section.SectionDisplayAddress xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.section.SectionLocation xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -14,11 +14,11 @@
         android:src="@drawable/btn_map" />
 
     <TextView
-        android:id="@+id/address_line_one"
+        android:id="@+id/display_address_line_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/enter_address_info"
         android:textSize="16sp" />
 
-</com.expedia.bookings.section.SectionDisplayAddress>
+</com.expedia.bookings.section.SectionLocation>

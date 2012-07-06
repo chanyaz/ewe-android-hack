@@ -5,7 +5,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
-import com.expedia.bookings.section.SectionEditAddress;
+import com.expedia.bookings.section.SectionLocation;
 import com.mobiata.android.util.Ui;
 
 import android.app.Activity;
@@ -31,7 +31,7 @@ public class FlightPaymentAddressActivity extends Activity {
 		//We should always put this stuff in onResume, as it will set the values correctly if we get here on the back stack or from someplace wierd...
 		mBillingInfo = Db.getBillingInfo();
 
-		final SectionEditAddress sci = Ui.findView(this, R.id.address_section);
+		final SectionLocation sci = Ui.findView(this, R.id.address_section);
 		if (mBillingInfo.getLocation() == null) {
 			mBillingInfo.setLocation(new Location());
 		}
