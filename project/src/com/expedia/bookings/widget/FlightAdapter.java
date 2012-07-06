@@ -26,6 +26,7 @@ import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.mobiata.android.util.Ui;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -340,7 +341,7 @@ public class FlightAdapter extends BaseAdapter {
 
 	private String formatTime(Calendar cal) {
 		DateFormat df = android.text.format.DateFormat.getTimeFormat(mContext);
-		return df.format(new Date(cal.getTimeInMillis()));
+		return df.format(DateTimeUtils.getTimeInLocalTimeZone(cal));
 	}
 
 	private static class ViewHolder {
