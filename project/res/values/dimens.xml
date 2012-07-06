@@ -12,6 +12,12 @@
 
 	<dimen name="bottom_bar_padding">@dimen/bottom_bar_height</dimen>
 
+	<!-- Offset so that the price and "mobile exclusive" overlaps the gallery -->
+	<dimen name="hotel_details_intro_offset">-45dp</dimen>
+
+	<!-- Radius of the blue circle drawn on the hotel details mini map fragment -->
+	<dimen name="mini_map_circle_radius">7dp</dimen>
+
 	<!-- Dimensions for hotel rows -->
 	<!-- This is the height/width of the image in a hotel row. Height determines 
 		height of row as well -->
@@ -40,6 +46,9 @@
 	<!-- The limiting dimension of the gallery (either height or width, depending 
 		on orientation) -->
 	<dimen name="gallery_size">200dp</dimen>
+
+	<!-- The visible area of the map on the Hotel Details screen (when collapsed) -->
+	<dimen name="hotel_details_map_visible_size">150dp</dimen>
 
 	<!-- Dimensions for book now button or any other button in the header -->
 	<dimen name="header_button_width">100dp</dimen>
@@ -88,4 +97,7 @@
     <!-- Coupon code dimensions -->
     <dimen name="coupon_code_right_width">120dp</dimen>
     <dimen name="coupon_code_right_height">60dp</dimen>
+
+	<dimen name="one_di_pixel">1dip</dimen>
+
 </resources>

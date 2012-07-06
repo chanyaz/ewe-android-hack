@@ -63,4 +63,6 @@
     <color name="row_background">#ececec</color>
     <color name="header_background">#ccc</color>
     <color name="header_text">#777</color>
+
+	<color name="clickable_row_background">#efefef</color>
 </resources>

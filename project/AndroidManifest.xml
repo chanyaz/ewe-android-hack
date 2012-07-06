@@ -65,6 +65,9 @@
             android:name=".activity.ConfirmationFragmentActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
+            android:name=".activity.HotelDetailsFragmentActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.HotelActivity"
             android:launchMode="singleTask" />
         <activity android:name=".activity.HotelMapActivity" />

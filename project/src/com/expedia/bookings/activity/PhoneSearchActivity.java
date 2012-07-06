@@ -638,7 +638,10 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
 			Db.getSearchParams().ensureValidCheckInDate();
 			startSearch();
-		}else if(Db.getSearchParams().getSearchType() != null && Db.getSearchParams().getSearchType() == SearchType.MY_LOCATION && !Db.getSearchParams().hasSearchLatLon()){
+		}
+		else if (Db.getSearchParams().getSearchType() != null
+				&& Db.getSearchParams().getSearchType() == SearchType.MY_LOCATION
+				&& !Db.getSearchParams().hasSearchLatLon()) {
 			Log.d("onResume(): We were attempting to search by current location, but do not yet have valid coordinates. Starting a new search (and getting new coords if needed).");
 			startSearch();
 		}
@@ -3013,7 +3016,8 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	public void onListItemClicked(Property property, int position) {
 		Db.setSelectedProperty(property);
 
-		Intent intent = new Intent(this, HotelActivity.class);
+		Intent intent = new Intent(this, AndroidUtils.getSdkVersion() >= 9 ? HotelDetailsFragmentActivity.class
+				: HotelActivity.class);
 		intent.putExtra(HotelActivity.EXTRA_POSITION, position);
 		startActivity(intent);
 	}

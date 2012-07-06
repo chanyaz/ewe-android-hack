@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <include
+        layout="@layout/include_amenities"
+        android:visibility="visible" />
+
+    <View
+        android:id="@+id/amenities_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/two_pixels"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/divider"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/description_details_sections_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+</LinearLayout>

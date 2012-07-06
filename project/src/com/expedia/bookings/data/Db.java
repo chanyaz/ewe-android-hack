@@ -59,6 +59,9 @@ public class Db {
 	// Mapping of Property ID --> AvailabilityResponse (for expensive realtime calls)
 	private Map<String, AvailabilityResponse> mAvailabilityResponses = new HashMap<String, AvailabilityResponse>();
 
+	// Mapping of Property ID --> ReviewsStatisticsResponse
+	private Map<String, ReviewsStatisticsResponse> mReviewsStatisticsResponses = new HashMap<String, ReviewsStatisticsResponse>();
+
 	// Mapping of Property ID --> ReviewsResponse
 	private Map<String, ReviewsResponse> mReviewsResponses = new HashMap<String, ReviewsResponse>();
 
@@ -223,6 +226,27 @@ public class Db {
 		return getRate(sDb.mSelectedPropertyId, sDb.mSelectedRateKey);
 	}
 
+	public static void clearReviewsStatisticsResponses() {
+		sDb.mReviewsStatisticsResponses.clear();
+	}
+
+	public static void addReviewsStatisticsResponse(ReviewsStatisticsResponse reviewsStatisticsResponse) {
+		addReviewsStatisticsResponse(sDb.mSelectedPropertyId, reviewsStatisticsResponse);
+	}
+
+	public static void addReviewsStatisticsResponse(String propertyId,
+			ReviewsStatisticsResponse reviewsStatisticsResponse) {
+		sDb.mReviewsStatisticsResponses.put(propertyId, reviewsStatisticsResponse);
+	}
+
+	public static ReviewsStatisticsResponse getReviewsStatisticsResponse(String propertyId) {
+		return sDb.mReviewsStatisticsResponses.get(propertyId);
+	}
+
+	public static ReviewsStatisticsResponse getSelectedReviewsStatisticsResponse() {
+		return getReviewsStatisticsResponse(sDb.mSelectedPropertyId);
+	}
+
 	public static void clearReviewsResponses() {
 		sDb.mReviewsResponses.clear();
 	}
@@ -342,6 +366,7 @@ public class Db {
 			putJsonable(obj, "filter", sDb.mFilter);
 			putMap(obj, "info", sDb.mInfoResponses);
 			putMap(obj, "offers", sDb.mAvailabilityResponses);
+			putMap(obj, "reviewsStatistics", sDb.mReviewsStatisticsResponses);
 			putMap(obj, "reviews", sDb.mReviewsResponses);
 			putJsonable(obj, "billingInfo", sDb.mBillingInfo);
 			putJsonable(obj, "bookingResponse", sDb.mBookingResponse);
@@ -376,6 +401,8 @@ public class Db {
 			sDb.mFilter = getJsonable(obj, "filter", Filter.class, sDb.mFilter);
 			sDb.mInfoResponses = getMap(obj, "info", AvailabilityResponse.class, sDb.mInfoResponses);
 			sDb.mAvailabilityResponses = getMap(obj, "offers", AvailabilityResponse.class, sDb.mAvailabilityResponses);
+			sDb.mReviewsStatisticsResponses = getMap(obj, "reviewsStatistics", ReviewsStatisticsResponse.class,
+					sDb.mReviewsStatisticsResponses);
 			sDb.mReviewsResponses = getMap(obj, "reviews", ReviewsResponse.class, sDb.mReviewsResponses);
 			sDb.mBillingInfo = getJsonable(obj, "billingInfo", BillingInfo.class, sDb.mBillingInfo);
 			sDb.mBookingResponse = getJsonable(obj, "bookingResponse", BookingResponse.class, sDb.mBookingResponse);

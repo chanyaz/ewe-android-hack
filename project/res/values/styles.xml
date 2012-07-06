@@ -79,6 +79,7 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <!-- TODO: get rid of all RatingBarSmall >>>>>>> -->
     <!-- Partial import from @android:style/Widget.RatingBar.Small. -->
     <style name="RatingBarSmall">
         <item name="android:indeterminateOnly">false</item>
@@ -121,6 +122,41 @@
 
     <style name="RatingBarSmall.Shadowed.UserReview.Dark">
         <item name="android:progressDrawable">@drawable/user_rating_dark</item>
+    </style>
+
+    <!-- TODO: get rid of all RatingBarSmall <<<<<<< -->
+
+    <style name="RatingBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:thumb">@null</item>
+        <item name="android:isIndicator">true</item>
+    </style>
+
+    <style name="RatingBar.Star">
+        <item name="android:minHeight">14dip</item>
+        <item name="android:maxHeight">14dip</item>
+    </style>
+
+    <style name="RatingBar.Star.Yellow" />
+
+    <style name="RatingBar.Star.White">
+        <item name="android:progressDrawable">@drawable/ratingbar_star_white</item>
+        <item name="android:minHeight">16dp</item>
+        <item name="android:maxHeight">16dp</item>
+    </style>
+
+    <style name="RatingBar.UserReview">
+        <item name="android:progressDrawable">@drawable/ratingbar_userreview_yellow</item>
+        <item name="android:minHeight">13dip</item>
+        <item name="android:maxHeight">13dip</item>
+    </style>
+
+    <style name="RatingBar.UserReview.Yellow" />
+
+    <style name="RatingBar.UserReview.White">
+        <item name="android:progressDrawable">@drawable/ratingbar_userreview_white</item>
+        <item name="android:minHeight">12dip</item>
+        <item name="android:maxHeight">12dip</item>
     </style>
 
     <style name="Widget.EditText" parent="@android:style/Widget.EditText">

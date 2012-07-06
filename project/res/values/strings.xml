@@ -250,6 +250,10 @@
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Select Room</string>
 
+    <!-- HotelDetailsFragmentActivity and friends -->
+    <string name="minus_x_percent">-%2.0f%%</string>
+    <string name="x_percent_guests_recommend">%2.0f%% of guests recommend this hotel.</string>
+
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
     <string name="AmenityNone">No Amenities Offered</string>
