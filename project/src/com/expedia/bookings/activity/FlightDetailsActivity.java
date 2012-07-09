@@ -10,6 +10,7 @@ import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.fragment.TripFragment;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -69,23 +70,12 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 	}
 
 	public void selectLeg() {
-		//TODO:This is largely stolen from the FlightSearchResultsActivity and should at somepoint just call a method there instead of rewritting.
-
 		FlightSearch search = Db.getFlightSearch();
 		FlightTrip trip = search.getFlightTrip(mTripKey);
 		FlightLeg leg = trip.getLeg(mLegPosition);
 		search.setSelectedLeg(mLegPosition, leg);
 
-		if (mLegPosition + 1 < search.getSearchParams().getQueryLegCount()) {
-			// If the user hasn't selected all legs yet, push them to select the next leg
-			Intent intent = new Intent(this, FlightSearchResultsActivity.class);
-			intent.putExtra(EXTRA_LEG_POSITION, mLegPosition + 1);
-			startActivity(intent);
-		}
-		else {
-			// TODO: If the user has selected all legs, go to checkout screen
-			Toast.makeText(this, "TODO: All legs selected, implement checkout screen", Toast.LENGTH_SHORT).show();
-		}
+		NavUtils.onFlightLegSelected(this);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

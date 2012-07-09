@@ -9,11 +9,11 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.fragment.FlightFilterDialogFragment;
 import com.expedia.bookings.fragment.FlightListFragment;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightAdapter.FlightAdapterListener;
 import com.mobiata.android.util.AndroidUtils;
@@ -114,20 +114,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public void onSelectClick(FlightTrip trip, FlightLeg leg, int position) {
-		FlightSearch search = Db.getFlightSearch();
-		search.setSelectedLeg(mLegPosition, leg);
+		Db.getFlightSearch().setSelectedLeg(mLegPosition, leg);
 
-		if (mLegPosition + 1 < search.getSearchParams().getQueryLegCount()) {
-			// If the user hasn't selected all legs yet, push them to select the next leg
-			Intent intent = new Intent(this, FlightSearchResultsActivity.class);
-			intent.putExtra(EXTRA_LEG_POSITION, mLegPosition + 1);
-			startActivity(intent);
-		}
-		else {
-
-			Intent intent = new Intent(this, FlightTripOverviewActivity.class);
-			intent.putExtra(FlightTripOverviewActivity.EXTRA_TRIP_KEY, trip.getProductKey());
-			startActivity(intent);
-		}
+		NavUtils.onFlightLegSelected(this);
 	}
 }
