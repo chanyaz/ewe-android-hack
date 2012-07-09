@@ -53,6 +53,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	private static final String TAG_PASSENGER_PICKER = "TAG_PASSENGER_PICKER";
 	private static final String TAG_STATUS = "TAG_STATUS";
 
+	private static final String INSTANCE_FINISHED_SEARCH = "INSTANCE_FINISHED_SEARCH";
+
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flights";
 
 	// Controls the ratio of how large a selected EditText should take up
@@ -66,6 +68,12 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	private Button mDatesButton;
 	private View mPassengersButton;
 
+	// Indicates whether we've finished a request to the server.
+	// We need this because otherwise we cannot tell the difference
+	// between a request that timed out and failed vs. a request
+	// that had an actual error.
+	private boolean mFinishedSearch = false;
+
 	private HockeyPuck mHockeyPuck;
 
 	//////////////////////////////////////////////////////////////////////////
@@ -74,6 +82,10 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState != null) {
+			mFinishedSearch = savedInstanceState.getBoolean(INSTANCE_FINISHED_SEARCH, false);
+		}
 
 		setTitle(R.string.search_flights);
 
@@ -188,7 +200,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 			showLoading();
 			BackgroundDownloader.getInstance().registerDownloadCallback(DOWNLOAD_KEY, mDownloadCallback);
 		}
-		else if (Db.getFlightSearch().getSearchResponse() != null) {
+		else if (mFinishedSearch) {
 			// If we already got a response, but it had errors, use callback again to redisplay them
 			handleErrors(Db.getFlightSearch().getSearchResponse());
 		}
@@ -210,6 +222,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+
+		outState.putBoolean(INSTANCE_FINISHED_SEARCH, mFinishedSearch);
 
 		mHockeyPuck.onSaveInstanceState(outState);
 	}
@@ -449,11 +463,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.search:
-			if (!BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)) {
-				clearEditTextFocus();
-				showLoading();
-				BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, mDownload, mDownloadCallback);
-			}
+			startSearch();
 			return true;
 		case R.id.settings:
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
@@ -541,6 +551,15 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	//////////////////////////////////////////////////////////////////////////
 	// Downloads
 
+	private void startSearch() {
+		if (!BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)) {
+			mFinishedSearch = false;
+			clearEditTextFocus();
+			showLoading();
+			BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, mDownload, mDownloadCallback);
+		}
+	}
+
 	private Download<FlightSearchResponse> mDownload = new Download<FlightSearchResponse>() {
 		@Override
 		public FlightSearchResponse doDownload() {
@@ -554,6 +573,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 		@Override
 		public void onDownload(FlightSearchResponse response) {
 			Log.i("Finished flights download!");
+
+			mFinishedSearch = true;
 
 			FlightSearch search = Db.getFlightSearch();
 			search.setSearchResponse(response);
