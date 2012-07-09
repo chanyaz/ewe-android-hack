@@ -188,6 +188,10 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 			showLoading();
 			BackgroundDownloader.getInstance().registerDownloadCallback(DOWNLOAD_KEY, mDownloadCallback);
 		}
+		else if (Db.getFlightSearch().getSearchResponse() != null) {
+			// If we already got a response, but it had errors, use callback again to redisplay them
+			handleErrors(Db.getFlightSearch().getSearchResponse());
+		}
 
 		//HockeyApp crash
 		mHockeyPuck.onResume();
@@ -554,20 +558,30 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 			FlightSearch search = Db.getFlightSearch();
 			search.setSearchResponse(response);
 
-			if (response == null) {
-				showError(getString(R.string.error_server));
-			}
-			else if (response.hasErrors()) {
-				showError(getString(R.string.error_loading_flights_TEMPLATE, response.getErrors().get(0)
-						.getPresentableMessage(FlightSearchActivity.this)));
-			}
-			else if (response.getTripCount() == 0) {
-				showError(getString(R.string.error_no_flights_found));
-			}
-			else {
+			if (!handleErrors(response)) {
 				startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
 				setFragment(null);
 			}
 		}
 	};
+
+	// Handles any errors that might be in a search response
+	// Returns true if errors were found, false if none were present
+	private boolean handleErrors(FlightSearchResponse response) {
+		if (response == null) {
+			showError(getString(R.string.error_server));
+			return true;
+		}
+		else if (response.hasErrors()) {
+			showError(getString(R.string.error_loading_flights_TEMPLATE, response.getErrors().get(0)
+					.getPresentableMessage(FlightSearchActivity.this)));
+			return true;
+		}
+		else if (response.getTripCount() == 0) {
+			showError(getString(R.string.error_no_flights_found));
+			return true;
+		}
+
+		return false;
+	}
 }
