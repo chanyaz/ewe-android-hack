@@ -2,9 +2,11 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.text.Html;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -12,7 +14,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
 
-public class AccountButton {
+public class AccountButton extends LinearLayout {
 	private Context mContext;
 	private AccountButtonClickListener mListener;
 
@@ -21,17 +23,28 @@ public class AccountButton {
 	private View mLogoutContainer;
 	private View mErrorContainer;
 
-	public AccountButton (Context context, AccountButtonClickListener listener, View rootView) {
+	public AccountButton (Context context, AttributeSet attrs) {
+		super(context, attrs);
 		mContext = context;
-		mListener = listener;
-		mAccountLoadingContainer = rootView.findViewById(R.id.account_loading_container);
-		mLoginContainer = rootView.findViewById(R.id.account_login_container);
-		mLogoutContainer = rootView.findViewById(R.id.account_logout_container);
-		mErrorContainer = rootView.findViewById(R.id.error_container);
+	}
+
+	public AccountButton (Context context) {
+		super(context);
+		mContext = context;
+	}
+
+	@Override
+	protected void onFinishInflate() {
+		mAccountLoadingContainer = findViewById(R.id.account_loading_container);
+		mLoginContainer = findViewById(R.id.account_login_container);
+		mLogoutContainer = findViewById(R.id.account_logout_container);
+		mErrorContainer = findViewById(R.id.error_container);
 
 		final OnClickListener clickListener = new OnClickListener() {
 			public void onClick(View v) {
-				mListener.accountLoginClicked();
+				if (mListener != null) {
+					mListener.accountLoginClicked();
+				}
 			}
 		};
 		View loginButton = (View) mLoginContainer.findViewById(R.id.expedia_account_login);
@@ -47,7 +60,9 @@ public class AccountButton {
 
 		OnClickListener logoutListener = new OnClickListener() {
 			public void onClick(View v) {
-				mListener.accountLogoutClicked();
+				if (mListener != null) {
+					mListener.accountLogoutClicked();
+				}
 			}
 		};
 
@@ -55,15 +70,18 @@ public class AccountButton {
 		loadingLogoutButton.setOnClickListener(logoutListener);
 	}
 
-	public void update(boolean isLoading) {
+	public void setListener(AccountButtonClickListener listener) {
+		mListener = listener;
+	}
+
+	public void bind(boolean isLoading, boolean isLoggedIn, User u) {
 		mErrorContainer.setVisibility(View.GONE);
 		if (isLoading) {
 			mAccountLoadingContainer.setVisibility(View.VISIBLE);
 			mLoginContainer.setVisibility(View.GONE);
 			mLogoutContainer.setVisibility(View.GONE);
 		}
-		else if (ExpediaServices.isLoggedIn(mContext)) {
-			User u = Db.getUser();
+		else if (isLoggedIn) {
 			ImageView card = (ImageView) mLogoutContainer.findViewById(R.id.card_icon);
 			TextView top = (TextView) mLogoutContainer.findViewById(R.id.account_top_textview);
 			TextView bottom = (TextView) mLogoutContainer.findViewById(R.id.account_bottom_textview);

@@ -222,8 +222,8 @@ public class BookingFormFragment extends DialogFragment {
 			mStoredCardSpinner = (Spinner) mStoredCardContainer.findViewById(R.id.stored_card_spinner);
 		}
 
-		mAccountButton = new AccountButton(getActivity(), mAccountButtonClickListener,
-				view.findViewById(R.id.account_button_root));
+		mAccountButton = (AccountButton) view.findViewById(R.id.account_button_root);
+		mAccountButton.setListener(mAccountButtonClickListener);
 		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), !getShowsDialog());
 		mCouponCodeWidget = new CouponCodeWidget(getActivity(), view.findViewById(R.id.coupon_code));
 		mBillingAddressWidget = new BillingAddressWidget(getActivity(), mRootBillingView);
@@ -283,11 +283,11 @@ public class BookingFormFragment extends DialogFragment {
 		if (ExpediaServices.isLoggedIn((Context) mActivity)) {
 			syncFormFieldsFromBillingInfo(view);
 			if (savedInstanceState != null && mUserProfileIsFresh) {
-				mAccountButton.update(false);
+				mAccountButton.bind(false, true, Db.getUser());
 			}
 			else {
 				// Show progress spinner
-				mAccountButton.update(true);
+				mAccountButton.bind(true, false, null);
 				// fetch fresh profile
 				BackgroundDownloader bd = BackgroundDownloader.getInstance();
 				if (bd.isDownloading(KEY_SIGNIN_FETCH)) {
@@ -299,7 +299,7 @@ public class BookingFormFragment extends DialogFragment {
 			}
 		}
 		else {
-			mAccountButton.update(false);
+			mAccountButton.bind(false, false, null);
 
 			if (Db.getBillingInfo().doesExistOnDisk()) {
 				syncFormFieldsFromBillingInfo(view);
@@ -1008,7 +1008,7 @@ public class BookingFormFragment extends DialogFragment {
 				mUserProfileIsFresh = true;
 				Db.setUser(response.getUser());
 				Amobee.trackLogin();
-				mAccountButton.update(false);
+				mAccountButton.bind(false, true, Db.getUser());
 				syncFormFieldsFromBillingInfo(mRootBillingView);
 				syncBillingInfo();
 				checkSectionsCompleted(false);
@@ -1031,7 +1031,7 @@ public class BookingFormFragment extends DialogFragment {
 			mUserProfileIsFresh = false;
 			ExpediaServices services = new ExpediaServices((Context) mActivity);
 			services.signOut();
-			mAccountButton.update(false);
+			mAccountButton.bind(false, false, null);
 			Db.resetBillingInfo();
 			Db.getBillingInfo().save(getActivity());
 			clearBillingInfo();
@@ -1044,7 +1044,7 @@ public class BookingFormFragment extends DialogFragment {
 	public void loginCompleted() {
 		mUserProfileIsFresh = true;
 		Db.setBillingInfo(Db.getUser().toBillingInfo());
-		mAccountButton.update(false);
+		mAccountButton.bind(false, true, Db.getUser());
 		syncFormFieldsFromBillingInfo(mRootBillingView);
 		syncBillingInfo();
 		saveBillingInfo();
