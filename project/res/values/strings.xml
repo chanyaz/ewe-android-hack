@@ -57,14 +57,14 @@
     <string name="sort_description_arrival">Arrives</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">Duration</string>
-    <!-- Pluralization for # of days a flight takes up -->
+    <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
     <plurals name="day_span">
-        <item quantity="zero">+ %d days</item>
-        <item quantity="one">+ %d day</item>
-        <item quantity="two">+ %d days</item>
-        <item quantity="few">+ %d days</item>
-        <item quantity="many">+ %d days</item>
-        <item quantity="other">+ %d days</item>
+        <item quantity="zero">%s days</item>
+        <item quantity="one">%s day</item>
+        <item quantity="two">%s days</item>
+        <item quantity="few">%s days</item>
+        <item quantity="many">%s days</item>
+        <item quantity="other">%s days</item>
     </plurals>
     <!-- Button for entering flight traveler information manually -->
     <string name="enter_info_manually">Enter information manually</string>

@@ -1,8 +1,8 @@
 package com.expedia.bookings.widget;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -41,6 +41,13 @@ public class FlightAdapter extends BaseAdapter {
 	private static final Interpolator ANIMATION_INTERPOLATOR = new AccelerateDecelerateInterpolator();
 
 	private static final String STATE_EXPANDED_LEG = "STATE_EXPANDED_LEG";
+
+	private static final DecimalFormat mDaySpanFormatter = new DecimalFormat("#");
+
+	static {
+		// TODO: Should this be localized in some way?
+		mDaySpanFormatter.setPositivePrefix("+");
+	}
 
 	private enum RowType {
 		NORMAL,
@@ -264,9 +271,10 @@ public class FlightAdapter extends BaseAdapter {
 		}
 
 		int daySpan = leg.getDaySpan();
-		if (daySpan > 0) {
+		if (daySpan != 0) {
 			holder.mMultiDayTextView.setVisibility(View.VISIBLE);
-			holder.mMultiDayTextView.setText(mResources.getQuantityString(R.plurals.day_span, daySpan, daySpan));
+			String daySpanStr = mDaySpanFormatter.format(daySpan);
+			holder.mMultiDayTextView.setText(mResources.getQuantityString(R.plurals.day_span, daySpan, daySpanStr));
 		}
 		else {
 			holder.mMultiDayTextView.setVisibility(View.INVISIBLE);
