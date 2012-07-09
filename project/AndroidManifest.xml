@@ -152,6 +152,10 @@
             android:theme="@style/FlightTheme" >
         </activity>
 		<activity
+            android:name=".activity.FlightTravelerInfoOptionsActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+		<activity
             android:name=".activity.FlightTravelerInfoOneActivity"
             android:theme="@style/FlightTheme" >
         </activity>

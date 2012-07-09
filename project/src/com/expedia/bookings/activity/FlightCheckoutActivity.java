@@ -3,9 +3,19 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.format.DateUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+
 import com.actionbarsherlock.app.SherlockActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightPassenger;
@@ -17,15 +27,6 @@ import com.expedia.bookings.section.SectionTravelerInfo;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.format.DateUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
 
 public class FlightCheckoutActivity extends SherlockActivity {
 
@@ -150,8 +151,8 @@ public class FlightCheckoutActivity extends SherlockActivity {
 				@Override
 				public void onClick(View v) {
 					Intent editTravelerIntent = new Intent(FlightCheckoutActivity.this,
-							FlightTravelerInfoOneActivity.class);
-					editTravelerIntent.putExtra(FlightTravelerInfoOneActivity.PASSENGER_INDEX, travelerNum);
+							FlightTravelerInfoOptionsActivity.class);
+					editTravelerIntent.putExtra(Codes.PASSENGER_INDEX, travelerNum);
 					startActivity(editTravelerIntent);
 				}
 			});
