@@ -71,7 +71,7 @@
     <!-- Header for saved travelers (that you can fill info from while booking) -->
     <string name="saved_travelers">Saved Travelers</string>
     <!-- Header for travelers you can pick from your contacts (that you can fill info from while booking) -->
-    <string name="from_contacts">From Contacts</string>
+    <string name="from_contacts">Load Info From Contacts</string>
 
     <!-- Flight Details Fragment -->
     <!-- The label for the number of seats left for a flight -->
